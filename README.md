@@ -1,1 +1,1 @@
-# vscode-ui
+# vscode-ui5

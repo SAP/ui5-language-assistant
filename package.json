@@ -1,0 +1,58 @@
+{
+  "name": "root",
+  "private": true,
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ]
+  },
+  "scripts": {
+    "lerna:version": "lerna version && yarn run cirlce:release",
+    "cirlce:release": "git tag -d RELEASE && git tag RELEASE && git push --delete origin RELEASE && git push --tags",
+    "lerna:publish": "lerna publish from-git --yes",
+    "ci": "npm-run-all format:validate ci:subpackages",
+    "format:fix": "prettier --write \"**/*.@(ts|js|json|md)\"",
+    "format:validate": "prettier --check \"**/*.@(ts|js|json|md)\"",
+    "ci:subpackages": "lerna run ci",
+    "test": "lerna run test",
+    "coverage": "lerna run coverage"
+  },
+  "devDependencies": {
+    "@types/chai": "4.2.7",
+    "@types/mocha": "5.2.7",
+    "chai": "4.2.0",
+    "husky": "4.2.1",
+    "lerna": "3.20.2",
+    "lint-staged": "10.0.3",
+    "mocha": "7.0.1",
+    "npm-run-all": "4.1.5",
+    "nyc": "15.0.0",
+    "prettier": "1.19.1",
+    "typescript": "3.7.5",
+    "cz-conventional-changelog": "3.0.2",
+    "@commitlint/cli": "8.3.5",
+    "@commitlint/config-conventional": "8.3.4"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "lint-staged": {
+    "*.{ts,js,md,json}": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  }
+}
