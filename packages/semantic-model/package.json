@@ -1,0 +1,33 @@
+{
+  "name": "@ui5-vscode/semantic-model",
+  "version": "0.0.1",
+  "description": "TBD",
+  "keywords": [],
+  "main": "lib/api.js",
+  "repository": "https://github.com/sap/ui5-vscode/",
+  "license": "Apache-2.0",
+  "typings": "./api.d.ts",
+  "dependencies": {
+    "lodash": "4.17.15"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "ci": "npm-run-all type-check coverage:*",
+    "test": "mocha \"./test/**/*spec.js\"",
+    "coverage:run": "nyc mocha \"./test/**/*spec.js\"",
+    "coverage:check": "nyc check-coverage --lines 100 --branches 100 --statements 100 --functions 100",
+    "type-check": "tsc api.d.ts"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "nyc": {
+    "include": [
+      "lib/**/*.js"
+    ],
+    "reporter": [
+      "text",
+      "lcov"
+    ]
+  }
+}
