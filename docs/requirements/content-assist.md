@@ -5,6 +5,7 @@
 ### MVP Scope
 
 - Filter by declared namespaces in doc, e.g: `xmlns="sap.m"`.
+- Consider `xmlns` and aliases in suggestions (creates FQN).
 - Suggestion to include description.
 - Suggestion to include deprecation indication.
 - Only suggest UI5 constructs constructs with `public` or `protected`(?) visibility.
@@ -19,7 +20,7 @@
 - Suggestion to include type Icon, e.g "C" for Class "AG" for aggregation.
   - If possible in LSP?
   
-- Aggregations: Filter by Type and consider cardinality.  
+- Aggregations: Filter by Type and consider cardinality.
 
 ## Class Name in Open Tag Scenario
 
