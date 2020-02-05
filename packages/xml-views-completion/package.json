@@ -2,15 +2,24 @@
   "name": "@ui5-vscode/xml-views-completion",
   "version": "0.0.1",
   "description": "Auto-Complete Logic for UI5 XML-Views",
-  "keywords": [],
+  "keywords": [
+    "xml",
+    "ui5",
+    "openui5",
+    "content-assist"
+  ],
   "main": "lib/api.js",
   "repository": "https://github.com/sap/ui5-vscode/",
   "license": "Apache-2.0",
   "typings": "./api.d.ts",
   "dependencies": {
-    "lodash": "4.17.15"
+    "lodash": "4.17.15",
+    "@xml-tools/content-assist": "3.0.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@xml-tools/ast": "2.0.1",
+    "chevrotain": "6.5.0"
+  },
   "scripts": {
     "ci": "npm-run-all type-check coverage:*",
     "test": "mocha \"./test/**/*spec.js\"",
