@@ -17,6 +17,8 @@
   
 - Suggestion to include type Icon, e.g "C" for Class "AG" for aggregation.
   - If possible in LSP?
+  
+- Aggregations: Filter by Type and consider cardinality.  
 
 ## Class Name in Open Tag Scenario
 
