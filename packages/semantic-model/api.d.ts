@@ -6,7 +6,11 @@ export interface UI5SemanticModel {
   // - only 10 of these in whole OpenUI (1.60) api.jsons
   // Likely Not Relevant for XML.Views
   typedefs: Record<string, UI5Typedef>;
+  // Likely Not Relevant for XML.Views
   functions: Record<string, UI5Function>;
+
+  // TODO: maybe we need a general FQN->Instance dictionary?
+  // TODO: do we need interfaces at the top level?
 }
 
 export interface UI5Meta {
@@ -22,6 +26,7 @@ export interface UI5Class extends UI5Meta {
   name: string;
   extends?: UI5Class;
   implements: UI5Interface[];
+  // TODO: do we need this?
   constructor: UI5Method;
   // Likely Not Relevant for XML.Views
   methods: UI5Method[];
@@ -50,29 +55,34 @@ export interface UI5Namespace extends UI5Meta {
   // Likely Not Relevant for XML.Views
   methods: UI5Method[];
   namespaces: UI5Namespace[];
+  // TODO: maybe we need all children here nested for string literal auto complelte ("a.b.c...")
 }
 
 // Likely Not Relevant for XML.Views
 export interface UI5Typedef extends UI5Meta {
   kind: "UI5Typedef";
+  name: string;
   // TODO: TBD: Ignoring this type's content at this time.
 }
 
 // Likely Not Relevant for XML.Views
 export interface UI5Method extends UI5Meta {
   kind: "UI5Method";
+  name: string;
   // TODO: TBD: Ignoring this type's content at this time.
 }
 
 // Likely Not Relevant for XML.Views
 export interface UI5Function extends UI5Meta {
   kind: "UI5Function";
+  name: string;
   // TODO: TBD: Ignoring this type's content at this time.
 }
 
 export interface UI5Prop extends UI5Meta {
   kind: "UI5Prop";
   name: string;
+  // TODO: how deeply do we need to analyze types?
   type: string;
   default: string;
 }
@@ -86,20 +96,22 @@ export interface UI5Field extends UI5Meta {
 export interface UI5Aggregation extends UI5Meta {
   kind: "UI5Aggregation";
   name: string;
+  type: string;
   cardinality: UI5Cardinality;
-  altType?: string;
+  altTypes: string[];
 }
 
 export interface UI5Association extends UI5Meta {
   kind: "UI5Association";
   name: string;
+  type: string;
   cardinality: UI5Cardinality;
 }
 
 export interface UI5Event extends UI5Meta {
   kind: "UI5Event";
   name: string;
-  paramType: string;
+  // Details on parameter type are Likely Not Relevant for XML.Views
 }
 
 export interface UI5Interface extends UI5Meta {
