@@ -8,6 +8,7 @@
 - Suggestion to include description.
 - Suggestion to include deprecation indication.
 - Only suggest UI5 constructs constructs with `public` or `protected`(?) visibility.
+- Filter out abstract classes
 
 ### Possible Future Scope
 
