@@ -11,6 +11,12 @@
 - Only suggest UI5 constructs constructs with `public` or `protected`(?) visibility.
 - Filter out abstract classes
 
+### Really Nice To Have
+
+- Aggregations: Filter by Type and consider cardinality.
+- Default Aggregation.
+
+
 ### Possible Future Scope
 
 - Provide Suggestions from none declared namespaces(libraries), sub scenarios:
@@ -20,7 +26,7 @@
 - Suggestion to include type Icon, e.g "C" for Class "AG" for aggregation.
   - If possible in LSP?
   
-- Aggregations: Filter by Type and consider cardinality.
+- Association handling.
 
 ## Class Name in Open Tag Scenario
 
