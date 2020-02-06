@@ -1,5 +1,5 @@
 {
-  "name": "@ui5-vscode/xml-views-completion",
+  "name": "@vscode-ui5/xml-views-completion",
   "version": "0.0.1",
   "description": "Auto-Complete Logic for UI5 XML-Views",
   "keywords": [
