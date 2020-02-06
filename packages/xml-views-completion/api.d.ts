@@ -1,7 +1,7 @@
 import { XMLAttribute, XMLElement } from "@xml-tools/ast";
 import { DocumentCstNode } from "@xml-tools/parser";
 import { IToken } from "chevrotain";
-import { UI5Aggregation, UI5Class } from "@ui5-vscode/semantic-model";
+import { UI5Aggregation, UI5Class } from "@vscode-ui5/semantic-model";
 
 export function getXMLViewCompletions(opts: {
   offset: number;
