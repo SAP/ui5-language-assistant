@@ -1,9 +1,11 @@
-import { XMLAstNode } from "@xml-tools/ast";
-import { CstNode, IToken } from "chevrotain";
+import { XMLAttribute, XMLElement } from "@xml-tools/ast";
+import { DocumentCstNode } from "@xml-tools/parser";
+import { IToken } from "chevrotain";
+import { UI5Aggregation, UI5Class } from "@ui5-vscode/semantic-model";
 
 export function getXMLViewCompletions(opts: {
   offset: number;
-  cst: CstNode;
+  cst: DocumentCstNode;
   ast: XMLDocument;
   tokenVector: IToken[];
 }): XMLViewCompletion[];
@@ -19,15 +21,11 @@ export function getXMLViewCompletions(opts: {
  * Rather it should  contain the completion "pure" data.
  */
 export interface XMLViewCompletion {
-  label: string;
-  kind: XMLViewCompletionKind;
-  documentation?: string;
-  since?: string;
-  deprecated?: boolean;
+  // The Node we want to suggest as a possible completion.
+  // Note this carries all the additional semantic data (deprecated/description/...).
+  ui5Node: UI5Class | UI5Aggregation;
   // The specific ASTNode where the completion happened
   // may be useful for LSP Layer to implement Editor Level Logic.
-  ast: XMLAstNode;
+  //   - e.g: the "additional text insertions" mentioned above.
+  astNode: XMLElement | XMLAttribute;
 }
-
-// TODO: Fill this up as we implement more completion logic
-export type XMLViewCompletionKind = "Class" | "Aggregation" | "Property";

@@ -21,9 +21,13 @@ export interface UI5Meta {
   visibility: UI5Visibility;
 }
 
-export interface UI5Class extends UI5Meta {
-  kind: "UI5Class";
+export interface BaseUI5Node extends UI5Meta {
   name: string;
+  parent: BaseUI5Node;
+}
+
+export interface UI5Class extends BaseUI5Node {
+  kind: "UI5Class";
   extends?: UI5Class;
   implements: UI5Interface[];
   // TODO: do we need this?
@@ -36,20 +40,19 @@ export interface UI5Class extends UI5Meta {
   events: UI5Event[];
 }
 
-export interface UI5Enum extends UI5Meta {
+export interface UI5Enum extends BaseUI5Node {
   kind: "UI5Enum";
-  name: string;
   fields: UI5EnumValue[];
 }
 
-export interface UI5EnumValue extends UI5Meta {
+export interface UI5EnumValue extends BaseUI5Node {
   kind: "UI5EnumValue";
-  name: string;
 }
 
-export interface UI5Namespace extends UI5Meta {
+export interface UI5Namespace extends BaseUI5Node {
+  // Top level's Namespace has an undefined parent
+  parent: BaseUI5Node | undefined;
   kind: "UI5Namespace";
-  name: string;
   // Likely Not Relevant for XML.Views
   field: UI5Field[];
   // Likely Not Relevant for XML.Views
@@ -59,62 +62,54 @@ export interface UI5Namespace extends UI5Meta {
 }
 
 // Likely Not Relevant for XML.Views
-export interface UI5Typedef extends UI5Meta {
+export interface UI5Typedef extends BaseUI5Node {
   kind: "UI5Typedef";
-  name: string;
   // TODO: TBD: Ignoring this type's content at this time.
 }
 
 // Likely Not Relevant for XML.Views
-export interface UI5Method extends UI5Meta {
+export interface UI5Method extends BaseUI5Node {
   kind: "UI5Method";
-  name: string;
   // TODO: TBD: Ignoring this type's content at this time.
 }
 
 // Likely Not Relevant for XML.Views
-export interface UI5Function extends UI5Meta {
+export interface UI5Function extends BaseUI5Node {
   kind: "UI5Function";
-  name: string;
   // TODO: TBD: Ignoring this type's content at this time.
 }
 
-export interface UI5Prop extends UI5Meta {
+export interface UI5Prop extends BaseUI5Node {
   kind: "UI5Prop";
-  name: string;
   // TODO: how deeply do we need to analyze types?
   type: string;
   default: string;
 }
 
-export interface UI5Field extends UI5Meta {
+export interface UI5Field extends BaseUI5Node {
   kind: "UI5Field";
-  name: string;
   type: string;
 }
 
-export interface UI5Aggregation extends UI5Meta {
+export interface UI5Aggregation extends BaseUI5Node {
   kind: "UI5Aggregation";
-  name: string;
   type: string;
   cardinality: UI5Cardinality;
   altTypes: string[];
 }
 
-export interface UI5Association extends UI5Meta {
+export interface UI5Association extends BaseUI5Node {
   kind: "UI5Association";
-  name: string;
   type: string;
   cardinality: UI5Cardinality;
 }
 
-export interface UI5Event extends UI5Meta {
+export interface UI5Event extends BaseUI5Node {
   kind: "UI5Event";
-  name: string;
   // Details on parameter type are Likely Not Relevant for XML.Views
 }
 
-export interface UI5Interface extends UI5Meta {
+export interface UI5Interface extends BaseUI5Node {
   kind: "UI5Interface";
   // Likely Not Relevant for XML.Views
   methods: UI5Method[];

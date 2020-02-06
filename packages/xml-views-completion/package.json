@@ -18,6 +18,7 @@
   },
   "devDependencies": {
     "@xml-tools/ast": "2.0.1",
+    "@vscode-ui5/semantic-model": "0.0.1",
     "chevrotain": "6.5.0"
   },
   "scripts": {
