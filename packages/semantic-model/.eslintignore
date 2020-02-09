@@ -1,8 +1,0 @@
-# Note: this is basically the same list as in the .gitignore file hierarchy, but eslint doesn't support .gitignore hierarchies
-# don't ever lint node_modules
-node_modules
-# don't lint build output (make sure it's set to your correct build folder name)
-lib
-# don't lint nyc coverage output
-coverage
-.nyc_output
