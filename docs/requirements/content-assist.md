@@ -16,16 +16,17 @@
 - Aggregations: Filter by Type and consider cardinality.
 - Default Aggregation.
 
-
 ### Possible Future Scope
 
 - Provide Suggestions from none declared namespaces(libraries), sub scenarios:
+
   - Not declared in XML Doc but declared in package.json/ui5.yaml
   - Not declared in XMl Doc **and** package.json/ui5.yaml --> Also add dependency to package.json/ui5.yaml
-  
+
 - Suggestion to include type Icon, e.g "C" for Class "AG" for aggregation.
+
   - If possible in LSP?
-  
+
 - Association handling.
 
 ## Class Name in Open Tag Scenario

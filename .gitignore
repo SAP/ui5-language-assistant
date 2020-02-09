@@ -61,3 +61,6 @@ typings/
 .next
 
 .idea
+
+#npm registry configuraiton
+.npmrc

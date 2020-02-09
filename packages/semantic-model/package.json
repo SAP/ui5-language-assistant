@@ -3,6 +3,11 @@
   "version": "0.0.1",
   "description": "TBD",
   "keywords": [],
+  "files": [
+    "lib",
+    "api.d.ts",
+    "src"
+  ],
   "main": "lib/api.js",
   "repository": "https://github.com/sap/ui5-vscode/",
   "license": "Apache-2.0",
@@ -10,24 +15,51 @@
   "dependencies": {
     "lodash": "4.17.15"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@istanbuljs/nyc-config-typescript": "1.0.1",
+    "source-map-support": "0.5.16",
+    "ts-node": "8.6.2",
+    "eslint": "6.8.0",
+    "@typescript-eslint/parser": "2.19.0",
+    "@typescript-eslint/eslint-plugin": "2.19.0",
+    "eslint-config-prettier": "6.10.0",
+    "eslint-plugin-prettier": "3.1.2",
+    "@types/rimraf": "2.0.3",
+    "rimraf": "3.0.1"
+  },
   "scripts": {
-    "ci": "npm-run-all type-check coverage:*",
-    "test": "mocha \"./test/**/*spec.js\"",
-    "coverage:run": "nyc mocha \"./test/**/*spec.js\"",
-    "coverage:check": "nyc check-coverage --lines 100 --branches 100 --statements 100 --functions 100",
-    "type-check": "tsc api.d.ts"
+    "ci": "npm-run-all compile lint coverage",
+    "compile": "npm run clean && tsc -p .",
+    "test": "mocha",
+    "lint": "eslint . --ext .ts",
+    "coverage": "nyc mocha",
+    "clean": "rimraf ./lib",
+    "watch": "tsc -p . --watch"
   },
   "publishConfig": {
     "access": "public"
   },
+  "mocha": {
+    "require": [
+      "ts-node/register/transpile-only",
+      "source-map-support/register"
+    ],
+    "spec": "./test/**/*spec.ts"
+  },
   "nyc": {
+    "extends": "@istanbuljs/nyc-config-typescript",
     "include": [
-      "lib/**/*.js"
+      "src/**/*.ts"
     ],
     "reporter": [
       "text",
       "lcov"
-    ]
+    ],
+    "check-coverage": true,
+    "all": true,
+    "branches": 100,
+    "lines": 100,
+    "functions": 100,
+    "statements": 100
   }
 }

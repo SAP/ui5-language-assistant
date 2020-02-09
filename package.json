@@ -11,8 +11,8 @@
     "cirlce:release": "git tag -d RELEASE && git tag RELEASE && git push --delete origin RELEASE && git push --tags",
     "lerna:publish": "lerna publish from-git --yes",
     "ci": "npm-run-all format:validate ci:subpackages",
-    "format:fix": "prettier --write \"**/*.@(ts|js|json|md)\"",
-    "format:validate": "prettier --check \"**/*.@(ts|js|json|md)\"",
+    "format:fix": "prettier --write \"**/*.@(ts|js|json|md)\" --ignore-path=.gitignore",
+    "format:validate": "prettier --check \"**/*.@(ts|js|json|md)\" --ignore-path=.gitignore",
     "ci:subpackages": "lerna run ci",
     "test": "lerna run test",
     "coverage": "lerna run coverage"
@@ -32,6 +32,9 @@
     "cz-conventional-changelog": "3.0.2",
     "@commitlint/cli": "8.3.5",
     "@commitlint/config-conventional": "8.3.4"
+  },
+  "prettier": {
+    "endOfLine": "lf"
   },
   "husky": {
     "hooks": {

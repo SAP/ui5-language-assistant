@@ -50,9 +50,9 @@ export interface UI5EnumValue extends BaseUI5Node {
 }
 
 export interface UI5Namespace extends BaseUI5Node {
-  // Top level's Namespace has an undefined parent
-  parent: BaseUI5Node | undefined;
   kind: "UI5Namespace";
+  // Note: top level Namespaces has an undefined parent
+  // This cannot be defined on UI5Namespace because it inherits this property
   // Likely Not Relevant for XML.Views
   field: UI5Field[];
   // Likely Not Relevant for XML.Views
