@@ -15,6 +15,7 @@
 
 - Aggregations: Filter by Type and consider cardinality.
 - Default Aggregation.
+- I18n simple suggestions in basic Exp Lang {i18n>INPUT_PLACEHOLDER}.
 
 ### Possible Future Scope
 
@@ -62,3 +63,19 @@
 
 - Does the XML hierarchy affect possible suggestions? Can a `sap.m.Button` appear anywhere?
   or only in some places? How is this information encoded in the UI5 Metadata?
+  
+## Aggregation Name in Open Tag.
+
+## XML Namespaces (xmlns)
+- Treat library name as a "single" string, not a FQN
+- Evalaute reading package.json / ui5.yaml / manifest.json to filter aviliable list of libraries. (future scope?)
+
+## Attributes Keys
+- Suggest keys: properties / events (name "as is") / associations
+
+## Attributes Values
+- Suggest Enum Values and boolean.
+
+
+
+
