@@ -8,6 +8,11 @@
     "openui5",
     "content-assist"
   ],
+  "files": [
+    "lib",
+    "api.d.ts",
+    "src"
+  ],
   "main": "lib/api.js",
   "repository": "https://github.com/sap/ui5-vscode/",
   "license": "Apache-2.0",
@@ -22,22 +27,14 @@
     "chevrotain": "6.5.0"
   },
   "scripts": {
-    "ci": "npm-run-all type-check coverage:*",
-    "test": "mocha \"./test/**/*spec.js\"",
-    "coverage:run": "nyc mocha \"./test/**/*spec.js\"",
-    "coverage:check": "nyc check-coverage --lines 100 --branches 100 --statements 100 --functions 100",
-    "type-check": "tsc api.d.ts"
+    "ci": "npm-run-all compile coverage",
+    "clean": "rimraf ./lib",
+    "compile": "yarn run clean && tsc -p .",
+    "watch": "tsc -p . --watch",
+    "test": "mocha",
+    "coverage": "nyc mocha"
   },
   "publishConfig": {
     "access": "public"
-  },
-  "nyc": {
-    "include": [
-      "lib/**/*.js"
-    ],
-    "reporter": [
-      "text",
-      "lcov"
-    ]
   }
 }

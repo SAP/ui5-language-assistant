@@ -10,9 +10,10 @@
     "lerna:version": "lerna version && yarn run cirlce:release",
     "cirlce:release": "git tag -d RELEASE && git tag RELEASE && git push --delete origin RELEASE && git push --tags",
     "lerna:publish": "lerna publish from-git --yes",
-    "ci": "npm-run-all format:validate ci:subpackages",
-    "format:fix": "prettier --write \"**/*.@(ts|js|json|md)\" --ignore-path=.gitignore",
-    "format:validate": "prettier --check \"**/*.@(ts|js|json|md)\" --ignore-path=.gitignore",
+    "ci": "npm-run-all format:validate lint ci:subpackages",
+    "format:fix": "prettier --write \"**/*.@(js|json|md)\" --ignore-path=.gitignore",
+    "format:validate": "prettier --check \"**/*.@(js|json|md)\" --ignore-path=.gitignore",
+    "lint": "eslint . --ext .ts --fix",
     "ci:subpackages": "lerna run ci",
     "test": "lerna run test",
     "coverage": "lerna run coverage"
@@ -21,6 +22,11 @@
     "@types/chai": "4.2.7",
     "@types/mocha": "5.2.7",
     "chai": "4.2.0",
+    "eslint": "6.8.0",
+    "@typescript-eslint/parser": "2.19.0",
+    "@typescript-eslint/eslint-plugin": "2.19.0",
+    "eslint-config-prettier": "6.10.0",
+    "eslint-plugin-prettier": "3.1.2",
     "husky": "4.2.1",
     "lerna": "3.20.2",
     "lint-staged": "10.0.3",
@@ -31,7 +37,11 @@
     "typescript": "3.7.5",
     "cz-conventional-changelog": "3.0.2",
     "@commitlint/cli": "8.3.5",
-    "@commitlint/config-conventional": "8.3.4"
+    "@commitlint/config-conventional": "8.3.4",
+    "@istanbuljs/nyc-config-typescript": "1.0.1",
+    "source-map-support": "0.5.16",
+    "ts-node": "8.6.2",
+    "rimraf": "3.0.1"
   },
   "prettier": {
     "endOfLine": "lf"
@@ -43,8 +53,11 @@
     }
   },
   "lint-staged": {
-    "*.{ts,js,md,json}": [
+    "*.{js,md,json}": [
       "prettier --write"
+    ],
+    "*.{ts,d.ts}": [
+      "eslint --fix"
     ]
   },
   "config": {
