@@ -1,14 +1,23 @@
 import { XMLAttribute, XMLElement, XMLDocument } from "@xml-tools/ast";
 import { DocumentCstNode } from "@xml-tools/parser";
 import { IToken } from "chevrotain";
-import { UI5Aggregation, UI5Class } from "@vscode-ui5/semantic-model";
+import {
+  UI5Aggregation,
+  UI5Class,
+  UI5SemanticModel
+} from "@vscode-ui5/semantic-model";
 
-export function getXMLViewCompletions(opts: {
+export function getXMLViewCompletions(
+  opts: GetXMLViewCompletionsOpts
+): XMLViewCompletion[];
+
+export interface GetXMLViewCompletionsOpts {
+  model: UI5SemanticModel;
   offset: number;
   cst: DocumentCstNode;
   ast: XMLDocument;
   tokenVector: IToken[];
-}): XMLViewCompletion[];
+}
 
 /**
  * Note that this interface does not deal with "Editor Behavior". e.g:

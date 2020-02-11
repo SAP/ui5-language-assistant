@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { add, subtract } from "../src/api";
+import { add } from "../src/api";
 
 describe("The ui5-vscode semantic model package", () => {
   it("Dummy Test Add", () => {

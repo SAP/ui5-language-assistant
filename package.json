@@ -10,10 +10,10 @@
     "lerna:version": "lerna version && yarn run cirlce:release",
     "cirlce:release": "git tag -d RELEASE && git tag RELEASE && git push --delete origin RELEASE && git push --tags",
     "lerna:publish": "lerna publish from-git --yes",
-    "ci": "npm-run-all format:validate lint ci:subpackages",
+    "ci": "npm-run-all format:validate ci:subpackages",
     "format:fix": "prettier --write \"**/*.@(js|json|md)\" --ignore-path=.gitignore",
     "format:validate": "prettier --check \"**/*.@(js|json|md)\" --ignore-path=.gitignore",
-    "lint": "eslint . --ext .ts --fix",
+    "lint": "eslint . --ext .ts --fix --max-warnings=0",
     "ci:subpackages": "lerna run ci",
     "test": "lerna run test",
     "coverage": "lerna run coverage"
@@ -21,6 +21,7 @@
   "devDependencies": {
     "@types/chai": "4.2.7",
     "@types/mocha": "5.2.7",
+    "@types/lodash": "4.14.149",
     "chai": "4.2.0",
     "eslint": "6.8.0",
     "@typescript-eslint/parser": "2.19.0",
@@ -57,7 +58,7 @@
       "prettier --write"
     ],
     "*.{ts,d.ts}": [
-      "eslint --fix"
+      "eslint --fix --max-warnings=0"
     ]
   },
   "config": {

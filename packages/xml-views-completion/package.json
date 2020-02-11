@@ -19,18 +19,20 @@
   "typings": "./api.d.ts",
   "dependencies": {
     "lodash": "4.17.15",
-    "@xml-tools/content-assist": "3.0.1"
+    "@xml-tools/content-assist": "3.1.1",
+    "@xml-tools/ast": "4.0.0"
   },
   "devDependencies": {
-    "@xml-tools/ast": "2.0.1",
     "@vscode-ui5/semantic-model": "0.0.1",
+    "@xml-tools/parser": "1.0.1",
     "chevrotain": "6.5.0"
   },
   "scripts": {
-    "ci": "npm-run-all compile coverage",
+    "ci": "npm-run-all compile lint coverage",
     "clean": "rimraf ./lib",
     "compile": "yarn run clean && tsc -p .",
     "watch": "tsc -p . --watch",
+    "lint": "eslint . --ext .ts --fix --max-warnings=0",
     "test": "mocha",
     "coverage": "nyc mocha"
   },
