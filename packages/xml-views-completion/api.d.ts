@@ -36,5 +36,7 @@ export interface XMLViewCompletion {
   // The specific ASTNode where the completion happened
   // may be useful for LSP Layer to implement Editor Level Logic.
   //   - e.g: the "additional text insertions" mentioned above.
+  // TODO: is it always the same ASTNode for all the suggestions?
+  //  - are we holding duplicate the references here?
   astNode: XMLElement | XMLAttribute;
 }

@@ -28,7 +28,7 @@ export interface BaseUI5Node extends UI5Meta {
 
 export interface UI5Class extends BaseUI5Node {
   kind: "UI5Class";
-  extends?: UI5Class;
+  extends: UI5Class | undefined;
   implements: UI5Interface[];
   // TODO: do we need this?
   constructor: UI5Method;
