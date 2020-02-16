@@ -1,10 +1,14 @@
 import { UI5SemanticModel } from "@vscode-ui5/semantic-model";
+import { XMLDocument, XMLElement } from "@xml-tools/ast";
+import {
+  flattenAggregations,
+  isControlSubClass,
+  xmlToFQN
+} from "@vscode-ui5/logic-utils";
 
 import { XMLViewCompletion } from "../../../api";
 import { filter, map, compact, uniq, reject, includes } from "lodash";
 import { UI5ElementNameCompletionOptions } from "../../types";
-import { flattenAggregations, isControlSubClass, xmlToFQN } from "../../utils";
-import { XMLDocument, XMLElement } from "@xml-tools/ast";
 
 /**
  * Suggests Aggregation inside Controls
@@ -30,7 +34,7 @@ export function aggregationSuggestions(
   const parentTagFqn = xmlToFQN(parentXMLElement);
   const model = opts.context;
   const parentUI5Class = model.classes[parentTagFqn];
-  const allAggregations = flattenAggregations(parentUI5Class, model);
+  const allAggregations = flattenAggregations(parentUI5Class);
   const prefix = opts.prefix ? opts.prefix : "";
   const prefixMatchingAggregations = filter(allAggregations, _ =>
     // This filtering is case sensitive, which should fit UI5 XML Views

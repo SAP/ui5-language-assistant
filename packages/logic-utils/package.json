@@ -1,13 +1,8 @@
 {
-  "name": "@vscode-ui5/xml-views-completion",
+  "name": "@vscode-ui5/logic-utils",
   "version": "0.0.1",
-  "description": "Auto-Complete Logic for UI5 XML-Views",
-  "keywords": [
-    "xml",
-    "ui5",
-    "openui5",
-    "content-assist"
-  ],
+  "description": "TBD",
+  "keywords": [],
   "files": [
     "lib",
     "api.d.ts",
@@ -18,15 +13,12 @@
   "license": "Apache-2.0",
   "typings": "./api.d.ts",
   "dependencies": {
-    "lodash": "4.17.15",
-    "@xml-tools/content-assist": "3.1.1",
-    "@xml-tools/ast": "4.0.0",
-    "@vscode-ui5/logic-utils": "0.0.1"
+    "@xml-tools/ast": "4.0.1",
+    "lodash": "4.17.15"
   },
   "devDependencies": {
     "@vscode-ui5/semantic-model": "0.0.1",
-    "@xml-tools/parser": "1.0.1",
-    "chevrotain": "6.5.0"
+    "@xml-tools/parser": "1.0.2"
   },
   "scripts": {
     "ci": "npm-run-all compile lint coverage",

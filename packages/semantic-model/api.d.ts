@@ -20,6 +20,7 @@ export interface UI5Meta {
 
 export interface BaseUI5Node extends UI5Meta {
   name: string;
+  kind: string;
   parent: BaseUI5Node;
 }
 
@@ -50,10 +51,11 @@ export interface UI5Namespace extends BaseUI5Node {
   // Note: top level Namespaces has an undefined parent
   // This cannot be defined on UI5Namespace because it inherits this property
   // Likely Not Relevant for XML.Views
-  field: UI5Field[];
+  fields: UI5Field[];
   // Likely Not Relevant for XML.Views
   methods: UI5Method[];
   namespaces: UI5Namespace[];
+  classes: UI5Class[];
   // TODO: maybe we need all children here nested for string literal auto complelte ("a.b.c...")
 }
 
