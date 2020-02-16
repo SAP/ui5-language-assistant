@@ -8,16 +8,13 @@ export interface UI5SemanticModel {
   typedefs: Record<string, UI5Typedef>;
   // Likely Not Relevant for XML.Views
   functions: Record<string, UI5Function>;
-
-  // TODO: maybe we need a general FQN->Instance dictionary?
-  // TODO: do we need interfaces at the top level?
 }
 
 export interface UI5Meta {
   library: string;
-  description?: string;
-  since?: string;
-  deprecatedInfo?: UI5DeprecatedInfo;
+  description: string | undefined;
+  since: string | undefined;
+  deprecatedInfo: UI5DeprecatedInfo | undefined;
   visibility: UI5Visibility;
 }
 
@@ -30,7 +27,6 @@ export interface UI5Class extends BaseUI5Node {
   kind: "UI5Class";
   extends: UI5Class | undefined;
   implements: UI5Interface[];
-  // TODO: do we need this?
   constructor: UI5Method;
   // Likely Not Relevant for XML.Views
   methods: UI5Method[];
