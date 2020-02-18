@@ -1,17 +1,15 @@
 import * as publicApi from "../api";
 import * as implementation from "../src/api";
 
-type AssertExtends<IMPLEMENTATION extends PUBLIC_API, PUBLIC_API> = [
-  IMPLEMENTATION,
-  PUBLIC_API
-];
+type AssertIsSubSet<SUBSET extends SUPERSET, SUPERSET> = [SUBSET, SUPERSET];
 
-type EnsureAllDeclaredAreExposedAtRuntime = AssertExtends<
+// TODO: export these helper types from test-utils
+type EnsureAllDeclaredAreExposedAtRuntime = AssertIsSubSet<
   typeof implementation,
   typeof publicApi
 >;
 
-type EnsureNoRedundantAreExposedAtRuntime = AssertExtends<
+type EnsureNoRedundantAreExposedAtRuntime = AssertIsSubSet<
   typeof publicApi,
   typeof implementation
 >;
