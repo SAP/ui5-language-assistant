@@ -28,7 +28,7 @@ export interface UI5Class extends BaseUI5Node {
   kind: "UI5Class";
   extends: UI5Class | undefined;
   implements: UI5Interface[];
-  constructor: UI5Method;
+  ctor: UI5Method;
   // Likely Not Relevant for XML.Views
   methods: UI5Method[];
   properties: UI5Prop[];
