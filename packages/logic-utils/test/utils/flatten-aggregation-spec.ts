@@ -1,91 +1,30 @@
 import { expect } from "chai";
 import { flattenAggregations } from "../../src/api";
-import { UI5Aggregation, UI5Class } from "@vscode-ui5/semantic-model";
+import { buildUI5Class, buildUI5Aggregation } from "@vscode-ui5/test-utils";
 import { map } from "lodash";
 
 describe("The @vscode-ui5/logic-utils <flattenAggregations> function", () => {
-  const commonProps = {
-    parent: undefined as any,
-    description: undefined,
-    since: undefined,
-    deprecatedInfo: undefined
-  };
-
-  const aggregationA1: UI5Aggregation = {
-    ...commonProps,
-    altTypes: [],
-    cardinality: "0..1",
-    kind: "UI5Aggregation",
-    library: "",
+  const aggregationA1 = buildUI5Aggregation({
     name: "aggregationA1",
-    type: "",
-    visibility: "public"
-  };
-
-  const aggregationA2: UI5Aggregation = {
-    ...commonProps,
-    altTypes: [],
-    cardinality: "0..n",
-    kind: "UI5Aggregation",
-    library: "",
-    name: "aggregationA2",
-    type: "",
-    visibility: "public"
-  };
-
-  const clazzA: UI5Class = {
-    ...commonProps,
-    constructor: undefined as any,
-    library: "sap.ui.core",
+    cardinality: "0..1"
+  });
+  const aggregationA2 = buildUI5Aggregation({ name: "aggregationA2" });
+  const clazzA = buildUI5Class({
     name: "A",
-    kind: "UI5Class",
-    extends: undefined,
-    visibility: "public",
-    implements: [],
-    methods: [],
-    properties: [],
-    aggregations: [aggregationA1, aggregationA2],
-    associations: [],
-    events: []
-  };
-
-  const aggregationB1: UI5Aggregation = {
-    ...commonProps,
-    altTypes: [],
-    cardinality: "0..1",
-    kind: "UI5Aggregation",
-    library: "",
-    name: "aggregationB1",
-    type: "",
-    visibility: "public"
-  };
-
-  const aggregationB2: UI5Aggregation = {
-    ...commonProps,
-    altTypes: [],
-    cardinality: "0..n",
-    kind: "UI5Aggregation",
-    library: "",
-    name: "aggregationB2",
-    type: "",
-    visibility: "public"
-  };
-
-  const clazzB: UI5Class = {
-    ...commonProps,
-    constructor: undefined as any,
     library: "sap.ui.core",
+    aggregations: [aggregationA1, aggregationA2]
+  });
+
+  const aggregationB1 = buildUI5Aggregation({
+    name: "aggregationB1",
+    cardinality: "0..1"
+  });
+  const aggregationB2 = buildUI5Aggregation({ name: "aggregationB2" });
+  const clazzB = buildUI5Class({
     name: "B",
-    kind: "UI5Class",
     extends: clazzA,
-    visibility: "public",
-    implements: [],
-    methods: [],
-    properties: [],
-    aggregations: [aggregationB1, aggregationB2],
-    associations: [],
-    events: []
-  };
+    aggregations: [aggregationB1, aggregationB2]
+  });
 
   it("will return `direct` aggregations", () => {
     const aggregations = flattenAggregations(clazzA);

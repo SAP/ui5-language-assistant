@@ -1,0 +1,26 @@
+{
+  "name": "@vscode-ui5/test-utils",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Test Utils",
+  "files": [
+    "lib",
+    "api.d.ts",
+    "src"
+  ],
+  "main": "lib/api.js",
+  "repository": "https://github.com/sap/ui5-vscode/",
+  "license": "Apache-2.0",
+  "typings": "./api.d.ts",
+  "dependencies": {},
+  "devDependencies": {
+    "@vscode-ui5/semantic-model": "0.0.1"
+  },
+  "scripts": {
+    "ci": "npm-run-all compile lint",
+    "clean": "rimraf ./lib",
+    "compile": "yarn run clean && tsc -p .",
+    "lint": "eslint . --ext .ts --fix --max-warnings=0",
+    "watch": "tsc -p . --watch"
+  }
+}

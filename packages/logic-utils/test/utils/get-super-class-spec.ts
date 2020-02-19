@@ -1,63 +1,20 @@
 import { expect } from "chai";
-import { UI5Class } from "@vscode-ui5/semantic-model";
+import { buildUI5Class } from "@vscode-ui5/test-utils";
 
 import { getSuperClasses } from "../../src/api";
 
 describe("The @vscode-ui5/logic-utils <getSuperClasses> function", () => {
-  const commonProps = {
-    parent: undefined as any,
-    description: undefined,
-    since: undefined,
-    deprecatedInfo: undefined
-  };
-
-  const clazzA: UI5Class = {
-    ...commonProps,
-    constructor: undefined as any,
-    library: "sap.ui.core",
-    name: "A",
-    kind: "UI5Class",
-    extends: undefined,
-    visibility: "public",
-    implements: [],
-    methods: [],
-    properties: [],
-    aggregations: [],
-    associations: [],
-    events: []
-  };
-
-  const clazzB: UI5Class = {
-    ...commonProps,
-    constructor: undefined as any,
-    library: "sap.ui.core",
+  const clazzA = buildUI5Class({ name: "A", library: "sap.ui.core" });
+  const clazzB = buildUI5Class({
     name: "B",
-    kind: "UI5Class",
     extends: clazzA,
-    visibility: "public",
-    implements: [],
-    methods: [],
-    properties: [],
-    aggregations: [],
-    associations: [],
-    events: []
-  };
-
-  const clazzC: UI5Class = {
-    ...commonProps,
-    constructor: undefined as any,
-    library: "sap.ui.core",
+    library: "sap.ui.core"
+  });
+  const clazzC = buildUI5Class({
     name: "C",
-    kind: "UI5Class",
     extends: clazzB,
-    visibility: "public",
-    implements: [],
-    methods: [],
-    properties: [],
-    aggregations: [],
-    associations: [],
-    events: []
-  };
+    library: "sap.ui.core"
+  });
 
   it("will return direct parent superClass", () => {
     const superClasses = getSuperClasses(clazzB);
