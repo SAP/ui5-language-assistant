@@ -2,4 +2,4 @@
 
 # @ui5-vscode/test-utils
 
-Private package with testing support utilities.
+Private package with internal utilities to assist in writing tests for the productive packages.
