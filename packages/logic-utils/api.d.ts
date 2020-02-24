@@ -3,7 +3,7 @@ import {
   BaseUI5Node,
   UI5Aggregation,
   UI5Class
-} from "@vscode-ui5/semantic-model";
+} from "@vscode-ui5/semantic-model-types";
 
 /**
  * Resolves an XML Tag's fully qualified name using available `xmlns`

@@ -1,7 +1,7 @@
 {
   "name": "@vscode-ui5/semantic-model",
   "version": "0.0.1",
-  "description": "TBD",
+  "description": "Semantic model provider for UI5",
   "keywords": [],
   "files": [
     "lib",
@@ -13,9 +13,13 @@
   "license": "Apache-2.0",
   "typings": "./api.d.ts",
   "dependencies": {
-    "lodash": "4.17.15"
+    "lodash": "4.17.15",
+    "@vscode-ui5/semantic-model-types": "0.0.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "fs-extra": "8.1.0",
+    "@types/fs-extra": "8.0.1"
+  },
   "scripts": {
     "ci": "npm-run-all compile lint coverage",
     "clean": "rimraf ./lib",

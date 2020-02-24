@@ -3,7 +3,7 @@ import {
   UI5Namespace,
   UI5Aggregation,
   UI5SemanticModel
-} from "@vscode-ui5/semantic-model";
+} from "@vscode-ui5/semantic-model-types";
 
 //	easily build (partial) data structures for tests with mandatory "name" field
 export type PartialWithName<T> = { name: string } & Partial<T>;

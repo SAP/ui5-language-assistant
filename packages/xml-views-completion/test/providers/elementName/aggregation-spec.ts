@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { UI5SemanticModel } from "@vscode-ui5/semantic-model";
+import { UI5SemanticModel } from "@vscode-ui5/semantic-model-types";
 import { map } from "lodash";
 
 import { testSuggestionsScenario } from "../../utils";

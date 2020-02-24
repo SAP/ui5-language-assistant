@@ -1,4 +1,4 @@
-import { UI5Class } from "@vscode-ui5/semantic-model";
+import { UI5Class } from "@vscode-ui5/semantic-model-types";
 import { find } from "lodash";
 
 import { ui5NodeToFQN } from "./ui5-node-to-fqn";

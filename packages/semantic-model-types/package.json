@@ -1,0 +1,26 @@
+{
+  "name": "@vscode-ui5/semantic-model-types",
+  "version": "0.0.1",
+  "description": "UI5 Semantic model type definitions",
+  "keywords": [],
+  "files": [
+    "api.d.ts"
+  ],
+  "repository": "https://github.com/sap/ui5-vscode/",
+  "license": "Apache-2.0",
+  "typings": "./api.d.ts",
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "ci": "npm-run-all compile lint coverage",
+    "clean": "rimraf ./lib",
+    "compile": "yarn run clean && tsc -p .",
+    "watch": "tsc -p . --watch",
+    "lint": "eslint . --ext .ts --fix --max-warnings=0",
+    "test": "echo nothing to test",
+    "coverage": "echo nothing to test"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

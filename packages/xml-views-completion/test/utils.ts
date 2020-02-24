@@ -1,4 +1,4 @@
-import { UI5SemanticModel } from "@vscode-ui5/semantic-model";
+import { UI5SemanticModel } from "@vscode-ui5/semantic-model-types";
 import { DocumentCstNode, parse } from "@xml-tools/parser";
 import { buildAst } from "@xml-tools/ast";
 import { getSuggestions, SuggestionProviders } from "@xml-tools/content-assist";

@@ -1,4 +1,4 @@
-import { UI5Aggregation, UI5Class } from "@vscode-ui5/semantic-model";
+import { UI5Aggregation, UI5Class } from "@vscode-ui5/semantic-model-types";
 
 export function flattenAggregations(ui5Class: UI5Class): UI5Aggregation[] {
   const directAggregations = ui5Class.aggregations;

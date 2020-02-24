@@ -5,7 +5,7 @@ import {
   UI5Aggregation,
   UI5Class,
   UI5SemanticModel
-} from "@vscode-ui5/semantic-model";
+} from "@vscode-ui5/semantic-model-types";
 
 export function getXMLViewCompletions(
   opts: GetXMLViewCompletionsOpts

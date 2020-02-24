@@ -4,7 +4,7 @@ import {
   UI5Class,
   UI5Aggregation,
   UI5SemanticModel
-} from "@vscode-ui5/semantic-model";
+} from "@vscode-ui5/semantic-model-types";
 
 import { PartialWithName } from "../../api";
 
@@ -35,6 +35,7 @@ export function buildUI5Class(opts: PartialWithName<UI5Class>): UI5Class {
     kind: "UI5Class",
     methods: [],
     properties: [],
+    defaultAggregation: undefined,
     ...opts
   };
 }
@@ -44,11 +45,12 @@ export function buildUI5Namespace(
 ): UI5Namespace {
   return {
     ...baseUI5NodeDefaults,
-    classes: [],
+    classes: {},
     fields: [],
     kind: "UI5Namespace",
     methods: [],
-    namespaces: [],
+    namespaces: {},
+    events: [],
     ...opts
   };
 }
@@ -61,7 +63,7 @@ export function buildUI5Aggregation(
     altTypes: [],
     cardinality: "0..n",
     kind: "UI5Aggregation",
-    type: "",
+    type: undefined,
     ...opts
   };
 }
@@ -76,6 +78,7 @@ export function buildUI5Model(
     namespaces: {},
     typedefs: {},
     version: "",
+    interfaces: {},
     ...opts
   };
 }

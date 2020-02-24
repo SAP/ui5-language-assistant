@@ -1,4 +1,4 @@
-import { UI5SemanticModel } from "@vscode-ui5/semantic-model";
+import { UI5SemanticModel } from "@vscode-ui5/semantic-model-types";
 import { XMLDocument, XMLElement } from "@xml-tools/ast";
 import {
   flattenAggregations,
