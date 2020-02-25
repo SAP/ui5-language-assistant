@@ -1,5 +1,4 @@
 {
-  "extends": "./tsconfig.base.json",
   "references": [
     {
       "path": "./packages/logic-utils"
@@ -16,5 +15,6 @@
     {
       "path": "./test-packages/test-utils"
     }
-  ]
+  ],
+  "include": ["src/**/*"]
 }
