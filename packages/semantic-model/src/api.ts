@@ -6,7 +6,9 @@ import { resolveSemanticProperties } from "./resolve";
 import { generateMissingSymbols } from "./enhance";
 import { newMap } from "./utils";
 
-export const GENERATED_LIBRARY = "Generated";
+// ESLint will remove the ":string" causing an error in "implementation-matches-public-api.ts"
+// eslint-disable-next-line @typescript-eslint/no-inferrable-types
+export const GENERATED_LIBRARY: string = "Generated";
 
 // See comment in api.d.ts
 export function generate({
