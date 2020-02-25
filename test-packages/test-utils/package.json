@@ -4,11 +4,11 @@
   "private": true,
   "description": "Test Utils",
   "files": [
-    "lib",
+    "lib/src",
     "api.d.ts",
     "src"
   ],
-  "main": "lib/api.js",
+  "main": "lib/src/api.js",
   "repository": "https://github.com/sap/ui5-vscode/",
   "license": "Apache-2.0",
   "typings": "./api.d.ts",
