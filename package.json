@@ -12,12 +12,15 @@
     "cirlce:release": "git tag -d RELEASE && git tag RELEASE && git push --delete origin RELEASE && git push --tags",
     "lerna:publish": "lerna publish from-git --yes",
     "ci": "npm-run-all format:validate ci:subpackages",
+    "compile": "yarn run clean && tsc --build",
+    "compile:watch": "yarn run clean && tsc --build --watch --diagnostics",
     "format:fix": "prettier --write \"**/*.@(js|json|md)\" --ignore-path=.gitignore",
     "format:validate": "prettier --check \"**/*.@(js|json|md)\" --ignore-path=.gitignore",
     "lint": "eslint . --ext .ts --fix --max-warnings=0",
     "ci:subpackages": "lerna run ci",
     "test": "lerna run test",
-    "coverage": "lerna run coverage"
+    "coverage": "lerna run coverage",
+    "clean": "lerna run clean"
   },
   "devDependencies": {
     "@types/chai": "4.2.7",

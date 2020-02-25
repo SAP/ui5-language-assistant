@@ -67,3 +67,6 @@ typings/
 
 # Compiled source code
 lib
+
+# tsc incremental build artifacts
+tsconfig.tsbuildinfo

@@ -1,15 +1,20 @@
 {
-  "compileOnSave": true,
-  "compilerOptions": {
-    "module": "commonjs",
-    "lib": ["es7"],
-    "target": "es2017",
-    "declaration": true,
-    "sourceMap": true,
-    "resolveJsonModule": true,
-    "forceConsistentCasingInFileNames": true,
-    "strict": true,
-    "noImplicitReturns": true
-  },
-  "include": ["src/**/*", "api.d.ts"]
+  "extends": "./tsconfig.base.json",
+  "references": [
+    {
+      "path": "./packages/logic-utils"
+    },
+    {
+      "path": "./packages/semantic-model"
+    },
+    {
+      "path": "./packages/semantic-model-types"
+    },
+    {
+      "path": "./packages/xml-views-completion"
+    },
+    {
+      "path": "./test-packages/test-utils"
+    }
+  ]
 }

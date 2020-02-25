@@ -42,6 +42,19 @@ This is normally transparent as it automatically activated in a pre-commit hook 
 However this does mean that dev flows that do not use a full dev env (e.g editing directly on github)
 may result in voter failures due to formatting errors.
 
+### Compiling
+
+TypeScript is the main programming language used in this mono-repo.
+
+Use the following npm scripts at the repo's **root** to compile **all** the sub-packages productive (excluding tests)
+source code:
+
+- `yarn compile`
+- `yarn compile:watch` (will watch files for changes and re-compile as needed)
+
+These commands are also available in each sub-package. However it is recommended to
+use the top level scripts to avoid forgetting to (re-)compile a sub-package's dependency.
+
 ### Testing
 
 [Mocha][mocha] is used for unit-testing and [Istanbul/Nyc][istanbul] for coverage reports.
