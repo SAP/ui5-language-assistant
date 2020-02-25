@@ -13,8 +13,8 @@ export function getParentFqn(fqn: string, name: string): string | undefined {
 }
 
 /* istanbul ignore next */
-export function error(message: string, strict: boolean): void {
-  if (strict) {
+export function error(message: string, throwError: boolean): void {
+  if (throwError) {
     throw new Error(message);
   } else {
     console.error(message);

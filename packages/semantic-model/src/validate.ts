@@ -179,52 +179,68 @@ const KNOWN_PROPS_MAP: Record<string, ObjectType> = {
   }
 };
 
-export function verifyLibraryFileSchema(
+export function isLibraryFile(
   fileName: string,
   fileContent: Json,
   strict: boolean
-): LibraryFile {
-  const lib: LibraryFile = (fileContent as unknown) as LibraryFile;
+): fileContent is LibraryFile {
+  /* istanbul ignore if */
+  if (!isPlainObject(fileContent)) {
+    return false;
+  }
+  const fileContentObj = fileContent as Record<string, unknown>;
 
   /* istanbul ignore if */
-  if (typeof fileContent["$schema-ref"] !== "string") {
-    error(`${fileName}: $schema-ref is not a string`, strict);
+  if (typeof fileContentObj["$schema-ref"] !== "string") {
+    error(`${fileName}: $schema-ref is not a string`, false);
     // This error is not critical since we don't use this field
+    if (strict) {
+      return false;
+    }
   }
   /* istanbul ignore if */
-  if (typeof fileContent.version !== "string") {
-    error(`${fileName}: version is not a string`, strict);
+  if (typeof fileContentObj.version !== "string") {
+    error(`${fileName}: version is not a string`, false);
     // This error is not critical since we don't use this field
+    if (strict) {
+      return false;
+    }
   }
   /* istanbul ignore if */
   if (
-    fileContent.library !== undefined &&
-    typeof fileContent.library !== "string"
+    fileContentObj.library !== undefined &&
+    typeof fileContentObj.library !== "string"
   ) {
-    error(`${fileName}: version is not a string`, strict);
+    error(`${fileName}: version is not a string`, false);
     // This error is not critical since we don't use this field
+    if (strict) {
+      return false;
+    }
   }
 
   /* istanbul ignore if */
-  if (!isArray(fileContent.symbols)) {
-    error(`${fileName}: symbols is not an array`, strict);
-    return lib;
+  if (!isArray(fileContentObj.symbols)) {
+    error(`${fileName}: symbols is not an array`, false);
+    return false;
   }
 
+  let allSymbolsAreValid = true;
   const unknownSymbolKinds: Record<string, boolean> = {};
-  for (const symbol of fileContent.symbols) {
+  for (const symbol of fileContentObj.symbols) {
     /* istanbul ignore if */
     if (!KNOWN_PROPS_MAP[symbol.kind]) {
       unknownSymbolKinds[symbol.kind] = true;
       continue;
     }
-    assertObject(
-      symbol.name,
-      symbol.kind,
-      symbol,
-      KNOWN_PROPS_MAP[symbol.kind],
-      strict
-    );
+    allSymbolsAreValid =
+      allSymbolsAreValid &&
+      isValidObject(
+        symbol.name,
+        symbol.kind,
+        symbol,
+        KNOWN_PROPS_MAP[symbol.kind],
+        strict
+      );
   }
   /* istanbul ignore if */
   if (!isEmpty(unknownSymbolKinds)) {
@@ -232,19 +248,22 @@ export function verifyLibraryFileSchema(
       `${fileName}: unknown symbol kinds ${JSON.stringify(
         Object.keys(unknownSymbolKinds)
       )}`,
-      strict
+      false
     );
+    if (strict) {
+      return false;
+    }
   }
-  return lib;
+  return allSymbolsAreValid;
 }
 
-function assertValue(
+function isValidValue(
   symbolFQN: string,
   typeFQN: string,
   value: unknown,
   valueType: PropertyType,
   strict: boolean
-): void {
+): boolean {
   // Undefined means don't validate. We also don't validate undefined values because some properties are optional.
   if (valueType !== undefined && value !== undefined) {
     if (typeof valueType === "string") {
@@ -252,30 +271,27 @@ function assertValue(
       if (typeof value !== valueType) {
         error(
           `${symbolFQN}: unexpected value ${value}, expected value of type ${valueType}`,
-          strict
+          false
         );
-        return;
+        return !strict;
       }
     } else if (isArray(valueType)) {
       /* istanbul ignore if */
       if (!isArray(value)) {
-        error(
-          `${symbolFQN}: unexpected value ${value}, expected array`,
-          strict
-        );
-        return;
+        error(`${symbolFQN}: unexpected value ${value}, expected array`, false);
+        return !strict;
       }
-      assertArray(symbolFQN, typeFQN, value, valueType, strict);
+      return isValidArray(symbolFQN, typeFQN, value, valueType, strict);
     } /* istanbul ignore else */ else if (isPlainObject(valueType)) {
       /* istanbul ignore if */
       if (!isPlainObject(value)) {
         error(
           `${symbolFQN}: unexpected value ${value}, expected object`,
-          strict
+          false
         );
-        return;
+        return !strict;
       }
-      assertObject(
+      return isValidObject(
         symbolFQN,
         typeFQN,
         value as Record<string, unknown>,
@@ -283,19 +299,20 @@ function assertValue(
         strict
       );
     } else {
-      error(`Unexpected value type ${valueType}`, strict);
-      return;
+      error(`Unexpected value type ${valueType}`, false);
+      return !strict;
     }
   }
+  return true;
 }
 
-function assertObject(
+function isValidObject(
   symbolFQN: string,
   typeFQN: string,
   symbol: Record<string, unknown>,
   type: ObjectType,
   strict: boolean
-): void {
+): boolean {
   const objProps = keys(symbol);
   const unexpectedProps = difference(objProps, Object.keys(type));
 
@@ -305,33 +322,44 @@ function assertObject(
       `Unexpected properties for object ${
         symbol.name
       } of kind ${typeFQN}: ${JSON.stringify(unexpectedProps)}`,
-      strict
+      false
     );
+    if (strict) {
+      return false;
+    }
   }
 
+  let valueIsValid = true;
   for (const prop in symbol) {
     const value = symbol[prop];
     const expectedValueType = type[prop];
-    assertValue(
-      `${symbolFQN}.${prop}`,
-      `${typeFQN}.${prop}`,
-      value,
-      expectedValueType,
-      strict
-    );
+    valueIsValid =
+      valueIsValid &&
+      isValidValue(
+        `${symbolFQN}.${prop}`,
+        `${typeFQN}.${prop}`,
+        value,
+        expectedValueType,
+        strict
+      );
   }
+  return valueIsValid;
 }
 
-function assertArray(
+function isValidArray(
   symbolFQN: string,
   typeFQN: string,
   symbol: unknown[],
   valueType: [PropertyType],
   strict: boolean
-): void {
+): boolean {
   const itemType = valueType[0];
+  let valueIsValid = true;
   for (let i = 0; i < symbol.length; ++i) {
     const value = symbol[i];
-    assertValue(`${symbolFQN}[${i}]`, typeFQN, value, itemType, strict);
+    valueIsValid =
+      valueIsValid &&
+      isValidValue(`${symbolFQN}[${i}]`, typeFQN, value, itemType, strict);
   }
+  return valueIsValid;
 }

@@ -2,7 +2,7 @@ import { UI5SemanticModel } from "@vscode-ui5/semantic-model-types";
 
 export type TypeNameFix = Parameters<typeof generate>[0]["typeNameFix"];
 
-export type Json = Record<string, unknown>;
+export type Json = unknown;
 
 export declare const GENERATED_LIBRARY: string;
 

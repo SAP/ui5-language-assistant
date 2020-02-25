@@ -1,7 +1,7 @@
 import * as model from "@vscode-ui5/semantic-model-types";
 import { Json } from "../api";
 import * as apiJson from "./apiJson";
-import { verifyLibraryFileSchema } from "./validate";
+import { isLibraryFile } from "./validate";
 import { error, newMap } from "./utils";
 import {
   map,
@@ -40,14 +40,18 @@ export function convertToSemanticModel(
   reduce(
     sortedLibs,
     (model, { libraryName, fileContent }) => {
-      const lib = verifyLibraryFileSchema(libraryName, fileContent, strict);
-      const libSemanticModel = convertLibraryToSemanticModel(
-        libraryName,
-        lib,
-        jsonSymbols,
-        strict
-      );
-      addLibraryToModel(libSemanticModel, model);
+      /* istanbul ignore else */
+      if (isLibraryFile(libraryName, fileContent, strict)) {
+        const libSemanticModel = convertLibraryToSemanticModel(
+          libraryName,
+          fileContent,
+          jsonSymbols,
+          strict
+        );
+        addLibraryToModel(libSemanticModel, model);
+      } else if (strict) {
+        throw new Error(`Entry for ${libraryName} is not a valid library file`);
+      }
       return model;
     },
     model
