@@ -73,7 +73,7 @@ function areAggregationSuggestionsApplicable(opts: {
   const parentTagFqn = xmlToFQN(opts.parentAstNode);
   const parentUI5Class = opts.model.classes[parentTagFqn];
   // An Aggregation is always directly nested inside a Control.
-  if (isControlSubClass(parentUI5Class)) {
+  if (!isControlSubClass(parentUI5Class)) {
     return false;
   }
 

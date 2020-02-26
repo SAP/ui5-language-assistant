@@ -18,7 +18,8 @@
   },
   "devDependencies": {
     "fs-extra": "8.1.0",
-    "@types/fs-extra": "8.0.1"
+    "@types/fs-extra": "8.0.1",
+    "@vscode-ui5/test-utils": "0.0.1"
   },
   "scripts": {
     "ci": "npm-run-all compile compile:ts-model lint coverage",

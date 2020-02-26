@@ -5,12 +5,12 @@ import { map } from "lodash";
 import { testSuggestionsScenario } from "../../utils";
 import { aggregationSuggestions } from "../../../src/providers/elementName/aggregation";
 import { XMLElement } from "@xml-tools/ast";
+import { generateModel } from "@vscode-ui5/test-utils";
 
-// TODO: evaluate running tests using a real model, e.g 1.73.1 OpenUI5
-const ui5SemanticModel: UI5SemanticModel = {} as UI5SemanticModel;
+const ui5SemanticModel: UI5SemanticModel = generateModel();
 
 describe("The ui5-vscode xml-views-completion", () => {
-  context.skip("aggregations", () => {
+  context("aggregations", () => {
     it("will suggest direct aggregations", () => {
       const xmlSnippet = `
         <mvc:View

@@ -4,6 +4,7 @@
   "private": true,
   "description": "Test Utils",
   "files": [
+    "resources",
     "lib/src",
     "api.d.ts",
     "src"
