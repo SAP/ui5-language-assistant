@@ -21,10 +21,11 @@
     "@types/fs-extra": "8.0.1"
   },
   "scripts": {
-    "ci": "npm-run-all compile lint coverage",
+    "ci": "npm-run-all compile compile:ts-model lint coverage",
     "clean": "rimraf ./lib tsconfig.tsbuildinfo",
     "compile": "yarn run clean && tsc -p .",
     "compile:watch": "tsc -p . --watch",
+    "compile:ts-model": "tsc -p ./test-resources/ts-model",
     "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore",
     "test": "mocha",
     "coverage": "nyc mocha"
