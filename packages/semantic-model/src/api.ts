@@ -5,6 +5,7 @@ import { convertToSemanticModel } from "./convert";
 import { resolveSemanticProperties } from "./resolve";
 import { generateMissingSymbols } from "./enhance";
 import { newMap } from "./utils";
+import deepFreezeStrict from "deep-freeze-strict";
 
 // ESLint will remove the ":string" causing an error in "implementation-matches-public-api.ts"
 // eslint-disable-next-line @typescript-eslint/no-inferrable-types
@@ -24,5 +25,5 @@ export function generate({
   const model = convertToSemanticModel(libraries, jsonSymbols, strict);
   generateMissingSymbols(model, strict);
   resolveSemanticProperties(model, jsonSymbols, typeNameFix, strict);
-  return model;
+  return deepFreezeStrict(model);
 }

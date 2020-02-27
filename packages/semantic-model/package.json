@@ -14,12 +14,14 @@
   "typings": "./api.d.ts",
   "dependencies": {
     "lodash": "4.17.15",
-    "@vscode-ui5/semantic-model-types": "0.0.1"
+    "@vscode-ui5/semantic-model-types": "0.0.1",
+    "deep-freeze-strict": "1.1.1"
   },
   "devDependencies": {
     "fs-extra": "8.1.0",
     "@types/fs-extra": "8.0.1",
-    "@vscode-ui5/test-utils": "0.0.1"
+    "@vscode-ui5/test-utils": "0.0.1",
+    "@types/deep-freeze-strict": "1.1.0"
   },
   "scripts": {
     "ci": "npm-run-all compile compile:ts-model lint coverage",
