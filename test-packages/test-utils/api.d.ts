@@ -24,7 +24,7 @@ export function buildUI5Model(
 ): UI5SemanticModel;
 
 export type TestModelVersion = "1.60.14" | "1.74.0";
-export function generateModel(version?: TestModelVersion): UI5SemanticModel;
+export function generateModel(version: TestModelVersion): UI5SemanticModel;
 
 export function loadLibraries(version: TestModelVersion): Record<string, Json>;
 

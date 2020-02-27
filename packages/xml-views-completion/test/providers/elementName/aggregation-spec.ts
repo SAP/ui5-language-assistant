@@ -7,7 +7,7 @@ import { aggregationSuggestions } from "../../../src/providers/elementName/aggre
 import { XMLElement } from "@xml-tools/ast";
 import { generateModel } from "@vscode-ui5/test-utils";
 
-const ui5SemanticModel: UI5SemanticModel = generateModel();
+const ui5SemanticModel: UI5SemanticModel = generateModel("1.74.0");
 
 describe("The ui5-vscode xml-views-completion", () => {
   context("aggregations", () => {

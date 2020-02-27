@@ -34,7 +34,7 @@ describe("The ui5-vscode semantic model package", () => {
     const cannotDeleteMatcher = "Cannot delete";
     let model: UI5SemanticModel;
     before(() => {
-      model = generateModel();
+      model = generateModel("1.74.0");
     });
 
     it("cannot change first-level member of the model", () => {

@@ -68,9 +68,7 @@ export function loadLibraries(version: TestModelVersion): Record<string, Json> {
   return libToFileContent;
 }
 
-export function generateModel(
-  version: TestModelVersion = "1.74.0"
-): UI5SemanticModel {
+export function generateModel(version: TestModelVersion): UI5SemanticModel {
   const libToFileContent = loadLibraries(version);
   return generate({
     libraries: libToFileContent,
