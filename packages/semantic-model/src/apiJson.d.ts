@@ -223,7 +223,6 @@ export type Visibility =
   | "public"
   | "private"
   | "protected"
-  | "experimental"
   | "restricted"
   | "hidden";
 export type Cardinality = "0..1" | "0..n";

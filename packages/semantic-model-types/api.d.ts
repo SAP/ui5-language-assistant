@@ -35,6 +35,8 @@ export interface UI5Class extends BaseUI5Node {
   // Likely Not Relevant for XML.Views
   methods: UI5Method[];
   properties: UI5Prop[];
+  // Likely Not Relevant for XML.Views
+  fields: UI5Prop[];
   aggregations: UI5Aggregation[];
   associations: UI5Association[];
   events: UI5Event[];
@@ -129,7 +131,6 @@ export type UI5Visibility =
   | "protected"
   | "public"
   | "private"
-  | "experimental"
   | "hidden";
 export type UI5Cardinality = "0..1" | "0..n";
 
@@ -137,6 +138,11 @@ export interface UI5DeprecatedInfo {
   isDeprecated: boolean;
   since: string | undefined;
   text: string | undefined;
+}
+
+export interface ArrayType {
+  kind: "ArrayType";
+  type: UI5Type | undefined;
 }
 
 export interface PrimitiveType {
@@ -153,14 +159,19 @@ export type UI5Type =
   | UI5Class
   | UI5Interface
   | UI5Enum
+  | UI5Namespace
   | UI5Typedef
+  | ArrayType
   | PrimitiveType
   | UnresolvedType;
 
-// TODO int and float are numbers. Should we only support number? It might be useful to know a value is "int".
+// TODO Should we keep int and float in addition to number? Should we keep both object and map?
 export type PrimitiveTypeName =
   | "String"
   | "Boolean"
   | "Number"
   | "Integer"
-  | "Float";
+  | "Float"
+  | "Object"
+  | "Map"
+  | "Function";

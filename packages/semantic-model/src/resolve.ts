@@ -46,11 +46,15 @@ export function resolveSemanticProperties(
     if (jsonSymbol.extends !== undefined) {
       const extendsType = resolveType(
         model,
-        { kind: "UnresolvedType", type: jsonSymbol.extends },
+        jsonSymbol.extends,
         typeNameFix,
         strict
       );
-      if (extendsType !== undefined) {
+      // Ignore undefined and object types since they don't provide any type information for extends
+      if (
+        extendsType !== undefined &&
+        !(extendsType.kind === "PrimitiveType" && extendsType.type === "Object")
+      ) {
         /* istanbul ignore if */
         if (extendsType.kind !== "UI5Class") {
           error(
@@ -66,7 +70,7 @@ export function resolveSemanticProperties(
       for (const interfacee of jsonSymbol.implements) {
         const interfaceType = resolveType(
           model,
-          { kind: "UnresolvedType", type: interfacee },
+          interfacee,
           typeNameFix,
           strict
         );
@@ -160,6 +164,9 @@ function fixTypeName(
   if (fqn === undefined) {
     return undefined;
   }
+  if (ignoreType(fqn)) {
+    return undefined;
+  }
   if (has(typeNameFix, fqn)) {
     return typeNameFix[fqn];
   }
@@ -168,10 +175,18 @@ function fixTypeName(
 
 function resolveType(
   model: UI5SemanticModel,
-  type: UI5Type | undefined,
+  type: UI5Type | string | undefined,
   typeNameFix: TypeNameFix,
   strict: boolean
 ): UI5Type | undefined {
+  // String types are unresolved
+  if (typeof type === "string") {
+    type = {
+      kind: "UnresolvedType",
+      type: type
+    };
+  }
+
   // Before resolving all types are UnresolvedType or undefined
   /* istanbul ignore if */
   if (type === undefined || type.kind !== "UnresolvedType") {
@@ -188,6 +203,7 @@ function resolveType(
     model.classes,
     model.interfaces,
     model.enums,
+    model.namespaces,
     model.typedefs
   );
   if (typeObj !== undefined) {
@@ -195,13 +211,20 @@ function resolveType(
   }
 
   const primitiveTypeName = getPrimitiveTypeName(typeName);
-  /* istanbul ignore else */
   if (primitiveTypeName !== undefined) {
-    type = {
+    return {
       kind: "PrimitiveType",
       type: primitiveTypeName
     };
-    return type;
+  }
+  /* istanbul ignore else */
+  if (typeName.endsWith("[]")) {
+    const innerTypeName = typeName.substring(0, typeName.length - "[]".length);
+    const innerType = resolveType(model, innerTypeName, typeNameFix, strict);
+    return {
+      kind: "ArrayType",
+      type: innerType
+    };
   } else {
     error(`Unknown type: ${typeName}`, strict);
     return {
@@ -216,9 +239,23 @@ const apiJsonTypeToModelType: Record<string, PrimitiveTypeName> = {
   boolean: "Boolean",
   number: "Number",
   int: "Integer",
-  float: "Float"
+  float: "Float",
+  String: "String",
+  Object: "Object",
+  object: "Object",
+  map: "Map",
+  function: "Function"
 };
 
 function getPrimitiveTypeName(typeName: string): PrimitiveTypeName | undefined {
   return apiJsonTypeToModelType[typeName];
+}
+
+// These types don't have any specific type information
+const typesToIgnore: Record<string, undefined> = {
+  undefined: undefined,
+  any: undefined
+};
+function ignoreType(typeName: string): boolean {
+  return has(typesToIgnore, typeName);
 }

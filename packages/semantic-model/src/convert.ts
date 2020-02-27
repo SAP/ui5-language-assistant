@@ -167,6 +167,7 @@ function convertClass(libName: string, symbol: apiJson.Class): model.UI5Class {
     events: [],
     methods: [],
     properties: [],
+    fields: [],
     defaultAggregation: undefined // Filled later
   };
 
@@ -176,6 +177,10 @@ function convertClass(libName: string, symbol: apiJson.Class): model.UI5Class {
     );
     classs.associations = map(symbol["ui5-metadata"].associations, _ =>
       convertAssociation(libName, _, classs)
+    );
+    classs.properties = map(
+      symbol["ui5-metadata"].properties,
+      partial(convertProperty, libName, classs)
     );
   }
   // Due to unfortunate naming, if not defined in the json, symbol.constructor will be a javascript function
@@ -189,7 +194,8 @@ function convertClass(libName: string, symbol: apiJson.Class): model.UI5Class {
         );
   classs.events = map(symbol.events, partial(convertEvent, libName, classs));
   classs.methods = map(symbol.methods, partial(convertMethod, libName, classs));
-  classs.properties = map(
+  // The "properties" directly under the class symbol are displayed as "fields" in the SDK and are not considered properties
+  classs.fields = map(
     symbol.properties,
     partial(convertProperty, libName, classs)
   );

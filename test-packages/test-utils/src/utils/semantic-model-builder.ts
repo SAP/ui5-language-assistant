@@ -14,9 +14,7 @@ const baseUI5NodeDefaults: BaseUI5Node = {
   description: undefined,
   kind: "",
   library: "",
-  // eslint rule disabled because our API allows returning "partially" valid UI5Nodes for ease of use
-  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-  parent: undefined as any,
+  parent: undefined,
   since: undefined,
   visibility: "public"
 };
@@ -26,15 +24,14 @@ export function buildUI5Class(opts: PartialWithName<UI5Class>): UI5Class {
     ...baseUI5NodeDefaults,
     aggregations: [],
     associations: [],
-    // eslint rule disabled because our API allows returning "partially" valid classes for ease of use
-    /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-    ctor: undefined as any,
+    ctor: undefined,
     events: [],
     extends: undefined,
     implements: [],
     kind: "UI5Class",
     methods: [],
     properties: [],
+    fields: [],
     defaultAggregation: undefined,
     ...opts
   };

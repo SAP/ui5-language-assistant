@@ -13,10 +13,10 @@
   "repository": "https://github.com/sap/ui5-vscode/",
   "license": "Apache-2.0",
   "typings": "./api.d.ts",
-  "dependencies": {},
-  "devDependencies": {
+  "dependencies": {
     "@vscode-ui5/semantic-model": "0.0.1"
   },
+  "devDependencies": {},
   "scripts": {
     "ci": "npm-run-all compile lint",
     "clean": "rimraf ./lib",

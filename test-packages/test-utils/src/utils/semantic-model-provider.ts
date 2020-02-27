@@ -14,21 +14,16 @@ const fixes: Record<TestModelVersion, TypeNameFix> = {
     "sap.ui.core.IDScope": undefined,
     "sap.m.TimePickerSlider": "sap.m.TimePickerSliders",
     "sap.ui.layout.ResponsiveSplitterPage": undefined,
-    Object: undefined,
-    String: "string",
-    undefined: undefined
+    "sap.ui.layout.cssgrid.CSSGridTrack": undefined,
+    "sap.ui.layout.cssgrid.CSSGridGapShortHand": undefined,
+    "sap.ui.layout.cssgrid.CSSGridLine": undefined
   },
   "1.74.0": {
     "sap.m.PlanningCalendarHeader": undefined,
     "sap.m.TimePickerSlider": "sap.m.TimePickerSliders",
     "sap.ui.fl.write._internal.transport.TransportDialog": undefined,
     "sap.ui.layout.cssgrid.IGridItemLayoutData": undefined,
-    "sap.ui.layout.ResponsiveSplitterPage": undefined,
-    Object: undefined,
-    map: undefined,
-    function: undefined,
-    String: "string",
-    undefined: undefined
+    "sap.ui.layout.ResponsiveSplitterPage": undefined
   }
 };
 
