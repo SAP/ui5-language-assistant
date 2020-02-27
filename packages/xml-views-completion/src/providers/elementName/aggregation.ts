@@ -55,7 +55,7 @@ export function aggregationSuggestions(
   return suggestions;
 }
 
-export function areAggregationSuggestionsApplicable(opts: {
+function areAggregationSuggestionsApplicable(opts: {
   parentAstNode: XMLElement | XMLDocument;
   prefix: string | undefined;
   model: UI5SemanticModel;

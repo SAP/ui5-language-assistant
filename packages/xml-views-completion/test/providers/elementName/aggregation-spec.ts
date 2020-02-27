@@ -1,16 +1,12 @@
 import { expect } from "chai";
 import { map, cloneDeep } from "lodash";
-import { XMLElement, buildAst } from "@xml-tools/ast";
-import { parse, DocumentCstNode } from "@xml-tools/parser";
+import { XMLElement } from "@xml-tools/ast";
 
 import { UI5SemanticModel } from "@vscode-ui5/semantic-model-types";
 import { buildUI5Aggregation, generateModel } from "@vscode-ui5/test-utils";
 
 import { testSuggestionsScenario } from "../../utils";
-import {
-  aggregationSuggestions,
-  areAggregationSuggestionsApplicable
-} from "../../../src/providers/elementName/aggregation";
+import { aggregationSuggestions } from "../../../src/providers/elementName/aggregation";
 
 const REAL_UI5_MODEL: UI5SemanticModel = generateModel("1.74.0");
 
@@ -226,18 +222,19 @@ describe("The ui5-vscode xml-views-completion", () => {
         });
       });
 
-      // Must be tested in a more limited "unit" fashion.
-      // Such a mock scenario cannot be constructed...
       it("will not suggest on top level Element", () => {
-        const xmlSnippet = `<mvc:View></mvc:View>`;
-        const { cst, tokenVector } = parse(xmlSnippet);
-        const xmlDoc = buildAst(cst as DocumentCstNode, tokenVector);
-        const isApplicable = areAggregationSuggestionsApplicable({
-          parentAstNode: xmlDoc,
+        const xmlSnippet = `<⇶`;
+
+        testSuggestionsScenario({
           model: REAL_UI5_MODEL,
-          prefix: ""
+          xmlText: xmlSnippet,
+          providers: {
+            elementName: [aggregationSuggestions]
+          },
+          assertion: suggestions => {
+            expect(suggestions).to.be.empty;
+          }
         });
-        expect(isApplicable).to.be.false;
       });
 
       it("will not suggest when the parent tag is a class which does not extend sap.ui.core.[Control|Element]", () => {
