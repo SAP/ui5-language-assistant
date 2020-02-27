@@ -1,186 +1,271 @@
 import { expect } from "chai";
+import { map, cloneDeep } from "lodash";
+import { XMLElement, buildAst } from "@xml-tools/ast";
+import { parse, DocumentCstNode } from "@xml-tools/parser";
+
 import { UI5SemanticModel } from "@vscode-ui5/semantic-model-types";
-import { map } from "lodash";
+import { buildUI5Aggregation, generateModel } from "@vscode-ui5/test-utils";
 
 import { testSuggestionsScenario } from "../../utils";
-import { aggregationSuggestions } from "../../../src/providers/elementName/aggregation";
-import { XMLElement } from "@xml-tools/ast";
-import { generateModel } from "@vscode-ui5/test-utils";
+import {
+  aggregationSuggestions,
+  areAggregationSuggestionsApplicable
+} from "../../../src/providers/elementName/aggregation";
 
-const ui5SemanticModel: UI5SemanticModel = generateModel("1.74.0");
+const REAL_UI5_MODEL: UI5SemanticModel = generateModel("1.74.0");
 
 describe("The ui5-vscode xml-views-completion", () => {
   context("aggregations", () => {
-    it("will suggest direct aggregations", () => {
-      const xmlSnippet = `
-        <mvc:View
-          xmlns:mvc="sap.ui.core.mvc"
-          xmlns="sap.m">
-          <Page>
-            <⇶
-          </Page>
-        </mvc:View>`;
+    context("applicable scenarios", () => {
+      it("will suggest direct aggregations", () => {
+        const xmlSnippet = `
+          <mvc:View
+            xmlns:mvc="sap.ui.core.mvc"
+            xmlns="sap.m">
+            <Page>
+              <⇶
+            </Page>
+          </mvc:View>`;
 
-      testSuggestionsScenario({
-        model: ui5SemanticModel,
-        xmlText: xmlSnippet,
-        providers: {
-          elementName: [aggregationSuggestions]
-        },
-        assertion: suggestions => {
-          const suggestedNames = map(suggestions, _ => _.ui5Node.name);
-          expect(suggestedNames).to.include.members([
-            "content",
-            "customHeader",
-            "footer",
-            "headerContent",
-            "landmarkInfo",
-            "subHeader"
-          ]);
+        testSuggestionsScenario({
+          model: REAL_UI5_MODEL,
+          xmlText: xmlSnippet,
+          providers: {
+            elementName: [aggregationSuggestions]
+          },
+          assertion: suggestions => {
+            const suggestedNames = map(suggestions, _ => _.ui5Node.name);
+            expect(suggestedNames).to.include.members([
+              "content",
+              "customHeader",
+              "footer",
+              "headerContent",
+              "landmarkInfo",
+              "subHeader"
+            ]);
 
-          const suggestedAstNode = suggestions[0].astNode as XMLElement;
-          expect(suggestedAstNode.type).to.equal("XMLElement");
-          expect((suggestedAstNode.parent as XMLElement).name).to.equal("Page");
-        }
+            const suggestedAstNode = suggestions[0].astNode as XMLElement;
+            expect(suggestedAstNode.type).to.equal("XMLElement");
+            expect((suggestedAstNode.parent as XMLElement).name).to.equal(
+              "Page"
+            );
+          }
+        });
+      });
+
+      it("will suggest borrowed aggregations", () => {
+        const xmlSnippet = `
+          <mvc:View
+            xmlns:mvc="sap.ui.core.mvc"
+            xmlns="sap.m">
+            <Page>
+              <⇶
+            </Page>
+          </mvc:View>`;
+
+        testSuggestionsScenario({
+          model: REAL_UI5_MODEL,
+          xmlText: xmlSnippet,
+          providers: {
+            elementName: [aggregationSuggestions]
+          },
+          assertion: suggestions => {
+            const suggestedNames = map(suggestions, _ => _.ui5Node.name);
+            expect(suggestedNames).to.include.members([
+              "customData",
+              "dependents",
+              "dragDropConfig",
+              "layoutData",
+              "tooltip"
+            ]);
+
+            const suggestedAstNode = suggestions[0].astNode as XMLElement;
+            expect(suggestedAstNode.type).to.equal("XMLElement");
+            expect((suggestedAstNode.parent as XMLElement).name).to.equal(
+              "Page"
+            );
+          }
+        });
+      });
+
+      it("will not suggest pre-existing aggregations", () => {
+        const xmlSnippet = `
+          <mvc:View
+            xmlns:mvc="sap.ui.core.mvc"
+            xmlns="sap.m">
+            <Page>
+              <content></content>
+              <customHeader></customHeader>
+              <footer></footer>
+              <⇶
+            </Page>
+          </mvc:View>`;
+
+        testSuggestionsScenario({
+          model: REAL_UI5_MODEL,
+          xmlText: xmlSnippet,
+          providers: {
+            elementName: [aggregationSuggestions]
+          },
+          assertion: suggestions => {
+            const suggestedNames = map(suggestions, _ => _.ui5Node.name);
+            expect(suggestedNames).to.not.include.members([
+              "content",
+              "customHeader",
+              "footer"
+            ]);
+          }
+        });
+      });
+
+      it("will filter suggestions on prefix (true prefix)", () => {
+        const xmlSnippet = `
+          <mvc:View
+            xmlns:mvc="sap.ui.core.mvc"
+            xmlns="sap.m">
+            <Page>
+              <cu⇶
+            </Page>
+          </mvc:View>`;
+
+        testSuggestionsScenario({
+          model: REAL_UI5_MODEL,
+          xmlText: xmlSnippet,
+          providers: {
+            elementName: [aggregationSuggestions]
+          },
+          assertion: suggestions => {
+            const suggestedNames = map(suggestions, _ => _.ui5Node.name);
+            expect(suggestedNames).to.include.members([
+              "customData",
+              "customHeader"
+            ]);
+
+            expect(suggestedNames).to.not.include.members([
+              "content",
+              "dependents",
+              "dragDropConfig",
+              "footer",
+              "headerContent",
+              "landmarkInfo",
+              "layoutData",
+              "subHeader",
+              "tooltip"
+            ]);
+          }
+        });
+      });
+
+      it("will filter suggestions on prefix (contains)", () => {
+        const xmlSnippet = `
+          <mvc:View
+            xmlns:mvc="sap.ui.core.mvc"
+            xmlns="sap.m">
+            <Page>
+              <Data⇶
+            </Page>
+          </mvc:View>`;
+
+        testSuggestionsScenario({
+          model: REAL_UI5_MODEL,
+          xmlText: xmlSnippet,
+          providers: {
+            elementName: [aggregationSuggestions]
+          },
+          assertion: suggestions => {
+            const suggestedNames = map(suggestions, _ => _.ui5Node.name);
+            expect(suggestedNames).to.include.members([
+              "customData",
+              "layoutData"
+            ]);
+
+            expect(suggestedNames).to.not.include.members([
+              "content",
+              "customHeader",
+              "dependents",
+              "dragDropConfig",
+              "footer",
+              "headerContent",
+              "landmarkInfo",
+              "subHeader",
+              "tooltip"
+            ]);
+          }
+        });
       });
     });
 
-    it("will suggest borrowed aggregations", () => {
-      const xmlSnippet = `
-        <mvc:View
-          xmlns:mvc="sap.ui.core.mvc"
-          xmlns="sap.m">
-          <Page>
-            <⇶
-          </Page>
-        </mvc:View>`;
+    context("none applicable scenarios", () => {
+      it("will not suggest on tag with xmlns prefix", () => {
+        const clonedModel = cloneDeep(REAL_UI5_MODEL);
+        const aggregationWithPrefix = buildUI5Aggregation({
+          name: "mvc:bamba"
+        });
+        clonedModel.classes["sap.m.Page"].aggregations.push(
+          aggregationWithPrefix
+        );
 
-      testSuggestionsScenario({
-        model: ui5SemanticModel,
-        xmlText: xmlSnippet,
-        providers: {
-          elementName: [aggregationSuggestions]
-        },
-        assertion: suggestions => {
-          const suggestedNames = map(suggestions, _ => _.ui5Node.name);
-          expect(suggestedNames).to.include.members([
-            "customData",
-            "dependents",
-            "dragDropConfig",
-            "layoutData",
-            "tooltip"
-          ]);
+        const xmlSnippet = `
+          <mvc:View
+            xmlns:mvc="sap.ui.core.mvc"
+            xmlns="sap.m">
+            <Page>
+              <mvc:ba⇶
+            </Page>
+          </mvc:View>`;
 
-          const suggestedAstNode = suggestions[0].astNode as XMLElement;
-          expect(suggestedAstNode.type).to.equal("XMLElement");
-          expect((suggestedAstNode.parent as XMLElement).name).to.equal("Page");
-        }
+        testSuggestionsScenario({
+          model: clonedModel,
+          xmlText: xmlSnippet,
+          providers: {
+            elementName: [aggregationSuggestions]
+          },
+          assertion: suggestions => {
+            expect(suggestions).to.be.empty;
+          }
+        });
       });
-    });
 
-    it("will not suggest pre-existing aggregations", () => {
-      const xmlSnippet = `
-        <mvc:View
-          xmlns:mvc="sap.ui.core.mvc"
-          xmlns="sap.m">
-          <Page>
-            <content></content>
-            <customHeader></customHeader>
-            <footer></footer>
-            <⇶
-          </Page>
-        </mvc:View>`;
-
-      testSuggestionsScenario({
-        model: ui5SemanticModel,
-        xmlText: xmlSnippet,
-        providers: {
-          elementName: [aggregationSuggestions]
-        },
-        assertion: suggestions => {
-          const suggestedNames = map(suggestions, _ => _.ui5Node.name);
-          expect(suggestedNames).to.not.include.members([
-            "content",
-            "customHeader",
-            "footer"
-          ]);
-        }
+      // Must be tested in a more limited "unit" fashion.
+      // Such a mock scenario cannot be constructed...
+      it("will not suggest on top level Element", () => {
+        const xmlSnippet = `<mvc:View></mvc:View>`;
+        const { cst, tokenVector } = parse(xmlSnippet);
+        const xmlDoc = buildAst(cst as DocumentCstNode, tokenVector);
+        const isApplicable = areAggregationSuggestionsApplicable({
+          parentAstNode: xmlDoc,
+          model: REAL_UI5_MODEL,
+          prefix: ""
+        });
+        expect(isApplicable).to.be.false;
       });
-    });
 
-    it("will filter suggestions on prefix (true prefix)", () => {
-      const xmlSnippet = `
-        <mvc:View
-          xmlns:mvc="sap.ui.core.mvc"
-          xmlns="sap.m">
-          <Page>
-            <cu⇶
-          </Page>
-        </mvc:View>`;
+      it("will not suggest when the parent tag is a class which does not extend sap.ui.core.[Control|Element]", () => {
+        const clonedModel = cloneDeep(REAL_UI5_MODEL);
+        const dummyAggregation = buildUI5Aggregation({
+          name: "dummy"
+        });
+        clonedModel.classes["sap.ui.core.Component"].aggregations.push(
+          dummyAggregation
+        );
 
-      testSuggestionsScenario({
-        model: ui5SemanticModel,
-        xmlText: xmlSnippet,
-        providers: {
-          elementName: [aggregationSuggestions]
-        },
-        assertion: suggestions => {
-          const suggestedNames = map(suggestions, _ => _.ui5Node.name);
-          expect(suggestedNames).to.include.members([
-            "customData",
-            "customHeader"
-          ]);
+        const xmlSnippet = `
+          <mvc:View xmlns="sap.ui.core">
+            <Component>
+              <⇶
+            </Component>
+          </mvc:View>`;
 
-          expect(suggestedNames).to.not.include.members([
-            "content",
-            "dependents",
-            "dragDropConfig",
-            "footer",
-            "headerContent",
-            "landmarkInfo",
-            "layoutData",
-            "subHeader",
-            "tooltip"
-          ]);
-        }
-      });
-    });
-
-    it("will filter suggestions on prefix (contains)", () => {
-      const xmlSnippet = `
-        <mvc:View
-          xmlns:mvc="sap.ui.core.mvc"
-          xmlns="sap.m">
-          <Page>
-            <Data⇶
-          </Page>
-        </mvc:View>`;
-
-      testSuggestionsScenario({
-        model: ui5SemanticModel,
-        xmlText: xmlSnippet,
-        providers: {
-          elementName: [aggregationSuggestions]
-        },
-        assertion: suggestions => {
-          const suggestedNames = map(suggestions, _ => _.ui5Node.name);
-          expect(suggestedNames).to.include.members([
-            "customData",
-            "layoutData"
-          ]);
-
-          expect(suggestedNames).to.not.include.members([
-            "content",
-            "customHeader",
-            "dependents",
-            "dragDropConfig",
-            "footer",
-            "headerContent",
-            "landmarkInfo",
-            "subHeader",
-            "tooltip"
-          ]);
-        }
+        testSuggestionsScenario({
+          model: clonedModel,
+          xmlText: xmlSnippet,
+          providers: {
+            elementName: [aggregationSuggestions]
+          },
+          assertion: suggestions => {
+            expect(suggestions).to.be.empty;
+          }
+        });
       });
     });
   });
