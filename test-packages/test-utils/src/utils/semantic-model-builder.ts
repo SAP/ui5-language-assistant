@@ -3,6 +3,8 @@ import {
   UI5Namespace,
   UI5Class,
   UI5Aggregation,
+  UI5Prop,
+  UI5Event,
   UI5SemanticModel
 } from "@vscode-ui5/semantic-model-types";
 
@@ -18,6 +20,26 @@ const baseUI5NodeDefaults: BaseUI5Node = {
   since: undefined,
   visibility: "public"
 };
+
+export function buildUI5Property(opts: PartialWithName<UI5Prop>): UI5Prop {
+  return {
+    ...baseUI5NodeDefaults,
+    default: "",
+    kind: "UI5Prop",
+    // eslint rule disabled because our API allows returning "partially" valid UI5Prop for ease of use
+    /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+    type: undefined as any,
+    ...opts
+  };
+}
+
+export function buildUI5Event(opts: PartialWithName<UI5Event>): UI5Event {
+  return {
+    ...baseUI5NodeDefaults,
+    kind: "UI5Event",
+    ...opts
+  };
+}
 
 export function buildUI5Class(opts: PartialWithName<UI5Class>): UI5Class {
   return {

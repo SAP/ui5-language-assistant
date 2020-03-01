@@ -1,7 +1,10 @@
-import { expect } from "chai";
-import { flattenAggregations } from "../../src/api";
-import { buildUI5Class, buildUI5Aggregation } from "@vscode-ui5/test-utils";
 import { map } from "lodash";
+import { flattenAggregations } from "../../src/api";
+import {
+  buildUI5Aggregation,
+  buildUI5Class,
+  expectUnsortedEquality
+} from "@vscode-ui5/test-utils";
 
 describe("The @vscode-ui5/logic-utils <flattenAggregations> function", () => {
   const aggregationA1 = buildUI5Aggregation({
@@ -26,21 +29,21 @@ describe("The @vscode-ui5/logic-utils <flattenAggregations> function", () => {
     aggregations: [aggregationB1, aggregationB2]
   });
 
-  it("will return `direct` aggregations", () => {
-    const aggregations = flattenAggregations(clazzA);
-    const actualAggregationNames = map(aggregations, "name");
-    expect(actualAggregationNames).to.have.lengthOf(2);
-    expect(actualAggregationNames).to.include.members([
-      "aggregationA1",
-      "aggregationA2"
-    ]);
+  const clazzC = buildUI5Class({ name: "C", extends: clazzA });
+
+  it("direct aggregations", () => {
+    const actualNames = map(flattenAggregations(clazzA), "name");
+    expectUnsortedEquality(actualNames, ["aggregationA1", "aggregationA2"]);
   });
 
-  it("will return `borrowed` aggregations", () => {
-    const aggregations = flattenAggregations(clazzB);
-    const actualAggregationNames = map(aggregations, "name");
-    expect(actualAggregationNames).to.have.lengthOf(4);
-    expect(actualAggregationNames).to.include.members([
+  it("borrowed aggregations", () => {
+    const actualNames = map(flattenAggregations(clazzC), "name");
+    expectUnsortedEquality(actualNames, ["aggregationA1", "aggregationA2"]);
+  });
+
+  it("direct and borrowed aggregations", () => {
+    const actualNames = map(flattenAggregations(clazzB), "name");
+    expectUnsortedEquality(actualNames, [
       "aggregationA1",
       "aggregationA2",
       "aggregationB1",

@@ -4,6 +4,8 @@ import { IToken } from "chevrotain";
 import {
   UI5Aggregation,
   UI5Class,
+  UI5Event,
+  UI5Prop,
   UI5SemanticModel
 } from "@vscode-ui5/semantic-model-types";
 
@@ -32,7 +34,7 @@ export interface GetXMLViewCompletionsOpts {
 export interface XMLViewCompletion {
   // The Node we want to suggest as a possible completion.
   // Note this carries all the additional semantic data (deprecated/description/...).
-  ui5Node: UI5Class | UI5Aggregation;
+  ui5Node: UI5Class | UI5Aggregation | UI5Prop | UI5Event;
   // The specific ASTNode where the completion happened
   // may be useful for LSP Layer to implement Editor Level Logic.
   //   - e.g: the "additional text insertions" mentioned above.

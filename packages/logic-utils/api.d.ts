@@ -2,7 +2,9 @@ import { XMLElement } from "@xml-tools/ast";
 import {
   BaseUI5Node,
   UI5Aggregation,
-  UI5Class
+  UI5Class,
+  UI5Event,
+  UI5Prop
 } from "@vscode-ui5/semantic-model-types";
 
 /**
@@ -32,3 +34,13 @@ export function isControlSubClass(clazz: UI5Class): boolean;
  * Returns a list of all direct and borrowed aggregations of a UI5 Class
  */
 export function flattenAggregations(ui5Class: UI5Class): UI5Aggregation[];
+
+/**
+ * Returns a list of all direct and borrowed properties of a UI5 Class
+ */
+export function flattenProperties(ui5Class: UI5Class): UI5Prop[];
+
+/**
+ * Returns a list of all direct and borrowed events of a UI5 Class
+ */
+export function flattenEvents(ui5Class: UI5Class): UI5Event[];

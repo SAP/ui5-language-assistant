@@ -2,7 +2,9 @@ import {
   UI5Class,
   UI5Namespace,
   UI5Aggregation,
-  UI5SemanticModel
+  UI5SemanticModel,
+  UI5Prop,
+  UI5Event
 } from "@vscode-ui5/semantic-model-types";
 import { Json, TypeNameFix } from "@vscode-ui5/semantic-model";
 
@@ -15,6 +17,10 @@ export function buildUI5Namespace(
   opts: PartialWithName<UI5Namespace>
 ): UI5Namespace;
 
+export function buildUI5Property(opts: PartialWithName<UI5Prop>): UI5Prop;
+
+export function buildUI5Event(opts: PartialWithName<UI5Event>): UI5Event;
+
 export function buildUI5Aggregation(
   opts: PartialWithName<UI5Aggregation>
 ): UI5Aggregation;
@@ -24,6 +30,7 @@ export function buildUI5Model(
 ): UI5SemanticModel;
 
 export type TestModelVersion = "1.60.14" | "1.74.0";
+
 export function generateModel(version: TestModelVersion): UI5SemanticModel;
 
 export function loadLibraries(version: TestModelVersion): Record<string, Json>;
@@ -31,3 +38,8 @@ export function loadLibraries(version: TestModelVersion): Record<string, Json>;
 export function getTypeNameFixForVersion(
   version: TestModelVersion
 ): TypeNameFix;
+
+export function expectUnsortedEquality(
+  actual: string[],
+  expected: string[]
+): void;

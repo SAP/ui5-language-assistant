@@ -2,13 +2,16 @@ import { UI5SemanticModel } from "@vscode-ui5/semantic-model-types";
 import { XMLDocument, XMLElement } from "@xml-tools/ast";
 import {
   flattenAggregations,
-  isControlSubClass,
-  xmlToFQN
+  isControlSubClass
 } from "@vscode-ui5/logic-utils";
 
 import { XMLViewCompletion } from "../../../api";
-import { filter, map, compact, uniq, reject, includes } from "lodash";
-import { UI5ElementNameCompletionOptions } from "../../types";
+import { map, compact, uniq } from "lodash";
+import { UI5ElementNameCompletionOptions } from "./index";
+import {
+  filterMembersForSuggestion,
+  getClassByElement
+} from "../utils/filter-members";
 
 /**
  * Suggests Aggregation inside Controls
@@ -20,39 +23,34 @@ export function aggregationSuggestions(
   const parentAstNode = opts.element.parent;
 
   if (
-    areAggregationSuggestionsApplicable({
+    !areAggregationSuggestionsApplicable({
       parentAstNode,
       model: opts.context,
       prefix: opts.prefix
-    }) === false
+    })
   ) {
     return [];
   }
 
   // The checks in `areAggregationSuggestionsApplicable` ensure this cast.
   const parentXMLElement = parentAstNode as XMLElement;
-  const parentTagFqn = xmlToFQN(parentXMLElement);
-  const model = opts.context;
-  const parentUI5Class = model.classes[parentTagFqn];
-  const allAggregations = flattenAggregations(parentUI5Class);
-  const prefix = opts.prefix ? opts.prefix : "";
-  const prefixMatchingAggregations = filter(allAggregations, _ =>
-    // This filtering is case sensitive, which should fit UI5 XML Views
-    // Semantics as the first letter's case designates Class(upper) vs Aggregation(lower)
-    _.name.includes(prefix)
-  );
-  const preExistingSubElementNames = compact(
+  const parentUI5Class = getClassByElement(parentXMLElement, opts.context);
+
+  const prefix = opts.prefix ?? "";
+  const existingAggregations = compact(
     uniq(map(parentXMLElement.subElements, _ => _.name))
   );
-  const uniquePrefixMatchingAggregations = reject(
-    prefixMatchingAggregations,
-    _ => includes(preExistingSubElementNames, _.name)
+
+  const uniquePrefixMatchingAggregations = filterMembersForSuggestion(
+    flattenAggregations(parentUI5Class),
+    prefix,
+    existingAggregations
   );
-  const suggestions = map(uniquePrefixMatchingAggregations, _ => ({
+
+  return map(uniquePrefixMatchingAggregations, _ => ({
     ui5Node: _,
     astNode: opts.element
   }));
-  return suggestions;
 }
 
 function areAggregationSuggestionsApplicable(opts: {
@@ -70,12 +68,7 @@ function areAggregationSuggestionsApplicable(opts: {
     return false;
   }
 
-  const parentTagFqn = xmlToFQN(opts.parentAstNode);
-  const parentUI5Class = opts.model.classes[parentTagFqn];
+  const parentUI5Class = getClassByElement(opts.parentAstNode, opts.model);
   // An Aggregation is always directly nested inside a Control.
-  if (!isControlSubClass(parentUI5Class)) {
-    return false;
-  }
-
-  return true;
+  return parentUI5Class != undefined && isControlSubClass(parentUI5Class);
 }

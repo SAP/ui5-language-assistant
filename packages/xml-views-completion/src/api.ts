@@ -3,6 +3,7 @@ import { filter, includes } from "lodash";
 
 import { GetXMLViewCompletionsOpts, XMLViewCompletion } from "../api";
 import { elementNameProviders } from "./providers/elementName";
+import { attributeNameProviders } from "./providers/attributeName";
 import { UI5Visibility } from "@vscode-ui5/semantic-model-types";
 
 export function getXMLViewCompletions(
@@ -17,7 +18,7 @@ export function getXMLViewCompletions(
     providers: {
       elementContent: [],
       elementName: elementNameProviders,
-      attributeName: [],
+      attributeName: attributeNameProviders,
       attributeValue: []
     }
   });
