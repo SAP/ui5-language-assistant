@@ -8,7 +8,7 @@ steps:
     displayName: "Install Node.js"
 
   - script: |
-      yarn
+      yarn --pure-lockfile
     displayName: "Install Dependencies"
 
   - script: |
