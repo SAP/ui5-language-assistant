@@ -4,7 +4,11 @@ import { TestModelVersion } from "../../api";
 import { readdirSync } from "fs";
 import { readJsonSync } from "fs-extra";
 import { resolve, dirname } from "path";
-import { filter, reduce } from "lodash";
+import { filter, reduce, has } from "lodash";
+
+const MODEL_CACHE: Record<TestModelVersion, UI5SemanticModel> = Object.create(
+  null
+);
 
 const fixes: Record<TestModelVersion, TypeNameFix> = {
   "1.60.14": {
@@ -63,10 +67,22 @@ export function loadLibraries(version: TestModelVersion): Record<string, Json> {
   return libToFileContent;
 }
 
-export function generateModel(version: TestModelVersion): UI5SemanticModel {
+export function generateModel(
+  version: TestModelVersion,
+  disableCache = false
+): UI5SemanticModel {
+  if (has(MODEL_CACHE, version) && !disableCache) {
+    console.log(`loading model version ${version} from cache`);
+    return MODEL_CACHE[version];
+  }
+
   const libToFileContent = loadLibraries(version);
-  return generate({
+  const model = generate({
     libraries: libToFileContent,
     typeNameFix: getTypeNameFixForVersion(version)
   });
+  if (!disableCache) {
+    MODEL_CACHE[version] = model;
+  }
+  return model;
 }

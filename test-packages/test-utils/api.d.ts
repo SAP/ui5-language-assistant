@@ -31,7 +31,15 @@ export function buildUI5Model(
 
 export type TestModelVersion = "1.60.14" | "1.74.0";
 
-export function generateModel(version: TestModelVersion): UI5SemanticModel;
+/**
+ * Return a UI5SemanticModel for the specified version.
+ * @param version
+ * @param disableCache By default caching is used. This improves performance and is safe (since the model is immutable).
+ */
+export function generateModel(
+  version: TestModelVersion,
+  disableCache?: boolean
+): UI5SemanticModel;
 
 export function loadLibraries(version: TestModelVersion): Record<string, Json>;
 

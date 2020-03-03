@@ -1,21 +1,11 @@
 import { expect } from "chai";
-import {
-  loadLibraries,
-  getTypeNameFixForVersion,
-  TestModelVersion,
-  generateModel
-} from "@vscode-ui5/test-utils";
-import { generate } from "../src/api";
+import { TestModelVersion, generateModel } from "@vscode-ui5/test-utils";
 import { UI5SemanticModel } from "@vscode-ui5/semantic-model-types";
 
 describe("The ui5-vscode semantic model package", () => {
   function createGenerationIt(version: TestModelVersion): void {
     it(`Generate from ${version}`, () => {
-      const libToFileContent = loadLibraries(version);
-      const model = generate({
-        libraries: libToFileContent,
-        typeNameFix: getTypeNameFixForVersion(version)
-      });
+      const model = generateModel(version, true);
       expect(model).to.exist;
     });
   }

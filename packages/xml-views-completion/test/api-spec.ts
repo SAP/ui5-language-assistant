@@ -12,7 +12,6 @@ import { generateModel } from "@vscode-ui5/test-utils";
 import { getXMLViewCompletions } from "../src/api";
 import { XMLViewCompletion } from "../api";
 
-// TODO: avoid generation multiple times in each test file
 const REAL_UI5_MODEL: UI5SemanticModel = generateModel("1.74.0");
 
 describe("The `getXMLViewCompletions()` api", () => {
