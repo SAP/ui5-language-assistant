@@ -70,5 +70,5 @@ function areAggregationSuggestionsApplicable(opts: {
 
   const parentUI5Class = getClassByElement(opts.parentAstNode, opts.model);
   // An Aggregation is always directly nested inside a Control.
-  return parentUI5Class != undefined && isControlSubClass(parentUI5Class);
+  return parentUI5Class !== undefined && isControlSubClass(parentUI5Class);
 }
