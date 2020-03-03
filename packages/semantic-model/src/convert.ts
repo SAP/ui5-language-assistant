@@ -278,8 +278,8 @@ function convertMeta(
     deprecatedInfo: jsonMeta.deprecated
       ? {
           isDeprecated: true,
-          since: jsonMeta.deprecated.since ?? undefined,
-          text: jsonMeta.deprecated.text ?? undefined
+          since: jsonMeta.deprecated.since,
+          text: jsonMeta.deprecated.text
         }
       : undefined,
     visibility: jsonMeta.visibility
