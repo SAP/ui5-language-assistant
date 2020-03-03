@@ -1,9 +1,12 @@
 import { expect } from "chai";
-import { map } from "lodash";
+import { map, find } from "lodash";
 import { XMLElement, buildAst } from "@xml-tools/ast";
 import { parse, DocumentCstNode } from "@xml-tools/parser";
 
-import { UI5SemanticModel } from "@vscode-ui5/semantic-model-types";
+import {
+  UI5Aggregation,
+  UI5SemanticModel
+} from "@vscode-ui5/semantic-model-types";
 import { generateModel } from "@vscode-ui5/test-utils";
 
 import { getXMLViewCompletions } from "../src/api";
@@ -13,6 +16,35 @@ import { XMLViewCompletion } from "../api";
 const REAL_UI5_MODEL: UI5SemanticModel = generateModel("1.74.0");
 
 describe("The `getXMLViewCompletions()` api", () => {
+  it("will filter none public/protected suggestions", () => {
+    const xmlSnippet = `
+          <mvc:View
+            xmlns="sap.ui.core">
+            <XMLComposite>
+              <⇶
+            </XMLComposite>
+          </mvc:View>`;
+
+    const xmlCompositeClass =
+      REAL_UI5_MODEL.classes["sap.ui.core.XMLComposite"];
+    const _contentAggregation = find<UI5Aggregation>(
+      xmlCompositeClass.aggregations,
+      _ => _.name === "_content"
+    ) as UI5Aggregation;
+    expect(_contentAggregation).to.exist;
+    expect(_contentAggregation.visibility).to.equal("hidden");
+
+    testSuggestionsScenario({
+      model: REAL_UI5_MODEL,
+      xmlText: xmlSnippet,
+      assertion: suggestions => {
+        const suggestedNames = map(suggestions, _ => _.ui5Node.name);
+        expect(suggestedNames).to.not.be.empty;
+        expect(suggestedNames).to.not.include.members(["_content"]);
+      }
+    });
+  });
+
   it("will provide suggestions for aggregations", () => {
     const xmlSnippet = `
           <mvc:View
