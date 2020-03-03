@@ -29,29 +29,26 @@ export function propertyAndEventSuggestions(
   if (
     !arePropertyAndEventSuggestionsApplicable({
       astNode,
-      model: opts.context,
-      prefix: opts.prefix
+      model: opts.context
     })
   ) {
     return [];
   }
 
   const elementClass = getClassByElement(astNode, opts.context);
-
-  const allPropertiesAndEvents = (flattenProperties(elementClass) as (
-    | UI5Prop
-    | UI5Event
-  )[]).concat(flattenEvents(elementClass));
+  const allProps: (UI5Prop | UI5Event)[] = flattenProperties(elementClass);
+  const allEvents = flattenEvents(elementClass);
+  const allPropertiesAndEvents = allProps.concat(allEvents);
 
   const prefix = opts.prefix ?? "";
-  const existingPropertiesAndEvents = compact(
+  const existingPropertiesAndEventsNames = compact(
     uniq(map(astNode.attributes, _ => _.key))
   );
 
   const uniquePrefixMatchingAttributes = filterMembersForSuggestion(
     allPropertiesAndEvents,
     prefix,
-    existingPropertiesAndEvents
+    existingPropertiesAndEventsNames
   );
 
   return map(uniquePrefixMatchingAttributes, _ => ({
@@ -60,10 +57,15 @@ export function propertyAndEventSuggestions(
   }));
 }
 
+/**
+ * When no prefix exists there would be no corresponding XMLAttribute in the XML AST.
+ * By creating a "dummy" attribute we remain consistent with the expected API of `XMLViewCompletion`.
+ */
 function createDummyAttribute(parent: XMLElement): XMLAttribute {
   return {
     type: "XMLAttribute",
     key: null,
+    // Note the "dummy" XMLAttribute has a parent, however the parent does **not** reference the attribute.
     parent: parent,
     position: {
       startOffset: -1,
@@ -80,9 +82,8 @@ function createDummyAttribute(parent: XMLElement): XMLAttribute {
 
 function arePropertyAndEventSuggestionsApplicable(opts: {
   astNode: XMLElement;
-  prefix: string | undefined;
   model: UI5SemanticModel;
 }): boolean {
   const elementClass = getClassByElement(opts.astNode, opts.model);
-  return elementClass != undefined && isControlSubClass(elementClass);
+  return elementClass !== undefined && isControlSubClass(elementClass);
 }

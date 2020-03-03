@@ -44,7 +44,7 @@ const allPropertiesAndEvents = uiCoreControlProperties
 describe("The ui5-vscode xml-views-completion", () => {
   context("properties and events", () => {
     context("applicable scenarios", () => {
-      it("no prefix provided", () => {
+      it("will suggest when no prefix provided", () => {
         const xmlSnippet = `
         <mvc:View
           xmlns:mvc="sap.ui.core.mvc"
@@ -66,7 +66,7 @@ describe("The ui5-vscode xml-views-completion", () => {
         });
       });
 
-      it("filtered by prefix", () => {
+      it("will filter suggestions by prefix", () => {
         const xmlSnippet = `
         <mvc:View
           xmlns:mvc="sap.ui.core.mvc"
@@ -90,7 +90,7 @@ describe("The ui5-vscode xml-views-completion", () => {
         });
       });
 
-      it("filtered by existing", () => {
+      it("will filter suggestions by pre-existing attributes", () => {
         const xmlSnippet = `
         <mvc:View
           xmlns:mvc="sap.ui.core.mvc"
@@ -105,15 +105,15 @@ describe("The ui5-vscode xml-views-completion", () => {
             attributeName: [propertyAndEventSuggestions]
           },
           assertion: suggestions => {
-            expectAttributesSuggestions(
-              suggestions,
-              difference(allPropertiesAndEvents, ["busy"])
-            );
+            const expectedSuggestions = difference(allPropertiesAndEvents, [
+              "busy"
+            ]);
+            expectAttributesSuggestions(suggestions, expectedSuggestions);
           }
         });
       });
 
-      it("filtered by existing and prefix", () => {
+      it("will filter suggestions by both pre-existing and prefix", () => {
         const xmlSnippet = `
         <mvc:View
           xmlns:mvc="sap.ui.core.mvc"
@@ -138,7 +138,7 @@ describe("The ui5-vscode xml-views-completion", () => {
     });
 
     context("not applicable scenarios", () => {
-      it("unknown class", () => {
+      it("will not suggest for unknown UI5 class", () => {
         const xmlSnippet = `
         <mvc:View
           xmlns:mvc="sap.ui.core.mvc"
@@ -158,7 +158,7 @@ describe("The ui5-vscode xml-views-completion", () => {
         });
       });
 
-      it("class not inherited from Control", () => {
+      it("Will not suggest for a UI5 class which does not extend sap.ui.core.Control", () => {
         const xmlSnippet = `
         <mvc:View
           xmlns:mvc="sap.ui.core.mvc"

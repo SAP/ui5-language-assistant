@@ -28,10 +28,10 @@ export function filterMembersByNames<T extends WithName>(
 export function filterMembersForSuggestion<T extends WithName>(
   members: T[],
   prefix: string,
-  preExisingNames: string[]
+  preExistingNames: string[]
 ): T[] {
   const filteredMembersByPrefix = filterMembersByPrefix(members, prefix);
-  return filterMembersByNames(filteredMembersByPrefix, preExisingNames);
+  return filterMembersByNames(filteredMembersByPrefix, preExistingNames);
 }
 
 export function getClassByElement(
