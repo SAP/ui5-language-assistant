@@ -158,13 +158,13 @@ describe("The ui5-vscode xml-views-completion", () => {
         });
       });
 
-      it("Will not suggest for a UI5 class which does not extend sap.ui.core.Control", () => {
+      it("Will not suggest for a UI5 class which does not extend sap.ui.core.Element", () => {
         const xmlSnippet = `
         <mvc:View
           xmlns:mvc="sap.ui.core.mvc"
           xmlns="sap.ui.core">
-          <Control busy="true" b⇶>
-          </Control>
+          <Element busy="true" b⇶>
+          </Element>
         </mvc:View>`;
         testSuggestionsScenario({
           model: ui5SemanticModel,

@@ -1,8 +1,8 @@
 import { expect } from "chai";
 import { buildUI5Class, buildUI5Namespace } from "@vscode-ui5/test-utils";
-import { isControlSubClass } from "../../src/api";
+import { isElementSubClass } from "../../src/api";
 
-describe("The @vscode-ui5/logic-utils <isControlSubClass> function", () => {
+describe("The @vscode-ui5/logic-utils <isElementSubClass> function", () => {
   const sapNs = buildUI5Namespace({ name: "sap" });
 
   const uiNs = buildUI5Namespace({
@@ -15,34 +15,34 @@ describe("The @vscode-ui5/logic-utils <isControlSubClass> function", () => {
     parent: uiNs
   });
 
-  const control = buildUI5Class({
-    name: "Control",
+  const element = buildUI5Class({
+    name: "Element",
     parent: coreNs,
     library: "sap.ui.core"
   });
 
-  it("will identify UI5 Classes that are Controls", () => {
+  it("will identify UI5 Classes that are 'Elements'", () => {
     const page = buildUI5Class({
       name: "Page",
-      extends: control,
+      extends: element,
       library: "sap.ui.core"
     });
-    const actual = isControlSubClass(page);
+    const actual = isElementSubClass(page);
     expect(actual).to.be.true;
   });
 
-  it("will **not** identify random classes as UI5 Controls", () => {
+  it("will **not** identify random classes as UI5 'Elements'", () => {
     const bamba = buildUI5Class({
       name: "Bamba",
       parent: coreNs,
       library: "sap.ui.core"
     });
-    const actual = isControlSubClass(bamba);
+    const actual = isElementSubClass(bamba);
     expect(actual).to.be.false;
   });
 
-  it("will **not** identify undefined as UI5 Controls", () => {
-    const actual = isControlSubClass(undefined);
+  it("will **not** identify undefined as UI5 'Elements'", () => {
+    const actual = isElementSubClass(undefined);
     expect(actual).to.be.false;
   });
 });

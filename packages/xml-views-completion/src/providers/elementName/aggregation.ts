@@ -2,7 +2,7 @@ import { UI5SemanticModel } from "@vscode-ui5/semantic-model-types";
 import { XMLDocument, XMLElement } from "@xml-tools/ast";
 import {
   flattenAggregations,
-  isControlSubClass
+  isElementSubClass
 } from "@vscode-ui5/logic-utils";
 
 import { XMLViewCompletion } from "../../../api";
@@ -14,7 +14,7 @@ import {
 } from "../utils/filter-members";
 
 /**
- * Suggests Aggregation inside Controls
+ * Suggests Aggregation inside sap.ui.core.Element
  * For example: 'content' and 'footer' inside `sap.m.Page`
  */
 export function aggregationSuggestions(
@@ -69,6 +69,5 @@ function areAggregationSuggestionsApplicable(opts: {
   }
 
   const parentUI5Class = getClassByElement(opts.parentAstNode, opts.model);
-  // An Aggregation is always directly nested inside a Control.
-  return isControlSubClass(parentUI5Class);
+  return isElementSubClass(parentUI5Class);
 }

@@ -7,7 +7,7 @@ import {
 import {
   flattenEvents,
   flattenProperties,
-  isControlSubClass
+  isElementSubClass
 } from "@vscode-ui5/logic-utils";
 import { compact, map, uniq } from "lodash";
 import { UI5AttributeNameCompletionOptions } from "./index";
@@ -85,5 +85,5 @@ function arePropertyAndEventSuggestionsApplicable(opts: {
   model: UI5SemanticModel;
 }): boolean {
   const elementClass = getClassByElement(opts.astNode, opts.model);
-  return isControlSubClass(elementClass);
+  return isElementSubClass(elementClass);
 }

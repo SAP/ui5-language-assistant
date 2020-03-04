@@ -237,7 +237,7 @@ describe("The ui5-vscode xml-views-completion", () => {
         });
       });
 
-      it("will not suggest when the parent tag is a class which does not extend sap.ui.core.[Control|Element]", () => {
+      it("will not suggest when the parent tag is a class which does not extend sap.ui.core.Element", () => {
         const clonedModel = cloneDeep(REAL_UI5_MODEL);
         const dummyAggregation = buildUI5Aggregation({
           name: "dummy"
