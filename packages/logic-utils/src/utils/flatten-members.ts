@@ -1,5 +1,5 @@
-import { UI5Class } from "@vscode-ui5/semantic-model-types";
 import { partial } from "lodash";
+import { UI5Class } from "@vscode-ui5/semantic-model-types";
 
 function flattenMembers<T>(
   membersGetter: (ui5Class: UI5Class) => T[],

@@ -1167,6 +1167,11 @@
   resolved "https://registry.yarnpkg.com/@types/deep-equal-in-any-order/-/deep-equal-in-any-order-1.0.1.tgz#0559d855797a5034e187f248b23a4490e5444f2e"
   integrity sha512-hUWUUE53WjKfcCncSmWmNXVNNT+0Iz7gYFnov3zdCXrX3Thxp1Cnmfd5LwWOeCVUV5LhpiFgS05vaAG72doo9w==
 
+"@types/deep-equal-in-any-order@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@types/deep-equal-in-any-order/-/deep-equal-in-any-order-1.0.1.tgz#0559d855797a5034e187f248b23a4490e5444f2e"
+  integrity sha512-hUWUUE53WjKfcCncSmWmNXVNNT+0Iz7gYFnov3zdCXrX3Thxp1Cnmfd5LwWOeCVUV5LhpiFgS05vaAG72doo9w==
+
 "@types/deep-freeze-strict@1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@types/deep-freeze-strict/-/deep-freeze-strict-1.1.0.tgz#447a6a2576191344aa42310131dd3df5c41492c4"
@@ -2462,6 +2467,14 @@ deep-eql@^3.0.1:
     type-detect "^4.0.0"
 
 deep-equal-in-any-order@^1.0.24:
+  version "1.0.24"
+  resolved "https://registry.yarnpkg.com/deep-equal-in-any-order/-/deep-equal-in-any-order-1.0.24.tgz#d8873e4d58bf0035c9a2b4dd0eb95262d4c5689d"
+  integrity sha512-pbyzDMzLCfjK8uxkasjk8an4tliCaFobtXmDOuunExS6VtRfkhufGbfj+eArRKoU5y6WqEu/o6KdFCmfUnnymw==
+  dependencies:
+    lodash "^4.17.15"
+    sort-any "^1.1.21"
+
+deep-equal-in-any-order@1.0.24:
   version "1.0.24"
   resolved "https://registry.yarnpkg.com/deep-equal-in-any-order/-/deep-equal-in-any-order-1.0.24.tgz#d8873e4d58bf0035c9a2b4dd0eb95262d4c5689d"
   integrity sha512-pbyzDMzLCfjK8uxkasjk8an4tliCaFobtXmDOuunExS6VtRfkhufGbfj+eArRKoU5y6WqEu/o6KdFCmfUnnymw==

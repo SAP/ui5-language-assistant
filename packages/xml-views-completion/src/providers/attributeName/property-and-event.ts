@@ -85,5 +85,5 @@ function arePropertyAndEventSuggestionsApplicable(opts: {
   model: UI5SemanticModel;
 }): boolean {
   const elementClass = getClassByElement(opts.astNode, opts.model);
-  return elementClass !== undefined && isControlSubClass(elementClass);
+  return isControlSubClass(elementClass);
 }

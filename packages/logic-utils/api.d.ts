@@ -28,7 +28,7 @@ export function getSuperClasses(clazz: UI5Class): UI5Class[];
  * Returns `true` iff the provided class extends "sap.ui.core.Control"
  * - The inheritance relation may be transitive.
  */
-export function isControlSubClass(clazz: UI5Class): boolean;
+export function isControlSubClass(clazz: UI5Class | undefined): boolean;
 
 /**
  * Returns a list of all direct and borrowed aggregations of a UI5 Class

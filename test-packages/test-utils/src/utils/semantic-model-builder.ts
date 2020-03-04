@@ -26,9 +26,7 @@ export function buildUI5Property(opts: PartialWithName<UI5Prop>): UI5Prop {
     ...baseUI5NodeDefaults,
     default: "",
     kind: "UI5Prop",
-    // eslint rule disabled because our API allows returning "partially" valid UI5Prop for ease of use
-    /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-    type: undefined as any,
+    type: undefined,
     ...opts
   };
 }

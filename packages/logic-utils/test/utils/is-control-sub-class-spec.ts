@@ -40,4 +40,9 @@ describe("The @vscode-ui5/logic-utils <isControlSubClass> function", () => {
     const actual = isControlSubClass(bamba);
     expect(actual).to.be.false;
   });
+
+  it("will **not** identify undefined as UI5 Controls", () => {
+    const actual = isControlSubClass(undefined);
+    expect(actual).to.be.false;
+  });
 });
