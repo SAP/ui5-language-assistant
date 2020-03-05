@@ -1,10 +1,10 @@
-import { getSuggestions } from "@xml-tools/content-assist";
 import { filter, includes } from "lodash";
-
+import { getSuggestions } from "@xml-tools/content-assist";
+import { UI5Visibility } from "@vscode-ui5/semantic-model-types";
 import { GetXMLViewCompletionsOpts, XMLViewCompletion } from "../api";
 import { elementNameProviders } from "./providers/elementName";
 import { attributeNameProviders } from "./providers/attributeName";
-import { UI5Visibility } from "@vscode-ui5/semantic-model-types";
+import { attributeValueProviders } from "./providers/attributeValue";
 
 export function getXMLViewCompletions(
   opts: GetXMLViewCompletionsOpts
@@ -19,7 +19,7 @@ export function getXMLViewCompletions(
       elementContent: [],
       elementName: elementNameProviders,
       attributeName: attributeNameProviders,
-      attributeValue: []
+      attributeValue: attributeValueProviders
     }
   });
 

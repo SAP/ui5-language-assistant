@@ -61,6 +61,7 @@ typings/
 .next
 
 .idea
+.vscode
 
 # npm registry configuraiton
 .npmrc
