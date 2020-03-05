@@ -181,15 +181,19 @@ describe("The ui5-vscode xml-views-completion", () => {
   });
 });
 
+function expectXMLAttribute(
+  astNode: XMLElement | XMLAttribute
+): asserts astNode is XMLAttribute {
+  expect(astNode.type).to.equal("XMLAttribute");
+}
+
 function expectAttributesSuggestions(
   suggestions: XMLViewCompletion[],
   expected: string[]
 ): void {
   const suggestedNames = map(suggestions, _ => _.ui5Node.name);
   expectUnsortedEquality(suggestedNames, expected);
-  const suggestedAstNode = suggestions[0].astNode as XMLAttribute;
-  expect(suggestedAstNode.type).to.equal("XMLAttribute");
-  expect((suggestedAstNode.parent as XMLElement).name).to.equal(
-    "RadioButtonGroup"
-  );
+  const suggestedAstNode = suggestions[0].astNode;
+  expectXMLAttribute(suggestedAstNode);
+  expect(suggestedAstNode.parent.name).to.equal("RadioButtonGroup");
 }
