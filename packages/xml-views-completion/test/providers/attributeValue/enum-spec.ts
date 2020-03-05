@@ -136,13 +136,34 @@ describe("The ui5-vscode xml-views-completion", () => {
         });
       });
 
-      it("will not provide any suggestions when the property type has an undefined type, it won't be applicable enum suggestion", () => {
+      it("will not provide any suggestions when the property type is undefined", () => {
         const xmlSnippet = `
           <mvc:View
             xmlns:mvc="sap.ui.core.mvc"
             xmlns="sap.m">
             <App homeIcon = "⇶">
             </App>
+          </mvc:View>`;
+
+        testSuggestionsScenario({
+          model: ui5SemanticModel,
+          xmlText: xmlSnippet,
+          providers: {
+            attributeValue: [enumSuggestions]
+          },
+          assertion: suggestions => {
+            expect(suggestions).to.be.empty;
+          }
+        });
+      });
+
+      it("Will not suggest any enum values if there is no matching UI5 property", () => {
+        const xmlSnippet = `
+          <mvc:View
+            xmlns:mvc="sap.ui.core.mvc"
+            xmlns="sap.m">
+            <List UNKNOWN = "⇶">
+            </List>
           </mvc:View>`;
 
         testSuggestionsScenario({

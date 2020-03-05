@@ -1,13 +1,13 @@
 import { map, find } from "lodash";
 import { XMLAttribute } from "@xml-tools/ast";
 import { flattenProperties } from "@vscode-ui5/logic-utils";
-import { UI5Prop, UI5Enum } from "@vscode-ui5/semantic-model-types";
+import { UI5Enum, UI5Type } from "@vscode-ui5/semantic-model-types";
 import { XMLViewCompletion } from "../../../api";
-import { UI5AttributeValueCompletionOptions } from "./index";
 import {
   getClassByElement,
   filterMembersForSuggestion
 } from "../utils/filter-members";
+import { UI5AttributeValueCompletionOptions } from "./index";
 
 /**
  * Suggests Enum value inside Attribute
@@ -19,15 +19,14 @@ export function enumSuggestions(
   const astNode = opts.attribute as XMLAttribute;
   const elementClass = getClassByElement(opts.element, opts.context);
   const properties = flattenProperties(elementClass);
-  const property = find(properties, ["name", astNode.key]) as UI5Prop;
+  const ui5Property = find(properties, ["name", astNode.key]);
+  const propType = ui5Property?.type;
 
-  if (!areEnumSuggestionsApplicable({ property })) {
+  if (!areEnumSuggestionsApplicable(propType)) {
     return [];
   }
 
-  const ui5Enum = property.type as UI5Enum;
-  const fields = ui5Enum.fields;
-
+  const fields = propType.fields;
   const prefix = opts.prefix ?? "";
   const prefixMatchingEnumValues = filterMembersForSuggestion(
     fields,
@@ -42,9 +41,8 @@ export function enumSuggestions(
   return suggestions;
 }
 
-function areEnumSuggestionsApplicable(opts: { property: UI5Prop }): boolean {
-  if (opts.property.type?.kind !== "UI5Enum") {
-    return false;
-  }
-  return true;
+function areEnumSuggestionsApplicable(
+  type: UI5Type | undefined
+): type is UI5Enum {
+  return type?.kind === "UI5Enum";
 }
