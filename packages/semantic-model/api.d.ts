@@ -1,4 +1,7 @@
-import { UI5SemanticModel } from "@vscode-ui5/semantic-model-types";
+import {
+  BaseUI5Node,
+  UI5SemanticModel
+} from "@vscode-ui5/semantic-model-types";
 
 export type TypeNameFix = Parameters<typeof generate>[0]["typeNameFix"];
 
@@ -17,3 +20,13 @@ export function generate(opts: {
   typeNameFix: Record<string, string | undefined>;
   strict?: boolean;
 }): UI5SemanticModel;
+
+/**
+ * Run the iteratee on each root symbol in the model
+ * @param model
+ * @param iteratee
+ */
+export function forEachSymbol(
+  model: UI5SemanticModel,
+  iteratee: (symbol: BaseUI5Node, fqn: string) => boolean | void
+): void;

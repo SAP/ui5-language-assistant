@@ -1,6 +1,6 @@
 import { UI5SemanticModel } from "@vscode-ui5/semantic-model-types";
 import { GENERATED_LIBRARY } from "./api";
-import { getParentFqn, newMap, forEachMap } from "./utils";
+import { getParentFqn, newMap, forEachSymbol } from "./utils";
 import { has } from "lodash";
 
 export function generateMissingSymbols(
@@ -12,17 +12,9 @@ export function generateMissingSymbols(
 }
 
 function addImplicitNamespacesForModel(model: UI5SemanticModel): void {
-  forEachMap<{ name: string }>(
-    (value, key) => {
-      addImplicitParentNamespaces(model, key, value.name);
-    },
-    model.classes,
-    model.enums,
-    model.namespaces,
-    model.interfaces,
-    model.typedefs,
-    model.functions
-  );
+  forEachSymbol(model, (value, key) => {
+    addImplicitParentNamespaces(model, key, value.name);
+  });
 }
 
 function addImplicitParentNamespaces(

@@ -344,7 +344,7 @@ function convertField(
     parent: parent,
     type: {
       kind: "UnresolvedType",
-      type: jsonProperty.type
+      name: jsonProperty.type
     }
   };
   return field;
@@ -363,7 +363,7 @@ function convertProperty(
     parent: parent,
     type: {
       kind: "UnresolvedType",
-      type: jsonProperty.type
+      name: jsonProperty.type
     },
     default: cloneDeep(jsonProperty.defaultValue)
   };
@@ -398,12 +398,12 @@ function convertAggregation(
     parent: parent,
     type: {
       kind: "UnresolvedType",
-      type: jsonAggregation.type
+      name: jsonAggregation.type
     },
     altTypes: isArray(jsonAggregation.altTypes)
       ? map(jsonAggregation.altTypes, _ => ({
           kind: "UnresolvedType",
-          type: _
+          name: _
         }))
       : [],
     cardinality: jsonAggregation.cardinality
@@ -424,7 +424,7 @@ function convertAssociation(
     parent: parent,
     type: {
       kind: "UnresolvedType",
-      type: jsonAssociation.type
+      name: jsonAssociation.type
     },
     cardinality: jsonAssociation.cardinality
   };

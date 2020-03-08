@@ -6,7 +6,7 @@ import {
 } from "@vscode-ui5/semantic-model-types";
 import { TypeNameFix } from "../api";
 import { Symbol as JsonSymbol, Class } from "./apiJson";
-import { error, getParentFqn, findKeyInMaps } from "./utils";
+import { error, getParentFqn, findValueInMaps } from "./utils";
 import { forEach, has, find, map, compact, pickBy } from "lodash";
 
 export function resolveSemanticProperties(
@@ -23,7 +23,7 @@ export function resolveSemanticProperties(
     const parentFqn = fixTypeName(getParentFqn(fqn, symbol.name), typeNameFix);
     if (parentFqn !== undefined) {
       // A limited set of objects have a class as their parent
-      const parent = findKeyInMaps<BaseUI5Node>(
+      const parent = findValueInMaps<BaseUI5Node>(
         parentFqn,
         model.namespaces,
         model.classes
@@ -53,7 +53,7 @@ export function resolveSemanticProperties(
       // Ignore undefined and object types since they don't provide any type information for extends
       if (
         extendsType !== undefined &&
-        !(extendsType.kind === "PrimitiveType" && extendsType.type === "Object")
+        !(extendsType.kind === "PrimitiveType" && extendsType.name === "Object")
       ) {
         /* istanbul ignore if */
         if (extendsType.kind !== "UI5Class") {
@@ -105,6 +105,9 @@ export function resolveSemanticProperties(
       }
     }
     forEach(classs.properties, _ => {
+      _.type = resolveType(model, _.type, typeNameFix, strict);
+    });
+    forEach(classs.fields, _ => {
       _.type = resolveType(model, _.type, typeNameFix, strict);
     });
     forEach(classs.aggregations, _ => {
@@ -183,7 +186,7 @@ function resolveType(
   if (typeof type === "string") {
     type = {
       kind: "UnresolvedType",
-      type: type
+      name: type
     };
   }
 
@@ -193,12 +196,12 @@ function resolveType(
     return type;
   }
 
-  const typeName = fixTypeName(type.type, typeNameFix);
+  const typeName = fixTypeName(type.name, typeNameFix);
   if (typeName === undefined) {
     return undefined;
   }
 
-  const typeObj = findKeyInMaps<UI5Type>(
+  const typeObj = findValueInMaps<UI5Type>(
     typeName,
     model.classes,
     model.interfaces,
@@ -214,7 +217,7 @@ function resolveType(
   if (primitiveTypeName !== undefined) {
     return {
       kind: "PrimitiveType",
-      type: primitiveTypeName
+      name: primitiveTypeName
     };
   }
   /* istanbul ignore else */
@@ -229,7 +232,7 @@ function resolveType(
     error(`Unknown type: ${typeName}`, strict);
     return {
       kind: "UnresolvedType",
-      type: typeName
+      name: typeName
     };
   }
 }

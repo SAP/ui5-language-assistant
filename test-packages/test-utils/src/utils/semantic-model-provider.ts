@@ -72,7 +72,6 @@ export function generateModel(
   disableCache = false
 ): UI5SemanticModel {
   if (has(MODEL_CACHE, version) && !disableCache) {
-    console.log(`loading model version ${version} from cache`);
     return MODEL_CACHE[version];
   }
 

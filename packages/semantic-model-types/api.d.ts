@@ -147,12 +147,12 @@ export interface ArrayType {
 
 export interface PrimitiveType {
   kind: "PrimitiveType";
-  type: PrimitiveTypeName;
+  name: PrimitiveTypeName;
 }
 
 export interface UnresolvedType {
   kind: "UnresolvedType";
-  type: string;
+  name: string;
 }
 
 export type UI5Type =

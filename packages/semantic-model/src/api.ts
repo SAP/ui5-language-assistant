@@ -27,3 +27,5 @@ export function generate({
   resolveSemanticProperties(model, jsonSymbols, typeNameFix, strict);
   return deepFreezeStrict(model);
 }
+
+export { forEachSymbol } from "./utils";

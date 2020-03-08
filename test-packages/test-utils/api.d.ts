@@ -51,3 +51,22 @@ export function expectUnsortedEquality(
   actual: string[],
   expected: string[]
 ): void;
+
+export function isObject(value: unknown): value is Record<string, unknown>;
+
+export function getFQN(model: UI5SemanticModel, target: unknown): string;
+
+export function expectExists(value: unknown, message: string): asserts value;
+
+export function expectProperty<T>(
+  value: unknown,
+  property: keyof T & string,
+  message: string
+): asserts value is T;
+
+export function expectModelObjectsEqual(
+  model: UI5SemanticModel,
+  value: unknown,
+  expectedValue: unknown,
+  message: string
+): void;
