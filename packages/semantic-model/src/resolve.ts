@@ -6,8 +6,34 @@ import {
 } from "@vscode-ui5/semantic-model-types";
 import { TypeNameFix } from "../api";
 import { Symbol as JsonSymbol, Class } from "./apiJson";
-import { error, getParentFqn, findValueInMaps } from "./utils";
-import { forEach, has, find, map, compact, pickBy } from "lodash";
+import { error, getParentFqn, findValueInMaps, findSymbol } from "./utils";
+import {
+  forEach,
+  has,
+  find,
+  map,
+  compact,
+  pickBy,
+  isArray,
+  isPlainObject
+} from "lodash";
+
+// Exported for testing purpose
+export function setParent(
+  model: UI5SemanticModel,
+  fqn: string,
+  symbol: BaseUI5Node
+): void {
+  const parentFqn = getParentFqn(fqn, symbol.name);
+  if (parentFqn !== undefined) {
+    const parent = findSymbol(model, parentFqn);
+    if (parent === undefined) {
+      // Always throwing an error because we add these symbols implicitly so an error here means we have a bug
+      error(`Symbol ${parentFqn} not found (should be parent of ${fqn})`, true);
+    }
+    symbol.parent = parent;
+  }
+}
 
 export function resolveSemanticProperties(
   model: UI5SemanticModel,
@@ -15,47 +41,22 @@ export function resolveSemanticProperties(
   typeNameFix: TypeNameFix,
   strict: boolean
 ): void {
-  function setParent(
-    model: UI5SemanticModel,
-    fqn: string,
-    symbol: BaseUI5Node
-  ): void {
-    const parentFqn = fixTypeName(getParentFqn(fqn, symbol.name), typeNameFix);
-    if (parentFqn !== undefined) {
-      // A limited set of objects have a class as their parent
-      const parent = findValueInMaps<BaseUI5Node>(
-        parentFqn,
-        model.namespaces,
-        model.classes
-      );
-      /* istanbul ignore if */
-      if (parent === undefined) {
-        error(
-          `Namespace or class ${parentFqn} not found (should be parent of ${fqn})`,
-          strict
-        );
-      }
-      symbol.parent = parent;
-    }
-  }
+  const resolveTypePartial = (
+    type: Parameters<typeof resolveType>[0]["type"]
+  ): ReturnType<typeof resolveType> =>
+    resolveType({ model, type, typeNameFix, strict });
 
   for (const key in model.classes) {
     const classs = model.classes[key];
     setParent(model, key, classs);
     const jsonSymbol = symbols[key] as Class;
     if (jsonSymbol.extends !== undefined) {
-      const extendsType = resolveType(
-        model,
-        jsonSymbol.extends,
-        typeNameFix,
-        strict
-      );
+      const extendsType = resolveTypePartial(jsonSymbol.extends);
       // Ignore undefined and object types since they don't provide any type information for extends
       if (
         extendsType !== undefined &&
         !(extendsType.kind === "PrimitiveType" && extendsType.name === "Object")
       ) {
-        /* istanbul ignore if */
         if (extendsType.kind !== "UI5Class") {
           error(
             `${jsonSymbol.extends} is a ${extendsType.kind} and not a class (class ${key} extends it)`,
@@ -66,16 +67,10 @@ export function resolveSemanticProperties(
         classs.extends = extendsType;
       }
     }
-    if (jsonSymbol.implements) {
+    if (isArray(jsonSymbol.implements)) {
       for (const interfacee of jsonSymbol.implements) {
-        const interfaceType = resolveType(
-          model,
-          interfacee,
-          typeNameFix,
-          strict
-        );
+        const interfaceType = resolveTypePartial(interfacee);
         if (interfaceType !== undefined) {
-          /* istanbul ignore if */
           if (interfaceType.kind !== "UI5Interface") {
             error(
               `${interfacee} is a ${interfaceType.kind} and not an interface (class ${key} implements it)`,
@@ -96,7 +91,6 @@ export function resolveSemanticProperties(
         classs.aggregations,
         _ => _.name === defaultAggregation
       );
-      /* istanbul ignore if */
       if (classs.defaultAggregation === undefined) {
         error(
           `Unknown default aggregation ${defaultAggregation} in class ${key}`,
@@ -105,19 +99,17 @@ export function resolveSemanticProperties(
       }
     }
     forEach(classs.properties, _ => {
-      _.type = resolveType(model, _.type, typeNameFix, strict);
+      _.type = resolveTypePartial(_.type);
     });
     forEach(classs.fields, _ => {
-      _.type = resolveType(model, _.type, typeNameFix, strict);
+      _.type = resolveTypePartial(_.type);
     });
     forEach(classs.aggregations, _ => {
-      _.type = resolveType(model, _.type, typeNameFix, strict);
-      _.altTypes = compact(
-        map(_.altTypes, _ => resolveType(model, _, typeNameFix, strict))
-      );
+      _.type = resolveTypePartial(_.type);
+      _.altTypes = compact(map(_.altTypes, resolveTypePartial));
     });
     forEach(classs.associations, _ => {
-      _.type = resolveType(model, _.type, typeNameFix, strict);
+      _.type = resolveTypePartial(_.type);
     });
   }
 
@@ -130,7 +122,7 @@ export function resolveSemanticProperties(
     const namespace = model.namespaces[key];
     setParent(model, key, namespace);
     forEach(namespace.fields, _ => {
-      _.type = resolveType(model, _.type, typeNameFix, strict);
+      _.type = resolveTypePartial(_.type);
     });
   }
 
@@ -164,10 +156,7 @@ function fixTypeName(
   fqn: string | undefined,
   typeNameFix: TypeNameFix
 ): string | undefined {
-  if (fqn === undefined) {
-    return undefined;
-  }
-  if (ignoreType(fqn)) {
+  if (fqn === undefined || ignoreType(fqn)) {
     return undefined;
   }
   if (has(typeNameFix, fqn)) {
@@ -176,12 +165,18 @@ function fixTypeName(
   return fqn;
 }
 
-function resolveType(
-  model: UI5SemanticModel,
-  type: UI5Type | string | undefined,
-  typeNameFix: TypeNameFix,
-  strict: boolean
-): UI5Type | undefined {
+// Exported for testing purpose
+export function resolveType({
+  model,
+  type,
+  typeNameFix,
+  strict
+}: {
+  model: UI5SemanticModel;
+  type: UI5Type | string | undefined;
+  typeNameFix: TypeNameFix;
+  strict: boolean;
+}): UI5Type | undefined {
   // String types are unresolved
   if (typeof type === "string") {
     type = {
@@ -190,8 +185,12 @@ function resolveType(
     };
   }
 
+  // Invalid type - this can only happen if the schema validation failed and we're in non-strict mode
+  if (!isPlainObject(type)) {
+    return undefined;
+  }
+
   // Before resolving all types are UnresolvedType or undefined
-  /* istanbul ignore if */
   if (type === undefined || type.kind !== "UnresolvedType") {
     return type;
   }
@@ -220,10 +219,14 @@ function resolveType(
       name: primitiveTypeName
     };
   }
-  /* istanbul ignore else */
   if (typeName.endsWith("[]")) {
     const innerTypeName = typeName.substring(0, typeName.length - "[]".length);
-    const innerType = resolveType(model, innerTypeName, typeNameFix, strict);
+    const innerType = resolveType({
+      model,
+      type: innerTypeName,
+      typeNameFix,
+      strict
+    });
     return {
       kind: "ArrayType",
       type: innerType

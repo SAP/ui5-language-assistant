@@ -16,7 +16,6 @@ export function getParentFqn(fqn: string, name: string): string | undefined {
   return undefined;
 }
 
-/* istanbul ignore next */
 export function error(message: string, throwError: boolean): void {
   if (throwError) {
     throw new Error(message);
@@ -37,11 +36,11 @@ export function findValueInMaps<T>(
   return undefined;
 }
 
-export function forEachSymbol(
-  model: UI5SemanticModel,
-  iteratee: (v: BaseUI5Node, k: string) => boolean | void
-): void {
-  const typeMaps = [
+// Exported for testing purpose
+export function getSymbolMaps(
+  model: UI5SemanticModel
+): Record<string, BaseUI5Node>[] {
+  return [
     model.classes,
     model.enums,
     model.namespaces,
@@ -49,6 +48,20 @@ export function forEachSymbol(
     model.typedefs,
     model.functions
   ];
+}
+
+export function findSymbol(
+  model: UI5SemanticModel,
+  fqn: string
+): BaseUI5Node | undefined {
+  return findValueInMaps<BaseUI5Node>(fqn, ...getSymbolMaps(model));
+}
+
+export function forEachSymbol(
+  model: UI5SemanticModel,
+  iteratee: (v: BaseUI5Node, k: string) => boolean | void
+): void {
+  const typeMaps = getSymbolMaps(model);
   main: for (const mapElement of typeMaps) {
     for (const key in mapElement) {
       const keepIterating = iteratee(mapElement[key], key);

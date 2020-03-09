@@ -1,7 +1,6 @@
 import { UI5SemanticModel } from "@vscode-ui5/semantic-model-types";
 import { GENERATED_LIBRARY } from "./api";
-import { getParentFqn, newMap, forEachSymbol } from "./utils";
-import { has } from "lodash";
+import { getParentFqn, newMap, forEachSymbol, findSymbol } from "./utils";
 
 export function generateMissingSymbols(
   model: UI5SemanticModel,
@@ -23,11 +22,7 @@ function addImplicitParentNamespaces(
   name: string
 ): void {
   const parentFqn = getParentFqn(fqn, name);
-  if (
-    parentFqn !== undefined &&
-    !has(model.namespaces, parentFqn) &&
-    !has(model.classes, parentFqn)
-  ) {
+  if (parentFqn !== undefined && findSymbol(model, parentFqn) === undefined) {
     // Take the name starting from the last dot (or the entire name if there is no dot)
     const parentName = parentFqn.substring(parentFqn.lastIndexOf(".") + 1);
     model.namespaces[parentFqn] = {
@@ -45,7 +40,6 @@ function addImplicitParentNamespaces(
       since: undefined,
       deprecatedInfo: undefined
     };
-    /* istanbul ignore else */
     if (parentFqn !== parentName) {
       addImplicitParentNamespaces(model, parentFqn, parentName);
     }

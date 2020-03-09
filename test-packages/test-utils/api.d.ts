@@ -26,7 +26,7 @@ export function buildUI5Aggregation(
 ): UI5Aggregation;
 
 export function buildUI5Model(
-  opts: PartialWithName<UI5SemanticModel>
+  opts: Partial<UI5SemanticModel>
 ): UI5SemanticModel;
 
 export type TestModelVersion = "1.60.14" | "1.74.0";

@@ -86,7 +86,7 @@ export function buildUI5Aggregation(
 }
 
 export function buildUI5Model(
-  opts: PartialWithName<UI5SemanticModel>
+  opts: Partial<UI5SemanticModel>
 ): UI5SemanticModel {
   return {
     classes: {},

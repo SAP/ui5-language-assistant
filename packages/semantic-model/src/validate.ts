@@ -6,35 +6,49 @@ import { isArray, isPlainObject, isEmpty, keys, difference } from "lodash";
 type BaseType = "string" | "boolean" | "number";
 type ObjectType = { [key: string]: PropertyType };
 type PropertyType = BaseType | ObjectType | [PropertyType] | undefined;
+
+const METADATA_PROPS: ObjectType = {
+  static: "boolean",
+  visibility: "string",
+  description: "string",
+  since: "string",
+  deprecated: {
+    since: "string",
+    text: "string"
+  },
+  experimental: {
+    since: "string",
+    text: "string"
+  },
+  examples: [
+    {
+      caption: "string",
+      text: "string"
+    }
+  ],
+  references: ["string"]
+};
+const SYMBOL_PROPS: ObjectType = {
+  ...METADATA_PROPS,
+  kind: "string",
+  name: "string",
+  basename: "string",
+  resource: "string",
+  module: "string",
+  export: "string",
+  "ui5-metamodel": "boolean"
+};
 const KNOWN_PROPS_MAP: Record<string, ObjectType> = {
   namespace: {
-    kind: "string",
-    name: "string",
-    basename: "string",
-    resource: "string",
-    module: "string",
-    export: "string",
-    static: "boolean",
-    visibility: "string",
-    description: "string",
-    since: "string",
-    "ui5-metamodel": "boolean",
+    ...SYMBOL_PROPS,
+    final: "boolean",
     "ui5-metadata": undefined,
     properties: [undefined],
     methods: [undefined],
     references: ["string"],
-    final: "boolean",
-    deprecated: {
-      since: "string",
-      text: "string"
-    },
     events: [undefined],
     abstract: "boolean",
     extends: "string",
-    experimental: {
-      since: "string",
-      text: "string"
-    },
     examples: [
       {
         caption: "string",
@@ -43,101 +57,62 @@ const KNOWN_PROPS_MAP: Record<string, ObjectType> = {
     ]
   },
   class: {
-    kind: "string",
-    name: "string",
-    basename: "string",
-    resource: "string",
-    module: "string",
-    export: "string",
-    "ui5-metamodel": "boolean",
-    static: "boolean",
-    visibility: "string",
-    description: "string",
-    since: "string",
-    deprecated: {
-      since: "string",
-      text: "string"
+    ...SYMBOL_PROPS,
+    final: "boolean",
+    "ui5-metadata": {
+      stereotype: "string",
+      metadataClass: "string",
+      properties: [undefined],
+      defaultProperty: "string",
+      aggregations: [undefined],
+      defaultAggregation: "string",
+      associations: [undefined],
+      events: [
+        {
+          ...METADATA_PROPS,
+          name: "string",
+          parameters: undefined,
+          methods: [undefined]
+        }
+      ],
+      designtime: "string",
+      specialSettings: [undefined],
+      dnd: {
+        draggable: "boolean",
+        droppable: "boolean"
+      }
     },
-    experimental: {
-      since: "string",
-      text: "string"
-    },
-    "ui5-metadata": undefined,
     extends: "string",
     constructor: undefined,
-    events: [undefined],
+    events: [
+      {
+        ...METADATA_PROPS,
+        name: "string",
+        parameters: [undefined],
+        module: "string",
+        resource: "string"
+      }
+    ],
     methods: [undefined],
-    implements: [undefined],
+    implements: ["string"],
     abstract: "boolean",
-    properties: [undefined],
-    final: "boolean"
+    properties: [undefined]
   },
   enum: {
-    kind: "string",
-    name: "string",
-    basename: "string",
-    resource: "string",
-    module: "string",
-    export: "string",
-    static: "boolean",
-    visibility: "string",
-    description: "string",
-    since: "string",
-    "ui5-metamodel": "boolean",
+    ...SYMBOL_PROPS,
     "ui5-metadata": {
       stereotype: "string"
-    },
-    deprecated: {
-      since: "string",
-      text: "string"
-    },
-    experimental: {
-      since: "string",
-      text: "string"
     },
     references: ["string"],
     properties: [undefined]
   },
   interface: {
-    kind: "string",
-    name: "string",
-    basename: "string",
-    resource: "string",
-    module: "string",
-    export: "string",
-    static: "boolean",
-    visibility: "string",
-    description: "string",
-    since: "string",
-    "ui5-metamodel": "boolean",
-    deprecated: {
-      since: "string",
-      text: "string"
-    },
-    experimental: {
-      since: "string",
-      text: "string"
-    },
-    references: ["string"],
+    ...SYMBOL_PROPS,
     methods: [undefined],
     events: [undefined]
   },
   function: {
-    kind: "string",
-    name: "string",
-    basename: "string",
-    resource: "string",
-    module: "string",
-    export: "string",
-    visibility: "string",
-    description: "string",
-    since: "string",
-    examples: [
-      {
-        caption: "string",
-        text: "string"
-      }
-    ],
+    ...SYMBOL_PROPS,
     parameters: [
       {
         name: "string",
@@ -160,16 +135,7 @@ const KNOWN_PROPS_MAP: Record<string, ObjectType> = {
     ]
   },
   typedef: {
-    kind: "string",
-    name: "string",
-    basename: "string",
-    resource: "string",
-    module: "string",
-    export: "string",
-    static: "boolean",
-    visibility: "string",
-    description: "string",
-    since: "string",
+    ...SYMBOL_PROPS,
     properties: [undefined],
     parameters: [undefined],
     returnValue: {
@@ -184,13 +150,11 @@ export function isLibraryFile(
   fileContent: Json,
   strict: boolean
 ): fileContent is LibraryFile {
-  /* istanbul ignore if */
   if (!isPlainObject(fileContent)) {
     return false;
   }
   const fileContentObj = fileContent as Record<string, unknown>;
 
-  /* istanbul ignore if */
   if (typeof fileContentObj["$schema-ref"] !== "string") {
     error(`${fileName}: $schema-ref is not a string`, false);
     // This error is not critical since we don't use this field
@@ -198,7 +162,6 @@ export function isLibraryFile(
       return false;
     }
   }
-  /* istanbul ignore if */
   if (typeof fileContentObj.version !== "string") {
     error(`${fileName}: version is not a string`, false);
     // This error is not critical since we don't use this field
@@ -206,7 +169,6 @@ export function isLibraryFile(
       return false;
     }
   }
-  /* istanbul ignore if */
   if (
     fileContentObj.library !== undefined &&
     typeof fileContentObj.library !== "string"
@@ -218,7 +180,6 @@ export function isLibraryFile(
     }
   }
 
-  /* istanbul ignore if */
   if (!isArray(fileContentObj.symbols)) {
     error(`${fileName}: symbols is not an array`, false);
     return false;
@@ -227,7 +188,6 @@ export function isLibraryFile(
   let allSymbolsAreValid = true;
   const unknownSymbolKinds: Record<string, boolean> = {};
   for (const symbol of fileContentObj.symbols) {
-    /* istanbul ignore if */
     if (!KNOWN_PROPS_MAP[symbol.kind]) {
       unknownSymbolKinds[symbol.kind] = true;
       continue;
@@ -242,7 +202,6 @@ export function isLibraryFile(
         strict
       );
   }
-  /* istanbul ignore if */
   if (!isEmpty(unknownSymbolKinds)) {
     error(
       `${fileName}: unknown symbol kinds ${JSON.stringify(
@@ -256,18 +215,17 @@ export function isLibraryFile(
   }
   return allSymbolsAreValid;
 }
-
-function isValidValue(
+// Exported for testing purpose
+export function isValidValue(
   symbolFQN: string,
   typeFQN: string,
   value: unknown,
   valueType: PropertyType,
   strict: boolean
 ): boolean {
-  // Undefined means don't validate. We also don't validate undefined values because some properties are optional.
+  // Undefined valueType means don't validate. We also don't validate if value is undefined because some properties are optional.
   if (valueType !== undefined && value !== undefined) {
     if (typeof valueType === "string") {
-      /* istanbul ignore if */
       if (typeof value !== valueType) {
         error(
           `${symbolFQN}: unexpected value ${value}, expected value of type ${valueType}`,
@@ -276,14 +234,12 @@ function isValidValue(
         return !strict;
       }
     } else if (isArray(valueType)) {
-      /* istanbul ignore if */
       if (!isArray(value)) {
         error(`${symbolFQN}: unexpected value ${value}, expected array`, false);
         return !strict;
       }
       return isValidArray(symbolFQN, typeFQN, value, valueType, strict);
-    } /* istanbul ignore else */ else if (isPlainObject(valueType)) {
-      /* istanbul ignore if */
+    } else if (isObjectType(valueType)) {
       if (!isPlainObject(value)) {
         error(
           `${symbolFQN}: unexpected value ${value}, expected object`,
@@ -299,11 +255,15 @@ function isValidValue(
         strict
       );
     } else {
-      error(`Unexpected value type ${valueType}`, false);
-      return !strict;
+      // Basically this cannot happen because typescript validates it (the type of valueType is never) but it's needed for coverage
+      error(`Unexpected value type ${valueType}`, true);
     }
   }
   return true;
+}
+
+function isObjectType(valueType: PropertyType): valueType is ObjectType {
+  return isPlainObject(valueType);
 }
 
 function isValidObject(
@@ -316,12 +276,11 @@ function isValidObject(
   const objProps = keys(symbol);
   const unexpectedProps = difference(objProps, Object.keys(type));
 
-  /* istanbul ignore if */
   if (!isEmpty(unexpectedProps)) {
     error(
-      `Unexpected properties for object ${
-        symbol.name
-      } of kind ${typeFQN}: ${JSON.stringify(unexpectedProps)}`,
+      `Unexpected properties for object ${symbolFQN} of type ${typeFQN}: ${JSON.stringify(
+        unexpectedProps
+      )}`,
       false
     );
     if (strict) {

@@ -12,11 +12,10 @@ const MODEL_CACHE: Record<TestModelVersion, UI5SemanticModel> = Object.create(
 
 const fixes: Record<TestModelVersion, TypeNameFix> = {
   "1.60.14": {
-    "{sap.ui.layout.cssgrid.IGridConfigurable}":
-      "sap.ui.layout.cssgrid.IGridConfigurable",
+    "{sap.ui.layout.cssgrid.IGridConfigurable}": undefined,
     "sap.m.IHyphenation": undefined,
     "sap.ui.core.IDScope": undefined,
-    "sap.m.TimePickerSlider": "sap.m.TimePickerSliders",
+    "sap.m.TimePickerSlider": undefined,
     "sap.ui.layout.ResponsiveSplitterPage": undefined,
     "sap.ui.layout.cssgrid.CSSGridTrack": undefined,
     "sap.ui.layout.cssgrid.CSSGridGapShortHand": undefined,
@@ -24,7 +23,7 @@ const fixes: Record<TestModelVersion, TypeNameFix> = {
   },
   "1.74.0": {
     "sap.m.PlanningCalendarHeader": undefined,
-    "sap.m.TimePickerSlider": "sap.m.TimePickerSliders",
+    "sap.m.TimePickerSlider": undefined,
     "sap.ui.fl.write._internal.transport.TransportDialog": undefined,
     "sap.ui.layout.cssgrid.IGridItemLayoutData": undefined,
     "sap.ui.layout.ResponsiveSplitterPage": undefined

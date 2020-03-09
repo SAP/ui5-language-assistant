@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { forEach, isArray, includes } from "lodash";
+import { forEach, isArray, includes, keys } from "lodash";
 import {
   TestModelVersion,
   generateModel,
@@ -15,7 +15,7 @@ import {
 } from "@vscode-ui5/semantic-model-types";
 import { forEachSymbol } from "../src/utils";
 
-describe("The ui5-vscode semantic model package", () => {
+context("The ui5-vscode semantic model package API", () => {
   // Properties with these names are types
   const TYPE_PROPERTIES: string[] = ["type", "altTypes"];
   // Types of these kinds exist in other places in the model
@@ -277,7 +277,7 @@ describe("The ui5-vscode semantic model package", () => {
     });
 
     it("cannot change property of internal member of the model", () => {
-      const firstClass = model.classes[Object.keys(model.classes)[0]];
+      const firstClass = model.classes[keys(model.classes)[0]];
       expect(firstClass).to.exist;
       expect(firstClass.name).to.exist;
       expect(() => {
@@ -293,7 +293,7 @@ describe("The ui5-vscode semantic model package", () => {
     });
 
     it("cannot add property on internal member of the model", () => {
-      const firstClass = model.classes[Object.keys(model.classes)[0]];
+      const firstClass = model.classes[keys(model.classes)[0]];
       expect(firstClass).to.exist;
       expect(() => {
         // Casting to any for testing purposes
@@ -308,7 +308,7 @@ describe("The ui5-vscode semantic model package", () => {
     });
 
     it("cannot remove property from internal member of the model", () => {
-      const firstClass = model.classes[Object.keys(model.classes)[0]];
+      const firstClass = model.classes[keys(model.classes)[0]];
       expect(firstClass).to.exist;
       expect(firstClass.name).to.exist;
       expect(() => {

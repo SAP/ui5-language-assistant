@@ -40,7 +40,6 @@ export function convertToSemanticModel(
   reduce(
     sortedLibs,
     (model, { libraryName, fileContent }) => {
-      /* istanbul ignore else */
       if (isLibraryFile(libraryName, fileContent, strict)) {
         const libSemanticModel = convertLibraryToSemanticModel(
           libraryName,
@@ -84,10 +83,9 @@ function convertLibraryToSemanticModel(
   };
   for (const symbol of lib.symbols) {
     const fqn = symbol.name;
-    /* istanbul ignore if */
     if (has(jsonSymbols, fqn)) {
       error(
-        `${libName} Duplicate symbol found: ${symbol.kind} ${fqn}. First occurrence is a ${jsonSymbols[fqn].kind}`,
+        `${libName}: Duplicate symbol found: ${symbol.kind} ${fqn}. First occurrence is a ${jsonSymbols[fqn].kind}.`,
         strict
       );
       continue;
