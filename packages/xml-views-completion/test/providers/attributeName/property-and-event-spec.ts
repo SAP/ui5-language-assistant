@@ -1,11 +1,15 @@
 import { expect } from "chai";
-import { UI5SemanticModel } from "@vscode-ui5/semantic-model-types";
-import { map, difference } from "lodash";
+import { difference, partial } from "lodash";
 
+import { UI5SemanticModel } from "@vscode-ui5/semantic-model-types";
 import { testSuggestionsScenario } from "../../utils";
-import { expectUnsortedEquality, generateModel } from "@vscode-ui5/test-utils";
+import {
+  expectSuggestions,
+  expectXMLAttribute,
+  generateModel
+} from "@vscode-ui5/test-utils";
 import { propertyAndEventSuggestions } from "../../../src/providers/attributeName/property-and-event";
-import { XMLAttribute, XMLElement } from "@xml-tools/ast";
+import { XMLAttribute } from "@xml-tools/ast";
 import { XMLViewCompletion } from "../../../api";
 
 const ui5SemanticModel: UI5SemanticModel = generateModel("1.74.0");
@@ -181,18 +185,13 @@ describe("The ui5-vscode xml-views-completion", () => {
   });
 });
 
-function expectXMLAttribute(
-  astNode: XMLElement | XMLAttribute
-): asserts astNode is XMLAttribute {
-  expect(astNode.type).to.equal("XMLAttribute");
-}
+const expectAttributesNames = partial(expectSuggestions, _ => _.ui5Node.name);
 
 function expectAttributesSuggestions(
   suggestions: XMLViewCompletion[],
   expected: string[]
 ): void {
-  const suggestedNames = map(suggestions, _ => _.ui5Node.name);
-  expectUnsortedEquality(suggestedNames, expected);
+  expectAttributesNames(suggestions, expected);
   const suggestedAstNode = suggestions[0].astNode;
   expectXMLAttribute(suggestedAstNode);
   expect(suggestedAstNode.parent.name).to.equal("RadioButtonGroup");

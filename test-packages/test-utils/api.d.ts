@@ -7,6 +7,8 @@ import {
   UI5Event
 } from "@vscode-ui5/semantic-model-types";
 import { Json, TypeNameFix } from "@vscode-ui5/semantic-model";
+import { XMLAttribute, XMLElement } from "@xml-tools/ast";
+import { XMLViewCompletion } from "@vscode-ui5/xml-views-completion";
 
 //	easily build (partial) data structures for tests with mandatory "name" field
 export type PartialWithName<T> = { name: string } & Partial<T>;
@@ -52,6 +54,10 @@ export function expectUnsortedEquality(
   expected: string[]
 ): void;
 
+export function expectXMLAttribute(
+  astNode: XMLElement | XMLAttribute
+): asserts astNode is XMLAttribute;
+
 export function isObject(value: unknown): value is Record<string, unknown>;
 
 export function getFQN(model: UI5SemanticModel, target: unknown): string;
@@ -69,4 +75,10 @@ export function expectModelObjectsEqual(
   value: unknown,
   expectedValue: unknown,
   message: string
+): void;
+
+export function expectSuggestions(
+  actualNameGetter: (suggestion: XMLViewCompletion) => string,
+  suggestions: XMLViewCompletion[],
+  expected: string[]
 ): void;

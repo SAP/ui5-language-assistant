@@ -5,6 +5,7 @@ import {
   UI5Aggregation,
   UI5Class,
   UI5Event,
+  UI5Namespace,
   UI5Prop,
   UI5SemanticModel,
   UI5EnumValue
@@ -35,8 +36,13 @@ export interface GetXMLViewCompletionsOpts {
 export interface XMLViewCompletion {
   // The Node we want to suggest as a possible completion.
   // Note this carries all the additional semantic data (deprecated/description/...).
-  ui5Node: UI5Class | UI5Aggregation | UI5Prop | UI5Event | UI5EnumValue;
-
+  ui5Node:
+    | UI5Class
+    | UI5Aggregation
+    | UI5Prop
+    | UI5Event
+    | UI5EnumValue
+    | UI5Namespace;
   // The specific ASTNode where the completion happened
   // may be useful for LSP Layer to implement Editor Level Logic.
   //   - e.g: the "additional text insertions" mentioned above.

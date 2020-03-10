@@ -1,7 +1,10 @@
 import { expect, use } from "chai";
 import deepEqualInAnyOrder = require("deep-equal-in-any-order");
+import { XMLAttribute, XMLElement } from "@xml-tools/ast";
 import { UI5SemanticModel } from "@vscode-ui5/semantic-model-types";
 import { getFQN } from "./model-test-utils";
+import { XMLViewCompletion } from "@vscode-ui5/xml-views-completion";
+import { map } from "lodash";
 
 use(deepEqualInAnyOrder);
 
@@ -10,6 +13,12 @@ export function expectUnsortedEquality(
   expected: string[]
 ): void {
   expect(actual).to.deep.equalInAnyOrder(expected);
+}
+
+export function expectXMLAttribute(
+  astNode: XMLElement | XMLAttribute
+): asserts astNode is XMLAttribute {
+  expect(astNode.type).to.equal("XMLAttribute");
 }
 
 export function expectExists(value: unknown, message: string): asserts value {
@@ -39,4 +48,13 @@ export function expectModelObjectsEqual(
     message = `${message}: got ${valueName} instead of ${expectedName}`;
   }
   expect(result, message).to.be.true;
+}
+
+export function expectSuggestions(
+  actualNameGetter: (suggestion: XMLViewCompletion) => string,
+  suggestions: XMLViewCompletion[],
+  expected: string[]
+): void {
+  const suggestedNames = map(suggestions, actualNameGetter);
+  expectUnsortedEquality(suggestedNames, expected);
 }

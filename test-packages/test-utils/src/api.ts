@@ -7,7 +7,11 @@ export { buildUI5Event } from "./utils/semantic-model-builder";
 export { generateModel } from "./utils/semantic-model-provider";
 export { loadLibraries } from "./utils/semantic-model-provider";
 export { getTypeNameFixForVersion } from "./utils/semantic-model-provider";
-export { expectUnsortedEquality } from "./utils/expect";
+export {
+  expectUnsortedEquality,
+  expectXMLAttribute,
+  expectSuggestions
+} from "./utils/expect";
 export { expectExists } from "./utils/expect";
 export { expectProperty } from "./utils/expect";
 export { expectModelObjectsEqual } from "./utils/expect";
