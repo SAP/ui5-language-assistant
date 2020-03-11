@@ -2,27 +2,10 @@ import { expect } from "chai";
 import { forEach, isPlainObject } from "lodash";
 import { buildUI5Model, buildUI5Class } from "@vscode-ui5/test-utils";
 import { UI5Type } from "@vscode-ui5/semantic-model-types";
-import { isValidValue } from "../src/validate";
 import { resolveType, setParent } from "../src/resolve";
 import { getSymbolMaps } from "../src/utils";
 
 context("The ui5-vscode semantic model package unit tests", () => {
-  describe("isValidValue", () => {
-    it("throws an error if the valueType is not valid in strict mode", () => {
-      expect(() => {
-        // Casting to never because this use case cannot happen in production code
-        isValidValue("a.b.c", "mytype", 123, 123 as never, true);
-      }).to.throw("Unexpected value type");
-    });
-
-    it("throws an error if the valueType is not valid in non-strict mode", () => {
-      expect(() => {
-        // Casting to never because this use case cannot happen in production code
-        isValidValue("a.b.c", "mytype", 123, 123 as never, false);
-      }).to.throw("Unexpected value type");
-    });
-  });
-
   describe("resolveType", () => {
     it("returns the same type if it's resolved", () => {
       const model = buildUI5Model({});

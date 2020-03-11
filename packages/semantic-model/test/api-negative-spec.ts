@@ -476,7 +476,7 @@ context("The ui5-vscode semantic model package API negative tests", () => {
                 visibility: "public",
                 description: "Test bad class from invalidLib",
                 "ui5-metadata": {
-                  dnd: true
+                  dnd: "abc"
                 }
               }
             ]
