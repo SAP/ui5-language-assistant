@@ -1,13 +1,10 @@
 import { compact, filter, find, includes, last, map, reject } from "lodash";
-import {
-  UI5Namespace,
-  UI5SemanticModel
-} from "@vscode-ui5/semantic-model-types";
+import { UI5Namespace } from "@vscode-ui5/semantic-model-types";
 import { isElementSubClass, ui5NodeToFQN } from "@vscode-ui5/logic-utils";
-import { XMLAttribute, XMLElement } from "@xml-tools/ast";
-import { isElementApplicableForNamespaceSuggestions } from "./utility";
+import { XMLAttribute } from "@xml-tools/ast";
 import { UI5AttributeNameCompletionOptions } from "./index";
 import { XMLViewCompletion } from "../../../api";
+import { getClassByElement } from "../utils/filter-members";
 
 /**
  * Suggests Namespaces inside Element
@@ -19,28 +16,35 @@ export function namespaceKeysSuggestions(
   opts: UI5AttributeNameCompletionOptions
 ): XMLViewCompletion[] {
   const ui5Model = opts.context;
+  const xmlElement = opts.element;
 
-  if (
-    !areNamespacesSuggestionsKeysApplicable(opts.prefix, ui5Model, opts.element)
-  ) {
+  const ui5Clazz = getClassByElement(xmlElement, ui5Model);
+  if (ui5Clazz === undefined) {
+    return [];
+  }
+  const ui5ClassFQN = ui5NodeToFQN(ui5Clazz);
+  // we limit usage of namespaces attributes on "sap.ui.core.mvc.View" XML Element
+  if (ui5ClassFQN !== "sap.ui.core.mvc.View") {
     return [];
   }
 
-  const astElement = opts.element;
+  if (opts.prefix === undefined || !isNamespaceKey(opts.prefix)) {
+    return [];
+  }
 
   const existingNamespacesAttributes: XMLAttribute[] = filter(
-    astElement.attributes,
+    xmlElement.attributes,
     isExistingNamespaceAttribute
   );
 
-  const existingNamespacesNames: string[] = compact(
+  const existingNamespacesNames = compact(
     map(existingNamespacesAttributes, _ => _.value)
   );
 
-  const prefix = getNamespaceKeyPrefix(opts.prefix);
+  const xmlnsPrefix = getNamespaceKeyPrefix(opts.prefix);
 
   const applicableNamespaces = filter(ui5Model.namespaces, _ =>
-    isNamespaceApplicable(_, prefix)
+    isNamespaceApplicable(_, xmlnsPrefix)
   );
 
   const suggestedNamespaces = reject(applicableNamespaces, _ =>
@@ -80,17 +84,6 @@ function isNamespaceApplicable(
     return false;
   }
   return find(namespace.classes, isElementSubClass) !== undefined;
-}
-
-function areNamespacesSuggestionsKeysApplicable(
-  prefix: string | undefined,
-  model: UI5SemanticModel,
-  element: XMLElement
-): prefix is string {
-  if (prefix === undefined || !isNamespaceKey(prefix)) {
-    return false;
-  }
-  return isElementApplicableForNamespaceSuggestions(element, model);
 }
 
 //we are only allowing word (\w+) characters in prefixes now (in completions)

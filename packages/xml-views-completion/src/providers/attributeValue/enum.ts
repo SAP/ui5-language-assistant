@@ -1,7 +1,6 @@
 import { map, find } from "lodash";
 import { XMLAttribute } from "@xml-tools/ast";
 import { flattenProperties } from "@vscode-ui5/logic-utils";
-import { UI5Enum, UI5Type } from "@vscode-ui5/semantic-model-types";
 import { XMLViewCompletion } from "../../../api";
 import {
   getClassByElement,
@@ -16,13 +15,17 @@ import { UI5AttributeValueCompletionOptions } from "./index";
 export function enumSuggestions(
   opts: UI5AttributeValueCompletionOptions
 ): XMLViewCompletion[] {
-  const astNode = opts.attribute as XMLAttribute;
-  const elementClass = getClassByElement(opts.element, opts.context);
-  const properties = flattenProperties(elementClass);
-  const ui5Property = find(properties, ["name", astNode.key]);
-  const propType = ui5Property?.type;
+  const xmlElement = opts.element;
+  const xmlAttribute = opts.attribute;
 
-  if (!areEnumSuggestionsApplicable(propType)) {
+  const elementClass = getClassByElement(xmlElement, opts.context);
+  if (elementClass === undefined) {
+    return [];
+  }
+  const properties = flattenProperties(elementClass);
+  const ui5Property = find(properties, ["name", xmlAttribute.key]);
+  const propType = ui5Property?.type;
+  if (propType?.kind !== "UI5Enum") {
     return [];
   }
 
@@ -39,10 +42,4 @@ export function enumSuggestions(
     astNode: opts.attribute as XMLAttribute
   }));
   return suggestions;
-}
-
-function areEnumSuggestionsApplicable(
-  type: UI5Type | undefined
-): type is UI5Enum {
-  return type?.kind === "UI5Enum";
 }

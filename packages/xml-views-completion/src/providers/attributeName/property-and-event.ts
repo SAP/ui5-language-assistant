@@ -1,9 +1,5 @@
 import { XMLAttribute, XMLElement } from "@xml-tools/ast";
-import {
-  UI5Event,
-  UI5Prop,
-  UI5SemanticModel
-} from "@vscode-ui5/semantic-model-types";
+import { UI5Event, UI5Prop } from "@vscode-ui5/semantic-model-types";
 import {
   flattenEvents,
   flattenProperties,
@@ -24,25 +20,20 @@ import {
 export function propertyAndEventSuggestions(
   opts: UI5AttributeNameCompletionOptions
 ): XMLViewCompletion[] {
-  const astNode = opts.element;
+  const ui5Model = opts.context;
+  const xmlElement = opts.element;
 
-  if (
-    !arePropertyAndEventSuggestionsApplicable({
-      astNode,
-      model: opts.context
-    })
-  ) {
+  const elementClass = getClassByElement(xmlElement, ui5Model);
+  if (!isElementSubClass(elementClass)) {
     return [];
   }
-
-  const elementClass = getClassByElement(astNode, opts.context);
   const allProps: (UI5Prop | UI5Event)[] = flattenProperties(elementClass);
   const allEvents = flattenEvents(elementClass);
   const allPropertiesAndEvents = allProps.concat(allEvents);
 
   const prefix = opts.prefix ?? "";
   const existingPropertiesAndEventsNames = compact(
-    uniq(map(astNode.attributes, _ => _.key))
+    uniq(map(xmlElement.attributes, _ => _.key))
   );
 
   const uniquePrefixMatchingAttributes = filterMembersForSuggestion(
@@ -53,7 +44,8 @@ export function propertyAndEventSuggestions(
 
   return map(uniquePrefixMatchingAttributes, _ => ({
     ui5Node: _,
-    astNode: (opts.attribute as XMLAttribute) ?? createDummyAttribute(astNode)
+    astNode:
+      (opts.attribute as XMLAttribute) ?? createDummyAttribute(xmlElement)
   }));
 }
 
@@ -78,12 +70,4 @@ function createDummyAttribute(parent: XMLElement): XMLAttribute {
     syntax: {},
     value: null
   };
-}
-
-function arePropertyAndEventSuggestionsApplicable(opts: {
-  astNode: XMLElement;
-  model: UI5SemanticModel;
-}): boolean {
-  const elementClass = getClassByElement(opts.astNode, opts.model);
-  return isElementSubClass(elementClass);
 }

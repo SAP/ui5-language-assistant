@@ -93,7 +93,7 @@ describe("The ui5-vscode xml-views-completion", () => {
       });
     });
 
-    context("not applicable scenarios", () => {
+    context("none applicable scenarios", () => {
       it("will not provide any suggestions when the property is not of enum type", () => {
         const xmlSnippet = `
           <mvc:View
@@ -152,6 +152,29 @@ describe("The ui5-vscode xml-views-completion", () => {
             attributeValue: [enumSuggestions]
           },
           assertion: suggestions => {
+            expect(suggestions).to.be.empty;
+          }
+        });
+      });
+
+      it("will not provide any suggestions when not inside a UI5 Class", () => {
+        const xmlSnippet = `
+          <mvc:View
+            xmlns:mvc="sap.ui.core.mvc"
+            xmlns="sap.m">
+            <Bamba foo = "⇶">
+            </Bamba>
+          </mvc:View>`;
+
+        testSuggestionsScenario({
+          model: ui5SemanticModel,
+          xmlText: xmlSnippet,
+          providers: {
+            attributeValue: [enumSuggestions]
+          },
+          assertion: suggestions => {
+            expect(ui5SemanticModel.classes["sap.ui.core.mvc.Bamba"]).to.be
+              .undefined;
             expect(suggestions).to.be.empty;
           }
         });

@@ -37,7 +37,7 @@ export function filterMembersForSuggestion<T extends WithName>(
 export function getClassByElement(
   element: XMLElement,
   model: UI5SemanticModel
-): UI5Class {
+): UI5Class | undefined {
   const elementTagFqn = xmlToFQN(element);
   return model.classes[elementTagFqn];
 }

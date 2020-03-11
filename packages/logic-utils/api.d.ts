@@ -28,7 +28,9 @@ export function getSuperClasses(clazz: UI5Class): UI5Class[];
  * - The inheritance relation may be transitive.
  * - Note that sap.ui.core.Control extends sap.ui.core.Element directly.
  */
-export function isElementSubClass(clazz: UI5Class | undefined): boolean;
+export function isElementSubClass(
+  clazz: UI5Class | undefined
+): clazz is UI5Class;
 
 /**
  * Returns a list of all direct and borrowed aggregations of a UI5 Class

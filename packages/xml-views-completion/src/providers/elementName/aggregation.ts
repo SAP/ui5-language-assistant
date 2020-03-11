@@ -1,5 +1,3 @@
-import { UI5SemanticModel } from "@vscode-ui5/semantic-model-types";
-import { XMLDocument, XMLElement } from "@xml-tools/ast";
 import {
   flattenAggregations,
   isElementSubClass
@@ -20,23 +18,26 @@ import {
 export function aggregationSuggestions(
   opts: UI5ElementNameCompletionOptions
 ): XMLViewCompletion[] {
-  const parentAstNode = opts.element.parent;
+  const ui5Model = opts.context;
+  const prefix = opts.prefix ?? "";
+  const xmlElement = opts.element;
+  const parentXMLElement = xmlElement.parent;
 
-  if (
-    !areAggregationSuggestionsApplicable({
-      parentAstNode,
-      model: opts.context,
-      prefix: opts.prefix
-    })
-  ) {
+  // The top level element cannot be an aggregation
+  if (parentXMLElement.type === "XMLDocument") {
     return [];
   }
 
-  // The checks in `areAggregationSuggestionsApplicable` ensure this cast.
-  const parentXMLElement = parentAstNode as XMLElement;
-  const parentUI5Class = getClassByElement(parentXMLElement, opts.context);
+  // An aggregation is always a simple one word name, it may never include XML namespaces.
+  if (opts.prefix?.includes(":")) {
+    return [];
+  }
 
-  const prefix = opts.prefix ?? "";
+  const parentUI5Class = getClassByElement(parentXMLElement, ui5Model);
+  if (!isElementSubClass(parentUI5Class)) {
+    return [];
+  }
+
   const existingAggregations = compact(
     uniq(map(parentXMLElement.subElements, _ => _.name))
   );
@@ -49,25 +50,6 @@ export function aggregationSuggestions(
 
   return map(uniquePrefixMatchingAggregations, _ => ({
     ui5Node: _,
-    astNode: opts.element
+    astNode: xmlElement
   }));
-}
-
-function areAggregationSuggestionsApplicable(opts: {
-  parentAstNode: XMLElement | XMLDocument;
-  prefix: string | undefined;
-  model: UI5SemanticModel;
-}): boolean {
-  // The top level element cannot be an aggregation
-  if (opts.parentAstNode.type === "XMLDocument") {
-    return false;
-  }
-
-  // An aggregation is always a simple one word name, it may never include XML namespaces.
-  if (opts.prefix && opts.prefix.includes(":")) {
-    return false;
-  }
-
-  const parentUI5Class = getClassByElement(opts.parentAstNode, opts.model);
-  return isElementSubClass(parentUI5Class);
 }
