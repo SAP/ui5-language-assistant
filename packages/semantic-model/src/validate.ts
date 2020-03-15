@@ -1,6 +1,6 @@
 import Ajv, { ValidateFunction } from "ajv";
 import { Json } from "../api";
-import { LibraryFile } from "./apiJson";
+import { SchemaForApiJsonFiles } from "./api-json";
 import * as schema from "@vscode-ui5/semantic-model/resources/sap-ui-library-api.json";
 import * as jsonDraft06Schema from "ajv/lib/refs/json-schema-draft-06.json";
 import { isPlainObject, isArray } from "lodash";
@@ -20,7 +20,7 @@ export function isLibraryFile(
   fileName: string,
   fileContent: Json,
   strict: boolean
-): fileContent is LibraryFile {
+): fileContent is SchemaForApiJsonFiles {
   const valid = validate(fileContent);
 
   // It's possible to print the errors in case valid is false with:

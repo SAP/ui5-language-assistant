@@ -1,5 +1,5 @@
 export interface UI5SemanticModel {
-  version: string;
+  version?: string;
   classes: Record<string, UI5Class>;
   enums: Record<string, UI5Enum>;
   namespaces: Record<string, UI5Namespace>;

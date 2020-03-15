@@ -1,8 +1,8 @@
 import * as model from "@vscode-ui5/semantic-model-types";
 import { Json } from "../api";
-import * as apiJson from "./apiJson";
+import * as apiJson from "./api-json";
 import { isLibraryFile } from "./validate";
-import { error, newMap } from "./utils";
+import { error, hasProperty, newMap } from "./utils";
 import {
   map,
   merge,
@@ -17,7 +17,7 @@ import {
 
 export function convertToSemanticModel(
   libraries: Record<string, Json>,
-  jsonSymbols: Record<string, apiJson.Symbol>,
+  jsonSymbols: Record<string, apiJson.ConcreteSymbol>,
   strict: boolean
 ): model.UI5SemanticModel {
   const model: model.UI5SemanticModel = {
@@ -68,8 +68,8 @@ function addLibraryToModel(
 
 function convertLibraryToSemanticModel(
   libName: string,
-  lib: apiJson.LibraryFile,
-  jsonSymbols: Record<string, apiJson.Symbol>,
+  lib: apiJson.SchemaForApiJsonFiles,
+  jsonSymbols: Record<string, apiJson.ConcreteSymbol>,
   strict: boolean
 ): model.UI5SemanticModel {
   const model: model.UI5SemanticModel = {
@@ -81,6 +81,9 @@ function convertLibraryToSemanticModel(
     namespaces: newMap(),
     typedefs: newMap()
   };
+  if (lib.symbols === undefined) {
+    return model;
+  }
   for (const symbol of lib.symbols) {
     const fqn = symbol.name;
     if (has(jsonSymbols, fqn)) {
@@ -91,6 +94,8 @@ function convertLibraryToSemanticModel(
       continue;
     }
     jsonSymbols[fqn] = symbol;
+    // For some reason we get a non-reachable case branch here on all cases except "typedef", although it's not correct
+    // noinspection JSUnreachableSwitchBranches
     switch (symbol.kind) {
       case "namespace": {
         model.namespaces[fqn] = convertNamespace(libName, symbol);
@@ -123,7 +128,7 @@ function convertLibraryToSemanticModel(
 
 function convertNamespace(
   libName: string,
-  symbol: apiJson.Namespace
+  symbol: apiJson.NamespaceSymbol | apiJson.DatatypeSymbol
 ): model.UI5Namespace {
   const base = convertSymbol(libName, symbol);
   const namespace: model.UI5Namespace = {
@@ -152,7 +157,10 @@ function convertNamespace(
   return namespace;
 }
 
-function convertClass(libName: string, symbol: apiJson.Class): model.UI5Class {
+function convertClass(
+  libName: string,
+  symbol: apiJson.ClassSymbol
+): model.UI5Class {
   const base = convertSymbol(libName, symbol);
   const classs: model.UI5Class = {
     ...base,
@@ -185,11 +193,7 @@ function convertClass(libName: string, symbol: apiJson.Class): model.UI5Class {
   classs.ctor =
     symbol.constructor === undefined || isFunction(symbol.constructor)
       ? undefined
-      : convertConstructor(
-          libName,
-          classs,
-          symbol.constructor as apiJson.Constructor
-        );
+      : convertConstructor(libName, classs, symbol.constructor);
   classs.events = map(symbol.events, partial(convertEvent, libName, classs));
   classs.methods = map(symbol.methods, partial(convertMethod, libName, classs));
   // The "properties" directly under the class symbol are displayed as "fields" in the SDK and are not considered properties
@@ -203,7 +207,7 @@ function convertClass(libName: string, symbol: apiJson.Class): model.UI5Class {
 
 function convertInterface(
   libName: string,
-  symbol: apiJson.Interface
+  symbol: apiJson.InterfaceSymbol
 ): model.UI5Interface {
   const base = convertSymbol(libName, symbol);
   const interfacee: model.UI5Interface = {
@@ -237,7 +241,10 @@ function convertFunction(
   return func;
 }
 
-function convertEnum(libName: string, symbol: apiJson.Enum): model.UI5Enum {
+function convertEnum(
+  libName: string,
+  symbol: apiJson.EnumSymbol
+): model.UI5Enum {
   const base = convertSymbol(libName, symbol);
   const enumm: model.UI5Enum = {
     ...base,
@@ -255,7 +262,7 @@ function convertEnum(libName: string, symbol: apiJson.Enum): model.UI5Enum {
 
 function convertTypedef(
   libName: string,
-  symbol: apiJson.Typedef
+  symbol: apiJson.TypedefSymbol
 ): model.UI5Typedef {
   const base = convertSymbol(libName, symbol);
   const typedef: model.UI5Typedef = {
@@ -267,7 +274,13 @@ function convertTypedef(
 
 function convertMeta(
   libName: string,
-  jsonMeta: apiJson.Metadata
+  jsonMeta:
+    | apiJson.SymbolBase
+    | apiJson.ObjProperty
+    | apiJson.ObjMethod
+    | apiJson.ObjEvent
+    | apiJson.EnumProperty
+    | apiJson.Ui5Aggregation
 ): model.UI5Meta {
   const meta: model.UI5Meta = {
     library: libName,
@@ -280,14 +293,14 @@ function convertMeta(
           text: jsonMeta.deprecated.text
         }
       : undefined,
-    visibility: jsonMeta.visibility
+    visibility: jsonMeta.visibility ?? "public"
   };
   return meta;
 }
 
 function convertSymbol(
   libName: string,
-  jsonSymbol: apiJson.Symbol
+  jsonSymbol: apiJson.SymbolBase
 ): model.BaseUI5Node {
   const meta = convertMeta(libName, jsonSymbol);
   const baseNode: model.BaseUI5Node = {
@@ -302,12 +315,15 @@ function convertSymbol(
 function convertConstructor(
   libName: string,
   parent: model.BaseUI5Node,
-  jsonConstructor: apiJson.Constructor
+  jsonConstructor: apiJson.ObjConstructor
 ): model.UI5Constructor {
-  const meta = convertMeta(libName, jsonConstructor);
   const constructor: model.UI5Constructor = {
     kind: "UI5Constructor",
-    ...meta,
+    library: libName,
+    description: jsonConstructor.description,
+    visibility: jsonConstructor.visibility ?? "public",
+    deprecatedInfo: undefined,
+    since: undefined,
     name: "",
     parent: parent
   };
@@ -317,7 +333,7 @@ function convertConstructor(
 function convertMethod(
   libName: string,
   parent: model.BaseUI5Node,
-  jsonMethod: apiJson.Method
+  jsonMethod: apiJson.ObjMethod
 ): model.UI5Method {
   const meta = convertMeta(libName, jsonMethod);
   const method: model.UI5Method = {
@@ -332,7 +348,7 @@ function convertMethod(
 function convertField(
   libName: string,
   parent: model.BaseUI5Node,
-  jsonProperty: apiJson.Property
+  jsonProperty: apiJson.ObjProperty
 ): model.UI5Field {
   const meta = convertMeta(libName, jsonProperty);
   const field: model.UI5Field = {
@@ -340,10 +356,13 @@ function convertField(
     ...meta,
     name: jsonProperty.name,
     parent: parent,
-    type: {
-      kind: "UnresolvedType",
-      name: jsonProperty.type
-    }
+    type:
+      jsonProperty.type === undefined
+        ? undefined
+        : {
+            kind: "UnresolvedType",
+            name: jsonProperty.type
+          }
   };
   return field;
 }
@@ -351,19 +370,27 @@ function convertField(
 function convertProperty(
   libName: string,
   parent: model.BaseUI5Node,
-  jsonProperty: apiJson.Property
+  jsonProperty: apiJson.ObjProperty | apiJson.Ui5Property
 ): model.UI5Prop {
   const meta = convertMeta(libName, jsonProperty);
+  const defaultValue = hasProperty(jsonProperty, "defaultValue")
+    ? // We clone the value so the model will be standalone and won't reference the original library.
+      // For most cases the defaultValue is a string or number so the clone won't do anything.
+      cloneDeep(jsonProperty.defaultValue)
+    : undefined;
   const property: model.UI5Prop = {
     kind: "UI5Prop",
     ...meta,
     name: jsonProperty.name,
     parent: parent,
-    type: {
-      kind: "UnresolvedType",
-      name: jsonProperty.type
-    },
-    default: cloneDeep(jsonProperty.defaultValue)
+    type:
+      jsonProperty.type === undefined
+        ? undefined
+        : {
+            kind: "UnresolvedType",
+            name: jsonProperty.type
+          },
+    default: defaultValue
   };
   return property;
 }
@@ -371,7 +398,7 @@ function convertProperty(
 function convertEnumValue(
   libName: string,
   parent: model.UI5Enum,
-  jsonProperty: apiJson.Property
+  jsonProperty: apiJson.EnumProperty
 ): model.UI5EnumValue {
   const meta = convertMeta(libName, jsonProperty);
   const enumValue: model.UI5EnumValue = {
@@ -385,7 +412,7 @@ function convertEnumValue(
 
 function convertAggregation(
   libName: string,
-  jsonAggregation: apiJson.Aggregation,
+  jsonAggregation: apiJson.Ui5Aggregation,
   parent: model.UI5Class
 ): model.UI5Aggregation {
   const meta = convertMeta(libName, jsonAggregation);
@@ -394,24 +421,27 @@ function convertAggregation(
     ...meta,
     name: jsonAggregation.name,
     parent: parent,
-    type: {
-      kind: "UnresolvedType",
-      name: jsonAggregation.type
-    },
+    type:
+      jsonAggregation.type === undefined
+        ? undefined
+        : {
+            kind: "UnresolvedType",
+            name: jsonAggregation.type
+          },
     altTypes: isArray(jsonAggregation.altTypes)
       ? map(jsonAggregation.altTypes, _ => ({
           kind: "UnresolvedType",
           name: _
         }))
       : [],
-    cardinality: jsonAggregation.cardinality
+    cardinality: jsonAggregation.cardinality ?? "0..n"
   };
   return aggregation;
 }
 
 function convertAssociation(
   libName: string,
-  jsonAssociation: apiJson.Association,
+  jsonAssociation: apiJson.Ui5Association,
   parent: model.UI5Class
 ): model.UI5Association {
   const meta = convertMeta(libName, jsonAssociation);
@@ -420,11 +450,14 @@ function convertAssociation(
     ...meta,
     name: jsonAssociation.name,
     parent: parent,
-    type: {
-      kind: "UnresolvedType",
-      name: jsonAssociation.type
-    },
-    cardinality: jsonAssociation.cardinality
+    type:
+      jsonAssociation.type === undefined
+        ? undefined
+        : {
+            kind: "UnresolvedType",
+            name: jsonAssociation.type
+          },
+    cardinality: jsonAssociation.cardinality ?? "0..1"
   };
   return association;
 }
@@ -432,7 +465,7 @@ function convertAssociation(
 function convertEvent(
   libName: string,
   parent: model.BaseUI5Node,
-  jsonEvent: apiJson.Event
+  jsonEvent: apiJson.Ui5Event | apiJson.ObjEvent
 ): model.UI5Event {
   const meta = convertMeta(libName, jsonEvent);
   const event: model.UI5Event = {

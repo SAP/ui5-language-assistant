@@ -9,10 +9,11 @@
     "plugin:eslint-comments/recommended"
   ],
   "rules": {
-    "@typescript-eslint/no-use-before-define": ["error", { "functions": false }]
+    "@typescript-eslint/no-use-before-define": [
+      "error",
+      { "functions": false }
+    ],
+    "eslint-comments/disable-enable-pair": ["error", { "allowWholeFile": true }]
   },
-  "ignorePatterns": [
-    "**/*.js",
-    "packages/semantic-model/test-resources/ts-model/**/*.ts"
-  ]
+  "ignorePatterns": ["**/*.js"]
 }

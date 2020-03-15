@@ -88,7 +88,7 @@ context("The ui5-vscode semantic model package API negative tests", () => {
         expect(model.enums, "model.enums").to.be.empty;
         expect(model.typedefs, "model.typedefs").to.be.empty;
         expect(model.functions, "model.functions").to.be.empty;
-        expect(keys(model.namespaces), "model.namespaces").to.have.length(
+        expect(keys(model.namespaces), "model.namespaces").to.have.lengthOf(
           validLibNamespaces.length
         );
       } else {
@@ -923,7 +923,7 @@ context("The ui5-vscode semantic model package API negative tests", () => {
         expect(
           properties,
           "class sap.validNS.MyClass -> properties"
-        ).to.have.length(1);
+        ).to.have.lengthOf(1);
         expectExists(properties[0], "property");
         expectExists(properties[0].type, "property type");
         expect(properties[0].type.kind, "property type kind").to.equal(

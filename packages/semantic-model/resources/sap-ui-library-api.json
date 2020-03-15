@@ -325,6 +325,33 @@
       },
       "required": ["name"]
     },
+    "obj-constructor": {
+      "type": "object",
+      "properties": {
+        "visibility": {
+          "type": "string",
+          "enum": ["public", "protected", "private", "restricted"],
+          "defaultValue": "public"
+        },
+        "parameters": {
+          "$ref": "#/definitions/obj-callable-parameters"
+        },
+        "throws": {
+          "$ref": "#/definitions/exceptions"
+        },
+        "description": {
+          "type": "string"
+        },
+        "examples": {
+          "$ref": "#/definitions/examples"
+        },
+        "references": {
+          "$ref": "#/definitions/references"
+        }
+      },
+      "additionalProperties": false,
+      "required": []
+    },
 
     "obj-method-propertyNames": {
       "enum": [
@@ -808,7 +835,7 @@
       "additionalProperties": false,
       "required": []
     },
-    "symbol": {
+    "symbol-base": {
       "type": "object",
       "properties": {
         "kind": {
@@ -862,7 +889,8 @@
         "references": {
           "$ref": "#/definitions/references"
         }
-      }
+      },
+      "required": ["name", "basename"]
     },
     "symbol-propertyNames": {
       "enum": [
@@ -879,6 +907,415 @@
         "experimental",
         "deprecated",
         "references"
+      ]
+    },
+
+    "typedef-symbol": {
+      "description": "",
+      "allOf": [
+        { "$ref": "#/definitions/symbol-base" },
+        {
+          "anyOf": [
+            {
+              "$comment": "A typedef for a structure type",
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "enum": ["typedef"]
+                },
+                "properties": {
+                  "type": "array",
+                  "items": { "$ref": "#/definitions/obj-property" }
+                }
+              },
+              "propertyNames": {
+                "anyOf": [
+                  { "$ref": "#/definitions/symbol-propertyNames" },
+                  { "enum": ["properties"] }
+                ]
+              }
+            },
+            {
+              "$comment": "A typedef for a callback type",
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "enum": ["typedef"]
+                },
+                "parameters": {
+                  "$ref": "#/definitions/obj-callable-parameters"
+                },
+                "returnValue": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  },
+                  "additionalProperties": false,
+                  "required": []
+                },
+                "throws": {
+                  "$ref": "#/definitions/exceptions"
+                }
+              },
+              "propertyNames": {
+                "anyOf": [
+                  { "$ref": "#/definitions/symbol-propertyNames" },
+                  { "enum": ["parameters", "returnValue", "throws"] }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "namespace-symbol": {
+      "$comment": "This schema describes a normal JavaScript namespace with properties and methods",
+      "description": "Namespaces can have the common symbol properties and extend another symbol",
+      "allOf": [
+        { "$ref": "#/definitions/symbol-base" },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "enum": ["namespace"]
+            },
+            "extends": {
+              "type": "string"
+            },
+            "properties": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/obj-property"
+              }
+            },
+            "methods": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/obj-method"
+              }
+            },
+            "events": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/obj-event"
+              }
+            },
+            "abstract": {
+              "type": "boolean"
+            },
+            "ui5-metadata": {
+              "type": "object",
+              "properties": {},
+              "additionalProperties": false
+            }
+          },
+          "propertyNames": {
+            "anyOf": [
+              { "$ref": "#/definitions/symbol-propertyNames" },
+              {
+                "enum": [
+                  "extends",
+                  "properties",
+                  "methods",
+                  "events",
+                  "abstract",
+                  "ui5-metadata"
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "datatype-symbol": {
+      "$comment": "A special kind of namespace that represents a UI5 DataType instance (should be migrated to a typedef in future)",
+      "description": "Namespaces can have the common symbol properties and extend another symbol",
+      "allOf": [
+        { "$ref": "#/definitions/symbol-base" },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "enum": ["namespace"]
+            },
+            "final": {
+              "type": "boolean"
+            },
+            "ui5-metamodel": {
+              "type": "boolean"
+            },
+            "ui5-metadata": {
+              "type": "object",
+              "properties": {
+                "stereotype": {
+                  "type": "string",
+                  "enum": ["datatype"]
+                },
+                "basetype": {
+                  "type": "string",
+                  "enum": ["string", "int"]
+                },
+                "pattern": {
+                  "type": "string"
+                },
+                "range": {
+                  "type": "object",
+                  "properties": {
+                    "minExclusive": {
+                      "type": "integer"
+                    },
+                    "maxInclusive": {
+                      "type": "integer"
+                    },
+                    "minInclusive": {
+                      "type": "integer"
+                    },
+                    "maxExclusive": {
+                      "type": "integer"
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "additionalProperties": false
+            },
+            "examples": {
+              "$ref": "#/definitions/examples"
+            }
+          },
+          "propertyNames": {
+            "anyOf": [
+              { "$ref": "#/definitions/symbol-propertyNames" },
+              {
+                "enum": ["final", "ui5-metamodel", "ui5-metadata", "examples"]
+              }
+            ]
+          },
+          "required": ["ui5-metadata"]
+        }
+      ]
+    },
+    "interface-symbol": {
+      "description": "Interfaces can have the common symbol properties and extend another symbol",
+      "allOf": [
+        { "$ref": "#/definitions/symbol-base" },
+        {
+          "properties": {
+            "kind": {
+              "enum": ["interface"]
+            },
+            "extends": {
+              "type": "string"
+            },
+            "ui5-metamodel": {
+              "type": "boolean",
+              "defaultValue": false
+            },
+            "methods": {
+              "type": "array",
+              "items": {
+                "allOf": [
+                  { "$ref": "#/definitions/obj-method" },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "optional": {
+                        "type": "boolean",
+                        "defaultValue": false
+                      }
+                    },
+                    "propertyNames": {
+                      "anyOf": [
+                        {
+                          "$ref": "#/definitions/obj-method-propertyNames"
+                        },
+                        { "enum": ["optional"] }
+                      ]
+                    }
+                  }
+                ]
+              }
+            },
+            "events": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/obj-event"
+              }
+            }
+          },
+          "propertyNames": {
+            "anyOf": [
+              { "$ref": "#/definitions/symbol-propertyNames" },
+              {
+                "enum": ["extends", "ui5-metamodel", "methods", "events"]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "enum-symbol": {
+      "description": "An enum has the standard symbol properties and may contain a set of properties",
+      "allOf": [
+        { "$ref": "#/definitions/symbol-base" },
+        {
+          "properties": {
+            "kind": {
+              "enum": ["enum"]
+            },
+            "ui5-metamodel": {
+              "type": "boolean",
+              "defaultValue": false
+            },
+            "properties": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/enum-property"
+              }
+            },
+            "ui5-metadata": {
+              "type": "object",
+              "properties": {
+                "stereotype": {
+                  "type": "string",
+                  "enum": ["enum"]
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "propertyNames": {
+            "anyOf": [
+              { "$ref": "#/definitions/symbol-propertyNames" },
+              { "enum": ["ui5-metamodel", "properties", "ui5-metadata"] }
+            ]
+          }
+        }
+      ]
+    },
+    "class-symbol": {
+      "description": "A class is the basic building block of our user interfaces; it is a reusable entity with properties, events, methods, and relations. The most important relations are aggregations to other elements, and in this way a tree structure of elements can be created. Note that the term 'control' is used both for the individual instance (object) and for the type (class) of all such instances; sometimes the distinction will be made explicit, sometimes it becomes clear from the context.",
+      "allOf": [
+        { "$ref": "#/definitions/symbol-base" },
+        {
+          "properties": {
+            "kind": {
+              "enum": ["class"]
+            },
+            "extends": {
+              "type": "string",
+              "description": "any other class, control or element type, incl. the predefined types sap.ui.core/Element and sap.ui.core/Control"
+            },
+            "implements": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "interfaces that this class implements"
+            },
+            "abstract": {
+              "type": "boolean",
+              "defaultValue": "false"
+            },
+            "final": {
+              "type": "boolean",
+              "defaultValue": "false"
+            },
+            "ui5-metadata": {
+              "$ref": "#/definitions/ui5-metadata"
+            },
+            "ui5-metamodel": {
+              "type": "boolean",
+              "defaultValue": false
+            },
+            "constructor": {
+              "$ref": "#/definitions/obj-constructor"
+            },
+            "properties": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/obj-property"
+              }
+            },
+            "events": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/obj-event"
+              }
+            },
+            "methods": {
+              "type": "array",
+              "items": {
+                "allOf": [
+                  { "$ref": "#/definitions/obj-method" },
+                  {
+                    "type": "object",
+                    "propertyNames": {
+                      "$ref": "#/definitions/obj-method-propertyNames"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "propertyNames": {
+            "anyOf": [
+              { "$ref": "#/definitions/symbol-propertyNames" },
+              {
+                "enum": [
+                  "kind",
+                  "extends",
+                  "implements",
+                  "abstract",
+                  "final",
+                  "ui5-metadata",
+                  "ui5-metamodel",
+                  "constructor",
+                  "properties",
+                  "events",
+                  "methods"
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "function-symbol": {
+      "description": "A function can be a top-level symbol when exported from a module",
+      "allOf": [
+        { "$ref": "#/definitions/symbol-base" },
+        { "$ref": "#/definitions/obj-method" },
+        {
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": ["function"]
+            }
+          },
+          "propertyNames": {
+            "anyOf": [
+              { "$ref": "#/definitions/symbol-propertyNames" },
+              { "$ref": "#/definitions/obj-method-propertyNames" }
+            ]
+          }
+        }
+      ]
+    },
+    "concrete-symbol": {
+      "oneOf": [
+        { "$ref": "#/definitions/typedef-symbol" },
+        { "$ref": "#/definitions/namespace-symbol" },
+        { "$ref": "#/definitions/datatype-symbol" },
+        { "$ref": "#/definitions/interface-symbol" },
+        { "$ref": "#/definitions/enum-symbol" },
+        { "$ref": "#/definitions/class-symbol" },
+        { "$ref": "#/definitions/function-symbol" }
       ]
     }
   },
@@ -900,434 +1337,7 @@
     },
     "symbols": {
       "type": "array",
-      "items": {
-        "oneOf": [
-          {
-            "description": "",
-            "allOf": [
-              { "$ref": "#/definitions/symbol" },
-              {
-                "anyOf": [
-                  {
-                    "$comment": "A typedef for a structure type",
-                    "type": "object",
-                    "properties": {
-                      "kind": {
-                        "enum": ["typedef"]
-                      },
-                      "properties": {
-                        "type": "array",
-                        "items": { "$ref": "#/definitions/obj-property" }
-                      }
-                    },
-                    "propertyNames": {
-                      "anyOf": [
-                        { "$ref": "#/definitions/symbol-propertyNames" },
-                        { "enum": ["properties"] }
-                      ]
-                    }
-                  },
-                  {
-                    "$comment": "A typedef for a callback type",
-                    "type": "object",
-                    "properties": {
-                      "kind": {
-                        "enum": ["typedef"]
-                      },
-                      "parameters": {
-                        "$ref": "#/definitions/obj-callable-parameters"
-                      },
-                      "returnValue": {
-                        "type": "object",
-                        "properties": {
-                          "type": {
-                            "type": "string"
-                          },
-                          "description": {
-                            "type": "string"
-                          }
-                        },
-                        "additionalProperties": false,
-                        "required": []
-                      },
-                      "throws": {
-                        "$ref": "#/definitions/exceptions"
-                      }
-                    },
-                    "propertyNames": {
-                      "anyOf": [
-                        { "$ref": "#/definitions/symbol-propertyNames" },
-                        { "enum": ["parameters", "returnValue", "throws"] }
-                      ]
-                    }
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "$comment": "This schema describes a normal JavaScript namespace with properties and methods",
-            "description": "Namespaces can have the common symbol properties and extend another symbol",
-            "allOf": [
-              { "$ref": "#/definitions/symbol" },
-              {
-                "type": "object",
-                "properties": {
-                  "kind": {
-                    "enum": ["namespace"]
-                  },
-                  "extends": {
-                    "type": "string"
-                  },
-                  "properties": {
-                    "type": "array",
-                    "items": {
-                      "$ref": "#/definitions/obj-property"
-                    }
-                  },
-                  "methods": {
-                    "type": "array",
-                    "items": {
-                      "$ref": "#/definitions/obj-method"
-                    }
-                  },
-                  "events": {
-                    "type": "array",
-                    "items": {
-                      "$ref": "#/definitions/obj-event"
-                    }
-                  },
-                  "abstract": {
-                    "type": "boolean"
-                  },
-                  "ui5-metadata": {
-                    "type": "object",
-                    "properties": {},
-                    "additionalProperties": false
-                  }
-                },
-                "propertyNames": {
-                  "anyOf": [
-                    { "$ref": "#/definitions/symbol-propertyNames" },
-                    {
-                      "enum": [
-                        "extends",
-                        "properties",
-                        "methods",
-                        "events",
-                        "abstract",
-                        "ui5-metadata"
-                      ]
-                    }
-                  ]
-                }
-              }
-            ]
-          },
-          {
-            "$comment": "A special kind of namespace that represents a UI5 DataType instance (should be migrated to a typedef in future)",
-            "description": "Namespaces can have the common symbol properties and extend another symbol",
-            "allOf": [
-              { "$ref": "#/definitions/symbol" },
-              {
-                "type": "object",
-                "properties": {
-                  "kind": {
-                    "enum": ["namespace"]
-                  },
-                  "final": {
-                    "type": "boolean"
-                  },
-                  "ui5-metamodel": {
-                    "type": "boolean"
-                  },
-                  "ui5-metadata": {
-                    "type": "object",
-                    "properties": {
-                      "stereotype": {
-                        "type": "string",
-                        "enum": ["datatype"]
-                      },
-                      "basetype": {
-                        "type": "string",
-                        "enum": ["string", "int"]
-                      },
-                      "pattern": {
-                        "type": "string"
-                      },
-                      "range": {
-                        "type": "object",
-                        "properties": {
-                          "minExclusive": {
-                            "type": "integer"
-                          },
-                          "maxInclusive": {
-                            "type": "integer"
-                          },
-                          "minInclusive": {
-                            "type": "integer"
-                          },
-                          "maxExclusive": {
-                            "type": "integer"
-                          }
-                        },
-                        "additionalProperties": false
-                      }
-                    },
-                    "additionalProperties": false
-                  },
-                  "examples": {
-                    "$ref": "#/definitions/examples"
-                  }
-                },
-                "propertyNames": {
-                  "anyOf": [
-                    { "$ref": "#/definitions/symbol-propertyNames" },
-                    {
-                      "enum": [
-                        "final",
-                        "ui5-metamodel",
-                        "ui5-metadata",
-                        "examples"
-                      ]
-                    }
-                  ]
-                },
-                "required": ["ui5-metadata"]
-              }
-            ]
-          },
-          {
-            "description": "Interfaces can have the common symbol properties and extend another symbol",
-            "allOf": [
-              { "$ref": "#/definitions/symbol" },
-              {
-                "properties": {
-                  "kind": {
-                    "enum": ["interface"]
-                  },
-                  "extends": {
-                    "type": "string"
-                  },
-                  "ui5-metamodel": {
-                    "type": "boolean",
-                    "defaultValue": false
-                  },
-                  "methods": {
-                    "type": "array",
-                    "items": {
-                      "allOf": [
-                        { "$ref": "#/definitions/obj-method" },
-                        {
-                          "type": "object",
-                          "properties": {
-                            "optional": {
-                              "type": "boolean",
-                              "defaultValue": false
-                            }
-                          },
-                          "propertyNames": {
-                            "anyOf": [
-                              {
-                                "$ref": "#/definitions/obj-method-propertyNames"
-                              },
-                              { "enum": ["optional"] }
-                            ]
-                          }
-                        }
-                      ]
-                    }
-                  },
-                  "events": {
-                    "type": "array",
-                    "items": {
-                      "$ref": "#/definitions/obj-event"
-                    }
-                  }
-                },
-                "propertyNames": {
-                  "anyOf": [
-                    { "$ref": "#/definitions/symbol-propertyNames" },
-                    {
-                      "enum": ["extends", "ui5-metamodel", "methods", "events"]
-                    }
-                  ]
-                }
-              }
-            ]
-          },
-          {
-            "description": "An enum has the standard symbol properties and may contain a set of properties",
-            "allOf": [
-              { "$ref": "#/definitions/symbol" },
-              {
-                "properties": {
-                  "kind": {
-                    "enum": ["enum"]
-                  },
-                  "ui5-metamodel": {
-                    "type": "boolean",
-                    "defaultValue": false
-                  },
-                  "properties": {
-                    "type": "array",
-                    "items": {
-                      "$ref": "#/definitions/enum-property"
-                    }
-                  },
-                  "ui5-metadata": {
-                    "type": "object",
-                    "properties": {
-                      "stereotype": {
-                        "type": "string",
-                        "enum": ["enum"]
-                      }
-                    },
-                    "additionalProperties": false
-                  }
-                },
-                "propertyNames": {
-                  "anyOf": [
-                    { "$ref": "#/definitions/symbol-propertyNames" },
-                    { "enum": ["ui5-metamodel", "properties", "ui5-metadata"] }
-                  ]
-                }
-              }
-            ]
-          },
-          {
-            "description": "A class is the basic building block of our user interfaces; it is a reusable entity with properties, events, methods, and relations. The most important relations are aggregations to other elements, and in this way a tree structure of elements can be created. Note that the term 'control' is used both for the individual instance (object) and for the type (class) of all such instances; sometimes the distinction will be made explicit, sometimes it becomes clear from the context.",
-            "allOf": [
-              { "$ref": "#/definitions/symbol" },
-              {
-                "properties": {
-                  "kind": {
-                    "enum": ["class"]
-                  },
-                  "extends": {
-                    "type": "string",
-                    "description": "any other class, control or element type, incl. the predefined types sap.ui.core/Element and sap.ui.core/Control"
-                  },
-                  "implements": {
-                    "type": "array",
-                    "items": {
-                      "type": "string"
-                    },
-                    "description": "interfaces that this class implements"
-                  },
-                  "abstract": {
-                    "type": "boolean",
-                    "defaultValue": "false"
-                  },
-                  "final": {
-                    "type": "boolean",
-                    "defaultValue": "false"
-                  },
-                  "ui5-metadata": {
-                    "$ref": "#/definitions/ui5-metadata"
-                  },
-                  "ui5-metamodel": {
-                    "type": "boolean",
-                    "defaultValue": false
-                  },
-                  "constructor": {
-                    "type": "object",
-                    "properties": {
-                      "visibility": {
-                        "type": "string"
-                      },
-                      "parameters": {
-                        "$ref": "#/definitions/obj-callable-parameters"
-                      },
-                      "throws": {
-                        "$ref": "#/definitions/exceptions"
-                      },
-                      "description": {
-                        "type": "string"
-                      },
-                      "examples": {
-                        "$ref": "#/definitions/examples"
-                      },
-                      "references": {
-                        "$ref": "#/definitions/references"
-                      }
-                    },
-                    "additionalProperties": false,
-                    "required": []
-                  },
-                  "properties": {
-                    "type": "array",
-                    "items": {
-                      "$ref": "#/definitions/obj-property"
-                    }
-                  },
-                  "events": {
-                    "type": "array",
-                    "items": {
-                      "$ref": "#/definitions/obj-event"
-                    }
-                  },
-                  "methods": {
-                    "type": "array",
-                    "items": {
-                      "allOf": [
-                        { "$ref": "#/definitions/obj-method" },
-                        {
-                          "type": "object",
-                          "propertyNames": {
-                            "$ref": "#/definitions/obj-method-propertyNames"
-                          }
-                        }
-                      ]
-                    }
-                  }
-                },
-                "propertyNames": {
-                  "anyOf": [
-                    { "$ref": "#/definitions/symbol-propertyNames" },
-                    {
-                      "enum": [
-                        "kind",
-                        "extends",
-                        "implements",
-                        "abstract",
-                        "final",
-                        "ui5-metadata",
-                        "ui5-metamodel",
-                        "constructor",
-                        "properties",
-                        "events",
-                        "methods"
-                      ]
-                    }
-                  ]
-                }
-              }
-            ]
-          },
-          {
-            "description": "A function can be a top-level symbol when exported from a module",
-            "allOf": [
-              { "$ref": "#/definitions/symbol" },
-              { "$ref": "#/definitions/obj-method" },
-              {
-                "properties": {
-                  "kind": {
-                    "type": "string",
-                    "enum": ["function"]
-                  }
-                },
-                "propertyNames": {
-                  "anyOf": [
-                    { "$ref": "#/definitions/symbol-propertyNames" },
-                    { "$ref": "#/definitions/obj-method-propertyNames" }
-                  ]
-                }
-              }
-            ]
-          }
-        ]
-      }
+      "items": { "$ref": "#/definitions/concrete-symbol" }
     }
   },
   "additionalProperties": false,

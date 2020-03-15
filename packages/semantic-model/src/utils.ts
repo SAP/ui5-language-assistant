@@ -71,3 +71,12 @@ export function forEachSymbol(
     }
   }
 }
+
+/**
+ * Check if value has a property with the requested name
+ * @param value
+ * @param property
+ */
+export function hasProperty<T>(value: unknown, property: keyof T): value is T {
+  return has(value, property);
+}

@@ -1,6 +1,6 @@
 import { UI5SemanticModel } from "@vscode-ui5/semantic-model-types";
 import { TypeNameFix, Json } from "../api";
-import { Symbol as JsonSymbol } from "./apiJson";
+import { ConcreteSymbol } from "./api-json";
 import { convertToSemanticModel } from "./convert";
 import { resolveSemanticProperties } from "./resolve";
 import { generateMissingSymbols } from "./enhance";
@@ -21,7 +21,7 @@ export function generate({
   typeNameFix: TypeNameFix;
   strict?: boolean;
 }): UI5SemanticModel {
-  const jsonSymbols = newMap<JsonSymbol>();
+  const jsonSymbols = newMap<ConcreteSymbol>();
   const model = convertToSemanticModel(libraries, jsonSymbols, strict);
   generateMissingSymbols(model, strict);
   resolveSemanticProperties(model, jsonSymbols, typeNameFix, strict);

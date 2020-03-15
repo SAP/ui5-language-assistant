@@ -5,7 +5,7 @@ import {
   UI5Type
 } from "@vscode-ui5/semantic-model-types";
 import { TypeNameFix } from "../api";
-import { Symbol as JsonSymbol, Class } from "./apiJson";
+import { SymbolBase, ClassSymbol } from "./api-json";
 import { error, getParentFqn, findValueInMaps, findSymbol } from "./utils";
 import {
   forEach,
@@ -37,7 +37,7 @@ export function setParent(
 
 export function resolveSemanticProperties(
   model: UI5SemanticModel,
-  symbols: Record<string, JsonSymbol>,
+  symbols: Record<string, SymbolBase>,
   typeNameFix: TypeNameFix,
   strict: boolean
 ): void {
@@ -49,7 +49,7 @@ export function resolveSemanticProperties(
   for (const key in model.classes) {
     const classs = model.classes[key];
     setParent(model, key, classs);
-    const jsonSymbol = symbols[key] as Class;
+    const jsonSymbol = symbols[key] as ClassSymbol;
     if (jsonSymbol.extends !== undefined) {
       const extendsType = resolveTypePartial(jsonSymbol.extends);
       // Ignore undefined and object types since they don't provide any type information for extends
