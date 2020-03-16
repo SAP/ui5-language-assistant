@@ -1,0 +1,54 @@
+version: 2
+jobs:
+  build-node13:
+    docker:
+      - image: circleci/node:13-browsers
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - run: yarn
+      - run: yarn run ci
+
+# TODO: only one parallel worker for CircleCI when in a private repo, uncomment this when going public
+#  build-node12:
+#    docker:
+#      - image: circleci/node:12-browsers
+#    working_directory: ~/repo
+#    steps:
+#      - checkout
+#      - run: yarn
+#      - run: yarn run ci
+#
+#  build-node10:
+#    docker:
+#      - image: circleci/node:10-browsers
+#    working_directory: ~/repo
+#    steps:
+#      - checkout
+#      - run: yarn
+#      - run: yarn run ci
+
+  deploy-npm:
+    docker:
+      - image: circleci/node:10-browsers
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - run: yarn --pure-lockfile
+      - run: yarn run ci
+      - run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
+      # To help debug when lerna detects changes to the working tree and fails the publish
+      - run: git status
+      - run: yarn run lerna:publish
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - build-node13
+      - deploy-npm:
+          filters:
+            tags:
+              only: /^RELEASE/
+            branches:
+              ignore: /.*/

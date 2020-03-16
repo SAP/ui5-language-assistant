@@ -1,3 +1,3 @@
-[![Build Status](https://dev.azure.com/sap/devx-wing/_apis/build/status/devx-wing.vscode-ui5?branchName=master)](https://dev.azure.com/sap/devx-wing/_build/latest?definitionId=88&branchName=master)
+[![CircleCI](https://circleci.com/gh/sap-staging/VSCode-UI5.svg?style=svg)](https://circleci.com/gh/sap-staging/VSCode-UI5)
 
 # vscode-ui5
