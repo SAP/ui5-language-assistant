@@ -1,0 +1,49 @@
+{
+  "name": "@vscode-ui5/language-server",
+  "version": "0.0.1",
+  "description": "UI5 language server",
+  "publisher": "SAPSE",
+  "keywords": [
+    "LSP",
+    "language-server",
+    "UI5"
+  ],
+  "files": [
+    "lib/src",
+    "api.d.ts",
+    "src"
+  ],
+  "main": "lib/src/api.js",
+  "repository": "https://github.com/sap/ui5-vscode/",
+  "license": "Apache-2.0",
+  "typings": "./api.d.ts",
+  "engines": {
+    "node": ">=10.0.0"
+  },
+  "dependencies": {
+    "@xml-tools/parser": "1.0.3",
+    "@xml-tools/ast": "4.0.2",
+    "vscode-languageserver": "6.1.1",
+    "vscode-languageserver-textdocument": "1.0.0",
+    "node-fetch": "2.6.0",
+    "@vscode-ui5/semantic-model": "0.0.1",
+    "@vscode-ui5/xml-views-completion": "0.0.1",
+    "lodash": "4.17.15"
+  },
+  "devDependencies": {
+    "@types/node-fetch": "2.5.5",
+    "vscode-languageserver-types": "3.15.1"
+  },
+  "scripts": {
+    "ci": "npm-run-all compile lint coverage",
+    "clean": "rimraf ./lib",
+    "compile": "yarn run clean && tsc -p .",
+    "compile:watch": "tsc -p . --watch",
+    "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore",
+    "test": "mocha",
+    "coverage": "nyc mocha"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

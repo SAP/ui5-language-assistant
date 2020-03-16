@@ -1,0 +1,27 @@
+{
+  "name": "ui5-language-support",
+  "private": true,
+  "description": "VS Code client extension for ui5 language server",
+  "version": "0.0.1",
+  "publisher": "SAPSE",
+  "license": "Apache-2.0",
+  "repository": "https://github.com/sap/ui5-vscode/",
+  "engines": {
+    "vscode": "1.42.0"
+  },
+  "scripts": {
+    "ci": "npm-run-all compile lint coverage",
+    "clean": "rimraf ./lib",
+    "compile": "yarn run clean && tsc -p .",
+    "compile:watch": "tsc -p . --watch",
+    "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore",
+    "test": "mocha",
+    "coverage": "nyc mocha"
+  },
+  "dependencies": {
+    "vscode-languageclient": "6.1.1"
+  },
+  "devDependencies": {
+    "@types/vscode": "1.41.0"
+  }
+}
