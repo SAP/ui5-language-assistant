@@ -4,7 +4,7 @@ import { buildAst, XMLElement } from "@xml-tools/ast";
 
 import { xmlToFQN } from "../../src/api";
 
-describe("The @vscode-ui5/logic-utils <xmlToFQN> function", () => {
+describe("The @ui5-editor-tools/logic-utils <xmlToFQN> function", () => {
   context("will return the fully qualified name of an XML tag", () => {
     it("without any xmlns", () => {
       const xmlText = `

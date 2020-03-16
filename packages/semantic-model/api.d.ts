@@ -1,7 +1,7 @@
 import {
   BaseUI5Node,
   UI5SemanticModel
-} from "@vscode-ui5/semantic-model-types";
+} from "@ui5-editor-tools/semantic-model-types";
 
 export type TypeNameFix = Parameters<typeof generate>[0]["typeNameFix"];
 

@@ -6,17 +6,17 @@ import {
   UI5Aggregation,
   UI5Class,
   UI5SemanticModel
-} from "@vscode-ui5/semantic-model-types";
-import { generateModel } from "@vscode-ui5/test-utils";
+} from "@ui5-editor-tools/semantic-model-types";
+import { generateModel } from "@ui5-editor-tools/test-utils";
 
 import { classesSuggestions } from "../../../src/providers/elementName/classes";
 import { testSuggestionsScenario } from "../../utils";
-import { getSuperClasses, ui5NodeToFQN } from "@vscode-ui5/logic-utils";
+import { getSuperClasses, ui5NodeToFQN } from "@ui5-editor-tools/logic-utils";
 import { XMLViewCompletion } from "../../../api";
 
 const ui5Model: UI5SemanticModel = generateModel("1.74.0");
 
-describe("The ui5-vscode xml-views-completion", () => {
+describe("The ui5-editor-tools xml-views-completion", () => {
   context("UI5 Classes Suggestions", () => {
     context("applicable scenarios", () => {
       context("classes at the document's root", () => {

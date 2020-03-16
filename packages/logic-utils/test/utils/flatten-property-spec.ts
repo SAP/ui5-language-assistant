@@ -2,11 +2,11 @@ import {
   buildUI5Class,
   buildUI5Property,
   expectUnsortedEquality
-} from "@vscode-ui5/test-utils";
+} from "@ui5-editor-tools/test-utils";
 import { map } from "lodash";
 import { flattenProperties } from "../../src/api";
 
-describe("The @vscode-ui5/logic-utils <flattenAggregations> function", () => {
+describe("The @ui5-editor-tools/logic-utils <flattenAggregations> function", () => {
   const propA1 = buildUI5Property({ name: "propA1" });
   const propA2 = buildUI5Property({ name: "propA2" });
   const clazzA = buildUI5Class({

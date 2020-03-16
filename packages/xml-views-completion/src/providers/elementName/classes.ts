@@ -6,12 +6,12 @@ import {
   UI5Interface,
   UI5SemanticModel,
   UI5Type
-} from "@vscode-ui5/semantic-model-types";
+} from "@ui5-editor-tools/semantic-model-types";
 import {
   findClassesMatchingType,
   flattenAggregations,
   ui5NodeToFQN
-} from "@vscode-ui5/logic-utils";
+} from "@ui5-editor-tools/logic-utils";
 import { XMLViewCompletion } from "../../../api";
 import { getClassByElement } from "../utils/filter-members";
 import { UI5ElementNameCompletionOptions } from "./index";

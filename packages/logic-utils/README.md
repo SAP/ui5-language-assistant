@@ -1,6 +1,6 @@
-[![npm (scoped)](https://img.shields.io/npm/v/@ui5-vscode/logic-utils.svg)](https://www.npmjs.com/package/@ui5-vscode/logic-utils)
+[![npm (scoped)](https://img.shields.io/npm/v/@ui5-editor-tools/logic-utils.svg)](https://www.npmjs.com/package/@ui5-editor-tools/logic-utils)
 
-# @ui5-vscode/logic-utils
+# @ui5-editor-tools/logic-utils
 
 Common shared logic related utilities for other packages in this mono-repo.
 
@@ -8,11 +8,11 @@ Common shared logic related utilities for other packages in this mono-repo.
 
 With npm:
 
-- `npm install @ui5-vscode/logic-utils`
+- `npm install @ui5-editor-tools/logic-utils`
 
 With Yarn
 
-- `yarn add @ui5-vscode/logic-utils`
+- `yarn add @ui5-editor-tools/logic-utils`
 
 ## Usage
 
@@ -22,7 +22,7 @@ TBD: Quick Start Example
 
 ## Support
 
-Please open [issues](https://github.com/SAP/ui5-vscode/issues) on github.
+Please open [issues](https://github.com/SAP/ui5-editor-tools/issues) on github.
 
 ## Contributing
 
