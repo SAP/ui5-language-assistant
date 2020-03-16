@@ -7,3 +7,4 @@ export {
   flattenEvents,
   flattenProperties
 } from "./utils/flatten-members";
+export { findClassesMatchingType } from "./utils/find-classes-matching-type";

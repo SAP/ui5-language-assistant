@@ -1,6 +1,5 @@
 import { aggregationSuggestions } from "./aggregation";
-import { defaultAggregationSuggestions } from "./defaultAggregation";
-import { nestedClassSuggestions } from "./nested-class";
+import { classesSuggestions } from "./classes";
 import {
   ElementNameCompletion,
   ElementNameCompletionOptions
@@ -11,11 +10,7 @@ import { UI5SemanticModel } from "@vscode-ui5/semantic-model-types";
 export const elementNameProviders: ElementNameCompletion<
   XMLViewCompletion,
   UI5SemanticModel
->[] = [
-  aggregationSuggestions,
-  defaultAggregationSuggestions,
-  nestedClassSuggestions
-];
+>[] = [aggregationSuggestions, classesSuggestions];
 
 export type UI5ElementNameCompletionOptions = ElementNameCompletionOptions<
   UI5SemanticModel

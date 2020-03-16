@@ -4,7 +4,9 @@ import {
   UI5Aggregation,
   UI5Class,
   UI5Event,
-  UI5Prop
+  UI5Interface,
+  UI5Prop,
+  UI5SemanticModel
 } from "@vscode-ui5/semantic-model-types";
 
 /**
@@ -46,3 +48,15 @@ export function flattenProperties(ui5Class: UI5Class): UI5Prop[];
  * Returns a list of all direct and borrowed events of a UI5 Class
  */
 export function flattenEvents(ui5Class: UI5Class): UI5Event[];
+
+/**
+ * Returns a list of all UI5Classes in the model which either extend (transitively)
+ * or Implement (Directly) the `type`.
+ */
+export function findClassesMatchingType({
+  type,
+  model
+}: {
+  type: UI5Class | UI5Interface;
+  model: UI5SemanticModel;
+}): UI5Class[];

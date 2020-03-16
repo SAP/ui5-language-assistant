@@ -25,7 +25,7 @@
   },
   "devDependencies": {
     "@vscode-ui5/semantic-model": "0.0.1",
-    "@xml-tools/parser": "1.0.1",
+    "@xml-tools/parser": "1.0.3",
     "chevrotain": "6.5.0"
   },
   "scripts": {
