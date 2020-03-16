@@ -1,8 +1,13 @@
 import { XMLAttribute, XMLElement } from "@xml-tools/ast";
-import { UI5Event, UI5Prop } from "@ui5-editor-tools/semantic-model-types";
+import {
+  UI5Event,
+  UI5Prop,
+  UI5Association
+} from "@ui5-editor-tools/semantic-model-types/api";
 import {
   flattenEvents,
   flattenProperties,
+  flattenAssociations,
   isElementSubClass
 } from "@ui5-editor-tools/logic-utils";
 import { compact, map, uniq } from "lodash";
@@ -17,7 +22,7 @@ import {
  * Suggests Properties and Events inside Element
  * For example: 'backgroundDesign' and 'icon' in `sap.m.Page` element
  */
-export function propertyAndEventSuggestions(
+export function propEventAssocSuggestions(
   opts: UI5AttributeNameCompletionOptions
 ): XMLViewCompletion[] {
   const ui5Model = opts.context;
@@ -27,19 +32,24 @@ export function propertyAndEventSuggestions(
   if (!isElementSubClass(elementClass)) {
     return [];
   }
-  const allProps: (UI5Prop | UI5Event)[] = flattenProperties(elementClass);
+  const allProps: (UI5Prop | UI5Event | UI5Association)[] = flattenProperties(
+    elementClass
+  );
   const allEvents = flattenEvents(elementClass);
-  const allPropertiesAndEvents = allProps.concat(allEvents);
+  const allAssociations = flattenAssociations(elementClass);
+  const allPropertiesEventsAssociations = allProps
+    .concat(allEvents)
+    .concat(allAssociations);
 
   const prefix = opts.prefix ?? "";
-  const existingPropertiesAndEventsNames = compact(
+  const existingPropEventAssocNames = compact(
     uniq(map(xmlElement.attributes, _ => _.key))
   );
 
   const uniquePrefixMatchingAttributes = filterMembersForSuggestion(
-    allPropertiesAndEvents,
+    allPropertiesEventsAssociations,
     prefix,
-    existingPropertiesAndEventsNames
+    existingPropEventAssocNames
   );
 
   return map(uniquePrefixMatchingAttributes, _ => ({

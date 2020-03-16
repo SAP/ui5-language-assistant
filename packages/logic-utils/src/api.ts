@@ -5,6 +5,7 @@ export { isElementSubClass } from "./utils/is-element-sub-class";
 export {
   flattenAggregations,
   flattenEvents,
-  flattenProperties
+  flattenProperties,
+  flattenAssociations
 } from "./utils/flatten-members";
 export { findClassesMatchingType } from "./utils/find-classes-matching-type";

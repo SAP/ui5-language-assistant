@@ -4,6 +4,7 @@ export { buildUI5Class } from "./utils/semantic-model-builder";
 export { buildUI5Property } from "./utils/semantic-model-builder";
 export { buildUI5Model } from "./utils/semantic-model-builder";
 export { buildUI5Event } from "./utils/semantic-model-builder";
+export { buildUI5Association } from "./utils/semantic-model-builder";
 export { generateModel } from "./utils/semantic-model-provider";
 export { loadLibraries } from "./utils/semantic-model-provider";
 export { getTypeNameFixForVersion } from "./utils/semantic-model-provider";

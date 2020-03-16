@@ -20,3 +20,5 @@ export const flattenProperties = partial(flattenMembers, _ => _.properties);
 export const flattenAggregations = partial(flattenMembers, _ => _.aggregations);
 
 export const flattenEvents = partial(flattenMembers, _ => _.events);
+
+export const flattenAssociations = partial(flattenMembers, _ => _.associations);
