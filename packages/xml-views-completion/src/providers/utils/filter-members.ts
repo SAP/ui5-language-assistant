@@ -1,7 +1,10 @@
 import { filter, includes, reject } from "lodash";
-import { xmlToFQN } from "@vscode-ui5/logic-utils";
+import { xmlToFQN } from "@ui5-editor-tools/logic-utils";
 import { XMLElement } from "@xml-tools/ast";
-import { UI5Class, UI5SemanticModel } from "@vscode-ui5/semantic-model-types";
+import {
+  UI5Class,
+  UI5SemanticModel
+} from "@ui5-editor-tools/semantic-model-types";
 
 interface WithName {
   name: string;

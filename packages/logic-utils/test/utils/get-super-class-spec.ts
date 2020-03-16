@@ -1,9 +1,9 @@
 import { expect } from "chai";
-import { buildUI5Class } from "@vscode-ui5/test-utils";
+import { buildUI5Class } from "@ui5-editor-tools/test-utils";
 
 import { getSuperClasses } from "../../src/api";
 
-describe("The @vscode-ui5/logic-utils <getSuperClasses> function", () => {
+describe("The @ui5-editor-tools/logic-utils <getSuperClasses> function", () => {
   const clazzA = buildUI5Class({ name: "A", library: "sap.ui.core" });
   const clazzB = buildUI5Class({
     name: "B",

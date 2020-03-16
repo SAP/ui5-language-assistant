@@ -6,7 +6,7 @@ import {
   UI5Prop,
   UI5Event,
   UI5SemanticModel
-} from "@vscode-ui5/semantic-model-types";
+} from "@ui5-editor-tools/semantic-model-types";
 
 import { PartialWithName } from "../../api";
 

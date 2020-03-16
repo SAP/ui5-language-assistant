@@ -5,10 +5,10 @@ import {
   UI5SemanticModel,
   UI5Prop,
   UI5Event
-} from "@vscode-ui5/semantic-model-types";
-import { Json, TypeNameFix } from "@vscode-ui5/semantic-model";
+} from "@ui5-editor-tools/semantic-model-types";
+import { Json, TypeNameFix } from "@ui5-editor-tools/semantic-model";
 import { XMLAttribute, XMLElement } from "@xml-tools/ast";
-import { XMLViewCompletion } from "@vscode-ui5/xml-views-completion";
+import { XMLViewCompletion } from "@ui5-editor-tools/xml-views-completion";
 
 //	easily build (partial) data structures for tests with mandatory "name" field
 export type PartialWithName<T> = { name: string } & Partial<T>;

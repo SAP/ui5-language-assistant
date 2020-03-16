@@ -1,6 +1,6 @@
-[![npm (scoped)](https://img.shields.io/npm/v/@ui5-vscode/xml-views-completion.svg)](https://www.npmjs.com/package/@ui5-vscode/xml-views-completion)
+[![npm (scoped)](https://img.shields.io/npm/v/@ui5-editor-tools/xml-views-completion.svg)](https://www.npmjs.com/package/@ui5-editor-tools/xml-views-completion)
 
-# @ui5-vscode/xml-views-completion
+# @ui5-editor-tools/xml-views-completion
 
 TBD: Description
 
@@ -8,11 +8,11 @@ TBD: Description
 
 With npm:
 
-- `npm install @ui5-vscode/xml-views-completion`
+- `npm install @ui5-editor-tools/xml-views-completion`
 
 With Yarn
 
-- `yarn add @ui5-vscode/xml-views-completion`
+- `yarn add @ui5-editor-tools/xml-views-completion`
 
 ## Usage
 
@@ -22,7 +22,7 @@ TBD: Quick Start Example
 
 ## Support
 
-Please open [issues](https://github.com/SAP/ui5-vscode/issues) on github.
+Please open [issues](https://github.com/SAP/ui5-editor-tools/issues) on github.
 
 ## Contributing
 

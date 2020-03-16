@@ -4,18 +4,18 @@ import {
   buildUI5Model,
   buildUI5Class,
   expectExists
-} from "@vscode-ui5/test-utils";
+} from "@ui5-editor-tools/test-utils";
 import {
   UI5Class,
   UI5SemanticModel,
   UI5Type
-} from "@vscode-ui5/semantic-model-types";
+} from "@ui5-editor-tools/semantic-model-types";
 import { resolveType, setParent } from "../src/resolve";
 import { getSymbolMaps } from "../src/utils";
 import { generate } from "../src/api";
 import { ClassSymbol, NamespaceSymbol, SymbolBase } from "../src/api-json";
 
-context("The ui5-vscode semantic model package unit tests", () => {
+context("The ui5-editor-tools semantic model package unit tests", () => {
   describe("resolveType", () => {
     it("returns the same type if it's resolved", () => {
       const model = buildUI5Model({});

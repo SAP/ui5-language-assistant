@@ -1,4 +1,4 @@
-import { UI5SemanticModel } from "@vscode-ui5/semantic-model-types";
+import { UI5SemanticModel } from "@ui5-editor-tools/semantic-model-types";
 import { GENERATED_LIBRARY } from "./api";
 import { getParentFqn, newMap, forEachSymbol, findSymbol } from "./utils";
 

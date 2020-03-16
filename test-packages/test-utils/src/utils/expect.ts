@@ -1,9 +1,9 @@
 import { expect, use } from "chai";
 import deepEqualInAnyOrder = require("deep-equal-in-any-order");
 import { XMLAttribute, XMLElement } from "@xml-tools/ast";
-import { UI5SemanticModel } from "@vscode-ui5/semantic-model-types";
+import { UI5SemanticModel } from "@ui5-editor-tools/semantic-model-types";
 import { getFQN } from "./model-test-utils";
-import { XMLViewCompletion } from "@vscode-ui5/xml-views-completion";
+import { XMLViewCompletion } from "@ui5-editor-tools/xml-views-completion";
 import { map } from "lodash";
 
 use(deepEqualInAnyOrder);

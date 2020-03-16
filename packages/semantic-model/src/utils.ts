@@ -2,7 +2,7 @@ import { isEmpty, has } from "lodash";
 import {
   BaseUI5Node,
   UI5SemanticModel
-} from "@vscode-ui5/semantic-model-types";
+} from "@ui5-editor-tools/semantic-model-types";
 
 export function newMap<T>(): Record<string, T> {
   // Create an object without a prototype so it doesn't have built-in methods like toString

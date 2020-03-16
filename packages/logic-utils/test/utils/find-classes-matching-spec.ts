@@ -1,12 +1,12 @@
 import { map } from "lodash";
 import { expect } from "chai";
-import { UI5SemanticModel } from "@vscode-ui5/semantic-model-types";
-import { generateModel } from "@vscode-ui5/test-utils";
+import { UI5SemanticModel } from "@ui5-editor-tools/semantic-model-types";
+import { generateModel } from "@ui5-editor-tools/test-utils";
 import { findClassesMatchingType, ui5NodeToFQN } from "../../src/api";
 
 const ui5Model: UI5SemanticModel = generateModel("1.74.0");
 
-describe("The @vscode-ui5/logic-utils <findClassesMatchingType> function", () => {
+describe("The @ui5-editor-tools/logic-utils <findClassesMatchingType> function", () => {
   it("can locate classes matching an interface", () => {
     const targetInterface = ui5Model.interfaces["sap.m.IconTab"];
     const matchingClasses = findClassesMatchingType({

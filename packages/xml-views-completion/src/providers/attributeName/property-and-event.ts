@@ -1,10 +1,10 @@
 import { XMLAttribute, XMLElement } from "@xml-tools/ast";
-import { UI5Event, UI5Prop } from "@vscode-ui5/semantic-model-types";
+import { UI5Event, UI5Prop } from "@ui5-editor-tools/semantic-model-types";
 import {
   flattenEvents,
   flattenProperties,
   isElementSubClass
-} from "@vscode-ui5/logic-utils";
+} from "@ui5-editor-tools/logic-utils";
 import { compact, map, uniq } from "lodash";
 import { UI5AttributeNameCompletionOptions } from "./index";
 import { XMLViewCompletion } from "../../../api";

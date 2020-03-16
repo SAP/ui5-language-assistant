@@ -1,13 +1,13 @@
 import { expect } from "chai";
 import { difference, partial } from "lodash";
 
-import { UI5SemanticModel } from "@vscode-ui5/semantic-model-types";
+import { UI5SemanticModel } from "@ui5-editor-tools/semantic-model-types";
 import { testSuggestionsScenario } from "../../utils";
 import {
   expectSuggestions,
   expectXMLAttribute,
   generateModel
-} from "@vscode-ui5/test-utils";
+} from "@ui5-editor-tools/test-utils";
 import { propertyAndEventSuggestions } from "../../../src/providers/attributeName/property-and-event";
 import { XMLAttribute } from "@xml-tools/ast";
 import { XMLViewCompletion } from "../../../api";
@@ -45,7 +45,7 @@ const allPropertiesAndEvents = uiCoreControlProperties
   .concat(radioButtonGroupProperties)
   .concat(radioButtonGroupEvents);
 
-describe("The ui5-vscode xml-views-completion", () => {
+describe("The ui5-editor-tools xml-views-completion", () => {
   context("properties and events", () => {
     context("applicable scenarios", () => {
       it("will suggest when no prefix provided", () => {

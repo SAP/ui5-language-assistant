@@ -1,7 +1,7 @@
 import {
   flattenAggregations,
   isElementSubClass
-} from "@vscode-ui5/logic-utils";
+} from "@ui5-editor-tools/logic-utils";
 
 import { XMLViewCompletion } from "../../../api";
 import { map, compact, uniq } from "lodash";
