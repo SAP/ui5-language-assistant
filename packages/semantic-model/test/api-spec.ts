@@ -59,7 +59,7 @@ context("The ui5-language-assistant semantic model package API", () => {
         `Symbol ${fqn} does not have a parent property`
       );
       const parent = symbol.parent;
-      if (fqn.indexOf(".") >= 0) {
+      if (fqn.indexOf(".") >= 0 && fqn.indexOf(".") !== fqn.length - 1) {
         expectExists(parent, `Symbol ${fqn} does not have a parent`);
         const parentFqn = getFQN(model, parent);
         expectExists(
@@ -253,13 +253,10 @@ context("The ui5-language-assistant semantic model package API", () => {
     });
   }
 
-  const versions: TestModelVersion[] = ["1.60.14", "1.74.0"];
+  const versions: TestModelVersion[] = ["1.60.14", "1.74.0", "1.71.14"];
   for (const version of versions) {
     createModelConsistencyTests(version);
   }
-
-  // CDN libraries (example URL):
-  // https://sapui5-sapui5.dispatcher.us1.hana.ondemand.com/test-resources/sap/m/designtime/api.json
 
   describe("returned model is frozen", () => {
     const readOnlyMessageMatcher = "read only";

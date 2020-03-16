@@ -15,14 +15,21 @@ export const GENERATED_LIBRARY: string = "Generated";
 export function generate({
   libraries,
   typeNameFix,
-  strict = true
+  strict = true,
+  printValidationErrors = true
 }: {
   libraries: Record<string, Json>;
   typeNameFix: TypeNameFix;
   strict?: boolean;
+  printValidationErrors?: boolean;
 }): UI5SemanticModel {
   const jsonSymbols = newMap<ConcreteSymbol>();
-  const model = convertToSemanticModel(libraries, jsonSymbols, strict);
+  const model = convertToSemanticModel(
+    libraries,
+    jsonSymbols,
+    strict,
+    printValidationErrors
+  );
   generateMissingSymbols(model, strict);
   resolveSemanticProperties(model, jsonSymbols, typeNameFix, strict);
   return deepFreezeStrict(model);

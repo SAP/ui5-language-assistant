@@ -39,6 +39,36 @@ const fixes: Record<TestModelVersion, TypeNameFix> = {
     "sap.ui.layout.cssgrid.IGridItemLayoutData": undefined,
     "sap.ui.layout.ResponsiveSplitterPage": undefined,
     "Object.<string,any>": undefined
+  },
+  "1.71.14": {
+    Control: "sap.ui.core.Control",
+    Element: "sap.ui.core.Element",
+    array: "any[]",
+    Array: "any[]",
+    bloolean: "boolean",
+    "sap.m.PlanningCalendarHeader": undefined,
+    "sap.m.TimePickerSlider": undefined,
+    "sap.ui.layout.ResponsiveSplitterPage": undefined,
+    "sap.gantt.misc.AxisTime": "sap.gantt.misc.AxisTimes",
+    "sap.gantt.control.Toolbar": undefined,
+    "sap.gantt.DragOrientation": undefined,
+    "sap.gantt.simple.GanttHeader": undefined,
+    "sap.gantt.simple.InnerGanttChart": undefined,
+    "sap.rules.ui.RuleBase": undefined,
+    "sap.ui.generic.app.transaction.BaseController": undefined,
+    "sap.ui.vk.BillboardTextEncoding": undefined,
+    "sap.ui.vk.BillboardStyle": undefined,
+    "sap.ui.vk.BillboardBorderLineStyle": undefined,
+    "sap.ui.vk.BillboardHorizontalAlignment": undefined,
+    "sap.ui.vk.BillboardCoordinateSpace": undefined,
+    "sap.ui.vk.DetailViewType": undefined,
+    "sap.ui.vk.DetailViewShape": undefined,
+    "sap.ui.vk.tools.HitTestIdMode": undefined,
+    "sap.ui.vk.tools.CoordinateSystem": undefined,
+    "sap.ui.vk.AnimationTimeSlider": undefined,
+    "sap.ui.vk.SelectionMode": undefined,
+    "sap.ui.vk.RenderMode": undefined,
+    "sap.viz.ui5.controls.VizRangeSlider": undefined
   }
 };
 

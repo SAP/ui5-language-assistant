@@ -1,0 +1,18 @@
+{
+  "$schema-ref": "http://schemas.sap.com/sapui5/designtime/api.json/1.0",
+  "version": "1.71.4",
+  "library": "sap.ovp",
+  "symbols": [
+    {
+      "kind": "namespace",
+      "name": "sap.ovp",
+      "basename": "ovp",
+      "resource": "sap/ovp/library.js",
+      "module": "sap/ovp/library",
+      "export": "",
+      "static": true,
+      "visibility": "public",
+      "description": "SAP library: sap.ovp"
+    }
+  ]
+}

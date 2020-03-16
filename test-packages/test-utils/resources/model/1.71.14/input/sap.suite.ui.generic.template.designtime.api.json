@@ -1,0 +1,2158 @@
+{
+  "$schema-ref": "http://schemas.sap.com/sapui5/designtime/api.json/1.0",
+  "version": "1.71.12",
+  "library": "sap.suite.ui.generic.template",
+  "symbols": [
+    {
+      "kind": "namespace",
+      "name": "sap.suite.ui.generic.template",
+      "basename": "template",
+      "resource": "sap/suite/ui/generic/template/library.js",
+      "module": "sap/suite/ui/generic/template/library",
+      "export": "",
+      "static": true,
+      "visibility": "public",
+      "description": "Library with generic Suite UI templates."
+    },
+    {
+      "kind": "namespace",
+      "name": "sap.suite.ui.generic.template.AnalyticalListPage.controllerFrameworkExtensions",
+      "basename": "controllerFrameworkExtensions",
+      "resource": "sap/suite/ui/generic/template/AnalyticalListPage/controllerFrameworkExtensions.js",
+      "module": "sap/suite/ui/generic/template/AnalyticalListPage/controllerFrameworkExtensions",
+      "export": "",
+      "static": true,
+      "visibility": "public",
+      "description": "This class contains all extension functions that have been defined for the AnalyticalListPage floorplan.",
+      "methods": [
+        {
+          "name": "adaptNavigationParameterExtension",
+          "visibility": "protected",
+          "static": true,
+          "parameters": [
+            {
+              "name": "oSelectionVariant",
+              "type": "sap.ui.generic.app.navigation.service.SelectionVariant",
+              "optional": false,
+              "description": "The SelectionVariant."
+            },
+            {
+              "name": "oObjectInfo",
+              "type": "object",
+              "optional": false,
+              "description": "The object storing target app info."
+            }
+          ],
+          "description": "This method can be called before external navigation to modify the target app info i.e. semanticObject and action along with the SelectionVariant to be passed."
+        },
+        {
+          "name": "adaptTransientMessageExtension",
+          "visibility": "protected",
+          "static": true,
+          "description": "This method can be used to customize transient messages."
+        },
+        {
+          "name": "getCustomAppStateDataExtension",
+          "visibility": "protected",
+          "static": true,
+          "parameters": [
+            {
+              "name": "oCustomData",
+              "type": "object",
+              "optional": false,
+              "description": "The object storing the custom data."
+            }
+          ],
+          "description": "The content of the custom field shall be stored in the app state, so that it can be restored later. For example, after a back navigation. The developer has to ensure that the content of the field is stored in the object that is returned by this method."
+        },
+        {
+          "name": "getVisibleSelectionsWithDefaults",
+          "visibility": "protected",
+          "static": true,
+          "returnValue": {
+            "type": "Array",
+            "description": "aVisibleFields - The array of visible selection fields on the SmartFilterBar."
+          },
+          "description": "This method is used to return an array of all selection fields in the SmartFilterBar for which defaults are defined (see method <code>setSmartFilterBarDefaults<code>) and which are currently visible. This is required by <code>_getBackNavigationParameters</code> in the NavigationController."
+        },
+        {
+          "name": "modifyStartupExtension",
+          "visibility": "protected",
+          "static": true,
+          "parameters": [
+            {
+              "name": "oStartupObject",
+              "type": "object",
+              "optional": false,
+              "description": "oStartupObject.selectionVariant used to modify the SelectionVariant."
+            }
+          ],
+          "description": "This method can be used to modify the SelectionVariant of the SmartFilterBar when launching the app."
+        },
+        {
+          "name": "onBeforeRebindChartExtension",
+          "visibility": "protected",
+          "static": true,
+          "parameters": [
+            {
+              "name": "oEvent",
+              "type": "sap.ui.base.Event",
+              "optional": false,
+              "description": "The {@link sap.ui.comp.smartchart.SmartChart.prototype.event:beforeRebindChart} event."
+            }
+          ],
+          "description": "This method called before the chart rebind can be used to define app-specific logic before the chart is rendered. This allows for binding additional parameters, such as custom filters or chart queries."
+        },
+        {
+          "name": "onBeforeRebindFilterableKPIExtension",
+          "visibility": "protected",
+          "static": true,
+          "parameters": [
+            {
+              "name": "oSelectionVariant",
+              "type": "sap.ui.generic.app.navigation.service.SelectionVariant",
+              "optional": false,
+              "description": "The SelectionVariant."
+            },
+            {
+              "name": "sEntityType",
+              "type": "string",
+              "optional": false,
+              "description": "The filterable KPI's entity type."
+            },
+            {
+              "name": "sKPIId",
+              "type": "string",
+              "optional": false,
+              "description": "The filterable KPI's Id."
+            }
+          ],
+          "description": "This method called before a filterable KPI rebind can be used to modify the existing filters or parameter values or custom filters for a filterable KPI."
+        },
+        {
+          "name": "onBeforeRebindTableExtension",
+          "visibility": "protected",
+          "static": true,
+          "parameters": [
+            {
+              "name": "oEvent",
+              "type": "sap.ui.base.Event",
+              "optional": false,
+              "description": "The {@link sap.ui.comp.smarttable.SmartTable.prototype.event:beforeRebindTable} event."
+            }
+          ],
+          "description": "This method called before the table rebind can be used to define app-specific logic before the table is rendered. This allows for binding additional parameters from custom filters to the table query."
+        },
+        {
+          "name": "onBeforeRebindVisualFilterExtension",
+          "visibility": "protected",
+          "static": true,
+          "parameters": [
+            {
+              "name": "sEntityType",
+              "type": "string",
+              "optional": false,
+              "description": "The visual filter entity type."
+            },
+            {
+              "name": "sDimension",
+              "type": "string",
+              "optional": false,
+              "description": "The visual filter dimension."
+            },
+            {
+              "name": "sMeasure",
+              "type": "string",
+              "optional": false,
+              "description": "The visual filter measure."
+            },
+            {
+              "name": "oContext",
+              "type": "object",
+              "optional": false,
+              "parameterProperties": {
+                "entityParameters": {
+                  "name": "entityParameters",
+                  "type": "object",
+                  "optional": false,
+                  "description": "The object can be modified for the entity set parameters to be applied to the visual filter call."
+                },
+                "queryParameter": {
+                  "name": "queryParameter",
+                  "type": "object",
+                  "optional": false,
+                  "description": "The object can be modified for the custom query parameters to be applied to the visual filter call."
+                },
+                "filters": {
+                  "name": "filters",
+                  "type": "sap.ui.model.Filter[]",
+                  "optional": false,
+                  "description": "The combined filter array can be modified by users to influence the filters applied to the visual filter call."
+                },
+                "sorters": {
+                  "name": "sorters",
+                  "type": "sap.ui.model.Sorter[]",
+                  "optional": false,
+                  "description": "The combined sorter array can be modified by users to influence the sorting order of the visual filter."
+                }
+              },
+              "description": "The context to modify for the custom filter/parameter, query parameter or sort order."
+            }
+          ],
+          "description": "This method called before a visual filter rebind can be used to modify custom filter/parameter values to the visual filter, add a custom query parameter to the visual filter call or influence the sorting order of the visual filter. In this extension, app developer can aso access incoming navigation context of the app through <code>getNavigationContext</code> API."
+        },
+        {
+          "name": "onClearFilterExtension",
+          "visibility": "protected",
+          "static": true,
+          "parameters": [
+            {
+              "name": "oEvent",
+              "type": "sap.ui.base.Event",
+              "optional": false,
+              "description": "The press event fired when the Clear button is pressed."
+            }
+          ],
+          "description": "This method is needed to define the logic to handle the clear event for custom filters. This method is triggered by ALP when the Clear button is pressed on the filter bar or the filter dialog, which clears all filter dimensions."
+        },
+        {
+          "name": "onInitSmartFilterBarExtension",
+          "visibility": "protected",
+          "static": true,
+          "parameters": [
+            {
+              "name": "oEvent",
+              "type": "sap.ui.base.Event",
+              "optional": false,
+              "description": "The initialise event of the SmartFilterBar."
+            }
+          ],
+          "description": "The custom field in the SmartFilterBar may be bound to a custom data model. Should a value change in these field trigger a follow up action, this method is the place to define and bind an event handler to the custom field. This method is triggered by ALP when the SmartFilterBar is initialized."
+        },
+        {
+          "name": "onListNavigationExtension",
+          "visibility": "protected",
+          "static": true,
+          "parameters": [
+            {
+              "name": "oEvent",
+              "type": "sap.ui.base.Event",
+              "optional": false,
+              "description": "The press event fired when navigating from a row in the SmartTable."
+            }
+          ],
+          "description": "This method can be used to perform conditional navigation from different rows of the SmartTable by choosing the target app based on the context available in the selected table record."
+        },
+        {
+          "name": "onSaveAsTileExtension",
+          "visibility": "protected",
+          "static": true,
+          "parameters": [
+            {
+              "name": "oShareInfo",
+              "type": "object",
+              "optional": false,
+              "description": "The tile info object."
+            }
+          ],
+          "description": "This method can be used to let the app decide the URL to be used for dynamic tiles. This method is called when Save as Tile is clicked."
+        },
+        {
+          "name": "restoreCustomAppStateDataExtension",
+          "visibility": "protected",
+          "static": true,
+          "parameters": [
+            {
+              "name": "oCustomdata",
+              "type": "object",
+              "optional": false,
+              "description": "The object storing the custom data."
+            }
+          ],
+          "description": "This method is needed in order to restore the content of the custom field in the SmartFilterBar. For example, after a back navigation, an object with the content is handed over to this method and the develper has to ensure that the content of the custom field is set accordingly. Also, empty properties have to be set."
+        }
+      ]
+    },
+    {
+      "kind": "class",
+      "name": "sap.suite.ui.generic.template.AnalyticalListPage.extensionAPI.ExtensionAPI",
+      "basename": "ExtensionAPI",
+      "resource": "sap/suite/ui/generic/template/AnalyticalListPage/extensionAPI/ExtensionAPI.js",
+      "module": "sap/suite/ui/generic/template/AnalyticalListPage/extensionAPI/ExtensionAPI",
+      "export": "",
+      "static": true,
+      "visibility": "public",
+      "extends": "sap.ui.base.Object",
+      "ui5-metadata": { "stereotype": "object" },
+      "constructor": {
+        "visibility": "public",
+        "description": "API to be used in extensions of AnalyticalListPage. Breakout coding can access an instance of this class via <code>this.extensionAPI</code>. Do not instantiate yourself."
+      },
+      "methods": [
+        {
+          "name": "attachToView",
+          "visibility": "public",
+          "parameters": [
+            {
+              "name": "oControl",
+              "type": "sap.ui.core.Control",
+              "optional": false,
+              "description": "the control to be attached to the view"
+            }
+          ],
+          "description": "Attaches a control to the current View. Should be called whenever a new control is created and used in the context of this view. This applies especially for dialogs, action sheets, popovers, ... This method cares for defining dependency and handling device specific style classes"
+        },
+        {
+          "name": "extend",
+          "visibility": "public",
+          "static": true,
+          "returnValue": {
+            "type": "function",
+            "description": "Created class / constructor function"
+          },
+          "parameters": [
+            {
+              "name": "sClassName",
+              "type": "string",
+              "optional": false,
+              "description": "Name of the class being created"
+            },
+            {
+              "name": "oClassInfo",
+              "type": "object",
+              "optional": true,
+              "description": "Object literal with information about the class"
+            },
+            {
+              "name": "FNMetaImpl",
+              "type": "function",
+              "optional": true,
+              "description": "Constructor function for the metadata object; if not given, it defaults to <code>sap.ui.core.ElementMetadata</code>"
+            }
+          ],
+          "description": "Creates a new subclass of class sap.suite.ui.generic.template.AnalyticalListPage.extensionAPI.ExtensionAPI with name <code>sClassName</code> and enriches it with the information contained in <code>oClassInfo</code>.\n\n<code>oClassInfo</code> might contain the same kind of information as described in {@link sap.ui.base.Object.extend}."
+        },
+        {
+          "name": "getMetadata",
+          "visibility": "public",
+          "static": true,
+          "returnValue": {
+            "type": "sap.ui.base.Metadata",
+            "description": "Metadata object describing this class"
+          },
+          "description": "Returns a metadata object for class sap.suite.ui.generic.template.AnalyticalListPage.extensionAPI.ExtensionAPI."
+        },
+        {
+          "name": "getNavigationContext",
+          "visibility": "public",
+          "returnValue": {
+            "type": "Object",
+            "description": "Navigation context object"
+          },
+          "description": "provides incoming navigation context of the app"
+        },
+        {
+          "name": "getNavigationController",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.suite.ui.generic.template.extensionAPI.NavigationController",
+            "description": "the navigation controller"
+          },
+          "description": "Get the navigation controller for navigation actions"
+        },
+        {
+          "name": "getSelectedContexts",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.ui.model.Context[]",
+            "description": "contains the entries selected"
+          },
+          "parameters": [
+            {
+              "name": "sUiElementId",
+              "type": "string",
+              "optional": false,
+              "description": "the id identifying the ui element the selected context is requested for"
+            }
+          ],
+          "description": "Get the list entries currently selected"
+        },
+        {
+          "name": "onCustomAppStateChange",
+          "visibility": "public",
+          "description": "This method should be called when any custom ui state handled by the getCustomAppStateDataExtension method changes. Note that changes applied to custom filters need not to be propagated this way, since the change event of the SmartFilterBar will automatically be handled by the smart template framework."
+        },
+        {
+          "name": "rebindTable",
+          "visibility": "public",
+          "description": "Triggers rebinding on the list"
+        },
+        {
+          "name": "refresh",
+          "visibility": "public",
+          "description": "Refreshes All controls in ALP"
+        },
+        {
+          "name": "refreshTable",
+          "visibility": "public",
+          "description": "Refreshes the SmartTable"
+        },
+        {
+          "name": "securedExecution",
+          "visibility": "public",
+          "returnValue": {
+            "type": "Promise",
+            "description": "A <code>Promise</code> that is rejected, if execution is prohibited, and settled equivalent to the one returned by fnFunction."
+          },
+          "parameters": [
+            {
+              "name": "fnFunction",
+              "type": "function",
+              "optional": false,
+              "description": "The function to be executed. Should return a promise that is settled after completion of the execution. If nothing is returned, immediate completion is assumed."
+            },
+            {
+              "name": "mParameters",
+              "type": "object",
+              "optional": true,
+              "parameterProperties": {
+                "busy": {
+                  "name": "busy",
+                  "type": "object",
+                  "optional": true,
+                  "parameterProperties": {
+                    "set": {
+                      "name": "set",
+                      "type": "boolean",
+                      "optional": true,
+                      "defaultValue": true,
+                      "description": "Triggers a busy indication during function execution. Can be set to false in case of immediate completion."
+                    },
+                    "check": {
+                      "name": "check",
+                      "type": "boolean",
+                      "optional": true,
+                      "defaultValue": true,
+                      "description": "Checks whether the application is currently busy. Function is only executed if not. Has to be set to false, if function is not triggered by direct user interaction, but as result of another function, that set the application busy."
+                    }
+                  },
+                  "description": "Parameters regarding busy indication"
+                },
+                "dataloss": {
+                  "name": "dataloss",
+                  "type": "object",
+                  "optional": true,
+                  "parameterProperties": {
+                    "popup": {
+                      "name": "popup",
+                      "type": "boolean",
+                      "optional": true,
+                      "defaultValue": true,
+                      "description": "Provides a dataloss popup before execution of the function if needed (i.e. in non-draft case when model or registered methods contain pending changes)."
+                    },
+                    "navigation": {
+                      "name": "navigation",
+                      "type": "boolean",
+                      "optional": true,
+                      "defaultValue": false,
+                      "description": "Indicates that execution of the function leads to a navigation, i.e. leaves the current page, which induces a slightly different text for the dataloss popup."
+                    }
+                  },
+                  "description": "Parameters regarding dataloss prevention"
+                },
+                "mConsiderObjectsAsDeleted": {
+                  "name": "mConsiderObjectsAsDeleted",
+                  "type": "map",
+                  "optional": true,
+                  "description": "Tells the framework that objects will be deleted by <code>fnFunction</code>. Use the BindingContextPath as a key for the map. Fill the map with a <code>Promise</code> for each object which is to be deleted. The <code>Promise</code> must resolve after the deletion of the corresponding object or reject if the deletion is not successful."
+                },
+                "sActionLabel": {
+                  "name": "sActionLabel",
+                  "type": "string",
+                  "optional": true,
+                  "description": "In case of custom actions, the title of the message popup is set to sActionLabel."
+                }
+              },
+              "description": "Parameters to define the preconditions to be checked before execution"
+            }
+          ],
+          "description": "Secured execution of the given function. Ensures that the function is only executed when certain conditions are fulfilled.",
+          "references": [
+            "{@link topic:6a39150ad3e548a8b5304d32d560790a Using the SecuredExecutionMethod}"
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "class",
+      "name": "sap.suite.ui.generic.template.Canvas.extensionAPI.ExtensionAPI",
+      "basename": "ExtensionAPI",
+      "resource": "sap/suite/ui/generic/template/Canvas/extensionAPI/ExtensionAPI.js",
+      "module": "sap/suite/ui/generic/template/Canvas/extensionAPI/ExtensionAPI",
+      "export": "",
+      "static": true,
+      "visibility": "public",
+      "extends": "sap.ui.base.Object",
+      "ui5-metadata": { "stereotype": "object" },
+      "constructor": {
+        "visibility": "public",
+        "description": "API to be used in extensions of Canvas. Breakout coding can access an instance of this class via <code>this.extensionAPI</code>. Do not instantiate yourself."
+      },
+      "methods": [
+        {
+          "name": "addFooterBarToPage",
+          "visibility": "public",
+          "parameters": [
+            {
+              "name": "oPage",
+              "type": "sap.m.Page|sap.uxap.ObjectPageLayout",
+              "optional": false,
+              "description": "the page the standard footer bar should be set for"
+            },
+            {
+              "name": "aActions",
+              "type": "array",
+              "optional": false,
+              "description": "an array of controls(for example; Buttons) to be added to the footer."
+            }
+          ],
+          "description": "Can be used to add the standard footer bar for detail pages to this canvas page. It also allows to pass an array of buttons to be added to the footer. Note that the usage of the standard footer bar must have been switched on in the settings of the page"
+        },
+        {
+          "name": "attachPageDataLoaded",
+          "visibility": "public",
+          "parameters": [
+            {
+              "name": "fnFunction",
+              "type": "function",
+              "optional": false,
+              "description": "the handler function. Note that the event passed to this function possesses an attribute <code>context</code> which contains the current header context"
+            }
+          ],
+          "description": "Attach a handler to the PageDataLoaded event. This event is fired each time the object page is navigated to or the object to be displayed is changed Note, that the event will not be fired before: <ul compact> <li>the navigation to the page has been completed <li>the header data of the object are available </ul>"
+        },
+        {
+          "name": "attachToView",
+          "visibility": "public",
+          "parameters": [
+            {
+              "name": "oControl",
+              "type": "sap.ui.core.Control",
+              "optional": false,
+              "description": "the control to be attached to the view"
+            }
+          ],
+          "description": "Attaches a control to the current View. Should be called whenever a new control is created and used in the context of this view. This applies especially for dialogs, action sheets, popovers, ... This method cares for defining dependency and handling device specific style classes"
+        },
+        {
+          "name": "detachPageDataLoaded",
+          "visibility": "public",
+          "parameters": [
+            {
+              "name": "fnFunction",
+              "type": "function",
+              "optional": false,
+              "description": "the handler function"
+            }
+          ],
+          "description": "Detach a handler from the PageDataLoaded event"
+        },
+        {
+          "name": "extend",
+          "visibility": "public",
+          "static": true,
+          "returnValue": {
+            "type": "function",
+            "description": "Created class / constructor function"
+          },
+          "parameters": [
+            {
+              "name": "sClassName",
+              "type": "string",
+              "optional": false,
+              "description": "Name of the class being created"
+            },
+            {
+              "name": "oClassInfo",
+              "type": "object",
+              "optional": true,
+              "description": "Object literal with information about the class"
+            },
+            {
+              "name": "FNMetaImpl",
+              "type": "function",
+              "optional": true,
+              "description": "Constructor function for the metadata object; if not given, it defaults to <code>sap.ui.core.ElementMetadata</code>"
+            }
+          ],
+          "description": "Creates a new subclass of class sap.suite.ui.generic.template.Canvas.extensionAPI.ExtensionAPI with name <code>sClassName</code> and enriches it with the information contained in <code>oClassInfo</code>.\n\n<code>oClassInfo</code> might contain the same kind of information as described in {@link sap.ui.base.Object.extend}."
+        },
+        {
+          "name": "getFlexibleColumnLayoutActionButtons",
+          "visibility": "public",
+          "returnValue": {
+            "type": "object",
+            "description": "Flexible Column Layout Action Buttons"
+          },
+          "description": "Get the Flexible Column Layout Action Buttons(Fullscreen, Exit Fullscreen and Close)."
+        },
+        {
+          "name": "getMetadata",
+          "visibility": "public",
+          "static": true,
+          "returnValue": {
+            "type": "sap.ui.base.Metadata",
+            "description": "Metadata object describing this class"
+          },
+          "description": "Returns a metadata object for class sap.suite.ui.generic.template.Canvas.extensionAPI.ExtensionAPI."
+        },
+        {
+          "name": "getNavigationController",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.suite.ui.generic.template.extensionAPI.NavigationController",
+            "description": "the navigation controller"
+          },
+          "description": "Get the navigation controller for navigation actions"
+        },
+        {
+          "name": "getTransactionController",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.suite.ui.generic.template.ObjectPage.extensionAPI.DraftTransactionController|sap.suite.ui.generic.template.ObjectPage.extensionAPI.NonDraftTransactionController",
+            "description": "the transaction controller"
+          },
+          "description": "Get the transaction controller for editing actions on the page. Note that the methods provided by this transaction controller depend on whether the object supports drafts or not."
+        },
+        {
+          "name": "invokeActions",
+          "visibility": "public",
+          "returnValue": {
+            "type": "Promise",
+            "description": "A <code>Promise</code> for asynchronous execution of the action"
+          },
+          "parameters": [
+            {
+              "name": "sFunctionName",
+              "type": "string",
+              "optional": false,
+              "description": "The name of the function or action"
+            },
+            {
+              "name": "vContext",
+              "type": "array|sap.ui.model.Context",
+              "optional": false,
+              "description": "The given binding contexts"
+            },
+            {
+              "name": "mUrlParameters",
+              "type": "map",
+              "optional": true,
+              "description": "The URL parameters (name-value pairs) for the function or action"
+            }
+          ],
+          "throws": [
+            {
+              "type": "Error",
+              "description": "Throws an error if the OData function import does not exist or the action input parameters are invalid"
+            }
+          ],
+          "description": "Invokes multiple time the action with the given name and submits changes to the back-end."
+        },
+        {
+          "name": "onCustomStateChange",
+          "visibility": "public",
+          "description": "Call this method to indicate that the state of custom controls has changed. This is only necessary when methods <code>stGetCurrentState</code> and <code>stApplyState</code> have been implemented by the reuse component in the Canvas page, such that the corresponding state can be stored and restored."
+        },
+        {
+          "name": "refreshAncestors",
+          "visibility": "public",
+          "parameters": [
+            {
+              "name": "iLevel",
+              "type": "Integer",
+              "optional": false,
+              "description": "Number of parent components to be refreshed 1 - Refresh the immediate parent component Undefined or faulty - Refresh all parent components"
+            }
+          ],
+          "description": "Allow parent components to be refreshed on next activation"
+        },
+        {
+          "name": "registerMessageFilterProvider",
+          "visibility": "public",
+          "parameters": [
+            {
+              "name": "fnProviderCallback",
+              "type": "function",
+              "optional": false,
+              "description": "function which will be called each time a new context is set for the object page. The function should return an instance of sap.ui.model.Filter, an array of sap.ui.model.Filter or a Promise which resolves to one of these."
+            }
+          ],
+          "description": "Registers a filter provider for the the message popover"
+        },
+        {
+          "name": "securedExecution",
+          "visibility": "public",
+          "returnValue": {
+            "type": "Promise",
+            "description": "A <code>Promise</code> that is rejected, if execution is prohibited, and settled equivalent to the one returned by fnFunction."
+          },
+          "parameters": [
+            {
+              "name": "fnFunction",
+              "type": "function",
+              "optional": false,
+              "description": "The function to be executed. Should return a promise that is settled after completion of the execution. If nothing is returned, immediate completion is assumed."
+            },
+            {
+              "name": "mParameters",
+              "type": "object",
+              "optional": true,
+              "parameterProperties": {
+                "busy": {
+                  "name": "busy",
+                  "type": "object",
+                  "optional": true,
+                  "parameterProperties": {
+                    "set": {
+                      "name": "set",
+                      "type": "boolean",
+                      "optional": true,
+                      "defaultValue": true,
+                      "description": "Triggers a busy indication during function execution. Can be set to false in case of immediate completion."
+                    },
+                    "check": {
+                      "name": "check",
+                      "type": "boolean",
+                      "optional": true,
+                      "defaultValue": true,
+                      "description": "Checks whether the application is currently busy. Function is only executed if not. Has to be set to false, if function is not triggered by direct user interaction, but as result of another function, that set the application busy."
+                    }
+                  },
+                  "description": "Parameters regarding busy indication"
+                },
+                "dataloss": {
+                  "name": "dataloss",
+                  "type": "object",
+                  "optional": true,
+                  "parameterProperties": {
+                    "popup": {
+                      "name": "popup",
+                      "type": "boolean",
+                      "optional": true,
+                      "defaultValue": true,
+                      "description": "Provides a dataloss popup before execution of the function if needed (i.e. in non-draft case when model or registered methods contain pending changes)."
+                    },
+                    "navigation": {
+                      "name": "navigation",
+                      "type": "boolean",
+                      "optional": true,
+                      "defaultValue": false,
+                      "description": "Indicates that execution of the function leads to a navigation, i.e. leaves the current page, which induces a slightly different text for the dataloss popup."
+                    }
+                  },
+                  "description": "Parameters regarding dataloss prevention"
+                },
+                "mConsiderObjectsAsDeleted": {
+                  "name": "mConsiderObjectsAsDeleted",
+                  "type": "map",
+                  "optional": true,
+                  "description": "Tells the framework that objects will be deleted by <code>fnFunction</code>. Use the BindingContextPath as a key for the map. Fill the map with a <code>Promise</code> for each object which is to be deleted. The <code>Promise</code> must resolve after the deletion of the corresponding object or reject if the deletion is not successful."
+                },
+                "sActionLabel": {
+                  "name": "sActionLabel",
+                  "type": "string",
+                  "optional": true,
+                  "description": "In case of custom actions, the title of the message popup is set to sActionLabel."
+                }
+              },
+              "description": "Parameters to define the preconditions to be checked before execution"
+            }
+          ],
+          "description": "Secured execution of the given function. Ensures that the function is only executed when certain conditions are fulfilled.",
+          "references": [
+            "{@link topic:6a39150ad3e548a8b5304d32d560790a Using the SecuredExecutionMethod}"
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "namespace",
+      "name": "sap.suite.ui.generic.template.extensionAPI.extensionAPI",
+      "basename": "extensionAPI",
+      "resource": "sap/suite/ui/generic/template/extensionAPI/extensionAPI.js",
+      "module": "sap/suite/ui/generic/template/extensionAPI/extensionAPI",
+      "export": "",
+      "static": true,
+      "visibility": "public",
+      "description": "Static access to extension API for Smart Template Application development",
+      "methods": [
+        {
+          "name": "getExtensionAPIPromise",
+          "visibility": "public",
+          "static": true,
+          "returnValue": {
+            "type": "Promise",
+            "description": "A <code>Promise</code> which resolves to the extension API for the embedding SAP Fiori elements view"
+          },
+          "parameters": [
+            {
+              "name": "oControl",
+              "type": "sap.ui.core.Control",
+              "optional": false,
+              "description": "a control which is embedded into a SAP Fiori elements view."
+            }
+          ],
+          "description": "Get the extension API valid for the specified control embedded in a SAP Fiori elements view. Note that extension API can also be retrieved directly from the controller of the SAP Fiori elements view. Therefore, this method only needs to be called in scenarios where this controller is not directly accessible. The most prominent use case for this would be the context of a controller of a view extension. In this case, it is recommended to pass the extending view to this method. </br> Note that this method does not return the extension API directly, but a Promise that resolves to the extension API. Thus, a typical use of this method might look as follows: </br> <code>sap.ui.define([\"sap/suite/ui/generic/template/extensionAPI/extensionAPI\"], function(extensionAPI){</br> ...</br> extensionAPI.getExtensionAPIPromise(oView).then(function(oExtensionAPI){</br> oExtensionAPI.someMethod();</br> });</br> ...</br> });</code>"
+        },
+        {
+          "name": "registerControllerExtensions",
+          "visibility": "public",
+          "static": true,
+          "parameters": [
+            {
+              "name": "sControllerExtensionName",
+              "type": "undefined",
+              "optional": false,
+              "description": "the name of the controller extension as specified in the manifest"
+            },
+            {
+              "name": "mEntitySetToImplementation",
+              "type": "undefined",
+              "optional": false,
+              "description": "a map. As a key, use the name of the entity set for which the (controller of the) page should be extended. As a value, use an instance of the corresponding class as described above."
+            }
+          ],
+          "description": "This method can be used to define specific controller extension(s) for a template which is used more than once within a SAP Fiori elements application. More precisely: In the manifest of a SAP Fiori elements application, you can register a controller extension. This controller extension is defined at <code>sap.ui5/extends/extensions/sap.ui.controllerExtensions/{template}</code>. This means that {template} identifies the template to be extended, e.g. <code>sap.suite.ui.generic.template.ObjectPage.view.Details</code> for the standard object page. Property <i>controllerName</i> of the manifest entry specifies the controller extension to be used. Even if the same template is used more than once, this single controller extension will be instantiated once for each page based on this template. As a consequence, the extension code for all these pages needs to be collected in one controller extension, which results in code that is difficult to maintain. </br> <code>registerControllerExtensions</code> provides a tool to distribute the extension code according to pages they are actually used on. </br> To use this tool, you should create separate classes implementing the logic for each single page. </br> All event handlers and formatters used in the view extensions of the corrsponding page should be defined as public instance methods of this class. The same applies to all extension functions that should be overridden by extension code. Each of these classes can contain an optional method <code>onInit(oController)</code>. </br> This method can be used to initialize the class as usual. Moreover, it is possible to store <code>oController</code> in a member variable. This variable can be used whenever standard controller functionality is needed (e.g. <code>oController.byId()</code> or <code>oController.extensionAPI</code>. </br> In the definition of the controller extension specified in the manifest, simply call <code>registerControllerExtensions</code>."
+        }
+      ]
+    },
+    {
+      "kind": "class",
+      "name": "sap.suite.ui.generic.template.extensionAPI.NavigationController",
+      "basename": "NavigationController",
+      "resource": "sap/suite/ui/generic/template/extensionAPI/NavigationController.js",
+      "module": "sap/suite/ui/generic/template/extensionAPI/NavigationController",
+      "export": "",
+      "static": true,
+      "visibility": "public",
+      "extends": "sap.ui.base.Object",
+      "ui5-metadata": { "stereotype": "object" },
+      "constructor": {
+        "visibility": "public",
+        "description": "API to be used for navigation in extensions of Smart Template Applications. Breakout coding can access an instance of this class via {@link sap.suite.ui.generic.template.ListReport.extensionAPI.ExtensionAPI} or {@link sap.suite.ui.generic.template.ObjectPage.extensionAPI.ExtensionAPI}. Do not instantiate yourself."
+      },
+      "methods": [
+        {
+          "name": "extend",
+          "visibility": "public",
+          "static": true,
+          "returnValue": {
+            "type": "function",
+            "description": "Created class / constructor function"
+          },
+          "parameters": [
+            {
+              "name": "sClassName",
+              "type": "string",
+              "optional": false,
+              "description": "Name of the class being created"
+            },
+            {
+              "name": "oClassInfo",
+              "type": "object",
+              "optional": true,
+              "description": "Object literal with information about the class"
+            },
+            {
+              "name": "FNMetaImpl",
+              "type": "function",
+              "optional": true,
+              "description": "Constructor function for the metadata object; if not given, it defaults to <code>sap.ui.core.ElementMetadata</code>"
+            }
+          ],
+          "description": "Creates a new subclass of class sap.suite.ui.generic.template.extensionAPI.NavigationController with name <code>sClassName</code> and enriches it with the information contained in <code>oClassInfo</code>.\n\n<code>oClassInfo</code> might contain the same kind of information as described in {@link sap.ui.base.Object.extend}."
+        },
+        {
+          "name": "getMetadata",
+          "visibility": "public",
+          "static": true,
+          "returnValue": {
+            "type": "sap.ui.base.Metadata",
+            "description": "Metadata object describing this class"
+          },
+          "description": "Returns a metadata object for class sap.suite.ui.generic.template.extensionAPI.NavigationController."
+        },
+        {
+          "name": "navigateExternal",
+          "visibility": "public",
+          "parameters": [
+            {
+              "name": "sOutbound",
+              "type": "string",
+              "optional": false,
+              "description": "The name of the outbound defined in the manifest"
+            },
+            {
+              "name": "mParameters",
+              "type": "object",
+              "optional": true,
+              "description": "map with parameters for the navigation. If no parameters are provided, default are the parameters defined in the manifest"
+            }
+          ],
+          "description": "Navigates to the given intent"
+        },
+        {
+          "name": "navigateInternal",
+          "visibility": "public",
+          "parameters": [
+            {
+              "name": "vContext",
+              "type": "sap.ui.model.Context|String",
+              "optional": false,
+              "description": "The target context for the navigation. If the parameter is faulty (and oNavigationData does not specify a route itself) the root page of the app is considered to be the target of the application."
+            },
+            {
+              "name": "oNavigationData",
+              "type": "object",
+              "optional": true,
+              "parameterProperties": {
+                "navigationProperty": {
+                  "name": "navigationProperty",
+                  "type": "string",
+                  "optional": true,
+                  "description": "The navigation property identifying the target of the navigation"
+                },
+                "replaceInHistory": {
+                  "name": "replaceInHistory",
+                  "type": "boolean",
+                  "optional": true,
+                  "description": "If this is truthy the page navigated to will replace the current page in the browser history"
+                }
+              },
+              "description": "object containing navigation data"
+            }
+          ],
+          "description": "Triggers a navigation to another page within the application"
+        }
+      ]
+    },
+    {
+      "kind": "namespace",
+      "name": "sap.suite.ui.generic.template.extensionAPI.ReuseComponentSupport",
+      "basename": "ReuseComponentSupport",
+      "resource": "sap/suite/ui/generic/template/extensionAPI/ReuseComponentSupport.js",
+      "module": "sap/suite/ui/generic/template/extensionAPI/ReuseComponentSupport",
+      "export": "",
+      "static": true,
+      "visibility": "public",
+      "description": "Static access to a function that allows a regular UIComponent to be used as a Reuse Component within SmartTemplate applications",
+      "methods": [
+        {
+          "name": "mixInto",
+          "visibility": "public",
+          "static": true,
+          "parameters": [
+            {
+              "name": "oComponent",
+              "type": "sap.ui.core.UIComponent",
+              "optional": false,
+              "description": "the component to be transformed. The following restrictions apply to this component: <ul> <li>The object must not define or access any properties or methods starting with <code>_st</code>. This namespace is reserved for smart template specific coding. <li>The object must not define any property or method starting with <code>st</code> with the exception of the methods described above. </ul>"
+            },
+            {
+              "name": "sComponentModelName",
+              "type": "string",
+              "optional": true,
+              "description": "if this paramater is truthy a JSON model will created that contains the properties defined in the meatdata of <code>oComponent</code>. The model will be attached to the component with the given name. Moreover, a method <code>getComponentModel</code> will be added to <code>oComponent</code> giving access to this model. The properties in the <i>component model</i> will be automatically synced with the corresponding properties of <code>oComponent</code>."
+            },
+            {
+              "name": "bTwoWaySync",
+              "type": "boolean",
+              "optional": true,
+              "description": "This parameters specifies the synchronisation between the properties of the component and the corresponding properties of the component model. </br> Changes applied to a property of the component will always be forwarded to the corresponding property of the component model. </br> Changes applied to a property of the component model which corresponds to a property of the component will only be forwarded accordingly if the parameter <code>bTwoWaySync</code> is truthy."
+            }
+          ],
+          "description": "Mixin function to transform a regular UIComponent instance into a reuse component for smart templates\n\nBy using the mixInto method the existing component is checked if it implements the following functions: <ul> <li><code>stStart(oModel, oBindingContext, oExtensionAPI)</code> - is called when the model and the context is set for the first time above the compoenent</li> <li><code>stRefresh(oModel, oBindingContext, oExtensionAPI)</code> - is called everytime a new context is set above the component or the page context is forced to be refreshed</li> </ul> Note that both functions can be called with <code>oBindingContext</code> being empty. This happens in case the page the component is positioned on is opened for creating a new object in a non-draft scenario."
+        }
+      ]
+    },
+    {
+      "kind": "namespace",
+      "name": "sap.suite.ui.generic.template.ListReport.controllerFrameworkExtensions",
+      "basename": "controllerFrameworkExtensions",
+      "resource": "sap/suite/ui/generic/template/ListReport/controllerFrameworkExtensions.js",
+      "module": "sap/suite/ui/generic/template/ListReport/controllerFrameworkExtensions",
+      "export": "",
+      "static": true,
+      "visibility": "public",
+      "description": "This class contains all extension functions that have been defined for the ListReport floorplan.",
+      "methods": [
+        {
+          "name": "adaptNavigationParameterExtension",
+          "visibility": "protected",
+          "static": true
+        },
+        {
+          "name": "adaptTransientMessageExtension",
+          "visibility": "protected",
+          "static": true
+        },
+        {
+          "name": "beforeDeleteExtension",
+          "visibility": "protected",
+          "static": true
+        },
+        {
+          "name": "getCustomAppStateDataExtension",
+          "visibility": "protected",
+          "static": true
+        },
+        {
+          "name": "getPredefinedValuesForCreateExtension",
+          "visibility": "protected",
+          "static": true
+        },
+        {
+          "name": "getVisibleSelectionsWithDefaults",
+          "visibility": "protected",
+          "static": true
+        },
+        {
+          "name": "modifyStartupExtension",
+          "visibility": "protected",
+          "static": true
+        },
+        {
+          "name": "onBeforeRebindChartExtension",
+          "visibility": "protected",
+          "static": true
+        },
+        {
+          "name": "onBeforeRebindTableExtension",
+          "visibility": "protected",
+          "static": true
+        },
+        {
+          "name": "onInitSmartFilterBarExtension",
+          "visibility": "protected",
+          "static": true
+        },
+        {
+          "name": "onListNavigationExtension",
+          "visibility": "protected",
+          "static": true
+        },
+        {
+          "name": "onSaveAsTileExtension",
+          "visibility": "protected",
+          "static": true
+        },
+        {
+          "name": "restoreCustomAppStateDataExtension",
+          "visibility": "protected",
+          "static": true
+        }
+      ]
+    },
+    {
+      "kind": "class",
+      "name": "sap.suite.ui.generic.template.ListReport.extensionAPI.ExtensionAPI",
+      "basename": "ExtensionAPI",
+      "resource": "sap/suite/ui/generic/template/ListReport/extensionAPI/ExtensionAPI.js",
+      "module": "sap/suite/ui/generic/template/ListReport/extensionAPI/ExtensionAPI",
+      "export": "",
+      "static": true,
+      "visibility": "public",
+      "extends": "sap.ui.base.Object",
+      "ui5-metadata": { "stereotype": "object" },
+      "constructor": {
+        "visibility": "public",
+        "description": "API to be used in extensions of ListReport. Breakout coding can access an instance of this class via <code>this.extensionAPI</code>. Do not instantiate yourself."
+      },
+      "methods": [
+        {
+          "name": "attachToView",
+          "visibility": "public",
+          "parameters": [
+            {
+              "name": "oControl",
+              "type": "sap.ui.core.Control",
+              "optional": false,
+              "description": "the control to be attached to the view"
+            }
+          ],
+          "description": "Attaches a control to the current View. Should be called whenever a new control is created and used in the context of this view. This applies especially for dialogs, action sheets, popovers, ... This method cares for defining dependency and handling device specific style classes"
+        },
+        {
+          "name": "extend",
+          "visibility": "public",
+          "static": true,
+          "returnValue": {
+            "type": "function",
+            "description": "Created class / constructor function"
+          },
+          "parameters": [
+            {
+              "name": "sClassName",
+              "type": "string",
+              "optional": false,
+              "description": "Name of the class being created"
+            },
+            {
+              "name": "oClassInfo",
+              "type": "object",
+              "optional": true,
+              "description": "Object literal with information about the class"
+            },
+            {
+              "name": "FNMetaImpl",
+              "type": "function",
+              "optional": true,
+              "description": "Constructor function for the metadata object; if not given, it defaults to <code>sap.ui.core.ElementMetadata</code>"
+            }
+          ],
+          "description": "Creates a new subclass of class sap.suite.ui.generic.template.ListReport.extensionAPI.ExtensionAPI with name <code>sClassName</code> and enriches it with the information contained in <code>oClassInfo</code>.\n\n<code>oClassInfo</code> might contain the same kind of information as described in {@link sap.ui.base.Object.extend}."
+        },
+        {
+          "name": "getMetadata",
+          "visibility": "public",
+          "static": true,
+          "returnValue": {
+            "type": "sap.ui.base.Metadata",
+            "description": "Metadata object describing this class"
+          },
+          "description": "Returns a metadata object for class sap.suite.ui.generic.template.ListReport.extensionAPI.ExtensionAPI."
+        },
+        {
+          "name": "getNavigationController",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.suite.ui.generic.template.extensionAPI.NavigationController",
+            "description": "the navigation controller"
+          },
+          "description": "Get the navigation controller for navigation actions"
+        },
+        {
+          "name": "getQuickVariantSelectionKey",
+          "visibility": "public",
+          "returnValue": {
+            "type": "string",
+            "description": "The key of the variant item that is currently selected."
+          },
+          "description": "If switching between different table views is enabled, this function returns the selected key.",
+          "experimental": {}
+        },
+        {
+          "name": "getSelectedContexts",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.ui.model.Context[]",
+            "description": "contains one entry per line selected"
+          },
+          "description": "Get the list entries currently selected"
+        },
+        {
+          "name": "getTransactionController",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.suite.ui.generic.template.ListReport.extensionAPI.NonDraftTransactionController",
+            "description": "the transaction controller"
+          },
+          "description": "Get the transaction controller for editing actions on the list. Note: Currently implemented for non draft case"
+        },
+        {
+          "name": "invokeActions",
+          "visibility": "public",
+          "returnValue": {
+            "type": "Promise",
+            "description": "A <code>Promise</code> for asynchronous execution of the action, resolving to the same result as the <code>Promise</code> returned from {@link sap.ui.generic.app.ApplicationController}"
+          },
+          "parameters": [
+            {
+              "name": "sFunctionName",
+              "type": "string",
+              "optional": false,
+              "description": "The name of the function or action"
+            },
+            {
+              "name": "vContext",
+              "type": "array|sap.ui.model.Context",
+              "optional": false,
+              "description": "The given binding contexts"
+            },
+            {
+              "name": "mUrlParameters",
+              "type": "map",
+              "optional": true,
+              "description": "The URL parameters (name-value pairs) for the function or action"
+            }
+          ],
+          "throws": [
+            {
+              "type": "Error",
+              "description": "Throws an error if the OData function import does not exist or the action input parameters are invalid"
+            }
+          ],
+          "description": "Invokes multiple time the action with the given name and submits changes to the back-end."
+        },
+        {
+          "name": "onCustomAppStateChange",
+          "visibility": "public",
+          "description": "This method should be called when any custom ui state handled by the get/restoreCustomAppStateDataExtension-methods changes. Note that changes applied to custom filters need not to be propagated this way, since the change event of the SmartFilterBar will automatically be handled by the smart template framework."
+        },
+        {
+          "name": "rebindTable",
+          "visibility": "public",
+          "parameters": [
+            {
+              "name": "vTabKey",
+              "type": "array|string",
+              "optional": true,
+              "description": "in multiple table tab scenario keys for the tables that should be rebound"
+            }
+          ],
+          "description": "Triggers rebinding on the list. </br> Note that in a multi table tab scenarios the situation is more complex: By default the rebinding is performed on all tabs as soon as they get visible the next time (immediately for the already visible one). This applies to charts as well as tables. </br> Optional parameter <code>vTabKey</code> can be used to restrict the set of affected tabs."
+        },
+        {
+          "name": "refreshTable",
+          "visibility": "public",
+          "parameters": [
+            {
+              "name": "vTabKey",
+              "type": "array|string",
+              "optional": true,
+              "description": "in multiple table tab scenario keys for the tables that should be refreshed"
+            }
+          ],
+          "description": "Refreshes the List from the backend Note that in a multi table tab scenarios the situation is more complex: By default the refresh is performed on all tabs as soon as they get visible the next time (immediately for the already visible one). This applies to charts as well as tables. </br> Optional parameter <code>vTabKey</code> can be used to restrict the set of affected tabs."
+        },
+        {
+          "name": "securedExecution",
+          "visibility": "public",
+          "returnValue": {
+            "type": "Promise",
+            "description": "A <code>Promise</code> that is rejected, if execution is prohibited, and settled equivalent to the one returned by fnFunction."
+          },
+          "parameters": [
+            {
+              "name": "fnFunction",
+              "type": "function",
+              "optional": false,
+              "description": "The function to be executed. Should return a promise that is settled after completion of the execution. If nothing is returned, immediate completion is assumed."
+            },
+            {
+              "name": "mParameters",
+              "type": "object",
+              "optional": true,
+              "parameterProperties": {
+                "busy": {
+                  "name": "busy",
+                  "type": "object",
+                  "optional": true,
+                  "parameterProperties": {
+                    "set": {
+                      "name": "set",
+                      "type": "boolean",
+                      "optional": true,
+                      "defaultValue": true,
+                      "description": "Triggers a busy indication during function execution. Can be set to false in case of immediate completion."
+                    },
+                    "check": {
+                      "name": "check",
+                      "type": "boolean",
+                      "optional": true,
+                      "defaultValue": true,
+                      "description": "Checks whether the application is currently busy. Function is only executed if not. Has to be set to false, if function is not triggered by direct user interaction, but as result of another function, that set the application busy."
+                    }
+                  },
+                  "description": "Parameters regarding busy indication"
+                },
+                "dataloss": {
+                  "name": "dataloss",
+                  "type": "object",
+                  "optional": true,
+                  "parameterProperties": {
+                    "popup": {
+                      "name": "popup",
+                      "type": "boolean",
+                      "optional": true,
+                      "defaultValue": true,
+                      "description": "Provides a dataloss popup before execution of the function if needed (i.e. in non-draft case when model or registered methods contain pending changes)."
+                    },
+                    "navigation": {
+                      "name": "navigation",
+                      "type": "boolean",
+                      "optional": true,
+                      "defaultValue": false,
+                      "description": "Indicates that execution of the function leads to a navigation, i.e. leaves the current page, which induces a slightly different text for the dataloss popup."
+                    }
+                  },
+                  "description": "Parameters regarding dataloss prevention"
+                },
+                "mConsiderObjectsAsDeleted": {
+                  "name": "mConsiderObjectsAsDeleted",
+                  "type": "map",
+                  "optional": true,
+                  "description": "Tells the framework that objects will be deleted by <code>fnFunction</code>. Use the BindingContextPath as a key for the map. Fill the map with a <code>Promise</code> for each object which is to be deleted. The <code>Promise</code> must resolve after the deletion of the corresponding object or reject if the deletion is not successful."
+                },
+                "sActionLabel": {
+                  "name": "sActionLabel",
+                  "type": "string",
+                  "optional": true,
+                  "description": "In case of custom actions, the title of the message popup is set to sActionLabel."
+                }
+              },
+              "description": "Parameters to define the preconditions to be checked before execution"
+            }
+          ],
+          "description": "Secured execution of the given function. Ensures that the function is only executed when certain conditions are fulfilled. For more information, see {@link topic:6a39150ad3e548a8b5304d32d560790a Using the SecuredExecutionMethod}."
+        }
+      ]
+    },
+    {
+      "kind": "class",
+      "name": "sap.suite.ui.generic.template.ListReport.extensionAPI.NonDraftTransactionController",
+      "basename": "NonDraftTransactionController",
+      "resource": "sap/suite/ui/generic/template/ListReport/extensionAPI/NonDraftTransactionController.js",
+      "module": "sap/suite/ui/generic/template/ListReport/extensionAPI/NonDraftTransactionController",
+      "export": "",
+      "static": true,
+      "visibility": "public",
+      "extends": "sap.ui.base.Object",
+      "ui5-metadata": { "stereotype": "object" },
+      "constructor": {
+        "visibility": "public",
+        "description": "Non draft transaction controller to be used in extensions of ListReport. Breakout coding can access an instance of this class via <code>ExtensionAPI.getTransactionController</code>. Do not instantiate yourself.\n\nNote: Only one object can be edited at a given point in time."
+      },
+      "methods": [
+        {
+          "name": "cancel",
+          "visibility": "public",
+          "description": "Cancel editing"
+        },
+        {
+          "name": "createEntry",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.ui.model.Context",
+            "description": "a context representing the object to be created. It can be passed to {@link sap.suite.ui.generic.template.extensionAPI.NavigationController#navigateInternal} in order to visit the corresponding object page."
+          },
+          "parameters": [
+            {
+              "name": "vPredefinedValues",
+              "type": "undefined",
+              "optional": false,
+              "description": "an object containing predefined values for the new entity (see parameter <code>mParameters.properties</code> of {@link sap.ui.model.odata.v2.ODataModel#createEntry} for details)"
+            },
+            {
+              "name": "sEntitySet",
+              "type": "string",
+              "optional": true,
+              "description": "this parameter only needs to be used in multi entitySet scenarios, in order to specify another entity set than the main entity set of the ListReport"
+            }
+          ],
+          "description": "This method can be called when a new entry with predefined values should be created (e.g. in a copy scenario)."
+        },
+        {
+          "name": "edit",
+          "visibility": "public",
+          "parameters": [
+            {
+              "name": "oContext",
+              "type": "sap.ui.model.Context",
+              "optional": false,
+              "description": "the context identifying the entry to be edited"
+            }
+          ],
+          "description": "Start editing one list entry"
+        },
+        {
+          "name": "extend",
+          "visibility": "public",
+          "static": true,
+          "returnValue": {
+            "type": "function",
+            "description": "Created class / constructor function"
+          },
+          "parameters": [
+            {
+              "name": "sClassName",
+              "type": "string",
+              "optional": false,
+              "description": "Name of the class being created"
+            },
+            {
+              "name": "oClassInfo",
+              "type": "object",
+              "optional": true,
+              "description": "Object literal with information about the class"
+            },
+            {
+              "name": "FNMetaImpl",
+              "type": "function",
+              "optional": true,
+              "description": "Constructor function for the metadata object; if not given, it defaults to <code>sap.ui.core.ElementMetadata</code>"
+            }
+          ],
+          "description": "Creates a new subclass of class sap.suite.ui.generic.template.ListReport.extensionAPI.NonDraftTransactionController with name <code>sClassName</code> and enriches it with the information contained in <code>oClassInfo</code>.\n\n<code>oClassInfo</code> might contain the same kind of information as described in {@link sap.ui.base.Object.extend}."
+        },
+        {
+          "name": "getMetadata",
+          "visibility": "public",
+          "static": true,
+          "returnValue": {
+            "type": "sap.ui.base.Metadata",
+            "description": "Metadata object describing this class"
+          },
+          "description": "Returns a metadata object for class sap.suite.ui.generic.template.ListReport.extensionAPI.NonDraftTransactionController."
+        },
+        {
+          "name": "save",
+          "visibility": "public",
+          "returnValue": {
+            "type": "Promise",
+            "description": "is resolved when entry is successfully saved and rejected when saving fails"
+          },
+          "description": "Save the changes which have been applied to the OData model. Sets the application busy during execution and doesn't execute if application is already busy when called (i.e. don't use <code>ExtensionAPI.securedExecution</code> to call this method)."
+        }
+      ]
+    },
+    {
+      "kind": "namespace",
+      "name": "sap.suite.ui.generic.template.ObjectPage.controllerFrameworkExtensions",
+      "basename": "controllerFrameworkExtensions",
+      "resource": "sap/suite/ui/generic/template/ObjectPage/controllerFrameworkExtensions.js",
+      "module": "sap/suite/ui/generic/template/ObjectPage/controllerFrameworkExtensions",
+      "export": "",
+      "static": true,
+      "visibility": "public",
+      "description": "This class contains all extension functions that have been defined for the ObjectPage floorplan.",
+      "methods": [
+        {
+          "name": "adaptNavigationParameterExtension",
+          "visibility": "protected",
+          "static": true
+        },
+        {
+          "name": "adaptTransientMessageExtension",
+          "visibility": "protected",
+          "static": true
+        },
+        {
+          "name": "applyCustomStateExtension",
+          "visibility": "protected",
+          "static": true
+        },
+        {
+          "name": "beforeDeleteExtension",
+          "visibility": "protected",
+          "static": true
+        },
+        {
+          "name": "beforeLineItemDeleteExtension",
+          "visibility": "protected",
+          "static": true
+        },
+        {
+          "name": "onBeforeRebindTableExtension",
+          "visibility": "protected",
+          "static": true,
+          "parameters": [
+            {
+              "name": "oEvent",
+              "type": "sap.ui.base.Event",
+              "optional": false,
+              "description": "the {@link sap.ui.comp.smarttable.SmartTable.prototype.event:beforeRebindTable} event. Use <code>getSource()</code> to retrieve the {@link sap.ui.comp.smarttable.SmartTable} for which the event was triggered. Use parameter <i>bindingParams</i> to get access to the binding parameters."
+            }
+          ],
+          "description": "This method can be used to influence the data retrieval for tables on the object page."
+        },
+        {
+          "name": "onListNavigationExtension",
+          "visibility": "protected",
+          "static": true
+        },
+        {
+          "name": "onSaveAsTileExtension",
+          "visibility": "protected",
+          "static": true
+        },
+        {
+          "name": "provideCustomStateExtension",
+          "visibility": "protected",
+          "static": true
+        }
+      ]
+    },
+    {
+      "kind": "class",
+      "name": "sap.suite.ui.generic.template.ObjectPage.extensionAPI.DraftTransactionController",
+      "basename": "DraftTransactionController",
+      "resource": "sap/suite/ui/generic/template/ObjectPage/extensionAPI/DraftTransactionController.js",
+      "module": "sap/suite/ui/generic/template/ObjectPage/extensionAPI/DraftTransactionController",
+      "export": "",
+      "static": true,
+      "visibility": "public",
+      "extends": "sap.ui.base.Object",
+      "ui5-metadata": { "stereotype": "object" },
+      "constructor": {
+        "visibility": "public",
+        "description": "Draft transaction controller to be used in extensions of ObjectPage. Breakout coding can access an instance of this class via <code>ExtensionAPI.getTransactionController</code>. Do not instantiate yourself."
+      },
+      "methods": [
+        {
+          "name": "attachAfterActivate",
+          "visibility": "public",
+          "parameters": [
+            {
+              "name": "fnFunction",
+              "type": "function",
+              "optional": false,
+              "description": "the handler function"
+            }
+          ],
+          "description": "Attach a handler to the activate event"
+        },
+        {
+          "name": "attachAfterCancel",
+          "visibility": "public",
+          "parameters": [
+            {
+              "name": "fnFunction",
+              "type": "function",
+              "optional": false,
+              "description": "the handler function"
+            }
+          ],
+          "description": "Attach a handler to the discard event"
+        },
+        {
+          "name": "attachAfterDelete",
+          "visibility": "public",
+          "parameters": [
+            {
+              "name": "fnFunction",
+              "type": "function",
+              "optional": false,
+              "description": "the handler function"
+            }
+          ],
+          "description": "Attach a handler to the delete event"
+        },
+        {
+          "name": "attachAfterLineItemDelete",
+          "visibility": "public",
+          "parameters": [
+            {
+              "name": "fnFunction",
+              "type": "function",
+              "optional": false,
+              "description": "the handler function"
+            }
+          ],
+          "description": "Attach a handler to the line item delete event (for smart tables in object page)"
+        },
+        {
+          "name": "detachAfterActivate",
+          "visibility": "public",
+          "parameters": [
+            {
+              "name": "fnFunction",
+              "type": "function",
+              "optional": false,
+              "description": "the handler function"
+            }
+          ],
+          "description": "Detach a handler from the activate event"
+        },
+        {
+          "name": "detachAfterCancel",
+          "visibility": "public",
+          "parameters": [
+            {
+              "name": "fnFunction",
+              "type": "function",
+              "optional": false,
+              "description": "the handler function"
+            }
+          ],
+          "description": "Detach a handler from the discard event"
+        },
+        {
+          "name": "detachAfterDelete",
+          "visibility": "public",
+          "parameters": [
+            {
+              "name": "fnFunction",
+              "type": "function",
+              "optional": false,
+              "description": "the handler function"
+            }
+          ],
+          "description": "Detach a handler from the delete event"
+        },
+        {
+          "name": "discardDraft",
+          "visibility": "public",
+          "returnValue": {
+            "type": "function",
+            "description": "a promise that is resolved when the draft is cancelled, rejected when this is not possible."
+          },
+          "description": "Cancel the draft. Note that this method only works when you are on the root of a draft. The normal navigation which follows the cancellation of a draft is executed. Moreover, note that executing this method will set the App to be busy. However, it does not ensure, that the method is only called, when the App is currently unbusy. If you want to ensure that, you have to use {@link sap.suite.ui.generic.template.ObjectPage.extensionAPI.ExtensionAPI#securedExecution}.",
+          "experimental": {}
+        },
+        {
+          "name": "executeSideEffects",
+          "visibility": "public",
+          "parameters": [
+            {
+              "name": "oSideEffects",
+              "type": "object",
+              "optional": true,
+              "parameterProperties": {
+                "sourceProperties": {
+                  "name": "sourceProperties",
+                  "type": "array",
+                  "optional": false,
+                  "description": "array with property paths"
+                },
+                "sourceEntities": {
+                  "name": "sourceEntities",
+                  "type": "array",
+                  "optional": false,
+                  "description": "array with navigation property paths"
+                }
+              },
+              "description": "object containing any of the following properties:"
+            }
+          ],
+          "description": "checks if side effects exist for the given properties or entities and executes them. if there are pending changes in the model those pending changes are sent as a patch request with the side effect batch request. If no source property and no source entity is passed a global side effect is executed",
+          "experimental": {}
+        },
+        {
+          "name": "extend",
+          "visibility": "public",
+          "static": true,
+          "returnValue": {
+            "type": "function",
+            "description": "Created class / constructor function"
+          },
+          "parameters": [
+            {
+              "name": "sClassName",
+              "type": "string",
+              "optional": false,
+              "description": "Name of the class being created"
+            },
+            {
+              "name": "oClassInfo",
+              "type": "object",
+              "optional": true,
+              "description": "Object literal with information about the class"
+            },
+            {
+              "name": "FNMetaImpl",
+              "type": "function",
+              "optional": true,
+              "description": "Constructor function for the metadata object; if not given, it defaults to <code>sap.ui.core.ElementMetadata</code>"
+            }
+          ],
+          "description": "Creates a new subclass of class sap.suite.ui.generic.template.ObjectPage.extensionAPI.DraftTransactionController with name <code>sClassName</code> and enriches it with the information contained in <code>oClassInfo</code>.\n\n<code>oClassInfo</code> might contain the same kind of information as described in {@link sap.ui.base.Object.extend}."
+        },
+        {
+          "name": "getMetadata",
+          "visibility": "public",
+          "static": true,
+          "returnValue": {
+            "type": "sap.ui.base.Metadata",
+            "description": "Metadata object describing this class"
+          },
+          "description": "Returns a metadata object for class sap.suite.ui.generic.template.ObjectPage.extensionAPI.DraftTransactionController."
+        },
+        {
+          "name": "saveDraft",
+          "visibility": "public",
+          "parameters": [
+            {
+              "name": "fnFunction",
+              "type": "function",
+              "optional": false,
+              "description": "function that saves the draft in the additional OData model(s). This method must return a Promise that is resolved, when the draft saving is finished successfully. Otherwise the Promise should be rejected."
+            }
+          ],
+          "description": "Perform a draft saving operation. This method only needs to be used, when more than one OData model is used to handle the data for the current draft. Using more than one OData models is only sensible, when more than one OData service is being used to store the data for the object. The Fiori Elements framework cares for all changes being applied to the standard OData model (even if they are applied within breakouts). However, if additional OData models are in place the breakout implementation which has introduced these models also needs to take care for saving the data in these models as soon as possible. </br> In these rare cases this method should be used to intergate the saving operation into the general draft saving process. </br> Note that this method may be enhanced in the future in order to introduce a better error handling."
+        }
+      ]
+    },
+    {
+      "kind": "class",
+      "name": "sap.suite.ui.generic.template.ObjectPage.extensionAPI.ExtensionAPI",
+      "basename": "ExtensionAPI",
+      "resource": "sap/suite/ui/generic/template/ObjectPage/extensionAPI/ExtensionAPI.js",
+      "module": "sap/suite/ui/generic/template/ObjectPage/extensionAPI/ExtensionAPI",
+      "export": "",
+      "static": true,
+      "visibility": "public",
+      "extends": "sap.ui.base.Object",
+      "ui5-metadata": { "stereotype": "object" },
+      "constructor": {
+        "visibility": "public",
+        "description": "API to be used in extensions of ObjectPage. Breakout coding can access an instance of this class via <code>this.extensionAPI</code>. Do not instantiate yourself."
+      },
+      "methods": [
+        {
+          "name": "attachPageDataLoaded",
+          "visibility": "public",
+          "parameters": [
+            {
+              "name": "fnFunction",
+              "type": "function",
+              "optional": false,
+              "description": "the handler function. Note that the event passed to this function possesses an attribute <code>context</code> which contains the current header context"
+            }
+          ],
+          "description": "Attach a handler to the PageDataLoaded event. This event is fired each time the object page is navigated to or the object to be displayed is changed Note, that the event will not be fired before: <ul compact> <li>the navigation to the page has been completed <li>the header data of the object are available </ul>"
+        },
+        {
+          "name": "attachToView",
+          "visibility": "public",
+          "parameters": [
+            {
+              "name": "oControl",
+              "type": "sap.ui.core.Control",
+              "optional": false,
+              "description": "the control to be attached to the view"
+            }
+          ],
+          "description": "Attaches a control to the current View. Should be called whenever a new control is created and used in the context of this view. This applies especially for dialogs, action sheets, popovers, ... This method cares for defining dependency and handling device specific style classes"
+        },
+        {
+          "name": "detachPageDataLoaded",
+          "visibility": "public",
+          "parameters": [
+            {
+              "name": "fnFunction",
+              "type": "function",
+              "optional": false,
+              "description": "the handler function"
+            }
+          ],
+          "description": "Detach a handler from the PageDataLoaded event"
+        },
+        {
+          "name": "extend",
+          "visibility": "public",
+          "static": true,
+          "returnValue": {
+            "type": "function",
+            "description": "Created class / constructor function"
+          },
+          "parameters": [
+            {
+              "name": "sClassName",
+              "type": "string",
+              "optional": false,
+              "description": "Name of the class being created"
+            },
+            {
+              "name": "oClassInfo",
+              "type": "object",
+              "optional": true,
+              "description": "Object literal with information about the class"
+            },
+            {
+              "name": "FNMetaImpl",
+              "type": "function",
+              "optional": true,
+              "description": "Constructor function for the metadata object; if not given, it defaults to <code>sap.ui.core.ElementMetadata</code>"
+            }
+          ],
+          "description": "Creates a new subclass of class sap.suite.ui.generic.template.ObjectPage.extensionAPI.ExtensionAPI with name <code>sClassName</code> and enriches it with the information contained in <code>oClassInfo</code>.\n\n<code>oClassInfo</code> might contain the same kind of information as described in {@link sap.ui.base.Object.extend}."
+        },
+        {
+          "name": "getMetadata",
+          "visibility": "public",
+          "static": true,
+          "returnValue": {
+            "type": "sap.ui.base.Metadata",
+            "description": "Metadata object describing this class"
+          },
+          "description": "Returns a metadata object for class sap.suite.ui.generic.template.ObjectPage.extensionAPI.ExtensionAPI."
+        },
+        {
+          "name": "getNavigationController",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.suite.ui.generic.template.extensionAPI.NavigationController",
+            "description": "the navigation controller"
+          },
+          "description": "Get the navigation controller for navigation actions"
+        },
+        {
+          "name": "getSelectedContexts",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.ui.model.Context[]",
+            "description": "contains one entry per entry selected"
+          },
+          "parameters": [
+            {
+              "name": "sUiElementId",
+              "type": "string",
+              "optional": false,
+              "description": "the id identifying the ui element the selected context is requested for"
+            }
+          ],
+          "description": "Get the entries currently selected in one ui element"
+        },
+        {
+          "name": "getTransactionController",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.suite.ui.generic.template.ObjectPage.extensionAPI.DraftTransactionController|sap.suite.ui.generic.template.ObjectPage.extensionAPI.NonDraftTransactionController",
+            "description": "the transaction controller"
+          },
+          "description": "Get the transaction controller for editing actions on the page. Note that the methods provided by this transaction controller depend on whether the object supports drafts or not."
+        },
+        {
+          "name": "invokeActions",
+          "visibility": "public",
+          "returnValue": {
+            "type": "Promise",
+            "description": "A <code>Promise</code> for asynchronous execution of the action"
+          },
+          "parameters": [
+            {
+              "name": "sFunctionName",
+              "type": "string",
+              "optional": false,
+              "description": "The name of the function or action"
+            },
+            {
+              "name": "vContext",
+              "type": "array|sap.ui.model.Context",
+              "optional": false,
+              "description": "The given binding contexts"
+            },
+            {
+              "name": "mUrlParameters",
+              "type": "map",
+              "optional": true,
+              "description": "The URL parameters (name-value pairs) for the function or action"
+            }
+          ],
+          "throws": [
+            {
+              "type": "Error",
+              "description": "Throws an error if the OData function import does not exist or the action input parameters are invalid"
+            }
+          ],
+          "description": "Invokes multiple time the action with the given name and submits changes to the back-end."
+        },
+        {
+          "name": "onCustomStateChange",
+          "visibility": "public",
+          "description": "Call this method to indicate that the state of custom controls has changed. This is only necessary when methods <code>provideCustomStateExtension</code> and <code>applyCustomStateExtension</code> have been overridden, such that the corresponding state can be stored and restored."
+        },
+        {
+          "name": "rebind",
+          "visibility": "public",
+          "parameters": [
+            {
+              "name": "sUiElementId",
+              "type": "string",
+              "optional": false,
+              "description": "the id identifying the control to refresh the binding"
+            }
+          ],
+          "description": "Rebinds the given SmartTable"
+        },
+        {
+          "name": "refresh",
+          "visibility": "public",
+          "parameters": [
+            {
+              "name": "sUiElementId",
+              "type": "string",
+              "optional": false,
+              "description": "the id identifying the control that should be refeshed. If the parameter is faulty the whole page is refreshed."
+            }
+          ],
+          "description": "Refreshes the specified control from the backend. Currently only supported for tables."
+        },
+        {
+          "name": "refreshAncestors",
+          "visibility": "public",
+          "parameters": [
+            {
+              "name": "iLevel",
+              "type": "Integer",
+              "optional": false,
+              "description": "Number of parent components to be refreshed 1 - Refresh the immediate parent component Undefined or faulty - Refresh all parent components"
+            }
+          ],
+          "description": "Allow parent components to be refreshed on next activation"
+        },
+        {
+          "name": "registerMessageFilterProvider",
+          "visibility": "public",
+          "parameters": [
+            {
+              "name": "fnProviderCallback",
+              "type": "function",
+              "optional": false,
+              "description": "function which will be called each time a new context is set for the object page. The function should return an instance of sap.ui.model.Filter, an array of sap.ui.model.Filter or a Promise which resolves to one of these."
+            }
+          ],
+          "description": "Registers a filter provider for the the message popover"
+        },
+        {
+          "name": "securedExecution",
+          "visibility": "public",
+          "returnValue": {
+            "type": "Promise",
+            "description": "A <code>Promise</code> that is rejected, if execution is prohibited, and settled equivalent to the one returned by fnFunction."
+          },
+          "parameters": [
+            {
+              "name": "fnFunction",
+              "type": "function",
+              "optional": false,
+              "description": "The function to be executed. Should return a promise that is settled after completion of the execution. If nothing is returned, immediate completion is assumed."
+            },
+            {
+              "name": "mParameters",
+              "type": "object",
+              "optional": true,
+              "parameterProperties": {
+                "busy": {
+                  "name": "busy",
+                  "type": "object",
+                  "optional": true,
+                  "parameterProperties": {
+                    "set": {
+                      "name": "set",
+                      "type": "boolean",
+                      "optional": true,
+                      "defaultValue": true,
+                      "description": "Triggers a busy indication during function execution. Can be set to false in case of immediate completion."
+                    },
+                    "check": {
+                      "name": "check",
+                      "type": "boolean",
+                      "optional": true,
+                      "defaultValue": true,
+                      "description": "Checks whether the application is currently busy. Function is only executed if not. Has to be set to false, if function is not triggered by direct user interaction, but as result of another function, that set the application busy."
+                    }
+                  },
+                  "description": "Parameters regarding busy indication"
+                },
+                "dataloss": {
+                  "name": "dataloss",
+                  "type": "object",
+                  "optional": true,
+                  "parameterProperties": {
+                    "popup": {
+                      "name": "popup",
+                      "type": "boolean",
+                      "optional": true,
+                      "defaultValue": true,
+                      "description": "Provides a dataloss popup before execution of the function if needed (i.e. in non-draft case when model or registered methods contain pending changes)."
+                    },
+                    "navigation": {
+                      "name": "navigation",
+                      "type": "boolean",
+                      "optional": true,
+                      "defaultValue": false,
+                      "description": "Indicates that execution of the function leads to a navigation, i.e. leaves the current page, which induces a slightly different text for the dataloss popup."
+                    }
+                  },
+                  "description": "Parameters regarding dataloss prevention"
+                },
+                "mConsiderObjectsAsDeleted": {
+                  "name": "mConsiderObjectsAsDeleted",
+                  "type": "map",
+                  "optional": true,
+                  "description": "Tells the framework that objects will be deleted by <code>fnFunction</code>. Use the BindingContextPath as a key for the map. Fill the map with a <code>Promise</code> for each object which is to be deleted. The <code>Promise</code> must resolve after the deletion of the corresponding object or reject if the deletion is not successful."
+                },
+                "sActionLabel": {
+                  "name": "sActionLabel",
+                  "type": "string",
+                  "optional": true,
+                  "description": "In case of custom actions, the title of the message popup is set to sActionLabel."
+                }
+              },
+              "description": "Parameters to define the preconditions to be checked before execution"
+            }
+          ],
+          "description": "Secured execution of the given function. Ensures that the function is only executed when certain conditions are fulfilled.",
+          "references": [
+            "{@link topic:6a39150ad3e548a8b5304d32d560790a Using the SecuredExecutionMethod}"
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "class",
+      "name": "sap.suite.ui.generic.template.ObjectPage.extensionAPI.NonDraftTransactionController",
+      "basename": "NonDraftTransactionController",
+      "resource": "sap/suite/ui/generic/template/ObjectPage/extensionAPI/NonDraftTransactionController.js",
+      "module": "sap/suite/ui/generic/template/ObjectPage/extensionAPI/NonDraftTransactionController",
+      "export": "",
+      "static": true,
+      "visibility": "public",
+      "extends": "sap.ui.base.Object",
+      "ui5-metadata": { "stereotype": "object" },
+      "constructor": {
+        "visibility": "public",
+        "description": "Non Draft transaction controller to be used in extensions of ObjectPage. Breakout coding can access an instance of this class via <code>ExtensionAPI.getTransactionController</code>. Do not instantiate yourself."
+      },
+      "methods": [
+        {
+          "name": "attachAfterCancel",
+          "visibility": "public",
+          "parameters": [
+            {
+              "name": "fnFunction",
+              "type": "function",
+              "optional": false,
+              "description": "the handler function"
+            }
+          ],
+          "description": "Attach a handler to the cancel event"
+        },
+        {
+          "name": "attachAfterDelete",
+          "visibility": "public",
+          "parameters": [
+            {
+              "name": "fnFunction",
+              "type": "function",
+              "optional": false,
+              "description": "the handler function"
+            }
+          ],
+          "description": "Attach a handler to the delete event"
+        },
+        {
+          "name": "attachAfterLineItemDelete",
+          "visibility": "public",
+          "parameters": [
+            {
+              "name": "fnFunction",
+              "type": "function",
+              "optional": false,
+              "description": "the handler function"
+            }
+          ],
+          "description": "Attach a handler to the line item delete event (for smart tables in object page)"
+        },
+        {
+          "name": "attachAfterSave",
+          "visibility": "public",
+          "parameters": [
+            {
+              "name": "fnFunction",
+              "type": "function",
+              "optional": false,
+              "description": "the handler function"
+            }
+          ],
+          "description": "Attach a handler to the save event"
+        },
+        {
+          "name": "detachAfterCancel",
+          "visibility": "public",
+          "parameters": [
+            {
+              "name": "fnFunction",
+              "type": "function",
+              "optional": false,
+              "description": "the handler function"
+            }
+          ],
+          "description": "Detach a handler from the cancel event"
+        },
+        {
+          "name": "detachAfterDelete",
+          "visibility": "public",
+          "parameters": [
+            {
+              "name": "fnFunction",
+              "type": "function",
+              "optional": false,
+              "description": "the handler function"
+            }
+          ],
+          "description": "Detach a handler from the delete event"
+        },
+        {
+          "name": "detachAfterSave",
+          "visibility": "public",
+          "parameters": [
+            {
+              "name": "fnFunction",
+              "type": "function",
+              "optional": false,
+              "description": "the handler function"
+            }
+          ],
+          "description": "Detach a handler from the save event"
+        },
+        {
+          "name": "extend",
+          "visibility": "public",
+          "static": true,
+          "returnValue": {
+            "type": "function",
+            "description": "Created class / constructor function"
+          },
+          "parameters": [
+            {
+              "name": "sClassName",
+              "type": "string",
+              "optional": false,
+              "description": "Name of the class being created"
+            },
+            {
+              "name": "oClassInfo",
+              "type": "object",
+              "optional": true,
+              "description": "Object literal with information about the class"
+            },
+            {
+              "name": "FNMetaImpl",
+              "type": "function",
+              "optional": true,
+              "description": "Constructor function for the metadata object; if not given, it defaults to <code>sap.ui.core.ElementMetadata</code>"
+            }
+          ],
+          "description": "Creates a new subclass of class sap.suite.ui.generic.template.ObjectPage.extensionAPI.NonDraftTransactionController with name <code>sClassName</code> and enriches it with the information contained in <code>oClassInfo</code>.\n\n<code>oClassInfo</code> might contain the same kind of information as described in {@link sap.ui.base.Object.extend}."
+        },
+        {
+          "name": "getMetadata",
+          "visibility": "public",
+          "static": true,
+          "returnValue": {
+            "type": "sap.ui.base.Metadata",
+            "description": "Metadata object describing this class"
+          },
+          "description": "Returns a metadata object for class sap.suite.ui.generic.template.ObjectPage.extensionAPI.NonDraftTransactionController."
+        },
+        {
+          "name": "registerUnsavedDataCheckFunction",
+          "visibility": "public",
+          "parameters": [
+            {
+              "name": "fnHasUnsavedData",
+              "type": "function",
+              "optional": false,
+              "description": "Callback function returning either true or false"
+            }
+          ],
+          "description": "Registers a function that provides information whether there are unsaved custom data\n\nThis method must be used when an extension ui may contain user input that is <b>not</b> bound to the standard OData model of the app. In this case a function must be provided that returns the information whether the extension ui still contains unsaved user changes."
+        }
+      ]
+    }
+  ]
+}

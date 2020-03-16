@@ -1,0 +1,392 @@
+{
+  "$schema-ref": "http://schemas.sap.com/sapui5/designtime/api.json/1.0",
+  "version": "1.71.12",
+  "library": "sap.ui.export",
+  "symbols": [
+    {
+      "kind": "namespace",
+      "name": "sap.ui.export",
+      "basename": "export",
+      "resource": "sap/ui/export/library.js",
+      "module": "sap/ui/export/library",
+      "export": "",
+      "static": true,
+      "visibility": "public",
+      "description": "UI5 library: sap.ui.export - document export utilities"
+    },
+    {
+      "kind": "enum",
+      "name": "sap.ui.export.EdmType",
+      "basename": "EdmType",
+      "resource": "sap/ui/export/library.js",
+      "module": "sap/ui/export/library",
+      "export": "EdmType",
+      "static": true,
+      "visibility": "public",
+      "since": "1.50.0",
+      "description": "EDM data types for document export.",
+      "ui5-metamodel": true,
+      "properties": [
+        {
+          "name": "BigNumber",
+          "visibility": "public",
+          "static": true,
+          "type": "string",
+          "description": "Property of type bignumber."
+        },
+        {
+          "name": "Boolean",
+          "visibility": "public",
+          "static": true,
+          "type": "string",
+          "description": "Property of type boolean."
+        },
+        {
+          "name": "Currency",
+          "visibility": "public",
+          "static": true,
+          "type": "string",
+          "description": "Property of type Currency"
+        },
+        {
+          "name": "Date",
+          "visibility": "public",
+          "static": true,
+          "type": "string",
+          "description": "Property of type Date."
+        },
+        {
+          "name": "DateTime",
+          "visibility": "public",
+          "static": true,
+          "type": "string",
+          "description": "Property of type DateTime."
+        },
+        {
+          "name": "Enumeration",
+          "visibility": "public",
+          "static": true,
+          "type": "string",
+          "description": "Property of type Enumeration."
+        },
+        {
+          "name": "Number",
+          "visibility": "public",
+          "static": true,
+          "type": "string",
+          "description": "Property of type Number."
+        },
+        {
+          "name": "String",
+          "visibility": "public",
+          "static": true,
+          "type": "string",
+          "description": "Property of type string."
+        },
+        {
+          "name": "Time",
+          "visibility": "public",
+          "static": true,
+          "type": "string",
+          "description": "Property of type Time."
+        }
+      ]
+    },
+    {
+      "kind": "namespace",
+      "name": "sap.ui.export.ExportUtils",
+      "basename": "ExportUtils",
+      "resource": "sap/ui/export/ExportUtils.js",
+      "module": "sap/ui/export/ExportUtils",
+      "export": "",
+      "static": true,
+      "visibility": "restricted",
+      "since": "1.59",
+      "description": "Utilities related to export to enable reuse in integration scenarios (e.g. tables)."
+    },
+    {
+      "kind": "class",
+      "name": "sap.ui.export.Spreadsheet",
+      "basename": "Spreadsheet",
+      "resource": "sap/ui/export/Spreadsheet.js",
+      "module": "sap/ui/export/Spreadsheet",
+      "export": "",
+      "static": true,
+      "visibility": "public",
+      "since": "1.50",
+      "extends": "sap.ui.base.EventProvider",
+      "ui5-metadata": { "stereotype": "object" },
+      "constructor": {
+        "visibility": "public",
+        "parameters": [
+          {
+            "name": "mSettings",
+            "type": "Object",
+            "optional": false,
+            "parameterProperties": {
+              "workbook": {
+                "name": "workbook",
+                "type": "Object",
+                "optional": false,
+                "parameterProperties": {
+                  "context": {
+                    "name": "context",
+                    "type": "Object",
+                    "optional": false,
+                    "parameterProperties": {
+                      "application": {
+                        "name": "application",
+                        "type": "string",
+                        "optional": true,
+                        "description": "Application that created this XLSX"
+                      },
+                      "version": {
+                        "name": "version",
+                        "type": "string",
+                        "optional": true,
+                        "description": "Application version that was used to create this XLSX"
+                      },
+                      "title": {
+                        "name": "title",
+                        "type": "string",
+                        "optional": true,
+                        "description": "Title of the XLSX document (NOT the file name)"
+                      },
+                      "modifiedBy": {
+                        "name": "modifiedBy",
+                        "type": "string",
+                        "optional": true,
+                        "description": "User context for the exported document"
+                      },
+                      "sheetName": {
+                        "name": "sheetName",
+                        "type": "string",
+                        "optional": true,
+                        "description": "The name of the data sheet that will be shown in Excel"
+                      },
+                      "metaSheetName": {
+                        "name": "metaSheetName",
+                        "type": "string",
+                        "optional": true,
+                        "description": "The name of the metadata sheet that will be shown in Excel"
+                      },
+                      "metainfo": {
+                        "name": "metainfo",
+                        "type": "Array",
+                        "optional": true,
+                        "description": "Optional Metadata that will be displayed in the additional Metadata Sheet"
+                      }
+                    },
+                    "description": "Export context that will be applied to the exported file"
+                  },
+                  "hierarchyLevel": {
+                    "name": "hierarchyLevel",
+                    "type": "string",
+                    "optional": true,
+                    "description": "Optional name of the property that contains hierarchy level information"
+                  }
+                },
+                "description": "Spreadsheet properties"
+              },
+              "dataSource": {
+                "name": "dataSource",
+                "type": "string|Object",
+                "optional": false,
+                "description": "Source of spreadsheet data. A JSON array, data source properties map or URL to an OData source can be provided. For example, <code>\"someUrl\"</code> is an equivalent to <code>{dataUrl:\"someUrl\", type:\"OData\"}</code>."
+              },
+              "count": {
+                "name": "count",
+                "type": "number",
+                "optional": true,
+                "description": "The maximal number of records to export"
+              },
+              "worker": {
+                "name": "worker",
+                "type": "boolean",
+                "optional": true,
+                "defaultValue": true,
+                "description": "Run export process in a worker thread. Set to <code>false</code> to disable worker and run export in a main thread. This is needed, for example, if a mock server is used to provide spreadsheet data.<br> <b>Note:</b> In case of a strict content security policy, it is not always possible to create an export worker. In this case, export runs in a main thread disregarding the <code>worker</code> value."
+              },
+              "fileName": {
+                "name": "fileName",
+                "type": "string",
+                "optional": true,
+                "defaultValue": "\"export.xlsx\"",
+                "description": "Optional file name for the exported file"
+              },
+              "showProgress": {
+                "name": "showProgress",
+                "type": "boolean",
+                "optional": true,
+                "defaultValue": true,
+                "description": "Set to <code>false</code> to suppress the progress dialog"
+              }
+            },
+            "description": "Export settings"
+          }
+        ],
+        "description": "Creates a new spreadsheet export object. Use this object to build and download a spreadsheet file in Office Open XML Spreadsheet format from tabular data. This functionality is normally used together with UI5 tables.\n\n<h3>Overview</h3> The class builds a spreadsheet in an Office Open XML Spreadsheet format using tabular data from a specified data source. Data is retrieved and the document is built asynchronously in a worker thread of the browser. The status of the process is visually presented to the user in a progress dialog that can be suppressed. The user can cancel the process with the Cancel button of the dialog.\n\nThis class provides a low level API for spreadsheet export. The {@link sap.ui.comp.smarttable.SmartTable} control implements it internally and provides the export functionality out of the box. For special cases, please refer to details below.\n\nOptional features: <ul> <li>Suppress the progress dialog.</li> <li>Suppress worker and run the document generation process in a main thread.</li> <li>Configure the exported file name.</li> </ul>\n\n<h3>Export settings object</h3> Export settings should be provided in the constructor as an <code>mSettings</code> property map with the following fields: <ul> <li><code>workbook</code> - Spreadsheet properties object <ul> <li><code>workbook.columns</code> - Array of column configurations. Each column configuration is an object with the following fields: <ul> <li><code>label</code> (string) - Column header text</li> <li><code>property</code> (string) - Field name or Array of field names in the data source feed</li> <li><code>type</code> (string) - Optional data type of the field. See {@link sap.ui.export.EdmType} for the list of supported types. If this property is omitted, the property is processed as a string field.</li> <li><code>width</code> (number) - Optional width of the column in characters. There is no 1:1 correspondence between character widths in the exported spreadsheet and CSS units.The width of one character is approximately 0.5em in CSS units, depending on the fonts that are used in the table and in the resulting spreadsheet. The default value is 10 characters.</li> <li><code>textAlign</code> (string) - Horizontal alignment of cell contents. The following values of the CSS <code>text-align</code> property are accepted: <code>[left, right, center, begin, end]</code>. If not specified, the columns are horizontally aligned based on the property type.</li> <li><code>scale</code> (number) - Number of digits after decimal point for numeric values</li> <li><code>delimiter</code> (boolean) - Set to <code>true</code> to display thousands separators in numeric values. The default value is <code>false</code>.</li> <li><code>unit</code> (string) - Text to display as the unit of measurement or currency next to the numeric value. It is treated as a string and has no influence on the value itself. For example, a value of 150 with the unit \"%\" is still 150 and not 1.5, as a user may expect.</li> <li><code>unitProperty</code> (string) - Name of the data source field that contains the unit/currency text</li> <li><code>displayUnit</code> (boolean) - The property applies to currency values only and defines if the currency is shown in the column. The default value is <code>true</code>.</li> <li><code>trueValue</code> (string) - Textual representation of a boolean type that has the value <code>true</code></li> <li><code>falseValue</code> (string) - Textual representation of a boolean type that has the value <code>false</code></li> <li><code>template</code> (string) - Formatting template that supports indexed placeholders within curly brackets</li> <li><code>inputFormat</code> (string) - Formatting template for string formatted dates</li> <li><code>valueMap</code> (string) - Mapping object or Map containing the values that should be mapped to a particular key</li> <li><code>wrap</code> (boolean) - Indicates if wrapping is enabled for this particular column</li> </ul> </li> <li><code>workbook.context</code> - Context object that will be applied to the generated file. It may contain the following fields:</li> <ul> <li><code>application</code> (string) - The application that creates the XLSX document (default: \"SAP UI5\")</li> <li><code>version</code> (string) - Application version that creates the XLSX document (default: \"1.71.12\")</li> <li><code>title</code> (string) - Title of the XLSX document (NOT the filename)</li> <li><code>modifiedBy</code> (string) - User context for the XLSX document</li> <li><code>sheetName</code> (string) - The label of the data sheet</li> <li><code>metaSheetName</code> (string) - The label of the metadata sheet. The sheet will not be shown unless metadata entries are provided</li> <li><code>metainfo</code> (Array) - An Array of metadata groups. Each group has a name property and an items Array which contains key/value pairs</li> </ul> <li><code>workbook.hierarchyLevel</code> - Name of the property that contains the hierarchy level information of each line item</li> </ul> <li><code>dataSource</code> - Source of spreadsheet data. It can be a JSON array with row data, an URL or an OData properties object with the following fields: <ul> <li><code>type</code> (string) - Type of the data source. Currently, only OData is supported and the value have to be set to <code>\"odata\"</code>.</li> <li><code>dataUrl</code> (string) - URL to table data on the server, including all select, filter, and search query parameters</li> <li><code>serviceUrl</code> (string) - URL to the OData service. The parameter is required for OData batch requests.</li> <li><code>count</code> (number) - Count of available records on the server</li> <li><code>useBatch</code> (boolean) - Set to <code>true</code> if OData batch requests are used to fetch the spreadsheet data. In this case, <code>serviceUrl</code> and <code>headers</code> have to be specified, too.</li> <li><code>headers</code> (object) - Map of HTTP request header properties. They should correspond to the HTTP request headers that are used to obtain table data for display in the browser.</li> <li><code>sizeLimit</code> (number) - Maximal allowed number of records that can be obtained from the service in a single request</li> </ul> </li> <li><code>count</code> (number) - The maximal number of records to export. If not specified, all data from the data source is fetched.</li> <li><code>worker</code> (boolean) - Run export process in a worker thread. Set to <code>false</code> to disable worker and run export in a main thread. This is needed, for example, if a mock server is used to provide spreadsheet data.<br> <b>Note:</b> In case of a strict content security policy, it is not always possible to create an export worker. In this case, export runs in a main thread disregarding the <code>worker</code> value.</li> <li><code>fileName</code> (string) - Optional file name for the exported file. If not specified, the spreadsheet is exported as <code>export.xlsx</code>.</li> <li><code>showProgress</code> (boolean) - Set to <code>false</code> to suppress the progress dialog</li> </ul>\n\n<h3>Usage</h3> To start export, create a new <code>sap.ui.export.Spreadsheet</code> object and call the <code>build</code> method. Column configuration, data source, and export settings must be provided in the constructor. The <code>build</code> method opens a progress dialog and starts an asynchronous export process. The export process fetches data rows from the data source, builds a spreadsheet in-browser in a worker thread, and finally downloads the document to the client.\n\nExample: <pre>\n  var oSpreadsheet = new sap.ui.export.Spreadsheet(mSettings);\n  oSpreadsheet.build();\n</pre>\n\nOptionally, you can attach <code>onprogress</code> event listeners to be notified about the export progress and follow the completion status of the returned <code>Promise</code>.\n\nExample: <pre>\n  var oSpreadsheet = new sap.ui.export.Spreadsheet(mSettings);\n  oSpreadsheet.onprogress = function(iValue) {\n  \t{@link sap.base.Log#debug Log.debug}(\"Export: %\" + iValue + \" completed\");\n  };\n  oSpreadsheet.build()\n    .then( function() { {@link sap.base.Log#debug Log.debug}(\"Export is finished\"); })\n    .catch( function(sMessage) { {@link sap.base.Log#error Log.error}(\"Export error: \" + sMessage); });\n</pre>\n\nExample of column configuration: <pre>\n  var aColumns = [];\n  aColumns.push({\n  \tlabel: \"Name\",\n  \tproperty: \"name\"\n  });\n  aColumns.push({\n    label: \"Salary\",\n    property: \"salary\",\n    type: \"number\",\n    scale: 2\n  });\n\n  var mSettings = {\n    workbook: {\n      columns: aColumns,\n      context: {\n        application: 'Debug Test Application',\n        version: '1.71.12',\n        title: 'Some random title',\n        modifiedBy: 'John Doe',\n        metaSheetName: 'Custom metadata',\n        metainfo: [\n          {\n            name: 'Grouped Properties',\n            items: [\n              { key: 'administrator', value: 'Foo Bar' },\n              { key: 'user', value: 'John Doe' },\n              { key: 'server', value: 'server.domain.local' }\n            ]\n          },\n          {\n            name: 'Another Group',\n            items: [\n              { key: 'property', value: 'value' },\n              { key: 'some', value: 'text' },\n              { key: 'fu', value: 'bar' }\n            ]\n          }\n        ]\n      },\n      hierarchyLevel: 'level'\n    },\n    dataSource: mDataSource,\n    fileName: \"salary.xlsx\"\n  };\n  var oSpreadsheet = new sap.ui.export.Spreadsheet(mSettings);\n  oSpreadsheet.build();\n</pre>\n\n<h3>Limitations</h3> For a complete list of limitations, see: {@link topic:2c641481649f44de9c1c22c9c3c49d13 Spreadsheet limitations}\n\nYou can export only the primitive cell data types that are listed in {@link sap.ui.export.EdmType}. Icons, images, check boxes, and complex controls in UI5 table cells are not supported.\n\nCustom formatters in data binding are not supported.\n\nThe size of an exported table is limited by available browser memory. Export of large data sets can lead to memory overflow errors. Therefore, do not use <code>sap.ui.export.Spreadsheet</code> with data tables containing more than 2,000,000 table cells on desktop computers and more than 100,000 cells on mobile devices. Consider a specialized export solution in such cases. For example, MS Excel® can import spreadsheets from an OData services directly, without any UI.\n\nThe export process runs in a worker thread whenever possible. However, code injection to native XMLHttpRequest events is not available in the worker environment. Therefore, the <code>worker</code> parameter in export settings should be set to <code>false</code> if the application uses a mock server to fetch table data.\n\nFor exporting hierarchy level information, the maximum hierarchy depth is 8. This limitation results from the Office Open XML standard and the programs that can open such files. The sap.ui.export.Spreadsheet allows you to export more hierarchy levels although they might not be displayed correctly when opening the generated file if the hierarchy depth exceeds the value of 8.\n\nThe column configuration must contain at least one column to execute the export process. If there is no column configured, the export will be canceled.\n\nIf the export is used within a table, any row that is showing aggregated data (i.E. sum row) will not be exported.",
+        "references": [
+          "{@link topic:2691788a08fc43f7bf269ea7c6336caf Spreadsheet}"
+        ]
+      },
+      "events": [
+        {
+          "name": "beforeSave",
+          "visibility": "public",
+          "since": "1.61",
+          "parameters": [
+            {
+              "name": "oEvent",
+              "type": "sap.ui.base.Event",
+              "parameterProperties": {
+                "getSource": {
+                  "name": "getSource",
+                  "type": "sap.ui.base.EventProvider",
+                  "optional": false
+                },
+                "getParameters": {
+                  "name": "getParameters",
+                  "type": "object",
+                  "optional": false,
+                  "parameterProperties": {
+                    "data": {
+                      "name": "data",
+                      "type": "ArrayBuffer",
+                      "optional": false,
+                      "description": "The data parameter contains the generated file"
+                    }
+                  }
+                }
+              }
+            }
+          ],
+          "description": "The 'beforeSave' event is fired just before the generated file is saved to the file system."
+        }
+      ],
+      "methods": [
+        {
+          "name": "attachBeforeSave",
+          "visibility": "public",
+          "since": "1.61",
+          "returnValue": {
+            "type": "sap.ui.export.Spreadsheet",
+            "description": "- Reference to this in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "oData",
+              "type": "object",
+              "optional": true,
+              "description": "An application-specific payload object that will be passed to the event handler along with the event object when firing the event"
+            },
+            {
+              "name": "fnHandler",
+              "type": "function",
+              "optional": false,
+              "description": "The function to be called when the event occurs"
+            },
+            {
+              "name": "oListener",
+              "type": "object",
+              "optional": true,
+              "description": "Context object to call the event handler with. Defaults to this <code>sap.ui.export.Spreadsheet</code> itself"
+            }
+          ],
+          "description": "Attaches event handler <code>fnFunction</code> to the {@link sap.ui.export.Spreadsheet beforeSave} event of this <code>sap.ui.export.Spreadsheet</code>.</br> When called, the context of the event handler (its this) will be bound to <code>oListener</code> if specified, otherwise it will be bound to this <code>sap.ui.export.Spreadsheet</code> itself.</br> This event is fired just before the generated file is saved to the file system."
+        },
+        {
+          "name": "build",
+          "visibility": "public",
+          "returnValue": {
+            "type": "Promise",
+            "description": "Promise object. You may use it to track the result of the export process."
+          },
+          "description": "Loads data from the backend, builds and saves the resulting spreadsheet file. You can use the <code>cancel</code> method to stop a running export."
+        },
+        {
+          "name": "cancel",
+          "visibility": "public",
+          "description": "Cancels a running export process. This method does nothing if no export is running."
+        },
+        {
+          "name": "detachBeforeSave",
+          "visibility": "public",
+          "since": "1.61",
+          "returnValue": {
+            "type": "sap.ui.export.Spreadsheet",
+            "description": "- Reference to this in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "fnHandler",
+              "type": "function",
+              "optional": false,
+              "description": "The function to be called, when the event occurs"
+            },
+            {
+              "name": "oListener",
+              "type": "object",
+              "optional": true,
+              "description": "Context object on which the given function had to be called"
+            }
+          ],
+          "description": "Detaches event handler <code>fnFunction</code> from the {@link sap.ui.export.Spreadsheet beforeSave} event of this <code>sap.ui.export.Spreadsheet</code>.</br> The passed function and listener object must match the ones used for event registration."
+        },
+        {
+          "name": "extend",
+          "visibility": "public",
+          "static": true,
+          "returnValue": {
+            "type": "function",
+            "description": "Created class / constructor function"
+          },
+          "parameters": [
+            {
+              "name": "sClassName",
+              "type": "string",
+              "optional": false,
+              "description": "Name of the class being created"
+            },
+            {
+              "name": "oClassInfo",
+              "type": "object",
+              "optional": true,
+              "description": "Object literal with information about the class"
+            },
+            {
+              "name": "FNMetaImpl",
+              "type": "function",
+              "optional": true,
+              "description": "Constructor function for the metadata object; if not given, it defaults to <code>sap.ui.core.ElementMetadata</code>"
+            }
+          ],
+          "description": "Creates a new subclass of class sap.ui.export.Spreadsheet with name <code>sClassName</code> and enriches it with the information contained in <code>oClassInfo</code>.\n\n<code>oClassInfo</code> might contain the same kind of information as described in {@link sap.ui.base.EventProvider.extend}."
+        },
+        {
+          "name": "getMetadata",
+          "visibility": "public",
+          "static": true,
+          "returnValue": {
+            "type": "sap.ui.base.Metadata",
+            "description": "Metadata object describing this class"
+          },
+          "description": "Returns a metadata object for class sap.ui.export.Spreadsheet."
+        },
+        {
+          "name": "onprogress",
+          "visibility": "public",
+          "parameters": [
+            {
+              "name": "iProgress",
+              "type": "number",
+              "optional": false,
+              "description": "A number between 0 and 100 indicates the export progress in percent"
+            }
+          ],
+          "description": "Progress callback. The function is called when the progress status changes."
+        }
+      ]
+    }
+  ]
+}

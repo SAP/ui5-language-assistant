@@ -1,0 +1,2835 @@
+{
+  "$schema-ref": "http://schemas.sap.com/sapui5/designtime/api.json/1.0",
+  "version": "1.71.0",
+  "library": "sap.collaboration",
+  "symbols": [
+    {
+      "kind": "namespace",
+      "name": "sap.collaboration",
+      "basename": "collaboration",
+      "resource": "sap/collaboration/library.js",
+      "module": "sap/collaboration/library",
+      "export": "",
+      "static": true,
+      "visibility": "public",
+      "description": "SAP UI library: SAP Collaboration for Social Media Integration."
+    },
+    {
+      "kind": "enum",
+      "name": "sap.collaboration.AppType",
+      "basename": "AppType",
+      "resource": "sap/collaboration/library.js",
+      "module": "sap/collaboration/library",
+      "export": "AppType",
+      "static": true,
+      "visibility": "public",
+      "description": "Application Type (Mode)",
+      "ui5-metamodel": true,
+      "properties": [
+        {
+          "name": "split",
+          "visibility": "public",
+          "static": true,
+          "type": "string",
+          "description": "Fiori Split App"
+        },
+        {
+          "name": "widget",
+          "visibility": "public",
+          "static": true,
+          "type": "string",
+          "description": "SAP Jam Feed Widget Wrapper"
+        }
+      ]
+    },
+    {
+      "kind": "class",
+      "name": "sap.collaboration.components.feed.Component",
+      "basename": "Component",
+      "resource": "sap/collaboration/components/feed/Component.js",
+      "module": "sap/collaboration/components/feed/Component",
+      "export": "",
+      "static": true,
+      "visibility": "public",
+      "since": "1.30",
+      "extends": "sap.ui.core.UIComponent",
+      "description": "The Feed Component is an SAPUI5 component that allows you to display SAP Jam feeds. It includes the option to add new posts and reply to entries and view other users' social profiles from SAP Jam.",
+      "ui5-metadata": { "stereotype": "component" },
+      "constructor": {
+        "visibility": "public",
+        "parameters": [
+          {
+            "name": "sId",
+            "type": "string",
+            "optional": true,
+            "description": "id for the new component, generated automatically if no id is given"
+          },
+          {
+            "name": "mSettings",
+            "type": "map",
+            "optional": true,
+            "description": "initial settings for the new component. See the documentation of the component's properties for the structure of the expected data."
+          }
+        ],
+        "description": "Constructor for the Feed Component.\n\nAccepts an object literal <code>mSettings</code> that defines initial property values, aggregated and associated objects as well as event handlers.\n\nThe supported settings are: <ul> <li>Properties <ul> <li>{@link #getAxisOrientation axisOrientation} : sap.suite.ui.commons.TimelineAxisOrientation (default: sap.suite.ui.commons.TimelineAxisOrientation.Vertical) </li> <li>{@link #getFeedSources feedSources} : map|string[]</li> <li>{@link #getEnableScroll enableScroll} : boolean (default: true)</li> </ul> </li> </ul>"
+      },
+      "methods": [
+        {
+          "name": "createContent",
+          "visibility": "protected",
+          "static": true,
+          "description": "The method to create the Content (UI Control Tree) of the Component."
+        },
+        {
+          "name": "exit",
+          "visibility": "protected",
+          "static": true,
+          "description": "Cleans up the component instance before destruction."
+        },
+        {
+          "name": "getAxisOrientation",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.suite.ui.commons.TimelineAxisOrientation",
+            "description": "the value of property <code>axisOrientation</code>"
+          },
+          "description": "Getter for property <code>axisOrientation</code>.\n\nDefault value is <code>Vertical</code>"
+        },
+        {
+          "name": "getEnableScroll",
+          "visibility": "public",
+          "returnValue": {
+            "type": "boolean",
+            "description": "the value of property <code>enableScroll</code>"
+          },
+          "description": "Getter for property <code>enableScroll</code>."
+        },
+        {
+          "name": "getFeedSources",
+          "visibility": "public",
+          "returnValue": {
+            "type": "map|string[]",
+            "description": "the value of property <code>feedSources</code>"
+          },
+          "description": "Getter for property <code>feedSources</code>."
+        },
+        {
+          "name": "getSelectedGroup",
+          "visibility": "public",
+          "static": true,
+          "returnValue": {
+            "type": "map",
+            "description": "a map containing information about the selected Group (e.g. Id, Name, etc...)"
+          },
+          "description": "Returns the selected Group."
+        },
+        {
+          "name": "init",
+          "visibility": "protected",
+          "static": true,
+          "description": "Initializes the Component instance after creation."
+        },
+        {
+          "name": "onAfterRendering",
+          "visibility": "protected",
+          "static": true,
+          "description": "Function is called when the rendering of the Component Container is completed."
+        },
+        {
+          "name": "onBeforeRendering",
+          "visibility": "protected",
+          "static": true,
+          "description": "Function is called when the rendering of the Component Container is started."
+        },
+        {
+          "name": "setAxisOrientation",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.collaboration.components.feed.Component",
+            "description": "<code>this</code> to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "oAxisOrientation",
+              "type": "sap.suite.ui.commons.TimelineAxisOrientation",
+              "optional": false,
+              "description": "new value for property <code>axisOrientation</code>"
+            }
+          ],
+          "description": "Setter for property <code>axisOrientation</code>.\n\nDefault value is <code>Vertical</code>"
+        },
+        {
+          "name": "setAxisOrientation",
+          "visibility": "public",
+          "static": true,
+          "parameters": [
+            {
+              "name": "axisOrientation",
+              "type": "sap.suite.ui.commons.TimelineAxisOrientation",
+              "optional": false
+            }
+          ],
+          "description": "Set the axis orientation for the Timeline."
+        },
+        {
+          "name": "setEnableScroll",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.collaboration.components.feed.Component",
+            "description": "<code>this</code> to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "bEnableScroll",
+              "type": "boolean",
+              "optional": false,
+              "description": "new value for property <code>enableScroll</code>"
+            }
+          ],
+          "description": "Setter for property <code>enableScroll</code>.\n\nSets the property enableScroll on the Timeline.\n\nSetting this property to false will remove the scrollbar on the Timeline.<br>\n\nDefault value is <code>true</code>"
+        },
+        {
+          "name": "setEnableScroll",
+          "visibility": "public",
+          "static": true,
+          "parameters": [
+            { "name": "enableScroll", "type": "boolean", "optional": false }
+          ],
+          "description": "Sets the enableScroll property for the Timeline."
+        },
+        {
+          "name": "setFeedSources",
+          "visibility": "public",
+          "parameters": [
+            {
+              "name": "oFeedSources",
+              "type": "map|string[]",
+              "optional": false,
+              "description": "new value for property <code>feedSources</code>"
+            }
+          ],
+          "description": "Setter for property <code>feedSources</code>.\n\nThe feedSources is either an array of strings (SAP Jam Group IDs) or a map in the following structure:<br> { mode : sap.collaboration.FeedType, data : any }<br> Based on the mode, the data is either required or not."
+        },
+        {
+          "name": "setFeedSources",
+          "visibility": "public",
+          "static": true,
+          "parameters": [
+            { "name": "feedSources", "type": "object", "optional": false }
+          ],
+          "description": "Sets the sources for the feed. Array of strings representing the Jam group IDs (e.g. [\"groupid1\", \"groupid2\"])."
+        },
+        {
+          "name": "setSettings",
+          "visibility": "public",
+          "static": true,
+          "parameters": [
+            {
+              "name": "settings",
+              "type": "map",
+              "optional": false,
+              "description": "key/value map for settings"
+            }
+          ],
+          "description": "Sets all the properties passed in oSettings."
+        }
+      ]
+    },
+    {
+      "kind": "class",
+      "name": "sap.collaboration.components.fiori.feed.Component",
+      "basename": "Component",
+      "resource": "sap/collaboration/components/fiori/feed/Component.js",
+      "module": "sap/collaboration/components/fiori/feed/Component",
+      "export": "",
+      "static": true,
+      "visibility": "public",
+      "since": "undefined",
+      "extends": "sap.ui.core.UIComponent",
+      "description": "Feed Component<br>\n\nA Feed Component is a ui5 component that applications can use to render a <tt>sap.m.App</tt> that embeds the JAM Feed Widget.<br> The Component class extends the base UI5 UIComponent class.<br> This class defines the Reusable UI5 Component structure, i.e properties, aggregations and events, if any, and creates the UI5 controls to be displayed.",
+      "deprecated": {
+        "since": "1.26.0",
+        "text": "Please use sap.collaboration.components.fiori.feed.dialog.Component instead."
+      },
+      "ui5-metadata": {
+        "stereotype": "component",
+        "properties": [
+          {
+            "name": "width",
+            "type": "sap.ui.core.CSSSize",
+            "defaultValue": "",
+            "group": "Misc",
+            "visibility": "public",
+            "methods": ["getWidth", "setWidth"]
+          },
+          {
+            "name": "height",
+            "type": "sap.ui.core.CSSSize",
+            "defaultValue": "",
+            "group": "Misc",
+            "visibility": "public",
+            "methods": ["getHeight", "setHeight"]
+          },
+          {
+            "name": "oDataServiceUrl",
+            "type": "sap.ui.core.URI",
+            "defaultValue": "/sap/opu/odata/sap/SM_INTEGRATION_SRV",
+            "group": "Misc",
+            "visibility": "public",
+            "methods": ["getODataServiceUrl", "setODataServiceUrl"]
+          },
+          {
+            "name": "feedType",
+            "type": "string",
+            "defaultValue": null,
+            "group": "Misc",
+            "visibility": "public",
+            "methods": ["getFeedType", "setFeedType"]
+          },
+          {
+            "name": "groupIds",
+            "type": "string",
+            "defaultValue": null,
+            "group": "Misc",
+            "visibility": "public",
+            "methods": ["getGroupIds", "setGroupIds"]
+          },
+          {
+            "name": "object",
+            "type": "object",
+            "defaultValue": null,
+            "group": "Misc",
+            "visibility": "public",
+            "methods": ["getObject", "setObject"]
+          }
+        ]
+      },
+      "constructor": {
+        "visibility": "public",
+        "parameters": [
+          {
+            "name": "oDataServiceUrl",
+            "type": "sap.ui.core.URI",
+            "optional": true,
+            "description": "The OData service URL needed for the Feed Component, the default value is <tt>\"/sap/opu/odata/sap/SM_INTEGRATION_SRV\".</tt>"
+          },
+          {
+            "name": "feedType",
+            "type": "sap.collaboration.FeedType",
+            "optional": false,
+            "description": "The type of feed to be displayed."
+          },
+          {
+            "name": "groupIds",
+            "type": "string",
+            "optional": true,
+            "description": "A comma separated list of group IDs."
+          },
+          {
+            "name": "object",
+            "type": "object",
+            "optional": true,
+            "description": "A JSON object passed to the Feed component. It is required when the value of <tt>feedType</tt> is <tt>sap.collaboration.FeedType.object</tt> or <tt>sap.collaboration.FeedType.objectGroup</tt>. This object represents business related information, such as a sales order, an opportunity, etc. It contains the following properties: <ul> <li><strong><tt>id</tt></strong>: The Business Object ID to be posted in the SAP Jam Feed. It needs to be an OData URL containing the relative path to the object in the back-end.</li> <li><strong><tt>type</tt></strong>: The type of the Business Object. It needs to be the OData meta data URL to the corresponding Entity Collection.</li> <li><strong><tt>name?</tt></strong> (optional): The description of the Business Object to be displayed in SAP Jam, i.e. \"SO 57746\", \"Opportunity 123\", etc.</li> <li><strong><tt>ui_url?</tt></strong> (optional): The URL to navigate to the same Business Object in the application.</li> </ul>"
+          }
+        ],
+        "description": "Constructor for the Feed Component.\n\nAccepts an object literal <code>mSettings</code> that defines initial property values, aggregated and associated objects as well as event handlers. See {@link sap.ui.base.ManagedObject#constructor} for a general description of the syntax of the settings object."
+      },
+      "methods": [
+        {
+          "name": "extend",
+          "visibility": "public",
+          "static": true,
+          "returnValue": {
+            "type": "function",
+            "description": "Created class / constructor function"
+          },
+          "parameters": [
+            {
+              "name": "sClassName",
+              "type": "string",
+              "optional": false,
+              "description": "Name of the class being created"
+            },
+            {
+              "name": "oClassInfo",
+              "type": "object",
+              "optional": true,
+              "description": "Object literal with information about the class"
+            },
+            {
+              "name": "FNMetaImpl",
+              "type": "function",
+              "optional": true,
+              "description": "Constructor function for the metadata object; if not given, it defaults to <code>sap.ui.core.ElementMetadata</code>"
+            }
+          ],
+          "description": "Creates a new subclass of class sap.collaboration.components.fiori.feed.Component with name <code>sClassName</code> and enriches it with the information contained in <code>oClassInfo</code>.\n\n<code>oClassInfo</code> might contain the same kind of information as described in {@link sap.ui.core.UIComponent.extend}."
+        },
+        {
+          "name": "getFeedType",
+          "visibility": "public",
+          "returnValue": {
+            "type": "string",
+            "description": "Value of property <code>feedType</code>"
+          },
+          "description": "Gets current value of property {@link #getFeedType feedType}."
+        },
+        {
+          "name": "getGroupIds",
+          "visibility": "public",
+          "returnValue": {
+            "type": "string",
+            "description": "Value of property <code>groupIds</code>"
+          },
+          "description": "Gets current value of property {@link #getGroupIds groupIds}."
+        },
+        {
+          "name": "getHeight",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.ui.core.CSSSize",
+            "description": "Value of property <code>height</code>"
+          },
+          "description": "Gets current value of property {@link #getHeight height}.\n\nDefault value is <code>empty string</code>."
+        },
+        {
+          "name": "getMetadata",
+          "visibility": "public",
+          "static": true,
+          "returnValue": {
+            "type": "sap.ui.base.Metadata",
+            "description": "Metadata object describing this class"
+          },
+          "description": "Returns a metadata object for class sap.collaboration.components.fiori.feed.Component."
+        },
+        {
+          "name": "getObject",
+          "visibility": "public",
+          "returnValue": {
+            "type": "object",
+            "description": "Value of property <code>object</code>"
+          },
+          "description": "Gets current value of property {@link #getObject object}."
+        },
+        {
+          "name": "getODataServiceUrl",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.ui.core.URI",
+            "description": "Value of property <code>oDataServiceUrl</code>"
+          },
+          "description": "Gets current value of property {@link #getODataServiceUrl oDataServiceUrl}.\n\nDefault value is <code>/sap/opu/odata/sap/SM_INTEGRATION_SRV</code>."
+        },
+        {
+          "name": "getWidth",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.ui.core.CSSSize",
+            "description": "Value of property <code>width</code>"
+          },
+          "description": "Gets current value of property {@link #getWidth width}.\n\nDefault value is <code>empty string</code>."
+        },
+        {
+          "name": "setFeedType",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.collaboration.components.fiori.feed.Component",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "sFeedType",
+              "type": "string",
+              "optional": false,
+              "description": "New value for property <code>feedType</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getFeedType feedType}.\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored."
+        },
+        {
+          "name": "setGroupIds",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.collaboration.components.fiori.feed.Component",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "sGroupIds",
+              "type": "string",
+              "optional": false,
+              "description": "New value for property <code>groupIds</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getGroupIds groupIds}.\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored."
+        },
+        {
+          "name": "setHeight",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.collaboration.components.fiori.feed.Component",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "sHeight",
+              "type": "sap.ui.core.CSSSize",
+              "optional": false,
+              "description": "New value for property <code>height</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getHeight height}.\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored.\n\nDefault value is <code>empty string</code>."
+        },
+        {
+          "name": "setObject",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.collaboration.components.fiori.feed.Component",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "oObject",
+              "type": "object",
+              "optional": false,
+              "description": "New value for property <code>object</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getObject object}.\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored."
+        },
+        {
+          "name": "setODataServiceUrl",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.collaboration.components.fiori.feed.Component",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "sODataServiceUrl",
+              "type": "sap.ui.core.URI",
+              "optional": false,
+              "description": "New value for property <code>oDataServiceUrl</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getODataServiceUrl oDataServiceUrl}.\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored.\n\nDefault value is <code>/sap/opu/odata/sap/SM_INTEGRATION_SRV</code>."
+        },
+        {
+          "name": "setSettings",
+          "visibility": "public",
+          "parameters": [
+            {
+              "name": "oSettings",
+              "type": "object",
+              "optional": false,
+              "description": "A JSON object containing the following attributes: <ul> <li><tt>{sap.ui.core.URI} oDataServiceUrl</tt>: The URL of the OData Service needed for the Feed Component.</li> <li><tt>{sap.collaboration.FeedType} feedType</tt>: The type of feed to be displayed.</li> <li><tt>{string} [groupIds?]</tt>: A comma separated list of Group IDs.</li> <li><tt>{object} object</tt>: The representation of a Business Object.</li> </ul>"
+            }
+          ],
+          "description": "Contract for passing the settings to the Component."
+        },
+        {
+          "name": "setWidth",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.collaboration.components.fiori.feed.Component",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "sWidth",
+              "type": "sap.ui.core.CSSSize",
+              "optional": false,
+              "description": "New value for property <code>width</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getWidth width}.\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored.\n\nDefault value is <code>empty string</code>."
+        }
+      ]
+    },
+    {
+      "kind": "class",
+      "name": "sap.collaboration.components.fiori.feed.dialog.Component",
+      "basename": "Component",
+      "resource": "sap/collaboration/components/fiori/feed/dialog/Component.js",
+      "module": "sap/collaboration/components/fiori/feed/dialog/Component",
+      "export": "",
+      "static": true,
+      "visibility": "public",
+      "since": "undefined",
+      "extends": "sap.ui.core.UIComponent",
+      "description": "Feed Dialog Component\n\nA Feed Dialog Component is a ui5 component that applications can use to render the feed widget view in a dialog in order to discuss information in SAP JAM by adding and replying to feed posts related to a specific Business Object.",
+      "deprecated": {
+        "since": "1.34.0",
+        "text": "For new integrations and existing implementations running on release 1.32 or later, use the Group Feed component (sap.collaboration.components.feed.Component), Business Object mode(sap.collaboration.FeedType.BusinessObjectGroups). Note that the Group Feed component does not display the full public feed for the object in SAP Jam (object wall), but rather is restricted to the feed for the object within a specific group (group object wall)."
+      },
+      "ui5-metadata": {
+        "stereotype": "component",
+        "properties": [
+          {
+            "name": "width",
+            "type": "sap.ui.core.CSSSize",
+            "defaultValue": "575px",
+            "group": "Misc",
+            "visibility": "public",
+            "methods": ["getWidth", "setWidth"]
+          },
+          {
+            "name": "height",
+            "type": "sap.ui.core.CSSSize",
+            "defaultValue": "605px",
+            "group": "Misc",
+            "visibility": "public",
+            "methods": ["getHeight", "setHeight"]
+          },
+          {
+            "name": "feedType",
+            "type": "string",
+            "defaultValue": "sap.collaboration.FeedType.object",
+            "group": "Misc",
+            "visibility": "public",
+            "methods": ["getFeedType", "setFeedType"]
+          },
+          {
+            "name": "groupIds",
+            "type": "string",
+            "defaultValue": null,
+            "group": "Misc",
+            "visibility": "public",
+            "methods": ["getGroupIds", "setGroupIds"]
+          },
+          {
+            "name": "object",
+            "type": "object",
+            "defaultValue": null,
+            "group": "Misc",
+            "visibility": "public",
+            "methods": ["getObject", "setObject"]
+          },
+          {
+            "name": "businessObject",
+            "type": "object",
+            "defaultValue": null,
+            "group": "Misc",
+            "visibility": "public",
+            "methods": ["getBusinessObject", "setBusinessObject"]
+          }
+        ]
+      },
+      "constructor": {
+        "visibility": "public",
+        "parameters": [
+          {
+            "name": "businessObject",
+            "type": "object",
+            "optional": false,
+            "description": "A JSON object passed to the Feed Dialog Component. This object represents business related information, such as a sales order, an opportunity, etc. It contains the following properties: <ul> <li><tt>{string} appContext</tt>: The application context. Example: \"CRM\", \"CB\", \"SD\", etc.</li> <li><tt>{string} odataServicePath</tt>: The path to the OData Service and the Service name. Example: \"/sap/opu/odata/sap/APPLICATION_SRV\".</li> <li><tt>{string} collection</tt>: The name of the OData Collection. Example: \"Account\", \"Opportunity\", etc.</li> <li><tt>{string} key</tt>: The key to identify a particular instance of the Business Object. It can be a simple ID or a compound key. Example: \"123\", \"ObjectID='123'\", \"ObjectID='123',ObjectType='BUS000123'\", etc.</li> <li><tt>{string} name</tt>: The short name of the Business Object. Example: \"Sales Order 123\", \"Opportunity 123\", \"Account 123\", etc.</li> <li><tt>{string} ui_url</tt>: The URL to navigate to the same business object in the application.</li> </ul>"
+          },
+          {
+            "name": "oDataServiceUrl",
+            "type": "sap.ui.core.URI",
+            "optional": true,
+            "description": "<b>[DEPRECATED]</b> The OData service URL needed for the Feed Dialog Component, the default value is <tt>\"/sap/opu/odata/sap/SM_INTEGRATION_SRV\".</tt>"
+          },
+          {
+            "name": "feedType",
+            "type": "sap.collaboration.FeedType",
+            "optional": true,
+            "description": "<b>[DEPRECATED]</b> The type of feed to be displayed."
+          },
+          {
+            "name": "groupIds",
+            "type": "string",
+            "optional": true,
+            "description": "<b>[DEPRECATED]</b> A comma separated list of group IDs."
+          },
+          {
+            "name": "object",
+            "type": "object",
+            "optional": true,
+            "description": "<b>[DEPRECATED]</b> A JSON object passed to the Feed Dialog Component. Use <b><tt>businessObject</tt></b> instead. This object represents business related information, such as a sales order, an opportunity, etc. It contains the following properties: <ul> <li><tt>id</tt>: The Business Object ID to be posted in the SAP Jam Feed. It needs to be an OData URL containing the relative path to the object in the back-end.</li> <li><tt>type</tt>: the type of the business object. It can be any text or it can be the OData meta data URL to the object Entity Type.</li> <li><tt>name</tt> (optional): the description of the business object to be displayed in SAP Jam, i.e. \"SO 57746\", \"Opportunity 123\", etc.</li> <li><tt>ui_url</tt> (optional): the URL to navigate to the same business object in the application.</li> </ul> Note: The object is passed by reference, which means that the attributes will be modified in the original object, for example, when the URLs contained in the id and type attributes are mapped (via OData call)."
+          }
+        ],
+        "description": "Constructor for the Feed Dialog Component.\n\nAccepts an object literal <code>mSettings</code> that defines initial property values, aggregated and associated objects as well as event handlers. See {@link sap.ui.base.ManagedObject#constructor} for a general description of the syntax of the settings object."
+      },
+      "methods": [
+        {
+          "name": "extend",
+          "visibility": "public",
+          "static": true,
+          "returnValue": {
+            "type": "function",
+            "description": "Created class / constructor function"
+          },
+          "parameters": [
+            {
+              "name": "sClassName",
+              "type": "string",
+              "optional": false,
+              "description": "Name of the class being created"
+            },
+            {
+              "name": "oClassInfo",
+              "type": "object",
+              "optional": true,
+              "description": "Object literal with information about the class"
+            },
+            {
+              "name": "FNMetaImpl",
+              "type": "function",
+              "optional": true,
+              "description": "Constructor function for the metadata object; if not given, it defaults to <code>sap.ui.core.ElementMetadata</code>"
+            }
+          ],
+          "description": "Creates a new subclass of class sap.collaboration.components.fiori.feed.dialog.Component with name <code>sClassName</code> and enriches it with the information contained in <code>oClassInfo</code>.\n\n<code>oClassInfo</code> might contain the same kind of information as described in {@link sap.ui.core.UIComponent.extend}."
+        },
+        {
+          "name": "getBusinessObject",
+          "visibility": "public",
+          "returnValue": {
+            "type": "object",
+            "description": "Value of property <code>businessObject</code>"
+          },
+          "description": "Gets current value of property {@link #getBusinessObject businessObject}."
+        },
+        {
+          "name": "getFeedType",
+          "visibility": "public",
+          "returnValue": {
+            "type": "string",
+            "description": "Value of property <code>feedType</code>"
+          },
+          "description": "Gets current value of property {@link #getFeedType feedType}.\n\nDefault value is <code>sap.collaboration.FeedType.object</code>."
+        },
+        {
+          "name": "getGroupIds",
+          "visibility": "public",
+          "returnValue": {
+            "type": "string",
+            "description": "Value of property <code>groupIds</code>"
+          },
+          "description": "Gets current value of property {@link #getGroupIds groupIds}."
+        },
+        {
+          "name": "getHeight",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.ui.core.CSSSize",
+            "description": "Value of property <code>height</code>"
+          },
+          "description": "Gets current value of property {@link #getHeight height}.\n\nDefault value is <code>605px</code>."
+        },
+        {
+          "name": "getMetadata",
+          "visibility": "public",
+          "static": true,
+          "returnValue": {
+            "type": "sap.ui.base.Metadata",
+            "description": "Metadata object describing this class"
+          },
+          "description": "Returns a metadata object for class sap.collaboration.components.fiori.feed.dialog.Component."
+        },
+        {
+          "name": "getObject",
+          "visibility": "public",
+          "returnValue": {
+            "type": "object",
+            "description": "Value of property <code>object</code>"
+          },
+          "description": "Gets current value of property {@link #getObject object}."
+        },
+        {
+          "name": "getWidth",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.ui.core.CSSSize",
+            "description": "Value of property <code>width</code>"
+          },
+          "description": "Gets current value of property {@link #getWidth width}.\n\nDefault value is <code>575px</code>."
+        },
+        {
+          "name": "open",
+          "visibility": "public",
+          "description": "Open the Feed Dialog."
+        },
+        {
+          "name": "setBusinessObject",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.collaboration.components.fiori.feed.dialog.Component",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "oBusinessObject",
+              "type": "object",
+              "optional": false,
+              "description": "New value for property <code>businessObject</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getBusinessObject businessObject}.\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored."
+        },
+        {
+          "name": "setFeedType",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.collaboration.components.fiori.feed.dialog.Component",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "sFeedType",
+              "type": "string",
+              "optional": false,
+              "description": "New value for property <code>feedType</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getFeedType feedType}.\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored.\n\nDefault value is <code>sap.collaboration.FeedType.object</code>."
+        },
+        {
+          "name": "setGroupIds",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.collaboration.components.fiori.feed.dialog.Component",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "sGroupIds",
+              "type": "string",
+              "optional": false,
+              "description": "New value for property <code>groupIds</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getGroupIds groupIds}.\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored."
+        },
+        {
+          "name": "setHeight",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.collaboration.components.fiori.feed.dialog.Component",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "sHeight",
+              "type": "sap.ui.core.CSSSize",
+              "optional": false,
+              "description": "New value for property <code>height</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getHeight height}.\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored.\n\nDefault value is <code>605px</code>."
+        },
+        {
+          "name": "setObject",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.collaboration.components.fiori.feed.dialog.Component",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "oObject",
+              "type": "object",
+              "optional": false,
+              "description": "New value for property <code>object</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getObject object}.\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored."
+        },
+        {
+          "name": "setSettings",
+          "visibility": "public",
+          "parameters": [
+            {
+              "name": "oSettings",
+              "type": "object",
+              "optional": false,
+              "description": "A JSON object containing the following attributes: <ul> <li><tt>{object} businessObject</tt>: the representation of a business object.</li> <li><tt>{sap.collaboration.FeedType} <b>[DEPRECATED]</b> feedType</tt>: the type of feed to be displayed.</li> <li><tt>{string} <b>[DEPRECATED]</b> [groupIds?]</tt>: a comma separated list of group IDs.</li> <li><tt>{object} <b>[DEPRECATED]</b> object</tt>: the representation of a business object. Use <tt>businessObject</tt> instead</li> </ul>"
+            }
+          ],
+          "description": "Contract for passing the settings to the Component."
+        },
+        {
+          "name": "setWidth",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.collaboration.components.fiori.feed.dialog.Component",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "sWidth",
+              "type": "sap.ui.core.CSSSize",
+              "optional": false,
+              "description": "New value for property <code>width</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getWidth width}.\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored.\n\nDefault value is <code>575px</code>."
+        }
+      ]
+    },
+    {
+      "kind": "class",
+      "name": "sap.collaboration.components.fiori.notification.Component",
+      "basename": "Component",
+      "resource": "sap/collaboration/components/fiori/notification/Component.js",
+      "module": "sap/collaboration/components/fiori/notification/Component",
+      "export": "",
+      "static": true,
+      "visibility": "public",
+      "since": "undefined",
+      "extends": "sap.ui.core.UIComponent",
+      "description": "Notification Component\n\nA Notification Component is a ui5 component that displays a SAP Jam member's latest notifications.\n\nThis component refreshes itself when the number of seconds specified in the <tt>refreshInterval</tt> parameter elapses. When refreshing, the backend is called to obtain the latest notifications.",
+      "deprecated": {
+        "since": "1.26.0",
+        "text": "There is no replacement for this control. The Fiori Launchpad now provides its own implementation for this control. This control was never meant to be used directly by third parties."
+      },
+      "ui5-metadata": {
+        "stereotype": "component",
+        "properties": [
+          {
+            "name": "oDataServiceUrl",
+            "type": "sap.ui.core.URI",
+            "defaultValue": "/sap/opu/odata/sap/SM_INTEGRATION_SRV",
+            "group": "Misc",
+            "visibility": "public",
+            "methods": ["getODataServiceUrl", "setODataServiceUrl"]
+          },
+          {
+            "name": "numberOfNotifications",
+            "type": "int",
+            "defaultValue": 10,
+            "group": "Misc",
+            "visibility": "public",
+            "methods": ["getNumberOfNotifications", "setNumberOfNotifications"]
+          },
+          {
+            "name": "transitionInterval",
+            "type": "int",
+            "defaultValue": 10,
+            "group": "Misc",
+            "visibility": "public",
+            "methods": ["getTransitionInterval", "setTransitionInterval"]
+          },
+          {
+            "name": "refreshInterval",
+            "type": "int",
+            "defaultValue": 300,
+            "group": "Misc",
+            "visibility": "public",
+            "methods": ["getRefreshInterval", "setRefreshInterval"]
+          },
+          {
+            "name": "notificationsTargetUrl",
+            "type": "sap.ui.core.URI",
+            "defaultValue": null,
+            "group": "Misc",
+            "visibility": "public",
+            "methods": [
+              "getNotificationsTargetUrl",
+              "setNotificationsTargetUrl"
+            ]
+          }
+        ]
+      },
+      "constructor": {
+        "visibility": "public",
+        "parameters": [
+          {
+            "name": "oDataServiceUrl",
+            "type": "sap.ui.core.URI",
+            "optional": true,
+            "description": "The OData service URL needed for the notification component, the default value is \"/sap/opu/odata/sap/SM_INTEGRATION_SRV\""
+          },
+          {
+            "name": "numberOfNotifications",
+            "type": "sap.ui.core.int",
+            "optional": true,
+            "description": "This is the maximum number of notifications to be displayed. The default value is 10."
+          },
+          {
+            "name": "transitionInterval",
+            "type": "sap.ui.core.int",
+            "optional": true,
+            "description": "This is the amount of time in seconds a notification is displayed before the next notification is displayed. The default value is 10."
+          },
+          {
+            "name": "refreshInterval",
+            "type": "sap.ui.core.int",
+            "optional": true,
+            "description": "This is the amount of time in seconds before calling the backend to update the notifications. The default value is 300."
+          },
+          {
+            "name": "notificationsTargetUrl",
+            "type": "sap.ui.core.URI",
+            "optional": false,
+            "description": "When a user clicks on the component, a new browser tab will open at this URL."
+          }
+        ],
+        "description": "Constructor for the notification component\n\nAccepts an object literal <code>mSettings</code> that defines initial property values, aggregated and associated objects as well as event handlers. See {@link sap.ui.base.ManagedObject#constructor} for a general description of the syntax of the settings object."
+      },
+      "methods": [
+        {
+          "name": "extend",
+          "visibility": "public",
+          "static": true,
+          "returnValue": {
+            "type": "function",
+            "description": "Created class / constructor function"
+          },
+          "parameters": [
+            {
+              "name": "sClassName",
+              "type": "string",
+              "optional": false,
+              "description": "Name of the class being created"
+            },
+            {
+              "name": "oClassInfo",
+              "type": "object",
+              "optional": true,
+              "description": "Object literal with information about the class"
+            },
+            {
+              "name": "FNMetaImpl",
+              "type": "function",
+              "optional": true,
+              "description": "Constructor function for the metadata object; if not given, it defaults to <code>sap.ui.core.ElementMetadata</code>"
+            }
+          ],
+          "description": "Creates a new subclass of class sap.collaboration.components.fiori.notification.Component with name <code>sClassName</code> and enriches it with the information contained in <code>oClassInfo</code>.\n\n<code>oClassInfo</code> might contain the same kind of information as described in {@link sap.ui.core.UIComponent.extend}."
+        },
+        {
+          "name": "getMetadata",
+          "visibility": "public",
+          "static": true,
+          "returnValue": {
+            "type": "sap.ui.base.Metadata",
+            "description": "Metadata object describing this class"
+          },
+          "description": "Returns a metadata object for class sap.collaboration.components.fiori.notification.Component."
+        },
+        {
+          "name": "getNotificationsTargetUrl",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.ui.core.URI",
+            "description": "Value of property <code>notificationsTargetUrl</code>"
+          },
+          "description": "Gets current value of property {@link #getNotificationsTargetUrl notificationsTargetUrl}."
+        },
+        {
+          "name": "getNumberOfNotifications",
+          "visibility": "public",
+          "returnValue": {
+            "type": "int",
+            "description": "Value of property <code>numberOfNotifications</code>"
+          },
+          "description": "Gets current value of property {@link #getNumberOfNotifications numberOfNotifications}.\n\nDefault value is <code>10</code>."
+        },
+        {
+          "name": "getODataServiceUrl",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.ui.core.URI",
+            "description": "Value of property <code>oDataServiceUrl</code>"
+          },
+          "description": "Gets current value of property {@link #getODataServiceUrl oDataServiceUrl}.\n\nDefault value is <code>/sap/opu/odata/sap/SM_INTEGRATION_SRV</code>."
+        },
+        {
+          "name": "getRefreshInterval",
+          "visibility": "public",
+          "returnValue": {
+            "type": "int",
+            "description": "Value of property <code>refreshInterval</code>"
+          },
+          "description": "Gets current value of property {@link #getRefreshInterval refreshInterval}.\n\nDefault value is <code>300</code>."
+        },
+        {
+          "name": "getTransitionInterval",
+          "visibility": "public",
+          "returnValue": {
+            "type": "int",
+            "description": "Value of property <code>transitionInterval</code>"
+          },
+          "description": "Gets current value of property {@link #getTransitionInterval transitionInterval}.\n\nDefault value is <code>10</code>."
+        },
+        {
+          "name": "setNotificationsTargetUrl",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.collaboration.components.fiori.notification.Component",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "sNotificationsTargetUrl",
+              "type": "sap.ui.core.URI",
+              "optional": false,
+              "description": "New value for property <code>notificationsTargetUrl</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getNotificationsTargetUrl notificationsTargetUrl}.\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored."
+        },
+        {
+          "name": "setNumberOfNotifications",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.collaboration.components.fiori.notification.Component",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "iNumberOfNotifications",
+              "type": "int",
+              "optional": false,
+              "description": "New value for property <code>numberOfNotifications</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getNumberOfNotifications numberOfNotifications}.\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored.\n\nDefault value is <code>10</code>."
+        },
+        {
+          "name": "setODataServiceUrl",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.collaboration.components.fiori.notification.Component",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "sODataServiceUrl",
+              "type": "sap.ui.core.URI",
+              "optional": false,
+              "description": "New value for property <code>oDataServiceUrl</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getODataServiceUrl oDataServiceUrl}.\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored.\n\nDefault value is <code>/sap/opu/odata/sap/SM_INTEGRATION_SRV</code>."
+        },
+        {
+          "name": "setRefreshInterval",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.collaboration.components.fiori.notification.Component",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "iRefreshInterval",
+              "type": "int",
+              "optional": false,
+              "description": "New value for property <code>refreshInterval</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getRefreshInterval refreshInterval}.\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored.\n\nDefault value is <code>300</code>."
+        },
+        {
+          "name": "setTransitionInterval",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.collaboration.components.fiori.notification.Component",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "iTransitionInterval",
+              "type": "int",
+              "optional": false,
+              "description": "New value for property <code>transitionInterval</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getTransitionInterval transitionInterval}.\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored.\n\nDefault value is <code>10</code>."
+        }
+      ]
+    },
+    {
+      "kind": "class",
+      "name": "sap.collaboration.components.fiori.sharing.attachment.Attachment",
+      "basename": "Attachment",
+      "resource": "sap/collaboration/components/fiori/sharing/attachment/Attachment.js",
+      "module": "sap/collaboration/components/fiori/sharing/attachment/Attachment",
+      "export": "",
+      "static": true,
+      "visibility": "public",
+      "since": "undefined",
+      "extends": "sap.ui.base.Object",
+      "description": "Attachment\n\nAttachment objects represent files.",
+      "ui5-metadata": { "stereotype": "object" },
+      "constructor": {
+        "visibility": "public",
+        "parameters": [
+          {
+            "name": "name:",
+            "type": "string",
+            "optional": false,
+            "description": "The file's name."
+          },
+          {
+            "name": "mimeType:",
+            "type": "string",
+            "optional": false,
+            "description": "The file's mime type."
+          },
+          {
+            "name": "url:",
+            "type": "string",
+            "optional": false,
+            "description": "A url that points to the file."
+          }
+        ],
+        "description": "<p>This constructor must be called in the following way:</p> <p>new Attachment(\"name\", \"mimeType\", \"url\")</p> <p>name, mimeType, and url are only place holders and can be any string.</p>"
+      },
+      "methods": [
+        {
+          "name": "extend",
+          "visibility": "public",
+          "static": true,
+          "returnValue": {
+            "type": "function",
+            "description": "Created class / constructor function"
+          },
+          "parameters": [
+            {
+              "name": "sClassName",
+              "type": "string",
+              "optional": false,
+              "description": "Name of the class being created"
+            },
+            {
+              "name": "oClassInfo",
+              "type": "object",
+              "optional": true,
+              "description": "Object literal with information about the class"
+            },
+            {
+              "name": "FNMetaImpl",
+              "type": "function",
+              "optional": true,
+              "description": "Constructor function for the metadata object; if not given, it defaults to <code>sap.ui.core.ElementMetadata</code>"
+            }
+          ],
+          "description": "Creates a new subclass of class sap.collaboration.components.fiori.sharing.attachment.Attachment with name <code>sClassName</code> and enriches it with the information contained in <code>oClassInfo</code>.\n\n<code>oClassInfo</code> might contain the same kind of information as described in {@link sap.ui.base.Object.extend}."
+        },
+        {
+          "name": "getMetadata",
+          "visibility": "public",
+          "static": true,
+          "returnValue": {
+            "type": "sap.ui.base.Metadata",
+            "description": "Metadata object describing this class"
+          },
+          "description": "Returns a metadata object for class sap.collaboration.components.fiori.sharing.attachment.Attachment."
+        }
+      ]
+    },
+    {
+      "kind": "class",
+      "name": "sap.collaboration.components.fiori.sharing.Component",
+      "basename": "Component",
+      "resource": "sap/collaboration/components/fiori/sharing/Component.js",
+      "module": "sap/collaboration/components/fiori/sharing/Component",
+      "export": "",
+      "static": true,
+      "visibility": "public",
+      "since": "undefined",
+      "extends": "sap.ui.core.UIComponent",
+      "description": "Share Component\n\nA Share Component is a ui5 component that applications can use to share information to SAP Jam",
+      "deprecated": {
+        "since": "1.26.0",
+        "text": "Please use sap.collaboration.components.fiori.sharing.dialog.Component instead."
+      },
+      "ui5-metadata": {
+        "stereotype": "component",
+        "properties": [
+          {
+            "name": "width",
+            "type": "sap.ui.core.CSSSize",
+            "defaultValue": "100%",
+            "group": "Misc",
+            "visibility": "public",
+            "methods": ["getWidth", "setWidth"]
+          },
+          {
+            "name": "height",
+            "type": "sap.ui.core.CSSSize",
+            "defaultValue": "100%",
+            "group": "Misc",
+            "visibility": "public",
+            "methods": ["getHeight", "setHeight"]
+          },
+          {
+            "name": "oDataServiceUrl",
+            "type": "sap.ui.core.URI",
+            "defaultValue": "/sap/opu/odata/sap/SM_INTEGRATION_V2_SRV",
+            "group": "Misc",
+            "visibility": "public",
+            "methods": ["getODataServiceUrl", "setODataServiceUrl"]
+          },
+          {
+            "name": "collaborationHostODataServiceUrl",
+            "type": "sap.ui.core.URI",
+            "defaultValue": "/sap/bc/ui2/smi/rest_tunnel/Jam/api/v1/OData",
+            "group": "Misc",
+            "visibility": "public",
+            "methods": [
+              "getCollaborationHostODataServiceUrl",
+              "setCollaborationHostODataServiceUrl"
+            ]
+          },
+          {
+            "name": "tunnelServiceUrl",
+            "type": "sap.ui.core.URI",
+            "defaultValue": "/sap/bc/z_sail_httproxy/Jam/api/v1/OData",
+            "group": "Misc",
+            "visibility": "public",
+            "methods": ["getTunnelServiceUrl", "setTunnelServiceUrl"]
+          },
+          {
+            "name": "object",
+            "type": "object",
+            "defaultValue": null,
+            "group": "Misc",
+            "visibility": "public",
+            "methods": ["getObject", "setObject"]
+          },
+          {
+            "name": "attachments",
+            "type": "object",
+            "defaultValue": null,
+            "group": "Misc",
+            "visibility": "public",
+            "methods": ["getAttachments", "setAttachments"]
+          },
+          {
+            "name": "externalObject",
+            "type": "object",
+            "defaultValue": null,
+            "group": "Misc",
+            "visibility": "public",
+            "methods": ["getExternalObject", "setExternalObject"]
+          }
+        ]
+      },
+      "constructor": {
+        "visibility": "public",
+        "parameters": [
+          {
+            "name": "oDataServiceUrl",
+            "type": "sap.ui.core.URI",
+            "optional": true,
+            "description": "The OData service URL needed for the share component, the default value is \"/sap/opu/odata/sap/SM_INTEGRATION_SRV\""
+          },
+          {
+            "name": "object",
+            "type": "object",
+            "optional": true,
+            "description": "A JSON object passed to the share component. This object contains the following properties: <ul> <li>id (optional): is the object Id to be shared in SAP Jam, i.e a URL that navigates back to the same object in the application</li> <li>display (optional): is a UI5 control to be displayed in the component UI</li> <li>share (optional): is a note that will be displayed in the component UI and shared to SAP Jam too</li> </ul>"
+          },
+          {
+            "name": "externalObject",
+            "type": "object",
+            "optional": true,
+            "description": "A Business Object such as an Opportunity, Sales Order, Account, etc. from the back-end that will be shared as a Featured External Object in a Group in Jam. <code> <ul> <li>{string} appContext: The application context. Example: \"CRM\", \"SD\", etc.</li> <li>{string} odataServicePath: The relative path to the OData Service. Example: \"/sap/opu/odata/sap/ODATA_SRV\"</li> <li>{string} collection: The name of the OData Collection. Example: \"Account\", \"Opportunity\", etc.</li> <li>{string} key: The key to identify a particular instance of the Business Object. It can be a simple ID or a compound key. Example: \"123\", \"ObjectID='123'\", \"ObjectID='123',ObjectType='BUS000123'\", etc.</li> <li>{string} name: The short name of the Business Object. Example: \"Sales Order 123\", \"Opportunity 123\", \"Account 123\", etc.</li> </ul> </code> These attributes are not enforced by the UI (missing or incorrect values are not validated), but they are required to make the integration work. These attributes also should be mapped in the Back-end System and Jam in order to make the External Object work. <br><b>Note:</b> the externalObject is dependent on object.id, therefore, the object.id must also be passed to the Share Component. See the parameter \"object\" for more information."
+          },
+          {
+            "name": "attachments",
+            "type": "object",
+            "optional": true,
+            "description": "When you want to provide the user with the option to share file attachments, then the following properties need to be specified: <ul> <li>attachmentsArray: An array of {@link sap.collaboration.components.fiori.sharing.attachment.Attachment} objects. This array offers users a list of files they can attach.</li> </ul>"
+          }
+        ],
+        "description": "Constructor for the share component\n\nAccepts an object literal <code>mSettings</code> that defines initial property values, aggregated and associated objects as well as event handlers. See {@link sap.ui.base.ManagedObject#constructor} for a general description of the syntax of the settings object."
+      },
+      "methods": [
+        {
+          "name": "extend",
+          "visibility": "public",
+          "static": true,
+          "returnValue": {
+            "type": "function",
+            "description": "Created class / constructor function"
+          },
+          "parameters": [
+            {
+              "name": "sClassName",
+              "type": "string",
+              "optional": false,
+              "description": "Name of the class being created"
+            },
+            {
+              "name": "oClassInfo",
+              "type": "object",
+              "optional": true,
+              "description": "Object literal with information about the class"
+            },
+            {
+              "name": "FNMetaImpl",
+              "type": "function",
+              "optional": true,
+              "description": "Constructor function for the metadata object; if not given, it defaults to <code>sap.ui.core.ElementMetadata</code>"
+            }
+          ],
+          "description": "Creates a new subclass of class sap.collaboration.components.fiori.sharing.Component with name <code>sClassName</code> and enriches it with the information contained in <code>oClassInfo</code>.\n\n<code>oClassInfo</code> might contain the same kind of information as described in {@link sap.ui.core.UIComponent.extend}."
+        },
+        {
+          "name": "getAttachments",
+          "visibility": "public",
+          "returnValue": {
+            "type": "object",
+            "description": "Value of property <code>attachments</code>"
+          },
+          "description": "Gets current value of property {@link #getAttachments attachments}."
+        },
+        {
+          "name": "getCollaborationHostODataServiceUrl",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.ui.core.URI",
+            "description": "Value of property <code>collaborationHostODataServiceUrl</code>"
+          },
+          "description": "Gets current value of property {@link #getCollaborationHostODataServiceUrl collaborationHostODataServiceUrl}.\n\nDefault value is <code>/sap/bc/ui2/smi/rest_tunnel/Jam/api/v1/OData</code>."
+        },
+        {
+          "name": "getExternalObject",
+          "visibility": "public",
+          "returnValue": {
+            "type": "object",
+            "description": "Value of property <code>externalObject</code>"
+          },
+          "description": "Gets current value of property {@link #getExternalObject externalObject}."
+        },
+        {
+          "name": "getHeight",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.ui.core.CSSSize",
+            "description": "Value of property <code>height</code>"
+          },
+          "description": "Gets current value of property {@link #getHeight height}.\n\nDefault value is <code>100%</code>."
+        },
+        {
+          "name": "getMetadata",
+          "visibility": "public",
+          "static": true,
+          "returnValue": {
+            "type": "sap.ui.base.Metadata",
+            "description": "Metadata object describing this class"
+          },
+          "description": "Returns a metadata object for class sap.collaboration.components.fiori.sharing.Component."
+        },
+        {
+          "name": "getObject",
+          "visibility": "public",
+          "returnValue": {
+            "type": "object",
+            "description": "Value of property <code>object</code>"
+          },
+          "description": "Gets current value of property {@link #getObject object}."
+        },
+        {
+          "name": "getODataServiceUrl",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.ui.core.URI",
+            "description": "Value of property <code>oDataServiceUrl</code>"
+          },
+          "description": "Gets current value of property {@link #getODataServiceUrl oDataServiceUrl}.\n\nDefault value is <code>/sap/opu/odata/sap/SM_INTEGRATION_V2_SRV</code>."
+        },
+        {
+          "name": "getTunnelServiceUrl",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.ui.core.URI",
+            "description": "Value of property <code>tunnelServiceUrl</code>"
+          },
+          "description": "Gets current value of property {@link #getTunnelServiceUrl tunnelServiceUrl}.\n\nDefault value is <code>/sap/bc/z_sail_httproxy/Jam/api/v1/OData</code>."
+        },
+        {
+          "name": "getWidth",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.ui.core.CSSSize",
+            "description": "Value of property <code>width</code>"
+          },
+          "description": "Gets current value of property {@link #getWidth width}.\n\nDefault value is <code>100%</code>."
+        },
+        {
+          "name": "setAttachments",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.collaboration.components.fiori.sharing.Component",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "oAttachments",
+              "type": "object",
+              "optional": false,
+              "description": "New value for property <code>attachments</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getAttachments attachments}.\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored."
+        },
+        {
+          "name": "setCollaborationHostODataServiceUrl",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.collaboration.components.fiori.sharing.Component",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "sCollaborationHostODataServiceUrl",
+              "type": "sap.ui.core.URI",
+              "optional": false,
+              "description": "New value for property <code>collaborationHostODataServiceUrl</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getCollaborationHostODataServiceUrl collaborationHostODataServiceUrl}.\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored.\n\nDefault value is <code>/sap/bc/ui2/smi/rest_tunnel/Jam/api/v1/OData</code>."
+        },
+        {
+          "name": "setExternalObject",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.collaboration.components.fiori.sharing.Component",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "oExternalObject",
+              "type": "object",
+              "optional": false,
+              "description": "New value for property <code>externalObject</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getExternalObject externalObject}.\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored."
+        },
+        {
+          "name": "setHeight",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.collaboration.components.fiori.sharing.Component",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "sHeight",
+              "type": "sap.ui.core.CSSSize",
+              "optional": false,
+              "description": "New value for property <code>height</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getHeight height}.\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored.\n\nDefault value is <code>100%</code>."
+        },
+        {
+          "name": "setObject",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.collaboration.components.fiori.sharing.Component",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "oObject",
+              "type": "object",
+              "optional": false,
+              "description": "New value for property <code>object</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getObject object}.\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored."
+        },
+        {
+          "name": "setODataServiceUrl",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.collaboration.components.fiori.sharing.Component",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "sODataServiceUrl",
+              "type": "sap.ui.core.URI",
+              "optional": false,
+              "description": "New value for property <code>oDataServiceUrl</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getODataServiceUrl oDataServiceUrl}.\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored.\n\nDefault value is <code>/sap/opu/odata/sap/SM_INTEGRATION_V2_SRV</code>."
+        },
+        {
+          "name": "setSettings",
+          "visibility": "public",
+          "parameters": [
+            {
+              "name": "oSettings",
+              "type": "object",
+              "optional": false,
+              "description": "A JSON object used to set the component settings, this object should contains the same properties used in the constructor."
+            }
+          ],
+          "description": "Setter for the Component settings."
+        },
+        {
+          "name": "setTunnelServiceUrl",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.collaboration.components.fiori.sharing.Component",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "sTunnelServiceUrl",
+              "type": "sap.ui.core.URI",
+              "optional": false,
+              "description": "New value for property <code>tunnelServiceUrl</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getTunnelServiceUrl tunnelServiceUrl}.\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored.\n\nDefault value is <code>/sap/bc/z_sail_httproxy/Jam/api/v1/OData</code>."
+        },
+        {
+          "name": "setWidth",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.collaboration.components.fiori.sharing.Component",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "sWidth",
+              "type": "sap.ui.core.CSSSize",
+              "optional": false,
+              "description": "New value for property <code>width</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getWidth width}.\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored.\n\nDefault value is <code>100%</code>."
+        },
+        {
+          "name": "shareToJam",
+          "visibility": "public",
+          "description": "Shares the data to Jam group"
+        }
+      ]
+    },
+    {
+      "kind": "class",
+      "name": "sap.collaboration.components.fiori.sharing.dialog.Component",
+      "basename": "Component",
+      "resource": "sap/collaboration/components/fiori/sharing/dialog/Component.js",
+      "module": "sap/collaboration/components/fiori/sharing/dialog/Component",
+      "export": "",
+      "static": true,
+      "visibility": "public",
+      "since": "undefined",
+      "extends": "sap.ui.core.UIComponent",
+      "description": "The Share Dialog component is an SAPUI5 component that you can use to create a dialog in your application to enable you to enter or edit information shared to SAP Jam.",
+      "ui5-metadata": {
+        "stereotype": "component",
+        "properties": [
+          {
+            "name": "attachments",
+            "type": "object",
+            "defaultValue": null,
+            "group": "Misc",
+            "visibility": "public",
+            "methods": ["getAttachments", "setAttachments"]
+          },
+          {
+            "name": "object",
+            "type": "object",
+            "defaultValue": null,
+            "group": "Misc",
+            "visibility": "public",
+            "methods": ["getObject", "setObject"]
+          },
+          {
+            "name": "externalObject",
+            "type": "object",
+            "defaultValue": null,
+            "group": "Misc",
+            "visibility": "public",
+            "methods": ["getExternalObject", "setExternalObject"]
+          }
+        ]
+      },
+      "constructor": {
+        "visibility": "public",
+        "parameters": [
+          {
+            "name": "oDataServiceUrl",
+            "type": "sap.ui.core.URI",
+            "optional": true,
+            "description": "DEPRECATED The OData service URL will no longer be taken into account."
+          },
+          {
+            "name": "object",
+            "type": "object",
+            "optional": true,
+            "description": "A JSON object passed to the share component. This object contains the following properties: <ul> <li>id (optional): is the object Id to be shared in SAP Jam, i.e a URL( or a callback function that returns a URL) that navigates back to the same object in the application</li> <li>display (optional): is a UI5 control to be displayed in the component UI <br> <b>Note:</b> The preferred object to pass in the display parameter is <code>sap.m.ObjectListItem</code>. Using other type of objects (for example: <code>ap.ui.commons.TextView</code>) may result in problems in the rendering of the content which needs to be corrected by the application owners.</li> <li>share (optional): is a note that will be displayed in the component UI and shared to SAP Jam too</li> </ul>"
+          },
+          {
+            "name": "externalObject",
+            "type": "object",
+            "optional": true,
+            "description": "A Business Object such as an Opportunity, Sales Order, Account, etc. from the back-end that will be shared as a Featured External Object in a Group in Jam. <code> <ul> <li>{string} appContext: The application context. Example: \"CRM\", \"SD\", etc.</li> <li>{string} odataServicePath: The relative path to the OData Service. Example: \"/sap/opu/odata/sap/ODATA_SRV\"</li> <li>{string} collection: The name of the OData Collection. Example: \"Account\", \"Opportunity\", etc.</li> <li>{string} key: The key to identify a particular instance of the Business Object. It can be a simple ID or a compound key. Example: \"123\", \"ObjectID='123'\", \"ObjectID='123',ObjectType='BUS000123'\", etc.</li> <li>{string} name: The short name of the Business Object. Example: \"Sales Order 123\", \"Opportunity 123\", \"Account 123\", etc.</li> </ul> </code> These attributes are not enforced by the UI (missing or incorrect values are not validated), but they are required to make the integration work. These attributes also should be mapped in the Back-end System and Jam in order to make the External Object work. <br> <b>Note:</b> the externalObject is dependent on object.id, therefore, the object.id must also be passed to the Share Component. See the parameter \"object\" for more information."
+          },
+          {
+            "name": "attachments",
+            "type": "object",
+            "optional": true,
+            "description": "When you want to provide the user with the option to share file attachments, then the following properties need to be specified: <ul> <li>attachmentsArray: An array of {@link sap.collaboration.components.fiori.sharing.attachment.Attachment} objects. This array offers users a list of files they can attach.</li> </ul>"
+          }
+        ],
+        "description": "Constructor for the share dialog component\n\nAccepts an object literal <code>mSettings</code> that defines initial property values, aggregated and associated objects as well as event handlers. See {@link sap.ui.base.ManagedObject#constructor} for a general description of the syntax of the settings object."
+      },
+      "methods": [
+        {
+          "name": "extend",
+          "visibility": "public",
+          "static": true,
+          "returnValue": {
+            "type": "function",
+            "description": "Created class / constructor function"
+          },
+          "parameters": [
+            {
+              "name": "sClassName",
+              "type": "string",
+              "optional": false,
+              "description": "Name of the class being created"
+            },
+            {
+              "name": "oClassInfo",
+              "type": "object",
+              "optional": true,
+              "description": "Object literal with information about the class"
+            },
+            {
+              "name": "FNMetaImpl",
+              "type": "function",
+              "optional": true,
+              "description": "Constructor function for the metadata object; if not given, it defaults to <code>sap.ui.core.ElementMetadata</code>"
+            }
+          ],
+          "description": "Creates a new subclass of class sap.collaboration.components.fiori.sharing.dialog.Component with name <code>sClassName</code> and enriches it with the information contained in <code>oClassInfo</code>.\n\n<code>oClassInfo</code> might contain the same kind of information as described in {@link sap.ui.core.UIComponent.extend}."
+        },
+        {
+          "name": "getAttachments",
+          "visibility": "public",
+          "returnValue": {
+            "type": "object",
+            "description": "Value of property <code>attachments</code>"
+          },
+          "description": "Gets current value of property {@link #getAttachments attachments}."
+        },
+        {
+          "name": "getExternalObject",
+          "visibility": "public",
+          "returnValue": {
+            "type": "object",
+            "description": "Value of property <code>externalObject</code>"
+          },
+          "description": "Gets current value of property {@link #getExternalObject externalObject}."
+        },
+        {
+          "name": "getMetadata",
+          "visibility": "public",
+          "static": true,
+          "returnValue": {
+            "type": "sap.ui.base.Metadata",
+            "description": "Metadata object describing this class"
+          },
+          "description": "Returns a metadata object for class sap.collaboration.components.fiori.sharing.dialog.Component."
+        },
+        {
+          "name": "getObject",
+          "visibility": "public",
+          "returnValue": {
+            "type": "object",
+            "description": "Value of property <code>object</code>"
+          },
+          "description": "Gets current value of property {@link #getObject object}."
+        },
+        {
+          "name": "open",
+          "visibility": "public",
+          "description": "Opens the share component dialog"
+        },
+        {
+          "name": "setAttachments",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.collaboration.components.fiori.sharing.dialog.Component",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "oAttachments",
+              "type": "object",
+              "optional": false,
+              "description": "New value for property <code>attachments</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getAttachments attachments}.\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored."
+        },
+        {
+          "name": "setExternalObject",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.collaboration.components.fiori.sharing.dialog.Component",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "oExternalObject",
+              "type": "object",
+              "optional": false,
+              "description": "New value for property <code>externalObject</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getExternalObject externalObject}.\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored."
+        },
+        {
+          "name": "setObject",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.collaboration.components.fiori.sharing.dialog.Component",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "oObject",
+              "type": "object",
+              "optional": false,
+              "description": "New value for property <code>object</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getObject object}.\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored."
+        },
+        {
+          "name": "setSettings",
+          "visibility": "public",
+          "parameters": [
+            {
+              "name": "oSettings",
+              "type": "object",
+              "optional": false,
+              "description": "A JSON object used to set the component settings, this object should contains the same properties used in the constructor."
+            }
+          ],
+          "description": "Setter for the Component settings."
+        }
+      ]
+    },
+    {
+      "kind": "class",
+      "name": "sap.collaboration.components.socialprofile.Component",
+      "basename": "Component",
+      "resource": "sap/collaboration/components/socialprofile/Component.js",
+      "module": "sap/collaboration/components/socialprofile/Component",
+      "export": "",
+      "static": true,
+      "visibility": "public",
+      "since": "undefined",
+      "extends": "sap.ui.core.UIComponent",
+      "description": "Social Profile Component",
+      "experimental": {
+        "text": "The API is not stable and the UI is not finalized. The implementation for this feature is subject to change."
+      },
+      "ui5-metadata": {
+        "stereotype": "component",
+        "properties": [
+          {
+            "name": "placement",
+            "type": "sap.m.PlacementType",
+            "defaultValue": "Auto",
+            "group": "Misc",
+            "visibility": "public",
+            "methods": ["getPlacement", "setPlacement"]
+          },
+          {
+            "name": "memberId",
+            "type": "string",
+            "defaultValue": null,
+            "group": "Misc",
+            "visibility": "public",
+            "methods": ["getMemberId", "setMemberId"]
+          },
+          {
+            "name": "memberInfo",
+            "type": "object",
+            "defaultValue": null,
+            "group": "Misc",
+            "visibility": "public",
+            "methods": ["getMemberInfo", "setMemberInfo"]
+          },
+          {
+            "name": "openingControl",
+            "type": "object",
+            "defaultValue": null,
+            "group": "Misc",
+            "visibility": "public",
+            "methods": ["getOpeningControl", "setOpeningControl"]
+          },
+          {
+            "name": "height",
+            "type": "sap.ui.core.CSSSize",
+            "defaultValue": "380px",
+            "group": "Dimension",
+            "visibility": "public",
+            "methods": ["getHeight", "setHeight"]
+          },
+          {
+            "name": "width",
+            "type": "sap.ui.core.CSSSize",
+            "defaultValue": "300px",
+            "group": "Dimension",
+            "visibility": "public",
+            "methods": ["getWidth", "setWidth"]
+          }
+        ]
+      },
+      "constructor": {
+        "visibility": "public",
+        "parameters": [
+          {
+            "name": "sId",
+            "type": "string",
+            "optional": true,
+            "description": "id for the new control, generated automatically if no id is given"
+          },
+          {
+            "name": "mSettings",
+            "type": "object",
+            "optional": true,
+            "description": "initial settings for the new control"
+          }
+        ],
+        "description": "Constructor for the Social Profile Component.\n\n!!! EXPERIMENTAL !!!\n\nAccepts an object literal <code>mSettings</code> that defines initial property values, aggregated and associated objects as well as event handlers.\n\nIf the name of a setting is ambiguous (e.g. a property has the same name as an event), then the framework assumes property, aggregation, association, event in that order. To override this automatic resolution, one of the prefixes \"aggregation:\", \"association:\" or \"event:\" can be added to the name of the setting (such a prefixed name must be enclosed in single or double quotes).\n\nThe supported settings are: <ul> <li>Properties <ul> <li>{@link #getPlacement placement} : sap.m.PlacementType (default: sap.m.PlacementType.Auto) </li> <li>{@link #getMemberId memberId} : string </li> <li>{@link #getMemberInfo memberInfo} : {object} </li> <li>{@link #getOpeningControl openingControl} : {object} </li> <li>{@link #getHeight height} : sap.ui.core.CSSSize (default: 380px) </li> <li>{@link #getWidth width} : sap.ui.core.CSSSize (default: 300px) </li>"
+      },
+      "methods": [
+        {
+          "name": "exit",
+          "visibility": "protected",
+          "static": true,
+          "description": "Cleans up the component instance before destruction. [borrowed from sap.ui.core.Component]"
+        },
+        {
+          "name": "extend",
+          "visibility": "public",
+          "static": true,
+          "returnValue": {
+            "type": "function",
+            "description": "Created class / constructor function"
+          },
+          "parameters": [
+            {
+              "name": "sClassName",
+              "type": "string",
+              "optional": false,
+              "description": "Name of the class being created"
+            },
+            {
+              "name": "oClassInfo",
+              "type": "object",
+              "optional": true,
+              "description": "Object literal with information about the class"
+            },
+            {
+              "name": "FNMetaImpl",
+              "type": "function",
+              "optional": true,
+              "description": "Constructor function for the metadata object; if not given, it defaults to <code>sap.ui.core.ElementMetadata</code>"
+            }
+          ],
+          "description": "Creates a new subclass of class sap.collaboration.components.socialprofile.Component with name <code>sClassName</code> and enriches it with the information contained in <code>oClassInfo</code>.\n\n<code>oClassInfo</code> might contain the same kind of information as described in {@link sap.ui.core.UIComponent.extend}."
+        },
+        {
+          "name": "getHeight",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.ui.core.CSSSize",
+            "description": "the value of property <code>height</code>"
+          },
+          "description": "Getter for property <code>height</code>. Gets the height of the Social Profile\n\nDefault value is <code>380px</code>"
+        },
+        {
+          "name": "getMemberId",
+          "visibility": "public",
+          "returnValue": {
+            "type": "string",
+            "description": "the value of property <code>memberId</code>"
+          },
+          "description": "Getter for property <code>memberId</code>. Gets the SAP Jam member id of the user"
+        },
+        {
+          "name": "getMemberInfo",
+          "visibility": "public",
+          "returnValue": {
+            "type": "object",
+            "description": "member information <code>memberInfo</code>"
+          },
+          "description": "Getter for property <code>memberInfo</code>. Gets the SAP Jam member information"
+        },
+        {
+          "name": "getMetadata",
+          "visibility": "public",
+          "static": true,
+          "returnValue": {
+            "type": "sap.ui.base.Metadata",
+            "description": "Metadata object describing this class"
+          },
+          "description": "Returns a metadata object for class sap.collaboration.components.socialprofile.Component."
+        },
+        {
+          "name": "getOpeningControl",
+          "visibility": "public",
+          "returnValue": {
+            "type": "object",
+            "description": "the value of property <code>openingControl</code>"
+          },
+          "description": "Getter for property <code>openingControl</code>. Gets the opening control for the Social Profile"
+        },
+        {
+          "name": "getPlacement",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.m.PlacementType",
+            "description": "the value of property <code>placement</code>"
+          },
+          "description": "Getter for property <code>placement</code>. Gets the placement of the Social Profile\n\nDefault value is <code>sap.m.PlacementType.Auto</code>"
+        },
+        {
+          "name": "getWidth",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.ui.core.CSSSize",
+            "description": "the value of property <code>width</code>"
+          },
+          "description": "Getter for property <code>width</code>. Gets the width of the Social Profile\n\nDefault value is <code>300px</code>"
+        },
+        {
+          "name": "init",
+          "visibility": "protected",
+          "static": true,
+          "description": "Initializes the Component instance after creation. [borrowed from sap.ui.core.UIComponent]"
+        },
+        {
+          "name": "onAfterRendering",
+          "visibility": "protected",
+          "static": true,
+          "description": "Function is called when the rendering of the Component Container is completed. [borrowed from sap.ui.core.UIComponent]"
+        },
+        {
+          "name": "onBeforeRendering",
+          "visibility": "protected",
+          "static": true,
+          "description": "Function is called when the rendering of the Component Container is started. [borrowed from sap.ui.core.UIComponent]"
+        },
+        {
+          "name": "open",
+          "visibility": "public",
+          "static": true,
+          "description": "Opens the social profile component"
+        },
+        {
+          "name": "setHeight",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.collaboration.components.socialprofile.Component",
+            "description": "<code>this</code> to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "sHeight",
+              "type": "string",
+              "optional": false,
+              "description": "new value for property <code>height</code>"
+            }
+          ],
+          "description": "Setter for property <code>height</code>. Sets the height of the Social Profile\n\nDefault value is <code>380px</code>"
+        },
+        {
+          "name": "setMemberId",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.collaboration.components.socialprofile.Component",
+            "description": "<code>this</code> to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "sMemberId",
+              "type": "string",
+              "optional": false,
+              "description": "new value for property <code>memberId</code>"
+            }
+          ],
+          "description": "Setter for property <code>memberId</code>. Sets the memberId of the user"
+        },
+        {
+          "name": "setMemberInfo",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.collaboration.components.socialprofile.Component",
+            "description": "<code>this</code> to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "oMemberInfo",
+              "type": "object",
+              "optional": false,
+              "description": "new value for property <code>memberInfo</code>"
+            }
+          ],
+          "description": "Setter for property <code>memberInfo</code>. Sets the memberInformation of the user"
+        },
+        {
+          "name": "setOpeningControl",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.collaboration.components.socialprofile.Component",
+            "description": "<code>this</code> to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "oOpeningControl",
+              "type": "object",
+              "optional": false,
+              "description": "new value for property <code>openingControl</code>"
+            }
+          ],
+          "description": "Setter for property <code>openingControl</code>. Sets the opening control for the Social Profile"
+        },
+        {
+          "name": "setPlacement",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.collaboration.components.socialprofile.Component",
+            "description": "<code>this</code> to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "sPlacement",
+              "type": "sap.m.PlacementType",
+              "optional": false,
+              "description": "new value for property <code>placement</code>"
+            }
+          ],
+          "description": "Setter for property <code>placement</code>. Sets the placement of the Social Profile\n\nDefault value is <code>sap.m.PlacementType.Auto</code>"
+        },
+        {
+          "name": "setSettings",
+          "visibility": "public",
+          "static": true,
+          "parameters": [
+            {
+              "name": "oSettings",
+              "type": "object",
+              "optional": false,
+              "description": "A JSON object used to set the component settings, this object should contains the same properties used in the constructor"
+            }
+          ],
+          "description": "Setter for the Component settings"
+        },
+        {
+          "name": "setWidth",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.collaboration.components.socialprofile.Component",
+            "description": "<code>this</code> to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "sWidth",
+              "type": "string",
+              "optional": false,
+              "description": "new value for property <code>width</code>"
+            }
+          ],
+          "description": "Setter for property <code>width</code>. Sets the width of the Social Profile\n\nDefault value is <code>300px</code>"
+        }
+      ]
+    },
+    {
+      "kind": "class",
+      "name": "sap.collaboration.components.socialtimeline.Component",
+      "basename": "Component",
+      "resource": "sap/collaboration/components/socialtimeline/Component.js",
+      "module": "sap/collaboration/components/socialtimeline/Component",
+      "export": "",
+      "static": true,
+      "visibility": "public",
+      "extends": "sap.ui.core.UIComponent",
+      "description": "Social Timeline",
+      "deprecated": {
+        "since": "1.34.0",
+        "text": "For new integrations and existing implementations running on release 1.32 or later, use the Group Feed component (sap.collaboration.components.feed.Component), Business Object mode(sap.collaboration.FeedType.BusinessObjectGroups). Note that the Group Feed component does not display any updates related to the business object from the back-end system (system updates)."
+      },
+      "ui5-metadata": {
+        "stereotype": "component",
+        "properties": [
+          {
+            "name": "enableSocial",
+            "type": "boolean",
+            "defaultValue": true,
+            "group": "Social",
+            "visibility": "public",
+            "methods": ["getEnableSocial", "setEnableSocial"]
+          },
+          {
+            "name": "alignment",
+            "type": "sap.suite.ui.commons.TimelineAlignment",
+            "defaultValue": "Right",
+            "group": "Misc",
+            "visibility": "public",
+            "methods": ["getAlignment", "setAlignment"]
+          },
+          {
+            "name": "axisOrientation",
+            "type": "sap.suite.ui.commons.TimelineAxisOrientation",
+            "defaultValue": "Vertical",
+            "group": "Misc",
+            "visibility": "public",
+            "methods": ["getAxisOrientation", "setAxisOrientation"]
+          },
+          {
+            "name": "noDataText",
+            "type": "string",
+            "defaultValue": null,
+            "group": "Misc",
+            "visibility": "public",
+            "methods": ["getNoDataText", "setNoDataText"]
+          },
+          {
+            "name": "showIcons",
+            "type": "boolean",
+            "defaultValue": true,
+            "group": "Misc",
+            "visibility": "public",
+            "methods": ["getShowIcons", "setShowIcons"]
+          },
+          {
+            "name": "visible",
+            "type": "boolean",
+            "defaultValue": true,
+            "group": "Appearance",
+            "visibility": "public",
+            "methods": ["getVisible", "setVisible"]
+          },
+          {
+            "name": "width",
+            "type": "sap.ui.core.CSSSize",
+            "defaultValue": "100%",
+            "group": "Dimension",
+            "visibility": "public",
+            "methods": ["getWidth", "setWidth"]
+          },
+          {
+            "name": "customFilter",
+            "type": "object[]",
+            "defaultValue": null,
+            "group": "Social",
+            "visibility": "public",
+            "methods": ["getCustomFilter", "setCustomFilter"]
+          }
+        ],
+        "events": [
+          {
+            "name": "customActionPress",
+            "visibility": "public",
+            "methods": [
+              "attachCustomActionPress",
+              "detachCustomActionPress",
+              "fireCustomActionPress"
+            ]
+          }
+        ]
+      },
+      "constructor": {
+        "visibility": "public",
+        "parameters": [
+          {
+            "name": "sId",
+            "type": "string",
+            "optional": true,
+            "description": "id for the new control, generated automatically if no id is given"
+          },
+          {
+            "name": "mSettings",
+            "type": "object",
+            "optional": true,
+            "description": "initial settings for the new control"
+          }
+        ],
+        "description": "Constructor for the Social Timeline Component.\n\nAccepts an object literal <code>mSettings</code> that defines initial property values, aggregated and associated objects as well as event handlers.\n\nIf the name of a setting is ambiguous (e.g. a property has the same name as an event), then the framework assumes property, aggregation, association, event in that order. To override this automatic resolution, one of the prefixes \"aggregation:\", \"association:\" or \"event:\" can be added to the name of the setting (such a prefixed name must be enclosed in single or double quotes).\n\nThe supported settings are: <ul> <li>Properties <ul> <li>{@link #getEnableSocial enableSocial} : boolean (default: true) </li> <li>{@link #getAlignment alignment} : sap.suite.ui.commons.TimelineAlignment (default: sap.suite.ui.commons.TimelineAlignment.Right)</li> <li>{@link #getAxisOrientation axisOrientation} : sap.suite.ui.commons.TimelineAxisOrientation (default: sap.suite.ui.commons.TimelineAxisOrientation.Vertical)</li> <li>{@link #getNoDataText noDataText} : string</li> <li>{@link #getShowIcons showIcons} : boolean (default: true)</li> <li>{@link #getVisible visible} : boolean (default: true)</li> <li>{@link #getWidth width} : sap.ui.core.CSSSize (default: '100%')</li> <li>{@link #getCustomFilter customFilter} : {object}</li> </ul> </li> <li>Events <ul> <li>{@link sap.collaboration.components.socialtimeline.Component:customActionPress customActionPress} : fnListenerFunction or [fnListenerFunction, oListenerObject] or [oData, fnListenerFunction, oListenerObject]</li> </ul> </li> </ul>"
+      },
+      "events": [
+        {
+          "name": "customActionPress",
+          "visibility": "public",
+          "parameters": [{ "name": "oEventData", "type": "object" }],
+          "description": "Event fire when a custom action is clicked"
+        }
+      ],
+      "methods": [
+        {
+          "name": "attachCustomActionPress",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.collaboration.components.socialtimeline.Component",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "oData",
+              "type": "object",
+              "optional": true,
+              "description": "An application-specific payload object that will be passed to the event handler along with the event object when firing the event"
+            },
+            {
+              "name": "fnFunction",
+              "type": "function",
+              "optional": false,
+              "description": "The function to be called when the event occurs"
+            },
+            {
+              "name": "oListener",
+              "type": "object",
+              "optional": true,
+              "description": "Context object to call the event handler with. Defaults to this <code>sap.collaboration.components.socialtimeline.Component</code> itself"
+            }
+          ],
+          "description": "Attaches event handler <code>fnFunction</code> to the {@link #event:customActionPress customActionPress} event of this <code>sap.collaboration.components.socialtimeline.Component</code>.\n\nWhen called, the context of the event handler (its <code>this</code>) will be bound to <code>oListener</code> if specified, otherwise it will be bound to this <code>sap.collaboration.components.socialtimeline.Component</code> itself."
+        },
+        {
+          "name": "createContent",
+          "visibility": "protected",
+          "static": true,
+          "description": "The method to create the Content (UI Control Tree) of the Component."
+        },
+        {
+          "name": "deleteTimelineEntry",
+          "visibility": "public",
+          "static": true,
+          "parameters": [
+            {
+              "name": "sId",
+              "type": "string",
+              "optional": false,
+              "description": "the id of the timeline entry to delete"
+            }
+          ],
+          "description": "Delete a Timeline Entry. This method should be called when a custom action requires a deletion of a Timeline entry and should only be called if an a delete to the backend is performed successfully."
+        },
+        {
+          "name": "detachCustomActionPress",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.collaboration.components.socialtimeline.Component",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "fnFunction",
+              "type": "function",
+              "optional": false,
+              "description": "The function to be called, when the event occurs"
+            },
+            {
+              "name": "oListener",
+              "type": "object",
+              "optional": true,
+              "description": "Context object on which the given function had to be called"
+            }
+          ],
+          "description": "Detaches event handler <code>fnFunction</code> from the {@link #event:customActionPress customActionPress} event of this <code>sap.collaboration.components.socialtimeline.Component</code>.\n\nThe passed function and listener object must match the ones used for event registration."
+        },
+        {
+          "name": "exit",
+          "visibility": "protected",
+          "static": true,
+          "description": "Cleans up the component instance before destruction."
+        },
+        {
+          "name": "extend",
+          "visibility": "public",
+          "static": true,
+          "returnValue": {
+            "type": "function",
+            "description": "Created class / constructor function"
+          },
+          "parameters": [
+            {
+              "name": "sClassName",
+              "type": "string",
+              "optional": false,
+              "description": "Name of the class being created"
+            },
+            {
+              "name": "oClassInfo",
+              "type": "object",
+              "optional": true,
+              "description": "Object literal with information about the class"
+            },
+            {
+              "name": "FNMetaImpl",
+              "type": "function",
+              "optional": true,
+              "description": "Constructor function for the metadata object; if not given, it defaults to <code>sap.ui.core.ElementMetadata</code>"
+            }
+          ],
+          "description": "Creates a new subclass of class sap.collaboration.components.socialtimeline.Component with name <code>sClassName</code> and enriches it with the information contained in <code>oClassInfo</code>.\n\n<code>oClassInfo</code> might contain the same kind of information as described in {@link sap.ui.core.UIComponent.extend}."
+        },
+        {
+          "name": "fireCustomActionPress",
+          "visibility": "protected",
+          "returnValue": {
+            "type": "sap.collaboration.components.socialtimeline.Component",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "mParameters",
+              "type": "object",
+              "optional": true,
+              "description": "Parameters to pass along with the event"
+            }
+          ],
+          "description": "Fires event {@link #event:customActionPress customActionPress} to attached listeners."
+        },
+        {
+          "name": "getAlignment",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.suite.ui.commons.TimelineAlignment",
+            "description": "Value of property <code>alignment</code>"
+          },
+          "description": "Gets current value of property {@link #getAlignment alignment}.\n\nDefault value is <code>Right</code>."
+        },
+        {
+          "name": "getAxisOrientation",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.suite.ui.commons.TimelineAxisOrientation",
+            "description": "the value of property <code>axisOrientation</code>"
+          },
+          "description": "Getter for property <code>axisOrientation</code>. Timeline axis orientation.\n\nDefault value is <code>Vertical</code>"
+        },
+        {
+          "name": "getCustomFilter",
+          "visibility": "public",
+          "returnValue": {
+            "type": "array",
+            "description": "the value of property <code>customFilter</code>"
+          },
+          "description": "Getter for property <code>customFilter</code>.\n\nDefault value is <code>[]</code>. The customFilter is an array of objects, each object contains text and value. Text is the name of the filter category and value is the filter value."
+        },
+        {
+          "name": "getEnableSocial",
+          "visibility": "public",
+          "returnValue": {
+            "type": "boolean",
+            "description": "Value of property <code>enableSocial</code>"
+          },
+          "description": "Gets current value of property {@link #getEnableSocial enableSocial}.\n\nDefault value is <code>true</code>."
+        },
+        {
+          "name": "getMetadata",
+          "visibility": "public",
+          "static": true,
+          "returnValue": {
+            "type": "sap.ui.base.Metadata",
+            "description": "Metadata object describing this class"
+          },
+          "description": "Returns a metadata object for class sap.collaboration.components.socialtimeline.Component."
+        },
+        {
+          "name": "getNoDataText",
+          "visibility": "public",
+          "returnValue": {
+            "type": "string",
+            "description": "the value of property <code>noDataText</code>"
+          },
+          "description": "Getter for property <code>noDataText</code>. This text is displayed when the control has no data.\n\nDefault value is empty/<code>undefined</code>"
+        },
+        {
+          "name": "getShowIcons",
+          "visibility": "public",
+          "returnValue": {
+            "type": "boolean",
+            "description": "the value of property <code>showIcons</code>"
+          },
+          "description": "Getter for property <code>showIcons</code>. Show icon on each Timeline item.\n\nDefault value is <code>true</code>"
+        },
+        {
+          "name": "getVisible",
+          "visibility": "public",
+          "returnValue": {
+            "type": "boolean",
+            "description": "the value of property <code>visible</code>"
+          },
+          "description": "Getter for property <code>visible</code>. Set Timeline control visibility\n\nDefault value is <code>true</code>"
+        },
+        {
+          "name": "getWidth",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.ui.core.CSSSize",
+            "description": "the value of property <code>width</code>"
+          },
+          "description": "Getter for property <code>width</code>. Sets the width of the Timeline.\n\nDefault value is <code>100%</code>"
+        },
+        {
+          "name": "init",
+          "visibility": "protected",
+          "static": true,
+          "description": "Initializes the Component instance after creation."
+        },
+        {
+          "name": "onAfterRendering",
+          "visibility": "protected",
+          "static": true,
+          "description": "Function is called when the rendering of the Component Container is completed."
+        },
+        {
+          "name": "onBeforeRendering",
+          "visibility": "protected",
+          "static": true,
+          "description": "Function is called when the rendering of the Component Container is started."
+        },
+        {
+          "name": "setAlignment",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.collaboration.components.socialtimeline.Component",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "sAlignment",
+              "type": "sap.suite.ui.commons.TimelineAlignment",
+              "optional": false,
+              "description": "New value for property <code>alignment</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getAlignment alignment}.\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored.\n\nDefault value is <code>Right</code>."
+        },
+        {
+          "name": "setAxisOrientation",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.collaboration.components.socialtimeline.Component",
+            "description": "<code>this</code> to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "oAxisOrientation",
+              "type": "sap.suite.ui.commons.TimelineAxisOrientation",
+              "optional": false,
+              "description": "new value for property <code>axisOrientation</code>"
+            }
+          ],
+          "description": "Setter for property <code>axisOrientation</code>.\n\nDefault value is <code>Vertical</code>"
+        },
+        {
+          "name": "setBusinessObject",
+          "visibility": "public",
+          "static": true,
+          "parameters": [
+            {
+              "name": "oObject",
+              "type": "object",
+              "optional": false,
+              "description": "an object that contains the key and name for the business object"
+            }
+          ],
+          "description": "Set the current business object for the social timeline to display. Note: The function setBusinessObjectMap must be called once before calling setBusinessObject for the first time."
+        },
+        {
+          "name": "setBusinessObjectKey",
+          "visibility": "public",
+          "static": true,
+          "parameters": [
+            { "name": "sKey", "type": "string", "optional": false }
+          ],
+          "description": "Set the current business object for the social timeline to display. Note: The function setBusinessObjectMap must be called once before calling setBusinessObjectKey for the first time.",
+          "deprecated": {
+            "since": "1.28.5",
+            "text": "This method is deprecated, use method setBusinessObject instead."
+          }
+        },
+        {
+          "name": "setBusinessObjectMap",
+          "visibility": "public",
+          "static": true,
+          "parameters": [
+            {
+              "name": "{object",
+              "type": "undefined",
+              "optional": false,
+              "description": "businessObjectMap required - JSON object containing the following properties: <ul> <li>{sap.ui.model.odata.ODataModel} serviceModel required - OData model to retrieve timeline entries <li>{string} servicePath: The relative path to the OData service for the business object (example: \"/sap/opu/odata/sap/ODATA_SRV\") <li>{string} collection: Entity collection name of the business object <li>{string} applicationContext: The application context (example: \"CRM\", \"SD\", etc.) <li>{function} customActionCallback: A callback function to determine which timeline entries should receive the custom action. The function should return an array of text/value objects. <ul>"
+            }
+          ],
+          "description": "Set the business object map. It is used to initialize the data needed to retrieve the timeline entries. This function must be called once before calling setBusinessObjectKey for the first time."
+        },
+        {
+          "name": "setCustomFilter",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.collaboration.components.socialtimeline.Component",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "sCustomFilter",
+              "type": "object[]",
+              "optional": false,
+              "description": "New value for property <code>customFilter</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getCustomFilter customFilter}.\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored."
+        },
+        {
+          "name": "setEnableSocial",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.collaboration.components.socialtimeline.Component",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "bEnableSocial",
+              "type": "boolean",
+              "optional": false,
+              "description": "New value for property <code>enableSocial</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getEnableSocial enableSocial}.\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored.\n\nDefault value is <code>true</code>."
+        },
+        {
+          "name": "setNoDataText",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.collaboration.components.socialtimeline.Component",
+            "description": "<code>this</code> to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "sNoDataText",
+              "type": "string",
+              "optional": false,
+              "description": "new value for property <code>noDataText</code>"
+            }
+          ],
+          "description": "Setter for property <code>noDataText</code>.\n\nDefault value is empty/<code>undefined</code>"
+        },
+        {
+          "name": "setProperty",
+          "visibility": "protected",
+          "static": true,
+          "description": "Set property of component"
+        },
+        {
+          "name": "setSettings",
+          "visibility": "public",
+          "static": true,
+          "parameters": [
+            {
+              "name": "settings",
+              "type": "object",
+              "optional": false,
+              "description": "A JSON object used to set the component settings, this object should contains the same properties used in the constructor."
+            }
+          ],
+          "description": "Setter for the Component settings."
+        },
+        {
+          "name": "setShowIcons",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.collaboration.components.socialtimeline.Component",
+            "description": "<code>this</code> to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "bShowIcons",
+              "type": "boolean",
+              "optional": false,
+              "description": "new value for property <code>showIcons</code>"
+            }
+          ],
+          "description": "Setter for property <code>showIcons</code>.\n\nDefault value is <code>true</code>"
+        },
+        {
+          "name": "setVisible",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.collaboration.components.socialtimeline.Component",
+            "description": "<code>this</code> to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "bVisible",
+              "type": "boolean",
+              "optional": false,
+              "description": "new value for property <code>visible</code>"
+            }
+          ],
+          "description": "Setter for property <code>visible</code>.\n\nDefault value is <code>true</code>"
+        },
+        {
+          "name": "setWidth",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.collaboration.components.socialtimeline.Component",
+            "description": "<code>this</code> to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "sWidth",
+              "type": "sap.ui.core.CSSSize",
+              "optional": false,
+              "description": "new value for property <code>width</code>"
+            }
+          ],
+          "description": "Setter for property <code>width</code>.\n\nDefault value is <code>100%</code>"
+        },
+        {
+          "name": "updateTimelineEntry",
+          "visibility": "public",
+          "static": true,
+          "parameters": [
+            {
+              "name": "sText",
+              "type": "string",
+              "optional": false,
+              "description": "the text that will be displayed in the content of the timeline entry"
+            },
+            {
+              "name": "sId",
+              "type": "string",
+              "optional": false,
+              "description": "the id of the timeline entry to update"
+            }
+          ],
+          "description": "Update a Timeline Entry text. This method should be called when a custom action requires a content update of a Timeline entry and should only be called if an an update to the backend is performed successfully."
+        }
+      ]
+    },
+    {
+      "kind": "enum",
+      "name": "sap.collaboration.DisplayFeedType",
+      "basename": "DisplayFeedType",
+      "resource": "sap/collaboration/library.js",
+      "module": "sap/collaboration/library",
+      "export": "DisplayFeedType",
+      "static": true,
+      "visibility": "public",
+      "description": "Feed Types to be displayed by the Social Timeline",
+      "ui5-metamodel": true,
+      "properties": [
+        {
+          "name": "BusinessRecordFeed",
+          "visibility": "public",
+          "static": true,
+          "type": "string",
+          "description": "The main feed for the Business Record Feed"
+        },
+        {
+          "name": "GroupFeedsWhereBusinessRecordIsLinked",
+          "visibility": "public",
+          "static": true,
+          "type": "string",
+          "description": "Group feeds where the business record is primary or featured"
+        }
+      ]
+    },
+    {
+      "kind": "enum",
+      "name": "sap.collaboration.FeedType",
+      "basename": "FeedType",
+      "resource": "sap/collaboration/library.js",
+      "module": "sap/collaboration/library",
+      "export": "FeedType",
+      "static": true,
+      "visibility": "public",
+      "description": "Feed Types",
+      "ui5-metamodel": true,
+      "properties": [
+        {
+          "name": "BusinessObjectGroups",
+          "visibility": "public",
+          "static": true,
+          "type": "string",
+          "description": "The mode type that accepts the OData details of a business object. Users will be able to select groups where the business object is featured or primary."
+        },
+        {
+          "name": "company",
+          "visibility": "public",
+          "static": true,
+          "type": "string",
+          "description": "Company feed type",
+          "deprecated": {
+            "since": "1.30.0",
+            "text": "The feed type was deprecated because the original feed dialog component does not use it anymore. It also does not conform to naming conventions."
+          }
+        },
+        {
+          "name": "follows",
+          "visibility": "public",
+          "static": true,
+          "type": "string",
+          "description": "Follows feed type",
+          "deprecated": {
+            "since": "1.30.0",
+            "text": "The feed type was deprecated because the original feed dialog component does not use it anymore. It also does not conform to naming conventions."
+          }
+        },
+        {
+          "name": "group",
+          "visibility": "public",
+          "static": true,
+          "type": "string",
+          "description": "Group feed type",
+          "deprecated": {
+            "since": "1.30.0",
+            "text": "The feed type was deprecated because the original feed dialog component does not use it anymore. It also does not conform to naming conventions."
+          }
+        },
+        {
+          "name": "GroupIds",
+          "visibility": "public",
+          "static": true,
+          "type": "string",
+          "description": "The mode type that accepts an array of group IDs. Users will be able to select these groups from a selector. The list will have the groups' names."
+        },
+        {
+          "name": "object",
+          "visibility": "public",
+          "static": true,
+          "type": "string",
+          "description": "Oject feed type",
+          "deprecated": {
+            "since": "1.30.0",
+            "text": "The feed type was deprecated because the original feed dialog component does not use it anymore. It also does not conform to naming conventions."
+          }
+        },
+        {
+          "name": "objectGroup",
+          "visibility": "public",
+          "static": true,
+          "type": "string",
+          "description": "Object group feed type",
+          "deprecated": {
+            "since": "1.30.0",
+            "text": "The feed type was deprecated because the original feed dialog component does not use it anymore. It also does not conform to naming conventions."
+          }
+        },
+        {
+          "name": "UserGroups",
+          "visibility": "public",
+          "static": true,
+          "type": "string",
+          "description": "Users of this mode type will be able to select from groups where they are members. This mode is used by the feed component. In the feed component, the list of groups displayed in the pop up will be the current user's personal groups."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,4658 @@
+{
+  "$schema-ref": "http://schemas.sap.com/sapui5/designtime/api.json/1.0",
+  "version": "1.71.12",
+  "library": "sap.me",
+  "symbols": [
+    {
+      "kind": "namespace",
+      "name": "sap.me",
+      "basename": "me",
+      "resource": "sap/me/library.js",
+      "module": "sap/me/library",
+      "export": "",
+      "static": true,
+      "visibility": "public",
+      "description": "SAPUI5 library with controls specialized for mobile devices (extension).",
+      "deprecated": { "since": "1.34" }
+    },
+    {
+      "kind": "class",
+      "name": "sap.me.Calendar",
+      "basename": "Calendar",
+      "resource": "sap/me/Calendar.js",
+      "module": "sap/me/Calendar",
+      "export": "",
+      "static": true,
+      "visibility": "public",
+      "extends": "sap.ui.core.Control",
+      "description": "This is the Calendar control",
+      "deprecated": {
+        "since": "1.26.0",
+        "text": "This control was experimental since 1.12. Please use the sap.ui.unified.Calendar instead!"
+      },
+      "ui5-metamodel": true,
+      "ui5-metadata": {
+        "stereotype": "control",
+        "properties": [
+          {
+            "name": "visible",
+            "type": "boolean",
+            "defaultValue": true,
+            "group": "Misc",
+            "visibility": "public",
+            "description": "visibility of the control",
+            "methods": ["getVisible", "setVisible"]
+          },
+          {
+            "name": "hideNavControls",
+            "type": "boolean",
+            "defaultValue": false,
+            "group": "Misc",
+            "visibility": "public",
+            "description": "hides the area of navigation controls",
+            "methods": ["getHideNavControls", "setHideNavControls"]
+          },
+          {
+            "name": "hideMonthTitles",
+            "type": "boolean",
+            "defaultValue": false,
+            "group": "Misc",
+            "visibility": "public",
+            "description": "hides the area of month titles",
+            "methods": ["getHideMonthTitles", "setHideMonthTitles"]
+          },
+          {
+            "name": "monthsPerRow",
+            "type": "int",
+            "defaultValue": 1,
+            "group": "Misc",
+            "visibility": "public",
+            "description": "months to display in a row. This sets the width of the whole control in order to contain the desired number of months per row",
+            "methods": ["getMonthsPerRow", "setMonthsPerRow"]
+          },
+          {
+            "name": "dayWidth",
+            "type": "int",
+            "defaultValue": 45,
+            "group": "Misc",
+            "visibility": "public",
+            "description": "the width of a day",
+            "methods": ["getDayWidth", "setDayWidth"]
+          },
+          {
+            "name": "dayHeight",
+            "type": "int",
+            "defaultValue": 50,
+            "group": "Misc",
+            "visibility": "public",
+            "description": "the height of a day",
+            "methods": ["getDayHeight", "setDayHeight"]
+          },
+          {
+            "name": "weeksPerRow",
+            "type": "int",
+            "defaultValue": 1,
+            "group": "Misc",
+            "visibility": "public",
+            "description": "weeks to display in a row",
+            "methods": ["getWeeksPerRow", "setWeeksPerRow"]
+          },
+          {
+            "name": "singleRow",
+            "type": "boolean",
+            "defaultValue": null,
+            "group": "Misc",
+            "visibility": "public",
+            "description": "boolean that sets the view to week mode or month mode",
+            "methods": ["getSingleRow", "setSingleRow"]
+          },
+          {
+            "name": "monthsToDisplay",
+            "type": "int",
+            "defaultValue": 1,
+            "group": "Misc",
+            "visibility": "public",
+            "description": "number of months in a row.",
+            "methods": ["getMonthsToDisplay", "setMonthsToDisplay"]
+          },
+          {
+            "name": "currentDate",
+            "type": "string",
+            "defaultValue": null,
+            "group": "Misc",
+            "visibility": "public",
+            "description": "the center date where the month/week will be built around",
+            "methods": ["getCurrentDate", "setCurrentDate"]
+          },
+          {
+            "name": "enableMultiselection",
+            "type": "boolean",
+            "defaultValue": false,
+            "group": "Misc",
+            "visibility": "public",
+            "description": "to enable multiselection feature",
+            "methods": ["getEnableMultiselection", "setEnableMultiselection"]
+          },
+          {
+            "name": "firstDayOffset",
+            "type": "int",
+            "defaultValue": 0,
+            "group": "Misc",
+            "visibility": "public",
+            "description": "to offset the first day of the week (0 = sunday)",
+            "methods": ["getFirstDayOffset", "setFirstDayOffset"]
+          },
+          {
+            "name": "disabledWeekDays",
+            "type": "any",
+            "defaultValue": null,
+            "group": "Misc",
+            "visibility": "public",
+            "description": "Array of weekDays (as integers where 0=Sunday, 1=Monday etc) to be disabled. Interaction will be disabled for these week days.",
+            "methods": ["getDisabledWeekDays", "setDisabledWeekDays"]
+          },
+          {
+            "name": "disabledDates",
+            "type": "any",
+            "defaultValue": null,
+            "group": "Misc",
+            "visibility": "public",
+            "description": "Array of specific dates (strings or Date objects) that will be disabled/non interactive",
+            "methods": ["getDisabledDates", "setDisabledDates"]
+          },
+          {
+            "name": "swipeToNavigate",
+            "type": "boolean",
+            "defaultValue": false,
+            "group": "Misc",
+            "visibility": "public",
+            "description": "When enabled, swipe gestures will navigate and not select",
+            "methods": ["getSwipeToNavigate", "setSwipeToNavigate"]
+          },
+          {
+            "name": "design",
+            "type": "sap.me.CalendarDesign",
+            "defaultValue": "Approval",
+            "group": "Appearance",
+            "visibility": "public",
+            "description": "Indicates the design of the calendar (mainly colors)",
+            "methods": ["getDesign", "setDesign"]
+          },
+          {
+            "name": "selectionMode",
+            "type": "sap.me.CalendarSelectionMode",
+            "defaultValue": "SINGLE",
+            "group": "Behavior",
+            "visibility": "public",
+            "description": "Indicates the design of the calendar (mainly colors)",
+            "methods": ["getSelectionMode", "setSelectionMode"]
+          },
+          {
+            "name": "width",
+            "type": "sap.ui.core.CSSSize",
+            "defaultValue": "100%",
+            "group": "Dimension",
+            "visibility": "public",
+            "description": "The width of the calendar",
+            "methods": ["getWidth", "setWidth"]
+          },
+          {
+            "name": "days",
+            "type": "any",
+            "defaultValue": null,
+            "group": "Appearance",
+            "visibility": "public",
+            "description": "Array of day names, default value is sap.m.getLocaleData().getDays(\"abbreviated\") Check sap.ui.core.LocaleData documentation for more info.",
+            "methods": ["getDays", "setDays"]
+          },
+          {
+            "name": "months",
+            "type": "any",
+            "defaultValue": null,
+            "group": "Appearance",
+            "visibility": "public",
+            "description": "Array of month names, default value is sap.m.getLocaleData().getMonths(\"abbreviated\") Check sap.ui.core.LocaleData documentation for more info.",
+            "methods": ["getMonths", "setMonths"]
+          }
+        ],
+        "events": [
+          {
+            "name": "tapOnDate",
+            "visibility": "public",
+            "description": "event fired when a date is tapped",
+            "parameters": {
+              "date": {
+                "name": "date",
+                "type": "string",
+                "description": "date tapped"
+              },
+              "didSelect": {
+                "name": "didSelect",
+                "type": "boolean",
+                "description": "if day was selected"
+              }
+            },
+            "methods": ["attachTapOnDate", "detachTapOnDate", "fireTapOnDate"]
+          },
+          {
+            "name": "changeCurrentDate",
+            "visibility": "public",
+            "description": "event fired when tap to next or previous button and currentDate is updated",
+            "parameters": {
+              "currentDate": {
+                "name": "currentDate",
+                "type": "string",
+                "description": "new date"
+              }
+            },
+            "methods": [
+              "attachChangeCurrentDate",
+              "detachChangeCurrentDate",
+              "fireChangeCurrentDate"
+            ]
+          },
+          {
+            "name": "changeRange",
+            "visibility": "public",
+            "description": "when the range of selected dates changes",
+            "parameters": {
+              "fromDate": {
+                "name": "fromDate",
+                "type": "string",
+                "description": "from date"
+              },
+              "toDate": {
+                "name": "toDate",
+                "type": "string",
+                "description": "to date"
+              }
+            },
+            "methods": [
+              "attachChangeRange",
+              "detachChangeRange",
+              "fireChangeRange"
+            ]
+          }
+        ]
+      },
+      "constructor": {
+        "visibility": "public",
+        "parameters": [
+          {
+            "name": "sId",
+            "type": "string",
+            "optional": true,
+            "description": "id for the new control, generated automatically if no id is given"
+          },
+          {
+            "name": "mSettings",
+            "type": "object",
+            "optional": true,
+            "description": "initial settings for the new control"
+          }
+        ],
+        "description": "Constructor for a new Calendar.\n\nAccepts an object literal <code>mSettings</code> that defines initial property values, aggregated and associated objects as well as event handlers. See {@link sap.ui.base.ManagedObject#constructor} for a general description of the syntax of the settings object."
+      },
+      "events": [
+        {
+          "name": "changeCurrentDate",
+          "visibility": "public",
+          "parameters": [
+            {
+              "name": "oControlEvent",
+              "type": "sap.ui.base.Event",
+              "parameterProperties": {
+                "getSource": {
+                  "name": "getSource",
+                  "type": "sap.ui.base.EventProvider",
+                  "optional": false
+                },
+                "getParameters": {
+                  "name": "getParameters",
+                  "type": "object",
+                  "optional": false,
+                  "parameterProperties": {
+                    "currentDate": {
+                      "name": "currentDate",
+                      "type": "string",
+                      "optional": false,
+                      "description": "new date"
+                    }
+                  }
+                }
+              }
+            }
+          ],
+          "description": "event fired when tap to next or previous button and currentDate is updated"
+        },
+        {
+          "name": "changeRange",
+          "visibility": "public",
+          "parameters": [
+            {
+              "name": "oControlEvent",
+              "type": "sap.ui.base.Event",
+              "parameterProperties": {
+                "getSource": {
+                  "name": "getSource",
+                  "type": "sap.ui.base.EventProvider",
+                  "optional": false
+                },
+                "getParameters": {
+                  "name": "getParameters",
+                  "type": "object",
+                  "optional": false,
+                  "parameterProperties": {
+                    "fromDate": {
+                      "name": "fromDate",
+                      "type": "string",
+                      "optional": false,
+                      "description": "from date"
+                    },
+                    "toDate": {
+                      "name": "toDate",
+                      "type": "string",
+                      "optional": false,
+                      "description": "to date"
+                    }
+                  }
+                }
+              }
+            }
+          ],
+          "description": "when the range of selected dates changes"
+        },
+        {
+          "name": "tapOnDate",
+          "visibility": "public",
+          "parameters": [
+            {
+              "name": "oControlEvent",
+              "type": "sap.ui.base.Event",
+              "parameterProperties": {
+                "getSource": {
+                  "name": "getSource",
+                  "type": "sap.ui.base.EventProvider",
+                  "optional": false
+                },
+                "getParameters": {
+                  "name": "getParameters",
+                  "type": "object",
+                  "optional": false,
+                  "parameterProperties": {
+                    "date": {
+                      "name": "date",
+                      "type": "string",
+                      "optional": false,
+                      "description": "date tapped"
+                    },
+                    "didSelect": {
+                      "name": "didSelect",
+                      "type": "boolean",
+                      "optional": false,
+                      "description": "if day was selected"
+                    }
+                  }
+                }
+              }
+            }
+          ],
+          "description": "event fired when a date is tapped"
+        }
+      ],
+      "methods": [
+        {
+          "name": "attachChangeCurrentDate",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.Calendar",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "oData",
+              "type": "object",
+              "optional": true,
+              "description": "An application-specific payload object that will be passed to the event handler along with the event object when firing the event"
+            },
+            {
+              "name": "fnFunction",
+              "type": "function",
+              "optional": false,
+              "description": "The function to be called when the event occurs"
+            },
+            {
+              "name": "oListener",
+              "type": "object",
+              "optional": true,
+              "description": "Context object to call the event handler with. Defaults to this <code>sap.me.Calendar</code> itself"
+            }
+          ],
+          "description": "Attaches event handler <code>fnFunction</code> to the {@link #event:changeCurrentDate changeCurrentDate} event of this <code>sap.me.Calendar</code>.\n\nWhen called, the context of the event handler (its <code>this</code>) will be bound to <code>oListener</code> if specified, otherwise it will be bound to this <code>sap.me.Calendar</code> itself.\n\nevent fired when tap to next or previous button and currentDate is updated"
+        },
+        {
+          "name": "attachChangeRange",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.Calendar",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "oData",
+              "type": "object",
+              "optional": true,
+              "description": "An application-specific payload object that will be passed to the event handler along with the event object when firing the event"
+            },
+            {
+              "name": "fnFunction",
+              "type": "function",
+              "optional": false,
+              "description": "The function to be called when the event occurs"
+            },
+            {
+              "name": "oListener",
+              "type": "object",
+              "optional": true,
+              "description": "Context object to call the event handler with. Defaults to this <code>sap.me.Calendar</code> itself"
+            }
+          ],
+          "description": "Attaches event handler <code>fnFunction</code> to the {@link #event:changeRange changeRange} event of this <code>sap.me.Calendar</code>.\n\nWhen called, the context of the event handler (its <code>this</code>) will be bound to <code>oListener</code> if specified, otherwise it will be bound to this <code>sap.me.Calendar</code> itself.\n\nwhen the range of selected dates changes"
+        },
+        {
+          "name": "attachTapOnDate",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.Calendar",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "oData",
+              "type": "object",
+              "optional": true,
+              "description": "An application-specific payload object that will be passed to the event handler along with the event object when firing the event"
+            },
+            {
+              "name": "fnFunction",
+              "type": "function",
+              "optional": false,
+              "description": "The function to be called when the event occurs"
+            },
+            {
+              "name": "oListener",
+              "type": "object",
+              "optional": true,
+              "description": "Context object to call the event handler with. Defaults to this <code>sap.me.Calendar</code> itself"
+            }
+          ],
+          "description": "Attaches event handler <code>fnFunction</code> to the {@link #event:tapOnDate tapOnDate} event of this <code>sap.me.Calendar</code>.\n\nWhen called, the context of the event handler (its <code>this</code>) will be bound to <code>oListener</code> if specified, otherwise it will be bound to this <code>sap.me.Calendar</code> itself.\n\nevent fired when a date is tapped"
+        },
+        {
+          "name": "detachChangeCurrentDate",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.Calendar",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "fnFunction",
+              "type": "function",
+              "optional": false,
+              "description": "The function to be called, when the event occurs"
+            },
+            {
+              "name": "oListener",
+              "type": "object",
+              "optional": true,
+              "description": "Context object on which the given function had to be called"
+            }
+          ],
+          "description": "Detaches event handler <code>fnFunction</code> from the {@link #event:changeCurrentDate changeCurrentDate} event of this <code>sap.me.Calendar</code>.\n\nThe passed function and listener object must match the ones used for event registration."
+        },
+        {
+          "name": "detachChangeRange",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.Calendar",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "fnFunction",
+              "type": "function",
+              "optional": false,
+              "description": "The function to be called, when the event occurs"
+            },
+            {
+              "name": "oListener",
+              "type": "object",
+              "optional": true,
+              "description": "Context object on which the given function had to be called"
+            }
+          ],
+          "description": "Detaches event handler <code>fnFunction</code> from the {@link #event:changeRange changeRange} event of this <code>sap.me.Calendar</code>.\n\nThe passed function and listener object must match the ones used for event registration."
+        },
+        {
+          "name": "detachTapOnDate",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.Calendar",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "fnFunction",
+              "type": "function",
+              "optional": false,
+              "description": "The function to be called, when the event occurs"
+            },
+            {
+              "name": "oListener",
+              "type": "object",
+              "optional": true,
+              "description": "Context object on which the given function had to be called"
+            }
+          ],
+          "description": "Detaches event handler <code>fnFunction</code> from the {@link #event:tapOnDate tapOnDate} event of this <code>sap.me.Calendar</code>.\n\nThe passed function and listener object must match the ones used for event registration."
+        },
+        {
+          "name": "extend",
+          "visibility": "public",
+          "static": true,
+          "returnValue": {
+            "type": "function",
+            "description": "Created class / constructor function"
+          },
+          "parameters": [
+            {
+              "name": "sClassName",
+              "type": "string",
+              "optional": false,
+              "description": "Name of the class being created"
+            },
+            {
+              "name": "oClassInfo",
+              "type": "object",
+              "optional": true,
+              "description": "Object literal with information about the class"
+            },
+            {
+              "name": "FNMetaImpl",
+              "type": "function",
+              "optional": true,
+              "description": "Constructor function for the metadata object; if not given, it defaults to <code>sap.ui.core.ElementMetadata</code>"
+            }
+          ],
+          "description": "Creates a new subclass of class sap.me.Calendar with name <code>sClassName</code> and enriches it with the information contained in <code>oClassInfo</code>.\n\n<code>oClassInfo</code> might contain the same kind of information as described in {@link sap.ui.core.Control.extend}."
+        },
+        {
+          "name": "fireChangeCurrentDate",
+          "visibility": "protected",
+          "returnValue": {
+            "type": "sap.me.Calendar",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "mParameters",
+              "type": "object",
+              "optional": true,
+              "parameterProperties": {
+                "currentDate": {
+                  "name": "currentDate",
+                  "type": "string",
+                  "optional": true,
+                  "description": "new date"
+                }
+              },
+              "description": "Parameters to pass along with the event"
+            }
+          ],
+          "description": "Fires event {@link #event:changeCurrentDate changeCurrentDate} to attached listeners."
+        },
+        {
+          "name": "fireChangeRange",
+          "visibility": "protected",
+          "returnValue": {
+            "type": "sap.me.Calendar",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "mParameters",
+              "type": "object",
+              "optional": true,
+              "parameterProperties": {
+                "fromDate": {
+                  "name": "fromDate",
+                  "type": "string",
+                  "optional": true,
+                  "description": "from date"
+                },
+                "toDate": {
+                  "name": "toDate",
+                  "type": "string",
+                  "optional": true,
+                  "description": "to date"
+                }
+              },
+              "description": "Parameters to pass along with the event"
+            }
+          ],
+          "description": "Fires event {@link #event:changeRange changeRange} to attached listeners."
+        },
+        {
+          "name": "fireTapOnDate",
+          "visibility": "protected",
+          "returnValue": {
+            "type": "sap.me.Calendar",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "mParameters",
+              "type": "object",
+              "optional": true,
+              "parameterProperties": {
+                "date": {
+                  "name": "date",
+                  "type": "string",
+                  "optional": true,
+                  "description": "date tapped"
+                },
+                "didSelect": {
+                  "name": "didSelect",
+                  "type": "boolean",
+                  "optional": true,
+                  "description": "if day was selected"
+                }
+              },
+              "description": "Parameters to pass along with the event"
+            }
+          ],
+          "description": "Fires event {@link #event:tapOnDate tapOnDate} to attached listeners."
+        },
+        {
+          "name": "getCurrentDate",
+          "visibility": "public",
+          "returnValue": {
+            "type": "string",
+            "description": "Value of property <code>currentDate</code>"
+          },
+          "description": "Gets current value of property {@link #getCurrentDate currentDate}.\n\nthe center date where the month/week will be built around"
+        },
+        {
+          "name": "getDayHeight",
+          "visibility": "public",
+          "returnValue": {
+            "type": "int",
+            "description": "Value of property <code>dayHeight</code>"
+          },
+          "description": "Gets current value of property {@link #getDayHeight dayHeight}.\n\nthe height of a day\n\nDefault value is <code>50</code>."
+        },
+        {
+          "name": "getDays",
+          "visibility": "public",
+          "returnValue": {
+            "type": "any",
+            "description": "Value of property <code>days</code>"
+          },
+          "description": "Gets current value of property {@link #getDays days}.\n\nArray of day names, default value is sap.m.getLocaleData().getDays(\"abbreviated\") Check sap.ui.core.LocaleData documentation for more info."
+        },
+        {
+          "name": "getDayWidth",
+          "visibility": "public",
+          "returnValue": {
+            "type": "int",
+            "description": "Value of property <code>dayWidth</code>"
+          },
+          "description": "Gets current value of property {@link #getDayWidth dayWidth}.\n\nthe width of a day\n\nDefault value is <code>45</code>."
+        },
+        {
+          "name": "getDesign",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.CalendarDesign",
+            "description": "Value of property <code>design</code>"
+          },
+          "description": "Gets current value of property {@link #getDesign design}.\n\nIndicates the design of the calendar (mainly colors)\n\nDefault value is <code>Approval</code>."
+        },
+        {
+          "name": "getDisabledDates",
+          "visibility": "public",
+          "returnValue": {
+            "type": "any",
+            "description": "Value of property <code>disabledDates</code>"
+          },
+          "description": "Gets current value of property {@link #getDisabledDates disabledDates}.\n\nArray of specific dates (strings or Date objects) that will be disabled/non interactive"
+        },
+        {
+          "name": "getDisabledWeekDays",
+          "visibility": "public",
+          "returnValue": {
+            "type": "any",
+            "description": "Value of property <code>disabledWeekDays</code>"
+          },
+          "description": "Gets current value of property {@link #getDisabledWeekDays disabledWeekDays}.\n\nArray of weekDays (as integers where 0=Sunday, 1=Monday etc) to be disabled. Interaction will be disabled for these week days."
+        },
+        {
+          "name": "getEnableMultiselection",
+          "visibility": "public",
+          "returnValue": {
+            "type": "boolean",
+            "description": "Value of property <code>enableMultiselection</code>"
+          },
+          "description": "Gets current value of property {@link #getEnableMultiselection enableMultiselection}.\n\nto enable multiselection feature\n\nDefault value is <code>false</code>."
+        },
+        {
+          "name": "getFirstDayOffset",
+          "visibility": "public",
+          "returnValue": {
+            "type": "int",
+            "description": "Value of property <code>firstDayOffset</code>"
+          },
+          "description": "Gets current value of property {@link #getFirstDayOffset firstDayOffset}.\n\nto offset the first day of the week (0 = sunday)\n\nDefault value is <code>0</code>."
+        },
+        {
+          "name": "getHideMonthTitles",
+          "visibility": "public",
+          "returnValue": {
+            "type": "boolean",
+            "description": "Value of property <code>hideMonthTitles</code>"
+          },
+          "description": "Gets current value of property {@link #getHideMonthTitles hideMonthTitles}.\n\nhides the area of month titles\n\nDefault value is <code>false</code>."
+        },
+        {
+          "name": "getHideNavControls",
+          "visibility": "public",
+          "returnValue": {
+            "type": "boolean",
+            "description": "Value of property <code>hideNavControls</code>"
+          },
+          "description": "Gets current value of property {@link #getHideNavControls hideNavControls}.\n\nhides the area of navigation controls\n\nDefault value is <code>false</code>."
+        },
+        {
+          "name": "getMetadata",
+          "visibility": "public",
+          "static": true,
+          "returnValue": {
+            "type": "sap.ui.base.Metadata",
+            "description": "Metadata object describing this class"
+          },
+          "description": "Returns a metadata object for class sap.me.Calendar."
+        },
+        {
+          "name": "getMonths",
+          "visibility": "public",
+          "returnValue": {
+            "type": "any",
+            "description": "Value of property <code>months</code>"
+          },
+          "description": "Gets current value of property {@link #getMonths months}.\n\nArray of month names, default value is sap.m.getLocaleData().getMonths(\"abbreviated\") Check sap.ui.core.LocaleData documentation for more info."
+        },
+        {
+          "name": "getMonthsPerRow",
+          "visibility": "public",
+          "returnValue": {
+            "type": "int",
+            "description": "Value of property <code>monthsPerRow</code>"
+          },
+          "description": "Gets current value of property {@link #getMonthsPerRow monthsPerRow}.\n\nmonths to display in a row. This sets the width of the whole control in order to contain the desired number of months per row\n\nDefault value is <code>1</code>."
+        },
+        {
+          "name": "getMonthsToDisplay",
+          "visibility": "public",
+          "returnValue": {
+            "type": "int",
+            "description": "Value of property <code>monthsToDisplay</code>"
+          },
+          "description": "Gets current value of property {@link #getMonthsToDisplay monthsToDisplay}.\n\nnumber of months in a row.\n\nDefault value is <code>1</code>."
+        },
+        {
+          "name": "getSelectedDates",
+          "visibility": "public",
+          "ui5-metamodel": true,
+          "returnValue": { "type": "any" },
+          "description": "returns an array of the currently selected dates (dates are strings formatted as Date.toDateString())"
+        },
+        {
+          "name": "getSelectionMode",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.CalendarSelectionMode",
+            "description": "Value of property <code>selectionMode</code>"
+          },
+          "description": "Gets current value of property {@link #getSelectionMode selectionMode}.\n\nIndicates the design of the calendar (mainly colors)\n\nDefault value is <code>SINGLE</code>."
+        },
+        {
+          "name": "getSingleRow",
+          "visibility": "public",
+          "returnValue": {
+            "type": "boolean",
+            "description": "Value of property <code>singleRow</code>"
+          },
+          "description": "Gets current value of property {@link #getSingleRow singleRow}.\n\nboolean that sets the view to week mode or month mode"
+        },
+        {
+          "name": "getSwipeToNavigate",
+          "visibility": "public",
+          "returnValue": {
+            "type": "boolean",
+            "description": "Value of property <code>swipeToNavigate</code>"
+          },
+          "description": "Gets current value of property {@link #getSwipeToNavigate swipeToNavigate}.\n\nWhen enabled, swipe gestures will navigate and not select\n\nDefault value is <code>false</code>."
+        },
+        {
+          "name": "getVisible",
+          "visibility": "public",
+          "returnValue": {
+            "type": "boolean",
+            "description": "Value of property <code>visible</code>"
+          },
+          "description": "Gets current value of property {@link #getVisible visible}.\n\nvisibility of the control\n\nDefault value is <code>true</code>."
+        },
+        {
+          "name": "getWeeksPerRow",
+          "visibility": "public",
+          "returnValue": {
+            "type": "int",
+            "description": "Value of property <code>weeksPerRow</code>"
+          },
+          "description": "Gets current value of property {@link #getWeeksPerRow weeksPerRow}.\n\nweeks to display in a row\n\nDefault value is <code>1</code>."
+        },
+        {
+          "name": "getWidth",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.ui.core.CSSSize",
+            "description": "Value of property <code>width</code>"
+          },
+          "description": "Gets current value of property {@link #getWidth width}.\n\nThe width of the calendar\n\nDefault value is <code>100%</code>."
+        },
+        {
+          "name": "parseDate",
+          "visibility": "public",
+          "static": true,
+          "returnValue": {
+            "type": "Date",
+            "description": "The Date, parsed from the input string."
+          },
+          "parameters": [
+            {
+              "name": "strDate",
+              "type": "String",
+              "optional": false,
+              "description": "The date, produced by a former call to Date.toDateString."
+            }
+          ],
+          "throws": [
+            {
+              "type": "Error",
+              "description": "If the string provided does not match a toDateString produced string."
+            }
+          ],
+          "description": "Helper function to instantiate a Date from the string(s) provided by the getCurrentDate, getSelectedDates methods. <B>IMPORTANT:</B> The only valid values for the created Date are: year, month, day. Disregard any other value: hours, minutes, seconds, milliseconds..."
+        },
+        {
+          "name": "setCurrentDate",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.Calendar",
+            "description": "<code>this</code> to allow method chaining."
+          },
+          "parameters": [
+            {
+              "name": "strDate",
+              "type": "String",
+              "optional": false,
+              "description": "The Date to set, the format being identical to a date string produced by \"toDateString\"."
+            }
+          ],
+          "description": "Sets the current date of the calendar."
+        },
+        {
+          "name": "setDayHeight",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.Calendar",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "iDayHeight",
+              "type": "int",
+              "optional": false,
+              "description": "New value for property <code>dayHeight</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getDayHeight dayHeight}.\n\nthe height of a day\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored.\n\nDefault value is <code>50</code>."
+        },
+        {
+          "name": "setDays",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.Calendar",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "oDays",
+              "type": "any",
+              "optional": false,
+              "description": "New value for property <code>days</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getDays days}.\n\nArray of day names, default value is sap.m.getLocaleData().getDays(\"abbreviated\") Check sap.ui.core.LocaleData documentation for more info.\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored."
+        },
+        {
+          "name": "setDayWidth",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.Calendar",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "iDayWidth",
+              "type": "int",
+              "optional": false,
+              "description": "New value for property <code>dayWidth</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getDayWidth dayWidth}.\n\nthe width of a day\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored.\n\nDefault value is <code>45</code>."
+        },
+        {
+          "name": "setDesign",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.Calendar",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "sDesign",
+              "type": "sap.me.CalendarDesign",
+              "optional": false,
+              "description": "New value for property <code>design</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getDesign design}.\n\nIndicates the design of the calendar (mainly colors)\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored.\n\nDefault value is <code>Approval</code>."
+        },
+        {
+          "name": "setDisabledDates",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.Calendar",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "oDisabledDates",
+              "type": "any",
+              "optional": false,
+              "description": "New value for property <code>disabledDates</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getDisabledDates disabledDates}.\n\nArray of specific dates (strings or Date objects) that will be disabled/non interactive\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored."
+        },
+        {
+          "name": "setDisabledWeekDays",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.Calendar",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "oDisabledWeekDays",
+              "type": "any",
+              "optional": false,
+              "description": "New value for property <code>disabledWeekDays</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getDisabledWeekDays disabledWeekDays}.\n\nArray of weekDays (as integers where 0=Sunday, 1=Monday etc) to be disabled. Interaction will be disabled for these week days.\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored."
+        },
+        {
+          "name": "setEnableMultiselection",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.Calendar",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "bEnableMultiselection",
+              "type": "boolean",
+              "optional": false,
+              "description": "New value for property <code>enableMultiselection</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getEnableMultiselection enableMultiselection}.\n\nto enable multiselection feature\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored.\n\nDefault value is <code>false</code>."
+        },
+        {
+          "name": "setFirstDayOffset",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.Calendar",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "iFirstDayOffset",
+              "type": "int",
+              "optional": false,
+              "description": "New value for property <code>firstDayOffset</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getFirstDayOffset firstDayOffset}.\n\nto offset the first day of the week (0 = sunday)\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored.\n\nDefault value is <code>0</code>."
+        },
+        {
+          "name": "setHideMonthTitles",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.Calendar",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "bHideMonthTitles",
+              "type": "boolean",
+              "optional": false,
+              "description": "New value for property <code>hideMonthTitles</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getHideMonthTitles hideMonthTitles}.\n\nhides the area of month titles\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored.\n\nDefault value is <code>false</code>."
+        },
+        {
+          "name": "setHideNavControls",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.Calendar",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "bHideNavControls",
+              "type": "boolean",
+              "optional": false,
+              "description": "New value for property <code>hideNavControls</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getHideNavControls hideNavControls}.\n\nhides the area of navigation controls\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored.\n\nDefault value is <code>false</code>."
+        },
+        {
+          "name": "setMonths",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.Calendar",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "oMonths",
+              "type": "any",
+              "optional": false,
+              "description": "New value for property <code>months</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getMonths months}.\n\nArray of month names, default value is sap.m.getLocaleData().getMonths(\"abbreviated\") Check sap.ui.core.LocaleData documentation for more info.\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored."
+        },
+        {
+          "name": "setMonthsPerRow",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.Calendar",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "iMonthsPerRow",
+              "type": "int",
+              "optional": false,
+              "description": "New value for property <code>monthsPerRow</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getMonthsPerRow monthsPerRow}.\n\nmonths to display in a row. This sets the width of the whole control in order to contain the desired number of months per row\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored.\n\nDefault value is <code>1</code>."
+        },
+        {
+          "name": "setMonthsToDisplay",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.Calendar",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "iMonthsToDisplay",
+              "type": "int",
+              "optional": false,
+              "description": "New value for property <code>monthsToDisplay</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getMonthsToDisplay monthsToDisplay}.\n\nnumber of months in a row.\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored.\n\nDefault value is <code>1</code>."
+        },
+        {
+          "name": "setSelectionMode",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.Calendar",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "sSelectionMode",
+              "type": "sap.me.CalendarSelectionMode",
+              "optional": false,
+              "description": "New value for property <code>selectionMode</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getSelectionMode selectionMode}.\n\nIndicates the design of the calendar (mainly colors)\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored.\n\nDefault value is <code>SINGLE</code>."
+        },
+        {
+          "name": "setSingleRow",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.Calendar",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "bSingleRow",
+              "type": "boolean",
+              "optional": false,
+              "description": "New value for property <code>singleRow</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getSingleRow singleRow}.\n\nboolean that sets the view to week mode or month mode\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored."
+        },
+        {
+          "name": "setSwipeToNavigate",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.Calendar",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "bSwipeToNavigate",
+              "type": "boolean",
+              "optional": false,
+              "description": "New value for property <code>swipeToNavigate</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getSwipeToNavigate swipeToNavigate}.\n\nWhen enabled, swipe gestures will navigate and not select\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored.\n\nDefault value is <code>false</code>."
+        },
+        {
+          "name": "setVisible",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.Calendar",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "bVisible",
+              "type": "boolean",
+              "optional": false,
+              "description": "New value for property <code>visible</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getVisible visible}.\n\nvisibility of the control\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored.\n\nDefault value is <code>true</code>."
+        },
+        {
+          "name": "setWeeksPerRow",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.Calendar",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "iWeeksPerRow",
+              "type": "int",
+              "optional": false,
+              "description": "New value for property <code>weeksPerRow</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getWeeksPerRow weeksPerRow}.\n\nweeks to display in a row\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored.\n\nDefault value is <code>1</code>."
+        },
+        {
+          "name": "setWidth",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.Calendar",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "sWidth",
+              "type": "sap.ui.core.CSSSize",
+              "optional": false,
+              "description": "New value for property <code>width</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getWidth width}.\n\nThe width of the calendar\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored.\n\nDefault value is <code>100%</code>."
+        },
+        {
+          "name": "toggleDatesRangeSelection",
+          "visibility": "public",
+          "ui5-metamodel": true,
+          "parameters": [
+            {
+              "name": "oDateStart",
+              "type": "any",
+              "optional": false,
+              "description": "starting date of the range. It can be Strings or Date objects."
+            },
+            {
+              "name": "oDateEnd",
+              "type": "any",
+              "optional": false,
+              "description": "ending date of the range. It can be Strings or Date objects."
+            },
+            {
+              "name": "bSelected",
+              "type": "boolean",
+              "optional": false,
+              "description": "selected/unselected. Optional, if omitted it inverts each date's current state"
+            }
+          ],
+          "description": "it toggles the selection of the dates within the passed range to selected/unselected"
+        },
+        {
+          "name": "toggleDatesSelection",
+          "visibility": "public",
+          "ui5-metamodel": true,
+          "parameters": [
+            {
+              "name": "aDates",
+              "type": "any",
+              "optional": false,
+              "description": "Array of the dates to be toggled. they can be Strings or Date objects."
+            },
+            {
+              "name": "bSelected",
+              "type": "boolean",
+              "optional": false,
+              "description": "select/unselect. Optional, if omitted it inverts each date's current state"
+            }
+          ],
+          "description": "it toggles the passed dates to selected/unselected"
+        },
+        {
+          "name": "toggleDatesType",
+          "visibility": "public",
+          "ui5-metamodel": true,
+          "parameters": [
+            {
+              "name": "aDates",
+              "type": "any",
+              "optional": false,
+              "description": "An array of dates in string representation"
+            },
+            {
+              "name": "sType",
+              "type": "sap.me.CalendarEventType",
+              "optional": false,
+              "description": "The type of event"
+            },
+            {
+              "name": "bSelected",
+              "type": "boolean",
+              "optional": false,
+              "description": "Add/remove the type, if ommited it will toggle"
+            }
+          ],
+          "description": "Change the type of the given dates"
+        },
+        {
+          "name": "unselectAllDates",
+          "visibility": "public",
+          "ui5-metamodel": true,
+          "description": "unselect all the dates"
+        }
+      ]
+    },
+    {
+      "kind": "enum",
+      "name": "sap.me.CalendarDesign",
+      "basename": "CalendarDesign",
+      "resource": "sap/me/library.js",
+      "module": "sap/me/library",
+      "export": "CalendarDesign",
+      "static": true,
+      "visibility": "public",
+      "description": "Type of Design for the Calendar",
+      "experimental": {
+        "since": "1.12",
+        "text": "API is not yet finished and might change completely"
+      },
+      "deprecated": { "since": "1.34" },
+      "ui5-metamodel": true,
+      "properties": [
+        {
+          "name": "Action",
+          "visibility": "public",
+          "static": true,
+          "type": "string",
+          "description": "Colors match calendar design for Action"
+        },
+        {
+          "name": "Approval",
+          "visibility": "public",
+          "static": true,
+          "type": "string",
+          "description": "Colors match calendar design for Approval"
+        }
+      ]
+    },
+    {
+      "kind": "enum",
+      "name": "sap.me.CalendarEventType",
+      "basename": "CalendarEventType",
+      "resource": "sap/me/library.js",
+      "module": "sap/me/library",
+      "export": "CalendarEventType",
+      "static": true,
+      "visibility": "public",
+      "description": "Type code for a calendar event",
+      "experimental": {
+        "since": "1.12",
+        "text": "API is not yet finished and might change completely"
+      },
+      "deprecated": { "since": "1.34" },
+      "ui5-metamodel": true,
+      "properties": [
+        {
+          "name": "Type00",
+          "visibility": "public",
+          "static": true,
+          "type": "string",
+          "description": "Type 00 (non-working day (e.g. weekend))"
+        },
+        {
+          "name": "Type01",
+          "visibility": "public",
+          "static": true,
+          "type": "string",
+          "description": "Type 01 (nonattendance / submitted day)"
+        },
+        {
+          "name": "Type04",
+          "visibility": "public",
+          "static": true,
+          "type": "string",
+          "description": "Type 04 (open request / manager action needed)"
+        },
+        {
+          "name": "Type06",
+          "visibility": "public",
+          "static": true,
+          "type": "string",
+          "description": "Type 06 (public holiday)"
+        },
+        {
+          "name": "Type07",
+          "visibility": "public",
+          "static": true,
+          "type": "string",
+          "description": "Type 07 (deletion requested / your action needed)"
+        },
+        {
+          "name": "Type10",
+          "visibility": "public",
+          "static": true,
+          "type": "string",
+          "description": "Type 10 (workday)"
+        }
+      ]
+    },
+    {
+      "kind": "class",
+      "name": "sap.me.CalendarLegend",
+      "basename": "CalendarLegend",
+      "resource": "sap/me/CalendarLegend.js",
+      "module": "sap/me/CalendarLegend",
+      "export": "",
+      "static": true,
+      "visibility": "public",
+      "extends": "sap.ui.core.Control",
+      "description": "Legend for the calendar control",
+      "deprecated": {
+        "since": "1.34.0",
+        "text": "This control was experimental since 1.12. Please use the sap.ui.unified.CalendarLegend instead!"
+      },
+      "ui5-metamodel": true,
+      "ui5-metadata": {
+        "stereotype": "control",
+        "properties": [
+          {
+            "name": "legendForType00",
+            "type": "string",
+            "defaultValue": null,
+            "group": "Misc",
+            "visibility": "public",
+            "description": "legend for type 00",
+            "methods": ["getLegendForType00", "setLegendForType00"]
+          },
+          {
+            "name": "legendForType01",
+            "type": "string",
+            "defaultValue": null,
+            "group": "Misc",
+            "visibility": "public",
+            "description": "legend for type 01",
+            "methods": ["getLegendForType01", "setLegendForType01"]
+          },
+          {
+            "name": "legendForType04",
+            "type": "string",
+            "defaultValue": null,
+            "group": "Misc",
+            "visibility": "public",
+            "description": "legend for type 04",
+            "methods": ["getLegendForType04", "setLegendForType04"]
+          },
+          {
+            "name": "legendForType06",
+            "type": "string",
+            "defaultValue": null,
+            "group": "Misc",
+            "visibility": "public",
+            "description": "legend for type 06",
+            "methods": ["getLegendForType06", "setLegendForType06"]
+          },
+          {
+            "name": "legendForType07",
+            "type": "string",
+            "defaultValue": null,
+            "group": "Misc",
+            "visibility": "public",
+            "description": "legend for type 07",
+            "methods": ["getLegendForType07", "setLegendForType07"]
+          },
+          {
+            "name": "legendForToday",
+            "type": "string",
+            "defaultValue": null,
+            "group": "Misc",
+            "visibility": "public",
+            "description": "legend for today",
+            "methods": ["getLegendForToday", "setLegendForToday"]
+          },
+          {
+            "name": "legendForSelected",
+            "type": "string",
+            "defaultValue": null,
+            "group": "Misc",
+            "visibility": "public",
+            "description": "legend for selected",
+            "methods": ["getLegendForSelected", "setLegendForSelected"]
+          },
+          {
+            "name": "legendForSelected00",
+            "type": "string",
+            "defaultValue": null,
+            "group": "Misc",
+            "visibility": "public",
+            "description": "legend for selected 00",
+            "methods": ["getLegendForSelected00", "setLegendForSelected00"]
+          },
+          {
+            "name": "legendForNormal",
+            "type": "string",
+            "defaultValue": null,
+            "group": "Misc",
+            "visibility": "public",
+            "description": "legend for normal",
+            "methods": ["getLegendForNormal", "setLegendForNormal"]
+          },
+          {
+            "name": "expandable",
+            "type": "boolean",
+            "defaultValue": true,
+            "group": "Misc",
+            "visibility": "public",
+            "description": "Indicates if the legend can be collapsed and expanded",
+            "methods": ["getExpandable", "setExpandable"]
+          },
+          {
+            "name": "expanded",
+            "type": "boolean",
+            "defaultValue": true,
+            "group": "Misc",
+            "visibility": "public",
+            "description": "Indicates if the legend is expanded or not",
+            "methods": ["getExpanded", "setExpanded"]
+          },
+          {
+            "name": "width",
+            "type": "sap.ui.core.CSSSize",
+            "defaultValue": "auto",
+            "group": "Dimension",
+            "visibility": "public",
+            "description": "Indicates the whole component width",
+            "methods": ["getWidth", "setWidth"]
+          },
+          {
+            "name": "legendWidth",
+            "type": "sap.ui.core.CSSSize",
+            "defaultValue": "12.5rem",
+            "group": "Dimension",
+            "visibility": "public",
+            "description": "Indicates the legend items width",
+            "methods": ["getLegendWidth", "setLegendWidth"]
+          },
+          {
+            "name": "visible",
+            "type": "boolean",
+            "defaultValue": true,
+            "group": "Appearance",
+            "visibility": "public",
+            "description": "Indicates if the legend is visible",
+            "methods": ["getVisible", "setVisible"]
+          },
+          {
+            "name": "design",
+            "type": "sap.me.CalendarDesign",
+            "defaultValue": "Approval",
+            "group": "Appearance",
+            "visibility": "public",
+            "description": "design name for the legend",
+            "methods": ["getDesign", "setDesign"]
+          }
+        ],
+        "aggregations": [
+          {
+            "name": "labels",
+            "singularName": "label",
+            "type": "sap.m.Label",
+            "cardinality": "0..n",
+            "visibility": "hidden",
+            "description": "label aggregation",
+            "methods": [
+              "getLabels",
+              "destroyLabels",
+              "insertLabel",
+              "addLabel",
+              "removeLabel",
+              "indexOfLabel",
+              "removeAllLabels"
+            ]
+          },
+          {
+            "name": "colors",
+            "singularName": "color",
+            "type": "sap.ui.core.Control",
+            "cardinality": "0..n",
+            "visibility": "hidden",
+            "description": "colors aggregation",
+            "methods": [
+              "getColors",
+              "destroyColors",
+              "insertColor",
+              "addColor",
+              "removeColor",
+              "indexOfColor",
+              "removeAllColors"
+            ]
+          },
+          {
+            "name": "icon",
+            "singularName": "icon",
+            "type": "sap.ui.core.Icon",
+            "cardinality": "0..1",
+            "visibility": "hidden",
+            "description": "Expand / collapse icon",
+            "methods": ["getIcon", "destroyIcon", "setIcon"]
+          }
+        ]
+      },
+      "constructor": {
+        "visibility": "public",
+        "parameters": [
+          {
+            "name": "sId",
+            "type": "string",
+            "optional": true,
+            "description": "id for the new control, generated automatically if no id is given"
+          },
+          {
+            "name": "mSettings",
+            "type": "object",
+            "optional": true,
+            "description": "initial settings for the new control"
+          }
+        ],
+        "description": "Constructor for a new CalendarLegend.\n\nAccepts an object literal <code>mSettings</code> that defines initial property values, aggregated and associated objects as well as event handlers. See {@link sap.ui.base.ManagedObject#constructor} for a general description of the syntax of the settings object."
+      },
+      "methods": [
+        {
+          "name": "extend",
+          "visibility": "public",
+          "static": true,
+          "returnValue": {
+            "type": "function",
+            "description": "Created class / constructor function"
+          },
+          "parameters": [
+            {
+              "name": "sClassName",
+              "type": "string",
+              "optional": false,
+              "description": "Name of the class being created"
+            },
+            {
+              "name": "oClassInfo",
+              "type": "object",
+              "optional": true,
+              "description": "Object literal with information about the class"
+            },
+            {
+              "name": "FNMetaImpl",
+              "type": "function",
+              "optional": true,
+              "description": "Constructor function for the metadata object; if not given, it defaults to <code>sap.ui.core.ElementMetadata</code>"
+            }
+          ],
+          "description": "Creates a new subclass of class sap.me.CalendarLegend with name <code>sClassName</code> and enriches it with the information contained in <code>oClassInfo</code>.\n\n<code>oClassInfo</code> might contain the same kind of information as described in {@link sap.ui.core.Control.extend}."
+        },
+        {
+          "name": "getDesign",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.CalendarDesign",
+            "description": "Value of property <code>design</code>"
+          },
+          "description": "Gets current value of property {@link #getDesign design}.\n\ndesign name for the legend\n\nDefault value is <code>Approval</code>."
+        },
+        {
+          "name": "getExpandable",
+          "visibility": "public",
+          "returnValue": {
+            "type": "boolean",
+            "description": "Value of property <code>expandable</code>"
+          },
+          "description": "Gets current value of property {@link #getExpandable expandable}.\n\nIndicates if the legend can be collapsed and expanded\n\nDefault value is <code>true</code>."
+        },
+        {
+          "name": "getExpanded",
+          "visibility": "public",
+          "returnValue": {
+            "type": "boolean",
+            "description": "Value of property <code>expanded</code>"
+          },
+          "description": "Gets current value of property {@link #getExpanded expanded}.\n\nIndicates if the legend is expanded or not\n\nDefault value is <code>true</code>."
+        },
+        {
+          "name": "getLegendForNormal",
+          "visibility": "public",
+          "returnValue": {
+            "type": "string",
+            "description": "Value of property <code>legendForNormal</code>"
+          },
+          "description": "Gets current value of property {@link #getLegendForNormal legendForNormal}.\n\nlegend for normal"
+        },
+        {
+          "name": "getLegendForSelected",
+          "visibility": "public",
+          "returnValue": {
+            "type": "string",
+            "description": "Value of property <code>legendForSelected</code>"
+          },
+          "description": "Gets current value of property {@link #getLegendForSelected legendForSelected}.\n\nlegend for selected"
+        },
+        {
+          "name": "getLegendForSelected00",
+          "visibility": "public",
+          "returnValue": {
+            "type": "string",
+            "description": "Value of property <code>legendForSelected00</code>"
+          },
+          "description": "Gets current value of property {@link #getLegendForSelected00 legendForSelected00}.\n\nlegend for selected 00"
+        },
+        {
+          "name": "getLegendForToday",
+          "visibility": "public",
+          "returnValue": {
+            "type": "string",
+            "description": "Value of property <code>legendForToday</code>"
+          },
+          "description": "Gets current value of property {@link #getLegendForToday legendForToday}.\n\nlegend for today"
+        },
+        {
+          "name": "getLegendForType00",
+          "visibility": "public",
+          "returnValue": {
+            "type": "string",
+            "description": "Value of property <code>legendForType00</code>"
+          },
+          "description": "Gets current value of property {@link #getLegendForType00 legendForType00}.\n\nlegend for type 00"
+        },
+        {
+          "name": "getLegendForType01",
+          "visibility": "public",
+          "returnValue": {
+            "type": "string",
+            "description": "Value of property <code>legendForType01</code>"
+          },
+          "description": "Gets current value of property {@link #getLegendForType01 legendForType01}.\n\nlegend for type 01"
+        },
+        {
+          "name": "getLegendForType04",
+          "visibility": "public",
+          "returnValue": {
+            "type": "string",
+            "description": "Value of property <code>legendForType04</code>"
+          },
+          "description": "Gets current value of property {@link #getLegendForType04 legendForType04}.\n\nlegend for type 04"
+        },
+        {
+          "name": "getLegendForType06",
+          "visibility": "public",
+          "returnValue": {
+            "type": "string",
+            "description": "Value of property <code>legendForType06</code>"
+          },
+          "description": "Gets current value of property {@link #getLegendForType06 legendForType06}.\n\nlegend for type 06"
+        },
+        {
+          "name": "getLegendForType07",
+          "visibility": "public",
+          "returnValue": {
+            "type": "string",
+            "description": "Value of property <code>legendForType07</code>"
+          },
+          "description": "Gets current value of property {@link #getLegendForType07 legendForType07}.\n\nlegend for type 07"
+        },
+        {
+          "name": "getLegendWidth",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.ui.core.CSSSize",
+            "description": "Value of property <code>legendWidth</code>"
+          },
+          "description": "Gets current value of property {@link #getLegendWidth legendWidth}.\n\nIndicates the legend items width\n\nDefault value is <code>12.5rem</code>."
+        },
+        {
+          "name": "getMetadata",
+          "visibility": "public",
+          "static": true,
+          "returnValue": {
+            "type": "sap.ui.base.Metadata",
+            "description": "Metadata object describing this class"
+          },
+          "description": "Returns a metadata object for class sap.me.CalendarLegend."
+        },
+        {
+          "name": "getVisible",
+          "visibility": "public",
+          "returnValue": {
+            "type": "boolean",
+            "description": "Value of property <code>visible</code>"
+          },
+          "description": "Gets current value of property {@link #getVisible visible}.\n\nIndicates if the legend is visible\n\nDefault value is <code>true</code>."
+        },
+        {
+          "name": "getWidth",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.ui.core.CSSSize",
+            "description": "Value of property <code>width</code>"
+          },
+          "description": "Gets current value of property {@link #getWidth width}.\n\nIndicates the whole component width\n\nDefault value is <code>auto</code>."
+        },
+        {
+          "name": "setDesign",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.CalendarLegend",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "sDesign",
+              "type": "sap.me.CalendarDesign",
+              "optional": false,
+              "description": "New value for property <code>design</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getDesign design}.\n\ndesign name for the legend\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored.\n\nDefault value is <code>Approval</code>."
+        },
+        {
+          "name": "setExpandable",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.CalendarLegend",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "bExpandable",
+              "type": "boolean",
+              "optional": false,
+              "description": "New value for property <code>expandable</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getExpandable expandable}.\n\nIndicates if the legend can be collapsed and expanded\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored.\n\nDefault value is <code>true</code>."
+        },
+        {
+          "name": "setExpanded",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.CalendarLegend",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "bExpanded",
+              "type": "boolean",
+              "optional": false,
+              "description": "New value for property <code>expanded</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getExpanded expanded}.\n\nIndicates if the legend is expanded or not\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored.\n\nDefault value is <code>true</code>."
+        },
+        {
+          "name": "setLegendForNormal",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.CalendarLegend",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "sLegendForNormal",
+              "type": "string",
+              "optional": false,
+              "description": "New value for property <code>legendForNormal</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getLegendForNormal legendForNormal}.\n\nlegend for normal\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored."
+        },
+        {
+          "name": "setLegendForSelected",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.CalendarLegend",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "sLegendForSelected",
+              "type": "string",
+              "optional": false,
+              "description": "New value for property <code>legendForSelected</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getLegendForSelected legendForSelected}.\n\nlegend for selected\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored."
+        },
+        {
+          "name": "setLegendForSelected00",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.CalendarLegend",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "sLegendForSelected00",
+              "type": "string",
+              "optional": false,
+              "description": "New value for property <code>legendForSelected00</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getLegendForSelected00 legendForSelected00}.\n\nlegend for selected 00\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored."
+        },
+        {
+          "name": "setLegendForToday",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.CalendarLegend",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "sLegendForToday",
+              "type": "string",
+              "optional": false,
+              "description": "New value for property <code>legendForToday</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getLegendForToday legendForToday}.\n\nlegend for today\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored."
+        },
+        {
+          "name": "setLegendForType00",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.CalendarLegend",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "sLegendForType00",
+              "type": "string",
+              "optional": false,
+              "description": "New value for property <code>legendForType00</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getLegendForType00 legendForType00}.\n\nlegend for type 00\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored."
+        },
+        {
+          "name": "setLegendForType01",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.CalendarLegend",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "sLegendForType01",
+              "type": "string",
+              "optional": false,
+              "description": "New value for property <code>legendForType01</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getLegendForType01 legendForType01}.\n\nlegend for type 01\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored."
+        },
+        {
+          "name": "setLegendForType04",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.CalendarLegend",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "sLegendForType04",
+              "type": "string",
+              "optional": false,
+              "description": "New value for property <code>legendForType04</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getLegendForType04 legendForType04}.\n\nlegend for type 04\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored."
+        },
+        {
+          "name": "setLegendForType06",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.CalendarLegend",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "sLegendForType06",
+              "type": "string",
+              "optional": false,
+              "description": "New value for property <code>legendForType06</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getLegendForType06 legendForType06}.\n\nlegend for type 06\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored."
+        },
+        {
+          "name": "setLegendForType07",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.CalendarLegend",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "sLegendForType07",
+              "type": "string",
+              "optional": false,
+              "description": "New value for property <code>legendForType07</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getLegendForType07 legendForType07}.\n\nlegend for type 07\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored."
+        },
+        {
+          "name": "setLegendWidth",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.CalendarLegend",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "sLegendWidth",
+              "type": "sap.ui.core.CSSSize",
+              "optional": false,
+              "description": "New value for property <code>legendWidth</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getLegendWidth legendWidth}.\n\nIndicates the legend items width\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored.\n\nDefault value is <code>12.5rem</code>."
+        },
+        {
+          "name": "setVisible",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.CalendarLegend",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "bVisible",
+              "type": "boolean",
+              "optional": false,
+              "description": "New value for property <code>visible</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getVisible visible}.\n\nIndicates if the legend is visible\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored.\n\nDefault value is <code>true</code>."
+        },
+        {
+          "name": "setWidth",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.CalendarLegend",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "sWidth",
+              "type": "sap.ui.core.CSSSize",
+              "optional": false,
+              "description": "New value for property <code>width</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getWidth width}.\n\nIndicates the whole component width\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored.\n\nDefault value is <code>auto</code>."
+        }
+      ]
+    },
+    {
+      "kind": "enum",
+      "name": "sap.me.CalendarSelectionMode",
+      "basename": "CalendarSelectionMode",
+      "resource": "sap/me/library.js",
+      "module": "sap/me/library",
+      "export": "CalendarSelectionMode",
+      "static": true,
+      "visibility": "public",
+      "description": "Selection Mode for the Calendar",
+      "experimental": {
+        "since": "1.12",
+        "text": "API is not yet finished and might change completely"
+      },
+      "deprecated": { "since": "1.34" },
+      "ui5-metamodel": true,
+      "properties": [
+        {
+          "name": "MULTIPLE",
+          "visibility": "public",
+          "static": true,
+          "type": "string",
+          "description": "Can select multiple dates and ranges"
+        },
+        {
+          "name": "RANGE",
+          "visibility": "public",
+          "static": true,
+          "type": "string",
+          "description": "Can select a range of dates"
+        },
+        {
+          "name": "SINGLE",
+          "visibility": "public",
+          "static": true,
+          "type": "string",
+          "description": "Can only select one date"
+        }
+      ]
+    },
+    {
+      "kind": "class",
+      "name": "sap.me.OverlapCalendar",
+      "basename": "OverlapCalendar",
+      "resource": "sap/me/OverlapCalendar.js",
+      "module": "sap/me/OverlapCalendar",
+      "export": "",
+      "static": true,
+      "visibility": "public",
+      "extends": "sap.ui.core.Control",
+      "description": "A calendar that allows to display events in a grid and show the overlapped events",
+      "deprecated": {
+        "since": "1.34.0",
+        "text": "This control was experimental since 1.12. Please use the sap.m.PlanningCalendar instead!"
+      },
+      "ui5-metamodel": true,
+      "ui5-metadata": {
+        "stereotype": "control",
+        "properties": [
+          {
+            "name": "startDate",
+            "type": "string",
+            "defaultValue": null,
+            "group": "Data",
+            "visibility": "public",
+            "description": "The first date to display for the calendar",
+            "methods": ["getStartDate", "setStartDate"]
+          },
+          {
+            "name": "weeksPerRow",
+            "type": "int",
+            "defaultValue": 2,
+            "group": "Appearance",
+            "visibility": "public",
+            "description": "Number of weeks",
+            "methods": ["getWeeksPerRow", "setWeeksPerRow"]
+          },
+          {
+            "name": "firstDayOffset",
+            "type": "int",
+            "defaultValue": 0,
+            "group": "Appearance",
+            "visibility": "public",
+            "description": "Indicate how to offset the first day in regards to a Sunday (by default)",
+            "methods": ["getFirstDayOffset", "setFirstDayOffset"]
+          },
+          {
+            "name": "showOverlapIndicator",
+            "type": "boolean",
+            "defaultValue": false,
+            "group": "Appearance",
+            "visibility": "public",
+            "description": "Do we want to display the overlap indicator",
+            "methods": ["getShowOverlapIndicator", "setShowOverlapIndicator"]
+          },
+          {
+            "name": "visible",
+            "type": "boolean",
+            "defaultValue": true,
+            "group": "Appearance",
+            "visibility": "public",
+            "description": "Indicates if we should render this component",
+            "methods": ["getVisible", "setVisible"]
+          },
+          {
+            "name": "swipeToNavigate",
+            "type": "boolean",
+            "defaultValue": true,
+            "group": "Behavior",
+            "visibility": "public",
+            "description": "Use swipe gesture to navigate",
+            "methods": ["getSwipeToNavigate", "setSwipeToNavigate"]
+          },
+          {
+            "name": "width",
+            "type": "sap.ui.core.CSSSize",
+            "defaultValue": "100%",
+            "group": "Dimension",
+            "visibility": "public",
+            "description": "The width of the calendar",
+            "methods": ["getWidth", "setWidth"]
+          }
+        ],
+        "aggregations": [
+          {
+            "name": "calendarEvents",
+            "singularName": "calendarEvent",
+            "type": "sap.me.OverlapCalendarEvent",
+            "cardinality": "0..n",
+            "visibility": "public",
+            "description": "The list of events to display in the calendar grid",
+            "methods": [
+              "getCalendarEvents",
+              "destroyCalendarEvents",
+              "insertCalendarEvent",
+              "addCalendarEvent",
+              "removeCalendarEvent",
+              "indexOfCalendarEvent",
+              "removeAllCalendarEvents"
+            ]
+          },
+          {
+            "name": "calendar",
+            "singularName": "calendar",
+            "type": "sap.me.Calendar",
+            "cardinality": "0..1",
+            "visibility": "hidden",
+            "description": "Calendar instance",
+            "methods": ["getCalendar", "destroyCalendar", "setCalendar"]
+          },
+          {
+            "name": "typeLabels",
+            "singularName": "typeLabel",
+            "type": "sap.m.Label",
+            "cardinality": "0..n",
+            "visibility": "hidden",
+            "description": "Hidden aggregation of the label for event type",
+            "methods": [
+              "getTypeLabels",
+              "destroyTypeLabels",
+              "insertTypeLabel",
+              "addTypeLabel",
+              "removeTypeLabel",
+              "indexOfTypeLabel",
+              "removeAllTypeLabels"
+            ]
+          },
+          {
+            "name": "nameLabels",
+            "singularName": "nameLabel",
+            "type": "sap.m.Label",
+            "cardinality": "0..n",
+            "visibility": "hidden",
+            "description": "Hidden aggregation for the name label",
+            "methods": [
+              "getNameLabels",
+              "destroyNameLabels",
+              "insertNameLabel",
+              "addNameLabel",
+              "removeNameLabel",
+              "indexOfNameLabel",
+              "removeAllNameLabels"
+            ]
+          }
+        ],
+        "events": [
+          {
+            "name": "endOfData",
+            "visibility": "public",
+            "description": "Indicates that we have reach the last week with data",
+            "parameters": {
+              "before": {
+                "name": "before",
+                "type": "boolean",
+                "description": "Indicates if the data missing are before the start date or at the end"
+              }
+            },
+            "methods": ["attachEndOfData", "detachEndOfData", "fireEndOfData"]
+          },
+          {
+            "name": "changeDate",
+            "visibility": "public",
+            "description": "Triggered when the displayed dates change",
+            "parameters": {
+              "firstDate": {
+                "name": "firstDate",
+                "type": "object",
+                "description": "The first date displayed in the calendar"
+              },
+              "lastDate": {
+                "name": "lastDate",
+                "type": "object",
+                "description": "The last date that will be displayed"
+              }
+            },
+            "methods": [
+              "attachChangeDate",
+              "detachChangeDate",
+              "fireChangeDate"
+            ]
+          }
+        ]
+      },
+      "constructor": {
+        "visibility": "public",
+        "parameters": [
+          {
+            "name": "sId",
+            "type": "string",
+            "optional": true,
+            "description": "id for the new control, generated automatically if no id is given"
+          },
+          {
+            "name": "mSettings",
+            "type": "object",
+            "optional": true,
+            "description": "initial settings for the new control"
+          }
+        ],
+        "description": "Constructor for a new OverlapCalendar.\n\nAccepts an object literal <code>mSettings</code> that defines initial property values, aggregated and associated objects as well as event handlers. See {@link sap.ui.base.ManagedObject#constructor} for a general description of the syntax of the settings object."
+      },
+      "events": [
+        {
+          "name": "changeDate",
+          "visibility": "public",
+          "parameters": [
+            {
+              "name": "oControlEvent",
+              "type": "sap.ui.base.Event",
+              "parameterProperties": {
+                "getSource": {
+                  "name": "getSource",
+                  "type": "sap.ui.base.EventProvider",
+                  "optional": false
+                },
+                "getParameters": {
+                  "name": "getParameters",
+                  "type": "object",
+                  "optional": false,
+                  "parameterProperties": {
+                    "firstDate": {
+                      "name": "firstDate",
+                      "type": "object",
+                      "optional": false,
+                      "description": "The first date displayed in the calendar"
+                    },
+                    "lastDate": {
+                      "name": "lastDate",
+                      "type": "object",
+                      "optional": false,
+                      "description": "The last date that will be displayed"
+                    }
+                  }
+                }
+              }
+            }
+          ],
+          "description": "Triggered when the displayed dates change"
+        },
+        {
+          "name": "endOfData",
+          "visibility": "public",
+          "parameters": [
+            {
+              "name": "oControlEvent",
+              "type": "sap.ui.base.Event",
+              "parameterProperties": {
+                "getSource": {
+                  "name": "getSource",
+                  "type": "sap.ui.base.EventProvider",
+                  "optional": false
+                },
+                "getParameters": {
+                  "name": "getParameters",
+                  "type": "object",
+                  "optional": false,
+                  "parameterProperties": {
+                    "before": {
+                      "name": "before",
+                      "type": "boolean",
+                      "optional": false,
+                      "description": "Indicates if the data missing are before the start date or at the end"
+                    }
+                  }
+                }
+              }
+            }
+          ],
+          "description": "Indicates that we have reach the last week with data"
+        }
+      ],
+      "methods": [
+        {
+          "name": "addCalendarEvent",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.OverlapCalendar",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "oCalendarEvent",
+              "type": "sap.me.OverlapCalendarEvent",
+              "optional": false,
+              "description": "The calendarEvent to add; if empty, nothing is inserted"
+            }
+          ],
+          "description": "Adds some calendarEvent to the aggregation {@link #getCalendarEvents calendarEvents}."
+        },
+        {
+          "name": "attachChangeDate",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.OverlapCalendar",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "oData",
+              "type": "object",
+              "optional": true,
+              "description": "An application-specific payload object that will be passed to the event handler along with the event object when firing the event"
+            },
+            {
+              "name": "fnFunction",
+              "type": "function",
+              "optional": false,
+              "description": "The function to be called when the event occurs"
+            },
+            {
+              "name": "oListener",
+              "type": "object",
+              "optional": true,
+              "description": "Context object to call the event handler with. Defaults to this <code>sap.me.OverlapCalendar</code> itself"
+            }
+          ],
+          "description": "Attaches event handler <code>fnFunction</code> to the {@link #event:changeDate changeDate} event of this <code>sap.me.OverlapCalendar</code>.\n\nWhen called, the context of the event handler (its <code>this</code>) will be bound to <code>oListener</code> if specified, otherwise it will be bound to this <code>sap.me.OverlapCalendar</code> itself.\n\nTriggered when the displayed dates change"
+        },
+        {
+          "name": "attachEndOfData",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.OverlapCalendar",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "oData",
+              "type": "object",
+              "optional": true,
+              "description": "An application-specific payload object that will be passed to the event handler along with the event object when firing the event"
+            },
+            {
+              "name": "fnFunction",
+              "type": "function",
+              "optional": false,
+              "description": "The function to be called when the event occurs"
+            },
+            {
+              "name": "oListener",
+              "type": "object",
+              "optional": true,
+              "description": "Context object to call the event handler with. Defaults to this <code>sap.me.OverlapCalendar</code> itself"
+            }
+          ],
+          "description": "Attaches event handler <code>fnFunction</code> to the {@link #event:endOfData endOfData} event of this <code>sap.me.OverlapCalendar</code>.\n\nWhen called, the context of the event handler (its <code>this</code>) will be bound to <code>oListener</code> if specified, otherwise it will be bound to this <code>sap.me.OverlapCalendar</code> itself.\n\nIndicates that we have reach the last week with data"
+        },
+        {
+          "name": "destroyCalendarEvents",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.OverlapCalendar",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "description": "Destroys all the calendarEvents in the aggregation {@link #getCalendarEvents calendarEvents}."
+        },
+        {
+          "name": "detachChangeDate",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.OverlapCalendar",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "fnFunction",
+              "type": "function",
+              "optional": false,
+              "description": "The function to be called, when the event occurs"
+            },
+            {
+              "name": "oListener",
+              "type": "object",
+              "optional": true,
+              "description": "Context object on which the given function had to be called"
+            }
+          ],
+          "description": "Detaches event handler <code>fnFunction</code> from the {@link #event:changeDate changeDate} event of this <code>sap.me.OverlapCalendar</code>.\n\nThe passed function and listener object must match the ones used for event registration."
+        },
+        {
+          "name": "detachEndOfData",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.OverlapCalendar",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "fnFunction",
+              "type": "function",
+              "optional": false,
+              "description": "The function to be called, when the event occurs"
+            },
+            {
+              "name": "oListener",
+              "type": "object",
+              "optional": true,
+              "description": "Context object on which the given function had to be called"
+            }
+          ],
+          "description": "Detaches event handler <code>fnFunction</code> from the {@link #event:endOfData endOfData} event of this <code>sap.me.OverlapCalendar</code>.\n\nThe passed function and listener object must match the ones used for event registration."
+        },
+        {
+          "name": "extend",
+          "visibility": "public",
+          "static": true,
+          "returnValue": {
+            "type": "function",
+            "description": "Created class / constructor function"
+          },
+          "parameters": [
+            {
+              "name": "sClassName",
+              "type": "string",
+              "optional": false,
+              "description": "Name of the class being created"
+            },
+            {
+              "name": "oClassInfo",
+              "type": "object",
+              "optional": true,
+              "description": "Object literal with information about the class"
+            },
+            {
+              "name": "FNMetaImpl",
+              "type": "function",
+              "optional": true,
+              "description": "Constructor function for the metadata object; if not given, it defaults to <code>sap.ui.core.ElementMetadata</code>"
+            }
+          ],
+          "description": "Creates a new subclass of class sap.me.OverlapCalendar with name <code>sClassName</code> and enriches it with the information contained in <code>oClassInfo</code>.\n\n<code>oClassInfo</code> might contain the same kind of information as described in {@link sap.ui.core.Control.extend}."
+        },
+        {
+          "name": "fireChangeDate",
+          "visibility": "protected",
+          "returnValue": {
+            "type": "sap.me.OverlapCalendar",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "mParameters",
+              "type": "object",
+              "optional": true,
+              "parameterProperties": {
+                "firstDate": {
+                  "name": "firstDate",
+                  "type": "object",
+                  "optional": true,
+                  "description": "The first date displayed in the calendar"
+                },
+                "lastDate": {
+                  "name": "lastDate",
+                  "type": "object",
+                  "optional": true,
+                  "description": "The last date that will be displayed"
+                }
+              },
+              "description": "Parameters to pass along with the event"
+            }
+          ],
+          "description": "Fires event {@link #event:changeDate changeDate} to attached listeners."
+        },
+        {
+          "name": "fireEndOfData",
+          "visibility": "protected",
+          "returnValue": {
+            "type": "sap.me.OverlapCalendar",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "mParameters",
+              "type": "object",
+              "optional": true,
+              "parameterProperties": {
+                "before": {
+                  "name": "before",
+                  "type": "boolean",
+                  "optional": true,
+                  "description": "Indicates if the data missing are before the start date or at the end"
+                }
+              },
+              "description": "Parameters to pass along with the event"
+            }
+          ],
+          "description": "Fires event {@link #event:endOfData endOfData} to attached listeners."
+        },
+        {
+          "name": "getCalendar",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.Calendar",
+            "description": "The calendar object"
+          }
+        },
+        {
+          "name": "getCalendarEvents",
+          "visibility": "public",
+          "returnValue": { "type": "sap.me.OverlapCalendarEvent[]" },
+          "description": "Gets content of aggregation {@link #getCalendarEvents calendarEvents}.\n\nThe list of events to display in the calendar grid"
+        },
+        {
+          "name": "getFirstDayOffset",
+          "visibility": "public",
+          "returnValue": {
+            "type": "int",
+            "description": "Value of property <code>firstDayOffset</code>"
+          },
+          "description": "Gets current value of property {@link #getFirstDayOffset firstDayOffset}.\n\nIndicate how to offset the first day in regards to a Sunday (by default)\n\nDefault value is <code>0</code>."
+        },
+        {
+          "name": "getMetadata",
+          "visibility": "public",
+          "static": true,
+          "returnValue": {
+            "type": "sap.ui.base.Metadata",
+            "description": "Metadata object describing this class"
+          },
+          "description": "Returns a metadata object for class sap.me.OverlapCalendar."
+        },
+        {
+          "name": "getShowOverlapIndicator",
+          "visibility": "public",
+          "returnValue": {
+            "type": "boolean",
+            "description": "Value of property <code>showOverlapIndicator</code>"
+          },
+          "description": "Gets current value of property {@link #getShowOverlapIndicator showOverlapIndicator}.\n\nDo we want to display the overlap indicator\n\nDefault value is <code>false</code>."
+        },
+        {
+          "name": "getStartDate",
+          "visibility": "public",
+          "returnValue": {
+            "type": "string",
+            "description": "Value of property <code>startDate</code>"
+          },
+          "description": "Gets current value of property {@link #getStartDate startDate}.\n\nThe first date to display for the calendar"
+        },
+        {
+          "name": "getSwipeToNavigate",
+          "visibility": "public",
+          "returnValue": {
+            "type": "boolean",
+            "description": "Value of property <code>swipeToNavigate</code>"
+          },
+          "description": "Gets current value of property {@link #getSwipeToNavigate swipeToNavigate}.\n\nUse swipe gesture to navigate\n\nDefault value is <code>true</code>."
+        },
+        {
+          "name": "getVisible",
+          "visibility": "public",
+          "returnValue": {
+            "type": "boolean",
+            "description": "Value of property <code>visible</code>"
+          },
+          "description": "Gets current value of property {@link #getVisible visible}.\n\nIndicates if we should render this component\n\nDefault value is <code>true</code>."
+        },
+        {
+          "name": "getWeeksPerRow",
+          "visibility": "public",
+          "returnValue": {
+            "type": "int",
+            "description": "Value of property <code>weeksPerRow</code>"
+          },
+          "description": "Gets current value of property {@link #getWeeksPerRow weeksPerRow}.\n\nNumber of weeks\n\nDefault value is <code>2</code>."
+        },
+        {
+          "name": "getWidth",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.ui.core.CSSSize",
+            "description": "Value of property <code>width</code>"
+          },
+          "description": "Gets current value of property {@link #getWidth width}.\n\nThe width of the calendar\n\nDefault value is <code>100%</code>."
+        },
+        {
+          "name": "indexOfCalendarEvent",
+          "visibility": "public",
+          "returnValue": {
+            "type": "int",
+            "description": "The index of the provided control in the aggregation if found, or -1 otherwise"
+          },
+          "parameters": [
+            {
+              "name": "oCalendarEvent",
+              "type": "sap.me.OverlapCalendarEvent",
+              "optional": false,
+              "description": "The calendarEvent whose index is looked for"
+            }
+          ],
+          "description": "Checks for the provided <code>sap.me.OverlapCalendarEvent</code> in the aggregation {@link #getCalendarEvents calendarEvents}. and returns its index if found or -1 otherwise."
+        },
+        {
+          "name": "insertCalendarEvent",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.OverlapCalendar",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "oCalendarEvent",
+              "type": "sap.me.OverlapCalendarEvent",
+              "optional": false,
+              "description": "The calendarEvent to insert; if empty, nothing is inserted"
+            },
+            {
+              "name": "iIndex",
+              "type": "int",
+              "optional": false,
+              "description": "The <code>0</code>-based index the calendarEvent should be inserted at; for a negative value of <code>iIndex</code>, the calendarEvent is inserted at position 0; for a value greater than the current size of the aggregation, the calendarEvent is inserted at the last position"
+            }
+          ],
+          "description": "Inserts a calendarEvent into the aggregation {@link #getCalendarEvents calendarEvents}."
+        },
+        { "name": "onAfterRendering", "visibility": "public" },
+        { "name": "onBeforeRendering", "visibility": "public" },
+        {
+          "name": "onswipeleft",
+          "visibility": "public",
+          "parameters": [
+            { "name": "oEvent", "type": "jQuery.Event", "optional": false }
+          ]
+        },
+        {
+          "name": "onswiperight",
+          "visibility": "public",
+          "parameters": [
+            { "name": "oEvent", "type": "jQuery.Event", "optional": false }
+          ]
+        },
+        {
+          "name": "removeAllCalendarEvents",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.OverlapCalendarEvent[]",
+            "description": "An array of the removed elements (might be empty)"
+          },
+          "description": "Removes all the controls from the aggregation {@link #getCalendarEvents calendarEvents}.\n\nAdditionally, it unregisters them from the hosting UIArea."
+        },
+        {
+          "name": "removeCalendarEvent",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.OverlapCalendarEvent",
+            "description": "The removed calendarEvent or <code>null</code>"
+          },
+          "parameters": [
+            {
+              "name": "vCalendarEvent",
+              "type": "int|string|sap.me.OverlapCalendarEvent",
+              "optional": false,
+              "description": "The calendarEvent to remove or its index or id"
+            }
+          ],
+          "description": "Removes a calendarEvent from the aggregation {@link #getCalendarEvents calendarEvents}."
+        },
+        {
+          "name": "setFirstDayOffset",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.OverlapCalendar",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "iFirstDayOffset",
+              "type": "int",
+              "optional": false,
+              "description": "New value for property <code>firstDayOffset</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getFirstDayOffset firstDayOffset}.\n\nIndicate how to offset the first day in regards to a Sunday (by default)\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored.\n\nDefault value is <code>0</code>."
+        },
+        {
+          "name": "setShowOverlapIndicator",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.OverlapCalendar",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "bShowOverlapIndicator",
+              "type": "boolean",
+              "optional": false,
+              "description": "New value for property <code>showOverlapIndicator</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getShowOverlapIndicator showOverlapIndicator}.\n\nDo we want to display the overlap indicator\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored.\n\nDefault value is <code>false</code>."
+        },
+        {
+          "name": "setStartDate",
+          "visibility": "public",
+          "parameters": [
+            {
+              "name": "sDate",
+              "type": "string|Date",
+              "optional": false,
+              "description": "The start date, expected toDateString."
+            }
+          ]
+        },
+        {
+          "name": "setSwipeToNavigate",
+          "visibility": "public",
+          "parameters": [
+            { "name": "bSwipe", "type": "boolean", "optional": false }
+          ]
+        },
+        {
+          "name": "setVisible",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.OverlapCalendar",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "bVisible",
+              "type": "boolean",
+              "optional": false,
+              "description": "New value for property <code>visible</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getVisible visible}.\n\nIndicates if we should render this component\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored.\n\nDefault value is <code>true</code>."
+        },
+        {
+          "name": "setWeeksPerRow",
+          "visibility": "public",
+          "parameters": [
+            {
+              "name": "iWeeksPerRow",
+              "type": "number",
+              "optional": false,
+              "description": "The integer number of weeks per row"
+            }
+          ]
+        },
+        {
+          "name": "setWidth",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.OverlapCalendar",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "sWidth",
+              "type": "sap.ui.core.CSSSize",
+              "optional": false,
+              "description": "New value for property <code>width</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getWidth width}.\n\nThe width of the calendar\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored.\n\nDefault value is <code>100%</code>."
+        }
+      ]
+    },
+    {
+      "kind": "class",
+      "name": "sap.me.OverlapCalendarEvent",
+      "basename": "OverlapCalendarEvent",
+      "resource": "sap/me/OverlapCalendarEvent.js",
+      "module": "sap/me/OverlapCalendarEvent",
+      "export": "",
+      "static": true,
+      "visibility": "public",
+      "extends": "sap.ui.core.Element",
+      "description": "Represent the data of an event for the overlap calendar",
+      "deprecated": {
+        "since": "1.34.0",
+        "text": "This control was experimental since 1.12. Please use the sap.ui.unified.CalendarAppointment instead!"
+      },
+      "ui5-metamodel": true,
+      "ui5-metadata": {
+        "stereotype": "element",
+        "properties": [
+          {
+            "name": "startDay",
+            "type": "string",
+            "defaultValue": null,
+            "group": "Data",
+            "visibility": "public",
+            "bindable": true,
+            "description": "The first day of the event",
+            "methods": [
+              "getStartDay",
+              "setStartDay",
+              "bindStartDay",
+              "unbindStartDay"
+            ]
+          },
+          {
+            "name": "endDay",
+            "type": "string",
+            "defaultValue": null,
+            "group": "Data",
+            "visibility": "public",
+            "bindable": true,
+            "description": "Last day of the event",
+            "methods": ["getEndDay", "setEndDay", "bindEndDay", "unbindEndDay"]
+          },
+          {
+            "name": "relevant",
+            "type": "boolean",
+            "defaultValue": null,
+            "group": "Misc",
+            "visibility": "public",
+            "bindable": true,
+            "description": "Indicates if this elements is relevant to be consider in the overlap",
+            "methods": [
+              "getRelevant",
+              "setRelevant",
+              "bindRelevant",
+              "unbindRelevant"
+            ]
+          },
+          {
+            "name": "type",
+            "type": "string",
+            "defaultValue": null,
+            "group": "Data",
+            "visibility": "public",
+            "bindable": true,
+            "description": "Type of the event. Display in the second label (no overlap)",
+            "methods": ["getType", "setType", "bindType", "unbindType"]
+          },
+          {
+            "name": "typeName",
+            "type": "string",
+            "defaultValue": null,
+            "group": "Appearance",
+            "visibility": "public",
+            "bindable": true,
+            "description": "The CSS class to use",
+            "methods": [
+              "getTypeName",
+              "setTypeName",
+              "bindTypeName",
+              "unbindTypeName"
+            ]
+          },
+          {
+            "name": "halfDay",
+            "type": "boolean",
+            "defaultValue": false,
+            "group": "Data",
+            "visibility": "public",
+            "bindable": true,
+            "description": "Is this half a day",
+            "methods": [
+              "getHalfDay",
+              "setHalfDay",
+              "bindHalfDay",
+              "unbindHalfDay"
+            ]
+          },
+          {
+            "name": "row",
+            "type": "int",
+            "defaultValue": -1,
+            "group": "Data",
+            "visibility": "public",
+            "bindable": true,
+            "description": "Id of the row on which to place this event",
+            "methods": ["getRow", "setRow", "bindRow", "unbindRow"]
+          },
+          {
+            "name": "name",
+            "type": "string",
+            "defaultValue": null,
+            "group": "Misc",
+            "visibility": "public",
+            "bindable": true,
+            "description": "Name of the row",
+            "methods": ["getName", "setName", "bindName", "unbindName"]
+          }
+        ]
+      },
+      "constructor": {
+        "visibility": "public",
+        "parameters": [
+          {
+            "name": "sId",
+            "type": "string",
+            "optional": true,
+            "description": "id for the new control, generated automatically if no id is given"
+          },
+          {
+            "name": "mSettings",
+            "type": "object",
+            "optional": true,
+            "description": "initial settings for the new control"
+          }
+        ],
+        "description": "Constructor for a new OverlapCalendarEvent.\n\nAccepts an object literal <code>mSettings</code> that defines initial property values, aggregated and associated objects as well as event handlers. See {@link sap.ui.base.ManagedObject#constructor} for a general description of the syntax of the settings object."
+      },
+      "methods": [
+        {
+          "name": "bindEndDay",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.OverlapCalendarEvent",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "oBindingInfo",
+              "type": "object",
+              "optional": false,
+              "description": "The binding information"
+            }
+          ],
+          "description": "Binds property {@link #getEndDay endDay} to model data.\n\nSee {@link sap.ui.base.ManagedObject#bindProperty ManagedObject.bindProperty} for a detailed description of the possible properties of <code>oBindingInfo</code>"
+        },
+        {
+          "name": "bindHalfDay",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.OverlapCalendarEvent",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "oBindingInfo",
+              "type": "object",
+              "optional": false,
+              "description": "The binding information"
+            }
+          ],
+          "description": "Binds property {@link #getHalfDay halfDay} to model data.\n\nSee {@link sap.ui.base.ManagedObject#bindProperty ManagedObject.bindProperty} for a detailed description of the possible properties of <code>oBindingInfo</code>"
+        },
+        {
+          "name": "bindName",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.OverlapCalendarEvent",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "oBindingInfo",
+              "type": "object",
+              "optional": false,
+              "description": "The binding information"
+            }
+          ],
+          "description": "Binds property {@link #getName name} to model data.\n\nSee {@link sap.ui.base.ManagedObject#bindProperty ManagedObject.bindProperty} for a detailed description of the possible properties of <code>oBindingInfo</code>"
+        },
+        {
+          "name": "bindRelevant",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.OverlapCalendarEvent",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "oBindingInfo",
+              "type": "object",
+              "optional": false,
+              "description": "The binding information"
+            }
+          ],
+          "description": "Binds property {@link #getRelevant relevant} to model data.\n\nSee {@link sap.ui.base.ManagedObject#bindProperty ManagedObject.bindProperty} for a detailed description of the possible properties of <code>oBindingInfo</code>"
+        },
+        {
+          "name": "bindRow",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.OverlapCalendarEvent",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "oBindingInfo",
+              "type": "object",
+              "optional": false,
+              "description": "The binding information"
+            }
+          ],
+          "description": "Binds property {@link #getRow row} to model data.\n\nSee {@link sap.ui.base.ManagedObject#bindProperty ManagedObject.bindProperty} for a detailed description of the possible properties of <code>oBindingInfo</code>"
+        },
+        {
+          "name": "bindStartDay",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.OverlapCalendarEvent",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "oBindingInfo",
+              "type": "object",
+              "optional": false,
+              "description": "The binding information"
+            }
+          ],
+          "description": "Binds property {@link #getStartDay startDay} to model data.\n\nSee {@link sap.ui.base.ManagedObject#bindProperty ManagedObject.bindProperty} for a detailed description of the possible properties of <code>oBindingInfo</code>"
+        },
+        {
+          "name": "bindType",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.OverlapCalendarEvent",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "oBindingInfo",
+              "type": "object",
+              "optional": false,
+              "description": "The binding information"
+            }
+          ],
+          "description": "Binds property {@link #getType type} to model data.\n\nSee {@link sap.ui.base.ManagedObject#bindProperty ManagedObject.bindProperty} for a detailed description of the possible properties of <code>oBindingInfo</code>"
+        },
+        {
+          "name": "bindTypeName",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.OverlapCalendarEvent",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "oBindingInfo",
+              "type": "object",
+              "optional": false,
+              "description": "The binding information"
+            }
+          ],
+          "description": "Binds property {@link #getTypeName typeName} to model data.\n\nSee {@link sap.ui.base.ManagedObject#bindProperty ManagedObject.bindProperty} for a detailed description of the possible properties of <code>oBindingInfo</code>"
+        },
+        {
+          "name": "extend",
+          "visibility": "public",
+          "static": true,
+          "returnValue": {
+            "type": "function",
+            "description": "Created class / constructor function"
+          },
+          "parameters": [
+            {
+              "name": "sClassName",
+              "type": "string",
+              "optional": false,
+              "description": "Name of the class being created"
+            },
+            {
+              "name": "oClassInfo",
+              "type": "object",
+              "optional": true,
+              "description": "Object literal with information about the class"
+            },
+            {
+              "name": "FNMetaImpl",
+              "type": "function",
+              "optional": true,
+              "description": "Constructor function for the metadata object; if not given, it defaults to <code>sap.ui.core.ElementMetadata</code>"
+            }
+          ],
+          "description": "Creates a new subclass of class sap.me.OverlapCalendarEvent with name <code>sClassName</code> and enriches it with the information contained in <code>oClassInfo</code>.\n\n<code>oClassInfo</code> might contain the same kind of information as described in {@link sap.ui.core.Element.extend}."
+        },
+        {
+          "name": "getEndDay",
+          "visibility": "public",
+          "returnValue": {
+            "type": "string",
+            "description": "Value of property <code>endDay</code>"
+          },
+          "description": "Gets current value of property {@link #getEndDay endDay}.\n\nLast day of the event"
+        },
+        {
+          "name": "getHalfDay",
+          "visibility": "public",
+          "returnValue": {
+            "type": "boolean",
+            "description": "Value of property <code>halfDay</code>"
+          },
+          "description": "Gets current value of property {@link #getHalfDay halfDay}.\n\nIs this half a day\n\nDefault value is <code>false</code>."
+        },
+        {
+          "name": "getMetadata",
+          "visibility": "public",
+          "static": true,
+          "returnValue": {
+            "type": "sap.ui.base.Metadata",
+            "description": "Metadata object describing this class"
+          },
+          "description": "Returns a metadata object for class sap.me.OverlapCalendarEvent."
+        },
+        {
+          "name": "getName",
+          "visibility": "public",
+          "returnValue": {
+            "type": "string",
+            "description": "Value of property <code>name</code>"
+          },
+          "description": "Gets current value of property {@link #getName name}.\n\nName of the row"
+        },
+        {
+          "name": "getRelevant",
+          "visibility": "public",
+          "returnValue": {
+            "type": "boolean",
+            "description": "Value of property <code>relevant</code>"
+          },
+          "description": "Gets current value of property {@link #getRelevant relevant}.\n\nIndicates if this elements is relevant to be consider in the overlap"
+        },
+        {
+          "name": "getRow",
+          "visibility": "public",
+          "returnValue": {
+            "type": "int",
+            "description": "Value of property <code>row</code>"
+          },
+          "description": "Gets current value of property {@link #getRow row}.\n\nId of the row on which to place this event\n\nDefault value is <code>-1</code>."
+        },
+        {
+          "name": "getStartDay",
+          "visibility": "public",
+          "returnValue": {
+            "type": "string",
+            "description": "Value of property <code>startDay</code>"
+          },
+          "description": "Gets current value of property {@link #getStartDay startDay}.\n\nThe first day of the event"
+        },
+        {
+          "name": "getType",
+          "visibility": "public",
+          "returnValue": {
+            "type": "string",
+            "description": "Value of property <code>type</code>"
+          },
+          "description": "Gets current value of property {@link #getType type}.\n\nType of the event. Display in the second label (no overlap)"
+        },
+        {
+          "name": "getTypeName",
+          "visibility": "public",
+          "returnValue": {
+            "type": "string",
+            "description": "Value of property <code>typeName</code>"
+          },
+          "description": "Gets current value of property {@link #getTypeName typeName}.\n\nThe CSS class to use"
+        },
+        {
+          "name": "setEndDay",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.OverlapCalendarEvent",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "sEndDay",
+              "type": "string",
+              "optional": false,
+              "description": "New value for property <code>endDay</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getEndDay endDay}.\n\nLast day of the event\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored."
+        },
+        {
+          "name": "setHalfDay",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.OverlapCalendarEvent",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "bHalfDay",
+              "type": "boolean",
+              "optional": false,
+              "description": "New value for property <code>halfDay</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getHalfDay halfDay}.\n\nIs this half a day\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored.\n\nDefault value is <code>false</code>."
+        },
+        {
+          "name": "setName",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.OverlapCalendarEvent",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "sName",
+              "type": "string",
+              "optional": false,
+              "description": "New value for property <code>name</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getName name}.\n\nName of the row\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored."
+        },
+        {
+          "name": "setRelevant",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.OverlapCalendarEvent",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "bRelevant",
+              "type": "boolean",
+              "optional": false,
+              "description": "New value for property <code>relevant</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getRelevant relevant}.\n\nIndicates if this elements is relevant to be consider in the overlap\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored."
+        },
+        {
+          "name": "setRow",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.OverlapCalendarEvent",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "iRow",
+              "type": "int",
+              "optional": false,
+              "description": "New value for property <code>row</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getRow row}.\n\nId of the row on which to place this event\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored.\n\nDefault value is <code>-1</code>."
+        },
+        {
+          "name": "setStartDay",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.OverlapCalendarEvent",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "sStartDay",
+              "type": "string",
+              "optional": false,
+              "description": "New value for property <code>startDay</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getStartDay startDay}.\n\nThe first day of the event\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored."
+        },
+        {
+          "name": "setType",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.OverlapCalendarEvent",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "sType",
+              "type": "string",
+              "optional": false,
+              "description": "New value for property <code>type</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getType type}.\n\nType of the event. Display in the second label (no overlap)\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored."
+        },
+        {
+          "name": "setTypeName",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.OverlapCalendarEvent",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "sTypeName",
+              "type": "string",
+              "optional": false,
+              "description": "New value for property <code>typeName</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getTypeName typeName}.\n\nThe CSS class to use\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored."
+        },
+        {
+          "name": "unbindEndDay",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.OverlapCalendarEvent",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "description": "Unbinds property {@link #getEndDay endDay} from model data."
+        },
+        {
+          "name": "unbindHalfDay",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.OverlapCalendarEvent",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "description": "Unbinds property {@link #getHalfDay halfDay} from model data."
+        },
+        {
+          "name": "unbindName",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.OverlapCalendarEvent",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "description": "Unbinds property {@link #getName name} from model data."
+        },
+        {
+          "name": "unbindRelevant",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.OverlapCalendarEvent",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "description": "Unbinds property {@link #getRelevant relevant} from model data."
+        },
+        {
+          "name": "unbindRow",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.OverlapCalendarEvent",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "description": "Unbinds property {@link #getRow row} from model data."
+        },
+        {
+          "name": "unbindStartDay",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.OverlapCalendarEvent",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "description": "Unbinds property {@link #getStartDay startDay} from model data."
+        },
+        {
+          "name": "unbindType",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.OverlapCalendarEvent",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "description": "Unbinds property {@link #getType type} from model data."
+        },
+        {
+          "name": "unbindTypeName",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.OverlapCalendarEvent",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "description": "Unbinds property {@link #getTypeName typeName} from model data."
+        }
+      ]
+    },
+    {
+      "kind": "class",
+      "name": "sap.me.ProgressIndicator",
+      "basename": "ProgressIndicator",
+      "resource": "sap/me/ProgressIndicator.js",
+      "module": "sap/me/ProgressIndicator",
+      "export": "",
+      "static": true,
+      "visibility": "public",
+      "extends": "sap.ui.core.Control",
+      "description": "Shows the progress of a process in a graphical way. The indicator can be displayed with or without numerical values. The filling can be displayed in color only, or additionally with the percentage rate. The indicator status can be interactive.",
+      "deprecated": {
+        "since": "1.14",
+        "text": "This control is replaced by sap.m.ProgressIndicator"
+      },
+      "ui5-metamodel": true,
+      "ui5-metadata": {
+        "stereotype": "control",
+        "properties": [
+          {
+            "name": "visible",
+            "type": "boolean",
+            "defaultValue": true,
+            "group": "Behavior",
+            "visibility": "public",
+            "description": "Invisible controls are not rendered",
+            "methods": ["getVisible", "setVisible"]
+          },
+          {
+            "name": "enabled",
+            "type": "boolean",
+            "defaultValue": true,
+            "group": "Behavior",
+            "visibility": "public",
+            "description": "Switches enabled state of the control. Disabled fields have different colors, and cannot be focused.",
+            "methods": ["getEnabled", "setEnabled"]
+          },
+          {
+            "name": "barColor",
+            "type": "sap.ui.core.BarColor",
+            "defaultValue": "NEUTRAL",
+            "group": "Appearance",
+            "visibility": "public",
+            "description": "The color of the bar. Enumeration sap.ui.core.BarColor provides CRITICAL (yellow), NEGATIVE (red), POSITIVE (green), NEUTRAL (blue) (default value).",
+            "methods": ["getBarColor", "setBarColor"]
+          },
+          {
+            "name": "displayValue",
+            "type": "string",
+            "defaultValue": "0%",
+            "group": "Appearance",
+            "visibility": "public",
+            "description": "The text value to be displayed in the bar.",
+            "methods": ["getDisplayValue", "setDisplayValue"]
+          },
+          {
+            "name": "percentValue",
+            "type": "int",
+            "defaultValue": 0,
+            "group": "Data",
+            "visibility": "public",
+            "description": "The numerical value for the displayed length of the progress bar.",
+            "methods": ["getPercentValue", "setPercentValue"]
+          },
+          {
+            "name": "showValue",
+            "type": "boolean",
+            "defaultValue": true,
+            "group": "Appearance",
+            "visibility": "public",
+            "description": "Specifies whether the current value shall be rendered inside the bar.",
+            "methods": ["getShowValue", "setShowValue"]
+          },
+          {
+            "name": "width",
+            "type": "sap.ui.core.CSSSize",
+            "defaultValue": "100%",
+            "group": "Dimension",
+            "visibility": "public",
+            "description": "The width of the control.",
+            "methods": ["getWidth", "setWidth"]
+          }
+        ]
+      },
+      "constructor": {
+        "visibility": "public",
+        "parameters": [
+          {
+            "name": "sId",
+            "type": "string",
+            "optional": true,
+            "description": "id for the new control, generated automatically if no id is given"
+          },
+          {
+            "name": "mSettings",
+            "type": "object",
+            "optional": true,
+            "description": "initial settings for the new control"
+          }
+        ],
+        "description": "Constructor for a new ProgressIndicator.\n\nAccepts an object literal <code>mSettings</code> that defines initial property values, aggregated and associated objects as well as event handlers. See {@link sap.ui.base.ManagedObject#constructor} for a general description of the syntax of the settings object."
+      },
+      "methods": [
+        {
+          "name": "extend",
+          "visibility": "public",
+          "static": true,
+          "returnValue": {
+            "type": "function",
+            "description": "Created class / constructor function"
+          },
+          "parameters": [
+            {
+              "name": "sClassName",
+              "type": "string",
+              "optional": false,
+              "description": "Name of the class being created"
+            },
+            {
+              "name": "oClassInfo",
+              "type": "object",
+              "optional": true,
+              "description": "Object literal with information about the class"
+            },
+            {
+              "name": "FNMetaImpl",
+              "type": "function",
+              "optional": true,
+              "description": "Constructor function for the metadata object; if not given, it defaults to <code>sap.ui.core.ElementMetadata</code>"
+            }
+          ],
+          "description": "Creates a new subclass of class sap.me.ProgressIndicator with name <code>sClassName</code> and enriches it with the information contained in <code>oClassInfo</code>.\n\n<code>oClassInfo</code> might contain the same kind of information as described in {@link sap.ui.core.Control.extend}."
+        },
+        {
+          "name": "getBarColor",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.ui.core.BarColor",
+            "description": "Value of property <code>barColor</code>"
+          },
+          "description": "Gets current value of property {@link #getBarColor barColor}.\n\nThe color of the bar. Enumeration sap.ui.core.BarColor provides CRITICAL (yellow), NEGATIVE (red), POSITIVE (green), NEUTRAL (blue) (default value).\n\nDefault value is <code>NEUTRAL</code>."
+        },
+        {
+          "name": "getDisplayValue",
+          "visibility": "public",
+          "returnValue": {
+            "type": "string",
+            "description": "Value of property <code>displayValue</code>"
+          },
+          "description": "Gets current value of property {@link #getDisplayValue displayValue}.\n\nThe text value to be displayed in the bar.\n\nDefault value is <code>0%</code>."
+        },
+        {
+          "name": "getEnabled",
+          "visibility": "public",
+          "returnValue": {
+            "type": "boolean",
+            "description": "Value of property <code>enabled</code>"
+          },
+          "description": "Gets current value of property {@link #getEnabled enabled}.\n\nSwitches enabled state of the control. Disabled fields have different colors, and cannot be focused.\n\nDefault value is <code>true</code>."
+        },
+        {
+          "name": "getMetadata",
+          "visibility": "public",
+          "static": true,
+          "returnValue": {
+            "type": "sap.ui.base.Metadata",
+            "description": "Metadata object describing this class"
+          },
+          "description": "Returns a metadata object for class sap.me.ProgressIndicator."
+        },
+        {
+          "name": "getPercentValue",
+          "visibility": "public",
+          "returnValue": {
+            "type": "int",
+            "description": "Value of property <code>percentValue</code>"
+          },
+          "description": "Gets current value of property {@link #getPercentValue percentValue}.\n\nThe numerical value for the displayed length of the progress bar.\n\nDefault value is <code>0</code>."
+        },
+        {
+          "name": "getShowValue",
+          "visibility": "public",
+          "returnValue": {
+            "type": "boolean",
+            "description": "Value of property <code>showValue</code>"
+          },
+          "description": "Gets current value of property {@link #getShowValue showValue}.\n\nSpecifies whether the current value shall be rendered inside the bar.\n\nDefault value is <code>true</code>."
+        },
+        {
+          "name": "getVisible",
+          "visibility": "public",
+          "returnValue": {
+            "type": "boolean",
+            "description": "Value of property <code>visible</code>"
+          },
+          "description": "Gets current value of property {@link #getVisible visible}.\n\nInvisible controls are not rendered\n\nDefault value is <code>true</code>."
+        },
+        {
+          "name": "getWidth",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.ui.core.CSSSize",
+            "description": "Value of property <code>width</code>"
+          },
+          "description": "Gets current value of property {@link #getWidth width}.\n\nThe width of the control.\n\nDefault value is <code>100%</code>."
+        },
+        {
+          "name": "setBarColor",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.ProgressIndicator",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "sBarColor",
+              "type": "sap.ui.core.BarColor",
+              "optional": false,
+              "description": "New value for property <code>barColor</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getBarColor barColor}.\n\nThe color of the bar. Enumeration sap.ui.core.BarColor provides CRITICAL (yellow), NEGATIVE (red), POSITIVE (green), NEUTRAL (blue) (default value).\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored.\n\nDefault value is <code>NEUTRAL</code>."
+        },
+        {
+          "name": "setDisplayValue",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.ProgressIndicator",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "sDisplayValue",
+              "type": "string",
+              "optional": false,
+              "description": "New value for property <code>displayValue</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getDisplayValue displayValue}.\n\nThe text value to be displayed in the bar.\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored.\n\nDefault value is <code>0%</code>."
+        },
+        {
+          "name": "setEnabled",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.ProgressIndicator",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "bEnabled",
+              "type": "boolean",
+              "optional": false,
+              "description": "New value for property <code>enabled</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getEnabled enabled}.\n\nSwitches enabled state of the control. Disabled fields have different colors, and cannot be focused.\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored.\n\nDefault value is <code>true</code>."
+        },
+        {
+          "name": "setPercentValue",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.ProgressIndicator",
+            "description": "<code>this</code> to allow method chaining"
+          },
+          "parameters": [
+            { "name": "iPercentValue", "type": "undefined", "optional": false }
+          ],
+          "description": "Property setter for the PercentValue A new rendering is not necessary, only the bar has to be moved."
+        },
+        {
+          "name": "setShowValue",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.ProgressIndicator",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "bShowValue",
+              "type": "boolean",
+              "optional": false,
+              "description": "New value for property <code>showValue</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getShowValue showValue}.\n\nSpecifies whether the current value shall be rendered inside the bar.\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored.\n\nDefault value is <code>true</code>."
+        },
+        {
+          "name": "setVisible",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.ProgressIndicator",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "bVisible",
+              "type": "boolean",
+              "optional": false,
+              "description": "New value for property <code>visible</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getVisible visible}.\n\nInvisible controls are not rendered\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored.\n\nDefault value is <code>true</code>."
+        },
+        {
+          "name": "setWidth",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.ProgressIndicator",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "sWidth",
+              "type": "sap.ui.core.CSSSize",
+              "optional": false,
+              "description": "New value for property <code>width</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getWidth width}.\n\nThe width of the control.\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored.\n\nDefault value is <code>100%</code>."
+        }
+      ]
+    },
+    {
+      "kind": "class",
+      "name": "sap.me.TabContainer",
+      "basename": "TabContainer",
+      "resource": "sap/me/TabContainer.js",
+      "module": "sap/me/TabContainer",
+      "export": "",
+      "static": true,
+      "visibility": "public",
+      "extends": "sap.ui.core.Control",
+      "description": "The TabContainer allow to stack 1 to 4 contents in a view with corresponding icons",
+      "deprecated": {
+        "since": "1.15.0",
+        "text": "The functionality of this control is merged with the sap.m.IconTabBar. Please use the sap.m.IconTabBar instead! This control will not be supported anymore."
+      },
+      "ui5-metamodel": true,
+      "ui5-metadata": {
+        "stereotype": "control",
+        "properties": [
+          {
+            "name": "selectedTab",
+            "type": "int",
+            "defaultValue": null,
+            "group": "Data",
+            "visibility": "public",
+            "description": "Return the index of the selected tab",
+            "methods": ["getSelectedTab", "setSelectedTab"]
+          },
+          {
+            "name": "badgeInfo",
+            "type": "int",
+            "defaultValue": null,
+            "group": "Data",
+            "visibility": "public",
+            "description": "The number to display in the badge for the info tab",
+            "methods": ["getBadgeInfo", "setBadgeInfo"]
+          },
+          {
+            "name": "badgeNotes",
+            "type": "int",
+            "defaultValue": null,
+            "group": "Data",
+            "visibility": "public",
+            "description": "The number to display in the badge for the notes tab",
+            "methods": ["getBadgeNotes", "setBadgeNotes"]
+          },
+          {
+            "name": "badgeAttachments",
+            "type": "int",
+            "defaultValue": null,
+            "group": "Data",
+            "visibility": "public",
+            "description": "The number to display in the badge for the attachments tab",
+            "methods": ["getBadgeAttachments", "setBadgeAttachments"]
+          },
+          {
+            "name": "badgePeople",
+            "type": "int",
+            "defaultValue": null,
+            "group": "Data",
+            "visibility": "public",
+            "description": "The number to display in the badge for the people tab",
+            "methods": ["getBadgePeople", "setBadgePeople"]
+          },
+          {
+            "name": "expandable",
+            "type": "boolean",
+            "defaultValue": true,
+            "group": "Misc",
+            "visibility": "public",
+            "description": "Indicates if the tab can be collapsed and expanded",
+            "methods": ["getExpandable", "setExpandable"]
+          },
+          {
+            "name": "expanded",
+            "type": "boolean",
+            "defaultValue": true,
+            "group": "Misc",
+            "visibility": "public",
+            "description": "Indicates if the actual tab is expanded or not",
+            "methods": ["getExpanded", "setExpanded"]
+          },
+          {
+            "name": "visible",
+            "type": "boolean",
+            "defaultValue": true,
+            "group": "Misc",
+            "visibility": "public",
+            "description": "setter for visible property",
+            "methods": ["getVisible", "setVisible"]
+          }
+        ],
+        "aggregations": [
+          {
+            "name": "tabs",
+            "singularName": "tab",
+            "type": "sap.ui.core.Icon",
+            "cardinality": "0..n",
+            "visibility": "hidden",
+            "description": "The tab icons in order",
+            "methods": [
+              "getTabs",
+              "destroyTabs",
+              "insertTab",
+              "addTab",
+              "removeTab",
+              "indexOfTab",
+              "removeAllTabs"
+            ]
+          },
+          {
+            "name": "contentInfo",
+            "singularName": "contentInfo",
+            "type": "sap.ui.core.Control",
+            "cardinality": "0..1",
+            "visibility": "public",
+            "description": "The info tab",
+            "methods": [
+              "getContentInfo",
+              "destroyContentInfo",
+              "setContentInfo"
+            ]
+          },
+          {
+            "name": "contentAttachments",
+            "singularName": "contentAttachment",
+            "type": "sap.ui.core.Control",
+            "cardinality": "0..1",
+            "visibility": "public",
+            "description": "The attachments tab",
+            "methods": [
+              "getContentAttachments",
+              "destroyContentAttachments",
+              "setContentAttachments"
+            ]
+          },
+          {
+            "name": "contentNotes",
+            "singularName": "contentNote",
+            "type": "sap.ui.core.Control",
+            "cardinality": "0..1",
+            "visibility": "public",
+            "description": "The notes tab",
+            "methods": [
+              "getContentNotes",
+              "destroyContentNotes",
+              "setContentNotes"
+            ]
+          },
+          {
+            "name": "contentPeople",
+            "singularName": "contentPeople",
+            "type": "sap.ui.core.Control",
+            "cardinality": "0..1",
+            "visibility": "public",
+            "description": "The people tab",
+            "methods": [
+              "getContentPeople",
+              "destroyContentPeople",
+              "setContentPeople"
+            ]
+          },
+          {
+            "name": "badges",
+            "singularName": "badge",
+            "type": "sap.ui.core.Control",
+            "cardinality": "0..n",
+            "visibility": "hidden",
+            "methods": [
+              "getBadges",
+              "destroyBadges",
+              "insertBadge",
+              "addBadge",
+              "removeBadge",
+              "indexOfBadge",
+              "removeAllBadges"
+            ]
+          }
+        ],
+        "events": [
+          {
+            "name": "select",
+            "visibility": "public",
+            "description": "Indicates that the selected tab has changed",
+            "methods": ["attachSelect", "detachSelect", "fireSelect"]
+          },
+          {
+            "name": "expand",
+            "visibility": "public",
+            "description": "Indicates that the tab will expand",
+            "methods": ["attachExpand", "detachExpand", "fireExpand"]
+          },
+          {
+            "name": "collapse",
+            "visibility": "public",
+            "description": "Indicates that the tab will collapse",
+            "methods": ["attachCollapse", "detachCollapse", "fireCollapse"]
+          }
+        ]
+      },
+      "constructor": {
+        "visibility": "public",
+        "parameters": [
+          {
+            "name": "sId",
+            "type": "string",
+            "optional": true,
+            "description": "id for the new control, generated automatically if no id is given"
+          },
+          {
+            "name": "mSettings",
+            "type": "object",
+            "optional": true,
+            "description": "initial settings for the new control"
+          }
+        ],
+        "description": "Constructor for a new TabContainer.\n\nAccepts an object literal <code>mSettings</code> that defines initial property values, aggregated and associated objects as well as event handlers. See {@link sap.ui.base.ManagedObject#constructor} for a general description of the syntax of the settings object."
+      },
+      "events": [
+        {
+          "name": "collapse",
+          "visibility": "public",
+          "parameters": [
+            {
+              "name": "oControlEvent",
+              "type": "sap.ui.base.Event",
+              "parameterProperties": {
+                "getSource": {
+                  "name": "getSource",
+                  "type": "sap.ui.base.EventProvider",
+                  "optional": false
+                },
+                "getParameters": {
+                  "name": "getParameters",
+                  "type": "object",
+                  "optional": false
+                }
+              }
+            }
+          ],
+          "description": "Indicates that the tab will collapse"
+        },
+        {
+          "name": "expand",
+          "visibility": "public",
+          "parameters": [
+            {
+              "name": "oControlEvent",
+              "type": "sap.ui.base.Event",
+              "parameterProperties": {
+                "getSource": {
+                  "name": "getSource",
+                  "type": "sap.ui.base.EventProvider",
+                  "optional": false
+                },
+                "getParameters": {
+                  "name": "getParameters",
+                  "type": "object",
+                  "optional": false
+                }
+              }
+            }
+          ],
+          "description": "Indicates that the tab will expand"
+        },
+        {
+          "name": "select",
+          "visibility": "public",
+          "parameters": [
+            {
+              "name": "oControlEvent",
+              "type": "sap.ui.base.Event",
+              "parameterProperties": {
+                "getSource": {
+                  "name": "getSource",
+                  "type": "sap.ui.base.EventProvider",
+                  "optional": false
+                },
+                "getParameters": {
+                  "name": "getParameters",
+                  "type": "object",
+                  "optional": false
+                }
+              }
+            }
+          ],
+          "description": "Indicates that the selected tab has changed"
+        }
+      ],
+      "methods": [
+        {
+          "name": "attachCollapse",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.TabContainer",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "oData",
+              "type": "object",
+              "optional": true,
+              "description": "An application-specific payload object that will be passed to the event handler along with the event object when firing the event"
+            },
+            {
+              "name": "fnFunction",
+              "type": "function",
+              "optional": false,
+              "description": "The function to be called when the event occurs"
+            },
+            {
+              "name": "oListener",
+              "type": "object",
+              "optional": true,
+              "description": "Context object to call the event handler with. Defaults to this <code>sap.me.TabContainer</code> itself"
+            }
+          ],
+          "description": "Attaches event handler <code>fnFunction</code> to the {@link #event:collapse collapse} event of this <code>sap.me.TabContainer</code>.\n\nWhen called, the context of the event handler (its <code>this</code>) will be bound to <code>oListener</code> if specified, otherwise it will be bound to this <code>sap.me.TabContainer</code> itself.\n\nIndicates that the tab will collapse"
+        },
+        {
+          "name": "attachExpand",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.TabContainer",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "oData",
+              "type": "object",
+              "optional": true,
+              "description": "An application-specific payload object that will be passed to the event handler along with the event object when firing the event"
+            },
+            {
+              "name": "fnFunction",
+              "type": "function",
+              "optional": false,
+              "description": "The function to be called when the event occurs"
+            },
+            {
+              "name": "oListener",
+              "type": "object",
+              "optional": true,
+              "description": "Context object to call the event handler with. Defaults to this <code>sap.me.TabContainer</code> itself"
+            }
+          ],
+          "description": "Attaches event handler <code>fnFunction</code> to the {@link #event:expand expand} event of this <code>sap.me.TabContainer</code>.\n\nWhen called, the context of the event handler (its <code>this</code>) will be bound to <code>oListener</code> if specified, otherwise it will be bound to this <code>sap.me.TabContainer</code> itself.\n\nIndicates that the tab will expand"
+        },
+        {
+          "name": "attachSelect",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.TabContainer",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "oData",
+              "type": "object",
+              "optional": true,
+              "description": "An application-specific payload object that will be passed to the event handler along with the event object when firing the event"
+            },
+            {
+              "name": "fnFunction",
+              "type": "function",
+              "optional": false,
+              "description": "The function to be called when the event occurs"
+            },
+            {
+              "name": "oListener",
+              "type": "object",
+              "optional": true,
+              "description": "Context object to call the event handler with. Defaults to this <code>sap.me.TabContainer</code> itself"
+            }
+          ],
+          "description": "Attaches event handler <code>fnFunction</code> to the {@link #event:select select} event of this <code>sap.me.TabContainer</code>.\n\nWhen called, the context of the event handler (its <code>this</code>) will be bound to <code>oListener</code> if specified, otherwise it will be bound to this <code>sap.me.TabContainer</code> itself.\n\nIndicates that the selected tab has changed"
+        },
+        {
+          "name": "destroyContentAttachments",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.TabContainer",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "description": "Destroys the contentAttachments in the aggregation {@link #getContentAttachments contentAttachments}."
+        },
+        {
+          "name": "destroyContentInfo",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.TabContainer",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "description": "Destroys the contentInfo in the aggregation {@link #getContentInfo contentInfo}."
+        },
+        {
+          "name": "destroyContentNotes",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.TabContainer",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "description": "Destroys the contentNotes in the aggregation {@link #getContentNotes contentNotes}."
+        },
+        {
+          "name": "destroyContentPeople",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.TabContainer",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "description": "Destroys the contentPeople in the aggregation {@link #getContentPeople contentPeople}."
+        },
+        {
+          "name": "detachCollapse",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.TabContainer",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "fnFunction",
+              "type": "function",
+              "optional": false,
+              "description": "The function to be called, when the event occurs"
+            },
+            {
+              "name": "oListener",
+              "type": "object",
+              "optional": true,
+              "description": "Context object on which the given function had to be called"
+            }
+          ],
+          "description": "Detaches event handler <code>fnFunction</code> from the {@link #event:collapse collapse} event of this <code>sap.me.TabContainer</code>.\n\nThe passed function and listener object must match the ones used for event registration."
+        },
+        {
+          "name": "detachExpand",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.TabContainer",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "fnFunction",
+              "type": "function",
+              "optional": false,
+              "description": "The function to be called, when the event occurs"
+            },
+            {
+              "name": "oListener",
+              "type": "object",
+              "optional": true,
+              "description": "Context object on which the given function had to be called"
+            }
+          ],
+          "description": "Detaches event handler <code>fnFunction</code> from the {@link #event:expand expand} event of this <code>sap.me.TabContainer</code>.\n\nThe passed function and listener object must match the ones used for event registration."
+        },
+        {
+          "name": "detachSelect",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.TabContainer",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "fnFunction",
+              "type": "function",
+              "optional": false,
+              "description": "The function to be called, when the event occurs"
+            },
+            {
+              "name": "oListener",
+              "type": "object",
+              "optional": true,
+              "description": "Context object on which the given function had to be called"
+            }
+          ],
+          "description": "Detaches event handler <code>fnFunction</code> from the {@link #event:select select} event of this <code>sap.me.TabContainer</code>.\n\nThe passed function and listener object must match the ones used for event registration."
+        },
+        {
+          "name": "extend",
+          "visibility": "public",
+          "static": true,
+          "returnValue": {
+            "type": "function",
+            "description": "Created class / constructor function"
+          },
+          "parameters": [
+            {
+              "name": "sClassName",
+              "type": "string",
+              "optional": false,
+              "description": "Name of the class being created"
+            },
+            {
+              "name": "oClassInfo",
+              "type": "object",
+              "optional": true,
+              "description": "Object literal with information about the class"
+            },
+            {
+              "name": "FNMetaImpl",
+              "type": "function",
+              "optional": true,
+              "description": "Constructor function for the metadata object; if not given, it defaults to <code>sap.ui.core.ElementMetadata</code>"
+            }
+          ],
+          "description": "Creates a new subclass of class sap.me.TabContainer with name <code>sClassName</code> and enriches it with the information contained in <code>oClassInfo</code>.\n\n<code>oClassInfo</code> might contain the same kind of information as described in {@link sap.ui.core.Control.extend}."
+        },
+        {
+          "name": "fireCollapse",
+          "visibility": "protected",
+          "returnValue": {
+            "type": "sap.me.TabContainer",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "mParameters",
+              "type": "object",
+              "optional": true,
+              "description": "Parameters to pass along with the event"
+            }
+          ],
+          "description": "Fires event {@link #event:collapse collapse} to attached listeners."
+        },
+        {
+          "name": "fireExpand",
+          "visibility": "protected",
+          "returnValue": {
+            "type": "sap.me.TabContainer",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "mParameters",
+              "type": "object",
+              "optional": true,
+              "description": "Parameters to pass along with the event"
+            }
+          ],
+          "description": "Fires event {@link #event:expand expand} to attached listeners."
+        },
+        {
+          "name": "fireSelect",
+          "visibility": "protected",
+          "returnValue": {
+            "type": "boolean",
+            "description": "Whether or not to prevent the default action"
+          },
+          "parameters": [
+            {
+              "name": "mParameters",
+              "type": "object",
+              "optional": true,
+              "description": "Parameters to pass along with the event"
+            }
+          ],
+          "description": "Fires event {@link #event:select select} to attached listeners.\n\nListeners may prevent the default action of this event by using the <code>preventDefault</code>-method on the event object."
+        },
+        {
+          "name": "getBadgeAttachments",
+          "visibility": "public",
+          "returnValue": {
+            "type": "int",
+            "description": "Value of property <code>badgeAttachments</code>"
+          },
+          "description": "Gets current value of property {@link #getBadgeAttachments badgeAttachments}.\n\nThe number to display in the badge for the attachments tab"
+        },
+        {
+          "name": "getBadgeInfo",
+          "visibility": "public",
+          "returnValue": {
+            "type": "int",
+            "description": "Value of property <code>badgeInfo</code>"
+          },
+          "description": "Gets current value of property {@link #getBadgeInfo badgeInfo}.\n\nThe number to display in the badge for the info tab"
+        },
+        {
+          "name": "getBadgeNotes",
+          "visibility": "public",
+          "returnValue": {
+            "type": "int",
+            "description": "Value of property <code>badgeNotes</code>"
+          },
+          "description": "Gets current value of property {@link #getBadgeNotes badgeNotes}.\n\nThe number to display in the badge for the notes tab"
+        },
+        {
+          "name": "getBadgePeople",
+          "visibility": "public",
+          "returnValue": {
+            "type": "int",
+            "description": "Value of property <code>badgePeople</code>"
+          },
+          "description": "Gets current value of property {@link #getBadgePeople badgePeople}.\n\nThe number to display in the badge for the people tab"
+        },
+        {
+          "name": "getContentAttachments",
+          "visibility": "public",
+          "returnValue": { "type": "sap.ui.core.Control" },
+          "description": "Gets content of aggregation {@link #getContentAttachments contentAttachments}.\n\nThe attachments tab"
+        },
+        {
+          "name": "getContentInfo",
+          "visibility": "public",
+          "returnValue": { "type": "sap.ui.core.Control" },
+          "description": "Gets content of aggregation {@link #getContentInfo contentInfo}.\n\nThe info tab"
+        },
+        {
+          "name": "getContentNotes",
+          "visibility": "public",
+          "returnValue": { "type": "sap.ui.core.Control" },
+          "description": "Gets content of aggregation {@link #getContentNotes contentNotes}.\n\nThe notes tab"
+        },
+        {
+          "name": "getContentPeople",
+          "visibility": "public",
+          "returnValue": { "type": "sap.ui.core.Control" },
+          "description": "Gets content of aggregation {@link #getContentPeople contentPeople}.\n\nThe people tab"
+        },
+        {
+          "name": "getExpandable",
+          "visibility": "public",
+          "returnValue": {
+            "type": "boolean",
+            "description": "Value of property <code>expandable</code>"
+          },
+          "description": "Gets current value of property {@link #getExpandable expandable}.\n\nIndicates if the tab can be collapsed and expanded\n\nDefault value is <code>true</code>."
+        },
+        {
+          "name": "getExpanded",
+          "visibility": "public",
+          "returnValue": {
+            "type": "boolean",
+            "description": "Value of property <code>expanded</code>"
+          },
+          "description": "Gets current value of property {@link #getExpanded expanded}.\n\nIndicates if the actual tab is expanded or not\n\nDefault value is <code>true</code>."
+        },
+        {
+          "name": "getMetadata",
+          "visibility": "public",
+          "static": true,
+          "returnValue": {
+            "type": "sap.ui.base.Metadata",
+            "description": "Metadata object describing this class"
+          },
+          "description": "Returns a metadata object for class sap.me.TabContainer."
+        },
+        {
+          "name": "getSelectedTab",
+          "visibility": "public",
+          "returnValue": {
+            "type": "int",
+            "description": "Value of property <code>selectedTab</code>"
+          },
+          "description": "Gets current value of property {@link #getSelectedTab selectedTab}.\n\nReturn the index of the selected tab"
+        },
+        {
+          "name": "getVisible",
+          "visibility": "public",
+          "returnValue": {
+            "type": "boolean",
+            "description": "Value of property <code>visible</code>"
+          },
+          "description": "Gets current value of property {@link #getVisible visible}.\n\nsetter for visible property\n\nDefault value is <code>true</code>."
+        },
+        {
+          "name": "setBadgeAttachments",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.TabContainer",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "iBadgeAttachments",
+              "type": "int",
+              "optional": false,
+              "description": "New value for property <code>badgeAttachments</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getBadgeAttachments badgeAttachments}.\n\nThe number to display in the badge for the attachments tab\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored."
+        },
+        {
+          "name": "setBadgeInfo",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.TabContainer",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "iBadgeInfo",
+              "type": "int",
+              "optional": false,
+              "description": "New value for property <code>badgeInfo</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getBadgeInfo badgeInfo}.\n\nThe number to display in the badge for the info tab\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored."
+        },
+        {
+          "name": "setBadgeNotes",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.TabContainer",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "iBadgeNotes",
+              "type": "int",
+              "optional": false,
+              "description": "New value for property <code>badgeNotes</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getBadgeNotes badgeNotes}.\n\nThe number to display in the badge for the notes tab\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored."
+        },
+        {
+          "name": "setBadgePeople",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.TabContainer",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "iBadgePeople",
+              "type": "int",
+              "optional": false,
+              "description": "New value for property <code>badgePeople</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getBadgePeople badgePeople}.\n\nThe number to display in the badge for the people tab\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored."
+        },
+        {
+          "name": "setContentAttachments",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.TabContainer",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "oContentAttachments",
+              "type": "sap.ui.core.Control",
+              "optional": false,
+              "description": "The contentAttachments to set"
+            }
+          ],
+          "description": "Sets the aggregated {@link #getContentAttachments contentAttachments}."
+        },
+        {
+          "name": "setContentInfo",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.TabContainer",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "oContentInfo",
+              "type": "sap.ui.core.Control",
+              "optional": false,
+              "description": "The contentInfo to set"
+            }
+          ],
+          "description": "Sets the aggregated {@link #getContentInfo contentInfo}."
+        },
+        {
+          "name": "setContentNotes",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.TabContainer",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "oContentNotes",
+              "type": "sap.ui.core.Control",
+              "optional": false,
+              "description": "The contentNotes to set"
+            }
+          ],
+          "description": "Sets the aggregated {@link #getContentNotes contentNotes}."
+        },
+        {
+          "name": "setContentPeople",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.TabContainer",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "oContentPeople",
+              "type": "sap.ui.core.Control",
+              "optional": false,
+              "description": "The contentPeople to set"
+            }
+          ],
+          "description": "Sets the aggregated {@link #getContentPeople contentPeople}."
+        },
+        {
+          "name": "setExpandable",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.TabContainer",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "bExpandable",
+              "type": "boolean",
+              "optional": false,
+              "description": "New value for property <code>expandable</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getExpandable expandable}.\n\nIndicates if the tab can be collapsed and expanded\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored.\n\nDefault value is <code>true</code>."
+        },
+        {
+          "name": "setExpanded",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.TabContainer",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "bExpanded",
+              "type": "boolean",
+              "optional": false,
+              "description": "New value for property <code>expanded</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getExpanded expanded}.\n\nIndicates if the actual tab is expanded or not\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored.\n\nDefault value is <code>true</code>."
+        },
+        {
+          "name": "setSelectedTab",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.TabContainer",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "iSelectedTab",
+              "type": "int",
+              "optional": false,
+              "description": "New value for property <code>selectedTab</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getSelectedTab selectedTab}.\n\nReturn the index of the selected tab\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored."
+        },
+        {
+          "name": "setVisible",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.me.TabContainer",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "bVisible",
+              "type": "boolean",
+              "optional": false,
+              "description": "New value for property <code>visible</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getVisible visible}.\n\nsetter for visible property\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored.\n\nDefault value is <code>true</code>."
+        }
+      ]
+    }
+  ]
+}

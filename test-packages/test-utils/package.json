@@ -16,11 +16,16 @@
   "dependencies": {
     "@ui5-language-assistant/semantic-model": "^1.0.0"
   },
+  "devDependencies": {
+    "node-fetch": "2.6.0",
+    "@types/node-fetch": "2.5.5"
+  },
   "scripts": {
     "ci": "npm-run-all clean compile lint",
     "clean": "rimraf ./lib ./coverage ./nyc_output",
     "compile": "yarn run clean && tsc -p .",
     "compile:watch": "tsc -p . --watch",
-    "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore"
+    "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore",
+    "download-resources": "node ./lib/src/utils/download-ui5-resources.js"
   }
 }

@@ -1,0 +1,1731 @@
+{
+  "$schema-ref": "http://schemas.sap.com/sapui5/designtime/api.json/1.0",
+  "version": "1.71.5",
+  "library": "sap.rules.ui",
+  "symbols": [
+    {
+      "kind": "namespace",
+      "name": "sap.rules.ui",
+      "basename": "ui",
+      "resource": "sap/rules/ui/library.js",
+      "module": "sap/rules/ui/library",
+      "export": "",
+      "static": true,
+      "visibility": "public",
+      "description": "UI5 library: sap.rules.ui."
+    },
+    {
+      "kind": "enum",
+      "name": "sap.rules.ui.DecisionTableCellFormat",
+      "basename": "DecisionTableCellFormat",
+      "resource": "sap/rules/ui/library.js",
+      "module": "sap/rules/ui/library",
+      "export": "DecisionTableCellFormat",
+      "static": true,
+      "visibility": "public",
+      "description": "An enumeration that defines how a cell in a decision table is formulated by the rule creator.",
+      "deprecated": {
+        "text": "This attribute is deprecated since version 1.52.8, use the property decisionTableFormat."
+      },
+      "properties": [
+        {
+          "name": "Both",
+          "visibility": "public",
+          "static": true,
+          "type": "string",
+          "description": "Specifies that both rule formats are available in the decision table; allowing the rule creator to choose whether to formulate the decision table cells in either the basic or advanced format."
+        },
+        {
+          "name": "Guided",
+          "visibility": "public",
+          "static": true,
+          "type": "string",
+          "description": "Specifies that the content of the decision table cell is restricted to values relevant to the data type of the table column's expression."
+        },
+        {
+          "name": "Text",
+          "visibility": "public",
+          "static": true,
+          "type": "string",
+          "description": "Specifies that the content of the decision table cell receives all possible suggestions (relevant functions, attributes and values) that are relevant to the data type of the table column's expression."
+        }
+      ]
+    },
+    {
+      "kind": "class",
+      "name": "sap.rules.ui.DecisionTableConfiguration",
+      "basename": "DecisionTableConfiguration",
+      "resource": "sap/rules/ui/DecisionTableConfiguration.js",
+      "module": "sap/rules/ui/DecisionTableConfiguration",
+      "export": "",
+      "static": true,
+      "visibility": "public",
+      "since": "1.4",
+      "extends": "sap.ui.core.Element",
+      "description": "The <code>sap.rules.ui.DecisionTableConfiguration</code> element provides the ability to define specific properties that will be applied when rendering the <code>sap.rules.ui.RuleBuilder</code> in decision table mode.",
+      "ui5-metamodel": true,
+      "ui5-metadata": {
+        "stereotype": "element",
+        "properties": [
+          {
+            "name": "cellFormat",
+            "type": "sap.rules.ui.DecisionTableCellFormat",
+            "defaultValue": "Both",
+            "group": "Misc",
+            "visibility": "public",
+            "description": "The value determines the user input mode for the corresponding rule cells when creating or editing a rule.",
+            "deprecated": {
+              "text": "This attribute is deprecated since version 1.52.8, use the decisionTableFormat property."
+            },
+            "methods": ["getCellFormat", "setCellFormat"]
+          },
+          {
+            "name": "hitPolicies",
+            "type": "sap.rules.ui.RuleHitPolicy[]",
+            "defaultValue": ["FirstMatch", "AllMatch"],
+            "group": "Misc",
+            "visibility": "public",
+            "description": "The value determines how the results of the decision table are evaluated when more than one rule is matched for a given set of inputs.",
+            "methods": ["getHitPolicies", "setHitPolicies"]
+          },
+          {
+            "name": "enableSettings",
+            "type": "boolean",
+            "defaultValue": false,
+            "group": "Misc",
+            "visibility": "public",
+            "description": "The value determines whether the Settings button is displayed in a decision table when the control is used with S/4 HANA 17.05 (Cloud) or 17.09 (On Premise) and higher (On Premise).",
+            "methods": ["getEnableSettings", "setEnableSettings"]
+          },
+          {
+            "name": "decisionTableFormat",
+            "type": "sap.rules.ui.DecisionTableFormat",
+            "defaultValue": "CellFormat",
+            "group": "Misc",
+            "visibility": "public",
+            "description": "The value determines whether the user can set the rendering of the decision Table to be based on cellFormat or rule Format",
+            "methods": ["getDecisionTableFormat", "setDecisionTableFormat"]
+          },
+          {
+            "name": "threshold",
+            "type": "int",
+            "defaultValue": 30,
+            "group": "Misc",
+            "visibility": "public",
+            "description": "The threshold defines how many additional (not yet visible records) shall be pre-fetched to enable smooth scrolling. The threshold is always added to the visibleRowCount. If the visibleRowCount is 10 and the threshold is 100, there will be 110 records fetched with the initial load.",
+            "methods": ["getThreshold", "setThreshold"]
+          },
+          {
+            "name": "visibleRowCount",
+            "type": "int",
+            "defaultValue": 30,
+            "group": "Misc",
+            "visibility": "public",
+            "description": "Number of visible rows of the table.",
+            "methods": ["getVisibleRowCount", "setVisibleRowCount"]
+          }
+        ],
+        "events": [
+          {
+            "name": "change",
+            "visibility": "public",
+            "parameters": {
+              "name": { "name": "name", "type": "" },
+              "value": { "name": "value", "type": "" }
+            },
+            "methods": ["attachChange", "detachChange", "fireChange"]
+          }
+        ]
+      },
+      "constructor": {
+        "visibility": "public",
+        "parameters": [
+          {
+            "name": "sId",
+            "type": "string",
+            "optional": true,
+            "description": "id for the new control, generated automatically if no id is given"
+          },
+          {
+            "name": "mSettings",
+            "type": "object",
+            "optional": true,
+            "description": "initial settings for the new control"
+          }
+        ],
+        "description": "Constructor for a new DecisionTableConfiguration.\n\nAccepts an object literal <code>mSettings</code> that defines initial property values, aggregated and associated objects as well as event handlers. See {@link sap.ui.base.ManagedObject#constructor} for a general description of the syntax of the settings object."
+      },
+      "events": [
+        {
+          "name": "change",
+          "visibility": "public",
+          "parameters": [
+            {
+              "name": "oControlEvent",
+              "type": "sap.ui.base.Event",
+              "parameterProperties": {
+                "getSource": {
+                  "name": "getSource",
+                  "type": "sap.ui.base.EventProvider",
+                  "optional": false
+                },
+                "getParameters": {
+                  "name": "getParameters",
+                  "type": "object",
+                  "optional": false,
+                  "parameterProperties": {
+                    "name": {
+                      "name": "name",
+                      "type": "undefined",
+                      "optional": false
+                    },
+                    "value": {
+                      "name": "value",
+                      "type": "undefined",
+                      "optional": false
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "methods": [
+        {
+          "name": "attachChange",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.rules.ui.DecisionTableConfiguration",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "oData",
+              "type": "object",
+              "optional": true,
+              "description": "An application-specific payload object that will be passed to the event handler along with the event object when firing the event"
+            },
+            {
+              "name": "fnFunction",
+              "type": "function",
+              "optional": false,
+              "description": "The function to be called when the event occurs"
+            },
+            {
+              "name": "oListener",
+              "type": "object",
+              "optional": true,
+              "description": "Context object to call the event handler with. Defaults to this <code>sap.rules.ui.DecisionTableConfiguration</code> itself"
+            }
+          ],
+          "description": "Attaches event handler <code>fnFunction</code> to the {@link #event:change change} event of this <code>sap.rules.ui.DecisionTableConfiguration</code>.\n\nWhen called, the context of the event handler (its <code>this</code>) will be bound to <code>oListener</code> if specified, otherwise it will be bound to this <code>sap.rules.ui.DecisionTableConfiguration</code> itself."
+        },
+        {
+          "name": "detachChange",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.rules.ui.DecisionTableConfiguration",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "fnFunction",
+              "type": "function",
+              "optional": false,
+              "description": "The function to be called, when the event occurs"
+            },
+            {
+              "name": "oListener",
+              "type": "object",
+              "optional": true,
+              "description": "Context object on which the given function had to be called"
+            }
+          ],
+          "description": "Detaches event handler <code>fnFunction</code> from the {@link #event:change change} event of this <code>sap.rules.ui.DecisionTableConfiguration</code>.\n\nThe passed function and listener object must match the ones used for event registration."
+        },
+        {
+          "name": "extend",
+          "visibility": "public",
+          "static": true,
+          "returnValue": {
+            "type": "function",
+            "description": "Created class / constructor function"
+          },
+          "parameters": [
+            {
+              "name": "sClassName",
+              "type": "string",
+              "optional": false,
+              "description": "Name of the class being created"
+            },
+            {
+              "name": "oClassInfo",
+              "type": "object",
+              "optional": true,
+              "description": "Object literal with information about the class"
+            },
+            {
+              "name": "FNMetaImpl",
+              "type": "function",
+              "optional": true,
+              "description": "Constructor function for the metadata object; if not given, it defaults to <code>sap.ui.core.ElementMetadata</code>"
+            }
+          ],
+          "description": "Creates a new subclass of class sap.rules.ui.DecisionTableConfiguration with name <code>sClassName</code> and enriches it with the information contained in <code>oClassInfo</code>.\n\n<code>oClassInfo</code> might contain the same kind of information as described in {@link sap.ui.core.Element.extend}."
+        },
+        {
+          "name": "fireChange",
+          "visibility": "protected",
+          "returnValue": {
+            "type": "sap.rules.ui.DecisionTableConfiguration",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "mParameters",
+              "type": "object",
+              "optional": true,
+              "parameterProperties": {
+                "name": { "name": "name", "type": "any", "optional": true },
+                "value": { "name": "value", "type": "any", "optional": true }
+              },
+              "description": "Parameters to pass along with the event"
+            }
+          ],
+          "description": "Fires event {@link #event:change change} to attached listeners."
+        },
+        {
+          "name": "getCellFormat",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.rules.ui.DecisionTableCellFormat",
+            "description": "Value of property <code>cellFormat</code>"
+          },
+          "description": "Gets current value of property {@link #getCellFormat cellFormat}.\n\nThe value determines the user input mode for the corresponding rule cells when creating or editing a rule.\n\nDefault value is <code>Both</code>.",
+          "deprecated": {
+            "text": "This attribute is deprecated since version 1.52.8, use the decisionTableFormat property."
+          }
+        },
+        {
+          "name": "getDecisionTableFormat",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.rules.ui.DecisionTableFormat",
+            "description": "Value of property <code>decisionTableFormat</code>"
+          },
+          "description": "Gets current value of property {@link #getDecisionTableFormat decisionTableFormat}.\n\nThe value determines whether the user can set the rendering of the decision Table to be based on cellFormat or rule Format\n\nDefault value is <code>CellFormat</code>."
+        },
+        {
+          "name": "getEnableSettings",
+          "visibility": "public",
+          "returnValue": {
+            "type": "boolean",
+            "description": "Value of property <code>enableSettings</code>"
+          },
+          "description": "Gets current value of property {@link #getEnableSettings enableSettings}.\n\nThe value determines whether the Settings button is displayed in a decision table when the control is used with S/4 HANA 17.05 (Cloud) or 17.09 (On Premise) and higher (On Premise).\n\nDefault value is <code>false</code>."
+        },
+        {
+          "name": "getHitPolicies",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.rules.ui.RuleHitPolicy[]",
+            "description": "Value of property <code>hitPolicies</code>"
+          },
+          "description": "Gets current value of property {@link #getHitPolicies hitPolicies}.\n\nThe value determines how the results of the decision table are evaluated when more than one rule is matched for a given set of inputs.\n\nDefault value is <code>FirstMatch,AllMatch</code>."
+        },
+        {
+          "name": "getMetadata",
+          "visibility": "public",
+          "static": true,
+          "returnValue": {
+            "type": "sap.ui.base.Metadata",
+            "description": "Metadata object describing this class"
+          },
+          "description": "Returns a metadata object for class sap.rules.ui.DecisionTableConfiguration."
+        },
+        {
+          "name": "getThreshold",
+          "visibility": "public",
+          "returnValue": {
+            "type": "int",
+            "description": "Value of property <code>threshold</code>"
+          },
+          "description": "Gets current value of property {@link #getThreshold threshold}.\n\nThe threshold defines how many additional (not yet visible records) shall be pre-fetched to enable smooth scrolling. The threshold is always added to the visibleRowCount. If the visibleRowCount is 10 and the threshold is 100, there will be 110 records fetched with the initial load.\n\nDefault value is <code>30</code>."
+        },
+        {
+          "name": "getVisibleRowCount",
+          "visibility": "public",
+          "returnValue": {
+            "type": "int",
+            "description": "Value of property <code>visibleRowCount</code>"
+          },
+          "description": "Gets current value of property {@link #getVisibleRowCount visibleRowCount}.\n\nNumber of visible rows of the table.\n\nDefault value is <code>30</code>."
+        },
+        {
+          "name": "setCellFormat",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.rules.ui.DecisionTableConfiguration",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "sCellFormat",
+              "type": "sap.rules.ui.DecisionTableCellFormat",
+              "optional": false,
+              "description": "New value for property <code>cellFormat</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getCellFormat cellFormat}.\n\nThe value determines the user input mode for the corresponding rule cells when creating or editing a rule.\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored.\n\nDefault value is <code>Both</code>.",
+          "deprecated": {
+            "text": "This attribute is deprecated since version 1.52.8, use the decisionTableFormat property."
+          }
+        },
+        {
+          "name": "setDecisionTableFormat",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.rules.ui.DecisionTableConfiguration",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "sDecisionTableFormat",
+              "type": "sap.rules.ui.DecisionTableFormat",
+              "optional": false,
+              "description": "New value for property <code>decisionTableFormat</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getDecisionTableFormat decisionTableFormat}.\n\nThe value determines whether the user can set the rendering of the decision Table to be based on cellFormat or rule Format\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored.\n\nDefault value is <code>CellFormat</code>."
+        },
+        {
+          "name": "setEnableSettings",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.rules.ui.DecisionTableConfiguration",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "bEnableSettings",
+              "type": "boolean",
+              "optional": false,
+              "description": "New value for property <code>enableSettings</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getEnableSettings enableSettings}.\n\nThe value determines whether the Settings button is displayed in a decision table when the control is used with S/4 HANA 17.05 (Cloud) or 17.09 (On Premise) and higher (On Premise).\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored.\n\nDefault value is <code>false</code>."
+        },
+        {
+          "name": "setHitPolicies",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.rules.ui.DecisionTableConfiguration",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "sHitPolicies",
+              "type": "sap.rules.ui.RuleHitPolicy[]",
+              "optional": false,
+              "description": "New value for property <code>hitPolicies</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getHitPolicies hitPolicies}.\n\nThe value determines how the results of the decision table are evaluated when more than one rule is matched for a given set of inputs.\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored.\n\nDefault value is <code>FirstMatch,AllMatch</code>."
+        },
+        {
+          "name": "setThreshold",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.rules.ui.DecisionTableConfiguration",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "iThreshold",
+              "type": "int",
+              "optional": false,
+              "description": "New value for property <code>threshold</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getThreshold threshold}.\n\nThe threshold defines how many additional (not yet visible records) shall be pre-fetched to enable smooth scrolling. The threshold is always added to the visibleRowCount. If the visibleRowCount is 10 and the threshold is 100, there will be 110 records fetched with the initial load.\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored.\n\nDefault value is <code>30</code>."
+        },
+        {
+          "name": "setVisibleRowCount",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.rules.ui.DecisionTableConfiguration",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "iVisibleRowCount",
+              "type": "int",
+              "optional": false,
+              "description": "New value for property <code>visibleRowCount</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getVisibleRowCount visibleRowCount}.\n\nNumber of visible rows of the table.\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored.\n\nDefault value is <code>30</code>."
+        }
+      ]
+    },
+    {
+      "kind": "enum",
+      "name": "sap.rules.ui.DecisionTableFormat",
+      "basename": "DecisionTableFormat",
+      "resource": "sap/rules/ui/library.js",
+      "module": "sap/rules/ui/library",
+      "export": "DecisionTableFormat",
+      "static": true,
+      "visibility": "public",
+      "description": "An enumeration that decides the rendering format for decisionTable.",
+      "properties": [
+        {
+          "name": "CellFormat",
+          "visibility": "public",
+          "static": true,
+          "type": "string",
+          "description": "Specifies that the rendering of a cell is based on cellFormat and each cell can have a different format during rendering",
+          "deprecated": {
+            "text": "This attribute is deprecated since version 1.52.8, use the attribute RuleFormat instead."
+          }
+        },
+        {
+          "name": "RuleFormat",
+          "visibility": "public",
+          "static": true,
+          "type": "string",
+          "description": "Specifies that the rendering is at the rule level. The value set here is applicable for all the cells in the rule."
+        }
+      ]
+    },
+    {
+      "kind": "enum",
+      "name": "sap.rules.ui.ExpressionType",
+      "basename": "ExpressionType",
+      "resource": "sap/rules/ui/library.js",
+      "module": "sap/rules/ui/library",
+      "export": "ExpressionType",
+      "static": true,
+      "visibility": "public",
+      "description": "An enumeration that defines the different business data types for an expression",
+      "properties": [
+        {
+          "name": "All",
+          "visibility": "public",
+          "static": true,
+          "type": "string",
+          "description": "Specifies that the expression can be of any of the supported business data types."
+        },
+        {
+          "name": "Boolean",
+          "visibility": "public",
+          "static": true,
+          "type": "string",
+          "description": "Specifies that the expression must represent a Boolean data type: true, false."
+        },
+        {
+          "name": "Date",
+          "visibility": "public",
+          "static": true,
+          "type": "string",
+          "description": "Specifies that the expression must represent a date only."
+        },
+        {
+          "name": "Number",
+          "visibility": "public",
+          "static": true,
+          "type": "string",
+          "description": "Specifies that the expression must represent a real number with or without dot-decimal notation."
+        },
+        {
+          "name": "String",
+          "visibility": "public",
+          "static": true,
+          "type": "string",
+          "description": "Specifies that the expression must represent a single-quoted UTF-8 encoded string."
+        },
+        {
+          "name": "Time",
+          "visibility": "public",
+          "static": true,
+          "type": "string",
+          "description": "Specifies that the expression must represent a time only."
+        },
+        {
+          "name": "TimeSpan",
+          "visibility": "public",
+          "static": true,
+          "type": "string",
+          "description": "Specifies that the expression must represent a time difference in milliseconds."
+        },
+        {
+          "name": "Timestamp",
+          "visibility": "public",
+          "static": true,
+          "type": "string",
+          "description": "Specifies that the expression must represent a date and timestamp."
+        }
+      ]
+    },
+    {
+      "kind": "class",
+      "name": "sap.rules.ui.RuleBuilder",
+      "basename": "RuleBuilder",
+      "resource": "sap/rules/ui/RuleBuilder.js",
+      "module": "sap/rules/ui/RuleBuilder",
+      "export": "",
+      "static": true,
+      "visibility": "public",
+      "extends": "Control",
+      "description": "The <code>sap.rules.ui.RuleBuilder</code> control allows business users to create rules using a business language.",
+      "ui5-metamodel": true,
+      "ui5-metadata": {
+        "properties": [
+          {
+            "name": "types",
+            "type": "sap.rules.ui.RuleType[]",
+            "defaultValue": ["DecisionTable", "TextRule"],
+            "group": "Misc",
+            "visibility": "public",
+            "description": "Available types that can be created using the <code>sap.rules.ui.RuleBuilder</code> control. If empty, all rule types will be available for selection. If only one type exists, the Rule Builder will open it automatically.",
+            "methods": ["getTypes", "setTypes"]
+          },
+          {
+            "name": "bindingContextPath",
+            "type": "string",
+            "defaultValue": null,
+            "group": "Misc",
+            "visibility": "public",
+            "description": "Path to a Rule object in the model data, which is used for the definition of relative context bindings inside the RuleBuilder control (mandatory). Example: \"/Rules(Id='0050569181751ED683EFEEC6AA2B73C5',Version='000001')\"",
+            "methods": ["getBindingContextPath", "setBindingContextPath"]
+          },
+          {
+            "name": "editable",
+            "type": "boolean",
+            "defaultValue": true,
+            "group": "Misc",
+            "visibility": "public",
+            "description": "Indicates whether or not the controls of the RuleBuilder are editable.",
+            "methods": ["getEditable", "setEditable"]
+          }
+        ],
+        "aggregations": [
+          {
+            "name": "_ruleTypeSelector",
+            "singularName": "_ruleTypeSelector",
+            "type": "sap.m.ComboBox",
+            "cardinality": "0..1",
+            "visibility": "hidden",
+            "description": "Provides a combo box from which the user selects the rule type for the new rule. Only relevant if <b>types</b> contains more than one value.",
+            "methods": [
+              "get_ruleTypeSelector",
+              "destroy_ruleTypeSelector",
+              "set_ruleTypeSelector"
+            ]
+          },
+          {
+            "name": "_rule",
+            "singularName": "_rule",
+            "type": "sap.rules.ui.RuleBase",
+            "cardinality": "0..1",
+            "visibility": "hidden",
+            "description": "Rule created by the Rule Builder.",
+            "methods": ["get_rule", "destroy_rule", "set_rule"]
+          },
+          {
+            "name": "decisionTableConfiguration",
+            "singularName": "decisionTableConfiguration",
+            "type": "sap.rules.ui.DecisionTableConfiguration",
+            "cardinality": "0..1",
+            "visibility": "public",
+            "description": "Configuration for rule of type 'decision table'.",
+            "methods": [
+              "getDecisionTableConfiguration",
+              "destroyDecisionTableConfiguration",
+              "setDecisionTableConfiguration"
+            ]
+          },
+          {
+            "name": "textRuleConfiguration",
+            "singularName": "textRuleConfiguration",
+            "type": "sap.rules.ui.TextRuleConfiguration",
+            "cardinality": "0..1",
+            "visibility": "public",
+            "description": "Configuration for rule of type 'Text Rule'.",
+            "methods": [
+              "getTextRuleConfiguration",
+              "destroyTextRuleConfiguration",
+              "setTextRuleConfiguration"
+            ]
+          }
+        ],
+        "associations": [
+          {
+            "name": "expressionLanguage",
+            "singularName": "expressionLanguage",
+            "type": "sap.rules.ui.services.ExpressionLanguage",
+            "cardinality": "0..1",
+            "visibility": "public",
+            "description": "Expression language to model English like expressions. Should not be used when sap.rules.ui.services.AstExpressionLanguage is used.",
+            "methods": ["getExpressionLanguage", "setExpressionLanguage"]
+          },
+          {
+            "name": "astExpressionLanguage",
+            "singularName": "astExpressionLanguage",
+            "type": "sap.rules.ui.services.AstExpressionLanguage",
+            "cardinality": "0..1",
+            "visibility": "public",
+            "description": "Expression language to use DMN SFEEL for modelling expressions. Should not be used when sap.rules.ui.services.ExpressionLanguage is used.",
+            "methods": ["getAstExpressionLanguage", "setAstExpressionLanguage"]
+          }
+        ]
+      },
+      "constructor": {
+        "visibility": "public",
+        "parameters": [
+          {
+            "name": "sId",
+            "type": "string",
+            "optional": true,
+            "description": "ID for the new control, generated automatically if no ID is given."
+          },
+          {
+            "name": "mSettings",
+            "type": "object",
+            "optional": true,
+            "description": "Initial settings for the new control."
+          }
+        ],
+        "description": "Constructor for a new RuleBuilder control.\n\nAccepts an object literal <code>mSettings</code> that defines initial property values, aggregated and associated objects as well as event handlers. See {@link sap.ui.base.ManagedObject#constructor} for a general description of the syntax of the settings object."
+      },
+      "methods": [
+        {
+          "name": "destroyDecisionTableConfiguration",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.rules.ui.RuleBuilder",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "description": "Destroys the decisionTableConfiguration in the aggregation {@link #getDecisionTableConfiguration decisionTableConfiguration}."
+        },
+        {
+          "name": "destroyTextRuleConfiguration",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.rules.ui.RuleBuilder",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "description": "Destroys the textRuleConfiguration in the aggregation {@link #getTextRuleConfiguration textRuleConfiguration}."
+        },
+        {
+          "name": "extend",
+          "visibility": "public",
+          "static": true,
+          "returnValue": {
+            "type": "function",
+            "description": "Created class / constructor function"
+          },
+          "parameters": [
+            {
+              "name": "sClassName",
+              "type": "string",
+              "optional": false,
+              "description": "Name of the class being created"
+            },
+            {
+              "name": "oClassInfo",
+              "type": "object",
+              "optional": true,
+              "description": "Object literal with information about the class"
+            },
+            {
+              "name": "FNMetaImpl",
+              "type": "function",
+              "optional": true,
+              "description": "Constructor function for the metadata object; if not given, it defaults to <code>sap.ui.core.ElementMetadata</code>"
+            }
+          ],
+          "description": "Creates a new subclass of class sap.rules.ui.RuleBuilder with name <code>sClassName</code> and enriches it with the information contained in <code>oClassInfo</code>.\n\n<code>oClassInfo</code> might contain the same kind of information as described in {@link Control.extend}."
+        },
+        {
+          "name": "getAstExpressionLanguage",
+          "visibility": "public",
+          "returnValue": { "type": "sap.ui.core.ID" },
+          "description": "ID of the element which is the current target of the association {@link #getAstExpressionLanguage astExpressionLanguage}, or <code>null</code>."
+        },
+        {
+          "name": "getBindingContextPath",
+          "visibility": "public",
+          "returnValue": {
+            "type": "string",
+            "description": "Value of property <code>bindingContextPath</code>"
+          },
+          "description": "Gets current value of property {@link #getBindingContextPath bindingContextPath}.\n\nPath to a Rule object in the model data, which is used for the definition of relative context bindings inside the RuleBuilder control (mandatory). Example: \"/Rules(Id='0050569181751ED683EFEEC6AA2B73C5',Version='000001')\""
+        },
+        {
+          "name": "getDecisionTableConfiguration",
+          "visibility": "public",
+          "returnValue": { "type": "sap.rules.ui.DecisionTableConfiguration" },
+          "description": "Gets content of aggregation {@link #getDecisionTableConfiguration decisionTableConfiguration}.\n\nConfiguration for rule of type 'decision table'."
+        },
+        {
+          "name": "getEditable",
+          "visibility": "public",
+          "returnValue": {
+            "type": "boolean",
+            "description": "Value of property <code>editable</code>"
+          },
+          "description": "Gets current value of property {@link #getEditable editable}.\n\nIndicates whether or not the controls of the RuleBuilder are editable.\n\nDefault value is <code>true</code>."
+        },
+        {
+          "name": "getExpressionLanguage",
+          "visibility": "public",
+          "returnValue": { "type": "sap.ui.core.ID" },
+          "description": "ID of the element which is the current target of the association {@link #getExpressionLanguage expressionLanguage}, or <code>null</code>."
+        },
+        {
+          "name": "getMetadata",
+          "visibility": "public",
+          "static": true,
+          "returnValue": {
+            "type": "sap.ui.base.Metadata",
+            "description": "Metadata object describing this class"
+          },
+          "description": "Returns a metadata object for class sap.rules.ui.RuleBuilder."
+        },
+        {
+          "name": "getTextRuleConfiguration",
+          "visibility": "public",
+          "returnValue": { "type": "sap.rules.ui.TextRuleConfiguration" },
+          "description": "Gets content of aggregation {@link #getTextRuleConfiguration textRuleConfiguration}.\n\nConfiguration for rule of type 'Text Rule'."
+        },
+        {
+          "name": "getTypes",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.rules.ui.RuleType[]",
+            "description": "Value of property <code>types</code>"
+          },
+          "description": "Gets current value of property {@link #getTypes types}.\n\nAvailable types that can be created using the <code>sap.rules.ui.RuleBuilder</code> control. If empty, all rule types will be available for selection. If only one type exists, the Rule Builder will open it automatically.\n\nDefault value is <code>DecisionTable,TextRule</code>."
+        },
+        {
+          "name": "setAstExpressionLanguage",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.rules.ui.RuleBuilder",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "oAstExpressionLanguage",
+              "type": "sap.ui.core.ID|sap.rules.ui.services.AstExpressionLanguage",
+              "optional": false,
+              "description": "ID of an element which becomes the new target of this astExpressionLanguage association; alternatively, an element instance may be given"
+            }
+          ],
+          "description": "Sets the associated {@link #getAstExpressionLanguage astExpressionLanguage}."
+        },
+        {
+          "name": "setBindingContextPath",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.rules.ui.RuleBuilder",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "sBindingContextPath",
+              "type": "string",
+              "optional": false,
+              "description": "New value for property <code>bindingContextPath</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getBindingContextPath bindingContextPath}.\n\nPath to a Rule object in the model data, which is used for the definition of relative context bindings inside the RuleBuilder control (mandatory). Example: \"/Rules(Id='0050569181751ED683EFEEC6AA2B73C5',Version='000001')\"\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored."
+        },
+        {
+          "name": "setDecisionTableConfiguration",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.rules.ui.RuleBuilder",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "oDecisionTableConfiguration",
+              "type": "sap.rules.ui.DecisionTableConfiguration",
+              "optional": false,
+              "description": "The decisionTableConfiguration to set"
+            }
+          ],
+          "description": "Sets the aggregated {@link #getDecisionTableConfiguration decisionTableConfiguration}."
+        },
+        {
+          "name": "setEditable",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.rules.ui.RuleBuilder",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "bEditable",
+              "type": "boolean",
+              "optional": false,
+              "description": "New value for property <code>editable</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getEditable editable}.\n\nIndicates whether or not the controls of the RuleBuilder are editable.\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored.\n\nDefault value is <code>true</code>."
+        },
+        {
+          "name": "setExpressionLanguage",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.rules.ui.RuleBuilder",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "oExpressionLanguage",
+              "type": "sap.ui.core.ID|sap.rules.ui.services.ExpressionLanguage",
+              "optional": false,
+              "description": "ID of an element which becomes the new target of this expressionLanguage association; alternatively, an element instance may be given"
+            }
+          ],
+          "description": "Sets the associated {@link #getExpressionLanguage expressionLanguage}."
+        },
+        {
+          "name": "setTextRuleConfiguration",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.rules.ui.RuleBuilder",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "oTextRuleConfiguration",
+              "type": "sap.rules.ui.TextRuleConfiguration",
+              "optional": false,
+              "description": "The textRuleConfiguration to set"
+            }
+          ],
+          "description": "Sets the aggregated {@link #getTextRuleConfiguration textRuleConfiguration}."
+        },
+        {
+          "name": "setTypes",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.rules.ui.RuleBuilder",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "sTypes",
+              "type": "sap.rules.ui.RuleType[]",
+              "optional": false,
+              "description": "New value for property <code>types</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getTypes types}.\n\nAvailable types that can be created using the <code>sap.rules.ui.RuleBuilder</code> control. If empty, all rule types will be available for selection. If only one type exists, the Rule Builder will open it automatically.\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored.\n\nDefault value is <code>DecisionTable,TextRule</code>."
+        }
+      ]
+    },
+    {
+      "kind": "enum",
+      "name": "sap.rules.ui.RuleHitPolicy",
+      "basename": "RuleHitPolicy",
+      "resource": "sap/rules/ui/library.js",
+      "module": "sap/rules/ui/library",
+      "export": "RuleHitPolicy",
+      "static": true,
+      "visibility": "public",
+      "description": "An enumeration that defines the output when more than one rule in the decision table is matched for a given set of inputs.",
+      "properties": [
+        {
+          "name": "AllMatch",
+          "visibility": "public",
+          "static": true,
+          "type": "string",
+          "description": "Specifies that all conditions that match the input (each matching row in the decision table) are returned as an output."
+        },
+        {
+          "name": "FirstMatch",
+          "visibility": "public",
+          "static": true,
+          "type": "string",
+          "description": "Specifies that only the first condition that matches the input (the first matching row by order in the decision table) is returned as an output."
+        }
+      ]
+    },
+    {
+      "kind": "enum",
+      "name": "sap.rules.ui.RuleType",
+      "basename": "RuleType",
+      "resource": "sap/rules/ui/library.js",
+      "module": "sap/rules/ui/library",
+      "export": "RuleType",
+      "static": true,
+      "visibility": "public",
+      "description": "An enumeration that defines whether the rule is formulated as a table with multiple rules instead of a rule with a single associated condition.",
+      "properties": [
+        {
+          "name": "DecisionTable",
+          "visibility": "public",
+          "static": true,
+          "type": "string",
+          "description": "Specifies that the rule is formulated as a table that allows complex rules to be visualized according to an if-then-else logic."
+        },
+        {
+          "name": "TextRule",
+          "visibility": "public",
+          "static": true,
+          "type": "string",
+          "description": "Specifies that the rule is formulated as a single condition, which is written directly in a business language."
+        }
+      ]
+    },
+    {
+      "kind": "class",
+      "name": "sap.rules.ui.services.AstExpressionLanguage",
+      "basename": "AstExpressionLanguage",
+      "resource": "sap/rules/ui/services/AstExpressionLanguage.js",
+      "module": "sap/rules/ui/services/AstExpressionLanguage",
+      "export": "",
+      "static": true,
+      "visibility": "public",
+      "extends": "Element",
+      "description": "Provides the AstExpressionLanguage service functionality, such as expression validations, expression parsing, auto-complete suggestions, retrieving expression metadata and tokens, and performing runtime services (fetching data objects, outputs, etc).",
+      "ui5-metamodel": true,
+      "ui5-metadata": {
+        "properties": [
+          {
+            "name": "bindingContextPath",
+            "type": "string",
+            "defaultValue": null,
+            "group": "Misc",
+            "visibility": "public",
+            "description": "Path to a Vocabulary object in the model data, which is used for the definition of relative context bindings inside the Ast Expression Language control (mandatory). Example: \"/Vocabularies(Id='0050569181751ED683EFEEC6AA2B73C5')\"",
+            "methods": ["getBindingContextPath", "setBindingContextPath"]
+          }
+        ],
+        "events": [
+          {
+            "name": "dataChange",
+            "visibility": "public",
+            "methods": [
+              "attachDataChange",
+              "detachDataChange",
+              "fireDataChange"
+            ]
+          }
+        ]
+      },
+      "constructor": {
+        "visibility": "public",
+        "description": "Constructor for a new AstExpressionLanguage element."
+      },
+      "events": [
+        {
+          "name": "dataChange",
+          "visibility": "public",
+          "parameters": [
+            {
+              "name": "oControlEvent",
+              "type": "sap.ui.base.Event",
+              "parameterProperties": {
+                "getSource": {
+                  "name": "getSource",
+                  "type": "sap.ui.base.EventProvider",
+                  "optional": false
+                },
+                "getParameters": {
+                  "name": "getParameters",
+                  "type": "object",
+                  "optional": false
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "methods": [
+        {
+          "name": "attachDataChange",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.rules.ui.services.AstExpressionLanguage",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "oData",
+              "type": "object",
+              "optional": true,
+              "description": "An application-specific payload object that will be passed to the event handler along with the event object when firing the event"
+            },
+            {
+              "name": "fnFunction",
+              "type": "function",
+              "optional": false,
+              "description": "The function to be called when the event occurs"
+            },
+            {
+              "name": "oListener",
+              "type": "object",
+              "optional": true,
+              "description": "Context object to call the event handler with. Defaults to this <code>sap.rules.ui.services.AstExpressionLanguage</code> itself"
+            }
+          ],
+          "description": "Attaches event handler <code>fnFunction</code> to the {@link #event:dataChange dataChange} event of this <code>sap.rules.ui.services.AstExpressionLanguage</code>.\n\nWhen called, the context of the event handler (its <code>this</code>) will be bound to <code>oListener</code> if specified, otherwise it will be bound to this <code>sap.rules.ui.services.AstExpressionLanguage</code> itself."
+        },
+        {
+          "name": "detachDataChange",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.rules.ui.services.AstExpressionLanguage",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "fnFunction",
+              "type": "function",
+              "optional": false,
+              "description": "The function to be called, when the event occurs"
+            },
+            {
+              "name": "oListener",
+              "type": "object",
+              "optional": true,
+              "description": "Context object on which the given function had to be called"
+            }
+          ],
+          "description": "Detaches event handler <code>fnFunction</code> from the {@link #event:dataChange dataChange} event of this <code>sap.rules.ui.services.AstExpressionLanguage</code>.\n\nThe passed function and listener object must match the ones used for event registration."
+        },
+        {
+          "name": "extend",
+          "visibility": "public",
+          "static": true,
+          "returnValue": {
+            "type": "function",
+            "description": "Created class / constructor function"
+          },
+          "parameters": [
+            {
+              "name": "sClassName",
+              "type": "string",
+              "optional": false,
+              "description": "Name of the class being created"
+            },
+            {
+              "name": "oClassInfo",
+              "type": "object",
+              "optional": true,
+              "description": "Object literal with information about the class"
+            },
+            {
+              "name": "FNMetaImpl",
+              "type": "function",
+              "optional": true,
+              "description": "Constructor function for the metadata object; if not given, it defaults to <code>sap.ui.core.ElementMetadata</code>"
+            }
+          ],
+          "description": "Creates a new subclass of class sap.rules.ui.services.AstExpressionLanguage with name <code>sClassName</code> and enriches it with the information contained in <code>oClassInfo</code>.\n\n<code>oClassInfo</code> might contain the same kind of information as described in {@link sap.ui.core.Element.extend}."
+        },
+        {
+          "name": "fireDataChange",
+          "visibility": "protected",
+          "returnValue": {
+            "type": "sap.rules.ui.services.AstExpressionLanguage",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "mParameters",
+              "type": "object",
+              "optional": true,
+              "description": "Parameters to pass along with the event"
+            }
+          ],
+          "description": "Fires event {@link #event:dataChange dataChange} to attached listeners."
+        },
+        {
+          "name": "getBindingContextPath",
+          "visibility": "public",
+          "returnValue": {
+            "type": "string",
+            "description": "Value of property <code>bindingContextPath</code>"
+          },
+          "description": "Gets current value of property {@link #getBindingContextPath bindingContextPath}.\n\nPath to a Vocabulary object in the model data, which is used for the definition of relative context bindings inside the Ast Expression Language control (mandatory). Example: \"/Vocabularies(Id='0050569181751ED683EFEEC6AA2B73C5')\""
+        },
+        {
+          "name": "getMetadata",
+          "visibility": "public",
+          "static": true,
+          "returnValue": {
+            "type": "sap.ui.base.Metadata",
+            "description": "Metadata object describing this class"
+          },
+          "description": "Returns a metadata object for class sap.rules.ui.services.AstExpressionLanguage."
+        },
+        {
+          "name": "setBindingContextPath",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.rules.ui.services.AstExpressionLanguage",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "sBindingContextPath",
+              "type": "string",
+              "optional": false,
+              "description": "New value for property <code>bindingContextPath</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getBindingContextPath bindingContextPath}.\n\nPath to a Vocabulary object in the model data, which is used for the definition of relative context bindings inside the Ast Expression Language control (mandatory). Example: \"/Vocabularies(Id='0050569181751ED683EFEEC6AA2B73C5')\"\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored."
+        }
+      ]
+    },
+    {
+      "kind": "class",
+      "name": "sap.rules.ui.services.ExpressionLanguage",
+      "basename": "ExpressionLanguage",
+      "resource": "sap/rules/ui/services/ExpressionLanguage.js",
+      "module": "sap/rules/ui/services/ExpressionLanguage",
+      "export": "",
+      "static": true,
+      "visibility": "public",
+      "extends": "Element",
+      "description": "Provides the ExpressionLanguage service functionality, such as expression validations, expression parsing, auto-complete suggestions, retrieving expression metadata and tokens, and performing runtime services (fetching data objects, outputs, etc).",
+      "ui5-metamodel": true,
+      "ui5-metadata": {
+        "properties": [
+          {
+            "name": "valueHelpCallback",
+            "type": "any",
+            "defaultValue": null,
+            "group": "Misc",
+            "visibility": "public",
+            "description": "The valueHelpCallback is a function that receives by reference an array of value help metadata and adds to each item an OData model instance. The OData model is used for suggesting allowed values and for validating values that are used in the rule.",
+            "methods": ["getValueHelpCallback", "setValueHelpCallback"]
+          },
+          {
+            "name": "bindingContextPath",
+            "type": "string",
+            "defaultValue": null,
+            "group": "Misc",
+            "visibility": "public",
+            "description": "Path to a Vocabulary object in the model data, which is used for the definition of relative context bindings inside the Expression Language control (mandatory). Example: \"/Vocabularies(Id='0050569181751ED683EFEEC6AA2B73C5')\"",
+            "methods": ["getBindingContextPath", "setBindingContextPath"]
+          }
+        ],
+        "events": [
+          {
+            "name": "dataChange",
+            "visibility": "public",
+            "methods": [
+              "attachDataChange",
+              "detachDataChange",
+              "fireDataChange"
+            ]
+          }
+        ]
+      },
+      "constructor": {
+        "visibility": "public",
+        "description": "Constructor for a new ExpressionLanguage element."
+      },
+      "events": [
+        {
+          "name": "dataChange",
+          "visibility": "public",
+          "parameters": [
+            {
+              "name": "oControlEvent",
+              "type": "sap.ui.base.Event",
+              "parameterProperties": {
+                "getSource": {
+                  "name": "getSource",
+                  "type": "sap.ui.base.EventProvider",
+                  "optional": false
+                },
+                "getParameters": {
+                  "name": "getParameters",
+                  "type": "object",
+                  "optional": false
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "methods": [
+        {
+          "name": "attachDataChange",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.rules.ui.services.ExpressionLanguage",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "oData",
+              "type": "object",
+              "optional": true,
+              "description": "An application-specific payload object that will be passed to the event handler along with the event object when firing the event"
+            },
+            {
+              "name": "fnFunction",
+              "type": "function",
+              "optional": false,
+              "description": "The function to be called when the event occurs"
+            },
+            {
+              "name": "oListener",
+              "type": "object",
+              "optional": true,
+              "description": "Context object to call the event handler with. Defaults to this <code>sap.rules.ui.services.ExpressionLanguage</code> itself"
+            }
+          ],
+          "description": "Attaches event handler <code>fnFunction</code> to the {@link #event:dataChange dataChange} event of this <code>sap.rules.ui.services.ExpressionLanguage</code>.\n\nWhen called, the context of the event handler (its <code>this</code>) will be bound to <code>oListener</code> if specified, otherwise it will be bound to this <code>sap.rules.ui.services.ExpressionLanguage</code> itself."
+        },
+        {
+          "name": "detachDataChange",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.rules.ui.services.ExpressionLanguage",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "fnFunction",
+              "type": "function",
+              "optional": false,
+              "description": "The function to be called, when the event occurs"
+            },
+            {
+              "name": "oListener",
+              "type": "object",
+              "optional": true,
+              "description": "Context object on which the given function had to be called"
+            }
+          ],
+          "description": "Detaches event handler <code>fnFunction</code> from the {@link #event:dataChange dataChange} event of this <code>sap.rules.ui.services.ExpressionLanguage</code>.\n\nThe passed function and listener object must match the ones used for event registration."
+        },
+        {
+          "name": "extend",
+          "visibility": "public",
+          "static": true,
+          "returnValue": {
+            "type": "function",
+            "description": "Created class / constructor function"
+          },
+          "parameters": [
+            {
+              "name": "sClassName",
+              "type": "string",
+              "optional": false,
+              "description": "Name of the class being created"
+            },
+            {
+              "name": "oClassInfo",
+              "type": "object",
+              "optional": true,
+              "description": "Object literal with information about the class"
+            },
+            {
+              "name": "FNMetaImpl",
+              "type": "function",
+              "optional": true,
+              "description": "Constructor function for the metadata object; if not given, it defaults to <code>sap.ui.core.ElementMetadata</code>"
+            }
+          ],
+          "description": "Creates a new subclass of class sap.rules.ui.services.ExpressionLanguage with name <code>sClassName</code> and enriches it with the information contained in <code>oClassInfo</code>.\n\n<code>oClassInfo</code> might contain the same kind of information as described in {@link sap.ui.core.Element.extend}."
+        },
+        {
+          "name": "fireDataChange",
+          "visibility": "protected",
+          "returnValue": {
+            "type": "sap.rules.ui.services.ExpressionLanguage",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "mParameters",
+              "type": "object",
+              "optional": true,
+              "description": "Parameters to pass along with the event"
+            }
+          ],
+          "description": "Fires event {@link #event:dataChange dataChange} to attached listeners."
+        },
+        {
+          "name": "getBindingContextPath",
+          "visibility": "public",
+          "returnValue": {
+            "type": "string",
+            "description": "Value of property <code>bindingContextPath</code>"
+          },
+          "description": "Gets current value of property {@link #getBindingContextPath bindingContextPath}.\n\nPath to a Vocabulary object in the model data, which is used for the definition of relative context bindings inside the Expression Language control (mandatory). Example: \"/Vocabularies(Id='0050569181751ED683EFEEC6AA2B73C5')\""
+        },
+        {
+          "name": "getMetadata",
+          "visibility": "public",
+          "static": true,
+          "returnValue": {
+            "type": "sap.ui.base.Metadata",
+            "description": "Metadata object describing this class"
+          },
+          "description": "Returns a metadata object for class sap.rules.ui.services.ExpressionLanguage."
+        },
+        {
+          "name": "getValueHelpCallback",
+          "visibility": "public",
+          "returnValue": {
+            "type": "any",
+            "description": "Value of property <code>valueHelpCallback</code>"
+          },
+          "description": "Gets current value of property {@link #getValueHelpCallback valueHelpCallback}.\n\nThe valueHelpCallback is a function that receives by reference an array of value help metadata and adds to each item an OData model instance. The OData model is used for suggesting allowed values and for validating values that are used in the rule."
+        },
+        {
+          "name": "setBindingContextPath",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.rules.ui.services.ExpressionLanguage",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "sBindingContextPath",
+              "type": "string",
+              "optional": false,
+              "description": "New value for property <code>bindingContextPath</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getBindingContextPath bindingContextPath}.\n\nPath to a Vocabulary object in the model data, which is used for the definition of relative context bindings inside the Expression Language control (mandatory). Example: \"/Vocabularies(Id='0050569181751ED683EFEEC6AA2B73C5')\"\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored."
+        },
+        {
+          "name": "setValueHelpCallback",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.rules.ui.services.ExpressionLanguage",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "oValueHelpCallback",
+              "type": "any",
+              "optional": false,
+              "description": "New value for property <code>valueHelpCallback</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getValueHelpCallback valueHelpCallback}.\n\nThe valueHelpCallback is a function that receives by reference an array of value help metadata and adds to each item an OData model instance. The OData model is used for suggesting allowed values and for validating values that are used in the rule.\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored."
+        }
+      ]
+    },
+    {
+      "kind": "class",
+      "name": "sap.rules.ui.TextRuleConfiguration",
+      "basename": "TextRuleConfiguration",
+      "resource": "sap/rules/ui/TextRuleConfiguration.js",
+      "module": "sap/rules/ui/TextRuleConfiguration",
+      "export": "",
+      "static": true,
+      "visibility": "public",
+      "since": "1.4",
+      "extends": "sap.ui.core.Element",
+      "description": "The <code>sap.rules.ui.TextRuleConfiguration</code> element provides the ability to define specific properties that will be applied when rendering the <code>sap.rules.ui.RuleBuilder</code> in decision table mode.",
+      "ui5-metamodel": true,
+      "ui5-metadata": {
+        "stereotype": "element",
+        "properties": [
+          {
+            "name": "enableSettings",
+            "type": "boolean",
+            "defaultValue": false,
+            "group": "Misc",
+            "visibility": "public",
+            "description": "The value determines whether the Settings button is displayed in a Text Rule when the control is used with S/4 HANA 17.05 (Cloud) or 17.09 (On Premise) and higher (On Premise).",
+            "methods": ["getEnableSettings", "setEnableSettings"]
+          },
+          {
+            "name": "enableElse",
+            "type": "boolean",
+            "defaultValue": true,
+            "group": "Misc",
+            "visibility": "public",
+            "description": "The value determines whether the Else section is displayed in a Text Rule when the control is used with S/4 HANA 17.05 (Cloud) or 17.09 (On Premise) and higher (On Premise).",
+            "methods": ["getEnableElse", "setEnableElse"]
+          },
+          {
+            "name": "enableElseIf",
+            "type": "boolean",
+            "defaultValue": true,
+            "group": "Misc",
+            "visibility": "public",
+            "description": "The value determines whether the Else If section is displayed in a Text Rule when the control is used with S/4 HANA 17.05 (Cloud) or 17.09 (On Premise) and higher (On Premise).",
+            "methods": ["getEnableElseIf", "setEnableElseIf"]
+          }
+        ],
+        "events": [
+          {
+            "name": "change",
+            "visibility": "public",
+            "parameters": {
+              "name": { "name": "name", "type": "" },
+              "value": { "name": "value", "type": "" }
+            },
+            "methods": ["attachChange", "detachChange", "fireChange"]
+          }
+        ]
+      },
+      "constructor": {
+        "visibility": "public",
+        "parameters": [
+          {
+            "name": "sId",
+            "type": "string",
+            "optional": true,
+            "description": "id for the new control, generated automatically if no id is given"
+          },
+          {
+            "name": "mSettings",
+            "type": "object",
+            "optional": true,
+            "description": "initial settings for the new control"
+          }
+        ],
+        "description": "Constructor for a new TextRuleConfiguration.\n\nAccepts an object literal <code>mSettings</code> that defines initial property values, aggregated and associated objects as well as event handlers. See {@link sap.ui.base.ManagedObject#constructor} for a general description of the syntax of the settings object."
+      },
+      "events": [
+        {
+          "name": "change",
+          "visibility": "public",
+          "parameters": [
+            {
+              "name": "oControlEvent",
+              "type": "sap.ui.base.Event",
+              "parameterProperties": {
+                "getSource": {
+                  "name": "getSource",
+                  "type": "sap.ui.base.EventProvider",
+                  "optional": false
+                },
+                "getParameters": {
+                  "name": "getParameters",
+                  "type": "object",
+                  "optional": false,
+                  "parameterProperties": {
+                    "name": {
+                      "name": "name",
+                      "type": "undefined",
+                      "optional": false
+                    },
+                    "value": {
+                      "name": "value",
+                      "type": "undefined",
+                      "optional": false
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "methods": [
+        {
+          "name": "attachChange",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.rules.ui.TextRuleConfiguration",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "oData",
+              "type": "object",
+              "optional": true,
+              "description": "An application-specific payload object that will be passed to the event handler along with the event object when firing the event"
+            },
+            {
+              "name": "fnFunction",
+              "type": "function",
+              "optional": false,
+              "description": "The function to be called when the event occurs"
+            },
+            {
+              "name": "oListener",
+              "type": "object",
+              "optional": true,
+              "description": "Context object to call the event handler with. Defaults to this <code>sap.rules.ui.TextRuleConfiguration</code> itself"
+            }
+          ],
+          "description": "Attaches event handler <code>fnFunction</code> to the {@link #event:change change} event of this <code>sap.rules.ui.TextRuleConfiguration</code>.\n\nWhen called, the context of the event handler (its <code>this</code>) will be bound to <code>oListener</code> if specified, otherwise it will be bound to this <code>sap.rules.ui.TextRuleConfiguration</code> itself."
+        },
+        {
+          "name": "detachChange",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.rules.ui.TextRuleConfiguration",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "fnFunction",
+              "type": "function",
+              "optional": false,
+              "description": "The function to be called, when the event occurs"
+            },
+            {
+              "name": "oListener",
+              "type": "object",
+              "optional": true,
+              "description": "Context object on which the given function had to be called"
+            }
+          ],
+          "description": "Detaches event handler <code>fnFunction</code> from the {@link #event:change change} event of this <code>sap.rules.ui.TextRuleConfiguration</code>.\n\nThe passed function and listener object must match the ones used for event registration."
+        },
+        {
+          "name": "extend",
+          "visibility": "public",
+          "static": true,
+          "returnValue": {
+            "type": "function",
+            "description": "Created class / constructor function"
+          },
+          "parameters": [
+            {
+              "name": "sClassName",
+              "type": "string",
+              "optional": false,
+              "description": "Name of the class being created"
+            },
+            {
+              "name": "oClassInfo",
+              "type": "object",
+              "optional": true,
+              "description": "Object literal with information about the class"
+            },
+            {
+              "name": "FNMetaImpl",
+              "type": "function",
+              "optional": true,
+              "description": "Constructor function for the metadata object; if not given, it defaults to <code>sap.ui.core.ElementMetadata</code>"
+            }
+          ],
+          "description": "Creates a new subclass of class sap.rules.ui.TextRuleConfiguration with name <code>sClassName</code> and enriches it with the information contained in <code>oClassInfo</code>.\n\n<code>oClassInfo</code> might contain the same kind of information as described in {@link sap.ui.core.Element.extend}."
+        },
+        {
+          "name": "fireChange",
+          "visibility": "protected",
+          "returnValue": {
+            "type": "sap.rules.ui.TextRuleConfiguration",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "mParameters",
+              "type": "object",
+              "optional": true,
+              "parameterProperties": {
+                "name": { "name": "name", "type": "any", "optional": true },
+                "value": { "name": "value", "type": "any", "optional": true }
+              },
+              "description": "Parameters to pass along with the event"
+            }
+          ],
+          "description": "Fires event {@link #event:change change} to attached listeners."
+        },
+        {
+          "name": "getEnableElse",
+          "visibility": "public",
+          "returnValue": {
+            "type": "boolean",
+            "description": "Value of property <code>enableElse</code>"
+          },
+          "description": "Gets current value of property {@link #getEnableElse enableElse}.\n\nThe value determines whether the Else section is displayed in a Text Rule when the control is used with S/4 HANA 17.05 (Cloud) or 17.09 (On Premise) and higher (On Premise).\n\nDefault value is <code>true</code>."
+        },
+        {
+          "name": "getEnableElseIf",
+          "visibility": "public",
+          "returnValue": {
+            "type": "boolean",
+            "description": "Value of property <code>enableElseIf</code>"
+          },
+          "description": "Gets current value of property {@link #getEnableElseIf enableElseIf}.\n\nThe value determines whether the Else If section is displayed in a Text Rule when the control is used with S/4 HANA 17.05 (Cloud) or 17.09 (On Premise) and higher (On Premise).\n\nDefault value is <code>true</code>."
+        },
+        {
+          "name": "getEnableSettings",
+          "visibility": "public",
+          "returnValue": {
+            "type": "boolean",
+            "description": "Value of property <code>enableSettings</code>"
+          },
+          "description": "Gets current value of property {@link #getEnableSettings enableSettings}.\n\nThe value determines whether the Settings button is displayed in a Text Rule when the control is used with S/4 HANA 17.05 (Cloud) or 17.09 (On Premise) and higher (On Premise).\n\nDefault value is <code>false</code>."
+        },
+        {
+          "name": "getMetadata",
+          "visibility": "public",
+          "static": true,
+          "returnValue": {
+            "type": "sap.ui.base.Metadata",
+            "description": "Metadata object describing this class"
+          },
+          "description": "Returns a metadata object for class sap.rules.ui.TextRuleConfiguration."
+        },
+        {
+          "name": "setEnableElse",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.rules.ui.TextRuleConfiguration",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "bEnableElse",
+              "type": "boolean",
+              "optional": false,
+              "description": "New value for property <code>enableElse</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getEnableElse enableElse}.\n\nThe value determines whether the Else section is displayed in a Text Rule when the control is used with S/4 HANA 17.05 (Cloud) or 17.09 (On Premise) and higher (On Premise).\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored.\n\nDefault value is <code>true</code>."
+        },
+        {
+          "name": "setEnableElseIf",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.rules.ui.TextRuleConfiguration",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "bEnableElseIf",
+              "type": "boolean",
+              "optional": false,
+              "description": "New value for property <code>enableElseIf</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getEnableElseIf enableElseIf}.\n\nThe value determines whether the Else If section is displayed in a Text Rule when the control is used with S/4 HANA 17.05 (Cloud) or 17.09 (On Premise) and higher (On Premise).\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored.\n\nDefault value is <code>true</code>."
+        },
+        {
+          "name": "setEnableSettings",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.rules.ui.TextRuleConfiguration",
+            "description": "Reference to <code>this</code> in order to allow method chaining"
+          },
+          "parameters": [
+            {
+              "name": "bEnableSettings",
+              "type": "boolean",
+              "optional": false,
+              "description": "New value for property <code>enableSettings</code>"
+            }
+          ],
+          "description": "Sets a new value for property {@link #getEnableSettings enableSettings}.\n\nThe value determines whether the Settings button is displayed in a Text Rule when the control is used with S/4 HANA 17.05 (Cloud) or 17.09 (On Premise) and higher (On Premise).\n\nWhen called with a value of <code>null</code> or <code>undefined</code>, the default value of the property will be restored.\n\nDefault value is <code>false</code>."
+        }
+      ]
+    }
+  ]
+}

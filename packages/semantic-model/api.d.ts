@@ -19,6 +19,7 @@ export function generate(opts: {
   libraries: Record<string, Json>;
   typeNameFix: Record<string, string | undefined>;
   strict?: boolean;
+  printValidationErrors?: boolean;
 }): UI5SemanticModel;
 
 /**

@@ -1,0 +1,554 @@
+{
+  "$schema-ref": "http://schemas.sap.com/sapui5/designtime/api.json/1.0",
+  "version": "1.71.12",
+  "library": "sap.ui.mdc",
+  "symbols": [
+    {
+      "kind": "namespace",
+      "name": "sap.ui.mdc",
+      "basename": "mdc",
+      "resource": "sap/ui/mdc/library.js",
+      "module": "sap/ui/mdc/library",
+      "export": "",
+      "static": true,
+      "visibility": "public",
+      "description": "The SAPUI5 library that contains the metadata-driven controls and other entities."
+    },
+    {
+      "kind": "class",
+      "name": "sap.ui.mdc.base.ConditionModel",
+      "basename": "ConditionModel",
+      "resource": "sap/ui/mdc/base/ConditionModel.js",
+      "module": "sap/ui/mdc/base/ConditionModel",
+      "export": "",
+      "static": true,
+      "visibility": "restricted",
+      "since": "1.48.0",
+      "extends": "sap.ui.model.json.JSONModel",
+      "description": "JSON based Model for sap.ui.mdc.FilterField controls. The model stores the entered values as condition objects and applies the conditions to the ListBinding of e.g. a table.",
+      "experimental": {},
+      "ui5-metadata": { "stereotype": "object" },
+      "constructor": { "visibility": "restricted" },
+      "methods": [
+        {
+          "name": "addCondition",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.ui.mdc.base.ConditionModel",
+            "description": "Reference to <code>this</code> to allow method chaining."
+          },
+          "parameters": [
+            {
+              "name": "sFieldPath",
+              "type": "string",
+              "optional": false,
+              "description": "fieldPath of the condition"
+            },
+            {
+              "name": "oCondition",
+              "type": "object",
+              "optional": false,
+              "description": "condition to be added"
+            },
+            {
+              "name": "bForce",
+              "type": "boolean",
+              "optional": false,
+              "description": "if set the condition will be added even if it already exist"
+            }
+          ],
+          "description": "Adds a condition for a specified FieldPath."
+        },
+        {
+          "name": "clone",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.ui.mdc.base.ConditionModel",
+            "description": "instance of new ConditionModel"
+          },
+          "parameters": [
+            {
+              "name": "sFieldPath",
+              "type": "string",
+              "optional": false,
+              "description": "specifies which conditions should be copied into the clone. If not specified all conditions will be copied."
+            }
+          ],
+          "description": "creates a clone of the ConditionModel which contains the conditions for the sFieldPath"
+        },
+        {
+          "name": "createCondition",
+          "visibility": "public",
+          "returnValue": {
+            "type": "object",
+            "description": "the new condition object with the given fieldPath, operator and values."
+          },
+          "parameters": [
+            {
+              "name": "sFieldPath",
+              "type": "string",
+              "optional": false,
+              "description": "the fieldPath name of the condition"
+            },
+            {
+              "name": "sOperator",
+              "type": "string",
+              "optional": false,
+              "description": "the operator for the condition"
+            },
+            {
+              "name": "aValues",
+              "type": "any[]",
+              "optional": false,
+              "description": "the array of values for the condition"
+            }
+          ],
+          "description": "creates a condition instance for the condition model",
+          "deprecated": {
+            "text": "use the sap.ui.mdc.base.Condition.createCondition"
+          }
+        },
+        {
+          "name": "createItemCondition",
+          "visibility": "public",
+          "returnValue": {
+            "type": "object",
+            "description": "the new condition object with the given fieldPath, the operator EEQ and the sKey and sDescription as aValues."
+          },
+          "parameters": [
+            {
+              "name": "sFieldPath",
+              "type": "string",
+              "optional": false,
+              "description": "the fieldPath name of the condition"
+            },
+            {
+              "name": "sKey",
+              "type": "string",
+              "optional": false,
+              "description": "the operator for the condition"
+            },
+            {
+              "name": "sDescription",
+              "type": "string",
+              "optional": false,
+              "description": "the description of the operator"
+            }
+          ],
+          "description": "creates a condition instance for the Item condition",
+          "deprecated": {
+            "text": "use the sap.ui.mdc.base.Condition.createItemCondition"
+          }
+        },
+        {
+          "name": "extend",
+          "visibility": "public",
+          "static": true,
+          "returnValue": {
+            "type": "function",
+            "description": "Created class / constructor function"
+          },
+          "parameters": [
+            {
+              "name": "sClassName",
+              "type": "string",
+              "optional": false,
+              "description": "Name of the class being created"
+            },
+            {
+              "name": "oClassInfo",
+              "type": "object",
+              "optional": true,
+              "description": "Object literal with information about the class"
+            },
+            {
+              "name": "FNMetaImpl",
+              "type": "function",
+              "optional": true,
+              "description": "Constructor function for the metadata object; if not given, it defaults to <code>sap.ui.core.ElementMetadata</code>"
+            }
+          ],
+          "description": "Creates a new subclass of class sap.ui.mdc.base.ConditionModel with name <code>sClassName</code> and enriches it with the information contained in <code>oClassInfo</code>.\n\n<code>oClassInfo</code> might contain the same kind of information as described in {@link sap.ui.model.json.JSONModel.extend}."
+        },
+        {
+          "name": "getAllConditions",
+          "visibility": "public",
+          "returnValue": {
+            "type": "object",
+            "description": "object with array of conditions for each FieldPath"
+          },
+          "parameters": [
+            {
+              "name": "sFieldPath",
+              "type": "string",
+              "optional": false,
+              "description": "fieldPath of the condition"
+            }
+          ],
+          "description": "Returns all conditions."
+        },
+        {
+          "name": "getConditions",
+          "visibility": "public",
+          "returnValue": {
+            "type": "object[]",
+            "description": "array of conditions"
+          },
+          "parameters": [
+            {
+              "name": "sFieldPath",
+              "type": "string",
+              "optional": false,
+              "description": "fieldPath of the condition"
+            }
+          ],
+          "description": "Returns conditions for a specified FieldPath."
+        },
+        { "name": "getFilterOperatorConfig", "visibility": "public" },
+        {
+          "name": "getMetadata",
+          "visibility": "public",
+          "static": true,
+          "returnValue": {
+            "type": "sap.ui.base.Metadata",
+            "description": "Metadata object describing this class"
+          },
+          "description": "Returns a metadata object for class sap.ui.mdc.base.ConditionModel."
+        },
+        {
+          "name": "indexOf",
+          "visibility": "public",
+          "returnValue": {
+            "type": "object",
+            "description": "index of condition (-1 if not found)"
+          },
+          "parameters": [
+            {
+              "name": "sFieldPath",
+              "type": "string",
+              "optional": false,
+              "description": "fieldPath of the condition"
+            },
+            {
+              "name": "oCondition",
+              "type": "object",
+              "optional": false,
+              "description": "condition to be searched"
+            }
+          ],
+          "description": "Determines the index of a condition for a specified FieldPath."
+        },
+        {
+          "name": "insertCondition",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.ui.mdc.base.ConditionModel",
+            "description": "Reference to <code>this</code> to allow method chaining."
+          },
+          "parameters": [
+            {
+              "name": "sFieldPath",
+              "type": "string",
+              "optional": false,
+              "description": "fieldPath of the condition"
+            },
+            {
+              "name": "iIndex",
+              "type": "int",
+              "optional": false,
+              "description": "index where the condition should be inserted"
+            },
+            {
+              "name": "oCondition",
+              "type": "object",
+              "optional": false,
+              "description": "condition to be inserted"
+            },
+            {
+              "name": "bForce",
+              "type": "boolean",
+              "optional": false,
+              "description": "if set the condition will be inserted even if it already exist"
+            }
+          ],
+          "description": "Inserts a condition for a specified FieldPath."
+        },
+        {
+          "name": "merge",
+          "visibility": "public",
+          "parameters": [
+            {
+              "name": "sFieldPath",
+              "type": "string",
+              "optional": false,
+              "description": "specifies which conditions should be removed and replaced by the conditions from the source ConditionModel"
+            },
+            {
+              "name": "oSourceConditionModel",
+              "type": "sap.ui.mdc.base.ConditionModel",
+              "optional": false,
+              "description": "source ConditionModel."
+            },
+            {
+              "name": "sSourceFieldPath",
+              "type": "string",
+              "optional": false,
+              "description": "specifies which conditions from the source should be merged."
+            }
+          ],
+          "description": "merge conditions from the source conditionModel into this instance"
+        },
+        {
+          "name": "removeAllConditions",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.ui.mdc.base.ConditionModel",
+            "description": "Reference to <code>this</code> to allow method chaining."
+          },
+          "parameters": [
+            {
+              "name": "sFieldPath",
+              "type": "string",
+              "optional": false,
+              "description": "fieldPath of the condition"
+            }
+          ],
+          "description": "Removes all conditions for a specified FieldPath."
+        },
+        {
+          "name": "removeCondition",
+          "visibility": "public",
+          "returnValue": {
+            "type": "boolean",
+            "description": "flag if condition was removed."
+          },
+          "parameters": [
+            {
+              "name": "sFieldPath",
+              "type": "string",
+              "optional": false,
+              "description": "fieldPath of the condition"
+            },
+            {
+              "name": "vCondition",
+              "type": "int|object",
+              "optional": false,
+              "description": "condition or index of the condition"
+            }
+          ],
+          "description": "Removes a condition for a specified FieldPath."
+        },
+        {
+          "name": "setConditions",
+          "visibility": "public",
+          "returnValue": {
+            "type": "sap.ui.mdc.base.ConditionModel",
+            "description": "Reference to <code>this</code> to allow method chaining."
+          },
+          "parameters": [
+            {
+              "name": "oConditions",
+              "type": "object",
+              "optional": false,
+              "description": "object of conditions for corresponding fieldPaths"
+            }
+          ],
+          "description": "Sets conditions. All already existing conditions will be removed"
+        }
+      ]
+    },
+    {
+      "kind": "class",
+      "name": "sap.ui.mdc.base.FilterOperatorConfig",
+      "basename": "FilterOperatorConfig",
+      "resource": "sap/ui/mdc/base/FilterOperatorConfig.js",
+      "module": "sap/ui/mdc/base/FilterOperatorConfig",
+      "export": "",
+      "static": true,
+      "visibility": "restricted",
+      "since": "1.48.0",
+      "extends": "sap.ui.base.Object",
+      "description": "Configuration of model-specific filter operators depending on data types.",
+      "experimental": {},
+      "ui5-metadata": { "stereotype": "object" },
+      "constructor": { "visibility": "restricted" },
+      "methods": [
+        {
+          "name": "addOperatorsToType",
+          "visibility": "public",
+          "description": "Adds one or more operator(s) (given by name or array of names) to the given type"
+        },
+        {
+          "name": "constructor",
+          "visibility": "protected",
+          "description": "Not to be called by applications, just by models"
+        },
+        {
+          "name": "extend",
+          "visibility": "public",
+          "static": true,
+          "returnValue": {
+            "type": "function",
+            "description": "Created class / constructor function"
+          },
+          "parameters": [
+            {
+              "name": "sClassName",
+              "type": "string",
+              "optional": false,
+              "description": "Name of the class being created"
+            },
+            {
+              "name": "oClassInfo",
+              "type": "object",
+              "optional": true,
+              "description": "Object literal with information about the class"
+            },
+            {
+              "name": "FNMetaImpl",
+              "type": "function",
+              "optional": true,
+              "description": "Constructor function for the metadata object; if not given, it defaults to <code>sap.ui.core.ElementMetadata</code>"
+            }
+          ],
+          "description": "Creates a new subclass of class sap.ui.mdc.base.FilterOperatorConfig with name <code>sClassName</code> and enriches it with the information contained in <code>oClassInfo</code>.\n\n<code>oClassInfo</code> might contain the same kind of information as described in {@link sap.ui.base.Object.extend}."
+        },
+        {
+          "name": "getDefaultOperator",
+          "visibility": "public",
+          "returnValue": {
+            "type": "string",
+            "description": "the name of the default filter operator for the given type"
+          },
+          "parameters": [
+            {
+              "name": "vType",
+              "type": "string|sap.ui.model.SimpleType",
+              "optional": false,
+              "description": "a type or its name"
+            }
+          ],
+          "description": "Returns the default operator for the given type"
+        },
+        {
+          "name": "getFor",
+          "visibility": "public",
+          "static": true,
+          "since": "1.48",
+          "parameters": [
+            {
+              "name": "oModel",
+              "type": "undefined",
+              "optional": false,
+              "description": "the model for which the filter operator configuration is requested"
+            }
+          ],
+          "description": "Returns the FilterOperatorConfig for a specific model instance (and creates it lazily if required)."
+        },
+        {
+          "name": "getMatchingOperators",
+          "visibility": "public",
+          "returnValue": {
+            "type": "object[]",
+            "description": "the operator objects suitable to the given input string, considering the given type"
+          },
+          "parameters": [
+            {
+              "name": "vType",
+              "type": "string|sap.ui.model.SimpleType",
+              "optional": false
+            },
+            {
+              "name": "sValue",
+              "type": "string",
+              "optional": true,
+              "description": "the value entered so far"
+            }
+          ],
+          "description": "Returns the possible operators for the given type and (if given) value."
+        },
+        {
+          "name": "getMetadata",
+          "visibility": "public",
+          "static": true,
+          "returnValue": {
+            "type": "sap.ui.base.Metadata",
+            "description": "Metadata object describing this class"
+          },
+          "description": "Returns a metadata object for class sap.ui.mdc.base.FilterOperatorConfig."
+        },
+        {
+          "name": "getOperatorsForType",
+          "visibility": "public",
+          "returnValue": {
+            "type": "string[]",
+            "description": "an array with the names of the supported filter operators"
+          },
+          "parameters": [
+            {
+              "name": "vType",
+              "type": "string|sap.ui.model.SimpleType",
+              "optional": false
+            }
+          ],
+          "description": "Returns all available operators for the given type; see FilterOperatorConfig.getOperators()"
+        },
+        {
+          "name": "registerFor",
+          "visibility": "protected",
+          "static": true,
+          "parameters": [
+            {
+              "name": "sModelClassName",
+              "type": "string",
+              "optional": false,
+              "description": "the name of the model class for which the given config should be used"
+            },
+            {
+              "name": "oFOC",
+              "type": "object",
+              "optional": false,
+              "description": "the FilterOperatorConfig class (not an instance) to be used for the given model type"
+            }
+          ],
+          "description": "Registers a certain type of FilterOperatorConfig for the given model type. When someone requests the FilterOperatorConfig for a model of the given type, an instance of the config will be created and assigned to the model instance.\n\nThis method may only be called by the model whose type is given as first parameter <code>sModelClassName</code>."
+        }
+      ]
+    },
+    {
+      "kind": "namespace",
+      "name": "sap.ui.mdc.experimental.NamedBindingModel",
+      "basename": "NamedBindingModel",
+      "resource": "sap/ui/mdc/experimental/NamedBindingModel.js",
+      "module": "sap/ui/mdc/experimental/NamedBindingModel",
+      "export": "",
+      "static": true,
+      "visibility": "restricted",
+      "since": "1.49.0",
+      "description": "Static Model transformation for {@link sap.ui.model.odata.v4.ODataModel} to allow using named bindings",
+      "references": ["{@link sap.ui.model.odata.v4.ODataModel}"],
+      "experimental": {
+        "text": "This module is only for experimental use! <br/><b>This is only a POC and maybe deleted</b>"
+      },
+      "methods": [
+        {
+          "name": "upgrade",
+          "visibility": "restricted",
+          "returnValue": {
+            "type": "Promise",
+            "description": "Promise that resolves when the model has been upgraded"
+          },
+          "parameters": [
+            {
+              "name": "oModel",
+              "type": "sap.ui.model.odata.v4.ODataModel",
+              "optional": false,
+              "description": "OData v4 model instance"
+            }
+          ],
+          "description": "Manage named list bindings"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1358 @@
+{
+  "$schema-ref": "http://schemas.sap.com/sapui5/designtime/api.json/1.0",
+  "version": "1.71.0",
+  "library": "sap.fe",
+  "symbols": [
+    {
+      "kind": "namespace",
+      "name": "sap.fe.actions.draft",
+      "basename": "draft",
+      "resource": "sap/fe/actions/draft.js",
+      "module": "sap/fe/actions/draft",
+      "export": "",
+      "static": true,
+      "visibility": "restricted",
+      "since": "1.54.0",
+      "description": "Static functions for the draft programming model",
+      "experimental": {
+        "text": "This module is only for experimental use! <br/><b>This is only a POC and maybe deleted</b>"
+      },
+      "methods": [
+        {
+          "name": "activateDocument",
+          "visibility": "restricted",
+          "returnValue": {
+            "type": "Promise",
+            "description": "Promise resolves with the {@link sap.ui.model.odata.v4.Context context} of the new draft document"
+          },
+          "parameters": [
+            {
+              "name": "oContext",
+              "type": "sap.ui.model.odata.v4.Context",
+              "optional": false,
+              "description": "Context of the active document for the new draft"
+            },
+            {
+              "name": "mParameters",
+              "type": "object",
+              "optional": false,
+              "parameterProperties": {
+                "fnBeforeActivateDocument": {
+                  "name": "fnBeforeActivateDocument",
+                  "type": "sap.fe.actions.draft.ICallback.fnBeforeActivateDocument",
+                  "optional": true,
+                  "description": "Callback that allows veto before create request is executed"
+                },
+                "fnAfterActivateDocument": {
+                  "name": "fnAfterActivateDocument",
+                  "type": "sap.fe.actions.draft.ICallback.fnAfterActivateDocument",
+                  "optional": true,
+                  "description": "Callback for postprocessiong after document was activated."
+                }
+              },
+              "description": "The parameters"
+            }
+          ],
+          "description": "Creates an active document from a draft document\n\nThe function supports several hooks as there is a certain coreography defined"
+        },
+        {
+          "name": "createDraftFromActiveDocument",
+          "visibility": "restricted",
+          "returnValue": {
+            "type": "Promise",
+            "description": "Promise resolves with the {@link sap.ui.model.odata.v4.Context context} of the new draft document"
+          },
+          "parameters": [
+            {
+              "name": "oContext",
+              "type": "sap.ui.model.odata.v4.Context",
+              "optional": false,
+              "description": "Context of the active document for the new draft"
+            },
+            {
+              "name": "mParameters",
+              "type": "object",
+              "optional": false,
+              "parameterProperties": {
+                "bPreserveChanges": {
+                  "name": "bPreserveChanges",
+                  "type": "boolean",
+                  "optional": true,
+                  "description": "[true] Preserve changes of an existing draft of another user"
+                },
+                "fnBeforeCreateDraftFromActiveDocument": {
+                  "name": "fnBeforeCreateDraftFromActiveDocument",
+                  "type": "sap.fe.actions.draft.ICallback.beforeCreateDraftFromActiveDocument",
+                  "optional": true,
+                  "description": "Callback that allows veto before create request is executed"
+                },
+                "fnAfterCreateDraftFromActiveDocument": {
+                  "name": "fnAfterCreateDraftFromActiveDocument",
+                  "type": "sap.fe.actions.draft.ICallback.afterCreateDraftFromActiveDocument",
+                  "optional": true,
+                  "description": "Callback for postprocessiong after draft document was created"
+                },
+                "fnWhenDecisionToOverwriteDocumentIsRequired": {
+                  "name": "fnWhenDecisionToOverwriteDocumentIsRequired",
+                  "type": "sap.fe.actions.draft.ICallback.whenDecisionToOverwriteDocumentIsRequired",
+                  "optional": true,
+                  "description": "Callback for deciding on overwriting an unsaved change by another user"
+                }
+              },
+              "description": "The parameters"
+            }
+          ],
+          "description": "Creates a draft document from an existing document\n\nThe function supports several hooks as there is a certain coreography defined"
+        }
+      ]
+    },
+    {
+      "kind": "interface",
+      "name": "sap.fe.actions.draft.ICallback",
+      "basename": "ICallback",
+      "resource": "sap/fe/actions/draft.js",
+      "module": "sap/fe/actions/draft",
+      "export": "ICallback",
+      "static": true,
+      "visibility": "restricted",
+      "since": "1.54.0",
+      "description": "Interface for callbacks used in the functions",
+      "methods": [
+        {
+          "name": "afterCreateDraftFromActiveDocument",
+          "visibility": "restricted",
+          "static": true,
+          "returnValue": {
+            "type": "sap.ui.model.odata.v4.Context",
+            "description": "oActiveDocumentContext"
+          },
+          "parameters": [
+            {
+              "name": "oContext",
+              "type": "sap.ui.model.odata.v4.Context",
+              "optional": false,
+              "description": "Context of the new draft"
+            },
+            {
+              "name": "oActiveDocumentContext",
+              "type": "sap.ui.model.odata.v4.Context",
+              "optional": false,
+              "description": "Context of the active document for the new draft"
+            }
+          ],
+          "description": "Callback after a draft was successully created"
+        },
+        {
+          "name": "beforeCreateDraftFromActiveDocument",
+          "visibility": "restricted",
+          "static": true,
+          "returnValue": {
+            "type": "boolean|Promise",
+            "description": "Approval of draft creation [true|false] or Promise that resolves with the boolean value"
+          },
+          "parameters": [
+            {
+              "name": "oContext",
+              "type": "sap.ui.model.odata.v4.Context",
+              "optional": false,
+              "description": "Context of the active document for the new draft"
+            }
+          ],
+          "description": "Callback to approve or reject the creation of a draft"
+        },
+        {
+          "name": "whenDecisionToOverwriteDocumentIsRequired",
+          "visibility": "restricted",
+          "static": true,
+          "returnValue": {
+            "type": "boolean|Promise",
+            "description": "Approval to overwrite unsaved draft [true|false] or Promise that resolves with the boolean value"
+          },
+          "parameters": [
+            {
+              "name": "oContext",
+              "type": "sap.ui.model.odata.v4.Context",
+              "optional": false,
+              "description": "Context of the active document for the new draft"
+            }
+          ],
+          "description": "Callback to approve or reject overwriting an unsaved draft of another user"
+        }
+      ]
+    },
+    {
+      "kind": "namespace",
+      "name": "sap.fe.actions.messageHandling",
+      "basename": "messageHandling",
+      "resource": "sap/fe/actions/messageHandling.js",
+      "module": "sap/fe/actions/messageHandling",
+      "export": "",
+      "static": true,
+      "visibility": "restricted",
+      "since": "1.56.0",
+      "description": "Static functions for Fiori Message Handling",
+      "experimental": {
+        "text": "This module is only for experimental use! <br/><b>This is only a POC and maybe deleted</b>"
+      },
+      "methods": [
+        {
+          "name": "fnGetHighestMessagePriority",
+          "visibility": "restricted",
+          "static": true,
+          "returnValue": {
+            "type": "String",
+            "description": "Highest priority message from the available messages"
+          },
+          "parameters": [
+            {
+              "name": "aMessages",
+              "type": "Array",
+              "optional": true,
+              "description": "messages list"
+            }
+          ],
+          "description": "Calculates the highest priority message type(Error/Warning/Success/Information) from the available messages"
+        },
+        {
+          "name": "showUnboundMessages",
+          "visibility": "restricted",
+          "static": true,
+          "returnValue": {
+            "type": "Promise",
+            "description": "Promise resolves once toast disappears / user closes popup"
+          },
+          "parameters": [
+            {
+              "name": "aCustomMessages",
+              "type": "array",
+              "optional": false,
+              "description": "Array of custom messages given by the user to be displayed along with the other unbound messages."
+            }
+          ],
+          "description": "Shows all unbound (including technical) messages and removes those the ones which are transient"
+        }
+      ]
+    },
+    {
+      "kind": "namespace",
+      "name": "sap.fe.actions.nonDraft",
+      "basename": "nonDraft",
+      "resource": "sap/fe/actions/nonDraft.js",
+      "module": "sap/fe/actions/nonDraft",
+      "export": "",
+      "static": true,
+      "visibility": "restricted",
+      "since": "1.54.0",
+      "description": "Static functions for the non-draft programming model",
+      "experimental": {
+        "text": "This module is only for experimental use! <br/><b>This is only a POC and maybe deleted</b>"
+      }
+    },
+    {
+      "kind": "namespace",
+      "name": "sap.fe.actions.operations",
+      "basename": "operations",
+      "resource": "sap/fe/actions/operations.js",
+      "module": "sap/fe/actions/operations",
+      "export": "",
+      "static": true,
+      "visibility": "restricted",
+      "since": "1.56.0",
+      "description": "Static functions to call OData actions (bound/import) and functions (bound/import)",
+      "experimental": {
+        "text": "This module is only for experimental use! <br/><b>This is only a POC and maybe deleted</b>"
+      },
+      "methods": [
+        {
+          "name": "callActionImport",
+          "visibility": "restricted",
+          "static": true,
+          "returnValue": {
+            "type": "Promise",
+            "description": "Promise resolves with an array of response objects (TODO: to be changed)"
+          },
+          "parameters": [
+            {
+              "name": "sActionName",
+              "type": "string",
+              "optional": false,
+              "description": "The name of the action import to be called"
+            },
+            {
+              "name": "oModel",
+              "type": "sap.ui.model.odata.v4.ODataModel",
+              "optional": false,
+              "description": "An instance of an OData v4 model"
+            },
+            {
+              "name": "mParameters",
+              "type": "map",
+              "optional": true,
+              "parameterProperties": {
+                "actionParameters": {
+                  "name": "actionParameters",
+                  "type": "map",
+                  "optional": true,
+                  "description": "a map of parameters to be sent with the action import"
+                },
+                "label": {
+                  "name": "label",
+                  "type": "string",
+                  "optional": true,
+                  "description": "a human-readable label for the action"
+                },
+                "showActionParameterDialog": {
+                  "name": "showActionParameterDialog",
+                  "type": "boolean",
+                  "optional": true,
+                  "description": "[false] if set and if parameters exist the user retrieves a dialog to fill in parameters, if actionParameters are passed they are shown to the user"
+                },
+                "onSubmitted": {
+                  "name": "onSubmitted",
+                  "type": "function",
+                  "optional": true,
+                  "description": "Function which is called once the actions are submitted with an array of promises"
+                },
+                "defaultParameters": {
+                  "name": "defaultParameters",
+                  "type": "map",
+                  "optional": true,
+                  "description": "can contain default parameters from FLP user defaults"
+                }
+              },
+              "description": "Optional, can contain the following attributes:"
+            }
+          ],
+          "description": "Calls an action import"
+        },
+        {
+          "name": "callBoundAction",
+          "visibility": "restricted",
+          "static": true,
+          "returnValue": {
+            "type": "Promise",
+            "description": "Promise resolves with an array of response objects (TODO: to be changed)"
+          },
+          "parameters": [
+            {
+              "name": "sActionName",
+              "type": "string",
+              "optional": false,
+              "description": "The name of the action to be called"
+            },
+            {
+              "name": "contexts",
+              "type": "sap.ui.model.odata.v4.Context",
+              "optional": false,
+              "description": "Either one context or an array with contexts for which the action shall be called"
+            },
+            {
+              "name": "mParameters",
+              "type": "map",
+              "optional": true,
+              "parameterProperties": {
+                "actionParameters": {
+                  "name": "actionParameters",
+                  "type": "map",
+                  "optional": true,
+                  "description": "a map of parameters to be sent for every action call"
+                },
+                "mBindingParameters": {
+                  "name": "mBindingParameters",
+                  "type": "map",
+                  "optional": true,
+                  "description": "a map of binding parameters that would be part of $select and $expand coming from side effects for bound actions"
+                },
+                "additionalSideEffect": {
+                  "name": "additionalSideEffect",
+                  "type": "array",
+                  "optional": true,
+                  "description": "array of property paths to be requested in addition to actual target properties of the side effect"
+                },
+                "showActionParameterDialog": {
+                  "name": "showActionParameterDialog",
+                  "type": "boolean",
+                  "optional": true,
+                  "description": "[false] if set and if parameters exist the user retrieves a dialog to fill in parameters, if actionParameters are passed they are shown to the user"
+                },
+                "label": {
+                  "name": "label",
+                  "type": "string",
+                  "optional": true,
+                  "description": "a human-readable label for the action"
+                },
+                "invocationGrouping": {
+                  "name": "invocationGrouping",
+                  "type": "string",
+                  "optional": true,
+                  "description": "[Isolated] mode how actions shall be called: Changeset to put all action calls into one changeset, Isolated to put them into separate changesets"
+                },
+                "onSubmitted": {
+                  "name": "onSubmitted",
+                  "type": "function",
+                  "optional": true,
+                  "description": "Function which is called once the actions are submitted with an array of promises"
+                },
+                "defaultParameters": {
+                  "name": "defaultParameters",
+                  "type": "map",
+                  "optional": true,
+                  "description": "can contain default parameters from FLP user defaults"
+                },
+                "parentControl": {
+                  "name": "parentControl",
+                  "type": "sap.ui.core.Element",
+                  "optional": true,
+                  "description": "if specified the dialogs are added as dependent of the parent control"
+                }
+              },
+              "description": "Optional, can contain the following attributes:"
+            }
+          ],
+          "description": "Calls a bound action for one or multiple contexts"
+        },
+        {
+          "name": "setUserDefaults",
+          "visibility": "restricted",
+          "static": true,
+          "parameters": [
+            {
+              "name": "oAppComponent",
+              "type": "object",
+              "optional": true,
+              "description": "app's onwer component"
+            },
+            {
+              "name": "aActionParameters",
+              "type": "array",
+              "optional": true,
+              "description": "action parameters"
+            },
+            {
+              "name": "oParameterModel",
+              "type": "object",
+              "optional": true,
+              "description": "custom JSON model that holds value, valuestate, valuestatetext, displayMode of each action parameter (*temporary)"
+            }
+          ],
+          "description": "sets the FLP user defaults to the parameter model"
+        }
+      ]
+    },
+    {
+      "kind": "namespace",
+      "name": "sap.fe.actions.sticky",
+      "basename": "sticky",
+      "resource": "sap/fe/actions/sticky.js",
+      "module": "sap/fe/actions/sticky",
+      "export": "",
+      "static": true,
+      "visibility": "restricted",
+      "since": "1.54.0",
+      "description": "Static functions for the sticky session programming model",
+      "experimental": {
+        "text": "This module is only for experimental use! <br/><b>This is only a POC and maybe deleted</b>"
+      },
+      "methods": [
+        {
+          "name": "activateDocument",
+          "visibility": "restricted",
+          "parameters": [
+            {
+              "name": "oContext",
+              "type": "sap.ui.model.odata.v4.Context",
+              "optional": false,
+              "description": "Context of the document to be activated"
+            }
+          ],
+          "description": "activates a document and closes sticky session"
+        },
+        {
+          "name": "discardDocument",
+          "visibility": "restricted",
+          "parameters": [
+            {
+              "name": "oContext",
+              "type": "sap.ui.model.odata.v4.Context",
+              "optional": false,
+              "description": "Context of the document to be discarded"
+            }
+          ],
+          "description": "discards a document and closes sticky session"
+        },
+        {
+          "name": "editDocumentInStickySession",
+          "visibility": "restricted",
+          "parameters": [
+            {
+              "name": "oContext",
+              "type": "sap.ui.model.odata.v4.Context",
+              "optional": false,
+              "description": "Context of the document to be edited"
+            }
+          ],
+          "description": "Opens a sticky session to edit a document"
+        }
+      ]
+    },
+    {
+      "kind": "namespace",
+      "name": "sap.fe.controllerextensions.AppState",
+      "basename": "AppState",
+      "resource": "sap/fe/controllerextensions/AppState.js",
+      "module": "sap/fe/controllerextensions/AppState",
+      "export": "",
+      "static": true,
+      "visibility": "restricted",
+      "since": "1.54.0",
+      "extends": "sap.ui.core.mvc.ControllerExtension",
+      "description": "{@link sap.ui.core.mvc.ControllerExtension Controller extension} for AppState Handling",
+      "experimental": {
+        "text": "This module is only for experimental use! <br/><b>This is only a POC and maybe deleted</b>"
+      },
+      "ui5-metadata": {},
+      "methods": [
+        {
+          "name": "cleanupAppState",
+          "visibility": "restricted",
+          "parameters": [
+            {
+              "name": "application",
+              "type": "sap.ui.core.Component",
+              "optional": false,
+              "description": "component owning the routing"
+            }
+          ],
+          "description": "cleans up the app state handling"
+        },
+        {
+          "name": "extend",
+          "visibility": "public",
+          "static": true,
+          "returnValue": {
+            "type": "function",
+            "description": "Created class / constructor function"
+          },
+          "parameters": [
+            {
+              "name": "sClassName",
+              "type": "string",
+              "optional": false,
+              "description": "Name of the class being created"
+            },
+            {
+              "name": "oClassInfo",
+              "type": "object",
+              "optional": true,
+              "description": "Object literal with information about the class"
+            },
+            {
+              "name": "FNMetaImpl",
+              "type": "function",
+              "optional": true,
+              "description": "Constructor function for the metadata object; if not given, it defaults to <code>sap.ui.core.ElementMetadata</code>"
+            }
+          ],
+          "description": "Creates a new subclass of class sap.fe.controllerextensions.AppState with name <code>sClassName</code> and enriches it with the information contained in <code>oClassInfo</code>.\n\n<code>oClassInfo</code> might contain the same kind of information as described in {@link sap.ui.core.mvc.ControllerExtension.extend}."
+        },
+        {
+          "name": "getMetadata",
+          "visibility": "public",
+          "static": true,
+          "returnValue": {
+            "type": "sap.ui.base.Metadata",
+            "description": "Metadata object describing this class"
+          },
+          "description": "Returns a metadata object for class sap.fe.controllerextensions.AppState."
+        },
+        {
+          "name": "initializeAppState",
+          "visibility": "restricted",
+          "parameters": [
+            {
+              "name": "application",
+              "type": "sap.ui.core.Component",
+              "optional": false,
+              "description": "component owning the routing"
+            }
+          ],
+          "description": "initialize the app state handling"
+        },
+        {
+          "name": "requestAppStateModel",
+          "visibility": "restricted",
+          "returnValue": {
+            "type": "Promise",
+            "description": "Promise which is resolved with the appState model once created and filled"
+          },
+          "parameters": [
+            {
+              "name": "Id",
+              "type": "string",
+              "optional": false,
+              "description": "of the appState model"
+            }
+          ],
+          "description": "creates (if not yet done) a new app state model for a given ID and returns it"
+        }
+      ]
+    },
+    {
+      "kind": "namespace",
+      "name": "sap.fe.controllerextensions.Routing",
+      "basename": "Routing",
+      "resource": "sap/fe/controllerextensions/Routing.js",
+      "module": "sap/fe/controllerextensions/Routing",
+      "export": "",
+      "static": true,
+      "visibility": "restricted",
+      "since": "1.54.0",
+      "extends": "sap.ui.core.mvc.ControllerExtension",
+      "description": "{@link sap.ui.core.mvc.ControllerExtension Controller extension} for routing and navigation",
+      "experimental": {
+        "text": "This module is only for experimental use! <br/><b>This is only a POC and maybe deleted</b>"
+      },
+      "ui5-metadata": {},
+      "methods": [
+        {
+          "name": "extend",
+          "visibility": "public",
+          "static": true,
+          "returnValue": {
+            "type": "function",
+            "description": "Created class / constructor function"
+          },
+          "parameters": [
+            {
+              "name": "sClassName",
+              "type": "string",
+              "optional": false,
+              "description": "Name of the class being created"
+            },
+            {
+              "name": "oClassInfo",
+              "type": "object",
+              "optional": true,
+              "description": "Object literal with information about the class"
+            },
+            {
+              "name": "FNMetaImpl",
+              "type": "function",
+              "optional": true,
+              "description": "Constructor function for the metadata object; if not given, it defaults to <code>sap.ui.core.ElementMetadata</code>"
+            }
+          ],
+          "description": "Creates a new subclass of class sap.fe.controllerextensions.Routing with name <code>sClassName</code> and enriches it with the information contained in <code>oClassInfo</code>.\n\n<code>oClassInfo</code> might contain the same kind of information as described in {@link sap.ui.core.mvc.ControllerExtension.extend}."
+        },
+        {
+          "name": "getDirtyState",
+          "visibility": "restricted",
+          "returnValue": {
+            "type": "object",
+            "description": "Object containing the dirty bindings"
+          },
+          "parameters": [
+            {
+              "name": "path",
+              "type": "string",
+              "optional": false,
+              "description": "of entity set which should be marked dirty"
+            }
+          ],
+          "description": "Returns the dirty state of the given entity set"
+        },
+        {
+          "name": "getMetadata",
+          "visibility": "public",
+          "static": true,
+          "returnValue": {
+            "type": "sap.ui.base.Metadata",
+            "description": "Metadata object describing this class"
+          },
+          "description": "Returns a metadata object for class sap.fe.controllerextensions.Routing."
+        },
+        {
+          "name": "initializeRouting",
+          "visibility": "restricted",
+          "parameters": [
+            {
+              "name": "application",
+              "type": "sap.ui.core.Component",
+              "optional": false,
+              "description": "component owning the routing"
+            }
+          ],
+          "description": "This initializes and extends the routing as well as the attaching to hash changes"
+        },
+        {
+          "name": "navigateOutbound",
+          "visibility": "restricted",
+          "returnValue": {
+            "type": "Promise",
+            "description": "Promise which is resolved once the navigation is triggered (??? maybe only once finished?)"
+          },
+          "parameters": [
+            {
+              "name": "outboundTarget",
+              "type": "string",
+              "optional": false,
+              "description": "name of the outbound target (needs to be defined in the manifest)"
+            },
+            {
+              "name": "Context",
+              "type": "sap.ui.model.odata.v4.Context",
+              "optional": false,
+              "description": "that contain the data for the target app"
+            }
+          ],
+          "description": "Triggers an outbound navigation"
+        },
+        {
+          "name": "navigateToContext",
+          "visibility": "restricted",
+          "returnValue": {
+            "type": "Promise",
+            "description": "Promise which is resolved once the navigation is triggered (??? maybe only once finished?)"
+          },
+          "parameters": [
+            {
+              "name": "errorMessage",
+              "type": "string",
+              "optional": false,
+              "description": "A human readable error message"
+            },
+            {
+              "name": "mParameters",
+              "type": "map",
+              "optional": true,
+              "parameterProperties": {
+                "navContainer": {
+                  "name": "navContainer",
+                  "type": "sap.m.NavContainer",
+                  "optional": true,
+                  "description": "Instance of a sap.m.NavContainer if not specified the method expects tha owner component of the view to be the navigation container"
+                },
+                "description": {
+                  "name": "description",
+                  "type": "string",
+                  "optional": true,
+                  "description": "A human readable description of the error"
+                },
+                "technicalMessage": {
+                  "name": "technicalMessage",
+                  "type": "string",
+                  "optional": true,
+                  "description": "Technical Message"
+                },
+                "technicalDetails": {
+                  "name": "technicalDetails",
+                  "type": "string",
+                  "optional": true,
+                  "description": "Further technical details"
+                }
+              },
+              "description": "Optional, can contain the following attributes:"
+            }
+          ],
+          "description": "Creates and navigates a message page to show an error"
+        },
+        {
+          "name": "setDirtyState",
+          "visibility": "restricted",
+          "parameters": [
+            {
+              "name": "context",
+              "type": "sap.ui.model.odata.v4.Context",
+              "optional": false,
+              "description": "for which state has to be set dirty"
+            },
+            {
+              "name": "whether",
+              "type": "boolean",
+              "optional": false,
+              "description": "entity set is dirty or not"
+            }
+          ],
+          "description": "This sets the dirty state of an entity set in the app which can later be fetched via via getDirtyState, for example, to be used in order to decide if a binding refresh is required or not"
+        }
+      ]
+    },
+    {
+      "kind": "namespace",
+      "name": "sap.fe.controllerextensions.Transaction",
+      "basename": "Transaction",
+      "resource": "sap/fe/controllerextensions/Transaction.js",
+      "module": "sap/fe/controllerextensions/Transaction",
+      "export": "",
+      "static": true,
+      "visibility": "restricted",
+      "since": "1.54.0",
+      "extends": "sap.ui.core.mvc.ControllerExtension",
+      "description": "{@link sap.ui.core.mvc.ControllerExtension Controller extension} for transactional UIs",
+      "experimental": {
+        "text": "This module is only for experimental use! <br/><b>This is only a POC and maybe deleted</b>"
+      },
+      "ui5-metadata": {},
+      "methods": [
+        {
+          "name": "_getBindingParameters",
+          "visibility": "restricted",
+          "static": true,
+          "returnValue": {
+            "type": "map",
+            "description": "Map of query parameters with $select and $expand"
+          },
+          "parameters": [
+            {
+              "name": "sActionName",
+              "type": "string",
+              "optional": false,
+              "description": "The name of the bound action for which to get the side effects"
+            },
+            {
+              "name": "oContext",
+              "type": "sap.ui.model.odata.v4.Context",
+              "optional": false,
+              "description": "Binding Context of the view"
+            }
+          ],
+          "description": "Get the query parameters for bound action from side effect, if annotated for provided action TODO: Add support for $expand when the backend supports it."
+        },
+        {
+          "name": "_getOwnerComponent",
+          "visibility": "restricted",
+          "static": true,
+          "description": "retrieves the owner component"
+        },
+        {
+          "name": "_showDiscardPopover",
+          "visibility": "restricted",
+          "static": true,
+          "returnValue": {
+            "type": "Promise",
+            "description": "Promise resolves if user confirms discard, rejects if otherwise, rejects if no control passed to open popover"
+          },
+          "parameters": [
+            {
+              "name": "oCancelButton",
+              "type": "sap.ui.core.Control",
+              "optional": false,
+              "description": "The control which will open the popover"
+            }
+          ],
+          "description": "Shows a popover if it needs to be shown. TODO: Popover is shown if user has modified any data. TODO: Popover is shown if there's a difference from draft admin data."
+        },
+        {
+          "name": "cancelDocument",
+          "visibility": "restricted",
+          "returnValue": {
+            "type": "Promise",
+            "description": "Promise resolves with ???"
+          },
+          "parameters": [
+            {
+              "name": "{oContext}",
+              "type": "sap.ui.model.odata.v4.Context",
+              "optional": false,
+              "description": "Context of the document to be canceled / deleted"
+            },
+            {
+              "name": "mParameters",
+              "type": "map",
+              "optional": true,
+              "description": "Optional, can contain the following attributes:"
+            }
+          ],
+          "description": "Cancel edit of a document"
+        },
+        {
+          "name": "createDocument",
+          "visibility": "restricted",
+          "returnValue": {
+            "type": "Promise",
+            "description": "Promise resolves with New Binding Context"
+          },
+          "parameters": [
+            {
+              "name": "OData",
+              "type": "sap.ui.model.odata.v4.ODataListBinding",
+              "optional": false,
+              "description": "v4 ListBinding object"
+            },
+            {
+              "name": "mParameters",
+              "type": "map",
+              "optional": true,
+              "parameterProperties": {
+                "refreshList": {
+                  "name": "refreshList",
+                  "type": "boolean",
+                  "optional": true,
+                  "description": "control if the list shall be refreshed immediately after creating the instance"
+                },
+                "data": {
+                  "name": "data",
+                  "type": "map",
+                  "optional": true,
+                  "description": "a map of data that should be sent within the POST"
+                },
+                "busyMode": {
+                  "name": "busyMode",
+                  "type": "string",
+                  "optional": true,
+                  "description": "Global (default), Local, None TODO: to be refactored"
+                },
+                "keepTransientContextOnFailed": {
+                  "name": "keepTransientContextOnFailed",
+                  "type": "map",
+                  "optional": true,
+                  "description": "if set the context stays in the list if the POST failed and POST will be repeated with next change"
+                }
+              },
+              "description": "Optional, can contain the following attributes:"
+            }
+          ],
+          "description": "Creates a new document"
+        },
+        {
+          "name": "editDocument",
+          "visibility": "restricted",
+          "returnValue": {
+            "type": "Promise",
+            "description": "Promise resolves with the new Draft Context in case of draft programming model"
+          },
+          "parameters": [
+            {
+              "name": "Context",
+              "type": "sap.ui.model.odata.v4.Context",
+              "optional": false,
+              "description": "of the active document"
+            }
+          ],
+          "description": "Edit a document"
+        },
+        {
+          "name": "extend",
+          "visibility": "public",
+          "static": true,
+          "returnValue": {
+            "type": "function",
+            "description": "Created class / constructor function"
+          },
+          "parameters": [
+            {
+              "name": "sClassName",
+              "type": "string",
+              "optional": false,
+              "description": "Name of the class being created"
+            },
+            {
+              "name": "oClassInfo",
+              "type": "object",
+              "optional": true,
+              "description": "Object literal with information about the class"
+            },
+            {
+              "name": "FNMetaImpl",
+              "type": "function",
+              "optional": true,
+              "description": "Constructor function for the metadata object; if not given, it defaults to <code>sap.ui.core.ElementMetadata</code>"
+            }
+          ],
+          "description": "Creates a new subclass of class sap.fe.controllerextensions.Transaction with name <code>sClassName</code> and enriches it with the information contained in <code>oClassInfo</code>.\n\n<code>oClassInfo</code> might contain the same kind of information as described in {@link sap.ui.core.mvc.ControllerExtension.extend}."
+        },
+        {
+          "name": "getMetadata",
+          "visibility": "public",
+          "static": true,
+          "returnValue": {
+            "type": "sap.ui.base.Metadata",
+            "description": "Metadata object describing this class"
+          },
+          "description": "Returns a metadata object for class sap.fe.controllerextensions.Transaction."
+        },
+        {
+          "name": "getUIStateModel",
+          "visibility": "restricted",
+          "returnValue": {
+            "type": "sap.ui.model.json.JSONModel",
+            "description": "Instance of the UI-State Model"
+          },
+          "description": "returns the UI State model and creates it if not yet existing"
+        },
+        {
+          "name": "handleDocumentModifications",
+          "visibility": "restricted",
+          "static": true,
+          "description": "Sets the document to modified state on patch event"
+        },
+        {
+          "name": "onCallAction",
+          "visibility": "restricted",
+          "static": true,
+          "returnValue": {
+            "type": "Promise",
+            "description": "Promise resolves with an array of response objects (TODO: to be changed)"
+          },
+          "parameters": [
+            {
+              "name": "sActionName",
+              "type": "string",
+              "optional": false,
+              "description": "The name of the action to be called"
+            },
+            {
+              "name": "mParameters",
+              "type": "map",
+              "optional": true,
+              "parameterProperties": {
+                "contexts": {
+                  "name": "contexts",
+                  "type": "sap.ui.model.odata.v4.Context",
+                  "optional": true,
+                  "description": "contexts Mandatory for a bound action, Either one context or an array with contexts for which the action shall be called"
+                },
+                "model": {
+                  "name": "model",
+                  "type": "sap.ui.model.odata.v4.ODataModel",
+                  "optional": true,
+                  "description": "oModel Mandatory for an unbound action, An instance of an OData v4 model"
+                },
+                "invocationGrouping": {
+                  "name": "invocationGrouping",
+                  "type": "string",
+                  "optional": true,
+                  "description": "[Isolated] mode how actions shall be called: Changeset to put all action calls into one changeset, Isolated to put them into separate changesets (TODO: create enum)"
+                },
+                "label": {
+                  "name": "label",
+                  "type": "string",
+                  "optional": true,
+                  "description": "a human-readable label for the action"
+                }
+              },
+              "description": "contains the following attributes:"
+            }
+          ],
+          "description": "Calls a bound/unbound action"
+        },
+        {
+          "name": "saveDocument",
+          "visibility": "restricted",
+          "returnValue": {
+            "type": "Promise",
+            "description": "Promise resolves with ???"
+          },
+          "parameters": [
+            {
+              "name": "Context",
+              "type": "sap.ui.model.odata.v4.Context",
+              "optional": false,
+              "description": "of the document that should be saved"
+            }
+          ],
+          "description": "Save document"
+        },
+        {
+          "name": "setUIStateModel",
+          "visibility": "restricted",
+          "parameters": [
+            {
+              "name": "Instance",
+              "type": "sap.ui.model.json.JSONModel",
+              "optional": false,
+              "description": "of the UI-State Model"
+            }
+          ],
+          "description": "sets the UI State model to be used"
+        },
+        {
+          "name": "updateDocument",
+          "visibility": "restricted",
+          "returnValue": {
+            "type": "Promise",
+            "description": "Promise resolves with ???"
+          },
+          "parameters": [
+            {
+              "name": "mParameters",
+              "type": "map",
+              "optional": true,
+              "parameterProperties": {
+                "context": {
+                  "name": "context",
+                  "type": "sap.ui.model.odata.v4.Context",
+                  "optional": true,
+                  "description": "Context of the active document"
+                }
+              },
+              "description": "Optional, can contain the following attributes:"
+            }
+          ],
+          "description": "Update document"
+        }
+      ]
+    },
+    {
+      "kind": "namespace",
+      "name": "sap.fe.model.DraftModel",
+      "basename": "DraftModel",
+      "resource": "sap/fe/model/DraftModel.js",
+      "module": "sap/fe/model/DraftModel",
+      "export": "",
+      "static": true,
+      "visibility": "restricted",
+      "since": "1.48.0",
+      "description": "Static Draft 2.0 Model transformation for {@link sap.ui.model.odata.v4.ODataModel} to simplify programming against the draft enabled OData services with sapui5",
+      "references": ["{@link sap.ui.model.odata.v4.ODataModel}"],
+      "experimental": {
+        "text": "This module is only for experimental use! <br/><b>This is only a POC and maybe deleted</b>"
+      },
+      "methods": [
+        {
+          "name": "isDraftModel",
+          "visibility": "restricted",
+          "returnValue": {
+            "type": "Promise.<Boolean>",
+            "description": "True if Draft Model"
+          },
+          "parameters": [
+            {
+              "name": "oModel",
+              "type": "sap.ui.model.odata.v4.ODataModel",
+              "optional": false,
+              "description": "OData v4 model instance"
+            }
+          ],
+          "description": "Check if this is a draft model.<br/>\n\nA model is considered a draft model if at least one entitySet of the OData service is annotated with one of the terms <ul> <li>com.sap.vocabularies.Common.v1.DraftRoot</li> <li>com.sap.vocabularies.Common.v1.DraftNode</li> </ul>"
+        },
+        {
+          "name": "upgrade",
+          "visibility": "restricted",
+          "returnValue": {
+            "type": "Promise",
+            "description": "Resolves once the model is upgraded"
+          },
+          "parameters": [
+            {
+              "name": "oModel",
+              "type": "sap.ui.model.odata.v4.ODataModel",
+              "optional": false,
+              "description": "OData v4 model instance"
+            }
+          ],
+          "throws": [
+            {
+              "description": "Will throw an error if the service doesn't have any draft entity sets"
+            }
+          ],
+          "description": "Upgrades an OData v4 model to a Draft Model. Throws an error if it is not a draft enabled service <p>The result of this function will mix new functions into instances of the following classes <ul> <li>{@link sap.ui.model.odata.v4.ODataModel}</li> <li>{@link sap.ui.model.odata.v4.Context}</li> </ul> Read the sections {@link sap.fe.model.DraftModel.upgradedModel} and {@link sap.fe.model.DraftModel.upgradedContext} for more information about the added functions </p>",
+          "examples": [
+            {
+              "caption": "Example usage of upgrade",
+              "text": "var oModel = new ODataModel(...);\nDraftModel.upgrade(oModel).then(function() {\n\toView.setModel(oModel);\n\toView.setModel(oModel.getDraftAccessModel(), \"$draft\");\n});"
+            }
+          ]
+        },
+        {
+          "name": "upgradeOnDemand",
+          "visibility": "restricted",
+          "returnValue": {
+            "type": "Promise.<Boolean>",
+            "description": "True if Draft Model detected and upgraded"
+          },
+          "parameters": [
+            {
+              "name": "oModel",
+              "type": "sap.ui.model.odata.v4.ODataModel",
+              "optional": false,
+              "description": "OData v4 model instance"
+            }
+          ],
+          "description": "Upgrades an OData v4 model to a Draft Model if it is a draft enbled service and leave it as is if not.",
+          "references": [
+            "{@link sap.fe.model.DraftModel#upgrade} for more information"
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "enum",
+      "name": "sap.fe.model.DraftModel.EDITSTATE",
+      "basename": "EDITSTATE",
+      "resource": "sap/fe/model/DraftModel.js",
+      "module": "sap/fe/model/DraftModel",
+      "export": "EDITSTATE",
+      "static": true,
+      "visibility": "restricted",
+      "description": "Enum for edit state of a document in an draft enabled service collection. Allows to simplify filtering on a set of documents as described by the individual state",
+      "properties": [
+        {
+          "name": "ALL",
+          "visibility": "restricted",
+          "static": true,
+          "type": "String",
+          "description": "Active documents that don't have a corresponding draft and all own draft documents"
+        },
+        {
+          "name": "LOCKED",
+          "visibility": "restricted",
+          "static": true,
+          "type": "String",
+          "description": "Active documents that are locked by other users"
+        },
+        {
+          "name": "OWN_DRAFT",
+          "visibility": "restricted",
+          "static": true,
+          "type": "String",
+          "description": "Own draft documents"
+        },
+        {
+          "name": "UNCHANGED",
+          "visibility": "restricted",
+          "static": true,
+          "type": "String",
+          "description": "Active documents that don't have a draft document"
+        },
+        {
+          "name": "UNSAVED_CHANGES",
+          "visibility": "restricted",
+          "static": true,
+          "type": "String",
+          "description": "Active documents that have draft documents by other users"
+        }
+      ]
+    },
+    {
+      "kind": "namespace",
+      "name": "sap.fe.model.DraftModel.upgradedContext",
+      "basename": "upgradedContext",
+      "resource": "sap/fe/model/DraftModel.js",
+      "module": "sap/fe/model/DraftModel",
+      "export": "upgradedContext",
+      "static": true,
+      "visibility": "restricted",
+      "description": "Only for documentation of the methods that are mixed into the {@link sap.ui.model.odata.v4.Context} if the context is part of a draft entitySet",
+      "experimental": { "text": "This module is only for experimental use!" },
+      "methods": [
+        {
+          "name": "executeDraftActivationAction",
+          "visibility": "restricted",
+          "returnValue": {
+            "type": "Promise.<sap.ui.model.odata.v4.Context>",
+            "description": "Resolve function returns the context of the operation"
+          },
+          "description": "Activates a draft document. The draft will replace the sibling entity and will be deleted by the backend"
+        },
+        {
+          "name": "executeDraftEditAction",
+          "visibility": "restricted",
+          "returnValue": {
+            "type": "Promise.<sap.ui.model.odata.v4.Context>",
+            "description": "Resolve function returns the context of the operation"
+          },
+          "parameters": [
+            {
+              "name": "preserveChanges",
+              "type": "Boolean",
+              "optional": false,
+              "description": "<ul> <li>true - existing changes from another user that are not locked are preserved and an error message (http status 409) is send from the backend</li> <li>false - existing changes from another user that are not locked are overwritten</li> </ul>"
+            }
+          ],
+          "description": "Creates a new draft from an active document"
+        },
+        {
+          "name": "executeDraftPreparationAction",
+          "visibility": "restricted",
+          "returnValue": {
+            "type": "Promise.<sap.ui.model.odata.v4.Context>",
+            "description": "Resolve function returns the context of the operation"
+          },
+          "parameters": [
+            {
+              "name": "sideEffectsQualifier",
+              "type": "String",
+              "optional": true,
+              "description": "Limits the prepare activities to a given side effects group specified by this qualifier"
+            }
+          ],
+          "description": "Execute a preparation action"
+        },
+        {
+          "name": "executeDraftValidationFunction",
+          "visibility": "restricted",
+          "returnValue": {
+            "type": "Promise.<sap.ui.model.odata.v4.Context>",
+            "description": "Resolve function returns the context of the operation"
+          },
+          "description": "Executes validation of a draft function"
+        }
+      ]
+    },
+    {
+      "kind": "namespace",
+      "name": "sap.fe.model.DraftModel.upgradedModel",
+      "basename": "upgradedModel",
+      "resource": "sap/fe/model/DraftModel.js",
+      "module": "sap/fe/model/DraftModel",
+      "export": "upgradedModel",
+      "static": true,
+      "visibility": "restricted",
+      "description": "Only for documentation of the methods that are mixed into the {@link sap.ui.model.odata.v4.ODataModel} after it has been upgraded to a sap.fe.model.DraftModel",
+      "experimental": { "text": "This module is only for experimental use!" },
+      "methods": [
+        {
+          "name": "getDraftAccessModel",
+          "visibility": "restricted",
+          "returnValue": {
+            "type": "sap.ui.model.json.JSONModel",
+            "description": "The interal DraftAccessModel"
+          },
+          "description": "Mixin for {@link sap.ui.model.odata.v4.ODataModel}. Returns the internal JSON Model aka DraftAccessModel",
+          "examples": [
+            {
+              "caption": "The model can be set to a control or view as any other model",
+              "text": "oView.setModel(oModel.getDraftAccessModel(), \"$draft\");"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "namespace",
+      "name": "sap.fe.model.NamedBindingModel",
+      "basename": "NamedBindingModel",
+      "resource": "sap/fe/model/NamedBindingModel.js",
+      "module": "sap/fe/model/NamedBindingModel",
+      "export": "",
+      "static": true,
+      "visibility": "restricted",
+      "since": "1.49.0",
+      "description": "Static Model transformation for {@link sap.ui.model.odata.v4.ODataModel} to allow using named bindings",
+      "references": ["{@link sap.ui.model.odata.v4.ODataModel}"],
+      "experimental": {
+        "text": "This module is only for experimental use! <br/><b>This is only a POC and maybe deleted</b>"
+      },
+      "methods": [
+        {
+          "name": "upgrade",
+          "visibility": "restricted",
+          "returnValue": {
+            "type": "Promise",
+            "description": "Promise that resolves when the model has been upgraded"
+          },
+          "parameters": [
+            {
+              "name": "oModel",
+              "type": "sap.ui.model.odata.v4.ODataModel",
+              "optional": false,
+              "description": "OData v4 model instance"
+            }
+          ],
+          "description": "Manage named list bindings"
+        }
+      ]
+    }
+  ]
+}
