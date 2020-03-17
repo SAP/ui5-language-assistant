@@ -18,8 +18,6 @@ With Yarn
 
 Please see the [TypeScript Definitions](./api.d.ts) for full API details.
 
-TBD: Quick Start Example
-
 ## Support
 
 Please open [issues](https://github.com/SAP/ui5-editor-tools/issues) on github.

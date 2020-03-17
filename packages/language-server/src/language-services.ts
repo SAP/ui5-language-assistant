@@ -1,5 +1,6 @@
-import { resolve } from "path";
-import { existsSync, mkdirSync, writeFileSync } from "fs";
+import { map } from "lodash";
+//import { resolve } from "path";
+//import { existsSync, mkdirSync, writeFileSync } from "fs";
 import fetch from "node-fetch";
 import {
   CompletionItem,
@@ -43,7 +44,7 @@ export function getCompletionItems(
 function transformToLspSuggestions(
   suggestions: XMLViewCompletion[]
 ): CompletionItem[] {
-  const lspSuggestions = suggestions.map(suggestion => {
+  const lspSuggestions = map(suggestions, suggestion => {
     const completionItem: CompletionItem = {
       label: suggestion.ui5Node.name,
       detail: suggestion.ui5Node.description,
@@ -106,20 +107,20 @@ export async function getSemanticModel(): Promise<UI5SemanticModel> {
   ];
 
   const jsonMap: Record<string, Json> = {};
-  const pathToDir = resolve(__dirname, "1.75.0");
+  //const libCacheDir = resolve(__dirname, "1.75.0");
 
-  if (!existsSync(pathToDir)) {
+  /*if (!existsSync(pathToDir)) {
     mkdirSync(pathToDir);
-  }
+  }*/
 
   await Promise.all(
-    libs.map(async url => {
+    map(libs, async url => {
       let libName =
         url.substring(baseUrl.length, url.length - suffix.length) + ".api.json";
       libName = libName.split("/").join(".");
       const response = await fetch(url);
       const json = await response.json();
-      writeFileSync(resolve(pathToDir, libName), JSON.stringify(json));
+      //writeFileSync(resolve(pathToDir, libName), JSON.stringify(json));
       jsonMap[libName] = json;
     })
   );
