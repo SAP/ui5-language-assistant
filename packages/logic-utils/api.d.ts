@@ -6,6 +6,7 @@ import {
   UI5Event,
   UI5Interface,
   UI5Prop,
+  UI5Association,
   UI5SemanticModel
 } from "@ui5-editor-tools/semantic-model-types";
 
@@ -48,6 +49,11 @@ export function flattenProperties(ui5Class: UI5Class): UI5Prop[];
  * Returns a list of all direct and borrowed events of a UI5 Class
  */
 export function flattenEvents(ui5Class: UI5Class): UI5Event[];
+
+/**
+ * Returns a list of all direct and borrowed associations of a UI5 Class
+ */
+export function flattenAssociations(ui5Class: UI5Class): UI5Association[];
 
 /**
  * Returns a list of all UI5Classes in the model which either extend (transitively)

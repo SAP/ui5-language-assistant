@@ -9,6 +9,7 @@ import {
 } from "@ui5-editor-tools/semantic-model-types";
 
 import { PartialWithName } from "../../api";
+import { Ui5Association } from "@ui5-editor-tools/semantic-model/src/api-json";
 
 const baseUI5NodeDefaults: BaseUI5Node = {
   name: "",
@@ -35,6 +36,25 @@ export function buildUI5Event(opts: PartialWithName<UI5Event>): UI5Event {
   return {
     ...baseUI5NodeDefaults,
     kind: "UI5Event",
+    ...opts
+  };
+}
+
+export function buildUI5Association(
+  opts: PartialWithName<Ui5Association>
+): Ui5Association {
+  return {
+    ...baseUI5NodeDefaults,
+    cardinality: undefined,
+    deprecated: undefined,
+    description: "",
+    experimental: undefined,
+    methods: [],
+    name: undefined,
+    since: undefined,
+    singularName: undefined,
+    type: "",
+    visibility: undefined,
     ...opts
   };
 }

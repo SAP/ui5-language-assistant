@@ -4,7 +4,8 @@ import {
   UI5Aggregation,
   UI5SemanticModel,
   UI5Prop,
-  UI5Event
+  UI5Event,
+  UI5Association
 } from "@ui5-editor-tools/semantic-model-types";
 import { Json, TypeNameFix } from "@ui5-editor-tools/semantic-model";
 import { XMLAttribute, XMLElement } from "@xml-tools/ast";
@@ -22,6 +23,10 @@ export function buildUI5Namespace(
 export function buildUI5Property(opts: PartialWithName<UI5Prop>): UI5Prop;
 
 export function buildUI5Event(opts: PartialWithName<UI5Event>): UI5Event;
+
+export function buildUI5Association(
+  opts: PartialWithName<UI5Association>
+): UI5Association;
 
 export function buildUI5Aggregation(
   opts: PartialWithName<UI5Aggregation>

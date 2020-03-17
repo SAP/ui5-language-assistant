@@ -3,6 +3,7 @@ import { difference, partial } from "lodash";
 
 import {
   UI5Aggregation,
+  UI5Association,
   UI5Class,
   UI5EnumValue,
   UI5Event,
@@ -280,6 +281,7 @@ export function expectUI5Namespace(
   ui5Node:
     | UI5Class
     | UI5Aggregation
+    | UI5Association
     | UI5Prop
     | UI5Event
     | UI5EnumValue
