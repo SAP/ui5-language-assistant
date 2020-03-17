@@ -2,7 +2,9 @@
 
 # @ui5-editor-tools/semantic-model
 
-TBD: Description
+A pure data model representing the UI5 SDK. Other packages in this mono repo
+will perform logic and computations on this data model to implement editor functionality
+such as content-assist or validations.
 
 ## Installation
 
@@ -10,15 +12,14 @@ With npm:
 
 - `npm install @ui5-editor-tools/semantic-model`
 
-With Yarn
+With Yarn:
 
 - `yarn add @ui5-editor-tools/semantic-model`
 
 ## Usage
 
-Please see the [TypeScript Definitions](./api.d.ts) for full API details.
-
-TBD: Quick Start Example
+This package only exposes programmatic APIs, import the package and use the exported APIs
+defined in [api.d.ts](./api.d.ts).
 
 ## Support
 
