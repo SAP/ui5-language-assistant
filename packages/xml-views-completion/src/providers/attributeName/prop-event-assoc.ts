@@ -3,7 +3,7 @@ import {
   UI5Event,
   UI5Prop,
   UI5Association
-} from "@ui5-editor-tools/semantic-model-types/api";
+} from "@ui5-editor-tools/semantic-model-types";
 import {
   flattenEvents,
   flattenProperties,
@@ -42,14 +42,14 @@ export function propEventAssocSuggestions(
     .concat(allAssociations);
 
   const prefix = opts.prefix ?? "";
-  const existingPropEventAssocNames = compact(
+  const existingAttributeNames = compact(
     uniq(map(xmlElement.attributes, _ => _.key))
   );
 
   const uniquePrefixMatchingAttributes = filterMembersForSuggestion(
     allPropertiesEventsAssociations,
     prefix,
-    existingPropEventAssocNames
+    existingAttributeNames
   );
 
   return map(uniquePrefixMatchingAttributes, _ => ({

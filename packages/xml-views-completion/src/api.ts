@@ -1,6 +1,6 @@
 import { filter, includes } from "lodash";
 import { getSuggestions } from "@xml-tools/content-assist";
-import { UI5Visibility } from "@ui5-editor-tools/semantic-model-types/api";
+import { UI5Visibility } from "@ui5-editor-tools/semantic-model-types";
 import { GetXMLViewCompletionsOpts, XMLViewCompletion } from "../api";
 import { elementNameProviders } from "./providers/elementName";
 import { attributeNameProviders } from "./providers/attributeName";

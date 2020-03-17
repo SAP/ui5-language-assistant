@@ -48,7 +48,7 @@ const allPropsEventsAssociations = uiCoreControlProperties
   .concat(radioButtonGroupEvents);
 
 describe("The ui5-editor-tools xml-views-completion", () => {
-  context("properties and events", () => {
+  context("properties, events and associations", () => {
     context("applicable scenarios", () => {
       it("will suggest when no prefix provided", () => {
         const xmlSnippet = `
