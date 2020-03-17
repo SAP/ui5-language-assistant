@@ -11,12 +11,12 @@ import {
 import { TextDocument } from "vscode-languageserver-textdocument";
 import { parse, DocumentCstNode } from "@xml-tools/parser";
 import { buildAst } from "@xml-tools/ast";
-import { generate, Json, TypeNameFix } from "@vscode-ui5/semantic-model";
-import { UI5SemanticModel } from "@vscode-ui5/semantic-model-types";
+import { generate, Json, TypeNameFix } from "@ui5-editor-tools/semantic-model";
+import { UI5SemanticModel } from "@ui5-editor-tools/semantic-model-types";
 import {
   XMLViewCompletion,
   getXMLViewCompletions
-} from "@vscode-ui5/xml-views-completion";
+} from "@ui5-editor-tools/xml-views-completion";
 
 export function getCompletionItems(
   model: UI5SemanticModel,

@@ -1,6 +1,6 @@
-[![npm (scoped)](https://img.shields.io/npm/v/@vscode-ui5/language-server.svg)](https://www.npmjs.com/package/@vscode-ui5/xlanguage-server)
+[![npm (scoped)](https://img.shields.io/npm/v/@ui5-editor-tools/language-server.svg)](https://www.npmjs.com/package/@ui5-editor-tools/language-server)
 
-# @vscode-ui5/language-server
+# @ui5-editor-tools/language-server
 
 TBD: Description
 
@@ -8,11 +8,11 @@ TBD: Description
 
 With npm:
 
-- `npm install @vscode-ui5/language-server`
+- `npm install @ui5-editor-tools/language-server`
 
 With Yarn
 
-- `yarn add @vscode-ui5/language-server`
+- `yarn add @ui5-editor-tools/language-server`
 
 ## Usage
 
@@ -22,7 +22,7 @@ TBD: Quick Start Example
 
 ## Support
 
-Please open [issues](https://github.com/SAP/vscode-ui5/issues) on github.
+Please open [issues](https://github.com/SAP/ui5-editor-tools/issues) on github.
 
 ## Contributing
 

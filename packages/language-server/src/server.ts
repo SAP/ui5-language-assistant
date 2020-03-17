@@ -12,7 +12,7 @@ import {
   getSemanticModel,
   addCompletionDetails
 } from "./language-services";
-import { UI5SemanticModel } from "@vscode-ui5/semantic-model-types";
+import { UI5SemanticModel } from "@ui5-editor-tools/semantic-model-types";
 
 const connection = createConnection(ProposedFeatures.all);
 const documents = new TextDocuments(TextDocument);

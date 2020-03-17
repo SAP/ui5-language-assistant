@@ -1,12 +1,13 @@
 {
-  "name": "@vscode-ui5/language-server",
+  "name": "@ui5-editor-tools/language-server",
   "version": "0.0.1",
   "description": "UI5 language server",
-  "publisher": "SAPSE",
   "keywords": [
     "LSP",
     "language-server",
-    "UI5"
+    "UI5",
+    "OpenUI5",
+    "SAPUI5"
   ],
   "files": [
     "lib/src",
@@ -14,7 +15,7 @@
     "src"
   ],
   "main": "lib/src/api.js",
-  "repository": "https://github.com/sap/ui5-vscode/",
+  "repository": "https://github.com/sap/ui5-editor-tools/",
   "license": "Apache-2.0",
   "typings": "./api.d.ts",
   "engines": {
@@ -26,8 +27,8 @@
     "vscode-languageserver": "6.1.1",
     "vscode-languageserver-textdocument": "1.0.0",
     "node-fetch": "2.6.0",
-    "@vscode-ui5/semantic-model": "0.0.1",
-    "@vscode-ui5/xml-views-completion": "0.0.1",
+    "@ui5-editor-tools/semantic-model": "0.0.1",
+    "@ui5-editor-tools/xml-views-completion": "0.0.1",
     "lodash": "4.17.15"
   },
   "devDependencies": {

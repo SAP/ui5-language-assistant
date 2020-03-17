@@ -1,5 +1,5 @@
 import { workspace } from "vscode";
-import { SERVER_PATH } from "@vscode-ui5/language-server";
+import { SERVER_PATH } from "@ui5-editor-tools/language-server";
 import {
   LanguageClient,
   LanguageClientOptions,

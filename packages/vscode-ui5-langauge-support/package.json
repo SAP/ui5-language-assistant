@@ -1,11 +1,11 @@
 {
   "name": "ui5-language-support",
   "private": true,
-  "description": "VS Code client extension for ui5 language server",
+  "description": "VS Code extension for UI5 code assist and validation",
   "version": "0.0.1",
   "publisher": "SAPSE",
   "license": "Apache-2.0",
-  "repository": "https://github.com/sap/ui5-vscode/",
+  "repository": "https://github.com/sap/ui5-editor-tools/",
   "engines": {
     "vscode": "1.42.0"
   },
@@ -19,7 +19,7 @@
     "coverage": "nyc mocha"
   },
   "dependencies": {
-    "vscode-languageclient": "6.1.1"
+    "vscode-languageclient": "6.1.0"
   },
   "devDependencies": {
     "@types/vscode": "1.41.0"
