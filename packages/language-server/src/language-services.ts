@@ -5,7 +5,8 @@ import {
   CompletionItem,
   CompletionItemKind,
   TextDocumentPositionParams,
-  TextDocuments
+  TextDocuments,
+  CompletionItemTag
 } from "vscode-languageserver";
 import { TextDocument } from "vscode-languageserver-textdocument";
 import { parse, DocumentCstNode } from "@xml-tools/parser";
@@ -45,7 +46,11 @@ function transformToLspSuggestions(
   const lspSuggestions = suggestions.map(suggestion => {
     const completionItem: CompletionItem = {
       label: suggestion.ui5Node.name,
-      kind: CompletionItemKind.Text
+      detail: suggestion.ui5Node.description,
+      data: suggestion.ui5Node.kind,
+      tags: suggestion.ui5Node.deprecatedInfo
+        ? [CompletionItemTag.Deprecated]
+        : undefined
     };
     return completionItem;
   });
@@ -53,7 +58,28 @@ function transformToLspSuggestions(
 }
 
 export function addCompletionDetails(item: CompletionItem): CompletionItem {
-  //Add logic of additional info on completion
+  switch (item.data) {
+    case "UI5Namespace":
+      item.kind = CompletionItemKind.Text;
+      break;
+    case "UI5Prop":
+      item.kind = CompletionItemKind.Property;
+      break;
+    case "UI5Class":
+      item.kind = CompletionItemKind.Class;
+      break;
+    case "UI5Event":
+      item.kind = CompletionItemKind.Event;
+      break;
+    case "UI5Aggregation":
+      item.kind = CompletionItemKind.Text;
+      break;
+    case "UI5EnumValue":
+      item.kind = CompletionItemKind.EnumMember;
+      break;
+    default:
+      item.kind = CompletionItemKind.Text;
+  }
   return item;
 }
 

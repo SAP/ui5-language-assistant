@@ -24,7 +24,7 @@ export async function activate(): Promise<void> {
   const clientOptions: LanguageClientOptions = {
     documentSelector: [{ scheme: "file", language: "xml" }],
     synchronize: {
-      fileEvents: workspace.createFileSystemWatcher("**/*.xml")
+      fileEvents: workspace.createFileSystemWatcher("**/*.{view,fragment}.xml")
     }
   };
 
