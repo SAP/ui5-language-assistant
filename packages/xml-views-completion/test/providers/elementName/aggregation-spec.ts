@@ -2,15 +2,18 @@ import { expect } from "chai";
 import { map, cloneDeep } from "lodash";
 import { XMLElement } from "@xml-tools/ast";
 
-import { UI5SemanticModel } from "@vscode-ui5/semantic-model-types";
-import { buildUI5Aggregation, generateModel } from "@vscode-ui5/test-utils";
+import { UI5SemanticModel } from "@ui5-editor-tools/semantic-model-types";
+import {
+  buildUI5Aggregation,
+  generateModel
+} from "@ui5-editor-tools/test-utils";
 
 import { testSuggestionsScenario } from "../../utils";
 import { aggregationSuggestions } from "../../../src/providers/elementName/aggregation";
 
 const REAL_UI5_MODEL: UI5SemanticModel = generateModel("1.74.0");
 
-describe("The ui5-vscode xml-views-completion", () => {
+describe("The ui5-editor-tools xml-views-completion", () => {
   context("aggregations", () => {
     context("applicable scenarios", () => {
       it("will suggest direct aggregations", () => {

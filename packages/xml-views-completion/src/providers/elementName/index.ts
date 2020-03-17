@@ -5,7 +5,7 @@ import {
   ElementNameCompletionOptions
 } from "@xml-tools/content-assist";
 import { XMLViewCompletion } from "../../../api";
-import { UI5SemanticModel } from "@vscode-ui5/semantic-model-types";
+import { UI5SemanticModel } from "@ui5-editor-tools/semantic-model-types";
 
 export const elementNameProviders: ElementNameCompletion<
   XMLViewCompletion,

@@ -1,6 +1,6 @@
-[![npm (scoped)](https://img.shields.io/npm/v/@ui5-vscode/semantic-model.svg)](https://www.npmjs.com/package/@ui5-vscode/semantic-model)
+[![npm (scoped)](https://img.shields.io/npm/v/@ui5-editor-tools/semantic-model.svg)](https://www.npmjs.com/package/@ui5-editor-tools/semantic-model)
 
-# @ui5-vscode/semantic-model
+# @ui5-editor-tools/semantic-model
 
 TBD: Description
 
@@ -8,11 +8,11 @@ TBD: Description
 
 With npm:
 
-- `npm install @ui5-vscode/semantic-model`
+- `npm install @ui5-editor-tools/semantic-model`
 
 With Yarn
 
-- `yarn add @ui5-vscode/semantic-model`
+- `yarn add @ui5-editor-tools/semantic-model`
 
 ## Usage
 
@@ -22,7 +22,7 @@ TBD: Quick Start Example
 
 ## Support
 
-Please open [issues](https://github.com/SAP/ui5-vscode/issues) on github.
+Please open [issues](https://github.com/SAP/ui5-editor-tools/issues) on github.
 
 ## Contributing
 

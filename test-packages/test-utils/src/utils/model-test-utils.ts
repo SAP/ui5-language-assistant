@@ -1,6 +1,6 @@
 import { isPlainObject } from "lodash";
-import { UI5SemanticModel } from "@vscode-ui5/semantic-model-types";
-import { forEachSymbol } from "@vscode-ui5/semantic-model";
+import { UI5SemanticModel } from "@ui5-editor-tools/semantic-model-types";
+import { forEachSymbol } from "@ui5-editor-tools/semantic-model";
 
 export function isObject(value: unknown): value is Record<string, unknown> {
   return isPlainObject(value);

@@ -1,5 +1,5 @@
 {
-  "name": "@vscode-ui5/semantic-model",
+  "name": "@ui5-editor-tools/semantic-model",
   "version": "0.0.1",
   "description": "Semantic model provider for UI5",
   "keywords": [],
@@ -10,19 +10,19 @@
     "resources"
   ],
   "main": "lib/src/api.js",
-  "repository": "https://github.com/sap/ui5-vscode/",
+  "repository": "https://github.com/sap/ui5-editor-tools/",
   "license": "Apache-2.0",
   "typings": "./api.d.ts",
   "dependencies": {
     "lodash": "4.17.15",
-    "@vscode-ui5/semantic-model-types": "0.0.1",
+    "@ui5-editor-tools/semantic-model-types": "0.0.1",
     "deep-freeze-strict": "1.1.1",
     "ajv": "6.12.0"
   },
   "devDependencies": {
     "fs-extra": "8.1.0",
     "@types/fs-extra": "8.0.1",
-    "@vscode-ui5/test-utils": "0.0.1",
+    "@ui5-editor-tools/test-utils": "0.0.1",
     "@types/deep-freeze-strict": "1.1.0",
     "json-schema-to-typescript": "8.1.0"
   },

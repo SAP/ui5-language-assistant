@@ -1,12 +1,12 @@
 {
-  "name": "@vscode-ui5/semantic-model-types",
+  "name": "@ui5-editor-tools/semantic-model-types",
   "version": "0.0.1",
   "description": "UI5 Semantic model type definitions",
   "keywords": [],
   "files": [
     "api.d.ts"
   ],
-  "repository": "https://github.com/sap/ui5-vscode/",
+  "repository": "https://github.com/sap/ui5-editor-tools/",
   "license": "Apache-2.0",
   "typings": "./api.d.ts",
   "dependencies": {},

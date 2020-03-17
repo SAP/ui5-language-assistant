@@ -2,11 +2,11 @@ import {
   buildUI5Class,
   buildUI5Event,
   expectUnsortedEquality
-} from "@vscode-ui5/test-utils";
+} from "@ui5-editor-tools/test-utils";
 import { map } from "lodash";
 import { flattenEvents } from "../../src/api";
 
-describe('"The @vscode-ui5/logic-utils <flattenProperties> function"', function() {
+describe('"The @ui5-editor-tools/logic-utils <flattenProperties> function"', function() {
   const eventA1 = buildUI5Event({ name: "eventA1" });
   const eventA2 = buildUI5Event({ name: "eventA2" });
   const clazzA = buildUI5Class({

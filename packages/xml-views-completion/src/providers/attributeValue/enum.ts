@@ -1,6 +1,6 @@
 import { map, find } from "lodash";
 import { XMLAttribute } from "@xml-tools/ast";
-import { flattenProperties } from "@vscode-ui5/logic-utils";
+import { flattenProperties } from "@ui5-editor-tools/logic-utils";
 import { XMLViewCompletion } from "../../../api";
 import {
   getClassByElement,

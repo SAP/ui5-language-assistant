@@ -7,7 +7,7 @@ import {
   UI5Interface,
   UI5Prop,
   UI5SemanticModel
-} from "@vscode-ui5/semantic-model-types";
+} from "@ui5-editor-tools/semantic-model-types";
 
 /**
  * Resolves an XML Tag's fully qualified name using available `xmlns`

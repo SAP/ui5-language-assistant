@@ -9,7 +9,7 @@ import {
   UI5Prop,
   UI5SemanticModel,
   UI5EnumValue
-} from "@vscode-ui5/semantic-model-types";
+} from "@ui5-editor-tools/semantic-model-types";
 
 export function getXMLViewCompletions(
   opts: GetXMLViewCompletionsOpts

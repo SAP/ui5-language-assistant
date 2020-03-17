@@ -1,14 +1,14 @@
 import { expect } from "chai";
 import { map } from "lodash";
 import { XMLElement, XMLAttribute } from "@xml-tools/ast";
-import { UI5SemanticModel } from "@vscode-ui5/semantic-model-types";
-import { generateModel } from "@vscode-ui5/test-utils";
+import { UI5SemanticModel } from "@ui5-editor-tools/semantic-model-types";
+import { generateModel } from "@ui5-editor-tools/test-utils";
 import { testSuggestionsScenario } from "../../utils";
 import { enumSuggestions } from "../../../src/providers/attributeValue/enum";
 
 const ui5SemanticModel: UI5SemanticModel = generateModel("1.74.0");
 
-describe("The ui5-vscode xml-views-completion", () => {
+describe("The ui5-editor-tools xml-views-completion", () => {
   context("enum values", () => {
     context("applicable scenarios", () => {
       it("will suggest enum values with no prefix provided", () => {

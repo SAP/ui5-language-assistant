@@ -1,5 +1,5 @@
 {
-  "name": "@vscode-ui5/logic-utils",
+  "name": "@ui5-editor-tools/logic-utils",
   "version": "0.0.1",
   "description": "TBD",
   "keywords": [],
@@ -9,7 +9,7 @@
     "src"
   ],
   "main": "lib/src/api.js",
-  "repository": "https://github.com/sap/ui5-vscode/",
+  "repository": "https://github.com/sap/ui5-editor-tools/",
   "license": "Apache-2.0",
   "typings": "./api.d.ts",
   "dependencies": {
@@ -17,8 +17,8 @@
     "lodash": "4.17.15"
   },
   "devDependencies": {
-    "@vscode-ui5/semantic-model": "0.0.1",
-    "@vscode-ui5/test-utils": "0.0.1",
+    "@ui5-editor-tools/semantic-model": "0.0.1",
+    "@ui5-editor-tools/test-utils": "0.0.1",
     "@xml-tools/parser": "1.0.2"
   },
   "scripts": {

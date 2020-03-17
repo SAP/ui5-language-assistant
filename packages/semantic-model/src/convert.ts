@@ -1,4 +1,4 @@
-import * as model from "@vscode-ui5/semantic-model-types";
+import * as model from "@ui5-editor-tools/semantic-model-types";
 import { Json } from "../api";
 import * as apiJson from "./api-json";
 import { isLibraryFile } from "./validate";

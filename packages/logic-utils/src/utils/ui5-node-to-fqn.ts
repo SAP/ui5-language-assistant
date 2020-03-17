@@ -1,4 +1,4 @@
-import { BaseUI5Node } from "@vscode-ui5/semantic-model-types";
+import { BaseUI5Node } from "@ui5-editor-tools/semantic-model-types";
 
 export function ui5NodeToFQN(ui5Node: BaseUI5Node): string {
   const nameParts = [];

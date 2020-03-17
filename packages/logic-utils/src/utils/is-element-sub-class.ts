@@ -1,5 +1,5 @@
 import { find } from "lodash";
-import { UI5Class } from "@vscode-ui5/semantic-model-types";
+import { UI5Class } from "@ui5-editor-tools/semantic-model-types";
 
 import { ui5NodeToFQN } from "./ui5-node-to-fqn";
 import { getSuperClasses } from "./get-super-class";

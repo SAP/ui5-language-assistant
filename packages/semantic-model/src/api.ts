@@ -1,4 +1,4 @@
-import { UI5SemanticModel } from "@vscode-ui5/semantic-model-types";
+import { UI5SemanticModel } from "@ui5-editor-tools/semantic-model-types";
 import { TypeNameFix, Json } from "../api";
 import { ConcreteSymbol } from "./api-json";
 import { convertToSemanticModel } from "./convert";
