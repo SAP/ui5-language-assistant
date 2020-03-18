@@ -1,7 +1,7 @@
 {
   "name": "ui5-language-support",
   "private": true,
-  "description": "VS Code extension for UI5 code assist and validation",
+  "description": "VSCode extension for UI5 code assist and validation",
   "version": "0.0.1",
   "publisher": "SAPSE",
   "license": "Apache-2.0",

@@ -1,12 +1,10 @@
-//import { resolve } from "path";
-//import { existsSync, mkdirSync, writeFileSync } from "fs";
 import { map } from "lodash";
 import fetch from "node-fetch";
 
 import { UI5SemanticModel } from "@ui5-editor-tools/semantic-model-types";
 import { generate, Json, TypeNameFix } from "@ui5-editor-tools/semantic-model";
 
-const UI5_VERSION = "1.75.0"; //"1.71.14";
+const UI5_VERSION = "1.74.0";
 
 export async function getSemanticModel(): Promise<UI5SemanticModel> {
   const jsonMap: Record<string, Json> = {};
@@ -15,17 +13,10 @@ export async function getSemanticModel(): Promise<UI5SemanticModel> {
   const suffix = "/designtime/api.json";
   const libs = getLibs();
 
-  //const libCacheDir = resolve(__dirname, "1.74.0");
-  /*if (!existsSync(pathToDir)) {
-      mkdirSync(libCacheDir);
-    }*/
-
   await Promise.all(
     map(libs, async libName => {
       const response = await fetch(baseUrl + libName + suffix);
       const json = await response.json();
-      //libName = libName.split("/").join(".") + ".api.json";
-      //writeFileSync(resolve(libCacheDir, libName), JSON.stringify(json));
       jsonMap[libName] = json;
     })
   );

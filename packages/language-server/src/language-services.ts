@@ -8,7 +8,6 @@ import {
 import { TextDocument } from "vscode-languageserver-textdocument";
 import { parse, DocumentCstNode } from "@xml-tools/parser";
 import { buildAst } from "@xml-tools/ast";
-
 import { UI5SemanticModel } from "@ui5-editor-tools/semantic-model-types";
 import {
   XMLViewCompletion,

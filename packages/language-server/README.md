@@ -6,7 +6,7 @@ UI5 Language Server
 
 Current Features:
 
-- Code Assist.
+- Completions in XML Views - xml view files code assist for UI5 elements such as: events, attributes, namespaces, etc. matching the UI5 version assigned to the project to avoid errors and wrong UI5 elements spelling.
 
 ## Installation
 
@@ -20,12 +20,10 @@ With Yarn
 
 ## Usage
 
-Please see the [TypeScript Definitions](./api.d.ts) for full API details.
-
 A simple usage example:
 
-```javascript
-const { SERVER_PATH } = require("@ui5-editor-tools/language-server");
+```typescript
+const SERVER_PATH: string = resolve(__dirname, "server.js");
 
 // SERVER_PATH is the only API currently and it is meant to expose the "main" module's absolute
 // path which would then be executed in a different process
