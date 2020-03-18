@@ -2,7 +2,7 @@
 
 # @ui5-editor-tools/logic-utils
 
-Common shared logic related utilities for other packages in this mono-repo.
+Common shared logic and data structures related utilities used in other packages in this mono-repo.
 
 ## Installation
 
@@ -16,9 +16,8 @@ With Yarn
 
 ## Usage
 
-Please see the [TypeScript Definitions](./api.d.ts) for full API details.
-
-TBD: Quick Start Example
+This package only exposes programmatic APIs, import the package and use the exported APIs
+defined in [api.d.ts](./api.d.ts).
 
 ## Support
 

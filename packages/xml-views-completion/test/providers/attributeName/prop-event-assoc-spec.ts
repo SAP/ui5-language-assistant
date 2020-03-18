@@ -8,7 +8,7 @@ import {
   expectXMLAttribute,
   generateModel
 } from "@ui5-editor-tools/test-utils";
-import { propertyAndEventSuggestions } from "../../../src/providers/attributeName/property-and-event";
+import { propEventAssocSuggestions } from "../../../src/providers/attributeName/prop-event-assoc";
 import { XMLAttribute } from "@xml-tools/ast";
 import { XMLViewCompletion } from "../../../api";
 
@@ -40,13 +40,15 @@ const radioButtonGroupProperties = [
   "width"
 ];
 const radioButtonGroupEvents = ["select"];
-const allPropertiesAndEvents = uiCoreControlProperties
+const uiCoreControlAssociations = ["ariaDescribedBy", "ariaLabelledBy"];
+const allPropsEventsAssociations = uiCoreControlProperties
   .concat(uiCoreControlEvents)
+  .concat(uiCoreControlAssociations)
   .concat(radioButtonGroupProperties)
   .concat(radioButtonGroupEvents);
 
 describe("The ui5-editor-tools xml-views-completion", () => {
-  context("properties and events", () => {
+  context("properties, events and associations", () => {
     context("applicable scenarios", () => {
       it("will suggest when no prefix provided", () => {
         const xmlSnippet = `
@@ -60,10 +62,13 @@ describe("The ui5-editor-tools xml-views-completion", () => {
           model: ui5SemanticModel,
           xmlText: xmlSnippet,
           providers: {
-            attributeName: [propertyAndEventSuggestions]
+            attributeName: [propEventAssocSuggestions]
           },
           assertion: suggestions => {
-            expectAttributesSuggestions(suggestions, allPropertiesAndEvents);
+            expectAttributesSuggestions(
+              suggestions,
+              allPropsEventsAssociations
+            );
             const suggestedAstNode = suggestions[0].astNode as XMLAttribute;
             expect(suggestedAstNode.position.startLine).to.equal(-1);
           }
@@ -82,7 +87,7 @@ describe("The ui5-editor-tools xml-views-completion", () => {
           model: ui5SemanticModel,
           xmlText: xmlSnippet,
           providers: {
-            attributeName: [propertyAndEventSuggestions]
+            attributeName: [propEventAssocSuggestions]
           },
           assertion: suggestions => {
             expectAttributesSuggestions(suggestions, [
@@ -106,10 +111,10 @@ describe("The ui5-editor-tools xml-views-completion", () => {
           model: ui5SemanticModel,
           xmlText: xmlSnippet,
           providers: {
-            attributeName: [propertyAndEventSuggestions]
+            attributeName: [propEventAssocSuggestions]
           },
           assertion: suggestions => {
-            const expectedSuggestions = difference(allPropertiesAndEvents, [
+            const expectedSuggestions = difference(allPropsEventsAssociations, [
               "busy"
             ]);
             expectAttributesSuggestions(suggestions, expectedSuggestions);
@@ -129,7 +134,7 @@ describe("The ui5-editor-tools xml-views-completion", () => {
           model: ui5SemanticModel,
           xmlText: xmlSnippet,
           providers: {
-            attributeName: [propertyAndEventSuggestions]
+            attributeName: [propEventAssocSuggestions]
           },
           assertion: suggestions => {
             expectAttributesSuggestions(suggestions, [
@@ -154,7 +159,7 @@ describe("The ui5-editor-tools xml-views-completion", () => {
           model: ui5SemanticModel,
           xmlText: xmlSnippet,
           providers: {
-            attributeName: [propertyAndEventSuggestions]
+            attributeName: [propEventAssocSuggestions]
           },
           assertion: suggestions => {
             expect(suggestions).to.be.empty;
@@ -174,7 +179,7 @@ describe("The ui5-editor-tools xml-views-completion", () => {
           model: ui5SemanticModel,
           xmlText: xmlSnippet,
           providers: {
-            attributeName: [propertyAndEventSuggestions]
+            attributeName: [propEventAssocSuggestions]
           },
           assertion: suggestions => {
             expect(suggestions).to.be.empty;

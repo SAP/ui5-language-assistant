@@ -7,9 +7,10 @@ import {
   UI5Event,
   UI5Namespace,
   UI5Prop,
+  UI5Association,
   UI5SemanticModel,
   UI5EnumValue
-} from "@ui5-editor-tools/semantic-model-types";
+} from "@ui5-editor-tools/semantic-model-types/api";
 
 export function getXMLViewCompletions(
   opts: GetXMLViewCompletionsOpts
@@ -40,6 +41,7 @@ export interface XMLViewCompletion {
     | UI5Class
     | UI5Aggregation
     | UI5Prop
+    | UI5Association
     | UI5Event
     | UI5EnumValue
     | UI5Namespace;

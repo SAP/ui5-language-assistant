@@ -2,7 +2,7 @@
 
 # @ui5-editor-tools/semantic-model-types
 
-TBD: Description
+Type Definitions for [@ui5-editor-tools/semantic-model-types](../semantic-model).
 
 ## Installation
 
@@ -10,15 +10,14 @@ With npm:
 
 - `npm install @ui5-editor-tools/semantic-model-types`
 
-With Yarn
+With Yarn:
 
 - `yarn add @ui5-editor-tools/semantic-model-types`
 
 ## Usage
 
-Please see the [TypeScript Definitions](./api.d.ts) for full API details.
-
-TBD: Quick Start Example
+This package only exports TypeScript definitions, See
+See [api.d.ts](./api.d.ts) for the full definitions.
 
 ## Support
 
