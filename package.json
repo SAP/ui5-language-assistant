@@ -15,8 +15,8 @@
     "deps:check": "yarn check",
     "compile": "yarn run clean && tsc --build",
     "compile:watch": "yarn run clean && tsc --build --watch",
-    "format:fix": "prettier --write \"**/*.@(js|json|md)\" --ignore-path=.gitignore",
-    "format:validate": "prettier --check \"**/*.@(js|json|md)\" --ignore-path=.gitignore",
+    "format:fix": "prettier --write \"**/*.@(js|ts|json|md)\" --ignore-path=.gitignore",
+    "format:validate": "prettier --check \"**/*.@(js|tsjson|md)\" --ignore-path=.gitignore",
     "lint": "eslint . --ext .ts --fix --max-warnings=0 --ignore-path=.gitignore",
     "ci:subpackages": "lerna run ci",
     "test": "lerna run test",
@@ -34,7 +34,6 @@
     "@typescript-eslint/parser": "2.19.0",
     "@typescript-eslint/eslint-plugin": "2.19.0",
     "eslint-config-prettier": "6.10.0",
-    "eslint-plugin-prettier": "3.1.2",
     "eslint-plugin-eslint-comments": "3.1.2",
     "husky": "4.2.1",
     "lerna": "3.20.2",
@@ -60,7 +59,7 @@
     }
   },
   "lint-staged": {
-    "*.{js,md,json}": [
+    "*.{js,ts,md,json}": [
       "prettier --write"
     ],
     "*.{ts,d.ts}": [
