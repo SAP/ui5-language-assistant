@@ -39,10 +39,14 @@ connection.onCompletion(
   async (
     _textDocumentPosition: TextDocumentPositionParams
   ): Promise<CompletionItem[]> => {
-    if (!isSemanticModelCreated) {
-      return [];
+    if (isSemanticModelCreated) {
+      const documentUri = _textDocumentPosition.textDocument.uri;
+      const document = documents.get(documentUri);
+      if (document) {
+        return getCompletionItems(model, _textDocumentPosition, document);
+      }
     }
-    return getCompletionItems(model, _textDocumentPosition, documents);
+    return [];
   }
 );
 

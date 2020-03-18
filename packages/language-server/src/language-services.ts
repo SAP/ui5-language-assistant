@@ -2,9 +2,8 @@ import { map } from "lodash";
 import {
   CompletionItem,
   CompletionItemKind,
-  TextDocumentPositionParams,
-  TextDocuments,
-  CompletionItemTag
+  CompletionItemTag,
+  TextDocumentPositionParams
 } from "vscode-languageserver";
 import { TextDocument } from "vscode-languageserver-textdocument";
 import { parse, DocumentCstNode } from "@xml-tools/parser";
@@ -19,17 +18,14 @@ import {
 export function getCompletionItems(
   model: UI5SemanticModel,
   textDocumentPosition: TextDocumentPositionParams,
-  documents: TextDocuments<TextDocument>
+  document: TextDocument
 ): CompletionItem[] {
-  const document = textDocumentPosition.textDocument.uri;
-  const documentText = documents.get(document)?.getText() ?? "";
+  const documentText = document.getText() ?? "";
   const { cst, tokenVector } = parse(documentText);
   const ast = buildAst(cst as DocumentCstNode, tokenVector);
   const suggestions = getXMLViewCompletions({
     model: model,
-    offset: documents
-      .get(document)
-      ?.offsetAt(textDocumentPosition.position) as number,
+    offset: document.offsetAt(textDocumentPosition.position),
     cst: cst as DocumentCstNode,
     ast: ast,
     tokenVector: tokenVector
