@@ -36,42 +36,42 @@ export function getCompletionItems(
 function transformToLspSuggestions(
   suggestions: XMLViewCompletion[]
 ): CompletionItem[] {
-  const lspSuggestions = map(suggestions, suggestion => {
-    const completionItem: CompletionItem = {
-      label: suggestion.ui5Node.name,
-      detail: suggestion.ui5Node.description,
-      data: suggestion.ui5Node.kind,
-      tags: suggestion.ui5Node.deprecatedInfo
-        ? [CompletionItemTag.Deprecated]
-        : undefined
-    };
-    return addCompletionDetails(completionItem);
+  return map(suggestions, suggestion => {
+    return getCompetionItem(suggestion);
   });
-  return lspSuggestions;
 }
 
-export function addCompletionDetails(item: CompletionItem): CompletionItem {
-  switch (item.data) {
+export function getCompetionItem(
+  suggestion: XMLViewCompletion
+): CompletionItem {
+  const completionItem: CompletionItem = {
+    label: suggestion.ui5Node.name,
+    detail: suggestion.ui5Node.description,
+    tags: suggestion.ui5Node.deprecatedInfo
+      ? [CompletionItemTag.Deprecated]
+      : undefined
+  };
+  switch (suggestion.ui5Node.kind) {
     case "UI5Namespace":
-      item.kind = CompletionItemKind.Text;
+      completionItem.kind = CompletionItemKind.Text;
       break;
     case "UI5Prop":
-      item.kind = CompletionItemKind.Property;
+      completionItem.kind = CompletionItemKind.Property;
       break;
     case "UI5Class":
-      item.kind = CompletionItemKind.Class;
+      completionItem.kind = CompletionItemKind.Class;
       break;
     case "UI5Event":
-      item.kind = CompletionItemKind.Event;
+      completionItem.kind = CompletionItemKind.Event;
       break;
     case "UI5Aggregation":
-      item.kind = CompletionItemKind.Text;
+      completionItem.kind = CompletionItemKind.Text;
       break;
     case "UI5EnumValue":
-      item.kind = CompletionItemKind.EnumMember;
+      completionItem.kind = CompletionItemKind.EnumMember;
       break;
     default:
-      item.kind = CompletionItemKind.Text;
+      completionItem.kind = CompletionItemKind.Text;
   }
-  return item;
+  return completionItem;
 }
