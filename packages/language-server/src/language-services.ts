@@ -36,42 +36,38 @@ export function getCompletionItems(
 function transformToLspSuggestions(
   suggestions: XMLViewCompletion[]
 ): CompletionItem[] {
-  return map(suggestions, suggestion => {
-    return getCompetionItem(suggestion);
+  const lspSuggestions = map(suggestions, suggestion => {
+    const lspkind = computeLSPKind(suggestion);
+    const completionItem: CompletionItem = {
+      label: suggestion.ui5Node.name,
+      detail: suggestion.ui5Node.description,
+      kind: lspkind,
+      tags: suggestion.ui5Node.deprecatedInfo
+        ? [CompletionItemTag.Deprecated]
+        : undefined
+    };
+    return completionItem;
   });
+  return lspSuggestions;
 }
 
-export function getCompetionItem(
+export function computeLSPKind(
   suggestion: XMLViewCompletion
-): CompletionItem {
-  const completionItem: CompletionItem = {
-    label: suggestion.ui5Node.name,
-    detail: suggestion.ui5Node.description,
-    tags: suggestion.ui5Node.deprecatedInfo
-      ? [CompletionItemTag.Deprecated]
-      : undefined
-  };
+): CompletionItemKind {
   switch (suggestion.ui5Node.kind) {
     case "UI5Namespace":
-      completionItem.kind = CompletionItemKind.Text;
-      break;
+      return CompletionItemKind.Text;
     case "UI5Prop":
-      completionItem.kind = CompletionItemKind.Property;
-      break;
+      return CompletionItemKind.Property;
     case "UI5Class":
-      completionItem.kind = CompletionItemKind.Class;
-      break;
+      return CompletionItemKind.Class;
     case "UI5Event":
-      completionItem.kind = CompletionItemKind.Event;
-      break;
+      return CompletionItemKind.Event;
     case "UI5Aggregation":
-      completionItem.kind = CompletionItemKind.Text;
-      break;
+      return CompletionItemKind.Text;
     case "UI5EnumValue":
-      completionItem.kind = CompletionItemKind.EnumMember;
-      break;
+      return CompletionItemKind.EnumMember;
     default:
-      completionItem.kind = CompletionItemKind.Text;
+      return CompletionItemKind.Text;
   }
-  return completionItem;
 }
