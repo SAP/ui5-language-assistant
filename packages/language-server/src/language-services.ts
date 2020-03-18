@@ -1,7 +1,4 @@
 import { map } from "lodash";
-//import { resolve } from "path";
-//import { existsSync, mkdirSync, writeFileSync } from "fs";
-import fetch from "node-fetch";
 import {
   CompletionItem,
   CompletionItemKind,
@@ -12,7 +9,7 @@ import {
 import { TextDocument } from "vscode-languageserver-textdocument";
 import { parse, DocumentCstNode } from "@xml-tools/parser";
 import { buildAst } from "@xml-tools/ast";
-import { generate, Json, TypeNameFix } from "@ui5-editor-tools/semantic-model";
+
 import { UI5SemanticModel } from "@ui5-editor-tools/semantic-model-types";
 import {
   XMLViewCompletion,
@@ -82,64 +79,4 @@ export function addCompletionDetails(item: CompletionItem): CompletionItem {
       item.kind = CompletionItemKind.Text;
   }
   return item;
-}
-
-export async function getSemanticModel(): Promise<UI5SemanticModel> {
-  const baseUrl =
-    "https://sapui5-sapui5.dispatcher.us1.hana.ondemand.com/test-resources/";
-  const suffix = "/designtime/api.json";
-  const libs = [
-    baseUrl + "sap/m" + suffix,
-    baseUrl + "sap/f" + suffix,
-    baseUrl + "sap/tnt" + suffix,
-    baseUrl + "sap/ui/core" + suffix,
-    baseUrl + "sap/ui/codeeditor" + suffix,
-    baseUrl + "sap/ui/commons" + suffix,
-    baseUrl + "sap/ui/dt" + suffix,
-    baseUrl + "sap/ui/fl" + suffix,
-    baseUrl + "sap/ui/layout" + suffix,
-    baseUrl + "sap/ui/suite" + suffix,
-    baseUrl + "sap/ui/support" + suffix,
-    baseUrl + "sap/ui/unified" + suffix,
-    baseUrl + "sap/ui/table" + suffix,
-    //baseUrl + "sap/ui/uxap" + suffix,
-    baseUrl + "sap/ui/ux3" + suffix
-  ];
-
-  const jsonMap: Record<string, Json> = {};
-  //const libCacheDir = resolve(__dirname, "1.75.0");
-
-  /*if (!existsSync(pathToDir)) {
-    mkdirSync(pathToDir);
-  }*/
-
-  await Promise.all(
-    map(libs, async url => {
-      let libName =
-        url.substring(baseUrl.length, url.length - suffix.length) + ".api.json";
-      libName = libName.split("/").join(".");
-      const response = await fetch(url);
-      const json = await response.json();
-      //writeFileSync(resolve(pathToDir, libName), JSON.stringify(json));
-      jsonMap[libName] = json;
-    })
-  );
-
-  return generate({
-    libraries: jsonMap,
-    typeNameFix: getTypeNameFix(),
-    strict: false
-  });
-}
-
-function getTypeNameFix(): TypeNameFix {
-  const fixes: TypeNameFix = {
-    "sap.m.PlanningCalendarHeader": undefined,
-    "sap.m.TimePickerSlider": "sap.m.TimePickerSliders",
-    "sap.ui.fl.write._internal.transport.TransportDialog": undefined,
-    "sap.ui.layout.cssgrid.IGridItemLayoutData": undefined,
-    "sap.ui.layout.ResponsiveSplitterPage": undefined,
-    "Object.<string,any>": undefined
-  };
-  return fixes;
 }
