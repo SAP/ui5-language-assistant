@@ -50,7 +50,7 @@ function transformToLspSuggestions(
         ? [CompletionItemTag.Deprecated]
         : undefined
     };
-    return completionItem;
+    return addCompletionDetails(completionItem);
   });
   return lspSuggestions;
 }

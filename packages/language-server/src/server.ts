@@ -9,7 +9,7 @@ import {
 import { TextDocument } from "vscode-languageserver-textdocument";
 import { UI5SemanticModel } from "@ui5-editor-tools/semantic-model-types";
 import { getSemanticModel } from "./ui5-model";
-import { getCompletionItems, addCompletionDetails } from "./language-services";
+import { getCompletionItems } from "./language-services";
 
 const connection = createConnection(ProposedFeatures.all);
 const documents = new TextDocuments(TextDocument);
@@ -48,7 +48,7 @@ connection.onCompletion(
 
 connection.onCompletionResolve(
   (item: CompletionItem): CompletionItem => {
-    return addCompletionDetails(item);
+    return item;
   }
 );
 
