@@ -40,9 +40,7 @@
     "clean": "rimraf ./lib",
     "compile": "yarn run clean && tsc -p .",
     "compile:watch": "tsc -p . --watch",
-    "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore",
-    "test": "mocha",
-    "coverage": "nyc mocha"
+    "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore"
   },
   "publishConfig": {
     "access": "public"

@@ -6,6 +6,13 @@
   "publisher": "SAPSE",
   "license": "Apache-2.0",
   "repository": "https://github.com/sap/ui5-editor-tools/",
+  "keywords": [
+    "LSP",
+    "language-server",
+    "UI5",
+    "OpenUI5",
+    "SAPUI5"
+  ],
   "engines": {
     "vscode": "1.42.0"
   },
@@ -14,9 +21,7 @@
     "clean": "rimraf ./lib",
     "compile": "yarn run clean && tsc -p .",
     "compile:watch": "tsc -p . --watch",
-    "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore",
-    "test": "mocha",
-    "coverage": "nyc mocha"
+    "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore"
   },
   "dependencies": {
     "vscode-languageclient": "6.1.0"

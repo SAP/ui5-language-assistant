@@ -2,7 +2,11 @@
 
 # @ui5-editor-tools/language-server
 
-TBD: Description
+UI5 Language Server
+
+Current Features:
+
+- Code Assist.
 
 ## Installation
 
@@ -17,6 +21,16 @@ With Yarn
 ## Usage
 
 Please see the [TypeScript Definitions](./api.d.ts) for full API details.
+
+A simple usage example:
+
+```javascript
+const { SERVER_PATH } = require("@ui5-editor-tools/language-server");
+
+// SERVER_PATH is the only API currently and it is meant to expose the "main" module's absolute
+// path which would then be executed in a different process
+console.log(SERVER_PATH); // --> .../node_module/@ui5-editor-tools/language-server/lib/server.js
+```
 
 ## Support
 
