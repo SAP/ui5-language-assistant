@@ -63,6 +63,8 @@ package-lock.json
 
 .idea
 .vscode
+# These VSCode configurations are needed to debug the VSCode extension host
+!packages/vscode-ui5-language-support/.vscode
 
 # npm registry configuraiton
 .npmrc

@@ -6,7 +6,19 @@ UI5 Language Server
 
 Current Features:
 
-- Completions in XML Views - xml view files code assist for UI5 elements such as: events, attributes, namespaces, etc. matching the UI5 version assigned to the project to avoid errors and wrong UI5 elements spelling.
+### Completions in XML Views
+
+- In XML tags names:
+  - **UI5 Classes** names filtered by aggregation's type.
+  - **UI5 Aggregations** names filtered by the parent UI5 Class metadata.
+- In XML Attributes keys:
+  - **Events, Properties and Associations** filtered by the parent UI5 Class metadata.
+- In XML Attributes values:
+  - **UI5 Enum Values** filtered by the parent UI5 Class metadata.
+- In `xmlns` attributes keys:
+  **UI5 Namespaces** suggested after the xmlns colon (\:)
+- In `xmlns` attributes values:
+  **UI5 Namespaces**
 
 ## Installation
 
@@ -20,15 +32,12 @@ With Yarn
 
 ## Usage
 
-A simple usage example:
+This package does not export "regular" programmatic APIS as it is meant to be started in a separate process.
+Instead a `SERVER_PATH` const is exported which points the the server's "main" module.
 
-```typescript
-const SERVER_PATH: string = resolve(__dirname, "server.js");
+This `SERVER_PATH` can be used by other tools to spawn the @ui5-editor-tools/language-server process.
 
-// SERVER_PATH is the only API currently and it is meant to expose the "main" module's absolute
-// path which would then be executed in a different process
-console.log(SERVER_PATH); // --> .../node_module/@ui5-editor-tools/language-server/lib/server.js
-```
+- See [extension.ts](../vscode-ui5-language-support/src/extension.ts) in the UI5 Language Support VSCode extension.
 
 ## Support
 

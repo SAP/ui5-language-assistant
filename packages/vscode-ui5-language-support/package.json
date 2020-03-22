@@ -1,14 +1,12 @@
 {
   "name": "ui5-language-support",
   "private": true,
-  "description": "VSCode extension for UI5 code assist and validation",
+  "description": "UI5 Language Support for VSCode",
   "version": "0.0.1",
   "publisher": "SAPSE",
   "license": "Apache-2.0",
-  "repository": "https://github.com/sap/ui5-editor-tools/",
+  "repository": "https://github.com/sap/ui5-editor-tools/tree/master/packages/vscode-ui5-language-support",
   "keywords": [
-    "LSP",
-    "language-server",
     "UI5",
     "OpenUI5",
     "SAPUI5"

@@ -1,7 +1,7 @@
 {
   "name": "@ui5-editor-tools/language-server",
   "version": "0.0.1",
-  "description": "UI5 language server",
+  "description": "UI5 Language Server",
   "keywords": [
     "LSP",
     "language-server",

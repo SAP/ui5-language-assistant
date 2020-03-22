@@ -4,6 +4,7 @@ import fetch from "node-fetch";
 import { UI5SemanticModel } from "@ui5-editor-tools/semantic-model-types";
 import { generate, Json, TypeNameFix } from "@ui5-editor-tools/semantic-model";
 
+// TODO: use 1.71.x
 const UI5_VERSION = "1.74.0";
 
 export async function getSemanticModel(): Promise<UI5SemanticModel> {
@@ -16,8 +17,8 @@ export async function getSemanticModel(): Promise<UI5SemanticModel> {
   await Promise.all(
     map(libs, async libName => {
       const response = await fetch(baseUrl + libName + suffix);
-      const json = await response.json();
-      jsonMap[libName] = json;
+      const apiJson = await response.json();
+      jsonMap[libName] = apiJson;
     })
   );
 

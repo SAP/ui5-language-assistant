@@ -22,6 +22,8 @@ connection.onInitialize(() => {
       textDocumentSync: TextDocumentSyncKind.Full,
       completionProvider: {
         resolveProvider: true,
+        // TODO: can the trigger characters be more contextual?
+        //       e.g: "<" of open tag only, not else where
         triggerCharacters: ['"', "'", ":", "<"]
       }
     }
@@ -37,6 +39,7 @@ connection.onInitialized(async () => {
 
 connection.onCompletion(
   async (
+    // TODO: why does this param have an underscore in its name?
     _textDocumentPosition: TextDocumentPositionParams
   ): Promise<CompletionItem[]> => {
     if (isSemanticModelCreated) {

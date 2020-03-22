@@ -37,15 +37,16 @@ function transformToLspSuggestions(
   suggestions: XMLViewCompletion[]
 ): CompletionItem[] {
   const lspSuggestions = map(suggestions, suggestion => {
-    const lspkind = computeLSPKind(suggestion);
+    const lspKind = computeLSPKind(suggestion);
     const completionItem: CompletionItem = {
       label: suggestion.ui5Node.name,
       detail: suggestion.ui5Node.description,
-      kind: lspkind,
+      kind: lspKind,
       tags: suggestion.ui5Node.deprecatedInfo
         ? [CompletionItemTag.Deprecated]
         : undefined
     };
+    // transformation
     return completionItem;
   });
   return lspSuggestions;
@@ -68,6 +69,8 @@ export function computeLSPKind(
     case "UI5EnumValue":
       return CompletionItemKind.EnumMember;
     default:
+      // TODO: we probably need a logging solution to highlight edge cases we
+      //       do not handle...
       return CompletionItemKind.Text;
   }
 }
