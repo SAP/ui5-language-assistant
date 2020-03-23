@@ -35,7 +35,7 @@ const NodeKindToSuggestionType: Record<
 > = {
   UI5Prop: "UI5PropsInXMLAttributeKey",
   UI5Event: "UI5EventsInXMLAttributeKey",
-  UI5Association: "UI5PropsInXMLAttributeKey"
+  UI5Association: "UI5AssociationsInXMLAttributeKey"
 };
 
 /**
