@@ -3,11 +3,11 @@ import {
   AttributeValueCompletion,
   AttributeValueCompletionOptions
 } from "@xml-tools/content-assist";
-import { XMLViewCompletion } from "../../../api";
+import { UI5XMLViewCompletion } from "../../../api";
 import { enumSuggestions } from "../attributeValue/enum";
 
 export const attributeValueProviders: AttributeValueCompletion<
-  XMLViewCompletion,
+  UI5XMLViewCompletion,
   UI5SemanticModel
 >[] = [enumSuggestions];
 

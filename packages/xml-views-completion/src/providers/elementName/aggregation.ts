@@ -3,7 +3,7 @@ import {
   isElementSubClass
 } from "@ui5-editor-tools/logic-utils";
 
-import { XMLViewCompletion } from "../../../api";
+import { UI5AggregationsInXMLTagNameCompletion } from "../../../api";
 import { map, compact, uniq } from "lodash";
 import { UI5ElementNameCompletionOptions } from "./index";
 import {
@@ -17,7 +17,7 @@ import {
  */
 export function aggregationSuggestions(
   opts: UI5ElementNameCompletionOptions
-): XMLViewCompletion[] {
+): UI5AggregationsInXMLTagNameCompletion[] {
   const ui5Model = opts.context;
   const prefix = opts.prefix ?? "";
   const xmlElement = opts.element;
@@ -49,6 +49,7 @@ export function aggregationSuggestions(
   );
 
   return map(uniquePrefixMatchingAggregations, _ => ({
+    type: "UI5AggregationsInXMLTagName",
     ui5Node: _,
     astNode: xmlElement
   }));

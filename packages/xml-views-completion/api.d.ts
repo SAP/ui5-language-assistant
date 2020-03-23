@@ -1,4 +1,9 @@
-import { XMLAttribute, XMLElement, XMLDocument } from "@xml-tools/ast";
+import {
+  XMLAttribute,
+  XMLElement,
+  XMLDocument,
+  XMLAstNode
+} from "@xml-tools/ast";
 import { DocumentCstNode } from "@xml-tools/parser";
 import { IToken } from "chevrotain";
 import {
@@ -14,7 +19,7 @@ import {
 
 export function getXMLViewCompletions(
   opts: GetXMLViewCompletionsOpts
-): XMLViewCompletion[];
+): UI5XMLViewCompletion[];
 
 export interface GetXMLViewCompletionsOpts {
   model: UI5SemanticModel;
@@ -23,6 +28,35 @@ export interface GetXMLViewCompletionsOpts {
   ast: XMLDocument;
   tokenVector: IToken[];
 }
+
+export type UI5CompletionNode =
+  | UI5Namespace
+  | UI5Class
+  | UI5Aggregation
+  | UI5Event
+  | UI5Prop
+  | UI5Association
+  | UI5EnumValue;
+
+export type UI5XMLViewCompletion =
+  | UI5ClassesInXMLTagNameCompletion
+  | UI5AggregationsInXMLTagNameCompletion
+  | UI5EnumsInXMLAttributeValueCompletion
+  | UI5PropsInXMLAttributeKeyCompletion
+  | UI5EventsInXMLAttributeKeyCompletion
+  | UI5AssociationsInXMLAttributeKeyCompletion
+  | UI5NamespacesInXMLAttributeKeyCompletion
+  | UI5NamespacesInXMLAttributeValueCompletion;
+
+export type UI5XMLViewCompletionTypeName =
+  | "UI5ClassesInXMLTagName"
+  | "UI5AggregationsInXMLTagName"
+  | "UI5EnumsInXMLAttributeValue"
+  | "UI5PropsInXMLAttributeKey"
+  | "UI5EventsInXMLAttributeKey"
+  | "UI5AssociationsInXMLAttributeKey"
+  | "UI5NamespacesInXMLAttributeKey"
+  | "UI5NamespacesInXMLAttributeValue";
 
 /**
  * Note that this interface does not deal with "Editor Behavior". e.g:
@@ -34,21 +68,57 @@ export interface GetXMLViewCompletionsOpts {
  *
  * Rather it should  contain the completion "pure" data.
  */
-export interface XMLViewCompletion {
+export interface BaseXMLViewCompletion<
+  XML extends XMLAstNode,
+  UI5 extends UI5CompletionNode
+> {
+  type: UI5XMLViewCompletionTypeName;
   // The Node we want to suggest as a possible completion.
   // Note this carries all the additional semantic data (deprecated/description/...).
-  ui5Node:
-    | UI5Class
-    | UI5Aggregation
-    | UI5Prop
-    | UI5Association
-    | UI5Event
-    | UI5EnumValue
-    | UI5Namespace;
+  ui5Node: UI5;
+
   // The specific ASTNode where the completion happened
   // may be useful for LSP Layer to implement Editor Level Logic.
   //   - e.g: the "additional text insertions" mentioned above.
-  // TODO: is it always the same ASTNode for all the suggestions?
-  //  - are we holding duplicate the references here?
-  astNode: XMLElement | XMLAttribute;
+  astNode: XML;
+}
+
+export interface UI5ClassesInXMLTagNameCompletion
+  extends BaseXMLViewCompletion<XMLElement, UI5Class> {
+  type: "UI5ClassesInXMLTagName";
+}
+
+export interface UI5AggregationsInXMLTagNameCompletion
+  extends BaseXMLViewCompletion<XMLElement, UI5Aggregation> {
+  type: "UI5AggregationsInXMLTagName";
+}
+
+export interface UI5EnumsInXMLAttributeValueCompletion
+  extends BaseXMLViewCompletion<XMLAttribute, UI5EnumValue> {
+  type: "UI5EnumsInXMLAttributeValue";
+}
+
+export interface UI5PropsInXMLAttributeKeyCompletion
+  extends BaseXMLViewCompletion<XMLAttribute, UI5Prop> {
+  type: "UI5PropsInXMLAttributeKey";
+}
+
+export interface UI5EventsInXMLAttributeKeyCompletion
+  extends BaseXMLViewCompletion<XMLAttribute, UI5Event> {
+  type: "UI5EventsInXMLAttributeKey";
+}
+
+export interface UI5AssociationsInXMLAttributeKeyCompletion
+  extends BaseXMLViewCompletion<XMLAttribute, UI5Association> {
+  type: "UI5AssociationsInXMLAttributeKey";
+}
+
+export interface UI5NamespacesInXMLAttributeKeyCompletion
+  extends BaseXMLViewCompletion<XMLAttribute, UI5Namespace> {
+  type: "UI5NamespacesInXMLAttributeKey";
+}
+
+export interface UI5NamespacesInXMLAttributeValueCompletion
+  extends BaseXMLViewCompletion<XMLAttribute, UI5Namespace> {
+  type: "UI5NamespacesInXMLAttributeValue";
 }

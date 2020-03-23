@@ -10,8 +10,8 @@ import { parse, DocumentCstNode } from "@xml-tools/parser";
 import { buildAst } from "@xml-tools/ast";
 import { UI5SemanticModel } from "@ui5-editor-tools/semantic-model-types";
 import {
-  XMLViewCompletion,
-  getXMLViewCompletions
+  getXMLViewCompletions,
+  UI5XMLViewCompletion
 } from "@ui5-editor-tools/xml-views-completion";
 
 export function getCompletionItems(
@@ -34,7 +34,7 @@ export function getCompletionItems(
 }
 
 function transformToLspSuggestions(
-  suggestions: XMLViewCompletion[]
+  suggestions: UI5XMLViewCompletion[]
 ): CompletionItem[] {
   const lspSuggestions = map(suggestions, suggestion => {
     const lspKind = computeLSPKind(suggestion);
@@ -53,20 +53,21 @@ function transformToLspSuggestions(
 }
 
 export function computeLSPKind(
-  suggestion: XMLViewCompletion
+  suggestion: UI5XMLViewCompletion
 ): CompletionItemKind {
-  switch (suggestion.ui5Node.kind) {
-    case "UI5Namespace":
+  switch (suggestion.type) {
+    case "UI5NamespacesInXMLAttributeKey":
+    case "UI5NamespacesInXMLAttributeValue":
       return CompletionItemKind.Text;
-    case "UI5Prop":
+    case "UI5PropsInXMLAttributeKey":
       return CompletionItemKind.Property;
-    case "UI5Class":
+    case "UI5ClassesInXMLTagName":
       return CompletionItemKind.Class;
-    case "UI5Event":
+    case "UI5EventsInXMLAttributeKey":
       return CompletionItemKind.Event;
-    case "UI5Aggregation":
+    case "UI5AggregationsInXMLTagName":
       return CompletionItemKind.Text;
-    case "UI5EnumValue":
+    case "UI5EnumsInXMLAttributeValue":
       return CompletionItemKind.EnumMember;
     default:
       // TODO: we probably need a logging solution to highlight edge cases we

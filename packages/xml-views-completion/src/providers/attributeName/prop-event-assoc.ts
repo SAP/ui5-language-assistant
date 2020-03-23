@@ -12,11 +12,20 @@ import {
 } from "@ui5-editor-tools/logic-utils";
 import { compact, map, uniq } from "lodash";
 import { UI5AttributeNameCompletionOptions } from "./index";
-import { XMLViewCompletion } from "../../../api";
+import {
+  UI5AssociationsInXMLAttributeKeyCompletion,
+  UI5EventsInXMLAttributeKeyCompletion,
+  UI5PropsInXMLAttributeKeyCompletion
+} from "../../../api";
 import {
   filterMembersForSuggestion,
   getClassByElement
 } from "../utils/filter-members";
+
+type propEventsAssocInXMLAttributeKeyCompletion =
+  | UI5PropsInXMLAttributeKeyCompletion
+  | UI5EventsInXMLAttributeKeyCompletion
+  | UI5AssociationsInXMLAttributeKeyCompletion;
 
 /**
  * Suggests Properties and Events inside Element
@@ -24,7 +33,7 @@ import {
  */
 export function propEventAssocSuggestions(
   opts: UI5AttributeNameCompletionOptions
-): XMLViewCompletion[] {
+): propEventsAssocInXMLAttributeKeyCompletion[] {
   const ui5Model = opts.context;
   const xmlElement = opts.element;
 
@@ -52,11 +61,14 @@ export function propEventAssocSuggestions(
     existingAttributeNames
   );
 
-  return map(uniquePrefixMatchingAttributes, _ => ({
+  const suggestions = map(uniquePrefixMatchingAttributes, _ => ({
+    type: `${_.kind}InXMLAttributeKey`,
     ui5Node: _,
     astNode:
       (opts.attribute as XMLAttribute) ?? createDummyAttribute(xmlElement)
   }));
+
+  return suggestions as propEventsAssocInXMLAttributeKeyCompletion[];
 }
 
 /**

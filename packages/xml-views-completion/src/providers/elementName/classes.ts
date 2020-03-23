@@ -12,7 +12,7 @@ import {
   flattenAggregations,
   ui5NodeToFQN
 } from "@ui5-editor-tools/logic-utils";
-import { XMLViewCompletion } from "../../../api";
+import { UI5ClassesInXMLTagNameCompletion } from "../../../api";
 import { getClassByElement } from "../utils/filter-members";
 import { UI5ElementNameCompletionOptions } from "./index";
 
@@ -27,7 +27,7 @@ const startsWithUpperCase = /^[A-Z]/;
 
 export function classesSuggestions(
   opts: UI5ElementNameCompletionOptions
-): XMLViewCompletion[] {
+): UI5ClassesInXMLTagNameCompletion[] {
   const classSuggestionContext = computeClassSuggestionContext({
     xmlElement: opts.element,
     model: opts.context
@@ -67,12 +67,11 @@ export function classesSuggestions(
     return matchingNamespace && matchingBasename;
   });
 
-  const suggestions = map(classesMatchingPrefix, _ => ({
+  return map(classesMatchingPrefix, _ => ({
+    type: "UI5ClassesInXMLTagName",
     ui5Node: _,
     astNode: opts.element
   }));
-
-  return suggestions;
 }
 
 type classSuggestionContext = {

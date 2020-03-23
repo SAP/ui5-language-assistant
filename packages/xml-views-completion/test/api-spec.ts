@@ -1,7 +1,7 @@
 import { expect } from "chai";
-import { map, find } from "lodash";
-import { XMLElement, buildAst } from "@xml-tools/ast";
-import { parse, DocumentCstNode } from "@xml-tools/parser";
+import { find, map } from "lodash";
+import { buildAst, XMLElement } from "@xml-tools/ast";
+import { DocumentCstNode, parse } from "@xml-tools/parser";
 
 import {
   UI5Aggregation,
@@ -10,7 +10,7 @@ import {
 import { generateModel } from "@ui5-editor-tools/test-utils";
 
 import { getXMLViewCompletions } from "../src/api";
-import { XMLViewCompletion } from "../api";
+import { UI5XMLViewCompletion } from "../api";
 
 const REAL_UI5_MODEL: UI5SemanticModel = generateModel("1.74.0");
 
@@ -84,7 +84,7 @@ describe("The `getXMLViewCompletions()` api", () => {
 export function testSuggestionsScenario(opts: {
   xmlText: string;
   model: UI5SemanticModel;
-  assertion: (x: XMLViewCompletion[]) => void;
+  assertion: (suggestions: UI5XMLViewCompletion[]) => void;
 }): void {
   const realXmlText = opts.xmlText.replace("⇶", "");
   const offset = opts.xmlText.indexOf("⇶");

@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { forEach, map, find, cloneDeep, clone } from "lodash";
+import { clone, cloneDeep, find, forEach, map } from "lodash";
 import { XMLElement } from "@xml-tools/ast";
 
 import {
@@ -12,7 +12,7 @@ import { generateModel } from "@ui5-editor-tools/test-utils";
 import { classesSuggestions } from "../../../src/providers/elementName/classes";
 import { testSuggestionsScenario } from "../../utils";
 import { getSuperClasses, ui5NodeToFQN } from "@ui5-editor-tools/logic-utils";
-import { XMLViewCompletion } from "../../../api";
+import { UI5XMLViewCompletion } from "../../../api";
 
 const ui5Model: UI5SemanticModel = generateModel("1.74.0");
 
@@ -607,7 +607,7 @@ function assertSuggestionProperties({
   suggestions,
   expectedParentTag
 }: {
-  suggestions: XMLViewCompletion[];
+  suggestions: UI5XMLViewCompletion[];
   expectedParentTag: string;
 }): void {
   forEach(suggestions, _ => {

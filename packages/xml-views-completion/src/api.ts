@@ -1,14 +1,14 @@
 import { filter, includes } from "lodash";
 import { getSuggestions } from "@xml-tools/content-assist";
 import { UI5Visibility } from "@ui5-editor-tools/semantic-model-types";
-import { GetXMLViewCompletionsOpts, XMLViewCompletion } from "../api";
+import { GetXMLViewCompletionsOpts, UI5XMLViewCompletion } from "../api";
 import { elementNameProviders } from "./providers/elementName";
 import { attributeNameProviders } from "./providers/attributeName";
 import { attributeValueProviders } from "./providers/attributeValue";
 
 export function getXMLViewCompletions(
   opts: GetXMLViewCompletionsOpts
-): XMLViewCompletion[] {
+): UI5XMLViewCompletion[] {
   const suggestions = getSuggestions({
     offset: opts.offset,
     cst: opts.cst,

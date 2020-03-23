@@ -1,10 +1,10 @@
 import { expect, use } from "chai";
-import deepEqualInAnyOrder = require("deep-equal-in-any-order");
 import { XMLAttribute, XMLElement } from "@xml-tools/ast";
 import { UI5SemanticModel } from "@ui5-editor-tools/semantic-model-types";
 import { getFQN } from "./model-test-utils";
-import { XMLViewCompletion } from "@ui5-editor-tools/xml-views-completion";
+import { UI5XMLViewCompletion } from "@ui5-editor-tools/xml-views-completion";
 import { map } from "lodash";
+import deepEqualInAnyOrder = require("deep-equal-in-any-order");
 
 use(deepEqualInAnyOrder);
 
@@ -51,8 +51,8 @@ export function expectModelObjectsEqual(
 }
 
 export function expectSuggestions(
-  actualNameGetter: (suggestion: XMLViewCompletion) => string,
-  suggestions: XMLViewCompletion[],
+  actualNameGetter: (suggestion: UI5XMLViewCompletion) => string,
+  suggestions: UI5XMLViewCompletion[],
   expected: string[]
 ): void {
   const suggestedNames = map(suggestions, actualNameGetter);
