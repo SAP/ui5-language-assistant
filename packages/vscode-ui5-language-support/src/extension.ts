@@ -10,6 +10,7 @@ import {
 let client: LanguageClient;
 
 export async function activate(): Promise<void> {
+  // TODO: debug options should only be conditionally defined as they may impact runtime performance.
   const debugOptions = { execArgv: ["--nolazy", "--inspect=6009"] };
 
   const serverOptions: ServerOptions = {

@@ -1,6 +1,9 @@
 {
   "references": [
     {
+      "path": "./packages/language-server"
+    },
+    {
       "path": "./packages/logic-utils"
     },
     {
@@ -8,6 +11,9 @@
     },
     {
       "path": "./packages/semantic-model-types"
+    },
+    {
+      "path": "./packages/vscode-ui5-language-support"
     },
     {
       "path": "./packages/xml-views-completion"

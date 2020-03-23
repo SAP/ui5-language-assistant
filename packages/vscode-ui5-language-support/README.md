@@ -1,22 +1,35 @@
 # UI5 Language Support
 
-UI5 Language Support VS Code extension.
+A VSCode extension providing UI5 language editor support.
 
-The Extension will become active when an ".fragment.xml" or ".view.xml" files are opened.
-UI5 code completion suggestions will be shown for UI5 classes, namespaces, properties, events and other elements.
+Existing Features:
+
+- Content assist / completions in UI5 XML views.
+  - Both `*.view.xml` and `*.fragment.xml` files
+
+Potential future features:
+
+- Support multiple versions of UI5 metadata.
+- Semantic validations in UI5 XML views.
+- UI5 manifest.json semantic validations and content assist.
 
 ## Installation
 
-This Extension is **not** yet released to the VSCode Marketplace.
-
-It can be downloaded via [Github Releases](https://github.com/SAP/ui5-editor-tools/releases/).
+This extension is **not** yet released to the VSCode Marketplace.
+Instead it can be downloaded directly from [Github Releases](https://github.com/SAP/ui5-editor-tools/releases/).
 
 - The .vsix archive can be found under the **"ui5-editor-tools@x.y.z"** releases.
 - Replace `x.y.z` with the desired version number.
 
 ## Usage
 
-Please see the [TypeScript Definitions](./api.d.ts) for full API details.
+This extension will automatically become active when editing: `*.view.xml` or `*.fragment.xml` files.
+Note that the extension (lazily) downloads the UI5 metadata needed for it's features.
+This means there may be a delay between starting VSCode and having the relevant features available.
+
+## Limitations
+
+The extension currently uses an hard-coded (1.71.x) version for the UI5 metadata.
 
 ## Support
 
