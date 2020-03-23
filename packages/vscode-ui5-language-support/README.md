@@ -23,13 +23,15 @@ Instead it can be downloaded directly from [Github Releases](https://github.com/
 
 ## Usage
 
-This extension will automatically become active when editing: `*.view.xml` or `*.fragment.xml` files.
-Note that the extension (lazily) downloads the UI5 metadata needed for it's features.
+This extension's features will automatically be enabled when opening/editing relevant UI5 source files.
+In the case of UI5 XML views this means:`*.view.xml` or `*.fragment.xml` files.
+
+Note that the extension **lazily** downloads the UI5 metadata needed for its features.
 This means there may be a delay between starting VSCode and having the relevant features available.
 
 ## Limitations
 
-The extension currently uses an hard-coded (1.71.x) version for the UI5 metadata.
+The extension currently uses a hard-coded (1.71.x) version for the UI5 metadata.
 
 ## Support
 

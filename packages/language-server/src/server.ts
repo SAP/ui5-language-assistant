@@ -39,14 +39,13 @@ connection.onInitialized(async () => {
 
 connection.onCompletion(
   async (
-    // TODO: why does this param have an underscore in its name?
-    _textDocumentPosition: TextDocumentPositionParams
+    textDocumentPosition: TextDocumentPositionParams
   ): Promise<CompletionItem[]> => {
     if (isSemanticModelCreated) {
-      const documentUri = _textDocumentPosition.textDocument.uri;
+      const documentUri = textDocumentPosition.textDocument.uri;
       const document = documents.get(documentUri);
       if (document) {
-        return getCompletionItems(model, _textDocumentPosition, document);
+        return getCompletionItems(model, textDocumentPosition, document);
       }
     }
     return [];
