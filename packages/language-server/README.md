@@ -16,7 +16,7 @@ Current Features:
 - In XML Attributes values:
   - **UI5 Enum Values** filtered by the parent UI5 Class metadata.
 - In `xmlns` attributes keys:
-  **UI5 Namespaces** suggested after the xmlns colon (\:)
+  **UI5 Namespaces** suggested after the xmlns colon.
 - In `xmlns` attributes values:
   **UI5 Namespaces**
 
@@ -35,7 +35,7 @@ With Yarn
 This package does not export "regular" programmatic APIS as it is meant to be started in a separate process.
 Instead a `SERVER_PATH` const is exported which points the the server's "main" module.
 
-This `SERVER_PATH` can be used by other tools to spawn the @ui5-editor-tools/language-server process.
+This `SERVER_PATH` can be used by other tools to spawn the `@ui5-editor-tools/language-server` process.
 
 - See [extension.ts](../vscode-ui5-language-support/src/extension.ts) in the UI5 Language Support VSCode extension.
 
