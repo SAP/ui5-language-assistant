@@ -16,7 +16,7 @@ Current Features:
 - In XML Attributes values:
   - **UI5 Enum Values** filtered by the parent UI5 Class metadata.
 - In `xmlns` attributes keys:
-  **UI5 Namespaces** suggested after the xmlns colon (:)
+  **UI5 Namespaces** suggested after the xmlns colon.
 - In `xmlns` attributes values:
   **UI5 Namespaces**
 
