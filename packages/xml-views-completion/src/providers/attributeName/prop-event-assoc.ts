@@ -22,10 +22,21 @@ import {
   getClassByElement
 } from "../utils/filter-members";
 
-type propEventsAssocInXMLAttributeKeyCompletion =
+type PropEventsAssocInXMLAttributeKeyCompletion =
   | UI5PropsInXMLAttributeKeyCompletion
   | UI5EventsInXMLAttributeKeyCompletion
   | UI5AssociationsInXMLAttributeKeyCompletion;
+
+const NodeKindToSuggestionType: Record<
+  "UI5Prop" | "UI5Event" | "UI5Association",
+  | "UI5PropsInXMLAttributeKey"
+  | "UI5EventsInXMLAttributeKey"
+  | "UI5AssociationsInXMLAttributeKey"
+> = {
+  UI5Prop: "UI5PropsInXMLAttributeKey",
+  UI5Event: "UI5EventsInXMLAttributeKey",
+  UI5Association: "UI5PropsInXMLAttributeKey"
+};
 
 /**
  * Suggests Properties and Events inside Element
@@ -33,7 +44,7 @@ type propEventsAssocInXMLAttributeKeyCompletion =
  */
 export function propEventAssocSuggestions(
   opts: UI5AttributeNameCompletionOptions
-): propEventsAssocInXMLAttributeKeyCompletion[] {
+): PropEventsAssocInXMLAttributeKeyCompletion[] {
   const ui5Model = opts.context;
   const xmlElement = opts.element;
 
@@ -62,13 +73,14 @@ export function propEventAssocSuggestions(
   );
 
   const suggestions = map(uniquePrefixMatchingAttributes, _ => ({
-    type: `${_.kind}InXMLAttributeKey`,
+    type: NodeKindToSuggestionType[_.kind],
     ui5Node: _,
     astNode:
       (opts.attribute as XMLAttribute) ?? createDummyAttribute(xmlElement)
   }));
 
-  return suggestions as propEventsAssocInXMLAttributeKeyCompletion[];
+  // Using casing due to dynamic assignment to the `type` property of each suggestion
+  return suggestions as PropEventsAssocInXMLAttributeKeyCompletion[];
 }
 
 /**
