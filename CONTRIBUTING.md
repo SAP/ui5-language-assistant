@@ -67,6 +67,45 @@ as the Parser initialization (which happens once per process) can take 10-20ms.
 - To run the tests run `yarn test` in either the top level package or a specific subpackage.
 - To run the tests with a coverage report run `yarn coverage:run` in either the top level package or a specific subpackage.
 
+#### Debugging
+
+**In IntelliJ**
+
+Open the `package.json` file of the package and debug the `test` script. It will stop in breakpoints you set in the TypeScript code.
+
+**In VS Code:**
+
+To debug tests in VS Code, in the root [`launch.json`](./.vscode/launch.json) file, add a `Node.js: Mocha Tests` configuration by using code assist.
+Change the following in the added configuration:
+
+- Change `tdd` to `bdd` under the `args` property
+- Add a `cwd` property that points to the package root folder, for example (for `language-server` package): `"cwd": "${workspaceFolder}/packages/language-server",`
+- Optionally add the package name to the `name` property
+
+The result should look similar to this:
+
+```json
+{
+  "type": "node",
+  "request": "launch",
+  "name": "language-server Mocha Tests",
+  "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+  "args": [
+    "-u",
+    "bdd",
+    "--timeout",
+    "999999",
+    "--colors",
+    "${workspaceFolder}/test"
+  ],
+  "cwd": "${workspaceFolder}/packages/language-server",
+  "internalConsoleOptions": "openOnSessionStart",
+  "skipFiles": ["<node_internals>/**"]
+}
+```
+
+When running this launch configuration in VS Code, it will stop in breakpoints you set in the TypeScript code.
+
 ### Test Coverage
 
 100%\* Test Coverage is enforced for all productive code in this mono repo.

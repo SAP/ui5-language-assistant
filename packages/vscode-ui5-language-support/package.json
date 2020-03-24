@@ -5,6 +5,29 @@
   "version": "0.0.1",
   "publisher": "SAPSE",
   "license": "Apache-2.0",
+  "main": "./lib/src/extension",
+  "activationEvents": [
+    "*"
+  ],
+  "contributes": {
+    "configuration": {
+      "type": "object",
+      "title": "UI5 Editor Tools",
+      "properties": {
+        "UI5LanguageClient.trace.server": {
+          "scope": "window",
+          "type": "string",
+          "enum": [
+            "off",
+            "messages",
+            "verbose"
+          ],
+          "default": "off",
+          "description": "Traces the communication between VS Code and the UI5 language server."
+        }
+      }
+    }
+  },
   "repository": "https://github.com/sap/ui5-editor-tools/tree/master/packages/vscode-ui5-language-support",
   "keywords": [
     "UI5",
@@ -12,7 +35,7 @@
     "SAPUI5"
   ],
   "engines": {
-    "vscode": "1.42.0"
+    "vscode": "^1.42.0"
   },
   "scripts": {
     "ci": "npm-run-all compile lint coverage",
