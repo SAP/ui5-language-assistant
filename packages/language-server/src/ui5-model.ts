@@ -5,7 +5,7 @@ import { UI5SemanticModel } from "@ui5-editor-tools/semantic-model-types";
 import { generate, Json, TypeNameFix } from "@ui5-editor-tools/semantic-model";
 
 // TODO: use 1.71.x
-const UI5_VERSION = "1.74.0";
+export const UI5_VERSION = "1.74.0";
 
 export async function getSemanticModel(): Promise<UI5SemanticModel> {
   const jsonMap: Record<string, Json> = {};
