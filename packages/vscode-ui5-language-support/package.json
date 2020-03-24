@@ -14,7 +14,7 @@
       "type": "object",
       "title": "UI5 Editor Tools",
       "properties": {
-        "UI5LanguageClient.trace.server": {
+        "UI5EditorTools.trace.server": {
           "scope": "window",
           "type": "string",
           "enum": [
