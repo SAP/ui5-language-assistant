@@ -12,11 +12,31 @@ import {
 } from "@ui5-editor-tools/logic-utils";
 import { compact, map, uniq } from "lodash";
 import { UI5AttributeNameCompletionOptions } from "./index";
-import { XMLViewCompletion } from "../../../api";
+import {
+  UI5AssociationsInXMLAttributeKeyCompletion,
+  UI5EventsInXMLAttributeKeyCompletion,
+  UI5PropsInXMLAttributeKeyCompletion
+} from "../../../api";
 import {
   filterMembersForSuggestion,
   getClassByElement
 } from "../utils/filter-members";
+
+type PropEventsAssocInXMLAttributeKeyCompletion =
+  | UI5PropsInXMLAttributeKeyCompletion
+  | UI5EventsInXMLAttributeKeyCompletion
+  | UI5AssociationsInXMLAttributeKeyCompletion;
+
+const NodeKindToSuggestionType: Record<
+  "UI5Prop" | "UI5Event" | "UI5Association",
+  | "UI5PropsInXMLAttributeKey"
+  | "UI5EventsInXMLAttributeKey"
+  | "UI5AssociationsInXMLAttributeKey"
+> = {
+  UI5Prop: "UI5PropsInXMLAttributeKey",
+  UI5Event: "UI5EventsInXMLAttributeKey",
+  UI5Association: "UI5AssociationsInXMLAttributeKey"
+};
 
 /**
  * Suggests Properties and Events inside Element
@@ -24,7 +44,7 @@ import {
  */
 export function propEventAssocSuggestions(
   opts: UI5AttributeNameCompletionOptions
-): XMLViewCompletion[] {
+): PropEventsAssocInXMLAttributeKeyCompletion[] {
   const ui5Model = opts.context;
   const xmlElement = opts.element;
 
@@ -52,11 +72,15 @@ export function propEventAssocSuggestions(
     existingAttributeNames
   );
 
-  return map(uniquePrefixMatchingAttributes, _ => ({
+  const suggestions = map(uniquePrefixMatchingAttributes, _ => ({
+    type: NodeKindToSuggestionType[_.kind],
     ui5Node: _,
     astNode:
       (opts.attribute as XMLAttribute) ?? createDummyAttribute(xmlElement)
   }));
+
+  // Using casing due to dynamic assignment to the `type` property of each suggestion
+  return suggestions as PropEventsAssocInXMLAttributeKeyCompletion[];
 }
 
 /**

@@ -3,12 +3,12 @@ import {
   AttributeNameCompletion,
   AttributeNameCompletionOptions
 } from "@xml-tools/content-assist";
-import { XMLViewCompletion } from "../../../api";
+import { UI5XMLViewCompletion } from "../../../api";
 import { propEventAssocSuggestions } from "./prop-event-assoc";
 import { namespaceKeysSuggestions } from "./namespace";
 
 export const attributeNameProviders: AttributeNameCompletion<
-  XMLViewCompletion,
+  UI5XMLViewCompletion,
   UI5SemanticModel
 >[] = [propEventAssocSuggestions, namespaceKeysSuggestions];
 

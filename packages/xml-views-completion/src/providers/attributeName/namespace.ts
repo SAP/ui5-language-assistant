@@ -3,7 +3,7 @@ import { UI5Namespace } from "@ui5-editor-tools/semantic-model-types";
 import { isElementSubClass, ui5NodeToFQN } from "@ui5-editor-tools/logic-utils";
 import { XMLAttribute } from "@xml-tools/ast";
 import { UI5AttributeNameCompletionOptions } from "./index";
-import { XMLViewCompletion } from "../../../api";
+import { UI5NamespacesInXMLAttributeKeyCompletion } from "../../../api";
 import { getClassByElement } from "../utils/filter-members";
 
 /**
@@ -14,7 +14,7 @@ import { getClassByElement } from "../utils/filter-members";
  */
 export function namespaceKeysSuggestions(
   opts: UI5AttributeNameCompletionOptions
-): XMLViewCompletion[] {
+): UI5NamespacesInXMLAttributeKeyCompletion[] {
   const ui5Model = opts.context;
   const xmlElement = opts.element;
 
@@ -52,6 +52,7 @@ export function namespaceKeysSuggestions(
   );
 
   return map(suggestedNamespaces, _ => ({
+    type: "UI5NamespacesInXMLAttributeKey",
     ui5Node: _,
     astNode: opts.attribute as XMLAttribute
   }));

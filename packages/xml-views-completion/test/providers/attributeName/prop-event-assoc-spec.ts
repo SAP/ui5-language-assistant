@@ -10,7 +10,7 @@ import {
 } from "@ui5-editor-tools/test-utils";
 import { propEventAssocSuggestions } from "../../../src/providers/attributeName/prop-event-assoc";
 import { XMLAttribute } from "@xml-tools/ast";
-import { XMLViewCompletion } from "../../../api";
+import { UI5XMLViewCompletion } from "../../../api";
 
 const ui5SemanticModel: UI5SemanticModel = generateModel("1.74.0");
 
@@ -193,7 +193,7 @@ describe("The ui5-editor-tools xml-views-completion", () => {
 const expectAttributesNames = partial(expectSuggestions, _ => _.ui5Node.name);
 
 function expectAttributesSuggestions(
-  suggestions: XMLViewCompletion[],
+  suggestions: UI5XMLViewCompletion[],
   expected: string[]
 ): void {
   expectAttributesNames(suggestions, expected);

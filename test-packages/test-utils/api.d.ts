@@ -1,15 +1,15 @@
 import {
-  UI5Class,
-  UI5Namespace,
   UI5Aggregation,
-  UI5SemanticModel,
-  UI5Prop,
+  UI5Association,
+  UI5Class,
   UI5Event,
-  UI5Association
+  UI5Namespace,
+  UI5Prop,
+  UI5SemanticModel
 } from "@ui5-editor-tools/semantic-model-types";
 import { Json, TypeNameFix } from "@ui5-editor-tools/semantic-model";
 import { XMLAttribute, XMLElement } from "@xml-tools/ast";
-import { XMLViewCompletion } from "@ui5-editor-tools/xml-views-completion";
+import { UI5XMLViewCompletion } from "@ui5-editor-tools/xml-views-completion";
 
 //	easily build (partial) data structures for tests with mandatory "name" field
 export type PartialWithName<T> = { name: string } & Partial<T>;
@@ -83,7 +83,7 @@ export function expectModelObjectsEqual(
 ): void;
 
 export function expectSuggestions(
-  actualNameGetter: (suggestion: XMLViewCompletion) => string,
-  suggestions: XMLViewCompletion[],
+  actualNameGetter: (suggestion: UI5XMLViewCompletion) => string,
+  suggestions: UI5XMLViewCompletion[],
   expected: string[]
 ): void;

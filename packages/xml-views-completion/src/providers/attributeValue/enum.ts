@@ -1,7 +1,7 @@
 import { map, find } from "lodash";
 import { XMLAttribute } from "@xml-tools/ast";
 import { flattenProperties } from "@ui5-editor-tools/logic-utils";
-import { XMLViewCompletion } from "../../../api";
+import { UI5EnumsInXMLAttributeValueCompletion } from "../../../api";
 import {
   getClassByElement,
   filterMembersForSuggestion
@@ -14,7 +14,7 @@ import { UI5AttributeValueCompletionOptions } from "./index";
  */
 export function enumSuggestions(
   opts: UI5AttributeValueCompletionOptions
-): XMLViewCompletion[] {
+): UI5EnumsInXMLAttributeValueCompletion[] {
   const xmlElement = opts.element;
   const xmlAttribute = opts.attribute;
 
@@ -37,9 +37,9 @@ export function enumSuggestions(
     []
   );
 
-  const suggestions = map(prefixMatchingEnumValues, _ => ({
+  return map(prefixMatchingEnumValues, _ => ({
+    type: "UI5EnumsInXMLAttributeValue",
     ui5Node: _,
     astNode: opts.attribute as XMLAttribute
   }));
-  return suggestions;
 }
