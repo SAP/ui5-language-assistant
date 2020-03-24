@@ -5,12 +5,14 @@ import { UI5SemanticModel } from "@ui5-editor-tools/semantic-model-types";
 import { generate, Json, TypeNameFix } from "@ui5-editor-tools/semantic-model";
 
 // TODO: use 1.71.x
-const UI5_VERSION = "1.74.0";
+const DEFAULT_UI5_VERSION = "1.74.0";
 
 export async function getSemanticModel(): Promise<UI5SemanticModel> {
   const jsonMap: Record<string, Json> = {};
   const baseUrl =
-    "https://sapui5.hana.ondemand.com/" + UI5_VERSION + "/test-resources/";
+    "https://sapui5.hana.ondemand.com/" +
+    DEFAULT_UI5_VERSION +
+    "/test-resources/";
   const suffix = "/designtime/api.json";
   const libs = getLibs();
 

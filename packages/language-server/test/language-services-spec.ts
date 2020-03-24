@@ -127,6 +127,20 @@ describe("the UI5 tools Language Services", () => {
     const suggestions = getSuggestions(xmlSnippet);
     expect(suggestions).to.be.empty;
   });
+
+  it("will get completion values for UI5 properties, events and associations", async () => {
+    const xmlSnippet = `<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m"> <List ⇶`;
+    const suggestions = getSuggestions(xmlSnippet);
+    const suggestionKinds = uniq(
+      map(suggestions, suggestion => suggestion.kind)
+    );
+
+    expect(suggestionKinds).to.deep.equal([
+      CompletionItemKind.Property,
+      CompletionItemKind.Event,
+      CompletionItemKind.Text
+    ]);
+  });
 });
 
 function createTextDocument(languageId: string, content: string): TextDocument {
