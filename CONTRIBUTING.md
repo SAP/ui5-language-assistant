@@ -104,7 +104,7 @@ The result should look similar to this:
 }
 ```
 
-When running this launch configuration in VS Code, it will stop in breakpoints you set in the TypeScript code.
+When running this launch configuration in VS Code, it will stop on breakpoints you set in the TypeScript code.
 
 ### Test Coverage
 
