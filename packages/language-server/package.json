@@ -29,6 +29,7 @@
     "node-fetch": "2.6.0",
     "@ui5-editor-tools/semantic-model": "0.0.1",
     "@ui5-editor-tools/xml-views-completion": "0.0.1",
+    "@ui5-editor-tools/semantic-model-types": "0.0.1",
     "lodash": "4.17.15"
   },
   "devDependencies": {
