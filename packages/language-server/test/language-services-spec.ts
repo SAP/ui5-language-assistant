@@ -12,7 +12,7 @@ import {
 import { UI5SemanticModel } from "@ui5-editor-tools/semantic-model-types";
 import { generateModel } from "@ui5-editor-tools/test-utils";
 
-import { getCompletionItems } from "../src/language-services";
+import { getCompletionItems, computeLSPKind } from "../src/language-services";
 
 const ui5SemanticModel: UI5SemanticModel = generateModel("1.74.0"); //TODO: use 1.71.x
 
@@ -128,8 +128,11 @@ describe("the UI5 tools Language Services", () => {
     expect(suggestions).to.be.empty;
   });
 
-  it("will get completion values for UI5 properties, events and associations", async () => {
-    const xmlSnippet = `<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m"> <List ⇶`;
+  it("will get completion values for UI5 properties, events and associations", () => {
+    const xmlSnippet = `<mvc:View 
+                          xmlns:mvc="sap.ui.core.mvc" 
+                          xmlns="sap.m"> 
+                          <List ⇶`;
     const suggestions = getSuggestions(xmlSnippet);
     const suggestionKinds = uniq(
       map(suggestions, suggestion => suggestion.kind)
@@ -141,7 +144,27 @@ describe("the UI5 tools Language Services", () => {
       CompletionItemKind.Text
     ]);
   });
+
+  it("will get the lsp completion item kind according to the suggestion type", () => {
+    expectLspKind("UI5NamespacesInXMLAttributeKey", CompletionItemKind.Text);
+    expectLspKind("UI5NamespacesInXMLAttributeValue", CompletionItemKind.Text);
+    expectLspKind("UI5AggregationsInXMLTagName", CompletionItemKind.Text);
+    expectLspKind("UI5PropsInXMLAttributeKey", CompletionItemKind.Property);
+    expectLspKind("UI5ClassesInXMLTagName", CompletionItemKind.Class);
+    expectLspKind("UI5EventsInXMLAttributeKey", CompletionItemKind.Event);
+    expectLspKind("UI5EnumsInXMLAttributeValue", CompletionItemKind.EnumMember);
+    expectLspKind("UI5UnknownKey", CompletionItemKind.Text);
+  });
 });
+
+function expectLspKind(
+  suggestionType: string,
+  expectedKind: CompletionItemKind
+) {
+  let suggestion: any = { type: suggestionType };
+  const lspKind = computeLSPKind(suggestion);
+  expect(lspKind).to.equal(expectedKind);
+}
 
 function createTextDocument(languageId: string, content: string): TextDocument {
   return TextDocument.create("uri", languageId, 0, content);

@@ -71,7 +71,6 @@ export function computeLSPKind(
     default:
       // TODO: we probably need a logging solution to highlight edge cases we
       //       do not handle...
-      /* istanbul ignore next */
       return CompletionItemKind.Text;
   }
 }
