@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { map, cloneDeep } from "lodash";
+import { map, cloneDeep, forEach } from "lodash";
 import { XMLElement } from "@xml-tools/ast";
 
 import { UI5SemanticModel } from "@ui5-editor-tools/semantic-model-types";
@@ -10,6 +10,7 @@ import {
 
 import { testSuggestionsScenario } from "../../utils";
 import { aggregationSuggestions } from "../../../src/providers/elementName/aggregation";
+import { UI5XMLViewCompletion } from "../../../api";
 
 const REAL_UI5_MODEL: UI5SemanticModel = generateModel("1.74.0");
 
@@ -42,12 +43,7 @@ describe("The ui5-editor-tools xml-views-completion", () => {
               "landmarkInfo",
               "subHeader"
             ]);
-
-            const suggestedAstNode = suggestions[0].astNode as XMLElement;
-            expect(suggestedAstNode.type).to.equal("XMLElement");
-            expect((suggestedAstNode.parent as XMLElement).name).to.equal(
-              "Page"
-            );
+            expectAggregationsSuggestions(suggestions);
           }
         });
       });
@@ -77,12 +73,7 @@ describe("The ui5-editor-tools xml-views-completion", () => {
               "layoutData",
               "tooltip"
             ]);
-
-            const suggestedAstNode = suggestions[0].astNode as XMLElement;
-            expect(suggestedAstNode.type).to.equal("XMLElement");
-            expect((suggestedAstNode.parent as XMLElement).name).to.equal(
-              "Page"
-            );
+            expectAggregationsSuggestions(suggestions);
           }
         });
       });
@@ -113,6 +104,7 @@ describe("The ui5-editor-tools xml-views-completion", () => {
               "customHeader",
               "footer"
             ]);
+            expectAggregationsSuggestions(suggestions);
           }
         });
       });
@@ -139,7 +131,6 @@ describe("The ui5-editor-tools xml-views-completion", () => {
               "customData",
               "customHeader"
             ]);
-
             expect(suggestedNames).to.not.include.members([
               "content",
               "dependents",
@@ -151,6 +142,7 @@ describe("The ui5-editor-tools xml-views-completion", () => {
               "subHeader",
               "tooltip"
             ]);
+            expectAggregationsSuggestions(suggestions);
           }
         });
       });
@@ -189,6 +181,7 @@ describe("The ui5-editor-tools xml-views-completion", () => {
               "subHeader",
               "tooltip"
             ]);
+            expectAggregationsSuggestions(suggestions);
           }
         });
       });
@@ -270,3 +263,13 @@ describe("The ui5-editor-tools xml-views-completion", () => {
     });
   });
 });
+
+function expectAggregationsSuggestions(
+  suggestions: UI5XMLViewCompletion[]
+): void {
+  forEach(suggestions, _ => {
+    expect(_.type).to.equal(`UI5AggregationsInXMLTagName`);
+    expect(_.astNode.type).to.equal("XMLElement");
+    expect((_.astNode.parent as XMLElement).name).to.equal("Page");
+  });
+}

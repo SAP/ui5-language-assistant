@@ -1,16 +1,15 @@
 import { expect } from "chai";
-import { difference, partial } from "lodash";
-
+import { difference, forEach, partial } from "lodash";
+import { XMLAttribute } from "@xml-tools/ast";
 import { UI5SemanticModel } from "@ui5-editor-tools/semantic-model-types";
-import { testSuggestionsScenario } from "../../utils";
 import {
   expectSuggestions,
   expectXMLAttribute,
   generateModel
 } from "@ui5-editor-tools/test-utils";
-import { propEventAssocSuggestions } from "../../../src/providers/attributeName/prop-event-assoc";
-import { XMLAttribute } from "@xml-tools/ast";
 import { UI5XMLViewCompletion } from "../../../api";
+import { propEventAssocSuggestions } from "../../../src/providers/attributeName/prop-event-assoc";
+import { testSuggestionsScenario } from "../../utils";
 
 const ui5SemanticModel: UI5SemanticModel = generateModel("1.74.0");
 
@@ -197,7 +196,9 @@ function expectAttributesSuggestions(
   expected: string[]
 ): void {
   expectAttributesNames(suggestions, expected);
-  const suggestedAstNode = suggestions[0].astNode;
-  expectXMLAttribute(suggestedAstNode);
-  expect(suggestedAstNode.parent.name).to.equal("RadioButtonGroup");
+  forEach(suggestions, _ => {
+    expectXMLAttribute(_.astNode);
+    expect(_.astNode.parent.name).to.equal("RadioButtonGroup");
+    expect(_.type).to.equal(`${_.ui5Node.kind}sInXMLAttributeKey`);
+  });
 }

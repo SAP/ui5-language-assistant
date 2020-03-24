@@ -1,10 +1,11 @@
 import { expect } from "chai";
-import { map } from "lodash";
-import { XMLElement, XMLAttribute } from "@xml-tools/ast";
+import { forEach, map } from "lodash";
 import { UI5SemanticModel } from "@ui5-editor-tools/semantic-model-types";
 import { generateModel } from "@ui5-editor-tools/test-utils";
 import { testSuggestionsScenario } from "../../utils";
 import { enumSuggestions } from "../../../src/providers/attributeValue/enum";
+import { UI5XMLViewCompletion } from "../../../api";
+import { XMLAttribute, XMLElement } from "@xml-tools/ast";
 
 const ui5SemanticModel: UI5SemanticModel = generateModel("1.74.0");
 
@@ -33,12 +34,7 @@ describe("The ui5-editor-tools xml-views-completion", () => {
               "Inner",
               "None"
             ]);
-            expect((suggestions[0].astNode as XMLAttribute).key).to.equal(
-              "showSeparators"
-            );
-            expect((suggestions[0].astNode.parent as XMLElement).name).to.equal(
-              "List"
-            );
+            expectEnumValuesSuggestions(suggestions);
           }
         });
       });
@@ -61,12 +57,7 @@ describe("The ui5-editor-tools xml-views-completion", () => {
           assertion: suggestions => {
             const suggestedValues = map(suggestions, _ => _.ui5Node.name);
             expect(suggestedValues).to.deep.equalInAnyOrder(["Inner", "None"]);
-            expect((suggestions[0].astNode as XMLAttribute).key).to.equal(
-              "showSeparators"
-            );
-            expect((suggestions[0].astNode.parent as XMLElement).name).to.equal(
-              "List"
-            );
+            expectEnumValuesSuggestions(suggestions);
           }
         });
       });
@@ -203,3 +194,13 @@ describe("The ui5-editor-tools xml-views-completion", () => {
     });
   });
 });
+
+function expectEnumValuesSuggestions(
+  suggestions: UI5XMLViewCompletion[]
+): void {
+  forEach(suggestions, _ => {
+    expect(_.type).to.equal(`UI5EnumsInXMLAttributeValue`);
+    expect((_.astNode as XMLAttribute).key).to.equal("showSeparators");
+    expect((_.astNode.parent as XMLElement).name).to.equal("List");
+  });
+}
