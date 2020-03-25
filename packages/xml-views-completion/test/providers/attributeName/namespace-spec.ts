@@ -11,19 +11,18 @@ import {
   UI5Prop,
   UI5SemanticModel
 } from "@ui5-editor-tools/semantic-model-types";
-import { testSuggestionsScenario } from "../../utils";
+import { createXMLAttribute, testSuggestionsScenario } from "../../utils";
 import {
   expectSuggestions,
   expectXMLAttribute,
   generateModel
 } from "@ui5-editor-tools/test-utils";
 import {
-  getNamespaceKeyPrefix,
   isExistingNamespaceAttribute,
   namespaceKeysSuggestions
 } from "../../../src/providers/attributeName/namespace";
-import { XMLAttribute, XMLDocument, XMLElement } from "@xml-tools/ast";
 import { ui5NodeToFQN } from "@ui5-editor-tools/logic-utils";
+import { getXMLNamespaceKeyPrefix } from "../../../src/providers/utils/xml-ns-key";
 
 const ui5SemanticModel: UI5SemanticModel = generateModel("1.74.0");
 
@@ -61,7 +60,7 @@ const allExpectedNamespaces = [
   "sap.uxap"
 ];
 
-const expectNamespaceKeysSuggestions = partial(expectSuggestions, _ => {
+export const expectNamespaceKeysSuggestions = partial(expectSuggestions, _ => {
   expectUI5Namespace(_.ui5Node);
   expectXMLAttribute(_.astNode);
   expect(_.type).to.equal("UI5NamespacesInXMLAttributeKey");
@@ -223,53 +222,26 @@ describe("The ui5-editor-tools xml-views-completion", () => {
     context("not reproducible scenario", () => {
       context("getNamespaceKeyPrefix", () => {
         it("no match is found, because key does not start with xmlns", () => {
-          expect(getNamespaceKeyPrefix("abc")).to.be.empty;
+          expect(getXMLNamespaceKeyPrefix("abc")).to.be.empty;
         });
 
         it("no match is found because symbol '*' goes after xmlns", () => {
-          expect(getNamespaceKeyPrefix("xmlns*")).to.be.empty;
+          expect(getXMLNamespaceKeyPrefix("xmlns*")).to.be.empty;
         });
 
         it("prefix is undefined, empty string returns", () => {
-          expect(getNamespaceKeyPrefix("xmlns:")).to.be.empty;
+          expect(getXMLNamespaceKeyPrefix("xmlns:")).to.be.empty;
         });
       });
 
       //TODO check with Shachar if this case can be received from xml
       context("isExistingNamespaceAttribute", () => {
         it("invalid attribute key", () => {
-          const position = {
-            startOffset: 1,
-            startLine: 1,
-            endColumn: 1,
-            endLine: 1,
-            endOffset: 1,
-            startColumn: 1
-          };
-          const doc: XMLDocument = {
-            position: position,
-            rootElement: null,
-            type: "XMLDocument"
-          };
-          const parent: XMLElement = {
-            attributes: [],
-            name: "x",
-            namespaces: {},
-            parent: doc,
-            position: position,
-            subElements: [],
-            syntax: {},
-            textContents: [],
-            type: "XMLElement"
-          };
-          const attributeWithInvalidKey: XMLAttribute = {
-            parent: parent,
-            syntax: {},
-            position: position,
-            value: null,
-            type: "XMLAttribute",
-            key: null
-          };
+          const attributeWithInvalidKey = createXMLAttribute(
+            "dummy",
+            null,
+            null
+          );
           expect(isExistingNamespaceAttribute(attributeWithInvalidKey)).to.be
             .false;
         });
