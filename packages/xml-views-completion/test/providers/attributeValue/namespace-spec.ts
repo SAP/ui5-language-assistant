@@ -4,7 +4,6 @@ import { generateModel } from "@ui5-editor-tools/test-utils";
 import { namespaceValueSuggestions } from "../../../src/providers/attributeValue/namespace";
 import { expectNamespaceKeysSuggestions } from "../attributeName/namespace-spec";
 import { expect } from "chai";
-import { XMLAttribute } from "@xml-tools/ast";
 
 const ui5SemanticModel: UI5SemanticModel = generateModel("1.74.0");
 
