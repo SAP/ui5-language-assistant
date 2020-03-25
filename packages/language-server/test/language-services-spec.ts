@@ -182,8 +182,8 @@ describe("the UI5 tools Language Services", () => {
 function expectLspKind(
   suggestionType: string,
   expectedKind: CompletionItemKind
-) {
-  let suggestion: any = { type: suggestionType };
+): void {
+  const suggestion: any = { type: suggestionType };
   const lspKind = computeLSPKind(suggestion);
   expect(lspKind).to.equal(expectedKind);
 }
