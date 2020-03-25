@@ -1,8 +1,0 @@
-/**
- * Different ESLint rules used for tests source code.
- */
-{
-  "rules": {
-    "@typescript-eslint/no-explicit-any": ["off"]
-  }
-}

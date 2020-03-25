@@ -183,6 +183,7 @@ function expectLspKind(
   suggestionType: string,
   expectedKind: CompletionItemKind
 ): void {
+  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
   const suggestion: any = { type: suggestionType };
   const lspKind = computeLSPKind(suggestion);
   expect(lspKind).to.equal(expectedKind);
