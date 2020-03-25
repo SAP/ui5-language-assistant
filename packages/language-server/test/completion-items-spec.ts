@@ -11,11 +11,11 @@ import {
 import { UI5SemanticModel } from "@ui5-editor-tools/semantic-model-types";
 import { generateModel } from "@ui5-editor-tools/test-utils";
 
-import { getCompletionItems, computeLSPKind } from "../src/language-services";
+import { getCompletionItems, computeLSPKind } from "../src/completion-items";
 
 const ui5SemanticModel: UI5SemanticModel = generateModel("1.74.0"); //TODO: use 1.71.x
 
-describe("the UI5 tools Language Services", () => {
+describe("the UI5 tools Language Code Completion Services", () => {
   it("will get completion values for UI5 class", () => {
     const xmlSnippet = `<GridLi⇶`;
     const suggestions = getSuggestions(xmlSnippet);

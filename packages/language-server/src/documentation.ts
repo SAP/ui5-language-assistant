@@ -26,6 +26,7 @@ export function getNodeDocumentation(
       contents += NL;
     }
     contents += "Deprecated";
+    /* istanbul ignore next */
     contents += node.deprecatedInfo.since
       ? ` since version ${node.deprecatedInfo.since}`
       : EMPTY_STRING;
@@ -47,6 +48,7 @@ export function getNodeDocumentation(
   const markdownContent = convertDescriptionToMarkup(contents, model);
 
   const symbolForDocumentation = getRootSymbolParent(node);
+  /* istanbul ignore else */
   if (symbolForDocumentation !== undefined) {
     const link = getLink(model, ui5NodeToFQN(symbolForDocumentation));
     markdownContent.value += NL + `[More information](${link})` + NL;
@@ -104,6 +106,7 @@ function convertDescriptionToMarkup(
   contents = contents.replace(
     /{@link ((\S+)\s)?([^}]+)}/g,
     (all, _, type, text) => {
+      /* istanbul ignore next */
       return `[${text}](${getLink(model, type ?? text)})`;
     }
   );
@@ -118,8 +121,10 @@ function getLink(model: UI5SemanticModel, link: string): string {
   if (link.startsWith("http:") || link.startsWith("https:")) {
     return link;
   }
+  /* istanbul ignore else */
   if (model.version) {
     return `https://sapui5.hana.ondemand.com/${model.version}/#/api/${link}`;
   }
+  /* istanbul ignore next */
   return `https://sapui5.hana.ondemand.com/#/api/${link}`;
 }

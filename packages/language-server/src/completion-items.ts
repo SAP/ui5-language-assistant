@@ -100,6 +100,7 @@ function createInsertText(suggestion: UI5XMLViewCompletion): string {
     // Attribute key
     case "UI5NamespacesInXMLAttributeKey": {
       // Auto-insert the selected namespace
+      /* istanbul ignore else */
       if ((suggestion.astNode as XMLAttribute).syntax.value === undefined) {
         insertText += `="${ui5NodeToFQN(suggestion.ui5Node)}"`;
       }
@@ -109,6 +110,7 @@ function createInsertText(suggestion: UI5XMLViewCompletion): string {
     case "UI5EventsInXMLAttributeKey":
     case "UI5PropsInXMLAttributeKey": {
       // Auto-insert ="" for attributes
+      /* istanbul ignore else */
       if ((suggestion.astNode as XMLAttribute).syntax.value === undefined) {
         insertText += '="${0}"';
       }
@@ -117,6 +119,7 @@ function createInsertText(suggestion: UI5XMLViewCompletion): string {
     // Tag name
     case "UI5AggregationsInXMLTagName": {
       // Auto-close tag
+      /* istanbul ignore else */
       if ((suggestion.astNode as XMLElement).syntax.closeBody === undefined) {
         insertText += `>\${0}</${suggestion.ui5Node.name}>`;
       }
@@ -124,6 +127,7 @@ function createInsertText(suggestion: UI5XMLViewCompletion): string {
     }
     case "UI5ClassesInXMLTagName": {
       // Auto-close tag and put the cursor where attributes can be added
+      /* istanbul ignore else */
       if ((suggestion.astNode as XMLElement).syntax.closeBody === undefined) {
         insertText += ` \${1}>\${0}</${suggestion.ui5Node.name}>`;
       }
@@ -140,8 +144,10 @@ function getNodeDetail(node: BaseUI5Node): string {
     return ui5NodeToFQN(node);
   }
   switch (node.kind) {
+    /* istanbul ignore next */
     case "UI5Prop":
       return `(property) ${node.name}: ${typeToString((node as UI5Prop).type)}`;
+    /* istanbul ignore next */
     case "UI5Field":
       return `(field) ${node.name}: ${typeToString((node as UI5Field).type)}`;
     case "UI5Aggregation":
