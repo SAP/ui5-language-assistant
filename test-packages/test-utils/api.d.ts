@@ -5,7 +5,15 @@ import {
   UI5Event,
   UI5Namespace,
   UI5Prop,
-  UI5SemanticModel
+  UI5SemanticModel,
+  UI5Interface,
+  UI5Enum,
+  UI5Typedef,
+  UI5Function,
+  UI5Method,
+  UI5Constructor,
+  UI5Field,
+  UI5EnumValue
 } from "@ui5-editor-tools/semantic-model-types";
 import { Json, TypeNameFix } from "@ui5-editor-tools/semantic-model";
 import { XMLAttribute, XMLElement } from "@xml-tools/ast";
@@ -16,13 +24,37 @@ export type PartialWithName<T> = { name: string } & Partial<T>;
 
 export function buildUI5Class(opts: PartialWithName<UI5Class>): UI5Class;
 
+export function buildUI5Interface(
+  opts: PartialWithName<UI5Interface>
+): UI5Interface;
+
+export function buildUI5Enum(opts: PartialWithName<UI5Enum>): UI5Enum;
+
+export function buildUI5Typedef(opts: PartialWithName<UI5Typedef>): UI5Typedef;
+
+export function buildUI5Function(
+  opts: PartialWithName<UI5Function>
+): UI5Function;
+
 export function buildUI5Namespace(
   opts: PartialWithName<UI5Namespace>
 ): UI5Namespace;
 
 export function buildUI5Property(opts: PartialWithName<UI5Prop>): UI5Prop;
 
+export function buildUI5Field(opts: PartialWithName<UI5Field>): UI5Field;
+
+export function buildUI5EnumValue(
+  opts: PartialWithName<UI5EnumValue>
+): UI5EnumValue;
+
 export function buildUI5Event(opts: PartialWithName<UI5Event>): UI5Event;
+
+export function buildUI5Method(opts: PartialWithName<UI5Method>): UI5Method;
+
+export function buildUI5Constructor(
+  opts: Partial<UI5Constructor>
+): UI5Constructor;
 
 export function buildUI5Association(
   opts: PartialWithName<UI5Association>

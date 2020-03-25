@@ -1,20 +1,31 @@
-export { buildUI5Namespace } from "./utils/semantic-model-builder";
-export { buildUI5Aggregation } from "./utils/semantic-model-builder";
-export { buildUI5Class } from "./utils/semantic-model-builder";
-export { buildUI5Property } from "./utils/semantic-model-builder";
-export { buildUI5Model } from "./utils/semantic-model-builder";
-export { buildUI5Event } from "./utils/semantic-model-builder";
-export { buildUI5Association } from "./utils/semantic-model-builder";
-export { generateModel } from "./utils/semantic-model-provider";
-export { loadLibraries } from "./utils/semantic-model-provider";
-export { getTypeNameFixForVersion } from "./utils/semantic-model-provider";
+export {
+  buildUI5Namespace,
+  buildUI5Aggregation,
+  buildUI5Class,
+  buildUI5Property,
+  buildUI5Model,
+  buildUI5Event,
+  buildUI5Association,
+  buildUI5Constructor,
+  buildUI5Enum,
+  buildUI5EnumValue,
+  buildUI5Field,
+  buildUI5Function,
+  buildUI5Interface,
+  buildUI5Method,
+  buildUI5Typedef
+} from "./utils/semantic-model-builder";
+export {
+  generateModel,
+  loadLibraries,
+  getTypeNameFixForVersion
+} from "./utils/semantic-model-provider";
 export {
   expectUnsortedEquality,
   expectXMLAttribute,
-  expectSuggestions
+  expectSuggestions,
+  expectExists,
+  expectProperty,
+  expectModelObjectsEqual
 } from "./utils/expect";
-export { expectExists } from "./utils/expect";
-export { expectProperty } from "./utils/expect";
-export { expectModelObjectsEqual } from "./utils/expect";
-export { isObject } from "./utils/model-test-utils";
-export { getFQN } from "./utils/model-test-utils";
+export { isObject, getFQN } from "./utils/model-test-utils";

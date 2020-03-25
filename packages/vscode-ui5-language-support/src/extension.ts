@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import { workspace, window } from "vscode";
 import { SERVER_PATH } from "@ui5-editor-tools/language-server";
 import {
