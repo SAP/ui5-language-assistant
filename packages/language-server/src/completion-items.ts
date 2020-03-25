@@ -65,7 +65,6 @@ function transformToLspSuggestions(
         ? [CompletionItemTag.Deprecated]
         : undefined
     };
-    // transformation
     return completionItem;
   });
   return lspSuggestions;

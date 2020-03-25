@@ -2,10 +2,7 @@ import { UI5Type } from "@ui5-editor-tools/semantic-model-types";
 import { ui5NodeToFQN } from "../api";
 
 export function typeToString(type: UI5Type | undefined): string {
-  if (type === undefined) {
-    return "any";
-  }
-  switch (type.kind) {
+  switch (type?.kind) {
     // Types with fully qualified name
     case "UI5Class":
     case "UI5Enum":
@@ -18,5 +15,7 @@ export function typeToString(type: UI5Type | undefined): string {
     case "PrimitiveType":
     case "UnresolvedType":
       return type.name;
+    default:
+      return "any";
   }
 }

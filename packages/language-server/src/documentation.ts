@@ -7,11 +7,14 @@ import {
   getRootSymbolParent,
   ui5NodeToFQN
 } from "@ui5-editor-tools/logic-utils";
+import { GENERATED_LIBRARY } from "@ui5-editor-tools/semantic-model";
 
 export function getNodeDocumentation(
   node: BaseUI5Node,
   model: UI5SemanticModel
 ): string | MarkupContent {
+  // Note: most of this code was taken from ui5-typescript repository and adapted for better markdown support.
+  // This should be consolidated in the future.
   let contents = "";
   const NL = "\n";
   const EMPTY_STRING = "";
@@ -49,7 +52,10 @@ export function getNodeDocumentation(
 
   const symbolForDocumentation = getRootSymbolParent(node);
   /* istanbul ignore else */
-  if (symbolForDocumentation !== undefined) {
+  if (
+    symbolForDocumentation !== undefined &&
+    symbolForDocumentation.library !== GENERATED_LIBRARY
+  ) {
     const link = getLink(model, ui5NodeToFQN(symbolForDocumentation));
     markdownContent.value += NL + `[More information](${link})` + NL;
   }
@@ -103,8 +109,10 @@ function convertDescriptionToMarkup(
   contents = unescape(contents);
 
   // Links
+  // Assuming links are of the form: {@link <type>[ <text>]}
+  // Where the type doesn't contain whitespace, and neither the type nor text contain the "}" character
   contents = contents.replace(
-    /{@link ((\S+)\s)?([^}]+)}/g,
+    /{@link (([^}\t\n ]+)\s)?([^}]+)}/g,
     (all, _, type, text) => {
       /* istanbul ignore next */
       return `[${text}](${getLink(model, type ?? text)})`;
