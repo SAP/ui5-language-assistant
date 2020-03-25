@@ -64,6 +64,7 @@ const allExpectedNamespaces = [
 const expectNamespaceKeysSuggestions = partial(expectSuggestions, _ => {
   expectUI5Namespace(_.ui5Node);
   expectXMLAttribute(_.astNode);
+  expect(_.type).to.equal("UI5NamespacesInXMLAttributeKey");
   return ui5NodeToFQN(_.ui5Node);
 });
 
