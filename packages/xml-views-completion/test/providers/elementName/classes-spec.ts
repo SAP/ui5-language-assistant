@@ -611,6 +611,7 @@ function assertSuggestionProperties({
   expectedParentTag: string;
 }): void {
   forEach(suggestions, _ => {
+    expect(_.type).to.equal(`UI5ClassesInXMLTagName`);
     expect(_.ui5Node.kind).to.equal("UI5Class");
     expect(_.astNode.type).to.equal("XMLElement");
     expect((_.astNode.parent as XMLElement).name).to.equal(expectedParentTag);

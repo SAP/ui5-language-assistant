@@ -1,16 +1,15 @@
 import { expect } from "chai";
-import { difference, partial } from "lodash";
-
+import { difference, forEach, partial } from "lodash";
+import { XMLAttribute } from "@xml-tools/ast";
 import { UI5SemanticModel } from "@ui5-editor-tools/semantic-model-types";
-import { testSuggestionsScenario } from "../../utils";
 import {
   expectSuggestions,
   expectXMLAttribute,
   generateModel
 } from "@ui5-editor-tools/test-utils";
-import { propEventAssocSuggestions } from "../../../src/providers/attributeName/prop-event-assoc";
-import { XMLAttribute } from "@xml-tools/ast";
 import { UI5XMLViewCompletion } from "../../../api";
+import { propEventAssocSuggestions } from "../../../src/providers/attributeName/prop-event-assoc";
+import { testSuggestionsScenario } from "../../utils";
 
 const ui5SemanticModel: UI5SemanticModel = generateModel("1.74.0");
 
@@ -65,10 +64,11 @@ describe("The ui5-editor-tools xml-views-completion", () => {
             attributeName: [propEventAssocSuggestions]
           },
           assertion: suggestions => {
-            expectAttributesSuggestions(
+            expectAttributesSuggestions({
               suggestions,
-              allPropsEventsAssociations
-            );
+              expectedSuggestionsNames: allPropsEventsAssociations,
+              expectedParentTag: "RadioButtonGroup"
+            });
             const suggestedAstNode = suggestions[0].astNode as XMLAttribute;
             expect(suggestedAstNode.position.startLine).to.equal(-1);
           }
@@ -90,11 +90,15 @@ describe("The ui5-editor-tools xml-views-completion", () => {
             attributeName: [propEventAssocSuggestions]
           },
           assertion: suggestions => {
-            expectAttributesSuggestions(suggestions, [
-              "busy",
-              "busyIndicatorDelay",
-              "busyIndicatorSize"
-            ]);
+            expectAttributesSuggestions({
+              suggestions,
+              expectedSuggestionsNames: [
+                "busy",
+                "busyIndicatorDelay",
+                "busyIndicatorSize"
+              ],
+              expectedParentTag: "RadioButtonGroup"
+            });
           }
         });
       });
@@ -114,10 +118,15 @@ describe("The ui5-editor-tools xml-views-completion", () => {
             attributeName: [propEventAssocSuggestions]
           },
           assertion: suggestions => {
-            const expectedSuggestions = difference(allPropsEventsAssociations, [
-              "busy"
-            ]);
-            expectAttributesSuggestions(suggestions, expectedSuggestions);
+            const expectedSuggestionsNames = difference(
+              allPropsEventsAssociations,
+              ["busy"]
+            );
+            expectAttributesSuggestions({
+              suggestions,
+              expectedSuggestionsNames,
+              expectedParentTag: "RadioButtonGroup"
+            });
           }
         });
       });
@@ -137,10 +146,14 @@ describe("The ui5-editor-tools xml-views-completion", () => {
             attributeName: [propEventAssocSuggestions]
           },
           assertion: suggestions => {
-            expectAttributesSuggestions(suggestions, [
-              "busyIndicatorDelay",
-              "busyIndicatorSize"
-            ]);
+            expectAttributesSuggestions({
+              suggestions,
+              expectedSuggestionsNames: [
+                "busyIndicatorDelay",
+                "busyIndicatorSize"
+              ],
+              expectedParentTag: "RadioButtonGroup"
+            });
           }
         });
       });
@@ -192,12 +205,19 @@ describe("The ui5-editor-tools xml-views-completion", () => {
 
 const expectAttributesNames = partial(expectSuggestions, _ => _.ui5Node.name);
 
-function expectAttributesSuggestions(
-  suggestions: UI5XMLViewCompletion[],
-  expected: string[]
-): void {
-  expectAttributesNames(suggestions, expected);
-  const suggestedAstNode = suggestions[0].astNode;
-  expectXMLAttribute(suggestedAstNode);
-  expect(suggestedAstNode.parent.name).to.equal("RadioButtonGroup");
+function expectAttributesSuggestions({
+  suggestions,
+  expectedSuggestionsNames,
+  expectedParentTag
+}: {
+  suggestions: UI5XMLViewCompletion[];
+  expectedSuggestionsNames: string[];
+  expectedParentTag: string;
+}): void {
+  expectAttributesNames(suggestions, expectedSuggestionsNames);
+  forEach(suggestions, _ => {
+    expectXMLAttribute(_.astNode);
+    expect(_.astNode.parent.name).to.equal(expectedParentTag);
+    expect(_.type).to.equal(`${_.ui5Node.kind}sInXMLAttributeKey`);
+  });
 }
