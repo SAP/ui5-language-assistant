@@ -7,7 +7,8 @@ import {
   UI5Interface,
   UI5Prop,
   UI5Association,
-  UI5SemanticModel
+  UI5SemanticModel,
+  UI5Type
 } from "@ui5-editor-tools/semantic-model-types";
 
 /**
@@ -66,3 +67,19 @@ export function findClassesMatchingType({
   type: UI5Class | UI5Interface;
   model: UI5SemanticModel;
 }): UI5Class[];
+
+/**
+ * Check if a UI5 node is a root symbol. A root symbol is a symbol that exists in one of the model symbol maps.
+ */
+export function isRootSymbol(node: BaseUI5Node): boolean;
+
+/**
+ * Get the root symbol parent of a UI5 node (for example, get the class of a property).
+ * The same node is returned for root symbols.
+ */
+export function getRootSymbolParent(node: BaseUI5Node): BaseUI5Node | undefined;
+
+/**
+ * Return a human-readable string representation of a UI5 type
+ */
+export function typeToString(type: UI5Type | undefined): string;

@@ -9,7 +9,7 @@ import {
 import { TextDocument } from "vscode-languageserver-textdocument";
 import { UI5SemanticModel } from "@ui5-editor-tools/semantic-model-types";
 import { getSemanticModel } from "./ui5-model";
-import { getCompletionItems } from "./language-services";
+import { getCompletionItems } from "./completion-items";
 
 const connection = createConnection(ProposedFeatures.all);
 const documents = new TextDocuments(TextDocument);
