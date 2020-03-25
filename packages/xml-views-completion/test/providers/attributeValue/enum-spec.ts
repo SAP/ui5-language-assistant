@@ -34,7 +34,7 @@ describe("The ui5-editor-tools xml-views-completion", () => {
               "Inner",
               "None"
             ]);
-            expectEnumValuesSuggestions(suggestions);
+            expectEnumValuesSuggestions(suggestions, "List");
           }
         });
       });
@@ -57,7 +57,7 @@ describe("The ui5-editor-tools xml-views-completion", () => {
           assertion: suggestions => {
             const suggestedValues = map(suggestions, _ => _.ui5Node.name);
             expect(suggestedValues).to.deep.equalInAnyOrder(["Inner", "None"]);
-            expectEnumValuesSuggestions(suggestions);
+            expectEnumValuesSuggestions(suggestions, "List");
           }
         });
       });
@@ -196,11 +196,12 @@ describe("The ui5-editor-tools xml-views-completion", () => {
 });
 
 function expectEnumValuesSuggestions(
-  suggestions: UI5XMLViewCompletion[]
+  suggestions: UI5XMLViewCompletion[],
+  expectedParentTag: string
 ): void {
   forEach(suggestions, _ => {
     expect(_.type).to.equal(`UI5EnumsInXMLAttributeValue`);
     expect((_.astNode as XMLAttribute).key).to.equal("showSeparators");
-    expect((_.astNode.parent as XMLElement).name).to.equal("List");
+    expect((_.astNode.parent as XMLElement).name).to.equal(expectedParentTag);
   });
 }

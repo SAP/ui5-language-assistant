@@ -43,7 +43,7 @@ describe("The ui5-editor-tools xml-views-completion", () => {
               "landmarkInfo",
               "subHeader"
             ]);
-            expectAggregationsSuggestions(suggestions);
+            expectAggregationsSuggestions(suggestions, "Page");
           }
         });
       });
@@ -73,7 +73,7 @@ describe("The ui5-editor-tools xml-views-completion", () => {
               "layoutData",
               "tooltip"
             ]);
-            expectAggregationsSuggestions(suggestions);
+            expectAggregationsSuggestions(suggestions, "Page");
           }
         });
       });
@@ -104,7 +104,7 @@ describe("The ui5-editor-tools xml-views-completion", () => {
               "customHeader",
               "footer"
             ]);
-            expectAggregationsSuggestions(suggestions);
+            expectAggregationsSuggestions(suggestions, "Page");
           }
         });
       });
@@ -142,7 +142,7 @@ describe("The ui5-editor-tools xml-views-completion", () => {
               "subHeader",
               "tooltip"
             ]);
-            expectAggregationsSuggestions(suggestions);
+            expectAggregationsSuggestions(suggestions, "Page");
           }
         });
       });
@@ -181,7 +181,7 @@ describe("The ui5-editor-tools xml-views-completion", () => {
               "subHeader",
               "tooltip"
             ]);
-            expectAggregationsSuggestions(suggestions);
+            expectAggregationsSuggestions(suggestions, "Page");
           }
         });
       });
@@ -265,11 +265,12 @@ describe("The ui5-editor-tools xml-views-completion", () => {
 });
 
 function expectAggregationsSuggestions(
-  suggestions: UI5XMLViewCompletion[]
+  suggestions: UI5XMLViewCompletion[],
+  expectedParentTag: string
 ): void {
   forEach(suggestions, _ => {
     expect(_.type).to.equal(`UI5AggregationsInXMLTagName`);
     expect(_.astNode.type).to.equal("XMLElement");
-    expect((_.astNode.parent as XMLElement).name).to.equal("Page");
+    expect((_.astNode.parent as XMLElement).name).to.equal(expectedParentTag);
   });
 }
