@@ -5,7 +5,15 @@ import {
   UI5Aggregation,
   UI5Prop,
   UI5Event,
-  UI5SemanticModel
+  UI5SemanticModel,
+  UI5Interface,
+  UI5Enum,
+  UI5Typedef,
+  UI5Function,
+  UI5Method,
+  UI5Constructor,
+  UI5Field,
+  UI5EnumValue
 } from "@ui5-editor-tools/semantic-model-types";
 
 import { PartialWithName } from "../../api";
@@ -32,10 +40,48 @@ export function buildUI5Property(opts: PartialWithName<UI5Prop>): UI5Prop {
   };
 }
 
+export function buildUI5Field(opts: PartialWithName<UI5Field>): UI5Field {
+  return {
+    ...baseUI5NodeDefaults,
+    kind: "UI5Field",
+    type: undefined,
+    ...opts
+  };
+}
+
+export function buildUI5EnumValue(
+  opts: PartialWithName<UI5EnumValue>
+): UI5EnumValue {
+  return {
+    ...baseUI5NodeDefaults,
+    kind: "UI5EnumValue",
+    ...opts
+  };
+}
+
 export function buildUI5Event(opts: PartialWithName<UI5Event>): UI5Event {
   return {
     ...baseUI5NodeDefaults,
     kind: "UI5Event",
+    ...opts
+  };
+}
+
+export function buildUI5Method(opts: PartialWithName<UI5Method>): UI5Method {
+  return {
+    ...baseUI5NodeDefaults,
+    kind: "UI5Method",
+    ...opts
+  };
+}
+
+export function buildUI5Constructor(
+  opts: Partial<UI5Constructor>
+): UI5Constructor {
+  return {
+    ...baseUI5NodeDefaults,
+    kind: "UI5Constructor",
+    name: "",
     ...opts
   };
 }
@@ -73,6 +119,45 @@ export function buildUI5Class(opts: PartialWithName<UI5Class>): UI5Class {
     properties: [],
     fields: [],
     defaultAggregation: undefined,
+    ...opts
+  };
+}
+
+export function buildUI5Interface(
+  opts: PartialWithName<UI5Interface>
+): UI5Interface {
+  return {
+    ...baseUI5NodeDefaults,
+    kind: "UI5Interface",
+    methods: [],
+    events: [],
+    ...opts
+  };
+}
+
+export function buildUI5Enum(opts: PartialWithName<UI5Enum>): UI5Enum {
+  return {
+    ...baseUI5NodeDefaults,
+    kind: "UI5Enum",
+    fields: [],
+    ...opts
+  };
+}
+
+export function buildUI5Typedef(opts: PartialWithName<UI5Typedef>): UI5Typedef {
+  return {
+    ...baseUI5NodeDefaults,
+    kind: "UI5Typedef",
+    ...opts
+  };
+}
+
+export function buildUI5Function(
+  opts: PartialWithName<UI5Function>
+): UI5Function {
+  return {
+    ...baseUI5NodeDefaults,
+    kind: "UI5Function",
     ...opts
   };
 }
