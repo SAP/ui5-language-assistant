@@ -60,7 +60,7 @@ const allExpectedNamespaces = [
   "sap.uxap"
 ];
 
-export const expectNamespaceKeysSuggestions = partial(expectSuggestions, _ => {
+const expectNamespaceKeysSuggestions = partial(expectSuggestions, _ => {
   expectUI5Namespace(_.ui5Node);
   expectXMLAttribute(_.astNode);
   expect(_.type).to.equal("UI5NamespacesInXMLAttributeKey");

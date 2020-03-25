@@ -52,7 +52,7 @@ export function createXMLAttribute(
   };
   const xmlElement: XMLElement = {
     attributes: [],
-    name: "x",
+    name: name,
     namespaces: {},
     parent: xmlDocument,
     position: position,

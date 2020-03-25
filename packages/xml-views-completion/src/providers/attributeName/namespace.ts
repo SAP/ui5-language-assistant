@@ -5,11 +5,11 @@ import { XMLAttribute } from "@xml-tools/ast";
 import { UI5AttributeNameCompletionOptions } from "./index";
 import { UI5NamespacesInXMLAttributeKeyCompletion } from "../../../api";
 import { getClassByElement } from "../utils/filter-members";
-import { getUI5NamespaceLastName } from "../utils/ui5-ns-lastname";
 import {
   getXMLNamespaceKeyPrefix,
   isXMLNamespaceKey
 } from "../utils/xml-ns-key";
+import { getUI5NamespaceLastName } from "../utils/ui5-ns-lastname";
 
 /**
  * Suggests Namespaces inside Element

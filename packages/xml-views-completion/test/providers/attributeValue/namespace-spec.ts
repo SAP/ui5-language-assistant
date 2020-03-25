@@ -1,11 +1,24 @@
 import { createXMLAttribute, testSuggestionsScenario } from "../../utils";
 import { UI5SemanticModel } from "@ui5-editor-tools/semantic-model-types";
-import { generateModel } from "@ui5-editor-tools/test-utils";
+import {
+  expectSuggestions,
+  expectXMLAttribute,
+  generateModel
+} from "@ui5-editor-tools/test-utils";
 import { namespaceValueSuggestions } from "../../../src/providers/attributeValue/namespace";
-import { expectNamespaceKeysSuggestions } from "../attributeName/namespace-spec";
+import { expectUI5Namespace } from "../attributeName/namespace-spec";
 import { expect } from "chai";
+import { partial } from "lodash";
+import { ui5NodeToFQN } from "@ui5-editor-tools/logic-utils";
 
 const ui5SemanticModel: UI5SemanticModel = generateModel("1.74.0");
+
+const expectNamespaceValuesSuggestions = partial(expectSuggestions, _ => {
+  expectUI5Namespace(_.ui5Node);
+  expectXMLAttribute(_.astNode);
+  expect(_.type).to.equal("UI5NamespacesInXMLAttributeValue");
+  return ui5NodeToFQN(_.ui5Node);
+});
 
 describe("The ui5-editor-tools xml-views-completion", () => {
   context("namespaces values", () => {
@@ -24,7 +37,7 @@ describe("The ui5-editor-tools xml-views-completion", () => {
             attributeValue: [namespaceValueSuggestions]
           },
           assertion: suggestions => {
-            expectNamespaceKeysSuggestions(suggestions, [
+            expectNamespaceValuesSuggestions(suggestions, [
               "sap.ui.table",
               "sap.ui.table.plugins",
               "sap.ui.table.rowmodes"
@@ -47,7 +60,7 @@ describe("The ui5-editor-tools xml-views-completion", () => {
             attributeValue: [namespaceValueSuggestions]
           },
           assertion: suggestions => {
-            expectNamespaceKeysSuggestions(suggestions, [
+            expectNamespaceValuesSuggestions(suggestions, [
               "sap.ui.core.dnd",
               "sap.f.dnd"
             ]);
@@ -69,7 +82,7 @@ describe("The ui5-editor-tools xml-views-completion", () => {
             attributeValue: [namespaceValueSuggestions]
           },
           assertion: suggestions => {
-            expectNamespaceKeysSuggestions(suggestions, [
+            expectNamespaceValuesSuggestions(suggestions, [
               "sap.ui.table.rowmodes"
             ]);
           }
@@ -90,7 +103,7 @@ describe("The ui5-editor-tools xml-views-completion", () => {
             attributeValue: [namespaceValueSuggestions]
           },
           assertion: suggestions => {
-            expectNamespaceKeysSuggestions(suggestions, [
+            expectNamespaceValuesSuggestions(suggestions, [
               "sap.ui.table",
               "sap.ui.table.plugins",
               "sap.ui.table.rowmodes"
@@ -113,7 +126,7 @@ describe("The ui5-editor-tools xml-views-completion", () => {
             attributeValue: [namespaceValueSuggestions]
           },
           assertion: suggestions => {
-            expectNamespaceKeysSuggestions(suggestions, [
+            expectNamespaceValuesSuggestions(suggestions, [
               "sap.ui.core.dnd",
               "sap.ui.core.mvc",
               "sap.ui.core.search",
@@ -176,15 +189,15 @@ describe("The ui5-editor-tools xml-views-completion", () => {
         expect(suggestions).to.be.empty;
       });
 
-      it("will suggest when attribute value is null", () => {
-        const xmlAttribute = createXMLAttribute("dummy", "xmlns:table", null);
+      it("will not suggest when attribute value is null and prefix does not relate to existing namespaces", () => {
+        const xmlAttribute = createXMLAttribute("dummy", "xmlns:xxx", null);
         const suggestions = namespaceValueSuggestions({
           attribute: xmlAttribute,
           context: ui5SemanticModel,
           element: xmlAttribute.parent,
           prefix: ""
         });
-        expectNamespaceKeysSuggestions(suggestions, ["sap.ui.table"]);
+        expect(suggestions).to.be.empty;
       });
     });
   });
