@@ -112,7 +112,7 @@ function convertDescriptionToMarkup(
   // Assuming links are of the form: {@link <type>[ <text>]}
   // Where the type doesn't contain whitespace, and neither the type nor text contain the "}" character
   contents = contents.replace(
-    /{@link (([^}\t\n ]+)\s)?([^}]+)}/g,
+    /{@link (([^\s}]+)\s)?([^}]+)}/g,
     (all, _, type, text) => {
       /* istanbul ignore next */
       return `[${text}](${getLink(model, type ?? text)})`;
