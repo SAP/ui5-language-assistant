@@ -33,7 +33,7 @@ export function getCompletionItems(
   textDocumentPosition: TextDocumentPositionParams,
   document: TextDocument
 ): CompletionItem[] {
-  const documentText = document.getText() ?? "";
+  const documentText = document.getText();
   const { cst, tokenVector } = parse(documentText);
   const ast = buildAst(cst as DocumentCstNode, tokenVector);
   const suggestions = getXMLViewCompletions({
@@ -77,6 +77,7 @@ export function computeLSPKind(
   switch (suggestion.type) {
     case "UI5NamespacesInXMLAttributeKey":
     case "UI5NamespacesInXMLAttributeValue":
+    case "UI5AggregationsInXMLTagName":
       return CompletionItemKind.Text;
     case "UI5PropsInXMLAttributeKey":
       return CompletionItemKind.Property;
@@ -84,8 +85,6 @@ export function computeLSPKind(
       return CompletionItemKind.Class;
     case "UI5EventsInXMLAttributeKey":
       return CompletionItemKind.Event;
-    case "UI5AggregationsInXMLTagName":
-      return CompletionItemKind.Text;
     case "UI5EnumsInXMLAttributeValue":
       return CompletionItemKind.EnumMember;
     default:
