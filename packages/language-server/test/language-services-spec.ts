@@ -8,7 +8,6 @@ import {
   CompletionItemKind,
   CompletionItem
 } from "vscode-languageserver";
-
 import { UI5SemanticModel } from "@ui5-editor-tools/semantic-model-types";
 import { generateModel } from "@ui5-editor-tools/test-utils";
 
@@ -21,13 +20,16 @@ describe("the UI5 tools Language Services", () => {
     const xmlSnippet = `<GridLi⇶`;
     const suggestions = getSuggestions(xmlSnippet);
     const suggestionNames = map(suggestions, suggestion => suggestion.label);
+    const suggestionKinds = uniq(
+      map(suggestions, suggestion => suggestion.kind)
+    );
 
     expect(suggestionNames).to.deep.equalInAnyOrder([
       "GridList",
       "GridListItem"
     ]);
 
-    expect(suggestions[0].kind).to.equal(CompletionItemKind.Class);
+    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Class]);
   });
 
   it("will get completion values for UI5 property", () => {
@@ -37,6 +39,9 @@ describe("the UI5 tools Language Services", () => {
                           <List show⇶`;
     const suggestions = getSuggestions(xmlSnippet);
     const suggestionNames = map(suggestions, suggestion => suggestion.label);
+    const suggestionKinds = uniq(
+      map(suggestions, suggestion => suggestion.kind)
+    );
 
     expect(suggestionNames).to.deep.equalInAnyOrder([
       "showNoData",
@@ -44,7 +49,7 @@ describe("the UI5 tools Language Services", () => {
       "showUnread"
     ]);
 
-    expect(suggestions[0].kind).to.equal(CompletionItemKind.Property);
+    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Property]);
   });
 
   it("will get completion values for UI5 event", () => {
@@ -54,13 +59,16 @@ describe("the UI5 tools Language Services", () => {
                           <List update⇶`;
     const suggestions = getSuggestions(xmlSnippet);
     const suggestionNames = map(suggestions, suggestion => suggestion.label);
+    const suggestionKinds = uniq(
+      map(suggestions, suggestion => suggestion.kind)
+    );
 
     expect(suggestionNames).to.deep.equalInAnyOrder([
       "updateFinished",
       "updateStarted"
     ]);
 
-    expect(suggestions[0].kind).to.equal(CompletionItemKind.Event);
+    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Event]);
   });
 
   it("will get completion values for UI5 association", () => {
@@ -70,10 +78,13 @@ describe("the UI5 tools Language Services", () => {
                           <List aria⇶`;
     const suggestions = getSuggestions(xmlSnippet);
     const suggestionNames = map(suggestions, suggestion => suggestion.label);
+    const suggestionKinds = uniq(
+      map(suggestions, suggestion => suggestion.kind)
+    );
 
     expect(suggestionNames).to.deep.equalInAnyOrder(["ariaLabelledBy"]);
 
-    expect(suggestions[0].kind).to.equal(CompletionItemKind.Text);
+    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Text]);
   });
 
   it("will get completion values for UI5 aggregation", () => {
@@ -83,6 +94,9 @@ describe("the UI5 tools Language Services", () => {
                           <List> <te⇶`;
     const suggestions = getSuggestions(xmlSnippet);
     const suggestionNames = map(suggestions, suggestion => suggestion.label);
+    const suggestionKinds = uniq(
+      map(suggestions, suggestion => suggestion.kind)
+    );
 
     expect(suggestionNames).to.deep.equalInAnyOrder([
       "contextMenu",
@@ -90,7 +104,7 @@ describe("the UI5 tools Language Services", () => {
       "swipeContent"
     ]);
 
-    expect(suggestions[0].kind).to.equal(CompletionItemKind.Text);
+    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Text]);
   });
 
   it("will get completion values for UI5 xmlns key namespace", () => {
@@ -99,6 +113,9 @@ describe("the UI5 tools Language Services", () => {
                           xmlns:u⇶`;
     const suggestions = getSuggestions(xmlSnippet);
     const suggestionNames = map(suggestions, suggestion => suggestion.label);
+    const suggestionKinds = uniq(
+      map(suggestions, suggestion => suggestion.kind)
+    );
 
     expect(suggestionNames).to.deep.equalInAnyOrder([
       "unified",
@@ -108,18 +125,23 @@ describe("the UI5 tools Language Services", () => {
       "uxap"
     ]);
 
-    expect(suggestions[0].kind).to.equal(CompletionItemKind.Text);
+    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Text]);
   });
 
   it("will get completion values for UI5 enum value", () => {
-    //TODO: check why fails with multiple lines
-    const xmlSnippet = `<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m"> <List showSeparators="⇶"`;
+    const xmlSnippet = `<mvc:View 
+                          xmlns:mvc="sap.ui.core.mvc" 
+                          xmlns="sap.m"> 
+                          <List showSeparators="⇶"`;
     const suggestions = getSuggestions(xmlSnippet);
     const suggestionNames = map(suggestions, suggestion => suggestion.label);
+    const suggestionKinds = uniq(
+      map(suggestions, suggestion => suggestion.kind)
+    );
 
     expect(suggestionNames).to.deep.equalInAnyOrder(["All", "Inner", "None"]);
 
-    expect(suggestions[0].kind).to.equal(CompletionItemKind.EnumMember);
+    expect(suggestionKinds).to.deep.equal([CompletionItemKind.EnumMember]);
   });
 
   it("will not get completion values for unknown class", () => {
@@ -172,8 +194,9 @@ function createTextDocument(languageId: string, content: string): TextDocument {
 
 function getSuggestions(xmlSnippet: string): CompletionItem[] {
   const xmlText = xmlSnippet.replace("⇶", "");
+  const offset = xmlSnippet.indexOf("⇶");
   const doc: TextDocument = createTextDocument("xml", xmlText);
-  const pos: Position = getPosition(xmlSnippet);
+  const pos: Position = doc.positionAt(offset);
   const uri: TextDocumentIdentifier = { uri: "uri" };
   const textDocPositionParams: TextDocumentPositionParams = {
     textDocument: uri,
@@ -181,12 +204,4 @@ function getSuggestions(xmlSnippet: string): CompletionItem[] {
   };
 
   return getCompletionItems(ui5SemanticModel, textDocPositionParams, doc);
-}
-
-function getPosition(xmlSnippet: string): Position {
-  const lines = xmlSnippet.split(/\r\n|\r|\n/);
-  return {
-    line: lines.length - 1,
-    character: xmlSnippet.indexOf("⇶")
-  };
 }
