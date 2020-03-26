@@ -2,6 +2,8 @@ import { UI5SemanticModel } from "@ui5-editor-tools/semantic-model-types";
 import { DocumentCstNode, parse } from "@xml-tools/parser";
 import {
   buildAst,
+  Prefix,
+  Uri,
   XMLAttribute,
   XMLDocument,
   XMLElement
@@ -33,9 +35,10 @@ export function testSuggestionsScenario(opts: {
 }
 
 export function createXMLAttribute(
-  name: string,
-  key: string | null,
-  value: string | null
+  xmlElementName: string,
+  xmlAttributeKey: string | null,
+  xmlAttributeValue: string | null,
+  namespaces: Record<Prefix, Uri>
 ): XMLAttribute {
   const position = {
     startOffset: 1,
@@ -52,8 +55,8 @@ export function createXMLAttribute(
   };
   const xmlElement: XMLElement = {
     attributes: [],
-    name: name,
-    namespaces: {},
+    name: xmlElementName,
+    namespaces: namespaces,
     parent: xmlDocument,
     position: position,
     subElements: [],
@@ -65,9 +68,9 @@ export function createXMLAttribute(
     parent: xmlElement,
     syntax: {},
     position: position,
-    value: value,
+    value: xmlAttributeValue,
     type: "XMLAttribute",
-    key: key
+    key: xmlAttributeKey
   };
   return xmlAttribute;
 }

@@ -160,24 +160,6 @@ describe("The ui5-editor-tools xml-views-completion", () => {
         });
       });
 
-      it("will not suggest when used on element that is not View", () => {
-        const xmlSnippet = `
-        <mvc:Controller
-          xmlns:mvc="sap.ui.core.mvc"
-          xmlns⇶>
-        </mvc:Controller>`;
-        testSuggestionsScenario({
-          model: ui5SemanticModel,
-          xmlText: xmlSnippet,
-          providers: {
-            attributeName: [namespaceKeysSuggestions]
-          },
-          assertion: suggestions => {
-            expect(suggestions).to.be.empty;
-          }
-        });
-      });
-
       it("will not suggest when used on undefined attribute key prefix", () => {
         const xmlSnippet = `
         <mvc:View
@@ -240,7 +222,8 @@ describe("The ui5-editor-tools xml-views-completion", () => {
           const attributeWithInvalidKey = createXMLAttribute(
             "dummy",
             null,
-            null
+            null,
+            {}
           );
           expect(isExistingNamespaceAttribute(attributeWithInvalidKey)).to.be
             .false;

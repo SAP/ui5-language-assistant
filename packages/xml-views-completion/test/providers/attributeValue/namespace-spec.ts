@@ -46,7 +46,7 @@ describe("The ui5-editor-tools xml-views-completion", () => {
         });
       });
 
-      it("will suggest namespace values with prefix provided and null attribute value", () => {
+      it("will suggest namespace values with prefix provided and empty attribute value", () => {
         const xmlSnippet = `
           <mvc:View
             xmlns:mvc="sap.ui.core.mvc"
@@ -68,7 +68,7 @@ describe("The ui5-editor-tools xml-views-completion", () => {
         });
       });
 
-      it("will suggest namespace values with no prefix provided", () => {
+      it("will suggest namespace values with key prefix and partial attribute value provided", () => {
         const xmlSnippet = `
           <mvc:View
             xmlns:mvc="sap.ui.core.mvc"
@@ -89,7 +89,7 @@ describe("The ui5-editor-tools xml-views-completion", () => {
         });
       });
 
-      it("will suggest namespace values with prefix provided that no namespace ends with it", () => {
+      it("will suggest namespace values without filtering by prefix when no namespace short name equals to prefix", () => {
         const xmlSnippet = `
           <mvc:View
             xmlns:mvc="sap.ui.core.mvc"
@@ -136,15 +136,13 @@ describe("The ui5-editor-tools xml-views-completion", () => {
           }
         });
       });
-    });
 
-    context("non applicable scenarios", () => {
-      it("will not suggest when used on element that is not View", () => {
+      it("will suggest namespace values in the mode that only looks like exploration", () => {
         const xmlSnippet = `
-        <mvc:Controller
-          xmlns:mvc="sap.ui.core.mvc"
-          xmlns:rowmodes="sap.⇶">
-        </mvc:Controller>`;
+          <mvc:View
+            xmlns:mvc="sap.ui.core.mvc"
+            xmlns="ui.core.⇶">
+          </mvc:View>`;
 
         testSuggestionsScenario({
           model: ui5SemanticModel,
@@ -153,11 +151,19 @@ describe("The ui5-editor-tools xml-views-completion", () => {
             attributeValue: [namespaceValueSuggestions]
           },
           assertion: suggestions => {
-            expect(suggestions).to.be.empty;
+            expectNamespaceValuesSuggestions(suggestions, [
+              "sap.ui.core.dnd",
+              "sap.ui.core.mvc",
+              "sap.ui.core.search",
+              "sap.ui.core.tmpl",
+              "sap.ui.core.util"
+            ]);
           }
         });
       });
+    });
 
+    context("non applicable scenarios", () => {
       it("will not suggest when used on undefined class", () => {
         const xmlSnippet = `
         <mvc:Controller1
@@ -179,7 +185,7 @@ describe("The ui5-editor-tools xml-views-completion", () => {
 
     context("not reproducible scenarios", () => {
       it("will not suggest when attribute key is null", () => {
-        const xmlAttribute = createXMLAttribute("dummy", null, null);
+        const xmlAttribute = createXMLAttribute("dummy", null, null, {});
         const suggestions = namespaceValueSuggestions({
           attribute: xmlAttribute,
           context: ui5SemanticModel,
@@ -189,15 +195,18 @@ describe("The ui5-editor-tools xml-views-completion", () => {
         expect(suggestions).to.be.empty;
       });
 
-      it("will not suggest when attribute value is null and prefix does not relate to existing namespaces", () => {
-        const xmlAttribute = createXMLAttribute("dummy", "xmlns:xxx", null);
+      // test covers case when attribute value is null, that is impossible to reproduce
+      it("will suggest when attribute value is null", () => {
+        const xmlAttribute = createXMLAttribute("Control", "xmlns:tmpl", null, {
+          "::DEFAULT": "sap.ui.core"
+        });
         const suggestions = namespaceValueSuggestions({
           attribute: xmlAttribute,
           context: ui5SemanticModel,
           element: xmlAttribute.parent,
-          prefix: ""
+          prefix: "xmlns:tmpl"
         });
-        expect(suggestions).to.be.empty;
+        expectNamespaceValuesSuggestions(suggestions, ["sap.ui.core.tmpl"]);
       });
     });
   });

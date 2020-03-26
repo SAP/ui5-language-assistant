@@ -9,7 +9,6 @@ import {
   getXMLNamespaceKeyPrefix,
   isXMLNamespaceKey
 } from "../utils/xml-ns-key";
-import { getUI5NamespaceLastName } from "../utils/ui5-ns-lastname";
 
 /**
  * Suggests Namespaces inside Element
@@ -25,11 +24,6 @@ export function namespaceKeysSuggestions(
 
   const ui5Clazz = getClassByElement(xmlElement, ui5Model);
   if (ui5Clazz === undefined) {
-    return [];
-  }
-  const ui5ClassFQN = ui5NodeToFQN(ui5Clazz);
-  // we limit usage of namespaces attributes on "sap.ui.core.mvc.View" XML Element
-  if (ui5ClassFQN !== "sap.ui.core.mvc.View") {
     return [];
   }
 
@@ -83,7 +77,7 @@ function isNamespaceApplicable(
   namespace: UI5Namespace,
   prefix: string
 ): boolean {
-  const smallName = getUI5NamespaceLastName(namespace);
+  const smallName = namespace.name;
   if (!smallName.startsWith(prefix)) {
     return false;
   }

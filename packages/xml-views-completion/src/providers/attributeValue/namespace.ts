@@ -4,11 +4,11 @@ import { isElementSubClass, ui5NodeToFQN } from "@ui5-editor-tools/logic-utils";
 import { getClassByElement } from "../utils/filter-members";
 import { UI5AttributeValueCompletionOptions } from "./index";
 import { UI5NamespacesInXMLAttributeValueCompletion } from "../../../api";
-import { getUI5NamespaceLastName } from "../utils/ui5-ns-lastname";
 import {
   getXMLNamespaceKeyPrefix,
   isXMLNamespaceKey
 } from "../utils/xml-ns-key";
+import { UI5Namespace } from "@ui5-editor-tools/semantic-model-types";
 
 /**
  * Suggests namespace value for namespace attribute
@@ -20,35 +20,23 @@ export function namespaceValueSuggestions(
   opts: UI5AttributeValueCompletionOptions
 ): UI5NamespacesInXMLAttributeValueCompletion[] {
   const xmlAttribute = opts.attribute;
+  const xmlAttributeName = xmlAttribute.key;
 
-  if (xmlAttribute.key === null) {
+  if (xmlAttributeName === null || !isXMLNamespaceKey(xmlAttributeName)) {
     return [];
   }
 
-  const xmlAttributeName = xmlAttribute.key;
   const ui5Model = opts.context;
   const xmlElement = opts.element;
 
+  const ui5Class = getClassByElement(xmlElement, ui5Model);
+  if (ui5Class === undefined) {
+    return [];
+  }
+
   const attributeValue = xmlAttribute.value ?? "";
 
-  const ui5Class = getClassByElement(xmlElement, ui5Model);
-  if (ui5Class === undefined || !isXMLNamespaceKey(xmlAttributeName)) {
-    return [];
-  }
-
-  const ui5ClassFQN = ui5NodeToFQN(ui5Class);
-
-  // we limit usage of namespaces attributes on "sap.ui.core.mvc.View" XML Element
-  if (ui5ClassFQN !== "sap.ui.core.mvc.View") {
-    return [];
-  }
-
-  let applicableNamespaces = filter(
-    values(ui5Model.namespaces),
-    _ => find(_.classes, isElementSubClass) !== undefined
-  );
-
-  const xmlnsPrefix = getXMLNamespaceKeyPrefix(xmlAttributeName);
+  let applicableNamespaces = values(ui5Model.namespaces);
 
   if (attributeValue !== "") {
     applicableNamespaces = filter(applicableNamespaces, _ =>
@@ -56,21 +44,31 @@ export function namespaceValueSuggestions(
     );
   }
 
+  const xmlnsPrefix = getXMLNamespaceKeyPrefix(xmlAttributeName);
+
+  if (attributeValue.endsWith(".")) {
+    const applicableNamespacesForExploration = filter(applicableNamespaces, _ =>
+      ui5NodeToFQN(_).startsWith(attributeValue)
+    );
+    if (applicableNamespacesForExploration.length > 0) {
+      applicableNamespaces = applicableNamespacesForExploration;
+    }
+  }
+
   if (xmlnsPrefix !== "") {
     const applicableNamespacesWithPrefix = filter(
       applicableNamespaces,
-      _ => getUI5NamespaceLastName(_) === xmlnsPrefix
+      _ => _.name === xmlnsPrefix
     );
     if (applicableNamespacesWithPrefix.length > 0) {
       applicableNamespaces = applicableNamespacesWithPrefix;
     }
   }
 
-  if (attributeValue.endsWith(".")) {
-    applicableNamespaces = filter(applicableNamespaces, _ =>
-      ui5NodeToFQN(_).startsWith(attributeValue)
-    );
-  }
+  applicableNamespaces = filter(
+    applicableNamespaces,
+    _ => find(_.classes, isElementSubClass) !== undefined
+  );
 
   return map(applicableNamespaces, _ => ({
     type: "UI5NamespacesInXMLAttributeValue",
