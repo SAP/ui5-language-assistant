@@ -1,4 +1,4 @@
-import { map } from "lodash";
+import { map, findKey } from "lodash";
 import {
   CompletionItem,
   CompletionItemKind,
@@ -8,7 +8,7 @@ import {
 } from "vscode-languageserver";
 import { TextDocument } from "vscode-languageserver-textdocument";
 import { parse, DocumentCstNode } from "@xml-tools/parser";
-import { buildAst, XMLAttribute, XMLElement } from "@xml-tools/ast";
+import { buildAst, XMLAttribute, XMLElement, DEFAULT_NS } from "@xml-tools/ast";
 import {
   UI5SemanticModel,
   BaseUI5Node,
@@ -125,6 +125,37 @@ function createInsertText(suggestion: UI5XMLViewCompletion): string {
       break;
     }
     case "UI5ClassesInXMLTagName": {
+      const xmlElement = suggestion.astNode;
+
+      // Add namespace if it doesn't already exists on the node.
+      // In some cases ns will have the namespace and in other name will contain the namespace.
+      if (
+        !suggestion.astNode.name ||
+        (suggestion.astNode.name.indexOf(":") < 0 && !suggestion.astNode.ns)
+      ) {
+        const ns = suggestion.ui5Node.parent;
+        /* istanbul ignore else */
+        if (ns !== undefined) {
+          const parentFQN = ui5NodeToFQN(ns);
+          let xmlnsKey = findKey(
+            xmlElement.namespaces,
+            value => value === parentFQN
+          );
+          // Namespace not defined in imports - guess it
+          if (xmlnsKey === undefined) {
+            xmlnsKey = ns.name;
+            // TODO add text edit for the xml attribute
+          }
+          if (
+            xmlnsKey !== undefined &&
+            xmlnsKey !== DEFAULT_NS &&
+            xmlnsKey.length > 0
+          ) {
+            insertText = `${xmlnsKey}:${insertText}`;
+          }
+        }
+      }
+
       // Auto-close tag and put the cursor where attributes can be added
       /* istanbul ignore else */
       if ((suggestion.astNode as XMLElement).syntax.closeBody === undefined) {
