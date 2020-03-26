@@ -96,7 +96,8 @@ export function computeLSPKind(
 function createInsertText(suggestion: UI5XMLViewCompletion): string {
   let insertText = suggestion.ui5Node.name;
   switch (suggestion.type) {
-    // Attribute key
+    // Attribute key and value
+    case "UI5NamespacesInXMLAttributeValue":
     case "UI5NamespacesInXMLAttributeKey": {
       // Auto-insert the selected namespace
       /* istanbul ignore else */
