@@ -8,7 +8,6 @@ import {
   getXMLNamespaceKeyPrefix,
   isXMLNamespaceKey
 } from "../utils/xml-ns-key";
-import { UI5Namespace } from "@ui5-editor-tools/semantic-model-types";
 
 /**
  * Suggests namespace value for namespace attribute
