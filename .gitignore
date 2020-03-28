@@ -66,6 +66,12 @@ package-lock.json
 # Not ignoring .vscode folder because .vscode/launch.json contains launch configurations for vscode extensions
 # and it's useful to share it
 
+# vscode-test
+.vscode-test
+
+# VSCode extension build result
+*.vsix
+
 # npm registry configuraiton
 .npmrc
 
