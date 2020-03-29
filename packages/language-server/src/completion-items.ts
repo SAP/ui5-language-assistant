@@ -96,8 +96,7 @@ export function computeLSPKind(
 function createInsertText(suggestion: UI5XMLViewCompletion): string {
   let insertText = suggestion.ui5Node.name;
   switch (suggestion.type) {
-    // Attribute key and value
-    case "UI5NamespacesInXMLAttributeValue":
+    // Attribute key
     case "UI5NamespacesInXMLAttributeKey": {
       // Auto-insert the selected namespace
       /* istanbul ignore else */
@@ -133,6 +132,10 @@ function createInsertText(suggestion: UI5XMLViewCompletion): string {
       }
       break;
     }
+    // Attribute value
+    case "UI5NamespacesInXMLAttributeValue":
+      insertText = `${ui5NodeToFQN(suggestion.ui5Node)}`;
+      break;
   }
 
   return insertText;

@@ -10,6 +10,7 @@ import { expectUI5Namespace } from "../attributeName/namespace-spec";
 import { expect } from "chai";
 import { partial } from "lodash";
 import { ui5NodeToFQN } from "@ui5-editor-tools/logic-utils";
+import { DEFAULT_NS } from "@xml-tools/ast";
 
 const ui5SemanticModel: UI5SemanticModel = generateModel("1.74.0");
 
@@ -137,7 +138,30 @@ describe("The ui5-editor-tools xml-views-completion", () => {
         });
       });
 
-      it("will suggest namespace values in the mode that only looks like exploration", () => {
+      it("will suggest namespace values when value starts with prefix matching several namespaces", () => {
+        const xmlSnippet = `
+          <mvc:View
+            xmlns:mvc="sap.ui.core.mvc"
+            xmlns:abc="sap.ui.u⇶">
+          </mvc:View>`;
+
+        testSuggestionsScenario({
+          model: ui5SemanticModel,
+          xmlText: xmlSnippet,
+          providers: {
+            attributeValue: [namespaceValueSuggestions]
+          },
+          assertion: suggestions => {
+            expectNamespaceValuesSuggestions(suggestions, [
+              "sap.ui.unified",
+              "sap.ui.unified.calendar",
+              "sap.ui.ux3"
+            ]);
+          }
+        });
+      });
+
+      it("will suggest namespace values that contain the prefix when exploration mode doesn't return any namespaces", () => {
         const xmlSnippet = `
           <mvc:View
             xmlns:mvc="sap.ui.core.mvc"
@@ -198,7 +222,7 @@ describe("The ui5-editor-tools xml-views-completion", () => {
       // test covers case when attribute value is null, that is impossible to reproduce
       it("will suggest when attribute value is null", () => {
         const xmlAttribute = createXMLAttribute("Control", "xmlns:tmpl", null, {
-          "::DEFAULT": "sap.ui.core"
+          [DEFAULT_NS]: "sap.ui.core"
         });
         const suggestions = namespaceValueSuggestions({
           attribute: xmlAttribute,

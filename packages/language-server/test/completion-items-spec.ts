@@ -133,12 +133,15 @@ describe("the UI5 tools Language Code Completion Services", () => {
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns:ux3="⇶"`;
     const suggestions = getSuggestions(xmlSnippet);
-    const suggestionNames = map(suggestions, suggestion => suggestion.label);
+    const suggestionNames = map(
+      suggestions,
+      suggestion => suggestion.insertText
+    );
     const suggestionKinds = uniq(
       map(suggestions, suggestion => suggestion.kind)
     );
 
-    expect(suggestionNames).to.deep.equalInAnyOrder(["ux3"]);
+    expect(suggestionNames).to.deep.equalInAnyOrder(["sap.ui.ux3"]);
 
     expect(suggestionKinds).to.deep.equal([CompletionItemKind.Text]);
   });
