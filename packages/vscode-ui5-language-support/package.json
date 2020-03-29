@@ -35,7 +35,7 @@
     "SAPUI5"
   ],
   "engines": {
-    "vscode": "^1.43.2"
+    "vscode": "^1.42.0"
   },
   "scripts": {
     "ci": "npm-run-all clean compile lint coverage bundle",
