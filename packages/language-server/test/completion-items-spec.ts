@@ -22,7 +22,7 @@ describe("the UI5 tools Language Code Completion Services", () => {
       return undefined;
     }
     const result = /^([^> ]*)/.exec(insertText);
-    return result === null ? undefined : result[1];
+    return result?.[1];
   }
 
   it("will get completion values for UI5 class", () => {
