@@ -2,11 +2,7 @@
   "title": "SAP JSON schema for Web Application Manifest File",
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
-  "required": [
-    "_version",
-    "sap.app",
-    "sap.ui"
-  ],
+  "required": ["_version", "sap.app", "sap.ui"],
   "additionalProperties": false,
   "properties": {
     "_version": {
@@ -43,12 +39,7 @@
       "description": "Represents general application attributes",
       "type": "object",
       "additionalProperties": false,
-      "required": [
-        "id",
-        "type",
-        "title",
-        "applicationVersion"
-      ],
+      "required": ["id", "type", "title", "applicationVersion"],
       "properties": {
         "_version": {
           "description": "Application attributes format version. It is managed by namespace owner",
@@ -69,10 +60,7 @@
         "sourceTemplate": {
           "description": "Represents the template from which the app was generated",
           "type": "object",
-          "required": [
-            "id",
-            "version"
-          ],
+          "required": ["id", "version"],
           "properties": {
             "id": {
               "description": "Represents id of the template from which the app was generated ",
@@ -91,12 +79,7 @@
         "type": {
           "description": "Represents type of an application and can be application or component or library",
           "type": "string",
-          "enum": [
-            "application",
-            "component",
-            "library",
-            "card"
-          ]
+          "enum": ["application", "component", "library", "card"]
         },
         "i18n": {
           "description": "Represents path inside the app to the properties file containing text symbols for the Descriptor",
@@ -106,9 +89,7 @@
         "applicationVersion": {
           "description": "Represents mandatory version of the app",
           "type": "object",
-          "required": [
-            "version"
-          ],
+          "required": ["version"],
           "properties": {
             "version": {
               "$ref": "#/definitions/version"
@@ -150,9 +131,7 @@
           "description": "Represents array of keywords",
           "type": "object",
           "additionalProperties": true,
-          "required": [
-            "keywords"
-          ],
+          "required": ["keywords"],
           "properties": {
             "keywords": {
               "$ref": "#/definitions/tag"
@@ -191,16 +170,12 @@
         "resources": {
           "description": "Represents reference to a file (naming convention is resources.json) which contains list with all resources which the app needs",
           "type": "string",
-          "enum": [
-            "resources.json"
-          ]
+          "enum": ["resources.json"]
         },
         "destination": {
           "description": "Represents a system alias",
           "type": "object",
-          "required": [
-            "name"
-          ],
+          "required": ["name"],
           "additionalProperties": false,
           "properties": {
             "name": {
@@ -219,9 +194,7 @@
         "provider": {
           "description": "Represents the name of the provider which owns the application",
           "type": "string",
-          "enum": [
-            "sfsf"
-          ]
+          "enum": ["sfsf"]
         },
         "offline": {
           "description": "Represents indicator whether the app is running offline. Possible values are true or false (default)",
@@ -231,9 +204,7 @@
         "crossNavigation": {
           "description": "Represents cross navigation for inbound and outbound targets",
           "type": "object",
-          "required": [
-            "inbounds"
-          ],
+          "required": ["inbounds"],
           "properties": {
             "scopes": {
               "description": "Represents scopes of a site",
@@ -243,9 +214,7 @@
                 "^[a-zA-Z0-9_\\.\\-]+$": {
                   "description": "Represents unique id of the site",
                   "type": "object",
-                  "required": [
-                    "value"
-                  ],
+                  "required": ["value"],
                   "properties": {
                     "value": {
                       "type": "string"
@@ -270,33 +239,17 @@
       "title": "JSON schema for SAP.UI Namespace",
       "description": "Represents general ui attributes",
       "type": "object",
-      "required": [
-        "technology",
-        "deviceTypes"
-      ],
+      "required": ["technology", "deviceTypes"],
       "properties": {
         "_version": {
           "description": "Represents UI attributes format version. It is managed by namespace owner",
           "type": "string",
-          "enum": [
-            "1.1.0",
-            "1.2.0",
-            "1.3.0",
-            "1.4.0",
-            "1.5.0"
-          ]
+          "enum": ["1.1.0", "1.2.0", "1.3.0", "1.4.0", "1.5.0"]
         },
         "technology": {
           "description": "Represents UI technology. The possible values are UI5 (default), WDA, NWBC, GUI, URL and WCF",
           "type": "string",
-          "enum": [
-            "UI5",
-            "WDA",
-            "NWBC",
-            "GUI",
-            "URL",
-            "WCF"
-          ],
+          "enum": ["UI5", "WDA", "NWBC", "GUI", "URL", "WCF"],
           "default": "UI5"
         },
         "icons": {
@@ -337,11 +290,7 @@
               "$ref": "#/definitions/deviceType"
             },
             {
-              "required": [
-                "desktop",
-                "tablet",
-                "phone"
-              ]
+              "required": ["desktop", "tablet", "phone"]
             }
           ]
         },
@@ -364,10 +313,7 @@
       "allOf": [
         {
           "type": "object",
-          "required": [
-            "dependencies",
-            "contentDensities"
-          ],
+          "required": ["dependencies", "contentDensities"],
           "properties": {
             "_version": {
               "description": " Represents SAPUI5 attributes format version. It is managed by namespace owner",
@@ -402,9 +348,7 @@
               "description": "Represents external dependences such as libraries or components, that will be loaded by UI5 Core in the initialization phase of your Component and can be used after it",
               "type": "object",
               "additionalProperties": false,
-              "required": [
-                "minUI5Version"
-              ],
+              "required": ["minUI5Version"],
               "properties": {
                 "minUI5Version": {
                   "description": "Represents the minimum version of SAP UI5 that your component requires",
@@ -495,10 +439,7 @@
               "description": "Represents object with content density modes the app is supporting. Supported density modes are 'cozy' and 'compact'",
               "type": "object",
               "additionalProperties": false,
-              "required": [
-                "compact",
-                "cozy"
-              ],
+              "required": ["compact", "cozy"],
               "properties": {
                 "compact": {
                   "description": "Represents indicator whether compact mode is supported",
@@ -529,11 +470,7 @@
               "items": {
                 "type": "object",
                 "additionalProperties": false,
-                "required": [
-                  "layer",
-                  "appVariantId",
-                  "version"
-                ],
+                "required": ["layer", "appVariantId", "version"],
                 "properties": {
                   "layer": {
                     "description": "Represents origin layer of the app variant id",
@@ -595,16 +532,12 @@
           "oneOf": [
             {
               "type": "object",
-              "required": [
-                "flexEnabled"
-              ],
+              "required": ["flexEnabled"],
               "properties": {
                 "flexEnabled": {
                   "description": "Represents an Indicator whether an app is flex enabled",
                   "type": "boolean",
-                  "enum": [
-                    true
-                  ]
+                  "enum": [true]
                 },
                 "routing": {
                   "$ref": "#/definitions/routing_flexEnabled"
@@ -620,9 +553,7 @@
                 "flexEnabled": {
                   "description": "Represents an Indicator whether an app is flex enabled",
                   "type": "boolean",
-                  "enum": [
-                    false
-                  ]
+                  "enum": [false]
                 },
                 "routing": {
                   "$ref": "#/definitions/routing"
@@ -645,10 +576,7 @@
         "_version": {
           "description": "Represents attributes format version. It is managed by namespace owner",
           "type": "string",
-          "enum": [
-            "1.1.0",
-            "1.2.0"
-          ]
+          "enum": ["1.1.0", "1.2.0"]
         },
         "uri": {
           "description": "Represents the uri of the app in the ABAP system",
@@ -669,11 +597,7 @@
         "_version": {
           "description": "Represents attributes format version. It is managed by namespace owner",
           "type": "string",
-          "enum": [
-            "1.1.0",
-            "1.2.0",
-            "1.3.0"
-          ]
+          "enum": ["1.1.0", "1.2.0", "1.3.0"]
         },
         "uri": {
           "description": "Represents the uri of the app in the HANA Cloud Platform",
@@ -711,10 +635,7 @@
         "_version": {
           "description": "Represents attributes format version. It is managed by namespace owner",
           "type": "string",
-          "enum": [
-            "1.1.0",
-            "1.2.0"
-          ]
+          "enum": ["1.1.0", "1.2.0"]
         },
         "oAuthScopes": {
           "description": "Represents the authorization scope of the application",
@@ -755,9 +676,7 @@
         "_version": {
           "description": "Represents attributes format version. It is managed by namespace owner",
           "type": "string",
-          "enum": [
-            "1.0.0"
-          ]
+          "enum": ["1.0.0"]
         },
         "compatible": {
           "description": "Represents the compatibility of this app with the Mobile Cards platform.",
@@ -769,18 +688,13 @@
       "title": "JSON schema for SAP.FIORI Namespace",
       "description": "Represents SAP Fiori  specific attributes",
       "type": "object",
-      "required": [
-        "registrationIds",
-        "archeType"
-      ],
+      "required": ["registrationIds", "archeType"],
       "additionalProperties": false,
       "properties": {
         "_version": {
           "description": "Represents attributes format version. It is managed by namespace owner",
           "type": "string",
-          "enum": [
-            "1.1.0"
-          ]
+          "enum": ["1.1.0"]
         },
         "registrationIds": {
           "description": "Represents array of registration ids, i.e. for Fiori apps fiori id(s)",
@@ -811,11 +725,7 @@
       "properties": {
         "_version": {
           "type": "string",
-          "enum": [
-            "1.1.0",
-            "1.2.0",
-            "1.3.0"
-          ]
+          "enum": ["1.1.0", "1.2.0", "1.3.0"]
         },
         "settings": {
           "description": "Represents global settings for the application controller",
@@ -852,36 +762,23 @@
       "title": "JSON schema for SAP.FLP Namespace",
       "description": "Represents FLP specific attributes",
       "type": "object",
-      "required": [
-        "type"
-      ],
+      "required": ["type"],
       "additionalProperties": false,
       "properties": {
         "_version": {
           "description": "Represents attributes format version. It is managed by namespace owner",
           "type": "string",
-          "enum": [
-            "1.1.0",
-            "1.2.0",
-            "1.3.0"
-          ]
+          "enum": ["1.1.0", "1.2.0", "1.3.0"]
         },
         "tileSize": {
           "description": "Represents size of the tile",
           "type": "string",
-          "enum": [
-            "1x1",
-            "1x2"
-          ]
+          "enum": ["1x1", "1x2"]
         },
         "type": {
           "description": "Represents the type of FLP entry. It must be 'application' or 'tile' or 'plugin'",
           "type": "string",
-          "enum": [
-            "application",
-            "tile",
-            "plugin"
-          ]
+          "enum": ["application", "tile", "plugin"]
         },
         "config": {
           "description": "Represents configuration parameters of the FLP entry",
@@ -915,24 +812,16 @@
       "title": "JSON schema for SAP.OVP Namespace",
       "description": "Represents OVP specific attributes",
       "type": "object",
-      "required": [
-        "cards"
-      ],
+      "required": ["cards"],
       "dependencies": {
-        "globalFilterEntityType": [
-          "globalFilterModel"
-        ]
+        "globalFilterEntityType": ["globalFilterModel"]
       },
       "additionalProperties": false,
       "properties": {
         "_version": {
           "description": "Represents attributes format version. It is managed by namespace owner",
           "type": "string",
-          "enum": [
-            "1.1.0",
-            "1.2.0",
-            "1.3.0"
-          ]
+          "enum": ["1.1.0", "1.2.0", "1.3.0"]
         },
         "globalFilterModel": {
           "description": "Represents the name of global filter OData model, which  contains entities definition that are relevant for global filters",
@@ -973,10 +862,7 @@
           "description": "Represents the layout of the card container",
           "type": "string",
           "default": "fixed",
-          "enum": [
-            "fixed",
-            "resizable"
-          ]
+          "enum": ["fixed", "resizable"]
         },
         "showDateInRelativeFormat": {
           "description": "Represents a switch to Enable or disable Relative or Normal date formating in ovp application",
@@ -1032,18 +918,13 @@
       "title": "JSON schema for SAP.WDA Namespace",
       "description": "Represents WDA specific attributes",
       "type": "object",
-      "required": [
-        "applicationId"
-      ],
+      "required": ["applicationId"],
       "additionalProperties": false,
       "properties": {
         "_version": {
           "description": "Represents attributes format version. It is managed by namespace owner",
           "type": "string",
-          "enum": [
-            "1.1.0",
-            "1.2.0"
-          ]
+          "enum": ["1.1.0", "1.2.0"]
         },
         "applicationId": {
           "description": "Represents ID of an application",
@@ -1076,10 +957,7 @@
         "_version": {
           "description": "Represents attributes format version. It is managed by namespace owner",
           "type": "string",
-          "enum": [
-            "1.1.0",
-            "1.2.0"
-          ]
+          "enum": ["1.1.0", "1.2.0"]
         },
         "activateFilterReduction": {
           "description": "Represents a switch to activate filter reduction so that filters in OData requests can be represented as ABAP select options",
@@ -1107,18 +985,13 @@
       "title": "JSON schema for SAP.GUI Namespace",
       "description": "Represents GUI specific attributes",
       "type": "object",
-      "required": [
-        "transaction"
-      ],
+      "required": ["transaction"],
       "additionalProperties": false,
       "properties": {
         "_version": {
           "description": "Represents attributes format version. It is managed by namespace owner",
           "type": "string",
-          "enum": [
-            "1.1.0",
-            "1.2.0"
-          ]
+          "enum": ["1.1.0", "1.2.0"]
         },
         "transaction": {
           "description": "Represents transaction of an application",
@@ -1136,17 +1009,12 @@
       "title": "JSON schema for SAP.INTEGRATION Namespace",
       "description": "Represents Application Integration specific attributes",
       "type": "object",
-      "required": [
-        "urlTemplateId",
-        "parameters"
-      ],
+      "required": ["urlTemplateId", "parameters"],
       "properties": {
         "_version": {
           "description": "Represents attributes format version. It is managed by namespace owner",
           "type": "string",
-          "enum": [
-            "1.0.0"
-          ]
+          "enum": ["1.0.0"]
         },
         "urlTemplateId": {
           "description": "Reference to the desired URL Template",
@@ -1162,10 +1030,7 @@
           "type": "array",
           "items": {
             "type": "object",
-            "required": [
-              "key",
-              "value"
-            ],
+            "required": ["key", "value"],
             "properties": {
               "key": {
                 "type": "string",
@@ -1184,17 +1049,13 @@
       "title": "JSON schema for SAP.WCF Namespace",
       "description": "Represents WCF Application specific attributes",
       "type": "object",
-      "required": [
-        "wcf-target-id"
-      ],
+      "required": ["wcf-target-id"],
       "additionalProperties": false,
       "properties": {
         "_version": {
           "description": "Represents attributes format version. It is managed by namespace owner",
           "type": "string",
-          "enum": [
-            "1.1.0"
-          ]
+          "enum": ["1.1.0"]
         },
         "wcf-target-id": {
           "description": "Represents the target technical id for a WCF Application",
@@ -1212,16 +1073,12 @@
       "title": "JSON schema for SAP.MOBILE Namespace",
       "description": "Represents mobile specific attributes",
       "type": "object",
-      "required": [
-        "definingRequests"
-      ],
+      "required": ["definingRequests"],
       "properties": {
         "_version": {
           "description": "Represents attributes format version. It is managed by namespace owner",
           "type": "string",
-          "enum": [
-            "1.1.0"
-          ]
+          "enum": ["1.1.0"]
         },
         "definingRequests": {
           "description": "Represents mobile specific attributes",
@@ -1244,10 +1101,7 @@
         "_version": {
           "description": "Represents SAP.COPILOT attributes format version. It is managed by namespace owner",
           "type": "string",
-          "enum": [
-            "1.0.0",
-            "1.1.0"
-          ]
+          "enum": ["1.0.0", "1.1.0"]
         },
         "contextAnalysis": {
           "description": "Settings for the context analysis features of SAP CoPilot",
@@ -1315,16 +1169,12 @@
       "description": "Represents specific attributes for SAP URL",
       "type": "object",
       "additionalProperties": false,
-      "required": [
-        "uri"
-      ],
+      "required": ["uri"],
       "properties": {
         "_version": {
           "description": "Represents attributes format version. It is managed by namespace owner",
           "type": "string",
-          "enum": [
-            "1.0.0"
-          ]
+          "enum": ["1.0.0"]
         },
         "uri": {
           "description": "Represents URI of an application",
@@ -1337,16 +1187,12 @@
       "description": "Represents SFSF platform specific attributes",
       "type": "object",
       "additionalProperties": false,
-      "required": [
-        "appName"
-      ],
+      "required": ["appName"],
       "properties": {
         "_version": {
           "description": "Represents attributes format version. It is managed by namespace owner",
           "type": "string",
-          "enum": [
-            "1.0.0"
-          ]
+          "enum": ["1.0.0"]
         },
         "uri": {
           "description": "Represents the uri inside the SFSF app",
@@ -1371,10 +1217,7 @@
         "_version": {
           "description": "Represents attributes format version. It is managed by namespace owner",
           "type": "string",
-          "enum": [
-            "1.0.0",
-            "1.1.0"
-          ]
+          "enum": ["1.0.0", "1.1.0"]
         },
         "service": {
           "description": "Unique Business Service Identifier",
@@ -1392,9 +1235,7 @@
       "description": "Represents general card attributes",
       "type": "object",
       "additionalProperties": false,
-      "required": [
-        "type"
-      ],
+      "required": ["type"],
       "properties": {
         "_version": {
           "description": "Represents SAP.CARD attributes format version. It is managed by namespace owner",
@@ -1446,10 +1287,7 @@
           "type": "string",
           "oneOf": [
             {
-              "enum": [
-                "Top",
-                "Bottom"
-              ],
+              "enum": ["Top", "Bottom"],
               "default": "Top"
             },
             {
@@ -1471,9 +1309,7 @@
             {
               "properties": {
                 "type": {
-                  "enum": [
-                    "List"
-                  ]
+                  "enum": ["List"]
                 }
               }
             },
@@ -1491,9 +1327,7 @@
             {
               "properties": {
                 "type": {
-                  "enum": [
-                    "Analytical"
-                  ]
+                  "enum": ["Analytical"]
                 }
               }
             },
@@ -1511,9 +1345,7 @@
             {
               "properties": {
                 "type": {
-                  "enum": [
-                    "Timeline"
-                  ]
+                  "enum": ["Timeline"]
                 }
               }
             },
@@ -1531,9 +1363,7 @@
             {
               "properties": {
                 "type": {
-                  "enum": [
-                    "Table"
-                  ]
+                  "enum": ["Table"]
                 }
               }
             },
@@ -1551,9 +1381,7 @@
             {
               "properties": {
                 "type": {
-                  "enum": [
-                    "Object"
-                  ]
+                  "enum": ["Object"]
                 }
               }
             },
@@ -1571,18 +1399,14 @@
             {
               "properties": {
                 "type": {
-                  "enum": [
-                    "Component"
-                  ]
+                  "enum": ["Component"]
                 }
               }
             },
             {
               "properties": {
                 "content": {
-                  "enum": [
-                    "null"
-                  ]
+                  "enum": ["null"]
                 }
               }
             }
@@ -1593,9 +1417,7 @@
             {
               "properties": {
                 "type": {
-                  "enum": [
-                    "Calendar"
-                  ]
+                  "enum": ["Calendar"]
                 }
               }
             },
@@ -1613,9 +1435,7 @@
             {
               "properties": {
                 "type": {
-                  "enum": [
-                    "AdaptiveCard"
-                  ]
+                  "enum": ["AdaptiveCard"]
                 }
               }
             },
@@ -1648,9 +1468,7 @@
     "dataSource": {
       "type": "object",
       "additionalProperties": false,
-      "required": [
-        "uri"
-      ],
+      "required": ["uri"],
       "properties": {
         "uri": {
           "description": "Represents uri of the data source",
@@ -1659,13 +1477,7 @@
         "type": {
           "description": "Represents type of the data source. The supported types are OData, ODataAnnotation, INA, XML, JSON",
           "type": "string",
-          "enum": [
-            "OData",
-            "ODataAnnotation",
-            "INA",
-            "XML",
-            "JSON"
-          ],
+          "enum": ["OData", "ODataAnnotation", "INA", "XML", "JSON"],
           "default": "OData"
         },
         "settings": {
@@ -1681,10 +1493,7 @@
         "odataVersion": {
           "description": "Represents version of OData: 2.0 is default",
           "type": "string",
-          "enum": [
-            "2.0",
-            "4.0"
-          ]
+          "enum": ["2.0", "4.0"]
         },
         "localUri": {
           "description": "Represents path to local meta data document or annotation uri",
@@ -1707,9 +1516,7 @@
     "openSource": {
       "type": "object",
       "additionalProperties": false,
-      "required": [
-        "name"
-      ],
+      "required": ["name"],
       "properties": {
         "name": {
           "description": "Represents a name of the open source as appears on the web",
@@ -1732,10 +1539,7 @@
         "^[\\w\\.\\-]+$": {
           "type": "object",
           "additionalProperties": false,
-          "required": [
-            "semanticObject",
-            "action"
-          ],
+          "required": ["semanticObject", "action"],
           "properties": {
             "semanticObject": {
               "description": "Represents semantic object",
@@ -1798,19 +1602,13 @@
             "displayMode": {
               "description": "Represents the display mode of the tile",
               "type": "string",
-              "enum": [
-                "ContentMode",
-                "HeaderMode"
-              ],
+              "enum": ["ContentMode", "HeaderMode"],
               "default": "ContentMode"
             },
             "indicatorDataSource": {
               "description": "Represents data source",
               "type": "object",
-              "required": [
-                "dataSource",
-                "path"
-              ],
+              "required": ["dataSource", "path"],
               "properties": {
                 "dataSource": {
                   "type": "string"
@@ -1838,10 +1636,7 @@
     "signature_def": {
       "description": "Represents signature for inbound targets ",
       "type": "object",
-      "required": [
-        "parameters",
-        "additionalParameters"
-      ],
+      "required": ["parameters", "additionalParameters"],
       "additionalProperties": false,
       "properties": {
         "parameters": {
@@ -1856,9 +1651,7 @@
                   "type": "object",
                   "description": " Represents a default Value",
                   "additionalProperties": false,
-                  "required": [
-                    "value"
-                  ],
+                  "required": ["value"],
                   "properties": {
                     "value": {
                       "description": "Represents a depending on format either a verbatim default value or a reference",
@@ -1867,10 +1660,7 @@
                     "format": {
                       "description": "Indicates how 'value' is to be interpreted: ('plain': the 'value' is taken as a literal string value| 'reference': the 'value' is a reference to e.g. a UserDefault parameter (e.g. 'UserDefault.CostCenter'), the resolved parameter value is used)",
                       "type": "string",
-                      "enum": [
-                        "plain",
-                        "reference"
-                      ]
+                      "enum": ["plain", "reference"]
                     }
                   },
                   "anyOf": [
@@ -1878,9 +1668,7 @@
                       "properties": {
                         "format": {
                           "type": "string",
-                          "enum": [
-                            "plain"
-                          ]
+                          "enum": ["plain"]
                         },
                         "value": {
                           "type": "string"
@@ -1891,9 +1679,7 @@
                       "properties": {
                         "format": {
                           "type": "string",
-                          "enum": [
-                            "reference"
-                          ]
+                          "enum": ["reference"]
                         },
                         "value": {
                           "type": "string",
@@ -1917,9 +1703,7 @@
                   "description": "Represents a filter , only if input parameter matches filter",
                   "type": "object",
                   "additionalProperties": false,
-                  "required": [
-                    "value"
-                  ],
+                  "required": ["value"],
                   "properties": {
                     "value": {
                       "description": "Represents a depending on format either a verbatim filter value, a regular expression or a reference",
@@ -1928,11 +1712,7 @@
                     "format": {
                       "type": "string",
                       "description": "Indicates how 'value' is to be interpreted: ('plain': the actual value must match the 'value' property directly| 'regexp': the 'value' represents a regexp which must be present in the actual value| 'reference' : the 'value' represents a reference to e.g. a UserDefault parameter (e.g. 'UserDefault.CostCenter'), the resolved parameter value is then directly compared with the actual value)",
-                      "enum": [
-                        "plain",
-                        "regexp",
-                        "reference"
-                      ]
+                      "enum": ["plain", "regexp", "reference"]
                     }
                   }
                 },
@@ -1959,10 +1739,7 @@
                     "format": {
                       "description": "Indicates how 'value' is to be interpreted: 'plain': the 'value' is taken as a literal string value | 'array': the 'value' is an array of strings",
                       "type": "string",
-                      "enum": [
-                        "plain",
-                        "array"
-                      ]
+                      "enum": ["plain", "array"]
                     },
                     "prompt": {
                       "description": "DEPRECATED - Indicates the administrator should be prompted to supply a value when creating a tile",
@@ -1984,11 +1761,7 @@
         "additionalParameters": {
           "description": "Indicates how additional parameters to the declared signature are treated: ('ignored': parameters are not passed on to application | 'allowed': parameters are passed on to application | 'notallowed': additional parameters are not allowed)",
           "type": "string",
-          "enum": [
-            "ignored",
-            "allowed",
-            "notallowed"
-          ]
+          "enum": ["ignored", "allowed", "notallowed"]
         }
       }
     },
@@ -1999,10 +1772,7 @@
         "^[\\w\\.\\-]+$": {
           "type": "object",
           "additionalProperties": false,
-          "required": [
-            "semanticObject",
-            "action"
-          ],
+          "required": ["semanticObject", "action"],
           "properties": {
             "semanticObject": {
               "description": "Represents semantic object",
@@ -2017,10 +1787,7 @@
             "additionalParameters": {
               "description": "Indicates whether additional context parameters are to be used: ('ignored': parameters are not used | 'allowed': parameters are passed on to application)",
               "type": "string",
-              "enum": [
-                "ignored",
-                "allowed"
-              ]
+              "enum": ["ignored", "allowed"]
             },
             "parameters": {
               "description": "Represents parameters for outbound targets",
@@ -2043,10 +1810,7 @@
                         "format": {
                           "description": "Indicates how 'value' is to be interpreted: ('plain': the 'value' is taken as a literal string value| 'reference': the 'value' is a reference to e.g. a UserDefault parameter (e.g. 'UserDefault.CostCenter'), the resolved parameter value is used)",
                           "type": "string",
-                          "enum": [
-                            "plain",
-                            "binding"
-                          ]
+                          "enum": ["plain", "binding"]
                         }
                       }
                     },
@@ -2095,9 +1859,7 @@
           "type": "array",
           "items": {
             "type": "object",
-            "required": [
-              "uri"
-            ],
+            "required": ["uri"],
             "properties": {
               "uri": {
                 "type": "string"
@@ -2109,9 +1871,7 @@
           "type": "array",
           "items": {
             "type": "object",
-            "required": [
-              "uri"
-            ],
+            "required": ["uri"],
             "properties": {
               "uri": {
                 "type": "string"
@@ -2157,9 +1917,7 @@
     "componentUsages": {
       "description": "Represents component name for usage",
       "type": "object",
-      "required": [
-        "name"
-      ],
+      "required": ["name"],
       "additionalProperties": false,
       "properties": {
         "name": {
@@ -2217,12 +1975,7 @@
           "description": "Represents default binding mode and must be a string value from sap.ui.model.BindingMode. Possible values: Default, OneTime, OneWay, TwoWay",
           "type": "string",
           "default": "Default",
-          "enum": [
-            "Default",
-            "OneTime",
-            "OneWay",
-            "TwoWay"
-          ]
+          "enum": ["Default", "OneTime", "OneWay", "TwoWay"]
         },
         "enhanceWith": {
           "description": "Represents enhancement of UI5 resource model with additional properties files",
@@ -2232,9 +1985,7 @@
             "oneOf": [
               {
                 "additionalProperties": false,
-                "required": [
-                  "bundleUrl"
-                ],
+                "required": ["bundleUrl"],
                 "properties": {
                   "bundleUrl": {
                     "description": "Represents property url for model enhancement",
@@ -2244,17 +1995,12 @@
                     "description": "Indicates whether url is relative to component (default) or manifest",
                     "type": "string",
                     "default": "component",
-                    "enum": [
-                      "manifest",
-                      "component"
-                    ]
+                    "enum": ["manifest", "component"]
                   }
                 }
               },
               {
-                "required": [
-                  "bundleName"
-                ],
+                "required": ["bundleName"],
                 "additionalProperties": false,
                 "properties": {
                   "bundleName": {
@@ -2280,9 +2026,7 @@
         },
         {
           "type": "object",
-          "required": [
-            "viewName"
-          ],
+          "required": ["viewName"],
           "additionalProperties": true,
           "properties": {
             "viewName": {
@@ -2292,13 +2036,7 @@
             "type": {
               "description": "Represents the type of the view. Possible Values: XML, JSON, JS, HTML, Template",
               "type": "string",
-              "enum": [
-                "XML",
-                "JSON",
-                "JS",
-                "HTML",
-                "Template"
-              ]
+              "enum": ["XML", "JSON", "JS", "HTML", "Template"]
             },
             "id": {
               "description": "Represents the id of the view",
@@ -2311,10 +2049,7 @@
     "rootView_def_flexEnabled": {
       "description": "Represents the root view definition when flex is enabled (requires a view id)",
       "type": "object",
-      "required": [
-        "id",
-        "viewName"
-      ],
+      "required": ["id", "viewName"],
       "additionalProperties": true,
       "properties": {
         "viewName": {
@@ -2324,13 +2059,7 @@
         "type": {
           "description": "Represents the type of the view. Possible Values: XML, JSON, JS, HTML, Template",
           "type": "string",
-          "enum": [
-            "XML",
-            "JSON",
-            "JS",
-            "HTML",
-            "Template"
-          ]
+          "enum": ["XML", "JSON", "JS", "HTML", "Template"]
         },
         "id": {
           "description": "Represents the id of the view",
@@ -2398,9 +2127,7 @@
                   "description": "Represents information about targets to display when no route is matched",
                   "type": "object",
                   "additionalProperties": false,
-                  "required": [
-                    "target"
-                  ],
+                  "required": ["target"],
                   "properties": {
                     "target": {
                       "description": "Represents one or multiple names of targets that are displayed when no route is matched",
@@ -2452,9 +2179,7 @@
                     },
                     {
                       "type": "object",
-                      "required": [
-                        "viewName"
-                      ],
+                      "required": ["viewName"],
                       "properties": {
                         "viewName": {
                           "description": "Represents the name of a view that will be created",
@@ -2481,9 +2206,7 @@
                       "oneOf": [
                         {
                           "type": "object",
-                          "required": [
-                            "name"
-                          ],
+                          "required": ["name"],
                           "properties": {
                             "name": {
                               "description": "Represents the name of a view or component that will be created",
@@ -2500,19 +2223,13 @@
                             "type": {
                               "description": "Represents the type of the type View or Component",
                               "type": "string",
-                              "enum": [
-                                "View",
-                                "Component"
-                              ]
+                              "enum": ["View", "Component"]
                             }
                           }
                         },
                         {
                           "type": "object",
-                          "required": [
-                            "usage",
-                            "type"
-                          ],
+                          "required": ["usage", "type"],
                           "properties": {
                             "usage": {
                               "description": "Represents the componentUsage of the component that will be created",
@@ -2525,9 +2242,7 @@
                             "type": {
                               "description": "Represents the type of the type Component",
                               "type": "string",
-                              "enum": [
-                                "Component"
-                              ]
+                              "enum": ["Component"]
                             }
                           }
                         }
@@ -2564,9 +2279,7 @@
                   "description": "Represents information about targets to display when no route is matched",
                   "type": "object",
                   "additionalProperties": false,
-                  "required": [
-                    "target"
-                  ],
+                  "required": ["target"],
                   "properties": {
                     "target": {
                       "description": "Represents one or multiple names of targets that are displayed when no route is matched",
@@ -2618,10 +2331,7 @@
                     },
                     {
                       "type": "object",
-                      "required": [
-                        "viewName",
-                        "viewId"
-                      ],
+                      "required": ["viewName", "viewId"],
                       "properties": {
                         "viewName": {
                           "description": "Represents the name of a view that will be created",
@@ -2648,10 +2358,7 @@
                       "oneOf": [
                         {
                           "type": "object",
-                          "required": [
-                            "name",
-                            "id"
-                          ],
+                          "required": ["name", "id"],
                           "properties": {
                             "name": {
                               "description": "Represents the name of a view or component that will be created",
@@ -2668,20 +2375,13 @@
                             "type": {
                               "description": "Represents the type of the type View or Component",
                               "type": "string",
-                              "enum": [
-                                "View",
-                                "Component"
-                              ]
+                              "enum": ["View", "Component"]
                             }
                           }
                         },
                         {
                           "type": "object",
-                          "required": [
-                            "usage",
-                            "id",
-                            "type"
-                          ],
+                          "required": ["usage", "id", "type"],
                           "properties": {
                             "usage": {
                               "description": "Represents the componentUsage of the component that will be created",
@@ -2694,9 +2394,7 @@
                             "type": {
                               "description": "Represents the type of the type Component",
                               "type": "string",
-                              "enum": [
-                                "Component"
-                              ]
+                              "enum": ["Component"]
                             }
                           }
                         }
@@ -2718,9 +2416,7 @@
         },
         {
           "type": "object",
-          "required": [
-            "name"
-          ],
+          "required": ["name"],
           "properties": {
             "name": {
               "description": "Represents the name of the route",
@@ -2818,10 +2514,7 @@
     "action_prop_def": {
       "type": "object",
       "additionalProperties": false,
-      "required": [
-        "path",
-        "target"
-      ],
+      "required": ["path", "target"],
       "properties": {
         "path": {
           "description": "Represents the path in the manifest to the target to which the navigation is bound",
@@ -2861,10 +2554,7 @@
           "allOf": [
             {
               "type": "object",
-              "required": [
-                "id",
-                "title"
-              ],
+              "required": ["id", "title"],
               "properties": {
                 "id": {
                   "description": "Represents an unique id for the instance of the reuse component inside of the object page",
@@ -2902,9 +2592,7 @@
               "oneOf": [
                 {
                   "type": "object",
-                  "required": [
-                    "componentName"
-                  ],
+                  "required": ["componentName"],
                   "properties": {
                     "componentName": {
                       "description": "Represents the name of the reuse component ",
@@ -2915,9 +2603,7 @@
                 },
                 {
                   "type": "object",
-                  "required": [
-                    "componentUsage"
-                  ],
+                  "required": ["componentUsage"],
                   "properties": {
                     "componentUsage": {
                       "description": "Represents the reference to the name of the componentUsages defined in sap.ui5/componentUsages",
@@ -2927,9 +2613,7 @@
                 },
                 {
                   "type": "object",
-                  "required": [
-                    "embeddedComponents"
-                  ],
+                  "required": ["embeddedComponents"],
                   "properties": {
                     "embeddedComponents": {
                       "$ref": "#/definitions/embeddedComponent"
@@ -2945,9 +2629,7 @@
     "component_def": {
       "type": "object",
       "additionalProperties": false,
-      "required": [
-        "name"
-      ],
+      "required": ["name"],
       "properties": {
         "name": {
           "description": "The name of the component",
@@ -2966,9 +2648,7 @@
     "routingSpec_def": {
       "type": "object",
       "additionalProperties": false,
-      "required": [
-        "routeName"
-      ],
+      "required": ["routeName"],
       "properties": {
         "routeName": {
           "description": "Represents the name of the route",
@@ -2999,9 +2679,7 @@
     "implementingComponent_def": {
       "type": "object",
       "additionalProperties": false,
-      "required": [
-        "componentName"
-      ],
+      "required": ["componentName"],
       "properties": {
         "componentName": {
           "description": "Represents the name of the component to be loaded inside the canvas",
@@ -3033,9 +2711,7 @@
     "pages_array": {
       "type": "object",
       "additionalProperties": false,
-      "required": [
-        "component"
-      ],
+      "required": ["component"],
       "properties": {
         "navigationProperty": {
           "description": "Represents the navigation property that leads to this page. The navigation links of the previous page (the page that calls this one) are determined through this property ",
@@ -3083,9 +2759,7 @@
     "pages_map": {
       "type": "object",
       "additionalProperties": false,
-      "required": [
-        "component"
-      ],
+      "required": ["component"],
       "properties": {
         "navigationProperty": {
           "description": "Represents the navigation property that leads to this page. The navigation links of the previous page (the page that calls this one) are determined through this property ",
@@ -3133,9 +2807,7 @@
     "card": {
       "description": "Represents the card attributes",
       "type": "object",
-      "required": [
-        "template"
-      ],
+      "required": ["template"],
       "additionalProperties": false,
       "properties": {
         "sequencePos": {
@@ -3168,9 +2840,7 @@
     "card_setting": {
       "description": "Represents the card specific properties - properties that are passed to the card",
       "type": "object",
-      "required": [
-        "title"
-      ],
+      "required": ["title"],
       "additionalProperties": true,
       "properties": {
         "category": {
@@ -3213,19 +2883,12 @@
         "listFlavor": {
           "description": "Represents the flavor of the list to use in this card. The flavor can be bar chart, carousel or standard",
           "type": "string",
-          "enum": [
-            "standard",
-            "bar",
-            "carousel"
-          ]
+          "enum": ["standard", "bar", "carousel"]
         },
         "listType": {
           "description": "Represents the type of list to use for this card. The list can be extended to display more information or condensed to take up less space on the card",
           "type": "string",
-          "enum": [
-            "extended",
-            "condensed"
-          ]
+          "enum": ["extended", "condensed"]
         },
         "sortBy": {
           "description": "Represents the sort key for the entity set",
@@ -3234,10 +2897,7 @@
         "sortOrder": {
           "description": "Represents the sort order for the entity set",
           "type": "string",
-          "enum": [
-            "ascending",
-            "descending"
-          ]
+          "enum": ["ascending", "descending"]
         },
         "annotationPath": {
           "description": "Represents the annotation path",
@@ -3307,12 +2967,7 @@
         "navigation": {
           "description": "Represents the configuration to alter the navigation mode in OVP Analytical Cards",
           "type": "string",
-          "enum": [
-            "dataPointNav",
-            "chartNav",
-            "headerNav",
-            "noHeaderNav"
-          ]
+          "enum": ["dataPointNav", "chartNav", "headerNav", "noHeaderNav"]
         },
         "showFilterInHeader": {
           "description": "Represents a switch to Show or Hide Filters in Cards Headers in OVP application",
@@ -3420,10 +3075,7 @@
         {
           "type": "object",
           "additionalProperties": false,
-          "required": [
-            "cols",
-            "rows"
-          ],
+          "required": ["cols", "rows"],
           "properties": {
             "cols": {
               "description": "Represents the number of the number of grid columns",
@@ -3454,9 +3106,7 @@
         },
         {
           "type": "string",
-          "enum": [
-            "auto"
-          ]
+          "enum": ["auto"]
         }
       ]
     },
@@ -3544,12 +3194,7 @@
       }
     },
     "resizableLayoutVariantCardProperties": {
-      "required": [
-        "col",
-        "row",
-        "colSpan",
-        "rowSpan"
-      ],
+      "required": ["col", "row", "colSpan", "rowSpan"],
       "description": "Represents the card properties is a layout variant",
       "type": "object",
       "additionalProperties": false,
@@ -3612,10 +3257,7 @@
             "type": {
               "description": "Defines whether to display percentage values or actual counts in the donut chart",
               "type": "string",
-              "enum": [
-                "value",
-                "percentage"
-              ],
+              "enum": ["value", "percentage"],
               "default": "value"
             }
           }
@@ -3625,10 +3267,7 @@
     "definingRequest": {
       "type": "object",
       "additionalProperties": false,
-      "required": [
-        "dataSource",
-        "path"
-      ],
+      "required": ["dataSource", "path"],
       "properties": {
         "dataSource": {
           "description": "Represents reference to dataSource under sap.app",
@@ -3663,9 +3302,7 @@
         "type": {
           "description": "Represents the type of the header.",
           "type": "string",
-          "enum": [
-            "Default"
-          ]
+          "enum": ["Default"]
         },
         "title": {
           "description": "Represents language-dependent title.",
@@ -3697,18 +3334,14 @@
     },
     "HeaderType.Numeric": {
       "additionalProperties": false,
-      "required": [
-        "type"
-      ],
+      "required": ["type"],
       "description": "Represents header with numeric data",
       "type": "object",
       "properties": {
         "type": {
           "description": "Represents the type of the header.",
           "type": "string",
-          "enum": [
-            "Numeric"
-          ]
+          "enum": ["Numeric"]
         },
         "title": {
           "description": "Represents language-dependent title.",
@@ -3771,11 +3404,7 @@
           "type": "string",
           "oneOf": [
             {
-              "enum": [
-                "Down",
-                "None",
-                "Up"
-              ],
+              "enum": ["Down", "None", "Up"],
               "default": "None"
             },
             {
@@ -3790,12 +3419,7 @@
             {
               "description": "The state color of the main indicator",
               "type": "string",
-              "enum": [
-                "Critical",
-                "Error",
-                "Good",
-                "Neutral"
-              ],
+              "enum": ["Critical", "Error", "Good", "Neutral"],
               "default": "Neutral"
             },
             {
@@ -3932,12 +3556,7 @@
           "type": "string",
           "oneOf": [
             {
-              "enum": [
-                "Line",
-                "StackedColumn",
-                "StackedBar",
-                "Donut"
-              ]
+              "enum": ["Line", "StackedColumn", "StackedBar", "Donut"]
             },
             {
               "$ref": "#/definitions/simpleBinding"
@@ -3988,11 +3607,7 @@
               "description": "Represents the title alignment",
               "oneOf": [
                 {
-                  "enum": [
-                    "Left",
-                    "Center",
-                    "Right"
-                  ],
+                  "enum": ["Left", "Center", "Right"],
                   "default": "Center"
                 },
                 {
@@ -4103,12 +3718,7 @@
           "type": "string",
           "oneOf": [
             {
-              "enum": [
-                "Top",
-                "Bottom",
-                "Left",
-                "Right"
-              ],
+              "enum": ["Top", "Bottom", "Left", "Right"],
               "default": "Right"
             },
             {
@@ -4121,10 +3731,7 @@
           "type": "string",
           "oneOf": [
             {
-              "enum": [
-                "TopLeft",
-                "Center"
-              ],
+              "enum": ["TopLeft", "Center"],
               "default": "TopLeft"
             },
             {
@@ -4258,12 +3865,7 @@
           "type": "string",
           "oneOf": [
             {
-              "enum": [
-                "phone",
-                "email",
-                "link",
-                "text"
-              ],
+              "enum": ["phone", "email", "link", "text"],
               "default": "text"
             },
             {
@@ -4768,10 +4370,7 @@
           "description": "Represents the shape of the icon",
           "oneOf": [
             {
-              "enum": [
-                "Square",
-                "Circle"
-              ],
+              "enum": ["Square", "Circle"],
               "default": "Square"
             },
             {
@@ -4843,14 +4442,11 @@
           "description": "The path from the JSON to be used as root",
           "type": "string",
           "default": "/",
-          "pattern": "^[a-zA-Z0-9_\\.\\-\/|\\@\\#]*$"
+          "pattern": "^[a-zA-Z0-9_\\.\\-/|\\@\\#]*$"
         },
         "json": {
           "description": "The data to be used directly. Without making requests.",
-          "type": [
-            "object",
-            "array"
-          ],
+          "type": ["object", "array"],
           "additionalProperties": true
         },
         "service": {
@@ -4873,20 +4469,14 @@
       "description": "Represents request attributes",
       "type": "object",
       "additionalProperties": false,
-      "required": [
-        "url"
-      ],
+      "required": ["url"],
       "properties": {
         "mode": {
           "description": "The mode of the request",
           "type": "string",
           "oneOf": [
             {
-              "enum": [
-                "no-cors",
-                "same-origin",
-                "cors"
-              ],
+              "enum": ["no-cors", "same-origin", "cors"],
               "default": "cors"
             },
             {
@@ -4903,10 +4493,7 @@
           "type": "string",
           "oneOf": [
             {
-              "enum": [
-                "GET",
-                "POST"
-              ],
+              "enum": ["GET", "POST"],
               "default": "GET"
             },
             {
@@ -4962,9 +4549,7 @@
     "action": {
       "description": "Represents actions that can be applied on card elements",
       "type": "object",
-      "required": [
-        "type"
-      ],
+      "required": ["type"],
       "additionalProperties": false,
       "properties": {
         "type": {
@@ -4972,10 +4557,7 @@
           "type": "string",
           "oneOf": [
             {
-              "enum": [
-                "Navigation",
-                "Submit"
-              ]
+              "enum": ["Navigation", "Submit"]
             },
             {
               "$ref": "#/definitions/simpleBinding"
@@ -5025,13 +4607,7 @@
     "state": {
       "description": "Represents state of an entity",
       "type": "string",
-      "enum": [
-        "Error",
-        "Success",
-        "Warning",
-        "None",
-        "Information"
-      ],
+      "enum": ["Error", "Success", "Warning", "None", "Information"],
       "default": "None"
     },
     "service": {
@@ -5059,10 +4635,7 @@
     "target": {
       "description": "Specifies where to open an URL",
       "type": "string",
-      "enum": [
-        "_blank",
-        "_self"
-      ],
+      "enum": ["_blank", "_self"],
       "default": "_blank"
     },
     "identifier": {
