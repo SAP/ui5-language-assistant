@@ -5,6 +5,12 @@
     "packages": [
       "packages/*",
       "test-packages/*"
+    ],
+    "nohoist": [
+      "ui5-language-support/vscode-languageclient",
+      "ui5-language-support/vscode-languageclient/**",
+      "ui5-language-support/@ui5-editor-tools/language-server",
+      "ui5-language-support/@ui5-editor-tools/language-server/**"
     ]
   },
   "scripts": {

@@ -20,7 +20,7 @@
   "dependencies": {
     "lodash": "4.17.15",
     "@xml-tools/content-assist": "3.1.1",
-    "@xml-tools/ast": "4.0.0",
+    "@xml-tools/ast": "4.0.2",
     "@ui5-editor-tools/logic-utils": "0.0.1"
   },
   "devDependencies": {
@@ -29,8 +29,8 @@
     "chevrotain": "6.5.0"
   },
   "scripts": {
-    "ci": "npm-run-all compile lint coverage",
-    "clean": "rimraf ./lib",
+    "ci": "npm-run-all clean compile lint coverage",
+    "clean": "rimraf ./lib ./coverage ./nyc_output",
     "compile": "yarn run clean && tsc -p .",
     "compile:watch": "tsc -p . --watch",
     "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore",

@@ -27,8 +27,8 @@
     "json-schema-to-typescript": "8.1.0"
   },
   "scripts": {
-    "ci": "npm-run-all generate-json-api compile lint coverage",
-    "clean": "rimraf ./lib",
+    "ci": "npm-run-all clean generate-json-api compile lint coverage",
+    "clean": "rimraf ./lib ./coverage ./nyc_output",
     "compile": "yarn run clean && tsc -p .",
     "compile:watch": "tsc -p . --watch",
     "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore",
