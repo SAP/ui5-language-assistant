@@ -47,7 +47,8 @@
     "coverage": "nyc node lib/test/runTest.js"
   },
   "dependencies": {
-    "vscode-languageclient": "6.1.0"
+    "vscode-languageclient": "6.1.0",
+    "@ui5-editor-tools/language-server": "0.0.1"
   },
   "devDependencies": {
     "vsce": "1.74.0",
