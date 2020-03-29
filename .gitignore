@@ -80,3 +80,5 @@ lib
 
 # tsc incremental build artifacts
 tsconfig.tsbuildinfo
+
+*.vsix
