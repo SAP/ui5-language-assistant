@@ -35,7 +35,7 @@
     "SAPUI5"
   ],
   "engines": {
-    "vscode": "1.43.2"
+    "vscode": "^1.43.2"
   },
   "scripts": {
     "ci": "npm-run-all compile lint coverage",
@@ -43,8 +43,8 @@
     "compile": "yarn run clean && tsc -p .",
     "compile:watch": "tsc -p . --watch",
     "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore",
-    "test": "node lib/test/runTest.js",
-    "coverage": "nyc node lib/test/runTest.js"
+    "test": "node lib/test/runIntegrationTests.js",
+    "coverage": "nyc node lib/test/runIntegrationTests.js"
   },
   "dependencies": {
     "vscode-languageclient": "6.1.0",

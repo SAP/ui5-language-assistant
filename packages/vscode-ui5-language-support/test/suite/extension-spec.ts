@@ -1,20 +1,15 @@
 import * as vscode from "vscode";
 import { expect } from "chai";
-import { resolve } from "path";
+import { resolve, dirname } from "path";
 import { map } from "lodash";
 import { promises as fs } from "fs";
 import { TextDocument, Position } from "vscode-languageserver";
 import { deactivate } from "../../src/extension";
 
-const docPath = resolve(
-  __dirname,
-  "..",
-  "..",
-  "..",
-  "test",
-  "testFixture",
-  "test.view.xml"
-);
+const pkgJsonPath = require.resolve("ui5-language-support/package.json");
+const rootPkgFolder = dirname(pkgJsonPath);
+
+const docPath = resolve(rootPkgFolder, "test", "testFixture", "test.view.xml");
 const docUri = vscode.Uri.file(docPath);
 
 describe("the Language Server Client Integration Tests", () => {
@@ -67,8 +62,9 @@ describe("the Language Server Client Integration Tests", () => {
   it("will get completion values for UI5 aggregation", async () => {
     const xmlSnippet = `<mvc:View 
                           xmlns:mvc="sap.ui.core.mvc" 
-                          xmlns="sap.m"> 
-                          <List> <te⇶`;
+                          xmlns="sap.m">
+                          <content> 
+                            <List> <te⇶`;
     const completionsList = ["contextMenu", "items", "swipeContent"];
     await testCompletions(xmlSnippet, completionsList);
   });
