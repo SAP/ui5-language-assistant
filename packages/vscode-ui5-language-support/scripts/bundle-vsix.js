@@ -65,13 +65,25 @@ const onlyProductiveRootNpmPackages = filter(allFolders, _ => {
 // to enable re-building the `node_modules` inside the vsix archive.
 const extFolderName = basename(rootPkgDir);
 const scopeName = require("../../language-server/package").name.split("/")[0];
+const relativeToExtRootReplacer = [
+  "packages",
+  extFolderName,
+  "node_modules",
+  scopeName,
+  "$<pkgName>"
+].join(sep);
+
+// Transform paths to other packages in this mono-repo so the paths will contain the symlinks in the extensions's `node_modules` dir.
+// - From:  ...\ui5-editor-tools\packages\language-server
+// - To:    ...\ui5-editor-tools\packages\vscode-ui5-language-support\node_modules\@ui5-editor-tools\language-server
 const onlyProductiveRootNpmPackagesRelativeToRoot = map(
   onlyProductiveRootNpmPackages,
   _ => {
     if (!includes(_, join("packages", extFolderName, "node_modules"))) {
+      // we replace ui5-editor-tools
       return _.replace(
-        /packages[\\\/]([-\w]+)/,
-        ["packages", extFolderName, "node_modules", scopeName, "$1"].join(sep)
+        /packages[\\\/](?<pkgName>[-\w]+)/,
+        relativeToExtRootReplacer
       );
     } else {
       return _;
