@@ -16,7 +16,7 @@ import {
   expectSuggestions,
   expectXMLAttribute,
   generateModel
-} from "@ui5-editor-tools/test-utils";
+} from "@ui5-language-assistant/test-utils";
 import {
   isExistingNamespaceAttribute,
   namespaceKeysSuggestions
@@ -67,7 +67,7 @@ const expectNamespaceKeysSuggestions = partial(expectSuggestions, _ => {
   return ui5NodeToFQN(_.ui5Node);
 });
 
-describe("The ui5-editor-tools xml-views-completion", () => {
+describe("The ui5-language-assistant xml-views-completion", () => {
   context("namespaces", () => {
     context("applicable scenarios", () => {
       it("will suggest when 'xmlns' prefix provided", () => {

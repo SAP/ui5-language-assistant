@@ -2,11 +2,11 @@ import {
   buildUI5Class,
   buildUI5Association,
   expectUnsortedEquality
-} from "@ui5-editor-tools/test-utils";
+} from "@ui5-language-assistant/test-utils";
 import { map } from "lodash";
 import { flattenAssociations } from "../../src/api";
 
-describe("The @ui5-editor-tools/logic-utils <flattenAssociation> function", () => {
+describe("The @ui5-language-assistant/logic-utils <flattenAssociation> function", () => {
   const assocA1 = buildUI5Association({ name: "assocA1" });
   const assocA2 = buildUI5Association({ name: "assocA2" });
   const clazzA = buildUI5Class({

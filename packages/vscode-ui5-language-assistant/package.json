@@ -1,8 +1,8 @@
 {
-  "name": "vscode-ui5-language-support",
+  "name": "vscode-ui5-language-assistant",
   "private": true,
-  "description": "UI5 Language Support for VSCode",
-  "version": "0.0.1",
+  "description": "UI5 Language Assistant for VSCode",
+  "version": "1.0.0",
   "publisher": "SAPSE",
   "license": "Apache-2.0",
   "main": "./lib/src/extension",
@@ -12,9 +12,9 @@
   "contributes": {
     "configuration": {
       "type": "object",
-      "title": "UI5 Editor Tools",
+      "title": "UI5 Language Assistant",
       "properties": {
-        "UI5EditorTools.trace.server": {
+        "UI5LanguageAssistant.trace.server": {
           "scope": "window",
           "type": "string",
           "enum": [
@@ -28,7 +28,7 @@
       }
     }
   },
-  "repository": "https://github.com/sap/ui5-editor-tools/tree/master/packages/vscode-ui5-language-support",
+  "repository": "https://github.com/sap/ui5-language-assistant/tree/master/packages/vscode-ui5-language-assistant",
   "keywords": [
     "UI5",
     "OpenUI5",
@@ -48,13 +48,13 @@
     "bundle": "node ./scripts/bundle-vsix"
   },
   "dependencies": {
-    "vscode-languageclient": "6.1.0",
-    "@ui5-editor-tools/language-server": "0.0.1"
+    "@ui5-language-assistant/language-server": "^1.0.0",
+    "vscode-languageclient": "6.1.0"
   },
   "devDependencies": {
     "@types/vscode": "1.41.0",
-    "vsce": "1.74.0",
+    "glob": "7.1.6",
     "proxyquire": "2.1.3",
-    "glob": "7.1.6"
+    "vsce": "1.74.0"
   }
 }

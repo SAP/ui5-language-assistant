@@ -8,7 +8,7 @@ import {
   CompletionItem
 } from "vscode-languageserver";
 import { TextDocument } from "vscode-languageserver-textdocument";
-import { UI5SemanticModel } from "@ui5-editor-tools/semantic-model-types";
+import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { getSemanticModel } from "./ui5-model";
 import { getCompletionItems } from "./completion-items";
 

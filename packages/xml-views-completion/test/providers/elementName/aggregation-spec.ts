@@ -2,11 +2,11 @@ import { expect } from "chai";
 import { map, cloneDeep, forEach } from "lodash";
 import { XMLElement } from "@xml-tools/ast";
 
-import { UI5SemanticModel } from "@ui5-editor-tools/semantic-model-types";
+import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import {
   buildUI5Aggregation,
   generateModel
-} from "@ui5-editor-tools/test-utils";
+} from "@ui5-language-assistant/test-utils";
 
 import { testSuggestionsScenario } from "../../utils";
 import { aggregationSuggestions } from "../../../src/providers/elementName/aggregation";
@@ -14,7 +14,7 @@ import { UI5XMLViewCompletion } from "../../../api";
 
 const REAL_UI5_MODEL: UI5SemanticModel = generateModel("1.74.0");
 
-describe("The ui5-editor-tools xml-views-completion", () => {
+describe("The ui5-language-assistant xml-views-completion", () => {
   context("aggregations", () => {
     context("applicable scenarios", () => {
       it("will suggest direct aggregations", () => {

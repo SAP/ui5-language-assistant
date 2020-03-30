@@ -3,7 +3,7 @@ import {
   PrimitiveTypeName,
   UI5SemanticModel,
   UI5Type
-} from "@ui5-editor-tools/semantic-model-types";
+} from "@ui5-language-assistant/semantic-model-types";
 import { TypeNameFix } from "../api";
 import { SymbolBase, ClassSymbol } from "./api-json";
 import { error, getParentFqn, findValueInMaps, findSymbol } from "./utils";

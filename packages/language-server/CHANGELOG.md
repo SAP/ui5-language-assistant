@@ -1,0 +1,12 @@
+# Change Log
+
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+# 1.0.0 (2020-03-30)
+
+### Features
+
+- **language-server:** auto-insert namespace in tag name for class ([#18](https://github.com/sap/ui5-language-assistant/issues/18)) ([2aa70fe](https://github.com/sap/ui5-language-assistant/commit/2aa70fe372567530a69a7dbf5e472a63d551c696))
+- **language-server:** completion response improvements ([#16](https://github.com/sap/ui5-language-assistant/issues/16)) ([a17904e](https://github.com/sap/ui5-language-assistant/commit/a17904eac77ebc9087056a9808ab8449ad2dc38c))
+- add ui5 language server and client vscode extension ([18a6350](https://github.com/sap/ui5-language-assistant/commit/18a635087de1846bb7f21e6dc4c3833e77dd8cfc))

@@ -74,13 +74,13 @@ const relativeToExtRootReplacer = [
 ].join(sep);
 
 // Transform paths to other packages in this mono-repo so the paths will contain the symlinks in the extensions's `node_modules` dir.
-// - From:  ...\ui5-editor-tools\packages\language-server
-// - To:    ...\ui5-editor-tools\packages\vscode-ui5-language-support\node_modules\@ui5-editor-tools\language-server
+// - From:  ...\ui5-language-assistant\packages\language-server
+// - To:    ...\ui5-language-assistant\packages\vscode-ui5-language-assistant\node_modules\@ui5-language-assistant\language-server
 const onlyProductiveRootNpmPackagesRelativeToRoot = map(
   onlyProductiveRootNpmPackages,
   _ => {
     if (!includes(_, join("packages", extFolderName, "node_modules"))) {
-      // we replace ui5-editor-tools
+      // we replace ui5-language-assistant
       return _.replace(
         /packages[\\\/](?<pkgName>[-\w]+)/,
         relativeToExtRootReplacer

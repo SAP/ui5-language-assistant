@@ -1,6 +1,6 @@
 {
-  "name": "@ui5-editor-tools/logic-utils",
-  "version": "0.0.1",
+  "name": "@ui5-language-assistant/logic-utils",
+  "version": "1.0.0",
   "description": "TBD",
   "keywords": [],
   "files": [
@@ -9,7 +9,7 @@
     "src"
   ],
   "main": "lib/src/api.js",
-  "repository": "https://github.com/sap/ui5-editor-tools/",
+  "repository": "https://github.com/sap/ui5-language-assistant/",
   "license": "Apache-2.0",
   "typings": "./api.d.ts",
   "dependencies": {
@@ -17,8 +17,8 @@
     "lodash": "4.17.15"
   },
   "devDependencies": {
-    "@ui5-editor-tools/semantic-model": "0.0.1",
-    "@ui5-editor-tools/test-utils": "0.0.1",
+    "@ui5-language-assistant/semantic-model": "^1.0.0",
+    "@ui5-language-assistant/test-utils": "^1.0.0",
     "@xml-tools/parser": "1.0.2"
   },
   "scripts": {

@@ -9,7 +9,7 @@ import {
   UI5Association,
   UI5SemanticModel,
   UI5Type
-} from "@ui5-editor-tools/semantic-model-types";
+} from "@ui5-language-assistant/semantic-model-types";
 
 /**
  * Resolves an XML Tag's fully qualified name using available `xmlns`

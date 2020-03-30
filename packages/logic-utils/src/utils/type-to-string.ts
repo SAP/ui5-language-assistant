@@ -1,4 +1,4 @@
-import { UI5Type } from "@ui5-editor-tools/semantic-model-types";
+import { UI5Type } from "@ui5-language-assistant/semantic-model-types";
 import { ui5NodeToFQN } from "../api";
 
 export function typeToString(type: UI5Type | undefined): string {

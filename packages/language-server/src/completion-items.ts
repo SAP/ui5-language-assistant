@@ -2,7 +2,6 @@ import { map, findKey, isEmpty, includes } from "lodash";
 import {
   CompletionItem,
   CompletionItemKind,
-  CompletionItemTag,
   TextDocumentPositionParams,
   InsertTextFormat
 } from "vscode-languageserver";
@@ -16,17 +15,17 @@ import {
   UI5Aggregation,
   UI5Association,
   UI5Field
-} from "@ui5-editor-tools/semantic-model-types";
+} from "@ui5-language-assistant/semantic-model-types";
 import {
   getXMLViewCompletions,
   UI5XMLViewCompletion,
   UI5ClassesInXMLTagNameCompletion
-} from "@ui5-editor-tools/xml-views-completion";
+} from "@ui5-language-assistant/xml-views-completion";
 import {
   ui5NodeToFQN,
   isRootSymbol,
   typeToString
-} from "@ui5-editor-tools/logic-utils";
+} from "@ui5-language-assistant/logic-utils";
 import { getNodeDocumentation } from "./documentation";
 
 export function getCompletionItems(
@@ -54,17 +53,22 @@ function transformToLspSuggestions(
 ): CompletionItem[] {
   const lspSuggestions = map(suggestions, suggestion => {
     const lspKind = computeLSPKind(suggestion);
+    let detailText = getNodeDetail(suggestion.ui5Node);
+    if (suggestion.ui5Node.deprecatedInfo?.isDeprecated) {
+      detailText = `(deprecated) ${detailText}`;
+    }
     const completionItem: CompletionItem = {
       label: suggestion.ui5Node.name,
       // TODO use textEdit instead of insertText to support replacing "sap.m.Button" with "Button"
       insertText: createInsertText(suggestion),
       insertTextFormat: InsertTextFormat.Snippet,
-      detail: getNodeDetail(suggestion.ui5Node),
+      detail: detailText,
       documentation: getNodeDocumentation(suggestion.ui5Node, model),
-      kind: lspKind,
-      tags: suggestion.ui5Node.deprecatedInfo?.isDeprecated
-        ? [CompletionItemTag.Deprecated]
-        : undefined
+      kind: lspKind
+      // TODO tags are not supported in Theia: https://che-incubator.github.io/vscode-theia-comparator/status.html
+      // tags: suggestion.ui5Node.deprecatedInfo?.isDeprecated
+      //   ? [CompletionItemTag.Deprecated]
+      //   : undefined
     };
     return completionItem;
   });
@@ -126,15 +130,26 @@ function createInsertText(suggestion: UI5XMLViewCompletion): string {
       break;
     }
     case "UI5ClassesInXMLTagName": {
+      let closeTagName = insertText;
       const nsPrefix = getClassNamespacePrefix(suggestion);
       if (nsPrefix !== undefined) {
-        insertText = `${nsPrefix}:${insertText}`;
+        closeTagName = `${nsPrefix}:${closeTagName}`;
+
+        // Add namespace in the completion label start only if it doesn't already exists on the node.
+        // In some cases ns will have the namespace and in other name will contain the namespace.
+        if (
+          isEmpty(suggestion.astNode.ns) &&
+          (suggestion.astNode.name === null ||
+            !includes(suggestion.astNode.name, ":"))
+        ) {
+          insertText = `${nsPrefix}:${insertText}`;
+        }
       }
 
       // Auto-close tag and put the cursor where attributes can be added
       /* istanbul ignore else */
       if (suggestion.astNode.syntax.closeBody === undefined) {
-        insertText += ` \${1}>\${0}</${suggestion.ui5Node.name}>`;
+        insertText += ` \${1}>\${0}</${closeTagName}>`;
       }
       break;
     }
@@ -150,31 +165,23 @@ function createInsertText(suggestion: UI5XMLViewCompletion): string {
 function getClassNamespacePrefix(
   suggestion: UI5ClassesInXMLTagNameCompletion
 ): string | undefined {
-  // Add namespace if it doesn't already exists on the node.
-  // In some cases ns will have the namespace and in other name will contain the namespace.
-  if (
-    isEmpty(suggestion.astNode.ns) &&
-    (suggestion.astNode.name === null ||
-      !includes(suggestion.astNode.name, ":"))
-  ) {
-    const xmlElement = suggestion.astNode;
-    const parent = suggestion.ui5Node.parent;
-    /* istanbul ignore else */
-    if (parent !== undefined) {
-      const parentFQN = ui5NodeToFQN(parent);
-      let xmlnsPrefix = findKey(xmlElement.namespaces, _ => _ === parentFQN);
-      // Namespace not defined in imports - guess it
-      if (xmlnsPrefix === undefined) {
-        xmlnsPrefix = parent.name;
-        // TODO add text edit for the missing xmlns attribute definition
-      }
-      if (
-        xmlnsPrefix !== undefined &&
-        xmlnsPrefix !== DEFAULT_NS &&
-        xmlnsPrefix.length > 0
-      ) {
-        return xmlnsPrefix;
-      }
+  const xmlElement = suggestion.astNode;
+  const parent = suggestion.ui5Node.parent;
+  /* istanbul ignore else */
+  if (parent !== undefined) {
+    const parentFQN = ui5NodeToFQN(parent);
+    let xmlnsPrefix = findKey(xmlElement.namespaces, _ => _ === parentFQN);
+    // Namespace not defined in imports - guess it
+    if (xmlnsPrefix === undefined) {
+      xmlnsPrefix = parent.name;
+      // TODO add text edit for the missing xmlns attribute definition
+    }
+    if (
+      xmlnsPrefix !== undefined &&
+      xmlnsPrefix !== DEFAULT_NS &&
+      xmlnsPrefix.length > 0
+    ) {
+      return xmlnsPrefix;
     }
   }
   return undefined;

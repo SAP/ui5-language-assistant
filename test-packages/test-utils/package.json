@@ -1,6 +1,6 @@
 {
-  "name": "@ui5-editor-tools/test-utils",
-  "version": "0.0.1",
+  "name": "@ui5-language-assistant/test-utils",
+  "version": "1.0.0",
   "private": true,
   "description": "Test Utils",
   "files": [
@@ -10,13 +10,12 @@
     "src"
   ],
   "main": "lib/src/api.js",
-  "repository": "https://github.com/sap/ui5-editor-tools/",
+  "repository": "https://github.com/sap/ui5-language-assistant/",
   "license": "Apache-2.0",
   "typings": "./api.d.ts",
   "dependencies": {
-    "@ui5-editor-tools/semantic-model": "0.0.1"
+    "@ui5-language-assistant/semantic-model": "^1.0.0"
   },
-  "devDependencies": {},
   "scripts": {
     "ci": "npm-run-all clean compile lint",
     "clean": "rimraf ./lib ./coverage ./nyc_output",

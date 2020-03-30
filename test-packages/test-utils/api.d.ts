@@ -14,10 +14,10 @@ import {
   UI5Constructor,
   UI5Field,
   UI5EnumValue
-} from "@ui5-editor-tools/semantic-model-types";
-import { Json, TypeNameFix } from "@ui5-editor-tools/semantic-model";
+} from "@ui5-language-assistant/semantic-model-types";
+import { Json, TypeNameFix } from "@ui5-language-assistant/semantic-model";
 import { XMLAttribute, XMLElement } from "@xml-tools/ast";
-import { UI5XMLViewCompletion } from "@ui5-editor-tools/xml-views-completion";
+import { UI5XMLViewCompletion } from "@ui5-language-assistant/xml-views-completion";
 
 //	easily build (partial) data structures for tests with mandatory "name" field
 export type PartialWithName<T> = { name: string } & Partial<T>;

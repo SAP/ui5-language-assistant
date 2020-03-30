@@ -4,9 +4,9 @@ import {
   buildUI5Aggregation,
   buildUI5Class,
   expectUnsortedEquality
-} from "@ui5-editor-tools/test-utils";
+} from "@ui5-language-assistant/test-utils";
 
-describe("The @ui5-editor-tools/logic-utils <flattenAggregations> function", () => {
+describe("The @ui5-language-assistant/logic-utils <flattenAggregations> function", () => {
   const aggregationA1 = buildUI5Aggregation({
     name: "aggregationA1",
     cardinality: "0..1"
