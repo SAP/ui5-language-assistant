@@ -183,17 +183,13 @@ describe("the UI5 tools Language Code Completion Services", () => {
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns:ux3="⇶"`;
     const suggestions = getSuggestions(xmlSnippet);
-    const suggestionNames = map(
-      suggestions,
-      suggestion => suggestion.insertText
-    );
-    const suggestionKinds = uniq(
-      map(suggestions, suggestion => suggestion.kind)
-    );
-
-    expect(suggestionNames).to.deep.equalInAnyOrder(["sap.ui.ux3"]);
-
-    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Text]);
+    const suggestionNames = map(suggestions, suggestion => ({
+      label: suggestion.label,
+      text: getTagName(suggestion.insertText)
+    }));
+    expect(suggestionNames).to.deep.equalInAnyOrder([
+      { label: "ux3", text: "sap.ui.ux3" }
+    ]);
   });
 
   it("will get completion values for UI5 enum value", () => {
