@@ -37,7 +37,7 @@ Instead a `SERVER_PATH` const is exported which points the the server's "main" m
 
 This `SERVER_PATH` can be used by other tools to spawn the `@ui5-language-assistant/language-server` process.
 
-- See [extension.ts](../vscode-ui5-language-support/src/extension.ts) in the UI5 Language Support VSCode extension.
+- See [extension.ts](../vscode-ui5-language-assistant/src/extension.ts) in the UI5 Language Support VSCode extension.
 
 ## Support
 
