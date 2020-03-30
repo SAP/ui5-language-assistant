@@ -8,6 +8,11 @@ jobs:
       - checkout
       - run: yarn
       - run: yarn run ci
+      - persist_to_workspace:
+          root: "./packages/vscode-ui5-language-support"
+          paths:
+            # https://golang.org/pkg/path/filepath/#Match
+            - vscode-ui5-language-support-*
 
 # TODO: only one parallel worker for CircleCI when in a private repo, uncomment this when going public
 #  build-node12:
@@ -39,16 +44,40 @@ jobs:
       - run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
       # To help debug when lerna detects changes to the working tree and fails the publish
       - run: git status
-      - run: yarn run lerna:publish
+
+  deploy-gh-releases:
+    docker:
+      - image: circleci/golang:1.13
+    steps:
+      - attach_workspace:
+          at: ./dist
+      - run:
+          name: "Publish Release on GitHub"
+          command: |
+            go get github.com/tcnksm/ghr
+            VERSION=${CIRCLE_TAG}
+            ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} ./dist/
+
 
 workflows:
   version: 2
   build:
     jobs:
-      - build-node13
+      - build-node13:
+          filters:
+            tags:
+              only: /^vscode-ui5-language-support@[0-9]+(.[0-9]+)*/
       - deploy-npm:
           filters:
             tags:
               only: /^RELEASE/
+            branches:
+              ignore: /.*/
+      - deploy-gh-releases:
+          requires:
+            - build-node13
+          filters:
+            tags:
+              only: /^vscode-ui5-language-support@[0-9]+(.[0-9]+)*/
             branches:
               ignore: /.*/
