@@ -119,6 +119,6 @@ describe("the Language Server Client Integration Tests", () => {
       completionsList.items,
       completion => completion.label
     );
-    expect(completionNames).to.deep.equal(expectedCompletionNames);
+    expect(completionNames).to.include.members(expectedCompletionNames);
   }
 });
