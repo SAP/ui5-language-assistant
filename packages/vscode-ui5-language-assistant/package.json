@@ -1,7 +1,7 @@
 {
-  "name": "vscode-ui5-language-support",
+  "name": "vscode-ui5-language-assistant",
   "private": true,
-  "description": "UI5 Language Support for VSCode",
+  "description": "UI5 Language Assistant for VSCode",
   "version": "1.0.0",
   "publisher": "SAPSE",
   "license": "Apache-2.0",
@@ -28,7 +28,7 @@
       }
     }
   },
-  "repository": "https://github.com/sap/ui5-language-assistant/tree/master/packages/vscode-ui5-language-support",
+  "repository": "https://github.com/sap/ui5-language-assistant/tree/master/packages/vscode-ui5-ui5-language-assistant",
   "keywords": [
     "UI5",
     "OpenUI5",

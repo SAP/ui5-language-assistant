@@ -10,10 +10,10 @@
       "name": "Launch Client",
       "runtimeExecutable": "${execPath}",
       "args": [
-        "--extensionDevelopmentPath=${workspaceRoot}/packages/vscode-ui5-language-support"
+        "--extensionDevelopmentPath=${workspaceRoot}/packages/vscode-ui5-ui5-language-assistant"
       ],
       "outFiles": [
-        "${workspaceRoot}/packages/vscode-ui5-language-support/lib/src/**/*.js"
+        "${workspaceRoot}/packages/vscode-ui5-ui5-language-assistant/lib/src/**/*.js"
       ]
     },
     {
