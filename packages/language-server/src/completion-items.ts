@@ -130,15 +130,26 @@ function createInsertText(suggestion: UI5XMLViewCompletion): string {
       break;
     }
     case "UI5ClassesInXMLTagName": {
+      let closeTagName = insertText;
       const nsPrefix = getClassNamespacePrefix(suggestion);
       if (nsPrefix !== undefined) {
-        insertText = `${nsPrefix}:${insertText}`;
+        closeTagName = `${nsPrefix}:${closeTagName}`;
+
+        // Add namespace in the completion label start only if it doesn't already exists on the node.
+        // In some cases ns will have the namespace and in other name will contain the namespace.
+        if (
+          isEmpty(suggestion.astNode.ns) &&
+          (suggestion.astNode.name === null ||
+            !includes(suggestion.astNode.name, ":"))
+        ) {
+          insertText = `${nsPrefix}:${insertText}`;
+        }
       }
 
       // Auto-close tag and put the cursor where attributes can be added
       /* istanbul ignore else */
       if (suggestion.astNode.syntax.closeBody === undefined) {
-        insertText += ` \${1}>\${0}</${insertText}>`;
+        insertText += ` \${1}>\${0}</${closeTagName}>`;
       }
       break;
     }
@@ -150,31 +161,23 @@ function createInsertText(suggestion: UI5XMLViewCompletion): string {
 function getClassNamespacePrefix(
   suggestion: UI5ClassesInXMLTagNameCompletion
 ): string | undefined {
-  // Add namespace if it doesn't already exists on the node.
-  // In some cases ns will have the namespace and in other name will contain the namespace.
-  if (
-    isEmpty(suggestion.astNode.ns) &&
-    (suggestion.astNode.name === null ||
-      !includes(suggestion.astNode.name, ":"))
-  ) {
-    const xmlElement = suggestion.astNode;
-    const parent = suggestion.ui5Node.parent;
-    /* istanbul ignore else */
-    if (parent !== undefined) {
-      const parentFQN = ui5NodeToFQN(parent);
-      let xmlnsPrefix = findKey(xmlElement.namespaces, _ => _ === parentFQN);
-      // Namespace not defined in imports - guess it
-      if (xmlnsPrefix === undefined) {
-        xmlnsPrefix = parent.name;
-        // TODO add text edit for the missing xmlns attribute definition
-      }
-      if (
-        xmlnsPrefix !== undefined &&
-        xmlnsPrefix !== DEFAULT_NS &&
-        xmlnsPrefix.length > 0
-      ) {
-        return xmlnsPrefix;
-      }
+  const xmlElement = suggestion.astNode;
+  const parent = suggestion.ui5Node.parent;
+  /* istanbul ignore else */
+  if (parent !== undefined) {
+    const parentFQN = ui5NodeToFQN(parent);
+    let xmlnsPrefix = findKey(xmlElement.namespaces, _ => _ === parentFQN);
+    // Namespace not defined in imports - guess it
+    if (xmlnsPrefix === undefined) {
+      xmlnsPrefix = parent.name;
+      // TODO add text edit for the missing xmlns attribute definition
+    }
+    if (
+      xmlnsPrefix !== undefined &&
+      xmlnsPrefix !== DEFAULT_NS &&
+      xmlnsPrefix.length > 0
+    ) {
+      return xmlnsPrefix;
     }
   }
   return undefined;
