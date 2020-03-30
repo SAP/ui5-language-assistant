@@ -1,6 +1,6 @@
-[![npm (scoped)](https://img.shields.io/npm/v/@ui5-editor-tools/logic-utils.svg)](https://www.npmjs.com/package/@ui5-editor-tools/logic-utils)
+[![npm (scoped)](https://img.shields.io/npm/v/@ui5-language-assistant/logic-utils.svg)](https://www.npmjs.com/package/@ui5-language-assistant/logic-utils)
 
-# @ui5-editor-tools/logic-utils
+# @ui5-language-assistant/logic-utils
 
 Common shared logic and data structures related utilities used in other packages in this mono-repo.
 
@@ -8,11 +8,11 @@ Common shared logic and data structures related utilities used in other packages
 
 With npm:
 
-- `npm install @ui5-editor-tools/logic-utils`
+- `npm install @ui5-language-assistant/logic-utils`
 
 With Yarn
 
-- `yarn add @ui5-editor-tools/logic-utils`
+- `yarn add @ui5-language-assistant/logic-utils`
 
 ## Usage
 
@@ -21,7 +21,7 @@ defined in [api.d.ts](./api.d.ts).
 
 ## Support
 
-Please open [issues](https://github.com/SAP/ui5-editor-tools/issues) on github.
+Please open [issues](https://github.com/SAP/ui5-language-assistant/issues) on github.
 
 ## Contributing
 

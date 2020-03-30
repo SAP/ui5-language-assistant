@@ -1,6 +1,6 @@
 /* istanbul ignore file */
 import { workspace, window } from "vscode";
-import { SERVER_PATH } from "@ui5-editor-tools/language-server";
+import { SERVER_PATH } from "@ui5-language-assistant/language-server";
 import {
   LanguageClient,
   LanguageClientOptions,
@@ -11,7 +11,8 @@ import {
 let client: LanguageClient;
 
 export async function activate(): Promise<void> {
-  const channel = window.createOutputChannel("UI5 Editor Tools");
+  // TODO: read name from package.json
+  const channel = window.createOutputChannel("UI5 Language Assistant");
 
   //TODO add context: vscode.ExtensionContext parameter and use context.globalStoragePath to store the api.json files
 
@@ -37,8 +38,8 @@ export async function activate(): Promise<void> {
   };
 
   client = new LanguageClient(
-    "UI5EditorTools",
-    "UI5 Editor Tools",
+    "UI5LanguageAssistant",
+    "UI5 Language Assistant",
     serverOptions,
     clientOptions
   );

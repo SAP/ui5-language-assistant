@@ -1,15 +1,15 @@
 import { expect } from "chai";
 import { typeToString } from "../../src/api";
-import { UI5Type } from "@ui5-editor-tools/semantic-model-types";
+import { UI5Type } from "@ui5-language-assistant/semantic-model-types";
 import {
   buildUI5Namespace,
   buildUI5Class,
   buildUI5Interface,
   buildUI5Enum,
   buildUI5Typedef
-} from "@ui5-editor-tools/test-utils";
+} from "@ui5-language-assistant/test-utils";
 
-describe("The @ui5-editor-tools/logic-utils <typeToString> function", () => {
+describe("The @ui5-language-assistant/logic-utils <typeToString> function", () => {
   const rootNS = buildUI5Namespace({ name: "rootNS" });
 
   it("returns the type name for unresolved type", () => {

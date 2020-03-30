@@ -15,7 +15,7 @@ import {
   UI5Association,
   UI5SemanticModel,
   UI5EnumValue
-} from "@ui5-editor-tools/semantic-model-types/api";
+} from "@ui5-language-assistant/semantic-model-types/api";
 
 export function getXMLViewCompletions(
   opts: GetXMLViewCompletionsOpts

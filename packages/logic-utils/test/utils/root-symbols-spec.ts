@@ -14,11 +14,11 @@ import {
   buildUI5Constructor,
   buildUI5Field,
   buildUI5EnumValue
-} from "@ui5-editor-tools/test-utils";
+} from "@ui5-language-assistant/test-utils";
 import { isRootSymbol, getRootSymbolParent } from "../../src/api";
-import { BaseUI5Node } from "@ui5-editor-tools/semantic-model-types";
+import { BaseUI5Node } from "@ui5-language-assistant/semantic-model-types";
 
-describe("The @ui5-editor-tools/logic-utils <isRootSymbol> and <getRootSymbol> functions", () => {
+describe("The @ui5-language-assistant/logic-utils <isRootSymbol> and <getRootSymbol> functions", () => {
   function createIts(
     symbol: BaseUI5Node,
     expectedIsRoot: boolean,

@@ -6,12 +6,12 @@ import {
   UI5Interface,
   UI5SemanticModel,
   UI5Type
-} from "@ui5-editor-tools/semantic-model-types";
+} from "@ui5-language-assistant/semantic-model-types";
 import {
   findClassesMatchingType,
   flattenAggregations,
   ui5NodeToFQN
-} from "@ui5-editor-tools/logic-utils";
+} from "@ui5-language-assistant/logic-utils";
 import { UI5ClassesInXMLTagNameCompletion } from "../../../api";
 import { getClassByElement } from "../utils/filter-members";
 import { UI5ElementNameCompletionOptions } from "./index";

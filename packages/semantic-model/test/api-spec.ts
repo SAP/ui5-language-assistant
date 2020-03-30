@@ -8,14 +8,14 @@ import {
   expectModelObjectsEqual,
   isObject,
   getFQN
-} from "@ui5-editor-tools/test-utils";
+} from "@ui5-language-assistant/test-utils";
 import {
   UI5SemanticModel,
   UnresolvedType
-} from "@ui5-editor-tools/semantic-model-types";
+} from "@ui5-language-assistant/semantic-model-types";
 import { forEachSymbol } from "../src/utils";
 
-context("The ui5-editor-tools semantic model package API", () => {
+context("The ui5-language-assistant semantic model package API", () => {
   // Properties with these names are types
   const TYPE_PROPERTIES: string[] = ["type", "altTypes"];
   // Types of these kinds exist in other places in the model

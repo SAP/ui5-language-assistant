@@ -1,4 +1,4 @@
-import { BaseUI5Node } from "@ui5-editor-tools/semantic-model-types";
+import { BaseUI5Node } from "@ui5-language-assistant/semantic-model-types";
 
 export function isRootSymbol(node: BaseUI5Node): boolean {
   switch (node.kind) {

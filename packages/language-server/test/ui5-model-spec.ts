@@ -2,7 +2,7 @@ import { expect } from "chai";
 
 import { getSemanticModel } from "../src/ui5-model";
 
-describe("the UI5 tools ui5 model", () => {
+describe("the UI5 language assistant ui5 model", () => {
   it("will get UI5 semantic model", async () => {
     const ui5Model = await getSemanticModel();
     expect(ui5Model.version).to.equal("1.74.0"); // TODO: use 1.71.x
