@@ -185,7 +185,7 @@ describe("the UI5 tools Language Code Completion Services", () => {
     const suggestions = getSuggestions(xmlSnippet);
     const suggestionNames = map(suggestions, suggestion => ({
       label: suggestion.label,
-      text: getTagName(suggestion.insertText)
+      text: suggestion.insertText
     }));
     expect(suggestionNames).to.deep.equalInAnyOrder([
       { label: "ux3", text: "sap.ui.ux3" }
