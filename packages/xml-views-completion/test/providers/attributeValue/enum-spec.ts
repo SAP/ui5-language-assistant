@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { forEach, map } from "lodash";
-import { UI5SemanticModel } from "@ui5-editor-tools/semantic-model-types";
-import { generateModel } from "@ui5-editor-tools/test-utils";
+import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
+import { generateModel } from "@ui5-language-assistant/test-utils";
 import { testSuggestionsScenario } from "../../utils";
 import { enumSuggestions } from "../../../src/providers/attributeValue/enum";
 import { UI5XMLViewCompletion } from "../../../api";
@@ -9,7 +9,7 @@ import { XMLAttribute, XMLElement } from "@xml-tools/ast";
 
 const ui5SemanticModel: UI5SemanticModel = generateModel("1.74.0");
 
-describe("The ui5-editor-tools xml-views-completion", () => {
+describe("The ui5-language-assistant xml-views-completion", () => {
   context("enum values", () => {
     context("applicable scenarios", () => {
       it("will suggest enum values with no prefix provided", () => {

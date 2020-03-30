@@ -1,8 +1,8 @@
 import { expect, use } from "chai";
 import { XMLAttribute, XMLElement } from "@xml-tools/ast";
-import { UI5SemanticModel } from "@ui5-editor-tools/semantic-model-types";
+import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { getFQN } from "./model-test-utils";
-import { UI5XMLViewCompletion } from "@ui5-editor-tools/xml-views-completion";
+import { UI5XMLViewCompletion } from "@ui5-language-assistant/xml-views-completion";
 import { map } from "lodash";
 import deepEqualInAnyOrder = require("deep-equal-in-any-order");
 

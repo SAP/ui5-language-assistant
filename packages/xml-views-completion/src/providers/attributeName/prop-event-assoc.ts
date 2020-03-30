@@ -3,13 +3,13 @@ import {
   UI5Event,
   UI5Prop,
   UI5Association
-} from "@ui5-editor-tools/semantic-model-types";
+} from "@ui5-language-assistant/semantic-model-types";
 import {
   flattenEvents,
   flattenProperties,
   flattenAssociations,
   isElementSubClass
-} from "@ui5-editor-tools/logic-utils";
+} from "@ui5-language-assistant/logic-utils";
 import { compact, map, uniq } from "lodash";
 import { UI5AttributeNameCompletionOptions } from "./index";
 import {

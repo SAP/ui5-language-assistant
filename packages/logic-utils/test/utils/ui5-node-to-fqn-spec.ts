@@ -1,9 +1,12 @@
 import { expect } from "chai";
 
 import { ui5NodeToFQN } from "../../src/api";
-import { buildUI5Class, buildUI5Namespace } from "@ui5-editor-tools/test-utils";
+import {
+  buildUI5Class,
+  buildUI5Namespace
+} from "@ui5-language-assistant/test-utils";
 
-describe("The @ui5-editor-tools/logic-utils <ui5NodeToFQN> function", () => {
+describe("The @ui5-language-assistant/logic-utils <ui5NodeToFQN> function", () => {
   const sapNs = buildUI5Namespace({ name: "sap" });
   const uiNs = buildUI5Namespace({ name: "ui", parent: sapNs });
   const coreNs = buildUI5Namespace({ name: "core", parent: uiNs });

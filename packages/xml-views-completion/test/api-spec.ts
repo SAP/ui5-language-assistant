@@ -6,8 +6,8 @@ import { DocumentCstNode, parse } from "@xml-tools/parser";
 import {
   UI5Aggregation,
   UI5SemanticModel
-} from "@ui5-editor-tools/semantic-model-types";
-import { generateModel } from "@ui5-editor-tools/test-utils";
+} from "@ui5-language-assistant/semantic-model-types";
+import { generateModel } from "@ui5-language-assistant/test-utils";
 
 import { getXMLViewCompletions } from "../src/api";
 import { UI5XMLViewCompletion } from "../api";

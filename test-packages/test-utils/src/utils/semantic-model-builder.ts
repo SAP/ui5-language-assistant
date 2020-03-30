@@ -14,10 +14,10 @@ import {
   UI5Constructor,
   UI5Field,
   UI5EnumValue
-} from "@ui5-editor-tools/semantic-model-types";
+} from "@ui5-language-assistant/semantic-model-types";
 
 import { PartialWithName } from "../../api";
-import { Ui5Association } from "@ui5-editor-tools/semantic-model/src/api-json";
+import { Ui5Association } from "@ui5-language-assistant/semantic-model/src/api-json";
 
 const baseUI5NodeDefaults: BaseUI5Node = {
   name: "",

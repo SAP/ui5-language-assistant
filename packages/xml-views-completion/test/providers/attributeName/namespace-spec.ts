@@ -10,20 +10,20 @@ import {
   UI5Namespace,
   UI5Prop,
   UI5SemanticModel
-} from "@ui5-editor-tools/semantic-model-types";
+} from "@ui5-language-assistant/semantic-model-types";
 import { testSuggestionsScenario } from "../../utils";
 import {
   expectSuggestions,
   expectXMLAttribute,
   generateModel
-} from "@ui5-editor-tools/test-utils";
+} from "@ui5-language-assistant/test-utils";
 import {
   getNamespaceKeyPrefix,
   isExistingNamespaceAttribute,
   namespaceKeysSuggestions
 } from "../../../src/providers/attributeName/namespace";
 import { XMLAttribute, XMLDocument, XMLElement } from "@xml-tools/ast";
-import { ui5NodeToFQN } from "@ui5-editor-tools/logic-utils";
+import { ui5NodeToFQN } from "@ui5-language-assistant/logic-utils";
 
 const ui5SemanticModel: UI5SemanticModel = generateModel("1.74.0");
 
@@ -68,7 +68,7 @@ const expectNamespaceKeysSuggestions = partial(expectSuggestions, _ => {
   return ui5NodeToFQN(_.ui5Node);
 });
 
-describe("The ui5-editor-tools xml-views-completion", () => {
+describe("The ui5-language-assistant xml-views-completion", () => {
   context("namespaces", () => {
     context("applicable scenarios", () => {
       it("will suggest when 'xmlns' prefix provided", () => {

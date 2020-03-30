@@ -16,9 +16,9 @@ Potential future features:
 ## Installation
 
 This extension is **not** yet released to the VSCode Marketplace.
-Instead it can be downloaded directly from [Github Releases](https://github.com/SAP/ui5-editor-tools/releases/).
+Instead it can be downloaded directly from [Github Releases](https://github.com/SAP/ui5-language-assistant/releases/).
 
-- The .vsix archive can be found under the **"ui5-editor-tools@x.y.z"** releases.
+- The .vsix archive can be found under the **"ui5-language-assistant@x.y.z"** releases.
 - Replace `x.y.z` with the desired version number.
 
 ## Usage
@@ -35,7 +35,7 @@ The extension currently uses a hard-coded (1.71.x) version for the UI5 metadata.
 
 ## Support
 
-Please open [issues](https://github.com/SAP/ui5-editor-tools/issues) on github.
+Please open [issues](https://github.com/SAP/ui5-language-assistant/issues) on github.
 
 ## Contributing
 
