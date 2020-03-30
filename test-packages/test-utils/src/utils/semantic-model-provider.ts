@@ -1,5 +1,9 @@
-import { generate, TypeNameFix, Json } from "@ui5-editor-tools/semantic-model";
-import { UI5SemanticModel } from "@ui5-editor-tools/semantic-model-types";
+import {
+  generate,
+  TypeNameFix,
+  Json
+} from "@ui5-language-assistant/semantic-model";
+import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { TestModelVersion } from "../../api";
 import { readdirSync } from "fs";
 import { readJsonSync } from "fs-extra";
@@ -40,7 +44,7 @@ const fixes: Record<TestModelVersion, TypeNameFix> = {
 
 function getModelFolder(version: TestModelVersion): string {
   const pkgJsonPath = require.resolve(
-    "@ui5-editor-tools/test-utils/package.json"
+    "@ui5-language-assistant/test-utils/package.json"
   );
   const rootPkgFolder = dirname(pkgJsonPath);
   const modelFolder = resolve(

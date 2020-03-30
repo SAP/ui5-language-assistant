@@ -8,14 +8,14 @@ import {
   CompletionItemKind,
   CompletionItem
 } from "vscode-languageserver";
-import { UI5SemanticModel } from "@ui5-editor-tools/semantic-model-types";
-import { generateModel } from "@ui5-editor-tools/test-utils";
+import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
+import { generateModel } from "@ui5-language-assistant/test-utils";
 
 import { getCompletionItems, computeLSPKind } from "../src/completion-items";
 
 const ui5SemanticModel: UI5SemanticModel = generateModel("1.74.0"); //TODO: use 1.71.x
 
-describe("the UI5 tools Language Code Completion Services", () => {
+describe("the UI5 language assistant Code Completion Services", () => {
   // Return the first part of a tag name suggestion insert text
   function getTagName(insertText: string | undefined): string | undefined {
     if (insertText === undefined) {

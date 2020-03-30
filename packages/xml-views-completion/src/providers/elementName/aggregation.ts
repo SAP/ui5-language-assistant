@@ -1,7 +1,7 @@
 import {
   flattenAggregations,
   isElementSubClass
-} from "@ui5-editor-tools/logic-utils";
+} from "@ui5-language-assistant/logic-utils";
 
 import { UI5AggregationsInXMLTagNameCompletion } from "../../../api";
 import { map, compact, uniq } from "lodash";

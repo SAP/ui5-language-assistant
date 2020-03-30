@@ -12,9 +12,9 @@
   "contributes": {
     "configuration": {
       "type": "object",
-      "title": "UI5 Editor Tools",
+      "title": "UI5 Language Assistant",
       "properties": {
-        "UI5EditorTools.trace.server": {
+        "UI5LanguageAssistant.trace.server": {
           "scope": "window",
           "type": "string",
           "enum": [
@@ -28,7 +28,7 @@
       }
     }
   },
-  "repository": "https://github.com/sap/ui5-editor-tools/tree/master/packages/vscode-ui5-language-support",
+  "repository": "https://github.com/sap/ui5-language-assistant/tree/master/packages/vscode-ui5-language-support",
   "keywords": [
     "UI5",
     "OpenUI5",
@@ -49,7 +49,7 @@
   },
   "dependencies": {
     "vscode-languageclient": "6.1.0",
-    "@ui5-editor-tools/language-server": "0.0.1"
+    "@ui5-language-assistant/language-server": "0.0.1"
   },
   "devDependencies": {
     "@types/vscode": "1.41.0",

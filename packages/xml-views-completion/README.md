@@ -1,11 +1,11 @@
-[![npm (scoped)](https://img.shields.io/npm/v/@ui5-editor-tools/xml-views-completion.svg)](https://www.npmjs.com/package/@ui5-editor-tools/xml-views-completion)
+[![npm (scoped)](https://img.shields.io/npm/v/@ui5-language-assistant/xml-views-completion.svg)](https://www.npmjs.com/package/@ui5-language-assistant/xml-views-completion)
 
-# @ui5-editor-tools/xml-views-completion
+# @ui5-language-assistant/xml-views-completion
 
 Logic for UI5 XML views content assist implemented by combining:
 
 - [@xml-tools/content-assist](https://github.com/sap/xml-tools/tree/master/packages/content-assist) for the generic syntactic XML information.
-- [@ui5-editor-tools/semantic-model](../semantic-model) for the semantic UI5 data.
+- [@ui5-language-assistant/semantic-model](../semantic-model) for the semantic UI5 data.
 
 Supported Content Assist scenarios:
 
@@ -29,11 +29,11 @@ Supported Content Assist scenarios:
 
 With npm:
 
-- `npm install @ui5-editor-tools/xml-views-completion`
+- `npm install @ui5-language-assistant/xml-views-completion`
 
 With Yarn:
 
-- `yarn add @ui5-editor-tools/xml-views-completion`
+- `yarn add @ui5-language-assistant/xml-views-completion`
 
 ## Usage
 
@@ -42,7 +42,7 @@ defined in [api.d.ts](./api.d.ts).
 
 ## Support
 
-Please open [issues](https://github.com/SAP/ui5-editor-tools/issues) on github.
+Please open [issues](https://github.com/SAP/ui5-language-assistant/issues) on github.
 
 ## Contributing
 

@@ -1,11 +1,14 @@
 import { expect } from "chai";
 import { cloneDeep } from "lodash";
-import { buildUI5Class, generateModel } from "@ui5-editor-tools/test-utils";
+import {
+  buildUI5Class,
+  generateModel
+} from "@ui5-language-assistant/test-utils";
 
 import { getSuperClasses } from "../../src/api";
-import { UI5Class } from "@ui5-editor-tools/semantic-model-types";
+import { UI5Class } from "@ui5-language-assistant/semantic-model-types";
 
-describe("The @ui5-editor-tools/logic-utils <getSuperClasses> function", () => {
+describe("The @ui5-language-assistant/logic-utils <getSuperClasses> function", () => {
   const clazzA = buildUI5Class({ name: "A", library: "sap.ui.core" });
   const clazzB = buildUI5Class({
     name: "B",

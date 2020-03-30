@@ -16,17 +16,17 @@ import {
   UI5Aggregation,
   UI5Association,
   UI5Field
-} from "@ui5-editor-tools/semantic-model-types";
+} from "@ui5-language-assistant/semantic-model-types";
 import {
   getXMLViewCompletions,
   UI5XMLViewCompletion,
   UI5ClassesInXMLTagNameCompletion
-} from "@ui5-editor-tools/xml-views-completion";
+} from "@ui5-language-assistant/xml-views-completion";
 import {
   ui5NodeToFQN,
   isRootSymbol,
   typeToString
-} from "@ui5-editor-tools/logic-utils";
+} from "@ui5-language-assistant/logic-utils";
 import { getNodeDocumentation } from "./documentation";
 
 export function getCompletionItems(
