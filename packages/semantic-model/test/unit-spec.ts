@@ -4,18 +4,18 @@ import {
   buildUI5Model,
   buildUI5Class,
   expectExists
-} from "@ui5-editor-tools/test-utils";
+} from "@ui5-language-assistant/test-utils";
 import {
   UI5Class,
   UI5SemanticModel,
   UI5Type
-} from "@ui5-editor-tools/semantic-model-types";
+} from "@ui5-language-assistant/semantic-model-types";
 import { resolveType, setParent } from "../src/resolve";
 import { getSymbolMaps } from "../src/utils";
 import { generate } from "../src/api";
 import { ClassSymbol, NamespaceSymbol, SymbolBase } from "../src/api-json";
 
-context("The ui5-editor-tools semantic model package unit tests", () => {
+context("The ui5-language-assistant semantic model package unit tests", () => {
   describe("resolveType", () => {
     it("returns the same type if it's resolved", () => {
       const model = buildUI5Model({});

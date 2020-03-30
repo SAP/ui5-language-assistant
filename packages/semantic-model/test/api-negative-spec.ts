@@ -1,15 +1,15 @@
 import { expect } from "chai";
 import { keys } from "lodash";
-import { expectExists } from "@ui5-editor-tools/test-utils";
+import { expectExists } from "@ui5-language-assistant/test-utils";
 import {
   UI5SemanticModel,
   UnresolvedType
-} from "@ui5-editor-tools/semantic-model-types";
+} from "@ui5-language-assistant/semantic-model-types";
 import { forEachSymbol } from "../src/utils";
 import { generate } from "../src/api";
 
 context(
-  "The ui5-editor-tools semantic model package API negative tests",
+  "The ui5-language-assistant semantic model package API negative tests",
   () => {
     describe("generate from model with invalid library file", () => {
       const message = "not a valid library file";

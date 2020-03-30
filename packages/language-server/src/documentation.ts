@@ -1,13 +1,13 @@
 import {
   UI5SemanticModel,
   BaseUI5Node
-} from "@ui5-editor-tools/semantic-model-types";
+} from "@ui5-language-assistant/semantic-model-types";
 import { MarkupContent } from "vscode-languageserver";
 import {
   getRootSymbolParent,
   ui5NodeToFQN
-} from "@ui5-editor-tools/logic-utils";
-import { GENERATED_LIBRARY } from "@ui5-editor-tools/semantic-model";
+} from "@ui5-language-assistant/logic-utils";
+import { GENERATED_LIBRARY } from "@ui5-language-assistant/semantic-model";
 
 export function getNodeDocumentation(
   node: BaseUI5Node,

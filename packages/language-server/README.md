@@ -1,6 +1,6 @@
-[![npm (scoped)](https://img.shields.io/npm/v/@ui5-editor-tools/language-server.svg)](https://www.npmjs.com/package/@ui5-editor-tools/language-server)
+[![npm (scoped)](https://img.shields.io/npm/v/@ui5-language-assistant/language-server.svg)](https://www.npmjs.com/package/@ui5-language-assistant/language-server)
 
-# @ui5-editor-tools/language-server
+# @ui5-language-assistant/language-server
 
 UI5 Language Server
 
@@ -24,24 +24,24 @@ Current Features:
 
 With npm:
 
-- `npm install @ui5-editor-tools/language-server`
+- `npm install @ui5-language-assistant/language-server`
 
 With Yarn
 
-- `yarn add @ui5-editor-tools/language-server`
+- `yarn add @ui5-language-assistant/language-server`
 
 ## Usage
 
 This package does not export "regular" programmatic APIS as it is meant to be started in a separate process.
 Instead a `SERVER_PATH` const is exported which points the the server's "main" module.
 
-This `SERVER_PATH` can be used by other tools to spawn the `@ui5-editor-tools/language-server` process.
+This `SERVER_PATH` can be used by other tools to spawn the `@ui5-language-assistant/language-server` process.
 
 - See [extension.ts](../vscode-ui5-language-support/src/extension.ts) in the UI5 Language Support VSCode extension.
 
 ## Support
 
-Please open [issues](https://github.com/SAP/ui5-editor-tools/issues) on github.
+Please open [issues](https://github.com/SAP/ui5-language-assistant/issues) on github.
 
 ## Contributing
 

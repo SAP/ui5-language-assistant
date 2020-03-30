@@ -3,7 +3,7 @@ import {
   UI5Class,
   UI5Interface,
   UI5SemanticModel
-} from "@ui5-editor-tools/semantic-model-types";
+} from "@ui5-language-assistant/semantic-model-types";
 import { getSuperClasses } from "./get-super-class";
 
 export function findClassesMatchingType({

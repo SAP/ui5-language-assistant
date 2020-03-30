@@ -1,6 +1,6 @@
 import { map, find } from "lodash";
 import { XMLAttribute } from "@xml-tools/ast";
-import { flattenProperties } from "@ui5-editor-tools/logic-utils";
+import { flattenProperties } from "@ui5-language-assistant/logic-utils";
 import { UI5EnumsInXMLAttributeValueCompletion } from "../../../api";
 import {
   getClassByElement,

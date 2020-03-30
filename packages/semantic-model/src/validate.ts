@@ -1,7 +1,7 @@
 import Ajv, { ValidateFunction } from "ajv";
 import { Json } from "../api";
 import { SchemaForApiJsonFiles } from "./api-json";
-import * as schema from "@ui5-editor-tools/semantic-model/resources/sap-ui-library-api.json";
+import * as schema from "@ui5-language-assistant/semantic-model/resources/sap-ui-library-api.json";
 import * as jsonDraft06Schema from "ajv/lib/refs/json-schema-draft-06.json";
 import { isPlainObject, isArray } from "lodash";
 

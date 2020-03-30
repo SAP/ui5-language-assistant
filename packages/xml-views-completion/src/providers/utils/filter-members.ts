@@ -1,10 +1,10 @@
 import { filter, includes, reject } from "lodash";
-import { xmlToFQN } from "@ui5-editor-tools/logic-utils";
+import { xmlToFQN } from "@ui5-language-assistant/logic-utils";
 import { XMLElement } from "@xml-tools/ast";
 import {
   UI5Class,
   UI5SemanticModel
-} from "@ui5-editor-tools/semantic-model-types";
+} from "@ui5-language-assistant/semantic-model-types";
 
 interface WithName {
   name: string;

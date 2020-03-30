@@ -1,8 +1,12 @@
 import { map } from "lodash";
 import fetch from "node-fetch";
 
-import { UI5SemanticModel } from "@ui5-editor-tools/semantic-model-types";
-import { generate, Json, TypeNameFix } from "@ui5-editor-tools/semantic-model";
+import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
+import {
+  generate,
+  Json,
+  TypeNameFix
+} from "@ui5-language-assistant/semantic-model";
 
 // TODO: use 1.71.x
 const DEFAULT_UI5_VERSION = "1.74.0";
