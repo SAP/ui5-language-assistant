@@ -2,7 +2,6 @@ import { map, findKey, isEmpty, includes } from "lodash";
 import {
   CompletionItem,
   CompletionItemKind,
-  CompletionItemTag,
   TextDocumentPositionParams,
   InsertTextFormat
 } from "vscode-languageserver";
@@ -54,17 +53,22 @@ function transformToLspSuggestions(
 ): CompletionItem[] {
   const lspSuggestions = map(suggestions, suggestion => {
     const lspKind = computeLSPKind(suggestion);
+    let detailText = getNodeDetail(suggestion.ui5Node);
+    if (suggestion.ui5Node.deprecatedInfo?.isDeprecated) {
+      detailText = `(deprecated) ${detailText}`;
+    }
     const completionItem: CompletionItem = {
       label: suggestion.ui5Node.name,
       // TODO use textEdit instead of insertText to support replacing "sap.m.Button" with "Button"
       insertText: createInsertText(suggestion),
       insertTextFormat: InsertTextFormat.Snippet,
-      detail: getNodeDetail(suggestion.ui5Node),
+      detail: detailText,
       documentation: getNodeDocumentation(suggestion.ui5Node, model),
-      kind: lspKind,
-      tags: suggestion.ui5Node.deprecatedInfo?.isDeprecated
-        ? [CompletionItemTag.Deprecated]
-        : undefined
+      kind: lspKind
+      // TODO tags are not supported in Theia: https://che-incubator.github.io/vscode-theia-comparator/status.html
+      // tags: suggestion.ui5Node.deprecatedInfo?.isDeprecated
+      //   ? [CompletionItemTag.Deprecated]
+      //   : undefined
     };
     return completionItem;
   });
@@ -134,7 +138,7 @@ function createInsertText(suggestion: UI5XMLViewCompletion): string {
       // Auto-close tag and put the cursor where attributes can be added
       /* istanbul ignore else */
       if (suggestion.astNode.syntax.closeBody === undefined) {
-        insertText += ` \${1}>\${0}</${suggestion.ui5Node.name}>`;
+        insertText += ` \${1}>\${0}</${insertText}>`;
       }
       break;
     }
