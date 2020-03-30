@@ -3,7 +3,9 @@ import { runTests } from "vscode-test";
 
 async function main(): Promise<void> {
   try {
-    const pkgJsonPath = require.resolve("ui5-language-support/package.json");
+    const pkgJsonPath = require.resolve(
+      "vscode-ui5-language-assistant/package.json"
+    );
     const rootPkgFolder = dirname(pkgJsonPath);
 
     const extensionDevelopmentPath = resolve(rootPkgFolder);

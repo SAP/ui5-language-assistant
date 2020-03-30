@@ -6,7 +6,9 @@ import { promises as fs } from "fs";
 import { TextDocument, Position } from "vscode-languageserver";
 import { deactivate } from "../../src/extension";
 
-const pkgJsonPath = require.resolve("ui5-language-support/package.json");
+const pkgJsonPath = require.resolve(
+  "vscode-ui5-language-assistant/package.json"
+);
 const rootPkgFolder = dirname(pkgJsonPath);
 
 const docPath = resolve(rootPkgFolder, "test", "testFixture", "test.view.xml");
@@ -17,7 +19,7 @@ describe("the Language Server Client Integration Tests", () => {
     await vscode.workspace.openTextDocument(docUri);
     await vscode.window.showTextDocument(docUri);
     // Explicitly wait for extension to load
-    await sleep(1000);
+    await sleep(5000);
   });
 
   after(async () => {
