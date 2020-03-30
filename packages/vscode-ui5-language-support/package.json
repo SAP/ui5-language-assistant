@@ -1,5 +1,5 @@
 {
-  "name": "ui5-language-support",
+  "name": "vscode-ui5-language-support",
   "private": true,
   "description": "UI5 Language Support for VSCode",
   "version": "0.0.1",
@@ -38,18 +38,23 @@
     "vscode": "^1.42.0"
   },
   "scripts": {
-    "ci": "npm-run-all compile lint coverage",
-    "clean": "rimraf ./lib",
+    "ci": "npm-run-all clean compile lint coverage bundle",
+    "clean": "rimraf ./lib ./coverage ./nyc_output *.vsix",
     "compile": "yarn run clean && tsc -p .",
     "compile:watch": "tsc -p . --watch",
     "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore",
     "test": "mocha",
-    "coverage": "nyc mocha"
+    "coverage": "nyc mocha",
+    "bundle": "node ./scripts/bundle-vsix"
   },
   "dependencies": {
-    "vscode-languageclient": "6.1.0"
+    "vscode-languageclient": "6.1.0",
+    "@ui5-editor-tools/language-server": "0.0.1"
   },
   "devDependencies": {
-    "@types/vscode": "1.41.0"
+    "@types/vscode": "1.41.0",
+    "vsce": "1.74.0",
+    "proxyquire": "2.1.3",
+    "glob": "7.1.6"
   }
 }

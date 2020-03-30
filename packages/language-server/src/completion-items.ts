@@ -1,4 +1,4 @@
-import { map } from "lodash";
+import { map, findKey, isEmpty, includes } from "lodash";
 import {
   CompletionItem,
   CompletionItemKind,
@@ -8,7 +8,7 @@ import {
 } from "vscode-languageserver";
 import { TextDocument } from "vscode-languageserver-textdocument";
 import { parse, DocumentCstNode } from "@xml-tools/parser";
-import { buildAst, XMLAttribute, XMLElement } from "@xml-tools/ast";
+import { buildAst, DEFAULT_NS } from "@xml-tools/ast";
 import {
   UI5SemanticModel,
   BaseUI5Node,
@@ -19,7 +19,8 @@ import {
 } from "@ui5-editor-tools/semantic-model-types";
 import {
   getXMLViewCompletions,
-  UI5XMLViewCompletion
+  UI5XMLViewCompletion,
+  UI5ClassesInXMLTagNameCompletion
 } from "@ui5-editor-tools/xml-views-completion";
 import {
   ui5NodeToFQN,
@@ -100,7 +101,7 @@ function createInsertText(suggestion: UI5XMLViewCompletion): string {
     case "UI5NamespacesInXMLAttributeKey": {
       // Auto-insert the selected namespace
       /* istanbul ignore else */
-      if ((suggestion.astNode as XMLAttribute).syntax.value === undefined) {
+      if (suggestion.astNode.syntax.value === undefined) {
         insertText += `="${ui5NodeToFQN(suggestion.ui5Node)}"`;
       }
       break;
@@ -110,7 +111,7 @@ function createInsertText(suggestion: UI5XMLViewCompletion): string {
     case "UI5PropsInXMLAttributeKey": {
       // Auto-insert ="" for attributes
       /* istanbul ignore else */
-      if ((suggestion.astNode as XMLAttribute).syntax.value === undefined) {
+      if (suggestion.astNode.syntax.value === undefined) {
         insertText += '="${0}"';
       }
       break;
@@ -119,15 +120,20 @@ function createInsertText(suggestion: UI5XMLViewCompletion): string {
     case "UI5AggregationsInXMLTagName": {
       // Auto-close tag
       /* istanbul ignore else */
-      if ((suggestion.astNode as XMLElement).syntax.closeBody === undefined) {
+      if (suggestion.astNode.syntax.closeBody === undefined) {
         insertText += `>\${0}</${suggestion.ui5Node.name}>`;
       }
       break;
     }
     case "UI5ClassesInXMLTagName": {
+      const nsPrefix = getClassNamespacePrefix(suggestion);
+      if (nsPrefix !== undefined) {
+        insertText = `${nsPrefix}:${insertText}`;
+      }
+
       // Auto-close tag and put the cursor where attributes can be added
       /* istanbul ignore else */
-      if ((suggestion.astNode as XMLElement).syntax.closeBody === undefined) {
+      if (suggestion.astNode.syntax.closeBody === undefined) {
         insertText += ` \${1}>\${0}</${suggestion.ui5Node.name}>`;
       }
       break;
@@ -139,6 +145,39 @@ function createInsertText(suggestion: UI5XMLViewCompletion): string {
   }
 
   return insertText;
+}
+
+function getClassNamespacePrefix(
+  suggestion: UI5ClassesInXMLTagNameCompletion
+): string | undefined {
+  // Add namespace if it doesn't already exists on the node.
+  // In some cases ns will have the namespace and in other name will contain the namespace.
+  if (
+    isEmpty(suggestion.astNode.ns) &&
+    (suggestion.astNode.name === null ||
+      !includes(suggestion.astNode.name, ":"))
+  ) {
+    const xmlElement = suggestion.astNode;
+    const parent = suggestion.ui5Node.parent;
+    /* istanbul ignore else */
+    if (parent !== undefined) {
+      const parentFQN = ui5NodeToFQN(parent);
+      let xmlnsPrefix = findKey(xmlElement.namespaces, _ => _ === parentFQN);
+      // Namespace not defined in imports - guess it
+      if (xmlnsPrefix === undefined) {
+        xmlnsPrefix = parent.name;
+        // TODO add text edit for the missing xmlns attribute definition
+      }
+      if (
+        xmlnsPrefix !== undefined &&
+        xmlnsPrefix !== DEFAULT_NS &&
+        xmlnsPrefix.length > 0
+      ) {
+        return xmlnsPrefix;
+      }
+    }
+  }
+  return undefined;
 }
 
 function getNodeDetail(node: BaseUI5Node): string {

@@ -16,17 +16,67 @@ import { getCompletionItems, computeLSPKind } from "../src/completion-items";
 const ui5SemanticModel: UI5SemanticModel = generateModel("1.74.0"); //TODO: use 1.71.x
 
 describe("the UI5 tools Language Code Completion Services", () => {
+  // Return the first part of a tag name suggestion insert text
+  function getTagName(insertText: string | undefined): string | undefined {
+    if (insertText === undefined) {
+      return undefined;
+    }
+    const result = /^([^> ]*)/.exec(insertText);
+    return result?.[1];
+  }
+
   it("will get completion values for UI5 class", () => {
     const xmlSnippet = `<GridLi⇶`;
     const suggestions = getSuggestions(xmlSnippet);
-    const suggestionNames = map(suggestions, suggestion => suggestion.label);
+    const suggestionNames = map(suggestions, suggestion => ({
+      label: suggestion.label,
+      text: getTagName(suggestion.insertText)
+    }));
     const suggestionKinds = uniq(
       map(suggestions, suggestion => suggestion.kind)
     );
 
     expect(suggestionNames).to.deep.equalInAnyOrder([
-      "GridList",
-      "GridListItem"
+      { label: "GridList", text: "f:GridList" },
+      { label: "GridListItem", text: "f:GridListItem" }
+    ]);
+
+    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Class]);
+  });
+
+  it("will get completion values for UI5 class from all namespaces when default namespace exists", () => {
+    const xmlSnippet = `<RadioButtonGrou⇶ xmlns="sap.m" xmlns:commons="sap.ui.commons"`;
+    const suggestions = getSuggestions(xmlSnippet);
+    const suggestionNames = map(suggestions, suggestion => ({
+      label: suggestion.label,
+      text: getTagName(suggestion.insertText)
+    }));
+    const suggestionKinds = uniq(
+      map(suggestions, suggestion => suggestion.kind)
+    );
+
+    expect(suggestionNames).to.deep.equalInAnyOrder([
+      { label: "RadioButtonGroup", text: "RadioButtonGroup" },
+      { label: "RadioButtonGroup", text: "commons:RadioButtonGroup" }
+    ]);
+
+    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Class]);
+  });
+
+  it("will get completion values for UI5 class from a specific namespace", () => {
+    const xmlSnippet = `<f:Ca⇶ xmlns:f="sap.f"`;
+    const suggestions = getSuggestions(xmlSnippet);
+    const suggestionNames = map(suggestions, suggestion => ({
+      label: suggestion.label,
+      text: getTagName(suggestion.insertText)
+    }));
+    const suggestionKinds = uniq(
+      map(suggestions, suggestion => suggestion.kind)
+    );
+
+    expect(suggestionNames).to.deep.equalInAnyOrder([
+      // The text to insert doesn't include the namespace because it's already in the file
+      { label: "Card", text: "Card" }
     ]);
 
     expect(suggestionKinds).to.deep.equal([CompletionItemKind.Class]);
