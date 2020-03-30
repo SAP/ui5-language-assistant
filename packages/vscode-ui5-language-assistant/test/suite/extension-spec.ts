@@ -19,19 +19,18 @@ describe("the Language Server Client Integration Tests", () => {
     await vscode.workspace.openTextDocument(docUri);
     await vscode.window.showTextDocument(docUri);
     // Explicitly wait for extension to load
-    await sleep(5000);
+    await sleep(1000);
   });
 
   after(async () => {
     await setContent("");
-    const extensionStatus = await deactivate();
-    expect(extensionStatus).to.equal(undefined);
+    await deactivate();
   });
 
   it("will get completion values for UI5 class", async () => {
     const xmlSnippet = `<GridLi⇶`;
     const completionsList = ["GridList", "GridListItem"];
-    await testCompletions(xmlSnippet, completionsList);
+    await assertCompletions(xmlSnippet, completionsList);
   });
 
   it("will get completion values for UI5 property", async () => {
@@ -40,7 +39,7 @@ describe("the Language Server Client Integration Tests", () => {
                           xmlns="sap.m"> 
                           <List show⇶`;
     const completionsList = ["showNoData", "showSeparators", "showUnread"];
-    await testCompletions(xmlSnippet, completionsList);
+    await assertCompletions(xmlSnippet, completionsList);
   });
 
   it("will get completion values for UI5 event", async () => {
@@ -49,7 +48,7 @@ describe("the Language Server Client Integration Tests", () => {
                           xmlns="sap.m"> 
                           <List update⇶`;
     const completionsList = ["updateFinished", "updateStarted"];
-    await testCompletions(xmlSnippet, completionsList);
+    await assertCompletions(xmlSnippet, completionsList);
   });
 
   it("will get completion values for UI5 association", async () => {
@@ -58,7 +57,7 @@ describe("the Language Server Client Integration Tests", () => {
                           xmlns="sap.m"> 
                           <List aria⇶`;
     const completionsList = ["ariaLabelledBy"];
-    await testCompletions(xmlSnippet, completionsList);
+    await assertCompletions(xmlSnippet, completionsList);
   });
 
   it("will get completion values for UI5 aggregation", async () => {
@@ -68,7 +67,7 @@ describe("the Language Server Client Integration Tests", () => {
                           <content> 
                             <List> <te⇶`;
     const completionsList = ["contextMenu", "items", "swipeContent"];
-    await testCompletions(xmlSnippet, completionsList);
+    await assertCompletions(xmlSnippet, completionsList);
   });
 
   it("will get completion values for UI5 namespace", async () => {
@@ -76,7 +75,7 @@ describe("the Language Server Client Integration Tests", () => {
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns:u⇶`;
     const completionsList = ["unified", "upload", "util", "ux3"];
-    await testCompletions(xmlSnippet, completionsList);
+    await assertCompletions(xmlSnippet, completionsList);
   });
 
   it("will get completion values for UI5 enum value", async () => {
@@ -85,7 +84,7 @@ describe("the Language Server Client Integration Tests", () => {
                           xmlns="sap.m"> 
                           <List showSeparators="⇶"`;
     const completionsList = ["All", "Inner", "None"];
-    await testCompletions(xmlSnippet, completionsList);
+    await assertCompletions(xmlSnippet, completionsList);
   });
 
   async function setContent(content: string): Promise<void> {
@@ -97,7 +96,7 @@ describe("the Language Server Client Integration Tests", () => {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
-  async function testCompletions(
+  async function assertCompletions(
     xmlSnippet: string,
     expectedCompletionNames: string[]
   ): Promise<void> {
