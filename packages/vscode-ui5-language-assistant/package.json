@@ -28,7 +28,7 @@
       }
     }
   },
-  "repository": "https://github.com/sap/ui5-language-assistant/tree/master/packages/vscode-ui5-ui5-language-assistant",
+  "repository": "https://github.com/sap/ui5-language-assistant/tree/master/packages/vscode-ui5-language-assistant",
   "keywords": [
     "UI5",
     "OpenUI5",

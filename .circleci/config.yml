@@ -9,10 +9,10 @@ jobs:
       - run: yarn
       - run: yarn run ci
       - persist_to_workspace:
-          root: "./packages/vscode-ui5-ui5-language-assistant"
+          root: "./packages/vscode-ui5-language-assistant"
           paths:
             # https://golang.org/pkg/path/filepath/#Match
-            - vscode-ui5-ui5-language-assistant-*
+            - vscode-ui5-language-assistant-*
 
 # TODO: only one parallel worker for CircleCI when in a private repo, uncomment this when going public
 #  build-node12:
