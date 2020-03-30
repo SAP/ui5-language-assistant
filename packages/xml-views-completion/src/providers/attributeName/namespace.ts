@@ -1,6 +1,9 @@
 import { compact, filter, find, includes, map, reject } from "lodash";
-import { UI5Namespace } from "@ui5-editor-tools/semantic-model-types";
-import { isElementSubClass, ui5NodeToFQN } from "@ui5-editor-tools/logic-utils";
+import { UI5Namespace } from "@ui5-language-assistant/semantic-model-types";
+import {
+  isElementSubClass,
+  ui5NodeToFQN
+} from "@ui5-language-assistant/logic-utils";
 import { XMLAttribute } from "@xml-tools/ast";
 import { UI5AttributeNameCompletionOptions } from "./index";
 import { UI5NamespacesInXMLAttributeKeyCompletion } from "../../../api";

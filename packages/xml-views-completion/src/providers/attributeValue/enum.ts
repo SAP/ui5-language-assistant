@@ -7,7 +7,7 @@ import {
   filterMembersForSuggestion
 } from "../utils/filter-members";
 import { UI5AttributeValueCompletionOptions } from "./index";
-import { UI5EnumValue } from "@ui5-editor-tools/semantic-model-types";
+import { UI5EnumValue } from "@ui5-language-assistant/semantic-model-types";
 
 /**
  * Suggests Enum value inside Attribute

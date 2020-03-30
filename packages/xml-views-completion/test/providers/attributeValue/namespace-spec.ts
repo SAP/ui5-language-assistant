@@ -1,15 +1,15 @@
 import { createXMLAttribute, testSuggestionsScenario } from "../../utils";
-import { UI5SemanticModel } from "@ui5-editor-tools/semantic-model-types";
+import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import {
   expectSuggestions,
   expectXMLAttribute,
   generateModel
-} from "@ui5-editor-tools/test-utils";
+} from "@ui5-language-assistant/test-utils";
 import { namespaceValueSuggestions } from "../../../src/providers/attributeValue/namespace";
 import { expectUI5Namespace } from "../attributeName/namespace-spec";
 import { expect } from "chai";
 import { partial } from "lodash";
-import { ui5NodeToFQN } from "@ui5-editor-tools/logic-utils";
+import { ui5NodeToFQN } from "@ui5-language-assistant/logic-utils";
 import { DEFAULT_NS } from "@xml-tools/ast";
 
 const ui5SemanticModel: UI5SemanticModel = generateModel("1.74.0");

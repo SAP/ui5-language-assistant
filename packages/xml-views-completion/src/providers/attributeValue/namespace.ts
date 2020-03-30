@@ -1,6 +1,9 @@
 import { map, find, filter, values } from "lodash";
 import { XMLAttribute } from "@xml-tools/ast";
-import { isElementSubClass, ui5NodeToFQN } from "@ui5-editor-tools/logic-utils";
+import {
+  isElementSubClass,
+  ui5NodeToFQN
+} from "@ui5-language-assistant/logic-utils";
 import { getClassByElement } from "../utils/filter-members";
 import { UI5AttributeValueCompletionOptions } from "./index";
 import { UI5NamespacesInXMLAttributeValueCompletion } from "../../../api";

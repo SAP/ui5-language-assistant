@@ -10,7 +10,7 @@ import {
   UI5Namespace,
   UI5Prop,
   UI5SemanticModel
-} from "@ui5-editor-tools/semantic-model-types";
+} from "@ui5-language-assistant/semantic-model-types";
 import { createXMLAttribute, testSuggestionsScenario } from "../../utils";
 import {
   expectSuggestions,
@@ -21,7 +21,7 @@ import {
   isExistingNamespaceAttribute,
   namespaceKeysSuggestions
 } from "../../../src/providers/attributeName/namespace";
-import { ui5NodeToFQN } from "@ui5-editor-tools/logic-utils";
+import { ui5NodeToFQN } from "@ui5-language-assistant/logic-utils";
 import { getXMLNamespaceKeyPrefix } from "../../../src/providers/utils/xml-ns-key";
 
 const ui5SemanticModel: UI5SemanticModel = generateModel("1.74.0");
