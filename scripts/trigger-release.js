@@ -26,6 +26,11 @@ async function triggerGHReleasesPublish() {
   }
 }
 
+/**
+ * `lerna version` pushes a tag per each new package version.
+ * However we need a single unique tag to trigger the `lerna publish --from-git` on circle-CI
+ * This is why we delete and push the `RELEASE` as part of our release process.
+ */
 async function triggerNPMPublish() {
   const allTags = (await git.tags()).all;
   if (includes(allTags, "RELEASE")) {
@@ -46,5 +51,11 @@ async function triggerNPMPublish() {
   await git.push("origin", "RELEASE");
 }
 
-triggerNPMPublish();
-triggerGHReleasesPublish();
+async function main() {
+  await triggerNPMPublish();
+  // push tags slowly and one at a time to ensure CircleCi recognizes them.
+  await new Promise(r => setTimeout(r, 1000));
+  await triggerGHReleasesPublish();
+}
+
+main();
