@@ -8,34 +8,33 @@ jobs:
       - checkout
       - run: yarn
       - run: yarn run ci
+
+  build-node12:
+    docker:
+      - image: circleci/node:12-browsers
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - run: yarn
+      - run: yarn run ci
       - persist_to_workspace:
           root: "./packages/vscode-ui5-language-assistant"
           paths:
             # https://golang.org/pkg/path/filepath/#Match
             - vscode-ui5-language-assistant-*
 
-# TODO: only one parallel worker for CircleCI when in a private repo, uncomment this when going public
-#  build-node12:
-#    docker:
-#      - image: circleci/node:12-browsers
-#    working_directory: ~/repo
-#    steps:
-#      - checkout
-#      - run: yarn
-#      - run: yarn run ci
-#
-#  build-node10:
-#    docker:
-#      - image: circleci/node:10-browsers
-#    working_directory: ~/repo
-#    steps:
-#      - checkout
-#      - run: yarn
-#      - run: yarn run ci
+  build-node10:
+    docker:
+      - image: circleci/node:10-browsers
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - run: yarn
+      - run: yarn run ci
 
   deploy-npm:
     docker:
-      - image: circleci/node:10-browsers
+      - image: circleci/node:12-browsers
     working_directory: ~/repo
     steps:
       - checkout
@@ -44,6 +43,7 @@ jobs:
       - run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
       # To help debug when lerna detects changes to the working tree and fails the publish
       - run: git status
+      - run: yarn run lerna:publish
 
   deploy-gh-releases:
     docker:
@@ -63,10 +63,12 @@ workflows:
   version: 2
   build:
     jobs:
-      - build-node13:
+      - build-node10
+      - build-node12:
           filters:
             tags:
               only: /^vscode-ui5-language-assistant@[0-9]+(.[0-9]+)*/
+      - build-node13
       - deploy-npm:
           filters:
             tags:
@@ -75,7 +77,7 @@ workflows:
               ignore: /.*/
       - deploy-gh-releases:
           requires:
-            - build-node13
+            - build-node12
           filters:
             tags:
               only: /^vscode-ui5-language-assistant@[0-9]+(.[0-9]+)*/
