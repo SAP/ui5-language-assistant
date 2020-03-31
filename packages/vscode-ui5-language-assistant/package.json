@@ -1,7 +1,8 @@
 {
   "name": "vscode-ui5-language-assistant",
+  "displayName": "UI5 Language Assistant",
   "private": true,
-  "description": "UI5 Language Assistant for VSCode",
+  "description": "UI5 extension for VSCode",
   "version": "1.0.0",
   "publisher": "SAPSE",
   "license": "Apache-2.0",
