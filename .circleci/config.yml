@@ -1,4 +1,4 @@
-version: 2
+version: 2.1
 jobs:
   build-node13:
     docker:
@@ -17,11 +17,6 @@ jobs:
       - checkout
       - run: yarn
       - run: yarn run ci
-      - persist_to_workspace:
-          root: "./packages/vscode-ui5-language-assistant"
-          paths:
-            # https://golang.org/pkg/path/filepath/#Match
-            - vscode-ui5-language-assistant-*
 
   build-node10:
     docker:
@@ -45,6 +40,20 @@ jobs:
       - run: git status
       - run: yarn run lerna:publish
 
+  prepare-vsix:
+    docker:
+      - image: circleci/node:12-browsers
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - run: yarn
+      - run: yarn run ci
+      - persist_to_workspace:
+          root: "./packages/vscode-ui5-language-assistant"
+          paths:
+            # https://golang.org/pkg/path/filepath/#Match
+            - vscode-ui5-language-assistant-*
+
   deploy-gh-releases:
     docker:
       - image: circleci/golang:1.13
@@ -61,23 +70,28 @@ jobs:
 
 workflows:
   version: 2
-  build:
+  voter:
     jobs:
       - build-node10
-      - build-node12:
-          filters:
-            tags:
-              only: /^vscode-ui5-language-assistant@[0-9]+(.[0-9]+)*/
+      - build-node12
       - build-node13
+  release:
+    jobs:
       - deploy-npm:
           filters:
             tags:
               only: /^RELEASE/
             branches:
               ignore: /.*/
+      - prepare-vsix:
+          filters:
+            tags:
+              only: /^vscode-ui5-language-assistant@[0-9]+(.[0-9]+)*/
+            branches:
+              ignore: /.*/
       - deploy-gh-releases:
           requires:
-            - build-node12
+            - prepare-vsix
           filters:
             tags:
               only: /^vscode-ui5-language-assistant@[0-9]+(.[0-9]+)*/
