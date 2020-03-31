@@ -1,4 +1,4 @@
-[![CircleCI](https://circleci.com/gh/sap-staging/ui5-language-assistant.svg?style=svg)](https://circleci.com/gh/sap-staging/ui5-language-assistant)
+[![CircleCI](https://circleci.com/gh/sap/ui5-language-assistant.svg?style=svg)](https://circleci.com/gh/sap/ui5-language-assistant)
 [![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 [![DependentBot](https://api.dependabot.com/badges/status?host=github&repo=SAP/ui5-language-assistant)](https://dependabot.com/)
