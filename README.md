@@ -7,11 +7,15 @@
 
 This npm [mono-repo][mono-repo] contains editor related tooling for [SAP UI5][ui5] and [SAP OpenUI5][openui5] projects.
 
-It currently contains the following packages:
+It currently contains:
+
+The [UI5 language assistant](./packages/vscode-ui5-language-assistant) VSCode Extension.
+
+The following packages:
 
 - [![npm-xml-views-completion][npm-xml-views-completion-image]][npm-xml-views-completion-url] [@ui5-language-assistant/xml-views-completion](./packages/xml-views-completion) Logic for UI5 XML views code assist.
-- [![npm-semantic-model][npm-semantic-model-image]][npm-semantic-model-url] [@ui5-language-assistant/semantic-model](./packages/semantic-model) Logic for UI5 XML views code assist.
-- [![npm-semantic-model-types][npm-semantic-model-types-image]][npm-semantic-model-types-url] [@ui5-language-assistant/semantic-model-types](./packages/semantic-model-types) Logic for UI5 XML views code assist.
+- [![npm-semantic-model][npm-semantic-model-image]][npm-semantic-model-url] [@ui5-language-assistant/semantic-model](./packages/semantic-model) Data structure and related utils to represent the UI5 metadata.
+- [![npm-semantic-model-types][npm-semantic-model-types-image]][npm-semantic-model-types-url] [@ui5-language-assistant/semantic-model-types](./packages/semantic-model-types) Type signatures for the semantic model.
 
 [npm-xml-views-completion-image]: https://img.shields.io/npm/v/@ui5-language-assistant/xml-views-completion.svg
 [npm-xml-views-completion-url]: https://www.npmjs.com/package/@ui5-language-assistant/xml-views-completion
