@@ -1365,13 +1365,6 @@
     "@xml-tools/parser" "^1.0.3"
     lodash "4.17.15"
 
-"@xml-tools/common@^0.0.3":
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/@xml-tools/common/-/common-0.0.3.tgz#9de26f5b3279ea6bca4715205e0b42ee4872742a"
-  integrity sha512-CfKQsEhvvDp4jv9/3zd2yVIBcZOe7CiS3XORg2R+RzF8mmiCSSeqWF9g48P4djT3ieBpMrVCtOdsaJj9Df2ujg==
-  dependencies:
-    lodash "4.17.15"
-
 "@xml-tools/common@^0.0.5":
   version "0.0.5"
   resolved "https://registry.yarnpkg.com/@xml-tools/common/-/common-0.0.5.tgz#b16bff77c8ee7fd8da685dcb6655b78d897996e6"
@@ -1379,13 +1372,13 @@
   dependencies:
     lodash "4.17.15"
 
-"@xml-tools/content-assist@3.1.1":
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/@xml-tools/content-assist/-/content-assist-3.1.1.tgz#cb6535d0fb6cdba6413c58a25fe10c4d7749e5ff"
-  integrity sha512-vgz8LhoLJxJgi64wPWlG+j1hGE9uGfecobAM90rKkZDHwMASZVHpxrHKacctkblzMFuG/BxYgw2uUnAs4CUyGQ==
+"@xml-tools/content-assist@3.1.3":
+  version "3.1.3"
+  resolved "https://registry.yarnpkg.com/@xml-tools/content-assist/-/content-assist-3.1.3.tgz#697d8807c1c0b5f0aa999e514ac20fa78d0f4e0f"
+  integrity sha512-Oua/q/exqMBsHRGhuqOHUy7Dv1XLS5sYzoNhZq59Qay0BB4PiGC2Jq+Sb9aV/OrQDH3li7eFSQLVV3dkqjAPbQ==
   dependencies:
-    "@xml-tools/common" "^0.0.3"
-    "@xml-tools/parser" "^1.0.1"
+    "@xml-tools/common" "^0.0.5"
+    "@xml-tools/parser" "^1.0.3"
     lodash "4.17.15"
 
 "@xml-tools/parser@1.0.2":
@@ -1395,7 +1388,7 @@
   dependencies:
     chevrotain "6.5.0"
 
-"@xml-tools/parser@1.0.3", "@xml-tools/parser@^1.0.1", "@xml-tools/parser@^1.0.3":
+"@xml-tools/parser@1.0.3", "@xml-tools/parser@^1.0.3":
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/@xml-tools/parser/-/parser-1.0.3.tgz#b47f4c86935f3f8cfd107894b4ef91a2fb4e36f3"
   integrity sha512-A0nBNzGJEDu7xUw8RBoooT35r7yDzFpJ004aCAHq7Nd1sVWXdSaDyBViPTdmk6jMnXF0KeWw4nLeLnc4Bm43Yg==
@@ -6506,10 +6499,10 @@ rimraf@2.6.3:
   dependencies:
     glob "^7.1.3"
 
-rimraf@3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/rimraf/-/rimraf-3.0.1.tgz#48d3d4cb46c80d388ab26cd61b1b466ae9ae225a"
-  integrity sha512-IQ4ikL8SjBiEDZfk+DFVwqRK8md24RWMEJkdSlgNLkyyAImcjf8SWvU1qFMDOb4igBClbTQ/ugPqXcRwdFTxZw==
+rimraf@3.0.2, rimraf@^3.0.0:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/rimraf/-/rimraf-3.0.2.tgz#f1a5402ba6220ad52cc1282bac1ae3aa49fd061a"
+  integrity sha512-JZkJMZkAGFFPP2YqXZXPbMlMBgsxzE8ILs4lMIX/2o0L9UBw9O/Y3o6wFw/i9YLapcUJWwqbi3kdxIPdC62TIA==
   dependencies:
     glob "^7.1.3"
 
@@ -6517,13 +6510,6 @@ rimraf@^2.5.2, rimraf@^2.5.4, rimraf@^2.6.2, rimraf@^2.6.3:
   version "2.7.1"
   resolved "https://registry.yarnpkg.com/rimraf/-/rimraf-2.7.1.tgz#35797f13a7fdadc566142c29d4f07ccad483e3ec"
   integrity sha512-uWjbaKIK3T1OSVptzX7Nl6PvQ3qAGtKEtVRjRuazjfL3Bx5eI409VZSqgND+4UNnmzLVdPj9FqFJNPqBZFve4w==
-  dependencies:
-    glob "^7.1.3"
-
-rimraf@^3.0.0:
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/rimraf/-/rimraf-3.0.2.tgz#f1a5402ba6220ad52cc1282bac1ae3aa49fd061a"
-  integrity sha512-JZkJMZkAGFFPP2YqXZXPbMlMBgsxzE8ILs4lMIX/2o0L9UBw9O/Y3o6wFw/i9YLapcUJWwqbi3kdxIPdC62TIA==
   dependencies:
     glob "^7.1.3"
 
@@ -7596,10 +7582,10 @@ vscode-languageserver-protocol@^3.15.2, vscode-languageserver-protocol@^3.15.3:
     vscode-jsonrpc "^5.0.1"
     vscode-languageserver-types "3.15.1"
 
-vscode-languageserver-textdocument@1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/vscode-languageserver-textdocument/-/vscode-languageserver-textdocument-1.0.0.tgz#957381672eb3f507aa320e9f6d7efdfcb767d9fe"
-  integrity sha512-9E3hfoknSe9wX5Bed4rFbjkWdT9Oazw+suyCQ6ZbS68r3SAwue5M7xHd9WX9jBHguAai+qmwr5dMIf7gmzQryw==
+vscode-languageserver-textdocument@1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/vscode-languageserver-textdocument/-/vscode-languageserver-textdocument-1.0.1.tgz#178168e87efad6171b372add1dea34f53e5d330f"
+  integrity sha512-UIcJDjX7IFkck7cSkNNyzIz5FyvpQfY7sdzVy+wkKN/BLaD4DQ0ppXQrKePomCxTS7RrolK1I0pey0bG9eh8dA==
 
 vscode-languageserver-types@3.15.1:
   version "3.15.1"
