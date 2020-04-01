@@ -7582,10 +7582,10 @@ vscode-languageserver-protocol@^3.15.2, vscode-languageserver-protocol@^3.15.3:
     vscode-jsonrpc "^5.0.1"
     vscode-languageserver-types "3.15.1"
 
-vscode-languageserver-textdocument@1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/vscode-languageserver-textdocument/-/vscode-languageserver-textdocument-1.0.0.tgz#957381672eb3f507aa320e9f6d7efdfcb767d9fe"
-  integrity sha512-9E3hfoknSe9wX5Bed4rFbjkWdT9Oazw+suyCQ6ZbS68r3SAwue5M7xHd9WX9jBHguAai+qmwr5dMIf7gmzQryw==
+vscode-languageserver-textdocument@1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/vscode-languageserver-textdocument/-/vscode-languageserver-textdocument-1.0.1.tgz#178168e87efad6171b372add1dea34f53e5d330f"
+  integrity sha512-UIcJDjX7IFkck7cSkNNyzIz5FyvpQfY7sdzVy+wkKN/BLaD4DQ0ppXQrKePomCxTS7RrolK1I0pey0bG9eh8dA==
 
 vscode-languageserver-types@3.15.1:
   version "3.15.1"
