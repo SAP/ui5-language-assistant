@@ -153,6 +153,10 @@ function createInsertText(suggestion: UI5XMLViewCompletion): string {
       }
       break;
     }
+    // Attribute value
+    case "UI5NamespacesInXMLAttributeValue":
+      insertText = `${ui5NodeToFQN(suggestion.ui5Node)}`;
+      break;
   }
 
   return insertText;
