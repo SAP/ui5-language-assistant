@@ -28,7 +28,7 @@ export function ui5NodeToFQN(ui5Node: BaseUI5Node): string;
 export function getSuperClasses(clazz: UI5Class): UI5Class[];
 
 /**
- * Returns `true` iff the provided class extends "sap.ui.core.Element"
+ * Returns `true` if the provided class extends "sap.ui.core.Element"
  * - The inheritance relation may be transitive.
  * - Note that sap.ui.core.Control extends sap.ui.core.Element directly.
  */

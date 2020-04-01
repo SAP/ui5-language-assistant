@@ -178,6 +178,20 @@ describe("the UI5 language assistant Code Completion Services", () => {
     expect(suggestionKinds).to.deep.equal([CompletionItemKind.Text]);
   });
 
+  it("will get completion values for UI5 xmlns value namespace", () => {
+    const xmlSnippet = `<mvc:View 
+                          xmlns:mvc="sap.ui.core.mvc" 
+                          xmlns:ux3="⇶"`;
+    const suggestions = getSuggestions(xmlSnippet);
+    const suggestionNames = map(suggestions, suggestion => ({
+      label: suggestion.label,
+      text: suggestion.insertText
+    }));
+    expect(suggestionNames).to.deep.equalInAnyOrder([
+      { label: "ux3", text: "sap.ui.ux3" }
+    ]);
+  });
+
   it("will get completion values for UI5 enum value", () => {
     const xmlSnippet = `<mvc:View 
                           xmlns:mvc="sap.ui.core.mvc" 
