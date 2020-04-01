@@ -78,6 +78,14 @@ describe("the Language Server Client Integration Tests", () => {
     await assertCompletions(xmlSnippet, completionsList);
   });
 
+  it("will get completion values for UI5 namespace value", async () => {
+    const xmlSnippet = `<mvc:View
+                         xmlns:mvc="sap.ui.core.mvc"
+                         xmlns:rowmodes="table⇶">`;
+    const completionsList = ["rowmodes"];
+    await assertCompletions(xmlSnippet, completionsList);
+  });
+
   it("will get completion values for UI5 enum value", async () => {
     const xmlSnippet = `<mvc:View 
                           xmlns:mvc="sap.ui.core.mvc" 
