@@ -3,7 +3,7 @@
   "displayName": "UI5 Language Assistant",
   "private": true,
   "description": "UI5 extension for VSCode",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "publisher": "SAPSE",
   "license": "Apache-2.0",
   "main": "./lib/src/extension",
@@ -49,7 +49,7 @@
     "bundle": "node ./scripts/bundle-vsix"
   },
   "dependencies": {
-    "@ui5-language-assistant/language-server": "^1.0.0",
+    "@ui5-language-assistant/language-server": "^1.1.0",
     "vscode-languageclient": "6.1.0"
   },
   "devDependencies": {

@@ -1,6 +1,6 @@
 {
   "name": "@ui5-language-assistant/language-server",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "UI5 Language Server",
   "keywords": [
     "LSP",
@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "@ui5-language-assistant/semantic-model": "^1.0.0",
-    "@ui5-language-assistant/xml-views-completion": "^1.0.0",
+    "@ui5-language-assistant/xml-views-completion": "^1.1.0",
     "@xml-tools/ast": "4.0.2",
     "@xml-tools/parser": "1.0.3",
     "lodash": "4.17.15",
