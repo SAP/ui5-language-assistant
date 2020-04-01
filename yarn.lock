@@ -1365,13 +1365,6 @@
     "@xml-tools/parser" "^1.0.3"
     lodash "4.17.15"
 
-"@xml-tools/common@^0.0.3":
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/@xml-tools/common/-/common-0.0.3.tgz#9de26f5b3279ea6bca4715205e0b42ee4872742a"
-  integrity sha512-CfKQsEhvvDp4jv9/3zd2yVIBcZOe7CiS3XORg2R+RzF8mmiCSSeqWF9g48P4djT3ieBpMrVCtOdsaJj9Df2ujg==
-  dependencies:
-    lodash "4.17.15"
-
 "@xml-tools/common@^0.0.5":
   version "0.0.5"
   resolved "https://registry.yarnpkg.com/@xml-tools/common/-/common-0.0.5.tgz#b16bff77c8ee7fd8da685dcb6655b78d897996e6"
@@ -1379,13 +1372,13 @@
   dependencies:
     lodash "4.17.15"
 
-"@xml-tools/content-assist@3.1.1":
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/@xml-tools/content-assist/-/content-assist-3.1.1.tgz#cb6535d0fb6cdba6413c58a25fe10c4d7749e5ff"
-  integrity sha512-vgz8LhoLJxJgi64wPWlG+j1hGE9uGfecobAM90rKkZDHwMASZVHpxrHKacctkblzMFuG/BxYgw2uUnAs4CUyGQ==
+"@xml-tools/content-assist@3.1.3":
+  version "3.1.3"
+  resolved "https://registry.yarnpkg.com/@xml-tools/content-assist/-/content-assist-3.1.3.tgz#697d8807c1c0b5f0aa999e514ac20fa78d0f4e0f"
+  integrity sha512-Oua/q/exqMBsHRGhuqOHUy7Dv1XLS5sYzoNhZq59Qay0BB4PiGC2Jq+Sb9aV/OrQDH3li7eFSQLVV3dkqjAPbQ==
   dependencies:
-    "@xml-tools/common" "^0.0.3"
-    "@xml-tools/parser" "^1.0.1"
+    "@xml-tools/common" "^0.0.5"
+    "@xml-tools/parser" "^1.0.3"
     lodash "4.17.15"
 
 "@xml-tools/parser@1.0.2":
@@ -1395,7 +1388,7 @@
   dependencies:
     chevrotain "6.5.0"
 
-"@xml-tools/parser@1.0.3", "@xml-tools/parser@^1.0.1", "@xml-tools/parser@^1.0.3":
+"@xml-tools/parser@1.0.3", "@xml-tools/parser@^1.0.3":
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/@xml-tools/parser/-/parser-1.0.3.tgz#b47f4c86935f3f8cfd107894b4ef91a2fb4e36f3"
   integrity sha512-A0nBNzGJEDu7xUw8RBoooT35r7yDzFpJ004aCAHq7Nd1sVWXdSaDyBViPTdmk6jMnXF0KeWw4nLeLnc4Bm43Yg==
