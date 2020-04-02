@@ -14,8 +14,7 @@ import { getCompletionItems } from "./completion-items";
 
 const connection = createConnection(ProposedFeatures.all);
 const documents = new TextDocuments(TextDocument);
-let model: UI5SemanticModel;
-let isSemanticModelCreated = false;
+let getSemanticModelPromise: Promise<UI5SemanticModel> | undefined = undefined;
 
 connection.onInitialize(() => {
   return {
@@ -32,17 +31,15 @@ connection.onInitialize(() => {
 });
 
 connection.onInitialized(async () => {
-  model = await getSemanticModel();
-  if (model) {
-    isSemanticModelCreated = true;
-  }
+  getSemanticModelPromise = getSemanticModel();
 });
 
 connection.onCompletion(
   async (
     textDocumentPosition: TextDocumentPositionParams
   ): Promise<CompletionItem[]> => {
-    if (isSemanticModelCreated) {
+    if (getSemanticModelPromise !== undefined) {
+      const model = await getSemanticModelPromise;
       const documentUri = textDocumentPosition.textDocument.uri;
       const document = documents.get(documentUri);
       if (document) {
