@@ -120,6 +120,7 @@ export function generateModel(
 
   const libToFileContent = loadLibraries(version);
   const model = generate({
+    version: version,
     libraries: libToFileContent,
     typeNameFix: getTypeNameFixForVersion(version)
   });

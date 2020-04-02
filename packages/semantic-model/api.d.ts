@@ -16,6 +16,7 @@ export declare const GENERATED_LIBRARY: string;
  * @param opts.strict - If true, throw an error when encountering an unexpected structure or value in a library. Default is true.
  */
 export function generate(opts: {
+  version: string;
   libraries: Record<string, Json>;
   typeNameFix: Record<string, string | undefined>;
   strict?: boolean;

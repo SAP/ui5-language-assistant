@@ -20,6 +20,7 @@ context(
       ): () => UI5SemanticModel {
         const generateCall = (): UI5SemanticModel => {
           return generate({
+            version: "1.74.0",
             libraries: {
               validLib: {
                 "$schema-ref":
