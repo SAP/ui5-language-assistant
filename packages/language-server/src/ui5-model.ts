@@ -9,7 +9,6 @@ import {
 } from "@ui5-language-assistant/semantic-model";
 import { Fetcher } from "api";
 
-// TODO: use 1.71.x
 const DEFAULT_UI5_VERSION = "1.71.14";
 
 let fetcher: Fetcher = fetch;
