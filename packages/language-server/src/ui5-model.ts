@@ -7,23 +7,18 @@ import {
   Json,
   TypeNameFix
 } from "@ui5-language-assistant/semantic-model";
-import { Fetcher } from "api";
+import { Fetcher } from "../api";
 
 const DEFAULT_UI5_VERSION = "1.71.14";
 
-let fetcher: Fetcher = fetch;
-
-// These functions are for testing purposes
-/* istanbul ignore next */
-export function getFetch(): Fetcher {
-  return fetcher;
-}
-/* istanbul ignore next */
-export function setFetch(fetch: Fetcher): void {
-  fetcher = fetch;
-}
-
 export async function getSemanticModel(): Promise<UI5SemanticModel> {
+  return getSemanticModelWithFetcher(fetch);
+}
+
+// This function is exported for testing purposes (using a mock fetcher)
+export async function getSemanticModelWithFetcher(
+  fetcher: Fetcher
+): Promise<UI5SemanticModel> {
   const version = DEFAULT_UI5_VERSION;
   const jsonMap: Record<string, Json> = {};
   const baseUrl = `https://sapui5.hana.ondemand.com/${version}/test-resources/`;
