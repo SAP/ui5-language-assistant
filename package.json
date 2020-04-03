@@ -30,7 +30,7 @@
     "clean": "lerna run clean"
   },
   "devDependencies": {
-    "@types/chai": "4.2.7",
+    "@types/chai": "4.2.11",
     "@types/mocha": "5.2.7",
     "@types/lodash": "4.14.149",
     "@types/deep-equal-in-any-order": "1.0.1",
