@@ -58,16 +58,15 @@ export function classesSuggestions(
     const classFqn = ui5NodeToFQN(_);
     const matchingNamespace = startsWith(classFqn, prefixParts.ns);
     const classFqnWithoutPrefix = classFqn.substring(prefixParts.ns.length);
-    // TODO: should we add more contraints here and check "includes" on baseName of FQN only?
-    //   - But if we do that we may not be consistent with how we behave when no XMLNS is provided...
-    //   - Perhaps this whole flow of suggesting things that are not accessiable (no relevant xmlns defined) should
-    //   - instead be handled by auto-importing / defining said namespaces/prefixes.
     const matchingBasename = includes(classFqnWithoutPrefix, prefixParts.base);
-
     return matchingNamespace && matchingBasename;
   });
 
-  return map(classesMatchingPrefix, _ => ({
+  const concreteClassesMatchingPrefix = filter(
+    classesMatchingPrefix,
+    _ => !_.abstract
+  );
+  return map(concreteClassesMatchingPrefix, _ => ({
     type: "UI5ClassesInXMLTagName",
     ui5Node: _,
     astNode: opts.element
