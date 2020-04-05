@@ -1,10 +1,7 @@
-// This file can be used to download api.json files for UI5 version we want to add to the test directory.
-// It is run from the download-resources script in the package.json.
-// To get a different version change the version number in the last line of this file.
 import { TestModelVersion } from "../../api";
-import { reduce, forEach, keys } from "lodash";
-import { dirname, resolve } from "path";
-import { writeFile, mkdirs } from "fs-extra";
+import { reduce, keys, map } from "lodash";
+import { resolve } from "path";
+import { writeFile, mkdirs, pathExists } from "fs-extra";
 import fetch from "node-fetch";
 
 async function getLibs(version: TestModelVersion): Promise<string[]> {
@@ -25,7 +22,8 @@ async function getLibs(version: TestModelVersion): Promise<string[]> {
 }
 
 export async function addUi5Resources(
-  version: TestModelVersion
+  version: TestModelVersion,
+  folder: string
 ): Promise<void> {
   // CDN libraries (example URL):
   // https://sapui5-sapui5.dispatcher.us1.hana.ondemand.com/test-resources/sap/m/designtime/api.json
@@ -45,27 +43,25 @@ export async function addUi5Resources(
     Object.create(null)
   );
 
-  const pkgJsonPath = require.resolve(
-    "@ui5-language-assistant/test-utils/package.json"
+  await mkdirs(folder);
+
+  // Write files in parallel
+  await Promise.all(
+    map(nameToFile, (url, name) => {
+      return writeUrlToFile(
+        url,
+        resolve(folder, `${name}.designtime.api.json`)
+      );
+    })
   );
-  const rootPkgFolder = dirname(pkgJsonPath);
-  const modelFolder = resolve(
-    rootPkgFolder,
-    "resources",
-    "model",
-    version,
-    "input"
-  );
-  await mkdirs(modelFolder);
-  forEach(nameToFile, async (url, name) => {
-    await writeUrlToFile(
-      url,
-      resolve(modelFolder, `${name}.designtime.api.json`)
-    );
-  });
 }
 
 async function writeUrlToFile(url: string, file: string): Promise<void> {
+  // Don't download the file if it already exists
+  if (await pathExists(file)) {
+    return;
+  }
+
   console.log(`fetching from ${url}`);
   const response = await fetch(url);
   if (!response.ok) {
@@ -80,5 +76,3 @@ async function writeUrlToFile(url: string, file: string): Promise<void> {
   }
   await writeFile(file, text);
 }
-
-addUi5Resources("1.71.14");

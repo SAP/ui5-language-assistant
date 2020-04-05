@@ -2,7 +2,8 @@ import { expect } from "chai";
 import { cloneDeep } from "lodash";
 import {
   buildUI5Class,
-  generateModel
+  generateModel,
+  GEN_MODEL_TIMEOUT
 } from "@ui5-language-assistant/test-utils";
 
 import { getSuperClasses } from "../../src/api";
@@ -33,8 +34,9 @@ describe("The @ui5-language-assistant/logic-utils <getSuperClasses> function", (
     expect(superClasses).to.include.members([clazzA, clazzB]);
   });
 
-  it("will avoid infinite loops in case of cyclic extends clauses", () => {
-    const ui5Model = cloneDeep(generateModel("1.74.0"));
+  it("will avoid infinite loops in case of cyclic extends clauses", async function() {
+    this.timeout(GEN_MODEL_TIMEOUT);
+    const ui5Model = cloneDeep(await generateModel("1.74.0"));
     const fAvatar = ui5Model.classes["sap.f.Avatar"];
     const mAvatar = fAvatar.extends as UI5Class;
     // create cyclic extends refs

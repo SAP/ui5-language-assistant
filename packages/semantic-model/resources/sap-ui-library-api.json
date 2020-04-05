@@ -369,7 +369,8 @@
         "deprecated",
         "examples",
         "references",
-        "ui5-metamodel"
+        "ui5-metamodel",
+        "export"
       ]
     },
     "obj-event": {

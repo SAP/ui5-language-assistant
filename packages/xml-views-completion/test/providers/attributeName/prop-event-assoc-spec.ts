@@ -5,13 +5,12 @@ import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import {
   expectSuggestions,
   expectXMLAttribute,
-  generateModel
+  generateModel,
+  GEN_MODEL_TIMEOUT
 } from "@ui5-language-assistant/test-utils";
 import { UI5XMLViewCompletion } from "../../../api";
 import { propEventAssocSuggestions } from "../../../src/providers/attributeName/prop-event-assoc";
 import { testSuggestionsScenario } from "../../utils";
-
-const ui5SemanticModel: UI5SemanticModel = generateModel("1.74.0");
 
 const uiCoreControlProperties = [
   "blocked",
@@ -47,6 +46,13 @@ const allPropsEventsAssociations = uiCoreControlProperties
   .concat(radioButtonGroupEvents);
 
 describe("The ui5-language-assistant xml-views-completion", () => {
+  let ui5SemanticModel: UI5SemanticModel;
+
+  before(async function() {
+    this.timeout(GEN_MODEL_TIMEOUT);
+    ui5SemanticModel = await generateModel("1.74.0");
+  });
+
   context("properties, events and associations", () => {
     context("applicable scenarios", () => {
       it("will suggest when no prefix provided", () => {

@@ -7,7 +7,9 @@ import {
   expectExists,
   expectModelObjectsEqual,
   isObject,
-  getFQN
+  getFQN,
+  downloadLibraries,
+  GEN_MODEL_TIMEOUT
 } from "@ui5-language-assistant/test-utils";
 import {
   UI5SemanticModel,
@@ -233,26 +235,32 @@ context("The ui5-language-assistant semantic model package API", () => {
 
   function createModelConsistencyTests(version: TestModelVersion): void {
     describe(`Model generated from ${version}`, () => {
-      it(`is created successfully in strict mode`, () => {
-        const model = generateModel(version);
+      before(async function() {
+        this.timeout(GEN_MODEL_TIMEOUT);
+        await downloadLibraries(version);
+      });
+
+      it(`is created successfully in strict mode`, async () => {
+        const model = await generateModel(version, false);
         expect(model).to.exist;
       });
-      it(`has correct parent on root symbols`, () => {
-        const model = generateModel(version);
+      it(`has correct parent on root symbols`, async () => {
+        const model = await generateModel(version, false);
         assertRootSymbolsParent(model);
       });
-      it(`has correct parent on symbols' properties`, () => {
-        const model = generateModel(version);
+      it(`has correct parent on symbols' properties`, async () => {
+        const model = await generateModel(version, false);
         assertSymbolPropertiesParent(model);
       });
-      it(`has only resolved types`, () => {
-        const model = generateModel(version);
+      it(`has only resolved types`, async () => {
+        const model = await generateModel(version, false);
         assertTypesAreResolved(model);
       });
       // TODO: assert no cyclic references in extends or implements or parent - maybe not in a test
     });
   }
 
+  // TOOO add 1.75.0
   const versions: TestModelVersion[] = ["1.60.14", "1.74.0", "1.71.14"];
   for (const version of versions) {
     createModelConsistencyTests(version);
@@ -263,8 +271,9 @@ context("The ui5-language-assistant semantic model package API", () => {
     const objectNotExtensibleMatcher = "not extensible";
     const cannotDeleteMatcher = "Cannot delete";
     let model: UI5SemanticModel;
-    before(() => {
-      model = generateModel("1.74.0");
+    before(async function() {
+      this.timeout(GEN_MODEL_TIMEOUT);
+      model = await generateModel("1.74.0");
     });
 
     it("cannot change first-level member of the model", () => {

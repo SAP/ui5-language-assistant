@@ -1,6 +1,0 @@
-{
-  "$schema-ref": "http://schemas.sap.com/sapui5/designtime/api.json/1.0",
-  "version": "1.71.12",
-  "library": "sap.ui.generic.template",
-  "symbols": []
-}

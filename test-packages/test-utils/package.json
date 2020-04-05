@@ -4,7 +4,6 @@
   "private": true,
   "description": "Test Utils",
   "files": [
-    "resources",
     "lib/src",
     "api.d.ts",
     "src"
@@ -22,10 +21,9 @@
   },
   "scripts": {
     "ci": "npm-run-all clean compile lint",
-    "clean": "rimraf ./lib ./coverage ./nyc_output",
+    "clean": "rimraf ./lib ./coverage ./nyc_output ./.model-cache",
     "compile": "yarn run clean && tsc -p .",
     "compile:watch": "tsc -p . --watch",
-    "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore",
-    "download-resources": "node ./lib/src/utils/download-ui5-resources.js"
+    "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore"
   }
 }

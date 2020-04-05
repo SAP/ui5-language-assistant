@@ -1,12 +1,19 @@
 import { map, forEach } from "lodash";
 import { expect } from "chai";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
-import { generateModel } from "@ui5-language-assistant/test-utils";
+import {
+  generateModel,
+  GEN_MODEL_TIMEOUT
+} from "@ui5-language-assistant/test-utils";
 import { findClassesMatchingType, ui5NodeToFQN } from "../../src/api";
 
-const ui5Model: UI5SemanticModel = generateModel("1.74.0");
-
 describe("The @ui5-language-assistant/logic-utils <findClassesMatchingType> function", () => {
+  let ui5Model: UI5SemanticModel;
+  before(async function() {
+    this.timeout(GEN_MODEL_TIMEOUT);
+    ui5Model = await generateModel("1.74.0");
+  });
+
   it("can locate classes matching an interface directly", () => {
     const targetInterface = ui5Model.interfaces["sap.m.IconTab"];
     const matchingClasses = findClassesMatchingType({
@@ -54,7 +61,8 @@ describe("The @ui5-language-assistant/logic-utils <findClassesMatchingType> func
       "sap.m.List",
       "sap.m.ListBase",
       "sap.m.Table",
-      "sap.m.Tree"
+      "sap.m.Tree",
+      "sap.ca.ui.Notes"
     ]);
   });
 });

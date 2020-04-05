@@ -9,13 +9,21 @@ import {
   CompletionItem
 } from "vscode-languageserver";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
-import { generateModel } from "@ui5-language-assistant/test-utils";
+import {
+  generateModel,
+  GEN_MODEL_TIMEOUT
+} from "@ui5-language-assistant/test-utils";
 
 import { getCompletionItems, computeLSPKind } from "../src/completion-items";
 
-const ui5SemanticModel: UI5SemanticModel = generateModel("1.74.0"); //TODO: use 1.71.x
-
 describe("the UI5 language assistant Code Completion Services", () => {
+  let ui5SemanticModel: UI5SemanticModel;
+  before(async function() {
+    this.timeout(GEN_MODEL_TIMEOUT);
+    //TODO: use 1.71.x
+    ui5SemanticModel = await generateModel("1.74.0");
+  });
+
   // Return the first part of a tag name suggestion insert text
   function getTagName(insertText: string | undefined): string | undefined {
     if (insertText === undefined) {
@@ -172,7 +180,12 @@ describe("the UI5 language assistant Code Completion Services", () => {
       "upload",
       "util",
       "ux3",
-      "uxap"
+      "uxap",
+      "ubc",
+      "ui",
+      "ui", // This "ui" is in a different parent
+      "ui5",
+      "ulc"
     ]);
 
     expect(suggestionKinds).to.deep.equal([CompletionItemKind.Text]);
@@ -241,32 +254,35 @@ describe("the UI5 language assistant Code Completion Services", () => {
     expectLspKind("UI5EnumsInXMLAttributeValue", CompletionItemKind.EnumMember);
     expectLspKind("UI5UnknownKey", CompletionItemKind.Text);
   });
+
+  function expectLspKind(
+    suggestionType: string,
+    expectedKind: CompletionItemKind
+  ): void {
+    /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+    const suggestion: any = { type: suggestionType };
+    const lspKind = computeLSPKind(suggestion);
+    expect(lspKind).to.equal(expectedKind);
+  }
+
+  function createTextDocument(
+    languageId: string,
+    content: string
+  ): TextDocument {
+    return TextDocument.create("uri", languageId, 0, content);
+  }
+
+  function getSuggestions(xmlSnippet: string): CompletionItem[] {
+    const xmlText = xmlSnippet.replace("⇶", "");
+    const offset = xmlSnippet.indexOf("⇶");
+    const doc: TextDocument = createTextDocument("xml", xmlText);
+    const pos: Position = doc.positionAt(offset);
+    const uri: TextDocumentIdentifier = { uri: "uri" };
+    const textDocPositionParams: TextDocumentPositionParams = {
+      textDocument: uri,
+      position: pos
+    };
+
+    return getCompletionItems(ui5SemanticModel, textDocPositionParams, doc);
+  }
 });
-
-function expectLspKind(
-  suggestionType: string,
-  expectedKind: CompletionItemKind
-): void {
-  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-  const suggestion: any = { type: suggestionType };
-  const lspKind = computeLSPKind(suggestion);
-  expect(lspKind).to.equal(expectedKind);
-}
-
-function createTextDocument(languageId: string, content: string): TextDocument {
-  return TextDocument.create("uri", languageId, 0, content);
-}
-
-function getSuggestions(xmlSnippet: string): CompletionItem[] {
-  const xmlText = xmlSnippet.replace("⇶", "");
-  const offset = xmlSnippet.indexOf("⇶");
-  const doc: TextDocument = createTextDocument("xml", xmlText);
-  const pos: Position = doc.positionAt(offset);
-  const uri: TextDocumentIdentifier = { uri: "uri" };
-  const textDocPositionParams: TextDocumentPositionParams = {
-    textDocument: uri,
-    position: pos
-  };
-
-  return getCompletionItems(ui5SemanticModel, textDocPositionParams, doc);
-}

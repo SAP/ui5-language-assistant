@@ -7,14 +7,22 @@ import {
   UI5Aggregation,
   UI5SemanticModel
 } from "@ui5-language-assistant/semantic-model-types";
-import { generateModel } from "@ui5-language-assistant/test-utils";
+import {
+  generateModel,
+  GEN_MODEL_TIMEOUT
+} from "@ui5-language-assistant/test-utils";
 
 import { getXMLViewCompletions } from "../src/api";
 import { UI5XMLViewCompletion } from "../api";
 
-const REAL_UI5_MODEL: UI5SemanticModel = generateModel("1.74.0");
-
 describe("The `getXMLViewCompletions()` api", () => {
+  let REAL_UI5_MODEL: UI5SemanticModel;
+
+  before(async function() {
+    this.timeout(GEN_MODEL_TIMEOUT);
+    REAL_UI5_MODEL = await generateModel("1.74.0");
+  });
+
   it("will filter none public/protected suggestions", () => {
     const xmlSnippet = `
           <mvc:View

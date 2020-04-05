@@ -74,7 +74,17 @@ describe("the Language Server Client Integration Tests", () => {
     const xmlSnippet = `<mvc:View 
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns:u⇶`;
-    const completionsList = ["unified", "upload", "util", "ux3"];
+    const completionsList = [
+      "unified",
+      "upload",
+      "util",
+      "ux3",
+      "ubc",
+      "ui",
+      "ui", // This "ui" is in a different parent
+      "ui5",
+      "ulc"
+    ];
     await assertCompletions(xmlSnippet, completionsList);
   });
 
