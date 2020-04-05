@@ -13,10 +13,10 @@
   "license": "Apache-2.0",
   "typings": "./api.d.ts",
   "dependencies": {
-    "@ui5-language-assistant/semantic-model": "^1.0.0"
+    "@ui5-language-assistant/semantic-model": "^1.0.0",
+    "node-fetch": "2.6.0"
   },
   "devDependencies": {
-    "node-fetch": "2.6.0",
     "@types/node-fetch": "2.5.5"
   },
   "scripts": {
