@@ -1,0 +1,29 @@
+{
+  "title": "JSON schema for SAP.GUI Namespace",
+
+  "description": "Represents GUI specific attributes",
+
+  "type": "object",
+
+  "required": [ "transaction"],
+
+  "additionalProperties": false,
+
+  "properties": {
+    "_version": {
+      "description": "Represents attributes format version. It is managed by namespace owner",
+      "type": "string",
+      "enum" :["1.1.0", "1.2.0"]
+    },
+    "transaction": {
+      "description": "Represents transaction of an application",
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9\\/\\_]{1,20}$"
+    },
+    "flavorId": {
+      "description": "Represents SAP Screen Personas Flavor ID",
+      "type": "string",
+      "pattern": "^[A-F0-9]{1,32}$"
+    }
+  }
+}

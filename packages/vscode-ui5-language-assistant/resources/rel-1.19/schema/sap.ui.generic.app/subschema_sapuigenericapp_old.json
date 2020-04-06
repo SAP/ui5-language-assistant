@@ -1,0 +1,333 @@
+{
+    "title": "JSON schema for SAP.UI.GENERIC.APP Namespace",
+    "description": "Represents GENERIC APP specific attributes",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "_version": {
+            "type": "string",
+            "enum": [
+                "1.1.0",
+                "1.2.0",
+                "1.3.0"
+            ]
+        },
+        "settings": {
+            "description": "Represents global settings for the application controller",
+            "$ref": "#/definitions/setting_def"
+        },
+        "pages": {
+            "description": "Represents one ore more pages of an application. UI5 routing is created from the definitions in this section",
+            "oneOf": [
+                {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/pages_array"
+                    }
+                },
+                {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "patternProperties": {
+                        "^[a-zA-Z0-9_\\.\\-]+[\\|]?[a-zA-Z0-9_\\.\\-]+$": {
+                            "$ref": "#/definitions/pages_map"
+                        }
+                    }
+                }
+            ]
+        }
+    },
+    "definitions": {
+        "setting_def": {
+            "description": "Represents global settings for the application controller",
+            "type": "object"
+        },
+        "action_prop_def": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+                "path",
+                "target"
+            ],
+            "properties": {
+                "path": {
+                    "description": "Represents the path in the manifest to the target to which the navigation is bound",
+                    "type": "string"
+                },
+                "target": {
+                    "description": "Represents the pointer to a semantic object",
+                    "type": "string"
+                }
+            }
+        },
+        "navigation_def": {
+            "description": "Represents ...",
+            "type": "object",
+            "additionalProperties": false,
+            "minProperties": 1,
+            "properties": {
+                "display": {
+                    "description": "Represents an action triggered by the user on UI: the navigation to display an object",
+                    "$ref": "#/definitions/action_prop_def"
+                },
+                "create": {
+                    "description": "Represents an action triggered by the user on UI: the navigation to create an object",
+                    "$ref": "#/definitions/action_prop_def"
+                },
+                "edit": {
+                    "description": "Represents an action triggered by the user on UI: the navigation to edit an object",
+                    "$ref": "#/definitions/action_prop_def"
+                }
+            }
+        },
+        "embeddedComponent": {
+            "type": "object",
+            "additionalProperties": false,
+            "patternProperties": {
+                "^[a-zA-Z0-9_\\.\\-\\:]+$": {
+                    "allOf": [
+                        {
+                            "type": "object",
+                            "required": [
+                                "id",
+                                "title"
+                            ],
+                            "properties": {
+                                "id": {
+                                    "description": "Represents an unique id for the instance of the reuse component inside of the object page",
+                                    "type": "string",
+                                    "pattern": "^([A-Za-z_][\\-A-Za-z0-9_\\.\\:]*)$"
+                                },
+                                "title": {
+                                    "description": "Represents the title for the content of the reuse component",
+                                    "type": "string",
+                                    "pattern": "^\\{\\{[^\\W][\\w\\.\\-]*\\}\\}$"
+                                },
+                                "binding": {
+                                    "description": "Represents an optional element binding  for the ComponentContainer that hosts the reuse component",
+                                    "type": "string"
+                                },
+                                "settings": {
+                                    "description": "Represents a map to populate the API of the reuse component",
+                                    "type": "object"
+                                },
+                                "hiddenByDefault": {
+                                    "description": "Flag, whether the embedded component should be hidden by default",
+                                    "type: ": "boolean"
+                                }
+                            }
+                        },
+                        {
+                            "oneOf": [
+                                {
+                                    "type": "object",
+                                    "required": [
+                                        "componentName"
+                                    ],
+                                    "properties": {
+                                        "componentName": {
+                                            "description": "Represents the name of the reuse component ",
+                                            "type": "string",
+                                            "pattern": "^([a-zA-Z][a-zA-Z0-9_]{0,39})(\\.[a-zA-Z][a-zA-Z0-9_]{0,39})*$"
+                                        }
+                                    }
+                                },
+                                {
+                                    "type": "object",
+                                    "required": [
+                                        "componentUsage"
+                                    ],
+                                    "properties": {
+                                        "componentUsage": {
+                                            "description": "Represents the reference to the name of the componentUsages defined in sap.ui5/componentUsages",
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                {
+                                    "type": "object",
+                                    "required": [
+                                        "embeddedComponents"
+                                    ],
+                                    "properties": {
+                                        "embeddedComponents": {
+                                            "$ref": "#/definitions/embeddedComponent"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
+        },
+        "component_def": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "name": {
+                    "description": "The name of the component",
+                    "type": "string",
+                    "pattern": "^([a-zA-Z][a-zA-Z0-9]{0,39})(\\.[a-zA-Z][a-zA-Z0-9]{0,39})*$"
+                },
+                "list": {
+                    "description": "Switch to create a route for a list (aggregation) if true and routing for an entity if not set or false",
+                    "type": "boolean"
+                },
+                "settings": {
+                    "$ref": "#/definitions/component_setting_def"
+                }
+            }
+        },
+        "routingSpec_def": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+                "routeName"
+            ],
+            "properties": {
+                "routeName": {
+                    "description": "Represents the name of the route",
+                    "type": "string"
+                },
+                "noOData": {
+                    "description": "Represents the switch to indicate, that this route is not related to the OData service",
+                    "type": "boolean"
+                },
+                "binding": {
+                    "description": "Represents the binding string to indicate, how the page should be bound relative to the predecessor page or absolute",
+                    "type": "string"
+                },
+                "headerTitle": {
+                    "description": "Represents the the title to be shown on the page",
+                    "type": "string"
+                },
+                "typeImageUrl": {
+                    "description": "Represents the URL pointing to an icon, that will be shown in the navigation menu additional to the title to represent the page",
+                    "type": "string"
+                },
+                "noKey": {
+                    "description": "Represents the switch to indicate, whether this route is reached via a 1:1 navigation or a 1:n navigation",
+                    "type": "boolean"
+                }
+            }
+        },
+        "implementingComponent_def": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+                "componentName"
+            ],
+            "properties": {
+                "componentName": {
+                    "description": "Represents the name of the component to be loaded inside the canvas",
+                    "type": "string",
+                    "pattern": "^([a-zA-Z][a-zA-Z0-9_]{0,39})(\\.[a-zA-Z][a-zA-Z0-9_]{0,39})*$"
+                },
+                "binding": {
+                    "description": " Represents a binding string to indicate, how the reuse component should be bound relative to the containing page or absolute ",
+                    "type": "string"
+                },
+                "settings": {
+                    "$ref": "#/definitions/component_setting_def"
+                }
+            }
+        },
+        "component_setting_def": {
+            "description": "Represents the settings specific to one component",
+            "type": "object"
+        },
+        "pages_array": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+                "component"
+            ],
+            "properties": {
+                "navigationProperty": {
+                    "description": "Represents the navigation property that leads to this page. The navigation links of the previous page (the page that calls this one) are determined through this property ",
+                    "type": "string"
+                },
+                "entitySet": {
+                    "description": "Represents the entity set that defines either the aggregation or the root object of the component",
+                    "type": "string"
+                },
+                "component": {
+                    "description": "Represents the component and its settings that makes the page",
+                    "$ref": "#/definitions/component_def"
+                },
+                "navigation": {
+                    "description": "Represents the different navigation targets",
+                    "$ref": "#/definitions/navigation_def"
+                },
+                "embeddedComponents": {
+                    "description": "Represent reuse components that should be appended at the end of the template component",
+                    "$ref": "#/definitions/embeddedComponent"
+                },
+                "routingSpec": {
+                    "description": "Represents the routing specification",
+                    "$ref": "#/definitions/routingSpec_def"
+                },
+                "implementingComponent": {
+                    "description": "Represents the component to be loaded inside the canvas if sap.suite.ui.generic.template.Canvas is used as component name, and its settings",
+                    "$ref": "#/definitions/implementingComponent_def"
+                },
+                "pages": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/pages_array"
+                    }
+                }
+            }
+        },
+        "pages_map": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+                "component"
+            ],
+            "properties": {
+                "navigationProperty": {
+                    "description": "Represents the navigation property that leads to this page. The navigation links of the previous page (the page that calls this one) are determined through this property ",
+                    "type": "string"
+                },
+                "entitySet": {
+                    "description": "Represents the entity set that defines either the aggregation or the root object of the component",
+                    "type": "string"
+                },
+                "component": {
+                    "description": "Represents the component and its settings that makes the page",
+                    "$ref": "#/definitions/component_def"
+                },
+                "navigation": {
+                    "description": "Represents the different navigation targets",
+                    "$ref": "#/definitions/navigation_def"
+                },
+                "embeddedComponents": {
+                    "description": "Represent reuse components that should be appended at the end of the template component",
+                    "$ref": "#/definitions/embeddedComponent"
+                },
+                "routingSpec": {
+                    "description": "Represents the routing specification",
+                    "$ref": "#/definitions/routingSpec_def"
+                },
+                "implementingComponent": {
+                    "description": "Represents the component to be loaded inside the canvas if sap.suite.ui.generic.template.Canvas is used as component name, and its settings",
+                    "$ref": "#/definitions/implementingComponent_def"
+                },
+                "pages": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "patternProperties": {
+                        "^[a-zA-Z0-9_\\.\\-]+[\\|]?[a-zA-Z0-9_\\.\\-]+$": {
+                            "$ref": "#/definitions/pages_map"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

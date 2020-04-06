@@ -1,0 +1,68 @@
+{
+  "title": "JSON schema for SAP.COPILOT Namespace",
+
+  "description": "Represents specific attributes for SAP CoPilot",
+  "type": "object",
+  "additionalProperties": true,
+  "properties": {
+    "_version": {
+      "description": "Represents SAP.COPILOT attributes format version. It is managed by namespace owner",
+      "type": "string",
+      "enum": ["1.0.0","1.1.0"]
+    },
+    "contextAnalysis": {
+      "description": "Settings for the context analysis features of SAP CoPilot",
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "allowAddingObjectsFromAppScreenToCollection": {
+          "description": "Enable/Disable the ability for SAP CoPilot to analyze your Application Screens and add the found objects to a Collection",
+          "type": "boolean",
+          "default": true
+        },
+        "whitelistedEntityTypes": {
+          "description": "A list of the whitelisted EntityTypes, prefixed with their namespace, that SAP CoPilot can display. The empty list is ignored, thus allowing all EntityTypes by default.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "digitalAssistant": {
+      "description": "Settings for the Digital Assistant features of SAP CoPilot",
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "intentDefinition": {
+          "description": "A list of Intent",
+          "type": "object",
+          "additionalProperties": false,
+          "patternProperties": {
+            "^[a-zA-Z0-9_\\.\\-]*$": {
+              "type": "object",
+              "additionalProperties": true,
+              "properties": {
+                "uri": {
+                  "description": "Represents the uri of the intent",
+                  "type": "string"
+                },
+                "dataSources": {
+                  "description": "A list of the sap.app.dataSources used by the intent",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "i18n": {
+                  "description": "Represents the uri of the translation file",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

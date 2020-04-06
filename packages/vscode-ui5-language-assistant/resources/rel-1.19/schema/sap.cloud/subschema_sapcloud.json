@@ -1,0 +1,22 @@
+{
+  "title": "JSON schema for SAP.CLOUD Namespace",
+  "description": "Represents cloud platform specific attributes",
+  "type": "object",
+  "additionalProperties": false,  
+  "properties": {
+     "_version": {
+      "description": "Represents attributes format version. It is managed by namespace owner",
+      "type": "string",
+      "enum" :["1.0.0","1.1.0"]
+    },
+    "service": {
+      "description": "Unique Business Service Identifier",
+      "type": "string"
+     },
+    "public": {
+      "description":"Specify if the UI can be accessed from a different space than origin development space",
+      "type":"boolean",
+      "default":false
+    }
+  }
+ }

@@ -1,0 +1,48 @@
+{
+  "title": "JSON schema for SAP.MOBILE Namespace",
+
+  "description": "Represents mobile specific attributes",
+  "type": "object",
+  "required": [ "definingRequests"],
+  "properties": {
+    "_version": {
+      "description": "Represents attributes format version. It is managed by namespace owner",
+      "type": "string",
+      "enum" :["1.1.0"]
+    },
+
+    "definingRequests":{
+      "description": "Represents mobile specific attributes",
+      "type": "object",
+      "additionalProperties": false,
+      "patternProperties": {
+        "^[a-zA-Z0-9_\\.\\-]*":{
+          "$ref": "#/definitions/definingRequest"
+        }
+      }
+    }
+  },
+
+  "definitions": {
+    "definingRequest":{
+      "type": "object",
+      "additionalProperties": false,
+      "required":["dataSource", "path"],
+      "properties": {
+        "dataSource": {
+          "description": "Represents reference to dataSource under sap.app",
+          "type": "string"
+        },
+        "path": {
+          "description": "Represents path to the title collection",
+          "type": "string"
+        },
+        "retrieveStreams": {
+          "description": "Represents indicator whether streams should be retrieved",
+          "type": "boolean",
+          "default": false
+        }
+      }
+    }
+  }
+}

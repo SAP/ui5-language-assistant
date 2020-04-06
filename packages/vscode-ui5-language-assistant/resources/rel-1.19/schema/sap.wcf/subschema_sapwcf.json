@@ -1,0 +1,19 @@
+{
+  "title": "JSON schema for SAP.WCF Namespace",
+  "description": "Represents WCF Application specific attributes",
+  "type": "object",
+  "required": [ "wcf-target-id"],
+  "additionalProperties": false,
+  "properties": {
+   "_version": {
+      "description": "Represents attributes format version. It is managed by namespace owner",
+      "type": "string",
+      "enum": ["1.1.0"]
+    },
+    "wcf-target-id": {
+      "description": "Represents the target technical id for a WCF Application",
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9\\/\\_]{1,10}$"
+    }
+  }
+}

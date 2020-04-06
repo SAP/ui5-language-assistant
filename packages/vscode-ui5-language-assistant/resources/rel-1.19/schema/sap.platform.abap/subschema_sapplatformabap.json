@@ -1,0 +1,24 @@
+{
+  "title": "JSON schema for SAP.PLATFORM.ABAP Namespace",
+
+  "description": "Represents ABAP platform specific attributes",
+  "type": "object",
+  "additionalProperties": false,
+  "properties":{
+    "_version": {
+      "description": "Represents attributes format version. It is managed by namespace owner",
+      "type": "string",
+      "enum" :["1.1.0", "1.2.0"]
+    },
+
+    "uri":{
+      "description": "Represents the uri of the app in the ABAP system",
+      "type":"string"
+    },
+
+    "uriNwbc":{
+      "description": "Represents the alternative uri of the app in the ABAP system for starting the application",
+      "type":"string"
+    }
+  }
+}

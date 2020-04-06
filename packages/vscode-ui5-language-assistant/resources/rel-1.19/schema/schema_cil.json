@@ -1,0 +1,114 @@
+{
+  "title": "SAP JSON schema for Web Application Manifest File",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "_version",
+    "sap.app",
+    "sap.ui"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "_version": {
+      "description": "Represents Application Descriptor format version. It is managed by schema owner",
+      "type": "string",
+      "enum": [
+        "1.1.0",
+        "1.2.0",
+        "1.3.0",
+        "1.4.0",
+        "1.5.0",
+        "1.6.0",
+        "1.7.0",
+        "1.8.0",
+        "1.9.0",
+        "1.10.0",
+        "1.11.0",
+        "1.12.0",
+        "1.13.0",
+        "1.14.0",
+        "1.15.0",
+        "1.16.0",
+        "1.17.0",
+        "1.18.0",
+        "1.19.0"
+      ]
+    },
+    "start_url": {
+      "description": "Represents the URL that the developer would prefer the user agent load when the user launches the web application",
+      "type": "string"
+    },
+    "sap.app": {
+      "$ref": "sap.app/subschema_sapapp_cil.json"
+    },
+    "sap.ui": {
+      "$ref": "sap.ui/subschema_sapui_cil.json"
+    },
+    "sap.ui5": {
+      "$ref": "sap.ui5/subschema_sapui5_cil.json"
+    },
+    "sap.platform.abap": {
+      "$ref": "sap.platform.abap/subschema_sapplatformabap.json"
+    },
+    "sap.platform.hcp": {
+      "$ref": "sap.platform.hcp/subschema_sapplatformhcp.json"
+    },
+    "sap.platform.cf": {
+      "$ref": "sap.platform.cf/subschema_sapplatformcf.json"
+    },
+    "sap.fiori": {
+      "$ref": "sap.fiori/subschema_sapfiori.json"
+    },
+    "sap.ui.generic.app": {
+      "$ref": "sap.ui.generic.app/subschema_sapuigenericapp.json"
+    },
+    "sap.fe": {
+      "$ref": "sap.fe/subschema_sapfe.json"
+    },
+    "sap.flp": {
+      "$ref": "sap.flp/subschema_sapflp.json"
+    },
+    "sap.ovp": {
+      "$ref": "sap.ovp/subschema_sapovp.json"
+    },
+    "sap.wda": {
+      "$ref": "sap.wda/subschema_sapwda.json"
+    },
+    "sap.apf": {
+      "$ref": "sap.apf/subschema_sapapf.json"
+    },
+    "sap.cloud.portal": {
+      "$ref": "sap.cloud.portal/subschema_sapcloudportal.json"
+    },
+    "sap.gui": {
+      "$ref": "sap.gui/subschema_sapgui.json"
+    },
+    "sap.integration": {
+      "$ref": "sap.integration/subschema_sapintegration.json"
+    },
+    "sap.wcf": {
+      "$ref": "sap.wcf/subschema_sapwcf.json"
+    },
+    "sap.ui.smartbusiness.app": {
+      "$ref": "sap.ui.smartbusiness.app/subschema_sapuismartbusinessapp.json"
+    },
+    "sap.mobile": {
+      "$ref": "sap.mobile/subschema_sapmobile.json"
+    },
+    "sap.copilot": {
+      "$ref": "sap.copilot/subschema_sapcopilot.json"
+    },
+    "sap.map": {
+      "$ref": "sap.map/subschema_sapmap.json"
+    },
+    "sap.url": {
+      "$ref": "sap.url/subschema_sapurl.json"
+    },
+    "sap.platform.sfsf": {
+      "$ref": "sap.platform.sfsf/subschema_sapplatformsfsf.json"
+    },
+    "sap.cloud": {
+      "$ref": "sap.cloud/subschema_sapcloud.json"
+    }
+  }
+}

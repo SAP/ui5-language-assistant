@@ -1,0 +1,31 @@
+{
+  "title": "JSON schema for SAP.APF Namespace",
+  "description": "Represents APF specific attributes",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "_version": {
+      "description": "Represents attributes format version. It is managed by namespace owner",
+      "type": "string",
+      "enum": [
+        "1.1.0",
+        "1.2.0"
+      ]
+    },
+    "activateFilterReduction": {
+      "description": "Represents a switch to activate filter reduction so that filters in OData requests can be represented as ABAP select options",
+      "type": "boolean",
+      "default": false
+    },
+    "activateLrep": {
+      "description": "Represents a switch to activate LREP as the persistence for configurations and texts",
+      "type": "boolean",
+      "default": false
+    },
+    "useHeadRequestForXsrfToken": {
+    "description": "Represents a switch to use HEAD-Requests instead of GET-Requests when fetching the XSRF-Security-Token",
+    "type": "boolean",
+    "default": false
+  }
+}
+}

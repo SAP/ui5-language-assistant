@@ -1,0 +1,39 @@
+{
+  "title": "JSON schema for SAP.WDA Namespace",
+
+  "description": "Represents WDA specific attributes",
+
+  "type": "object",
+
+  "required": [ "applicationId"],
+
+  "additionalProperties": false,
+
+  "properties": {
+    "_version": {
+      "description": "Represents attributes format version. It is managed by namespace owner",
+      "type": "string",
+      "enum" :["1.1.0", "1.2.0"]
+    },
+    "applicationId": {
+      "description": "Represents ID of an application",
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9\\/\\_]{1,30}$"
+    },
+    "configId": {
+      "description": "Represents ID of an application configuration",
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9\\/\\_]{1,32}$"
+    },
+    "flavorId": {
+      "description": "Represents SAP Screen Personas Flavor ID",
+      "type": "string",
+      "pattern": "^[A-F0-9]{1,32}$"
+    },
+    "compatibilityMode": {
+      "description": "Indicates that WebDynpro Application requires Compatibility Mode, while uses legacy shell services. Possible values are true or false (default)",
+      "type": "boolean",
+      "default": false
+    }
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "title": "JSON schema for SAP.PLATFORM.CF Namespace",
+
+  "description": "Represents CF(Cloud Foundry) platform specific attributes",
+  "type": "object",
+  "additionalProperties": true,
+  "properties":{
+    "_version": {
+      "description": "Represents attributes format version. It is managed by namespace owner",
+      "type": "string",
+      "enum" :["1.1.0", "1.2.0"]
+    },
+    "oAuthScopes": {
+      "description": "Represents the authorization scope of the application",
+      "type":"array",
+      "items": {
+        "type": "string"
+    },
+    "appHostId": {
+      "description" : "Application host id to which the HTML5 app belongs",
+      "type": "string"
+    },
+    "changedOn": {
+      "description": "Changed on time stamp of the HTML5 app",
+      "type": "string"
+    },
+    "appName": {
+      "description": "Represents the HTML5 application name",
+      "type":"string",
+      "pattern": "^[a-z][a-z0-9]{0,29}$"
+    },
+    "appVersion": {
+      "description": "Represents the version of the HTML5 application",
+      "type":"string"
+    },
+    "multiVersionApp": {
+      "description": "Indicates wether an HTML5 application is multi-version enabled",
+      "type": "boolean"
+    }
+   }
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "title": "JSON schema for SAP.PLATFORM.HCP Namespace",
+
+  "description": "Represents HANA Cloud Platform platform specific attributes",
+  "type": "object",
+  "additionalProperties": false,
+  "properties":{
+    "_version": {
+      "description": "Represents attributes format version. It is managed by namespace owner",
+      "type": "string",
+      "enum" :["1.1.0", "1.2.0", "1.3.0"]
+    },
+
+    "uri":{
+      "description": "Represents the uri of the app in the HANA Cloud Platform",
+      "type":"string"
+    },
+
+    "uriNwbc":{
+      "description": "Represents the alternative uri of the app in the ABAP system for starting the application",
+      "type":"string"
+    },
+    "providerAccount": {
+      "description": "Represents the provider account of the HTML5 application",
+      "type":"string"
+    },
+    "appName": {
+      "description": "Represents the HTML5 application name",
+      "type":"string",
+      "pattern": "^[a-z][a-z0-9]{0,29}$"
+    },
+    "appVersion": {
+      "description": "Represents the version of the HTML5 application",
+      "type":"string"
+    },
+    "multiVersionApp":{
+      "description": "Indicates that HCP application is multi-version enabled",
+      "type":"boolean"
+    }
+
+  }
+}

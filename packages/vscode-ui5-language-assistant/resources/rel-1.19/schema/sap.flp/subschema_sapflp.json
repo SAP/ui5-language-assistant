@@ -1,0 +1,55 @@
+{
+  "title": "JSON schema for SAP.FLP Namespace",
+
+  "description": "Represents FLP specific attributes",
+
+  "type": "object",
+
+  "required": [ "type"],
+
+  "additionalProperties": false,
+
+  "properties": {
+    "_version": {
+      "description": "Represents attributes format version. It is managed by namespace owner",
+      "type": "string",
+      "enum" :["1.1.0", "1.2.0", "1.3.0"]
+    },
+    "tileSize": {
+      "description": "Represents size of the tile",
+      "type": "string",
+      "enum": ["1x1", "1x2"]
+    },
+    "type": {
+      "description": "Represents the type of FLP entry. It must be 'application' or 'tile' or 'plugin'",
+      "type": "string",
+      "enum":["application", "tile", "plugin"]
+    },
+    "config": {
+      "description": "Represents configuration parameters of the FLP entry",
+      "type": "object",
+      "additionalProperties": false,
+      "patternProperties": {
+        "^[a-zA-Z0-9\\_\\.\\-]*$": {
+          "description": "Represents the configuration key and values",
+          "type": "object"
+        }
+      }
+    },
+    "origin": {
+      "description": "Represents the original tile and target mapping which resulted in this app",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "tileId": {
+          "description": "Represents the original tile which resulted in this app",
+          "type": "string"
+        },
+        "targetMappingId": {
+          "description": "Represents the original target mapping which resulted in this app",
+          "type": "string"
+        }
+      }
+    }
+  }
+}

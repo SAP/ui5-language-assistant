@@ -1,0 +1,28 @@
+{
+  "title": "JSON schema for SAP.PLATFORM.SFSF Namespace",
+  "description": "Represents SFSF platform specific attributes",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "appName"
+  ],
+  "properties": {
+    "_version": {
+      "description": "Represents attributes format version. It is managed by namespace owner",
+      "type": "string",
+      "enum": ["1.0.0"]
+    },
+    "uri": {
+      "description": "Represents the uri inside the SFSF app",
+      "type": "string"
+    },  
+    "appName": {
+      "description": "Represents the SFSF application name",
+      "type": "string"
+   },
+    "appVersion": {
+      "description": "Represents the version of the SFSF application",
+      "type": "string"
+    }
+  }
+}

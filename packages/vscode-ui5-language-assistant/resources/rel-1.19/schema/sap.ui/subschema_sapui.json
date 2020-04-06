@@ -1,0 +1,96 @@
+{
+  "title": "JSON schema for SAP.UI Namespace",
+  "description": "Represents general ui attributes",
+  "type": "object",
+  "required": [ "technology", "deviceTypes"],
+  "properties": {
+    "_version": {
+      "description": "Represents UI attributes format version. It is managed by namespace owner",
+      "type": "string",
+      "enum" :["1.1.0","1.2.0","1.3.0","1.4.0","1.5.0"]
+    },
+
+    "technology": {
+      "description": "Represents UI technology. The possible values are UI5 (default), WDA, NWBC, GUI, URL and WCF",
+      "type": "string",
+      "enum": ["UI5", "WDA", "NWBC", "GUI", "URL", "WCF"],
+      "default": "UI5"
+    },
+
+    "icons": {
+      "description": "Represents icons which used in application",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "icon": {
+          "description": "Represents icon of the app",
+          "type": "string"
+        },
+        "favIcon": {
+          "description": "Represents ICO file to be used inside the browser and for desktop shortcuts",
+          "type": "string"
+        },
+        "phone": {
+          "description": "Represents 57x57 pixel version for non-retina iPhones",
+          "type": "string"
+        },
+        "phone@2": {
+          "description": "Represents 114x114 pixel version for non-retina iPhones",
+          "type": "string"
+        },
+        "tablet": {
+          "description": "Represents 72x72 pixel version for non-retina iPads",
+          "type": "string"
+        },
+        "tablet@2": {
+          "description": "Represents 144x144 pixel version for non-retina iPads",
+          "type": "string"
+        }
+      }
+    },
+
+    "deviceTypes": {
+      "description": "Represents device types on which application is running. Supported device types are desktop, tablet and phone",
+      "allOf": [
+        {"$ref": "#/definitions/deviceType"},
+        {"required": ["desktop", "tablet", "phone"]}
+      ]
+    },
+
+    "supportedThemes": {
+      "description": "The property is Deprecated. Represents array of supported SAP themes such as sap_hcb, sap_bluecrystal",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+
+    "fullWidth": {
+      "description": "Indicates whether app should run in full screen mode: possible values: true or false ",
+      "type": "boolean"
+    }
+  },
+
+  "definitions": {
+    "deviceType": {
+      "type": "object",
+      "description": "Represents device types on which the app is running",
+      "additionalProperties": false,
+      "properties": {
+        "desktop": {
+          "description": "Represents indicator whether desktop device is supported, default true",
+          "type": "boolean"
+        },
+        "tablet": {
+          "description": "Represents indicator whether tablet device is supported, default true",
+          "type": "boolean"
+        },
+        "phone": {
+          "description": "Represents indicator whether phone device is supported, default true",
+          "type": "boolean"
+        }
+      }
+    }
+
+  }
+}

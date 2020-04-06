@@ -1,0 +1,22 @@
+{
+  "title": "JSON schema for SAP.URL Namespace",
+  "description": "Represents specific attributes for SAP URL",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "uri"
+  ],
+  "properties": {
+    "_version": {
+      "description": "Represents attributes format version. It is managed by namespace owner",
+      "type": "string",
+      "enum": [
+        "1.0.0"
+      ]
+    },
+    "uri": {
+      "description": "Represents URI of an application",
+      "type": "string"
+    }
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "title": "JSON schema for SAP.INTEGRATION Namespace",
+
+  "description": "Represents Application Integration specific attributes",
+
+  "type": "object",
+
+  "required": ["urlTemplateId", "parameters"],
+
+  "properties": {
+    "_version": {
+      "description": "Represents attributes format version. It is managed by namespace owner",
+      "type": "string",
+      "enum" :["1.0.0"]
+    },
+    "urlTemplateId": {
+      "description": "Reference to the desired URL Template",
+      "type": "string",
+      "examples": ["template.sap.sfsf", "template.sap.ui5", "template.sap.wda"]
+    },
+    "parameters": {
+      "description": "Represents configuration parameters which will be used by Template Engine to compile URL Template",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["key", "value"],
+        "properties": {
+          "key": {
+            "type": "string",
+            "description": "Represents the name of the desired parameter"
+          },
+          "value": {
+            "type": "string",
+            "description": "Represents the actual value of the desired parameter"
+          }
+        }
+      }
+    }
+  }
+}
