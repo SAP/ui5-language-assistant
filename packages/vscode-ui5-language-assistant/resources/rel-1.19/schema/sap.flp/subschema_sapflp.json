@@ -5,7 +5,7 @@
 
   "type": "object",
 
-  "required": [ "type"],
+  "required": ["type"],
 
   "additionalProperties": false,
 
@@ -13,7 +13,7 @@
     "_version": {
       "description": "Represents attributes format version. It is managed by namespace owner",
       "type": "string",
-      "enum" :["1.1.0", "1.2.0", "1.3.0"]
+      "enum": ["1.1.0", "1.2.0", "1.3.0"]
     },
     "tileSize": {
       "description": "Represents size of the tile",
@@ -23,7 +23,7 @@
     "type": {
       "description": "Represents the type of FLP entry. It must be 'application' or 'tile' or 'plugin'",
       "type": "string",
-      "enum":["application", "tile", "plugin"]
+      "enum": ["application", "tile", "plugin"]
     },
     "config": {
       "description": "Represents configuration parameters of the FLP entry",

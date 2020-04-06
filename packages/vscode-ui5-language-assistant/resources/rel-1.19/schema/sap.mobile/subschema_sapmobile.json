@@ -3,20 +3,20 @@
 
   "description": "Represents mobile specific attributes",
   "type": "object",
-  "required": [ "definingRequests"],
+  "required": ["definingRequests"],
   "properties": {
     "_version": {
       "description": "Represents attributes format version. It is managed by namespace owner",
       "type": "string",
-      "enum" :["1.1.0"]
+      "enum": ["1.1.0"]
     },
 
-    "definingRequests":{
+    "definingRequests": {
       "description": "Represents mobile specific attributes",
       "type": "object",
       "additionalProperties": false,
       "patternProperties": {
-        "^[a-zA-Z0-9_\\.\\-]*":{
+        "^[a-zA-Z0-9_\\.\\-]*": {
           "$ref": "#/definitions/definingRequest"
         }
       }
@@ -24,10 +24,10 @@
   },
 
   "definitions": {
-    "definingRequest":{
+    "definingRequest": {
       "type": "object",
       "additionalProperties": false,
-      "required":["dataSource", "path"],
+      "required": ["dataSource", "path"],
       "properties": {
         "dataSource": {
           "description": "Represents reference to dataSource under sap.app",

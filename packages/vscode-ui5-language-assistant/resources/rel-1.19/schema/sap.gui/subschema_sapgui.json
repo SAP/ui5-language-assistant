@@ -5,7 +5,7 @@
 
   "type": "object",
 
-  "required": [ "transaction"],
+  "required": ["transaction"],
 
   "additionalProperties": false,
 
@@ -13,7 +13,7 @@
     "_version": {
       "description": "Represents attributes format version. It is managed by namespace owner",
       "type": "string",
-      "enum" :["1.1.0", "1.2.0"]
+      "enum": ["1.1.0", "1.2.0"]
     },
     "transaction": {
       "description": "Represents transaction of an application",

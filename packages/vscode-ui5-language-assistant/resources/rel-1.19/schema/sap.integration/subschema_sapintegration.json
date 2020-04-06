@@ -11,7 +11,7 @@
     "_version": {
       "description": "Represents attributes format version. It is managed by namespace owner",
       "type": "string",
-      "enum" :["1.0.0"]
+      "enum": ["1.0.0"]
     },
     "urlTemplateId": {
       "description": "Reference to the desired URL Template",

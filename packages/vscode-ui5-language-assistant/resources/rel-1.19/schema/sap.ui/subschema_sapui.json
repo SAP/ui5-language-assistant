@@ -2,12 +2,12 @@
   "title": "JSON schema for SAP.UI Namespace",
   "description": "Represents general ui attributes",
   "type": "object",
-  "required": [ "technology", "deviceTypes"],
+  "required": ["technology", "deviceTypes"],
   "properties": {
     "_version": {
       "description": "Represents UI attributes format version. It is managed by namespace owner",
       "type": "string",
-      "enum" :["1.1.0","1.2.0","1.3.0","1.4.0","1.5.0"]
+      "enum": ["1.1.0", "1.2.0", "1.3.0", "1.4.0", "1.5.0"]
     },
 
     "technology": {
@@ -52,8 +52,8 @@
     "deviceTypes": {
       "description": "Represents device types on which application is running. Supported device types are desktop, tablet and phone",
       "allOf": [
-        {"$ref": "#/definitions/deviceType"},
-        {"required": ["desktop", "tablet", "phone"]}
+        { "$ref": "#/definitions/deviceType" },
+        { "required": ["desktop", "tablet", "phone"] }
       ]
     },
 
@@ -91,6 +91,5 @@
         }
       }
     }
-
   }
 }

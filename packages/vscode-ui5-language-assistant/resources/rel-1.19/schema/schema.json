@@ -2,11 +2,7 @@
   "title": "SAP JSON schema for Web Application Manifest File",
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
-  "required": [
-    "_version",
-    "sap.app",
-    "sap.ui"
-  ],
+  "required": ["_version", "sap.app", "sap.ui"],
   "additionalProperties": false,
   "properties": {
     "_version": {

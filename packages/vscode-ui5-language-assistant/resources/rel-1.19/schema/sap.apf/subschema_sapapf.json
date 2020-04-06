@@ -7,10 +7,7 @@
     "_version": {
       "description": "Represents attributes format version. It is managed by namespace owner",
       "type": "string",
-      "enum": [
-        "1.1.0",
-        "1.2.0"
-      ]
+      "enum": ["1.1.0", "1.2.0"]
     },
     "activateFilterReduction": {
       "description": "Represents a switch to activate filter reduction so that filters in OData requests can be represented as ABAP select options",
@@ -23,9 +20,9 @@
       "default": false
     },
     "useHeadRequestForXsrfToken": {
-    "description": "Represents a switch to use HEAD-Requests instead of GET-Requests when fetching the XSRF-Security-Token",
-    "type": "boolean",
-    "default": false
+      "description": "Represents a switch to use HEAD-Requests instead of GET-Requests when fetching the XSRF-Security-Token",
+      "type": "boolean",
+      "default": false
+    }
   }
-}
 }

@@ -9,7 +9,18 @@
     "_version": {
       "description": "Application attributes format version. It is managed by namespace owner",
       "type": "string",
-      "enum" :["1.1.0","1.2.0","1.3.0", "1.4.0", "1.5.0", "1.6.0", "1.7.0", "1.8.0", "1.9.0", "1.10.0"]
+      "enum": [
+        "1.1.0",
+        "1.2.0",
+        "1.3.0",
+        "1.4.0",
+        "1.5.0",
+        "1.6.0",
+        "1.7.0",
+        "1.8.0",
+        "1.9.0",
+        "1.10.0"
+      ]
     },
 
     "sourceTemplate": {
@@ -78,7 +89,7 @@
       "$ref": "#/definitions/i18n_key"
     },
 
- 	"shortTitle": {
+    "shortTitle": {
       "description": "Represents shorter version of the title (language-dependent )",
       "$ref": "#/definitions/i18n_key"
     },
@@ -101,12 +112,12 @@
         "keywords": {
           "$ref": "#/definitions/tag"
         },
-        "technicalAttributes":{
+        "technicalAttributes": {
           "type": "array",
-      		"items": {
-        		"type": "string",
-        		"pattern":"^[A-Z0-9_\\-\\/]+$"
-      		}
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Z0-9_\\-\\/]+$"
+          }
         }
       }
     },
@@ -156,20 +167,17 @@
     },
 
     "openSourceComponents": {
-
       "description": "Represents a collection of directly used open source libs (not when used via UI5 capsulation)",
       "type": "array",
-      "items" :{
+      "items": {
         "$ref": "#/definitions/openSource"
       }
     },
-     "provider": {
-       "description":"Represents the name of the provider which owns the application",
-       "type": "string",
-       "enum":[
-         "sfsf"
-      ]
-	},
+    "provider": {
+      "description": "Represents the name of the provider which owns the application",
+      "type": "string",
+      "enum": ["sfsf"]
+    },
     "offline": {
       "description": "Represents indicator whether the app is running offline. Possible values are true or false (default)",
       "type": "boolean",
@@ -181,13 +189,13 @@
       "type": "object",
       "required": ["inbounds"],
       "properties": {
-        "scopes" :{
+        "scopes": {
           "description": "Represents scopes of a site",
           "type": "object",
           "additionalProperties": false,
           "patternProperties": {
             "^[a-zA-Z0-9_\\.\\-]+$": {
-              "description" :"Represents unique id of the site",
+              "description": "Represents unique id of the site",
               "type": "object",
               "required": ["value"],
               "properties": {
@@ -204,7 +212,7 @@
           "$ref": "#/definitions/inbound"
         },
 
-        "outbounds":{
+        "outbounds": {
           "description": "Represents cross navigation for outbound target",
           "$ref": "#/definitions/outbound"
         }
@@ -212,7 +220,6 @@
     }
   },
   "definitions": {
-
     "version": {
       "type": "string"
     },
@@ -227,7 +234,7 @@
       "pattern": "^\\{\\{[\\w][\\w\\.\\-]*\\}\\}$"
     },
 
-    "tag":{
+    "tag": {
       "type": "array",
       "items": {
         "$ref": "#/definitions/i18n_key"
@@ -239,14 +246,14 @@
       "additionalProperties": false,
       "required": ["uri"],
       "properties": {
-        "uri":{
+        "uri": {
           "description": "Represents uri of the data source",
           "type": "string"
         },
         "type": {
           "description": "Represents type of the data source. The supported types are OData, ODataAnnotation, INA, XML, JSON",
           "type": "string",
-          "enum": ["OData", "ODataAnnotation","INA", "XML", "JSON"],
+          "enum": ["OData", "ODataAnnotation", "INA", "XML", "JSON"],
           "default": "OData"
         },
         "settings": {
@@ -273,7 +280,7 @@
           "description": "Represents  array of annotation which references an existing data source of type ODataAnnotation",
           "type": "array",
           "items": {
-            "type":"string"
+            "type": "string"
           }
         },
         "maxAge": {
@@ -287,24 +294,24 @@
     "openSource": {
       "type": "object",
       "additionalProperties": false,
-      "required" : ["name"],
+      "required": ["name"],
       "properties": {
         "name": {
-          "description" : "Represents a name of the open source as appears on the web",
+          "description": "Represents a name of the open source as appears on the web",
           "type": "string"
         },
         "version": {
-          "description" : "Represents a version of the open source (if part of app, version must be specified, if part of UI5 dist layer, version is empty)",
+          "description": "Represents a version of the open source (if part of app, version must be specified, if part of UI5 dist layer, version is empty)",
           "type": "string"
         },
         "packagedWithMySelf": {
-          "description" : "Indicates, whether it is part of the app or not",
+          "description": "Indicates, whether it is part of the app or not",
           "type": "boolean"
         }
       }
     },
 
-    "inbound":{
+    "inbound": {
       "type": "object",
       "additionalProperties": false,
       "patternProperties": {
@@ -317,7 +324,6 @@
               "description": "Represents semantic object",
               "type": "string",
               "pattern": "^[\\w\\*]{0,30}$"
-
             },
             "action": {
               "description": "Represents action an the semantic object",
@@ -328,13 +334,13 @@
               "description": "Indicates to not expose this inbound as a tile or link",
               "type": "boolean"
             },
-            "icon" :{
+            "icon": {
               "description": "Represents icon",
               "type": "string"
             },
             "title": {
               "description": "Represents language-dependent - different languages via server API or on client",
-              "oneOf":[
+              "oneOf": [
                 {
                   "$ref": "#/definitions/i18n_key"
                 },
@@ -346,7 +352,7 @@
             },
             "subTitle": {
               "description": "Represents language-dependent additional information to the title and can overwrite subTitle from sap.app definition",
-              "oneOf":[
+              "oneOf": [
                 {
                   "$ref": "#/definitions/i18n_key"
                 },
@@ -358,7 +364,7 @@
             },
             "shortTitle": {
               "description": "Represents shorter version of the title (language-dependent ) ",
-              "oneOf":[
+              "oneOf": [
                 {
                   "$ref": "#/definitions/i18n_key"
                 },
@@ -375,10 +381,10 @@
             },
 
             "displayMode": {
-            	"description": "Represents the display mode of the tile",
-             	"type": "string",
-             	"enum": ["ContentMode", "HeaderMode"],
-             	"default": "ContentMode"
+              "description": "Represents the display mode of the tile",
+              "type": "string",
+              "enum": ["ContentMode", "HeaderMode"],
+              "default": "ContentMode"
             },
 
             "indicatorDataSource": {
@@ -417,7 +423,7 @@
       "type": "object",
       "required": ["parameters", "additionalParameters"],
       "additionalProperties": false,
-      "properties":{
+      "properties": {
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -443,16 +449,19 @@
                     }
                   },
                   "anyOf": [
-                    { 
+                    {
                       "properties": {
-                        "format": { "type": "string", "enum": [ "plain" ] },
+                        "format": { "type": "string", "enum": ["plain"] },
                         "value": { "type": "string" }
-                      } 
+                      }
                     },
                     {
                       "properties": {
-                        "format": { "type": "string", "enum": [ "reference" ] },
-                        "value": { "type": "string", "pattern": "^(User[.]env|UserDefault(.extended)?)[.][^.]+$" }
+                        "format": { "type": "string", "enum": ["reference"] },
+                        "value": {
+                          "type": "string",
+                          "pattern": "^(User[.]env|UserDefault(.extended)?)[.][^.]+$"
+                        }
                       }
                     },
                     {
@@ -486,7 +495,7 @@
                   "additionalProperties": false,
                   "properties": {
                     "value": {
-                      "oneOf":[
+                      "oneOf": [
                         {
                           "description": "Represents the definition of a single-value tile intent parameter; format property must be 'plain' in this case",
                           "type": "string"
@@ -514,7 +523,7 @@
                 "required": {
                   "type": "boolean"
                 },
-                "renameTo" : {
+                "renameTo": {
                   "description": "Represents the parameter name in legacy ABAP application, e.g. 'RF05L-BUKRS' for parameter 'CompanyCode'",
                   "type": "string"
                 }
@@ -530,7 +539,7 @@
       }
     },
 
-    "outbound":{
+    "outbound": {
       "type": "object",
       "additionalProperties": false,
       "patternProperties": {
@@ -594,7 +603,7 @@
     "parameter": {
       "type": "object",
       "properties": {
-        "name":{
+        "name": {
           "type": "string"
         }
       }

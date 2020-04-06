@@ -4,11 +4,11 @@
   "description": "Represents Mobile Cards platform specific attributes",
   "type": "object",
   "additionalProperties": true,
-  "properties":{
+  "properties": {
     "_version": {
       "description": "Represents attributes format version. It is managed by namespace owner",
       "type": "string",
-      "enum" :["1.0.0"]
+      "enum": ["1.0.0"]
     },
     "compatible": {
       "description": "Represents the compatibility of this app with the Mobile Cards platform.",

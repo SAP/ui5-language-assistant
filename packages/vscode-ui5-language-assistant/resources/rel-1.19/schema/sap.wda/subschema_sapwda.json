@@ -5,7 +5,7 @@
 
   "type": "object",
 
-  "required": [ "applicationId"],
+  "required": ["applicationId"],
 
   "additionalProperties": false,
 
@@ -13,7 +13,7 @@
     "_version": {
       "description": "Represents attributes format version. It is managed by namespace owner",
       "type": "string",
-      "enum" :["1.1.0", "1.2.0"]
+      "enum": ["1.1.0", "1.2.0"]
     },
     "applicationId": {
       "description": "Represents ID of an application",

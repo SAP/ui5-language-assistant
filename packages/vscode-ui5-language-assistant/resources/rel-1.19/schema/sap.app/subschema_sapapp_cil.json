@@ -4,12 +4,12 @@
   "description": "Represents general application attributes",
   "type": "object",
   "additionalProperties": false,
-  "required": ["id", "type", "title","embeddedBy"],
+  "required": ["id", "type", "title", "embeddedBy"],
   "properties": {
     "_version": {
       "description": "Application attributes format version. It is managed by namespace owner",
       "type": "string",
-      "enum" :["1.1.0","1.2.0","1.3.0", "1.4.0", "1.5.0"]
+      "enum": ["1.1.0", "1.2.0", "1.3.0", "1.4.0", "1.5.0"]
     },
 
     "sourceTemplate": {
@@ -59,7 +59,7 @@
       "description": "Represents language-dependent additional information to the title",
       "$ref": "#/definitions/i18n_key"
     },
-    
+
     "shortTitle": {
       "description": "Represents shorter version of the title (language-dependent )",
       "$ref": "#/definitions/i18n_key"
@@ -102,10 +102,9 @@
     },
 
     "openSourceComponents": {
-
       "description": "Represents a collection of directly used open source libs (not when used via UI5 capsulation)",
       "type": "array",
-      "items" :{
+      "items": {
         "$ref": "#/definitions/openSource"
       }
     },
@@ -117,7 +116,6 @@
     }
   },
   "definitions": {
-
     "version": {
       "type": "string"
     },
@@ -137,14 +135,14 @@
       "additionalProperties": false,
       "required": ["uri"],
       "properties": {
-        "uri":{
+        "uri": {
           "description": "Represents uri of the data source",
           "type": "string"
         },
         "type": {
           "description": "Represents type of the data source. The supported types are OData, ODataAnnotation, INA, XML, JSON",
           "type": "string",
-          "enum": ["OData", "ODataAnnotation","INA", "XML", "JSON"],
+          "enum": ["OData", "ODataAnnotation", "INA", "XML", "JSON"],
           "default": "OData"
         },
         "settings": {
@@ -171,7 +169,7 @@
           "description": "Represents  array of annotation which references an existing data source of type ODataAnnotation",
           "type": "array",
           "items": {
-            "type":"string"
+            "type": "string"
           }
         }
       }
@@ -180,18 +178,18 @@
     "openSource": {
       "type": "object",
       "additionalProperties": false,
-      "required" : ["name"],
+      "required": ["name"],
       "properties": {
         "name": {
-          "description" : "Represents a name of the open source as appears on the web",
+          "description": "Represents a name of the open source as appears on the web",
           "type": "string"
         },
         "version": {
-          "description" : "Represents a version of the open source (if part of app, version must be specified, if part of UI5 dist layer, version is empty)",
+          "description": "Represents a version of the open source (if part of app, version must be specified, if part of UI5 dist layer, version is empty)",
           "type": "string"
         },
         "packagedWithMySelf": {
-          "description" : "Indicates, whether it is part of the app or not",
+          "description": "Indicates, whether it is part of the app or not",
           "type": "boolean"
         }
       }

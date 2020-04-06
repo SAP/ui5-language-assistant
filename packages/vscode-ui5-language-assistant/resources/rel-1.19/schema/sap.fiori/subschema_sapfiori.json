@@ -3,18 +3,18 @@
 
   "description": "Represents SAP Fiori  specific attributes",
   "type": "object",
-  "required": [ "registrationIds", "archeType"],
+  "required": ["registrationIds", "archeType"],
   "additionalProperties": false,
-  "properties":{
+  "properties": {
     "_version": {
       "description": "Represents attributes format version. It is managed by namespace owner",
       "type": "string",
-      "enum" :["1.1.0"]
+      "enum": ["1.1.0"]
     },
 
-    "registrationIds":{
+    "registrationIds": {
       "description": "Represents array of registration ids, i.e. for Fiori apps fiori id(s)",
-      "type":"array",
+      "type": "array",
       "items": {
         "type": "string"
       }
@@ -23,7 +23,14 @@
     "archeType": {
       "description": "Represents architecture type of an application. The supported types are transactional or analytical or factsheet or reusecomponent or fpmwebdynpro or designstudio",
       "type": "string",
-      "enum": ["transactional", "analytical", "factsheet", "reusecomponent", "fpmwebdynpro", "designstudio"]
+      "enum": [
+        "transactional",
+        "analytical",
+        "factsheet",
+        "reusecomponent",
+        "fpmwebdynpro",
+        "designstudio"
+      ]
     }
   }
 }

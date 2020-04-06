@@ -4,10 +4,7 @@
   "allOf": [
     {
       "type": "object",
-      "required": [
-        "dependencies",
-        "contentDensities"
-      ],
+      "required": ["dependencies", "contentDensities"],
       "properties": {
         "_version": {
           "description": " Represents SAPUI5 attributes format version. It is managed by namespace owner",
@@ -123,10 +120,7 @@
           "description": "Represents object with content density modes the app is supporting. Supported density modes are 'cozy' and 'compact'",
           "type": "object",
           "additionalProperties": false,
-          "required": [
-            "compact",
-            "cozy"
-          ],
+          "required": ["compact", "cozy"],
           "properties": {
             "compact": {
               "description": "Represents indicator whether compact mode is supported",
@@ -195,9 +189,7 @@
           "type": "array",
           "items": {
             "type": "object",
-            "required": [
-              "uri"
-            ],
+            "required": ["uri"],
             "properties": {
               "uri": {
                 "type": "string"
@@ -209,9 +201,7 @@
           "type": "array",
           "items": {
             "type": "object",
-            "required": [
-              "uri"
-            ],
+            "required": ["uri"],
             "properties": {
               "uri": {
                 "type": "string"
@@ -276,9 +266,7 @@
     "componentUsages": {
       "description": "Represents component name for usage",
       "type": "object",
-      "required": [
-        "name"
-      ],
+      "required": ["name"],
       "additionalProperties": false,
       "properties": {
         "name": {
@@ -336,12 +324,7 @@
           "description": "Represents default binding mode and must be a string value from sap.ui.model.BindingMode. Possible values: Default, OneTime, OneWay, TwoWay",
           "type": "string",
           "default": "Default",
-          "enum": [
-            "Default",
-            "OneTime",
-            "OneWay",
-            "TwoWay"
-          ]
+          "enum": ["Default", "OneTime", "OneWay", "TwoWay"]
         },
         "enhanceWith": {
           "description": "Represents enhancement of UI5 resource model with additional properties files",
@@ -351,9 +334,7 @@
             "oneOf": [
               {
                 "additionalProperties": false,
-                "required": [
-                  "bundleUrl"
-                ],
+                "required": ["bundleUrl"],
                 "properties": {
                   "bundleUrl": {
                     "description": "Represents property url for model enhancement",
@@ -363,17 +344,12 @@
                     "description": "Indicates whether url is relative to component (default) or manifest",
                     "type": "string",
                     "default": "component",
-                    "enum": [
-                      "manifest",
-                      "component"
-                    ]
+                    "enum": ["manifest", "component"]
                   }
                 }
               },
               {
-                "required": [
-                  "bundleName"
-                ],
+                "required": ["bundleName"],
                 "additionalProperties": false,
                 "properties": {
                   "bundleName": {
@@ -399,9 +375,7 @@
         },
         {
           "type": "object",
-          "required": [
-            "viewName"
-          ],
+          "required": ["viewName"],
           "additionalProperties": true,
           "properties": {
             "viewName": {
@@ -411,13 +385,7 @@
             "type": {
               "description": "Represents the type of the view. Possible Values: XML, JSON, JS, HTML, Template",
               "type": "string",
-              "enum": [
-                "XML",
-                "JSON",
-                "JS",
-                "HTML",
-                "Template"
-              ]
+              "enum": ["XML", "JSON", "JS", "HTML", "Template"]
             },
             "id": {
               "description": "Represents the id of the view",
@@ -487,9 +455,7 @@
                   "description": "Represents information about targets to display when no route is matched",
                   "type": "object",
                   "additionalProperties": false,
-                  "required": [
-                    "target"
-                  ],
+                  "required": ["target"],
                   "properties": {
                     "target": {
                       "description": "Represents one or multiple names of targets that are displayed when no route is matched",
@@ -541,9 +507,7 @@
                     },
                     {
                       "type": "object",
-                      "required": [
-                        "viewName"
-                      ],
+                      "required": ["viewName"],
                       "properties": {
                         "viewName": {
                           "description": "Represents the name of a view that will be created",
@@ -570,9 +534,7 @@
                       "oneOf": [
                         {
                           "type": "object",
-                          "required": [
-                            "name"
-                          ],
+                          "required": ["name"],
                           "properties": {
                             "name": {
                               "description": "Represents the name of a view or component that will be created",
@@ -589,18 +551,13 @@
                             "type": {
                               "description": "Represents the type of the type View or Component",
                               "type": "string",
-                              "enum": [
-                                "View",
-                                "Component"
-                              ]
+                              "enum": ["View", "Component"]
                             }
                           }
                         },
                         {
                           "type": "object",
-                          "required": [
-                            "usage", "type"
-                          ],
+                          "required": ["usage", "type"],
                           "properties": {
                             "usage": {
                               "description": "Represents the componentUsage of the component that will be created",
@@ -613,9 +570,7 @@
                             "type": {
                               "description": "Represents the type of the type Component",
                               "type": "string",
-                              "enum": [
-                                "Component"
-                              ]
+                              "enum": ["Component"]
                             }
                           }
                         }
@@ -637,9 +592,7 @@
         },
         {
           "type": "object",
-          "required": [
-            "name"
-          ],
+          "required": ["name"],
           "properties": {
             "name": {
               "description": "Represents the name of the route",
@@ -677,10 +630,12 @@
         {
           "type": "array",
           "items": [
-            {"oneOf":[
-              {"type":"string"},
-              {"$ref": "#/definitions/routeTargetObject"}
-            ]}
+            {
+              "oneOf": [
+                { "type": "string" },
+                { "$ref": "#/definitions/routeTargetObject" }
+              ]
+            }
           ]
         },
         {
@@ -721,13 +676,7 @@
         "viewType": {
           "description": "Represents the type of view that is going to be created",
           "type": "string",
-          "enum": [
-            "XML",
-            "JSON",
-            "JS",
-            "HTML",
-            "Template"
-          ]
+          "enum": ["XML", "JSON", "JS", "HTML", "Template"]
         },
         "targetParent": {
           "description": "Represents the id of the view that contains the control specified by the 'controlId'",
@@ -763,12 +712,7 @@
             },
             {
               "type": "string",
-              "enum": [
-                "slide",
-                "flip",
-                "fade",
-                "show"
-              ]
+              "enum": ["slide", "flip", "fade", "show"]
             }
           ]
         },
@@ -781,9 +725,7 @@
     "service": {
       "description": "Represents the definition of each service",
       "type": "object",
-      "required": [
-        "factoryName"
-      ],
+      "required": ["factoryName"],
       "additionalProperties": true,
       "properties": {
         "factoryName": {

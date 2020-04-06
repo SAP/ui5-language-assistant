@@ -8,7 +8,7 @@
     "_version": {
       "description": "Represents SAP.COPILOT attributes format version. It is managed by namespace owner",
       "type": "string",
-      "enum": ["1.0.0","1.1.0"]
+      "enum": ["1.0.0", "1.1.0"]
     },
     "contextAnalysis": {
       "description": "Settings for the context analysis features of SAP CoPilot",
