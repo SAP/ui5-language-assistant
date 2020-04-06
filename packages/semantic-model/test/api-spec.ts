@@ -241,22 +241,38 @@ context("The ui5-language-assistant semantic model package API", () => {
       });
 
       it(`is created successfully in strict mode`, async () => {
-        const model = await generateModel(version, false);
+        const model = await generateModel({ version, downloadLibs: false });
         expect(model).to.exist;
       });
-      it(`has correct parent on root symbols`, async () => {
-        const model = await generateModel(version, false);
-        assertRootSymbolsParent(model);
+
+      it(`is created successfully in non-strict mode`, async () => {
+        const model = await generateModel({
+          version,
+          downloadLibs: false,
+          strict: false
+        });
+        expect(model).to.exist;
       });
-      it(`has correct parent on symbols' properties`, async () => {
-        const model = await generateModel(version, false);
-        assertSymbolPropertiesParent(model);
+
+      describe("model consistency", () => {
+        let model: UI5SemanticModel;
+        before(async () => {
+          model = await generateModel({ version, downloadLibs: false });
+        });
+
+        it(`has correct parent on root symbols`, async () => {
+          assertRootSymbolsParent(model);
+        });
+
+        it(`has correct parent on symbols' properties`, async () => {
+          assertSymbolPropertiesParent(model);
+        });
+
+        it(`has only resolved types`, async () => {
+          assertTypesAreResolved(model);
+        });
+        // TODO: assert no cyclic references in extends or implements or parent - maybe not in a test
       });
-      it(`has only resolved types`, async () => {
-        const model = await generateModel(version, false);
-        assertTypesAreResolved(model);
-      });
-      // TODO: assert no cyclic references in extends or implements or parent - maybe not in a test
     });
   }
 
@@ -273,7 +289,7 @@ context("The ui5-language-assistant semantic model package API", () => {
     let model: UI5SemanticModel;
     before(async function() {
       this.timeout(GEN_MODEL_TIMEOUT);
-      model = await generateModel("1.74.0");
+      model = await generateModel({ version: "1.74.0" });
     });
 
     it("cannot change first-level member of the model", () => {

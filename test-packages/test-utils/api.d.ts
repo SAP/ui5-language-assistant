@@ -76,16 +76,18 @@ export type TestModelVersion = "1.60.14" | "1.74.0" | "1.75.0" | "1.71.14";
  *
  * If downloadLibraries is true (default), increase the timeout of the test/hook to GEN_MODEL_TIMEOUT.
  *
- * @param version
- * @param downloadLibraries By default, download the library files before creating the model.
+ * @param opts.version
+ * @param opts.downloadLibraries By default, download the library files before creating the model.
  *        If you call downloadLibraries explicitly before this function, send false (it will improve the performance).
- * @param disableCache By default caching is used. This improves performance and is safe (since the model is immutable).
+ * @param opts.fixLibs Apply fixes to the model so that it can be created in strict mode. True by default.
+ * @param opts.strict Generate the model in strict mode. True by default.
  */
-export function generateModel(
-  version: TestModelVersion,
-  downloadLibraries?: boolean,
-  disableCache?: boolean
-): Promise<UI5SemanticModel>;
+export function generateModel(opts: {
+  version: TestModelVersion;
+  downloadLibs?: boolean;
+  fixLibs?: boolean;
+  strict?: boolean;
+}): Promise<UI5SemanticModel>;
 
 export function getTypeNameFixForVersion(
   version: TestModelVersion
@@ -137,4 +139,4 @@ export function downloadLibraries(version: TestModelVersion): Promise<void>;
  * Use this constant to set the timeout on the test/hook that calls it.
  * Note: this.timeout(...) cannot be called from within an arrow function.
  */
-export const GEN_MODEL_TIMEOUT = 3000;
+export const GEN_MODEL_TIMEOUT = 5000;

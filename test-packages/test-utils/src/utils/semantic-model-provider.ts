@@ -163,10 +163,18 @@ export async function readTestLibraryFile(
   }
 }
 
+const downloadedLibrariesPromises: Record<string, Promise<void>> = {};
+
 export async function downloadLibraries(
   version: TestModelVersion
 ): Promise<void> {
-  return addUi5Resources(version, getModelFolder(version));
+  if (!has(downloadedLibrariesPromises, version)) {
+    downloadedLibrariesPromises[version] = addUi5Resources(
+      version,
+      getModelFolder(version)
+    );
+  }
+  return downloadedLibrariesPromises[version];
 }
 
 // Load the library files from the file system.
@@ -188,12 +196,18 @@ function loadLibraries(version: TestModelVersion): Record<string, Json> {
   return libToFileContent;
 }
 
-export async function generateModel(
-  version: TestModelVersion,
+export async function generateModel({
+  version,
   downloadLibs = true,
-  disableCache = false
-): Promise<UI5SemanticModel> {
-  if (has(MODEL_CACHE, version) && !disableCache) {
+  strict = true
+}: {
+  version: TestModelVersion;
+  downloadLibs?: boolean;
+  strict?: boolean;
+}): Promise<UI5SemanticModel> {
+  // Don't cache the model if it's not created with the default options
+  const useCache = strict === true;
+  if (has(MODEL_CACHE, version) && useCache) {
     return MODEL_CACHE[version];
   }
 
@@ -202,13 +216,21 @@ export async function generateModel(
   }
 
   const libToFileContent = loadLibraries(version);
-  fixLibraries(version, libToFileContent);
+
+  // If we want the libraries in strict mode we have to fix them first
+  if (strict) {
+    fixLibraries(version, libToFileContent);
+  }
+
   const model = generate({
     version: version,
     libraries: libToFileContent,
-    typeNameFix: getTypeNameFixForVersion(version)
+    typeNameFix: getTypeNameFixForVersion(version),
+    strict: strict,
+    // If we're in strict mode we will want to see the validation errors
+    printValidationErrors: strict
   });
-  if (!disableCache) {
+  if (useCache) {
     MODEL_CACHE[version] = model;
   }
   return model;

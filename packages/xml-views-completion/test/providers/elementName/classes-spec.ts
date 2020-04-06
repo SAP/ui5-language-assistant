@@ -24,7 +24,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
   let ui5Model: UI5SemanticModel;
   before(async function() {
     this.timeout(GEN_MODEL_TIMEOUT);
-    ui5Model = await generateModel("1.74.0");
+    ui5Model = await generateModel({ version: "1.74.0" });
   });
 
   context("UI5 Classes Suggestions", () => {

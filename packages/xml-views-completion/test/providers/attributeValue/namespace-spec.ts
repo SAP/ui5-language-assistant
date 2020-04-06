@@ -24,7 +24,7 @@ describe("The ui5-editor-tools xml-views-completion", () => {
   let ui5SemanticModel: UI5SemanticModel;
   before(async function() {
     this.timeout(GEN_MODEL_TIMEOUT);
-    ui5SemanticModel = await generateModel("1.74.0");
+    ui5SemanticModel = await generateModel({ version: "1.74.0" });
   });
 
   context("namespaces values", () => {

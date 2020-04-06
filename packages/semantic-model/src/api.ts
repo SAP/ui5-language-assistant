@@ -16,13 +16,13 @@ export function generate({
   version,
   libraries,
   typeNameFix,
-  strict = true,
+  strict,
   printValidationErrors = true
 }: {
   version: string;
   libraries: Record<string, Json>;
   typeNameFix: TypeNameFix;
-  strict?: boolean;
+  strict: boolean;
   printValidationErrors?: boolean;
 }): UI5SemanticModel {
   const jsonSymbols = newMap<ConcreteSymbol>();

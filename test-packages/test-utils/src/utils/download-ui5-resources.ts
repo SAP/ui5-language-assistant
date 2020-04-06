@@ -1,16 +1,18 @@
 import { TestModelVersion } from "../../api";
-import { reduce, keys, map } from "lodash";
+import { zipObject, keys, map } from "lodash";
 import { resolve } from "path";
 import { writeFile, mkdirs, pathExists } from "fs-extra";
 import fetch from "node-fetch";
 
 async function getLibs(version: TestModelVersion): Promise<string[]> {
   // The metadata.json seems to have been added only very recently :(
-  let versionInURL: string = version;
-  if (versionInURL !== "1.76.0") {
-    versionInURL = "1.76.0";
+  // For now we assume the libraries are the same in all versions, when we support newer versions we should
+  // do a better check here
+  let versionInMetadataURL: string = version;
+  if (versionInMetadataURL !== "1.76.0") {
+    versionInMetadataURL = "1.76.0";
   }
-  const url = `https://unpkg.com/@sapui5/distribution-metadata@${versionInURL}/metadata.json`;
+  const url = `https://unpkg.com/@sapui5/distribution-metadata@${versionInMetadataURL}/metadata.json`;
   const response = await fetch(url);
   if (!response.ok) {
     console.log(`error fetching from ${url}`);
@@ -31,16 +33,9 @@ export async function addUi5Resources(
   // https://sapui5.hana.ondemand.com/1.71.14/test-resources/sap/m/designtime/api.json
   const baseUrl = `https://sapui5.hana.ondemand.com/${version}/test-resources/`;
   const libs = await getLibs(version);
-  const nameToFile = reduce(
+  const nameToFile = zipObject(
     libs,
-    (nameToFile, lib) => {
-      nameToFile[lib] = `${baseUrl}${lib.replace(
-        /\./g,
-        "/"
-      )}/designtime/api.json`;
-      return nameToFile;
-    },
-    Object.create(null)
+    map(libs, _ => `${baseUrl}${_.replace(/\./g, "/")}/designtime/api.json`)
   );
 
   await mkdirs(folder);

@@ -21,7 +21,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
   before(async function() {
     this.timeout(GEN_MODEL_TIMEOUT);
     //TODO: use 1.71.x
-    ui5SemanticModel = await generateModel("1.74.0");
+    ui5SemanticModel = await generateModel({ version: "1.74.0" });
   });
 
   // Return the first part of a tag name suggestion insert text

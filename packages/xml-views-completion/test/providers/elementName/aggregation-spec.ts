@@ -17,7 +17,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
   let REAL_UI5_MODEL: UI5SemanticModel;
   before(async function() {
     this.timeout(GEN_MODEL_TIMEOUT);
-    REAL_UI5_MODEL = await generateModel("1.74.0");
+    REAL_UI5_MODEL = await generateModel({ version: "1.74.0" });
   });
 
   context("aggregations", () => {
