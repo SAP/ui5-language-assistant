@@ -1,12 +1,13 @@
 import { map, find } from "lodash";
 import { XMLAttribute } from "@xml-tools/ast";
-import { flattenProperties } from "@ui5-editor-tools/logic-utils";
+import { flattenProperties } from "@ui5-language-assistant/logic-utils";
 import { UI5EnumsInXMLAttributeValueCompletion } from "../../../api";
 import {
   getClassByElement,
   filterMembersForSuggestion
 } from "../utils/filter-members";
 import { UI5AttributeValueCompletionOptions } from "./index";
+import { UI5EnumValue } from "@ui5-language-assistant/semantic-model-types";
 
 /**
  * Suggests Enum value inside Attribute
@@ -31,7 +32,7 @@ export function enumSuggestions(
 
   const fields = propType.fields;
   const prefix = opts.prefix ?? "";
-  const prefixMatchingEnumValues = filterMembersForSuggestion(
+  const prefixMatchingEnumValues: UI5EnumValue[] = filterMembersForSuggestion(
     fields,
     prefix,
     []

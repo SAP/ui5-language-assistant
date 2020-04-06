@@ -1,10 +1,17 @@
-import { compact, filter, find, includes, last, map, reject } from "lodash";
-import { UI5Namespace } from "@ui5-editor-tools/semantic-model-types";
-import { isElementSubClass, ui5NodeToFQN } from "@ui5-editor-tools/logic-utils";
+import { compact, filter, find, includes, map, reject } from "lodash";
+import { UI5Namespace } from "@ui5-language-assistant/semantic-model-types";
+import {
+  isElementSubClass,
+  ui5NodeToFQN
+} from "@ui5-language-assistant/logic-utils";
 import { XMLAttribute } from "@xml-tools/ast";
 import { UI5AttributeNameCompletionOptions } from "./index";
 import { UI5NamespacesInXMLAttributeKeyCompletion } from "../../../api";
 import { getClassByElement } from "../utils/filter-members";
+import {
+  getXMLNamespaceKeyPrefix,
+  isXMLNamespaceKey
+} from "../utils/xml-ns-key";
 
 /**
  * Suggests Namespaces inside Element
@@ -22,13 +29,8 @@ export function namespaceKeysSuggestions(
   if (ui5Clazz === undefined) {
     return [];
   }
-  const ui5ClassFQN = ui5NodeToFQN(ui5Clazz);
-  // we limit usage of namespaces attributes on "sap.ui.core.mvc.View" XML Element
-  if (ui5ClassFQN !== "sap.ui.core.mvc.View") {
-    return [];
-  }
 
-  if (opts.prefix === undefined || !isNamespaceKey(opts.prefix)) {
+  if (opts.prefix === undefined || !isXMLNamespaceKey(opts.prefix)) {
     return [];
   }
 
@@ -41,7 +43,7 @@ export function namespaceKeysSuggestions(
     map(existingNamespacesAttributes, _ => _.value)
   );
 
-  const xmlnsPrefix = getNamespaceKeyPrefix(opts.prefix);
+  const xmlnsPrefix = getXMLNamespaceKeyPrefix(opts.prefix);
 
   const applicableNamespaces = filter(ui5Model.namespaces, _ =>
     isNamespaceApplicable(_, xmlnsPrefix)
@@ -63,7 +65,7 @@ export function isExistingNamespaceAttribute(attribute: XMLAttribute): boolean {
     return false;
   }
 
-  if (!isNamespaceKey(attribute.key)) {
+  if (!isXMLNamespaceKey(attribute.key)) {
     return false;
   }
 
@@ -78,24 +80,9 @@ function isNamespaceApplicable(
   namespace: UI5Namespace,
   prefix: string
 ): boolean {
-  const namespaceFQN = ui5NodeToFQN(namespace);
-  const namespaceFQNSplit = namespaceFQN.split(".");
-  const smallName = last(namespaceFQNSplit);
-  if (smallName === undefined || !smallName.startsWith(prefix)) {
+  const smallName = namespace.name;
+  if (!smallName.startsWith(prefix)) {
     return false;
   }
   return find(namespace.classes, isElementSubClass) !== undefined;
-}
-
-//we are only allowing word (\w+) characters in prefixes now (in completions)
-//TODO it should be aligned with the full XML spec
-const namespaceRegex = /^xmlns(:(?<prefix>\w*))?$/;
-
-function isNamespaceKey(key: string): boolean {
-  return key.match(namespaceRegex) !== null;
-}
-
-export function getNamespaceKeyPrefix(key: string): string {
-  const matchArr = key.match(namespaceRegex);
-  return matchArr?.groups?.prefix ?? "";
 }

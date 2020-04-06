@@ -2,10 +2,10 @@ import { expect } from "chai";
 
 import { getSemanticModel } from "../src/ui5-model";
 
-describe("the UI5 tools ui5 model", () => {
+describe("the UI5 language assistant ui5 model", () => {
   it("will get UI5 semantic model", async () => {
     const ui5Model = await getSemanticModel();
-    expect(ui5Model.version).to.equal("1.74.0"); // TODO: use 1.71.x
+    expect(ui5Model.version).to.equal("1.71.14");
 
     expect(Object.keys(ui5Model.classes).length).to.be.greaterThan(200);
     expect(Object.keys(ui5Model.namespaces).length).to.be.greaterThan(200);
@@ -22,5 +22,12 @@ describe("the UI5 tools ui5 model", () => {
     );
     expect(Object.keys(ui5Model.enums)).to.include("sap.m.ButtonType");
     expect(Object.keys(ui5Model.typedefs)).to.include("sap.ui.fl.Selector");
-  }).timeout(5000);
+
+    // Dist layer
+    expect(Object.keys(ui5Model.classes)).to.include("sap.ui.vk.Camera");
+    expect(Object.keys(ui5Model.namespaces)).to.include("sap.apf.base");
+    expect(Object.keys(ui5Model.enums)).to.include(
+      "sap.ca.ui.charts.ChartSelectionMode"
+    );
+  }).timeout(5000); // The default timeout is 2000ms and this test takes ~3000ms
 });

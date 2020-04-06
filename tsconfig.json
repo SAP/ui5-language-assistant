@@ -13,7 +13,7 @@
       "path": "./packages/semantic-model-types"
     },
     {
-      "path": "./packages/vscode-ui5-language-support"
+      "path": "./packages/vscode-ui5-language-assistant"
     },
     {
       "path": "./packages/xml-views-completion"

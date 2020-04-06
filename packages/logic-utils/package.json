@@ -1,6 +1,6 @@
 {
-  "name": "@ui5-editor-tools/logic-utils",
-  "version": "0.0.1",
+  "name": "@ui5-language-assistant/logic-utils",
+  "version": "1.1.0",
   "description": "TBD",
   "keywords": [],
   "files": [
@@ -9,21 +9,21 @@
     "src"
   ],
   "main": "lib/src/api.js",
-  "repository": "https://github.com/sap/ui5-editor-tools/",
+  "repository": "https://github.com/sap/ui5-language-assistant/",
   "license": "Apache-2.0",
   "typings": "./api.d.ts",
   "dependencies": {
-    "@xml-tools/ast": "4.0.1",
+    "@xml-tools/ast": "4.0.2",
     "lodash": "4.17.15"
   },
   "devDependencies": {
-    "@ui5-editor-tools/semantic-model": "0.0.1",
-    "@ui5-editor-tools/test-utils": "0.0.1",
+    "@ui5-language-assistant/semantic-model": "^1.0.0",
+    "@ui5-language-assistant/test-utils": "^1.0.0",
     "@xml-tools/parser": "1.0.2"
   },
   "scripts": {
-    "ci": "npm-run-all compile lint coverage",
-    "clean": "rimraf ./lib",
+    "ci": "npm-run-all clean compile lint coverage",
+    "clean": "rimraf ./lib ./coverage ./nyc_output",
     "compile": "yarn run clean && tsc -p .",
     "compile:watch": "tsc -p . --watch",
     "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore",

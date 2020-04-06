@@ -1,5 +1,5 @@
 import { partial } from "lodash";
-import { UI5Class } from "@ui5-editor-tools/semantic-model-types";
+import { UI5Class } from "@ui5-language-assistant/semantic-model-types";
 
 function flattenMembers<T>(
   membersGetter: (ui5Class: UI5Class) => T[],

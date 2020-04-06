@@ -5,11 +5,17 @@
     "packages": [
       "packages/*",
       "test-packages/*"
+    ],
+    "nohoist": [
+      "vscode-ui5-language-assistant/vscode-languageclient",
+      "vscode-ui5-language-assistant/vscode-languageclient/**",
+      "vscode-ui5-language-assistant/@ui5-language-assistant/language-server",
+      "vscode-ui5-language-assistant/@ui5-language-assistant/language-server/**"
     ]
   },
   "scripts": {
     "lerna:version": "lerna version && yarn run cirlce:release",
-    "cirlce:release": "git tag -d RELEASE && git tag RELEASE && git push --delete origin RELEASE && git push --tags",
+    "cirlce:release": "node ./scripts/trigger-release",
     "lerna:publish": "lerna publish from-git --yes",
     "ci": "npm-run-all deps:check format:validate ci:subpackages",
     "deps:check": "yarn check",
@@ -44,10 +50,11 @@
     "prettier": "1.19.1",
     "source-map-support": "0.5.16",
     "typescript": "3.7.5",
-    "cz-conventional-changelog": "3.0.2",
+    "cz-conventional-changelog": "3.1.0",
     "@commitlint/cli": "8.3.5",
     "@commitlint/config-conventional": "8.3.4",
-    "rimraf": "3.0.1"
+    "rimraf": "3.0.2",
+    "simple-git": "1.132.0"
   },
   "prettier": {
     "endOfLine": "lf"

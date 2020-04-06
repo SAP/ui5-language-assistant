@@ -1,19 +1,17 @@
 {
-  "name": "@ui5-editor-tools/semantic-model-types",
-  "version": "0.0.1",
+  "name": "@ui5-language-assistant/semantic-model-types",
+  "version": "1.0.0",
   "description": "UI5 Semantic model type definitions",
   "keywords": [],
   "files": [
     "api.d.ts"
   ],
-  "repository": "https://github.com/sap/ui5-editor-tools/",
+  "repository": "https://github.com/sap/ui5-language-assistant/",
   "license": "Apache-2.0",
   "typings": "./api.d.ts",
-  "dependencies": {},
-  "devDependencies": {},
   "scripts": {
-    "ci": "npm-run-all compile lint coverage",
-    "clean": "rimraf ./lib",
+    "ci": "npm-run-all clean compile lint coverage",
+    "clean": "echo \"nothing to clean\"",
     "compile": "yarn run clean && tsc -p .",
     "compile:watch": "tsc -p . --watch",
     "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore",

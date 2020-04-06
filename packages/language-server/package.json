@@ -1,6 +1,6 @@
 {
-  "name": "@ui5-editor-tools/language-server",
-  "version": "0.0.1",
+  "name": "@ui5-language-assistant/language-server",
+  "version": "1.1.0",
   "description": "UI5 Language Server",
   "keywords": [
     "LSP",
@@ -15,30 +15,30 @@
     "src"
   ],
   "main": "lib/src/api.js",
-  "repository": "https://github.com/sap/ui5-editor-tools/",
+  "repository": "https://github.com/sap/ui5-language-assistant/",
   "license": "Apache-2.0",
   "typings": "./api.d.ts",
   "engines": {
     "node": ">=10.0.0"
   },
   "dependencies": {
-    "@xml-tools/parser": "1.0.3",
+    "@ui5-language-assistant/semantic-model": "^1.0.0",
+    "@ui5-language-assistant/xml-views-completion": "^1.1.0",
     "@xml-tools/ast": "4.0.2",
-    "vscode-languageserver": "6.1.1",
-    "vscode-languageserver-textdocument": "1.0.0",
+    "@xml-tools/parser": "1.0.3",
+    "lodash": "4.17.15",
     "node-fetch": "2.6.0",
-    "@ui5-editor-tools/semantic-model": "0.0.1",
-    "@ui5-editor-tools/xml-views-completion": "0.0.1",
-    "lodash": "4.17.15"
+    "vscode-languageserver": "6.1.1",
+    "vscode-languageserver-textdocument": "1.0.1"
   },
   "devDependencies": {
     "@types/node-fetch": "2.5.5",
-    "vscode-languageserver-types": "3.15.1",
-    "@ui5-editor-tools/semantic-model-types": "0.0.1"
+    "@ui5-language-assistant/semantic-model-types": "^1.0.0",
+    "vscode-languageserver-types": "3.15.1"
   },
   "scripts": {
-    "ci": "npm-run-all compile lint coverage",
-    "clean": "rimraf ./lib",
+    "ci": "npm-run-all clean compile lint coverage",
+    "clean": "rimraf ./lib ./coverage ./nyc_output",
     "compile": "yarn run clean && tsc -p .",
     "compile:watch": "tsc -p . --watch",
     "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore",

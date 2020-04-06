@@ -1,6 +1,6 @@
-[![npm (scoped)](https://img.shields.io/npm/v/@ui5-editor-tools/semantic-model.svg)](https://www.npmjs.com/package/@ui5-editor-tools/semantic-model)
+[![npm (scoped)](https://img.shields.io/npm/v/@ui5-language-assistant/semantic-model.svg)](https://www.npmjs.com/package/@ui5-language-assistant/semantic-model)
 
-# @ui5-editor-tools/semantic-model
+# @ui5-language-assistant/semantic-model
 
 A pure data model representing the UI5 SDK. Other packages in this mono repo
 will perform logic and computations on this data model to implement editor functionality
@@ -10,11 +10,11 @@ such as content-assist or validations.
 
 With npm:
 
-- `npm install @ui5-editor-tools/semantic-model`
+- `npm install @ui5-language-assistant/semantic-model`
 
 With Yarn:
 
-- `yarn add @ui5-editor-tools/semantic-model`
+- `yarn add @ui5-language-assistant/semantic-model`
 
 ## Usage
 
@@ -23,7 +23,7 @@ defined in [api.d.ts](./api.d.ts).
 
 ## Support
 
-Please open [issues](https://github.com/SAP/ui5-editor-tools/issues) on github.
+Please open [issues](https://github.com/SAP/ui5-language-assistant/issues) on github.
 
 ## Contributing
 

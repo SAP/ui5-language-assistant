@@ -7,7 +7,7 @@ A sub-package **may** have an additional CONTRIBUTING.md file if needed.
 
 All contributors must sign the CLA
 
-- https://cla-assistant.io/SAP/ui5-editor-tools
+- https://cla-assistant.io/SAP/ui5-language-assistant
 
 This is managed automatically via https://cla-assistant.io/ pull request voter.
 
@@ -134,8 +134,9 @@ Performing a release requires push permissions to the repository.
 - Ensure you are on `master` branch and synced with origin.
 - `yarn run lerna:version`
 - Follow the lerna CLI instructions.
-- Track the `RELEASE` tag build on circle-ci.
-  - https://circleci.com/gh/SAP/ui5-editor-tools.
-- Once the tag build has finished successfully inspect the npm registry to see the new versions
-  for all the changed packages of this mono-repo.
-  - `npm view [package-name] version`
+- Track the `RELEASE` and `vscode-ui5-language-assistant@x.y.z` tag builds on circle-ci.
+  - https://circleci.com/gh/SAP/ui5-language-assistant.
+- Once the tag builds have successfully finished:
+  - Inspect the npm registry to see the new sub packages versions.
+  - Inspect the new github release named: `vscode-ui5-language-assistant@x.y.z`
+    and verify it contains the `.vsix` artifact.

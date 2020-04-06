@@ -1,6 +1,6 @@
 {
-  "name": "@ui5-editor-tools/semantic-model",
-  "version": "0.0.1",
+  "name": "@ui5-language-assistant/semantic-model",
+  "version": "1.0.0",
   "description": "Semantic model provider for UI5",
   "keywords": [],
   "files": [
@@ -10,25 +10,25 @@
     "resources"
   ],
   "main": "lib/src/api.js",
-  "repository": "https://github.com/sap/ui5-editor-tools/",
+  "repository": "https://github.com/sap/ui5-language-assistant/",
   "license": "Apache-2.0",
   "typings": "./api.d.ts",
   "dependencies": {
-    "lodash": "4.17.15",
-    "@ui5-editor-tools/semantic-model-types": "0.0.1",
+    "@ui5-language-assistant/semantic-model-types": "^1.0.0",
+    "ajv": "6.12.0",
     "deep-freeze-strict": "1.1.1",
-    "ajv": "6.12.0"
+    "lodash": "4.17.15"
   },
   "devDependencies": {
-    "fs-extra": "8.1.0",
-    "@types/fs-extra": "8.0.1",
-    "@ui5-editor-tools/test-utils": "0.0.1",
     "@types/deep-freeze-strict": "1.1.0",
+    "@types/fs-extra": "8.0.1",
+    "@ui5-language-assistant/test-utils": "^1.0.0",
+    "fs-extra": "8.1.0",
     "json-schema-to-typescript": "8.1.0"
   },
   "scripts": {
-    "ci": "npm-run-all generate-json-api compile lint coverage",
-    "clean": "rimraf ./lib",
+    "ci": "npm-run-all clean generate-json-api compile lint coverage",
+    "clean": "rimraf ./lib ./coverage ./nyc_output",
     "compile": "yarn run clean && tsc -p .",
     "compile:watch": "tsc -p . --watch",
     "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore",

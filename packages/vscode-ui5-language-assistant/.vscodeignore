@@ -1,0 +1,13 @@
+# this package's dev artifacts
+coverage/**
+.nyc_output/**
+test/**
+
+# linked mono-repo dev artifacts
+# we are explicitly ignoring these development artifacts
+# because the extension is built as part of the mono-repo CI
+# and the mono-repo deps are "consumed" via yarn workspace symbolic links and not
+# via npmjs.com (which should not contain these artifacts anyhow).
+**/@ui5-language-assistant/*/coverage/**
+**/@ui5-language-assistant/*/.nyc_output/**
+**/@ui5-language-assistant/*/test/**

@@ -1,8 +1,11 @@
 import { expect } from "chai";
-import { buildUI5Class, buildUI5Namespace } from "@ui5-editor-tools/test-utils";
+import {
+  buildUI5Class,
+  buildUI5Namespace
+} from "@ui5-language-assistant/test-utils";
 import { isElementSubClass } from "../../src/api";
 
-describe("The @ui5-editor-tools/logic-utils <isElementSubClass> function", () => {
+describe("The @ui5-language-assistant/logic-utils <isElementSubClass> function", () => {
   const sapNs = buildUI5Namespace({ name: "sap" });
 
   const uiNs = buildUI5Namespace({
