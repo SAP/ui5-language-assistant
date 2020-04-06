@@ -238,7 +238,6 @@ describe("The ui5-language-assistant xml-views-completion", () => {
                 // Can "manually" traverse expected graph of `sap.ui.core.LayoutData` subClasses here:
                 //   - https://sapui5.hana.ondemand.com/1.74.0/#/api/sap.ui.core.LayoutData
                 expect(suggestionNames).to.deep.equalInAnyOrder([
-                  "sap.ui.core.LayoutData",
                   "sap.ui.core.VariantLayoutData",
                   "sap.f.GridContainerItemLayoutData",
                   "sap.m.FlexItemData",
@@ -389,6 +388,33 @@ describe("The ui5-language-assistant xml-views-completion", () => {
     });
 
     context("none applicable scenarios", () => {
+      it("will offer no suggestions which are abstract classes", () => {
+        const xmlSnippet = `
+            <mvc:View
+              xmlns:mvc="sap.ui.core.mvc"
+              xmlns="sap.m">
+               <layoutData>
+                <ComboBox⇶
+              </layoutData>
+            </mvc:View>`;
+
+        testSuggestionsScenario({
+          model: ui5Model,
+          xmlText: xmlSnippet,
+          providers: {
+            elementName: [classesSuggestions]
+          },
+          assertion: suggestions => {
+            expect(ui5Model.classes).to.have.property("sap.m.ComboBoxBase");
+            expect(ui5Model.classes["sap.m.ComboBoxBase"].abstract).to.be.true;
+            const suggestionNames = map(suggestions, _ =>
+              ui5NodeToFQN(_.ui5Node)
+            );
+            expect(suggestionNames).to.not.include("sap.m.ComboBoxBase");
+          }
+        });
+      });
+
       it("will offer no suggestions in an aggregation with cardinality 0..1 which is already 'full'", () => {
         const xmlSnippet = `
             <mvc:View
