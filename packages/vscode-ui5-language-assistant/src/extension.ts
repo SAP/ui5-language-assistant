@@ -29,7 +29,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
     }
   };
 
-  let initializationOptions: ServerInitializationOptions = {
+  const initializationOptions: ServerInitializationOptions = {
     modelCachePath: context.globalStoragePath
   };
 

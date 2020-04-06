@@ -16,7 +16,7 @@ describe("the UI5 language assistant ui5 model", () => {
   const GET_MODEL_TIMEOUT = 10000;
   const VERSION = "1.71.14";
 
-  function assertSemanticModel(ui5Model: UI5SemanticModel) {
+  function assertSemanticModel(ui5Model: UI5SemanticModel): void {
     expect(ui5Model.version).to.equal(VERSION);
 
     expect(Object.keys(ui5Model.classes).length).to.be.greaterThan(200);
@@ -52,7 +52,7 @@ describe("the UI5 language assistant ui5 model", () => {
     const ui5Model = await getSemanticModelWithFetcher(async (url: string) => {
       return {
         ok: false,
-        json: () => {
+        json: (): never => {
           throw new Error(`Cannot read from ${url}`);
         }
       };
@@ -138,7 +138,7 @@ describe("the UI5 language assistant ui5 model", () => {
           fetcherCalled = true;
           return {
             ok: true,
-            json: async () => {
+            json: async (): Promise<unknown> => {
               return {};
             }
           };

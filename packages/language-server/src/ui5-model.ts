@@ -101,7 +101,10 @@ export async function getSemanticModelWithFetcher(
 }
 
 // Exported for test purposes
-export function getCacheFolder(modelCachePath: string, version: string) {
+export function getCacheFolder(
+  modelCachePath: string,
+  version: string
+): string {
   return resolve(modelCachePath, "ui5-resources-cache", version);
 }
 // Exported for test purposes
