@@ -1,20 +1,22 @@
 /* istanbul ignore file */
 import { workspace, window } from "vscode";
-import { SERVER_PATH } from "@ui5-language-assistant/language-server";
+import {
+  SERVER_PATH,
+  ServerInitializationOptions
+} from "@ui5-language-assistant/language-server";
 import {
   LanguageClient,
   LanguageClientOptions,
   ServerOptions,
   TransportKind
 } from "vscode-languageclient";
+import { ExtensionContext } from "vscode";
 
 let client: LanguageClient;
 
-export async function activate(): Promise<void> {
+export async function activate(context: ExtensionContext): Promise<void> {
   // TODO: read name from package.json
   const channel = window.createOutputChannel("UI5 Language Assistant");
-
-  //TODO add context: vscode.ExtensionContext parameter and use context.globalStoragePath to store the api.json files
 
   const debugOptions = { execArgv: ["--nolazy", "--inspect=6009"] };
 
@@ -27,6 +29,10 @@ export async function activate(): Promise<void> {
     }
   };
 
+  let initializationOptions: ServerInitializationOptions = {
+    modelCachePath: context.globalStoragePath
+  };
+
   const clientOptions: LanguageClientOptions = {
     documentSelector: [{ scheme: "file", pattern: "**/*.{view,fragment}.xml" }],
     synchronize: {
@@ -34,7 +40,8 @@ export async function activate(): Promise<void> {
     },
     // Sending a channel we created instead of only giving it a name in outputChannelName so that if necessary we
     // can print to it before the client starts (in this method)
-    outputChannel: channel
+    outputChannel: channel,
+    initializationOptions: initializationOptions
   };
 
   client = new LanguageClient(

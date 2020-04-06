@@ -4,6 +4,10 @@
  */
 export declare const SERVER_PATH: string;
 
+export type ServerInitializationOptions = {
+  modelCachePath: string;
+};
+
 export type FetchResponse = {
   ok: boolean;
   json: () => Promise<unknown>;
