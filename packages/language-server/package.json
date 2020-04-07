@@ -34,7 +34,9 @@
   "devDependencies": {
     "@types/node-fetch": "2.5.5",
     "@ui5-language-assistant/semantic-model-types": "^1.0.0",
-    "vscode-languageserver-types": "3.15.1"
+    "vscode-languageserver-types": "3.15.1",
+    "tmp-promise": "2.0.2",
+    "@types/tmp": "0.1.0"
   },
   "scripts": {
     "ci": "npm-run-all clean compile lint coverage",
