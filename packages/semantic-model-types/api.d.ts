@@ -29,7 +29,7 @@ export interface BaseUI5Node extends UI5Meta {
 
 export interface UI5Class extends BaseUI5Node {
   kind: "UI5Class";
-  // TODO: we want an `abstract` property to avoid suggesting abstract classes
+  abstract: boolean;
   extends: UI5Class | undefined;
   implements: UI5Interface[];
   ctor: UI5Constructor | undefined;
