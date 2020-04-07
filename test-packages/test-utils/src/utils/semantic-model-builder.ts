@@ -108,6 +108,7 @@ export function buildUI5Association(
 export function buildUI5Class(opts: PartialWithName<UI5Class>): UI5Class {
   return {
     ...baseUI5NodeDefaults,
+    abstract: false,
     aggregations: [],
     associations: [],
     ctor: undefined,

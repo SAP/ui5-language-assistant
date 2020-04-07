@@ -162,9 +162,10 @@ function convertClass(
   symbol: apiJson.ClassSymbol
 ): model.UI5Class {
   const base = convertSymbol(libName, symbol);
-  const classs: model.UI5Class = {
+  const clazz: model.UI5Class = {
     ...base,
     kind: "UI5Class",
+    abstract: symbol.abstract ?? false,
     ctor: undefined,
     extends: undefined, // Filled later
     implements: [], // Filled later
@@ -178,31 +179,31 @@ function convertClass(
   };
 
   if (symbol["ui5-metadata"] !== undefined) {
-    classs.aggregations = map(symbol["ui5-metadata"].aggregations, _ =>
-      convertAggregation(libName, _, classs)
+    clazz.aggregations = map(symbol["ui5-metadata"].aggregations, _ =>
+      convertAggregation(libName, _, clazz)
     );
-    classs.associations = map(symbol["ui5-metadata"].associations, _ =>
-      convertAssociation(libName, _, classs)
+    clazz.associations = map(symbol["ui5-metadata"].associations, _ =>
+      convertAssociation(libName, _, clazz)
     );
-    classs.properties = map(
+    clazz.properties = map(
       symbol["ui5-metadata"].properties,
-      partial(convertProperty, libName, classs)
+      partial(convertProperty, libName, clazz)
     );
   }
   // Due to unfortunate naming, if not defined in the json, symbol.constructor will be a javascript function
-  classs.ctor =
+  clazz.ctor =
     symbol.constructor === undefined || isFunction(symbol.constructor)
       ? undefined
-      : convertConstructor(libName, classs, symbol.constructor);
-  classs.events = map(symbol.events, partial(convertEvent, libName, classs));
-  classs.methods = map(symbol.methods, partial(convertMethod, libName, classs));
+      : convertConstructor(libName, clazz, symbol.constructor);
+  clazz.events = map(symbol.events, partial(convertEvent, libName, clazz));
+  clazz.methods = map(symbol.methods, partial(convertMethod, libName, clazz));
   // The "properties" directly under the class symbol are displayed as "fields" in the SDK and are not considered properties
-  classs.fields = map(
+  clazz.fields = map(
     symbol.properties,
-    partial(convertProperty, libName, classs)
+    partial(convertProperty, libName, clazz)
   );
 
-  return classs;
+  return clazz;
 }
 
 function convertInterface(
