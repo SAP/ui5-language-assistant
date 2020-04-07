@@ -1,5 +1,7 @@
 import { map } from "lodash";
 import fetch from "node-fetch";
+import { resolve } from "path";
+import { pathExists, lstat, readJson, writeJson, mkdirs } from "fs-extra";
 
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import {
@@ -11,29 +13,58 @@ import { Fetcher } from "../api";
 
 const DEFAULT_UI5_VERSION = "1.71.14";
 
-export async function getSemanticModel(): Promise<UI5SemanticModel> {
-  return getSemanticModelWithFetcher(fetch);
+export async function getSemanticModel(
+  modelCachePath: string | undefined
+): Promise<UI5SemanticModel> {
+  return getSemanticModelWithFetcher(fetch, modelCachePath);
 }
 
 // This function is exported for testing purposes (using a mock fetcher)
 export async function getSemanticModelWithFetcher(
-  fetcher: Fetcher
+  fetcher: Fetcher,
+  modelCachePath: string | undefined
 ): Promise<UI5SemanticModel> {
   const version = DEFAULT_UI5_VERSION;
   const jsonMap: Record<string, Json> = {};
   const baseUrl = `https://sapui5.hana.ondemand.com/${version}/test-resources/`;
   const suffix = "/designtime/api.json";
   const libs = getLibs();
+  let cacheFolder: string | undefined;
+
+  // Note: all cache handling (reading, writing etc) is optional from the user perspective but
+  // impacts performance, therefore if any errors occur when handling the cache we ignore them but output
+  // a warning to the user
+  if (modelCachePath !== undefined) {
+    cacheFolder = getCacheFolder(modelCachePath, version);
+    console.log(`${cacheFolder} will be used to cache UI5 resources`);
+    try {
+      await mkdirs(cacheFolder);
+    } catch (err) {
+      console.warn(
+        `Could not create folder ${cacheFolder} for caching UI5 resources`,
+        err
+      );
+      cacheFolder = undefined;
+    }
+  }
 
   await Promise.all(
     map(libs, async libName => {
-      const url = baseUrl + libName + suffix;
-      const response = await fetcher(url);
-      if (response.ok) {
-        const apiJson = await response.json();
+      const cacheFilePath = getCacheFilePath(cacheFolder, libName);
+      let apiJson = await readFromCache(cacheFilePath);
+      // If the file doesn't exist in the cache (or we couldn't read it), fetch it from the network
+      if (apiJson === undefined) {
+        const url = baseUrl + libName.replace(/\./g, "/") + suffix;
+        const response = await fetcher(url);
+        if (response.ok) {
+          apiJson = await response.json();
+          await writeToCache(cacheFilePath, apiJson);
+        } else {
+          console.error(`Could not read UI5 resources from ${url}`);
+        }
+      }
+      if (apiJson !== undefined) {
         jsonMap[libName] = apiJson;
-      } else {
-        console.error(`could not read from ${url}`);
       }
     })
   );
@@ -44,6 +75,53 @@ export async function getSemanticModelWithFetcher(
     typeNameFix: getTypeNameFix(),
     strict: false
   });
+}
+
+async function readFromCache(filePath: string | undefined): Promise<unknown> {
+  if (filePath !== undefined) {
+    try {
+      if ((await pathExists(filePath)) && (await lstat(filePath)).isFile()) {
+        return await readJson(filePath);
+      }
+    } catch (err) {
+      console.warn(
+        `Could not read file ${filePath} from UI5 resources cache`,
+        err
+      );
+    }
+  }
+  return undefined;
+}
+
+async function writeToCache(
+  filePath: string | undefined,
+  apiJson: unknown
+): Promise<void> {
+  if (filePath !== undefined) {
+    try {
+      await writeJson(filePath, apiJson);
+    } catch (err) {
+      console.warn(`Could not cache UI5 resources to file ${filePath}`, err);
+    }
+  }
+}
+
+// Exported for test purposes
+export function getCacheFolder(
+  modelCachePath: string,
+  version: string
+): string {
+  return resolve(modelCachePath, "ui5-resources-cache", version);
+}
+// Exported for test purposes
+export function getCacheFilePath(
+  cacheFolder: string | undefined,
+  libName: string
+): string | undefined {
+  if (cacheFolder === undefined) {
+    return undefined;
+  }
+  return resolve(cacheFolder, libName + ".json");
 }
 
 function getTypeNameFix(): TypeNameFix {
@@ -83,58 +161,55 @@ function getTypeNameFix(): TypeNameFix {
 function getLibs(): string[] {
   // When we support more version the following libraries should be added:
   // "sap.fileviewer"
-  return map(
-    [
-      "sap.ui.core",
-      "sap.apf",
-      "sap.ca.scfld.md",
-      "sap.ca.ui",
-      "sap.chart",
-      "sap.collaboration",
-      "sap.f",
-      "sap.fe",
-      "sap.gantt",
-      "sap.landvisz",
-      "sap.m",
-      "sap.makit",
-      "sap.me",
-      "sap.ndc",
-      "sap.ovp",
-      "sap.rules.ui",
-      "sap.suite.ui.commons",
-      "sap.suite.ui.generic.template",
-      "sap.suite.ui.microchart",
-      "sap.tnt",
-      "sap.ui.codeeditor",
-      "sap.ui.commons",
-      "sap.ui.comp",
-      "sap.ui.dt",
-      "sap.ui.export",
-      "sap.ui.fl",
-      "sap.ui.generic.app",
-      "sap.ui.generic.template",
-      "sap.ui.integration",
-      "sap.ui.layout",
-      "sap.ui.mdc",
-      "sap.ui.richtexteditor",
-      "sap.ui.rta",
-      "sap.ui.suite",
-      "sap.ui.support",
-      "sap.ui.table",
-      "sap.ui.testrecorder",
-      "sap.ui.unified",
-      "sap.ui.ux3",
-      "sap.ui.vbm",
-      "sap.ui.vk",
-      "sap.ui.vtm",
-      "sap.uiext.inbox",
-      "sap.ushell",
-      "sap.uxap",
-      "sap.viz",
-      "sap.zen.commons",
-      "sap.zen.crosstab",
-      "sap.zen.dsh"
-    ],
-    _ => _.replace(/\./g, "/")
-  );
+  // "sap.ui.testrecorder"
+  // "sap.zen.dsh"
+  // "sap.zen.crosstab"
+  return [
+    "sap.ui.core",
+    "sap.apf",
+    "sap.ca.scfld.md",
+    "sap.ca.ui",
+    "sap.chart",
+    "sap.collaboration",
+    "sap.f",
+    "sap.fe",
+    "sap.gantt",
+    "sap.landvisz",
+    "sap.m",
+    "sap.makit",
+    "sap.me",
+    "sap.ndc",
+    "sap.ovp",
+    "sap.rules.ui",
+    "sap.suite.ui.commons",
+    "sap.suite.ui.generic.template",
+    "sap.suite.ui.microchart",
+    "sap.tnt",
+    "sap.ui.codeeditor",
+    "sap.ui.commons",
+    "sap.ui.comp",
+    "sap.ui.dt",
+    "sap.ui.export",
+    "sap.ui.fl",
+    "sap.ui.generic.app",
+    "sap.ui.generic.template",
+    "sap.ui.integration",
+    "sap.ui.layout",
+    "sap.ui.mdc",
+    "sap.ui.richtexteditor",
+    "sap.ui.rta",
+    "sap.ui.suite",
+    "sap.ui.support",
+    "sap.ui.table",
+    "sap.ui.unified",
+    "sap.ui.ux3",
+    "sap.ui.vbm",
+    "sap.ui.vk",
+    "sap.ui.vtm",
+    "sap.uiext.inbox",
+    "sap.ushell",
+    "sap.uxap",
+    "sap.viz",
+    "sap.zen.commons"
+  ];
 }
