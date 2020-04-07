@@ -103,9 +103,14 @@ describe("the UI5 language assistant ui5 model", () => {
           if (isPlainObject(value)) {
             expect(
               Object.keys(
-                ui5ModelFromCache[key as keyof UI5SemanticModel] as Object
+                ui5ModelFromCache[key as keyof UI5SemanticModel] as Record<
+                  string,
+                  unknown
+                >
               )
-            ).to.deep.equalInAnyOrder(Object.keys(value as Object));
+            ).to.deep.equalInAnyOrder(
+              Object.keys(value as Record<string, unknown>)
+            );
           }
         });
         assertSemanticModel(ui5ModelFromCache);
