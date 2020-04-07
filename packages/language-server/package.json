@@ -1,6 +1,6 @@
 {
   "name": "@ui5-language-assistant/language-server",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "UI5 Language Server",
   "keywords": [
     "LSP",
