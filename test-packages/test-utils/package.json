@@ -4,7 +4,6 @@
   "private": true,
   "description": "Test Utils",
   "files": [
-    "resources",
     "lib/src",
     "api.d.ts",
     "src"
@@ -14,11 +13,15 @@
   "license": "Apache-2.0",
   "typings": "./api.d.ts",
   "dependencies": {
-    "@ui5-language-assistant/semantic-model": "^1.0.0"
+    "@ui5-language-assistant/semantic-model": "^1.0.0",
+    "node-fetch": "2.6.0"
+  },
+  "devDependencies": {
+    "@types/node-fetch": "2.5.5"
   },
   "scripts": {
     "ci": "npm-run-all clean compile lint",
-    "clean": "rimraf ./lib ./coverage ./nyc_output",
+    "clean": "rimraf ./lib ./coverage ./nyc_output ./.model-cache",
     "compile": "yarn run clean && tsc -p .",
     "compile:watch": "tsc -p . --watch",
     "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore"

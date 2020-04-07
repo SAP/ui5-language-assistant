@@ -15,7 +15,8 @@ import { createXMLAttribute, testSuggestionsScenario } from "../../utils";
 import {
   expectSuggestions,
   expectXMLAttribute,
-  generateModel
+  generateModel,
+  GEN_MODEL_TIMEOUT
 } from "@ui5-language-assistant/test-utils";
 import {
   isExistingNamespaceAttribute,
@@ -23,8 +24,6 @@ import {
 } from "../../../src/providers/attributeName/namespace";
 import { ui5NodeToFQN } from "@ui5-language-assistant/logic-utils";
 import { getXMLNamespaceKeyPrefix } from "../../../src/providers/utils/xml-ns-key";
-
-const ui5SemanticModel: UI5SemanticModel = generateModel("1.74.0");
 
 const allExpectedNamespaces = [
   "sap.f",
@@ -57,7 +56,94 @@ const allExpectedNamespaces = [
   "sap.ui.unified",
   "sap.ui.unified.calendar",
   "sap.ui.ux3",
-  "sap.uxap"
+  "sap.uxap",
+  // Dist layer
+  "sap.ca.ui",
+  "sap.ca.ui.charts",
+  "sap.chart",
+  "sap.chart.data",
+  "sap.gantt",
+  "sap.gantt.axistime",
+  "sap.gantt.config",
+  "sap.gantt.control",
+  "sap.gantt.def",
+  "sap.gantt.def.cal",
+  "sap.gantt.def.filter",
+  "sap.gantt.def.gradient",
+  "sap.gantt.def.pattern",
+  "sap.gantt.shape",
+  "sap.gantt.shape.cal",
+  "sap.gantt.shape.ext",
+  "sap.gantt.shape.ext.rls",
+  "sap.gantt.shape.ext.ubc",
+  "sap.gantt.shape.ext.ulc",
+  "sap.gantt.simple",
+  "sap.gantt.simple.shapes",
+  "sap.landvisz",
+  "sap.landvisz.internal",
+  "sap.makit",
+  "sap.me",
+  "sap.ndc",
+  "sap.rules.ui",
+  "sap.rules.ui.services",
+  "sap.suite.ui.commons",
+  "sap.suite.ui.commons.imageeditor",
+  "sap.suite.ui.commons.networkgraph",
+  "sap.suite.ui.commons.networkgraph.layout",
+  "sap.suite.ui.commons.statusindicator",
+  "sap.suite.ui.commons.taccount",
+  "sap.suite.ui.microchart",
+  "sap.ui.comp.filterbar",
+  "sap.ui.comp.navpopover",
+  "sap.ui.comp.smartchart",
+  "sap.ui.comp.smartfield",
+  "sap.ui.comp.smartfilterbar",
+  "sap.ui.comp.smartform",
+  "sap.ui.comp.smartlist",
+  "sap.ui.comp.smartmicrochart",
+  "sap.ui.comp.smartmultiedit",
+  "sap.ui.comp.smartmultiinput",
+  "sap.ui.comp.smarttable",
+  "sap.ui.comp.smartvariants",
+  "sap.ui.comp.valuehelpdialog",
+  "sap.ui.comp.variants",
+  "sap.ui.integration.designtime.baseEditor",
+  "sap.ui.integration.designtime.baseEditor.propertyEditor",
+  "sap.ui.integration.designtime.baseEditor.propertyEditor.arrayEditor",
+  "sap.ui.integration.designtime.baseEditor.propertyEditor.booleanEditor",
+  "sap.ui.integration.designtime.baseEditor.propertyEditor.enumStringEditor",
+  "sap.ui.integration.designtime.baseEditor.propertyEditor.iconEditor",
+  "sap.ui.integration.designtime.baseEditor.propertyEditor.jsonEditor",
+  "sap.ui.integration.designtime.baseEditor.propertyEditor.mapEditor",
+  "sap.ui.integration.designtime.baseEditor.propertyEditor.numberEditor",
+  "sap.ui.integration.designtime.baseEditor.propertyEditor.stringEditor",
+  "sap.ui.integration.widgets",
+  "sap.ui.richtexteditor",
+  "sap.ui.vbm",
+  "sap.ui.vk",
+  "sap.ui.vk.dvl",
+  "sap.ui.vk.threejs",
+  "sap.ui.vk.tools",
+  "sap.ui.vtm",
+  "sap.ui.vtm.extensions",
+  "sap.uiext.inbox",
+  "sap.uiext.inbox.composite",
+  "sap.ushell.components.factsheet.controls",
+  "sap.ushell.ui.appfinder",
+  "sap.ushell.ui.footerbar",
+  "sap.ushell.ui.launchpad",
+  "sap.ushell.ui.shell",
+  "sap.viz.ui5",
+  "sap.viz.ui5.controls",
+  "sap.viz.ui5.controls.common",
+  "sap.viz.ui5.controls.common.feeds",
+  "sap.viz.ui5.core",
+  "sap.viz.ui5.data",
+  "sap.viz.ui5.types",
+  "sap.viz.ui5.types.controller",
+  "sap.viz.ui5.types.layout",
+  "sap.viz.ui5.types.legend",
+  "sap.zen.dsh"
 ];
 
 const expectNamespaceKeysSuggestions = partial(expectSuggestions, _ => {
@@ -68,6 +154,13 @@ const expectNamespaceKeysSuggestions = partial(expectSuggestions, _ => {
 });
 
 describe("The ui5-language-assistant xml-views-completion", () => {
+  let ui5SemanticModel: UI5SemanticModel;
+
+  before(async function() {
+    this.timeout(GEN_MODEL_TIMEOUT);
+    ui5SemanticModel = await generateModel({ version: "1.74.0" });
+  });
+
   context("namespaces", () => {
     context("applicable scenarios", () => {
       it("will suggest when 'xmlns' prefix provided", () => {
@@ -133,7 +226,12 @@ describe("The ui5-language-assistant xml-views-completion", () => {
               "sap.ui.core.util",
               "sap.ui.ux3",
               "sap.uxap",
-              "sap.ui.unified"
+              "sap.ui.unified",
+              "sap.ca.ui",
+              "sap.gantt.shape.ext.ubc",
+              "sap.gantt.shape.ext.ulc",
+              "sap.rules.ui",
+              "sap.viz.ui5"
             ]);
           }
         });
