@@ -1,6 +1,6 @@
 {
   "name": "@ui5-language-assistant/language-server",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "UI5 Language Server",
   "keywords": [
     "LSP",
@@ -22,8 +22,8 @@
     "node": ">=10.0.0"
   },
   "dependencies": {
-    "@ui5-language-assistant/semantic-model": "^1.0.0",
-    "@ui5-language-assistant/xml-views-completion": "^1.1.0",
+    "@ui5-language-assistant/semantic-model": "^1.1.0",
+    "@ui5-language-assistant/xml-views-completion": "^1.2.0",
     "@xml-tools/ast": "4.0.2",
     "@xml-tools/parser": "1.0.3",
     "lodash": "4.17.15",
@@ -33,10 +33,10 @@
   },
   "devDependencies": {
     "@types/node-fetch": "2.5.5",
-    "@ui5-language-assistant/semantic-model-types": "^1.0.0",
-    "vscode-languageserver-types": "3.15.1",
+    "@types/tmp": "0.1.0",
+    "@ui5-language-assistant/semantic-model-types": "^1.1.0",
     "tmp-promise": "2.0.2",
-    "@types/tmp": "0.1.0"
+    "vscode-languageserver-types": "3.15.1"
   },
   "scripts": {
     "ci": "npm-run-all clean compile lint coverage",
