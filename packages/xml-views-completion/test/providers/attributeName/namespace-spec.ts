@@ -277,7 +277,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
         });
       });
 
-      it("will not suggest when used on unknown element", () => {
+      it("will suggest when used on non-class element", () => {
         const xmlSnippet = `
         <mvc:View
             xmlns:mvc="sap.ui.core.mvc"
@@ -293,7 +293,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
             attributeName: [namespaceKeysSuggestions]
           },
           assertion: suggestions => {
-            expect(suggestions).to.be.empty;
+            expectNamespaceKeysSuggestions(suggestions, allExpectedNamespaces);
           }
         });
       });

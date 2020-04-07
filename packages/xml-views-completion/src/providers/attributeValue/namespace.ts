@@ -4,7 +4,6 @@ import {
   isElementSubClass,
   ui5NodeToFQN
 } from "@ui5-language-assistant/logic-utils";
-import { getClassByElement } from "../utils/filter-members";
 import { UI5AttributeValueCompletionOptions } from "./index";
 import { UI5NamespacesInXMLAttributeValueCompletion } from "../../../api";
 import {
@@ -29,12 +28,6 @@ export function namespaceValueSuggestions(
   }
 
   const ui5Model = opts.context;
-  const xmlElement = opts.element;
-
-  const ui5Class = getClassByElement(xmlElement, ui5Model);
-  if (ui5Class === undefined) {
-    return [];
-  }
 
   const attributeValue = xmlAttribute.value ?? "";
 
