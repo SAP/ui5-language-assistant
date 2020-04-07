@@ -7,7 +7,6 @@ import {
 import { XMLAttribute } from "@xml-tools/ast";
 import { UI5AttributeNameCompletionOptions } from "./index";
 import { UI5NamespacesInXMLAttributeKeyCompletion } from "../../../api";
-import { getClassByElement } from "../utils/filter-members";
 import {
   getXMLNamespaceKeyPrefix,
   isXMLNamespaceKey
@@ -24,11 +23,6 @@ export function namespaceKeysSuggestions(
 ): UI5NamespacesInXMLAttributeKeyCompletion[] {
   const ui5Model = opts.context;
   const xmlElement = opts.element;
-
-  const ui5Clazz = getClassByElement(xmlElement, ui5Model);
-  if (ui5Clazz === undefined) {
-    return [];
-  }
 
   if (opts.prefix === undefined || !isXMLNamespaceKey(opts.prefix)) {
     return [];

@@ -185,10 +185,8 @@ describe("The ui5-editor-tools xml-views-completion", () => {
           }
         });
       });
-    });
 
-    context("non applicable scenarios", () => {
-      it("will not suggest when used on undefined class", () => {
+      it("will suggest namespaces when used on non-class element", () => {
         const xmlSnippet = `
         <mvc:Controller1
           xmlns:mvc="sap.ui.core⇶">
@@ -201,7 +199,7 @@ describe("The ui5-editor-tools xml-views-completion", () => {
             attributeValue: [namespaceValueSuggestions]
           },
           assertion: suggestions => {
-            expect(suggestions).to.be.empty;
+            expectNamespaceValuesSuggestions(suggestions, ["sap.ui.core.mvc"]);
           }
         });
       });
