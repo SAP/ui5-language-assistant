@@ -73,7 +73,8 @@ export async function getSemanticModelWithFetcher(
     version: version,
     libraries: jsonMap,
     typeNameFix: getTypeNameFix(),
-    strict: false
+    strict: false,
+    printValidationErrors: false
   });
 }
 

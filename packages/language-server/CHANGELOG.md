@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.1](https://github.com/sap/ui5-language-assistant/compare/@ui5-language-assistant/language-server@1.2.0...@ui5-language-assistant/language-server@1.2.1) (2020-04-07)
+
+### Bug Fixes
+
+- **language-server:** don't print validation errors on startup ([#53](https://github.com/sap/ui5-language-assistant/issues/53)) ([ae9c520](https://github.com/sap/ui5-language-assistant/commit/ae9c52015590622952116e47173dff95ab30785d))
+
+# [1.2.0](https://github.com/sap/ui5-language-assistant/compare/@ui5-language-assistant/language-server@1.1.0...@ui5-language-assistant/language-server@1.2.0) (2020-04-07)
+
+### Features
+
+- support SAP UI5 Distribution libraries version 1.71.14 ([#39](https://github.com/sap/ui5-language-assistant/issues/39)) ([7589a8b](https://github.com/sap/ui5-language-assistant/commit/7589a8bb97a2cf387b66583229c12f3fa971c28e))
+
+### Performance Improvements
+
+- **language-server:** cache downloaded resources ([#50](https://github.com/sap/ui5-language-assistant/issues/50)) ([de8d7d5](https://github.com/sap/ui5-language-assistant/commit/de8d7d5e38c76666cc2590a885127b202096f289))
+
 # [1.1.0](https://github.com/sap/ui5-language-assistant/compare/@ui5-language-assistant/language-server@1.0.0...@ui5-language-assistant/language-server@1.1.0) (2020-04-01)
 
 ### Features

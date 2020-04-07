@@ -17,8 +17,9 @@ export {
 } from "./utils/semantic-model-builder";
 export {
   generateModel,
-  loadLibraries,
-  getTypeNameFixForVersion
+  getTypeNameFixForVersion,
+  readTestLibraryFile,
+  downloadLibraries
 } from "./utils/semantic-model-provider";
 export {
   expectUnsortedEquality,

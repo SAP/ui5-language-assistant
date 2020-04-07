@@ -79,3 +79,6 @@ lib
 tsconfig.tsbuildinfo
 
 *.vsix
+
+# Cached test resources
+test-packages/test-utils/.model-cache

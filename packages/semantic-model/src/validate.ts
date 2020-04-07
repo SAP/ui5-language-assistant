@@ -19,14 +19,16 @@ function createSchemaValidator(): ValidateFunction {
 export function isLibraryFile(
   fileName: string,
   fileContent: Json,
-  strict: boolean
+  strict: boolean,
+  printValidationErrors: boolean
 ): fileContent is SchemaForApiJsonFiles {
   const valid = validate(fileContent);
 
-  // It's possible to print the errors in case valid is false with:
-  // console.log(JSON.stringify(validate.errors))
-  // However, the output is very verbose so it should only used for debugging.
-  // If it proves useful maybe we should add a parameter for this in the future.
+  // Only printing when requested because the output is very verbose so it should only used for debugging.
+  /* istanbul ignore if */
+  if (!valid && printValidationErrors) {
+    console.log(JSON.stringify(validate.errors, undefined, 2));
+  }
 
   if (!strict) {
     if (!valid) {

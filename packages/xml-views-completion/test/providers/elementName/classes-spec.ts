@@ -7,7 +7,10 @@ import {
   UI5Class,
   UI5SemanticModel
 } from "@ui5-language-assistant/semantic-model-types";
-import { generateModel } from "@ui5-language-assistant/test-utils";
+import {
+  generateModel,
+  GEN_MODEL_TIMEOUT
+} from "@ui5-language-assistant/test-utils";
 
 import { classesSuggestions } from "../../../src/providers/elementName/classes";
 import { testSuggestionsScenario } from "../../utils";
@@ -17,9 +20,13 @@ import {
 } from "@ui5-language-assistant/logic-utils";
 import { UI5XMLViewCompletion } from "../../../api";
 
-const ui5Model: UI5SemanticModel = generateModel("1.74.0");
-
 describe("The ui5-language-assistant xml-views-completion", () => {
+  let ui5Model: UI5SemanticModel;
+  before(async function() {
+    this.timeout(GEN_MODEL_TIMEOUT);
+    ui5Model = await generateModel({ version: "1.74.0" });
+  });
+
   context("UI5 Classes Suggestions", () => {
     context("applicable scenarios", () => {
       context("classes at the document's root", () => {
@@ -114,13 +121,15 @@ describe("The ui5-language-assistant xml-views-completion", () => {
                   ui5NodeToFQN(_.ui5Node)
                 );
                 // Can "manually" traverse expected graph of `sap.m.Button` subClasses here:
-                //   - https://openui5.hana.ondemand.com/1.74.0/#/api/sap.m.Button
+                //   - https://sapui5.hana.ondemand.com/1.74.0/#/api/sap.m.Button
                 expect(suggestionNames).to.deep.equalInAnyOrder([
                   "sap.m.Button",
                   "sap.m.OverflowToolbarButton",
                   "sap.m.OverflowToolbarToggleButton",
                   "sap.m.ToggleButton",
-                  "sap.uxap.ObjectPageHeaderActionButton"
+                  "sap.uxap.ObjectPageHeaderActionButton",
+                  "sap.suite.ui.commons.ProcessFlowConnectionLabel",
+                  "sap.ushell.ui.footerbar.AddBookmarkButton"
                 ]);
                 assertSuggestionProperties({
                   suggestions,
@@ -227,7 +236,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
                   ui5NodeToFQN(_.ui5Node)
                 );
                 // Can "manually" traverse expected graph of `sap.ui.core.LayoutData` subClasses here:
-                //   - https://openui5.hana.ondemand.com/1.74.0/#/api/sap.ui.core.LayoutData
+                //   - https://sapui5.hana.ondemand.com/1.74.0/#/api/sap.ui.core.LayoutData
                 expect(suggestionNames).to.deep.equalInAnyOrder([
                   "sap.ui.core.VariantLayoutData",
                   "sap.f.GridContainerItemLayoutData",
@@ -247,7 +256,8 @@ describe("The ui5-language-assistant xml-views-completion", () => {
                   "sap.ui.layout.ResponsiveFlowLayoutData",
                   "sap.ui.commons.layout.ResponsiveFlowLayoutData",
                   "sap.ui.layout.SplitterLayoutData",
-                  "sap.uxap.ObjectPageHeaderLayoutData"
+                  "sap.uxap.ObjectPageHeaderLayoutData",
+                  "sap.ui.vk.FlexibleControlLayoutData"
                 ]);
                 assertSuggestionProperties({
                   suggestions,
@@ -280,7 +290,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
                   ui5NodeToFQN(_.ui5Node)
                 );
                 // Can "manually" traverse expected graph of `sap.ui.core.LayoutData` subClasses here:
-                //   - https://openui5.hana.ondemand.com/1.74.0/#/api/sap.ui.core.LayoutData
+                //   - https://sapui5.hana.ondemand.com/1.74.0/#/api/sap.ui.core.LayoutData
                 expect(suggestionNames).to.deep.equalInAnyOrder([
                   "sap.f.GridContainerItemLayoutData",
                   "sap.ui.layout.form.GridContainerData",
@@ -320,7 +330,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
                     ui5NodeToFQN(_.ui5Node)
                   );
                   // Can "manually" traverse expected graph of `sap.ui.core.LayoutData` subClasses here:
-                  //   - https://openui5.hana.ondemand.com/1.74.0/#/api/sap.ui.core.LayoutData
+                  //   - https://sapui5.hana.ondemand.com/1.74.0/#/api/sap.ui.core.LayoutData
                   expect(suggestionNames).to.deep.equalInAnyOrder([
                     "sap.ui.commons.form.GridContainerData"
                   ]);
@@ -359,7 +369,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
                       ui5NodeToFQN(_.ui5Node)
                     );
                     // Can "manually" traverse expected graph of `sap.ui.core.LayoutData` subClasses here:
-                    //   - https://openui5.hana.ondemand.com/1.74.0/#/api/sap.ui.core.LayoutData
+                    //   - https://sapui5.hana.ondemand.com/1.74.0/#/api/sap.ui.core.LayoutData
                     expect(suggestionNames).to.deep.equalInAnyOrder([
                       "sap.ui.commons.form.GridContainerData",
                       "sap.ui.commons.form.GridElementData"
