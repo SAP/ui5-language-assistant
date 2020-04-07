@@ -36,6 +36,7 @@ export async function getSemanticModelWithFetcher(
   // a warning to the user
   if (modelCachePath !== undefined) {
     cacheFolder = getCacheFolder(modelCachePath, version);
+    console.log(`${cacheFolder} will be used to cache UI5 resources`);
     try {
       await mkdirs(cacheFolder);
     } catch (err) {
@@ -49,39 +50,15 @@ export async function getSemanticModelWithFetcher(
 
   await Promise.all(
     map(libs, async libName => {
-      let filePath;
-      let apiJson;
-      if (cacheFolder !== undefined) {
-        filePath = getCacheFilePath(cacheFolder, libName);
-        try {
-          if (
-            (await pathExists(filePath)) &&
-            (await lstat(filePath)).isFile()
-          ) {
-            apiJson = await readJson(filePath);
-          }
-        } catch (err) {
-          console.warn(
-            `Could not read file ${filePath} from UI5 resources cache`,
-            err
-          );
-        }
-      }
+      const cacheFilePath = getCacheFilePath(cacheFolder, libName);
+      let apiJson = await readFromCache(cacheFilePath);
+      // If the file doesn't exist in the cache (or we couldn't read it), fetch it from the network
       if (apiJson === undefined) {
         const url = baseUrl + libName.replace(/\./g, "/") + suffix;
         const response = await fetcher(url);
         if (response.ok) {
           apiJson = await response.json();
-          if (filePath !== undefined) {
-            try {
-              await writeJson(filePath, apiJson);
-            } catch (err) {
-              console.warn(
-                `Could not cache UI5 resources to file ${filePath}`,
-                err
-              );
-            }
-          }
+          await writeToCache(cacheFilePath, apiJson);
         } else {
           console.error(`Could not read UI5 resources from ${url}`);
         }
@@ -100,6 +77,35 @@ export async function getSemanticModelWithFetcher(
   });
 }
 
+async function readFromCache(filePath: string | undefined): Promise<unknown> {
+  if (filePath !== undefined) {
+    try {
+      if ((await pathExists(filePath)) && (await lstat(filePath)).isFile()) {
+        return await readJson(filePath);
+      }
+    } catch (err) {
+      console.warn(
+        `Could not read file ${filePath} from UI5 resources cache`,
+        err
+      );
+    }
+  }
+  return undefined;
+}
+
+async function writeToCache(
+  filePath: string | undefined,
+  apiJson: unknown
+): Promise<void> {
+  if (filePath !== undefined) {
+    try {
+      await writeJson(filePath, apiJson);
+    } catch (err) {
+      console.warn(`Could not cache UI5 resources to file ${filePath}`, err);
+    }
+  }
+}
+
 // Exported for test purposes
 export function getCacheFolder(
   modelCachePath: string,
@@ -108,7 +114,13 @@ export function getCacheFolder(
   return resolve(modelCachePath, "ui5-resources-cache", version);
 }
 // Exported for test purposes
-export function getCacheFilePath(cacheFolder: string, libName: string): string {
+export function getCacheFilePath(
+  cacheFolder: string | undefined,
+  libName: string
+): string | undefined {
+  if (cacheFolder === undefined) {
+    return undefined;
+  }
   return resolve(cacheFolder, libName + ".json");
 }
 

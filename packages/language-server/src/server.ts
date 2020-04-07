@@ -20,6 +20,7 @@ let getSemanticModelPromise: Promise<UI5SemanticModel> | undefined = undefined;
 let initializationOptions: ServerInitializationOptions | undefined;
 
 connection.onInitialize((params: InitializeParams) => {
+  // These options are passed from the client extension in clientOptions.initializationOptions
   initializationOptions = params.initializationOptions;
   return {
     capabilities: {
