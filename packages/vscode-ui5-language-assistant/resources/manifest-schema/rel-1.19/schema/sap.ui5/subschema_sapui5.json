@@ -1,0 +1,1013 @@
+{
+  "title": "JSON schema for SAP.UI5 Namespace",
+  "description": "Represents sapui5 attributes",
+  "allOf": [
+    {
+      "type": "object",
+      "required": ["dependencies", "contentDensities"],
+      "properties": {
+        "_version": {
+          "description": " Represents SAPUI5 attributes format version. It is managed by namespace owner",
+          "type": "string",
+          "enum": [
+            "1.1.0",
+            "1.2.0",
+            "1.3.0",
+            "1.4.0",
+            "1.5.0",
+            "1.6.0",
+            "1.7.0",
+            "1.8.0",
+            "1.9.0"
+          ]
+        },
+        "resources": {
+          "description": "Represents paths to JavaScript/CSS resources that your app needs (app internal), formerly called '.includes'",
+          "$ref": "#/definitions/resource"
+        },
+        "componentUsages": {
+          "description": "Represents the explicit usage declaration for UI5 reuse components",
+          "type": "object",
+          "additionalProperties": false,
+          "patternProperties": {
+            "^[a-zA-Z0-9_\\.]*$": {
+              "$ref": "#/definitions/componentUsages"
+            }
+          }
+        },
+        "dependencies": {
+          "description": "Represents external dependences such as libraries or components, that will be loaded by UI5 Core in the initialization phase of your Component and can be used after it",
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["minUI5Version"],
+          "properties": {
+            "minUI5Version": {
+              "description": "Represents the minimum version of SAP UI5 that your component requires",
+              "$ref": "#/definitions/version"
+            },
+            "incompatibleLimitation": {
+              "description": "Represents ...",
+              "type": "boolean",
+              "default": false
+            },
+            "libs": {
+              "description": "Represents the id (namespace) of the libraries that should be loaded by UI5 Core to be used in your component",
+              "type": "object",
+              "additionalProperties": false,
+              "patternProperties": {
+                "^([a-z][a-z0-9]{0,39})(\\.[a-z][a-z0-9]{0,39})*$": {
+                  "$ref": "#/definitions/lib"
+                }
+              }
+            },
+            "components": {
+              "description": "Represents the id (namespace) of the components that should be loaded by UI5 Core to be used in your component",
+              "type": "object",
+              "additionalProperties": false,
+              "patternProperties": {
+                "^([a-zA-Z_$][a-zA-Z0-9_$]{0,39}\\.)*([a-zA-Z_$][a-zA-Z0-9_$]{0,39})$": {
+                  "$ref": "#/definitions/component"
+                }
+              }
+            }
+          }
+        },
+        "models": {
+          "description": "Represents models which should be created/destroyed with the life-cycle of the component",
+          "type": "object",
+          "additionalProperties": false,
+          "patternProperties": {
+            "^[a-zA-Z0-9_\\.\\-\\|\\@]*$": {
+              "$ref": "#/definitions/model"
+            }
+          }
+        },
+        "resourceRoots": {
+          "description": "Represents relative path to the resource. Only relative path allowed, no '../' ",
+          "type": "object",
+          "additionalProperties": false,
+          "patternProperties": {
+            "^[a-zA-Z0-9_\\.\\-]*$": {
+              "$ref": "#/definitions/resourceRoot"
+            }
+          }
+        },
+        "handleValidation": {
+          "description": "Represents the usage of validation handling by MessageManager for this component (enable/disable)",
+          "type": "boolean",
+          "default": false
+        },
+        "config": {
+          "description": "Represents the static configuration for components",
+          "type": "object",
+          "additionalProperties": false,
+          "patternProperties": {
+            "[\\s\\S]*": {
+              "$ref": "#/definitions/config"
+            }
+          }
+        },
+        "extends": {
+          "description": "Represents the extension of an additional component",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "component": {
+              "description": "Represents the component name",
+              "$ref": "#/definitions/id_def"
+            },
+            "minVersion": {
+              "description": "Represents minimal version of the component",
+              "$ref": "#/definitions/version"
+            },
+            "extensions": {
+              "description": "Represents extensions of the component",
+              "type": "object"
+            }
+          }
+        },
+        "contentDensities": {
+          "description": "Represents object with content density modes the app is supporting. Supported density modes are 'cozy' and 'compact'",
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["compact", "cozy"],
+          "properties": {
+            "compact": {
+              "description": "Represents indicator whether compact mode is supported",
+              "type": "boolean"
+            },
+            "cozy": {
+              "description": "Represents indicator whether cozy mode is supported",
+              "type": "boolean"
+            }
+          }
+        },
+        "componentName": {
+          "description": "Represents a name of the UI5 component",
+          "type": "string",
+          "pattern": "^([a-zA-Z_$][a-zA-Z0-9_$]{0,39}\\.)*([a-zA-Z_$][a-zA-Z0-9_$]{0,39})$"
+        },
+        "autoPrefixId": {
+          "description": "Enables the auto prefixing of IDs of ManagedObjects (e.g. Controls) which are created in context of the Component (e.g. createContent invocation)",
+          "type": "boolean"
+        },
+        "appVariantId": {
+          "description": "Represents the identifier of an application variant. The value will be calculated and should not be set manually ",
+          "type": "string"
+        },
+        "appVariantIdHierarchy": {
+          "description": "Represents array of appVariantId hierarchy with origin layer and version, calculated attribute and filled automatically during variant merge",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["layer", "appVariantId", "version"],
+            "properties": {
+              "layer": {
+                "description": "Represents origin layer of the app variant id",
+                "type": "string"
+              },
+              "appVariantId": {
+                "description": "Represents app variant id",
+                "type": "string"
+              },
+              "version": {
+                "description": "Represents version of the app variant id",
+                "type": "string"
+              }
+            }
+          }
+        },
+        "services": {
+          "description": "Represents a list of the services ",
+          "type": "object",
+          "additionalProperties": false,
+          "patternProperties": {
+            "[\\s\\S]*": {
+              "$ref": "#/definitions/service"
+            }
+          }
+        },
+        "library": {
+          "description": "Represents UI5 library specific properties",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "i18n": {
+              "description": "Flag whether the library contains a i18n resource or not. If using a string instead of a boolean value an alternative name for the i18n resource could be defined.",
+              "$ref": "#/definitions/booleanOrString"
+            },
+            "css": {
+              "description": "Flag whether the library contains a CSS file or not.",
+              "$ref": "#/definitions/booleanOrString"
+            },
+            "content": {
+              "description": "Represents the content of a library. Content are controls, elements, types and interfaces.",
+              "type": "object"
+            }
+          }
+        },
+        "commands": {
+          "description": "Represents a list of UI5 shortcut commands",
+          "type": "object",
+          "additionalProperties": false,
+          "patternProperties": {
+            "^[A-Za-z_][A-Za-z0-9_\\-\\|\\@]+$": {
+              "$ref": "#/definitions/command"
+            }
+          }
+        }
+      }
+    },
+    {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": ["flexEnabled"],
+          "properties": {
+            "flexEnabled": {
+              "description": "Represents an Indicator whether an app is flex enabled",
+              "type": "boolean",
+              "enum": [true]
+            },
+            "routing": {
+              "$ref": "#/definitions/routing_flexEnabled"
+            },
+            "rootView": {
+              "$ref": "#/definitions/rootView_def_flexEnabled"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "properties": {
+            "flexEnabled": {
+              "description": "Represents an Indicator whether an app is flex enabled",
+              "type": "boolean",
+              "enum": [false]
+            },
+            "routing": {
+              "$ref": "#/definitions/routing"
+            },
+            "rootView": {
+              "$ref": "#/definitions/rootView_def"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "definitions": {
+    "id_def": {
+      "type": "string"
+    },
+    "version": {
+      "type": "string"
+    },
+    "resource": {
+      "type": "object",
+      "properties": {
+        "js": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["uri"],
+            "properties": {
+              "uri": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "css": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["uri"],
+            "properties": {
+              "uri": {
+                "type": "string"
+              },
+              "id": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "deviceType": {
+      "type": "object",
+      "description": "Represents device types on which the app is running",
+      "additionalProperties": false,
+      "properties": {
+        "desktop": {
+          "description": "Represents indicator whether desktop device is supported, default true",
+          "type": "boolean"
+        },
+        "tablet": {
+          "description": "Represents indicator whether tablet device is supported, default true",
+          "type": "boolean"
+        },
+        "phone": {
+          "description": "Represents indicator whether phone device is supported, default true",
+          "type": "boolean"
+        }
+      }
+    },
+    "lib": {
+      "description": "Represents sapui5 library name",
+      "type": "object",
+      "properties": {
+        "minVersion": {
+          "description": "Represents minimal version of ui5 library",
+          "$ref": "#/definitions/version"
+        },
+        "lazy": {
+          "description": "Represents Indicator to lazy loading lib",
+          "type": "boolean",
+          "default": false
+        }
+      }
+    },
+    "component": {
+      "description": "Represents sapui5 component name",
+      "type": "object",
+      "properties": {
+        "minVersion": {
+          "description": "Represents minimal version of ui5 component",
+          "$ref": "#/definitions/version"
+        },
+        "lazy": {
+          "description": "Represents Indicator to lazy loading component",
+          "type": "boolean",
+          "default": false
+        }
+      }
+    },
+    "componentUsages": {
+      "description": "Represents component name for usage",
+      "type": "object",
+      "required": ["name"],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "description": "Represents name of reuse component",
+          "type": "string",
+          "pattern": "^([a-zA-Z_$][a-zA-Z0-9_$]{0,39}\\.)*([a-zA-Z_$][a-zA-Z0-9_$]{0,39})$"
+        },
+        "componentData": {
+          "description": "Represents component data for the Component",
+          "$ref": "#/definitions/config"
+        },
+        "settings": {
+          "description": "Represents settings for the Component",
+          "$ref": "#/definitions/config"
+        },
+        "lazy": {
+          "description": "Represents Indicator to lazy loading component usage, default true",
+          "type": "boolean",
+          "default": true
+        }
+      }
+    },
+    "model": {
+      "description": "Represents sapui5 model name",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "description": "Represents model class name",
+          "type": "string"
+        },
+        "dataSource": {
+          "description": "Represents string of key/alias from sap.app dataSources to reference an existing data source",
+          "type": "string"
+        },
+        "uri": {
+          "description": "Represents URI for the model",
+          "type": "string"
+        },
+        "preload": {
+          "description": "Indicates that the model will be immediately created after the manifest is loaded by Component Factory and before the Component instance is created",
+          "type": "boolean",
+          "default": false
+        },
+        "settings": {
+          "$ref": "#/definitions/ui5setting"
+        }
+      }
+    },
+    "ui5setting": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "defaultBindingMode": {
+          "description": "Represents default binding mode and must be a string value from sap.ui.model.BindingMode. Possible values: Default, OneTime, OneWay, TwoWay",
+          "type": "string",
+          "default": "Default",
+          "enum": ["Default", "OneTime", "OneWay", "TwoWay"]
+        },
+        "enhanceWith": {
+          "description": "Represents enhancement of UI5 resource model with additional properties files",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "oneOf": [
+              {
+                "additionalProperties": false,
+                "required": ["bundleUrl"],
+                "properties": {
+                  "bundleUrl": {
+                    "description": "Represents property url for model enhancement",
+                    "type": "string"
+                  },
+                  "bundleUrlRelativeTo": {
+                    "description": "Indicates whether url is relative to component (default) or manifest",
+                    "type": "string",
+                    "default": "component",
+                    "enum": ["manifest", "component"]
+                  }
+                }
+              },
+              {
+                "required": ["bundleName"],
+                "additionalProperties": false,
+                "properties": {
+                  "bundleName": {
+                    "description": "Represents the alternative for bundleUrl",
+                    "type": "string"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "resourceRoot": {
+      "type": "string",
+      "pattern": "^((\\.(?!\\.)\\/)?\\w+\\/?)+$"
+    },
+    "rootView_def": {
+      "description": "Represents the root view definition being either the name of the view or the view definition object",
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "object",
+          "required": ["viewName"],
+          "additionalProperties": true,
+          "properties": {
+            "viewName": {
+              "description": "Represents the name of the view",
+              "type": "string"
+            },
+            "type": {
+              "description": "Represents the type of the view. Possible Values: XML, JSON, JS, HTML, Template",
+              "type": "string",
+              "enum": ["XML", "JSON", "JS", "HTML", "Template"]
+            },
+            "id": {
+              "description": "Represents the id of the view",
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "rootView_def_flexEnabled": {
+      "description": "Represents the root view definition when flex is enabled (requires a view id)",
+      "type": "object",
+      "required": ["id", "viewName"],
+      "additionalProperties": true,
+      "properties": {
+        "viewName": {
+          "description": "Represents the name of the view",
+          "type": "string"
+        },
+        "type": {
+          "description": "Represents the type of the view. Possible Values: XML, JSON, JS, HTML, Template",
+          "type": "string",
+          "enum": ["XML", "JSON", "JS", "HTML", "Template"]
+        },
+        "id": {
+          "description": "Represents the id of the view",
+          "type": "string"
+        }
+      }
+    },
+    "config": {
+      "oneOf": [
+        {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        {
+          "type": "string"
+        },
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "number"
+        },
+        {
+          "type": "object"
+        }
+      ]
+    },
+    "booleanOrString": {
+      "oneOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "string"
+        }
+      ]
+    },
+    "routing": {
+      "description": "Represents the configuration of routing",
+      "type": "object",
+      "properties": {
+        "config": {
+          "description": "Represents the default properties defined for route and target",
+          "allOf": [
+            {
+              "type": "object",
+              "properties": {
+                "routerClass": {
+                  "description": "Represents the router class",
+                  "type": "string"
+                },
+                "async": {
+                  "description": "Indicates whether the Views in routing are loaded asyncly",
+                  "type": "boolean",
+                  "default": false
+                },
+                "propagateTitle": {
+                  "description": "Indicates whether the targets which have type 'Component' should propagate their title to this component or not",
+                  "type": "boolean",
+                  "default": false
+                },
+                "bypassed": {
+                  "description": "Represents information about targets to display when no route is matched",
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["target"],
+                  "properties": {
+                    "target": {
+                      "description": "Represents one or multiple names of targets that are displayed when no route is matched",
+                      "$ref": "#/definitions/routeTarget"
+                    }
+                  }
+                },
+                "viewPath": {
+                  "description": "Represents a prefix that is prepended in front of the viewName",
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "$ref": "#/definitions/target"
+            }
+          ]
+        },
+        "routes": {
+          "oneOf": [
+            {
+              "description": "Represents the definition of routes by providing an array with elements which contain the configuration for each route",
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/route"
+              }
+            },
+            {
+              "description": "Represents the definition of routes by providing an object with the route's name as the key and other route options in an object as the value",
+              "type": "object",
+              "patternProperties": {
+                "[\\s\\S]*": {
+                  "$ref": "#/definitions/routeWithoutName"
+                }
+              }
+            }
+          ]
+        },
+        "targets": {
+          "description": "Represents the definition of targets",
+          "type": "object",
+          "patternProperties": {
+            "[\\s\\S]*": {
+              "oneOf": [
+                {
+                  "allOf": [
+                    {
+                      "$ref": "#/definitions/target"
+                    },
+                    {
+                      "type": "object",
+                      "required": ["viewName"],
+                      "properties": {
+                        "viewName": {
+                          "description": "Represents the name of a view that will be created",
+                          "type": "string"
+                        },
+                        "viewId": {
+                          "description": "Represents the id of the created view",
+                          "type": "string"
+                        },
+                        "viewPath": {
+                          "description": "Represents a prefix that is prepended in front of the viewName",
+                          "type": "string"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "allOf": [
+                    {
+                      "$ref": "#/definitions/target"
+                    },
+                    {
+                      "oneOf": [
+                        {
+                          "type": "object",
+                          "required": ["name"],
+                          "properties": {
+                            "name": {
+                              "description": "Represents the name of a view or component that will be created",
+                              "type": "string"
+                            },
+                            "id": {
+                              "description": "Represents the id of the created view or component",
+                              "type": "string"
+                            },
+                            "path": {
+                              "description": "Represents a prefix that is prepended in front of the view or component name",
+                              "type": "string"
+                            },
+                            "type": {
+                              "description": "Represents the type of the type View or Component",
+                              "type": "string",
+                              "enum": ["View", "Component"]
+                            }
+                          }
+                        },
+                        {
+                          "type": "object",
+                          "required": ["usage", "type"],
+                          "properties": {
+                            "usage": {
+                              "description": "Represents the componentUsage of the component that will be created",
+                              "type": "string"
+                            },
+                            "id": {
+                              "description": "Represents the id of the created view or component",
+                              "type": "string"
+                            },
+                            "type": {
+                              "description": "Represents the type of the type Component",
+                              "type": "string",
+                              "enum": ["Component"]
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "routing_flexEnabled": {
+      "description": "Represents the configuration of routing",
+      "type": "object",
+      "properties": {
+        "config": {
+          "description": "Represents the default properties defined for route and target",
+          "allOf": [
+            {
+              "type": "object",
+              "properties": {
+                "routerClass": {
+                  "description": "Represents the router class",
+                  "type": "string"
+                },
+                "async": {
+                  "description": "Indicates whether the Views in routing are loaded asyncly",
+                  "type": "boolean",
+                  "default": false
+                },
+                "bypassed": {
+                  "description": "Represents information about targets to display when no route is matched",
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["target"],
+                  "properties": {
+                    "target": {
+                      "description": "Represents one or multiple names of targets that are displayed when no route is matched",
+                      "$ref": "#/definitions/routeTarget"
+                    }
+                  }
+                },
+                "viewPath": {
+                  "description": "Represents a prefix that is prepended in front of the viewName",
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "$ref": "#/definitions/target"
+            }
+          ]
+        },
+        "routes": {
+          "oneOf": [
+            {
+              "description": "Represents the definition of routes by providing an array with elements which contain the configuration for each route",
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/route"
+              }
+            },
+            {
+              "description": "Represents the definition of routes by providing an object with the route's name as the key and other route options in an object as the value",
+              "type": "object",
+              "patternProperties": {
+                "[\\s\\S]*": {
+                  "$ref": "#/definitions/routeWithoutName"
+                }
+              }
+            }
+          ]
+        },
+        "targets": {
+          "description": "Represents the definition of targets",
+          "type": "object",
+          "patternProperties": {
+            "[\\s\\S]*": {
+              "oneOf": [
+                {
+                  "allOf": [
+                    {
+                      "$ref": "#/definitions/target"
+                    },
+                    {
+                      "type": "object",
+                      "required": ["viewName", "viewId"],
+                      "properties": {
+                        "viewName": {
+                          "description": "Represents the name of a view that will be created",
+                          "type": "string"
+                        },
+                        "viewId": {
+                          "description": "Represents the id of the created view",
+                          "type": "string"
+                        },
+                        "viewPath": {
+                          "description": "Represents a prefix that is prepended in front of the viewName",
+                          "type": "string"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "allOf": [
+                    {
+                      "$ref": "#/definitions/target"
+                    },
+                    {
+                      "oneOf": [
+                        {
+                          "type": "object",
+                          "required": ["name", "id"],
+                          "properties": {
+                            "name": {
+                              "description": "Represents the name of a view or component that will be created",
+                              "type": "string"
+                            },
+                            "id": {
+                              "description": "Represents the id of the created view or component",
+                              "type": "string"
+                            },
+                            "path": {
+                              "description": "Represents a prefix that is prepended in front of the view or component name",
+                              "type": "string"
+                            },
+                            "type": {
+                              "description": "Represents the type of the type View or Component",
+                              "type": "string",
+                              "enum": ["View", "Component"]
+                            }
+                          }
+                        },
+                        {
+                          "type": "object",
+                          "required": ["usage", "id", "type"],
+                          "properties": {
+                            "usage": {
+                              "description": "Represents the componentUsage of the component that will be created",
+                              "type": "string"
+                            },
+                            "id": {
+                              "description": "Represents the id of the created view or component",
+                              "type": "string"
+                            },
+                            "type": {
+                              "description": "Represents the type of the type Component",
+                              "type": "string",
+                              "enum": ["Component"]
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "route": {
+      "description": "Represents the definition of each route",
+      "allOf": [
+        {
+          "$ref": "#/definitions/routeWithoutName"
+        },
+        {
+          "type": "object",
+          "required": ["name"],
+          "properties": {
+            "name": {
+              "description": "Represents the name of the route",
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "routeWithoutName": {
+      "description": "Represents the definition of route without the option 'name'. This is used when routes are defined in an object.",
+      "type": "object",
+      "properties": {
+        "pattern": {
+          "description": "Represents the url pattern that the route is matched against",
+          "type": "string"
+        },
+        "greedy": {
+          "description": "Whether the route should be matched when another route is already matched",
+          "type": "boolean"
+        },
+        "target": {
+          "description": "Represents one or multiple names of targets which are displayed when the route is matched",
+          "$ref": "#/definitions/routeTarget"
+        },
+        "titleTarget": {
+          "description": "Represents the name of the target where the 'title' information should be taken",
+          "type": "string"
+        }
+      }
+    },
+    "routeTarget": {
+      "description": "Represents the definition of a target of a route.",
+      "oneOf": [
+        {
+          "type": "array",
+          "items": [
+            {
+              "oneOf": [
+                { "type": "string" },
+                { "$ref": "#/definitions/routeTargetObject" }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "string"
+        },
+        {
+          "$ref": "#/definitions/routeTargetObject"
+        }
+      ]
+    },
+    "routeTargetObject": {
+      "description": "Represents the definition of a target of a route as object.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Represents the name of the routing target",
+          "type": "string"
+        },
+        "prefix": {
+          "description": "The prefix of the routing target",
+          "type": "string"
+        },
+        "propagateTitle": {
+          "description": "Indicates whether this 'Component' target should propagate it's title to this component or not",
+          "type": "boolean",
+          "default": "#/definitions/routing/config/propagateTitle"
+        }
+      }
+    },
+    "target": {
+      "description": "Represents the definition of each target",
+      "type": "object",
+      "properties": {
+        "title": {
+          "description": "Represents the information which is included as a parameter of the 'titleChanged' event fired on Router when this target is displayed. The title can be set with static text and can also be set with a valid property binding syntax which will be resolved under the scope of the view in the target where the title property is defined.",
+          "type": "string"
+        },
+        "viewType": {
+          "description": "Represents the type of view that is going to be created",
+          "type": "string",
+          "enum": ["XML", "JSON", "JS", "HTML", "Template"]
+        },
+        "targetParent": {
+          "description": "Represents the id of the view that contains the control specified by the 'controlId'",
+          "type": "string"
+        },
+        "controlId": {
+          "description": "Represents the id of the control where you want to place the view created by the target",
+          "type": "string"
+        },
+        "controlAggregation": {
+          "description": "Represents the name of an aggregation of the controlId that contains the views",
+          "type": "string"
+        },
+        "clearControlAggregation": {
+          "description": "Whether the aggregation of the control should be cleared before adding the view",
+          "type": "boolean"
+        },
+        "parent": {
+          "description": "Represents the name of another target which will also be displayed once this target is displayed",
+          "type": "string"
+        },
+        "viewLevel": {
+          "description": "Represents the level of the current view which is used to define the transition direction when navigate to this view",
+          "type": "number",
+          "multipleOf": 1
+        },
+        "transition": {
+          "description": "Represents the type of transition when navigating from previous view to this view",
+          "anyOf": [
+            {
+              "type": "string",
+              "default": "slide"
+            },
+            {
+              "type": "string",
+              "enum": ["slide", "flip", "fade", "show"]
+            }
+          ]
+        },
+        "transitionParameters": {
+          "description": "Represents the transition parameters that are passed to the event handlers",
+          "type": "object"
+        }
+      }
+    },
+    "service": {
+      "description": "Represents the definition of each service",
+      "type": "object",
+      "required": ["factoryName"],
+      "additionalProperties": true,
+      "properties": {
+        "factoryName": {
+          "description": "Represents the name of the service factory ",
+          "type": "string",
+          "pattern": "^([a-z_$][a-z0-9_$]{0,39}\\.)*([a-zA-Z_$][a-zA-Z0-9_$]{0,39})$"
+        },
+        "optional": {
+          "description": "Indicates whether the service optional or not ",
+          "type": "boolean",
+          "default": false
+        }
+      }
+    },
+    "command": {
+      "description": "Represents a UI5 shortcut command.",
+      "additionalProperties": false,
+      "type": "object",
+      "properties": {
+        "shortcut": {
+          "description": "A string describing a shortcut key combination that, when used by the user, will trigger the command.",
+          "type": "string",
+          "patternTransformCode": "''.split('').map(function(char) { console.log(char);  if (/[a-z]/i.test(char)) { return `[${char.toUpperCase()}${char.toLowerCase()}]`; } else { return char; } } ).join('')",
+          "patternFromRuntime": "^((Ctrl|Shift|Alt)(\\+)?){0,3}([A-Za-z0-9\\.,\\-\\*\\/=]|Plus|Tab|Space|Enter|Backspace|Home|Delete|End|Pageup|Pagedown|Escape|ArrowUp|ArrowDown|ArrowLeft|ArrowRight|F[1-9]|F1[0-2])$",
+          "pattern": "^(([Cc][Tt][Rr][Ll]|[Ss][Hh][Ii][Ff][Tt]|[Aa][Ll][Tt])(\\+)?){0,3}([A-Za-z0-9\\.,\\-\\*\\/=]|[Pp][Ll][Uu][Ss]|[Tt][Aa][Bb]|[Ss][Pp][Aa][Cc][Ee]|[Ee][Nn][Tt][Ee][Rr]|[Bb][Aa][Cc][Kk][Ss][Pp][Aa][Cc][Ee]|[Hh][Oo][Mm][Ee]|[Dd][Ee][Ll][Ee][Tt][Ee]|[Ee][Nn][Dd]|[Pp][Aa][Gg][Ee][Uu][Pp]|[Pp][Aa][Gg][Ee][Dd][Oo][Ww][Nn]|[Ee][Ss][Cc][Aa][Pp][Ee]|[Aa][Rr][Rr][Oo][Ww][Uu][Pp]|[Aa][Rr][Rr][Oo][Ww][Dd][Oo][Ww][Nn]|[Aa][Rr][Rr][Oo][Ww][Ll][Ee][Ff][Tt]|[Aa][Rr][Rr][Oo][Ww][Rr][Ii][Gg][Hh][Tt]|F[1-9]|F1[0-2])$"
+        }
+      }
+    }
+  }
+}
