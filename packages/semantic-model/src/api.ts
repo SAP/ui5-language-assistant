@@ -13,10 +13,12 @@ export const GENERATED_LIBRARY: string = "Generated";
 
 // See comment in api.d.ts
 export function generate({
+  version,
   libraries,
   typeNameFix,
   strict = true
 }: {
+  version: string;
   libraries: Record<string, Json>;
   typeNameFix: TypeNameFix;
   strict?: boolean;
@@ -25,6 +27,7 @@ export function generate({
   const model = convertToSemanticModel(libraries, jsonSymbols, strict);
   generateMissingSymbols(model, strict);
   resolveSemanticProperties(model, jsonSymbols, typeNameFix, strict);
+  model.version = version;
   return deepFreezeStrict(model);
 }
 

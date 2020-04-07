@@ -70,6 +70,7 @@ context("The ui5-language-assistant semantic model package unit tests", () => {
   describe("generate", () => {
     function generateSymbol(symbol: SymbolBase): UI5SemanticModel {
       return generate({
+        version: "1.74.0",
         strict: true,
         typeNameFix: {},
         libraries: {
@@ -233,6 +234,7 @@ context("The ui5-language-assistant semantic model package unit tests", () => {
 
       it("doesn't fail in strict mode", () => {
         const model = generate({
+          version: fileContent.version,
           libraries: { testLib: fileContent },
           typeNameFix: {},
           strict: true
@@ -242,6 +244,7 @@ context("The ui5-language-assistant semantic model package unit tests", () => {
 
       it("doesn't fail in non-strict mode", () => {
         const model = generate({
+          version: fileContent.version,
           libraries: { testLib: fileContent },
           typeNameFix: {},
           strict: false
