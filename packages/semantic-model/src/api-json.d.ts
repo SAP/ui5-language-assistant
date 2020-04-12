@@ -66,12 +66,14 @@ export type Exceptions = {
  * Namespaces can have the common symbol properties and extend another symbol
  */
 export type NamespaceSymbol = SymbolBase & {
-  kind?: "namespace";
+  kind?: "namespace" | "member";
   extends?: string;
   properties?: ObjProperty[];
   methods?: ObjMethod[];
   events?: ObjEvent[];
   abstract?: boolean;
+  final?: boolean;
+  "ui5-metamodel"?: boolean;
   "ui5-metadata"?: {};
   [k: string]: any;
 };
@@ -84,7 +86,7 @@ export type DatatypeSymbol = SymbolBase & {
   "ui5-metamodel"?: boolean;
   "ui5-metadata": {
     stereotype?: "datatype";
-    basetype?: "string" | "int";
+    basetype?: "string" | "int" | "any";
     pattern?: string;
     range?: {
       minExclusive?: number;
@@ -170,7 +172,14 @@ export interface SchemaForApiJsonFiles {
   symbols?: ConcreteSymbol[];
 }
 export interface SymbolBase {
-  kind?: "namespace" | "class" | "interface" | "enum" | "typedef" | "function";
+  kind?:
+    | "namespace"
+    | "member"
+    | "class"
+    | "interface"
+    | "enum"
+    | "typedef"
+    | "function";
   name: string;
   basename: string;
   resource?: string;

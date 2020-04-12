@@ -43,7 +43,8 @@ context(
               invalidLib: fileContent
             },
             strict: strict,
-            typeNameFix: {}
+            typeNameFix: {},
+            printValidationErrors: false
           });
         };
         return generateCall;

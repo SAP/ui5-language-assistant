@@ -369,7 +369,8 @@
         "deprecated",
         "examples",
         "references",
-        "ui5-metamodel"
+        "ui5-metamodel",
+        "export"
       ]
     },
     "obj-event": {
@@ -842,6 +843,7 @@
           "type": "string",
           "enum": [
             "namespace",
+            "member",
             "class",
             "interface",
             "enum",
@@ -982,7 +984,7 @@
           "type": "object",
           "properties": {
             "kind": {
-              "enum": ["namespace"]
+              "enum": ["namespace", "member"]
             },
             "extends": {
               "type": "string"
@@ -1008,6 +1010,12 @@
             "abstract": {
               "type": "boolean"
             },
+            "final": {
+              "type": "boolean"
+            },
+            "ui5-metamodel": {
+              "type": "boolean"
+            },
             "ui5-metadata": {
               "type": "object",
               "properties": {},
@@ -1024,6 +1032,8 @@
                   "methods",
                   "events",
                   "abstract",
+                  "final",
+                  "ui5-metamodel",
                   "ui5-metadata"
                 ]
               }
@@ -1058,7 +1068,7 @@
                 },
                 "basetype": {
                   "type": "string",
-                  "enum": ["string", "int"]
+                  "enum": ["string", "int", "any"]
                 },
                 "pattern": {
                   "type": "string"

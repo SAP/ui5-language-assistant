@@ -3,7 +3,8 @@ import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import {
   expectSuggestions,
   expectXMLAttribute,
-  generateModel
+  generateModel,
+  GEN_MODEL_TIMEOUT
 } from "@ui5-language-assistant/test-utils";
 import { namespaceValueSuggestions } from "../../../src/providers/attributeValue/namespace";
 import { expectUI5Namespace } from "../attributeName/namespace-spec";
@@ -11,8 +12,6 @@ import { expect } from "chai";
 import { partial } from "lodash";
 import { ui5NodeToFQN } from "@ui5-language-assistant/logic-utils";
 import { DEFAULT_NS } from "@xml-tools/ast";
-
-const ui5SemanticModel: UI5SemanticModel = generateModel("1.74.0");
 
 const expectNamespaceValuesSuggestions = partial(expectSuggestions, _ => {
   expectUI5Namespace(_.ui5Node);
@@ -22,6 +21,12 @@ const expectNamespaceValuesSuggestions = partial(expectSuggestions, _ => {
 });
 
 describe("The ui5-editor-tools xml-views-completion", () => {
+  let ui5SemanticModel: UI5SemanticModel;
+  before(async function() {
+    this.timeout(GEN_MODEL_TIMEOUT);
+    ui5SemanticModel = await generateModel({ version: "1.74.0" });
+  });
+
   context("namespaces values", () => {
     context("applicable scenarios", () => {
       it("will suggest namespace values with no prefix provided", () => {
@@ -41,7 +46,8 @@ describe("The ui5-editor-tools xml-views-completion", () => {
             expectNamespaceValuesSuggestions(suggestions, [
               "sap.ui.table",
               "sap.ui.table.plugins",
-              "sap.ui.table.rowmodes"
+              "sap.ui.table.rowmodes",
+              "sap.ui.comp.smarttable"
             ]);
           }
         });
@@ -107,7 +113,8 @@ describe("The ui5-editor-tools xml-views-completion", () => {
             expectNamespaceValuesSuggestions(suggestions, [
               "sap.ui.table",
               "sap.ui.table.plugins",
-              "sap.ui.table.rowmodes"
+              "sap.ui.table.rowmodes",
+              "sap.ui.comp.smarttable"
             ]);
           }
         });
@@ -185,10 +192,8 @@ describe("The ui5-editor-tools xml-views-completion", () => {
           }
         });
       });
-    });
 
-    context("non applicable scenarios", () => {
-      it("will not suggest when used on undefined class", () => {
+      it("will suggest namespaces when used on non-class element", () => {
         const xmlSnippet = `
         <mvc:Controller1
           xmlns:mvc="sap.ui.core⇶">
@@ -201,7 +206,7 @@ describe("The ui5-editor-tools xml-views-completion", () => {
             attributeValue: [namespaceValueSuggestions]
           },
           assertion: suggestions => {
-            expect(suggestions).to.be.empty;
+            expectNamespaceValuesSuggestions(suggestions, ["sap.ui.core.mvc"]);
           }
         });
       });

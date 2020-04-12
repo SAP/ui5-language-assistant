@@ -18,7 +18,8 @@ import {
 export function convertToSemanticModel(
   libraries: Record<string, Json>,
   jsonSymbols: Record<string, apiJson.ConcreteSymbol>,
-  strict: boolean
+  strict: boolean,
+  printValidationErrors: boolean
 ): model.UI5SemanticModel {
   const model: model.UI5SemanticModel = {
     version: "",
@@ -40,7 +41,9 @@ export function convertToSemanticModel(
   reduce(
     sortedLibs,
     (model, { libraryName, fileContent }) => {
-      if (isLibraryFile(libraryName, fileContent, strict)) {
+      if (
+        isLibraryFile(libraryName, fileContent, strict, printValidationErrors)
+      ) {
         const libSemanticModel = convertLibraryToSemanticModel(
           libraryName,
           fileContent,
@@ -97,7 +100,8 @@ function convertLibraryToSemanticModel(
     // For some reason we get a non-reachable case branch here on all cases except "typedef", although it's not correct
     // noinspection JSUnreachableSwitchBranches
     switch (symbol.kind) {
-      case "namespace": {
+      case "namespace": // Fallthrough
+      case "member": {
         model.namespaces[fqn] = convertNamespace(libName, symbol);
         break;
       }
