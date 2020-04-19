@@ -37,12 +37,23 @@ const radioButtonGroupProperties = [
   "valueState",
   "width"
 ];
+
+const radioButtonGroupSpecialProperties = [
+  "id",
+  "models",
+  "bindingContexts",
+  "objectBindings",
+  "metadataContexts",
+  "Type"
+];
+
 const radioButtonGroupEvents = ["select"];
 const uiCoreControlAssociations = ["ariaDescribedBy", "ariaLabelledBy"];
 const allPropsEventsAssociations = uiCoreControlProperties
   .concat(uiCoreControlEvents)
   .concat(uiCoreControlAssociations)
   .concat(radioButtonGroupProperties)
+  .concat(radioButtonGroupSpecialProperties)
   .concat(radioButtonGroupEvents);
 
 describe("The ui5-language-assistant xml-views-completion", () => {
