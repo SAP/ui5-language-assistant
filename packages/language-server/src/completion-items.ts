@@ -54,6 +54,9 @@ function transformToLspSuggestions(
   const lspSuggestions = map(suggestions, suggestion => {
     const lspKind = computeLSPKind(suggestion);
     let detailText = getNodeDetail(suggestion.ui5Node);
+    if (suggestion.ui5Node.experimentalInfo?.isExperimental) {
+      detailText = `(experimental) ${detailText}`;
+    }
     if (suggestion.ui5Node.deprecatedInfo?.isDeprecated) {
       detailText = `(deprecated) ${detailText}`;
     }

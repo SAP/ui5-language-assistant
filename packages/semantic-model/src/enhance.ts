@@ -38,7 +38,8 @@ function addImplicitParentNamespaces(
       classes: newMap(),
       description: undefined,
       since: undefined,
-      deprecatedInfo: undefined
+      deprecatedInfo: undefined,
+      experimentalInfo: undefined
     };
     if (parentFqn !== parentName) {
       addImplicitParentNamespaces(model, parentFqn, parentName);

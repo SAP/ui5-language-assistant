@@ -39,8 +39,23 @@ export function getNodeDocumentation(
       : EMPTY_STRING;
     contents += NL;
   }
-  // TODO add experimental when it's added to the model in this format: Experimental API [since version <since>]
 
+  if (node.experimentalInfo?.isExperimental) {
+    // Since and Experimental are both present
+    if (contents !== "") {
+      contents += NL;
+    }
+    contents += "Experimental";
+    /* istanbul ignore next */
+    contents += node.experimentalInfo.since
+      ? ` since version ${node.experimentalInfo.since}`
+      : EMPTY_STRING;
+    contents += ".";
+    contents += node.experimentalInfo.text
+      ? ` ${node.experimentalInfo.text}`
+      : EMPTY_STRING;
+    contents += NL;
+  }
   // Clearly separate annotations and regular doc block
   if (contents.length > 0) {
     contents += NL;

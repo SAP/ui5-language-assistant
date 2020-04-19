@@ -16,6 +16,7 @@ export interface UI5Meta {
   description: string | undefined;
   since: string | undefined;
   deprecatedInfo: UI5DeprecatedInfo | undefined;
+  experimentalInfo: UI5ExperimentalInfo | undefined;
   visibility: UI5Visibility;
 }
 
@@ -137,6 +138,12 @@ export type UI5Cardinality = "0..1" | "0..n";
 
 export interface UI5DeprecatedInfo {
   isDeprecated: boolean;
+  since: string | undefined;
+  text: string | undefined;
+}
+
+export interface UI5ExperimentalInfo {
+  isExperimental: boolean;
   since: string | undefined;
   text: string | undefined;
 }
