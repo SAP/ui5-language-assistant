@@ -193,7 +193,15 @@ function convertClass(
       symbol["ui5-metadata"].properties,
       partial(convertProperty, libName, clazz)
     );
+    // Add special settings (for example: "id" from ManagedObject)
+    clazz.properties = clazz.properties.concat(
+      map(
+        symbol["ui5-metadata"].specialSettings,
+        partial(convertProperty, libName, clazz)
+      )
+    );
   }
+
   // Due to unfortunate naming, if not defined in the json, symbol.constructor will be a javascript function
   clazz.ctor =
     symbol.constructor === undefined || isFunction(symbol.constructor)
@@ -375,7 +383,10 @@ function convertField(
 function convertProperty(
   libName: string,
   parent: model.BaseUI5Node,
-  jsonProperty: apiJson.ObjProperty | apiJson.Ui5Property
+  jsonProperty:
+    | apiJson.ObjProperty
+    | apiJson.Ui5Property
+    | apiJson.Ui5SpecialSetting
 ): model.UI5Prop {
   const meta = convertMeta(libName, jsonProperty);
   const defaultValue = hasProperty(jsonProperty, "defaultValue")
