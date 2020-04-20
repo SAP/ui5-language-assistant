@@ -244,7 +244,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
     ]);
   });
 
-  it("will get completion values for UI5 class", () => {
+  it("will get completion values for UI5 experimental class", () => {
     const xmlSnippet = `<mvc:View 
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns="sap.m">
