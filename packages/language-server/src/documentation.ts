@@ -41,7 +41,6 @@ export function getNodeDocumentation(
   }
 
   if (node.experimentalInfo?.isExperimental) {
-    // Since and Experimental are both present
     /* istanbul ignore else */
     if (contents !== "") {
       contents += NL;
