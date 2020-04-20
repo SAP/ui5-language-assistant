@@ -244,6 +244,24 @@ describe("the UI5 language assistant Code Completion Services", () => {
     ]);
   });
 
+  it("will get completion values for UI5 experimental class", () => {
+    const xmlSnippet = `<mvc:View 
+                          xmlns:mvc="sap.ui.core.mvc" 
+                          xmlns="sap.m">
+                          <content> <ContentS⇶`;
+    const suggestions = getSuggestions(xmlSnippet);
+    const suggestionNames = map(suggestions, suggestion => ({
+      label: suggestion.label,
+      text: suggestion.insertText
+    }));
+    expect(suggestionNames).to.deep.equalInAnyOrder([
+      {
+        label: "ContentSwitcher",
+        text: "unified:ContentSwitcher ${1}>${0}</unified:ContentSwitcher>"
+      }
+    ]);
+  });
+
   it("will get the lsp completion item kind according to the suggestion type", () => {
     expectLspKind("UI5NamespacesInXMLAttributeKey", CompletionItemKind.Text);
     expectLspKind("UI5NamespacesInXMLAttributeValue", CompletionItemKind.Text);

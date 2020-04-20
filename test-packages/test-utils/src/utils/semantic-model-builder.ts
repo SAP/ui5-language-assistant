@@ -22,6 +22,7 @@ import { Ui5Association } from "@ui5-language-assistant/semantic-model/src/api-j
 const baseUI5NodeDefaults: BaseUI5Node = {
   name: "",
   deprecatedInfo: undefined,
+  experimentalInfo: undefined,
   description: undefined,
   kind: "",
   library: "",

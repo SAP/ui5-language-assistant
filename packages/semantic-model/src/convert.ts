@@ -306,6 +306,13 @@ function convertMeta(
           text: jsonMeta.deprecated.text
         }
       : undefined,
+    experimentalInfo: jsonMeta.experimental
+      ? {
+          isExperimental: true,
+          since: jsonMeta.experimental.since,
+          text: jsonMeta.experimental.text
+        }
+      : undefined,
     visibility: jsonMeta.visibility ?? "public"
   };
   return meta;
@@ -336,6 +343,7 @@ function convertConstructor(
     description: jsonConstructor.description,
     visibility: jsonConstructor.visibility ?? "public",
     deprecatedInfo: undefined,
+    experimentalInfo: undefined,
     since: undefined,
     name: "",
     parent: parent
