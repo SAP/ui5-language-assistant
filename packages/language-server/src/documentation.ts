@@ -42,6 +42,7 @@ export function getNodeDocumentation(
 
   if (node.experimentalInfo?.isExperimental) {
     // Since and Experimental are both present
+    /* istanbul ignore else */
     if (contents !== "") {
       contents += NL;
     }
@@ -51,6 +52,7 @@ export function getNodeDocumentation(
       ? ` since version ${node.experimentalInfo.since}`
       : EMPTY_STRING;
     contents += ".";
+    /* istanbul ignore next */
     contents += node.experimentalInfo.text
       ? ` ${node.experimentalInfo.text}`
       : EMPTY_STRING;
