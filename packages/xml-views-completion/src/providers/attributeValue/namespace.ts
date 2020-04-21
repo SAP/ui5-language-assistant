@@ -29,7 +29,7 @@ export function namespaceValueSuggestions(
 
   const ui5Model = opts.context;
 
-  const attributeValue = xmlAttribute.value ?? "";
+  const attributeValue = opts.prefix ?? "";
 
   let applicableNamespaces = values(ui5Model.namespaces);
 
