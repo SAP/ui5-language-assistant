@@ -223,20 +223,6 @@ describe("The ui5-editor-tools xml-views-completion", () => {
         });
         expect(suggestions).to.be.empty;
       });
-
-      // test covers case when attribute value is null, that is impossible to reproduce
-      it("will suggest when attribute value is null", () => {
-        const xmlAttribute = createXMLAttribute("Control", "xmlns:tmpl", null, {
-          [DEFAULT_NS]: "sap.ui.core"
-        });
-        const suggestions = namespaceValueSuggestions({
-          attribute: xmlAttribute,
-          context: ui5SemanticModel,
-          element: xmlAttribute.parent,
-          prefix: "xmlns:tmpl"
-        });
-        expectNamespaceValuesSuggestions(suggestions, ["sap.ui.core.tmpl"]);
-      });
     });
   });
 });

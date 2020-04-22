@@ -58,15 +58,6 @@ export function getCompletionItems(
     model,
     textDocumentPosition.position
   );
-  const first = completionItems[0];
-  if (first && first.textEdit) {
-    console.log(
-      `Document position: ${textDocumentPosition.position.line}:${textDocumentPosition.position.character}`
-    );
-    console.log(
-      `Suggestion range: ${first.textEdit.range.start.line}:${first.textEdit.range.start.character}-${first.textEdit.range.end.line}:${first.textEdit.range.end.character}`
-    );
-  }
   return completionItems;
 }
 
