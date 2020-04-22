@@ -11,7 +11,6 @@ import { expectUI5Namespace } from "../attributeName/namespace-spec";
 import { expect } from "chai";
 import { partial } from "lodash";
 import { ui5NodeToFQN } from "@ui5-language-assistant/logic-utils";
-import { DEFAULT_NS } from "@xml-tools/ast";
 
 const expectNamespaceValuesSuggestions = partial(expectSuggestions, _ => {
   expectUI5Namespace(_.ui5Node);
