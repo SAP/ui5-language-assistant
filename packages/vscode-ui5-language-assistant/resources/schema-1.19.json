@@ -1459,6 +1459,10 @@
       "type": "string",
       "maxLength": 70
     },
+    "i18n_key": {
+      "type": "string",
+      "pattern": "^\\{\\{[\\w][\\w\\.\\-]*\\}\\}$"
+    },
     "tag": {
       "type": "array",
       "items": {
@@ -1833,25 +1837,6 @@
         }
       }
     },
-    "deviceType": {
-      "type": "object",
-      "description": "Represents device types on which the app is running",
-      "additionalProperties": false,
-      "properties": {
-        "desktop": {
-          "description": "Represents indicator whether desktop device is supported, default true",
-          "type": "boolean"
-        },
-        "tablet": {
-          "description": "Represents indicator whether tablet device is supported, default true",
-          "type": "boolean"
-        },
-        "phone": {
-          "description": "Represents indicator whether phone device is supported, default true",
-          "type": "boolean"
-        }
-      }
-    },
     "resource": {
       "type": "object",
       "properties": {
@@ -1881,6 +1866,25 @@
               }
             }
           }
+        }
+      }
+    },
+    "deviceType": {
+      "type": "object",
+      "description": "Represents device types on which the app is running",
+      "additionalProperties": false,
+      "properties": {
+        "desktop": {
+          "description": "Represents indicator whether desktop device is supported, default true",
+          "type": "boolean"
+        },
+        "tablet": {
+          "description": "Represents indicator whether tablet device is supported, default true",
+          "type": "boolean"
+        },
+        "phone": {
+          "description": "Represents indicator whether phone device is supported, default true",
+          "type": "boolean"
         }
       }
     },
@@ -2490,6 +2494,81 @@
           "description": "Indicates whether this 'Component' target should propagate it's title to this component or not",
           "type": "boolean",
           "default": "#/definitions/routing/config/propagateTitle"
+        }
+      }
+    },
+    "target": {
+      "description": "Represents the definition of each target",
+      "type": "object",
+      "properties": {
+        "title": {
+          "description": "Represents the information which is included as a parameter of the 'titleChanged' event fired on Router when this target is displayed. The title can be set with static text and can also be set with a valid property binding syntax which will be resolved under the scope of the view in the target where the title property is defined.",
+          "type": "string"
+        },
+        "viewType": {
+          "description": "Represents the type of view that is going to be created",
+          "type": "string",
+          "enum": ["XML", "JSON", "JS", "HTML", "Template"]
+        },
+        "targetParent": {
+          "description": "Represents the id of the view that contains the control specified by the 'controlId'",
+          "type": "string"
+        },
+        "controlId": {
+          "description": "Represents the id of the control where you want to place the view created by the target",
+          "type": "string"
+        },
+        "controlAggregation": {
+          "description": "Represents the name of an aggregation of the controlId that contains the views",
+          "type": "string"
+        },
+        "clearControlAggregation": {
+          "description": "Whether the aggregation of the control should be cleared before adding the view",
+          "type": "boolean"
+        },
+        "parent": {
+          "description": "Represents the name of another target which will also be displayed once this target is displayed",
+          "type": "string"
+        },
+        "viewLevel": {
+          "description": "Represents the level of the current view which is used to define the transition direction when navigate to this view",
+          "type": "number",
+          "multipleOf": 1
+        },
+        "transition": {
+          "description": "Represents the type of transition when navigating from previous view to this view",
+          "anyOf": [
+            {
+              "type": "string",
+              "default": "slide"
+            },
+            {
+              "type": "string",
+              "enum": ["slide", "flip", "fade", "show"]
+            }
+          ]
+        },
+        "transitionParameters": {
+          "description": "Represents the transition parameters that are passed to the event handlers",
+          "type": "object"
+        }
+      }
+    },
+    "service": {
+      "description": "Represents the definition of each service",
+      "type": "object",
+      "required": ["factoryName"],
+      "additionalProperties": true,
+      "properties": {
+        "factoryName": {
+          "description": "Represents the name of the service factory ",
+          "type": "string",
+          "pattern": "^([a-z_$][a-z0-9_$]{0,39}\\.)*([a-zA-Z_$][a-zA-Z0-9_$]{0,39})$"
+        },
+        "optional": {
+          "description": "Indicates whether the service optional or not ",
+          "type": "boolean",
+          "default": false
         }
       }
     },
@@ -3462,12 +3541,8 @@
         "maxItems": {
           "description": "Represents number of items",
           "oneOf": [
-            {
-              "type": "number"
-            },
-            {
-              "$ref": "#/definitions/simpleBinding"
-            }
+            { "type": "number" },
+            { "$ref": "#/definitions/simpleBinding" }
           ]
         }
       }
@@ -3479,25 +3554,11 @@
       "properties": {
         "title": {
           "description": "The title of the item.",
-          "oneOf": [
-            {
-              "$ref": "#/definitions/field"
-            },
-            {
-              "type": "string"
-            }
-          ]
+          "oneOf": [{ "$ref": "#/definitions/field" }, { "type": "string" }]
         },
         "description": {
           "description": "The description of the item.",
-          "oneOf": [
-            {
-              "$ref": "#/definitions/field"
-            },
-            {
-              "type": "string"
-            }
-          ]
+          "oneOf": [{ "$ref": "#/definitions/field" }, { "type": "string" }]
         },
         "info": {
           "type": "object",
@@ -3509,12 +3570,8 @@
             },
             "state": {
               "oneOf": [
-                {
-                  "$ref": "#/definitions/state"
-                },
-                {
-                  "$ref": "#/definitions/simpleBinding"
-                }
+                { "$ref": "#/definitions/state" },
+                { "$ref": "#/definitions/simpleBinding" }
               ]
             }
           }
@@ -3523,12 +3580,8 @@
           "type": "string",
           "description": "The highlight of the item.",
           "oneOf": [
-            {
-              "$ref": "#/definitions/state"
-            },
-            {
-              "$ref": "#/definitions/simpleBinding"
-            }
+            { "$ref": "#/definitions/state" },
+            { "$ref": "#/definitions/simpleBinding" }
           ]
         },
         "icon": {
@@ -3756,12 +3809,8 @@
         "maxItems": {
           "description": "Represents number of items",
           "oneOf": [
-            {
-              "type": "number"
-            },
-            {
-              "$ref": "#/definitions/simpleBinding"
-            }
+            { "type": "number" },
+            { "$ref": "#/definitions/simpleBinding" }
           ]
         }
       }
@@ -3880,12 +3929,8 @@
         "target": {
           "description": "Specifies the target of the link - it works like the target property of the HTML 'a' tag. Works only with items of type 'link'.",
           "oneOf": [
-            {
-              "$ref": "#/definitions/target"
-            },
-            {
-              "$ref": "#/definitions/simpleBinding"
-            }
+            { "$ref": "#/definitions/target" },
+            { "$ref": "#/definitions/simpleBinding" }
           ]
         },
         "emailSubject": {
@@ -3926,12 +3971,8 @@
         "maxItems": {
           "description": "Represents number of items",
           "oneOf": [
-            {
-              "type": "number"
-            },
-            {
-              "$ref": "#/definitions/simpleBinding"
-            }
+            { "type": "number" },
+            { "$ref": "#/definitions/simpleBinding" }
           ]
         }
       }
@@ -3960,12 +4001,8 @@
         "state": {
           "description": "Defines the state of the column.",
           "oneOf": [
-            {
-              "$ref": "#/definitions/state"
-            },
-            {
-              "$ref": "#/definitions/simpleBinding"
-            }
+            { "$ref": "#/definitions/state" },
+            { "$ref": "#/definitions/simpleBinding" }
           ]
         },
         "url": {
@@ -3976,22 +4013,14 @@
           "description": "Specifies where to open the 'url', if it is provided.",
           "type": "string",
           "oneOf": [
-            {
-              "$ref": "#/definitions/target"
-            },
-            {
-              "$ref": "#/definitions/simpleBinding"
-            }
+            { "$ref": "#/definitions/target" },
+            { "$ref": "#/definitions/simpleBinding" }
           ]
         },
         "identifier": {
           "oneOf": [
-            {
-              "$ref": "#/definitions/identifier"
-            },
-            {
-              "$ref": "#/definitions/simpleBinding"
-            }
+            { "$ref": "#/definitions/identifier" },
+            { "$ref": "#/definitions/simpleBinding" }
           ]
         },
         "progressIndicator": {
@@ -4020,48 +4049,30 @@
         "date": {
           "description": "The initial date of the calendar which appointments are initially shown",
           "oneOf": [
-            {
-              "type": "number"
-            },
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "#/definitions/simpleBinding"
-            }
+            { "type": "number" },
+            { "type": "string" },
+            { "$ref": "#/definitions/simpleBinding" }
           ]
         },
         "maxItems": {
           "description": "Represents number of items displayed",
           "oneOf": [
-            {
-              "type": "number"
-            },
-            {
-              "$ref": "#/definitions/simpleBinding"
-            }
+            { "type": "number" },
+            { "$ref": "#/definitions/simpleBinding" }
           ]
         },
         "maxLegendItems": {
           "description": "Represents number of legendItems displayed",
           "oneOf": [
-            {
-              "type": "number"
-            },
-            {
-              "$ref": "#/definitions/simpleBinding"
-            }
+            { "type": "number" },
+            { "$ref": "#/definitions/simpleBinding" }
           ]
         },
         "noItemsText": {
           "description": "The text shown when there are no items for the selected day",
           "oneOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "#/definitions/simpleBinding"
-            }
+            { "type": "string" },
+            { "$ref": "#/definitions/simpleBinding" }
           ]
         },
         "moreItems": {
@@ -4100,36 +4111,15 @@
       "properties": {
         "visualization": {
           "description": "Defines the visualization of the item in the card. Available visualizations: \"appointment\" and \"blocker\".",
-          "oneOf": [
-            {
-              "$ref": "#/definitions/field"
-            },
-            {
-              "type": "string"
-            }
-          ]
+          "oneOf": [{ "$ref": "#/definitions/field" }, { "type": "string" }]
         },
         "startDate": {
           "description": "The start date of the item.",
-          "oneOf": [
-            {
-              "type": "number"
-            },
-            {
-              "type": "string"
-            }
-          ]
+          "oneOf": [{ "type": "number" }, { "type": "string" }]
         },
         "endDate": {
           "description": "The end date of the item.",
-          "oneOf": [
-            {
-              "type": "number"
-            },
-            {
-              "type": "string"
-            }
-          ]
+          "oneOf": [{ "type": "number" }, { "type": "string" }]
         },
         "title": {
           "description": "The title of the item.",
@@ -4170,9 +4160,7 @@
               ],
               "default": "Type01"
             },
-            {
-              "$ref": "#/definitions/simpleBinding"
-            }
+            { "$ref": "#/definitions/simpleBinding" }
           ]
         }
       }
@@ -4232,9 +4220,7 @@
               ],
               "default": "Type01"
             },
-            {
-              "$ref": "#/definitions/simpleBinding"
-            }
+            { "$ref": "#/definitions/simpleBinding" }
           ]
         }
       }
@@ -4260,25 +4246,11 @@
       "properties": {
         "startDate": {
           "description": "The start date of the special date.",
-          "oneOf": [
-            {
-              "type": "number"
-            },
-            {
-              "type": "string"
-            }
-          ]
+          "oneOf": [{ "type": "number" }, { "type": "string" }]
         },
         "endDate": {
           "description": "The end date of the special date.",
-          "oneOf": [
-            {
-              "type": "number"
-            },
-            {
-              "type": "string"
-            }
-          ]
+          "oneOf": [{ "type": "number" }, { "type": "string" }]
         },
         "type": {
           "description": "The type of the special date - one of the types defined in the legend.",
@@ -4308,9 +4280,7 @@
               ],
               "default": "Type01"
             },
-            {
-              "$ref": "#/definitions/simpleBinding"
-            }
+            { "$ref": "#/definitions/simpleBinding" }
           ]
         }
       }
@@ -4327,23 +4297,15 @@
         "state": {
           "description": "Represents state color",
           "oneOf": [
-            {
-              "$ref": "#/definitions/state"
-            },
-            {
-              "$ref": "#/definitions/simpleBinding"
-            }
+            { "$ref": "#/definitions/state" },
+            { "$ref": "#/definitions/simpleBinding" }
           ]
         },
         "percent": {
           "description": "Represents progress indicator percent value",
           "oneOf": [
-            {
-              "type": "number"
-            },
-            {
-              "$ref": "#/definitions/simpleBinding"
-            }
+            { "type": "number" },
+            { "$ref": "#/definitions/simpleBinding" }
           ]
         },
         "text": {
@@ -4400,12 +4362,8 @@
         "text": {
           "description": "Represents status text.",
           "oneOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "#/definitions/statusTextFormatter"
-            }
+            { "type": "string" },
+            { "$ref": "#/definitions/statusTextFormatter" }
           ]
         }
       }
@@ -4455,12 +4413,8 @@
         "updateInterval": {
           "description": "Represents interval in seconds, after which a new data request will be triggered.",
           "oneOf": [
-            {
-              "type": "number"
-            },
-            {
-              "$ref": "#/definitions/simpleBinding"
-            }
+            { "type": "number" },
+            { "$ref": "#/definitions/simpleBinding" }
           ]
         }
       }
@@ -4513,13 +4467,8 @@
         "withCredentials": {
           "description": "Indicates whether cross-site requests should be made using credentials.",
           "oneOf": [
-            {
-              "type": "boolean",
-              "default": false
-            },
-            {
-              "$ref": "#/definitions/simpleBinding"
-            }
+            { "type": "boolean", "default": false },
+            { "$ref": "#/definitions/simpleBinding" }
           ]
         }
       }
@@ -4537,10 +4486,6 @@
           "description": "The value of the field"
         }
       }
-    },
-    "i18n_key": {
-      "type": "string",
-      "pattern": "^\\{\\{[\\w][\\w\\.\\-]*\\}\\}$"
     },
     "simpleBinding": {
       "type": "string",
@@ -4567,12 +4512,8 @@
         "enabled": {
           "description": "Represents the state of the action",
           "oneOf": [
-            {
-              "type": "boolean"
-            },
-            {
-              "$ref": "#/definitions/simpleBinding"
-            }
+            { "type": "boolean" },
+            { "$ref": "#/definitions/simpleBinding" }
           ]
         },
         "service": {
@@ -4609,34 +4550,6 @@
       "type": "string",
       "enum": ["Error", "Success", "Warning", "None", "Information"],
       "default": "None"
-    },
-    "service": {
-      "description": "Represents service that will be used for an actions",
-      "oneOf": [
-        {
-          "description": "Represents name of the Service to be used for the action",
-          "type": "string"
-        },
-        {
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "name": {
-              "description": "Represents name of the Service to be used for the action",
-              "type": "string"
-            },
-            "parameters": {
-              "$ref": "#/definitions/parameters"
-            }
-          }
-        }
-      ]
-    },
-    "target": {
-      "description": "Specifies where to open an URL",
-      "type": "string",
-      "enum": ["_blank", "_self"],
-      "default": "_blank"
     },
     "identifier": {
       "description": "Represents identifier",
