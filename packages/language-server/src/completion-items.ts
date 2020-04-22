@@ -130,7 +130,6 @@ function createTextEdit(
       insertText = `xmlns:${insertText}`;
 
       // Auto-insert the selected namespace
-      /* istanbul ignore else */
       if (suggestion.astNode.syntax.value === undefined) {
         insertText += `="${ui5NodeToFQN(suggestion.ui5Node)}"`;
       }
@@ -142,7 +141,6 @@ function createTextEdit(
       position = getXMLAttributeKeyPosition(suggestion.astNode);
 
       // Auto-insert ="" for attributes
-      /* istanbul ignore else */
       if (suggestion.astNode.syntax.value === undefined) {
         insertText += '="${0}"';
       }
@@ -315,7 +313,6 @@ function getNodeDetail(node: BaseUI5Node): string {
     return ui5NodeToFQN(node);
   }
   switch (node.kind) {
-    /* istanbul ignore next */
     case "UI5Prop":
       return `(property) ${node.name}: ${typeToString((node as UI5Prop).type)}`;
     /* istanbul ignore next */

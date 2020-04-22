@@ -366,6 +366,29 @@ describe("the UI5 language assistant Code Completion Services", () => {
     expect(suggestionKinds).to.deep.equal([CompletionItemKind.Property]);
   });
 
+  it("will get completion values for UI5 property when the cursor is in the middle of a name and there is a value", () => {
+    const xmlSnippet = `<mvc:View 
+                          xmlns:mvc="sap.ui.core.mvc" 
+                          xmlns="sap.m"> 
+                          <List show⇶Separ="true"`;
+    const suggestions = getSuggestions(xmlSnippet);
+    const suggestionNames = map(suggestions, suggestion => ({
+      label: suggestion.label,
+      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
+    }));
+    const suggestionKinds = uniq(
+      map(suggestions, suggestion => suggestion.kind)
+    );
+
+    expect(suggestionNames).to.deep.equalInAnyOrder([
+      { label: "showNoData", replacedText: "showSepar" },
+      { label: "showSeparators", replacedText: "showSepar" },
+      { label: "showUnread", replacedText: "showSepar" }
+    ]);
+
+    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Property]);
+  });
+
   it("will get completion values for UI5 event", () => {
     const xmlSnippet = `<mvc:View 
                           xmlns:mvc="sap.ui.core.mvc" 
@@ -561,17 +584,39 @@ describe("the UI5 language assistant Code Completion Services", () => {
     expect(suggestionKinds).to.deep.equal([CompletionItemKind.Text]);
   });
 
-  it("will get completion values for UI5 xmlns key namespace when the cursor is in the middle of a name", () => {
-    function getFQNFromDetail(detail: string | undefined): string | undefined {
-      if (detail === undefined) {
-        return detail;
-      }
-      return detail.replace("(deprecated) ", "").replace("(experimental) ", "");
+  function getFQNFromDetail(detail: string | undefined): string | undefined {
+    if (detail === undefined) {
+      return detail;
     }
+    return detail.replace("(deprecated) ", "").replace("(experimental) ", "");
+  }
 
+  it("will get completion values for UI5 xmlns key namespace when the cursor is in the middle of a name", () => {
     const xmlSnippet = `<mvc:View 
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns:ux⇶a`;
+    const suggestions = getSuggestions(xmlSnippet);
+    const suggestionNames = map(suggestions, suggestion => ({
+      label: suggestion.label,
+      namespaceName: getFQNFromDetail(suggestion.detail),
+      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
+    }));
+    const suggestionKinds = uniq(
+      map(suggestions, suggestion => suggestion.kind)
+    );
+
+    expect(suggestionNames).to.deep.equalInAnyOrder([
+      { label: "ux3", namespaceName: "sap.ui.ux3", replacedText: "xmlns:uxa" },
+      { label: "uxap", namespaceName: "sap.uxap", replacedText: "xmlns:uxa" }
+    ]);
+
+    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Text]);
+  });
+
+  it("will get completion values for UI5 xmlns key namespace when the cursor is in the middle of a name and there is a value", () => {
+    const xmlSnippet = `<mvc:View 
+                          xmlns:mvc="sap.ui.core.mvc" 
+                          xmlns:ux⇶a="sap.m"`;
     const suggestions = getSuggestions(xmlSnippet);
     const suggestionNames = map(suggestions, suggestion => ({
       label: suggestion.label,
@@ -747,14 +792,19 @@ describe("the UI5 language assistant Code Completion Services", () => {
     const suggestions = getSuggestions(xmlSnippet);
     const suggestionNames = map(suggestions, suggestion => ({
       label: suggestion.label,
-      text: suggestion.insertText
+      tagName: getTagName(suggestion.textEdit),
+      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
     }));
     expect(suggestionNames).to.deep.equalInAnyOrder([
       {
         label: "ContentSwitcher",
-        text: "unified:ContentSwitcher ${1}>${0}</unified:ContentSwitcher>"
+        tagName: "unified:ContentSwitcher",
+        replacedText: "ContentS"
       }
     ]);
+    forEach(suggestions, suggestion => {
+      expect(suggestion.detail).to.contain("experimental");
+    });
   });
 
   it("will get the lsp completion item kind according to the suggestion type", () => {
