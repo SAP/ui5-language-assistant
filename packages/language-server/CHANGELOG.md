@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.3.0](https://github.com/sap/ui5-language-assistant/compare/@ui5-language-assistant/language-server@1.2.1...@ui5-language-assistant/language-server@1.3.0) (2020-04-23)
+
+### Features
+
+- **semantic-model:** add experimental information ([#56](https://github.com/sap/ui5-language-assistant/issues/56)) ([f55098d](https://github.com/sap/ui5-language-assistant/commit/f55098dc7fc949395efef04335667a0bc55e9d8e))
+
 ## [1.2.1](https://github.com/sap/ui5-language-assistant/compare/@ui5-language-assistant/language-server@1.2.0...@ui5-language-assistant/language-server@1.2.1) (2020-04-07)
 
 ### Bug Fixes
