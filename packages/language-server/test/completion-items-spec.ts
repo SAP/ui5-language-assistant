@@ -10,6 +10,7 @@ import {
   TextEdit,
   Range
 } from "vscode-languageserver";
+import { UI5XMLViewCompletion } from "@ui5-language-assistant/xml-views-completion";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import {
   generateModel,
@@ -18,9 +19,11 @@ import {
 } from "@ui5-language-assistant/test-utils";
 
 import { getCompletionItems, computeLSPKind } from "../src/completion-items";
-import { UI5XMLViewCompletion } from "@ui5-language-assistant/xml-views-completion";
 
 describe("the UI5 language assistant Code Completion Services", () => {
+  // Cursor position after selecting the suggestion
+  const CURSOR_POSITION = "${0}";
+
   let ui5SemanticModel: UI5SemanticModel;
   before(async function() {
     this.timeout(GEN_MODEL_TIMEOUT);
@@ -359,21 +362,20 @@ describe("the UI5 language assistant Code Completion Services", () => {
     );
 
     expect(suggestionNames).to.deep.equalInAnyOrder([
-      // The ${0} is where the cursor is placed after insertion
       {
         label: "showNoData",
         replacedText: "showSepar",
-        newText: `showNoData="\${0}"`
+        newText: `showNoData="${CURSOR_POSITION}"`
       },
       {
         label: "showSeparators",
         replacedText: "showSepar",
-        newText: `showSeparators="\${0}"`
+        newText: `showSeparators="${CURSOR_POSITION}"`
       },
       {
         label: "showUnread",
         replacedText: "showSepar",
-        newText: `showUnread="\${0}"`
+        newText: `showUnread="${CURSOR_POSITION}"`
       }
     ]);
 
