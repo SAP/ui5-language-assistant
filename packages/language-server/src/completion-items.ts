@@ -1,4 +1,4 @@
-import { map, findKey, isEmpty, includes } from "lodash";
+import { map, findKey } from "lodash";
 import {
   CompletionItem,
   CompletionItemKind,
@@ -76,10 +76,11 @@ function transformToLspSuggestions(
       detailText = `(deprecated) ${detailText}`;
     }
 
+    const textEditDetails = createTextEdit(suggestion, originalPosition);
     const completionItem: CompletionItem = {
       label: suggestion.ui5Node.name,
-      filterText: getNodeFilterText(suggestion),
-      textEdit: createTextEdit(suggestion, originalPosition),
+      filterText: textEditDetails.filterText,
+      textEdit: textEditDetails.textEdit,
       insertTextFormat: InsertTextFormat.Snippet,
       detail: detailText,
       documentation: getNodeDocumentation(suggestion.ui5Node, model),
@@ -120,14 +121,23 @@ export function computeLSPKind(
 function createTextEdit(
   suggestion: UI5XMLViewCompletion,
   originalPosition: Position
-): TextEdit {
+): { textEdit: TextEdit; filterText: string } {
   let position: SourcePosition | undefined = undefined;
   let insertText = suggestion.ui5Node.name;
+
+  // The filter text is used by VSCode/Theia to filter out suggestions that don't match the text the user wrote.
+  // Every character being replaced by the TextEdit (until the cursor position) should exist in the filter text.
+  // Since we replace the whole value (tag name/attribute key/attribute value) the filter text should contain
+  // the entire prefix (including the xml namespace in tag name, surrounding quotation marks for attribute value etc).
+  // In simple cases (like property name) this will be the name of the UI5 node.
+  let filterText = insertText;
   switch (suggestion.type) {
     // Attribute key
     case "UI5NamespacesInXMLAttributeKey": {
       position = getXMLAttributeKeyPosition(suggestion.astNode);
       insertText = `xmlns:${insertText}`;
+      // Namespace in xmlns attribute key should contain the "xmlns:" prefix
+      filterText = insertText;
 
       // Auto-insert the selected namespace
       if (suggestion.astNode.syntax.value === undefined) {
@@ -149,6 +159,7 @@ function createTextEdit(
     // Tag name
     case "UI5AggregationsInXMLTagName": {
       position = getXMLTagNamePosition(suggestion.astNode);
+
       // Auto-close tag
       /* istanbul ignore else */
       if (suggestion.astNode.syntax.closeBody === undefined) {
@@ -158,36 +169,50 @@ function createTextEdit(
     }
     case "UI5ClassesInXMLTagName": {
       position = getXMLTagNamePosition(suggestion.astNode);
-      let closeTagName = insertText;
+      let tagName = insertText;
       const nsPrefix = getClassNamespacePrefix(suggestion);
       if (nsPrefix !== undefined) {
-        closeTagName = `${nsPrefix}:${closeTagName}`;
-        insertText = `${nsPrefix}:${insertText}`;
+        tagName = `${nsPrefix}:${tagName}`;
+        insertText = tagName;
       }
 
       // Auto-close tag and put the cursor where attributes can be added
       /* istanbul ignore else */
       if (suggestion.astNode.syntax.closeBody === undefined) {
-        insertText += ` \${1}>\${0}</${closeTagName}>`;
+        insertText += ` \${1}>\${0}</${tagName}>`;
       }
+
+      // Class name in tag can be filtered by FQN or xmlns (or none of them): all of "m:But", "But" and "sap.m.But"
+      // should return "m:Button" in the tag name for sap.m.Button.
+      // Use both namespaced options in the filter text to make sure the result is not filtered out
+      // (the simple name option is contained in both).
+      filterText = `${tagName} ${ui5NodeToFQN(suggestion.ui5Node)}`;
       break;
     }
     // Attribute value
     case "UI5NamespacesInXMLAttributeValue": {
       position = getXMLAttributeValuePosition(suggestion.astNode);
       insertText = `"${ui5NodeToFQN(suggestion.ui5Node)}"`;
+      // Namespace in attribute value can be filtered by FQN (since the FQN is written in the attribute).
+      // Attribute values should contain quotation marks.
+      filterText = insertText;
       break;
     }
     case "UI5EnumsInXMLAttributeValue": {
       position = getXMLAttributeValuePosition(suggestion.astNode);
       insertText = `"${suggestion.ui5Node.name}"`;
+      // Attribute values should contain quotation marks
+      filterText = insertText;
       break;
     }
   }
 
   return {
-    newText: insertText,
-    range: positionToRange(position, originalPosition)
+    textEdit: {
+      newText: insertText,
+      range: positionToRange(position, originalPosition)
+    },
+    filterText: filterText
   };
 }
 
@@ -254,57 +279,6 @@ function getClassNamespacePrefix(
     }
   }
   return undefined;
-}
-
-function getNodeFilterText(suggestion: UI5XMLViewCompletion): string {
-  // The filter text is used by VSCode/Theia to filter out suggestions that don't match the text the user wrote.
-  // Basically this means that every character being replaced by the TextEdit should exist in the filter text.
-  // Since we replace the whole value (tag name/attribute key/attribute value) the filter text should contain
-  // everything which should be replaced (including namespace in tag name, surrounding quotation marks etc).
-  // By default we replace the simple name of the node so this is the returned filter text.
-  // Special cases:
-  // - Class name in tag can be filtered by FQN or xmlns:
-  //   For sap.f.Cards, user input "f:C" should return "f:Cards"
-  //   For sap.m.Button, user input "sap.m.But" should return "sap.m.Button"
-  // - Namespace in attribute value can be filtered by FQN
-  //   For sap.m.semantic, user input "sap.m." should return "sap.m.semantic"
-  // - Namespace in xmlns attribute key should contain the "xmlns:" prefix
-  //   For sap.m, user input "xmlns:" should return "xmlns:m"
-  // - Attribute values should contain quotation marks
-  //   For Small enum value, user input `"S"` should return `"Small"`
-  const node = suggestion.ui5Node;
-  switch (suggestion.type) {
-    case "UI5ClassesInXMLTagName": {
-      // In some cases ns will have the namespace and in others name will contain the namespace.
-      // If the user explicitly typed a namespace we use it in the filter text (because it's written in the file).
-      if (
-        !isEmpty(suggestion.astNode.ns) ||
-        (suggestion.astNode.name !== null &&
-          includes(suggestion.astNode.name, ":"))
-      ) {
-        const prefix = getClassNamespacePrefix(suggestion);
-        // The else case should never happen - if the user entered a namespace in the tag name only classes from
-        // that namespace are returned, so the namespace will be returned in the prefix
-        /* istanbul ignore else */
-        if (prefix !== undefined) {
-          return `${prefix}:${node.name}`;
-        }
-      }
-      return ui5NodeToFQN(node);
-    }
-    case "UI5NamespacesInXMLAttributeValue": {
-      return `"${ui5NodeToFQN(node)}"`;
-    }
-    case "UI5NamespacesInXMLAttributeKey": {
-      return `xmlns:${node.name}`;
-    }
-    case "UI5EnumsInXMLAttributeValue": {
-      return `"${node.name}"`;
-    }
-    default: {
-      return node.name;
-    }
-  }
 }
 
 function getNodeDetail(node: BaseUI5Node): string {

@@ -351,16 +351,30 @@ describe("the UI5 language assistant Code Completion Services", () => {
     const suggestions = getSuggestions(xmlSnippet);
     const suggestionNames = map(suggestions, suggestion => ({
       label: suggestion.label,
-      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
+      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
+      newText: suggestion.textEdit?.newText
     }));
     const suggestionKinds = uniq(
       map(suggestions, suggestion => suggestion.kind)
     );
 
     expect(suggestionNames).to.deep.equalInAnyOrder([
-      { label: "showNoData", replacedText: "showSepar" },
-      { label: "showSeparators", replacedText: "showSepar" },
-      { label: "showUnread", replacedText: "showSepar" }
+      // The ${0} is where the cursor is placed after insertion
+      {
+        label: "showNoData",
+        replacedText: "showSepar",
+        newText: `showNoData="\${0}"`
+      },
+      {
+        label: "showSeparators",
+        replacedText: "showSepar",
+        newText: `showSeparators="\${0}"`
+      },
+      {
+        label: "showUnread",
+        replacedText: "showSepar",
+        newText: `showUnread="\${0}"`
+      }
     ]);
 
     expect(suggestionKinds).to.deep.equal([CompletionItemKind.Property]);
@@ -374,16 +388,21 @@ describe("the UI5 language assistant Code Completion Services", () => {
     const suggestions = getSuggestions(xmlSnippet);
     const suggestionNames = map(suggestions, suggestion => ({
       label: suggestion.label,
-      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
+      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
+      newText: suggestion.textEdit?.newText
     }));
     const suggestionKinds = uniq(
       map(suggestions, suggestion => suggestion.kind)
     );
 
     expect(suggestionNames).to.deep.equalInAnyOrder([
-      { label: "showNoData", replacedText: "showSepar" },
-      { label: "showSeparators", replacedText: "showSepar" },
-      { label: "showUnread", replacedText: "showSepar" }
+      { label: "showNoData", replacedText: "showSepar", newText: "showNoData" },
+      {
+        label: "showSeparators",
+        replacedText: "showSepar",
+        newText: "showSeparators"
+      },
+      { label: "showUnread", replacedText: "showSepar", newText: "showUnread" }
     ]);
 
     expect(suggestionKinds).to.deep.equal([CompletionItemKind.Property]);
@@ -512,37 +531,31 @@ describe("the UI5 language assistant Code Completion Services", () => {
     const suggestions = getSuggestions(xmlSnippet);
     const suggestionNames = map(suggestions, suggestion => ({
       label: suggestion.label,
-      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
+      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
+      tagName: getTagName(suggestion.textEdit)
     }));
     const suggestionKinds = uniq(
       map(suggestions, suggestion => suggestion.kind)
     );
 
     expect(suggestionNames).to.deep.equalInAnyOrder([
-      { label: "contextMenu", replacedText: "teMenu" },
-      { label: "items", replacedText: "teMenu" },
-      { label: "swipeContent", replacedText: "teMenu" }
+      { label: "contextMenu", replacedText: "teMenu", tagName: "contextMenu" },
+      { label: "items", replacedText: "teMenu", tagName: "items" },
+      { label: "swipeContent", replacedText: "teMenu", tagName: "swipeContent" }
     ]);
 
     expect(suggestionKinds).to.deep.equal([CompletionItemKind.Text]);
   });
 
   it("will get completion values for UI5 xmlns key namespace", () => {
-    function getFQNFromDetail(detail: string | undefined): string | undefined {
-      if (detail === undefined) {
-        return detail;
-      }
-      return detail.replace("(deprecated) ", "").replace("(experimental) ", "");
-    }
-
     const xmlSnippet = `<mvc:View 
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns:u⇶`;
     const suggestions = getSuggestions(xmlSnippet);
     const suggestionNames = map(suggestions, suggestion => ({
       label: suggestion.label,
-      namespaceName: getFQNFromDetail(suggestion.detail),
-      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
+      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
+      newText: suggestion.textEdit?.newText
     }));
     const suggestionKinds = uniq(
       map(suggestions, suggestion => suggestion.kind)
@@ -551,45 +564,54 @@ describe("the UI5 language assistant Code Completion Services", () => {
     expect(suggestionNames).to.deep.equalInAnyOrder([
       {
         label: "unified",
-        namespaceName: "sap.ui.unified",
-        replacedText: "xmlns:u"
+        replacedText: "xmlns:u",
+        newText: `xmlns:unified="sap.ui.unified"`
       },
       {
         label: "upload",
-        namespaceName: "sap.m.upload",
-        replacedText: "xmlns:u"
+        replacedText: "xmlns:u",
+        newText: `xmlns:upload="sap.m.upload"`
       },
       {
         label: "util",
-        namespaceName: "sap.ui.core.util",
-        replacedText: "xmlns:u"
+        replacedText: "xmlns:u",
+        newText: `xmlns:util="sap.ui.core.util"`
       },
-      { label: "ux3", namespaceName: "sap.ui.ux3", replacedText: "xmlns:u" },
-      { label: "uxap", namespaceName: "sap.uxap", replacedText: "xmlns:u" },
+      {
+        label: "ux3",
+        replacedText: "xmlns:u",
+        newText: `xmlns:ux3="sap.ui.ux3"`
+      },
+      {
+        label: "uxap",
+        replacedText: "xmlns:u",
+        newText: `xmlns:uxap="sap.uxap"`
+      },
       {
         label: "ubc",
-        namespaceName: "sap.gantt.shape.ext.ubc",
-        replacedText: "xmlns:u"
+        replacedText: "xmlns:u",
+        newText: `xmlns:ubc="sap.gantt.shape.ext.ubc"`
       },
-      { label: "ui", namespaceName: "sap.ca.ui", replacedText: "xmlns:u" },
-      { label: "ui", namespaceName: "sap.rules.ui", replacedText: "xmlns:u" },
-      { label: "ui5", namespaceName: "sap.viz.ui5", replacedText: "xmlns:u" },
+      { label: "ui", replacedText: "xmlns:u", newText: `xmlns:ui="sap.ca.ui"` },
+      {
+        label: "ui",
+        replacedText: "xmlns:u",
+        newText: `xmlns:ui="sap.rules.ui"`
+      },
+      {
+        label: "ui5",
+        replacedText: "xmlns:u",
+        newText: `xmlns:ui5="sap.viz.ui5"`
+      },
       {
         label: "ulc",
-        namespaceName: "sap.gantt.shape.ext.ulc",
-        replacedText: "xmlns:u"
+        replacedText: "xmlns:u",
+        newText: `xmlns:ulc="sap.gantt.shape.ext.ulc"`
       }
     ]);
 
     expect(suggestionKinds).to.deep.equal([CompletionItemKind.Text]);
   });
-
-  function getFQNFromDetail(detail: string | undefined): string | undefined {
-    if (detail === undefined) {
-      return detail;
-    }
-    return detail.replace("(deprecated) ", "").replace("(experimental) ", "");
-  }
 
   it("will get completion values for UI5 xmlns key namespace when the cursor is in the middle of a name", () => {
     const xmlSnippet = `<mvc:View 
@@ -598,16 +620,24 @@ describe("the UI5 language assistant Code Completion Services", () => {
     const suggestions = getSuggestions(xmlSnippet);
     const suggestionNames = map(suggestions, suggestion => ({
       label: suggestion.label,
-      namespaceName: getFQNFromDetail(suggestion.detail),
-      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
+      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
+      newText: suggestion.textEdit?.newText
     }));
     const suggestionKinds = uniq(
       map(suggestions, suggestion => suggestion.kind)
     );
 
     expect(suggestionNames).to.deep.equalInAnyOrder([
-      { label: "ux3", namespaceName: "sap.ui.ux3", replacedText: "xmlns:uxa" },
-      { label: "uxap", namespaceName: "sap.uxap", replacedText: "xmlns:uxa" }
+      {
+        label: "ux3",
+        replacedText: "xmlns:uxa",
+        newText: `xmlns:ux3="sap.ui.ux3"`
+      },
+      {
+        label: "uxap",
+        replacedText: "xmlns:uxa",
+        newText: `xmlns:uxap="sap.uxap"`
+      }
     ]);
 
     expect(suggestionKinds).to.deep.equal([CompletionItemKind.Text]);
@@ -620,16 +650,16 @@ describe("the UI5 language assistant Code Completion Services", () => {
     const suggestions = getSuggestions(xmlSnippet);
     const suggestionNames = map(suggestions, suggestion => ({
       label: suggestion.label,
-      namespaceName: getFQNFromDetail(suggestion.detail),
-      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
+      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
+      newText: suggestion.textEdit?.newText
     }));
     const suggestionKinds = uniq(
       map(suggestions, suggestion => suggestion.kind)
     );
 
     expect(suggestionNames).to.deep.equalInAnyOrder([
-      { label: "ux3", namespaceName: "sap.ui.ux3", replacedText: "xmlns:uxa" },
-      { label: "uxap", namespaceName: "sap.uxap", replacedText: "xmlns:uxa" }
+      { label: "ux3", replacedText: "xmlns:uxa", newText: `xmlns:ux3` },
+      { label: "uxap", replacedText: "xmlns:uxa", newText: `xmlns:uxap` }
     ]);
 
     expect(suggestionKinds).to.deep.equal([CompletionItemKind.Text]);
@@ -642,11 +672,11 @@ describe("the UI5 language assistant Code Completion Services", () => {
     const suggestions = getSuggestions(xmlSnippet);
     const suggestionNames = map(suggestions, suggestion => ({
       label: suggestion.label,
-      text: suggestion.textEdit?.newText,
-      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
+      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
+      newTtext: suggestion.textEdit?.newText
     }));
     expect(suggestionNames).to.deep.equalInAnyOrder([
-      { label: "ux3", text: `"sap.ui.ux3"`, replacedText: `""` }
+      { label: "ux3", replacedText: `""`, newTtext: `"sap.ui.ux3"` }
     ]);
   });
 
@@ -658,12 +688,12 @@ describe("the UI5 language assistant Code Completion Services", () => {
     const suggestions = getSuggestions(xmlSnippet);
     const suggestionNames = map(suggestions, suggestion => ({
       label: suggestion.label,
-      text: suggestion.textEdit?.newText,
-      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
+      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
+      newText: suggestion.textEdit?.newText
     }));
     expect(suggestionNames).to.deep.equalInAnyOrder([
-      { label: "ux3", text: `"sap.ui.ux3"`, replacedText: `"uxa"` },
-      { label: "uxap", text: `"sap.uxap"`, replacedText: `"uxa"` }
+      { label: "ux3", replacedText: `"uxa"`, newText: `"sap.ui.ux3"` },
+      { label: "uxap", replacedText: `"uxa"`, newText: `"sap.uxap"` }
     ]);
   });
 
@@ -675,11 +705,11 @@ describe("the UI5 language assistant Code Completion Services", () => {
     const suggestions = getSuggestions(xmlSnippet);
     const suggestionNames = map(suggestions, suggestion => ({
       label: suggestion.label,
-      text: suggestion.textEdit?.newText,
-      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
+      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
+      newText: suggestion.textEdit?.newText
     }));
     expect(suggestionNames).to.deep.equalInAnyOrder([
-      { label: "uxap", text: `"sap.uxap"`, replacedText: `"sap.ui"` }
+      { label: "uxap", replacedText: `"sap.ui"`, newText: `"sap.uxap"` }
     ]);
   });
 
@@ -691,17 +721,17 @@ describe("the UI5 language assistant Code Completion Services", () => {
     const suggestions = getSuggestions(xmlSnippet);
     const suggestionNames = map(suggestions, suggestion => ({
       label: suggestion.label,
-      text: suggestion.textEdit?.newText,
-      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
+      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
+      newText: suggestion.textEdit?.newText
     }));
     const suggestionKinds = uniq(
       map(suggestions, suggestion => suggestion.kind)
     );
 
     expect(suggestionNames).to.deep.equalInAnyOrder([
-      { label: "All", text: `"All"`, replacedText: `""` },
-      { label: "Inner", text: `"Inner"`, replacedText: `""` },
-      { label: "None", text: `"None"`, replacedText: `""` }
+      { label: "All", replacedText: `""`, newText: `"All"` },
+      { label: "Inner", replacedText: `""`, newText: `"Inner"` },
+      { label: "None", replacedText: `""`, newText: `"None"` }
     ]);
 
     expect(suggestionKinds).to.deep.equal([CompletionItemKind.EnumMember]);
@@ -715,16 +745,16 @@ describe("the UI5 language assistant Code Completion Services", () => {
     const suggestions = getSuggestions(xmlSnippet);
     const suggestionNames = map(suggestions, suggestion => ({
       label: suggestion.label,
-      text: suggestion.textEdit?.newText,
-      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
+      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
+      newText: suggestion.textEdit?.newText
     }));
     const suggestionKinds = uniq(
       map(suggestions, suggestion => suggestion.kind)
     );
 
     expect(suggestionNames).to.deep.equalInAnyOrder([
-      { label: "Inner", text: `"Inner"`, replacedText: `"nner"` },
-      { label: "None", text: `"None"`, replacedText: `"nner"` }
+      { label: "Inner", replacedText: `"nner"`, newText: `"Inner"` },
+      { label: "None", replacedText: `"nner"`, newText: `"None"` }
     ]);
 
     expect(suggestionKinds).to.deep.equal([CompletionItemKind.EnumMember]);
