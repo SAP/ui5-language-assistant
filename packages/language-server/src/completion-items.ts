@@ -129,27 +129,27 @@ function createTextEdits(
     start: originalPosition,
     end: originalPosition
   };
-  let insertText = suggestion.ui5Node.name;
+  let newText = suggestion.ui5Node.name;
 
   // The filter text is used by VSCode/Theia to filter out suggestions that don't match the text the user wrote.
   // Every character being replaced by the TextEdit (until the cursor position) should exist in the filter text.
   // Since we replace the whole value (tag name/attribute key/attribute value) the filter text should contain
   // the entire prefix (including the xml namespace in tag name, surrounding quotation marks for attribute value etc).
   // In simple cases (like property name) this will be the name of the UI5 node.
-  let filterText = insertText;
+  let filterText = newText;
   switch (suggestion.type) {
     // Attribute key
     case "UI5NamespacesInXMLAttributeKey": {
       // The 'else' part will never happen because to get suggestions for xmlns attribute, the attribute key must exist
       /* istanbul ignore next */
       range = getXMLAttributeKeyRange(suggestion.astNode) ?? range;
-      insertText = `xmlns:${insertText}`;
+      newText = `xmlns:${newText}`;
       // Namespace in xmlns attribute key should contain the "xmlns:" prefix
-      filterText = insertText;
+      filterText = newText;
 
       // Auto-insert the selected namespace
       if (suggestion.astNode.syntax.value === undefined) {
-        insertText += `="${ui5NodeToFQN(suggestion.ui5Node)}"`;
+        newText += `="${ui5NodeToFQN(suggestion.ui5Node)}"`;
       }
       break;
     }
@@ -160,7 +160,7 @@ function createTextEdits(
 
       // Auto-insert ="" for attributes
       if (suggestion.astNode.syntax.value === undefined) {
-        insertText += '="${0}"';
+        newText += '="${0}"';
       }
       break;
     }
@@ -170,41 +170,16 @@ function createTextEdits(
       // Auto-close tag
       /* istanbul ignore else */
       if (shouldCloseXMLElement(suggestion.astNode)) {
-        insertText += `>\${0}</${suggestion.ui5Node.name}>`;
+        newText += `>\${0}</${suggestion.ui5Node.name}>`;
       }
       break;
     }
     case "UI5ClassesInXMLTagName": {
-      range = getXMLTagNameRange(suggestion.astNode) ?? range;
-      let tagName = insertText;
-      const nsPrefix = getClassNamespacePrefix(suggestion, additionalTextEdits);
-      if (nsPrefix !== undefined) {
-        tagName = `${nsPrefix}:${tagName}`;
-        insertText = tagName;
-      }
-
-      // If the additionalTextEdits are in the same position as the insert text add them to
-      // the insert text instead.
-      // This could happen if the suggestion is on the root tag and we also want to add the namespace.
-      // Looping backwards so we can remove elements from the array.
-      forEachRight(additionalTextEdits, (edit, index) => {
-        if (rangeContains(range, edit.range)) {
-          insertText += edit.newText;
-          additionalTextEdits.splice(index, 1);
-        }
-      });
-
-      // Auto-close tag and put the cursor where attributes can be added (only if there is nothing else in this tag)
-      /* istanbul ignore else */
-      if (shouldCloseXMLElement(suggestion.astNode)) {
-        insertText += ` \${1}>\${0}</${tagName}>`;
-      }
-
-      // Class name in tag can be filtered by FQN or xmlns (or none of them): all of "m:But", "But" and "sap.m.But"
-      // should return "m:Button" in the tag name for sap.m.Button.
-      // Use both namespaced options in the filter text to make sure the result is not filtered out
-      // (the simple name option is contained in both).
-      filterText = `${tagName} ${ui5NodeToFQN(suggestion.ui5Node)}`;
+      ({ range, newText, filterText } = createTextEditsForClassInTagName(
+        range,
+        suggestion,
+        additionalTextEdits
+      ));
       break;
     }
     // Attribute value
@@ -213,10 +188,10 @@ function createTextEdits(
       // the attribute value syntax exists
       /* istanbul ignore next */
       range = getXMLAttributeValueRange(suggestion.astNode) ?? range;
-      insertText = `"${ui5NodeToFQN(suggestion.ui5Node)}"`;
+      newText = `"${ui5NodeToFQN(suggestion.ui5Node)}"`;
       // Namespace in attribute value can be filtered by FQN (since the FQN is written in the attribute).
       // Attribute values should contain quotation marks.
-      filterText = insertText;
+      filterText = newText;
       break;
     }
     case "UI5EnumsInXMLAttributeValue": {
@@ -224,9 +199,9 @@ function createTextEdits(
       // the attribute value syntax exists
       /* istanbul ignore next */
       range = getXMLAttributeValueRange(suggestion.astNode) ?? range;
-      insertText = `"${suggestion.ui5Node.name}"`;
+      newText = `"${suggestion.ui5Node.name}"`;
       // Attribute values should contain quotation marks
-      filterText = insertText;
+      filterText = newText;
       break;
     }
   }
@@ -234,11 +209,47 @@ function createTextEdits(
   return {
     textEdit: {
       range,
-      newText: insertText
+      newText
     },
-    filterText: filterText,
-    additionalTextEdits: additionalTextEdits
+    filterText,
+    additionalTextEdits
   };
+}
+
+function createTextEditsForClassInTagName(
+  originalRange: Range,
+  suggestion: UI5ClassesInXMLTagNameCompletion,
+  additionalTextEdits: TextEdit[]
+): { range: Range; newText: string; filterText: string } {
+  const range = getXMLTagNameRange(suggestion.astNode) ?? originalRange;
+  let newText = suggestion.ui5Node.name;
+  let tagName = newText;
+  const nsPrefix = getClassNamespacePrefix(suggestion, additionalTextEdits);
+  if (nsPrefix !== undefined) {
+    tagName = `${nsPrefix}:${tagName}`;
+    newText = tagName;
+  }
+  // If the additionalTextEdits are in the same position as the insert text add them to
+  // the insert text instead.
+  // This could happen if the suggestion is on the root tag and we also want to add the namespace.
+  // Looping backwards so we can remove elements from the array.
+  forEachRight(additionalTextEdits, (edit, index) => {
+    if (rangeContains(range, edit.range)) {
+      newText += edit.newText;
+      additionalTextEdits.splice(index, 1);
+    }
+  });
+  // Auto-close tag and put the cursor where attributes can be added (only if there is nothing else in this tag)
+  /* istanbul ignore else */
+  if (shouldCloseXMLElement(suggestion.astNode)) {
+    newText += ` \${1}>\${0}</${tagName}>`;
+  }
+  // Class name in tag can be filtered by FQN or xmlns (or none of them): all of "m:But", "But" and "sap.m.But"
+  // should return "m:Button" in the tag name for sap.m.Button.
+  // Use both namespaced options in the filter text to make sure the result is not filtered out
+  // (the simple name option is contained in both).
+  const filterText = `${tagName} ${ui5NodeToFQN(suggestion.ui5Node)}`;
+  return { range, newText, filterText };
 }
 
 function shouldCloseXMLElement(xmlElement: XMLElement): boolean {
@@ -322,10 +333,18 @@ function getClassNamespacePrefix(
         xmlnsPrefix = parent.name + i;
         ++i;
       }
-      // Add text edit for the missing xmlns attribute definition
-      additionalTextEdits.push(
-        getAddNamespaceEdit(xmlElement, xmlnsPrefix, parentFQN)
+      const addNamespaceEdit = getAddNamespaceEdit(
+        xmlElement,
+        xmlnsPrefix,
+        parentFQN
       );
+      // Add text edit for the missing xmlns attribute definition
+      // The 'else' should not happen because it would only happen in case we can't find the root element of
+      // the document, and in that case we also won't get any suggestions for classes
+      /* istanbul ignore else */
+      if (addNamespaceEdit !== undefined) {
+        additionalTextEdits.push(addNamespaceEdit);
+      }
     }
     if (
       xmlnsPrefix !== undefined &&
@@ -342,14 +361,12 @@ function getAddNamespaceEdit(
   xmlElement: XMLElement,
   xmlns: string,
   value: string
-): TextEdit {
+): TextEdit | undefined {
   // Add the namespace to the top-level element
   let parent: XMLElement | XMLDocument = xmlElement;
   while (parent.type !== "XMLDocument") {
     parent = parent.parent;
   }
-  let positionLine = 0;
-  let positionColumn = 0;
   // The 'else' part will never happen because to get suggestions on class name the open tag must exist so the
   // xml document will not be empty
   /* istanbul ignore else */
@@ -357,14 +374,16 @@ function getAddNamespaceEdit(
     const position =
       parent.rootElement.syntax.openName ?? parent.rootElement.position;
     // We want to insert, not replace - the actual position should be at the end of the range.
-    positionLine = position.endLine;
-    positionColumn = position.endColumn;
+    const range = createInsertRange(position.endLine, position.endColumn);
+    return {
+      range,
+      newText: ` xmlns:${xmlns}="${value}"`
+    };
   }
-  const range = createInsertRange(positionLine, positionColumn);
-  return {
-    range,
-    newText: ` xmlns:${xmlns}="${value}"`
-  };
+  // See above for why this case is ignored.
+  // If we can't find the root element we don't add additional text edits.
+  /* istanbul ignore next */
+  return undefined;
 }
 
 function getNodeDetail(node: BaseUI5Node): string {
