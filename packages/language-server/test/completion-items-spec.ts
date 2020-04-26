@@ -682,8 +682,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
     ]);
   });
 
-  // Skipping until the bug is fixed (the attribute value is used for the suggestions instead of the prefix)
-  it.skip("will get completion values for UI5 xmlns value namespace when the cursor is in the middle of a name", () => {
+  it("will get completion values for UI5 xmlns value namespace when the cursor is in the middle of a name", () => {
     const xmlSnippet = `<mvc:View 
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns="ux⇶a"`;
@@ -699,8 +698,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
     ]);
   });
 
-  // Skipping until the bug is fixed (the attribute value is used for the suggestions instead of the prefix)
-  it.skip("will get completion values for UI5 xmlns value namespace FQN when the cursor is in the middle of a name", () => {
+  it("will get completion values for UI5 xmlns value namespace FQN when the cursor is in the middle of a name", () => {
     const xmlSnippet = `<mvc:View 
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns:uxap="sap.u⇶i"`;

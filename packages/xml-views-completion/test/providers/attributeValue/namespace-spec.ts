@@ -11,7 +11,6 @@ import { expectUI5Namespace } from "../attributeName/namespace-spec";
 import { expect } from "chai";
 import { partial } from "lodash";
 import { ui5NodeToFQN } from "@ui5-language-assistant/logic-utils";
-import { DEFAULT_NS } from "@xml-tools/ast";
 
 const expectNamespaceValuesSuggestions = partial(expectSuggestions, _ => {
   expectUI5Namespace(_.ui5Node);
@@ -222,20 +221,6 @@ describe("The ui5-editor-tools xml-views-completion", () => {
           prefix: ""
         });
         expect(suggestions).to.be.empty;
-      });
-
-      // test covers case when attribute value is null, that is impossible to reproduce
-      it("will suggest when attribute value is null", () => {
-        const xmlAttribute = createXMLAttribute("Control", "xmlns:tmpl", null, {
-          [DEFAULT_NS]: "sap.ui.core"
-        });
-        const suggestions = namespaceValueSuggestions({
-          attribute: xmlAttribute,
-          context: ui5SemanticModel,
-          element: xmlAttribute.parent,
-          prefix: "xmlns:tmpl"
-        });
-        expectNamespaceValuesSuggestions(suggestions, ["sap.ui.core.tmpl"]);
       });
     });
   });
