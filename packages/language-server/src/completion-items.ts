@@ -1,13 +1,21 @@
-import { map, findKey, isEmpty, includes } from "lodash";
+import { map, findKey } from "lodash";
 import {
   CompletionItem,
   CompletionItemKind,
   TextDocumentPositionParams,
-  InsertTextFormat
+  InsertTextFormat,
+  TextEdit,
+  Range
 } from "vscode-languageserver";
 import { TextDocument } from "vscode-languageserver-textdocument";
 import { parse, DocumentCstNode } from "@xml-tools/parser";
-import { buildAst, DEFAULT_NS } from "@xml-tools/ast";
+import {
+  buildAst,
+  DEFAULT_NS,
+  SourcePosition,
+  XMLAttribute,
+  XMLElement
+} from "@xml-tools/ast";
 import {
   UI5SemanticModel,
   BaseUI5Node,
@@ -27,6 +35,7 @@ import {
   typeToString
 } from "@ui5-language-assistant/logic-utils";
 import { getNodeDocumentation } from "./documentation";
+import { Position } from "vscode-languageserver-types";
 
 export function getCompletionItems(
   model: UI5SemanticModel,
@@ -44,12 +53,18 @@ export function getCompletionItems(
     tokenVector: tokenVector
   });
 
-  return transformToLspSuggestions(suggestions, model);
+  const completionItems = transformToLspSuggestions(
+    suggestions,
+    model,
+    textDocumentPosition.position
+  );
+  return completionItems;
 }
 
 function transformToLspSuggestions(
   suggestions: UI5XMLViewCompletion[],
-  model: UI5SemanticModel
+  model: UI5SemanticModel,
+  originalPosition: Position
 ): CompletionItem[] {
   const lspSuggestions = map(suggestions, suggestion => {
     const lspKind = computeLSPKind(suggestion);
@@ -60,10 +75,12 @@ function transformToLspSuggestions(
     if (suggestion.ui5Node.deprecatedInfo?.isDeprecated) {
       detailText = `(deprecated) ${detailText}`;
     }
+
+    const textEditDetails = createTextEdit(suggestion, originalPosition);
     const completionItem: CompletionItem = {
       label: suggestion.ui5Node.name,
-      // TODO use textEdit instead of insertText to support replacing "sap.m.Button" with "Button"
-      insertText: createInsertText(suggestion),
+      filterText: textEditDetails.filterText,
+      textEdit: textEditDetails.textEdit,
       insertTextFormat: InsertTextFormat.Snippet,
       detail: detailText,
       documentation: getNodeDocumentation(suggestion.ui5Node, model),
@@ -101,13 +118,28 @@ export function computeLSPKind(
   }
 }
 
-function createInsertText(suggestion: UI5XMLViewCompletion): string {
+function createTextEdit(
+  suggestion: UI5XMLViewCompletion,
+  originalPosition: Position
+): { textEdit: TextEdit; filterText: string } {
+  let position: SourcePosition | undefined = undefined;
   let insertText = suggestion.ui5Node.name;
+
+  // The filter text is used by VSCode/Theia to filter out suggestions that don't match the text the user wrote.
+  // Every character being replaced by the TextEdit (until the cursor position) should exist in the filter text.
+  // Since we replace the whole value (tag name/attribute key/attribute value) the filter text should contain
+  // the entire prefix (including the xml namespace in tag name, surrounding quotation marks for attribute value etc).
+  // In simple cases (like property name) this will be the name of the UI5 node.
+  let filterText = insertText;
   switch (suggestion.type) {
     // Attribute key
     case "UI5NamespacesInXMLAttributeKey": {
+      position = getXMLAttributeKeyPosition(suggestion.astNode);
+      insertText = `xmlns:${insertText}`;
+      // Namespace in xmlns attribute key should contain the "xmlns:" prefix
+      filterText = insertText;
+
       // Auto-insert the selected namespace
-      /* istanbul ignore else */
       if (suggestion.astNode.syntax.value === undefined) {
         insertText += `="${ui5NodeToFQN(suggestion.ui5Node)}"`;
       }
@@ -116,8 +148,9 @@ function createInsertText(suggestion: UI5XMLViewCompletion): string {
     case "UI5AssociationsInXMLAttributeKey":
     case "UI5EventsInXMLAttributeKey":
     case "UI5PropsInXMLAttributeKey": {
+      position = getXMLAttributeKeyPosition(suggestion.astNode);
+
       // Auto-insert ="" for attributes
-      /* istanbul ignore else */
       if (suggestion.astNode.syntax.value === undefined) {
         insertText += '="${0}"';
       }
@@ -125,6 +158,8 @@ function createInsertText(suggestion: UI5XMLViewCompletion): string {
     }
     // Tag name
     case "UI5AggregationsInXMLTagName": {
+      position = getXMLTagNamePosition(suggestion.astNode);
+
       // Auto-close tag
       /* istanbul ignore else */
       if (suggestion.astNode.syntax.closeBody === undefined) {
@@ -133,36 +168,92 @@ function createInsertText(suggestion: UI5XMLViewCompletion): string {
       break;
     }
     case "UI5ClassesInXMLTagName": {
-      let closeTagName = insertText;
+      position = getXMLTagNamePosition(suggestion.astNode);
+      let tagName = insertText;
       const nsPrefix = getClassNamespacePrefix(suggestion);
       if (nsPrefix !== undefined) {
-        closeTagName = `${nsPrefix}:${closeTagName}`;
-
-        // Add namespace in the completion label start only if it doesn't already exists on the node.
-        // In some cases ns will have the namespace and in other name will contain the namespace.
-        if (
-          isEmpty(suggestion.astNode.ns) &&
-          (suggestion.astNode.name === null ||
-            !includes(suggestion.astNode.name, ":"))
-        ) {
-          insertText = `${nsPrefix}:${insertText}`;
-        }
+        tagName = `${nsPrefix}:${tagName}`;
+        insertText = tagName;
       }
 
       // Auto-close tag and put the cursor where attributes can be added
       /* istanbul ignore else */
       if (suggestion.astNode.syntax.closeBody === undefined) {
-        insertText += ` \${1}>\${0}</${closeTagName}>`;
+        insertText += ` \${1}>\${0}</${tagName}>`;
       }
+
+      // Class name in tag can be filtered by FQN or xmlns (or none of them): all of "m:But", "But" and "sap.m.But"
+      // should return "m:Button" in the tag name for sap.m.Button.
+      // Use both namespaced options in the filter text to make sure the result is not filtered out
+      // (the simple name option is contained in both).
+      filterText = `${tagName} ${ui5NodeToFQN(suggestion.ui5Node)}`;
       break;
     }
     // Attribute value
-    case "UI5NamespacesInXMLAttributeValue":
-      insertText = `${ui5NodeToFQN(suggestion.ui5Node)}`;
+    case "UI5NamespacesInXMLAttributeValue": {
+      position = getXMLAttributeValuePosition(suggestion.astNode);
+      insertText = `"${ui5NodeToFQN(suggestion.ui5Node)}"`;
+      // Namespace in attribute value can be filtered by FQN (since the FQN is written in the attribute).
+      // Attribute values should contain quotation marks.
+      filterText = insertText;
       break;
+    }
+    case "UI5EnumsInXMLAttributeValue": {
+      position = getXMLAttributeValuePosition(suggestion.astNode);
+      insertText = `"${suggestion.ui5Node.name}"`;
+      // Attribute values should contain quotation marks
+      filterText = insertText;
+      break;
+    }
   }
 
-  return insertText;
+  return {
+    textEdit: {
+      newText: insertText,
+      range: positionToRange(position, originalPosition)
+    },
+    filterText: filterText
+  };
+}
+
+function getXMLTagNamePosition(
+  xmlElement: XMLElement
+): SourcePosition | undefined {
+  return xmlElement.syntax.openName;
+}
+
+function getXMLAttributeKeyPosition(
+  xmlAttribute: XMLAttribute
+): SourcePosition | undefined {
+  return xmlAttribute.syntax.key;
+}
+
+function getXMLAttributeValuePosition(
+  xmlAttribute: XMLAttribute
+): SourcePosition | undefined {
+  return xmlAttribute.syntax.value;
+}
+
+function positionToRange(
+  position: SourcePosition | undefined,
+  originalPosition: Position
+): Range {
+  function isDummyPosition(position: SourcePosition): boolean {
+    return position.startLine < 0 || position.endLine < 0;
+  }
+
+  // Check it's not a dummy position
+  if (position !== undefined && !isDummyPosition(position)) {
+    return {
+      start: Position.create(position.startLine - 1, position.startColumn - 1),
+      end: Position.create(position.endLine - 1, position.endColumn)
+    };
+  }
+
+  return {
+    start: originalPosition,
+    end: originalPosition
+  };
 }
 
 function getClassNamespacePrefix(
@@ -196,7 +287,6 @@ function getNodeDetail(node: BaseUI5Node): string {
     return ui5NodeToFQN(node);
   }
   switch (node.kind) {
-    /* istanbul ignore next */
     case "UI5Prop":
       return `(property) ${node.name}: ${typeToString((node as UI5Prop).type)}`;
     /* istanbul ignore next */
