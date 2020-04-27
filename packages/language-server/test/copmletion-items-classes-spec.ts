@@ -1,6 +1,10 @@
 import { expect } from "chai";
-import { map, uniq, forEach } from "lodash";
-import { CompletionItemKind, TextEdit } from "vscode-languageserver";
+import { map, forEach } from "lodash";
+import {
+  CompletionItemKind,
+  TextEdit,
+  CompletionItem
+} from "vscode-languageserver";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import {
   generateModel,
@@ -21,6 +25,62 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
     ui5SemanticModel = await generateModel({ version: "1.74.0" });
   });
 
+  /** The first (but not final) place the custor stops when inserting the completion. Pressing tab moves it to the next place. */
+  const TAB_STOP1 = "${1}";
+
+  interface ClassCompletionItems {
+    label: string;
+    tagName: string;
+    additionalTextEdits?: { rangeIndex: number; newText: string }[];
+    replacedText: string;
+    attributes?: string[];
+  }
+  function assertClassesCompletions(opts: {
+    xmlSnippet: string;
+    expected: ClassCompletionItems[];
+    compareAttributes?: boolean;
+  }): CompletionItem[] {
+    const compareAttributes = opts.compareAttributes ?? true;
+    const suggestions = getSuggestions(opts.xmlSnippet, ui5SemanticModel);
+    const ranges = getRanges(opts.xmlSnippet);
+
+    const suggestionsDetails = map(suggestions, suggestion => ({
+      label: suggestion.label,
+      tagName: getTagName(suggestion.textEdit),
+      attributes: compareAttributes
+        ? getAttributes(suggestion.textEdit)
+        : undefined,
+      additionalTextEdits: suggestion.additionalTextEdits,
+      replacedText: getTextInRange(opts.xmlSnippet, suggestion.textEdit?.range),
+      kind: suggestion.kind
+    }));
+
+    const expectedSuggestionsDetails = map(
+      opts.expected,
+      expectedSuggestion => ({
+        kind: CompletionItemKind.Class,
+        ...expectedSuggestion,
+        additionalTextEdits: map(
+          expectedSuggestion.additionalTextEdits ?? [],
+          edit => ({
+            range: ranges[edit.rangeIndex],
+            newText: edit.newText
+          })
+        ),
+        attributes: compareAttributes
+          ? expectedSuggestion.attributes || []
+          : undefined
+      })
+    );
+
+    expect(suggestionsDetails).to.deep.equalInAnyOrder(
+      expectedSuggestionsDetails
+    );
+
+    // Return the suggestions in case we want to do more assertions
+    return suggestions;
+  }
+
   /** Return the attributes from a tag name suggestion insert text  */
   function getAttributes(textEdit: TextEdit | undefined): string[] {
     if (textEdit === undefined) {
@@ -31,339 +91,236 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
   }
 
   it("will get completion values for UI5 class", () => {
-    const xmlSnippet = `<GridLi⇶`;
-    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
-    const suggestionsDetails = map(suggestions, suggestion => ({
-      label: suggestion.label,
-      tagName: getTagName(suggestion.textEdit),
-      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
-    }));
-    const suggestionKinds = uniq(
-      map(suggestions, suggestion => suggestion.kind)
-    );
-
-    expect(suggestionsDetails).to.deep.equalInAnyOrder([
-      { label: "GridList", tagName: "f:GridList", replacedText: "GridLi" },
-      {
-        label: "GridListItem",
-        tagName: "f:GridListItem",
-        replacedText: "GridLi"
-      }
-    ]);
-
-    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Class]);
+    assertClassesCompletions({
+      xmlSnippet: `<GridLi⇶`,
+      expected: [
+        { label: "GridList", tagName: "f:GridList", replacedText: "GridLi" },
+        {
+          label: "GridListItem",
+          tagName: "f:GridListItem",
+          replacedText: "GridLi"
+        }
+      ],
+      compareAttributes: false
+    });
   });
 
   it("will get completion values for UI5 class by fully qualified name", () => {
-    const xmlSnippet = `<sap.m.Busy⇶`;
-    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
-    const suggestionsDetails = map(suggestions, suggestion => ({
-      label: suggestion.label,
-      tagName: getTagName(suggestion.textEdit),
-      firstAttribute: getAttributes(suggestion.textEdit)[0],
-      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
-    }));
-    const suggestionKinds = uniq(
-      map(suggestions, suggestion => suggestion.kind)
-    );
-
-    expect(suggestionsDetails).to.deep.equalInAnyOrder([
-      {
-        label: "BusyDialog",
-        tagName: "m:BusyDialog",
-        firstAttribute: `xmlns:m="sap.m"`,
-        replacedText: "sap.m.Busy"
-      },
-      {
-        label: "BusyIndicator",
-        tagName: "m:BusyIndicator",
-        firstAttribute: `xmlns:m="sap.m"`,
-        replacedText: "sap.m.Busy"
-      }
-    ]);
-
-    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Class]);
+    assertClassesCompletions({
+      xmlSnippet: `<sap.m.Busy⇶`,
+      expected: [
+        {
+          label: "BusyDialog",
+          tagName: "m:BusyDialog",
+          attributes: [`xmlns:m="sap.m"`, TAB_STOP1],
+          replacedText: "sap.m.Busy"
+        },
+        {
+          label: "BusyIndicator",
+          tagName: "m:BusyIndicator",
+          attributes: [`xmlns:m="sap.m"`, TAB_STOP1],
+          replacedText: "sap.m.Busy"
+        }
+      ]
+    });
   });
 
   it("will insert class namespace with a new name when another namespace with the short name is defined", () => {
-    const xmlSnippet = `<sap.m.BusyI⇶ xmlns:m="sap.ui.core.mvc"`;
-    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
-    const suggestionsDetails = map(suggestions, suggestion => ({
-      label: suggestion.label,
-      tagName: getTagName(suggestion.textEdit),
-      firstAttribute: getAttributes(suggestion.textEdit)[0],
-      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
-    }));
-    const suggestionKinds = uniq(
-      map(suggestions, suggestion => suggestion.kind)
-    );
-
-    expect(suggestionsDetails).to.deep.equalInAnyOrder([
-      {
-        label: "BusyIndicator",
-        tagName: "m2:BusyIndicator",
-        firstAttribute: `xmlns:m2="sap.m"`,
-        replacedText: "sap.m.BusyI"
-      }
-    ]);
-
-    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Class]);
+    assertClassesCompletions({
+      xmlSnippet: `<sap.m.BusyI⇶ xmlns:m="sap.ui.core.mvc"`,
+      expected: [
+        {
+          label: "BusyIndicator",
+          tagName: "m2:BusyIndicator",
+          attributes: [`xmlns:m2="sap.m"`],
+          replacedText: "sap.m.BusyI"
+        }
+      ]
+    });
   });
 
   it("will get completion values for UI5 class when the cursor is in the middle of a name", () => {
-    const xmlSnippet = `<Busy⇶Dialo`;
-    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
-    const suggestionsDetails = map(suggestions, suggestion => ({
-      label: suggestion.label,
-      tagName: getTagName(suggestion.textEdit),
-      firstAttribute: getAttributes(suggestion.textEdit)[0],
-      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
-    }));
-    const suggestionKinds = uniq(
-      map(suggestions, suggestion => suggestion.kind)
-    );
-
-    expect(suggestionsDetails).to.deep.equalInAnyOrder([
-      {
-        label: "BusyDialog",
-        tagName: "m:BusyDialog",
-        firstAttribute: `xmlns:m="sap.m"`,
-        replacedText: "BusyDialo"
-      },
-      {
-        label: "BusyIndicator",
-        tagName: "m:BusyIndicator",
-        firstAttribute: `xmlns:m="sap.m"`,
-        replacedText: "BusyDialo"
-      },
-      {
-        label: "LocalBusyIndicator",
-        tagName: "core:LocalBusyIndicator",
-        firstAttribute: `xmlns:core="sap.ui.core"`,
-        replacedText: "BusyDialo"
-      },
-      {
-        label: "InboxBusyIndicator",
-        tagName: "composite:InboxBusyIndicator",
-        firstAttribute: `xmlns:composite="sap.uiext.inbox.composite"`,
-        replacedText: "BusyDialo"
-      }
-    ]);
-
-    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Class]);
+    assertClassesCompletions({
+      xmlSnippet: `<Busy⇶Dialo`,
+      expected: [
+        {
+          label: "BusyDialog",
+          tagName: "m:BusyDialog",
+          attributes: [`xmlns:m="sap.m"`, TAB_STOP1],
+          replacedText: "BusyDialo"
+        },
+        {
+          label: "BusyIndicator",
+          tagName: "m:BusyIndicator",
+          attributes: [`xmlns:m="sap.m"`, TAB_STOP1],
+          replacedText: "BusyDialo"
+        },
+        {
+          label: "LocalBusyIndicator",
+          tagName: "core:LocalBusyIndicator",
+          attributes: [`xmlns:core="sap.ui.core"`, TAB_STOP1],
+          replacedText: "BusyDialo"
+        },
+        {
+          label: "InboxBusyIndicator",
+          tagName: "composite:InboxBusyIndicator",
+          attributes: [
+            `xmlns:composite="sap.uiext.inbox.composite"`,
+            TAB_STOP1
+          ],
+          replacedText: "BusyDialo"
+        }
+      ]
+    });
   });
 
   it("will get completion values for UI5 class FQN when the cursor is in the middle of a name", () => {
-    const xmlSnippet = `<sap.m.Busy⇶Dialo`;
-    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
-    const suggestionsDetails = map(suggestions, suggestion => ({
-      label: suggestion.label,
-      tagName: getTagName(suggestion.textEdit),
-      firstAttribute: getAttributes(suggestion.textEdit)[0],
-      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
-    }));
-    const suggestionKinds = uniq(
-      map(suggestions, suggestion => suggestion.kind)
-    );
-
-    expect(suggestionsDetails).to.deep.equalInAnyOrder([
-      {
-        label: "BusyDialog",
-        tagName: "m:BusyDialog",
-        firstAttribute: `xmlns:m="sap.m"`,
-        replacedText: "sap.m.BusyDialo"
-      },
-      {
-        label: "BusyIndicator",
-        tagName: "m:BusyIndicator",
-        firstAttribute: `xmlns:m="sap.m"`,
-        replacedText: "sap.m.BusyDialo"
-      }
-    ]);
-
-    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Class]);
+    assertClassesCompletions({
+      xmlSnippet: `<sap.m.Busy⇶Dialo`,
+      expected: [
+        {
+          label: "BusyDialog",
+          tagName: "m:BusyDialog",
+          attributes: [`xmlns:m="sap.m"`, TAB_STOP1],
+          replacedText: "sap.m.BusyDialo"
+        },
+        {
+          label: "BusyIndicator",
+          tagName: "m:BusyIndicator",
+          attributes: [`xmlns:m="sap.m"`, TAB_STOP1],
+          replacedText: "sap.m.BusyDialo"
+        }
+      ]
+    });
   });
 
   it("will get completion values for UI5 class with namespace when the cursor is in the middle of a name", () => {
-    const xmlSnippet = `<m:Busy⇶Dialo xmlns:m="sap.m"`;
-    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
-    const suggestionsDetails = map(suggestions, suggestion => ({
-      label: suggestion.label,
-      tagName: getTagName(suggestion.textEdit),
-      attributes: getAttributes(suggestion.textEdit),
-      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
-    }));
-    const suggestionKinds = uniq(
-      map(suggestions, suggestion => suggestion.kind)
-    );
-
-    expect(suggestionsDetails).to.deep.equalInAnyOrder([
-      {
-        label: "BusyDialog",
-        tagName: "m:BusyDialog",
-        attributes: [],
-        replacedText: "m:BusyDialo"
-      },
-      {
-        label: "BusyIndicator",
-        tagName: "m:BusyIndicator",
-        attributes: [],
-        replacedText: "m:BusyDialo"
-      }
-    ]);
-
-    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Class]);
+    assertClassesCompletions({
+      xmlSnippet: `<m:Busy⇶Dialo xmlns:m="sap.m"`,
+      expected: [
+        {
+          label: "BusyDialog",
+          tagName: "m:BusyDialog",
+          attributes: [],
+          replacedText: "m:BusyDialo"
+        },
+        {
+          label: "BusyIndicator",
+          tagName: "m:BusyIndicator",
+          attributes: [],
+          replacedText: "m:BusyDialo"
+        }
+      ]
+    });
   });
 
   it("will get completion values for UI5 class from all namespaces when default namespace exists", () => {
-    const xmlSnippet = `<RadioButtonGrou⇶ xmlns="sap.m" xmlns:commons="sap.ui.commons"`;
-    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
-    const suggestionsDetails = map(suggestions, suggestion => ({
-      label: suggestion.label,
-      tagName: getTagName(suggestion.textEdit),
-      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
-    }));
-    const suggestionKinds = uniq(
-      map(suggestions, suggestion => suggestion.kind)
-    );
-
-    expect(suggestionsDetails).to.deep.equalInAnyOrder([
-      {
-        label: "RadioButtonGroup",
-        tagName: "RadioButtonGroup",
-        replacedText: "RadioButtonGrou"
-      },
-      {
-        label: "RadioButtonGroup",
-        tagName: "commons:RadioButtonGroup",
-        replacedText: "RadioButtonGrou"
-      }
-    ]);
-
-    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Class]);
+    assertClassesCompletions({
+      xmlSnippet: `<RadioButtonGrou⇶ xmlns="sap.m" xmlns:commons="sap.ui.commons"`,
+      expected: [
+        {
+          label: "RadioButtonGroup",
+          tagName: "RadioButtonGroup",
+          replacedText: "RadioButtonGrou"
+        },
+        {
+          label: "RadioButtonGroup",
+          tagName: "commons:RadioButtonGroup",
+          replacedText: "RadioButtonGrou"
+        }
+      ],
+      compareAttributes: false
+    });
   });
 
   it("will get completion values for UI5 class from a specific namespace", () => {
-    const xmlSnippet = `<f:Ca⇶ xmlns:f="sap.f"`;
-    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
-    const suggestionsDetails = map(suggestions, suggestion => ({
-      label: suggestion.label,
-      tagName: getTagName(suggestion.textEdit),
-      attributes: getAttributes(suggestion.textEdit),
-      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
-    }));
-    const suggestionKinds = uniq(
-      map(suggestions, suggestion => suggestion.kind)
-    );
-
-    expect(suggestionsDetails).to.deep.equalInAnyOrder([
-      { label: "Card", tagName: "f:Card", attributes: [], replacedText: "f:Ca" }
-    ]);
-
-    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Class]);
+    assertClassesCompletions({
+      xmlSnippet: `<f:Ca⇶ xmlns:f="sap.f"`,
+      expected: [
+        {
+          label: "Card",
+          tagName: "f:Card",
+          attributes: [],
+          replacedText: "f:Ca"
+        }
+      ]
+    });
   });
 
   it("will get completion values for UI5 class from a specific namespace when name is not the parent name", () => {
-    const xmlSnippet = `<g:Ca⇶ xmlns:g="sap.f"`;
-    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
-    const suggestionsDetails = map(suggestions, suggestion => ({
-      label: suggestion.label,
-      tagName: getTagName(suggestion.textEdit),
-      attributes: getAttributes(suggestion.textEdit),
-      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
-    }));
-    const suggestionKinds = uniq(
-      map(suggestions, suggestion => suggestion.kind)
-    );
-
-    expect(suggestionsDetails).to.deep.equalInAnyOrder([
-      { label: "Card", tagName: "g:Card", attributes: [], replacedText: "g:Ca" }
-    ]);
-
-    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Class]);
+    assertClassesCompletions({
+      xmlSnippet: `<g:Ca⇶ xmlns:g="sap.f"`,
+      expected: [
+        {
+          label: "Card",
+          tagName: "g:Card",
+          attributes: [],
+          replacedText: "g:Ca"
+        }
+      ]
+    });
   });
 
   it("will not insert the namespace when selecting completion for class in inner tag and namespace is already defined", () => {
-    const xmlSnippet = `<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m">
+    assertClassesCompletions({
+      xmlSnippet: `<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m">
         <content>
           <sap.m.MenuButto⇶n
         </content>
-      </m:View>`;
-    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
-    const suggestionsDetails = map(suggestions, suggestion => ({
-      label: suggestion.label,
-      tagName: getTagName(suggestion.textEdit),
-      additionalTextEdits: suggestion.additionalTextEdits,
-      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
-    }));
-    const suggestionKinds = uniq(
-      map(suggestions, suggestion => suggestion.kind)
-    );
-
-    expect(suggestionsDetails).to.deep.equalInAnyOrder([
-      {
-        label: "MenuButton",
-        tagName: "m:MenuButton",
-        additionalTextEdits: [],
-        replacedText: "sap.m.MenuButton"
-      }
-    ]);
-
-    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Class]);
+      </m:View>`,
+      expected: [
+        {
+          label: "MenuButton",
+          tagName: "m:MenuButton",
+          attributes: [TAB_STOP1], // Check the namespace is not added on the same tag
+          additionalTextEdits: [],
+          replacedText: "sap.m.MenuButton"
+        }
+      ]
+    });
   });
 
   it("will insert the namespace when selecting completion for class in inner tag and namespace is not defined", () => {
-    const xmlSnippet = `<m:View⭲⭰ xmlns:m="sap.ui.core.mvc">
+    assertClassesCompletions({
+      xmlSnippet: `<m:View⭲⭰ xmlns:m="sap.ui.core.mvc">
         <content>
           <MenuButton⇶
         </content>
-      </m:View>`;
-    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
-    const suggestionsDetails = map(suggestions, suggestion => ({
-      label: suggestion.label,
-      tagName: getTagName(suggestion.textEdit),
-      additionalTextEdits: suggestion.additionalTextEdits,
-      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
-    }));
-    const suggestionKinds = uniq(
-      map(suggestions, suggestion => suggestion.kind)
-    );
-
-    const ranges = getRanges(xmlSnippet);
-    expect(ranges, "additional text edits ranges").to.have.lengthOf(1);
-
-    expect(suggestionsDetails).to.deep.equalInAnyOrder([
-      {
-        label: "MenuButton",
-        tagName: "m2:MenuButton",
-        additionalTextEdits: [
-          {
-            range: ranges[0],
-            newText: ` xmlns:m2="sap.m"`
-          }
-        ],
-        replacedText: "MenuButton"
-      },
-      {
-        label: "MenuButton",
-        tagName: "commons:MenuButton",
-        additionalTextEdits: [
-          {
-            range: ranges[0],
-            newText: ` xmlns:commons="sap.ui.commons"`
-          }
-        ],
-        replacedText: "MenuButton"
-      }
-    ]);
-
-    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Class]);
+      </m:View>`,
+      expected: [
+        {
+          label: "MenuButton",
+          tagName: "m2:MenuButton",
+          attributes: [TAB_STOP1], // Check the namespace is not added on the same tag
+          additionalTextEdits: [
+            {
+              rangeIndex: 0,
+              newText: ` xmlns:m2="sap.m"`
+            }
+          ],
+          replacedText: "MenuButton"
+        },
+        {
+          label: "MenuButton",
+          tagName: "commons:MenuButton",
+          attributes: [TAB_STOP1], // Check the namespace is not added on the same tag
+          additionalTextEdits: [
+            {
+              rangeIndex: 0,
+              newText: ` xmlns:commons="sap.ui.commons"`
+            }
+          ],
+          replacedText: "MenuButton"
+        }
+      ]
+    });
   });
 
   it("will not get completion values for unknown class", () => {
-    const xmlSnippet = `<Unknown⇶`;
-    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
-    expect(suggestions).to.be.empty;
+    assertClassesCompletions({
+      xmlSnippet: `<Unknown⇶`,
+      expected: []
+    });
   });
 
   it("will return valid class suggestions for empty tag", () => {
@@ -379,25 +336,166 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
   });
 
   it("will get completion values for UI5 experimental class", () => {
-    const xmlSnippet = `<mvc:View 
-                          xmlns:mvc="sap.ui.core.mvc" 
-                          xmlns="sap.m">
-                          <content> <ContentS⇶`;
-    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
-    const suggestionsDetails = map(suggestions, suggestion => ({
-      label: suggestion.label,
-      tagName: getTagName(suggestion.textEdit),
-      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
-    }));
-    expect(suggestionsDetails).to.deep.equalInAnyOrder([
-      {
-        label: "ContentSwitcher",
-        tagName: "unified:ContentSwitcher",
-        replacedText: "ContentS"
-      }
-    ]);
+    const suggestions = assertClassesCompletions({
+      xmlSnippet: `<mvc:View 
+          xmlns:mvc="sap.ui.core.mvc"
+          xmlns:unified="sap.ui.unified">
+        <content> <ContentS⇶`,
+      expected: [
+        {
+          label: "ContentSwitcher",
+          tagName: "unified:ContentSwitcher",
+          replacedText: "ContentS"
+        }
+      ],
+      compareAttributes: false
+    });
     forEach(suggestions, suggestion => {
       expect(suggestion.detail).to.contain("experimental");
+    });
+  });
+
+  it("will replace the class closing tag name when the tag is closed and has the same name as the opening tag", () => {
+    assertClassesCompletions({
+      xmlSnippet: `<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m" xmlns:commons="sap.ui.commons">
+        <content>
+          <MenuButton⇶></⭲MenuButton⭰>
+        </content>
+      </m:View>`,
+      expected: [
+        {
+          label: "MenuButton",
+          tagName: "m:MenuButton",
+          additionalTextEdits: [
+            {
+              rangeIndex: 0,
+              newText: `m:MenuButton`
+            }
+          ],
+          replacedText: "MenuButton"
+        },
+        {
+          label: "MenuButton",
+          tagName: "commons:MenuButton",
+          additionalTextEdits: [
+            {
+              rangeIndex: 0,
+              newText: `commons:MenuButton`
+            }
+          ],
+          replacedText: "MenuButton"
+        }
+      ]
+    });
+  });
+
+  it("will replace the class closing tag name when the tag is closed and has a different name from the opening tag", () => {
+    assertClassesCompletions({
+      xmlSnippet: `<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m" xmlns:commons="sap.ui.commons">
+        <content>
+          <MenuButton⇶></⭲MenuButton1⭰>
+        </content>
+      </m:View>`,
+      expected: [
+        {
+          label: "MenuButton",
+          tagName: "m:MenuButton",
+          additionalTextEdits: [
+            {
+              rangeIndex: 0,
+              newText: `m:MenuButton`
+            }
+          ],
+          replacedText: "MenuButton"
+        },
+        {
+          label: "MenuButton",
+          tagName: "commons:MenuButton",
+          additionalTextEdits: [
+            {
+              rangeIndex: 0,
+              newText: `commons:MenuButton`
+            }
+          ],
+          replacedText: "MenuButton"
+        }
+      ]
+    });
+  });
+
+  it("will replace the class closing tag name when the tag is closed and does not have a name", () => {
+    assertClassesCompletions({
+      xmlSnippet: `<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m" xmlns:commons="sap.ui.commons">
+          <content>
+            <MenuButton⇶>⭲</>⭰
+          </content>
+        </m:View>`,
+      expected: [
+        {
+          label: "MenuButton",
+          tagName: "m:MenuButton",
+          additionalTextEdits: [
+            {
+              rangeIndex: 0,
+              newText: `</m:MenuButton>`
+            }
+          ],
+          replacedText: "MenuButton"
+        },
+        {
+          label: "MenuButton",
+          tagName: "commons:MenuButton",
+          additionalTextEdits: [
+            {
+              rangeIndex: 0,
+              newText: `</commons:MenuButton>`
+            }
+          ],
+          replacedText: "MenuButton"
+        }
+      ]
+    });
+  });
+
+  it("will replace the class closing tag name when also inserting the namespace", () => {
+    assertClassesCompletions({
+      xmlSnippet: `<mvc:View⭲⭰ xmlns:mvc="sap.ui.core.mvc">
+          <content>
+            <MenuButton⇶></⭲MenuButton⭰>
+          </content>
+        </m:View>`,
+      expected: [
+        {
+          label: "MenuButton",
+          tagName: "m:MenuButton",
+          additionalTextEdits: [
+            {
+              rangeIndex: 0,
+              newText: ` xmlns:m="sap.m"`
+            },
+            {
+              rangeIndex: 1,
+              newText: `m:MenuButton`
+            }
+          ],
+          replacedText: "MenuButton"
+        },
+        {
+          label: "MenuButton",
+          tagName: "commons:MenuButton",
+          additionalTextEdits: [
+            {
+              rangeIndex: 0,
+              newText: ` xmlns:commons="sap.ui.commons"`
+            },
+            {
+              rangeIndex: 1,
+              newText: `commons:MenuButton`
+            }
+          ],
+          replacedText: "MenuButton"
+        }
+      ]
     });
   });
 });

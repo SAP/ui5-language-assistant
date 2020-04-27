@@ -167,10 +167,13 @@ function createTextEdits(
     // Tag name
     case "UI5AggregationsInXMLTagName": {
       range = getXMLTagNameRange(suggestion.astNode) ?? range;
+      const tagName = suggestion.ui5Node.name;
       // Auto-close tag
       /* istanbul ignore else */
       if (shouldCloseXMLElement(suggestion.astNode)) {
-        newText += `>\${0}</${suggestion.ui5Node.name}>`;
+        newText += `>\${0}</${tagName}>`;
+      } else {
+        addClosingTagTextEdit(suggestion.astNode, tagName, additionalTextEdits);
       }
       break;
     }
@@ -243,6 +246,8 @@ function createTextEditsForClassInTagName(
   /* istanbul ignore else */
   if (shouldCloseXMLElement(suggestion.astNode)) {
     newText += ` \${1}>\${0}</${tagName}>`;
+  } else {
+    addClosingTagTextEdit(suggestion.astNode, tagName, additionalTextEdits);
   }
   // Class name in tag can be filtered by FQN or xmlns (or none of them): all of "m:But", "But" and "sap.m.But"
   // should return "m:Button" in the tag name for sap.m.Button.
@@ -250,6 +255,39 @@ function createTextEditsForClassInTagName(
   // (the simple name option is contained in both).
   const filterText = `${tagName} ${ui5NodeToFQN(suggestion.ui5Node)}`;
   return { range, newText, filterText };
+}
+
+function addClosingTagTextEdit(
+  xmlElement: XMLElement,
+  closingTagName: string,
+  additionalTextEdits: TextEdit[]
+): void {
+  // Note: if we implement syncronization between the opening and closing tag in the generic XML extension
+  // and it will cover changes done by code assist suggestions this logic should be removed from this extension
+  if (xmlElement.syntax.closeName !== undefined) {
+    // Replace name in closing tag.
+    // Note: in case of invalid xml where the current tag is closed but has no closing tag,
+    // and its parent tag has a closing tag, we might change the parent closing tag name.
+    // If this case should be fixed it's preferrable to do so in the xml parser and not here.
+    const closingTagNameRange = positionToRange(xmlElement.syntax.closeName);
+    if (closingTagNameRange !== undefined) {
+      const closingTagNameTextEdit = {
+        newText: closingTagName,
+        range: closingTagNameRange
+      };
+      additionalTextEdits.push(closingTagNameTextEdit);
+    }
+  } else if (xmlElement.syntax.closeBody !== undefined) {
+    // This is the case where there is a closing tag but it doesn't contain a name (like "</>")
+    const closingTagRange = positionToRange(xmlElement.syntax.closeBody);
+    if (closingTagRange !== undefined) {
+      const closingTagTextEdit = {
+        newText: `</${closingTagName}>`,
+        range: closingTagRange
+      };
+      additionalTextEdits.push(closingTagTextEdit);
+    }
+  }
 }
 
 function shouldCloseXMLElement(xmlElement: XMLElement): boolean {
