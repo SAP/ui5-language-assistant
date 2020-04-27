@@ -270,6 +270,8 @@ function addClosingTagTextEdit(
     // and its parent tag has a closing tag, we might change the parent closing tag name.
     // If this case should be fixed it's preferrable to do so in the xml parser and not here.
     const closingTagNameRange = positionToRange(xmlElement.syntax.closeName);
+    // The 'else' here only happens if the closing tag is a dummy element (which we don't create)
+    /* istanbul ignore else */
     if (closingTagNameRange !== undefined) {
       const closingTagNameTextEdit = {
         newText: closingTagName,
@@ -280,6 +282,8 @@ function addClosingTagTextEdit(
   } else if (xmlElement.syntax.closeBody !== undefined) {
     // This is the case where there is a closing tag but it doesn't contain a name (like "</>")
     const closingTagRange = positionToRange(xmlElement.syntax.closeBody);
+    // The 'else' here only happens if the closing tag is a dummy element (which we don't create)
+    /* istanbul ignore else */
     if (closingTagRange !== undefined) {
       const closingTagTextEdit = {
         newText: `</${closingTagName}>`,
