@@ -31,13 +31,22 @@ describe("the UI5 language assistant Code Completion Services", () => {
     ui5SemanticModel = await generateModel({ version: "1.74.0" });
   });
 
-  // Return the first part of a tag name suggestion insert text
+  /** Return the first part of a tag name suggestion insert text */
   function getTagName(textEdit: TextEdit | undefined): string | undefined {
     if (textEdit === undefined) {
       return undefined;
     }
     const result = /^([^> ]*)/.exec(textEdit.newText);
     return result?.[1];
+  }
+
+  /** Return the attributes from a tag name suggestion insert text  */
+  function getAttributes(textEdit: TextEdit | undefined): string[] {
+    if (textEdit === undefined) {
+      return [];
+    }
+    const result = /^[^ ]+ ([^>]+)/.exec(textEdit.newText);
+    return result?.[1].split(" ") ?? [];
   }
 
   function assertRangeContains(
@@ -133,7 +142,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
   it("will get completion values for UI5 class", () => {
     const xmlSnippet = `<GridLi⇶`;
     const suggestions = getSuggestions(xmlSnippet);
-    const suggestionNames = map(suggestions, suggestion => ({
+    const suggestionsDetails = map(suggestions, suggestion => ({
       label: suggestion.label,
       tagName: getTagName(suggestion.textEdit),
       replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
@@ -142,7 +151,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
       map(suggestions, suggestion => suggestion.kind)
     );
 
-    expect(suggestionNames).to.deep.equalInAnyOrder([
+    expect(suggestionsDetails).to.deep.equalInAnyOrder([
       { label: "GridList", tagName: "f:GridList", replacedText: "GridLi" },
       {
         label: "GridListItem",
@@ -157,25 +166,53 @@ describe("the UI5 language assistant Code Completion Services", () => {
   it("will get completion values for UI5 class by fully qualified name", () => {
     const xmlSnippet = `<sap.m.Busy⇶`;
     const suggestions = getSuggestions(xmlSnippet);
-    const suggestionNames = map(suggestions, suggestion => ({
+    const suggestionsDetails = map(suggestions, suggestion => ({
       label: suggestion.label,
       tagName: getTagName(suggestion.textEdit),
+      firstAttribute: getAttributes(suggestion.textEdit)[0],
       replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
     }));
     const suggestionKinds = uniq(
       map(suggestions, suggestion => suggestion.kind)
     );
 
-    expect(suggestionNames).to.deep.equalInAnyOrder([
+    expect(suggestionsDetails).to.deep.equalInAnyOrder([
       {
         label: "BusyDialog",
         tagName: "m:BusyDialog",
+        firstAttribute: `xmlns:m="sap.m"`,
         replacedText: "sap.m.Busy"
       },
       {
         label: "BusyIndicator",
         tagName: "m:BusyIndicator",
+        firstAttribute: `xmlns:m="sap.m"`,
         replacedText: "sap.m.Busy"
+      }
+    ]);
+
+    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Class]);
+  });
+
+  it("will insert class namespace with a new name when another namespace with the short name is defined", () => {
+    const xmlSnippet = `<sap.m.BusyI⇶ xmlns:m="sap.ui.core.mvc"`;
+    const suggestions = getSuggestions(xmlSnippet);
+    const suggestionsDetails = map(suggestions, suggestion => ({
+      label: suggestion.label,
+      tagName: getTagName(suggestion.textEdit),
+      firstAttribute: getAttributes(suggestion.textEdit)[0],
+      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
+    }));
+    const suggestionKinds = uniq(
+      map(suggestions, suggestion => suggestion.kind)
+    );
+
+    expect(suggestionsDetails).to.deep.equalInAnyOrder([
+      {
+        label: "BusyIndicator",
+        tagName: "m2:BusyIndicator",
+        firstAttribute: `xmlns:m2="sap.m"`,
+        replacedText: "sap.m.BusyI"
       }
     ]);
 
@@ -185,34 +222,39 @@ describe("the UI5 language assistant Code Completion Services", () => {
   it("will get completion values for UI5 class when the cursor is in the middle of a name", () => {
     const xmlSnippet = `<Busy⇶Dialo`;
     const suggestions = getSuggestions(xmlSnippet);
-    const suggestionNames = map(suggestions, suggestion => ({
+    const suggestionsDetails = map(suggestions, suggestion => ({
       label: suggestion.label,
       tagName: getTagName(suggestion.textEdit),
+      firstAttribute: getAttributes(suggestion.textEdit)[0],
       replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
     }));
     const suggestionKinds = uniq(
       map(suggestions, suggestion => suggestion.kind)
     );
 
-    expect(suggestionNames).to.deep.equalInAnyOrder([
+    expect(suggestionsDetails).to.deep.equalInAnyOrder([
       {
         label: "BusyDialog",
         tagName: "m:BusyDialog",
+        firstAttribute: `xmlns:m="sap.m"`,
         replacedText: "BusyDialo"
       },
       {
         label: "BusyIndicator",
         tagName: "m:BusyIndicator",
+        firstAttribute: `xmlns:m="sap.m"`,
         replacedText: "BusyDialo"
       },
       {
         label: "LocalBusyIndicator",
         tagName: "core:LocalBusyIndicator",
+        firstAttribute: `xmlns:core="sap.ui.core"`,
         replacedText: "BusyDialo"
       },
       {
         label: "InboxBusyIndicator",
         tagName: "composite:InboxBusyIndicator",
+        firstAttribute: `xmlns:composite="sap.uiext.inbox.composite"`,
         replacedText: "BusyDialo"
       }
     ]);
@@ -223,24 +265,27 @@ describe("the UI5 language assistant Code Completion Services", () => {
   it("will get completion values for UI5 class FQN when the cursor is in the middle of a name", () => {
     const xmlSnippet = `<sap.m.Busy⇶Dialo`;
     const suggestions = getSuggestions(xmlSnippet);
-    const suggestionNames = map(suggestions, suggestion => ({
+    const suggestionsDetails = map(suggestions, suggestion => ({
       label: suggestion.label,
       tagName: getTagName(suggestion.textEdit),
+      firstAttribute: getAttributes(suggestion.textEdit)[0],
       replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
     }));
     const suggestionKinds = uniq(
       map(suggestions, suggestion => suggestion.kind)
     );
 
-    expect(suggestionNames).to.deep.equalInAnyOrder([
+    expect(suggestionsDetails).to.deep.equalInAnyOrder([
       {
         label: "BusyDialog",
         tagName: "m:BusyDialog",
+        firstAttribute: `xmlns:m="sap.m"`,
         replacedText: "sap.m.BusyDialo"
       },
       {
         label: "BusyIndicator",
         tagName: "m:BusyIndicator",
+        firstAttribute: `xmlns:m="sap.m"`,
         replacedText: "sap.m.BusyDialo"
       }
     ]);
@@ -251,24 +296,27 @@ describe("the UI5 language assistant Code Completion Services", () => {
   it("will get completion values for UI5 class with namespace when the cursor is in the middle of a name", () => {
     const xmlSnippet = `<m:Busy⇶Dialo xmlns:m="sap.m"`;
     const suggestions = getSuggestions(xmlSnippet);
-    const suggestionNames = map(suggestions, suggestion => ({
+    const suggestionsDetails = map(suggestions, suggestion => ({
       label: suggestion.label,
       tagName: getTagName(suggestion.textEdit),
+      attributes: getAttributes(suggestion.textEdit),
       replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
     }));
     const suggestionKinds = uniq(
       map(suggestions, suggestion => suggestion.kind)
     );
 
-    expect(suggestionNames).to.deep.equalInAnyOrder([
+    expect(suggestionsDetails).to.deep.equalInAnyOrder([
       {
         label: "BusyDialog",
         tagName: "m:BusyDialog",
+        attributes: [],
         replacedText: "m:BusyDialo"
       },
       {
         label: "BusyIndicator",
         tagName: "m:BusyIndicator",
+        attributes: [],
         replacedText: "m:BusyDialo"
       }
     ]);
@@ -279,24 +327,24 @@ describe("the UI5 language assistant Code Completion Services", () => {
   it("will get completion values for UI5 class from all namespaces when default namespace exists", () => {
     const xmlSnippet = `<RadioButtonGrou⇶ xmlns="sap.m" xmlns:commons="sap.ui.commons"`;
     const suggestions = getSuggestions(xmlSnippet);
-    const suggestionNames = map(suggestions, suggestion => ({
+    const suggestionsDetails = map(suggestions, suggestion => ({
       label: suggestion.label,
-      text: getTagName(suggestion.textEdit),
+      tagName: getTagName(suggestion.textEdit),
       replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
     }));
     const suggestionKinds = uniq(
       map(suggestions, suggestion => suggestion.kind)
     );
 
-    expect(suggestionNames).to.deep.equalInAnyOrder([
+    expect(suggestionsDetails).to.deep.equalInAnyOrder([
       {
         label: "RadioButtonGroup",
-        text: "RadioButtonGroup",
+        tagName: "RadioButtonGroup",
         replacedText: "RadioButtonGrou"
       },
       {
         label: "RadioButtonGroup",
-        text: "commons:RadioButtonGroup",
+        tagName: "commons:RadioButtonGroup",
         replacedText: "RadioButtonGrou"
       }
     ]);
@@ -307,17 +355,118 @@ describe("the UI5 language assistant Code Completion Services", () => {
   it("will get completion values for UI5 class from a specific namespace", () => {
     const xmlSnippet = `<f:Ca⇶ xmlns:f="sap.f"`;
     const suggestions = getSuggestions(xmlSnippet);
-    const suggestionNames = map(suggestions, suggestion => ({
+    const suggestionsDetails = map(suggestions, suggestion => ({
       label: suggestion.label,
-      text: getTagName(suggestion.textEdit),
+      tagName: getTagName(suggestion.textEdit),
+      attributes: getAttributes(suggestion.textEdit),
       replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
     }));
     const suggestionKinds = uniq(
       map(suggestions, suggestion => suggestion.kind)
     );
 
-    expect(suggestionNames).to.deep.equalInAnyOrder([
-      { label: "Card", text: "f:Card", replacedText: "f:Ca" }
+    expect(suggestionsDetails).to.deep.equalInAnyOrder([
+      { label: "Card", tagName: "f:Card", attributes: [], replacedText: "f:Ca" }
+    ]);
+
+    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Class]);
+  });
+
+  it("will get completion values for UI5 class from a specific namespace when name is not the parent name", () => {
+    const xmlSnippet = `<g:Ca⇶ xmlns:g="sap.f"`;
+    const suggestions = getSuggestions(xmlSnippet);
+    const suggestionsDetails = map(suggestions, suggestion => ({
+      label: suggestion.label,
+      tagName: getTagName(suggestion.textEdit),
+      attributes: getAttributes(suggestion.textEdit),
+      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
+    }));
+    const suggestionKinds = uniq(
+      map(suggestions, suggestion => suggestion.kind)
+    );
+
+    expect(suggestionsDetails).to.deep.equalInAnyOrder([
+      { label: "Card", tagName: "g:Card", attributes: [], replacedText: "g:Ca" }
+    ]);
+
+    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Class]);
+  });
+
+  it("will not insert the namespace when selecting completion for class in inner tag and namespace is already defined", () => {
+    const xmlSnippet = `<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m">
+      <content>
+        <sap.m.MenuButto⇶n
+      </content>
+    </m:View>`;
+    const suggestions = getSuggestions(xmlSnippet);
+    const suggestionsDetails = map(suggestions, suggestion => ({
+      label: suggestion.label,
+      tagName: getTagName(suggestion.textEdit),
+      additionalTextEdits: suggestion.additionalTextEdits,
+      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
+    }));
+    const suggestionKinds = uniq(
+      map(suggestions, suggestion => suggestion.kind)
+    );
+
+    expect(suggestionsDetails).to.deep.equalInAnyOrder([
+      {
+        label: "MenuButton",
+        tagName: "m:MenuButton",
+        additionalTextEdits: [],
+        replacedText: "sap.m.MenuButton"
+      }
+    ]);
+
+    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Class]);
+  });
+
+  it("will insert the namespace when selecting completion for class in inner tag and namespace is not defined", () => {
+    const xmlSnippet = `<m:View xmlns:m="sap.ui.core.mvc">
+      <content>
+        <MenuButton⇶
+      </content>
+    </m:View>`;
+    const suggestions = getSuggestions(xmlSnippet);
+    const suggestionsDetails = map(suggestions, suggestion => ({
+      label: suggestion.label,
+      tagName: getTagName(suggestion.textEdit),
+      additionalTextEdits: suggestion.additionalTextEdits,
+      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
+    }));
+    const suggestionKinds = uniq(
+      map(suggestions, suggestion => suggestion.kind)
+    );
+
+    expect(suggestionsDetails).to.deep.equalInAnyOrder([
+      {
+        label: "MenuButton",
+        tagName: "m2:MenuButton",
+        additionalTextEdits: [
+          {
+            range: {
+              start: { line: 0, character: 7 },
+              end: { line: 0, character: 7 }
+            },
+            newText: ` xmlns:m2="sap.m"`
+          }
+        ],
+        replacedText: "MenuButton"
+      },
+      {
+        label: "MenuButton",
+        tagName: "commons:MenuButton",
+        additionalTextEdits: [
+          {
+            range: {
+              start: { line: 0, character: 7 },
+              end: { line: 0, character: 7 }
+            },
+            newText: ` xmlns:commons="sap.ui.commons"`
+          }
+        ],
+        replacedText: "MenuButton"
+      }
     ]);
 
     expect(suggestionKinds).to.deep.equal([CompletionItemKind.Class]);
@@ -329,7 +478,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
                           xmlns="sap.m"> 
                           <List show⇶`;
     const suggestions = getSuggestions(xmlSnippet);
-    const suggestionNames = map(suggestions, suggestion => ({
+    const suggestionsDetails = map(suggestions, suggestion => ({
       label: suggestion.label,
       replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
     }));
@@ -337,7 +486,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
       map(suggestions, suggestion => suggestion.kind)
     );
 
-    expect(suggestionNames).to.deep.equalInAnyOrder([
+    expect(suggestionsDetails).to.deep.equalInAnyOrder([
       { label: "showNoData", replacedText: "show" },
       { label: "showSeparators", replacedText: "show" },
       { label: "showUnread", replacedText: "show" }
@@ -352,7 +501,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
                           xmlns="sap.m"> 
                           <List show⇶Separ`;
     const suggestions = getSuggestions(xmlSnippet);
-    const suggestionNames = map(suggestions, suggestion => ({
+    const suggestionsDetails = map(suggestions, suggestion => ({
       label: suggestion.label,
       replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
       newText: suggestion.textEdit?.newText
@@ -361,7 +510,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
       map(suggestions, suggestion => suggestion.kind)
     );
 
-    expect(suggestionNames).to.deep.equalInAnyOrder([
+    expect(suggestionsDetails).to.deep.equalInAnyOrder([
       {
         label: "showNoData",
         replacedText: "showSepar",
@@ -388,7 +537,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
                           xmlns="sap.m"> 
                           <List show⇶Separ="true"`;
     const suggestions = getSuggestions(xmlSnippet);
-    const suggestionNames = map(suggestions, suggestion => ({
+    const suggestionsDetails = map(suggestions, suggestion => ({
       label: suggestion.label,
       replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
       newText: suggestion.textEdit?.newText
@@ -397,7 +546,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
       map(suggestions, suggestion => suggestion.kind)
     );
 
-    expect(suggestionNames).to.deep.equalInAnyOrder([
+    expect(suggestionsDetails).to.deep.equalInAnyOrder([
       { label: "showNoData", replacedText: "showSepar", newText: "showNoData" },
       {
         label: "showSeparators",
@@ -416,7 +565,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
                           xmlns="sap.m"> 
                           <List update⇶`;
     const suggestions = getSuggestions(xmlSnippet);
-    const suggestionNames = map(suggestions, suggestion => ({
+    const suggestionsDetails = map(suggestions, suggestion => ({
       label: suggestion.label,
       replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
     }));
@@ -424,7 +573,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
       map(suggestions, suggestion => suggestion.kind)
     );
 
-    expect(suggestionNames).to.deep.equalInAnyOrder([
+    expect(suggestionsDetails).to.deep.equalInAnyOrder([
       { label: "updateFinished", replacedText: "update" },
       { label: "updateStarted", replacedText: "update" }
     ]);
@@ -438,7 +587,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
                           xmlns="sap.m"> 
                           <List update⇶Start`;
     const suggestions = getSuggestions(xmlSnippet);
-    const suggestionNames = map(suggestions, suggestion => ({
+    const suggestionsDetails = map(suggestions, suggestion => ({
       label: suggestion.label,
       replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
     }));
@@ -446,7 +595,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
       map(suggestions, suggestion => suggestion.kind)
     );
 
-    expect(suggestionNames).to.deep.equalInAnyOrder([
+    expect(suggestionsDetails).to.deep.equalInAnyOrder([
       { label: "updateFinished", replacedText: "updateStart" },
       { label: "updateStarted", replacedText: "updateStart" }
     ]);
@@ -460,7 +609,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
                           xmlns="sap.m"> 
                           <List aria⇶`;
     const suggestions = getSuggestions(xmlSnippet);
-    const suggestionNames = map(suggestions, suggestion => ({
+    const suggestionsDetails = map(suggestions, suggestion => ({
       label: suggestion.label,
       replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
     }));
@@ -468,7 +617,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
       map(suggestions, suggestion => suggestion.kind)
     );
 
-    expect(suggestionNames).to.deep.equalInAnyOrder([
+    expect(suggestionsDetails).to.deep.equalInAnyOrder([
       {
         label: "ariaLabelledBy",
         replacedText: "aria"
@@ -484,7 +633,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
                           xmlns="sap.m"> 
                           <List aria⇶bbbb`;
     const suggestions = getSuggestions(xmlSnippet);
-    const suggestionNames = map(suggestions, suggestion => ({
+    const suggestionsDetails = map(suggestions, suggestion => ({
       label: suggestion.label,
       replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
     }));
@@ -492,7 +641,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
       map(suggestions, suggestion => suggestion.kind)
     );
 
-    expect(suggestionNames).to.deep.equalInAnyOrder([
+    expect(suggestionsDetails).to.deep.equalInAnyOrder([
       {
         label: "ariaLabelledBy",
         replacedText: "ariabbbb"
@@ -508,7 +657,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
                           xmlns="sap.m"> 
                           <List> <te⇶`;
     const suggestions = getSuggestions(xmlSnippet);
-    const suggestionNames = map(suggestions, suggestion => ({
+    const suggestionsDetails = map(suggestions, suggestion => ({
       label: suggestion.label,
       replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
     }));
@@ -516,7 +665,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
       map(suggestions, suggestion => suggestion.kind)
     );
 
-    expect(suggestionNames).to.deep.equalInAnyOrder([
+    expect(suggestionsDetails).to.deep.equalInAnyOrder([
       { label: "contextMenu", replacedText: "te" },
       { label: "items", replacedText: "te" },
       { label: "swipeContent", replacedText: "te" }
@@ -531,7 +680,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
                           xmlns="sap.m"> 
                           <List> <te⇶Menu`;
     const suggestions = getSuggestions(xmlSnippet);
-    const suggestionNames = map(suggestions, suggestion => ({
+    const suggestionsDetails = map(suggestions, suggestion => ({
       label: suggestion.label,
       replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
       tagName: getTagName(suggestion.textEdit)
@@ -540,7 +689,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
       map(suggestions, suggestion => suggestion.kind)
     );
 
-    expect(suggestionNames).to.deep.equalInAnyOrder([
+    expect(suggestionsDetails).to.deep.equalInAnyOrder([
       { label: "contextMenu", replacedText: "teMenu", tagName: "contextMenu" },
       { label: "items", replacedText: "teMenu", tagName: "items" },
       { label: "swipeContent", replacedText: "teMenu", tagName: "swipeContent" }
@@ -554,7 +703,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns:u⇶`;
     const suggestions = getSuggestions(xmlSnippet);
-    const suggestionNames = map(suggestions, suggestion => ({
+    const suggestionsDetails = map(suggestions, suggestion => ({
       label: suggestion.label,
       replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
       newText: suggestion.textEdit?.newText
@@ -563,7 +712,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
       map(suggestions, suggestion => suggestion.kind)
     );
 
-    expect(suggestionNames).to.deep.equalInAnyOrder([
+    expect(suggestionsDetails).to.deep.equalInAnyOrder([
       {
         label: "unified",
         replacedText: "xmlns:u",
@@ -620,7 +769,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns:ux⇶a`;
     const suggestions = getSuggestions(xmlSnippet);
-    const suggestionNames = map(suggestions, suggestion => ({
+    const suggestionsDetails = map(suggestions, suggestion => ({
       label: suggestion.label,
       replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
       newText: suggestion.textEdit?.newText
@@ -629,7 +778,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
       map(suggestions, suggestion => suggestion.kind)
     );
 
-    expect(suggestionNames).to.deep.equalInAnyOrder([
+    expect(suggestionsDetails).to.deep.equalInAnyOrder([
       {
         label: "ux3",
         replacedText: "xmlns:uxa",
@@ -650,7 +799,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns:ux⇶a="sap.m"`;
     const suggestions = getSuggestions(xmlSnippet);
-    const suggestionNames = map(suggestions, suggestion => ({
+    const suggestionsDetails = map(suggestions, suggestion => ({
       label: suggestion.label,
       replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
       newText: suggestion.textEdit?.newText
@@ -659,7 +808,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
       map(suggestions, suggestion => suggestion.kind)
     );
 
-    expect(suggestionNames).to.deep.equalInAnyOrder([
+    expect(suggestionsDetails).to.deep.equalInAnyOrder([
       { label: "ux3", replacedText: "xmlns:uxa", newText: `xmlns:ux3` },
       { label: "uxap", replacedText: "xmlns:uxa", newText: `xmlns:uxap` }
     ]);
@@ -672,12 +821,12 @@ describe("the UI5 language assistant Code Completion Services", () => {
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns:ux3="⇶"`;
     const suggestions = getSuggestions(xmlSnippet);
-    const suggestionNames = map(suggestions, suggestion => ({
+    const suggestionsDetails = map(suggestions, suggestion => ({
       label: suggestion.label,
       replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
       newTtext: suggestion.textEdit?.newText
     }));
-    expect(suggestionNames).to.deep.equalInAnyOrder([
+    expect(suggestionsDetails).to.deep.equalInAnyOrder([
       { label: "ux3", replacedText: `""`, newTtext: `"sap.ui.ux3"` }
     ]);
   });
@@ -687,12 +836,12 @@ describe("the UI5 language assistant Code Completion Services", () => {
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns="ux⇶a"`;
     const suggestions = getSuggestions(xmlSnippet);
-    const suggestionNames = map(suggestions, suggestion => ({
+    const suggestionsDetails = map(suggestions, suggestion => ({
       label: suggestion.label,
       replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
       newText: suggestion.textEdit?.newText
     }));
-    expect(suggestionNames).to.deep.equalInAnyOrder([
+    expect(suggestionsDetails).to.deep.equalInAnyOrder([
       { label: "ux3", replacedText: `"uxa"`, newText: `"sap.ui.ux3"` },
       { label: "uxap", replacedText: `"uxa"`, newText: `"sap.uxap"` }
     ]);
@@ -703,12 +852,12 @@ describe("the UI5 language assistant Code Completion Services", () => {
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns:uxap="sap.u⇶i"`;
     const suggestions = getSuggestions(xmlSnippet);
-    const suggestionNames = map(suggestions, suggestion => ({
+    const suggestionsDetails = map(suggestions, suggestion => ({
       label: suggestion.label,
       replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
       newText: suggestion.textEdit?.newText
     }));
-    expect(suggestionNames).to.deep.equalInAnyOrder([
+    expect(suggestionsDetails).to.deep.equalInAnyOrder([
       { label: "uxap", replacedText: `"sap.ui"`, newText: `"sap.uxap"` }
     ]);
   });
@@ -719,7 +868,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
                           xmlns="sap.m"> 
                           <List showSeparators="⇶"`;
     const suggestions = getSuggestions(xmlSnippet);
-    const suggestionNames = map(suggestions, suggestion => ({
+    const suggestionsDetails = map(suggestions, suggestion => ({
       label: suggestion.label,
       replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
       newText: suggestion.textEdit?.newText
@@ -728,7 +877,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
       map(suggestions, suggestion => suggestion.kind)
     );
 
-    expect(suggestionNames).to.deep.equalInAnyOrder([
+    expect(suggestionsDetails).to.deep.equalInAnyOrder([
       { label: "All", replacedText: `""`, newText: `"All"` },
       { label: "Inner", replacedText: `""`, newText: `"Inner"` },
       { label: "None", replacedText: `""`, newText: `"None"` }
@@ -743,7 +892,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
                           xmlns="sap.m"> 
                           <List showSeparators="n⇶ner"`;
     const suggestions = getSuggestions(xmlSnippet);
-    const suggestionNames = map(suggestions, suggestion => ({
+    const suggestionsDetails = map(suggestions, suggestion => ({
       label: suggestion.label,
       replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
       newText: suggestion.textEdit?.newText
@@ -752,7 +901,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
       map(suggestions, suggestion => suggestion.kind)
     );
 
-    expect(suggestionNames).to.deep.equalInAnyOrder([
+    expect(suggestionsDetails).to.deep.equalInAnyOrder([
       { label: "Inner", replacedText: `"nner"`, newText: `"Inner"` },
       { label: "None", replacedText: `"nner"`, newText: `"None"` }
     ]);
@@ -822,12 +971,12 @@ describe("the UI5 language assistant Code Completion Services", () => {
                           xmlns="sap.m">
                           <content> <ContentS⇶`;
     const suggestions = getSuggestions(xmlSnippet);
-    const suggestionNames = map(suggestions, suggestion => ({
+    const suggestionsDetails = map(suggestions, suggestion => ({
       label: suggestion.label,
       tagName: getTagName(suggestion.textEdit),
       replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
     }));
-    expect(suggestionNames).to.deep.equalInAnyOrder([
+    expect(suggestionsDetails).to.deep.equalInAnyOrder([
       {
         label: "ContentSwitcher",
         tagName: "unified:ContentSwitcher",
