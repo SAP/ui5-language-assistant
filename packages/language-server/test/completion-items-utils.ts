@@ -1,4 +1,4 @@
-import { forEach } from "lodash";
+import { forEach, map } from "lodash";
 import { expect } from "chai";
 import {
   TextDocument,
@@ -107,6 +107,7 @@ function assertSuggestionsAreValid(
     expectExists(suggestion.textEdit, "suggestion contains a textEdit");
     assertRangeContains(suggestion.textEdit.range, position, suggestion.label);
     assertRangesDoNotOverlap(
+      document,
       suggestion.label,
       suggestion.textEdit,
       suggestion.additionalTextEdits || []
@@ -148,38 +149,30 @@ function assertRangeContains(
 }
 
 function assertRangesDoNotOverlap(
+  document: TextDocument,
   description: string,
   textEdit: TextEdit,
   additionalTextEdits: TextEdit[]
 ): void {
   // First, sort the text edits by range start and end
-  const allEdits = [textEdit].concat(additionalTextEdits);
+  const allEdits = map([textEdit].concat(additionalTextEdits), edit => ({
+    ...edit,
+    startOffset: document.offsetAt(edit.range.start),
+    endOffset: document.offsetAt(edit.range.end)
+  }));
   allEdits.sort((first, second) => {
-    if (first.range.start.line < second.range.start.line) {
-      return -1;
-    }
     if (
-      first.range.start.line === second.range.start.line &&
-      first.range.start.character < second.range.start.character
-    ) {
-      return -1;
-    }
-    if (first.range.end.line < second.range.end.line) {
-      return -1;
-    }
-    if (
-      first.range.end.line === second.range.end.line &&
-      first.range.end.character < second.range.end.character
-    ) {
-      return -1;
-    }
-    if (
-      first.range.start.line === second.range.start.line &&
-      first.range.start.character === second.range.start.character &&
-      first.range.end.line === second.range.end.line &&
-      first.range.end.character === second.range.end.character
+      first.startOffset === second.startOffset &&
+      first.endOffset === second.endOffset
     ) {
       return 0;
+    }
+    if (
+      first.startOffset < second.startOffset ||
+      (first.startOffset === second.startOffset &&
+        first.endOffset < second.endOffset)
+    ) {
+      return -1;
     }
     return 1;
   });
@@ -190,10 +183,7 @@ function assertRangesDoNotOverlap(
     const second = allEdits[i + 1];
     // Since we sorted them by range start and end, they would overlap if and only if
     // the second range start position is less than or equal to the first range end position.
-    const overlapping =
-      second.range.start.line < first.range.end.line ||
-      (second.range.start.line === first.range.end.line &&
-        second.range.start.character <= first.range.end.character);
+    const overlapping = second.startOffset <= first.endOffset;
     expect(
       overlapping,
       `${description}: found overlapping text edits: "${
