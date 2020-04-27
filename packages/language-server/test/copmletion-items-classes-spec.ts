@@ -28,7 +28,7 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
   /** The first (but not final) place the custor stops when inserting the completion. Pressing tab moves it to the next place. */
   const TAB_STOP1 = "${1}";
 
-  interface ClassCompletionItems {
+  interface ClassCompletionItem {
     label: string;
     tagName: string;
     additionalTextEdits?: { rangeIndex: number; newText: string }[];
@@ -37,7 +37,7 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
   }
   function assertClassesCompletions(opts: {
     xmlSnippet: string;
-    expected: ClassCompletionItems[];
+    expected: ClassCompletionItem[];
     compareAttributes?: boolean;
   }): CompletionItem[] {
     const compareAttributes = opts.compareAttributes ?? true;
