@@ -1,24 +1,18 @@
 import { expect } from "chai";
 import { map, uniq, forEach } from "lodash";
-import {
-  TextDocument,
-  TextDocumentPositionParams,
-  Position,
-  TextDocumentIdentifier,
-  CompletionItemKind,
-  CompletionItem,
-  TextEdit,
-  Range
-} from "vscode-languageserver";
+import { CompletionItemKind } from "vscode-languageserver";
 import { UI5XMLViewCompletion } from "@ui5-language-assistant/xml-views-completion";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import {
   generateModel,
-  GEN_MODEL_TIMEOUT,
-  expectExists
+  GEN_MODEL_TIMEOUT
 } from "@ui5-language-assistant/test-utils";
-
-import { getCompletionItems, computeLSPKind } from "../src/completion-items";
+import { computeLSPKind } from "../src/completion-items";
+import {
+  getSuggestions,
+  getTextInRange,
+  getTagName
+} from "./completion-items-utils";
 
 describe("the UI5 language assistant Code Completion Services", () => {
   // Cursor position after selecting the suggestion
@@ -31,453 +25,12 @@ describe("the UI5 language assistant Code Completion Services", () => {
     ui5SemanticModel = await generateModel({ version: "1.74.0" });
   });
 
-  /** Return the first part of a tag name suggestion insert text */
-  function getTagName(textEdit: TextEdit | undefined): string | undefined {
-    if (textEdit === undefined) {
-      return undefined;
-    }
-    const result = /^([^> ]*)/.exec(textEdit.newText);
-    return result?.[1];
-  }
-
-  /** Return the attributes from a tag name suggestion insert text  */
-  function getAttributes(textEdit: TextEdit | undefined): string[] {
-    if (textEdit === undefined) {
-      return [];
-    }
-    const result = /^[^ ]+ ([^>]+)/.exec(textEdit.newText);
-    return result?.[1].split(" ") ?? [];
-  }
-
-  function assertRangeContains(
-    range: Range,
-    position: Position,
-    description: string
-  ): void {
-    // The range must be in the same line as the position
-    expect(range.start.line, `${description}: range start line`).to.equal(
-      position.line
-    );
-    expect(range.end.line, `${description}: range end line`).to.equal(
-      position.line
-    );
-    expect(
-      range.start.character,
-      `${description}: range start character`
-    ).to.be.at.most(position.character);
-    expect(
-      range.end.character,
-      `${description}: range end character`
-    ).to.be.at.least(position.character);
-  }
-
-  function assertFilterMatches(
-    filterText: string,
-    text: string,
-    description: string
-  ): void {
-    // This is a simple matcher - all characters in text are found in filterText in the same order.
-    // For example, if the user requests code assist for "But" the filter text must contains "B", "u" and "t"
-    // in this order (the filter text might be "sap.m.Button").
-    // Actual filtering can be more complex, but if this filter doesn't pass the suggestion will likely not be
-    // displayed to the user.
-    let contains = true;
-    let indexInFilterText = 0;
-    forEach(text, character => {
-      if (contains) {
-        const characterIndex = filterText.indexOf(character, indexInFilterText);
-        if (characterIndex < 0) {
-          contains = false;
-        } else {
-          indexInFilterText = characterIndex + 1;
-        }
-      }
-    });
-    expect(
-      contains,
-      `${description}: ${filterText} does not contain all characters from ${text} in order`
-    ).to.be.true;
-  }
-
-  /** Check the suggestions will be displayed to the user according to the range and filter text */
-  function assertSuggestionsAreValid(
-    suggestions: CompletionItem[],
-    xmlSnippet: string
-  ): void {
-    const xmlText = xmlSnippet.replace("⇶", "");
-    const offset = xmlSnippet.indexOf("⇶");
-    const doc: TextDocument = createTextDocument("xml", xmlText);
-    const position = doc.positionAt(offset);
-
-    forEach(suggestions, suggestion => {
-      expectExists(suggestion.textEdit, "suggestion contains a textEdit");
-      assertRangeContains(
-        suggestion.textEdit.range,
-        position,
-        suggestion.label
-      );
-      // The filter text is checked until the position in the document
-      // (for example, we can replace "Ab⇶cd" with "Abzzz" even though "c" and "d" aren't in "Abzzz")
-      const checkedRange = {
-        start: suggestion.textEdit?.range.start,
-        end: position
-      };
-      assertFilterMatches(
-        suggestion.filterText ?? suggestion.label,
-        doc.getText(checkedRange),
-        suggestion.label
-      );
-    });
-  }
-
-  function getTextInRange(
-    xmlSnippet: string,
-    range: Range | undefined
-  ): string {
-    const xmlText = xmlSnippet.replace("⇶", "");
-    const doc: TextDocument = createTextDocument("xml", xmlText);
-    return doc.getText(range);
-  }
-
-  it("will get completion values for UI5 class", () => {
-    const xmlSnippet = `<GridLi⇶`;
-    const suggestions = getSuggestions(xmlSnippet);
-    const suggestionsDetails = map(suggestions, suggestion => ({
-      label: suggestion.label,
-      tagName: getTagName(suggestion.textEdit),
-      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
-    }));
-    const suggestionKinds = uniq(
-      map(suggestions, suggestion => suggestion.kind)
-    );
-
-    expect(suggestionsDetails).to.deep.equalInAnyOrder([
-      { label: "GridList", tagName: "f:GridList", replacedText: "GridLi" },
-      {
-        label: "GridListItem",
-        tagName: "f:GridListItem",
-        replacedText: "GridLi"
-      }
-    ]);
-
-    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Class]);
-  });
-
-  it("will get completion values for UI5 class by fully qualified name", () => {
-    const xmlSnippet = `<sap.m.Busy⇶`;
-    const suggestions = getSuggestions(xmlSnippet);
-    const suggestionsDetails = map(suggestions, suggestion => ({
-      label: suggestion.label,
-      tagName: getTagName(suggestion.textEdit),
-      firstAttribute: getAttributes(suggestion.textEdit)[0],
-      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
-    }));
-    const suggestionKinds = uniq(
-      map(suggestions, suggestion => suggestion.kind)
-    );
-
-    expect(suggestionsDetails).to.deep.equalInAnyOrder([
-      {
-        label: "BusyDialog",
-        tagName: "m:BusyDialog",
-        firstAttribute: `xmlns:m="sap.m"`,
-        replacedText: "sap.m.Busy"
-      },
-      {
-        label: "BusyIndicator",
-        tagName: "m:BusyIndicator",
-        firstAttribute: `xmlns:m="sap.m"`,
-        replacedText: "sap.m.Busy"
-      }
-    ]);
-
-    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Class]);
-  });
-
-  it("will insert class namespace with a new name when another namespace with the short name is defined", () => {
-    const xmlSnippet = `<sap.m.BusyI⇶ xmlns:m="sap.ui.core.mvc"`;
-    const suggestions = getSuggestions(xmlSnippet);
-    const suggestionsDetails = map(suggestions, suggestion => ({
-      label: suggestion.label,
-      tagName: getTagName(suggestion.textEdit),
-      firstAttribute: getAttributes(suggestion.textEdit)[0],
-      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
-    }));
-    const suggestionKinds = uniq(
-      map(suggestions, suggestion => suggestion.kind)
-    );
-
-    expect(suggestionsDetails).to.deep.equalInAnyOrder([
-      {
-        label: "BusyIndicator",
-        tagName: "m2:BusyIndicator",
-        firstAttribute: `xmlns:m2="sap.m"`,
-        replacedText: "sap.m.BusyI"
-      }
-    ]);
-
-    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Class]);
-  });
-
-  it("will get completion values for UI5 class when the cursor is in the middle of a name", () => {
-    const xmlSnippet = `<Busy⇶Dialo`;
-    const suggestions = getSuggestions(xmlSnippet);
-    const suggestionsDetails = map(suggestions, suggestion => ({
-      label: suggestion.label,
-      tagName: getTagName(suggestion.textEdit),
-      firstAttribute: getAttributes(suggestion.textEdit)[0],
-      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
-    }));
-    const suggestionKinds = uniq(
-      map(suggestions, suggestion => suggestion.kind)
-    );
-
-    expect(suggestionsDetails).to.deep.equalInAnyOrder([
-      {
-        label: "BusyDialog",
-        tagName: "m:BusyDialog",
-        firstAttribute: `xmlns:m="sap.m"`,
-        replacedText: "BusyDialo"
-      },
-      {
-        label: "BusyIndicator",
-        tagName: "m:BusyIndicator",
-        firstAttribute: `xmlns:m="sap.m"`,
-        replacedText: "BusyDialo"
-      },
-      {
-        label: "LocalBusyIndicator",
-        tagName: "core:LocalBusyIndicator",
-        firstAttribute: `xmlns:core="sap.ui.core"`,
-        replacedText: "BusyDialo"
-      },
-      {
-        label: "InboxBusyIndicator",
-        tagName: "composite:InboxBusyIndicator",
-        firstAttribute: `xmlns:composite="sap.uiext.inbox.composite"`,
-        replacedText: "BusyDialo"
-      }
-    ]);
-
-    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Class]);
-  });
-
-  it("will get completion values for UI5 class FQN when the cursor is in the middle of a name", () => {
-    const xmlSnippet = `<sap.m.Busy⇶Dialo`;
-    const suggestions = getSuggestions(xmlSnippet);
-    const suggestionsDetails = map(suggestions, suggestion => ({
-      label: suggestion.label,
-      tagName: getTagName(suggestion.textEdit),
-      firstAttribute: getAttributes(suggestion.textEdit)[0],
-      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
-    }));
-    const suggestionKinds = uniq(
-      map(suggestions, suggestion => suggestion.kind)
-    );
-
-    expect(suggestionsDetails).to.deep.equalInAnyOrder([
-      {
-        label: "BusyDialog",
-        tagName: "m:BusyDialog",
-        firstAttribute: `xmlns:m="sap.m"`,
-        replacedText: "sap.m.BusyDialo"
-      },
-      {
-        label: "BusyIndicator",
-        tagName: "m:BusyIndicator",
-        firstAttribute: `xmlns:m="sap.m"`,
-        replacedText: "sap.m.BusyDialo"
-      }
-    ]);
-
-    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Class]);
-  });
-
-  it("will get completion values for UI5 class with namespace when the cursor is in the middle of a name", () => {
-    const xmlSnippet = `<m:Busy⇶Dialo xmlns:m="sap.m"`;
-    const suggestions = getSuggestions(xmlSnippet);
-    const suggestionsDetails = map(suggestions, suggestion => ({
-      label: suggestion.label,
-      tagName: getTagName(suggestion.textEdit),
-      attributes: getAttributes(suggestion.textEdit),
-      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
-    }));
-    const suggestionKinds = uniq(
-      map(suggestions, suggestion => suggestion.kind)
-    );
-
-    expect(suggestionsDetails).to.deep.equalInAnyOrder([
-      {
-        label: "BusyDialog",
-        tagName: "m:BusyDialog",
-        attributes: [],
-        replacedText: "m:BusyDialo"
-      },
-      {
-        label: "BusyIndicator",
-        tagName: "m:BusyIndicator",
-        attributes: [],
-        replacedText: "m:BusyDialo"
-      }
-    ]);
-
-    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Class]);
-  });
-
-  it("will get completion values for UI5 class from all namespaces when default namespace exists", () => {
-    const xmlSnippet = `<RadioButtonGrou⇶ xmlns="sap.m" xmlns:commons="sap.ui.commons"`;
-    const suggestions = getSuggestions(xmlSnippet);
-    const suggestionsDetails = map(suggestions, suggestion => ({
-      label: suggestion.label,
-      tagName: getTagName(suggestion.textEdit),
-      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
-    }));
-    const suggestionKinds = uniq(
-      map(suggestions, suggestion => suggestion.kind)
-    );
-
-    expect(suggestionsDetails).to.deep.equalInAnyOrder([
-      {
-        label: "RadioButtonGroup",
-        tagName: "RadioButtonGroup",
-        replacedText: "RadioButtonGrou"
-      },
-      {
-        label: "RadioButtonGroup",
-        tagName: "commons:RadioButtonGroup",
-        replacedText: "RadioButtonGrou"
-      }
-    ]);
-
-    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Class]);
-  });
-
-  it("will get completion values for UI5 class from a specific namespace", () => {
-    const xmlSnippet = `<f:Ca⇶ xmlns:f="sap.f"`;
-    const suggestions = getSuggestions(xmlSnippet);
-    const suggestionsDetails = map(suggestions, suggestion => ({
-      label: suggestion.label,
-      tagName: getTagName(suggestion.textEdit),
-      attributes: getAttributes(suggestion.textEdit),
-      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
-    }));
-    const suggestionKinds = uniq(
-      map(suggestions, suggestion => suggestion.kind)
-    );
-
-    expect(suggestionsDetails).to.deep.equalInAnyOrder([
-      { label: "Card", tagName: "f:Card", attributes: [], replacedText: "f:Ca" }
-    ]);
-
-    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Class]);
-  });
-
-  it("will get completion values for UI5 class from a specific namespace when name is not the parent name", () => {
-    const xmlSnippet = `<g:Ca⇶ xmlns:g="sap.f"`;
-    const suggestions = getSuggestions(xmlSnippet);
-    const suggestionsDetails = map(suggestions, suggestion => ({
-      label: suggestion.label,
-      tagName: getTagName(suggestion.textEdit),
-      attributes: getAttributes(suggestion.textEdit),
-      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
-    }));
-    const suggestionKinds = uniq(
-      map(suggestions, suggestion => suggestion.kind)
-    );
-
-    expect(suggestionsDetails).to.deep.equalInAnyOrder([
-      { label: "Card", tagName: "g:Card", attributes: [], replacedText: "g:Ca" }
-    ]);
-
-    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Class]);
-  });
-
-  it("will not insert the namespace when selecting completion for class in inner tag and namespace is already defined", () => {
-    const xmlSnippet = `<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m">
-      <content>
-        <sap.m.MenuButto⇶n
-      </content>
-    </m:View>`;
-    const suggestions = getSuggestions(xmlSnippet);
-    const suggestionsDetails = map(suggestions, suggestion => ({
-      label: suggestion.label,
-      tagName: getTagName(suggestion.textEdit),
-      additionalTextEdits: suggestion.additionalTextEdits,
-      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
-    }));
-    const suggestionKinds = uniq(
-      map(suggestions, suggestion => suggestion.kind)
-    );
-
-    expect(suggestionsDetails).to.deep.equalInAnyOrder([
-      {
-        label: "MenuButton",
-        tagName: "m:MenuButton",
-        additionalTextEdits: [],
-        replacedText: "sap.m.MenuButton"
-      }
-    ]);
-
-    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Class]);
-  });
-
-  it("will insert the namespace when selecting completion for class in inner tag and namespace is not defined", () => {
-    const xmlSnippet = `<m:View xmlns:m="sap.ui.core.mvc">
-      <content>
-        <MenuButton⇶
-      </content>
-    </m:View>`;
-    const suggestions = getSuggestions(xmlSnippet);
-    const suggestionsDetails = map(suggestions, suggestion => ({
-      label: suggestion.label,
-      tagName: getTagName(suggestion.textEdit),
-      additionalTextEdits: suggestion.additionalTextEdits,
-      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
-    }));
-    const suggestionKinds = uniq(
-      map(suggestions, suggestion => suggestion.kind)
-    );
-
-    expect(suggestionsDetails).to.deep.equalInAnyOrder([
-      {
-        label: "MenuButton",
-        tagName: "m2:MenuButton",
-        additionalTextEdits: [
-          {
-            range: {
-              start: { line: 0, character: 7 },
-              end: { line: 0, character: 7 }
-            },
-            newText: ` xmlns:m2="sap.m"`
-          }
-        ],
-        replacedText: "MenuButton"
-      },
-      {
-        label: "MenuButton",
-        tagName: "commons:MenuButton",
-        additionalTextEdits: [
-          {
-            range: {
-              start: { line: 0, character: 7 },
-              end: { line: 0, character: 7 }
-            },
-            newText: ` xmlns:commons="sap.ui.commons"`
-          }
-        ],
-        replacedText: "MenuButton"
-      }
-    ]);
-
-    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Class]);
-  });
-
   it("will get completion values for UI5 property", () => {
     const xmlSnippet = `<mvc:View 
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns="sap.m"> 
                           <List show⇶`;
-    const suggestions = getSuggestions(xmlSnippet);
+    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
     const suggestionsDetails = map(suggestions, suggestion => ({
       label: suggestion.label,
       replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
@@ -500,7 +53,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns="sap.m"> 
                           <List show⇶Separ`;
-    const suggestions = getSuggestions(xmlSnippet);
+    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
     const suggestionsDetails = map(suggestions, suggestion => ({
       label: suggestion.label,
       replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
@@ -536,7 +89,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns="sap.m"> 
                           <List show⇶Separ="true"`;
-    const suggestions = getSuggestions(xmlSnippet);
+    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
     const suggestionsDetails = map(suggestions, suggestion => ({
       label: suggestion.label,
       replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
@@ -564,7 +117,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns="sap.m"> 
                           <List update⇶`;
-    const suggestions = getSuggestions(xmlSnippet);
+    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
     const suggestionsDetails = map(suggestions, suggestion => ({
       label: suggestion.label,
       replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
@@ -586,7 +139,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns="sap.m"> 
                           <List update⇶Start`;
-    const suggestions = getSuggestions(xmlSnippet);
+    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
     const suggestionsDetails = map(suggestions, suggestion => ({
       label: suggestion.label,
       replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
@@ -608,7 +161,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns="sap.m"> 
                           <List aria⇶`;
-    const suggestions = getSuggestions(xmlSnippet);
+    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
     const suggestionsDetails = map(suggestions, suggestion => ({
       label: suggestion.label,
       replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
@@ -632,7 +185,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns="sap.m"> 
                           <List aria⇶bbbb`;
-    const suggestions = getSuggestions(xmlSnippet);
+    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
     const suggestionsDetails = map(suggestions, suggestion => ({
       label: suggestion.label,
       replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
@@ -656,7 +209,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns="sap.m"> 
                           <List> <te⇶`;
-    const suggestions = getSuggestions(xmlSnippet);
+    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
     const suggestionsDetails = map(suggestions, suggestion => ({
       label: suggestion.label,
       replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
@@ -679,7 +232,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns="sap.m"> 
                           <List> <te⇶Menu`;
-    const suggestions = getSuggestions(xmlSnippet);
+    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
     const suggestionsDetails = map(suggestions, suggestion => ({
       label: suggestion.label,
       replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
@@ -702,7 +255,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
     const xmlSnippet = `<mvc:View 
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns:u⇶`;
-    const suggestions = getSuggestions(xmlSnippet);
+    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
     const suggestionsDetails = map(suggestions, suggestion => ({
       label: suggestion.label,
       replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
@@ -768,7 +321,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
     const xmlSnippet = `<mvc:View 
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns:ux⇶a`;
-    const suggestions = getSuggestions(xmlSnippet);
+    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
     const suggestionsDetails = map(suggestions, suggestion => ({
       label: suggestion.label,
       replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
@@ -798,7 +351,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
     const xmlSnippet = `<mvc:View 
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns:ux⇶a="sap.m"`;
-    const suggestions = getSuggestions(xmlSnippet);
+    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
     const suggestionsDetails = map(suggestions, suggestion => ({
       label: suggestion.label,
       replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
@@ -820,7 +373,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
     const xmlSnippet = `<mvc:View 
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns:ux3="⇶"`;
-    const suggestions = getSuggestions(xmlSnippet);
+    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
     const suggestionsDetails = map(suggestions, suggestion => ({
       label: suggestion.label,
       replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
@@ -835,7 +388,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
     const xmlSnippet = `<mvc:View 
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns="ux⇶a"`;
-    const suggestions = getSuggestions(xmlSnippet);
+    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
     const suggestionsDetails = map(suggestions, suggestion => ({
       label: suggestion.label,
       replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
@@ -851,7 +404,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
     const xmlSnippet = `<mvc:View 
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns:uxap="sap.u⇶i"`;
-    const suggestions = getSuggestions(xmlSnippet);
+    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
     const suggestionsDetails = map(suggestions, suggestion => ({
       label: suggestion.label,
       replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
@@ -867,7 +420,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns="sap.m"> 
                           <List showSeparators="⇶"`;
-    const suggestions = getSuggestions(xmlSnippet);
+    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
     const suggestionsDetails = map(suggestions, suggestion => ({
       label: suggestion.label,
       replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
@@ -891,7 +444,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns="sap.m"> 
                           <List showSeparators="n⇶ner"`;
-    const suggestions = getSuggestions(xmlSnippet);
+    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
     const suggestionsDetails = map(suggestions, suggestion => ({
       label: suggestion.label,
       replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
@@ -909,18 +462,12 @@ describe("the UI5 language assistant Code Completion Services", () => {
     expect(suggestionKinds).to.deep.equal([CompletionItemKind.EnumMember]);
   });
 
-  it("will not get completion values for unknown class", () => {
-    const xmlSnippet = `<Unknown⇶`;
-    const suggestions = getSuggestions(xmlSnippet);
-    expect(suggestions).to.be.empty;
-  });
-
   it("will get completion values for UI5 properties, events and associations", () => {
     const xmlSnippet = `<mvc:View 
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns="sap.m"> 
                           <List ⇶`;
-    const suggestions = getSuggestions(xmlSnippet);
+    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
     const suggestionKinds = uniq(
       map(suggestions, suggestion => suggestion.kind)
     );
@@ -939,52 +486,17 @@ describe("the UI5 language assistant Code Completion Services", () => {
     });
   });
 
-  it("will return valid class suggestions for empty tag", () => {
-    const xmlSnippet = `<⇶`;
-    const suggestions = getSuggestions(xmlSnippet);
-    expect(suggestions).to.not.be.empty;
-    forEach(suggestions, suggestion => {
-      // We're not replacing any text, just adding
-      expect(getTextInRange(xmlSnippet, suggestion.textEdit?.range)).to.equal(
-        ""
-      );
-    });
-  });
-
   it("will return valid aggregation suggestions for empty tag", () => {
     const xmlSnippet = `<mvc:View xmlns:mvc="sap.ui.core.mvc">
       <⇶
     </mvc:View>`;
-    const suggestions = getSuggestions(xmlSnippet);
+    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
     expect(suggestions).to.not.be.empty;
     forEach(suggestions, suggestion => {
       // We're not replacing any text, just adding
       expect(getTextInRange(xmlSnippet, suggestion.textEdit?.range)).to.equal(
         ""
       );
-    });
-  });
-
-  it("will get completion values for UI5 experimental class", () => {
-    const xmlSnippet = `<mvc:View 
-                          xmlns:mvc="sap.ui.core.mvc" 
-                          xmlns="sap.m">
-                          <content> <ContentS⇶`;
-    const suggestions = getSuggestions(xmlSnippet);
-    const suggestionsDetails = map(suggestions, suggestion => ({
-      label: suggestion.label,
-      tagName: getTagName(suggestion.textEdit),
-      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
-    }));
-    expect(suggestionsDetails).to.deep.equalInAnyOrder([
-      {
-        label: "ContentSwitcher",
-        tagName: "unified:ContentSwitcher",
-        replacedText: "ContentS"
-      }
-    ]);
-    forEach(suggestions, suggestion => {
-      expect(suggestion.detail).to.contain("experimental");
     });
   });
 
@@ -1006,33 +518,5 @@ describe("the UI5 language assistant Code Completion Services", () => {
     const suggestion = { type: suggestionType } as UI5XMLViewCompletion;
     const lspKind = computeLSPKind(suggestion);
     expect(lspKind).to.equal(expectedKind);
-  }
-
-  function createTextDocument(
-    languageId: string,
-    content: string
-  ): TextDocument {
-    return TextDocument.create("uri", languageId, 0, content);
-  }
-
-  function getSuggestions(xmlSnippet: string): CompletionItem[] {
-    const xmlText = xmlSnippet.replace("⇶", "");
-    const offset = xmlSnippet.indexOf("⇶");
-    const doc: TextDocument = createTextDocument("xml", xmlText);
-    const pos: Position = doc.positionAt(offset);
-    const uri: TextDocumentIdentifier = { uri: "uri" };
-    const textDocPositionParams: TextDocumentPositionParams = {
-      textDocument: uri,
-      position: pos
-    };
-
-    const suggestions = getCompletionItems(
-      ui5SemanticModel,
-      textDocPositionParams,
-      doc
-    );
-    // Check that all returned suggestions will be displayed to the user
-    assertSuggestionsAreValid(suggestions, xmlSnippet);
-    return suggestions;
   }
 });
