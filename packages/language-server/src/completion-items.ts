@@ -29,7 +29,9 @@ import {
 import {
   getXMLViewCompletions,
   UI5XMLViewCompletion,
-  UI5ClassesInXMLTagNameCompletion
+  UI5ClassesInXMLTagNameCompletion,
+  isUI5NodeXMLViewCompletion,
+  isLiteralXMLViewCompletion
 } from "@ui5-language-assistant/xml-views-completion";
 import {
   ui5NodeToFQN,
@@ -69,23 +71,19 @@ function transformToLspSuggestions(
 ): CompletionItem[] {
   const lspSuggestions = map(suggestions, suggestion => {
     const lspKind = computeLSPKind(suggestion);
-    let detailText = getNodeDetail(suggestion.ui5Node);
-    if (suggestion.ui5Node.experimentalInfo?.isExperimental) {
-      detailText = `(experimental) ${detailText}`;
-    }
-    if (suggestion.ui5Node.deprecatedInfo?.isDeprecated) {
-      detailText = `(deprecated) ${detailText}`;
-    }
 
     const textEditDetails = createTextEdits(suggestion, originalPosition);
+    const documentation = isUI5NodeXMLViewCompletion(suggestion)
+      ? getNodeDocumentation(suggestion.ui5Node, model)
+      : undefined;
     const completionItem: CompletionItem = {
-      label: suggestion.ui5Node.name,
+      label: getLabel(suggestion),
       filterText: textEditDetails.filterText,
       textEdit: textEditDetails.textEdit,
       insertTextFormat: InsertTextFormat.Snippet,
       additionalTextEdits: textEditDetails.additionalTextEdits,
-      detail: detailText,
-      documentation: getNodeDocumentation(suggestion.ui5Node, model),
+      detail: getDetail(suggestion),
+      documentation: documentation,
       kind: lspKind
       // TODO tags are not supported in Theia: https://che-incubator.github.io/vscode-theia-comparator/status.html
       // tags: suggestion.ui5Node.deprecatedInfo?.isDeprecated
@@ -113,6 +111,8 @@ export function computeLSPKind(
       return CompletionItemKind.Event;
     case "UI5EnumsInXMLAttributeValue":
       return CompletionItemKind.EnumMember;
+    case "BooleanValueInXMLAttributeValueCompletion":
+      return CompletionItemKind.Constant;
     default:
       // TODO: we probably need a logging solution to highlight edge cases we
       //       do not handle...
@@ -129,7 +129,9 @@ function createTextEdits(
     start: originalPosition,
     end: originalPosition
   };
-  let newText = suggestion.ui5Node.name;
+  let newText = isLiteralXMLViewCompletion(suggestion)
+    ? suggestion.value + ""
+    : suggestion.ui5Node.name;
 
   // The filter text is used by VSCode/Theia to filter out suggestions that don't match the text the user wrote.
   // Every character being replaced by the TextEdit (until the cursor position) should exist in the filter text.
@@ -188,9 +190,9 @@ function createTextEdits(
       // the attribute value syntax exists
       /* istanbul ignore next */
       range = getXMLAttributeValueRange(suggestion.astNode) ?? range;
-      newText = `"${ui5NodeToFQN(suggestion.ui5Node)}"`;
       // Namespace in attribute value can be filtered by FQN (since the FQN is written in the attribute).
       // Attribute values should contain quotation marks.
+      newText = `"${ui5NodeToFQN(suggestion.ui5Node)}"`;
       filterText = newText;
       break;
     }
@@ -199,8 +201,18 @@ function createTextEdits(
       // the attribute value syntax exists
       /* istanbul ignore next */
       range = getXMLAttributeValueRange(suggestion.astNode) ?? range;
-      newText = `"${suggestion.ui5Node.name}"`;
       // Attribute values should contain quotation marks
+      newText = `"${newText}"`;
+      filterText = newText;
+      break;
+    }
+    case "BooleanValueInXMLAttributeValueCompletion": {
+      // The 'else' part will never happen because to get suggestions for attribute value, the "" at least must exist so
+      // the attribute value syntax exists
+      /* istanbul ignore next */
+      range = getXMLAttributeValueRange(suggestion.astNode) ?? range;
+      // Attribute values should contain quotation marks
+      newText = `"${newText}"`;
       filterText = newText;
       break;
     }
@@ -384,6 +396,27 @@ function getAddNamespaceEdit(
   // If we can't find the root element we don't add additional text edits.
   /* istanbul ignore next */
   return undefined;
+}
+
+function getLabel(suggestion: UI5XMLViewCompletion): string {
+  if (isLiteralXMLViewCompletion(suggestion)) {
+    return suggestion.name;
+  }
+  return suggestion.ui5Node.name;
+}
+
+function getDetail(suggestion: UI5XMLViewCompletion): string | undefined {
+  if (!isUI5NodeXMLViewCompletion(suggestion)) {
+    return undefined;
+  }
+  let detailText = getNodeDetail(suggestion.ui5Node);
+  if (suggestion.ui5Node.experimentalInfo?.isExperimental) {
+    detailText = `(experimental) ${detailText}`;
+  }
+  if (suggestion.ui5Node.deprecatedInfo?.isDeprecated) {
+    detailText = `(deprecated) ${detailText}`;
+  }
+  return detailText;
 }
 
 function getNodeDetail(node: BaseUI5Node): string {

@@ -508,6 +508,10 @@ describe("the UI5 language assistant Code Completion Services", () => {
     expectLspKind("UI5ClassesInXMLTagName", CompletionItemKind.Class);
     expectLspKind("UI5EventsInXMLAttributeKey", CompletionItemKind.Event);
     expectLspKind("UI5EnumsInXMLAttributeValue", CompletionItemKind.EnumMember);
+    expectLspKind(
+      "BooleanValueInXMLAttributeValueCompletion",
+      CompletionItemKind.Constant
+    );
     expectLspKind("UI5UnknownKey", CompletionItemKind.Text);
   });
 

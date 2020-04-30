@@ -11,7 +11,11 @@ import {
   UI5Prop,
   UI5SemanticModel
 } from "@ui5-language-assistant/semantic-model-types";
-import { createXMLAttribute, testSuggestionsScenario } from "../../utils";
+import {
+  createXMLAttribute,
+  testSuggestionsScenario,
+  assertUI5Completions
+} from "../../utils";
 import {
   expectSuggestions,
   expectXMLAttribute,
@@ -24,6 +28,7 @@ import {
 } from "../../../src/providers/attributeName/namespace";
 import { ui5NodeToFQN } from "@ui5-language-assistant/logic-utils";
 import { getXMLNamespaceKeyPrefix } from "../../../src/providers/utils/xml-ns-key";
+import { UI5NodeXMLViewCompletion } from "../../../api";
 
 const allExpectedNamespaces = [
   "sap.f",
@@ -146,12 +151,15 @@ const allExpectedNamespaces = [
   "sap.zen.dsh"
 ];
 
-const expectNamespaceKeysSuggestions = partial(expectSuggestions, _ => {
-  expectUI5Namespace(_.ui5Node);
-  expectXMLAttribute(_.astNode);
-  expect(_.type).to.equal("UI5NamespacesInXMLAttributeKey");
-  return ui5NodeToFQN(_.ui5Node);
-});
+const expectNamespaceKeysSuggestions = partial(
+  expectSuggestions,
+  (_: UI5NodeXMLViewCompletion) => {
+    expectUI5Namespace(_.ui5Node);
+    expectXMLAttribute(_.astNode);
+    expect(_.type).to.equal("UI5NamespacesInXMLAttributeKey");
+    return ui5NodeToFQN(_.ui5Node);
+  }
+);
 
 describe("The ui5-language-assistant xml-views-completion", () => {
   let ui5SemanticModel: UI5SemanticModel;
@@ -176,6 +184,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
             attributeName: [namespaceKeysSuggestions]
           },
           assertion: suggestions => {
+            assertUI5Completions(suggestions);
             expectNamespaceKeysSuggestions(
               suggestions,
               difference(allExpectedNamespaces, ["sap.ui.core.mvc"])
@@ -198,6 +207,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
             attributeName: [namespaceKeysSuggestions]
           },
           assertion: suggestions => {
+            assertUI5Completions(suggestions);
             expectNamespaceKeysSuggestions(
               suggestions,
               difference(allExpectedNamespaces, ["sap.m", "sap.ui.core.mvc"])
@@ -221,6 +231,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
             attributeName: [namespaceKeysSuggestions]
           },
           assertion: suggestions => {
+            assertUI5Completions(suggestions);
             expectNamespaceKeysSuggestions(suggestions, [
               "sap.m.upload",
               "sap.ui.core.util",
@@ -293,6 +304,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
             attributeName: [namespaceKeysSuggestions]
           },
           assertion: suggestions => {
+            assertUI5Completions(suggestions);
             expectNamespaceKeysSuggestions(suggestions, allExpectedNamespaces);
           }
         });

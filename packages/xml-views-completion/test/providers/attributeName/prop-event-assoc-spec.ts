@@ -8,9 +8,9 @@ import {
   generateModel,
   GEN_MODEL_TIMEOUT
 } from "@ui5-language-assistant/test-utils";
-import { UI5XMLViewCompletion } from "../../../api";
+import { UI5XMLViewCompletion, UI5NodeXMLViewCompletion } from "../../../api";
 import { propEventAssocSuggestions } from "../../../src/providers/attributeName/prop-event-assoc";
-import { testSuggestionsScenario } from "../../utils";
+import { testSuggestionsScenario, assertUI5Completions } from "../../utils";
 
 const uiCoreControlProperties = [
   "blocked",
@@ -220,7 +220,10 @@ describe("The ui5-language-assistant xml-views-completion", () => {
   });
 });
 
-const expectAttributesNames = partial(expectSuggestions, _ => _.ui5Node.name);
+const expectAttributesNames = partial(
+  expectSuggestions,
+  (_: UI5NodeXMLViewCompletion) => _.ui5Node.name
+);
 
 function expectAttributesSuggestions({
   suggestions,
@@ -231,6 +234,7 @@ function expectAttributesSuggestions({
   expectedSuggestionsNames: string[];
   expectedParentTag: string;
 }): void {
+  assertUI5Completions(suggestions);
   expectAttributesNames(suggestions, expectedSuggestionsNames);
   forEach(suggestions, _ => {
     expectXMLAttribute(_.astNode);

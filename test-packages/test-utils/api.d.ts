@@ -106,6 +106,11 @@ export function isObject(value: unknown): value is Record<string, unknown>;
 
 export function getFQN(model: UI5SemanticModel, target: unknown): string;
 
+export function expectTrue(
+  condition: boolean,
+  message: string
+): asserts condition;
+
 export function expectExists(value: unknown, message: string): asserts value;
 
 export function expectProperty<T>(
@@ -121,9 +126,9 @@ export function expectModelObjectsEqual(
   message: string
 ): void;
 
-export function expectSuggestions(
-  actualNameGetter: (suggestion: UI5XMLViewCompletion) => string,
-  suggestions: UI5XMLViewCompletion[],
+export function expectSuggestions<T extends UI5XMLViewCompletion>(
+  actualNameGetter: (suggestion: T) => string,
+  suggestions: T[],
   expected: string[]
 ): void;
 

@@ -26,6 +26,7 @@ export {
   expectXMLAttribute,
   expectSuggestions,
   expectExists,
+  expectTrue,
   expectProperty,
   expectModelObjectsEqual
 } from "./utils/expect";

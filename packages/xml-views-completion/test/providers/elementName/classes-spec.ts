@@ -13,7 +13,7 @@ import {
 } from "@ui5-language-assistant/test-utils";
 
 import { classesSuggestions } from "../../../src/providers/elementName/classes";
-import { testSuggestionsScenario } from "../../utils";
+import { testSuggestionsScenario, assertUI5Completions } from "../../utils";
 import {
   getSuperClasses,
   ui5NodeToFQN
@@ -45,6 +45,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
               assertion: suggestions => {
                 const baseControl = ui5Model.classes["sap.ui.core.Control"];
                 expect(suggestions).to.have.length.greaterThan(200);
+                assertUI5Completions(suggestions);
                 forEach(suggestions, _ => {
                   expect(_.ui5Node.kind).to.equal("UI5Class");
                   const superClasses = getSuperClasses(_.ui5Node as UI5Class);
@@ -73,6 +74,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
                 elementName: [classesSuggestions]
               },
               assertion: suggestions => {
+                assertUI5Completions(suggestions);
                 const suggestionNames = map(suggestions, _ =>
                   ui5NodeToFQN(_.ui5Node)
                 );
@@ -117,6 +119,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
                 elementName: [classesSuggestions]
               },
               assertion: suggestions => {
+                assertUI5Completions(suggestions);
                 const suggestionNames = map(suggestions, _ =>
                   ui5NodeToFQN(_.ui5Node)
                 );
@@ -158,6 +161,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
                 elementName: [classesSuggestions]
               },
               assertion: suggestions => {
+                assertUI5Completions(suggestions);
                 const suggestionNames = map(suggestions, _ =>
                   ui5NodeToFQN(_.ui5Node)
                 );
@@ -194,6 +198,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
                 elementName: [classesSuggestions]
               },
               assertion: suggestions => {
+                assertUI5Completions(suggestions);
                 const suggestionNames = map(suggestions, _ =>
                   ui5NodeToFQN(_.ui5Node)
                 );
@@ -232,6 +237,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
                 elementName: [classesSuggestions]
               },
               assertion: suggestions => {
+                assertUI5Completions(suggestions);
                 const suggestionNames = map(suggestions, _ =>
                   ui5NodeToFQN(_.ui5Node)
                 );
@@ -286,6 +292,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
                 elementName: [classesSuggestions]
               },
               assertion: suggestions => {
+                assertUI5Completions(suggestions);
                 const suggestionNames = map(suggestions, _ =>
                   ui5NodeToFQN(_.ui5Node)
                 );
@@ -326,6 +333,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
                   elementName: [classesSuggestions]
                 },
                 assertion: suggestions => {
+                  assertUI5Completions(suggestions);
                   const suggestionNames = map(suggestions, _ =>
                     ui5NodeToFQN(_.ui5Node)
                   );
@@ -365,6 +373,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
                     elementName: [classesSuggestions]
                   },
                   assertion: suggestions => {
+                    assertUI5Completions(suggestions);
                     const suggestionNames = map(suggestions, _ =>
                       ui5NodeToFQN(_.ui5Node)
                     );
@@ -407,6 +416,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           assertion: suggestions => {
             expect(ui5Model.classes).to.have.property("sap.m.ComboBoxBase");
             expect(ui5Model.classes["sap.m.ComboBoxBase"].abstract).to.be.true;
+            assertUI5Completions(suggestions);
             const suggestionNames = map(suggestions, _ =>
               ui5NodeToFQN(_.ui5Node)
             );
@@ -478,6 +488,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
             elementName: [classesSuggestions]
           },
           assertion: suggestions => {
+            assertUI5Completions(suggestions);
             const suggestionNames = map(suggestions, _ =>
               ui5NodeToFQN(_.ui5Node)
             );
@@ -649,6 +660,7 @@ function assertSuggestionProperties({
   suggestions: UI5XMLViewCompletion[];
   expectedParentTag: string;
 }): void {
+  assertUI5Completions(suggestions);
   forEach(suggestions, _ => {
     expect(_.type).to.equal(`UI5ClassesInXMLTagName`);
     expect(_.ui5Node.kind).to.equal("UI5Class");

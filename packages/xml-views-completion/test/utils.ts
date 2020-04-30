@@ -10,7 +10,17 @@ import {
 } from "@xml-tools/ast";
 import { getSuggestions, SuggestionProviders } from "@xml-tools/content-assist";
 
-import { UI5XMLViewCompletion } from "../api";
+import {
+  UI5XMLViewCompletion,
+  UI5NodeXMLViewCompletion,
+  LiteralXMLViewCompletion
+} from "../api";
+import {
+  isUI5NodeXMLViewCompletion,
+  isLiteralXMLViewCompletion
+} from "../src/api";
+import { forEach } from "lodash";
+import { expectTrue } from "@ui5-language-assistant/test-utils";
 
 export function testSuggestionsScenario(opts: {
   xmlText: string;
@@ -32,6 +42,28 @@ export function testSuggestionsScenario(opts: {
   });
 
   opts.assertion(suggestions);
+}
+
+export function assertUI5Completions(
+  suggestions: UI5XMLViewCompletion[]
+): asserts suggestions is UI5NodeXMLViewCompletion[] {
+  forEach(suggestions, _ => {
+    expectTrue(
+      isUI5NodeXMLViewCompletion(_),
+      `Suggestion of type ${_.type} is not a UI5 node view completion`
+    );
+  });
+}
+
+export function asserLiteralCompletions(
+  suggestions: UI5XMLViewCompletion[]
+): asserts suggestions is LiteralXMLViewCompletion[] {
+  forEach(suggestions, _ => {
+    expectTrue(
+      isLiteralXMLViewCompletion(_),
+      `Suggesion of type ${_.type} is not a Literal view completion`
+    );
+  });
 }
 
 export function createXMLAttribute(

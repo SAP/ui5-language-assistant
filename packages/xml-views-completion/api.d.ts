@@ -14,7 +14,8 @@ import {
   UI5Prop,
   UI5Association,
   UI5SemanticModel,
-  UI5EnumValue
+  UI5EnumValue,
+  PrimitiveType
 } from "@ui5-language-assistant/semantic-model-types/api";
 
 export function getXMLViewCompletions(
@@ -39,6 +40,10 @@ export type UI5CompletionNode =
   | UI5EnumValue;
 
 export type UI5XMLViewCompletion =
+  | UI5NodeXMLViewCompletion
+  | LiteralXMLViewCompletion;
+
+export type UI5NodeXMLViewCompletion =
   | UI5ClassesInXMLTagNameCompletion
   | UI5AggregationsInXMLTagNameCompletion
   | UI5EnumsInXMLAttributeValueCompletion
@@ -48,7 +53,7 @@ export type UI5XMLViewCompletion =
   | UI5NamespacesInXMLAttributeKeyCompletion
   | UI5NamespacesInXMLAttributeValueCompletion;
 
-export type UI5XMLViewCompletionTypeName =
+export type UI5NodeNodeXMLViewCompletionTypeName =
   | "UI5ClassesInXMLTagName"
   | "UI5AggregationsInXMLTagName"
   | "UI5EnumsInXMLAttributeValue"
@@ -57,6 +62,8 @@ export type UI5XMLViewCompletionTypeName =
   | "UI5AssociationsInXMLAttributeKey"
   | "UI5NamespacesInXMLAttributeKey"
   | "UI5NamespacesInXMLAttributeValue";
+
+export type LiteralXMLViewCompletionTypeName = "BooleanValueInXMLAttributeValueCompletion";
 
 /**
  * Note that this interface does not deal with "Editor Behavior". e.g:
@@ -72,7 +79,7 @@ export interface BaseXMLViewCompletion<
   XML extends XMLAstNode,
   UI5 extends UI5CompletionNode
 > {
-  type: UI5XMLViewCompletionTypeName;
+  type: UI5NodeNodeXMLViewCompletionTypeName;
   // The Node we want to suggest as a possible completion.
   // Note this carries all the additional semantic data (deprecated/description/...).
   ui5Node: UI5;
@@ -122,3 +129,38 @@ export interface UI5NamespacesInXMLAttributeValueCompletion
   extends BaseXMLViewCompletion<XMLAttribute, UI5Namespace> {
   type: "UI5NamespacesInXMLAttributeValue";
 }
+
+export type LiteralXMLViewCompletionBaseType = boolean | string | number;
+export interface BaseLiteralXMLViewCompletion<
+  XML extends XMLAstNode,
+  Primitive extends PrimitiveType,
+  // This type must correspond to Primitive and have a string representation
+  LiteralXMLViewCompletionBaseType
+> {
+  type: LiteralXMLViewCompletionTypeName;
+  // The name of the suggestion
+  name: string;
+  // The primitive type of the we want to suggest as a possible completion.
+  primitiveType: Primitive;
+  // The literal value that we want to suggest as a possible completion.
+  value: LiteralXMLViewCompletionBaseType;
+
+  // The specific ASTNode where the completion happened
+  // may be useful for LSP Layer to implement Editor Level Logic.
+  //   - e.g: the "additional text insertions" mentioned above.
+  astNode: XML;
+}
+
+export type LiteralXMLViewCompletion = BooleanValueInXMLAttributeValueCompletion;
+
+export interface BooleanValueInXMLAttributeValueCompletion
+  extends BaseLiteralXMLViewCompletion<XMLAttribute, PrimitiveType, boolean> {
+  type: "BooleanValueInXMLAttributeValueCompletion";
+}
+
+export function isLiteralXMLViewCompletion(
+  suggestion: UI5XMLViewCompletion
+): suggestion is LiteralXMLViewCompletion;
+export function isUI5NodeXMLViewCompletion(
+  suggestion: UI5XMLViewCompletion
+): suggestion is UI5NodeXMLViewCompletion;
