@@ -6,21 +6,29 @@ export function validateXMLView(opts: {
   xmlView: XMLDocument;
 }): UI5XMLViewIssue[];
 
-export interface UI5XMLViewIssueStructure {
+export interface BaseUI5XMLViewIssue {
   kind: string;
   message: string;
   severity: "hint" | "info" | "warn" | "error";
-  range: { start: number; end: number };
+  /*
+   * An identical issue be present at multiple locations in the same XMLView
+   */
+  offsetRanges: OffsetRange[];
+}
+
+export interface OffsetRange {
+  start: number;
+  end: number;
 }
 
 export type UI5XMLViewIssue = UnknownEnumValueIssue | UseOfDeprecatedClassIssue;
 
 // A sub-interface per issue type may seem redundant, but this allows
 // a sub-issue type to have additional properties (if needed) in the future.
-export interface UnknownEnumValueIssue extends UI5XMLViewIssueStructure {
+export interface UnknownEnumValueIssue extends BaseUI5XMLViewIssue {
   kind: "UnknownEnumValue";
 }
 
-export interface UseOfDeprecatedClassIssue extends UI5XMLViewIssueStructure {
+export interface UseOfDeprecatedClassIssue extends BaseUI5XMLViewIssue {
   kind: "UseOfDeprecatedClass";
 }

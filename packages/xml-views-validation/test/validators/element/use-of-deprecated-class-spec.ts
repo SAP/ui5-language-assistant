@@ -35,26 +35,24 @@ describe("the use of deprecated class validation", () => {
           expect(
             issues,
             "element tags names issues should be shown on both opening and closing name identifier"
-          ).to.have.lengthOf(2);
+          ).to.have.lengthOf(1);
 
           expect(issues).to.deep.include.members([
             {
               kind: "UseOfDeprecatedClass",
-              message: "Deprecated UI5 Class: sap.ui.commons.Button used.",
+              message:
+                "UI5 Class: sap.ui.commons.Button is deprecated since: 1.38.\n\treplaced by {@link sap.m.Button}.",
               severity: "warn",
-              range: {
-                start: 110,
-                end: 115
-              }
-            },
-            {
-              kind: "UseOfDeprecatedClass",
-              message: "Deprecated UI5 Class: sap.ui.commons.Button used.",
-              severity: "warn",
-              range: {
-                start: 132,
-                end: 137
-              }
+              offsetRanges: [
+                {
+                  start: 110,
+                  end: 115
+                },
+                {
+                  start: 132,
+                  end: 137
+                }
+              ]
             }
           ]);
         }
@@ -83,12 +81,53 @@ describe("the use of deprecated class validation", () => {
           expect(issues).to.deep.include.members([
             {
               kind: "UseOfDeprecatedClass",
-              message: "Deprecated UI5 Class: sap.ui.commons.Button used.",
+              message:
+                "UI5 Class: sap.ui.commons.Button is deprecated since: 1.38.\n\treplaced by {@link sap.m.Button}.",
               severity: "warn",
-              range: {
-                start: 110,
-                end: 115
-              }
+              offsetRanges: [
+                {
+                  start: 110,
+                  end: 115
+                }
+              ]
+            }
+          ]);
+        }
+      });
+    });
+
+    it("will detect usage of a deprecated class in an unclosed element to enable **early warning** to users", () => {
+      const xmlSnippet = `
+          <mvc:View
+            xmlns:mvc="sap.ui.core.mvc"
+            xmlns="sap.ui.commons">
+            <Button
+          </mvc:View>`;
+
+      testValidationsScenario({
+        model: ui5SemanticModel,
+        xmlText: xmlSnippet,
+        validators: {
+          element: [validateUseOfDeprecatedClass]
+        },
+        assertion: issues => {
+          expect(
+            issues,
+            "the element only has an OPEN tag, so only one issue would be shown"
+          ).to.have.lengthOf(1);
+
+          expect(issues).to.deep.include.members([
+            {
+              kind: "UseOfDeprecatedClass",
+              message:
+                "UI5 Class: sap.ui.commons.Button is deprecated since: 1.38.\n\treplaced by {@link sap.m.Button}.",
+              severity: "warn",
+              offsetRanges: [
+                {
+                  start: 110,
+                  end: 115
+                }
+              ]
             }
           ]);
         }

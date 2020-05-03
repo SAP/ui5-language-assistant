@@ -44,10 +44,12 @@ export function validateUnknownEnumValue(
         message: `Unknown enum value: ${
           actualAttributeValueToken.image
         }, expecting one of: [${possibleValuesWithQuotes.join(", ")}].`,
-        range: {
-          start: actualAttributeValueToken.startOffset,
-          end: actualAttributeValueToken.endOffset
-        },
+        offsetRanges: [
+          {
+            start: actualAttributeValueToken.startOffset,
+            end: actualAttributeValueToken.endOffset
+          }
+        ],
         severity: "error"
       }
     ];

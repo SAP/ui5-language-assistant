@@ -26,6 +26,7 @@
   "devDependencies": {
     "@types/klaw-sync": "6.0.0",
     "@ui5-language-assistant/semantic-model": "^1.1.0",
+    "@ui5-language-assistant/test-utils": "1.2.0",
     "@xml-tools/parser": "1.0.3",
     "klaw-sync": "6.0.0"
   },

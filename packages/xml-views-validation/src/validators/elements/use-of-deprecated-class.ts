@@ -2,6 +2,7 @@ import { XMLElement } from "@xml-tools/ast";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { xmlToFQN } from "@ui5-language-assistant/logic-utils";
 import { UseOfDeprecatedClassIssue } from "../../../api";
+import { buildDeprecatedIssueMessage } from "../../utils/deprecated-message-builder";
 
 export function validateUseOfDeprecatedClass(
   xmlElement: XMLElement,
@@ -13,14 +14,28 @@ export function validateUseOfDeprecatedClass(
     return [];
   }
 
-  if (ui5Class.deprecatedInfo !== undefined) {
+  if (
+    ui5Class.deprecatedInfo !== undefined &&
+    // An issue without a position is not a useful issue...
+    (xmlElement.syntax.openName !== undefined ||
+      xmlElement.syntax.closeName !== undefined)
+  ) {
+    const deprecatedInfo = ui5Class.deprecatedInfo;
     const issues: UseOfDeprecatedClassIssue[] = [];
-    const commonIssueFields: UseOfDeprecatedClassIssue = {
-      kind: "UseOfDeprecatedClass",
-      message: `Deprecated UI5 Class: ${elementTagFqn} used.`,
-      severity: "warn",
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      range: undefined as any
+
+    const commonIssueFields = {
+      kind: "UseOfDeprecatedClass" as "UseOfDeprecatedClass",
+      message: buildDeprecatedIssueMessage({
+        deprecatedInfo: deprecatedInfo,
+        fqn: elementTagFqn,
+        ui5Kind: "Class"
+      }),
+      severity: "warn" as "warn"
+    };
+
+    const deprecatedIssue: UseOfDeprecatedClassIssue = {
+      ...commonIssueFields,
+      offsetRanges: []
     };
 
     /* istanbul ignore else - defensive programing for (currently) none reproducible scenario */
@@ -28,25 +43,20 @@ export function validateUseOfDeprecatedClass(
     //   `xmlToFQN(xmlElement)` because if syntax.openName does not exist
     //   the xmlElement.name property would not exist either.
     if (xmlElement.syntax.openName !== undefined) {
-      issues.push({
-        ...commonIssueFields,
-        range: {
-          start: xmlElement.syntax.openName.startOffset,
-          end: xmlElement.syntax.openName.endOffset
-        }
+      deprecatedIssue.offsetRanges.push({
+        start: xmlElement.syntax.openName.startOffset,
+        end: xmlElement.syntax.openName.endOffset
       });
     }
 
     if (xmlElement.syntax.closeName !== undefined) {
-      issues.push({
-        ...commonIssueFields,
-        range: {
-          start: xmlElement.syntax.closeName.startOffset,
-          end: xmlElement.syntax.closeName.endOffset
-        }
+      deprecatedIssue.offsetRanges.push({
+        start: xmlElement.syntax.closeName.startOffset,
+        end: xmlElement.syntax.closeName.endOffset
       });
     }
 
+    issues.push(deprecatedIssue);
     return issues;
   }
 
