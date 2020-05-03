@@ -103,8 +103,11 @@ export function computeLSPKind(
   switch (suggestion.type) {
     case "UI5NamespacesInXMLAttributeKey":
     case "UI5NamespacesInXMLAttributeValue":
+      return CompletionItemKind.Module;
+    case "UI5AssociationsInXMLAttributeKey":
+      return CompletionItemKind.Reference;
     case "UI5AggregationsInXMLTagName":
-      return CompletionItemKind.Text;
+      return CompletionItemKind.Field;
     case "UI5PropsInXMLAttributeKey":
       return CompletionItemKind.Property;
     case "UI5ClassesInXMLTagName":
