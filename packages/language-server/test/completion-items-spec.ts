@@ -177,7 +177,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
       }
     ]);
 
-    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Text]);
+    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Reference]);
   });
 
   it("will get completion values for UI5 association when the cursor is in the middle of a name", () => {
@@ -201,7 +201,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
       }
     ]);
 
-    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Text]);
+    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Reference]);
   });
 
   it("will get completion values for UI5 aggregation", () => {
@@ -224,7 +224,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
       { label: "swipeContent", replacedText: "te" }
     ]);
 
-    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Text]);
+    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Field]);
   });
 
   it("will get completion values for UI5 aggregation when the cursor is in the middle of a name", () => {
@@ -248,7 +248,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
       { label: "swipeContent", replacedText: "teMenu", tagName: "swipeContent" }
     ]);
 
-    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Text]);
+    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Field]);
   });
 
   it("will get completion values for UI5 xmlns key namespace", () => {
@@ -314,7 +314,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
       }
     ]);
 
-    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Text]);
+    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Module]);
   });
 
   it("will get completion values for UI5 xmlns key namespace when the cursor is in the middle of a name", () => {
@@ -344,7 +344,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
       }
     ]);
 
-    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Text]);
+    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Module]);
   });
 
   it("will get completion values for UI5 xmlns key namespace when the cursor is in the middle of a name and there is a value", () => {
@@ -366,7 +366,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
       { label: "uxap", replacedText: "xmlns:uxa", newText: `xmlns:uxap` }
     ]);
 
-    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Text]);
+    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Module]);
   });
 
   it("will get completion values for UI5 xmlns value namespace", () => {
@@ -475,7 +475,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
     expect(suggestionKinds).to.deep.equalInAnyOrder([
       CompletionItemKind.Property,
       CompletionItemKind.Event,
-      CompletionItemKind.Text
+      CompletionItemKind.Reference
     ]);
 
     forEach(suggestions, suggestion => {
@@ -501,9 +501,16 @@ describe("the UI5 language assistant Code Completion Services", () => {
   });
 
   it("will get the lsp completion item kind according to the suggestion type", () => {
-    expectLspKind("UI5NamespacesInXMLAttributeKey", CompletionItemKind.Text);
-    expectLspKind("UI5NamespacesInXMLAttributeValue", CompletionItemKind.Text);
-    expectLspKind("UI5AggregationsInXMLTagName", CompletionItemKind.Text);
+    expectLspKind("UI5NamespacesInXMLAttributeKey", CompletionItemKind.Module);
+    expectLspKind(
+      "UI5NamespacesInXMLAttributeValue",
+      CompletionItemKind.Module
+    );
+    expectLspKind(
+      "UI5AssociationsInXMLAttributeKey",
+      CompletionItemKind.Reference
+    );
+    expectLspKind("UI5AggregationsInXMLTagName", CompletionItemKind.Field);
     expectLspKind("UI5PropsInXMLAttributeKey", CompletionItemKind.Property);
     expectLspKind("UI5ClassesInXMLTagName", CompletionItemKind.Class);
     expectLspKind("UI5EventsInXMLAttributeKey", CompletionItemKind.Event);

@@ -24,8 +24,8 @@ describe("the ui5 xml views validations API", () => {
             xmlns="sap.m"
             xmlns:commons="sap.ui.commons">
             >            
-            <!-- Inner💩 is not a valid value for 'showSeparators' enum -->
-            <List showSeparators = "Inner💩">
+            <!-- TYPO💩 is not a valid value for 'showSeparators' enum -->
+            <List showSeparators = "TYPO💩">
             </List>
             <!-- This sap.ui.commons.Button class is deprecated -->
             <commons:Button/>

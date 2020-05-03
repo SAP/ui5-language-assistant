@@ -18,6 +18,9 @@ export function validateUseOfDeprecatedClass(
     ui5Class.deprecatedInfo !== undefined &&
     // An issue without a position is not a useful issue...
     (xmlElement.syntax.openName !== undefined ||
+      /* istanbul ignore next - defensive programing for (currently) none reproducible scenario */
+      //   We can't reach this branch because if openName does not exist, the FQN would not exist either
+      //   and thus the `ui5Class.deprecatedInfo` would not be found.
       xmlElement.syntax.closeName !== undefined)
   ) {
     const deprecatedInfo = ui5Class.deprecatedInfo;

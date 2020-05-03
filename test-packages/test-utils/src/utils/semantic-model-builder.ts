@@ -193,7 +193,9 @@ export function buildUI5Aggregation(
   };
 }
 
-export function buildUI5DeprecatedInfo(opts: Partial<UI5DeprecatedInfo>) {
+export function buildUI5DeprecatedInfo(
+  opts: Partial<UI5DeprecatedInfo>
+): UI5DeprecatedInfo {
   return {
     isDeprecated: true,
     since: undefined,
