@@ -1,39 +1,28 @@
-[![npm (scoped)](https://img.shields.io/npm/v/@ui5-language-assistant/xml-views-completion.svg)](https://www.npmjs.com/package/@ui5-language-assistant/xml-views-completion)
+[![npm (scoped)](https://img.shields.io/npm/v/@ui5-language-assistant/xml-views-validation.svg)](https://www.npmjs.com/package/@ui5-language-assistant/xml-views-validation)
 
-# @ui5-language-assistant/xml-views-completion
+# @ui5-language-assistant/xml-views-validation
 
-Logic for UI5 XML views content assist implemented by combining:
-
-- [@xml-tools/content-assist](https://github.com/sap/xml-tools/tree/master/packages/content-assist) for the generic syntactic XML information.
-- [@ui5-language-assistant/semantic-model](../semantic-model) for the semantic UI5 data.
+Logic for UI5 XML views semantic validations.
 
 Supported Content Assist scenarios:
 
 ### In XML tag names:
 
-- UI5 Classes.
-  - Both under default (implicit) aggregations and explicit aggregations.
-  - UI5 Aggregations.
-    - Suggested according to the parent tag's matching UI5 class name.
+- Detect usage of deprecated UI5 classes
 
 ### In XML attribute names:
 
-- UI5 properties, events and associations.
-  - Both direct and inherited.
-
-### In XML `xmlns` attributes keys:
-
-- suggestions in the xmlns prefix part.
+- Detect invalid enum values for UI5 properties of enum type.
 
 ## Installation
 
 With npm:
 
-- `npm install @ui5-language-assistant/xml-views-completion`
+- `npm install @ui5-language-assistant/xml-views-validation`
 
 With Yarn:
 
-- `yarn add @ui5-language-assistant/xml-views-completion`
+- `yarn add @ui5-language-assistant/xml-views-validation`
 
 ## Usage
 

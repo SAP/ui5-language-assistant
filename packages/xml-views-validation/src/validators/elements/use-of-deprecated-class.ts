@@ -1,7 +1,7 @@
 import { XMLElement } from "@xml-tools/ast";
-import { UseOfDeprecatedClassIssue } from "../../../api";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { xmlToFQN } from "@ui5-language-assistant/logic-utils";
+import { UseOfDeprecatedClassIssue } from "../../../api";
 
 export function validateUseOfDeprecatedClass(
   xmlElement: XMLElement,

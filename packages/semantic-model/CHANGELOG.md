@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://github.com/sap/ui5-language-assistant/compare/@ui5-language-assistant/semantic-model@1.1.0...@ui5-language-assistant/semantic-model@1.2.0) (2020-04-23)
+
+### Features
+
+- **semantic-model:** add experimental information ([#56](https://github.com/sap/ui5-language-assistant/issues/56)) ([f55098d](https://github.com/sap/ui5-language-assistant/commit/f55098dc7fc949395efef04335667a0bc55e9d8e))
+- **semantic-model:** support special attributes - xml completion ([#55](https://github.com/sap/ui5-language-assistant/issues/55)) ([5ae0c3a](https://github.com/sap/ui5-language-assistant/commit/5ae0c3a818c6630de4503fc2551e568b6f3ce399))
+
 # [1.1.0](https://github.com/sap/ui5-language-assistant/compare/@ui5-language-assistant/semantic-model@1.0.0...@ui5-language-assistant/semantic-model@1.1.0) (2020-04-07)
 
 ### Features
