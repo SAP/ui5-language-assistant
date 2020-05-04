@@ -15,7 +15,7 @@ describe("the deprecated message builder", () => {
       deprecatedInfo
     });
     expect(actualMessage).to.eql(
-      "UI5 Class: osem.Bisli is deprecated since: version 6.6.6.\n\tuse osem.Bamba instead."
+      "UI5 Class osem.Bisli is deprecated since: version 6.6.6.\n\tuse osem.Bamba instead."
     );
   });
 
@@ -27,7 +27,7 @@ describe("the deprecated message builder", () => {
       fqn: "osem.Bisli",
       deprecatedInfo
     });
-    expect(actualMessage).to.eql("UI5 Class: osem.Bisli is deprecated.");
+    expect(actualMessage).to.eql("UI5 Class osem.Bisli is deprecated.");
   });
 
   it("can build a message with only the prefix and the `since` info", () => {
@@ -41,7 +41,7 @@ describe("the deprecated message builder", () => {
       deprecatedInfo
     });
     expect(actualMessage).to.eql(
-      "UI5 Class: osem.Bisli is deprecated since: version 6.6.6."
+      "UI5 Class osem.Bisli is deprecated since: version 6.6.6."
     );
   });
 
@@ -56,7 +56,7 @@ describe("the deprecated message builder", () => {
       deprecatedInfo
     });
     expect(actualMessage).to.eql(
-      "UI5 Class: osem.Bisli is deprecated.\n\tuse osem.Bamba instead."
+      "UI5 Class osem.Bisli is deprecated.\n\tuse osem.Bamba instead."
     );
   });
 });

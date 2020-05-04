@@ -26,18 +26,14 @@ export function validateUseOfDeprecatedClass(
     const deprecatedInfo = ui5Class.deprecatedInfo;
     const issues: UseOfDeprecatedClassIssue[] = [];
 
-    const commonIssueFields = {
+    const deprecatedIssue: UseOfDeprecatedClassIssue = {
       kind: "UseOfDeprecatedClass" as "UseOfDeprecatedClass",
       message: buildDeprecatedIssueMessage({
         deprecatedInfo: deprecatedInfo,
         fqn: elementTagFqn,
         ui5Kind: "Class"
       }),
-      severity: "warn" as "warn"
-    };
-
-    const deprecatedIssue: UseOfDeprecatedClassIssue = {
-      ...commonIssueFields,
+      severity: "warn" as "warn",
       offsetRanges: []
     };
 

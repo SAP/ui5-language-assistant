@@ -11,7 +11,7 @@ export function buildDeprecatedIssueMessage({
   fqn: string;
   deprecatedInfo: UI5DeprecatedInfo;
 }): string {
-  const msgPrefix = `UI5 ${ui5Kind}: ${fqn} is deprecated`;
+  const msgPrefix = `UI5 ${ui5Kind} ${fqn} is deprecated`;
   const sinceOptionalPart = deprecatedInfo.since
     ? ` since: ${deprecatedInfo.since}`
     : "";
