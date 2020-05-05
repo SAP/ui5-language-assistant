@@ -27,13 +27,13 @@ export function validateUseOfDeprecatedClass(
     const issues: UseOfDeprecatedClassIssue[] = [];
 
     const deprecatedIssue: UseOfDeprecatedClassIssue = {
-      kind: "UseOfDeprecatedClass" as "UseOfDeprecatedClass",
+      kind: "UseOfDeprecatedClass",
       message: buildDeprecatedIssueMessage({
         deprecatedInfo: deprecatedInfo,
         fqn: elementTagFqn,
         ui5Kind: "Class"
       }),
-      severity: "warn" as "warn",
+      severity: "warn",
       offsetRanges: []
     };
 
