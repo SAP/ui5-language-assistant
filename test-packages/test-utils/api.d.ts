@@ -13,7 +13,8 @@ import {
   UI5Method,
   UI5Constructor,
   UI5Field,
-  UI5EnumValue
+  UI5EnumValue,
+  UI5DeprecatedInfo
 } from "@ui5-language-assistant/semantic-model-types";
 import { TypeNameFix } from "@ui5-language-assistant/semantic-model";
 import { XMLAttribute, XMLElement } from "@xml-tools/ast";
@@ -64,6 +65,10 @@ export function buildUI5Association(
 export function buildUI5Aggregation(
   opts: PartialWithName<UI5Aggregation>
 ): UI5Aggregation;
+
+export function buildUI5DeprecatedInfo(
+  opts: Partial<UI5DeprecatedInfo>
+): UI5DeprecatedInfo;
 
 export function buildUI5Model(
   opts: Partial<UI5SemanticModel>

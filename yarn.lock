@@ -1270,6 +1270,13 @@
   resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.4.tgz#38fd73ddfd9b55abb1e1b2ed578cb55bd7b7d339"
   integrity sha512-8+KAKzEvSUdeo+kmqnKrqgeE+LcA0tjYWFY7RPProVYwnqDjukzO+3b6dLD56rYX5TdWejnEOLJYOIeh4CXKuA==
 
+"@types/klaw-sync@6.0.0":
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/@types/klaw-sync/-/klaw-sync-6.0.0.tgz#ff0b36601efaaa109d513c4ced109311fd06ba36"
+  integrity sha512-Ibfb2jgpjYUxnl7RSVvUzOrv/vhkTVKEfPwQf9ZlDDsSyWVDp/2JtTBxO4eRrKBYtxc3cZQabdR38i8R0o1uww==
+  dependencies:
+    "@types/node" "*"
+
 "@types/lodash@4.14.149":
   version "4.14.149"
   resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.149.tgz#1342d63d948c6062838fbf961012f74d4e638440"
@@ -1378,10 +1385,26 @@
     "@xml-tools/parser" "^1.0.3"
     lodash "4.17.15"
 
+"@xml-tools/ast@^4.0.3":
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/@xml-tools/ast/-/ast-4.0.3.tgz#2626305118eb1d5e778940b42e96f888152836e1"
+  integrity sha512-rsrrXnoBeQqAas9hUavxLYvKbc2Sq48ZPdzRr+vu3X0lI6KcGrUs8bqRTHeerX+uJxEgHrXs5+s4BfBDUQguoQ==
+  dependencies:
+    "@xml-tools/common" "^0.0.6"
+    "@xml-tools/parser" "^1.0.4"
+    lodash "4.17.15"
+
 "@xml-tools/common@^0.0.5":
   version "0.0.5"
   resolved "https://registry.yarnpkg.com/@xml-tools/common/-/common-0.0.5.tgz#b16bff77c8ee7fd8da685dcb6655b78d897996e6"
   integrity sha512-unYHdg0sEgU9rQpCBOIcMXUPvHEpSCepeHE0i9gUEm0MUTnJm7m5bsZaeIHi33I7fIJn/k9CjJ8q2wi3I2SO0g==
+  dependencies:
+    lodash "4.17.15"
+
+"@xml-tools/common@^0.0.6":
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/@xml-tools/common/-/common-0.0.6.tgz#0932d44ecb65fdfea7ac597126b60f9aa37695b0"
+  integrity sha512-d/iouioRW4RXKvzE6RqY5b8ba0RSBeQgFoUrL44MdUzR9JBpdXO3TMLwNYdEKCBJGtCpi7/LiwseBNCGTNIMcw==
   dependencies:
     lodash "4.17.15"
 
@@ -1405,6 +1428,13 @@
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/@xml-tools/parser/-/parser-1.0.3.tgz#b47f4c86935f3f8cfd107894b4ef91a2fb4e36f3"
   integrity sha512-A0nBNzGJEDu7xUw8RBoooT35r7yDzFpJ004aCAHq7Nd1sVWXdSaDyBViPTdmk6jMnXF0KeWw4nLeLnc4Bm43Yg==
+  dependencies:
+    chevrotain "6.5.0"
+
+"@xml-tools/parser@^1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@xml-tools/parser/-/parser-1.0.4.tgz#05cce7dc92950eaaa5e6e5a9f62c6d42c4eb10be"
+  integrity sha512-KQtKJf/G0KMV5dWzRZBmmS/YuXUVGqBvDkBSqsDxQUuOajqPTJ+0mwyL3KIxCK+KzPsrMWRbrUl3DgGmJ/on2Q==
   dependencies:
     chevrotain "6.5.0"
 
@@ -4634,6 +4664,13 @@ kind-of@^6.0.0, kind-of@^6.0.2:
   version "6.0.3"
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-6.0.3.tgz#07c05034a6c349fa06e24fa35aa76db4580ce4dd"
   integrity sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==
+
+klaw-sync@6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/klaw-sync/-/klaw-sync-6.0.0.tgz#1fd2cfd56ebb6250181114f0a581167099c2b28c"
+  integrity sha512-nIeuVSzdCCs6TDPTqI8w1Yre34sSq7AkZ4B3sfOBbI2CgVSB4Du4aLQijFU2+lhAFCwt9+42Hel6lQNIv6AntQ==
+  dependencies:
+    graceful-fs "^4.1.11"
 
 lerna@3.20.2:
   version "3.20.2"
