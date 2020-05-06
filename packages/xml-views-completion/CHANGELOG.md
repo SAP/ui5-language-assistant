@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.1](https://github.com/sap/ui5-language-assistant/compare/@ui5-language-assistant/xml-views-completion@1.3.0...@ui5-language-assistant/xml-views-completion@1.3.1) (2020-05-06)
+
+### Bug Fixes
+
+- use prefix when suggesting namespaces in attribute value ([#62](https://github.com/sap/ui5-language-assistant/issues/62)) ([8019b4d](https://github.com/sap/ui5-language-assistant/commit/8019b4d96401a8c476493f2db49c8a2cc596caf3))
+
+# [1.3.0](https://github.com/sap/ui5-language-assistant/compare/@ui5-language-assistant/xml-views-completion@1.2.0...@ui5-language-assistant/xml-views-completion@1.3.0) (2020-04-23)
+
+### Features
+
+- **semantic-model:** support special attributes - xml completion ([#55](https://github.com/sap/ui5-language-assistant/issues/55)) ([5ae0c3a](https://github.com/sap/ui5-language-assistant/commit/5ae0c3a818c6630de4503fc2551e568b6f3ce399))
+- **xml-views-completion:** suggest namespaces on non-class elements ([#52](https://github.com/sap/ui5-language-assistant/issues/52)) ([e651847](https://github.com/sap/ui5-language-assistant/commit/e651847587c9fb663b2c98e73179ed7e1999cf18))
+
+# [1.2.0](https://github.com/sap/ui5-language-assistant/compare/@ui5-language-assistant/xml-views-completion@1.1.0...@ui5-language-assistant/xml-views-completion@1.2.0) (2020-04-07)
+
+### Features
+
+- **xml-views-completion:** do not suggest abstract classes in XM… ([#44](https://github.com/sap/ui5-language-assistant/issues/44)) ([cd0f38f](https://github.com/sap/ui5-language-assistant/commit/cd0f38f683e56c2cd19ee9adee9f21bc22bd0a0c))
+
 # [1.1.0](https://github.com/sap/ui5-language-assistant/compare/@ui5-language-assistant/xml-views-completion@1.0.0...@ui5-language-assistant/xml-views-completion@1.1.0) (2020-04-01)
 
 ### Features

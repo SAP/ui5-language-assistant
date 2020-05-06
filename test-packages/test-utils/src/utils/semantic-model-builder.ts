@@ -13,7 +13,8 @@ import {
   UI5Method,
   UI5Constructor,
   UI5Field,
-  UI5EnumValue
+  UI5EnumValue,
+  UI5DeprecatedInfo
 } from "@ui5-language-assistant/semantic-model-types";
 
 import { PartialWithName } from "../../api";
@@ -22,6 +23,7 @@ import { Ui5Association } from "@ui5-language-assistant/semantic-model/src/api-j
 const baseUI5NodeDefaults: BaseUI5Node = {
   name: "",
   deprecatedInfo: undefined,
+  experimentalInfo: undefined,
   description: undefined,
   kind: "",
   library: "",
@@ -187,6 +189,17 @@ export function buildUI5Aggregation(
     cardinality: "0..n",
     kind: "UI5Aggregation",
     type: undefined,
+    ...opts
+  };
+}
+
+export function buildUI5DeprecatedInfo(
+  opts: Partial<UI5DeprecatedInfo>
+): UI5DeprecatedInfo {
+  return {
+    isDeprecated: true,
+    since: undefined,
+    text: undefined,
     ...opts
   };
 }

@@ -5,18 +5,24 @@ import {
   TextDocumentSyncKind,
   ProposedFeatures,
   TextDocumentPositionParams,
-  CompletionItem
+  CompletionItem,
+  InitializeParams
 } from "vscode-languageserver";
 import { TextDocument } from "vscode-languageserver-textdocument";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { getSemanticModel } from "./ui5-model";
 import { getCompletionItems } from "./completion-items";
+import { ServerInitializationOptions } from "../api";
+import { getXMLViewDiagnostics } from "./xml-view-diagnostics";
 
 const connection = createConnection(ProposedFeatures.all);
 const documents = new TextDocuments(TextDocument);
 let getSemanticModelPromise: Promise<UI5SemanticModel> | undefined = undefined;
+let initializationOptions: ServerInitializationOptions | undefined;
 
-connection.onInitialize(() => {
+connection.onInitialize((params: InitializeParams) => {
+  // These options are passed from the client extension in clientOptions.initializationOptions
+  initializationOptions = params.initializationOptions;
   return {
     capabilities: {
       textDocumentSync: TextDocumentSyncKind.Full,
@@ -31,7 +37,9 @@ connection.onInitialize(() => {
 });
 
 connection.onInitialized(async () => {
-  getSemanticModelPromise = getSemanticModel();
+  getSemanticModelPromise = getSemanticModel(
+    initializationOptions?.modelCachePath
+  );
 });
 
 connection.onCompletion(
@@ -55,6 +63,22 @@ connection.onCompletionResolve(
     return item;
   }
 );
+
+documents.onDidChangeContent(async changeEvent => {
+  if (getSemanticModelPromise === undefined) {
+    return;
+  }
+  const ui5Model = await getSemanticModelPromise;
+  // TODO: should we check we are dealing with a *.[view|fragment].xml?
+  //       The client does this, but perhaps we should be extra defensive in case of
+  //       additional clients.
+  const documentUri = changeEvent.document.uri;
+  const document = documents.get(documentUri);
+  if (document !== undefined) {
+    const diagnostics = getXMLViewDiagnostics({ document, ui5Model });
+    connection.sendDiagnostics({ uri: changeEvent.document.uri, diagnostics });
+  }
+});
 
 documents.listen(connection);
 

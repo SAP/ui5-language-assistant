@@ -7,7 +7,9 @@ import {
   expectExists,
   expectModelObjectsEqual,
   isObject,
-  getFQN
+  getFQN,
+  downloadLibraries,
+  GEN_MODEL_TIMEOUT
 } from "@ui5-language-assistant/test-utils";
 import {
   UI5SemanticModel,
@@ -59,7 +61,7 @@ context("The ui5-language-assistant semantic model package API", () => {
         `Symbol ${fqn} does not have a parent property`
       );
       const parent = symbol.parent;
-      if (fqn.indexOf(".") >= 0) {
+      if (fqn.indexOf(".") >= 0 && fqn.indexOf(".") !== fqn.length - 1) {
         expectExists(parent, `Symbol ${fqn} does not have a parent`);
         const parentFqn = getFQN(model, parent);
         expectExists(
@@ -233,41 +235,61 @@ context("The ui5-language-assistant semantic model package API", () => {
 
   function createModelConsistencyTests(version: TestModelVersion): void {
     describe(`Model generated from ${version}`, () => {
-      it(`is created successfully in strict mode`, () => {
-        const model = generateModel(version);
+      before(async function() {
+        this.timeout(GEN_MODEL_TIMEOUT);
+        await downloadLibraries(version);
+      });
+
+      it(`is created successfully in strict mode`, async () => {
+        const model = await generateModel({ version, downloadLibs: false });
         expect(model).to.exist;
       });
-      it(`has correct parent on root symbols`, () => {
-        const model = generateModel(version);
-        assertRootSymbolsParent(model);
+
+      it(`is created successfully in non-strict mode`, async () => {
+        const model = await generateModel({
+          version,
+          downloadLibs: false,
+          strict: false
+        });
+        expect(model).to.exist;
       });
-      it(`has correct parent on symbols' properties`, () => {
-        const model = generateModel(version);
-        assertSymbolPropertiesParent(model);
+
+      describe("model consistency", () => {
+        let model: UI5SemanticModel;
+        before(async () => {
+          model = await generateModel({ version, downloadLibs: false });
+        });
+
+        it(`has correct parent on root symbols`, async () => {
+          assertRootSymbolsParent(model);
+        });
+
+        it(`has correct parent on symbols' properties`, async () => {
+          assertSymbolPropertiesParent(model);
+        });
+
+        it(`has only resolved types`, async () => {
+          assertTypesAreResolved(model);
+        });
+        // TODO: assert no cyclic references in extends or implements or parent - maybe not in a test
       });
-      it(`has only resolved types`, () => {
-        const model = generateModel(version);
-        assertTypesAreResolved(model);
-      });
-      // TODO: assert no cyclic references in extends or implements or parent - maybe not in a test
     });
   }
 
-  const versions: TestModelVersion[] = ["1.60.14", "1.74.0"];
+  // TOOO add 1.75.0
+  const versions: TestModelVersion[] = ["1.60.14", "1.74.0", "1.71.14"];
   for (const version of versions) {
     createModelConsistencyTests(version);
   }
-
-  // CDN libraries (example URL):
-  // https://sapui5-sapui5.dispatcher.us1.hana.ondemand.com/test-resources/sap/m/designtime/api.json
 
   describe("returned model is frozen", () => {
     const readOnlyMessageMatcher = "read only";
     const objectNotExtensibleMatcher = "not extensible";
     const cannotDeleteMatcher = "Cannot delete";
     let model: UI5SemanticModel;
-    before(() => {
-      model = generateModel("1.74.0");
+    before(async function() {
+      this.timeout(GEN_MODEL_TIMEOUT);
+      model = await generateModel({ version: "1.74.0" });
     });
 
     it("cannot change first-level member of the model", () => {

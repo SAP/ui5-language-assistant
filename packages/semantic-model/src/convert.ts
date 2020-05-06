@@ -18,7 +18,8 @@ import {
 export function convertToSemanticModel(
   libraries: Record<string, Json>,
   jsonSymbols: Record<string, apiJson.ConcreteSymbol>,
-  strict: boolean
+  strict: boolean,
+  printValidationErrors: boolean
 ): model.UI5SemanticModel {
   const model: model.UI5SemanticModel = {
     version: "",
@@ -40,7 +41,9 @@ export function convertToSemanticModel(
   reduce(
     sortedLibs,
     (model, { libraryName, fileContent }) => {
-      if (isLibraryFile(libraryName, fileContent, strict)) {
+      if (
+        isLibraryFile(libraryName, fileContent, strict, printValidationErrors)
+      ) {
         const libSemanticModel = convertLibraryToSemanticModel(
           libraryName,
           fileContent,
@@ -97,7 +100,8 @@ function convertLibraryToSemanticModel(
     // For some reason we get a non-reachable case branch here on all cases except "typedef", although it's not correct
     // noinspection JSUnreachableSwitchBranches
     switch (symbol.kind) {
-      case "namespace": {
+      case "namespace": // Fallthrough
+      case "member": {
         model.namespaces[fqn] = convertNamespace(libName, symbol);
         break;
       }
@@ -189,7 +193,15 @@ function convertClass(
       symbol["ui5-metadata"].properties,
       partial(convertProperty, libName, clazz)
     );
+    // Add special settings (for example: "id" from ManagedObject)
+    clazz.properties = clazz.properties.concat(
+      map(
+        symbol["ui5-metadata"].specialSettings,
+        partial(convertProperty, libName, clazz)
+      )
+    );
   }
+
   // Due to unfortunate naming, if not defined in the json, symbol.constructor will be a javascript function
   clazz.ctor =
     symbol.constructor === undefined || isFunction(symbol.constructor)
@@ -294,6 +306,13 @@ function convertMeta(
           text: jsonMeta.deprecated.text
         }
       : undefined,
+    experimentalInfo: jsonMeta.experimental
+      ? {
+          isExperimental: true,
+          since: jsonMeta.experimental.since,
+          text: jsonMeta.experimental.text
+        }
+      : undefined,
     visibility: jsonMeta.visibility ?? "public"
   };
   return meta;
@@ -324,6 +343,7 @@ function convertConstructor(
     description: jsonConstructor.description,
     visibility: jsonConstructor.visibility ?? "public",
     deprecatedInfo: undefined,
+    experimentalInfo: undefined,
     since: undefined,
     name: "",
     parent: parent
@@ -371,7 +391,10 @@ function convertField(
 function convertProperty(
   libName: string,
   parent: model.BaseUI5Node,
-  jsonProperty: apiJson.ObjProperty | apiJson.Ui5Property
+  jsonProperty:
+    | apiJson.ObjProperty
+    | apiJson.Ui5Property
+    | apiJson.Ui5SpecialSetting
 ): model.UI5Prop {
   const meta = convertMeta(libName, jsonProperty);
   const defaultValue = hasProperty(jsonProperty, "defaultValue")

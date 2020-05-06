@@ -5,16 +5,21 @@ import { XMLElement } from "@xml-tools/ast";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import {
   buildUI5Aggregation,
-  generateModel
+  generateModel,
+  GEN_MODEL_TIMEOUT
 } from "@ui5-language-assistant/test-utils";
 
 import { testSuggestionsScenario } from "../../utils";
 import { aggregationSuggestions } from "../../../src/providers/elementName/aggregation";
 import { UI5XMLViewCompletion } from "../../../api";
 
-const REAL_UI5_MODEL: UI5SemanticModel = generateModel("1.74.0");
-
 describe("The ui5-language-assistant xml-views-completion", () => {
+  let REAL_UI5_MODEL: UI5SemanticModel;
+  before(async function() {
+    this.timeout(GEN_MODEL_TIMEOUT);
+    REAL_UI5_MODEL = await generateModel({ version: "1.74.0" });
+  });
+
   context("aggregations", () => {
     context("applicable scenarios", () => {
       it("will suggest direct aggregations", () => {
