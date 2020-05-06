@@ -19,6 +19,11 @@ describe("the UI5 language assistant Code Completion Services", () => {
   // Cursor position after selecting the suggestion
   const CURSOR_POSITION = "${0}";
 
+  // Pre-selected snippet text
+  function SELECTED_TEXT(text: string): string {
+    return `\${0:${text}}`;
+  }
+
   let ui5SemanticModel: UI5SemanticModel;
   before(async function() {
     this.timeout(GEN_MODEL_TIMEOUT);
@@ -49,7 +54,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
     expect(suggestionKinds).to.deep.equal([CompletionItemKind.Property]);
   });
 
-  it("will get completion values for UI5 property when the cursor is in the middle of a name", () => {
+  it("will get completion values for UI5 property with default value when the cursor is in the middle of a name", () => {
     const xmlSnippet = `<mvc:View 
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns="sap.m"> 
@@ -68,17 +73,17 @@ describe("the UI5 language assistant Code Completion Services", () => {
       {
         label: "showNoData",
         replacedText: "showSepar",
-        newText: `showNoData="${CURSOR_POSITION}"`
+        newText: `showNoData="${SELECTED_TEXT("true")}"`
       },
       {
         label: "showSeparators",
         replacedText: "showSepar",
-        newText: `showSeparators="${CURSOR_POSITION}"`
+        newText: `showSeparators="${SELECTED_TEXT("All")}"`
       },
       {
         label: "showUnread",
         replacedText: "showSepar",
-        newText: `showUnread="${CURSOR_POSITION}"`
+        newText: `showUnread="${SELECTED_TEXT("false")}"`
       }
     ]);
 
@@ -121,37 +126,55 @@ describe("the UI5 language assistant Code Completion Services", () => {
     const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
     const suggestionsDetails = map(suggestions, suggestion => ({
       label: suggestion.label,
-      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
+      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
+      newText: suggestion.textEdit?.newText
     }));
     const suggestionKinds = uniq(
       map(suggestions, suggestion => suggestion.kind)
     );
 
     expect(suggestionsDetails).to.deep.equalInAnyOrder([
-      { label: "updateFinished", replacedText: "update" },
-      { label: "updateStarted", replacedText: "update" }
+      {
+        label: "updateFinished",
+        replacedText: "update",
+        newText: `updateFinished="${CURSOR_POSITION}"`
+      },
+      {
+        label: "updateStarted",
+        replacedText: "update",
+        newText: `updateStarted="${CURSOR_POSITION}"`
+      }
     ]);
 
     expect(suggestionKinds).to.deep.equal([CompletionItemKind.Event]);
   });
 
-  it("will get completion values for UI5 event when the cursor is in the middle of a name", () => {
+  it("will get completion values for UI5 event when the cursor is in the middle of a name and there is an attribute value", () => {
     const xmlSnippet = `<mvc:View 
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns="sap.m"> 
-                          <List update⇶Start`;
+                          <List update⇶Start="onUpdateStart"`;
     const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
     const suggestionsDetails = map(suggestions, suggestion => ({
       label: suggestion.label,
-      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
+      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
+      newText: suggestion.textEdit?.newText
     }));
     const suggestionKinds = uniq(
       map(suggestions, suggestion => suggestion.kind)
     );
 
     expect(suggestionsDetails).to.deep.equalInAnyOrder([
-      { label: "updateFinished", replacedText: "updateStart" },
-      { label: "updateStarted", replacedText: "updateStart" }
+      {
+        label: "updateFinished",
+        replacedText: "updateStart",
+        newText: "updateFinished"
+      },
+      {
+        label: "updateStarted",
+        replacedText: "updateStart",
+        newText: "updateStarted"
+      }
     ]);
 
     expect(suggestionKinds).to.deep.equal([CompletionItemKind.Event]);
