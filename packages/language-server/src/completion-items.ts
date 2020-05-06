@@ -1,4 +1,4 @@
-import { map, findKey, find, forEachRight } from "lodash";
+import { map, findKey, find, forEachRight, includes } from "lodash";
 import {
   CompletionItem,
   CompletionItemKind,
@@ -157,13 +157,36 @@ function createTextEdits(
       break;
     }
     case "UI5AssociationsInXMLAttributeKey":
-    case "UI5EventsInXMLAttributeKey":
-    case "UI5PropsInXMLAttributeKey": {
+    case "UI5EventsInXMLAttributeKey": {
       range = getXMLAttributeKeyRange(suggestion.astNode) ?? range;
 
       // Auto-insert ="" for attributes
       if (suggestion.astNode.syntax.value === undefined) {
+        // The LSP tabstop ${0} puts the cursor in the marked place, between the quotes, so they can easily
+        // type the attribute value
         newText += '="${0}"';
+      }
+      break;
+    }
+    case "UI5PropsInXMLAttributeKey": {
+      range = getXMLAttributeKeyRange(suggestion.astNode) ?? range;
+
+      // Auto-insert ="<default value>" (or ="" if there is no default value) for property attributes
+      if (suggestion.astNode.syntax.value === undefined) {
+        const defaultValue = suggestion.ui5Node.default;
+        // Only simple values are added in the completion (there are default values which are objects, arrays and null)
+        if (
+          defaultValue !== undefined &&
+          includes(["number", "boolean", "string"], typeof defaultValue)
+        ) {
+          // The LSP placeholder ${0:} makes the text between : and } selected so the user can easily
+          // change it if they don't want to use the default value
+          newText += `="\${0:${defaultValue}}"`;
+        } else {
+          // The LSP tabstop ${0} puts the cursor in the marked place, between the quotes, so they can easily
+          // type the attribute value
+          newText += '="${0}"';
+        }
       }
       break;
     }
