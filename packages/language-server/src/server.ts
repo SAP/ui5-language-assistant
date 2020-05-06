@@ -65,13 +65,13 @@ connection.onCompletionResolve(
 );
 
 documents.onDidChangeContent(async changeEvent => {
-  // TODO: can we ensure the promise has always been initialized first (never be undefined)?
   if (getSemanticModelPromise === undefined) {
     return;
   }
-  // TODO: how to debounce this? should we debounce this?
   const ui5Model = await getSemanticModelPromise;
   // TODO: should we check we are dealing with a *.[view|fragment].xml?
+  //       The client does this, but perhaps we should be extra defensive in case of
+  //       additional clients.
   const documentUri = changeEvent.document.uri;
   const document = documents.get(documentUri);
   if (document !== undefined) {

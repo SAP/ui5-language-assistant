@@ -1,3 +1,4 @@
+/* istanbul ignore file - Shahar: Tests will be done in a separate PR (exploring snapshot tests) */
 import { map, drop } from "lodash";
 import { assertNever } from "assert-never";
 import {
