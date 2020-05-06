@@ -413,6 +413,24 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
     });
   });
 
+  it("will not replace the class closing tag name when the tag is closed and the opening tag doesn't have a name", () => {
+    assertClassesCompletions({
+      xmlSnippet: `<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc">
+          <customData>
+              <⇶></MenuButton1>
+          </customData>
+      </m:View>`,
+      expected: [
+        {
+          label: "CustomData",
+          tagName: "core:CustomData",
+          additionalTextEdits: [],
+          replacedText: ""
+        }
+      ]
+    });
+  });
+
   it("will replace the class closing tag name when the tag is closed and does not have a name", () => {
     assertClassesCompletions({
       xmlSnippet: `<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m" xmlns:commons="sap.ui.commons">
