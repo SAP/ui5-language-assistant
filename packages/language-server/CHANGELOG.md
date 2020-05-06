@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.0](https://github.com/sap/ui5-language-assistant/compare/@ui5-language-assistant/language-server@1.3.0...@ui5-language-assistant/language-server@1.4.0) (2020-05-06)
+
+### Bug Fixes
+
+- use prefix when suggesting namespaces in attribute value ([#62](https://github.com/sap/ui5-language-assistant/issues/62)) ([8019b4d](https://github.com/sap/ui5-language-assistant/commit/8019b4d96401a8c476493f2db49c8a2cc596caf3))
+
+### Features
+
+- improve icons for namespaces, associations and aggregations ([#68](https://github.com/sap/ui5-language-assistant/issues/68)) ([23bfbe2](https://github.com/sap/ui5-language-assistant/commit/23bfbe22345bc558ddae28ca74de6b94fcc0aaa0))
+- **language-server:** add default value for property attribute ([#70](https://github.com/sap/ui5-language-assistant/issues/70)) ([43c5c77](https://github.com/sap/ui5-language-assistant/commit/43c5c77fd69b44b728a6dfe9451cad0f186e2073))
+- **language-server:** allow to replace FQN on code assist ([#59](https://github.com/sap/ui5-language-assistant/issues/59)) ([abb21f1](https://github.com/sap/ui5-language-assistant/commit/abb21f1820d0babc6df86b01dde16eb1e956dbe9))
+- **language-server:** auto-insert namespace when selecting class ([#63](https://github.com/sap/ui5-language-assistant/issues/63)) ([20b590f](https://github.com/sap/ui5-language-assistant/commit/20b590f04036aeeb4e789a1c896f336485b3c543))
+- **language-server:** auto-replace closing tag name ([#65](https://github.com/sap/ui5-language-assistant/issues/65)) ([5db20c1](https://github.com/sap/ui5-language-assistant/commit/5db20c1fbdb2d569e1b1961ffd89f38381d1d4ef))
+
 # [1.3.0](https://github.com/sap/ui5-language-assistant/compare/@ui5-language-assistant/language-server@1.2.1...@ui5-language-assistant/language-server@1.3.0) (2020-04-23)
 
 ### Features
