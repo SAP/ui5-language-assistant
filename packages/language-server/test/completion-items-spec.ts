@@ -19,7 +19,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
   const CURSOR_POSITION = "${0}";
 
   // Pre-selected snippet text
-  function getSelectedText(text: string): string {
+  function SELECTED_TEXT(text: string): string {
     return `\${0:${text}}`;
   }
 
@@ -72,17 +72,17 @@ describe("the UI5 language assistant Code Completion Services", () => {
       {
         label: "showNoData",
         replacedText: "showSepar",
-        newText: `showNoData="${getSelectedText("true")}"`
+        newText: `showNoData="${SELECTED_TEXT("true")}"`
       },
       {
         label: "showSeparators",
         replacedText: "showSepar",
-        newText: `showSeparators="${getSelectedText("All")}"`
+        newText: `showSeparators="${SELECTED_TEXT("All")}"`
       },
       {
         label: "showUnread",
         replacedText: "showSepar",
-        newText: `showUnread="${getSelectedText("false")}"`
+        newText: `showUnread="${SELECTED_TEXT("false")}"`
       }
     ]);
 
@@ -148,7 +148,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
     expect(suggestionKinds).to.deep.equal([CompletionItemKind.Event]);
   });
 
-  it("will get completion values for UI5 event when the cursor is in the middle of a name", () => {
+  it("will get completion values for UI5 event when the cursor is in the middle of a name and there is an attribute value", () => {
     const xmlSnippet = `<mvc:View 
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns="sap.m"> 

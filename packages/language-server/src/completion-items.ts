@@ -162,6 +162,8 @@ function createTextEdits(
 
       // Auto-insert ="" for attributes
       if (suggestion.astNode.syntax.value === undefined) {
+        // The LSP tabstop ${0} puts the cursor in the marked place, between the quotes, so they can easily
+        // type the attribute value
         newText += '="${0}"';
       }
       break;
@@ -177,10 +179,12 @@ function createTextEdits(
           defaultValue !== undefined &&
           includes(["number", "boolean", "string"], typeof defaultValue)
         ) {
-          // The ${0:} makes the text between : and } selected
+          // The LSP placeholder ${0:} makes the text between : and } selected so the user can easily
+          // change it if they don't want to use the default value
           newText += `="\${0:${defaultValue}}"`;
         } else {
-          // The ${0} puts the cursor in the marked place
+          // The LSP tabstop ${0} puts the cursor in the marked place, between the quotes, so they can easily
+          // type the attribute value
           newText += '="${0}"';
         }
       }
