@@ -389,34 +389,24 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
     });
   });
 
-  it("will replace the class closing tag name when the tag is closed and has a different name from the opening tag", () => {
+  it("will not replace the class closing tag name when the tag is closed and has a different name from the opening tag", () => {
     assertClassesCompletions({
       xmlSnippet: `<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m" xmlns:commons="sap.ui.commons">
         <content>
-          <MenuButton⇶></⭲MenuButton1⭰>
+          <MenuButton⇶></MenuButton1>
         </content>
       </m:View>`,
       expected: [
         {
           label: "MenuButton",
           tagName: "m:MenuButton",
-          additionalTextEdits: [
-            {
-              rangeIndex: 0,
-              newText: `m:MenuButton`
-            }
-          ],
+          additionalTextEdits: [],
           replacedText: "MenuButton"
         },
         {
           label: "MenuButton",
           tagName: "commons:MenuButton",
-          additionalTextEdits: [
-            {
-              rangeIndex: 0,
-              newText: `commons:MenuButton`
-            }
-          ],
+          additionalTextEdits: [],
           replacedText: "MenuButton"
         }
       ]

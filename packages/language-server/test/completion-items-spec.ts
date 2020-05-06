@@ -333,15 +333,15 @@ describe("the UI5 language assistant Code Completion Services", () => {
       }
     ]);
 
-    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Text]);
+    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Field]);
   });
 
-  it("will replace the class closing tag name when the tag is closed and has a different name from the opening tag", () => {
+  it("will not replace the class closing tag name when the tag is closed and has a different name from the opening tag", () => {
     const xmlSnippet = `<mvc:View 
         xmlns:mvc="sap.ui.core.mvc"
         xmlns="sap.m">
       <List>
-        <te⇶></⭲aaa⭰>
+        <te⇶></aaa>
       </List>
     </mvc:View>`;
     const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
@@ -356,45 +356,30 @@ describe("the UI5 language assistant Code Completion Services", () => {
     );
 
     const ranges = getRanges(xmlSnippet);
-    expect(ranges, "additional text edits ranges").to.have.lengthOf(1);
+    expect(ranges, "additional text edits ranges").to.have.lengthOf(0);
 
     expect(suggestionsDetails).to.deep.equalInAnyOrder([
       {
         label: "contextMenu",
         tagName: "contextMenu",
-        additionalTextEdits: [
-          {
-            range: ranges[0],
-            newText: `contextMenu`
-          }
-        ],
+        additionalTextEdits: [],
         replacedText: "te"
       },
       {
         label: "items",
         tagName: "items",
-        additionalTextEdits: [
-          {
-            range: ranges[0],
-            newText: `items`
-          }
-        ],
+        additionalTextEdits: [],
         replacedText: "te"
       },
       {
         label: "swipeContent",
         tagName: "swipeContent",
-        additionalTextEdits: [
-          {
-            range: ranges[0],
-            newText: `swipeContent`
-          }
-        ],
+        additionalTextEdits: [],
         replacedText: "te"
       }
     ]);
 
-    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Text]);
+    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Field]);
   });
 
   it("will replace the class closing tag name when the tag is closed and does not have a name", () => {
@@ -455,7 +440,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
       }
     ]);
 
-    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Text]);
+    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Field]);
   });
 
   it("will get completion values for UI5 xmlns key namespace", () => {
