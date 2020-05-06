@@ -419,7 +419,7 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
           <customData>
               <⇶></MenuButton1>
           </customData>
-      </m:View>`,
+      </mvc:View>`,
       expected: [
         {
           label: "CustomData",
