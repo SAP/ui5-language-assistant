@@ -37,12 +37,10 @@ describe("the unknown enum value validation", () => {
               kind: "UnknownEnumValue",
               message:
                 'Unknown enum value: "TYPO💩", expecting one of: ["All", "Inner", "None"].',
-              offsetRanges: [
-                {
-                  start: 123,
-                  end: 130
-                }
-              ],
+              offsetRange: {
+                start: 123,
+                end: 130
+              },
               severity: "error"
             }
           ]);

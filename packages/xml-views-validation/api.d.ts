@@ -12,10 +12,7 @@ export interface BaseUI5XMLViewIssue {
   kind: string;
   message: string;
   severity: "hint" | "info" | "warn" | "error";
-  /*
-   * An identical issue be present at multiple locations in the same XMLView
-   */
-  offsetRanges: OffsetRange[];
+  offsetRange: OffsetRange;
 }
 
 export interface OffsetRange {
