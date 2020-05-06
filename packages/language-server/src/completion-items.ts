@@ -176,7 +176,9 @@ function createTextEdits(
       if (shouldCloseXMLElement(suggestion.astNode)) {
         newText += `>\${0}</${tagName}>`;
       } else {
-        addClosingTagTextEdit(suggestion.astNode, tagName, additionalTextEdits);
+        additionalTextEdits.push(
+          ...getClosingTagTextEdits(suggestion.astNode, tagName)
+        );
       }
       break;
     }
@@ -250,7 +252,9 @@ function createTextEditsForClassInTagName(
   if (shouldCloseXMLElement(suggestion.astNode)) {
     newText += ` \${1}>\${0}</${tagName}>`;
   } else {
-    addClosingTagTextEdit(suggestion.astNode, tagName, additionalTextEdits);
+    additionalTextEdits.push(
+      ...getClosingTagTextEdits(suggestion.astNode, tagName)
+    );
   }
   // Class name in tag can be filtered by FQN or xmlns (or none of them): all of "m:But", "But" and "sap.m.But"
   // should return "m:Button" in the tag name for sap.m.Button.
@@ -260,18 +264,25 @@ function createTextEditsForClassInTagName(
   return { range, newText, filterText };
 }
 
-function addClosingTagTextEdit(
+function getClosingTagTextEdits(
   xmlElement: XMLElement,
-  closingTagName: string,
-  additionalTextEdits: TextEdit[]
-): void {
+  closingTagName: string
+): TextEdit[] {
+  const textEdits: TextEdit[] = [];
   // Note: if we implement syncronization between the opening and closing tag in the generic XML extension
-  // and it will cover changes done by code assist suggestions this logic should be removed from this extension
-  if (xmlElement.syntax.closeName !== undefined) {
-    // Replace name in closing tag.
-    // Note: in case of invalid xml where the current tag is closed but has no closing tag,
-    // and its parent tag has a closing tag, we might change the parent closing tag name.
-    // If this case should be fixed it's preferrable to do so in the xml parser and not here.
+  // and it will cover changes done by code assist suggestions this logic should be removed from this extension.
+
+  // Check if the closing tag has a name and it's the same as the opening tag.
+  // The name check is required so that in the case of invalid xml where the current tag is closed but
+  // has no closing tag, and its parent tag has a closing tag, we don't change the parent closing tag name.
+  // For example, in this xml:
+  // <parentTag><innerTag></parentTag>
+  // The </parentTag> closing tag is considered the closing tag of <innerTag> but we don't want to change it.
+  if (
+    xmlElement.syntax.closeName !== undefined &&
+    xmlElement.syntax.closeName.image === xmlElement.syntax.openName?.image
+  ) {
+    // Replace name in closing tag
     const closingTagNameRange = positionToRange(xmlElement.syntax.closeName);
     // The 'else' here only happens if the closing tag is a dummy element (which we don't create)
     /* istanbul ignore else */
@@ -280,9 +291,12 @@ function addClosingTagTextEdit(
         newText: closingTagName,
         range: closingTagNameRange
       };
-      additionalTextEdits.push(closingTagNameTextEdit);
+      textEdits.push(closingTagNameTextEdit);
     }
-  } else if (xmlElement.syntax.closeBody !== undefined) {
+  } else if (
+    xmlElement.syntax.closeName === undefined &&
+    xmlElement.syntax.closeBody !== undefined
+  ) {
     // This is the case where there is a closing tag but it doesn't contain a name (like "</>")
     const closingTagRange = positionToRange(xmlElement.syntax.closeBody);
     // The 'else' here only happens if the closing tag is a dummy element (which we don't create)
@@ -292,9 +306,10 @@ function addClosingTagTextEdit(
         newText: `</${closingTagName}>`,
         range: closingTagRange
       };
-      additionalTextEdits.push(closingTagTextEdit);
+      textEdits.push(closingTagTextEdit);
     }
   }
+  return textEdits;
 }
 
 function shouldCloseXMLElement(xmlElement: XMLElement): boolean {
