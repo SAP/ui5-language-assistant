@@ -6,6 +6,8 @@ export function validateXMLView(opts: {
   xmlView: XMLDocument;
 }): UI5XMLViewIssue[];
 
+export type XMLViewIssueSeverity = "hint" | "info" | "warn" | "error";
+
 export interface BaseUI5XMLViewIssue {
   kind: string;
   message: string;
