@@ -354,4 +354,156 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
       expect(suggestion.detail).to.contain("experimental");
     });
   });
+
+  it("will replace the class closing tag name when the tag is closed and has the same name as the opening tag", () => {
+    assertClassesCompletions({
+      xmlSnippet: `<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m" xmlns:commons="sap.ui.commons">
+        <content>
+          <MenuButton⇶></⭲MenuButton⭰>
+        </content>
+      </m:View>`,
+      expected: [
+        {
+          label: "MenuButton",
+          tagName: "m:MenuButton",
+          additionalTextEdits: [
+            {
+              rangeIndex: 0,
+              newText: `m:MenuButton`
+            }
+          ],
+          replacedText: "MenuButton"
+        },
+        {
+          label: "MenuButton",
+          tagName: "commons:MenuButton",
+          additionalTextEdits: [
+            {
+              rangeIndex: 0,
+              newText: `commons:MenuButton`
+            }
+          ],
+          replacedText: "MenuButton"
+        }
+      ]
+    });
+  });
+
+  it("will not replace the class closing tag name when the tag is closed and has a different name from the opening tag", () => {
+    assertClassesCompletions({
+      xmlSnippet: `<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m" xmlns:commons="sap.ui.commons">
+        <content>
+          <MenuButton⇶></MenuButton1>
+        </content>
+      </m:View>`,
+      expected: [
+        {
+          label: "MenuButton",
+          tagName: "m:MenuButton",
+          additionalTextEdits: [],
+          replacedText: "MenuButton"
+        },
+        {
+          label: "MenuButton",
+          tagName: "commons:MenuButton",
+          additionalTextEdits: [],
+          replacedText: "MenuButton"
+        }
+      ]
+    });
+  });
+
+  it("will not replace the class closing tag name when the tag is closed and the opening tag doesn't have a name", () => {
+    assertClassesCompletions({
+      xmlSnippet: `<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc">
+          <customData>
+              <⇶></MenuButton1>
+          </customData>
+      </mvc:View>`,
+      expected: [
+        {
+          label: "CustomData",
+          tagName: "core:CustomData",
+          additionalTextEdits: [],
+          replacedText: ""
+        }
+      ]
+    });
+  });
+
+  it("will replace the class closing tag name when the tag is closed and does not have a name", () => {
+    assertClassesCompletions({
+      xmlSnippet: `<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m" xmlns:commons="sap.ui.commons">
+          <content>
+            <MenuButton⇶>⭲</>⭰
+          </content>
+        </m:View>`,
+      expected: [
+        {
+          label: "MenuButton",
+          tagName: "m:MenuButton",
+          additionalTextEdits: [
+            {
+              rangeIndex: 0,
+              newText: `</m:MenuButton>`
+            }
+          ],
+          replacedText: "MenuButton"
+        },
+        {
+          label: "MenuButton",
+          tagName: "commons:MenuButton",
+          additionalTextEdits: [
+            {
+              rangeIndex: 0,
+              newText: `</commons:MenuButton>`
+            }
+          ],
+          replacedText: "MenuButton"
+        }
+      ]
+    });
+  });
+
+  it("will replace the class closing tag name when also inserting the namespace", () => {
+    assertClassesCompletions({
+      xmlSnippet: `<mvc:View⭲⭰ xmlns:mvc="sap.ui.core.mvc">
+          <content>
+            <MenuButton⇶></⭲MenuButton⭰>
+          </content>
+        </m:View>`,
+      expected: [
+        {
+          label: "MenuButton",
+          tagName: "m:MenuButton",
+          additionalTextEdits: [
+            {
+              rangeIndex: 0,
+              newText: ` xmlns:m="sap.m"`
+            },
+            {
+              rangeIndex: 1,
+              newText: `m:MenuButton`
+            }
+          ],
+          replacedText: "MenuButton"
+        },
+        {
+          label: "MenuButton",
+          tagName: "commons:MenuButton",
+          additionalTextEdits: [
+            {
+              rangeIndex: 0,
+              newText: ` xmlns:commons="sap.ui.commons"`
+            },
+            {
+              rangeIndex: 1,
+              newText: `commons:MenuButton`
+            }
+          ],
+          replacedText: "MenuButton"
+        }
+      ]
+    });
+  });
 });

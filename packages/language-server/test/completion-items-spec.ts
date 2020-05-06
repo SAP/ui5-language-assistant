@@ -11,7 +11,8 @@ import { computeLSPKind } from "../src/completion-items";
 import {
   getSuggestions,
   getTextInRange,
-  getTagName
+  getTagName,
+  getRanges
 } from "./completion-items-utils";
 
 describe("the UI5 language assistant Code Completion Services", () => {
@@ -269,6 +270,174 @@ describe("the UI5 language assistant Code Completion Services", () => {
       { label: "contextMenu", replacedText: "teMenu", tagName: "contextMenu" },
       { label: "items", replacedText: "teMenu", tagName: "items" },
       { label: "swipeContent", replacedText: "teMenu", tagName: "swipeContent" }
+    ]);
+
+    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Field]);
+  });
+
+  it("will replace the aggregation closing tag name when the tag is closed and has the same name as the opening tag", () => {
+    const xmlSnippet = `<mvc:View 
+        xmlns:mvc="sap.ui.core.mvc"
+        xmlns="sap.m">
+      <List>
+        <te⇶></⭲te⭰>
+      </List>
+    </mvc:View>`;
+    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
+    const suggestionsDetails = map(suggestions, suggestion => ({
+      label: suggestion.label,
+      tagName: getTagName(suggestion.textEdit),
+      additionalTextEdits: suggestion.additionalTextEdits,
+      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
+    }));
+    const suggestionKinds = uniq(
+      map(suggestions, suggestion => suggestion.kind)
+    );
+
+    const ranges = getRanges(xmlSnippet);
+    expect(ranges, "additional text edits ranges").to.have.lengthOf(1);
+
+    expect(suggestionsDetails).to.deep.equalInAnyOrder([
+      {
+        label: "contextMenu",
+        tagName: "contextMenu",
+        additionalTextEdits: [
+          {
+            range: ranges[0],
+            newText: `contextMenu`
+          }
+        ],
+        replacedText: "te"
+      },
+      {
+        label: "items",
+        tagName: "items",
+        additionalTextEdits: [
+          {
+            range: ranges[0],
+            newText: `items`
+          }
+        ],
+        replacedText: "te"
+      },
+      {
+        label: "swipeContent",
+        tagName: "swipeContent",
+        additionalTextEdits: [
+          {
+            range: ranges[0],
+            newText: `swipeContent`
+          }
+        ],
+        replacedText: "te"
+      }
+    ]);
+
+    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Field]);
+  });
+
+  it("will not replace the class closing tag name when the tag is closed and has a different name from the opening tag", () => {
+    const xmlSnippet = `<mvc:View 
+        xmlns:mvc="sap.ui.core.mvc"
+        xmlns="sap.m">
+      <List>
+        <te⇶></aaa>
+      </List>
+    </mvc:View>`;
+    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
+    const suggestionsDetails = map(suggestions, suggestion => ({
+      label: suggestion.label,
+      tagName: getTagName(suggestion.textEdit),
+      additionalTextEdits: suggestion.additionalTextEdits,
+      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
+    }));
+    const suggestionKinds = uniq(
+      map(suggestions, suggestion => suggestion.kind)
+    );
+
+    const ranges = getRanges(xmlSnippet);
+    expect(ranges, "additional text edits ranges").to.have.lengthOf(0);
+
+    expect(suggestionsDetails).to.deep.equalInAnyOrder([
+      {
+        label: "contextMenu",
+        tagName: "contextMenu",
+        additionalTextEdits: [],
+        replacedText: "te"
+      },
+      {
+        label: "items",
+        tagName: "items",
+        additionalTextEdits: [],
+        replacedText: "te"
+      },
+      {
+        label: "swipeContent",
+        tagName: "swipeContent",
+        additionalTextEdits: [],
+        replacedText: "te"
+      }
+    ]);
+
+    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Field]);
+  });
+
+  it("will replace the class closing tag name when the tag is closed and does not have a name", () => {
+    const xmlSnippet = `<mvc:View 
+        xmlns:mvc="sap.ui.core.mvc"
+        xmlns="sap.m">
+      <List>
+        <te⇶>⭲</>⭰
+      </List>
+    </mvc:View>`;
+    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
+    const suggestionsDetails = map(suggestions, suggestion => ({
+      label: suggestion.label,
+      tagName: getTagName(suggestion.textEdit),
+      additionalTextEdits: suggestion.additionalTextEdits,
+      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
+    }));
+    const suggestionKinds = uniq(
+      map(suggestions, suggestion => suggestion.kind)
+    );
+
+    const ranges = getRanges(xmlSnippet);
+    expect(ranges, "additional text edits ranges").to.have.lengthOf(1);
+
+    expect(suggestionsDetails).to.deep.equalInAnyOrder([
+      {
+        label: "contextMenu",
+        tagName: "contextMenu",
+        additionalTextEdits: [
+          {
+            range: ranges[0],
+            newText: `</contextMenu>`
+          }
+        ],
+        replacedText: "te"
+      },
+      {
+        label: "items",
+        tagName: "items",
+        additionalTextEdits: [
+          {
+            range: ranges[0],
+            newText: `</items>`
+          }
+        ],
+        replacedText: "te"
+      },
+      {
+        label: "swipeContent",
+        tagName: "swipeContent",
+        additionalTextEdits: [
+          {
+            range: ranges[0],
+            newText: `</swipeContent>`
+          }
+        ],
+        replacedText: "te"
+      }
     ]);
 
     expect(suggestionKinds).to.deep.equal([CompletionItemKind.Field]);
