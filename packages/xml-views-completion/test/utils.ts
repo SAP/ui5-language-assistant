@@ -6,7 +6,7 @@ import {
   Uri,
   XMLAttribute,
   XMLDocument,
-  XMLElement
+  XMLElement,
 } from "@xml-tools/ast";
 import { getSuggestions, SuggestionProviders } from "@xml-tools/content-assist";
 
@@ -28,7 +28,7 @@ export function testSuggestionsScenario(opts: {
     ast: ast,
     tokenVector: tokenVector,
     context: opts.model,
-    providers: opts.providers
+    providers: opts.providers,
   });
 
   opts.assertion(suggestions);
@@ -46,12 +46,12 @@ export function createXMLAttribute(
     endColumn: 1,
     endLine: 1,
     endOffset: 1,
-    startColumn: 1
+    startColumn: 1,
   };
   const xmlDocument: XMLDocument = {
     position: position,
     rootElement: null,
-    type: "XMLDocument"
+    type: "XMLDocument",
   };
   const xmlElement: XMLElement = {
     attributes: [],
@@ -62,7 +62,7 @@ export function createXMLAttribute(
     subElements: [],
     syntax: {},
     textContents: [],
-    type: "XMLElement"
+    type: "XMLElement",
   };
   const xmlAttribute: XMLAttribute = {
     parent: xmlElement,
@@ -70,7 +70,7 @@ export function createXMLAttribute(
     position: position,
     value: xmlAttributeValue,
     type: "XMLAttribute",
-    key: xmlAttributeKey
+    key: xmlAttributeKey,
   };
   return xmlAttribute;
 }

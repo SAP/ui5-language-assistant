@@ -1,6 +1,6 @@
 import {
   BaseUI5Node,
-  UI5SemanticModel
+  UI5SemanticModel,
 } from "@ui5-language-assistant/semantic-model-types";
 
 export type TypeNameFix = Parameters<typeof generate>[0]["typeNameFix"];

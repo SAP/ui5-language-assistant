@@ -1,4 +1,4 @@
 module.exports = {
   require: ["source-map-support/register"],
-  spec: "./lib/test/**/*spec.js"
+  spec: "./lib/test/**/*spec.js",
 };

@@ -3,7 +3,7 @@ import { forEach, map } from "lodash";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import {
   generateModel,
-  GEN_MODEL_TIMEOUT
+  GEN_MODEL_TIMEOUT,
 } from "@ui5-language-assistant/test-utils";
 import { testSuggestionsScenario } from "../../utils";
 import { enumSuggestions } from "../../../src/providers/attributeValue/enum";
@@ -12,7 +12,7 @@ import { XMLAttribute, XMLElement } from "@xml-tools/ast";
 
 describe("The ui5-language-assistant xml-views-completion", () => {
   let ui5SemanticModel: UI5SemanticModel;
-  before(async function() {
+  before(async function () {
     this.timeout(GEN_MODEL_TIMEOUT);
     ui5SemanticModel = await generateModel({ version: "1.74.0" });
   });
@@ -32,17 +32,17 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           model: ui5SemanticModel,
           xmlText: xmlSnippet,
           providers: {
-            attributeValue: [enumSuggestions]
+            attributeValue: [enumSuggestions],
           },
-          assertion: suggestions => {
-            const suggestedValues = map(suggestions, _ => _.ui5Node.name);
+          assertion: (suggestions) => {
+            const suggestedValues = map(suggestions, (_) => _.ui5Node.name);
             expect(suggestedValues).to.deep.equalInAnyOrder([
               "All",
               "Inner",
-              "None"
+              "None",
             ]);
             expectEnumValuesSuggestions(suggestions, "List");
-          }
+          },
         });
       });
 
@@ -59,13 +59,13 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           model: ui5SemanticModel,
           xmlText: xmlSnippet,
           providers: {
-            attributeValue: [enumSuggestions]
+            attributeValue: [enumSuggestions],
           },
-          assertion: suggestions => {
-            const suggestedValues = map(suggestions, _ => _.ui5Node.name);
+          assertion: (suggestions) => {
+            const suggestedValues = map(suggestions, (_) => _.ui5Node.name);
             expect(suggestedValues).to.deep.equalInAnyOrder(["Inner", "None"]);
             expectEnumValuesSuggestions(suggestions, "List");
-          }
+          },
         });
       });
 
@@ -82,11 +82,11 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           model: ui5SemanticModel,
           xmlText: xmlSnippet,
           providers: {
-            attributeValue: [enumSuggestions]
+            attributeValue: [enumSuggestions],
           },
-          assertion: suggestions => {
+          assertion: (suggestions) => {
             expect(suggestions).to.be.empty;
-          }
+          },
         });
       });
     });
@@ -105,11 +105,11 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           model: ui5SemanticModel,
           xmlText: xmlSnippet,
           providers: {
-            attributeValue: [enumSuggestions]
+            attributeValue: [enumSuggestions],
           },
-          assertion: suggestions => {
+          assertion: (suggestions) => {
             expect(suggestions).to.be.empty;
-          }
+          },
         });
       });
 
@@ -126,11 +126,11 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           model: ui5SemanticModel,
           xmlText: xmlSnippet,
           providers: {
-            attributeValue: [enumSuggestions]
+            attributeValue: [enumSuggestions],
           },
-          assertion: suggestions => {
+          assertion: (suggestions) => {
             expect(suggestions).to.be.empty;
-          }
+          },
         });
       });
 
@@ -147,11 +147,11 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           model: ui5SemanticModel,
           xmlText: xmlSnippet,
           providers: {
-            attributeValue: [enumSuggestions]
+            attributeValue: [enumSuggestions],
           },
-          assertion: suggestions => {
+          assertion: (suggestions) => {
             expect(suggestions).to.be.empty;
-          }
+          },
         });
       });
 
@@ -168,13 +168,13 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           model: ui5SemanticModel,
           xmlText: xmlSnippet,
           providers: {
-            attributeValue: [enumSuggestions]
+            attributeValue: [enumSuggestions],
           },
-          assertion: suggestions => {
+          assertion: (suggestions) => {
             expect(ui5SemanticModel.classes["sap.ui.core.mvc.Bamba"]).to.be
               .undefined;
             expect(suggestions).to.be.empty;
-          }
+          },
         });
       });
 
@@ -191,11 +191,11 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           model: ui5SemanticModel,
           xmlText: xmlSnippet,
           providers: {
-            attributeValue: [enumSuggestions]
+            attributeValue: [enumSuggestions],
           },
-          assertion: suggestions => {
+          assertion: (suggestions) => {
             expect(suggestions).to.be.empty;
-          }
+          },
         });
       });
     });
@@ -206,7 +206,7 @@ function expectEnumValuesSuggestions(
   suggestions: UI5XMLViewCompletion[],
   expectedParentTag: string
 ): void {
-  forEach(suggestions, _ => {
+  forEach(suggestions, (_) => {
     expect(_.type).to.equal(`UI5EnumsInXMLAttributeValue`);
     expect((_.astNode as XMLAttribute).key).to.equal("showSeparators");
     expect((_.astNode.parent as XMLElement).name).to.equal(expectedParentTag);

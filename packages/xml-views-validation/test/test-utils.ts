@@ -4,7 +4,7 @@ import { buildAst } from "@xml-tools/ast";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import {
   UI5Validators,
-  validateXMLView as validateXMLViewImpl
+  validateXMLView as validateXMLViewImpl,
 } from "../src/validate-xml-views";
 import { UI5XMLViewIssue } from "../api";
 
@@ -26,7 +26,7 @@ export function testValidationsScenario(opts: {
   const issues = validateXMLViewImpl({
     validators: { element: [], attribute: [], ...opts.validators },
     xmlView: ast,
-    model: opts.model
+    model: opts.model,
   });
   opts.assertion(issues);
 }

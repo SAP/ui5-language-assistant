@@ -2,7 +2,7 @@ import { XMLAttribute } from "@xml-tools/ast";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import {
   flattenProperties,
-  xmlToFQN
+  xmlToFQN,
 } from "@ui5-language-assistant/logic-utils";
 import { find, map } from "lodash";
 import { UnknownEnumValueIssue } from "../../../api";
@@ -35,9 +35,11 @@ export function validateUnknownEnumValue(
     return [];
   }
 
-  const possibleEnumValues = map(propType.fields, _ => _.name);
-  if (find(possibleEnumValues, _ => _ === actualAttributeValue) === undefined) {
-    const possibleValuesWithQuotes = map(possibleEnumValues, _ => `"${_}"`);
+  const possibleEnumValues = map(propType.fields, (_) => _.name);
+  if (
+    find(possibleEnumValues, (_) => _ === actualAttributeValue) === undefined
+  ) {
+    const possibleValuesWithQuotes = map(possibleEnumValues, (_) => `"${_}"`);
     return [
       {
         kind: "UnknownEnumValue",
@@ -46,10 +48,10 @@ export function validateUnknownEnumValue(
         }, expecting one of: [${possibleValuesWithQuotes.join(", ")}].`,
         offsetRange: {
           start: actualAttributeValueToken.startOffset,
-          end: actualAttributeValueToken.endOffset
+          end: actualAttributeValueToken.endOffset,
         },
-        severity: "error"
-      }
+        severity: "error",
+      },
     ];
   }
 

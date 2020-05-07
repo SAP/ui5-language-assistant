@@ -7,7 +7,7 @@ import "source-map-support/register";
 export function run(): Promise<void> {
   const mocha = new Mocha({
     ui: "bdd",
-    timeout: 20000
+    timeout: 20000,
   });
   mocha.useColors(true);
 
@@ -19,10 +19,10 @@ export function run(): Promise<void> {
         return rejectPromise(err);
       }
 
-      files.forEach(f => mocha.addFile(resolve(testsRoot, f)));
+      files.forEach((f) => mocha.addFile(resolve(testsRoot, f)));
 
       try {
-        mocha.run(failures => {
+        mocha.run((failures) => {
           if (failures > 0) {
             rejectPromise(new Error(`${failures} tests failed.`));
           } else {

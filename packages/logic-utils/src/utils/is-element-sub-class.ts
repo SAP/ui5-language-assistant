@@ -15,7 +15,7 @@ function isSubClass(
   const superClasses = getSuperClasses(clazz);
 
   return (
-    find(superClasses, _ => ui5NodeToFQN(_) === superClassFqn) !== undefined
+    find(superClasses, (_) => ui5NodeToFQN(_) === superClassFqn) !== undefined
   );
 }
 

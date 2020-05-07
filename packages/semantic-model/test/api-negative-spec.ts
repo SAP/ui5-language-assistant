@@ -3,7 +3,7 @@ import { keys } from "lodash";
 import { expectExists } from "@ui5-language-assistant/test-utils";
 import {
   UI5SemanticModel,
-  UnresolvedType
+  UnresolvedType,
 } from "@ui5-language-assistant/semantic-model-types";
 import { forEachSymbol } from "../src/utils";
 import { generate } from "../src/api";
@@ -36,15 +36,15 @@ context(
                     module: "resource",
                     static: true,
                     visibility: "public",
-                    description: "Test Namespace"
-                  }
-                ]
+                    description: "Test Namespace",
+                  },
+                ],
               },
-              invalidLib: fileContent
+              invalidLib: fileContent,
             },
             strict: strict,
             typeNameFix: {},
-            printValidationErrors: false
+            printValidationErrors: false,
           });
         };
         return generateCall;
@@ -58,7 +58,7 @@ context(
         module: "resource",
         static: true,
         visibility: "public",
-        description: "Test Namespace from invalidLib"
+        description: "Test Namespace from invalidLib",
       };
 
       function assertGenerateThrowsInStrictMode(
@@ -120,7 +120,7 @@ context(
           "$schema-ref": 123,
           version: "1.74.0",
           library: "invalidLib",
-          symbols: [validSymbolFromInvalidLib]
+          symbols: [validSymbolFromInvalidLib],
         };
 
         it("fails in strict mode", () => {
@@ -139,7 +139,7 @@ context(
             "http://schemas.sap.com/sapui5/designtime/api.json/1.0",
           version: 123,
           library: "invalidLib",
-          symbols: [validSymbolFromInvalidLib]
+          symbols: [validSymbolFromInvalidLib],
         };
 
         it("fails in strict mode", () => {
@@ -158,7 +158,7 @@ context(
             "http://schemas.sap.com/sapui5/designtime/api.json/1.0",
           version: "1.74.0",
           library: 123,
-          symbols: [validSymbolFromInvalidLib]
+          symbols: [validSymbolFromInvalidLib],
         };
 
         it("fails in strict mode", () => {
@@ -177,7 +177,7 @@ context(
             "http://schemas.sap.com/sapui5/designtime/api.json/1.0",
           version: "1.74.0",
           library: "invalidLib",
-          symbols: 123
+          symbols: 123,
         };
 
         it("fails in strict mode", () => {
@@ -206,9 +206,9 @@ context(
               module: "resource",
               static: true,
               visibility: "public",
-              description: "Test bad symbol from invalidLib"
-            }
-          ]
+              description: "Test bad symbol from invalidLib",
+            },
+          ],
         };
 
         it("fails in strict mode", () => {
@@ -242,9 +242,9 @@ context(
                   module: "resource",
                   visibility: "public",
                   description: "Test bad class from invalidLib",
-                  extends: 123
-                }
-              ]
+                  extends: 123,
+                },
+              ],
             };
 
             it("fails in strict mode", () => {
@@ -278,10 +278,10 @@ context(
                   visibility: "public",
                   description: "Test bad class from invalidLib",
                   deprecated: {
-                    since: []
-                  }
-                }
-              ]
+                    since: [],
+                  },
+                },
+              ],
             };
 
             it("fails in strict mode", () => {
@@ -314,9 +314,9 @@ context(
                   module: "resource",
                   visibility: "public",
                   description: "Test bad class from invalidLib",
-                  implements: [true]
-                }
-              ]
+                  implements: [true],
+                },
+              ],
             };
 
             it("fails in strict mode", () => {
@@ -351,9 +351,9 @@ context(
                   module: "resource",
                   visibility: "public",
                   description: "Test bad class from invalidLib",
-                  implements: "abc"
-                }
-              ]
+                  implements: "abc",
+                },
+              ],
             };
 
             it("fails in strict mode", () => {
@@ -387,10 +387,10 @@ context(
                   visibility: "public",
                   description: "Test bad class from invalidLib",
                   "ui5-metadata": {
-                    events: 123
-                  }
-                }
-              ]
+                    events: 123,
+                  },
+                },
+              ],
             };
 
             it("fails in strict mode", () => {
@@ -425,11 +425,11 @@ context(
                   description: "Test bad class from invalidLib",
                   events: [
                     {
-                      parameters: "abc"
-                    }
-                  ]
-                }
-              ]
+                      parameters: "abc",
+                    },
+                  ],
+                },
+              ],
             };
 
             it("fails in strict mode", () => {
@@ -464,9 +464,9 @@ context(
                   module: "resource",
                   visibility: "public",
                   description: "Test bad class from invalidLib",
-                  deprecated: true
-                }
-              ]
+                  deprecated: true,
+                },
+              ],
             };
 
             it("fails in strict mode", () => {
@@ -500,10 +500,10 @@ context(
                   visibility: "public",
                   description: "Test bad class from invalidLib",
                   "ui5-metadata": {
-                    dnd: "abc"
-                  }
-                }
-              ]
+                    dnd: "abc",
+                  },
+                },
+              ],
             };
 
             it("fails in strict mode", () => {
@@ -536,9 +536,9 @@ context(
                   module: "resource",
                   visibility: "public",
                   description: "Test bad class from invalidLib",
-                  events: [123]
-                }
-              ]
+                  events: [123],
+                },
+              ],
             };
 
             it("fails in strict mode", () => {
@@ -575,9 +575,9 @@ context(
                 module: "resource",
                 visibility: "public",
                 description: "Test bad class from invalidLib",
-                "my-property": "my-value"
-              }
-            ]
+                "my-property": "my-value",
+              },
+            ],
           };
 
           it("fails in strict mode", () => {
@@ -609,10 +609,10 @@ context(
                 visibility: "public",
                 description: "Test bad class from invalidLib",
                 "ui5-metadata": {
-                  "my-property": "my-value"
-                }
-              }
-            ]
+                  "my-property": "my-value",
+                },
+              },
+            ],
           };
 
           it("fails in strict mode", () => {
@@ -645,11 +645,11 @@ context(
                 description: "Test bad class from invalidLib",
                 events: [
                   {
-                    "my-property": "my-value"
-                  }
-                ]
-              }
-            ]
+                    "my-property": "my-value",
+                  },
+                ],
+              },
+            ],
           };
 
           it("fails in strict mode", () => {
@@ -683,7 +683,7 @@ context(
                 module: "resource",
                 visibility: "public",
                 description:
-                  "Test duplicate symbol from invalidLib (first symbol)"
+                  "Test duplicate symbol from invalidLib (first symbol)",
               },
               {
                 kind: "class",
@@ -693,9 +693,9 @@ context(
                 module: "resource",
                 visibility: "public",
                 description:
-                  "Test duplicate symbol from invalidLib (second symbol)"
-              }
-            ]
+                  "Test duplicate symbol from invalidLib (second symbol)",
+              },
+            ],
           };
 
           it("fails in strict mode", () => {
@@ -730,7 +730,7 @@ context(
                 module: "resource",
                 visibility: "public",
                 description:
-                  "Test duplicate symbol from invalidLib (first symbol)"
+                  "Test duplicate symbol from invalidLib (first symbol)",
               },
               {
                 kind: "namespace",
@@ -740,9 +740,9 @@ context(
                 module: "resource",
                 visibility: "public",
                 description:
-                  "Test duplicate symbol from invalidLib (second symbol)"
-              }
-            ]
+                  "Test duplicate symbol from invalidLib (second symbol)",
+              },
+            ],
           };
 
           it("fails in strict mode", () => {
@@ -781,7 +781,7 @@ context(
               resource: "resource.js",
               module: "resource",
               visibility: "public",
-              description: "Test interface symbol from invalidLib"
+              description: "Test interface symbol from invalidLib",
             },
             {
               kind: "class",
@@ -791,9 +791,9 @@ context(
               module: "resource",
               visibility: "public",
               description: "Test class with interface extends from invalidLib",
-              extends: "sap.validNS.MyInterface"
-            }
-          ]
+              extends: "sap.validNS.MyInterface",
+            },
+          ],
         };
 
         it("fails in strict mode", () => {
@@ -832,7 +832,7 @@ context(
               module: "resource",
               visibility: "public",
               description: "Test class with class implements from invalidLib",
-              implements: ["sap.validNS.MyOtherClass"]
+              implements: ["sap.validNS.MyOtherClass"],
             },
             {
               kind: "class",
@@ -841,9 +841,9 @@ context(
               resource: "resource.js",
               module: "resource",
               visibility: "public",
-              description: "Test class symbol from invalidLib"
-            }
-          ]
+              description: "Test class symbol from invalidLib",
+            },
+          ],
         };
 
         it("fails in strict mode", () => {
@@ -885,10 +885,10 @@ context(
                 "Test class with bad defaultAggregation from invalidLib",
               "ui5-metadata": {
                 aggregations: [],
-                defaultAggregation: "nonExistingAggregation"
-              }
-            }
-          ]
+                defaultAggregation: "nonExistingAggregation",
+              },
+            },
+          ],
         };
 
         it("fails in strict mode", () => {
@@ -933,12 +933,12 @@ context(
                   {
                     name: "myProperty",
                     type: "non.existing.type",
-                    visibility: "public"
-                  }
-                ]
-              }
-            }
-          ]
+                    visibility: "public",
+                  },
+                ],
+              },
+            },
+          ],
         };
 
         it("fails in strict mode", () => {

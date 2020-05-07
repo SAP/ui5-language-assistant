@@ -4,7 +4,7 @@ import { flattenProperties } from "@ui5-language-assistant/logic-utils";
 import { UI5EnumsInXMLAttributeValueCompletion } from "../../../api";
 import {
   getClassByElement,
-  filterMembersForSuggestion
+  filterMembersForSuggestion,
 } from "../utils/filter-members";
 import { UI5AttributeValueCompletionOptions } from "./index";
 import { UI5EnumValue } from "@ui5-language-assistant/semantic-model-types";
@@ -38,9 +38,9 @@ export function enumSuggestions(
     []
   );
 
-  return map(prefixMatchingEnumValues, _ => ({
+  return map(prefixMatchingEnumValues, (_) => ({
     type: "UI5EnumsInXMLAttributeValue",
     ui5Node: _,
-    astNode: opts.attribute as XMLAttribute
+    astNode: opts.attribute as XMLAttribute,
   }));
 }

@@ -2,13 +2,13 @@ import { map, find, filter, values } from "lodash";
 import { XMLAttribute } from "@xml-tools/ast";
 import {
   isElementSubClass,
-  ui5NodeToFQN
+  ui5NodeToFQN,
 } from "@ui5-language-assistant/logic-utils";
 import { UI5AttributeValueCompletionOptions } from "./index";
 import { UI5NamespacesInXMLAttributeValueCompletion } from "../../../api";
 import {
   getXMLNamespaceKeyPrefix,
-  isXMLNamespaceKey
+  isXMLNamespaceKey,
 } from "../utils/xml-ns-key";
 
 /**
@@ -34,7 +34,7 @@ export function namespaceValueSuggestions(
   let applicableNamespaces = values(ui5Model.namespaces);
 
   if (attributeValue !== "") {
-    applicableNamespaces = filter(applicableNamespaces, _ =>
+    applicableNamespaces = filter(applicableNamespaces, (_) =>
       ui5NodeToFQN(_).includes(attributeValue)
     );
   }
@@ -42,8 +42,9 @@ export function namespaceValueSuggestions(
   const xmlnsPrefix = getXMLNamespaceKeyPrefix(xmlAttributeName);
 
   if (attributeValue.endsWith(".")) {
-    const applicableNamespacesForExploration = filter(applicableNamespaces, _ =>
-      ui5NodeToFQN(_).startsWith(attributeValue)
+    const applicableNamespacesForExploration = filter(
+      applicableNamespaces,
+      (_) => ui5NodeToFQN(_).startsWith(attributeValue)
     );
     if (applicableNamespacesForExploration.length > 0) {
       applicableNamespaces = applicableNamespacesForExploration;
@@ -53,7 +54,7 @@ export function namespaceValueSuggestions(
   if (xmlnsPrefix !== "") {
     const applicableNamespacesWithPrefix = filter(
       applicableNamespaces,
-      _ => _.name === xmlnsPrefix
+      (_) => _.name === xmlnsPrefix
     );
     if (applicableNamespacesWithPrefix.length > 0) {
       applicableNamespaces = applicableNamespacesWithPrefix;
@@ -62,12 +63,12 @@ export function namespaceValueSuggestions(
 
   applicableNamespaces = filter(
     applicableNamespaces,
-    _ => find(_.classes, isElementSubClass) !== undefined
+    (_) => find(_.classes, isElementSubClass) !== undefined
   );
 
-  return map(applicableNamespaces, _ => ({
+  return map(applicableNamespaces, (_) => ({
     type: "UI5NamespacesInXMLAttributeValue",
     ui5Node: _,
-    astNode: opts.attribute as XMLAttribute
+    astNode: opts.attribute as XMLAttribute,
   }));
 }

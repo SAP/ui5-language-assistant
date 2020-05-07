@@ -6,7 +6,7 @@ import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import {
   buildUI5Aggregation,
   generateModel,
-  GEN_MODEL_TIMEOUT
+  GEN_MODEL_TIMEOUT,
 } from "@ui5-language-assistant/test-utils";
 
 import { testSuggestionsScenario } from "../../utils";
@@ -15,7 +15,7 @@ import { UI5XMLViewCompletion } from "../../../api";
 
 describe("The ui5-language-assistant xml-views-completion", () => {
   let REAL_UI5_MODEL: UI5SemanticModel;
-  before(async function() {
+  before(async function () {
     this.timeout(GEN_MODEL_TIMEOUT);
     REAL_UI5_MODEL = await generateModel({ version: "1.74.0" });
   });
@@ -36,20 +36,20 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           model: REAL_UI5_MODEL,
           xmlText: xmlSnippet,
           providers: {
-            elementName: [aggregationSuggestions]
+            elementName: [aggregationSuggestions],
           },
-          assertion: suggestions => {
-            const suggestedNames = map(suggestions, _ => _.ui5Node.name);
+          assertion: (suggestions) => {
+            const suggestedNames = map(suggestions, (_) => _.ui5Node.name);
             expect(suggestedNames).to.include.members([
               "content",
               "customHeader",
               "footer",
               "headerContent",
               "landmarkInfo",
-              "subHeader"
+              "subHeader",
             ]);
             expectAggregationsSuggestions(suggestions, "Page");
-          }
+          },
         });
       });
 
@@ -67,19 +67,19 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           model: REAL_UI5_MODEL,
           xmlText: xmlSnippet,
           providers: {
-            elementName: [aggregationSuggestions]
+            elementName: [aggregationSuggestions],
           },
-          assertion: suggestions => {
-            const suggestedNames = map(suggestions, _ => _.ui5Node.name);
+          assertion: (suggestions) => {
+            const suggestedNames = map(suggestions, (_) => _.ui5Node.name);
             expect(suggestedNames).to.include.members([
               "customData",
               "dependents",
               "dragDropConfig",
               "layoutData",
-              "tooltip"
+              "tooltip",
             ]);
             expectAggregationsSuggestions(suggestions, "Page");
-          }
+          },
         });
       });
 
@@ -100,17 +100,17 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           model: REAL_UI5_MODEL,
           xmlText: xmlSnippet,
           providers: {
-            elementName: [aggregationSuggestions]
+            elementName: [aggregationSuggestions],
           },
-          assertion: suggestions => {
-            const suggestedNames = map(suggestions, _ => _.ui5Node.name);
+          assertion: (suggestions) => {
+            const suggestedNames = map(suggestions, (_) => _.ui5Node.name);
             expect(suggestedNames).to.not.include.members([
               "content",
               "customHeader",
-              "footer"
+              "footer",
             ]);
             expectAggregationsSuggestions(suggestions, "Page");
-          }
+          },
         });
       });
 
@@ -128,13 +128,13 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           model: REAL_UI5_MODEL,
           xmlText: xmlSnippet,
           providers: {
-            elementName: [aggregationSuggestions]
+            elementName: [aggregationSuggestions],
           },
-          assertion: suggestions => {
-            const suggestedNames = map(suggestions, _ => _.ui5Node.name);
+          assertion: (suggestions) => {
+            const suggestedNames = map(suggestions, (_) => _.ui5Node.name);
             expect(suggestedNames).to.include.members([
               "customData",
-              "customHeader"
+              "customHeader",
             ]);
             expect(suggestedNames).to.not.include.members([
               "content",
@@ -145,10 +145,10 @@ describe("The ui5-language-assistant xml-views-completion", () => {
               "landmarkInfo",
               "layoutData",
               "subHeader",
-              "tooltip"
+              "tooltip",
             ]);
             expectAggregationsSuggestions(suggestions, "Page");
-          }
+          },
         });
       });
 
@@ -166,13 +166,13 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           model: REAL_UI5_MODEL,
           xmlText: xmlSnippet,
           providers: {
-            elementName: [aggregationSuggestions]
+            elementName: [aggregationSuggestions],
           },
-          assertion: suggestions => {
-            const suggestedNames = map(suggestions, _ => _.ui5Node.name);
+          assertion: (suggestions) => {
+            const suggestedNames = map(suggestions, (_) => _.ui5Node.name);
             expect(suggestedNames).to.include.members([
               "customData",
-              "layoutData"
+              "layoutData",
             ]);
 
             expect(suggestedNames).to.not.include.members([
@@ -184,10 +184,10 @@ describe("The ui5-language-assistant xml-views-completion", () => {
               "headerContent",
               "landmarkInfo",
               "subHeader",
-              "tooltip"
+              "tooltip",
             ]);
             expectAggregationsSuggestions(suggestions, "Page");
-          }
+          },
         });
       });
     });
@@ -196,7 +196,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
       it("will not suggest on tag with xmlns prefix", () => {
         const clonedModel = cloneDeep(REAL_UI5_MODEL);
         const aggregationWithPrefix = buildUI5Aggregation({
-          name: "mvc:bamba"
+          name: "mvc:bamba",
         });
         clonedModel.classes["sap.m.Page"].aggregations.push(
           aggregationWithPrefix
@@ -215,11 +215,11 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           model: clonedModel,
           xmlText: xmlSnippet,
           providers: {
-            elementName: [aggregationSuggestions]
+            elementName: [aggregationSuggestions],
           },
-          assertion: suggestions => {
+          assertion: (suggestions) => {
             expect(suggestions).to.be.empty;
-          }
+          },
         });
       });
 
@@ -230,18 +230,18 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           model: REAL_UI5_MODEL,
           xmlText: xmlSnippet,
           providers: {
-            elementName: [aggregationSuggestions]
+            elementName: [aggregationSuggestions],
           },
-          assertion: suggestions => {
+          assertion: (suggestions) => {
             expect(suggestions).to.be.empty;
-          }
+          },
         });
       });
 
       it("will not suggest when the parent tag is a class which does not extend sap.ui.core.Element", () => {
         const clonedModel = cloneDeep(REAL_UI5_MODEL);
         const dummyAggregation = buildUI5Aggregation({
-          name: "dummy"
+          name: "dummy",
         });
         clonedModel.classes["sap.ui.core.Component"].aggregations.push(
           dummyAggregation
@@ -258,11 +258,11 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           model: clonedModel,
           xmlText: xmlSnippet,
           providers: {
-            elementName: [aggregationSuggestions]
+            elementName: [aggregationSuggestions],
           },
-          assertion: suggestions => {
+          assertion: (suggestions) => {
             expect(suggestions).to.be.empty;
-          }
+          },
         });
       });
     });
@@ -273,7 +273,7 @@ function expectAggregationsSuggestions(
   suggestions: UI5XMLViewCompletion[],
   expectedParentTag: string
 ): void {
-  forEach(suggestions, _ => {
+  forEach(suggestions, (_) => {
     expect(_.type).to.equal(`UI5AggregationsInXMLTagName`);
     expect(_.astNode.type).to.equal("XMLElement");
     expect((_.astNode.parent as XMLElement).name).to.equal(expectedParentTag);

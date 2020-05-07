@@ -35,7 +35,7 @@ export async function addUi5Resources(
   const libs = await getLibs(version);
   const nameToFile = zipObject(
     libs,
-    map(libs, _ => `${baseUrl}${_.replace(/\./g, "/")}/designtime/api.json`)
+    map(libs, (_) => `${baseUrl}${_.replace(/\./g, "/")}/designtime/api.json`)
   );
 
   await mkdirs(folder);

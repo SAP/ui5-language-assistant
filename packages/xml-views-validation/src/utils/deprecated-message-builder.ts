@@ -4,7 +4,7 @@ import { UI5DeprecatedInfo } from "@ui5-language-assistant/semantic-model-types"
 export function buildDeprecatedIssueMessage({
   ui5Kind,
   fqn,
-  deprecatedInfo
+  deprecatedInfo,
 }: {
   // TODO: add more kinds here as needed (e.g property/aggregation/...)
   ui5Kind: "Class";

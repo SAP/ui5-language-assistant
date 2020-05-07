@@ -3,30 +3,30 @@ import { flattenAggregations } from "../../src/api";
 import {
   buildUI5Aggregation,
   buildUI5Class,
-  expectUnsortedEquality
+  expectUnsortedEquality,
 } from "@ui5-language-assistant/test-utils";
 
 describe("The @ui5-language-assistant/logic-utils <flattenAggregations> function", () => {
   const aggregationA1 = buildUI5Aggregation({
     name: "aggregationA1",
-    cardinality: "0..1"
+    cardinality: "0..1",
   });
   const aggregationA2 = buildUI5Aggregation({ name: "aggregationA2" });
   const clazzA = buildUI5Class({
     name: "A",
     library: "sap.ui.core",
-    aggregations: [aggregationA1, aggregationA2]
+    aggregations: [aggregationA1, aggregationA2],
   });
 
   const aggregationB1 = buildUI5Aggregation({
     name: "aggregationB1",
-    cardinality: "0..1"
+    cardinality: "0..1",
   });
   const aggregationB2 = buildUI5Aggregation({ name: "aggregationB2" });
   const clazzB = buildUI5Class({
     name: "B",
     extends: clazzA,
-    aggregations: [aggregationB1, aggregationB2]
+    aggregations: [aggregationB1, aggregationB2],
   });
 
   const clazzC = buildUI5Class({ name: "C", extends: clazzA });
@@ -47,7 +47,7 @@ describe("The @ui5-language-assistant/logic-utils <flattenAggregations> function
       "aggregationA1",
       "aggregationA2",
       "aggregationB1",
-      "aggregationB2"
+      "aggregationB2",
     ]);
   });
 });

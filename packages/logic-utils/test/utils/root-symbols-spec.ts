@@ -13,7 +13,7 @@ import {
   buildUI5Method,
   buildUI5Constructor,
   buildUI5Field,
-  buildUI5EnumValue
+  buildUI5EnumValue,
 } from "@ui5-language-assistant/test-utils";
 import { isRootSymbol, getRootSymbolParent } from "../../src/api";
 import { BaseUI5Node } from "@ui5-language-assistant/semantic-model-types";
@@ -39,7 +39,7 @@ describe("The @ui5-language-assistant/logic-utils <isRootSymbol> and <getRootSym
 
   const testInnerNS = buildUI5Namespace({
     name: "inner",
-    parent: testNS
+    parent: testNS,
   });
 
   describe("root symbols", () => {
@@ -55,7 +55,7 @@ describe("The @ui5-language-assistant/logic-utils <isRootSymbol> and <getRootSym
       const testClass = buildUI5Class({
         name: "TestClass",
         parent: testNS,
-        library: "test"
+        library: "test",
       });
       createIts(testClass, true, testClass);
     });
@@ -63,7 +63,7 @@ describe("The @ui5-language-assistant/logic-utils <isRootSymbol> and <getRootSym
     describe("interface", () => {
       const testInterface = buildUI5Interface({
         name: "TestInterface",
-        parent: testInnerNS
+        parent: testInnerNS,
       });
       createIts(testInterface, true, testInterface);
     });
@@ -71,7 +71,7 @@ describe("The @ui5-language-assistant/logic-utils <isRootSymbol> and <getRootSym
     describe("enum", () => {
       const testEnum = buildUI5Enum({
         name: "TestEnum",
-        parent: testInnerNS
+        parent: testInnerNS,
       });
       createIts(testEnum, true, testEnum);
     });
@@ -79,7 +79,7 @@ describe("The @ui5-language-assistant/logic-utils <isRootSymbol> and <getRootSym
     describe("typedef", () => {
       const testTypedef = buildUI5Typedef({
         name: "TestTypedef",
-        parent: testInnerNS
+        parent: testInnerNS,
       });
       createIts(testTypedef, true, testTypedef);
     });
@@ -87,7 +87,7 @@ describe("The @ui5-language-assistant/logic-utils <isRootSymbol> and <getRootSym
     describe("function", () => {
       const testFunction = buildUI5Function({
         name: "TestFunction",
-        parent: testInnerNS
+        parent: testInnerNS,
       });
       createIts(testFunction, true, testFunction);
     });
@@ -98,13 +98,13 @@ describe("The @ui5-language-assistant/logic-utils <isRootSymbol> and <getRootSym
       const testClass = buildUI5Class({
         name: "TestClass",
         parent: testNS,
-        library: "test"
+        library: "test",
       });
 
       describe("property", () => {
         const testProp = buildUI5Property({
           parent: testClass,
-          name: "testProp"
+          name: "testProp",
         });
         createIts(testProp, false, testClass);
       });
@@ -112,7 +112,7 @@ describe("The @ui5-language-assistant/logic-utils <isRootSymbol> and <getRootSym
       describe("field", () => {
         const testField = buildUI5Property({
           parent: testClass,
-          name: "testField"
+          name: "testField",
         });
         createIts(testField, false, testClass);
       });
@@ -120,7 +120,7 @@ describe("The @ui5-language-assistant/logic-utils <isRootSymbol> and <getRootSym
       describe("aggregation", () => {
         const testAggregation = buildUI5Aggregation({
           parent: testClass,
-          name: "testAggregation"
+          name: "testAggregation",
         });
         createIts(testAggregation, false, testClass);
       });
@@ -128,7 +128,7 @@ describe("The @ui5-language-assistant/logic-utils <isRootSymbol> and <getRootSym
       describe("association", () => {
         const testAssociation = buildUI5Association({
           parent: testClass,
-          name: "testAssociation"
+          name: "testAssociation",
         });
         createIts(testAssociation, false, testClass);
       });
@@ -136,7 +136,7 @@ describe("The @ui5-language-assistant/logic-utils <isRootSymbol> and <getRootSym
       describe("event", () => {
         const testEvent = buildUI5Event({
           parent: testClass,
-          name: "testEvent"
+          name: "testEvent",
         });
         createIts(testEvent, false, testClass);
       });
@@ -144,14 +144,14 @@ describe("The @ui5-language-assistant/logic-utils <isRootSymbol> and <getRootSym
       describe("method", () => {
         const testMethod = buildUI5Method({
           parent: testClass,
-          name: "testAggregation"
+          name: "testAggregation",
         });
         createIts(testMethod, false, testClass);
       });
 
       describe("constructor", () => {
         const testCtor = buildUI5Constructor({
-          parent: testClass
+          parent: testClass,
         });
         createIts(testCtor, false, testClass);
       });
@@ -163,7 +163,7 @@ describe("The @ui5-language-assistant/logic-utils <isRootSymbol> and <getRootSym
       describe("field", () => {
         const testField = buildUI5Field({
           parent: testNS,
-          name: "testField"
+          name: "testField",
         });
         createIts(testField, false, testNS);
       });
@@ -171,7 +171,7 @@ describe("The @ui5-language-assistant/logic-utils <isRootSymbol> and <getRootSym
       describe("event", () => {
         const testEvent = buildUI5Event({
           parent: testNS,
-          name: "testEvent"
+          name: "testEvent",
         });
         createIts(testEvent, false, testNS);
       });
@@ -179,7 +179,7 @@ describe("The @ui5-language-assistant/logic-utils <isRootSymbol> and <getRootSym
       describe("method", () => {
         const testMethod = buildUI5Method({
           parent: testNS,
-          name: "testAggregation"
+          name: "testAggregation",
         });
         createIts(testMethod, false, testNS);
       });
@@ -188,13 +188,13 @@ describe("The @ui5-language-assistant/logic-utils <isRootSymbol> and <getRootSym
     describe("symbols on enums", () => {
       const testEnum = buildUI5Enum({
         name: "TestEnum",
-        parent: testInnerNS
+        parent: testInnerNS,
       });
 
       describe("enum value", () => {
         const testValue = buildUI5EnumValue({
           parent: testEnum,
-          name: "testValue"
+          name: "testValue",
         });
         createIts(testValue, false, testEnum);
       });

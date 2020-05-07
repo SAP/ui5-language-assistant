@@ -25,13 +25,13 @@ export function validateUseOfDeprecatedClass(
       message: buildDeprecatedIssueMessage({
         deprecatedInfo: deprecatedInfo,
         fqn: elementTagFqn,
-        ui5Kind: "Class"
+        ui5Kind: "Class",
       }),
       severity: "warn",
       offsetRange: {
         start: xmlElement.syntax.openName.startOffset,
-        end: xmlElement.syntax.openName.endOffset
-      }
+        end: xmlElement.syntax.openName.endOffset,
+      },
     };
     return [deprecatedIssue];
   }

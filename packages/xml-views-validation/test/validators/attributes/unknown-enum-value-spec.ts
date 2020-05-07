@@ -2,7 +2,7 @@ import { expect } from "chai";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import {
   GEN_MODEL_TIMEOUT,
-  generateModel
+  generateModel,
 } from "@ui5-language-assistant/test-utils";
 import { testValidationsScenario } from "../../test-utils";
 import { validateUnknownEnumValue } from "../../../src/validators/attributes/unknown-enum-value";
@@ -10,7 +10,7 @@ import { validateUnknownEnumValue } from "../../../src/validators/attributes/unk
 describe("the unknown enum value validation", () => {
   let ui5SemanticModel: UI5SemanticModel;
 
-  before(async function() {
+  before(async function () {
     this.timeout(GEN_MODEL_TIMEOUT);
     ui5SemanticModel = await generateModel({ version: "1.74.0" });
   });
@@ -29,9 +29,9 @@ describe("the unknown enum value validation", () => {
         model: ui5SemanticModel,
         xmlText: xmlSnippet,
         validators: {
-          attribute: [validateUnknownEnumValue]
+          attribute: [validateUnknownEnumValue],
         },
-        assertion: issues => {
+        assertion: (issues) => {
           expect(issues).to.deep.equal([
             {
               kind: "UnknownEnumValue",
@@ -39,12 +39,12 @@ describe("the unknown enum value validation", () => {
                 'Unknown enum value: "TYPO💩", expecting one of: ["All", "Inner", "None"].',
               offsetRange: {
                 start: 123,
-                end: 130
+                end: 130,
               },
-              severity: "error"
-            }
+              severity: "error",
+            },
           ]);
-        }
+        },
       });
     });
   });
@@ -63,11 +63,11 @@ describe("the unknown enum value validation", () => {
         model: ui5SemanticModel,
         xmlText: xmlSnippet,
         validators: {
-          attribute: [validateUnknownEnumValue]
+          attribute: [validateUnknownEnumValue],
         },
-        assertion: issues => {
+        assertion: (issues) => {
           expect(issues).to.be.empty;
-        }
+        },
       });
     });
 
@@ -84,11 +84,11 @@ describe("the unknown enum value validation", () => {
         model: ui5SemanticModel,
         xmlText: xmlSnippet,
         validators: {
-          attribute: [validateUnknownEnumValue]
+          attribute: [validateUnknownEnumValue],
         },
-        assertion: issues => {
+        assertion: (issues) => {
           expect(issues).to.be.empty;
-        }
+        },
       });
     });
 
@@ -105,11 +105,11 @@ describe("the unknown enum value validation", () => {
         model: ui5SemanticModel,
         xmlText: xmlSnippet,
         validators: {
-          attribute: [validateUnknownEnumValue]
+          attribute: [validateUnknownEnumValue],
         },
-        assertion: issues => {
+        assertion: (issues) => {
           expect(issues).to.be.empty;
-        }
+        },
       });
     });
 
@@ -126,11 +126,11 @@ describe("the unknown enum value validation", () => {
         model: ui5SemanticModel,
         xmlText: xmlSnippet,
         validators: {
-          attribute: [validateUnknownEnumValue]
+          attribute: [validateUnknownEnumValue],
         },
-        assertion: issues => {
+        assertion: (issues) => {
           expect(issues).to.be.empty;
-        }
+        },
       });
     });
 
@@ -147,11 +147,11 @@ describe("the unknown enum value validation", () => {
         model: ui5SemanticModel,
         xmlText: xmlSnippet,
         validators: {
-          attribute: [validateUnknownEnumValue]
+          attribute: [validateUnknownEnumValue],
         },
-        assertion: issues => {
+        assertion: (issues) => {
           expect(issues).to.be.empty;
-        }
+        },
       });
     });
   });
