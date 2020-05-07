@@ -4,25 +4,21 @@ import {
   expectSuggestions,
   expectXMLAttribute,
   generateModel,
-  GEN_MODEL_TIMEOUT,
-  expectTrue
+  GEN_MODEL_TIMEOUT
 } from "@ui5-language-assistant/test-utils";
 import { namespaceValueSuggestions } from "../../../src/providers/attributeValue/namespace";
 import { expectUI5Namespace } from "../attributeName/namespace-spec";
 import { expect } from "chai";
 import { partial } from "lodash";
 import { ui5NodeToFQN } from "@ui5-language-assistant/logic-utils";
-import { isUI5NodeXMLViewCompletion } from "@ui5-language-assistant/xml-views-completion";
+import { UI5NamespacesInXMLAttributeValueCompletion } from "@ui5-language-assistant/xml-views-completion";
 
 const expectNamespaceValuesSuggestions = partial(expectSuggestions, _ => {
-  expectTrue(
-    isUI5NodeXMLViewCompletion(_),
-    "Suggestion should be UI5 node view completion"
-  );
-  expectUI5Namespace(_.ui5Node);
-  expectXMLAttribute(_.astNode);
   expect(_.type).to.equal("UI5NamespacesInXMLAttributeValue");
-  return ui5NodeToFQN(_.ui5Node);
+  const namespaceSuggestion = _ as UI5NamespacesInXMLAttributeValueCompletion;
+  expectUI5Namespace(namespaceSuggestion.ui5Node);
+  expectXMLAttribute(namespaceSuggestion.astNode);
+  return ui5NodeToFQN(namespaceSuggestion.ui5Node);
 });
 
 describe("The ui5-editor-tools xml-views-completion", () => {

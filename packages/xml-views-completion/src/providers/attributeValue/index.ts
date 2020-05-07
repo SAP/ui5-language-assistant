@@ -6,7 +6,7 @@ import {
 import { UI5XMLViewCompletion } from "../../../api";
 import { enumSuggestions } from "./enum";
 import { namespaceValueSuggestions } from "./namespace";
-import { booleanSuggestions } from "./literal";
+import { booleanSuggestions } from "./boolean-literal";
 
 export const attributeValueProviders: AttributeValueCompletion<
   UI5XMLViewCompletion,

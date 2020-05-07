@@ -1,11 +1,11 @@
 import { filter, includes } from "lodash";
+import { assertNever } from "assert-never";
 import { getSuggestions } from "@xml-tools/content-assist";
 import { UI5Visibility } from "@ui5-language-assistant/semantic-model-types";
 import {
   GetXMLViewCompletionsOpts,
   UI5XMLViewCompletion,
-  UI5NodeXMLViewCompletion,
-  LiteralXMLViewCompletion
+  UI5NodeXMLViewCompletion
 } from "../api";
 import { elementNameProviders } from "./providers/elementName";
 import { attributeNameProviders } from "./providers/attributeName";
@@ -32,37 +32,35 @@ export function getXMLViewCompletions(
   const publicAndProtectedSuggestions = filter(
     suggestions,
     _ =>
-      isLiteralXMLViewCompletion(_) ||
+      !isUI5NodeXMLViewCompletion(_) ||
       includes(allowedVisibility, _.ui5Node.visibility)
   );
 
   return publicAndProtectedSuggestions;
 }
 
-export function isLiteralXMLViewCompletion(
-  suggestion: UI5XMLViewCompletion
-): suggestion is LiteralXMLViewCompletion {
-  switch (suggestion.type) {
-    case "BooleanValueInXMLAttributeValueCompletion": {
-      // This is here so we'll get compilation errors if the type changes
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const _: LiteralXMLViewCompletion = suggestion;
-      return true;
-    }
-    default: {
-      return false;
-    }
-  }
-}
 export function isUI5NodeXMLViewCompletion(
   suggestion: UI5XMLViewCompletion
 ): suggestion is UI5NodeXMLViewCompletion {
-  // Suggestions are either literals or UI5 nodes
-  if (isLiteralXMLViewCompletion(suggestion)) {
-    return false;
+  const type = suggestion.type;
+  switch (type) {
+    case "UI5AggregationsInXMLTagName":
+    case "UI5AssociationsInXMLAttributeKey":
+    case "UI5ClassesInXMLTagName":
+    case "UI5EnumsInXMLAttributeValue":
+    case "UI5EventsInXMLAttributeKey":
+    case "UI5NamespacesInXMLAttributeKey":
+    case "UI5NamespacesInXMLAttributeValue":
+    case "UI5PropsInXMLAttributeKey": {
+      return true;
+    }
+    case "BooleanValueInXMLAttributeValue": {
+      return false;
+    }
+    /* istanbul ignore next - defensive programming */
+    default: {
+      assertNever(type, true);
+      return false;
+    }
   }
-  // This is here so we'll get compilation errors if the type changes
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const _: UI5NodeXMLViewCompletion = suggestion;
-  return true;
 }

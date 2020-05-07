@@ -14,7 +14,6 @@ import {
 
 import { getXMLViewCompletions } from "../src/api";
 import { UI5XMLViewCompletion } from "../api";
-import { assertUI5Completions } from "./utils";
 
 describe("The `getXMLViewCompletions()` api", () => {
   let REAL_UI5_MODEL: UI5SemanticModel;
@@ -46,7 +45,6 @@ describe("The `getXMLViewCompletions()` api", () => {
       model: REAL_UI5_MODEL,
       xmlText: xmlSnippet,
       assertion: suggestions => {
-        assertUI5Completions(suggestions);
         const suggestedNames = map(suggestions, _ => _.ui5Node.name);
         expect(suggestedNames).to.not.be.empty;
         expect(suggestedNames).to.not.include.members(["_content"]);
@@ -68,7 +66,6 @@ describe("The `getXMLViewCompletions()` api", () => {
       model: REAL_UI5_MODEL,
       xmlText: xmlSnippet,
       assertion: suggestions => {
-        assertUI5Completions(suggestions);
         const suggestedNames = map(suggestions, _ => _.ui5Node.name);
         expect(suggestedNames).to.include.members([
           "content",

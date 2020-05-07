@@ -1,7 +1,10 @@
 import { map, find } from "lodash";
 import { XMLAttribute } from "@xml-tools/ast";
 import { flattenProperties } from "@ui5-language-assistant/logic-utils";
-import { BooleanValueInXMLAttributeValueCompletion } from "../../../api";
+import {
+  BooleanValueInXMLAttributeValueCompletion,
+  BooleanValue
+} from "../../../api";
 import {
   getClassByElement,
   filterMembersForSuggestion
@@ -28,12 +31,14 @@ export function booleanSuggestions(
     return [];
   }
 
-  const values = [
+  const values: BooleanValue[] = [
     {
+      kind: "BooleanValue",
       name: "true",
       value: true
     },
     {
+      kind: "BooleanValue",
       name: "false",
       value: false
     }
@@ -42,10 +47,8 @@ export function booleanSuggestions(
   const prefixMatchingValues = filterMembersForSuggestion(values, prefix, []);
 
   return map(prefixMatchingValues, _ => ({
-    type: "BooleanValueInXMLAttributeValueCompletion",
+    type: "BooleanValueInXMLAttributeValue",
     astNode: opts.attribute as XMLAttribute,
-    name: _.name,
-    primitiveType: propType,
-    value: _.value
+    ui5Node: _
   }));
 }

@@ -8,7 +8,7 @@ import {
   Range
 } from "vscode-languageserver";
 import { TextDocument } from "vscode-languageserver-textdocument";
-import { Position } from "vscode-languageserver-types";
+import { Position, MarkupContent } from "vscode-languageserver-types";
 import { parse, DocumentCstNode } from "@xml-tools/parser";
 import {
   buildAst,
@@ -30,8 +30,7 @@ import {
   getXMLViewCompletions,
   UI5XMLViewCompletion,
   UI5ClassesInXMLTagNameCompletion,
-  isUI5NodeXMLViewCompletion,
-  isLiteralXMLViewCompletion
+  isUI5NodeXMLViewCompletion
 } from "@ui5-language-assistant/xml-views-completion";
 import {
   ui5NodeToFQN,
@@ -73,9 +72,7 @@ function transformToLspSuggestions(
     const lspKind = computeLSPKind(suggestion);
 
     const textEditDetails = createTextEdits(suggestion, originalPosition);
-    const documentation = isUI5NodeXMLViewCompletion(suggestion)
-      ? getNodeDocumentation(suggestion.ui5Node, model)
-      : undefined;
+    const documentation = getDocumentation(suggestion, model);
     const completionItem: CompletionItem = {
       label: getLabel(suggestion),
       filterText: textEditDetails.filterText,
@@ -114,7 +111,7 @@ export function computeLSPKind(
       return CompletionItemKind.Event;
     case "UI5EnumsInXMLAttributeValue":
       return CompletionItemKind.EnumMember;
-    case "BooleanValueInXMLAttributeValueCompletion":
+    case "BooleanValueInXMLAttributeValue":
       return CompletionItemKind.Constant;
     default:
       // TODO: we probably need a logging solution to highlight edge cases we
@@ -132,9 +129,7 @@ function createTextEdits(
     start: originalPosition,
     end: originalPosition
   };
-  let newText = isLiteralXMLViewCompletion(suggestion)
-    ? suggestion.value + ""
-    : suggestion.ui5Node.name;
+  let newText = suggestion.ui5Node.name;
 
   // The filter text is used by VSCode/Theia to filter out suggestions that don't match the text the user wrote.
   // Every character being replaced by the TextEdit (until the cursor position) should exist in the filter text.
@@ -237,13 +232,13 @@ function createTextEdits(
       filterText = newText;
       break;
     }
-    case "BooleanValueInXMLAttributeValueCompletion": {
+    case "BooleanValueInXMLAttributeValue": {
       // The 'else' part will never happen because to get suggestions for attribute value, the "" at least must exist so
       // the attribute value syntax exists
       /* istanbul ignore next */
       range = getXMLAttributeValueRange(suggestion.astNode) ?? range;
       // Attribute values should contain quotation marks
-      newText = `"${newText}"`;
+      newText = `"${suggestion.ui5Node.value}"`;
       filterText = newText;
       break;
     }
@@ -482,10 +477,17 @@ function getAddNamespaceEdit(
 }
 
 function getLabel(suggestion: UI5XMLViewCompletion): string {
-  if (isLiteralXMLViewCompletion(suggestion)) {
-    return suggestion.name;
-  }
   return suggestion.ui5Node.name;
+}
+
+function getDocumentation(
+  suggestion: UI5XMLViewCompletion,
+  model: UI5SemanticModel
+): MarkupContent | undefined {
+  if (!isUI5NodeXMLViewCompletion(suggestion)) {
+    return undefined;
+  }
+  return getNodeDocumentation(suggestion.ui5Node, model);
 }
 
 function getDetail(suggestion: UI5XMLViewCompletion): string | undefined {

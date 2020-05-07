@@ -5,10 +5,9 @@ import {
   generateModel,
   GEN_MODEL_TIMEOUT
 } from "@ui5-language-assistant/test-utils";
-import { testSuggestionsScenario, assertUI5Completions } from "../../utils";
+import { testSuggestionsScenario } from "../../utils";
 import { enumSuggestions } from "../../../src/providers/attributeValue/enum";
 import { UI5XMLViewCompletion } from "../../../api";
-import { isLiteralXMLViewCompletion } from "../../../src/api";
 import { XMLAttribute, XMLElement } from "@xml-tools/ast";
 
 describe("The ui5-language-assistant xml-views-completion", () => {
@@ -19,31 +18,6 @@ describe("The ui5-language-assistant xml-views-completion", () => {
   });
 
   context("enum values", () => {
-    context("isLiteralXMLViewCompletion", () => {
-      it("returns false for enum values", () => {
-        const xmlSnippet = `
-          <mvc:View
-            xmlns:mvc="sap.ui.core.mvc"
-            xmlns="sap.m">
-            <List showSeparators="⇶">
-            </List>
-          </mvc:View>`;
-
-        testSuggestionsScenario({
-          model: ui5SemanticModel,
-          xmlText: xmlSnippet,
-          providers: {
-            attributeValue: [enumSuggestions]
-          },
-          assertion: suggestions => {
-            forEach(suggestions, _ => {
-              expect(isLiteralXMLViewCompletion(_)).to.be.false;
-            });
-          }
-        });
-      });
-    });
-
     context("applicable scenarios", () => {
       it("will suggest enum values with no prefix provided", () => {
         const xmlSnippet = `
@@ -61,7 +35,6 @@ describe("The ui5-language-assistant xml-views-completion", () => {
             attributeValue: [enumSuggestions]
           },
           assertion: suggestions => {
-            assertUI5Completions(suggestions);
             const suggestedValues = map(suggestions, _ => _.ui5Node.name);
             expect(suggestedValues).to.deep.equalInAnyOrder([
               "All",
@@ -89,7 +62,6 @@ describe("The ui5-language-assistant xml-views-completion", () => {
             attributeValue: [enumSuggestions]
           },
           assertion: suggestions => {
-            assertUI5Completions(suggestions);
             const suggestedValues = map(suggestions, _ => _.ui5Node.name);
             expect(suggestedValues).to.deep.equalInAnyOrder(["Inner", "None"]);
             expectEnumValuesSuggestions(suggestions, "List");

@@ -5,9 +5,12 @@ import {
   generateModel,
   GEN_MODEL_TIMEOUT
 } from "@ui5-language-assistant/test-utils";
-import { testSuggestionsScenario, asserLiteralCompletions } from "../../utils";
-import { booleanSuggestions } from "../../../src/providers/attributeValue/literal";
-import { UI5XMLViewCompletion } from "../../../api";
+import { testSuggestionsScenario } from "../../utils";
+import { booleanSuggestions } from "../../../src/providers/attributeValue/boolean-literal";
+import {
+  UI5XMLViewCompletion,
+  BooleanValueInXMLAttributeValueCompletion
+} from "../../../api";
 import { isUI5NodeXMLViewCompletion } from "../../../src/api";
 import { XMLAttribute, XMLElement } from "@xml-tools/ast";
 
@@ -59,21 +62,17 @@ describe("The ui5-language-assistant xml-views-completion", () => {
             attributeValue: [booleanSuggestions]
           },
           assertion: suggestions => {
-            asserLiteralCompletions(suggestions);
-            const suggestedValues = map(suggestions, _ => ({
-              name: _.name,
-              value: _.value
-            }));
-            expect(suggestedValues).to.deep.equalInAnyOrder([
-              { name: "false", value: false },
-              { name: "true", value: true }
-            ]);
             expectBooleanSuggestions(suggestions, "View");
+            const suggestedValues = map(suggestions, _ => _.ui5Node);
+            expect(suggestedValues).to.deep.equalInAnyOrder([
+              { kind: "BooleanValue", name: "false", value: false },
+              { kind: "BooleanValue", name: "true", value: true }
+            ]);
           }
         });
       });
 
-      it("will suggest enum values filtered by prefix", () => {
+      it("will suggest boolean values filtered by prefix", () => {
         const xmlSnippet = `
         <mvc:View
           xmlns:mvc="sap.ui.core.mvc"
@@ -88,20 +87,16 @@ describe("The ui5-language-assistant xml-views-completion", () => {
             attributeValue: [booleanSuggestions]
           },
           assertion: suggestions => {
-            asserLiteralCompletions(suggestions);
-            const suggestedValues = map(suggestions, _ => ({
-              name: _.name,
-              value: _.value
-            }));
-            expect(suggestedValues).to.deep.equalInAnyOrder([
-              { name: "true", value: true }
-            ]);
             expectBooleanSuggestions(suggestions, "View");
+            const suggestedValues = map(suggestions, _ => _.ui5Node);
+            expect(suggestedValues).to.deep.equalInAnyOrder([
+              { kind: "BooleanValue", name: "true", value: true }
+            ]);
           }
         });
       });
 
-      it("Will not suggest any enum values if none match the prefix", () => {
+      it("Will not suggest any boolean values if none match the prefix", () => {
         const xmlSnippet = `
         <mvc:View
           xmlns:mvc="sap.ui.core.mvc"
@@ -235,9 +230,9 @@ describe("The ui5-language-assistant xml-views-completion", () => {
 function expectBooleanSuggestions(
   suggestions: UI5XMLViewCompletion[],
   expectedParentTag: string
-): void {
+): asserts suggestions is BooleanValueInXMLAttributeValueCompletion[] {
   forEach(suggestions, _ => {
-    expect(_.type).to.equal("BooleanValueInXMLAttributeValueCompletion");
+    expect(_.type).to.equal("BooleanValueInXMLAttributeValue");
     expect((_.astNode as XMLAttribute).key).to.equal("busy");
     expect((_.astNode.parent as XMLElement).name).to.equal(expectedParentTag);
   });

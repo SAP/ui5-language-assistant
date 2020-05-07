@@ -9,7 +9,7 @@ import {
   GEN_MODEL_TIMEOUT
 } from "@ui5-language-assistant/test-utils";
 
-import { testSuggestionsScenario, assertUI5Completions } from "../../utils";
+import { testSuggestionsScenario } from "../../utils";
 import { aggregationSuggestions } from "../../../src/providers/elementName/aggregation";
 import { UI5XMLViewCompletion } from "../../../api";
 
@@ -39,7 +39,6 @@ describe("The ui5-language-assistant xml-views-completion", () => {
             elementName: [aggregationSuggestions]
           },
           assertion: suggestions => {
-            assertUI5Completions(suggestions);
             const suggestedNames = map(suggestions, _ => _.ui5Node.name);
             expect(suggestedNames).to.include.members([
               "content",
@@ -71,7 +70,6 @@ describe("The ui5-language-assistant xml-views-completion", () => {
             elementName: [aggregationSuggestions]
           },
           assertion: suggestions => {
-            assertUI5Completions(suggestions);
             const suggestedNames = map(suggestions, _ => _.ui5Node.name);
             expect(suggestedNames).to.include.members([
               "customData",
@@ -105,7 +103,6 @@ describe("The ui5-language-assistant xml-views-completion", () => {
             elementName: [aggregationSuggestions]
           },
           assertion: suggestions => {
-            assertUI5Completions(suggestions);
             const suggestedNames = map(suggestions, _ => _.ui5Node.name);
             expect(suggestedNames).to.not.include.members([
               "content",
@@ -134,7 +131,6 @@ describe("The ui5-language-assistant xml-views-completion", () => {
             elementName: [aggregationSuggestions]
           },
           assertion: suggestions => {
-            assertUI5Completions(suggestions);
             const suggestedNames = map(suggestions, _ => _.ui5Node.name);
             expect(suggestedNames).to.include.members([
               "customData",
@@ -173,7 +169,6 @@ describe("The ui5-language-assistant xml-views-completion", () => {
             elementName: [aggregationSuggestions]
           },
           assertion: suggestions => {
-            assertUI5Completions(suggestions);
             const suggestedNames = map(suggestions, _ => _.ui5Node.name);
             expect(suggestedNames).to.include.members([
               "customData",
