@@ -8,14 +8,17 @@ import {
   expectModelObjectsEqual,
   isObject,
   getFQN,
-  downloadLibraries,
-  GEN_MODEL_TIMEOUT
+  downloadLibraries
 } from "@ui5-language-assistant/test-utils";
 import {
   UI5SemanticModel,
   UnresolvedType
 } from "@ui5-language-assistant/semantic-model-types";
 import { forEachSymbol } from "../src/utils";
+
+// TODO: cannot import const when the packages have **cyclic** dependencies.
+// TODO: Refactor to avoid semantic-model -> test-utils -> semantic-model cyclic dep.
+const GEN_MODEL_TIMEOUT = 5000;
 
 context("The ui5-language-assistant semantic model package API", () => {
   // Properties with these names are types
@@ -234,9 +237,10 @@ context("The ui5-language-assistant semantic model package API", () => {
   }
 
   function createModelConsistencyTests(version: TestModelVersion): void {
-    describe(`Model generated from ${version}`, () => {
-      before(async function() {
-        this.timeout(GEN_MODEL_TIMEOUT);
+    describe(`Model generated from ${version}`, function() {
+      this.timeout(GEN_MODEL_TIMEOUT);
+
+      before(async () => {
         await downloadLibraries(version);
       });
 
