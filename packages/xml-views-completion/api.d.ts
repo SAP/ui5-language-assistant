@@ -53,7 +53,7 @@ export type UI5NodeXMLViewCompletion =
   | UI5NamespacesInXMLAttributeKeyCompletion
   | UI5NamespacesInXMLAttributeValueCompletion;
 
-export type UI5NodeXMLViewCompletionTypeName =
+export type UI5XMLViewCompletionTypeName =
   | "UI5ClassesInXMLTagName"
   | "UI5AggregationsInXMLTagName"
   | "UI5EnumsInXMLAttributeValue"
@@ -78,7 +78,7 @@ export interface BaseXMLViewCompletion<
   XML extends XMLAstNode,
   UI5 extends UI5CompletionNode
 > {
-  type: UI5NodeXMLViewCompletionTypeName;
+  type: UI5XMLViewCompletionTypeName;
   // The Node we want to suggest as a possible completion.
   // Note this carries all the additional semantic data (deprecated/description/...).
   ui5Node: UI5;

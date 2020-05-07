@@ -21,13 +21,6 @@ export function expectXMLAttribute(
   expect(astNode.type).to.equal("XMLAttribute");
 }
 
-export function expectTrue(
-  condition: boolean,
-  message: string
-): asserts condition {
-  expect(condition, message).to.be.true;
-}
-
 export function expectExists(value: unknown, message: string): asserts value {
   expect(value, message).to.exist;
 }
@@ -58,9 +51,9 @@ export function expectModelObjectsEqual(
   expect(result, message).to.be.true;
 }
 
-export function expectSuggestions<T extends UI5XMLViewCompletion>(
-  actualNameGetter: (suggestion: T) => string,
-  suggestions: T[],
+export function expectSuggestions(
+  actualNameGetter: (suggestion: UI5XMLViewCompletion) => string,
+  suggestions: UI5XMLViewCompletion[],
   expected: string[]
 ): void {
   const suggestedNames = map(suggestions, actualNameGetter);

@@ -291,7 +291,6 @@ describe("The ui5-language-assistant xml-views-completion", () => {
                   "sap.ui.layout.form.GridContainerData",
                   "sap.ui.commons.form.GridContainerData"
                 ]);
-                assertSuggestionProperties(suggestions, "layoutData");
               }
             });
           });
@@ -327,7 +326,6 @@ describe("The ui5-language-assistant xml-views-completion", () => {
                   expect(suggestionNames).to.deep.equalInAnyOrder([
                     "sap.ui.commons.form.GridContainerData"
                   ]);
-                  assertSuggestionProperties(suggestions, "layoutData");
                 }
               });
             });
@@ -365,7 +363,6 @@ describe("The ui5-language-assistant xml-views-completion", () => {
                       "sap.ui.commons.form.GridContainerData",
                       "sap.ui.commons.form.GridElementData"
                     ]);
-                    assertSuggestionProperties(suggestions, "layoutData");
                   }
                 });
               });

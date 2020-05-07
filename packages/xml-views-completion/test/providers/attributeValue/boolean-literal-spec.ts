@@ -11,7 +11,6 @@ import {
   UI5XMLViewCompletion,
   BooleanValueInXMLAttributeValueCompletion
 } from "../../../api";
-import { isUI5NodeXMLViewCompletion } from "../../../src/api";
 import { XMLAttribute, XMLElement } from "@xml-tools/ast";
 
 describe("The ui5-language-assistant xml-views-completion", () => {
@@ -22,30 +21,6 @@ describe("The ui5-language-assistant xml-views-completion", () => {
   });
 
   context("boolean values", () => {
-    context("isUI5NodeXMLViewCompletion", () => {
-      it("returns false for boolean values", () => {
-        const xmlSnippet = `
-          <mvc:View
-            xmlns:mvc="sap.ui.core.mvc"
-            xmlns="sap.m"
-            busy="⇶">
-          </mvc:View>`;
-
-        testSuggestionsScenario({
-          model: ui5SemanticModel,
-          xmlText: xmlSnippet,
-          providers: {
-            attributeValue: [booleanSuggestions]
-          },
-          assertion: suggestions => {
-            forEach(suggestions, _ => {
-              expect(isUI5NodeXMLViewCompletion(_)).to.be.false;
-            });
-          }
-        });
-      });
-    });
-
     context("applicable scenarios", () => {
       it("will suggest boolean values with no prefix provided", () => {
         const xmlSnippet = `
@@ -96,7 +71,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
         });
       });
 
-      it("Will not suggest any boolean values if none match the prefix", () => {
+      it("will not suggest any boolean values if none match the prefix", () => {
         const xmlSnippet = `
         <mvc:View
           xmlns:mvc="sap.ui.core.mvc"
@@ -203,7 +178,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
         });
       });
 
-      it("Will not suggest any boolean values if the property is unknown", () => {
+      it("will not suggest any boolean values if the property is unknown", () => {
         const xmlSnippet = `
           <mvc:View
             xmlns:mvc="sap.ui.core.mvc"
