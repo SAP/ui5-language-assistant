@@ -1,6 +1,6 @@
 {
   "name": "@ui5-language-assistant/test-utils",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "private": true,
   "description": "Test Utils",
   "files": [
@@ -13,7 +13,7 @@
   "license": "Apache-2.0",
   "typings": "./api.d.ts",
   "dependencies": {
-    "@ui5-language-assistant/semantic-model": "^1.2.0",
+    "@ui5-language-assistant/semantic-model": "^1.2.1",
     "node-fetch": "2.6.0"
   },
   "devDependencies": {

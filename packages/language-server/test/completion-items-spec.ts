@@ -11,12 +11,18 @@ import { computeLSPKind } from "../src/completion-items";
 import {
   getSuggestions,
   getTextInRange,
-  getTagName
+  getTagName,
+  getRanges
 } from "./completion-items-utils";
 
 describe("the UI5 language assistant Code Completion Services", () => {
   // Cursor position after selecting the suggestion
   const CURSOR_POSITION = "${0}";
+
+  // Pre-selected snippet text
+  function SELECTED_TEXT(text: string): string {
+    return `\${0:${text}}`;
+  }
 
   let ui5SemanticModel: UI5SemanticModel;
   before(async function() {
@@ -48,7 +54,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
     expect(suggestionKinds).to.deep.equal([CompletionItemKind.Property]);
   });
 
-  it("will get completion values for UI5 property when the cursor is in the middle of a name", () => {
+  it("will get completion values for UI5 property with default value when the cursor is in the middle of a name", () => {
     const xmlSnippet = `<mvc:View 
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns="sap.m"> 
@@ -67,17 +73,17 @@ describe("the UI5 language assistant Code Completion Services", () => {
       {
         label: "showNoData",
         replacedText: "showSepar",
-        newText: `showNoData="${CURSOR_POSITION}"`
+        newText: `showNoData="${SELECTED_TEXT("true")}"`
       },
       {
         label: "showSeparators",
         replacedText: "showSepar",
-        newText: `showSeparators="${CURSOR_POSITION}"`
+        newText: `showSeparators="${SELECTED_TEXT("All")}"`
       },
       {
         label: "showUnread",
         replacedText: "showSepar",
-        newText: `showUnread="${CURSOR_POSITION}"`
+        newText: `showUnread="${SELECTED_TEXT("false")}"`
       }
     ]);
 
@@ -120,37 +126,55 @@ describe("the UI5 language assistant Code Completion Services", () => {
     const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
     const suggestionsDetails = map(suggestions, suggestion => ({
       label: suggestion.label,
-      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
+      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
+      newText: suggestion.textEdit?.newText
     }));
     const suggestionKinds = uniq(
       map(suggestions, suggestion => suggestion.kind)
     );
 
     expect(suggestionsDetails).to.deep.equalInAnyOrder([
-      { label: "updateFinished", replacedText: "update" },
-      { label: "updateStarted", replacedText: "update" }
+      {
+        label: "updateFinished",
+        replacedText: "update",
+        newText: `updateFinished="${CURSOR_POSITION}"`
+      },
+      {
+        label: "updateStarted",
+        replacedText: "update",
+        newText: `updateStarted="${CURSOR_POSITION}"`
+      }
     ]);
 
     expect(suggestionKinds).to.deep.equal([CompletionItemKind.Event]);
   });
 
-  it("will get completion values for UI5 event when the cursor is in the middle of a name", () => {
+  it("will get completion values for UI5 event when the cursor is in the middle of a name and there is an attribute value", () => {
     const xmlSnippet = `<mvc:View 
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns="sap.m"> 
-                          <List update⇶Start`;
+                          <List update⇶Start="onUpdateStart"`;
     const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
     const suggestionsDetails = map(suggestions, suggestion => ({
       label: suggestion.label,
-      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
+      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
+      newText: suggestion.textEdit?.newText
     }));
     const suggestionKinds = uniq(
       map(suggestions, suggestion => suggestion.kind)
     );
 
     expect(suggestionsDetails).to.deep.equalInAnyOrder([
-      { label: "updateFinished", replacedText: "updateStart" },
-      { label: "updateStarted", replacedText: "updateStart" }
+      {
+        label: "updateFinished",
+        replacedText: "updateStart",
+        newText: "updateFinished"
+      },
+      {
+        label: "updateStarted",
+        replacedText: "updateStart",
+        newText: "updateStarted"
+      }
     ]);
 
     expect(suggestionKinds).to.deep.equal([CompletionItemKind.Event]);
@@ -177,7 +201,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
       }
     ]);
 
-    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Text]);
+    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Reference]);
   });
 
   it("will get completion values for UI5 association when the cursor is in the middle of a name", () => {
@@ -201,7 +225,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
       }
     ]);
 
-    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Text]);
+    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Reference]);
   });
 
   it("will get completion values for UI5 aggregation", () => {
@@ -224,7 +248,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
       { label: "swipeContent", replacedText: "te" }
     ]);
 
-    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Text]);
+    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Field]);
   });
 
   it("will get completion values for UI5 aggregation when the cursor is in the middle of a name", () => {
@@ -248,7 +272,175 @@ describe("the UI5 language assistant Code Completion Services", () => {
       { label: "swipeContent", replacedText: "teMenu", tagName: "swipeContent" }
     ]);
 
-    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Text]);
+    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Field]);
+  });
+
+  it("will replace the aggregation closing tag name when the tag is closed and has the same name as the opening tag", () => {
+    const xmlSnippet = `<mvc:View 
+        xmlns:mvc="sap.ui.core.mvc"
+        xmlns="sap.m">
+      <List>
+        <te⇶></⭲te⭰>
+      </List>
+    </mvc:View>`;
+    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
+    const suggestionsDetails = map(suggestions, suggestion => ({
+      label: suggestion.label,
+      tagName: getTagName(suggestion.textEdit),
+      additionalTextEdits: suggestion.additionalTextEdits,
+      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
+    }));
+    const suggestionKinds = uniq(
+      map(suggestions, suggestion => suggestion.kind)
+    );
+
+    const ranges = getRanges(xmlSnippet);
+    expect(ranges, "additional text edits ranges").to.have.lengthOf(1);
+
+    expect(suggestionsDetails).to.deep.equalInAnyOrder([
+      {
+        label: "contextMenu",
+        tagName: "contextMenu",
+        additionalTextEdits: [
+          {
+            range: ranges[0],
+            newText: `contextMenu`
+          }
+        ],
+        replacedText: "te"
+      },
+      {
+        label: "items",
+        tagName: "items",
+        additionalTextEdits: [
+          {
+            range: ranges[0],
+            newText: `items`
+          }
+        ],
+        replacedText: "te"
+      },
+      {
+        label: "swipeContent",
+        tagName: "swipeContent",
+        additionalTextEdits: [
+          {
+            range: ranges[0],
+            newText: `swipeContent`
+          }
+        ],
+        replacedText: "te"
+      }
+    ]);
+
+    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Field]);
+  });
+
+  it("will not replace the class closing tag name when the tag is closed and has a different name from the opening tag", () => {
+    const xmlSnippet = `<mvc:View 
+        xmlns:mvc="sap.ui.core.mvc"
+        xmlns="sap.m">
+      <List>
+        <te⇶></aaa>
+      </List>
+    </mvc:View>`;
+    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
+    const suggestionsDetails = map(suggestions, suggestion => ({
+      label: suggestion.label,
+      tagName: getTagName(suggestion.textEdit),
+      additionalTextEdits: suggestion.additionalTextEdits,
+      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
+    }));
+    const suggestionKinds = uniq(
+      map(suggestions, suggestion => suggestion.kind)
+    );
+
+    const ranges = getRanges(xmlSnippet);
+    expect(ranges, "additional text edits ranges").to.have.lengthOf(0);
+
+    expect(suggestionsDetails).to.deep.equalInAnyOrder([
+      {
+        label: "contextMenu",
+        tagName: "contextMenu",
+        additionalTextEdits: [],
+        replacedText: "te"
+      },
+      {
+        label: "items",
+        tagName: "items",
+        additionalTextEdits: [],
+        replacedText: "te"
+      },
+      {
+        label: "swipeContent",
+        tagName: "swipeContent",
+        additionalTextEdits: [],
+        replacedText: "te"
+      }
+    ]);
+
+    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Field]);
+  });
+
+  it("will replace the class closing tag name when the tag is closed and does not have a name", () => {
+    const xmlSnippet = `<mvc:View 
+        xmlns:mvc="sap.ui.core.mvc"
+        xmlns="sap.m">
+      <List>
+        <te⇶>⭲</>⭰
+      </List>
+    </mvc:View>`;
+    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
+    const suggestionsDetails = map(suggestions, suggestion => ({
+      label: suggestion.label,
+      tagName: getTagName(suggestion.textEdit),
+      additionalTextEdits: suggestion.additionalTextEdits,
+      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range)
+    }));
+    const suggestionKinds = uniq(
+      map(suggestions, suggestion => suggestion.kind)
+    );
+
+    const ranges = getRanges(xmlSnippet);
+    expect(ranges, "additional text edits ranges").to.have.lengthOf(1);
+
+    expect(suggestionsDetails).to.deep.equalInAnyOrder([
+      {
+        label: "contextMenu",
+        tagName: "contextMenu",
+        additionalTextEdits: [
+          {
+            range: ranges[0],
+            newText: `</contextMenu>`
+          }
+        ],
+        replacedText: "te"
+      },
+      {
+        label: "items",
+        tagName: "items",
+        additionalTextEdits: [
+          {
+            range: ranges[0],
+            newText: `</items>`
+          }
+        ],
+        replacedText: "te"
+      },
+      {
+        label: "swipeContent",
+        tagName: "swipeContent",
+        additionalTextEdits: [
+          {
+            range: ranges[0],
+            newText: `</swipeContent>`
+          }
+        ],
+        replacedText: "te"
+      }
+    ]);
+
+    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Field]);
   });
 
   it("will get completion values for UI5 xmlns key namespace", () => {
@@ -314,7 +506,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
       }
     ]);
 
-    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Text]);
+    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Module]);
   });
 
   it("will get completion values for UI5 xmlns key namespace when the cursor is in the middle of a name", () => {
@@ -344,7 +536,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
       }
     ]);
 
-    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Text]);
+    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Module]);
   });
 
   it("will get completion values for UI5 xmlns key namespace when the cursor is in the middle of a name and there is a value", () => {
@@ -366,7 +558,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
       { label: "uxap", replacedText: "xmlns:uxa", newText: `xmlns:uxap` }
     ]);
 
-    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Text]);
+    expect(suggestionKinds).to.deep.equal([CompletionItemKind.Module]);
   });
 
   it("will get completion values for UI5 xmlns value namespace", () => {
@@ -475,7 +667,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
     expect(suggestionKinds).to.deep.equalInAnyOrder([
       CompletionItemKind.Property,
       CompletionItemKind.Event,
-      CompletionItemKind.Text
+      CompletionItemKind.Reference
     ]);
 
     forEach(suggestions, suggestion => {
@@ -501,9 +693,16 @@ describe("the UI5 language assistant Code Completion Services", () => {
   });
 
   it("will get the lsp completion item kind according to the suggestion type", () => {
-    expectLspKind("UI5NamespacesInXMLAttributeKey", CompletionItemKind.Text);
-    expectLspKind("UI5NamespacesInXMLAttributeValue", CompletionItemKind.Text);
-    expectLspKind("UI5AggregationsInXMLTagName", CompletionItemKind.Text);
+    expectLspKind("UI5NamespacesInXMLAttributeKey", CompletionItemKind.Module);
+    expectLspKind(
+      "UI5NamespacesInXMLAttributeValue",
+      CompletionItemKind.Module
+    );
+    expectLspKind(
+      "UI5AssociationsInXMLAttributeKey",
+      CompletionItemKind.Reference
+    );
+    expectLspKind("UI5AggregationsInXMLTagName", CompletionItemKind.Field);
     expectLspKind("UI5PropsInXMLAttributeKey", CompletionItemKind.Property);
     expectLspKind("UI5ClassesInXMLTagName", CompletionItemKind.Class);
     expectLspKind("UI5EventsInXMLAttributeKey", CompletionItemKind.Event);

@@ -13,7 +13,8 @@ export {
   buildUI5Function,
   buildUI5Interface,
   buildUI5Method,
-  buildUI5Typedef
+  buildUI5Typedef,
+  buildUI5DeprecatedInfo
 } from "./utils/semantic-model-builder";
 export {
   generateModel,
