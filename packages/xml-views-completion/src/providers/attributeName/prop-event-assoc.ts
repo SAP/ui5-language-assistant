@@ -10,7 +10,7 @@ import {
   flattenAssociations,
   isElementSubClass
 } from "@ui5-language-assistant/logic-utils";
-import { compact, map, uniq } from "lodash";
+import { compact, map, uniq, reject } from "lodash";
 import { UI5AttributeNameCompletionOptions } from "./index";
 import {
   UI5AssociationsInXMLAttributeKeyCompletion,
@@ -65,11 +65,16 @@ export function propEventAssocSuggestions(
   const existingAttributeNames = compact(
     uniq(map(xmlElement.attributes, _ => _.key))
   );
+  const currentAttributeKey = opts.attribute?.key;
+  const existingAttributeNamesWithoutCurrent =
+    currentAttributeKey === undefined
+      ? existingAttributeNames
+      : reject(existingAttributeNames, name => name === currentAttributeKey);
 
   const uniquePrefixMatchingAttributes = filterMembersForSuggestion(
     allPropertiesEventsAssociations,
     prefix,
-    existingAttributeNames
+    existingAttributeNamesWithoutCurrent
   );
 
   const suggestions = map(uniquePrefixMatchingAttributes, _ => ({
