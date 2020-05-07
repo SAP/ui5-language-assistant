@@ -1398,19 +1398,10 @@
     semver "^6.3.0"
     tsutils "^3.17.1"
 
-"@xml-tools/ast@4.0.2":
-  version "4.0.2"
-  resolved "https://registry.yarnpkg.com/@xml-tools/ast/-/ast-4.0.2.tgz#7dd3e78eb2f0648581c35c26af7c84de24eeac93"
-  integrity sha512-XKOLbv50vLRPBxhS83fGwx4XymOoUl/cDCAnQF3AgWBZSC6R3zLZYRRvH2HO3zASAgrJ0Sr3rUQxRV/AgeDsKw==
-  dependencies:
-    "@xml-tools/common" "^0.0.5"
-    "@xml-tools/parser" "^1.0.3"
-    lodash "4.17.15"
-
-"@xml-tools/ast@^4.0.3":
-  version "4.0.3"
-  resolved "https://registry.yarnpkg.com/@xml-tools/ast/-/ast-4.0.3.tgz#2626305118eb1d5e778940b42e96f888152836e1"
-  integrity sha512-rsrrXnoBeQqAas9hUavxLYvKbc2Sq48ZPdzRr+vu3X0lI6KcGrUs8bqRTHeerX+uJxEgHrXs5+s4BfBDUQguoQ==
+"@xml-tools/ast@4.1.0", "@xml-tools/ast@^4.0.3":
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/@xml-tools/ast/-/ast-4.1.0.tgz#2660783c9f9a600ed0c9e33bf8919542fb2be531"
+  integrity sha512-8nErsCzkk8PtRI3XP+FgSs3ZINtlR+Jr39zO73xc23VX8ASaNmdEtRgjWVXHC8aWGU1KAw+BWXmB2fVz19YCXQ==
   dependencies:
     "@xml-tools/common" "^0.0.6"
     "@xml-tools/parser" "^1.0.4"
