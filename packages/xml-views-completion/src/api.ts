@@ -19,12 +19,12 @@ export function getXMLViewCompletions(
       elementContent: [],
       elementName: elementNameProviders,
       attributeName: attributeNameProviders,
-      attributeValue: attributeValueProviders
-    }
+      attributeValue: attributeValueProviders,
+    },
   });
 
   const allowedVisibility: UI5Visibility[] = ["public", "protected"];
-  const publicAndProtectedSuggestions = filter(suggestions, _ =>
+  const publicAndProtectedSuggestions = filter(suggestions, (_) =>
     includes(allowedVisibility, _.ui5Node.visibility)
   );
 

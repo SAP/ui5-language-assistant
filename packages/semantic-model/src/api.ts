@@ -17,7 +17,7 @@ export function generate({
   libraries,
   typeNameFix,
   strict,
-  printValidationErrors = true
+  printValidationErrors = true,
 }: {
   version: string;
   libraries: Record<string, Json>;

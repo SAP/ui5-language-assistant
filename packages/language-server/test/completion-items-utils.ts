@@ -7,7 +7,7 @@ import {
   TextDocumentIdentifier,
   CompletionItem,
   TextEdit,
-  Range
+  Range,
 } from "vscode-languageserver";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { expectExists } from "@ui5-language-assistant/test-utils";
@@ -31,7 +31,7 @@ export function getSuggestions(
   const uri: TextDocumentIdentifier = { uri: "uri" };
   const textDocPositionParams: TextDocumentPositionParams = {
     textDocument: uri,
-    position: position
+    position: position,
   };
 
   const suggestions = getCompletionItems(
@@ -79,7 +79,7 @@ export function getRanges(xmlSnippet: string): Range[] {
     xmlTextWithRanges = xmlTextWithRanges.replace(RANGE_END_CHAR, "");
     ranges.push({
       start: document.positionAt(rangeStartIndex),
-      end: document.positionAt(rangeEndIndex)
+      end: document.positionAt(rangeEndIndex),
     });
   }
   return ranges;
@@ -103,7 +103,7 @@ function assertSuggestionsAreValid(
   xmlSnippet: string
 ): void {
   const { document, position } = getXmlSnippetDocument(xmlSnippet);
-  forEach(suggestions, suggestion => {
+  forEach(suggestions, (suggestion) => {
     expectExists(suggestion.textEdit, "suggestion contains a textEdit");
     assertRangeContains(suggestion.textEdit.range, position, suggestion.label);
     assertRangesDoNotOverlap(
@@ -116,7 +116,7 @@ function assertSuggestionsAreValid(
     // (for example, we can replace "Ab⇶cd" with "Abzzz" even though "c" and "d" aren't in "Abzzz")
     const checkedRange = {
       start: suggestion.textEdit?.range.start,
-      end: position
+      end: position,
     };
     assertFilterMatches(
       suggestion.filterText ?? suggestion.label,
@@ -155,10 +155,10 @@ function assertRangesDoNotOverlap(
   additionalTextEdits: TextEdit[]
 ): void {
   // First, sort the text edits by range start and end
-  const allEdits = map([textEdit].concat(additionalTextEdits), edit => ({
+  const allEdits = map([textEdit].concat(additionalTextEdits), (edit) => ({
     ...edit,
     startOffset: document.offsetAt(edit.range.start),
-    endOffset: document.offsetAt(edit.range.end)
+    endOffset: document.offsetAt(edit.range.end),
   }));
   allEdits.sort((first, second) => {
     if (
@@ -207,7 +207,7 @@ function assertFilterMatches(
   // displayed to the user.
   let contains = true;
   let indexInFilterText = 0;
-  forEach(text, character => {
+  forEach(text, (character) => {
     if (contains) {
       const characterIndex = filterText.indexOf(character, indexInFilterText);
       if (characterIndex < 0) {

@@ -4,7 +4,7 @@ import { assertNever } from "assert-never";
 import {
   Diagnostic,
   DiagnosticSeverity,
-  DiagnosticTag
+  DiagnosticTag,
 } from "vscode-languageserver-types";
 import { TextDocument } from "vscode-languageserver-textdocument";
 import { DocumentCstNode, parse } from "@xml-tools/parser";
@@ -13,7 +13,7 @@ import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import {
   UI5XMLViewIssue,
   validateXMLView,
-  XMLViewIssueSeverity
+  XMLViewIssueSeverity,
 } from "@ui5-language-assistant/xml-views-validation";
 
 export function getXMLViewDiagnostics(opts: {
@@ -25,7 +25,7 @@ export function getXMLViewDiagnostics(opts: {
   const xmlDocAst = buildAst(cst as DocumentCstNode, tokenVector);
   const issues = validateXMLView({
     xmlView: xmlDocAst,
-    model: opts.ui5Model
+    model: opts.ui5Model,
   });
   const diagnostics = validationIssuesToLspDiagnostics(issues, opts.document);
   return diagnostics;
@@ -35,28 +35,28 @@ function validationIssuesToLspDiagnostics(
   issues: UI5XMLViewIssue[],
   document: TextDocument
 ): Diagnostic[] {
-  const diagnostics: Diagnostic[] = map(issues, currIssue => {
+  const diagnostics: Diagnostic[] = map(issues, (currIssue) => {
     const commonDiagnosticPros: Diagnostic = {
       range: {
         start: document.positionAt(currIssue.offsetRange.start),
         // Chevrotain's end offsets are none inclusive
-        end: document.positionAt(currIssue.offsetRange.end + 1)
+        end: document.positionAt(currIssue.offsetRange.end + 1),
       },
       severity: toLspSeverity(currIssue.severity),
       source: "UI5 Language Assistant",
-      message: currIssue.message
+      message: currIssue.message,
     };
 
     const issueKind = currIssue.kind;
     switch (issueKind) {
       case "UnknownEnumValue":
         return {
-          ...commonDiagnosticPros
+          ...commonDiagnosticPros,
         };
       case "UseOfDeprecatedClass":
         return {
           ...commonDiagnosticPros,
-          tags: [DiagnosticTag.Deprecated]
+          tags: [DiagnosticTag.Deprecated],
         };
       /* istanbul ignore next - defensive programming */
       default:

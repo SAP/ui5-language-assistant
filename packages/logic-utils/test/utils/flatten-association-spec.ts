@@ -1,7 +1,7 @@
 import {
   buildUI5Class,
   buildUI5Association,
-  expectUnsortedEquality
+  expectUnsortedEquality,
 } from "@ui5-language-assistant/test-utils";
 import { map } from "lodash";
 import { flattenAssociations } from "../../src/api";
@@ -12,7 +12,7 @@ describe("The @ui5-language-assistant/logic-utils <flattenAssociation> function"
   const clazzA = buildUI5Class({
     name: "A",
     library: "sap.ui.core",
-    associations: [assocA1, assocA2]
+    associations: [assocA1, assocA2],
   });
 
   const assocB1 = buildUI5Association({ name: "assocB1" });
@@ -20,7 +20,7 @@ describe("The @ui5-language-assistant/logic-utils <flattenAssociation> function"
   const clazzB = buildUI5Class({
     name: "B",
     extends: clazzA,
-    associations: [assocB1, assocB2]
+    associations: [assocB1, assocB2],
   });
 
   const clazzC = buildUI5Class({ name: "C", extends: clazzA });
@@ -41,7 +41,7 @@ describe("The @ui5-language-assistant/logic-utils <flattenAssociation> function"
       "assocA1",
       "assocA2",
       "assocB1",
-      "assocB2"
+      "assocB2",
     ]);
   });
 });

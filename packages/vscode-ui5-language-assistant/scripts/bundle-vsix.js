@@ -29,7 +29,7 @@ const monoRepoNoHoist = monoRepoRootPkg.workspaces.nohoist;
 // ensure nohoist is configured correctly so all the dependencies (including transitive)
 // of the VSCode extension would be present in the extensions's **own** node_modules dir.
 // - https://classic.yarnpkg.com/blog/2018/02/15/nohoist/
-forEach(extDeps, _ => {
+forEach(extDeps, (_) => {
   // Shallow
   expect(
     monoRepoNoHoist,
@@ -45,10 +45,10 @@ forEach(extDeps, _ => {
 const rootPkgDir = resolve(__dirname, "..");
 const allFolders = glob.sync("**/", {
   cwd: rootPkgDir,
-  realpath: true
+  realpath: true,
 });
 
-const onlyProductiveRootNpmPackages = filter(allFolders, _ => {
+const onlyProductiveRootNpmPackages = filter(allFolders, (_) => {
   return (
     // We are simulating the behavior of `npm ls`, which prints only packages names.
     // - But with monorepo support.
@@ -70,7 +70,7 @@ const relativeToExtRootReplacer = [
   extFolderName,
   "node_modules",
   scopeName,
-  "$<pkgName>"
+  "$<pkgName>",
 ].join(sep);
 
 // Transform paths to other packages in this mono-repo so the paths will contain the symlinks in the extensions's `node_modules` dir.
@@ -78,7 +78,7 @@ const relativeToExtRootReplacer = [
 // - To:    ...\ui5-language-assistant\packages\vscode-ui5-language-assistant\node_modules\@ui5-language-assistant\language-server
 const onlyProductiveRootNpmPackagesRelativeToRoot = map(
   onlyProductiveRootNpmPackages,
-  _ => {
+  (_) => {
     if (!includes(_, join("packages", extFolderName, "node_modules"))) {
       // we replace ui5-language-assistant
       return _.replace(
@@ -94,10 +94,10 @@ const onlyProductiveRootNpmPackagesRelativeToRoot = map(
 // **Hot-Patching** VSCE using proxyquire.
 const getDepsStub = {
   getDependencies: async () =>
-    onlyProductiveRootNpmPackagesRelativeToRoot.concat([rootPkgDir])
+    onlyProductiveRootNpmPackagesRelativeToRoot.concat([rootPkgDir]),
 };
 const { packageCommand } = proxyquire("vsce/out/package", {
-  "./npm": getDepsStub
+  "./npm": getDepsStub,
 });
 
 packageCommand({
@@ -107,5 +107,5 @@ packageCommand({
   baseImagesUrl: undefined,
   useYarn: true,
   ignoreFile: undefined,
-  expandGitHubIssueLinks: undefined
+  expandGitHubIssueLinks: undefined,
 });

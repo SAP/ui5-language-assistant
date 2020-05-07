@@ -6,7 +6,7 @@ import {
   getSemanticModel,
   getSemanticModelWithFetcher,
   getCacheFilePath,
-  getCacheFolder
+  getCacheFolder,
 } from "../src/ui5-model";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { FetchResponse } from "../api";
@@ -57,7 +57,7 @@ describe("the UI5 language assistant ui5 model", () => {
         ok: false,
         json: (): never => {
           throw new Error(`Cannot read from ${url}`);
-        }
+        },
       };
     }, NO_CACHE_FOLDER);
     expect(ui5Model).to.exist;
@@ -171,7 +171,7 @@ describe("the UI5 language assistant ui5 model", () => {
             ok: true,
             json: async (): Promise<unknown> => {
               return {};
-            }
+            },
           };
         }, cachePath);
         expect(fetcherCalled).to.be.true;

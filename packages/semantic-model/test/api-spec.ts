@@ -8,11 +8,11 @@ import {
   expectModelObjectsEqual,
   isObject,
   getFQN,
-  downloadLibraries
+  downloadLibraries,
 } from "@ui5-language-assistant/test-utils";
 import {
   UI5SemanticModel,
-  UnresolvedType
+  UnresolvedType,
 } from "@ui5-language-assistant/semantic-model-types";
 import { forEachSymbol } from "../src/utils";
 
@@ -29,7 +29,7 @@ context("The ui5-language-assistant semantic model package API", () => {
     "UI5Interface",
     "UI5Enum",
     "UI5Namespace",
-    "UI5Typedef"
+    "UI5Typedef",
   ];
 
   // Object kind -> property names
@@ -37,14 +37,14 @@ context("The ui5-language-assistant semantic model package API", () => {
   const RECURSIVE_PROPERTIES: Record<string, string[]> = {
     UI5Namespace: ["namespaces", "classes"],
     UI5Class: ["extends", "implements"],
-    "*": ["parent"]
+    "*": ["parent"],
   };
   // Properties with these names on objects of these kinds should not have their parents verified because they don't
   // have a parent or their parent is not the object that references them
   const PARENT_EXCLUDE_PROPERTIES: Record<string, string[]> = {
     UI5Class: ["extends", "implements"],
     UI5Prop: ["default"],
-    "*": ["parent"].concat(TYPE_PROPERTIES)
+    "*": ["parent"].concat(TYPE_PROPERTIES),
   };
   function hasPropertyForKind(
     map: Record<string, string[]>,
@@ -90,7 +90,7 @@ context("The ui5-language-assistant semantic model package API", () => {
         value: model as unknown,
         fqn: "model",
         parent: undefined as unknown,
-        deep: true
+        deep: true,
       },
       function assertSymbolPropertiesParentInner(params) {
         const value = params.value;
@@ -134,7 +134,7 @@ context("The ui5-language-assistant semantic model package API", () => {
               value: propertyValue,
               fqn: `${fqn}.${propertyName}`,
               parent: value,
-              deep: !isRecursiveProperty
+              deep: !isRecursiveProperty,
             },
             assertSymbolPropertiesParentInner
           );
@@ -169,7 +169,7 @@ context("The ui5-language-assistant semantic model package API", () => {
           {
             ...params,
             value: value[i],
-            fqn: `${fqn}[${i}]`
+            fqn: `${fqn}[${i}]`,
           },
           action
         );
@@ -178,7 +178,7 @@ context("The ui5-language-assistant semantic model package API", () => {
       if ("kind" in value && typeof value.kind === "string") {
         action({
           ...params,
-          value: value as ObjectWithKind
+          value: value as ObjectWithKind,
         });
       } else {
         // Map
@@ -187,7 +187,7 @@ context("The ui5-language-assistant semantic model package API", () => {
             {
               ...params,
               value: mapValue,
-              fqn: `${fqn}[${mapKey}]`
+              fqn: `${fqn}[${mapKey}]`,
             },
             action
           );
@@ -207,7 +207,7 @@ context("The ui5-language-assistant semantic model package API", () => {
         forEach(value, (propertyValue, propertyName) => {
           runOnValue(
             { value: value[propertyName], fqn: `${fqn}.${propertyName}` },
-            params => {
+            (params) => {
               if (includes(TYPE_PROPERTIES, propertyName)) {
                 const type = params.value;
                 expect(
@@ -237,7 +237,7 @@ context("The ui5-language-assistant semantic model package API", () => {
   }
 
   function createModelConsistencyTests(version: TestModelVersion): void {
-    describe(`Model generated from ${version}`, function() {
+    describe(`Model generated from ${version}`, function () {
       this.timeout(GEN_MODEL_TIMEOUT);
 
       before(async () => {
@@ -253,7 +253,7 @@ context("The ui5-language-assistant semantic model package API", () => {
         const model = await generateModel({
           version,
           downloadLibs: false,
-          strict: false
+          strict: false,
         });
         expect(model).to.exist;
       });
@@ -291,7 +291,7 @@ context("The ui5-language-assistant semantic model package API", () => {
     const objectNotExtensibleMatcher = "not extensible";
     const cannotDeleteMatcher = "Cannot delete";
     let model: UI5SemanticModel;
-    before(async function() {
+    before(async function () {
       this.timeout(GEN_MODEL_TIMEOUT);
       model = await generateModel({ version: "1.74.0" });
     });

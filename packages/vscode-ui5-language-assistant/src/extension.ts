@@ -2,13 +2,13 @@
 import { workspace, window } from "vscode";
 import {
   SERVER_PATH,
-  ServerInitializationOptions
+  ServerInitializationOptions,
 } from "@ui5-language-assistant/language-server";
 import {
   LanguageClient,
   LanguageClientOptions,
   ServerOptions,
-  TransportKind
+  TransportKind,
 } from "vscode-languageclient";
 import { ExtensionContext } from "vscode";
 
@@ -25,23 +25,23 @@ export async function activate(context: ExtensionContext): Promise<void> {
     debug: {
       module: SERVER_PATH,
       transport: TransportKind.ipc,
-      options: debugOptions
-    }
+      options: debugOptions,
+    },
   };
 
   const initializationOptions: ServerInitializationOptions = {
-    modelCachePath: context.globalStoragePath
+    modelCachePath: context.globalStoragePath,
   };
 
   const clientOptions: LanguageClientOptions = {
     documentSelector: [{ scheme: "file", pattern: "**/*.{view,fragment}.xml" }],
     synchronize: {
-      fileEvents: workspace.createFileSystemWatcher("**/*.{view,fragment}.xml")
+      fileEvents: workspace.createFileSystemWatcher("**/*.{view,fragment}.xml"),
     },
     // Sending a channel we created instead of only giving it a name in outputChannelName so that if necessary we
     // can print to it before the client starts (in this method)
     outputChannel: channel,
-    initializationOptions: initializationOptions
+    initializationOptions: initializationOptions,
   };
 
   client = new LanguageClient(

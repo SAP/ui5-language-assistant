@@ -4,7 +4,7 @@ import {
   expectSuggestions,
   expectXMLAttribute,
   generateModel,
-  GEN_MODEL_TIMEOUT
+  GEN_MODEL_TIMEOUT,
 } from "@ui5-language-assistant/test-utils";
 import { namespaceValueSuggestions } from "../../../src/providers/attributeValue/namespace";
 import { expectUI5Namespace } from "../attributeName/namespace-spec";
@@ -12,7 +12,7 @@ import { expect } from "chai";
 import { partial } from "lodash";
 import { ui5NodeToFQN } from "@ui5-language-assistant/logic-utils";
 
-const expectNamespaceValuesSuggestions = partial(expectSuggestions, _ => {
+const expectNamespaceValuesSuggestions = partial(expectSuggestions, (_) => {
   expectUI5Namespace(_.ui5Node);
   expectXMLAttribute(_.astNode);
   expect(_.type).to.equal("UI5NamespacesInXMLAttributeValue");
@@ -21,7 +21,7 @@ const expectNamespaceValuesSuggestions = partial(expectSuggestions, _ => {
 
 describe("The ui5-editor-tools xml-views-completion", () => {
   let ui5SemanticModel: UI5SemanticModel;
-  before(async function() {
+  before(async function () {
     this.timeout(GEN_MODEL_TIMEOUT);
     ui5SemanticModel = await generateModel({ version: "1.74.0" });
   });
@@ -39,16 +39,16 @@ describe("The ui5-editor-tools xml-views-completion", () => {
           model: ui5SemanticModel,
           xmlText: xmlSnippet,
           providers: {
-            attributeValue: [namespaceValueSuggestions]
+            attributeValue: [namespaceValueSuggestions],
           },
-          assertion: suggestions => {
+          assertion: (suggestions) => {
             expectNamespaceValuesSuggestions(suggestions, [
               "sap.ui.table",
               "sap.ui.table.plugins",
               "sap.ui.table.rowmodes",
-              "sap.ui.comp.smarttable"
+              "sap.ui.comp.smarttable",
             ]);
-          }
+          },
         });
       });
 
@@ -63,14 +63,14 @@ describe("The ui5-editor-tools xml-views-completion", () => {
           model: ui5SemanticModel,
           xmlText: xmlSnippet,
           providers: {
-            attributeValue: [namespaceValueSuggestions]
+            attributeValue: [namespaceValueSuggestions],
           },
-          assertion: suggestions => {
+          assertion: (suggestions) => {
             expectNamespaceValuesSuggestions(suggestions, [
               "sap.ui.core.dnd",
-              "sap.f.dnd"
+              "sap.f.dnd",
             ]);
-          }
+          },
         });
       });
 
@@ -85,13 +85,13 @@ describe("The ui5-editor-tools xml-views-completion", () => {
           model: ui5SemanticModel,
           xmlText: xmlSnippet,
           providers: {
-            attributeValue: [namespaceValueSuggestions]
+            attributeValue: [namespaceValueSuggestions],
           },
-          assertion: suggestions => {
+          assertion: (suggestions) => {
             expectNamespaceValuesSuggestions(suggestions, [
-              "sap.ui.table.rowmodes"
+              "sap.ui.table.rowmodes",
             ]);
-          }
+          },
         });
       });
 
@@ -106,16 +106,16 @@ describe("The ui5-editor-tools xml-views-completion", () => {
           model: ui5SemanticModel,
           xmlText: xmlSnippet,
           providers: {
-            attributeValue: [namespaceValueSuggestions]
+            attributeValue: [namespaceValueSuggestions],
           },
-          assertion: suggestions => {
+          assertion: (suggestions) => {
             expectNamespaceValuesSuggestions(suggestions, [
               "sap.ui.table",
               "sap.ui.table.plugins",
               "sap.ui.table.rowmodes",
-              "sap.ui.comp.smarttable"
+              "sap.ui.comp.smarttable",
             ]);
-          }
+          },
         });
       });
 
@@ -130,17 +130,17 @@ describe("The ui5-editor-tools xml-views-completion", () => {
           model: ui5SemanticModel,
           xmlText: xmlSnippet,
           providers: {
-            attributeValue: [namespaceValueSuggestions]
+            attributeValue: [namespaceValueSuggestions],
           },
-          assertion: suggestions => {
+          assertion: (suggestions) => {
             expectNamespaceValuesSuggestions(suggestions, [
               "sap.ui.core.dnd",
               "sap.ui.core.mvc",
               "sap.ui.core.search",
               "sap.ui.core.tmpl",
-              "sap.ui.core.util"
+              "sap.ui.core.util",
             ]);
-          }
+          },
         });
       });
 
@@ -155,15 +155,15 @@ describe("The ui5-editor-tools xml-views-completion", () => {
           model: ui5SemanticModel,
           xmlText: xmlSnippet,
           providers: {
-            attributeValue: [namespaceValueSuggestions]
+            attributeValue: [namespaceValueSuggestions],
           },
-          assertion: suggestions => {
+          assertion: (suggestions) => {
             expectNamespaceValuesSuggestions(suggestions, [
               "sap.ui.unified",
               "sap.ui.unified.calendar",
-              "sap.ui.ux3"
+              "sap.ui.ux3",
             ]);
-          }
+          },
         });
       });
 
@@ -178,17 +178,17 @@ describe("The ui5-editor-tools xml-views-completion", () => {
           model: ui5SemanticModel,
           xmlText: xmlSnippet,
           providers: {
-            attributeValue: [namespaceValueSuggestions]
+            attributeValue: [namespaceValueSuggestions],
           },
-          assertion: suggestions => {
+          assertion: (suggestions) => {
             expectNamespaceValuesSuggestions(suggestions, [
               "sap.ui.core.dnd",
               "sap.ui.core.mvc",
               "sap.ui.core.search",
               "sap.ui.core.tmpl",
-              "sap.ui.core.util"
+              "sap.ui.core.util",
             ]);
-          }
+          },
         });
       });
 
@@ -202,11 +202,11 @@ describe("The ui5-editor-tools xml-views-completion", () => {
           model: ui5SemanticModel,
           xmlText: xmlSnippet,
           providers: {
-            attributeValue: [namespaceValueSuggestions]
+            attributeValue: [namespaceValueSuggestions],
           },
-          assertion: suggestions => {
+          assertion: (suggestions) => {
             expectNamespaceValuesSuggestions(suggestions, ["sap.ui.core.mvc"]);
-          }
+          },
         });
       });
     });
@@ -218,7 +218,7 @@ describe("The ui5-editor-tools xml-views-completion", () => {
           attribute: xmlAttribute,
           context: ui5SemanticModel,
           element: xmlAttribute.parent,
-          prefix: ""
+          prefix: "",
         });
         expect(suggestions).to.be.empty;
       });

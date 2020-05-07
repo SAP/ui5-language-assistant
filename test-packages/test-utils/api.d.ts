@@ -14,7 +14,7 @@ import {
   UI5Constructor,
   UI5Field,
   UI5EnumValue,
-  UI5DeprecatedInfo
+  UI5DeprecatedInfo,
 } from "@ui5-language-assistant/semantic-model-types";
 import { TypeNameFix } from "@ui5-language-assistant/semantic-model";
 import { XMLAttribute, XMLElement } from "@xml-tools/ast";

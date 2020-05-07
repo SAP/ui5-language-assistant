@@ -3,7 +3,7 @@ import { expect } from "chai";
 import { ui5NodeToFQN } from "../../src/api";
 import {
   buildUI5Class,
-  buildUI5Namespace
+  buildUI5Namespace,
 } from "@ui5-language-assistant/test-utils";
 
 describe("The @ui5-language-assistant/logic-utils <ui5NodeToFQN> function", () => {
@@ -13,7 +13,7 @@ describe("The @ui5-language-assistant/logic-utils <ui5NodeToFQN> function", () =
   const control = buildUI5Class({
     name: "Control",
     parent: coreNs,
-    library: "sap.ui.core"
+    library: "sap.ui.core",
   });
 
   it("will return the fully qualified name of a UI5 Node", () => {
