@@ -27,13 +27,16 @@
     "ci:subpackages": "lerna run ci",
     "test": "lerna run test",
     "coverage": "lerna run coverage",
-    "clean": "lerna run clean"
+    "clean": "lerna run clean",
+    "update-snapshots": "lerna run update-snapshots"
   },
   "devDependencies": {
     "@types/chai": "4.2.11",
     "@types/mocha": "5.2.7",
     "@types/lodash": "4.14.150",
     "@types/deep-equal-in-any-order": "1.0.1",
+    "@types/klaw-sync": "6.0.0",
+    "@types/fs-extra": "8.1.0",
     "chai": "4.2.0",
     "deep-equal-in-any-order": "^1.0.24",
     "eslint": "6.8.0",
@@ -55,7 +58,9 @@
     "@commitlint/config-conventional": "8.3.4",
     "rimraf": "3.0.2",
     "@types/rimraf": "3.0.0",
-    "simple-git": "1.132.0"
+    "simple-git": "1.132.0",
+    "klaw-sync": "6.0.0",
+    "fs-extra": "9.0.0"
   },
   "husky": {
     "hooks": {

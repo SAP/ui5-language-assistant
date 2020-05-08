@@ -1,0 +1,6 @@
+<mvc:View
+        xmlns:mvc="sap.ui.core.mvc"
+        xmlns:commons="sap.ui.commons">
+    <commons:Button>
+    </commons:Button>
+</mvc:View>

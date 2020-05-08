@@ -1,0 +1,6 @@
+<mvc:View
+        xmlns:mvc="sap.ui.core.mvc"
+        xmlns="sap.m">
+    <List showSeparators = "TYPO💩">
+    </List>
+</mvc:View>
