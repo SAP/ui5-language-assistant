@@ -2,7 +2,7 @@ import { expect } from "chai";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import {
   GEN_MODEL_TIMEOUT,
-  generateModel
+  generateModel,
 } from "@ui5-language-assistant/test-utils";
 import { testValidationsScenario } from "../../test-utils";
 import { validateUseOfDeprecatedClass } from "../../../src/validators/elements/use-of-deprecated-class";
@@ -10,7 +10,7 @@ import { validateUseOfDeprecatedClass } from "../../../src/validators/elements/u
 describe("the use of deprecated class validation", () => {
   let ui5SemanticModel: UI5SemanticModel;
 
-  before(async function() {
+  before(async function () {
     this.timeout(GEN_MODEL_TIMEOUT);
     ui5SemanticModel = await generateModel({ version: "1.74.0" });
   });
@@ -29,9 +29,9 @@ describe("the use of deprecated class validation", () => {
         model: ui5SemanticModel,
         xmlText: xmlSnippet,
         validators: {
-          element: [validateUseOfDeprecatedClass]
+          element: [validateUseOfDeprecatedClass],
         },
-        assertion: issues => {
+        assertion: (issues) => {
           expect(
             issues,
             "element tags names issues should be shown on both opening and closing name identifier"
@@ -43,19 +43,13 @@ describe("the use of deprecated class validation", () => {
               message:
                 "UI5 Class sap.ui.commons.Button is deprecated since: 1.38.\n\treplaced by {@link sap.m.Button}.",
               severity: "warn",
-              offsetRanges: [
-                {
-                  start: 110,
-                  end: 115
-                },
-                {
-                  start: 132,
-                  end: 137
-                }
-              ]
-            }
+              offsetRange: {
+                start: 110,
+                end: 115,
+              },
+            },
           ]);
-        }
+        },
       });
     });
 
@@ -71,9 +65,9 @@ describe("the use of deprecated class validation", () => {
         model: ui5SemanticModel,
         xmlText: xmlSnippet,
         validators: {
-          element: [validateUseOfDeprecatedClass]
+          element: [validateUseOfDeprecatedClass],
         },
-        assertion: issues => {
+        assertion: (issues) => {
           expect(
             issues,
             "with a self closing tag an issue will only be shown for the opening tag."
@@ -84,15 +78,13 @@ describe("the use of deprecated class validation", () => {
               message:
                 "UI5 Class sap.ui.commons.Button is deprecated since: 1.38.\n\treplaced by {@link sap.m.Button}.",
               severity: "warn",
-              offsetRanges: [
-                {
-                  start: 110,
-                  end: 115
-                }
-              ]
-            }
+              offsetRange: {
+                start: 110,
+                end: 115,
+              },
+            },
           ]);
-        }
+        },
       });
     });
 
@@ -108,9 +100,9 @@ describe("the use of deprecated class validation", () => {
         model: ui5SemanticModel,
         xmlText: xmlSnippet,
         validators: {
-          element: [validateUseOfDeprecatedClass]
+          element: [validateUseOfDeprecatedClass],
         },
-        assertion: issues => {
+        assertion: (issues) => {
           expect(
             issues,
             "the element only has an OPEN tag, so only one issue would be shown"
@@ -122,15 +114,13 @@ describe("the use of deprecated class validation", () => {
               message:
                 "UI5 Class sap.ui.commons.Button is deprecated since: 1.38.\n\treplaced by {@link sap.m.Button}.",
               severity: "warn",
-              offsetRanges: [
-                {
-                  start: 110,
-                  end: 115
-                }
-              ]
-            }
+              offsetRange: {
+                start: 110,
+                end: 115,
+              },
+            },
           ]);
-        }
+        },
       });
     });
   });
@@ -150,11 +140,11 @@ describe("the use of deprecated class validation", () => {
         model: ui5SemanticModel,
         xmlText: xmlSnippet,
         validators: {
-          element: [validateUseOfDeprecatedClass]
+          element: [validateUseOfDeprecatedClass],
         },
-        assertion: issues => {
+        assertion: (issues) => {
           expect(issues).to.be.empty;
-        }
+        },
       });
     });
 
@@ -172,11 +162,11 @@ describe("the use of deprecated class validation", () => {
         model: ui5SemanticModel,
         xmlText: xmlSnippet,
         validators: {
-          element: [validateUseOfDeprecatedClass]
+          element: [validateUseOfDeprecatedClass],
         },
-        assertion: issues => {
+        assertion: (issues) => {
           expect(issues).to.be.empty;
-        }
+        },
       });
     });
   });

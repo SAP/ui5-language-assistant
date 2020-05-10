@@ -5,7 +5,7 @@ import {
   TextDocumentPositionParams,
   InsertTextFormat,
   TextEdit,
-  Range
+  Range,
 } from "vscode-languageserver";
 import { TextDocument } from "vscode-languageserver-textdocument";
 import { Position, MarkupContent } from "vscode-languageserver-types";
@@ -16,7 +16,7 @@ import {
   SourcePosition,
   XMLAttribute,
   XMLElement,
-  XMLDocument
+  XMLDocument,
 } from "@xml-tools/ast";
 import {
   UI5SemanticModel,
@@ -24,18 +24,18 @@ import {
   UI5Prop,
   UI5Aggregation,
   UI5Association,
-  UI5Field
+  UI5Field,
 } from "@ui5-language-assistant/semantic-model-types";
 import {
   getXMLViewCompletions,
   UI5XMLViewCompletion,
   UI5ClassesInXMLTagNameCompletion,
-  isUI5NodeXMLViewCompletion
+  isUI5NodeXMLViewCompletion,
 } from "@ui5-language-assistant/xml-views-completion";
 import {
   ui5NodeToFQN,
   isRootSymbol,
-  typeToString
+  typeToString,
 } from "@ui5-language-assistant/logic-utils";
 import { getNodeDocumentation } from "./documentation";
 
@@ -52,7 +52,7 @@ export function getCompletionItems(
     offset: document.offsetAt(textDocumentPosition.position),
     cst: cst as DocumentCstNode,
     ast: ast,
-    tokenVector: tokenVector
+    tokenVector: tokenVector,
   });
 
   const completionItems = transformToLspSuggestions(
@@ -68,7 +68,7 @@ function transformToLspSuggestions(
   model: UI5SemanticModel,
   originalPosition: Position
 ): CompletionItem[] {
-  const lspSuggestions = map(suggestions, suggestion => {
+  const lspSuggestions = map(suggestions, (suggestion) => {
     const lspKind = computeLSPKind(suggestion);
 
     const textEditDetails = createTextEdits(suggestion, originalPosition);
@@ -81,7 +81,7 @@ function transformToLspSuggestions(
       additionalTextEdits: textEditDetails.additionalTextEdits,
       detail: getDetail(suggestion),
       documentation: documentation,
-      kind: lspKind
+      kind: lspKind,
       // TODO tags are not supported in Theia: https://che-incubator.github.io/vscode-theia-comparator/status.html
       // tags: suggestion.ui5Node.deprecatedInfo?.isDeprecated
       //   ? [CompletionItemTag.Deprecated]
@@ -127,7 +127,7 @@ function createTextEdits(
   const additionalTextEdits: TextEdit[] = [];
   let range: Range = {
     start: originalPosition,
-    end: originalPosition
+    end: originalPosition,
   };
   let newText = suggestion.ui5Node.name;
 
@@ -247,10 +247,10 @@ function createTextEdits(
   return {
     textEdit: {
       range,
-      newText
+      newText,
     },
     filterText,
-    additionalTextEdits
+    additionalTextEdits,
   };
 }
 
@@ -319,7 +319,7 @@ function getClosingTagTextEdits(
     if (closingTagNameRange !== undefined) {
       const closingTagNameTextEdit = {
         newText: closingTagName,
-        range: closingTagNameRange
+        range: closingTagNameRange,
       };
       textEdits.push(closingTagNameTextEdit);
     }
@@ -334,7 +334,7 @@ function getClosingTagTextEdits(
     if (closingTagRange !== undefined) {
       const closingTagTextEdit = {
         newText: `</${closingTagName}>`,
-        range: closingTagRange
+        range: closingTagRange,
       };
       textEdits.push(closingTagTextEdit);
     }
@@ -381,7 +381,7 @@ function rangeContains(range: Range, inner: Range): boolean {
 function createInsertRange(line: number, column: number): Range {
   return {
     start: Position.create(line - 1, column),
-    end: Position.create(line - 1, column)
+    end: Position.create(line - 1, column),
   };
 }
 
@@ -396,7 +396,7 @@ function positionToRange(
   if (position !== undefined && !isDummyPosition(position)) {
     return {
       start: Position.create(position.startLine - 1, position.startColumn - 1),
-      end: Position.create(position.endLine - 1, position.endColumn)
+      end: Position.create(position.endLine - 1, position.endColumn),
     };
   }
   return undefined;
@@ -411,7 +411,7 @@ function getClassNamespacePrefix(
   /* istanbul ignore else */
   if (parent !== undefined) {
     const parentFQN = ui5NodeToFQN(parent);
-    let xmlnsPrefix = findKey(xmlElement.namespaces, _ => _ === parentFQN);
+    let xmlnsPrefix = findKey(xmlElement.namespaces, (_) => _ === parentFQN);
     // Namespace not defined in imports - guess it
     if (xmlnsPrefix === undefined) {
       // It should be the parent simple name by default, but if that already exists we'll add an index to it (name2 etc)
@@ -467,7 +467,7 @@ function getAddNamespaceEdit(
     const range = createInsertRange(position.endLine, position.endColumn);
     return {
       range,
-      newText: ` xmlns:${xmlns}="${value}"`
+      newText: ` xmlns:${xmlns}="${value}"`,
     };
   }
   // See above for why this case is ignored.

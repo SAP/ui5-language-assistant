@@ -2,14 +2,14 @@ import { compact, filter, find, includes, map, reject } from "lodash";
 import { UI5Namespace } from "@ui5-language-assistant/semantic-model-types";
 import {
   isElementSubClass,
-  ui5NodeToFQN
+  ui5NodeToFQN,
 } from "@ui5-language-assistant/logic-utils";
 import { XMLAttribute } from "@xml-tools/ast";
 import { UI5AttributeNameCompletionOptions } from "./index";
 import { UI5NamespacesInXMLAttributeKeyCompletion } from "../../../api";
 import {
   getXMLNamespaceKeyPrefix,
-  isXMLNamespaceKey
+  isXMLNamespaceKey,
 } from "../utils/xml-ns-key";
 
 /**
@@ -34,23 +34,23 @@ export function namespaceKeysSuggestions(
   );
 
   const existingNamespacesNames = compact(
-    map(existingNamespacesAttributes, _ => _.value)
+    map(existingNamespacesAttributes, (_) => _.value)
   );
 
   const xmlnsPrefix = getXMLNamespaceKeyPrefix(opts.prefix);
 
-  const applicableNamespaces = filter(ui5Model.namespaces, _ =>
+  const applicableNamespaces = filter(ui5Model.namespaces, (_) =>
     isNamespaceApplicable(_, xmlnsPrefix)
   );
 
-  const suggestedNamespaces = reject(applicableNamespaces, _ =>
+  const suggestedNamespaces = reject(applicableNamespaces, (_) =>
     includes(existingNamespacesNames, ui5NodeToFQN(_))
   );
 
-  return map(suggestedNamespaces, _ => ({
+  return map(suggestedNamespaces, (_) => ({
     type: "UI5NamespacesInXMLAttributeKey",
     ui5Node: _,
-    astNode: opts.attribute as XMLAttribute
+    astNode: opts.attribute as XMLAttribute,
   }));
 }
 

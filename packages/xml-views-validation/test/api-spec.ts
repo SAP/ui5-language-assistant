@@ -3,7 +3,7 @@ import { map } from "lodash";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import {
   GEN_MODEL_TIMEOUT,
-  generateModel
+  generateModel,
 } from "@ui5-language-assistant/test-utils";
 import { DocumentCstNode, parse } from "@xml-tools/parser";
 import { buildAst } from "@xml-tools/ast";
@@ -12,7 +12,7 @@ import { validateXMLView } from "../src/api";
 describe("the ui5 xml views validations API", () => {
   let ui5SemanticModel: UI5SemanticModel;
 
-  before(async function() {
+  before(async function () {
     this.timeout(GEN_MODEL_TIMEOUT);
     ui5SemanticModel = await generateModel({ version: "1.74.0" });
   });
@@ -36,10 +36,10 @@ describe("the ui5 xml views validations API", () => {
 
     const issues = validateXMLView({ model: ui5SemanticModel, xmlView: ast });
     expect(issues).to.have.lengthOf(2);
-    const issueTypes = map(issues, _ => _.kind);
+    const issueTypes = map(issues, (_) => _.kind);
     expect(issueTypes).to.include.members([
       "UnknownEnumValue",
-      "UseOfDeprecatedClass"
+      "UseOfDeprecatedClass",
     ]);
   });
 });

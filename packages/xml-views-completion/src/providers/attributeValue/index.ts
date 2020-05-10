@@ -1,7 +1,7 @@
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import {
   AttributeValueCompletion,
-  AttributeValueCompletionOptions
+  AttributeValueCompletionOptions,
 } from "@xml-tools/content-assist";
 import { UI5XMLViewCompletion } from "../../../api";
 import { enumSuggestions } from "./enum";

@@ -5,7 +5,7 @@ import { UI5Visibility } from "@ui5-language-assistant/semantic-model-types";
 import {
   GetXMLViewCompletionsOpts,
   UI5XMLViewCompletion,
-  UI5NodeXMLViewCompletion
+  UI5NodeXMLViewCompletion,
 } from "../api";
 import { elementNameProviders } from "./providers/elementName";
 import { attributeNameProviders } from "./providers/attributeName";
@@ -24,14 +24,14 @@ export function getXMLViewCompletions(
       elementContent: [],
       elementName: elementNameProviders,
       attributeName: attributeNameProviders,
-      attributeValue: attributeValueProviders
-    }
+      attributeValue: attributeValueProviders,
+    },
   });
 
   const allowedVisibility: UI5Visibility[] = ["public", "protected"];
   const publicAndProtectedSuggestions = filter(
     suggestions,
-    _ =>
+    (_) =>
       !isUI5NodeXMLViewCompletion(_) ||
       includes(allowedVisibility, _.ui5Node.visibility)
   );

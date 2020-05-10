@@ -6,7 +6,7 @@ import {
   buildUI5Class,
   buildUI5Interface,
   buildUI5Enum,
-  buildUI5Typedef
+  buildUI5Typedef,
 } from "@ui5-language-assistant/test-utils";
 
 describe("The @ui5-language-assistant/logic-utils <typeToString> function", () => {
@@ -15,7 +15,7 @@ describe("The @ui5-language-assistant/logic-utils <typeToString> function", () =
   it("returns the type name for unresolved type", () => {
     const type: UI5Type = {
       kind: "UnresolvedType",
-      name: "mytypename"
+      name: "mytypename",
     };
     expect(typeToString(type)).to.equal("mytypename");
   });
@@ -23,7 +23,7 @@ describe("The @ui5-language-assistant/logic-utils <typeToString> function", () =
   it("returns the type name for primitive type", () => {
     const type: UI5Type = {
       kind: "PrimitiveType",
-      name: "Float"
+      name: "Float",
     };
     expect(typeToString(type)).to.equal("Float");
   });
@@ -35,7 +35,7 @@ describe("The @ui5-language-assistant/logic-utils <typeToString> function", () =
   it("returns the fully qualified name for namespace", () => {
     const type: UI5Type = buildUI5Namespace({
       parent: rootNS,
-      name: "myNS"
+      name: "myNS",
     });
     expect(typeToString(type)).to.equal("rootNS.myNS");
   });
@@ -43,7 +43,7 @@ describe("The @ui5-language-assistant/logic-utils <typeToString> function", () =
   it("returns the fully qualified name for class", () => {
     const type: UI5Type = buildUI5Class({
       parent: rootNS,
-      name: "myClass"
+      name: "myClass",
     });
     expect(typeToString(type)).to.equal("rootNS.myClass");
   });
@@ -51,11 +51,11 @@ describe("The @ui5-language-assistant/logic-utils <typeToString> function", () =
   it("returns the fully qualified name for interface", () => {
     const innerNS = buildUI5Namespace({
       parent: rootNS,
-      name: "inner"
+      name: "inner",
     });
     const type: UI5Type = buildUI5Interface({
       parent: innerNS,
-      name: "myInterface"
+      name: "myInterface",
     });
     expect(typeToString(type)).to.equal("rootNS.inner.myInterface");
   });
@@ -63,7 +63,7 @@ describe("The @ui5-language-assistant/logic-utils <typeToString> function", () =
   it("returns the fully qualified name for enum", () => {
     const type: UI5Type = buildUI5Enum({
       parent: rootNS,
-      name: "myEnum"
+      name: "myEnum",
     });
     expect(typeToString(type)).to.equal("rootNS.myEnum");
   });
@@ -71,7 +71,7 @@ describe("The @ui5-language-assistant/logic-utils <typeToString> function", () =
   it("returns the fully qualified name for typedef", () => {
     const type: UI5Type = buildUI5Typedef({
       parent: rootNS,
-      name: "myTypedef"
+      name: "myTypedef",
     });
     expect(typeToString(type)).to.equal("rootNS.myTypedef");
   });
@@ -86,8 +86,8 @@ describe("The @ui5-language-assistant/logic-utils <typeToString> function", () =
         kind: "ArrayType",
         type: {
           kind: "UnresolvedType",
-          name: "mytypename"
-        }
+          name: "mytypename",
+        },
       };
       expect(typeToString(type)).to.equal("mytypename[]");
     });
@@ -97,8 +97,8 @@ describe("The @ui5-language-assistant/logic-utils <typeToString> function", () =
         kind: "ArrayType",
         type: {
           kind: "PrimitiveType",
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       };
       expect(typeToString(type)).to.equal("Boolean[]");
     });
@@ -106,7 +106,7 @@ describe("The @ui5-language-assistant/logic-utils <typeToString> function", () =
     it("adds [] after undefined type name", () => {
       const type: UI5Type = {
         kind: "ArrayType",
-        type: undefined
+        type: undefined,
       };
       expect(typeToString(type)).to.equal("any[]");
     });
@@ -118,9 +118,9 @@ describe("The @ui5-language-assistant/logic-utils <typeToString> function", () =
           kind: "ArrayType",
           type: {
             kind: "PrimitiveType",
-            name: "Boolean"
-          }
-        }
+            name: "Boolean",
+          },
+        },
       };
       expect(typeToString(type)).to.equal("Boolean[][]");
     });
@@ -131,8 +131,8 @@ describe("The @ui5-language-assistant/logic-utils <typeToString> function", () =
         kind: "ArrayType",
         type: buildUI5Class({
           parent: rootNS,
-          name: "myClass"
-        })
+          name: "myClass",
+        }),
       };
       expect(typeToString(type)).to.equal("rootNS.myClass[]");
     });

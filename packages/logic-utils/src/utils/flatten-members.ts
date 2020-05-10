@@ -15,10 +15,16 @@ function flattenMembers<T>(
   return directMembers;
 }
 
-export const flattenProperties = partial(flattenMembers, _ => _.properties);
+export const flattenProperties = partial(flattenMembers, (_) => _.properties);
 
-export const flattenAggregations = partial(flattenMembers, _ => _.aggregations);
+export const flattenAggregations = partial(
+  flattenMembers,
+  (_) => _.aggregations
+);
 
-export const flattenEvents = partial(flattenMembers, _ => _.events);
+export const flattenEvents = partial(flattenMembers, (_) => _.events);
 
-export const flattenAssociations = partial(flattenMembers, _ => _.associations);
+export const flattenAssociations = partial(
+  flattenMembers,
+  (_) => _.associations
+);

@@ -2,7 +2,7 @@ import {
   XMLAttribute,
   XMLElement,
   XMLDocument,
-  XMLAstNode
+  XMLAstNode,
 } from "@xml-tools/ast";
 import { DocumentCstNode } from "@xml-tools/parser";
 import { IToken } from "chevrotain";
@@ -14,7 +14,7 @@ import {
   UI5Prop,
   UI5Association,
   UI5SemanticModel,
-  UI5EnumValue
+  UI5EnumValue,
 } from "@ui5-language-assistant/semantic-model-types/api";
 
 export function getXMLViewCompletions(

@@ -1,7 +1,7 @@
 import {
   generate,
   TypeNameFix,
-  Json
+  Json,
 } from "@ui5-language-assistant/semantic-model";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { TestModelVersion } from "../../api";
@@ -53,7 +53,7 @@ const fixes: Record<TestModelVersion, TypeNameFix> = {
     "sap.ui.vk.tools.HitTestIdMode": undefined,
     "sap.ui.vk.tools.CoordinateSystem": undefined,
     "sap.ui.vk.SelectionMode": undefined,
-    "sap.viz.ui5.controls.VizRangeSlider": undefined
+    "sap.viz.ui5.controls.VizRangeSlider": undefined,
   },
   "1.74.0": {
     "sap.m.PlanningCalendarHeader": undefined,
@@ -81,7 +81,7 @@ const fixes: Record<TestModelVersion, TypeNameFix> = {
     "sap.ui.vk.tools.HitTestIdMode": undefined,
     "sap.ui.vk.tools.CoordinateSystem": undefined,
     "sap.ui.vk.SelectionMode": undefined,
-    "sap.viz.ui5.controls.VizRangeSlider": undefined
+    "sap.viz.ui5.controls.VizRangeSlider": undefined,
   },
   "1.75.0": {
     "sap.m.PlanningCalendarHeader": undefined,
@@ -90,7 +90,7 @@ const fixes: Record<TestModelVersion, TypeNameFix> = {
     "sap.ui.layout.cssgrid.IGridItemLayoutData": undefined,
     "sap.ui.layout.ResponsiveSplitterPage": undefined,
     "Object.<string,any>": undefined,
-    "sap.gantt.control.Toolbar": undefined
+    "sap.gantt.control.Toolbar": undefined,
   },
   "1.71.14": {
     Control: "sap.ui.core.Control",
@@ -120,8 +120,8 @@ const fixes: Record<TestModelVersion, TypeNameFix> = {
     "sap.ui.vk.AnimationTimeSlider": undefined,
     "sap.ui.vk.SelectionMode": undefined,
     "sap.ui.vk.RenderMode": undefined,
-    "sap.viz.ui5.controls.VizRangeSlider": undefined
-  }
+    "sap.viz.ui5.controls.VizRangeSlider": undefined,
+  },
 };
 
 function getModelFolder(version: TestModelVersion): string {
@@ -151,14 +151,14 @@ export async function readTestLibraryFile(
     const ok = existsSync(filePath);
     return {
       ok: ok,
-      json: (): Promise<unknown> => readJson(filePath)
+      json: (): Promise<unknown> => readJson(filePath),
     };
   } catch (error) {
     return {
       ok: false,
       json: (): never => {
         throw error;
-      }
+      },
     };
   }
 }
@@ -183,7 +183,7 @@ function loadLibraries(version: TestModelVersion): Record<string, Json> {
   const inputFolder = getModelFolder(version);
   const files = readdirSync(inputFolder);
   const LIBFILE_SUFFIX = ".designtime.api.json";
-  const libFiles = filter(files, _ => _.endsWith(LIBFILE_SUFFIX));
+  const libFiles = filter(files, (_) => _.endsWith(LIBFILE_SUFFIX));
   const libToFileContent = reduce(
     libFiles,
     (libToFileContentMap, file) => {
@@ -199,7 +199,7 @@ function loadLibraries(version: TestModelVersion): Record<string, Json> {
 export async function generateModel({
   version,
   downloadLibs = true,
-  strict = true
+  strict = true,
 }: {
   version: TestModelVersion;
   downloadLibs?: boolean;
@@ -228,7 +228,7 @@ export async function generateModel({
     typeNameFix: getTypeNameFixForVersion(version),
     strict: strict,
     // If we're in strict mode we will want to see the validation errors
-    printValidationErrors: strict
+    printValidationErrors: strict,
   });
   if (useCache) {
     MODEL_CACHE[version] = model;
@@ -241,9 +241,9 @@ type LibraryFix = (content: Json) => void;
 const fixBaseNodeProxyImplements = (content: Json): void => {
   const symbol = find(
     get(content, "symbols"),
-    symbol => symbol.name === "sap.ui.vk.BaseNodeProxy"
+    (symbol) => symbol.name === "sap.ui.vk.BaseNodeProxy"
   );
-  remove(symbol.implements, name => name === "sap.ui.vk.BaseNodeProxy");
+  remove(symbol.implements, (name) => name === "sap.ui.vk.BaseNodeProxy");
 };
 
 // Library version -> library name -> fix function
@@ -254,18 +254,18 @@ const libraryFixes: Record<TestModelVersion, Record<string, LibraryFix[]>> = {
       (content: Json): void => {
         const symbol = find(
           get(content, "symbols"),
-          symbol => symbol.name === "sap.ushell.services.EndUserFeedback"
+          (symbol) => symbol.name === "sap.ushell.services.EndUserFeedback"
         );
         const method = find(
           get(symbol, "methods"),
-          method => method.name === "getLegalText"
+          (method) => method.name === "getLegalText"
         );
-        remove(method.parameters, parameter => get(parameter, "name") === "");
-      }
-    ]
+        remove(method.parameters, (parameter) => get(parameter, "name") === "");
+      },
+    ],
   },
   "1.71.14": {
-    "sap.ui.vk": [fixBaseNodeProxyImplements]
+    "sap.ui.vk": [fixBaseNodeProxyImplements],
   },
   "1.74.0": {
     "sap.ui.vk": [fixBaseNodeProxyImplements],
@@ -274,22 +274,22 @@ const libraryFixes: Record<TestModelVersion, Record<string, LibraryFix[]>> = {
         // Removing from this library. There is another symbol with the same name in library "sap.fe".
         remove(
           get(content, "symbols"),
-          symbol =>
+          (symbol) =>
             get(symbol, "name") ===
             "sap.ui.generic.app.navigation.service.NavigationHandler"
         );
-      }
+      },
     ],
     "sap.ushell": [
       (content: Json): void => {
         const symbols = get(content, "symbols");
-        remove(symbols, symbol => get(symbol, "basename") === "");
-      }
-    ]
+        remove(symbols, (symbol) => get(symbol, "basename") === "");
+      },
+    ],
   },
   "1.75.0": {
     // No consistency tests on this library version yet
-  }
+  },
 };
 
 function fixLibraries(
@@ -299,7 +299,7 @@ function fixLibraries(
   const fixesForLib = libraryFixes[version];
   forEach(fixesForLib, (fixes, library) => {
     if (has(libToFileContent, library)) {
-      forEach(fixes, fix => fix(libToFileContent[library]));
+      forEach(fixes, (fix) => fix(libToFileContent[library]));
     }
   });
 }

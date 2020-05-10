@@ -1,18 +1,18 @@
 import {
   buildUI5Class,
   buildUI5Event,
-  expectUnsortedEquality
+  expectUnsortedEquality,
 } from "@ui5-language-assistant/test-utils";
 import { map } from "lodash";
 import { flattenEvents } from "../../src/api";
 
-describe('"The @ui5-language-assistant/logic-utils <flattenProperties> function"', function() {
+describe('"The @ui5-language-assistant/logic-utils <flattenProperties> function"', function () {
   const eventA1 = buildUI5Event({ name: "eventA1" });
   const eventA2 = buildUI5Event({ name: "eventA2" });
   const clazzA = buildUI5Class({
     name: "A",
     library: "sap.ui.core",
-    events: [eventA1, eventA2]
+    events: [eventA1, eventA2],
   });
 
   const eventB1 = buildUI5Event({ name: "eventB1" });
@@ -20,7 +20,7 @@ describe('"The @ui5-language-assistant/logic-utils <flattenProperties> function"
   const clazzB = buildUI5Class({
     name: "B",
     extends: clazzA,
-    events: [eventB1, eventB2]
+    events: [eventB1, eventB2],
   });
 
   const clazzC = buildUI5Class({ name: "C", extends: clazzA });
@@ -41,7 +41,7 @@ describe('"The @ui5-language-assistant/logic-utils <flattenProperties> function"
       "eventA1",
       "eventA2",
       "eventB1",
-      "eventB2"
+      "eventB2",
     ]);
   });
 });

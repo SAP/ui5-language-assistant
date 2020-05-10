@@ -1,11 +1,11 @@
 import {
   UI5SemanticModel,
-  BaseUI5Node
+  BaseUI5Node,
 } from "@ui5-language-assistant/semantic-model-types";
 import { MarkupContent } from "vscode-languageserver";
 import {
   getRootSymbolParent,
-  ui5NodeToFQN
+  ui5NodeToFQN,
 } from "@ui5-language-assistant/logic-utils";
 import { GENERATED_LIBRARY } from "@ui5-language-assistant/semantic-model";
 
@@ -137,7 +137,7 @@ function convertDescriptionToMarkup(
 
   return {
     kind: "markdown",
-    value: contents
+    value: contents,
   };
 }
 

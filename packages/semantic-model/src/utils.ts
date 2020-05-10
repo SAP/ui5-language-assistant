@@ -1,7 +1,7 @@
 import { isEmpty, has } from "lodash";
 import {
   BaseUI5Node,
-  UI5SemanticModel
+  UI5SemanticModel,
 } from "@ui5-language-assistant/semantic-model-types";
 
 export function newMap<T>(): Record<string, T> {
@@ -46,7 +46,7 @@ export function getSymbolMaps(
     model.namespaces,
     model.interfaces,
     model.typedefs,
-    model.functions
+    model.functions,
   ];
 }
 

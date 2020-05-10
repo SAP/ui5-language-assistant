@@ -2,7 +2,7 @@ import {
   BaseUI5Node,
   PrimitiveTypeName,
   UI5SemanticModel,
-  UI5Type
+  UI5Type,
 } from "@ui5-language-assistant/semantic-model-types";
 import { TypeNameFix } from "../api";
 import { SymbolBase, ClassSymbol } from "./api-json";
@@ -15,7 +15,7 @@ import {
   compact,
   pickBy,
   isArray,
-  isPlainObject
+  isPlainObject,
 } from "lodash";
 
 // Exported for testing purpose
@@ -89,7 +89,7 @@ export function resolveSemanticProperties(
       const defaultAggregation = jsonSymbol["ui5-metadata"].defaultAggregation;
       classs.defaultAggregation = find(
         classs.aggregations,
-        _ => _.name === defaultAggregation
+        (_) => _.name === defaultAggregation
       );
       if (classs.defaultAggregation === undefined) {
         error(
@@ -98,17 +98,17 @@ export function resolveSemanticProperties(
         );
       }
     }
-    forEach(classs.properties, _ => {
+    forEach(classs.properties, (_) => {
       _.type = resolveTypePartial(_.type);
     });
-    forEach(classs.fields, _ => {
+    forEach(classs.fields, (_) => {
       _.type = resolveTypePartial(_.type);
     });
-    forEach(classs.aggregations, _ => {
+    forEach(classs.aggregations, (_) => {
       _.type = resolveTypePartial(_.type);
       _.altTypes = compact(map(_.altTypes, resolveTypePartial));
     });
-    forEach(classs.associations, _ => {
+    forEach(classs.associations, (_) => {
       _.type = resolveTypePartial(_.type);
     });
   }
@@ -121,7 +121,7 @@ export function resolveSemanticProperties(
   for (const key in model.namespaces) {
     const namespace = model.namespaces[key];
     setParent(model, key, namespace);
-    forEach(namespace.fields, _ => {
+    forEach(namespace.fields, (_) => {
       _.type = resolveTypePartial(_.type);
     });
   }
@@ -146,9 +146,9 @@ export function resolveSemanticProperties(
     const namespace = model.namespaces[key];
     namespace.namespaces = pickBy(
       model.namespaces,
-      _ => _.parent === namespace
+      (_) => _.parent === namespace
     );
-    namespace.classes = pickBy(model.classes, _ => _.parent === namespace);
+    namespace.classes = pickBy(model.classes, (_) => _.parent === namespace);
   }
 }
 
@@ -170,7 +170,7 @@ export function resolveType({
   model,
   type,
   typeNameFix,
-  strict
+  strict,
 }: {
   model: UI5SemanticModel;
   type: UI5Type | string | undefined;
@@ -181,7 +181,7 @@ export function resolveType({
   if (typeof type === "string") {
     type = {
       kind: "UnresolvedType",
-      name: type
+      name: type,
     };
   }
 
@@ -216,7 +216,7 @@ export function resolveType({
   if (primitiveTypeName !== undefined) {
     return {
       kind: "PrimitiveType",
-      name: primitiveTypeName
+      name: primitiveTypeName,
     };
   }
   if (typeName.endsWith("[]")) {
@@ -225,17 +225,17 @@ export function resolveType({
       model,
       type: innerTypeName,
       typeNameFix,
-      strict
+      strict,
     });
     return {
       kind: "ArrayType",
-      type: innerType
+      type: innerType,
     };
   } else {
     error(`Unknown type: ${typeName}`, strict);
     return {
       kind: "UnresolvedType",
-      name: typeName
+      name: typeName,
     };
   }
 }
@@ -250,7 +250,7 @@ const apiJsonTypeToModelType: Record<string, PrimitiveTypeName> = {
   Object: "Object",
   object: "Object",
   map: "Map",
-  function: "Function"
+  function: "Function",
 };
 
 function getPrimitiveTypeName(typeName: string): PrimitiveTypeName | undefined {
@@ -260,7 +260,7 @@ function getPrimitiveTypeName(typeName: string): PrimitiveTypeName | undefined {
 // These types don't have any specific type information
 const typesToIgnore: Record<string, undefined> = {
   undefined: undefined,
-  any: undefined
+  any: undefined,
 };
 function ignoreType(typeName: string): boolean {
   return has(typesToIgnore, typeName);
