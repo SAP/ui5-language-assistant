@@ -5,12 +5,12 @@ import {
   UI5Class,
   UI5Interface,
   UI5SemanticModel,
-  UI5Type
+  UI5Type,
 } from "@ui5-language-assistant/semantic-model-types";
 import {
   findClassesMatchingType,
   flattenAggregations,
-  ui5NodeToFQN
+  ui5NodeToFQN,
 } from "@ui5-language-assistant/logic-utils";
 import { UI5ClassesInXMLTagNameCompletion } from "../../../api";
 import { getClassByElement } from "../utils/filter-members";
@@ -30,7 +30,7 @@ export function classesSuggestions(
 ): UI5ClassesInXMLTagNameCompletion[] {
   const classSuggestionContext = computeClassSuggestionContext({
     xmlElement: opts.element,
-    model: opts.context
+    model: opts.context,
   });
   if (classSuggestionContext === NOT_FOUND) {
     return [];
@@ -47,14 +47,14 @@ export function classesSuggestions(
 
   const classesMatchingType = findClassesMatchingType({
     type: classSuggestionContext.allowedType,
-    model: opts.context
+    model: opts.context,
   });
 
   const prefixParts = getPrefixParts(opts.prefix, opts.element);
   if (prefixParts === UNRESOLVED_PREFIX_URI) {
     return [];
   }
-  const classesMatchingPrefix = filter(classesMatchingType, _ => {
+  const classesMatchingPrefix = filter(classesMatchingType, (_) => {
     const classFqn = ui5NodeToFQN(_);
     const matchingNamespace = startsWith(classFqn, prefixParts.ns);
     const classFqnWithoutPrefix = classFqn.substring(prefixParts.ns.length);
@@ -64,12 +64,12 @@ export function classesSuggestions(
 
   const concreteClassesMatchingPrefix = filter(
     classesMatchingPrefix,
-    _ => !_.abstract
+    (_) => !_.abstract
   );
-  return map(concreteClassesMatchingPrefix, _ => ({
+  return map(concreteClassesMatchingPrefix, (_) => ({
     type: "UI5ClassesInXMLTagName",
     ui5Node: _,
-    astNode: opts.element
+    astNode: opts.element,
   }));
 }
 
@@ -81,7 +81,7 @@ type classSuggestionContext = {
 
 function computeClassSuggestionContext({
   xmlElement,
-  model
+  model,
 }: {
   xmlElement: XMLElement;
   model: UI5SemanticModel;
@@ -92,7 +92,7 @@ function computeClassSuggestionContext({
     return {
       // TODO: in a fragment xml view an element may possibly be at the top level?
       allowedType: model.classes["sap.ui.core.Control"],
-      cardinality: "0..1"
+      cardinality: "0..1",
     };
   }
 
@@ -107,7 +107,7 @@ function computeClassSuggestionContext({
       return handleInsideExplicitAggregationScenario({
         grandParentXMLElement,
         parentXMLElement,
-        model
+        model,
       });
     } else if (startsWithUpperCase.test(parentXMLElementName)) {
       return handleDefaultAggregationScenario({ parentXMLElement, model });
@@ -124,7 +124,7 @@ function computeClassSuggestionContext({
 function handleInsideExplicitAggregationScenario({
   grandParentXMLElement,
   parentXMLElement,
-  model
+  model,
 }: {
   grandParentXMLElement: XMLElement;
   parentXMLElement: XMLElement;
@@ -137,7 +137,7 @@ function handleInsideExplicitAggregationScenario({
   const allGrandParentAggregations = flattenAggregations(grandParentUI5Class);
   const parentUI5Aggregation = find(allGrandParentAggregations, [
     "name",
-    parentXMLElement.name
+    parentXMLElement.name,
   ]);
   if (parentUI5Aggregation === undefined) {
     return NOT_FOUND;
@@ -146,7 +146,7 @@ function handleInsideExplicitAggregationScenario({
     return {
       allowedType: parentUI5Aggregation.type,
       cardinality: parentUI5Aggregation.cardinality,
-      parentXMLTag: parentXMLElement
+      parentXMLTag: parentXMLElement,
     };
   } else {
     return NOT_FOUND;
@@ -155,7 +155,7 @@ function handleInsideExplicitAggregationScenario({
 
 function handleDefaultAggregationScenario({
   parentXMLElement,
-  model
+  model,
 }: {
   parentXMLElement: XMLElement;
   model: UI5SemanticModel;
@@ -172,7 +172,7 @@ function handleDefaultAggregationScenario({
     return {
       allowedType: defaultAggregation.type,
       cardinality: defaultAggregation.cardinality,
-      parentXMLTag: parentXMLElement
+      parentXMLTag: parentXMLElement,
     };
   } else {
     return NOT_FOUND;

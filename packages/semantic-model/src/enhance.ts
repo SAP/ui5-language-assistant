@@ -39,7 +39,7 @@ function addImplicitParentNamespaces(
       description: undefined,
       since: undefined,
       deprecatedInfo: undefined,
-      experimentalInfo: undefined
+      experimentalInfo: undefined,
     };
     if (parentFqn !== parentName) {
       addImplicitParentNamespaces(model, parentFqn, parentName);

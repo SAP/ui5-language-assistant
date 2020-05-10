@@ -12,7 +12,7 @@ import {
   sortBy,
   cloneDeep,
   isArray,
-  isFunction
+  isFunction,
 } from "lodash";
 
 export function convertToSemanticModel(
@@ -28,13 +28,13 @@ export function convertToSemanticModel(
     functions: newMap(),
     namespaces: newMap(),
     typedefs: newMap(),
-    interfaces: newMap()
+    interfaces: newMap(),
   };
 
   // Convert to array (with deterministic order) to ensure consistency when inserting to maps
   const libsArray = map(libraries, (fileContent, libraryName) => ({
     libraryName,
-    fileContent
+    fileContent,
   }));
   const sortedLibs = sortBy(libsArray, "libraryName");
 
@@ -82,7 +82,7 @@ function convertLibraryToSemanticModel(
     enums: newMap(),
     functions: newMap(),
     namespaces: newMap(),
-    typedefs: newMap()
+    typedefs: newMap(),
   };
   if (lib.symbols === undefined) {
     return model;
@@ -142,7 +142,7 @@ function convertNamespace(
     methods: [],
     events: [],
     namespaces: newMap(),
-    classes: newMap()
+    classes: newMap(),
   };
 
   namespace.methods = map(
@@ -179,14 +179,14 @@ function convertClass(
     methods: [],
     properties: [],
     fields: [],
-    defaultAggregation: undefined // Filled later
+    defaultAggregation: undefined, // Filled later
   };
 
   if (symbol["ui5-metadata"] !== undefined) {
-    clazz.aggregations = map(symbol["ui5-metadata"].aggregations, _ =>
+    clazz.aggregations = map(symbol["ui5-metadata"].aggregations, (_) =>
       convertAggregation(libName, _, clazz)
     );
-    clazz.associations = map(symbol["ui5-metadata"].associations, _ =>
+    clazz.associations = map(symbol["ui5-metadata"].associations, (_) =>
       convertAssociation(libName, _, clazz)
     );
     clazz.properties = map(
@@ -227,7 +227,7 @@ function convertInterface(
     ...base,
     kind: "UI5Interface",
     events: [],
-    methods: []
+    methods: [],
   };
 
   interfacee.events = map(
@@ -249,7 +249,7 @@ function convertFunction(
   const base = convertSymbol(libName, symbol);
   const func: model.UI5Function = {
     ...base,
-    kind: "UI5Function"
+    kind: "UI5Function",
   };
   return func;
 }
@@ -262,7 +262,7 @@ function convertEnum(
   const enumm: model.UI5Enum = {
     ...base,
     kind: "UI5Enum",
-    fields: []
+    fields: [],
   };
 
   enumm.fields = map(
@@ -280,7 +280,7 @@ function convertTypedef(
   const base = convertSymbol(libName, symbol);
   const typedef: model.UI5Typedef = {
     ...base,
-    kind: "UI5Typedef"
+    kind: "UI5Typedef",
   };
   return typedef;
 }
@@ -303,17 +303,17 @@ function convertMeta(
       ? {
           isDeprecated: true,
           since: jsonMeta.deprecated.since,
-          text: jsonMeta.deprecated.text
+          text: jsonMeta.deprecated.text,
         }
       : undefined,
     experimentalInfo: jsonMeta.experimental
       ? {
           isExperimental: true,
           since: jsonMeta.experimental.since,
-          text: jsonMeta.experimental.text
+          text: jsonMeta.experimental.text,
         }
       : undefined,
-    visibility: jsonMeta.visibility ?? "public"
+    visibility: jsonMeta.visibility ?? "public",
   };
   return meta;
 }
@@ -327,7 +327,7 @@ function convertSymbol(
     ...meta,
     kind: "",
     name: jsonSymbol.basename,
-    parent: undefined // Filled later (during resolve)
+    parent: undefined, // Filled later (during resolve)
   };
   return baseNode;
 }
@@ -346,7 +346,7 @@ function convertConstructor(
     experimentalInfo: undefined,
     since: undefined,
     name: "",
-    parent: parent
+    parent: parent,
   };
   return constructor;
 }
@@ -361,7 +361,7 @@ function convertMethod(
     kind: "UI5Method",
     ...meta,
     name: jsonMethod.name,
-    parent: parent
+    parent: parent,
   };
   return method;
 }
@@ -382,8 +382,8 @@ function convertField(
         ? undefined
         : {
             kind: "UnresolvedType",
-            name: jsonProperty.type
-          }
+            name: jsonProperty.type,
+          },
   };
   return field;
 }
@@ -412,9 +412,9 @@ function convertProperty(
         ? undefined
         : {
             kind: "UnresolvedType",
-            name: jsonProperty.type
+            name: jsonProperty.type,
           },
-    default: defaultValue
+    default: defaultValue,
   };
   return property;
 }
@@ -429,7 +429,7 @@ function convertEnumValue(
     kind: "UI5EnumValue",
     ...meta,
     name: jsonProperty.name,
-    parent: parent
+    parent: parent,
   };
   return enumValue;
 }
@@ -450,15 +450,15 @@ function convertAggregation(
         ? undefined
         : {
             kind: "UnresolvedType",
-            name: jsonAggregation.type
+            name: jsonAggregation.type,
           },
     altTypes: isArray(jsonAggregation.altTypes)
-      ? map(jsonAggregation.altTypes, _ => ({
+      ? map(jsonAggregation.altTypes, (_) => ({
           kind: "UnresolvedType",
-          name: _
+          name: _,
         }))
       : [],
-    cardinality: jsonAggregation.cardinality ?? "0..n"
+    cardinality: jsonAggregation.cardinality ?? "0..n",
   };
   return aggregation;
 }
@@ -479,9 +479,9 @@ function convertAssociation(
         ? undefined
         : {
             kind: "UnresolvedType",
-            name: jsonAssociation.type
+            name: jsonAssociation.type,
           },
-    cardinality: jsonAssociation.cardinality ?? "0..1"
+    cardinality: jsonAssociation.cardinality ?? "0..1",
   };
   return association;
 }
@@ -496,7 +496,7 @@ function convertEvent(
     kind: "UI5Event",
     ...meta,
     name: jsonEvent.name,
-    parent: parent
+    parent: parent,
   };
   return event;
 }

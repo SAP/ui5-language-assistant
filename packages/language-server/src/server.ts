@@ -6,7 +6,7 @@ import {
   ProposedFeatures,
   TextDocumentPositionParams,
   CompletionItem,
-  InitializeParams
+  InitializeParams,
 } from "vscode-languageserver";
 import { TextDocument } from "vscode-languageserver-textdocument";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
@@ -30,9 +30,9 @@ connection.onInitialize((params: InitializeParams) => {
         resolveProvider: true,
         // TODO: can the trigger characters be more contextual?
         //       e.g: "<" of open tag only, not else where
-        triggerCharacters: ['"', "'", ":", "<"]
-      }
-    }
+        triggerCharacters: ['"', "'", ":", "<"],
+      },
+    },
   };
 });
 
@@ -64,7 +64,7 @@ connection.onCompletionResolve(
   }
 );
 
-documents.onDidChangeContent(async changeEvent => {
+documents.onDidChangeContent(async (changeEvent) => {
   if (getSemanticModelPromise === undefined) {
     return;
   }

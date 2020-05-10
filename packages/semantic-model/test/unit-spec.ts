@@ -3,12 +3,12 @@ import { forEach, isPlainObject, keys } from "lodash";
 import {
   buildUI5Model,
   buildUI5Class,
-  expectExists
+  expectExists,
 } from "@ui5-language-assistant/test-utils";
 import {
   UI5Class,
   UI5SemanticModel,
-  UI5Type
+  UI5Type,
 } from "@ui5-language-assistant/semantic-model-types";
 import { resolveType, setParent } from "../src/resolve";
 import { getSymbolMaps } from "../src/utils";
@@ -21,14 +21,14 @@ context("The ui5-language-assistant semantic model package unit tests", () => {
       const model = buildUI5Model({});
       const stringPrimitiveType: UI5Type = {
         kind: "PrimitiveType",
-        name: "String"
+        name: "String",
       };
       expect(
         resolveType({
           model,
           type: stringPrimitiveType,
           typeNameFix: {},
-          strict: true
+          strict: true,
         })
       ).to.equal(stringPrimitiveType);
     });
@@ -39,7 +39,7 @@ context("The ui5-language-assistant semantic model package unit tests", () => {
       const model = buildUI5Model({});
       const classFqn = "sap.MyClass";
       const classs = buildUI5Class({
-        name: "MyClass"
+        name: "MyClass",
       });
       model.classes[classFqn] = classs;
 
@@ -57,7 +57,7 @@ context("The ui5-language-assistant semantic model package unit tests", () => {
       // Get all plain objects in the model and check that getSymbolMaps returns them
       // This is done to ensure we didn't forget any symbol maps. If a map/object is added that should
       // be ignored in getSymbolMaps this loop should be updated to ignore it.
-      forEach(model, property => {
+      forEach(model, (property) => {
         if (isPlainObject(property)) {
           objectsOnModel.push(property);
         }
@@ -77,9 +77,9 @@ context("The ui5-language-assistant semantic model package unit tests", () => {
           testLib: {
             "$schema-ref":
               "http://schemas.sap.com/sapui5/designtime/api.json/1.0",
-            symbols: [symbol]
-          }
-        }
+            symbols: [symbol],
+          },
+        },
       });
     }
 
@@ -90,7 +90,7 @@ context("The ui5-language-assistant semantic model package unit tests", () => {
         kind: "class",
         basename: "rootSymbol",
         name: "rootSymbol",
-        ...partialClass
+        ...partialClass,
       } as ClassSymbol; // Casting is required because typescript compiler expects constructor to be a function
       const result = generateSymbol(symbol);
       expect(keys(result.classes), "classes").to.contain("rootSymbol");
@@ -100,8 +100,8 @@ context("The ui5-language-assistant semantic model package unit tests", () => {
     it("sets public visibility on constructor if visibility is not defined", () => {
       const result = generateAndVerifyClass({
         constructor: {
-          description: "constructor with undefined visibility"
-        }
+          description: "constructor with undefined visibility",
+        },
       } as Partial<ClassSymbol>); // Casting is necessary because typescript compiler expects constructor to be a function
       expectExists(result.ctor, "constructor");
       expect(result.ctor.visibility, "constructor visibility").to.equal(
@@ -113,9 +113,9 @@ context("The ui5-language-assistant semantic model package unit tests", () => {
       const result = generateAndVerifyClass({
         events: [
           {
-            name: "name"
-          }
-        ]
+            name: "name",
+          },
+        ],
       });
       expect(result.events, "rootSymbol events").to.have.lengthOf(1);
       expect(result.events[0].visibility, "event visibility").to.equal(
@@ -128,10 +128,10 @@ context("The ui5-language-assistant semantic model package unit tests", () => {
         "ui5-metadata": {
           properties: [
             {
-              name: "name"
-            }
-          ]
-        }
+              name: "name",
+            },
+          ],
+        },
       });
       expect(result.properties, "rootSymbol properties").to.have.lengthOf(1);
       expect(result.properties[0].type, "property type").to.be.undefined;
@@ -142,10 +142,10 @@ context("The ui5-language-assistant semantic model package unit tests", () => {
         "ui5-metadata": {
           aggregations: [
             {
-              name: "name"
-            }
-          ]
-        }
+              name: "name",
+            },
+          ],
+        },
       });
       expect(result.aggregations, "rootSymbol aggregations").to.have.lengthOf(
         1
@@ -158,10 +158,10 @@ context("The ui5-language-assistant semantic model package unit tests", () => {
         "ui5-metadata": {
           aggregations: [
             {
-              name: "name"
-            }
-          ]
-        }
+              name: "name",
+            },
+          ],
+        },
       });
       expect(result.aggregations, "rootSymbol aggregations").to.have.lengthOf(
         1
@@ -177,10 +177,10 @@ context("The ui5-language-assistant semantic model package unit tests", () => {
         "ui5-metadata": {
           associations: [
             {
-              name: "name"
-            }
-          ]
-        }
+              name: "name",
+            },
+          ],
+        },
       });
       expect(result.associations, "rootSymbol associations").to.have.lengthOf(
         1
@@ -193,10 +193,10 @@ context("The ui5-language-assistant semantic model package unit tests", () => {
         "ui5-metadata": {
           associations: [
             {
-              name: "name"
-            }
-          ]
-        }
+              name: "name",
+            },
+          ],
+        },
       });
       expect(result.associations, "rootSymbol associations").to.have.lengthOf(
         1
@@ -214,9 +214,9 @@ context("The ui5-language-assistant semantic model package unit tests", () => {
         name: "rootNamespace",
         properties: [
           {
-            name: "myField"
-          }
-        ]
+            name: "myField",
+          },
+        ],
       };
       const result = generateSymbol(symbol);
       expect(keys(result.namespaces), "namespaces").to.contain("rootNamespace");
@@ -229,7 +229,7 @@ context("The ui5-language-assistant semantic model package unit tests", () => {
       const fileContent = {
         "$schema-ref": "http://schemas.sap.com/sapui5/designtime/api.json/1.0",
         version: "1.74.0",
-        library: "testLib"
+        library: "testLib",
       };
 
       it("doesn't fail in strict mode", () => {
@@ -237,7 +237,7 @@ context("The ui5-language-assistant semantic model package unit tests", () => {
           version: fileContent.version,
           libraries: { testLib: fileContent },
           typeNameFix: {},
-          strict: true
+          strict: true,
         });
         expectExists(model, "model");
       });
@@ -247,7 +247,7 @@ context("The ui5-language-assistant semantic model package unit tests", () => {
           version: fileContent.version,
           libraries: { testLib: fileContent },
           typeNameFix: {},
-          strict: false
+          strict: false,
         });
         expectExists(model, "model");
       });

@@ -5,11 +5,11 @@ import { DocumentCstNode, parse } from "@xml-tools/parser";
 
 import {
   UI5Aggregation,
-  UI5SemanticModel
+  UI5SemanticModel,
 } from "@ui5-language-assistant/semantic-model-types";
 import {
   generateModel,
-  GEN_MODEL_TIMEOUT
+  GEN_MODEL_TIMEOUT,
 } from "@ui5-language-assistant/test-utils";
 
 import { getXMLViewCompletions } from "../src/api";
@@ -18,7 +18,7 @@ import { UI5XMLViewCompletion } from "../api";
 describe("The `getXMLViewCompletions()` api", () => {
   let REAL_UI5_MODEL: UI5SemanticModel;
 
-  before(async function() {
+  before(async function () {
     this.timeout(GEN_MODEL_TIMEOUT);
     REAL_UI5_MODEL = await generateModel({ version: "1.74.0" });
   });
@@ -36,7 +36,7 @@ describe("The `getXMLViewCompletions()` api", () => {
       REAL_UI5_MODEL.classes["sap.ui.core.XMLComposite"];
     const _contentAggregation = find<UI5Aggregation>(
       xmlCompositeClass.aggregations,
-      _ => _.name === "_content"
+      (_) => _.name === "_content"
     ) as UI5Aggregation;
     expect(_contentAggregation).to.exist;
     expect(_contentAggregation.visibility).to.equal("hidden");
@@ -44,11 +44,11 @@ describe("The `getXMLViewCompletions()` api", () => {
     testSuggestionsScenario({
       model: REAL_UI5_MODEL,
       xmlText: xmlSnippet,
-      assertion: suggestions => {
-        const suggestedNames = map(suggestions, _ => _.ui5Node.name);
+      assertion: (suggestions) => {
+        const suggestedNames = map(suggestions, (_) => _.ui5Node.name);
         expect(suggestedNames).to.not.be.empty;
         expect(suggestedNames).to.not.include.members(["_content"]);
-      }
+      },
     });
   });
 
@@ -65,8 +65,8 @@ describe("The `getXMLViewCompletions()` api", () => {
     testSuggestionsScenario({
       model: REAL_UI5_MODEL,
       xmlText: xmlSnippet,
-      assertion: suggestions => {
-        const suggestedNames = map(suggestions, _ => _.ui5Node.name);
+      assertion: (suggestions) => {
+        const suggestedNames = map(suggestions, (_) => _.ui5Node.name);
         expect(suggestedNames).to.include.members([
           "content",
           "customHeader",
@@ -78,13 +78,13 @@ describe("The `getXMLViewCompletions()` api", () => {
           "customData",
           "layoutData",
           "dependents",
-          "dragDropConfig"
+          "dragDropConfig",
         ]);
 
         const suggestedAstNode = suggestions[0].astNode as XMLElement;
         expect(suggestedAstNode.type).to.equal("XMLElement");
         expect((suggestedAstNode.parent as XMLElement).name).to.equal("Page");
-      }
+      },
     });
   });
 });
@@ -103,7 +103,7 @@ export function testSuggestionsScenario(opts: {
     cst: cst as DocumentCstNode,
     ast: ast,
     tokenVector: tokenVector,
-    model: opts.model
+    model: opts.model,
   });
 
   opts.assertion(suggestions);

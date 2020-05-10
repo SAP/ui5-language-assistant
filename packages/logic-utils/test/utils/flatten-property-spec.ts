@@ -1,7 +1,7 @@
 import {
   buildUI5Class,
   buildUI5Property,
-  expectUnsortedEquality
+  expectUnsortedEquality,
 } from "@ui5-language-assistant/test-utils";
 import { map } from "lodash";
 import { flattenProperties } from "../../src/api";
@@ -12,7 +12,7 @@ describe("The @ui5-language-assistant/logic-utils <flattenAggregations> function
   const clazzA = buildUI5Class({
     name: "A",
     library: "sap.ui.core",
-    properties: [propA1, propA2]
+    properties: [propA1, propA2],
   });
 
   const propB1 = buildUI5Property({ name: "propB1" });
@@ -20,7 +20,7 @@ describe("The @ui5-language-assistant/logic-utils <flattenAggregations> function
   const clazzB = buildUI5Class({
     name: "B",
     extends: clazzA,
-    properties: [propB1, propB2]
+    properties: [propB1, propB2],
   });
 
   const clazzC = buildUI5Class({ name: "C", extends: clazzA });
@@ -41,7 +41,7 @@ describe("The @ui5-language-assistant/logic-utils <flattenAggregations> function
       "propA1",
       "propA2",
       "propB1",
-      "propB2"
+      "propB2",
     ]);
   });
 });

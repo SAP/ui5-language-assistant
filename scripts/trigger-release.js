@@ -54,7 +54,7 @@ async function triggerNPMPublish() {
 async function main() {
   await triggerNPMPublish();
   // push tags slowly and one at a time to ensure CircleCi recognizes them.
-  await new Promise(r => setTimeout(r, 1000));
+  await new Promise((r) => setTimeout(r, 1000));
   await triggerGHReleasesPublish();
 }
 

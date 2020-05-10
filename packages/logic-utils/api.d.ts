@@ -8,7 +8,7 @@ import {
   UI5Prop,
   UI5Association,
   UI5SemanticModel,
-  UI5Type
+  UI5Type,
 } from "@ui5-language-assistant/semantic-model-types";
 
 /**
@@ -62,7 +62,7 @@ export function flattenAssociations(ui5Class: UI5Class): UI5Association[];
  */
 export function findClassesMatchingType({
   type,
-  model
+  model,
 }: {
   type: UI5Class | UI5Interface;
   model: UI5SemanticModel;

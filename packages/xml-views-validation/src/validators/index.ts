@@ -4,5 +4,5 @@ import { validateUseOfDeprecatedClass } from "./elements/use-of-deprecated-class
 
 export const allValidators: UI5Validators = {
   element: [validateUseOfDeprecatedClass],
-  attribute: [validateUnknownEnumValue]
+  attribute: [validateUnknownEnumValue],
 };

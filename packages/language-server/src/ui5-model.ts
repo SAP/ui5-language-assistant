@@ -7,7 +7,7 @@ import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import {
   generate,
   Json,
-  TypeNameFix
+  TypeNameFix,
 } from "@ui5-language-assistant/semantic-model";
 import { Fetcher } from "../api";
 
@@ -49,7 +49,7 @@ export async function getSemanticModelWithFetcher(
   }
 
   await Promise.all(
-    map(libs, async libName => {
+    map(libs, async (libName) => {
       const cacheFilePath = getCacheFilePath(cacheFolder, libName);
       let apiJson = await readFromCache(cacheFilePath);
       // If the file doesn't exist in the cache (or we couldn't read it), fetch it from the network
@@ -74,7 +74,7 @@ export async function getSemanticModelWithFetcher(
     libraries: jsonMap,
     typeNameFix: getTypeNameFix(),
     strict: false,
-    printValidationErrors: false
+    printValidationErrors: false,
   });
 }
 
@@ -154,7 +154,7 @@ function getTypeNameFix(): TypeNameFix {
     "sap.ui.vk.AnimationTimeSlider": undefined,
     "sap.ui.vk.SelectionMode": undefined,
     "sap.ui.vk.RenderMode": undefined,
-    "sap.viz.ui5.controls.VizRangeSlider": undefined
+    "sap.viz.ui5.controls.VizRangeSlider": undefined,
   };
   return fixes;
 }
@@ -211,6 +211,6 @@ function getLibs(): string[] {
     "sap.ushell",
     "sap.uxap",
     "sap.viz",
-    "sap.zen.commons"
+    "sap.zen.commons",
   ];
 }

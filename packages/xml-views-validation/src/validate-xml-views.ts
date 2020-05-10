@@ -4,7 +4,7 @@ import {
   XMLAstVisitor,
   XMLAttribute,
   XMLElement,
-  accept
+  accept,
 } from "@xml-tools/ast";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { UI5XMLViewIssue } from "../api";
@@ -29,14 +29,14 @@ class ValidatorVisitor implements XMLAstVisitor {
   ) {}
 
   visitXMLElement(node: XMLElement): void {
-    const nodeIssues = flatMap(this.validators.element, _ =>
+    const nodeIssues = flatMap(this.validators.element, (_) =>
       _(node, this.model)
     );
     this.collectedIssues = this.collectedIssues.concat(nodeIssues);
   }
 
   visitXMLAttribute(node: XMLAttribute): void {
-    const nodeIssues = flatMap(this.validators.attribute, _ =>
+    const nodeIssues = flatMap(this.validators.attribute, (_) =>
       _(node, this.model)
     );
     this.collectedIssues = this.collectedIssues.concat(nodeIssues);

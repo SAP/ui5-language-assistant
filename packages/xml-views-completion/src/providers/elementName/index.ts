@@ -2,7 +2,7 @@ import { aggregationSuggestions } from "./aggregation";
 import { classesSuggestions } from "./classes";
 import {
   ElementNameCompletion,
-  ElementNameCompletionOptions
+  ElementNameCompletionOptions,
 } from "@xml-tools/content-assist";
 import { UI5XMLViewCompletion } from "../../../api";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
