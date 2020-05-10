@@ -11,12 +11,14 @@ import { expectUI5Namespace } from "../attributeName/namespace-spec";
 import { expect } from "chai";
 import { partial } from "lodash";
 import { ui5NodeToFQN } from "@ui5-language-assistant/logic-utils";
+import { UI5NamespacesInXMLAttributeValueCompletion } from "@ui5-language-assistant/xml-views-completion";
 
 const expectNamespaceValuesSuggestions = partial(expectSuggestions, (_) => {
-  expectUI5Namespace(_.ui5Node);
-  expectXMLAttribute(_.astNode);
   expect(_.type).to.equal("UI5NamespacesInXMLAttributeValue");
-  return ui5NodeToFQN(_.ui5Node);
+  const namespaceSuggestion = _ as UI5NamespacesInXMLAttributeValueCompletion;
+  expectUI5Namespace(namespaceSuggestion.ui5Node);
+  expectXMLAttribute(namespaceSuggestion.astNode);
+  return ui5NodeToFQN(namespaceSuggestion.ui5Node);
 });
 
 describe("The ui5-editor-tools xml-views-completion", () => {

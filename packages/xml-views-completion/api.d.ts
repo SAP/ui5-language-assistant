@@ -36,9 +36,14 @@ export type UI5CompletionNode =
   | UI5Event
   | UI5Prop
   | UI5Association
-  | UI5EnumValue;
+  | UI5EnumValue
+  | BooleanValue;
 
 export type UI5XMLViewCompletion =
+  | UI5NodeXMLViewCompletion
+  | BooleanValueInXMLAttributeValueCompletion;
+
+export type UI5NodeXMLViewCompletion =
   | UI5ClassesInXMLTagNameCompletion
   | UI5AggregationsInXMLTagNameCompletion
   | UI5EnumsInXMLAttributeValueCompletion
@@ -56,7 +61,8 @@ export type UI5XMLViewCompletionTypeName =
   | "UI5EventsInXMLAttributeKey"
   | "UI5AssociationsInXMLAttributeKey"
   | "UI5NamespacesInXMLAttributeKey"
-  | "UI5NamespacesInXMLAttributeValue";
+  | "UI5NamespacesInXMLAttributeValue"
+  | "BooleanValueInXMLAttributeValue";
 
 /**
  * Note that this interface does not deal with "Editor Behavior". e.g:
@@ -122,3 +128,21 @@ export interface UI5NamespacesInXMLAttributeValueCompletion
   extends BaseXMLViewCompletion<XMLAttribute, UI5Namespace> {
   type: "UI5NamespacesInXMLAttributeValue";
 }
+
+export interface BooleanValue {
+  kind: "BooleanValue";
+  // The name of the suggestion
+  name: string;
+  // The literal value that we want to suggest as a possible completion
+  value: boolean;
+}
+
+export interface BooleanValueInXMLAttributeValueCompletion
+  extends BaseXMLViewCompletion<XMLAttribute, BooleanValue> {
+  type: "BooleanValueInXMLAttributeValue";
+}
+
+/** Check if the suggestion is a UI5 semantic model xml completion according to its type property */
+export function isUI5NodeXMLViewCompletion(
+  suggestion: UI5XMLViewCompletion
+): suggestion is UI5NodeXMLViewCompletion;

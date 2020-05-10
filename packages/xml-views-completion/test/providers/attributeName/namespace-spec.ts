@@ -24,6 +24,7 @@ import {
 } from "../../../src/providers/attributeName/namespace";
 import { ui5NodeToFQN } from "@ui5-language-assistant/logic-utils";
 import { getXMLNamespaceKeyPrefix } from "../../../src/providers/utils/xml-ns-key";
+import { UI5NamespacesInXMLAttributeKeyCompletion } from "../../../api";
 
 const allExpectedNamespaces = [
   "sap.f",
@@ -147,10 +148,11 @@ const allExpectedNamespaces = [
 ];
 
 const expectNamespaceKeysSuggestions = partial(expectSuggestions, (_) => {
-  expectUI5Namespace(_.ui5Node);
-  expectXMLAttribute(_.astNode);
   expect(_.type).to.equal("UI5NamespacesInXMLAttributeKey");
-  return ui5NodeToFQN(_.ui5Node);
+  const namespaceInKey = _ as UI5NamespacesInXMLAttributeKeyCompletion;
+  expectUI5Namespace(namespaceInKey.ui5Node);
+  expectXMLAttribute(namespaceInKey.astNode);
+  return ui5NodeToFQN(namespaceInKey.ui5Node);
 });
 
 describe("The ui5-language-assistant xml-views-completion", () => {

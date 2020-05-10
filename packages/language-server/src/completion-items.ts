@@ -8,7 +8,7 @@ import {
   Range,
 } from "vscode-languageserver";
 import { TextDocument } from "vscode-languageserver-textdocument";
-import { Position } from "vscode-languageserver-types";
+import { Position, MarkupContent } from "vscode-languageserver-types";
 import { parse, DocumentCstNode } from "@xml-tools/parser";
 import {
   buildAst,
@@ -30,6 +30,7 @@ import {
   getXMLViewCompletions,
   UI5XMLViewCompletion,
   UI5ClassesInXMLTagNameCompletion,
+  isUI5NodeXMLViewCompletion,
 } from "@ui5-language-assistant/xml-views-completion";
 import {
   ui5NodeToFQN,
@@ -69,23 +70,17 @@ function transformToLspSuggestions(
 ): CompletionItem[] {
   const lspSuggestions = map(suggestions, (suggestion) => {
     const lspKind = computeLSPKind(suggestion);
-    let detailText = getNodeDetail(suggestion.ui5Node);
-    if (suggestion.ui5Node.experimentalInfo?.isExperimental) {
-      detailText = `(experimental) ${detailText}`;
-    }
-    if (suggestion.ui5Node.deprecatedInfo?.isDeprecated) {
-      detailText = `(deprecated) ${detailText}`;
-    }
 
     const textEditDetails = createTextEdits(suggestion, originalPosition);
+    const documentation = getDocumentation(suggestion, model);
     const completionItem: CompletionItem = {
-      label: suggestion.ui5Node.name,
+      label: getLabel(suggestion),
       filterText: textEditDetails.filterText,
       textEdit: textEditDetails.textEdit,
       insertTextFormat: InsertTextFormat.Snippet,
       additionalTextEdits: textEditDetails.additionalTextEdits,
-      detail: detailText,
-      documentation: getNodeDocumentation(suggestion.ui5Node, model),
+      detail: getDetail(suggestion),
+      documentation: documentation,
       kind: lspKind,
       // TODO tags are not supported in Theia: https://che-incubator.github.io/vscode-theia-comparator/status.html
       // tags: suggestion.ui5Node.deprecatedInfo?.isDeprecated
@@ -116,6 +111,8 @@ export function computeLSPKind(
       return CompletionItemKind.Event;
     case "UI5EnumsInXMLAttributeValue":
       return CompletionItemKind.EnumMember;
+    case "BooleanValueInXMLAttributeValue":
+      return CompletionItemKind.Constant;
     default:
       // TODO: we probably need a logging solution to highlight edge cases we
       //       do not handle...
@@ -219,9 +216,9 @@ function createTextEdits(
       // the attribute value syntax exists
       /* istanbul ignore next */
       range = getXMLAttributeValueRange(suggestion.astNode) ?? range;
-      newText = `"${ui5NodeToFQN(suggestion.ui5Node)}"`;
       // Namespace in attribute value can be filtered by FQN (since the FQN is written in the attribute).
       // Attribute values should contain quotation marks.
+      newText = `"${ui5NodeToFQN(suggestion.ui5Node)}"`;
       filterText = newText;
       break;
     }
@@ -230,8 +227,18 @@ function createTextEdits(
       // the attribute value syntax exists
       /* istanbul ignore next */
       range = getXMLAttributeValueRange(suggestion.astNode) ?? range;
-      newText = `"${suggestion.ui5Node.name}"`;
       // Attribute values should contain quotation marks
+      newText = `"${newText}"`;
+      filterText = newText;
+      break;
+    }
+    case "BooleanValueInXMLAttributeValue": {
+      // The 'else' part will never happen because to get suggestions for attribute value, the "" at least must exist so
+      // the attribute value syntax exists
+      /* istanbul ignore next */
+      range = getXMLAttributeValueRange(suggestion.astNode) ?? range;
+      // Attribute values should contain quotation marks
+      newText = `"${suggestion.ui5Node.value}"`;
       filterText = newText;
       break;
     }
@@ -510,6 +517,34 @@ function getAddNamespaceEdit(
   // If we can't find the root element we don't add additional text edits.
   /* istanbul ignore next */
   return undefined;
+}
+
+function getLabel(suggestion: UI5XMLViewCompletion): string {
+  return suggestion.ui5Node.name;
+}
+
+function getDocumentation(
+  suggestion: UI5XMLViewCompletion,
+  model: UI5SemanticModel
+): MarkupContent | undefined {
+  if (!isUI5NodeXMLViewCompletion(suggestion)) {
+    return undefined;
+  }
+  return getNodeDocumentation(suggestion.ui5Node, model);
+}
+
+function getDetail(suggestion: UI5XMLViewCompletion): string | undefined {
+  if (!isUI5NodeXMLViewCompletion(suggestion)) {
+    return undefined;
+  }
+  let detailText = getNodeDetail(suggestion.ui5Node);
+  if (suggestion.ui5Node.experimentalInfo?.isExperimental) {
+    detailText = `(experimental) ${detailText}`;
+  }
+  if (suggestion.ui5Node.deprecatedInfo?.isDeprecated) {
+    detailText = `(deprecated) ${detailText}`;
+  }
+  return detailText;
 }
 
 function getNodeDetail(node: BaseUI5Node): string {
