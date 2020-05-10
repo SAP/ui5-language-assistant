@@ -1,4 +1,3 @@
-/* istanbul ignore file - Shahar: Tests will be done in a separate PR (exploring snapshot tests) */
 import { map } from "lodash";
 import { assertNever } from "assert-never";
 import {
@@ -75,8 +74,10 @@ function toLspSeverity(
       return DiagnosticSeverity.Error;
     case "warn":
       return DiagnosticSeverity.Warning;
+    /* istanbul ignore next - no `Warning` validation yet */
     case "info":
       return DiagnosticSeverity.Information;
+    /* istanbul ignore next - no `information` validation yet */
     case "hint":
       return DiagnosticSeverity.Hint;
     /* istanbul ignore next - defensive programming */

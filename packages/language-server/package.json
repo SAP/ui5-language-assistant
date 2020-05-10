@@ -37,6 +37,7 @@
     "@types/node-fetch": "2.5.7",
     "@types/tmp": "0.2.0",
     "@ui5-language-assistant/semantic-model-types": "^1.2.0",
+    "@ui5-language-assistant/test-utils": "^1.3.0",
     "tmp-promise": "2.1.1",
     "vscode-languageserver-types": "3.15.1"
   },
@@ -47,7 +48,8 @@
     "compile:watch": "tsc -p . --watch",
     "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore",
     "test": "mocha",
-    "coverage": "nyc mocha"
+    "coverage": "nyc mocha",
+    "update-snapshots": "node ./scripts/update-diagnostics-snapshots"
   },
   "publishConfig": {
     "access": "public"
