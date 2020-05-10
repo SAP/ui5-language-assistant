@@ -1416,13 +1416,6 @@
     "@xml-tools/parser" "^1.0.4"
     lodash "4.17.15"
 
-"@xml-tools/common@^0.0.5":
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/@xml-tools/common/-/common-0.0.5.tgz#b16bff77c8ee7fd8da685dcb6655b78d897996e6"
-  integrity sha512-unYHdg0sEgU9rQpCBOIcMXUPvHEpSCepeHE0i9gUEm0MUTnJm7m5bsZaeIHi33I7fIJn/k9CjJ8q2wi3I2SO0g==
-  dependencies:
-    lodash "4.17.15"
-
 "@xml-tools/common@^0.0.6":
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/@xml-tools/common/-/common-0.0.6.tgz#0932d44ecb65fdfea7ac597126b60f9aa37695b0"
@@ -1430,16 +1423,16 @@
   dependencies:
     lodash "4.17.15"
 
-"@xml-tools/content-assist@3.1.3":
-  version "3.1.3"
-  resolved "https://registry.yarnpkg.com/@xml-tools/content-assist/-/content-assist-3.1.3.tgz#697d8807c1c0b5f0aa999e514ac20fa78d0f4e0f"
-  integrity sha512-Oua/q/exqMBsHRGhuqOHUy7Dv1XLS5sYzoNhZq59Qay0BB4PiGC2Jq+Sb9aV/OrQDH3li7eFSQLVV3dkqjAPbQ==
+"@xml-tools/content-assist@3.1.4":
+  version "3.1.4"
+  resolved "https://registry.yarnpkg.com/@xml-tools/content-assist/-/content-assist-3.1.4.tgz#b8af82827378ad1a5e3ea51531dff21eeac9cd03"
+  integrity sha512-sYgSqu35vMFtIMeIgW0u7w8yJV48JGCEZ8Z/ZAunm3gPKQNCyKu0Xtgh7PqNprQ4Tp5q9dRRnShYt436ZfAySQ==
   dependencies:
-    "@xml-tools/common" "^0.0.5"
-    "@xml-tools/parser" "^1.0.3"
+    "@xml-tools/common" "^0.0.6"
+    "@xml-tools/parser" "^1.0.4"
     lodash "4.17.15"
 
-"@xml-tools/parser@1.0.4", "@xml-tools/parser@^1.0.3", "@xml-tools/parser@^1.0.4":
+"@xml-tools/parser@1.0.4", "@xml-tools/parser@^1.0.4":
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/@xml-tools/parser/-/parser-1.0.4.tgz#05cce7dc92950eaaa5e6e5a9f62c6d42c4eb10be"
   integrity sha512-KQtKJf/G0KMV5dWzRZBmmS/YuXUVGqBvDkBSqsDxQUuOajqPTJ+0mwyL3KIxCK+KzPsrMWRbrUl3DgGmJ/on2Q==
