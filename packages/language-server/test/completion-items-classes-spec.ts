@@ -9,6 +9,7 @@ import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import {
   generateModel,
   GEN_MODEL_TIMEOUT,
+  expectExists,
 } from "@ui5-language-assistant/test-utils";
 import {
   getSuggestions,
@@ -323,7 +324,7 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
     });
   });
 
-  it("will return valid class suggestions for empty tag", () => {
+  it("will return valid class suggestions for empty tag with no closing bracket", () => {
     const xmlSnippet = `<⇶`;
     const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
     expect(suggestions).to.not.be.empty;
@@ -332,6 +333,50 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
       expect(getTextInRange(xmlSnippet, suggestion.textEdit?.range)).to.equal(
         ""
       );
+      // Check the namespace is added at the correct position
+      expect(suggestion.additionalTextEdits, "additionalTextEdits").to.be.empty;
+      const tagName = getTagName(suggestion.textEdit);
+      expectExists(tagName, "tag name in suggestion");
+      const ns = tagName.split(":")[0];
+      const attributes = getAttributes(suggestion.textEdit);
+      expect(
+        attributes,
+        `attributes of ${suggestion.textEdit?.newText}`
+      ).to.have.lengthOf(2); // Namespace and tab stop
+      expect(
+        attributes[0],
+        `attributes[0] of ${suggestion.textEdit?.newText}`
+      ).to.match(
+        new RegExp(
+          `^xmlns:${ns}=`
+        ) /*, `attribute should start with xmlns:${ns}=`*/
+      );
+    });
+  });
+
+  it("will return valid class suggestions for empty tag with closing bracket", () => {
+    const xmlSnippet = `<⇶>`;
+    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
+    expect(suggestions).to.not.be.empty;
+    forEach(suggestions, (suggestion) => {
+      // We're not replacing any text, just adding
+      expect(getTextInRange(xmlSnippet, suggestion.textEdit?.range)).to.equal(
+        ""
+      );
+      // Check the namespace is added at the correct position
+      expect(suggestion.additionalTextEdits, "additionalTextEdits").to.be.empty;
+      const tagName = getTagName(suggestion.textEdit);
+      expectExists(tagName, "tag name in suggestion");
+      const ns = tagName.split(":")[0];
+      const attributes = getAttributes(suggestion.textEdit);
+      expect(
+        attributes,
+        `attributes of ${suggestion.textEdit?.newText}`
+      ).to.have.lengthOf(2); // Namespace and tab stop
+      expect(
+        attributes[0],
+        `attributes[0] of ${suggestion.textEdit?.newText}`
+      ).to.match(new RegExp(`^xmlns:${ns}=`));
     });
   });
 
