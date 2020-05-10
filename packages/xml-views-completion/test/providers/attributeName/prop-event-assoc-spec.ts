@@ -120,7 +120,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
         });
       });
 
-      it("will not filter out the current attribute when only attribute name exists", () => {
+      it("will suggest the current attribute when only attribute name exists", () => {
         const xmlSnippet = `
         <mvc:View
           xmlns:mvc="sap.ui.core.mvc"
@@ -148,7 +148,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
         });
       });
 
-      it("will not filter out the current attribute when attribute value exists", () => {
+      it("will suggest the current attribute when attribute value exists", () => {
         const xmlSnippet = `
         <mvc:View
           xmlns:mvc="sap.ui.core.mvc"
