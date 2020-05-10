@@ -118,6 +118,62 @@ describe("The ui5-language-assistant xml-views-completion", () => {
         });
       });
 
+      it("will suggest the current attribute when only attribute name exists", () => {
+        const xmlSnippet = `
+        <mvc:View
+          xmlns:mvc="sap.ui.core.mvc"
+          xmlns="sap.m">
+          <RadioButtonGroup busy⇶>
+          </RadioButtonGroup>
+        </mvc:View>`;
+        testSuggestionsScenario({
+          model: ui5SemanticModel,
+          xmlText: xmlSnippet,
+          providers: {
+            attributeName: [propEventAssocSuggestions],
+          },
+          assertion: (suggestions) => {
+            expectAttributesSuggestions({
+              suggestions,
+              expectedSuggestionsNames: [
+                "busy",
+                "busyIndicatorDelay",
+                "busyIndicatorSize",
+              ],
+              expectedParentTag: "RadioButtonGroup",
+            });
+          },
+        });
+      });
+
+      it("will suggest the current attribute when attribute value exists", () => {
+        const xmlSnippet = `
+        <mvc:View
+          xmlns:mvc="sap.ui.core.mvc"
+          xmlns="sap.m">
+          <RadioButtonGroup busy⇶="true">
+          </RadioButtonGroup>
+        </mvc:View>`;
+        testSuggestionsScenario({
+          model: ui5SemanticModel,
+          xmlText: xmlSnippet,
+          providers: {
+            attributeName: [propEventAssocSuggestions],
+          },
+          assertion: (suggestions) => {
+            expectAttributesSuggestions({
+              suggestions,
+              expectedSuggestionsNames: [
+                "busy",
+                "busyIndicatorDelay",
+                "busyIndicatorSize",
+              ],
+              expectedParentTag: "RadioButtonGroup",
+            });
+          },
+        });
+      });
+
       it("will filter suggestions by pre-existing attributes", () => {
         const xmlSnippet = `
         <mvc:View

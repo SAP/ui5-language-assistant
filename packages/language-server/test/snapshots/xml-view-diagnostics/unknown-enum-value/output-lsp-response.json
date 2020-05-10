@@ -1,0 +1,11 @@
+[
+  {
+    "range": {
+      "start": { "line": 3, "character": 27 },
+      "end": { "line": 3, "character": 35 }
+    },
+    "severity": 1,
+    "source": "UI5 Language Assistant",
+    "message": "Unknown enum value: \"TYPO💩\", expecting one of: [\"All\", \"Inner\", \"None\"]."
+  }
+]

@@ -1,8 +1,16 @@
-import { TestModelVersion } from "../../api";
-import { zipObject, keys, map } from "lodash";
+import { zipObject, keys, map, noop } from "lodash";
 import { resolve } from "path";
 import { writeFile, mkdirs, pathExists } from "fs-extra";
 import fetch from "node-fetch";
+import { TestModelVersion } from "../../api";
+
+// Disable this flag if you want/need spam/info in the tests logs.
+const silent = true;
+
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+const log = silent ? noop : (_: string) => console.log(_);
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+const error = silent ? noop : (_: string) => console.error(_);
 
 async function getLibs(version: TestModelVersion): Promise<string[]> {
   // The metadata.json seems to have been added only very recently :(
@@ -15,7 +23,7 @@ async function getLibs(version: TestModelVersion): Promise<string[]> {
   const url = `https://unpkg.com/@sapui5/distribution-metadata@${versionInMetadataURL}/metadata.json`;
   const response = await fetch(url);
   if (!response.ok) {
-    console.log(`error fetching from ${url}`);
+    log(`error fetching from ${url}`);
     return [];
   }
   const fileContent = await response.text();
@@ -57,16 +65,16 @@ async function writeUrlToFile(url: string, file: string): Promise<void> {
     return;
   }
 
-  console.log(`fetching from ${url}`);
+  log(`fetching from ${url}`);
   const response = await fetch(url);
   if (!response.ok) {
-    console.error(`error fetching from ${url}`);
+    error(`error fetching from ${url}`);
     return;
   }
   const text = await response.text();
   if (text === "{}") {
     // These files don't add anything to the model but they return an error in strict mode
-    console.log(`empty object returned from ${url}`);
+    log(`empty object returned from ${url}`);
     return;
   }
   await writeFile(file, text);

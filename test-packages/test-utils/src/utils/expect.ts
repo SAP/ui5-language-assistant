@@ -24,6 +24,7 @@ export function expectXMLAttribute(
 export function expectExists(value: unknown, message: string): asserts value {
   expect(value, message).to.exist;
 }
+
 export function expectProperty<T>(
   value: unknown,
   property: keyof T & string,

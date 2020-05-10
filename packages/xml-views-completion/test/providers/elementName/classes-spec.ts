@@ -15,7 +15,10 @@ import {
   getSuperClasses,
   ui5NodeToFQN,
 } from "@ui5-language-assistant/logic-utils";
-import { UI5XMLViewCompletion } from "../../../api";
+import {
+  UI5XMLViewCompletion,
+  UI5ClassesInXMLTagNameCompletion,
+} from "../../../api";
 
 describe("The ui5-language-assistant xml-views-completion", () => {
   let ui5Model: UI5SemanticModel;
@@ -69,6 +72,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
                 elementName: [classesSuggestions],
               },
               assertion: (suggestions) => {
+                assertSuggestionProperties(suggestions, undefined);
                 const suggestionNames = map(suggestions, (_) =>
                   ui5NodeToFQN(_.ui5Node)
                 );
@@ -113,6 +117,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
                 elementName: [classesSuggestions],
               },
               assertion: (suggestions) => {
+                assertSuggestionProperties(suggestions, "ActionSheet");
                 const suggestionNames = map(suggestions, (_) =>
                   ui5NodeToFQN(_.ui5Node)
                 );
@@ -127,10 +132,6 @@ describe("The ui5-language-assistant xml-views-completion", () => {
                   "sap.suite.ui.commons.ProcessFlowConnectionLabel",
                   "sap.ushell.ui.footerbar.AddBookmarkButton",
                 ]);
-                assertSuggestionProperties({
-                  suggestions,
-                  expectedParentTag: "ActionSheet",
-                });
               },
             });
           });
@@ -154,6 +155,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
                 elementName: [classesSuggestions],
               },
               assertion: (suggestions) => {
+                assertSuggestionProperties(suggestions, "ActionSheet");
                 const suggestionNames = map(suggestions, (_) =>
                   ui5NodeToFQN(_.ui5Node)
                 );
@@ -163,10 +165,6 @@ describe("The ui5-language-assistant xml-views-completion", () => {
                   "sap.m.OverflowToolbarButton",
                   "sap.m.OverflowToolbarToggleButton",
                 ]);
-                assertSuggestionProperties({
-                  suggestions,
-                  expectedParentTag: "ActionSheet",
-                });
               },
             });
           });
@@ -190,6 +188,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
                 elementName: [classesSuggestions],
               },
               assertion: (suggestions) => {
+                assertSuggestionProperties(suggestions, "ActionSheet");
                 const suggestionNames = map(suggestions, (_) =>
                   ui5NodeToFQN(_.ui5Node)
                 );
@@ -199,10 +198,6 @@ describe("The ui5-language-assistant xml-views-completion", () => {
                   "sap.m.OverflowToolbarButton",
                   "sap.m.OverflowToolbarToggleButton",
                 ]);
-                assertSuggestionProperties({
-                  suggestions,
-                  expectedParentTag: "ActionSheet",
-                });
               },
             });
           });
@@ -228,6 +223,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
                 elementName: [classesSuggestions],
               },
               assertion: (suggestions) => {
+                assertSuggestionProperties(suggestions, "layoutData");
                 const suggestionNames = map(suggestions, (_) =>
                   ui5NodeToFQN(_.ui5Node)
                 );
@@ -255,10 +251,6 @@ describe("The ui5-language-assistant xml-views-completion", () => {
                   "sap.uxap.ObjectPageHeaderLayoutData",
                   "sap.ui.vk.FlexibleControlLayoutData",
                 ]);
-                assertSuggestionProperties({
-                  suggestions,
-                  expectedParentTag: "layoutData",
-                });
               },
             });
           });
@@ -282,6 +274,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
                 elementName: [classesSuggestions],
               },
               assertion: (suggestions) => {
+                assertSuggestionProperties(suggestions, "layoutData");
                 const suggestionNames = map(suggestions, (_) =>
                   ui5NodeToFQN(_.ui5Node)
                 );
@@ -292,10 +285,6 @@ describe("The ui5-language-assistant xml-views-completion", () => {
                   "sap.ui.layout.form.GridContainerData",
                   "sap.ui.commons.form.GridContainerData",
                 ]);
-                assertSuggestionProperties({
-                  suggestions,
-                  expectedParentTag: "layoutData",
-                });
               },
             });
           });
@@ -322,6 +311,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
                   elementName: [classesSuggestions],
                 },
                 assertion: (suggestions) => {
+                  assertSuggestionProperties(suggestions, "layoutData");
                   const suggestionNames = map(suggestions, (_) =>
                     ui5NodeToFQN(_.ui5Node)
                   );
@@ -330,10 +320,6 @@ describe("The ui5-language-assistant xml-views-completion", () => {
                   expect(suggestionNames).to.deep.equalInAnyOrder([
                     "sap.ui.commons.form.GridContainerData",
                   ]);
-                  assertSuggestionProperties({
-                    suggestions,
-                    expectedParentTag: "layoutData",
-                  });
                 },
               });
             });
@@ -361,6 +347,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
                     elementName: [classesSuggestions],
                   },
                   assertion: (suggestions) => {
+                    assertSuggestionProperties(suggestions, "layoutData");
                     const suggestionNames = map(suggestions, (_) =>
                       ui5NodeToFQN(_.ui5Node)
                     );
@@ -370,10 +357,6 @@ describe("The ui5-language-assistant xml-views-completion", () => {
                       "sap.ui.commons.form.GridContainerData",
                       "sap.ui.commons.form.GridElementData",
                     ]);
-                    assertSuggestionProperties({
-                      suggestions,
-                      expectedParentTag: "layoutData",
-                    });
                   },
                 });
               });
@@ -403,6 +386,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           assertion: (suggestions) => {
             expect(ui5Model.classes).to.have.property("sap.m.ComboBoxBase");
             expect(ui5Model.classes["sap.m.ComboBoxBase"].abstract).to.be.true;
+            assertSuggestionProperties(suggestions, "layoutData");
             const suggestionNames = map(suggestions, (_) =>
               ui5NodeToFQN(_.ui5Node)
             );
@@ -474,10 +458,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
             elementName: [classesSuggestions],
           },
           assertion: (suggestions) => {
-            const suggestionNames = map(suggestions, (_) =>
-              ui5NodeToFQN(_.ui5Node)
-            );
-            expect(suggestionNames).to.be.empty;
+            expect(suggestions).to.be.empty;
           },
         });
       });
@@ -638,17 +619,19 @@ describe("The ui5-language-assistant xml-views-completion", () => {
   });
 });
 
-function assertSuggestionProperties({
-  suggestions,
-  expectedParentTag,
-}: {
-  suggestions: UI5XMLViewCompletion[];
-  expectedParentTag: string;
-}): void {
+function assertSuggestionProperties(
+  suggestions: UI5XMLViewCompletion[],
+  expectedParentTag: string | undefined
+): asserts suggestions is UI5ClassesInXMLTagNameCompletion[] {
   forEach(suggestions, (_) => {
     expect(_.type).to.equal(`UI5ClassesInXMLTagName`);
     expect(_.ui5Node.kind).to.equal("UI5Class");
     expect(_.astNode.type).to.equal("XMLElement");
-    expect((_.astNode.parent as XMLElement).name).to.equal(expectedParentTag);
+    if (expectedParentTag === undefined) {
+      expect(_.astNode.parent.type).to.equal("XMLDocument");
+    } else {
+      expect(_.astNode.parent.type).to.equal("XMLElement");
+      expect((_.astNode.parent as XMLElement).name).to.equal(expectedParentTag);
+    }
   });
 }

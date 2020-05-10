@@ -12,7 +12,7 @@ import { GENERATED_LIBRARY } from "@ui5-language-assistant/semantic-model";
 export function getNodeDocumentation(
   node: BaseUI5Node,
   model: UI5SemanticModel
-): string | MarkupContent {
+): MarkupContent {
   // Note: most of this code was taken from ui5-typescript repository and adapted for better markdown support.
   // This should be consolidated in the future.
   let contents = "";

@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { find, map } from "lodash";
+import { find, map, forEach } from "lodash";
 import { buildAst, XMLElement } from "@xml-tools/ast";
 import { DocumentCstNode, parse } from "@xml-tools/parser";
 
@@ -9,7 +9,7 @@ import {
 } from "@ui5-language-assistant/semantic-model-types";
 import { generateModel } from "@ui5-language-assistant/test-utils";
 
-import { getXMLViewCompletions } from "../src/api";
+import { getXMLViewCompletions, isUI5NodeXMLViewCompletion } from "../src/api";
 import { UI5XMLViewCompletion } from "../api";
 
 describe("The `getXMLViewCompletions()` api", () => {
@@ -81,6 +81,27 @@ describe("The `getXMLViewCompletions()` api", () => {
         expect(suggestedAstNode.type).to.equal("XMLElement");
         expect((suggestedAstNode.parent as XMLElement).name).to.equal("Page");
       },
+    });
+  });
+
+  context("isUI5NodeXMLViewCompletion", () => {
+    it("returns false for boolean values", () => {
+      const xmlSnippet = `
+        <mvc:View
+          xmlns:mvc="sap.ui.core.mvc"
+          xmlns="sap.m"
+          busy="⇶">
+        </mvc:View>`;
+
+      testSuggestionsScenario({
+        model: REAL_UI5_MODEL,
+        xmlText: xmlSnippet,
+        assertion: (suggestions) => {
+          forEach(suggestions, (_) => {
+            expect(isUI5NodeXMLViewCompletion(_)).to.be.false;
+          });
+        },
+      });
     });
   });
 });
