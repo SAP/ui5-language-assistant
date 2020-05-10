@@ -15,7 +15,7 @@
   "typings": "./api.d.ts",
   "dependencies": {
     "@ui5-language-assistant/semantic-model-types": "^1.2.0",
-    "ajv": "6.12.0",
+    "ajv": "6.12.2",
     "deep-freeze-strict": "1.1.1",
     "lodash": "4.17.15"
   },
@@ -24,7 +24,7 @@
     "@types/fs-extra": "^8.1.0",
     "@ui5-language-assistant/test-utils": "^1.3.0",
     "fs-extra": "9.0.0",
-    "json-schema-to-typescript": "9.0.1"
+    "json-schema-to-typescript": "9.1.0"
   },
   "scripts": {
     "ci": "npm-run-all clean generate-json-api compile lint coverage",
