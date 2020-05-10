@@ -3,24 +3,24 @@ import { map, forEach } from "lodash";
 import {
   CompletionItemKind,
   TextEdit,
-  CompletionItem
+  CompletionItem,
 } from "vscode-languageserver";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import {
   generateModel,
   GEN_MODEL_TIMEOUT,
-  expectExists
+  expectExists,
 } from "@ui5-language-assistant/test-utils";
 import {
   getSuggestions,
   getRanges,
   getTextInRange,
-  getTagName
+  getTagName,
 } from "./completion-items-utils";
 
 describe("the UI5 language assistant Code Completion Services - classes", () => {
   let ui5SemanticModel: UI5SemanticModel;
-  before(async function() {
+  before(async function () {
     this.timeout(GEN_MODEL_TIMEOUT);
     //TODO: use 1.71.x
     ui5SemanticModel = await generateModel({ version: "1.74.0" });
@@ -45,7 +45,7 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
     const suggestions = getSuggestions(opts.xmlSnippet, ui5SemanticModel);
     const ranges = getRanges(opts.xmlSnippet);
 
-    const suggestionsDetails = map(suggestions, suggestion => ({
+    const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
       tagName: getTagName(suggestion.textEdit),
       attributes: compareAttributes
@@ -53,24 +53,24 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
         : undefined,
       additionalTextEdits: suggestion.additionalTextEdits,
       replacedText: getTextInRange(opts.xmlSnippet, suggestion.textEdit?.range),
-      kind: suggestion.kind
+      kind: suggestion.kind,
     }));
 
     const expectedSuggestionsDetails = map(
       opts.expected,
-      expectedSuggestion => ({
+      (expectedSuggestion) => ({
         kind: CompletionItemKind.Class,
         ...expectedSuggestion,
         additionalTextEdits: map(
           expectedSuggestion.additionalTextEdits ?? [],
-          edit => ({
+          (edit) => ({
             range: ranges[edit.rangeIndex],
-            newText: edit.newText
+            newText: edit.newText,
           })
         ),
         attributes: compareAttributes
           ? expectedSuggestion.attributes || []
-          : undefined
+          : undefined,
       })
     );
 
@@ -99,10 +99,10 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
         {
           label: "GridListItem",
           tagName: "f:GridListItem",
-          replacedText: "GridLi"
-        }
+          replacedText: "GridLi",
+        },
       ],
-      compareAttributes: false
+      compareAttributes: false,
     });
   });
 
@@ -114,15 +114,15 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
           label: "BusyDialog",
           tagName: "m:BusyDialog",
           attributes: [`xmlns:m="sap.m"`, TAB_STOP1],
-          replacedText: "sap.m.Busy"
+          replacedText: "sap.m.Busy",
         },
         {
           label: "BusyIndicator",
           tagName: "m:BusyIndicator",
           attributes: [`xmlns:m="sap.m"`, TAB_STOP1],
-          replacedText: "sap.m.Busy"
-        }
-      ]
+          replacedText: "sap.m.Busy",
+        },
+      ],
     });
   });
 
@@ -134,9 +134,9 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
           label: "BusyIndicator",
           tagName: "m2:BusyIndicator",
           attributes: [`xmlns:m2="sap.m"`],
-          replacedText: "sap.m.BusyI"
-        }
-      ]
+          replacedText: "sap.m.BusyI",
+        },
+      ],
     });
   });
 
@@ -148,30 +148,30 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
           label: "BusyDialog",
           tagName: "m:BusyDialog",
           attributes: [`xmlns:m="sap.m"`, TAB_STOP1],
-          replacedText: "BusyDialo"
+          replacedText: "BusyDialo",
         },
         {
           label: "BusyIndicator",
           tagName: "m:BusyIndicator",
           attributes: [`xmlns:m="sap.m"`, TAB_STOP1],
-          replacedText: "BusyDialo"
+          replacedText: "BusyDialo",
         },
         {
           label: "LocalBusyIndicator",
           tagName: "core:LocalBusyIndicator",
           attributes: [`xmlns:core="sap.ui.core"`, TAB_STOP1],
-          replacedText: "BusyDialo"
+          replacedText: "BusyDialo",
         },
         {
           label: "InboxBusyIndicator",
           tagName: "composite:InboxBusyIndicator",
           attributes: [
             `xmlns:composite="sap.uiext.inbox.composite"`,
-            TAB_STOP1
+            TAB_STOP1,
           ],
-          replacedText: "BusyDialo"
-        }
-      ]
+          replacedText: "BusyDialo",
+        },
+      ],
     });
   });
 
@@ -183,15 +183,15 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
           label: "BusyDialog",
           tagName: "m:BusyDialog",
           attributes: [`xmlns:m="sap.m"`, TAB_STOP1],
-          replacedText: "sap.m.BusyDialo"
+          replacedText: "sap.m.BusyDialo",
         },
         {
           label: "BusyIndicator",
           tagName: "m:BusyIndicator",
           attributes: [`xmlns:m="sap.m"`, TAB_STOP1],
-          replacedText: "sap.m.BusyDialo"
-        }
-      ]
+          replacedText: "sap.m.BusyDialo",
+        },
+      ],
     });
   });
 
@@ -203,15 +203,15 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
           label: "BusyDialog",
           tagName: "m:BusyDialog",
           attributes: [],
-          replacedText: "m:BusyDialo"
+          replacedText: "m:BusyDialo",
         },
         {
           label: "BusyIndicator",
           tagName: "m:BusyIndicator",
           attributes: [],
-          replacedText: "m:BusyDialo"
-        }
-      ]
+          replacedText: "m:BusyDialo",
+        },
+      ],
     });
   });
 
@@ -222,15 +222,15 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
         {
           label: "RadioButtonGroup",
           tagName: "RadioButtonGroup",
-          replacedText: "RadioButtonGrou"
+          replacedText: "RadioButtonGrou",
         },
         {
           label: "RadioButtonGroup",
           tagName: "commons:RadioButtonGroup",
-          replacedText: "RadioButtonGrou"
-        }
+          replacedText: "RadioButtonGrou",
+        },
       ],
-      compareAttributes: false
+      compareAttributes: false,
     });
   });
 
@@ -242,9 +242,9 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
           label: "Card",
           tagName: "f:Card",
           attributes: [],
-          replacedText: "f:Ca"
-        }
-      ]
+          replacedText: "f:Ca",
+        },
+      ],
     });
   });
 
@@ -256,9 +256,9 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
           label: "Card",
           tagName: "g:Card",
           attributes: [],
-          replacedText: "g:Ca"
-        }
-      ]
+          replacedText: "g:Ca",
+        },
+      ],
     });
   });
 
@@ -275,9 +275,9 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
           tagName: "m:MenuButton",
           attributes: [TAB_STOP1], // Check the namespace is not added on the same tag
           additionalTextEdits: [],
-          replacedText: "sap.m.MenuButton"
-        }
-      ]
+          replacedText: "sap.m.MenuButton",
+        },
+      ],
     });
   });
 
@@ -296,10 +296,10 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
           additionalTextEdits: [
             {
               rangeIndex: 0,
-              newText: ` xmlns:m2="sap.m"`
-            }
+              newText: ` xmlns:m2="sap.m"`,
+            },
           ],
-          replacedText: "MenuButton"
+          replacedText: "MenuButton",
         },
         {
           label: "MenuButton",
@@ -308,19 +308,19 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
           additionalTextEdits: [
             {
               rangeIndex: 0,
-              newText: ` xmlns:commons="sap.ui.commons"`
-            }
+              newText: ` xmlns:commons="sap.ui.commons"`,
+            },
           ],
-          replacedText: "MenuButton"
-        }
-      ]
+          replacedText: "MenuButton",
+        },
+      ],
     });
   });
 
   it("will not get completion values for unknown class", () => {
     assertClassesCompletions({
       xmlSnippet: `<Unknown⇶`,
-      expected: []
+      expected: [],
     });
   });
 
@@ -328,7 +328,7 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
     const xmlSnippet = `<⇶`;
     const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
     expect(suggestions).to.not.be.empty;
-    forEach(suggestions, suggestion => {
+    forEach(suggestions, (suggestion) => {
       // We're not replacing any text, just adding
       expect(getTextInRange(xmlSnippet, suggestion.textEdit?.range)).to.equal(
         ""
@@ -358,7 +358,7 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
     const xmlSnippet = `<⇶>`;
     const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
     expect(suggestions).to.not.be.empty;
-    forEach(suggestions, suggestion => {
+    forEach(suggestions, (suggestion) => {
       // We're not replacing any text, just adding
       expect(getTextInRange(xmlSnippet, suggestion.textEdit?.range)).to.equal(
         ""
@@ -390,12 +390,12 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
         {
           label: "ContentSwitcher",
           tagName: "unified:ContentSwitcher",
-          replacedText: "ContentS"
-        }
+          replacedText: "ContentS",
+        },
       ],
-      compareAttributes: false
+      compareAttributes: false,
     });
-    forEach(suggestions, suggestion => {
+    forEach(suggestions, (suggestion) => {
       expect(suggestion.detail).to.contain("experimental");
     });
   });
@@ -414,10 +414,10 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
           additionalTextEdits: [
             {
               rangeIndex: 0,
-              newText: `m:MenuButton`
-            }
+              newText: `m:MenuButton`,
+            },
           ],
-          replacedText: "MenuButton"
+          replacedText: "MenuButton",
         },
         {
           label: "MenuButton",
@@ -425,12 +425,12 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
           additionalTextEdits: [
             {
               rangeIndex: 0,
-              newText: `commons:MenuButton`
-            }
+              newText: `commons:MenuButton`,
+            },
           ],
-          replacedText: "MenuButton"
-        }
-      ]
+          replacedText: "MenuButton",
+        },
+      ],
     });
   });
 
@@ -446,15 +446,15 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
           label: "MenuButton",
           tagName: "m:MenuButton",
           additionalTextEdits: [],
-          replacedText: "MenuButton"
+          replacedText: "MenuButton",
         },
         {
           label: "MenuButton",
           tagName: "commons:MenuButton",
           additionalTextEdits: [],
-          replacedText: "MenuButton"
-        }
-      ]
+          replacedText: "MenuButton",
+        },
+      ],
     });
   });
 
@@ -470,9 +470,9 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
           label: "CustomData",
           tagName: "core:CustomData",
           additionalTextEdits: [],
-          replacedText: ""
-        }
-      ]
+          replacedText: "",
+        },
+      ],
     });
   });
 
@@ -490,10 +490,10 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
           additionalTextEdits: [
             {
               rangeIndex: 0,
-              newText: `</m:MenuButton>`
-            }
+              newText: `</m:MenuButton>`,
+            },
           ],
-          replacedText: "MenuButton"
+          replacedText: "MenuButton",
         },
         {
           label: "MenuButton",
@@ -501,12 +501,12 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
           additionalTextEdits: [
             {
               rangeIndex: 0,
-              newText: `</commons:MenuButton>`
-            }
+              newText: `</commons:MenuButton>`,
+            },
           ],
-          replacedText: "MenuButton"
-        }
-      ]
+          replacedText: "MenuButton",
+        },
+      ],
     });
   });
 
@@ -524,14 +524,14 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
           additionalTextEdits: [
             {
               rangeIndex: 0,
-              newText: ` xmlns:m="sap.m"`
+              newText: ` xmlns:m="sap.m"`,
             },
             {
               rangeIndex: 1,
-              newText: `m:MenuButton`
-            }
+              newText: `m:MenuButton`,
+            },
           ],
-          replacedText: "MenuButton"
+          replacedText: "MenuButton",
         },
         {
           label: "MenuButton",
@@ -539,16 +539,16 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
           additionalTextEdits: [
             {
               rangeIndex: 0,
-              newText: ` xmlns:commons="sap.ui.commons"`
+              newText: ` xmlns:commons="sap.ui.commons"`,
             },
             {
               rangeIndex: 1,
-              newText: `commons:MenuButton`
-            }
+              newText: `commons:MenuButton`,
+            },
           ],
-          replacedText: "MenuButton"
-        }
-      ]
+          replacedText: "MenuButton",
+        },
+      ],
     });
   });
 });
