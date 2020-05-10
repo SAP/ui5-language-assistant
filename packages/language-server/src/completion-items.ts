@@ -5,7 +5,7 @@ import {
   TextDocumentPositionParams,
   InsertTextFormat,
   TextEdit,
-  Range,
+  Range
 } from "vscode-languageserver";
 import { TextDocument } from "vscode-languageserver-textdocument";
 import { Position } from "vscode-languageserver-types";
@@ -16,7 +16,7 @@ import {
   SourcePosition,
   XMLAttribute,
   XMLElement,
-  XMLDocument,
+  XMLDocument
 } from "@xml-tools/ast";
 import {
   UI5SemanticModel,
@@ -24,17 +24,17 @@ import {
   UI5Prop,
   UI5Aggregation,
   UI5Association,
-  UI5Field,
+  UI5Field
 } from "@ui5-language-assistant/semantic-model-types";
 import {
   getXMLViewCompletions,
   UI5XMLViewCompletion,
-  UI5ClassesInXMLTagNameCompletion,
+  UI5ClassesInXMLTagNameCompletion
 } from "@ui5-language-assistant/xml-views-completion";
 import {
   ui5NodeToFQN,
   isRootSymbol,
-  typeToString,
+  typeToString
 } from "@ui5-language-assistant/logic-utils";
 import { getNodeDocumentation } from "./documentation";
 
@@ -51,7 +51,7 @@ export function getCompletionItems(
     offset: document.offsetAt(textDocumentPosition.position),
     cst: cst as DocumentCstNode,
     ast: ast,
-    tokenVector: tokenVector,
+    tokenVector: tokenVector
   });
 
   const completionItems = transformToLspSuggestions(
@@ -67,7 +67,7 @@ function transformToLspSuggestions(
   model: UI5SemanticModel,
   originalPosition: Position
 ): CompletionItem[] {
-  const lspSuggestions = map(suggestions, (suggestion) => {
+  const lspSuggestions = map(suggestions, suggestion => {
     const lspKind = computeLSPKind(suggestion);
     let detailText = getNodeDetail(suggestion.ui5Node);
     if (suggestion.ui5Node.experimentalInfo?.isExperimental) {
@@ -86,7 +86,7 @@ function transformToLspSuggestions(
       additionalTextEdits: textEditDetails.additionalTextEdits,
       detail: detailText,
       documentation: getNodeDocumentation(suggestion.ui5Node, model),
-      kind: lspKind,
+      kind: lspKind
       // TODO tags are not supported in Theia: https://che-incubator.github.io/vscode-theia-comparator/status.html
       // tags: suggestion.ui5Node.deprecatedInfo?.isDeprecated
       //   ? [CompletionItemTag.Deprecated]
@@ -130,7 +130,7 @@ function createTextEdits(
   const additionalTextEdits: TextEdit[] = [];
   let range: Range = {
     start: originalPosition,
-    end: originalPosition,
+    end: originalPosition
   };
   let newText = suggestion.ui5Node.name;
 
@@ -240,10 +240,10 @@ function createTextEdits(
   return {
     textEdit: {
       range,
-      newText,
+      newText
     },
     filterText,
-    additionalTextEdits,
+    additionalTextEdits
   };
 }
 
@@ -312,7 +312,7 @@ function getClosingTagTextEdits(
     if (closingTagNameRange !== undefined) {
       const closingTagNameTextEdit = {
         newText: closingTagName,
-        range: closingTagNameRange,
+        range: closingTagNameRange
       };
       textEdits.push(closingTagNameTextEdit);
     }
@@ -327,7 +327,7 @@ function getClosingTagTextEdits(
     if (closingTagRange !== undefined) {
       const closingTagTextEdit = {
         newText: `</${closingTagName}>`,
-        range: closingTagRange,
+        range: closingTagRange
       };
       textEdits.push(closingTagTextEdit);
     }
@@ -371,10 +371,31 @@ function rangeContains(range: Range, inner: Range): boolean {
   return atMost(range.start, inner.start) && atMost(inner.end, range.end);
 }
 
-function createInsertRange(line: number, column: number): Range {
+/**
+ * Create an insert range at the position right after the sent column.
+ * For exmaple, for text "12345" the character in position 1 is "1" and the
+ * insert position after it is "1|2345".
+ * The character in position 2 is "2" and the insert position after it is "12|345".
+ * The character at position 5 is "5" and the insert position after it at the end of the text -> "12345|".
+ * */
+function createInsertRangeAfter(line: number, column: number): Range {
   return {
     start: Position.create(line - 1, column),
-    end: Position.create(line - 1, column),
+    end: Position.create(line - 1, column)
+  };
+}
+
+/**
+ * Create an insert range at the position right before the sent column.
+ * For exmaple, for text "12345" the character in position 1 is "1" and the
+ * insert position before it is the beginning of the text -> "|12345".
+ * The character in position 2 is "2" and the insert position before it is "1|2345".
+ * The character at position 5 is "5" and the insert position before it is "1234|5".
+ * */
+function createInsertRangeBefore(line: number, column: number): Range {
+  return {
+    start: Position.create(line - 1, column - 1),
+    end: Position.create(line - 1, column - 1)
   };
 }
 
@@ -389,7 +410,7 @@ function positionToRange(
   if (position !== undefined && !isDummyPosition(position)) {
     return {
       start: Position.create(position.startLine - 1, position.startColumn - 1),
-      end: Position.create(position.endLine - 1, position.endColumn),
+      end: Position.create(position.endLine - 1, position.endColumn)
     };
   }
   return undefined;
@@ -404,7 +425,7 @@ function getClassNamespacePrefix(
   /* istanbul ignore else */
   if (parent !== undefined) {
     const parentFQN = ui5NodeToFQN(parent);
-    let xmlnsPrefix = findKey(xmlElement.namespaces, (_) => _ === parentFQN);
+    let xmlnsPrefix = findKey(xmlElement.namespaces, _ => _ === parentFQN);
     // Namespace not defined in imports - guess it
     if (xmlnsPrefix === undefined) {
       // It should be the parent simple name by default, but if that already exists we'll add an index to it (name2 etc)
@@ -454,13 +475,27 @@ function getAddNamespaceEdit(
   // xml document will not be empty
   /* istanbul ignore else */
   if (parent.rootElement !== null) {
-    const position =
-      parent.rootElement.syntax.openName ?? parent.rootElement.position;
-    // We want to insert, not replace - the actual position should be at the end of the range.
-    const range = createInsertRange(position.endLine, position.endColumn);
+    let range: Range;
+    if (parent.rootElement.syntax.openName !== undefined) {
+      const position = parent.rootElement.syntax.openName;
+      // We want to insert the namespace at the end of the range, after the tag name.
+      range = createInsertRangeAfter(position.endLine, position.endColumn);
+    } else {
+      const position =
+        parent.rootElement.syntax.openBody ?? parent.rootElement.position;
+      // We want to insert the namespace after the opening tag.
+      // There is no tag name so this will be directly after the "<" token
+      // (which must exist if there is an open body or rootElement at all).
+      // When there is no ">" token the openBody will not exist so we take the rootElement position.
+      range = createInsertRangeBefore(
+        position.startLine,
+        position.startColumn + "<".length
+      );
+    }
+
     return {
       range,
-      newText: ` xmlns:${xmlns}="${value}"`,
+      newText: ` xmlns:${xmlns}="${value}"`
     };
   }
   // See above for why this case is ignored.
