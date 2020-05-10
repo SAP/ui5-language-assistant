@@ -132,19 +132,19 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           model: ui5SemanticModel,
           xmlText: xmlSnippet,
           providers: {
-            attributeName: [propEventAssocSuggestions]
+            attributeName: [propEventAssocSuggestions],
           },
-          assertion: suggestions => {
+          assertion: (suggestions) => {
             expectAttributesSuggestions({
               suggestions,
               expectedSuggestionsNames: [
                 "busy",
                 "busyIndicatorDelay",
-                "busyIndicatorSize"
+                "busyIndicatorSize",
               ],
-              expectedParentTag: "RadioButtonGroup"
+              expectedParentTag: "RadioButtonGroup",
             });
-          }
+          },
         });
       });
 
@@ -160,19 +160,19 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           model: ui5SemanticModel,
           xmlText: xmlSnippet,
           providers: {
-            attributeName: [propEventAssocSuggestions]
+            attributeName: [propEventAssocSuggestions],
           },
-          assertion: suggestions => {
+          assertion: (suggestions) => {
             expectAttributesSuggestions({
               suggestions,
               expectedSuggestionsNames: [
                 "busy",
                 "busyIndicatorDelay",
-                "busyIndicatorSize"
+                "busyIndicatorSize",
               ],
-              expectedParentTag: "RadioButtonGroup"
+              expectedParentTag: "RadioButtonGroup",
             });
-          }
+          },
         });
       });
 

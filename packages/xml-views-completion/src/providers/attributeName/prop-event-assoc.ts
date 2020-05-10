@@ -69,7 +69,7 @@ export function propEventAssocSuggestions(
   const existingAttributeNamesWithoutCurrent =
     currentAttributeKey === undefined
       ? existingAttributeNames
-      : reject(existingAttributeNames, name => name === currentAttributeKey);
+      : reject(existingAttributeNames, (name) => name === currentAttributeKey);
 
   const uniquePrefixMatchingAttributes = filterMembersForSuggestion(
     allPropertiesEventsAssociations,
