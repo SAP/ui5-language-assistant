@@ -1291,10 +1291,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/lodash@4.14.149":
-  version "4.14.149"
-  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.149.tgz#1342d63d948c6062838fbf961012f74d4e638440"
-  integrity sha512-ijGqzZt/b7BfzcK9vTrS6MFljQRPn5BFWOx8oE0GYxribu6uV+aA9zZuXI1zc/etK9E8nrgdoF2+LgUw7+9tJQ==
+"@types/lodash@4.14.150":
+  version "4.14.150"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.150.tgz#649fe44684c3f1fcb6164d943c5a61977e8cf0bd"
+  integrity sha512-kMNLM5JBcasgYscD9x/Gvr6lTAv2NVgsKtet/hm93qMyf/D1pt+7jeEZklKJKxMVmXjxbRVQQGfqDSfipYCO6w==
 
 "@types/minimatch@*":
   version "3.0.3"
@@ -1306,10 +1306,10 @@
   resolved "https://registry.yarnpkg.com/@types/mocha/-/mocha-5.2.7.tgz#315d570ccb56c53452ff8638738df60726d5b6ea"
   integrity sha512-NYrtPht0wGzhwe9+/idPaBB+TqkY9AhTvOLMkThm0IoEfLaiVQZwBwyJ5puCkO3AUCWrmcoePjp2mbFocKy4SQ==
 
-"@types/node-fetch@2.5.5":
-  version "2.5.5"
-  resolved "https://registry.yarnpkg.com/@types/node-fetch/-/node-fetch-2.5.5.tgz#cd264e20a81f4600a6c52864d38e7fef72485e92"
-  integrity sha512-IWwjsyYjGw+em3xTvWVQi5MgYKbRs0du57klfTaZkv/B24AEQ/p/IopNeqIYNy3EsfHOpg8ieQSDomPcsYMHpA==
+"@types/node-fetch@2.5.7":
+  version "2.5.7"
+  resolved "https://registry.yarnpkg.com/@types/node-fetch/-/node-fetch-2.5.7.tgz#20a2afffa882ab04d44ca786449a276f9f6bbf3c"
+  integrity sha512-o2WVNf5UhWRkxlf6eq+jMZDu7kjgpgJfl4xVNlvryc95O/6F2ld8ztKX+qu+Rjyet93WAWm5LjeX9H5FGkODvw==
   dependencies:
     "@types/node" "*"
     form-data "^3.0.0"
@@ -1416,13 +1416,6 @@
     "@xml-tools/parser" "^1.0.4"
     lodash "4.17.15"
 
-"@xml-tools/common@^0.0.5":
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/@xml-tools/common/-/common-0.0.5.tgz#b16bff77c8ee7fd8da685dcb6655b78d897996e6"
-  integrity sha512-unYHdg0sEgU9rQpCBOIcMXUPvHEpSCepeHE0i9gUEm0MUTnJm7m5bsZaeIHi33I7fIJn/k9CjJ8q2wi3I2SO0g==
-  dependencies:
-    lodash "4.17.15"
-
 "@xml-tools/common@^0.0.6":
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/@xml-tools/common/-/common-0.0.6.tgz#0932d44ecb65fdfea7ac597126b60f9aa37695b0"
@@ -1430,16 +1423,16 @@
   dependencies:
     lodash "4.17.15"
 
-"@xml-tools/content-assist@3.1.3":
-  version "3.1.3"
-  resolved "https://registry.yarnpkg.com/@xml-tools/content-assist/-/content-assist-3.1.3.tgz#697d8807c1c0b5f0aa999e514ac20fa78d0f4e0f"
-  integrity sha512-Oua/q/exqMBsHRGhuqOHUy7Dv1XLS5sYzoNhZq59Qay0BB4PiGC2Jq+Sb9aV/OrQDH3li7eFSQLVV3dkqjAPbQ==
+"@xml-tools/content-assist@3.1.4":
+  version "3.1.4"
+  resolved "https://registry.yarnpkg.com/@xml-tools/content-assist/-/content-assist-3.1.4.tgz#b8af82827378ad1a5e3ea51531dff21eeac9cd03"
+  integrity sha512-sYgSqu35vMFtIMeIgW0u7w8yJV48JGCEZ8Z/ZAunm3gPKQNCyKu0Xtgh7PqNprQ4Tp5q9dRRnShYt436ZfAySQ==
   dependencies:
-    "@xml-tools/common" "^0.0.5"
-    "@xml-tools/parser" "^1.0.3"
+    "@xml-tools/common" "^0.0.6"
+    "@xml-tools/parser" "^1.0.4"
     lodash "4.17.15"
 
-"@xml-tools/parser@1.0.4", "@xml-tools/parser@^1.0.3", "@xml-tools/parser@^1.0.4":
+"@xml-tools/parser@1.0.4", "@xml-tools/parser@^1.0.4":
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/@xml-tools/parser/-/parser-1.0.4.tgz#05cce7dc92950eaaa5e6e5a9f62c6d42c4eb10be"
   integrity sha512-KQtKJf/G0KMV5dWzRZBmmS/YuXUVGqBvDkBSqsDxQUuOajqPTJ+0mwyL3KIxCK+KzPsrMWRbrUl3DgGmJ/on2Q==
@@ -1507,10 +1500,10 @@ aggregate-error@^3.0.0:
     clean-stack "^2.0.0"
     indent-string "^4.0.0"
 
-ajv@6.12.0, ajv@^6.10.0, ajv@^6.10.2, ajv@^6.5.5:
-  version "6.12.0"
-  resolved "https://registry.yarnpkg.com/ajv/-/ajv-6.12.0.tgz#06d60b96d87b8454a5adaba86e7854da629db4b7"
-  integrity sha512-D6gFiFA0RRLyUbvijN74DWAjXSFxWKaWP7mldxkVhyhAV3+SWA9HEJPHQ2c9soIeTFJqcSdFDGFgdqs1iUU2Hw==
+ajv@6.12.2, ajv@^6.10.0, ajv@^6.10.2, ajv@^6.5.5:
+  version "6.12.2"
+  resolved "https://registry.yarnpkg.com/ajv/-/ajv-6.12.2.tgz#c629c5eced17baf314437918d2da88c99d5958cd"
+  integrity sha512-k+V+hzjm5q/Mr8ef/1Y9goCmlsK4I6Sm74teeyGvFk1XrOsbsKLjEdrvny42CZ+a8sXbk8KWpY/bDwS+FLL2UQ==
   dependencies:
     fast-deep-equal "^3.1.1"
     fast-json-stable-stringify "^2.0.0"
@@ -2661,11 +2654,11 @@ deep-eql@^3.0.1:
     type-detect "^4.0.0"
 
 deep-equal-in-any-order@^1.0.24:
-  version "1.0.25"
-  resolved "https://registry.yarnpkg.com/deep-equal-in-any-order/-/deep-equal-in-any-order-1.0.25.tgz#a95c6475592f1ed2101e188c79e7e5ac5ce6162b"
-  integrity sha512-xNNvhoxAVtslT4MHly+yXOz/tHHkZazDKH0n/WNJOO1Aj+NkjZBlappmh9mAUwFH1f20gCP8yrYvgcIvS4i2AA==
+  version "1.0.27"
+  resolved "https://registry.yarnpkg.com/deep-equal-in-any-order/-/deep-equal-in-any-order-1.0.27.tgz#607c4250368f3f95dddb07cc768ef5428132c16e"
+  integrity sha512-yxZ1zYvaiZidcpprBq5hZdbiWNzNXQtcDjc10R2iMfoCgYx6oIdwkPrIaXbcvZkk6spsJvG/C1nRyVTcI748Jg==
   dependencies:
-    lodash "^4.17.15"
+    lodash.mapvalues "^4.6.0"
     sort-any "^1.1.21"
 
 deep-freeze-strict@1.1.1:
@@ -4584,10 +4577,10 @@ json-schema-ref-parser@^9.0.1:
   dependencies:
     "@apidevtools/json-schema-ref-parser" "9.0.1"
 
-json-schema-to-typescript@9.0.1:
-  version "9.0.1"
-  resolved "https://registry.yarnpkg.com/json-schema-to-typescript/-/json-schema-to-typescript-9.0.1.tgz#d9d16b0610942971dfa84dc93ead73bfdaec4b02"
-  integrity sha512-BM8nwGzFKt4I5x+/zeJSh9taIhNgT3yAByUsfsF9onx57MSgF+MGOILaMLl/QHT/WyIscgMuqXkI3788f49l3g==
+json-schema-to-typescript@9.1.0:
+  version "9.1.0"
+  resolved "https://registry.yarnpkg.com/json-schema-to-typescript/-/json-schema-to-typescript-9.1.0.tgz#ad2650130a25d29eec7f5746c9aa2441ff2e394c"
+  integrity sha512-9/yDXQQyqtRDxohQGRCKht4Wjfg73TALi1yzy651EOo71a6aKFtIm2WUbDWSf8OitFGukUn00dx4t1kg0W6O4Q==
   dependencies:
     "@types/json-schema" "^7.0.4"
     cli-color "^2.0.0"
@@ -4858,6 +4851,11 @@ lodash.map@^4.5.1:
   version "4.6.0"
   resolved "https://registry.yarnpkg.com/lodash.map/-/lodash.map-4.6.0.tgz#771ec7839e3473d9c4cde28b19394c3562f4f6d3"
   integrity sha1-dx7Hg540c9nEzeKLGTlMNWL09tM=
+
+lodash.mapvalues@^4.6.0:
+  version "4.6.0"
+  resolved "https://registry.yarnpkg.com/lodash.mapvalues/-/lodash.mapvalues-4.6.0.tgz#1bafa5005de9dd6f4f26668c30ca37230cc9689c"
+  integrity sha1-G6+lAF3p3W9PJmaMMMo3IwzJaJw=
 
 lodash.set@^4.3.2:
   version "4.3.2"
@@ -5235,10 +5233,10 @@ mkdirp-promise@^5.0.1:
   dependencies:
     mkdirp "*"
 
-mkdirp@*:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-1.0.3.tgz#4cf2e30ad45959dddea53ad97d518b6c8205e1ea"
-  integrity sha512-6uCP4Qc0sWsgMLy1EOqqS/3rjDHOEnsStVr/4vtAIK2Y5i2kA7lFFejYrpIyiN9w0pYf4ckeCYT9f1r1P9KX5g==
+mkdirp@*, mkdirp@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-1.0.4.tgz#3eb5ed62622756d79a5f0e2a221dfebad75c2f7e"
+  integrity sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw==
 
 mkdirp@0.5.5, mkdirp@^0.5.0, mkdirp@^0.5.1:
   version "0.5.5"
@@ -5246,11 +5244,6 @@ mkdirp@0.5.5, mkdirp@^0.5.0, mkdirp@^0.5.1:
   integrity sha512-NKmAlESf6jMGym1++R0Ra7wvhV+wFW63FaSOFPwRahvea0gMUcGUhVeAg/0BC0wiv9ih5NYPB1Wn1UEI1/L+xQ==
   dependencies:
     minimist "^1.2.5"
-
-mkdirp@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-1.0.4.tgz#3eb5ed62622756d79a5f0e2a221dfebad75c2f7e"
-  integrity sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw==
 
 mocha@7.1.2:
   version "7.1.2"
