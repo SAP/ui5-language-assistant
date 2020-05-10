@@ -11,6 +11,19 @@ import {
 } from "../utils/filter-members";
 import { UI5AttributeValueCompletionOptions } from "./index";
 
+const allBooleanValues: BooleanValue[] = [
+  {
+    kind: "BooleanValue",
+    name: "true",
+    value: true,
+  },
+  {
+    kind: "BooleanValue",
+    name: "false",
+    value: false,
+  },
+];
+
 /**
  * Suggests boolean value (true/false) inside attribute value
  */
@@ -31,24 +44,20 @@ export function booleanSuggestions(
     return [];
   }
 
-  const values: BooleanValue[] = [
-    {
-      kind: "BooleanValue",
-      name: "true",
-      value: true,
-    },
-    {
-      kind: "BooleanValue",
-      name: "false",
-      value: false,
-    },
-  ];
   const prefix = opts.prefix ?? "";
-  const prefixMatchingValues = filterMembersForSuggestion(values, prefix, []);
+  const prefixMatchingValues = filterMembersForSuggestion(
+    allBooleanValues,
+    prefix,
+    []
+  );
 
-  return map(prefixMatchingValues, (_) => ({
-    type: "BooleanValueInXMLAttributeValue",
-    astNode: opts.attribute as XMLAttribute,
-    ui5Node: _,
-  }));
+  const completions: BooleanValueInXMLAttributeValueCompletion[] = map(
+    prefixMatchingValues,
+    (_) => ({
+      type: "BooleanValueInXMLAttributeValue",
+      astNode: opts.attribute as XMLAttribute,
+      ui5Node: _,
+    })
+  );
+  return completions;
 }
