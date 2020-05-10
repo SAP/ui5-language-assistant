@@ -6,7 +6,7 @@ import {
   UI5Validators,
   validateXMLView as validateXMLViewImpl,
 } from "../src/validate-xml-views";
-import { UI5XMLViewIssue } from "../api";
+import { OffsetRange, UI5XMLViewIssue } from "../api";
 
 export function testValidationsScenario(opts: {
   xmlText: string;
@@ -20,7 +20,8 @@ export function testValidationsScenario(opts: {
     );
   }
 
-  const { cst, tokenVector } = parse(opts.xmlText);
+  const xmlTextNoMarkers = opts.xmlText.replace(/[🢀🢂]/gu, "");
+  const { cst, tokenVector } = parse(xmlTextNoMarkers);
   const ast = buildAst(cst as DocumentCstNode, tokenVector);
 
   const issues = validateXMLViewImpl({
@@ -29,4 +30,29 @@ export function testValidationsScenario(opts: {
     model: opts.model,
   });
   opts.assertion(issues);
+}
+
+export function computeExpectedRanges(markedXMLSnippet: string): OffsetRange[] {
+  const expectedRanges = [];
+  const markedPattern = /🢂(.+?)🢀/gu;
+  let match;
+  // eslint-disable-next-line no-cond-assign
+  while ((match = markedPattern.exec(markedXMLSnippet))) {
+    const start = match.index;
+    // Chevrotain ranges are inclusive (start) to exclusive (end)
+    const end = start + match[1].length - 1;
+    expectedRanges.push({ start, end });
+  }
+  return expectedRanges;
+}
+
+/**
+ * Utility for common single range case.
+ */
+export function computeExpectedRange(markedXMLSnippet: string): OffsetRange {
+  const allRanges = computeExpectedRanges(markedXMLSnippet);
+  if (isEmpty(allRanges)) {
+    throw Error("The XML Snippet has no marked issue ranges!");
+  }
+  return computeExpectedRanges(markedXMLSnippet)[0];
 }
