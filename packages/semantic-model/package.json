@@ -15,7 +15,7 @@
   "typings": "./api.d.ts",
   "dependencies": {
     "@ui5-language-assistant/semantic-model-types": "^1.2.0",
-    "ajv": "6.12.0",
+    "ajv": "6.12.2",
     "deep-freeze-strict": "1.1.1",
     "lodash": "4.17.15"
   },
