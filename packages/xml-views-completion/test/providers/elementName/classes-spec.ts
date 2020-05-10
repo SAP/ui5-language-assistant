@@ -202,7 +202,6 @@ describe("The ui5-language-assistant xml-views-completion", () => {
                   "sap.m.OverflowToolbarButton",
                   "sap.m.OverflowToolbarToggleButton",
                 ]);
-                assertSuggestionProperties(suggestions, "ActionSheet");
               },
             });
           });
@@ -256,7 +255,6 @@ describe("The ui5-language-assistant xml-views-completion", () => {
                   "sap.uxap.ObjectPageHeaderLayoutData",
                   "sap.ui.vk.FlexibleControlLayoutData",
                 ]);
-                assertSuggestionProperties(suggestions, "layoutData");
               },
             });
           });
