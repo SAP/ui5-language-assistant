@@ -2672,11 +2672,11 @@ deep-eql@^3.0.1:
     type-detect "^4.0.0"
 
 deep-equal-in-any-order@^1.0.24:
-  version "1.0.25"
-  resolved "https://registry.yarnpkg.com/deep-equal-in-any-order/-/deep-equal-in-any-order-1.0.25.tgz#a95c6475592f1ed2101e188c79e7e5ac5ce6162b"
-  integrity sha512-xNNvhoxAVtslT4MHly+yXOz/tHHkZazDKH0n/WNJOO1Aj+NkjZBlappmh9mAUwFH1f20gCP8yrYvgcIvS4i2AA==
+  version "1.0.27"
+  resolved "https://registry.yarnpkg.com/deep-equal-in-any-order/-/deep-equal-in-any-order-1.0.27.tgz#607c4250368f3f95dddb07cc768ef5428132c16e"
+  integrity sha512-yxZ1zYvaiZidcpprBq5hZdbiWNzNXQtcDjc10R2iMfoCgYx6oIdwkPrIaXbcvZkk6spsJvG/C1nRyVTcI748Jg==
   dependencies:
-    lodash "^4.17.15"
+    lodash.mapvalues "^4.6.0"
     sort-any "^1.1.21"
 
 deep-freeze-strict@1.1.1:
@@ -4909,6 +4909,11 @@ lodash.map@^4.5.1:
   version "4.6.0"
   resolved "https://registry.yarnpkg.com/lodash.map/-/lodash.map-4.6.0.tgz#771ec7839e3473d9c4cde28b19394c3562f4f6d3"
   integrity sha1-dx7Hg540c9nEzeKLGTlMNWL09tM=
+
+lodash.mapvalues@^4.6.0:
+  version "4.6.0"
+  resolved "https://registry.yarnpkg.com/lodash.mapvalues/-/lodash.mapvalues-4.6.0.tgz#1bafa5005de9dd6f4f26668c30ca37230cc9689c"
+  integrity sha1-G6+lAF3p3W9PJmaMMMo3IwzJaJw=
 
 lodash.set@^4.3.2:
   version "4.3.2"
