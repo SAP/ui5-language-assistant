@@ -3,11 +3,11 @@ import { XMLAttribute } from "@xml-tools/ast";
 import { flattenProperties } from "@ui5-language-assistant/logic-utils";
 import {
   BooleanValueInXMLAttributeValueCompletion,
-  BooleanValue
+  BooleanValue,
 } from "../../../api";
 import {
   getClassByElement,
-  filterMembersForSuggestion
+  filterMembersForSuggestion,
 } from "../utils/filter-members";
 import { UI5AttributeValueCompletionOptions } from "./index";
 
@@ -35,20 +35,20 @@ export function booleanSuggestions(
     {
       kind: "BooleanValue",
       name: "true",
-      value: true
+      value: true,
     },
     {
       kind: "BooleanValue",
       name: "false",
-      value: false
-    }
+      value: false,
+    },
   ];
   const prefix = opts.prefix ?? "";
   const prefixMatchingValues = filterMembersForSuggestion(values, prefix, []);
 
-  return map(prefixMatchingValues, _ => ({
+  return map(prefixMatchingValues, (_) => ({
     type: "BooleanValueInXMLAttributeValue",
     astNode: opts.attribute as XMLAttribute,
-    ui5Node: _
+    ui5Node: _,
   }));
 }
