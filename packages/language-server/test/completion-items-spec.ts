@@ -3,10 +3,7 @@ import { map, uniq, forEach } from "lodash";
 import { CompletionItemKind } from "vscode-languageserver";
 import { UI5XMLViewCompletion } from "@ui5-language-assistant/xml-views-completion";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
-import {
-  generateModel,
-  GEN_MODEL_TIMEOUT,
-} from "@ui5-language-assistant/test-utils";
+import { generateModel } from "@ui5-language-assistant/test-utils";
 import { computeLSPKind } from "../src/completion-items";
 import {
   getSuggestions,
@@ -25,8 +22,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
   }
 
   let ui5SemanticModel: UI5SemanticModel;
-  before(async function () {
-    this.timeout(GEN_MODEL_TIMEOUT);
+  before(async () => {
     //TODO: use 1.71.x
     ui5SemanticModel = await generateModel({ version: "1.74.0" });
   });

@@ -7,10 +7,7 @@ import {
   UI5Class,
   UI5SemanticModel,
 } from "@ui5-language-assistant/semantic-model-types";
-import {
-  generateModel,
-  GEN_MODEL_TIMEOUT,
-} from "@ui5-language-assistant/test-utils";
+import { generateModel } from "@ui5-language-assistant/test-utils";
 
 import { classesSuggestions } from "../../../src/providers/elementName/classes";
 import { testSuggestionsScenario } from "../../utils";
@@ -23,7 +20,6 @@ import { UI5XMLViewCompletion } from "../../../api";
 describe("The ui5-language-assistant xml-views-completion", () => {
   let ui5Model: UI5SemanticModel;
   before(async function () {
-    this.timeout(GEN_MODEL_TIMEOUT);
     ui5Model = await generateModel({ version: "1.74.0" });
   });
 
