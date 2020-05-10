@@ -1,17 +1,17 @@
 /* istanbul ignore file - dev scripts don't need tests */
 const klawSync = require("klaw-sync");
-const { forEach, filter } = require("lodash");
+const { forEach, filter, map } = require("lodash");
 const { resolve, dirname } = require("path");
 const { writeFileSync } = require("fs");
 const { format } = require("prettier");
 
 const {
-  getActualXMLWithRIssueRangesMarked,
+  getExpectedXMLWithRIssueRangesMarked,
   getActualDiagnosticLSPResponse,
   INPUT_FILE_NAME,
-  OUTPUT_RANGES_FILE_NAME,
   OUTPUT_LSP_RESPONSE_FILE_NAME,
-} = require("../lib/test/snapshots/xml-view-diagnostics/utils");
+  getInputXMLSnippetPath,
+} = require("../lib/test/snapshots/xml-view-diagnostics/snapshots-utils");
 
 const diagnosticsDir = resolve(
   __dirname,
@@ -27,22 +27,24 @@ const xmlSampleFiles = filter(sampleFiles, (fileDesc) => {
 
 forEach(xmlSampleFiles, async (xmlSample) => {
   console.log(`Reading <${xmlSample.path}>`);
-  const specDirName = dirname(xmlSample.path);
+  const specDirPath = dirname(xmlSample.path);
 
-  const actualResponse = await getActualDiagnosticLSPResponse(specDirName);
+  const actualResponse = await getActualDiagnosticLSPResponse(specDirPath);
   const actualResponseText = JSON.stringify(actualResponse);
   const formattedResponseText = format(actualResponseText, { parser: "json" });
   const outputResponseFilePath = resolve(
-    specDirName,
+    specDirPath,
     OUTPUT_LSP_RESPONSE_FILE_NAME
   );
   console.log(`writing <${outputResponseFilePath}>`);
   writeFileSync(outputResponseFilePath, formattedResponseText);
 
-  const actualRangeMarkersText = await getActualXMLWithRIssueRangesMarked(
-    specDirName
+  const actualRanges = map(actualResponse, (_) => _.range);
+  const actualRangeMarkersText = await getExpectedXMLWithRIssueRangesMarked(
+    specDirPath,
+    actualRanges
   );
-  const outputMarkersFilePath = resolve(specDirName, OUTPUT_RANGES_FILE_NAME);
-  console.log(`writing <${outputMarkersFilePath}>`);
-  writeFileSync(outputMarkersFilePath, actualRangeMarkersText);
+  const inputSnippetPath = getInputXMLSnippetPath(specDirPath);
+  console.log(`writing <${inputSnippetPath}>`);
+  writeFileSync(inputSnippetPath, actualRangeMarkersText);
 });
