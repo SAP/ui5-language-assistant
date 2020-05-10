@@ -371,10 +371,35 @@ function rangeContains(range: Range, inner: Range): boolean {
   return atMost(range.start, inner.start) && atMost(inner.end, range.end);
 }
 
-function createInsertRange(line: number, column: number): Range {
+/**
+ * Create an insert range at the position right after the sent column.
+ * For exmaple, for text "12345" the character in position 1 is "1" and the
+ * insert position after it is "1|2345".
+ * The character in position 2 is "2" and the insert position after it is "12|345".
+ * The character at position 5 is "5" and the insert position after it at the end of the text -> "12345|".
+ * */
+function createInsertRangeAfter(line: number, column: number): Range {
+  // Chevrotain positions are 1-based while VSCode positions are 0-based, therefore we have to
+  // subtract 1 from the line (we don't subtract 1 from the column because the requested position is after the character)
   return {
     start: Position.create(line - 1, column),
     end: Position.create(line - 1, column),
+  };
+}
+
+/**
+ * Create an insert range at the position right before the sent column.
+ * For exmaple, for text "12345" the character in position 1 is "1" and the
+ * insert position before it is the beginning of the text -> "|12345".
+ * The character in position 2 is "2" and the insert position before it is "1|2345".
+ * The character at position 5 is "5" and the insert position before it is "1234|5".
+ * */
+function createInsertRangeBefore(line: number, column: number): Range {
+  // Chevrotain positions are 1-based while VSCode positions are 0-based, therefore we have to
+  // subtract 1 from the line and column
+  return {
+    start: Position.create(line - 1, column - 1),
+    end: Position.create(line - 1, column - 1),
   };
 }
 
@@ -387,6 +412,9 @@ function positionToRange(
 
   // Check it's not a dummy position
   if (position !== undefined && !isDummyPosition(position)) {
+    // Chevrotain positions are 1-based while VSCode positions are 0-based, therefore we have to
+    // subtract 1 from the line and start column
+    // (we don't subtract 1 from the column because the end position is after the character)
     return {
       start: Position.create(position.startLine - 1, position.startColumn - 1),
       end: Position.create(position.endLine - 1, position.endColumn),
@@ -454,10 +482,25 @@ function getAddNamespaceEdit(
   // xml document will not be empty
   /* istanbul ignore else */
   if (parent.rootElement !== null) {
-    const position =
-      parent.rootElement.syntax.openName ?? parent.rootElement.position;
-    // We want to insert, not replace - the actual position should be at the end of the range.
-    const range = createInsertRange(position.endLine, position.endColumn);
+    let range: Range;
+    if (parent.rootElement.syntax.openName !== undefined) {
+      const position = parent.rootElement.syntax.openName;
+      // We want to insert the namespace at the end of the range, after the tag name.
+      range = createInsertRangeAfter(position.endLine, position.endColumn);
+    } else {
+      // TODO add the < token to the syntax in @xml-tools/ast and simplify this case
+      const position =
+        parent.rootElement.syntax.openBody ?? parent.rootElement.position;
+      // We want to insert the namespace after the opening tag.
+      // There is no tag name so this will be directly after the "<" token
+      // (which must exist if there is an open body or rootElement at all).
+      // When there is no ">" token the openBody will not exist so we take the rootElement position.
+      range = createInsertRangeBefore(
+        position.startLine,
+        position.startColumn + "<".length
+      );
+    }
+
     return {
       range,
       newText: ` xmlns:${xmlns}="${value}"`,
