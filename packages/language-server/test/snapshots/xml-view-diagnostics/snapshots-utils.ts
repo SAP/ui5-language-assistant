@@ -14,25 +14,31 @@ export const OUTPUT_LSP_RESPONSE_FILE_NAME = "output-lsp-response.json";
 export async function snapshotTestLSPDiagnostic(
   testDir: string
 ): Promise<void> {
-  const expectedDiagnostics = getExpectedDiagnosticsLSPResponse(testDir);
-  const actualDiagnostics = await getActualDiagnosticLSPResponse(testDir);
-  expect(actualDiagnostics, "Mismatch LSP Diagnostics response").to.deep.equal(
-    expectedDiagnostics
+  const diagnosticsSnapshots = readSnapshotDiagnosticsLSPResponse(testDir);
+  const newlyComputedDiagnostics = await computeNewDiagnosticLSPResponse(
+    testDir
   );
-
-  const expectedRanges = map(expectedDiagnostics, (_) => _.range);
-  const expectedXMLWithRangeMarkers = getExpectedXMLWithRIssueRangesMarked(
-    testDir,
-    expectedRanges
-  );
-  const actualXMLWithRangeMarkers = readInputXMLSnippet(testDir, false);
   expect(
-    actualXMLWithRangeMarkers,
+    newlyComputedDiagnostics,
+    "Snapshot Mismatch in LSP Diagnostics response"
+  ).to.deep.equal(diagnosticsSnapshots);
+
+  const newlyCommutedRanges = map(newlyComputedDiagnostics, (_) => _.range);
+  const newlyComputedXMLWithMarkedRanges = computeXMLWithMarkedRanges(
+    testDir,
+    newlyCommutedRanges
+  );
+  // Note the original `input.xml` snippet acts as **both**:
+  //   - The sample input.
+  //   - A snapshot for marker ranges.
+  const originalXMLSnippet = readInputXMLSnippet(testDir, false);
+  expect(
+    originalXMLSnippet,
     "The XML input snippet range markers are incorrect"
-  ).to.equal(expectedXMLWithRangeMarkers);
+  ).to.equal(newlyComputedXMLWithMarkedRanges);
 }
 
-export function getExpectedDiagnosticsLSPResponse(
+export function readSnapshotDiagnosticsLSPResponse(
   testDir: string
 ): Diagnostic[] {
   const sourcesTestDir = toSourcesTestDir(testDir);
@@ -47,7 +53,7 @@ export function getExpectedDiagnosticsLSPResponse(
 const ui5ModelPromise = generateModel({ version: "1.71.14" });
 let ui5Model: UI5SemanticModel | undefined = undefined;
 
-export async function getActualDiagnosticLSPResponse(
+export async function computeNewDiagnosticLSPResponse(
   testDir: string
 ): Promise<Diagnostic[]> {
   // No top level await
@@ -69,7 +75,7 @@ export async function getActualDiagnosticLSPResponse(
   return actualDiagnostics;
 }
 
-export function getExpectedXMLWithRIssueRangesMarked(
+export function computeXMLWithMarkedRanges(
   testDir: string,
   ranges: Range[]
 ): string {
@@ -110,11 +116,11 @@ export function getInputXMLSnippetPath(testDir: string): string {
 
 function readInputXMLSnippet(
   testDir: string,
-  stringRangeMarkers = true
+  removeRangeMarkers = true
 ): string {
   const inputPath = getInputXMLSnippetPath(testDir);
   const xmlOriginalContent = readFileSync(inputPath).toString("utf-8");
-  if (stringRangeMarkers) {
+  if (removeRangeMarkers) {
     const xmlTextSnippetWithoutMarkers = stripRangeMarkers(xmlOriginalContent);
     return xmlTextSnippetWithoutMarkers;
   }

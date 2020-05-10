@@ -6,8 +6,8 @@ const { writeFileSync } = require("fs");
 const { format } = require("prettier");
 
 const {
-  getExpectedXMLWithRIssueRangesMarked,
-  getActualDiagnosticLSPResponse,
+  computeXMLWithMarkedRanges,
+  computeNewDiagnosticLSPResponse,
   INPUT_FILE_NAME,
   OUTPUT_LSP_RESPONSE_FILE_NAME,
   getInputXMLSnippetPath,
@@ -29,22 +29,30 @@ forEach(xmlSampleFiles, async (xmlSample) => {
   console.log(`Reading <${xmlSample.path}>`);
   const specDirPath = dirname(xmlSample.path);
 
-  const actualResponse = await getActualDiagnosticLSPResponse(specDirPath);
-  const actualResponseText = JSON.stringify(actualResponse);
-  const formattedResponseText = format(actualResponseText, { parser: "json" });
-  const outputResponseFilePath = resolve(
+  const newlyComputedResponse = await computeNewDiagnosticLSPResponse(
+    specDirPath
+  );
+  const newlyComputedResponseText = JSON.stringify(newlyComputedResponse);
+  const newlyComputedResponseTextFormatted = format(newlyComputedResponseText, {
+    parser: "json",
+  });
+  const snapshotResponseFilePath = resolve(
     specDirPath,
     OUTPUT_LSP_RESPONSE_FILE_NAME
   );
-  console.log(`writing <${outputResponseFilePath}>`);
-  writeFileSync(outputResponseFilePath, formattedResponseText);
+  console.log(`writing <${snapshotResponseFilePath}>`);
+  writeFileSync(snapshotResponseFilePath, newlyComputedResponseTextFormatted);
 
-  const actualRanges = map(actualResponse, (_) => _.range);
-  const actualRangeMarkersText = await getExpectedXMLWithRIssueRangesMarked(
+  const newlyComputedRanges = map(newlyComputedResponse, (_) => _.range);
+  const newlyComputedXMLWithMarkers = await computeXMLWithMarkedRanges(
     specDirPath,
-    actualRanges
+    newlyComputedRanges
   );
   const inputSnippetPath = getInputXMLSnippetPath(specDirPath);
   console.log(`writing <${inputSnippetPath}>`);
-  writeFileSync(inputSnippetPath, actualRangeMarkersText);
+
+  // We are adding the the markers on the original input
+  // This is used to easily visually indicate where we expect the diagnostics
+  // to occur in the sample document.
+  writeFileSync(inputSnippetPath, newlyComputedXMLWithMarkers);
 });
