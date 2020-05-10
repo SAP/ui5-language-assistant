@@ -379,6 +379,8 @@ function rangeContains(range: Range, inner: Range): boolean {
  * The character at position 5 is "5" and the insert position after it at the end of the text -> "12345|".
  * */
 function createInsertRangeAfter(line: number, column: number): Range {
+  // Chevrotain positions are 1-based while VSCode positions are 0-based, therefore we have to
+  // subtract 1 from the line (we don't subtract 1 from the column because the requested position is after the character)
   return {
     start: Position.create(line - 1, column),
     end: Position.create(line - 1, column),
@@ -393,6 +395,8 @@ function createInsertRangeAfter(line: number, column: number): Range {
  * The character at position 5 is "5" and the insert position before it is "1234|5".
  * */
 function createInsertRangeBefore(line: number, column: number): Range {
+  // Chevrotain positions are 1-based while VSCode positions are 0-based, therefore we have to
+  // subtract 1 from the line and column
   return {
     start: Position.create(line - 1, column - 1),
     end: Position.create(line - 1, column - 1),
@@ -408,6 +412,9 @@ function positionToRange(
 
   // Check it's not a dummy position
   if (position !== undefined && !isDummyPosition(position)) {
+    // Chevrotain positions are 1-based while VSCode positions are 0-based, therefore we have to
+    // subtract 1 from the line and start column
+    // (we don't subtract 1 from the column because the end position is after the character)
     return {
       start: Position.create(position.startLine - 1, position.startColumn - 1),
       end: Position.create(position.endLine - 1, position.endColumn),
@@ -481,6 +488,7 @@ function getAddNamespaceEdit(
       // We want to insert the namespace at the end of the range, after the tag name.
       range = createInsertRangeAfter(position.endLine, position.endColumn);
     } else {
+      // TODO add the < token to the syntax in @xml-tools/ast and simplify this case
       const position =
         parent.rootElement.syntax.openBody ?? parent.rootElement.position;
       // We want to insert the namespace after the opening tag.
