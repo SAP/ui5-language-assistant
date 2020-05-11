@@ -11,3 +11,7 @@ export {
 export { findClassesMatchingType } from "./utils/find-classes-matching-type";
 export { isRootSymbol, getRootSymbolParent } from "./utils/root-symbols";
 export { typeToString } from "./utils/type-to-string";
+export {
+  getXMLNamespaceKeyPrefix,
+  isXMLNamespaceKey,
+} from "./utils/xml-ns-key";

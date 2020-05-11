@@ -38,4 +38,4 @@ export function generate({
   return deepFreezeStrict(model);
 }
 
-export { forEachSymbol } from "./utils";
+export { forEachSymbol, findSymbol } from "./utils";

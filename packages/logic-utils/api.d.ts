@@ -83,3 +83,15 @@ export function getRootSymbolParent(node: BaseUI5Node): BaseUI5Node | undefined;
  * Return a human-readable string representation of a UI5 type
  */
 export function typeToString(type: UI5Type | undefined): string;
+
+/**
+ * Check if an xml attribute key is an xmlns key
+ * @param key
+ */
+export function isXMLNamespaceKey(key: string): boolean;
+
+/**
+ * Get the attribute name, without its "xmlns:" prefix, from an xmlns attribute key
+ * @param key
+ */
+export function getXMLNamespaceKeyPrefix(key: string): string;

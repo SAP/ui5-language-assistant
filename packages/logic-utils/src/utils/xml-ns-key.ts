@@ -1,6 +1,5 @@
-//we are only allowing word (\w+) characters in prefixes now (in completions)
-//TODO it should be aligned with the full XML spec
-const namespaceRegex = /^xmlns(:(?<prefix>\w*))?$/;
+// The prefix is an xml name minus the ":"
+const namespaceRegex = /^xmlns(:(?<prefix>[^:=]*))?$/;
 
 export function isXMLNamespaceKey(key: string): boolean {
   return key.match(namespaceRegex) !== null;
