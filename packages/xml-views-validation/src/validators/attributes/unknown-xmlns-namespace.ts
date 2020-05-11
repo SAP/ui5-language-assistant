@@ -1,8 +1,8 @@
 import { XMLAttribute } from "@xml-tools/ast";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { findSymbol } from "@ui5-language-assistant/semantic-model";
-import { UnknownNamespaceInXmlnsAttributeValueIssue } from "../../../api";
 import { isXMLNamespaceKey } from "@ui5-language-assistant/logic-utils";
+import { UnknownNamespaceInXmlnsAttributeValueIssue } from "../../../api";
 
 export function validateUnknownXmlnsNamespace(
   attribute: XMLAttribute,
