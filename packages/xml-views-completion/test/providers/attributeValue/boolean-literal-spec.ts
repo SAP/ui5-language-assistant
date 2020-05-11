@@ -1,22 +1,18 @@
 import { expect } from "chai";
 import { forEach, map } from "lodash";
+import { XMLAttribute, XMLElement } from "@xml-tools/ast";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
-import {
-  generateModel,
-  GEN_MODEL_TIMEOUT,
-} from "@ui5-language-assistant/test-utils";
+import { generateModel } from "@ui5-language-assistant/test-utils";
 import { testSuggestionsScenario } from "../../utils";
 import { booleanSuggestions } from "../../../src/providers/attributeValue/boolean-literal";
 import {
   UI5XMLViewCompletion,
   BooleanValueInXMLAttributeValueCompletion,
 } from "../../../api";
-import { XMLAttribute, XMLElement } from "@xml-tools/ast";
 
 describe("The ui5-language-assistant xml-views-completion", () => {
   let ui5SemanticModel: UI5SemanticModel;
-  before(async function () {
-    this.timeout(GEN_MODEL_TIMEOUT);
+  before(async () => {
     ui5SemanticModel = await generateModel({ version: "1.74.0" });
   });
 

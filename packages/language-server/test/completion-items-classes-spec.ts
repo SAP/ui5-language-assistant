@@ -8,7 +8,6 @@ import {
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import {
   generateModel,
-  GEN_MODEL_TIMEOUT,
   expectExists,
 } from "@ui5-language-assistant/test-utils";
 import {
@@ -21,7 +20,6 @@ import {
 describe("the UI5 language assistant Code Completion Services - classes", () => {
   let ui5SemanticModel: UI5SemanticModel;
   before(async function () {
-    this.timeout(GEN_MODEL_TIMEOUT);
     //TODO: use 1.71.x
     ui5SemanticModel = await generateModel({ version: "1.74.0" });
   });
