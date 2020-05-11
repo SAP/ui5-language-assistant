@@ -1,17 +1,13 @@
 import { expect } from "chai";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
-import {
-  GEN_MODEL_TIMEOUT,
-  generateModel,
-} from "@ui5-language-assistant/test-utils";
+import { generateModel } from "@ui5-language-assistant/test-utils";
 import { testValidationsScenario } from "../../test-utils";
 import { validateUseOfDeprecatedClass } from "../../../src/validators/elements/use-of-deprecated-class";
 
 describe("the use of deprecated class validation", () => {
   let ui5SemanticModel: UI5SemanticModel;
 
-  before(async function () {
-    this.timeout(GEN_MODEL_TIMEOUT);
+  before(async () => {
     ui5SemanticModel = await generateModel({ version: "1.74.0" });
   });
 

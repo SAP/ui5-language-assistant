@@ -16,10 +16,6 @@ import {
 } from "@ui5-language-assistant/semantic-model-types";
 import { forEachSymbol } from "../src/utils";
 
-// TODO: cannot import const when the packages have **cyclic** dependencies.
-// TODO: Refactor to avoid semantic-model -> test-utils -> semantic-model cyclic dep.
-const GEN_MODEL_TIMEOUT = 5000;
-
 context("The ui5-language-assistant semantic model package API", () => {
   // Properties with these names are types
   const TYPE_PROPERTIES: string[] = ["type", "altTypes"];
@@ -237,9 +233,7 @@ context("The ui5-language-assistant semantic model package API", () => {
   }
 
   function createModelConsistencyTests(version: TestModelVersion): void {
-    describe(`Model generated from ${version}`, function () {
-      this.timeout(GEN_MODEL_TIMEOUT);
-
+    describe(`Model generated from ${version}`, () => {
       before(async () => {
         await downloadLibraries(version);
       });
@@ -291,8 +285,7 @@ context("The ui5-language-assistant semantic model package API", () => {
     const objectNotExtensibleMatcher = "not extensible";
     const cannotDeleteMatcher = "Cannot delete";
     let model: UI5SemanticModel;
-    before(async function () {
-      this.timeout(GEN_MODEL_TIMEOUT);
+    before(async () => {
       model = await generateModel({ version: "1.74.0" });
     });
 

@@ -16,7 +16,6 @@ import {
   expectSuggestions,
   expectXMLAttribute,
   generateModel,
-  GEN_MODEL_TIMEOUT,
 } from "@ui5-language-assistant/test-utils";
 import {
   isExistingNamespaceAttribute,
@@ -157,8 +156,7 @@ const expectNamespaceKeysSuggestions = partial(expectSuggestions, (_) => {
 describe("The ui5-language-assistant xml-views-completion", () => {
   let ui5SemanticModel: UI5SemanticModel;
 
-  before(async function () {
-    this.timeout(GEN_MODEL_TIMEOUT);
+  before(async () => {
     ui5SemanticModel = await generateModel({ version: "1.74.0" });
   });
 

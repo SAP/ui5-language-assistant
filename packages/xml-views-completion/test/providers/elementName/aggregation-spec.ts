@@ -6,7 +6,6 @@ import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import {
   buildUI5Aggregation,
   generateModel,
-  GEN_MODEL_TIMEOUT,
 } from "@ui5-language-assistant/test-utils";
 
 import { testSuggestionsScenario } from "../../utils";
@@ -15,8 +14,7 @@ import { UI5XMLViewCompletion } from "../../../api";
 
 describe("The ui5-language-assistant xml-views-completion", () => {
   let REAL_UI5_MODEL: UI5SemanticModel;
-  before(async function () {
-    this.timeout(GEN_MODEL_TIMEOUT);
+  before(async () => {
     REAL_UI5_MODEL = await generateModel({ version: "1.74.0" });
   });
 

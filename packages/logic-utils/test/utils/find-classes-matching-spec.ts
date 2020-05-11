@@ -1,16 +1,12 @@
 import { map, forEach } from "lodash";
 import { expect } from "chai";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
-import {
-  generateModel,
-  GEN_MODEL_TIMEOUT,
-} from "@ui5-language-assistant/test-utils";
+import { generateModel } from "@ui5-language-assistant/test-utils";
 import { findClassesMatchingType, ui5NodeToFQN } from "../../src/api";
 
 describe("The @ui5-language-assistant/logic-utils <findClassesMatchingType> function", () => {
   let ui5Model: UI5SemanticModel;
-  before(async function () {
-    this.timeout(GEN_MODEL_TIMEOUT);
+  before(async () => {
     ui5Model = await generateModel({ version: "1.74.0" });
   });
 

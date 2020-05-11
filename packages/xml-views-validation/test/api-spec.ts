@@ -1,10 +1,7 @@
 import { expect } from "chai";
 import { map } from "lodash";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
-import {
-  GEN_MODEL_TIMEOUT,
-  generateModel,
-} from "@ui5-language-assistant/test-utils";
+import { generateModel } from "@ui5-language-assistant/test-utils";
 import { DocumentCstNode, parse } from "@xml-tools/parser";
 import { buildAst } from "@xml-tools/ast";
 import { validateXMLView } from "../src/api";
@@ -12,8 +9,7 @@ import { validateXMLView } from "../src/api";
 describe("the ui5 xml views validations API", () => {
   let ui5SemanticModel: UI5SemanticModel;
 
-  before(async function () {
-    this.timeout(GEN_MODEL_TIMEOUT);
+  before(async () => {
     ui5SemanticModel = await generateModel({ version: "1.74.0" });
   });
 

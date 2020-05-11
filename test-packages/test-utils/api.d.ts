@@ -138,10 +138,3 @@ export function readTestLibraryFile(
 ): Promise<FetchResponse>;
 
 export function downloadLibraries(version: TestModelVersion): Promise<void>;
-
-/**
- * generateModel can take a long time in some cases now that it might download the libraries.
- * Use this constant to set the timeout on the test/hook that calls it.
- * Note: this.timeout(...) cannot be called from within an arrow function.
- */
-export const GEN_MODEL_TIMEOUT = 5000;
