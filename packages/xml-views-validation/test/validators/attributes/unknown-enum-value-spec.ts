@@ -1,8 +1,11 @@
 import { expect } from "chai";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { generateModel } from "@ui5-language-assistant/test-utils";
-import { testValidationsScenario } from "../../test-utils";
 import { validateUnknownEnumValue } from "../../../src/validators/attributes/unknown-enum-value";
+import {
+  computeExpectedRange,
+  testValidationsScenario,
+} from "../../test-utils";
 
 describe("the unknown enum value validation", () => {
   let ui5SemanticModel: UI5SemanticModel;
@@ -17,7 +20,7 @@ describe("the unknown enum value validation", () => {
           <mvc:View
             xmlns:mvc="sap.ui.core.mvc"
             xmlns="sap.m">
-            <List showSeparators = "TYPO💩">
+            <List showSeparators = 🢂"TYPO💩"🢀>
             </List>
           </mvc:View>`;
 
@@ -33,10 +36,7 @@ describe("the unknown enum value validation", () => {
               kind: "UnknownEnumValue",
               message:
                 'Unknown enum value: "TYPO💩", expecting one of: ["All", "Inner", "None"].',
-              offsetRange: {
-                start: 123,
-                end: 130,
-              },
+              offsetRange: computeExpectedRange(xmlSnippet),
               severity: "error",
             },
           ]);
