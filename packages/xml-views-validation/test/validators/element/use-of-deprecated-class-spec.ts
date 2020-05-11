@@ -40,7 +40,7 @@ describe("the use of deprecated class validation", () => {
             {
               kind: "UseOfDeprecatedClass",
               message:
-                "UI5 Class sap.ui.commons.Button is deprecated since: 1.38.\n\treplaced by {@link sap.m.Button}.",
+                "UI5 Class sap.ui.commons.Button is deprecated since version: 1.38.",
               severity: "warn",
               offsetRange: computeExpectedRange(xmlSnippet),
             },
@@ -72,7 +72,7 @@ describe("the use of deprecated class validation", () => {
             {
               kind: "UseOfDeprecatedClass",
               message:
-                "UI5 Class sap.ui.commons.Button is deprecated since: 1.38.\n\treplaced by {@link sap.m.Button}.",
+                "UI5 Class sap.ui.commons.Button is deprecated since version: 1.38.",
               severity: "warn",
               offsetRange: computeExpectedRange(xmlSnippet),
             },
@@ -105,7 +105,7 @@ describe("the use of deprecated class validation", () => {
             {
               kind: "UseOfDeprecatedClass",
               message:
-                "UI5 Class sap.ui.commons.Button is deprecated since: 1.38.\n\treplaced by {@link sap.m.Button}.",
+                "UI5 Class sap.ui.commons.Button is deprecated since version: 1.38.",
               severity: "warn",
               offsetRange: computeExpectedRange(xmlSnippet),
             },

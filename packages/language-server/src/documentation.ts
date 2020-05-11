@@ -79,7 +79,7 @@ export function getNodeDocumentation(
   return markdownContent;
 }
 
-function convertDescriptionToMarkup(
+export function convertDescriptionToMarkup(
   jsdocDescription: string,
   model: UI5SemanticModel
 ): MarkupContent {

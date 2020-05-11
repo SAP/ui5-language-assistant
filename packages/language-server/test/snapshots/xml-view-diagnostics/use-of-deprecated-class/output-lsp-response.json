@@ -6,7 +6,7 @@
     },
     "severity": 2,
     "source": "UI5 Language Assistant",
-    "message": "UI5 Class sap.ui.commons.Button is deprecated since: 1.38.\n\treplaced by {@link sap.m.Button}.",
+    "message": "UI5 Class sap.ui.commons.Button is deprecated since version: 1.38.",
     "tags": [2]
   }
 ]

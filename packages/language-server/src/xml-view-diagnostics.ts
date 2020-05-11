@@ -14,6 +14,7 @@ import {
   validateXMLView,
   XMLViewIssueSeverity,
 } from "@ui5-language-assistant/xml-views-validation";
+import { convertDescriptionToMarkup } from "./documentation";
 
 export function getXMLViewDiagnostics(opts: {
   document: TextDocument;
@@ -26,24 +27,30 @@ export function getXMLViewDiagnostics(opts: {
     xmlView: xmlDocAst,
     model: opts.ui5Model,
   });
-  const diagnostics = validationIssuesToLspDiagnostics(issues, opts.document);
+  const diagnostics = validationIssuesToLspDiagnostics({
+    issues,
+    document: opts.document,
+    ui5Model: opts.ui5Model,
+  });
   return diagnostics;
 }
 
-function validationIssuesToLspDiagnostics(
-  issues: UI5XMLViewIssue[],
-  document: TextDocument
-): Diagnostic[] {
-  const diagnostics: Diagnostic[] = map(issues, (currIssue) => {
+function validationIssuesToLspDiagnostics(opts: {
+  issues: UI5XMLViewIssue[];
+  document: TextDocument;
+  ui5Model: UI5SemanticModel;
+}): Diagnostic[] {
+  const diagnostics: Diagnostic[] = map(opts.issues, (currIssue) => {
     const commonDiagnosticPros: Diagnostic = {
       range: {
-        start: document.positionAt(currIssue.offsetRange.start),
+        start: opts.document.positionAt(currIssue.offsetRange.start),
         // Chevrotain's end offsets are none inclusive
-        end: document.positionAt(currIssue.offsetRange.end + 1),
+        end: opts.document.positionAt(currIssue.offsetRange.end + 1),
       },
       severity: toLspSeverity(currIssue.severity),
       source: "UI5 Language Assistant",
-      message: currIssue.message,
+      message: convertDescriptionToMarkup(currIssue.message, opts.ui5Model)
+        .value,
     };
 
     const issueKind = currIssue.kind;

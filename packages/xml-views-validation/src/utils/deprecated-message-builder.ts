@@ -13,11 +13,10 @@ export function buildDeprecatedIssueMessage({
 }): string {
   const msgPrefix = `UI5 ${ui5Kind} ${fqn} is deprecated`;
   const sinceOptionalPart = deprecatedInfo.since
-    ? ` since: ${deprecatedInfo.since}`
-    : "";
-  const detailsOptionalPart = deprecatedInfo.text
-    ? `\n\t${deprecatedInfo.text}.`
+    ? ` since version: ${deprecatedInfo.since}`
     : "";
 
-  return `${msgPrefix}${sinceOptionalPart}.${detailsOptionalPart}`;
+  // we are ignoring the deprecated description because there is no way to render
+  // a link or complex messages nicely in the problems views (unlike in completions use case).
+  return `${msgPrefix}${sinceOptionalPart}.`;
 }
