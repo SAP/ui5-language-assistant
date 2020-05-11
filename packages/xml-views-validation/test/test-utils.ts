@@ -34,11 +34,18 @@ export function testValidationsScenario(opts: {
 
 export function computeExpectedRanges(markedXMLSnippet: string): OffsetRange[] {
   const expectedRanges = [];
+
+  function previousMarkersOffset(): number {
+    // "🢂".length === 2 (due to surrogate pairs in UTF-8)
+    // Two markers per previous range.
+    return expectedRanges.length * 2 * 2;
+  }
+
   const markedPattern = /🢂(.+?)🢀/gu;
   let match;
   // eslint-disable-next-line no-cond-assign
-  while ((match = markedPattern.exec(markedXMLSnippet))) {
-    const start = match.index;
+  while ((match = markedPattern.exec(markedXMLSnippet)) !== null) {
+    const start = match.index - previousMarkersOffset();
     // Chevrotain ranges are inclusive (start) to exclusive (end)
     const end = start + match[1].length - 1;
     expectedRanges.push({ start, end });
