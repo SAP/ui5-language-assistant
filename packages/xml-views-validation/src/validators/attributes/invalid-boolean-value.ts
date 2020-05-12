@@ -2,12 +2,12 @@ import { XMLAttribute } from "@xml-tools/ast";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { getPropertyByAttributeKey } from "@ui5-language-assistant/logic-utils";
 import { find, map } from "lodash";
-import { UnknownEnumValueIssue } from "../../../api";
+import { InvalidBooleanValueIssue } from "../../../api";
 
-export function validateUnknownEnumValue(
+export function validateBooleanValue(
   attribute: XMLAttribute,
   model: UI5SemanticModel
-): UnknownEnumValueIssue[] {
+): InvalidBooleanValueIssue[] {
   const actualAttributeValue = attribute.value;
   const actualAttributeValueToken = attribute.syntax.value;
   if (
@@ -19,19 +19,22 @@ export function validateUnknownEnumValue(
 
   const ui5Property = getPropertyByAttributeKey(attribute, model);
   const propType = ui5Property?.type;
-  if (propType?.kind !== "UI5Enum") {
+  if (propType?.kind !== "PrimitiveType" || propType.name !== "Boolean") {
     return [];
   }
 
-  const possibleEnumValues = map(propType.fields, (_) => _.name);
+  const possibleBooleanValues = ["true", "false"];
   if (
-    find(possibleEnumValues, (_) => _ === actualAttributeValue) === undefined
+    find(possibleBooleanValues, (_) => _ === actualAttributeValue) === undefined
   ) {
-    const possibleValuesWithQuotes = map(possibleEnumValues, (_) => `"${_}"`);
+    const possibleValuesWithQuotes = map(
+      possibleBooleanValues,
+      (_) => `"${_}"`
+    );
     return [
       {
-        kind: "UnknownEnumValue",
-        message: `Unknown enum value: ${
+        kind: "InvalidBooleanValue",
+        message: `Invalid value: ${
           actualAttributeValueToken.image
         }, expecting one of: [${possibleValuesWithQuotes.join(", ")}].`,
         offsetRange: {

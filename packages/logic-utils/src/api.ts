@@ -11,3 +11,7 @@ export {
 export { findClassesMatchingType } from "./utils/find-classes-matching-type";
 export { isRootSymbol, getRootSymbolParent } from "./utils/root-symbols";
 export { typeToString } from "./utils/type-to-string";
+export {
+  getClassByElement,
+  getPropertyByAttributeKey,
+} from "./utils/xml-node-to-ui5-node";

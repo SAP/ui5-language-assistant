@@ -1,15 +1,13 @@
 import {
   flattenAggregations,
   isElementSubClass,
+  getClassByElement,
 } from "@ui5-language-assistant/logic-utils";
 
 import { UI5AggregationsInXMLTagNameCompletion } from "../../../api";
 import { map, compact, uniq } from "lodash";
 import { UI5ElementNameCompletionOptions } from "./index";
-import {
-  filterMembersForSuggestion,
-  getClassByElement,
-} from "../utils/filter-members";
+import { filterMembersForSuggestion } from "../utils/filter-members";
 
 /**
  * Suggests Aggregation inside sap.ui.core.Element

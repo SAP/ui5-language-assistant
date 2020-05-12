@@ -1,14 +1,11 @@
-import { map, find } from "lodash";
+import { map } from "lodash";
 import { XMLAttribute } from "@xml-tools/ast";
-import { flattenProperties } from "@ui5-language-assistant/logic-utils";
+import { getPropertyByAttributeKey } from "@ui5-language-assistant/logic-utils";
 import {
   BooleanValueInXMLAttributeValueCompletion,
   BooleanValue,
 } from "../../../api";
-import {
-  getClassByElement,
-  filterMembersForSuggestion,
-} from "../utils/filter-members";
+import { filterMembersForSuggestion } from "../utils/filter-members";
 import { UI5AttributeValueCompletionOptions } from "./index";
 
 const allBooleanValues: BooleanValue[] = [
@@ -30,15 +27,7 @@ const allBooleanValues: BooleanValue[] = [
 export function booleanSuggestions(
   opts: UI5AttributeValueCompletionOptions
 ): BooleanValueInXMLAttributeValueCompletion[] {
-  const xmlElement = opts.element;
-  const xmlAttribute = opts.attribute;
-
-  const elementClass = getClassByElement(xmlElement, opts.context);
-  if (elementClass === undefined) {
-    return [];
-  }
-  const properties = flattenProperties(elementClass);
-  const ui5Property = find(properties, ["name", xmlAttribute.key]);
+  const ui5Property = getPropertyByAttributeKey(opts.attribute, opts.context);
   const propType = ui5Property?.type;
   if (propType?.kind !== "PrimitiveType" || propType.name !== "Boolean") {
     return [];

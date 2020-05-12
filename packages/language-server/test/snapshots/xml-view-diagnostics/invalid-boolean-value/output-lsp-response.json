@@ -1,0 +1,11 @@
+[
+  {
+    "range": {
+      "start": { "line": 3, "character": 13 },
+      "end": { "line": 3, "character": 21 }
+    },
+    "severity": 1,
+    "source": "UI5 Language Assistant",
+    "message": "Invalid value: \"untrue\", expecting one of: [\"true\", \"false\"]."
+  }
+]

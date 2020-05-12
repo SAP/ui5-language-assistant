@@ -10,10 +10,10 @@ import {
 import {
   findClassesMatchingType,
   flattenAggregations,
+  getClassByElement,
   ui5NodeToFQN,
 } from "@ui5-language-assistant/logic-utils";
 import { UI5ClassesInXMLTagNameCompletion } from "../../../api";
-import { getClassByElement } from "../utils/filter-members";
 import { UI5ElementNameCompletionOptions } from "./index";
 
 // TODO: expose this const from XML-Tools?
