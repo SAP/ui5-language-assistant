@@ -48,16 +48,18 @@ function validationIssuesToLspDiagnostics(
 
     const issueKind = currIssue.kind;
     switch (issueKind) {
+      case "UnknownEnumValue":
+      case "UnknownNamespaceInXmlnsAttributeValue":
+        return {
+          ...commonDiagnosticPros,
+        };
       case "UseOfDeprecatedClass":
         return {
           ...commonDiagnosticPros,
           tags: [DiagnosticTag.Deprecated],
         };
       default:
-        // Most issues don't need any special handling
-        return {
-          ...commonDiagnosticPros,
-        };
+        assertNever(issueKind);
     }
   });
 
