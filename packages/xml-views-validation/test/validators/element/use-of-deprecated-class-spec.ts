@@ -1,7 +1,10 @@
 import { expect } from "chai";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
+import {
+  computeExpectedRange,
+  testValidationsScenario,
+} from "../../test-utils";
 import { generateModel } from "@ui5-language-assistant/test-utils";
-import { testValidationsScenario } from "../../test-utils";
 import { validateUseOfDeprecatedClass } from "../../../src/validators/elements/use-of-deprecated-class";
 
 describe("the use of deprecated class validation", () => {
@@ -17,7 +20,7 @@ describe("the use of deprecated class validation", () => {
           <mvc:View
             xmlns:mvc="sap.ui.core.mvc"
             xmlns="sap.ui.commons">
-            <Button>
+            <🢂Button🢀>
             </Button>
           </mvc:View>`;
 
@@ -39,10 +42,7 @@ describe("the use of deprecated class validation", () => {
               message:
                 "UI5 Class sap.ui.commons.Button is deprecated since: 1.38.\n\treplaced by {@link sap.m.Button}.",
               severity: "warn",
-              offsetRange: {
-                start: 110,
-                end: 115,
-              },
+              offsetRange: computeExpectedRange(xmlSnippet),
             },
           ]);
         },
@@ -54,7 +54,7 @@ describe("the use of deprecated class validation", () => {
           <mvc:View
             xmlns:mvc="sap.ui.core.mvc"
             xmlns="sap.ui.commons">
-            <Button/>
+            <🢂Button🢀/>
           </mvc:View>`;
 
       testValidationsScenario({
@@ -74,10 +74,7 @@ describe("the use of deprecated class validation", () => {
               message:
                 "UI5 Class sap.ui.commons.Button is deprecated since: 1.38.\n\treplaced by {@link sap.m.Button}.",
               severity: "warn",
-              offsetRange: {
-                start: 110,
-                end: 115,
-              },
+              offsetRange: computeExpectedRange(xmlSnippet),
             },
           ]);
         },
@@ -89,7 +86,7 @@ describe("the use of deprecated class validation", () => {
           <mvc:View
             xmlns:mvc="sap.ui.core.mvc"
             xmlns="sap.ui.commons">
-            <Button
+            <🢂Button🢀
           </mvc:View>`;
 
       testValidationsScenario({
@@ -110,10 +107,7 @@ describe("the use of deprecated class validation", () => {
               message:
                 "UI5 Class sap.ui.commons.Button is deprecated since: 1.38.\n\treplaced by {@link sap.m.Button}.",
               severity: "warn",
-              offsetRange: {
-                start: 110,
-                end: 115,
-              },
+              offsetRange: computeExpectedRange(xmlSnippet),
             },
           ]);
         },
