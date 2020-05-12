@@ -1,7 +1,10 @@
 import { expect } from "chai";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { generateModel } from "@ui5-language-assistant/test-utils";
-import { testValidationsScenario } from "../../test-utils";
+import {
+  testValidationsScenario,
+  computeExpectedRange,
+} from "../../test-utils";
 import { validateUnknownXmlnsNamespace } from "../../../src/validators/attributes/unknown-xmlns-namespace";
 
 describe("the unknown namespace in xmlns attribute value validation", () => {
@@ -16,7 +19,7 @@ describe("the unknown namespace in xmlns attribute value validation", () => {
       const xmlSnippet = `
           <mvc:View
             xmlns:mvc="sap.ui.core.mvc"
-            xmlns="sap.unknown.m">
+            xmlns=🢂"sap.unknown.m"🢀>
           </mvc:View>`;
 
       testValidationsScenario({
@@ -30,10 +33,7 @@ describe("the unknown namespace in xmlns attribute value validation", () => {
             {
               kind: "UnknownNamespaceInXmlnsAttributeValue",
               message: 'Unknown namespace: "sap.unknown.m"',
-              offsetRange: {
-                start: 79,
-                end: 93,
-              },
+              offsetRange: computeExpectedRange(xmlSnippet),
               severity: "warn",
             },
           ]);
@@ -45,7 +45,7 @@ describe("the unknown namespace in xmlns attribute value validation", () => {
       const xmlSnippet = `
           <mvc:View
               xmlns:mvc="sap.ui.core.mvc"
-              xmlns:m="sap.unknown.m">
+              xmlns:m=🢂"sap.unknown.m"🢀>
           </mvc:View>`;
 
       testValidationsScenario({
@@ -59,10 +59,7 @@ describe("the unknown namespace in xmlns attribute value validation", () => {
             {
               kind: "UnknownNamespaceInXmlnsAttributeValue",
               message: 'Unknown namespace: "sap.unknown.m"',
-              offsetRange: {
-                start: 85,
-                end: 99,
-              },
+              offsetRange: computeExpectedRange(xmlSnippet),
               severity: "warn",
             },
           ]);
