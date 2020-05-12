@@ -67,6 +67,27 @@ describe("the unknown enum value validation", () => {
       });
     });
 
+    it("will not detect an issue when the enum value might be a binding expression", () => {
+      const xmlSnippet = `
+          <mvc:View
+            xmlns:mvc="sap.ui.core.mvc"
+            xmlns="sap.m">
+            <List showSeparators = "{TYPO💩}">
+            </List>
+          </mvc:View>`;
+
+      testValidationsScenario({
+        model: ui5SemanticModel,
+        xmlText: xmlSnippet,
+        validators: {
+          attribute: [validateUnknownEnumValue],
+        },
+        assertion: (issues) => {
+          expect(issues).to.be.empty;
+        },
+      });
+    });
+
     it("will not detect an issue when the enclosing tag is not a UI5 class", () => {
       const xmlSnippet = `
           <mvc:View

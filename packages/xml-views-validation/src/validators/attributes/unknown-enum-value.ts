@@ -3,6 +3,7 @@ import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { getPropertyByAttributeKey } from "@ui5-language-assistant/logic-utils";
 import { find, map } from "lodash";
 import { UnknownEnumValueIssue } from "../../../api";
+import { isPossibleBindingAttributeValue } from "../../utils/is-binding-attribute-value";
 
 export function validateUnknownEnumValue(
   attribute: XMLAttribute,
@@ -12,7 +13,8 @@ export function validateUnknownEnumValue(
   const actualAttributeValueToken = attribute.syntax.value;
   if (
     actualAttributeValue === null ||
-    actualAttributeValueToken === undefined
+    actualAttributeValueToken === undefined ||
+    isPossibleBindingAttributeValue(actualAttributeValue)
   ) {
     return [];
   }
