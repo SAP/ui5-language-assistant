@@ -2,10 +2,10 @@
   {
     "range": {
       "start": { "line": 2, "character": 14 },
-      "end": { "line": 2, "character": 25 }
+      "end": { "line": 2, "character": 27 }
     },
     "severity": 2,
     "source": "UI5 Language Assistant",
-    "message": "Unknown namespace: \"sap.abcde\""
+    "message": "Unknown namespace: \"sap.m.abcde\""
   }
 ]

@@ -201,6 +201,7 @@ export function buildUI5Model(
   opts: Partial<UI5SemanticModel>
 ): UI5SemanticModel {
   return {
+    includedLibraries: [],
     classes: {},
     enums: {},
     functions: {},

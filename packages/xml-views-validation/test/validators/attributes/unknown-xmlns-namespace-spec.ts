@@ -19,7 +19,7 @@ describe("the unknown namespace in xmlns attribute value validation", () => {
       const xmlSnippet = `
           <mvc:View
             xmlns:mvc="sap.ui.core.mvc"
-            xmlns=🢂"sap.unknown.m"🢀>
+            xmlns=🢂"sap.m.unknown"🢀>
           </mvc:View>`;
 
       testValidationsScenario({
@@ -32,7 +32,7 @@ describe("the unknown namespace in xmlns attribute value validation", () => {
           expect(issues).to.deep.equal([
             {
               kind: "UnknownNamespaceInXmlnsAttributeValue",
-              message: 'Unknown namespace: "sap.unknown.m"',
+              message: 'Unknown namespace: "sap.m.unknown"',
               offsetRange: computeExpectedRange(xmlSnippet),
               severity: "warn",
             },
@@ -45,7 +45,7 @@ describe("the unknown namespace in xmlns attribute value validation", () => {
       const xmlSnippet = `
           <mvc:View
               xmlns:mvc="sap.ui.core.mvc"
-              xmlns:m=🢂"sap.unknown.m"🢀>
+              xmlns:m=🢂"sap.m.unknown"🢀>
           </mvc:View>`;
 
       testValidationsScenario({
@@ -58,7 +58,7 @@ describe("the unknown namespace in xmlns attribute value validation", () => {
           expect(issues).to.deep.equal([
             {
               kind: "UnknownNamespaceInXmlnsAttributeValue",
-              message: 'Unknown namespace: "sap.unknown.m"',
+              message: 'Unknown namespace: "sap.m.unknown"',
               offsetRange: computeExpectedRange(xmlSnippet),
               severity: "warn",
             },
@@ -150,6 +150,25 @@ describe("the unknown namespace in xmlns attribute value validation", () => {
       <mvc:View
           xmlns:mvc="sap.ui.core.mvc"
           xmlns:custom="org.custom.namespace">
+      </mvc:View>`;
+
+      testValidationsScenario({
+        model: ui5SemanticModel,
+        xmlText: xmlSnippet,
+        validators: {
+          attribute: [validateUnknownXmlnsNamespace],
+        },
+        assertion: (issues) => {
+          expect(issues).to.be.empty;
+        },
+      });
+    });
+
+    it("will not detect an issue when the namespace starts with sap but is not in a known library", () => {
+      const xmlSnippet = `
+      <mvc:View
+          xmlns:mvc="sap.ui.core.mvc"
+          xmlns:custom="sap.unknown.namespace">
       </mvc:View>`;
 
       testValidationsScenario({
