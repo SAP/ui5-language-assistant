@@ -58,6 +58,7 @@ function validationIssuesToLspDiagnostics(
           ...commonDiagnosticPros,
           tags: [DiagnosticTag.Deprecated],
         };
+      /* istanbul ignore next - defensive programming */
       default:
         assertNever(issueKind);
     }
