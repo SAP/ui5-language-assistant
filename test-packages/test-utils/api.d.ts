@@ -109,7 +109,10 @@ export function expectXMLAttribute(
 
 export function isObject(value: unknown): value is Record<string, unknown>;
 
-export function getFQN(model: UI5SemanticModel, target: unknown): string;
+export function getFQN(
+  model: UI5SemanticModel,
+  target: unknown
+): string | undefined;
 
 export function expectExists(value: unknown, message: string): asserts value;
 

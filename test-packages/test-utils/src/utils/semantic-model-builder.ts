@@ -15,10 +15,10 @@ import {
   UI5Field,
   UI5EnumValue,
   UI5DeprecatedInfo,
+  UI5Association,
 } from "@ui5-language-assistant/semantic-model-types";
 
 import { PartialWithName } from "../../api";
-import { Ui5Association } from "@ui5-language-assistant/semantic-model/src/api-json";
 
 const baseUI5NodeDefaults: BaseUI5Node = {
   name: "",
@@ -89,20 +89,13 @@ export function buildUI5Constructor(
 }
 
 export function buildUI5Association(
-  opts: PartialWithName<Ui5Association>
-): Ui5Association {
+  opts: PartialWithName<UI5Association>
+): UI5Association {
   return {
     ...baseUI5NodeDefaults,
-    cardinality: undefined,
-    deprecated: undefined,
-    description: "",
-    experimental: undefined,
-    methods: [],
-    name: undefined,
-    since: undefined,
-    singularName: undefined,
-    type: "",
-    visibility: undefined,
+    kind: "UI5Association",
+    cardinality: "0..n",
+    type: undefined,
     ...opts,
   };
 }

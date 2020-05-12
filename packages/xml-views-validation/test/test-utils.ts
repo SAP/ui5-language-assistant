@@ -6,7 +6,10 @@ import {
   UI5Validators,
   validateXMLView as validateXMLViewImpl,
 } from "../src/validate-xml-views";
-import { UI5XMLViewIssue } from "../api";
+import { OffsetRange, UI5XMLViewIssue } from "../api";
+
+const START_RANGE_MARKER = "🢂";
+const END_RANGE_MARKER = "🢀";
 
 export function testValidationsScenario(opts: {
   xmlText: string;
@@ -20,7 +23,12 @@ export function testValidationsScenario(opts: {
     );
   }
 
-  const { cst, tokenVector } = parse(opts.xmlText);
+  const rangeMarkersRegExp = new RegExp(
+    `[${START_RANGE_MARKER}${END_RANGE_MARKER}]`,
+    "gu"
+  );
+  const xmlTextNoMarkers = opts.xmlText.replace(rangeMarkersRegExp, "");
+  const { cst, tokenVector } = parse(xmlTextNoMarkers);
   const ast = buildAst(cst as DocumentCstNode, tokenVector);
 
   const issues = validateXMLViewImpl({
@@ -29,4 +37,40 @@ export function testValidationsScenario(opts: {
     model: opts.model,
   });
   opts.assertion(issues);
+}
+
+export function computeExpectedRanges(markedXMLSnippet: string): OffsetRange[] {
+  const expectedRanges = [];
+
+  function previousMarkersOffset(): number {
+    return (
+      expectedRanges.length *
+      (START_RANGE_MARKER.length + END_RANGE_MARKER.length)
+    );
+  }
+
+  const markedRangeRegExp = new RegExp(
+    `${START_RANGE_MARKER}(.+?)${END_RANGE_MARKER}`,
+    "gu"
+  );
+  let match;
+  // eslint-disable-next-line no-cond-assign
+  while ((match = markedRangeRegExp.exec(markedXMLSnippet)) !== null) {
+    const start = match.index - previousMarkersOffset();
+    // Chevrotain ranges are inclusive (start) to exclusive (end)
+    const end = start + match[1].length - 1;
+    expectedRanges.push({ start, end });
+  }
+  return expectedRanges;
+}
+
+/**
+ * Utility for common single range case.
+ */
+export function computeExpectedRange(markedXMLSnippet: string): OffsetRange {
+  const allRanges = computeExpectedRanges(markedXMLSnippet);
+  if (isEmpty(allRanges)) {
+    throw Error("The XML Snippet has no marked issue ranges!");
+  }
+  return computeExpectedRanges(markedXMLSnippet)[0];
 }
