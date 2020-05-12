@@ -10,6 +10,13 @@ describe(`The language server diagnostics capability`, () => {
 
   forEach(testDirs, (dirPath) => {
     const dirName = basename(dirPath);
+
+    // UNCOMMENT THE LINES BELOW AND CHANGE onlyTestDirName TO ONLY RUN A SPECIFIC SNAPSHOT TEST
+    // const onlyTestDirName = "my-test-dir";
+    // if (dirName !== onlyTestDirName) {
+    //   return;
+    // }
+
     it("Can create diagnostic for " + dirName.replace(/-/g, " "), async () => {
       await snapshotTestLSPDiagnostic(dirPath);
     });
