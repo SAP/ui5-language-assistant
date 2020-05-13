@@ -1,13 +1,13 @@
 import { expect } from "chai";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { generateModel } from "@ui5-language-assistant/test-utils";
-import { validateUnknownEnumValue } from "../../../src/validators/attributes/unknown-enum-value";
+import { validateBooleanValue } from "../../../src/validators/attributes/invalid-boolean-value";
 import {
   computeExpectedRange,
   testValidationsScenario,
 } from "../../test-utils";
 
-describe("the unknown enum value validation", () => {
+describe("the invalid boolean value validation", () => {
   let ui5SemanticModel: UI5SemanticModel;
 
   before(async () => {
@@ -15,27 +15,26 @@ describe("the unknown enum value validation", () => {
   });
 
   context("true positive scenarios", () => {
-    it("will detect an enum value that does not fit the expected type", () => {
+    it("will detect an invalid boolean value", () => {
       const xmlSnippet = `
           <mvc:View
             xmlns:mvc="sap.ui.core.mvc"
-            xmlns="sap.m">
-            <List showSeparators = 🢂"TYPO💩"🢀>
-            </List>
+            xmlns="sap.m"
+            busy=🢂"untrue"🢀>
           </mvc:View>`;
 
       testValidationsScenario({
         model: ui5SemanticModel,
         xmlText: xmlSnippet,
         validators: {
-          attribute: [validateUnknownEnumValue],
+          attribute: [validateBooleanValue],
         },
         assertion: (issues) => {
           expect(issues).to.deep.equal([
             {
-              kind: "UnknownEnumValue",
+              kind: "InvalidBooleanValue",
               message:
-                'Unknown enum value: "TYPO💩", expecting one of: ["All", "Inner", "None"].',
+                'Invalid boolean value: "untrue", expecting "true" or "false".',
               offsetRange: computeExpectedRange(xmlSnippet),
               severity: "error",
             },
@@ -46,20 +45,19 @@ describe("the unknown enum value validation", () => {
   });
 
   context("negative edge cases", () => {
-    it("will not detect an issue when the enum value is valid", () => {
+    it("will not detect an issue when the boolean value is valid", () => {
       const xmlSnippet = `
           <mvc:View
             xmlns:mvc="sap.ui.core.mvc"
-            xmlns="sap.m">
-            <List showSeparators = "Inner">
-            </List>
+            xmlns="sap.m"
+            busy="true">
           </mvc:View>`;
 
       testValidationsScenario({
         model: ui5SemanticModel,
         xmlText: xmlSnippet,
         validators: {
-          attribute: [validateUnknownEnumValue],
+          attribute: [validateBooleanValue],
         },
         assertion: (issues) => {
           expect(issues).to.be.empty;
@@ -67,20 +65,19 @@ describe("the unknown enum value validation", () => {
       });
     });
 
-    it("will not detect an issue when the enum value might be a binding expression", () => {
+    it("will not detect an issue when the boolean value might be a binding expression", () => {
       const xmlSnippet = `
           <mvc:View
             xmlns:mvc="sap.ui.core.mvc"
-            xmlns="sap.m">
-            <List showSeparators = "{TYPO💩}">
-            </List>
+            xmlns="sap.m"
+            busy="{untrue}">
           </mvc:View>`;
 
       testValidationsScenario({
         model: ui5SemanticModel,
         xmlText: xmlSnippet,
         validators: {
-          attribute: [validateUnknownEnumValue],
+          attribute: [validateBooleanValue],
         },
         assertion: (issues) => {
           expect(issues).to.be.empty;
@@ -90,18 +87,17 @@ describe("the unknown enum value validation", () => {
 
     it("will not detect an issue when the enclosing tag is not a UI5 class", () => {
       const xmlSnippet = `
-          <mvc:View
+        <mvc:View1
             xmlns:mvc="sap.ui.core.mvc"
-            xmlns="sap.m">
-            <List_NOT_IN_UI5 showSeparators = "Inner">
-            </List_NOT_IN_UI5>
-          </mvc:View>`;
+            xmlns="sap.m"
+            busy="true">
+        </mvc:View1>`;
 
       testValidationsScenario({
         model: ui5SemanticModel,
         xmlText: xmlSnippet,
         validators: {
-          attribute: [validateUnknownEnumValue],
+          attribute: [validateBooleanValue],
         },
         assertion: (issues) => {
           expect(issues).to.be.empty;
@@ -109,20 +105,19 @@ describe("the unknown enum value validation", () => {
       });
     });
 
-    it("will not detect an issue when the expected type is not a UI5 Enum", () => {
+    it("will not detect an issue when the expected type is not a boolean", () => {
       const xmlSnippet = `
-          <mvc:View
+        <mvc:View
             xmlns:mvc="sap.ui.core.mvc"
-            xmlns="sap.m">
-            <List blocked = "true">
-            </List>
-          </mvc:View>`;
+            xmlns="sap.m"
+            busyIndicatorSize="untrue">
+        </mvc:View>`;
 
       testValidationsScenario({
         model: ui5SemanticModel,
         xmlText: xmlSnippet,
         validators: {
-          attribute: [validateUnknownEnumValue],
+          attribute: [validateBooleanValue],
         },
         assertion: (issues) => {
           expect(issues).to.be.empty;
@@ -132,18 +127,17 @@ describe("the unknown enum value validation", () => {
 
     it("will not detect an issue when the attribute value does not exist", () => {
       const xmlSnippet = `
-          <mvc:View
-            xmlns:mvc="sap.ui.core.mvc"
-            xmlns="sap.m">
-            <List showSeparators = >
-            </List>
-          </mvc:View>`;
+      <mvc:View
+          xmlns:mvc="sap.ui.core.mvc"
+          xmlns="sap.m"
+          busy=>
+      </mvc:View>`;
 
       testValidationsScenario({
         model: ui5SemanticModel,
         xmlText: xmlSnippet,
         validators: {
-          attribute: [validateUnknownEnumValue],
+          attribute: [validateBooleanValue],
         },
         assertion: (issues) => {
           expect(issues).to.be.empty;
@@ -153,18 +147,17 @@ describe("the unknown enum value validation", () => {
 
     it("will not detect an issue when the attribute is part of a UI5 Class tag but not a recognized property ", () => {
       const xmlSnippet = `
-          <mvc:View
+        <mvc:View
             xmlns:mvc="sap.ui.core.mvc"
-            xmlns="sap.m">
-            <List NOT_A_VALID_PROPERTY💩 = "Inner" >
-            </List>
-          </mvc:View>`;
+            xmlns="sap.m"
+            busy1="untrue">
+        </mvc:View>`;
 
       testValidationsScenario({
         model: ui5SemanticModel,
         xmlText: xmlSnippet,
         validators: {
-          attribute: [validateUnknownEnumValue],
+          attribute: [validateBooleanValue],
         },
         assertion: (issues) => {
           expect(issues).to.be.empty;

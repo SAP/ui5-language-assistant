@@ -1,15 +1,13 @@
 import {
   flattenAggregations,
   isElementSubClass,
+  getUI5ClassByXMLElement,
 } from "@ui5-language-assistant/logic-utils";
 
 import { UI5AggregationsInXMLTagNameCompletion } from "../../../api";
 import { map, compact, uniq } from "lodash";
 import { UI5ElementNameCompletionOptions } from "./index";
-import {
-  filterMembersForSuggestion,
-  getClassByElement,
-} from "../utils/filter-members";
+import { filterMembersForSuggestion } from "../utils/filter-members";
 
 /**
  * Suggests Aggregation inside sap.ui.core.Element
@@ -33,7 +31,7 @@ export function aggregationSuggestions(
     return [];
   }
 
-  const parentUI5Class = getClassByElement(parentXMLElement, ui5Model);
+  const parentUI5Class = getUI5ClassByXMLElement(parentXMLElement, ui5Model);
   if (!isElementSubClass(parentUI5Class)) {
     return [];
   }

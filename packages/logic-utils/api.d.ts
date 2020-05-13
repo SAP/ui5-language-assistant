@@ -1,4 +1,4 @@
-import { XMLElement } from "@xml-tools/ast";
+import { XMLElement, XMLAttribute } from "@xml-tools/ast";
 import {
   BaseUI5Node,
   UI5Aggregation,
@@ -83,3 +83,35 @@ export function getRootSymbolParent(node: BaseUI5Node): BaseUI5Node | undefined;
  * Return a human-readable string representation of a UI5 type
  */
 export function typeToString(type: UI5Type | undefined): string;
+
+/**
+ * Check if an xml attribute key is an xmlns key
+ * @param key
+ */
+export function isXMLNamespaceKey(key: string): boolean;
+
+/**
+ * Get the attribute name, without its "xmlns:" prefix, from an xmlns attribute key
+ * @param key
+ */
+export function getXMLNamespaceKeyPrefix(key: string): string;
+
+/**
+ * Return the UI5 Class for an XML Element
+ * @param element
+ * @param model
+ */
+export function getUI5ClassByXMLElement(
+  element: XMLElement,
+  model: UI5SemanticModel
+): UI5Class | undefined;
+
+/**
+ * Return the UI5 Property for an XML Attribute
+ * @param attribute
+ * @param model
+ */
+export function getUI5PropertyByXMLAttributeKey(
+  attribute: XMLAttribute,
+  model: UI5SemanticModel
+): UI5Prop | undefined;
