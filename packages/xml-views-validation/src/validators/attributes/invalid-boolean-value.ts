@@ -1,7 +1,6 @@
 import { XMLAttribute } from "@xml-tools/ast";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
-import { getPropertyByAttributeKey } from "@ui5-language-assistant/logic-utils";
-import { find, map } from "lodash";
+import { getUI5PropertyByXMLAttributeKey } from "@ui5-language-assistant/logic-utils";
 import { InvalidBooleanValueIssue } from "../../../api";
 import { isPossibleBindingAttributeValue } from "../../utils/is-binding-attribute-value";
 
@@ -19,26 +18,17 @@ export function validateBooleanValue(
     return [];
   }
 
-  const ui5Property = getPropertyByAttributeKey(attribute, model);
+  const ui5Property = getUI5PropertyByXMLAttributeKey(attribute, model);
   const propType = ui5Property?.type;
   if (propType?.kind !== "PrimitiveType" || propType.name !== "Boolean") {
     return [];
   }
 
-  const possibleBooleanValues = ["true", "false"];
-  if (
-    find(possibleBooleanValues, (_) => _ === actualAttributeValue) === undefined
-  ) {
-    const possibleValuesWithQuotes = map(
-      possibleBooleanValues,
-      (_) => `"${_}"`
-    );
+  if (actualAttributeValue !== "true" && actualAttributeValue !== "false") {
     return [
       {
         kind: "InvalidBooleanValue",
-        message: `Invalid value: ${
-          actualAttributeValueToken.image
-        }, expecting one of: [${possibleValuesWithQuotes.join(", ")}].`,
+        message: `Invalid boolean value: ${actualAttributeValueToken.image}, expecting "true" or "false".`,
         offsetRange: {
           start: actualAttributeValueToken.startOffset,
           end: actualAttributeValueToken.endOffset,

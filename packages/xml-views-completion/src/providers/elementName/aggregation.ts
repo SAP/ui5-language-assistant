@@ -1,7 +1,7 @@
 import {
   flattenAggregations,
   isElementSubClass,
-  getClassByElement,
+  getUI5ClassByXMLElement,
 } from "@ui5-language-assistant/logic-utils";
 
 import { UI5AggregationsInXMLTagNameCompletion } from "../../../api";
@@ -31,7 +31,7 @@ export function aggregationSuggestions(
     return [];
   }
 
-  const parentUI5Class = getClassByElement(parentXMLElement, ui5Model);
+  const parentUI5Class = getUI5ClassByXMLElement(parentXMLElement, ui5Model);
   if (!isElementSubClass(parentUI5Class)) {
     return [];
   }

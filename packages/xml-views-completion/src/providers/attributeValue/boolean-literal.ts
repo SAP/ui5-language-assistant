@@ -1,6 +1,6 @@
 import { map } from "lodash";
 import { XMLAttribute } from "@xml-tools/ast";
-import { getPropertyByAttributeKey } from "@ui5-language-assistant/logic-utils";
+import { getUI5PropertyByXMLAttributeKey } from "@ui5-language-assistant/logic-utils";
 import {
   BooleanValueInXMLAttributeValueCompletion,
   BooleanValue,
@@ -27,7 +27,10 @@ const allBooleanValues: BooleanValue[] = [
 export function booleanSuggestions(
   opts: UI5AttributeValueCompletionOptions
 ): BooleanValueInXMLAttributeValueCompletion[] {
-  const ui5Property = getPropertyByAttributeKey(opts.attribute, opts.context);
+  const ui5Property = getUI5PropertyByXMLAttributeKey(
+    opts.attribute,
+    opts.context
+  );
   const propType = ui5Property?.type;
   if (propType?.kind !== "PrimitiveType" || propType.name !== "Boolean") {
     return [];

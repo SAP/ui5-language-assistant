@@ -10,7 +10,7 @@ import {
 } from "@ui5-language-assistant/semantic-model-types";
 import { find } from "lodash";
 
-export function getClassByElement(
+export function getUI5ClassByXMLElement(
   element: XMLElement,
   model: UI5SemanticModel
 ): UI5Class | undefined {
@@ -18,12 +18,12 @@ export function getClassByElement(
   return model.classes[elementTagFqn];
 }
 
-export function getPropertyByAttributeKey(
+export function getUI5PropertyByXMLAttributeKey(
   attribute: XMLAttribute,
   model: UI5SemanticModel
 ): UI5Prop | undefined {
   const xmlElement = attribute.parent;
-  const elementClass = getClassByElement(xmlElement, model);
+  const elementClass = getUI5ClassByXMLElement(xmlElement, model);
   if (elementClass === undefined) {
     return undefined;
   }

@@ -34,7 +34,7 @@ describe("the invalid boolean value validation", () => {
             {
               kind: "InvalidBooleanValue",
               message:
-                'Invalid value: "untrue", expecting one of: ["true", "false"].',
+                'Invalid boolean value: "untrue", expecting "true" or "false".',
               offsetRange: computeExpectedRange(xmlSnippet),
               severity: "error",
             },

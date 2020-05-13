@@ -6,6 +6,6 @@
     },
     "severity": 1,
     "source": "UI5 Language Assistant",
-    "message": "Invalid value: \"untrue\", expecting one of: [\"true\", \"false\"]."
+    "message": "Invalid boolean value: \"untrue\", expecting \"true\" or \"false\"."
   }
 ]

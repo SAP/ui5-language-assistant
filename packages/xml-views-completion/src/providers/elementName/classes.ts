@@ -10,7 +10,7 @@ import {
 import {
   findClassesMatchingType,
   flattenAggregations,
-  getClassByElement,
+  getUI5ClassByXMLElement,
   ui5NodeToFQN,
 } from "@ui5-language-assistant/logic-utils";
 import { UI5ClassesInXMLTagNameCompletion } from "../../../api";
@@ -130,7 +130,10 @@ function handleInsideExplicitAggregationScenario({
   parentXMLElement: XMLElement;
   model: UI5SemanticModel;
 }): classSuggestionContext | null {
-  const grandParentUI5Class = getClassByElement(grandParentXMLElement, model);
+  const grandParentUI5Class = getUI5ClassByXMLElement(
+    grandParentXMLElement,
+    model
+  );
   if (grandParentUI5Class === undefined) {
     return NOT_FOUND;
   }
@@ -160,7 +163,7 @@ function handleDefaultAggregationScenario({
   parentXMLElement: XMLElement;
   model: UI5SemanticModel;
 }): classSuggestionContext | null {
-  const parentUI5Class = getClassByElement(parentXMLElement, model);
+  const parentUI5Class = getUI5ClassByXMLElement(parentXMLElement, model);
   if (parentUI5Class === undefined) {
     return NOT_FOUND;
   }

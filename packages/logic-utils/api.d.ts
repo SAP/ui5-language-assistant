@@ -89,7 +89,7 @@ export function typeToString(type: UI5Type | undefined): string;
  * @param element
  * @param model
  */
-export function getClassByElement(
+export function getUI5ClassByXMLElement(
   element: XMLElement,
   model: UI5SemanticModel
 ): UI5Class | undefined;
@@ -99,7 +99,7 @@ export function getClassByElement(
  * @param attribute
  * @param model
  */
-export function getPropertyByAttributeKey(
+export function getUI5PropertyByXMLAttributeKey(
   attribute: XMLAttribute,
   model: UI5SemanticModel
 ): UI5Prop | undefined;

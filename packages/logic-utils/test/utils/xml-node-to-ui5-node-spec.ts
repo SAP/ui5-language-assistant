@@ -7,13 +7,13 @@ import {
   expectExists,
 } from "@ui5-language-assistant/test-utils";
 import {
-  getClassByElement,
-  getPropertyByAttributeKey,
+  getUI5ClassByXMLElement,
+  getUI5PropertyByXMLAttributeKey,
   ui5NodeToFQN,
 } from "../../src/api";
 import { find } from "lodash";
 
-describe("The @ui5-language-assistant/logic-utils <getClassByElement> function", () => {
+describe("The @ui5-language-assistant/logic-utils <getUI5ClassByXMLElement> function", () => {
   let ui5Model: UI5SemanticModel;
   before(async () => {
     ui5Model = await generateModel({ version: "1.74.0" });
@@ -25,7 +25,7 @@ describe("The @ui5-language-assistant/logic-utils <getClassByElement> function",
         </View>`;
     const rootElement = getRootElement(xmlText);
 
-    const ui5Class = getClassByElement(rootElement, ui5Model);
+    const ui5Class = getUI5ClassByXMLElement(rootElement, ui5Model);
     expectExists(ui5Class, "ui5 class");
     expect(ui5NodeToFQN(ui5Class)).to.equal("sap.ui.core.mvc.View");
   });
@@ -36,7 +36,7 @@ describe("The @ui5-language-assistant/logic-utils <getClassByElement> function",
         </mvc:View>`;
     const rootElement = getRootElement(xmlText);
 
-    const ui5Class = getClassByElement(rootElement, ui5Model);
+    const ui5Class = getUI5ClassByXMLElement(rootElement, ui5Model);
     expectExists(ui5Class, "ui5 class");
     expect(ui5NodeToFQN(ui5Class)).to.equal("sap.ui.core.mvc.View");
   });
@@ -47,7 +47,7 @@ describe("The @ui5-language-assistant/logic-utils <getClassByElement> function",
         </mvc:View1>`;
     const rootElement = getRootElement(xmlText);
 
-    const ui5Class = getClassByElement(rootElement, ui5Model);
+    const ui5Class = getUI5ClassByXMLElement(rootElement, ui5Model);
     expect(ui5Class, "ui5 class").to.be.undefined;
   });
 
@@ -57,7 +57,7 @@ describe("The @ui5-language-assistant/logic-utils <getClassByElement> function",
         </mvc:View>`;
     const rootElement = getRootElement(xmlText);
 
-    const ui5Class = getClassByElement(rootElement, ui5Model);
+    const ui5Class = getUI5ClassByXMLElement(rootElement, ui5Model);
     expect(ui5Class, "ui5 class").to.be.undefined;
   });
 
@@ -67,12 +67,12 @@ describe("The @ui5-language-assistant/logic-utils <getClassByElement> function",
         </mvc:View>`;
     const rootElement = getRootElement(xmlText);
 
-    const ui5Class = getClassByElement(rootElement, ui5Model);
+    const ui5Class = getUI5ClassByXMLElement(rootElement, ui5Model);
     expect(ui5Class, "ui5 class").to.be.undefined;
   });
 });
 
-describe("The @ui5-language-assistant/logic-utils <getPropertyByAttributeKey> function", () => {
+describe("The @ui5-language-assistant/logic-utils <getUI5PropertyByXMLAttributeKey> function", () => {
   let ui5Model: UI5SemanticModel;
   before(async () => {
     ui5Model = await generateModel({ version: "1.74.0" });
@@ -84,7 +84,7 @@ describe("The @ui5-language-assistant/logic-utils <getPropertyByAttributeKey> fu
         </mvc:View1>`;
     const attribute = getRootElementAttribute(xmlText, "busy");
 
-    const prop = getPropertyByAttributeKey(attribute, ui5Model);
+    const prop = getUI5PropertyByXMLAttributeKey(attribute, ui5Model);
     expect(prop, "ui5 property").to.be.undefined;
   });
 
@@ -94,7 +94,7 @@ describe("The @ui5-language-assistant/logic-utils <getPropertyByAttributeKey> fu
         </mvc:View>`;
     const attribute = getRootElementAttribute(xmlText, "busy1");
 
-    const prop = getPropertyByAttributeKey(attribute, ui5Model);
+    const prop = getUI5PropertyByXMLAttributeKey(attribute, ui5Model);
     expect(prop, "ui5 property").to.be.undefined;
   });
 
@@ -105,7 +105,7 @@ describe("The @ui5-language-assistant/logic-utils <getPropertyByAttributeKey> fu
     // formatError is an event, not a property
     const attribute = getRootElementAttribute(xmlText, "formatError");
 
-    const prop = getPropertyByAttributeKey(attribute, ui5Model);
+    const prop = getUI5PropertyByXMLAttributeKey(attribute, ui5Model);
     expect(prop, "ui5 property").to.be.undefined;
   });
 
@@ -115,7 +115,7 @@ describe("The @ui5-language-assistant/logic-utils <getPropertyByAttributeKey> fu
         </mvc:View>`;
     const attribute = getRootElementAttribute(xmlText, "busy");
 
-    const prop = getPropertyByAttributeKey(attribute, ui5Model);
+    const prop = getUI5PropertyByXMLAttributeKey(attribute, ui5Model);
     expectExists(prop, "ui5 property");
     // "busy" is defined on Control
     expect(ui5NodeToFQN(prop)).to.equal("sap.ui.core.Control.busy");
@@ -127,7 +127,7 @@ describe("The @ui5-language-assistant/logic-utils <getPropertyByAttributeKey> fu
         </mvc:View>`;
     const attribute = getRootElementAttribute(xmlText, "mvc:busy");
 
-    const prop = getPropertyByAttributeKey(attribute, ui5Model);
+    const prop = getUI5PropertyByXMLAttributeKey(attribute, ui5Model);
     expect(prop, "ui5 property").to.be.undefined;
   });
 });

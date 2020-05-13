@@ -9,7 +9,7 @@ import {
   flattenProperties,
   flattenAssociations,
   isElementSubClass,
-  getClassByElement,
+  getUI5ClassByXMLElement,
 } from "@ui5-language-assistant/logic-utils";
 import { compact, map, uniq, reject } from "lodash";
 import { UI5AttributeNameCompletionOptions } from "./index";
@@ -46,7 +46,7 @@ export function propEventAssocSuggestions(
   const ui5Model = opts.context;
   const xmlElement = opts.element;
 
-  const elementClass = getClassByElement(xmlElement, ui5Model);
+  const elementClass = getUI5ClassByXMLElement(xmlElement, ui5Model);
   if (!isElementSubClass(elementClass)) {
     return [];
   }

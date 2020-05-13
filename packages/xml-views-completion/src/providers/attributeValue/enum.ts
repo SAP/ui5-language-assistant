@@ -1,6 +1,6 @@
 import { map } from "lodash";
 import { XMLAttribute } from "@xml-tools/ast";
-import { getPropertyByAttributeKey } from "@ui5-language-assistant/logic-utils";
+import { getUI5PropertyByXMLAttributeKey } from "@ui5-language-assistant/logic-utils";
 import { UI5EnumsInXMLAttributeValueCompletion } from "../../../api";
 import { filterMembersForSuggestion } from "../utils/filter-members";
 import { UI5AttributeValueCompletionOptions } from "./index";
@@ -13,7 +13,10 @@ import { UI5EnumValue } from "@ui5-language-assistant/semantic-model-types";
 export function enumSuggestions(
   opts: UI5AttributeValueCompletionOptions
 ): UI5EnumsInXMLAttributeValueCompletion[] {
-  const ui5Property = getPropertyByAttributeKey(opts.attribute, opts.context);
+  const ui5Property = getUI5PropertyByXMLAttributeKey(
+    opts.attribute,
+    opts.context
+  );
   const propType = ui5Property?.type;
   if (propType?.kind !== "UI5Enum") {
     return [];
