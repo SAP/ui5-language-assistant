@@ -15,3 +15,7 @@ export {
   getXMLNamespaceKeyPrefix,
   isXMLNamespaceKey,
 } from "./utils/xml-ns-key";
+export {
+  getUI5ClassByXMLElement,
+  getUI5PropertyByXMLAttributeKey,
+} from "./utils/xml-node-to-ui5-node";

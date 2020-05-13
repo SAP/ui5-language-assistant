@@ -1,4 +1,4 @@
-import { XMLElement } from "@xml-tools/ast";
+import { XMLElement, XMLAttribute } from "@xml-tools/ast";
 import {
   BaseUI5Node,
   UI5Aggregation,
@@ -95,3 +95,23 @@ export function isXMLNamespaceKey(key: string): boolean;
  * @param key
  */
 export function getXMLNamespaceKeyPrefix(key: string): string;
+
+/**
+ * Return the UI5 Class for an XML Element
+ * @param element
+ * @param model
+ */
+export function getUI5ClassByXMLElement(
+  element: XMLElement,
+  model: UI5SemanticModel
+): UI5Class | undefined;
+
+/**
+ * Return the UI5 Property for an XML Attribute
+ * @param attribute
+ * @param model
+ */
+export function getUI5PropertyByXMLAttributeKey(
+  attribute: XMLAttribute,
+  model: UI5SemanticModel
+): UI5Prop | undefined;

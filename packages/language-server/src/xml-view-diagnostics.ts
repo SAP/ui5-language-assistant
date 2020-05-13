@@ -48,6 +48,7 @@ function validationIssuesToLspDiagnostics(
 
     const issueKind = currIssue.kind;
     switch (issueKind) {
+      case "InvalidBooleanValue":
       case "UnknownEnumValue":
       case "UnknownNamespaceInXmlnsAttributeValue":
         return {
