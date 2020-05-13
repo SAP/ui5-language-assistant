@@ -1,9 +1,7 @@
 import {
   TextDocumentPositionParams,
   TextDocument,
-  CompletionItem,
   Hover,
-  Range,
 } from "vscode-languageserver";
 import { parse, DocumentCstNode } from "@xml-tools/parser";
 import {
@@ -16,7 +14,6 @@ import {
   XMLToken,
 } from "@xml-tools/ast";
 import { find } from "lodash";
-import { assertNever } from "assert-never";
 import {
   flattenEvents,
   flattenProperties,
@@ -33,6 +30,8 @@ import {
   UI5Aggregation,
   UI5SemanticModel,
   BaseUI5Node,
+  UI5Namespace,
+  UI5EnumValue,
 } from "@ui5-language-assistant/semantic-model-types";
 import { getNodeDocumentation } from "./documentation";
 
@@ -112,7 +111,11 @@ export function getHoverContext(
   return undefined;
 }
 
-function getUI5Node(ast: XMLDocument, offset: number, model: UI5SemanticModel) {
+function getUI5Node(
+  ast: XMLDocument,
+  offset: number,
+  model: UI5SemanticModel
+): BaseUI5Node | undefined {
   const visitor = new HoverContextVisitor(offset);
   accept(ast, visitor);
   if (visitor.hoverContext?.kind === undefined) {
@@ -140,7 +143,10 @@ function transformToLspHover(
   return hoverItem;
 }
 
-function getUI5NodeByElement(astNode: XMLElement, model: UI5SemanticModel) {
+function getUI5NodeByElement(
+  astNode: XMLElement,
+  model: UI5SemanticModel
+): UI5Class | UI5Aggregation | undefined {
   const ui5Class = find(
     model.classes,
     (ui5class) => xmlToFQN(astNode) === ui5NodeToFQN(ui5class)
@@ -154,12 +160,18 @@ function getUI5NodeByElement(astNode: XMLElement, model: UI5SemanticModel) {
   }
 }
 
-function getUI5NodeByKey(astNode: XMLAttribute, model: UI5SemanticModel) {
+function getUI5NodeByKey(
+  astNode: XMLAttribute,
+  model: UI5SemanticModel
+): UI5Prop | UI5Event | UI5Association | undefined {
   const parentElementClass = getClassByElement(astNode.parent, model);
   return findUI5ClassMemberByName(parentElementClass, astNode.key);
 }
 
-function getUI5NodeByValue(astNode: XMLAttribute, model: UI5SemanticModel) {
+function getUI5NodeByValue(
+  astNode: XMLAttribute,
+  model: UI5SemanticModel
+): UI5Namespace | UI5EnumValue | undefined {
   if (astNode.key != null && isXMLNamespaceKey(astNode.key)) {
     const ui5Namespace = find(
       model.namespaces,
@@ -213,7 +225,7 @@ function getUI5EnumByElement(
   ui5Class: UI5Class | undefined,
   key: string | null,
   value: string | null
-) {
+): UI5EnumValue | undefined {
   if (ui5Class != undefined) {
     const properties = flattenProperties(ui5Class);
     const ui5Property = find(properties, ["name", key]);
