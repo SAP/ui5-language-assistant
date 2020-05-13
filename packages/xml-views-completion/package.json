@@ -22,7 +22,7 @@
     "@xml-tools/ast": "4.1.0",
     "@xml-tools/content-assist": "3.1.4",
     "lodash": "4.17.15",
-    "assert-never": "1.2.0"
+    "assert-never": "1.2.1"
   },
   "devDependencies": {
     "@ui5-language-assistant/semantic-model": "^1.2.1",
