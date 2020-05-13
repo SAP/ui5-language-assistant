@@ -32,3 +32,13 @@ export function forEachSymbol(
   model: UI5SemanticModel,
   iteratee: (symbol: BaseUI5Node, fqn: string) => boolean | void
 ): void;
+
+/**
+ * Return a root symbol according to its fully qualified name, or undefined if not found
+ * @param model
+ * @param fqn
+ */
+export function findSymbol(
+  model: UI5SemanticModel,
+  fqn: string
+): BaseUI5Node | undefined;

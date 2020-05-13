@@ -23,6 +23,7 @@ export function convertToSemanticModel(
 ): model.UI5SemanticModel {
   const model: model.UI5SemanticModel = {
     version: "",
+    includedLibraries: [],
     classes: newMap(),
     enums: newMap(),
     functions: newMap(),
@@ -37,6 +38,7 @@ export function convertToSemanticModel(
     fileContent,
   }));
   const sortedLibs = sortBy(libsArray, "libraryName");
+  model.includedLibraries = map(sortedLibs, (_) => _.libraryName);
 
   reduce(
     sortedLibs,
@@ -77,6 +79,7 @@ function convertLibraryToSemanticModel(
 ): model.UI5SemanticModel {
   const model: model.UI5SemanticModel = {
     version: lib.version,
+    includedLibraries: [],
     classes: newMap(),
     interfaces: newMap(),
     enums: newMap(),
