@@ -3,14 +3,12 @@ import { UI5Namespace } from "@ui5-language-assistant/semantic-model-types";
 import {
   isElementSubClass,
   ui5NodeToFQN,
+  getXMLNamespaceKeyPrefix,
+  isXMLNamespaceKey,
 } from "@ui5-language-assistant/logic-utils";
 import { XMLAttribute } from "@xml-tools/ast";
 import { UI5AttributeNameCompletionOptions } from "./index";
 import { UI5NamespacesInXMLAttributeKeyCompletion } from "../../../api";
-import {
-  getXMLNamespaceKeyPrefix,
-  isXMLNamespaceKey,
-} from "../utils/xml-ns-key";
 
 /**
  * Suggests Namespaces inside Element

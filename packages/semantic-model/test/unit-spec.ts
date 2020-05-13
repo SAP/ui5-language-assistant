@@ -253,4 +253,69 @@ context("The ui5-language-assistant semantic model package unit tests", () => {
       });
     });
   });
+
+  context("includedLibraries", () => {
+    function generateFromLibraries(
+      libraries: Record<string, unknown>
+    ): UI5SemanticModel {
+      const result = generate({
+        version: "1.74.0",
+        strict: false,
+        typeNameFix: {},
+        libraries: libraries,
+        printValidationErrors: false,
+      });
+      return result;
+    }
+
+    const libWithSymbol = {
+      "$schema-ref": "http://schemas.sap.com/sapui5/designtime/api.json/1.0",
+      symbols: [
+        {
+          kind: "class",
+          basename: "rootSymbol",
+          name: "rootSymbol",
+        },
+      ],
+    };
+
+    it("contains a valid library", () => {
+      const result = generateFromLibraries({
+        testLib: libWithSymbol,
+      });
+      expect(result.includedLibraries, "includedLibraries").to.deep.equal([
+        "testLib",
+      ]);
+    });
+
+    it("contains an invalid library object", () => {
+      const result = generateFromLibraries({
+        testLib: {},
+      });
+      expect(result.includedLibraries, "includedLibraries").to.deep.equal([
+        "testLib",
+      ]);
+    });
+
+    it("contains an empty library", () => {
+      const result = generateFromLibraries({
+        testLib: "",
+      });
+      expect(result.includedLibraries, "includedLibraries").to.deep.equal([
+        "testLib",
+      ]);
+    });
+
+    it("contains all sent libraries", () => {
+      const result = generateFromLibraries({
+        testLib: libWithSymbol,
+        lib2: libWithSymbol,
+        emptyLib: {},
+      });
+      expect(
+        result.includedLibraries,
+        "includedLibraries"
+      ).to.deep.equalInAnyOrder(["testLib", "lib2", "emptyLib"]);
+    });
+  });
 });

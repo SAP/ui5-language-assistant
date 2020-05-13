@@ -22,7 +22,6 @@ import {
   namespaceKeysSuggestions,
 } from "../../../src/providers/attributeName/namespace";
 import { ui5NodeToFQN } from "@ui5-language-assistant/logic-utils";
-import { getXMLNamespaceKeyPrefix } from "../../../src/providers/utils/xml-ns-key";
 import { UI5NamespacesInXMLAttributeKeyCompletion } from "../../../api";
 
 const allExpectedNamespaces = [
@@ -300,20 +299,6 @@ describe("The ui5-language-assistant xml-views-completion", () => {
     });
 
     context("not reproducible scenario", () => {
-      context("getNamespaceKeyPrefix", () => {
-        it("no match is found, because key does not start with xmlns", () => {
-          expect(getXMLNamespaceKeyPrefix("abc")).to.be.empty;
-        });
-
-        it("no match is found because symbol '*' goes after xmlns", () => {
-          expect(getXMLNamespaceKeyPrefix("xmlns*")).to.be.empty;
-        });
-
-        it("prefix is undefined, empty string returns", () => {
-          expect(getXMLNamespaceKeyPrefix("xmlns:")).to.be.empty;
-        });
-      });
-
       //TODO check with Shachar if this case can be received from xml
       context("isExistingNamespaceAttribute", () => {
         it("invalid attribute key", () => {

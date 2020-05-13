@@ -3,13 +3,11 @@ import { XMLAttribute } from "@xml-tools/ast";
 import {
   isElementSubClass,
   ui5NodeToFQN,
+  getXMLNamespaceKeyPrefix,
+  isXMLNamespaceKey,
 } from "@ui5-language-assistant/logic-utils";
 import { UI5AttributeValueCompletionOptions } from "./index";
 import { UI5NamespacesInXMLAttributeValueCompletion } from "../../../api";
-import {
-  getXMLNamespaceKeyPrefix,
-  isXMLNamespaceKey,
-} from "../utils/xml-ns-key";
 
 /**
  * Suggests namespace value for namespace attribute

@@ -23,6 +23,7 @@ export interface OffsetRange {
 export type UI5XMLViewIssue =
   | UnknownEnumValueIssue
   | UseOfDeprecatedClassIssue
+  | UnknownNamespaceInXmlnsAttributeValueIssue
   | InvalidBooleanValueIssue;
 
 // A sub-interface per issue type may seem redundant, but this allows
@@ -33,6 +34,11 @@ export interface UnknownEnumValueIssue extends BaseUI5XMLViewIssue {
 
 export interface UseOfDeprecatedClassIssue extends BaseUI5XMLViewIssue {
   kind: "UseOfDeprecatedClass";
+}
+
+export interface UnknownNamespaceInXmlnsAttributeValueIssue
+  extends BaseUI5XMLViewIssue {
+  kind: "UnknownNamespaceInXmlnsAttributeValue";
 }
 
 export interface InvalidBooleanValueIssue extends BaseUI5XMLViewIssue {
