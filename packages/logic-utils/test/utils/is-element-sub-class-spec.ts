@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import {
   buildUI5Class,
-  buildUI5Namespace
+  buildUI5Namespace,
 } from "@ui5-language-assistant/test-utils";
 import { isElementSubClass } from "../../src/api";
 
@@ -10,25 +10,25 @@ describe("The @ui5-language-assistant/logic-utils <isElementSubClass> function",
 
   const uiNs = buildUI5Namespace({
     name: "ui",
-    parent: sapNs
+    parent: sapNs,
   });
 
   const coreNs = buildUI5Namespace({
     name: "core",
-    parent: uiNs
+    parent: uiNs,
   });
 
   const element = buildUI5Class({
     name: "Element",
     parent: coreNs,
-    library: "sap.ui.core"
+    library: "sap.ui.core",
   });
 
   it("will identify UI5 Classes that are 'Elements'", () => {
     const page = buildUI5Class({
       name: "Page",
       extends: element,
-      library: "sap.ui.core"
+      library: "sap.ui.core",
     });
     const actual = isElementSubClass(page);
     expect(actual).to.be.true;
@@ -38,7 +38,7 @@ describe("The @ui5-language-assistant/logic-utils <isElementSubClass> function",
     const bamba = buildUI5Class({
       name: "Bamba",
       parent: coreNs,
-      library: "sap.ui.core"
+      library: "sap.ui.core",
     });
     const actual = isElementSubClass(bamba);
     expect(actual).to.be.false;

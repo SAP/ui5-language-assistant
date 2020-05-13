@@ -13,7 +13,8 @@ import {
   UI5Method,
   UI5Constructor,
   UI5Field,
-  UI5EnumValue
+  UI5EnumValue,
+  UI5DeprecatedInfo,
 } from "@ui5-language-assistant/semantic-model-types";
 import { TypeNameFix } from "@ui5-language-assistant/semantic-model";
 import { XMLAttribute, XMLElement } from "@xml-tools/ast";
@@ -65,6 +66,10 @@ export function buildUI5Aggregation(
   opts: PartialWithName<UI5Aggregation>
 ): UI5Aggregation;
 
+export function buildUI5DeprecatedInfo(
+  opts: Partial<UI5DeprecatedInfo>
+): UI5DeprecatedInfo;
+
 export function buildUI5Model(
   opts: Partial<UI5SemanticModel>
 ): UI5SemanticModel;
@@ -104,7 +109,10 @@ export function expectXMLAttribute(
 
 export function isObject(value: unknown): value is Record<string, unknown>;
 
-export function getFQN(model: UI5SemanticModel, target: unknown): string;
+export function getFQN(
+  model: UI5SemanticModel,
+  target: unknown
+): string | undefined;
 
 export function expectExists(value: unknown, message: string): asserts value;
 
@@ -133,10 +141,3 @@ export function readTestLibraryFile(
 ): Promise<FetchResponse>;
 
 export function downloadLibraries(version: TestModelVersion): Promise<void>;
-
-/**
- * generateModel can take a long time in some cases now that it might download the libraries.
- * Use this constant to set the timeout on the test/hook that calls it.
- * Note: this.timeout(...) cannot be called from within an arrow function.
- */
-export const GEN_MODEL_TIMEOUT = 5000;

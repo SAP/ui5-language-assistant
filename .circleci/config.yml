@@ -1,8 +1,8 @@
 version: 2.1
 jobs:
-  build-node13:
+  build-node14:
     docker:
-      - image: circleci/node:13-browsers
+      - image: circleci/node:14-browsers
     working_directory: ~/repo
     steps:
       - checkout
@@ -74,7 +74,7 @@ workflows:
     jobs:
       - build-node10
       - build-node12
-      - build-node13
+      - build-node14
   release:
     jobs:
       - deploy-npm:

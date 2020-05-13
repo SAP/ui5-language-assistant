@@ -83,7 +83,7 @@ describe("the Language Server Client Integration Tests", () => {
       "ui",
       "ui", // This "ui" is in a different parent
       "ui5",
-      "ulc"
+      "ulc",
     ];
     await assertCompletions(xmlSnippet, completionsList);
   });
@@ -111,7 +111,7 @@ describe("the Language Server Client Integration Tests", () => {
   }
 
   async function sleep(ms: number): Promise<void> {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
   async function assertCompletions(
@@ -136,7 +136,7 @@ describe("the Language Server Client Integration Tests", () => {
 
     const completionNames = map(
       completionsList.items,
-      completion => completion.label
+      (completion) => completion.label
     );
     expect(completionNames).to.include.members(expectedCompletionNames);
   }

@@ -19,6 +19,9 @@
       "path": "./packages/xml-views-completion"
     },
     {
+      "path": "./packages/xml-views-validation"
+    },
+    {
       "path": "./test-packages/test-utils"
     }
   ],

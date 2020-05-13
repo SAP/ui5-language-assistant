@@ -2,24 +2,24 @@ import { XMLAttribute, XMLElement } from "@xml-tools/ast";
 import {
   UI5Event,
   UI5Prop,
-  UI5Association
+  UI5Association,
 } from "@ui5-language-assistant/semantic-model-types";
 import {
   flattenEvents,
   flattenProperties,
   flattenAssociations,
-  isElementSubClass
+  isElementSubClass,
 } from "@ui5-language-assistant/logic-utils";
-import { compact, map, uniq } from "lodash";
+import { compact, map, uniq, reject } from "lodash";
 import { UI5AttributeNameCompletionOptions } from "./index";
 import {
   UI5AssociationsInXMLAttributeKeyCompletion,
   UI5EventsInXMLAttributeKeyCompletion,
-  UI5PropsInXMLAttributeKeyCompletion
+  UI5PropsInXMLAttributeKeyCompletion,
 } from "../../../api";
 import {
   filterMembersForSuggestion,
-  getClassByElement
+  getClassByElement,
 } from "../utils/filter-members";
 
 type PropEventsAssocInXMLAttributeKeyCompletion =
@@ -35,7 +35,7 @@ const NodeKindToSuggestionType: Record<
 > = {
   UI5Prop: "UI5PropsInXMLAttributeKey",
   UI5Event: "UI5EventsInXMLAttributeKey",
-  UI5Association: "UI5AssociationsInXMLAttributeKey"
+  UI5Association: "UI5AssociationsInXMLAttributeKey",
 };
 
 /**
@@ -63,20 +63,25 @@ export function propEventAssocSuggestions(
 
   const prefix = opts.prefix ?? "";
   const existingAttributeNames = compact(
-    uniq(map(xmlElement.attributes, _ => _.key))
+    uniq(map(xmlElement.attributes, (_) => _.key))
   );
+  const currentAttributeKey = opts.attribute?.key;
+  const existingAttributeNamesWithoutCurrent =
+    currentAttributeKey === undefined
+      ? existingAttributeNames
+      : reject(existingAttributeNames, (name) => name === currentAttributeKey);
 
   const uniquePrefixMatchingAttributes = filterMembersForSuggestion(
     allPropertiesEventsAssociations,
     prefix,
-    existingAttributeNames
+    existingAttributeNamesWithoutCurrent
   );
 
-  const suggestions = map(uniquePrefixMatchingAttributes, _ => ({
+  const suggestions = map(uniquePrefixMatchingAttributes, (_) => ({
     type: NodeKindToSuggestionType[_.kind],
     ui5Node: _,
     astNode:
-      (opts.attribute as XMLAttribute) ?? createDummyAttribute(xmlElement)
+      (opts.attribute as XMLAttribute) ?? createDummyAttribute(xmlElement),
   }));
 
   // Using casing due to dynamic assignment to the `type` property of each suggestion
@@ -99,9 +104,9 @@ function createDummyAttribute(parent: XMLElement): XMLAttribute {
       startLine: -1,
       endLine: -1,
       startColumn: -1,
-      endColumn: -1
+      endColumn: -1,
     },
     syntax: {},
-    value: null
+    value: null,
   };
 }

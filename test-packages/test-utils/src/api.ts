@@ -13,13 +13,14 @@ export {
   buildUI5Function,
   buildUI5Interface,
   buildUI5Method,
-  buildUI5Typedef
+  buildUI5Typedef,
+  buildUI5DeprecatedInfo,
 } from "./utils/semantic-model-builder";
 export {
   generateModel,
   getTypeNameFixForVersion,
   readTestLibraryFile,
-  downloadLibraries
+  downloadLibraries,
 } from "./utils/semantic-model-provider";
 export {
   expectUnsortedEquality,
@@ -27,6 +28,6 @@ export {
   expectSuggestions,
   expectExists,
   expectProperty,
-  expectModelObjectsEqual
+  expectModelObjectsEqual,
 } from "./utils/expect";
 export { isObject, getFQN } from "./utils/model-test-utils";

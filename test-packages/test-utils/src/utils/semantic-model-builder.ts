@@ -13,11 +13,12 @@ import {
   UI5Method,
   UI5Constructor,
   UI5Field,
-  UI5EnumValue
+  UI5EnumValue,
+  UI5DeprecatedInfo,
+  UI5Association,
 } from "@ui5-language-assistant/semantic-model-types";
 
 import { PartialWithName } from "../../api";
-import { Ui5Association } from "@ui5-language-assistant/semantic-model/src/api-json";
 
 const baseUI5NodeDefaults: BaseUI5Node = {
   name: "",
@@ -28,7 +29,7 @@ const baseUI5NodeDefaults: BaseUI5Node = {
   library: "",
   parent: undefined,
   since: undefined,
-  visibility: "public"
+  visibility: "public",
 };
 
 export function buildUI5Property(opts: PartialWithName<UI5Prop>): UI5Prop {
@@ -37,7 +38,7 @@ export function buildUI5Property(opts: PartialWithName<UI5Prop>): UI5Prop {
     default: "",
     kind: "UI5Prop",
     type: undefined,
-    ...opts
+    ...opts,
   };
 }
 
@@ -46,7 +47,7 @@ export function buildUI5Field(opts: PartialWithName<UI5Field>): UI5Field {
     ...baseUI5NodeDefaults,
     kind: "UI5Field",
     type: undefined,
-    ...opts
+    ...opts,
   };
 }
 
@@ -56,7 +57,7 @@ export function buildUI5EnumValue(
   return {
     ...baseUI5NodeDefaults,
     kind: "UI5EnumValue",
-    ...opts
+    ...opts,
   };
 }
 
@@ -64,7 +65,7 @@ export function buildUI5Event(opts: PartialWithName<UI5Event>): UI5Event {
   return {
     ...baseUI5NodeDefaults,
     kind: "UI5Event",
-    ...opts
+    ...opts,
   };
 }
 
@@ -72,7 +73,7 @@ export function buildUI5Method(opts: PartialWithName<UI5Method>): UI5Method {
   return {
     ...baseUI5NodeDefaults,
     kind: "UI5Method",
-    ...opts
+    ...opts,
   };
 }
 
@@ -83,26 +84,19 @@ export function buildUI5Constructor(
     ...baseUI5NodeDefaults,
     kind: "UI5Constructor",
     name: "",
-    ...opts
+    ...opts,
   };
 }
 
 export function buildUI5Association(
-  opts: PartialWithName<Ui5Association>
-): Ui5Association {
+  opts: PartialWithName<UI5Association>
+): UI5Association {
   return {
     ...baseUI5NodeDefaults,
-    cardinality: undefined,
-    deprecated: undefined,
-    description: "",
-    experimental: undefined,
-    methods: [],
-    name: undefined,
-    since: undefined,
-    singularName: undefined,
-    type: "",
-    visibility: undefined,
-    ...opts
+    kind: "UI5Association",
+    cardinality: "0..n",
+    type: undefined,
+    ...opts,
   };
 }
 
@@ -121,7 +115,7 @@ export function buildUI5Class(opts: PartialWithName<UI5Class>): UI5Class {
     properties: [],
     fields: [],
     defaultAggregation: undefined,
-    ...opts
+    ...opts,
   };
 }
 
@@ -133,7 +127,7 @@ export function buildUI5Interface(
     kind: "UI5Interface",
     methods: [],
     events: [],
-    ...opts
+    ...opts,
   };
 }
 
@@ -142,7 +136,7 @@ export function buildUI5Enum(opts: PartialWithName<UI5Enum>): UI5Enum {
     ...baseUI5NodeDefaults,
     kind: "UI5Enum",
     fields: [],
-    ...opts
+    ...opts,
   };
 }
 
@@ -150,7 +144,7 @@ export function buildUI5Typedef(opts: PartialWithName<UI5Typedef>): UI5Typedef {
   return {
     ...baseUI5NodeDefaults,
     kind: "UI5Typedef",
-    ...opts
+    ...opts,
   };
 }
 
@@ -160,7 +154,7 @@ export function buildUI5Function(
   return {
     ...baseUI5NodeDefaults,
     kind: "UI5Function",
-    ...opts
+    ...opts,
   };
 }
 
@@ -175,7 +169,7 @@ export function buildUI5Namespace(
     methods: [],
     namespaces: {},
     events: [],
-    ...opts
+    ...opts,
   };
 }
 
@@ -188,7 +182,18 @@ export function buildUI5Aggregation(
     cardinality: "0..n",
     kind: "UI5Aggregation",
     type: undefined,
-    ...opts
+    ...opts,
+  };
+}
+
+export function buildUI5DeprecatedInfo(
+  opts: Partial<UI5DeprecatedInfo>
+): UI5DeprecatedInfo {
+  return {
+    isDeprecated: true,
+    since: undefined,
+    text: undefined,
+    ...opts,
   };
 }
 
@@ -203,6 +208,6 @@ export function buildUI5Model(
     typedefs: {},
     version: "",
     interfaces: {},
-    ...opts
+    ...opts,
   };
 }

@@ -1,14 +1,14 @@
-import { map, findKey, find, forEachRight } from "lodash";
+import { map, findKey, find, forEachRight, includes } from "lodash";
 import {
   CompletionItem,
   CompletionItemKind,
   TextDocumentPositionParams,
   InsertTextFormat,
   TextEdit,
-  Range
+  Range,
 } from "vscode-languageserver";
 import { TextDocument } from "vscode-languageserver-textdocument";
-import { Position } from "vscode-languageserver-types";
+import { Position, MarkupContent } from "vscode-languageserver-types";
 import { parse, DocumentCstNode } from "@xml-tools/parser";
 import {
   buildAst,
@@ -16,7 +16,7 @@ import {
   SourcePosition,
   XMLAttribute,
   XMLElement,
-  XMLDocument
+  XMLDocument,
 } from "@xml-tools/ast";
 import {
   UI5SemanticModel,
@@ -24,17 +24,18 @@ import {
   UI5Prop,
   UI5Aggregation,
   UI5Association,
-  UI5Field
+  UI5Field,
 } from "@ui5-language-assistant/semantic-model-types";
 import {
   getXMLViewCompletions,
   UI5XMLViewCompletion,
-  UI5ClassesInXMLTagNameCompletion
+  UI5ClassesInXMLTagNameCompletion,
+  isUI5NodeXMLViewCompletion,
 } from "@ui5-language-assistant/xml-views-completion";
 import {
   ui5NodeToFQN,
   isRootSymbol,
-  typeToString
+  typeToString,
 } from "@ui5-language-assistant/logic-utils";
 import { getNodeDocumentation } from "./documentation";
 
@@ -51,7 +52,7 @@ export function getCompletionItems(
     offset: document.offsetAt(textDocumentPosition.position),
     cst: cst as DocumentCstNode,
     ast: ast,
-    tokenVector: tokenVector
+    tokenVector: tokenVector,
   });
 
   const completionItems = transformToLspSuggestions(
@@ -67,26 +68,20 @@ function transformToLspSuggestions(
   model: UI5SemanticModel,
   originalPosition: Position
 ): CompletionItem[] {
-  const lspSuggestions = map(suggestions, suggestion => {
+  const lspSuggestions = map(suggestions, (suggestion) => {
     const lspKind = computeLSPKind(suggestion);
-    let detailText = getNodeDetail(suggestion.ui5Node);
-    if (suggestion.ui5Node.experimentalInfo?.isExperimental) {
-      detailText = `(experimental) ${detailText}`;
-    }
-    if (suggestion.ui5Node.deprecatedInfo?.isDeprecated) {
-      detailText = `(deprecated) ${detailText}`;
-    }
 
     const textEditDetails = createTextEdits(suggestion, originalPosition);
+    const documentation = getDocumentation(suggestion, model);
     const completionItem: CompletionItem = {
-      label: suggestion.ui5Node.name,
+      label: getLabel(suggestion),
       filterText: textEditDetails.filterText,
       textEdit: textEditDetails.textEdit,
       insertTextFormat: InsertTextFormat.Snippet,
       additionalTextEdits: textEditDetails.additionalTextEdits,
-      detail: detailText,
-      documentation: getNodeDocumentation(suggestion.ui5Node, model),
-      kind: lspKind
+      detail: getDetail(suggestion),
+      documentation: documentation,
+      kind: lspKind,
       // TODO tags are not supported in Theia: https://che-incubator.github.io/vscode-theia-comparator/status.html
       // tags: suggestion.ui5Node.deprecatedInfo?.isDeprecated
       //   ? [CompletionItemTag.Deprecated]
@@ -103,8 +98,11 @@ export function computeLSPKind(
   switch (suggestion.type) {
     case "UI5NamespacesInXMLAttributeKey":
     case "UI5NamespacesInXMLAttributeValue":
+      return CompletionItemKind.Module;
+    case "UI5AssociationsInXMLAttributeKey":
+      return CompletionItemKind.Reference;
     case "UI5AggregationsInXMLTagName":
-      return CompletionItemKind.Text;
+      return CompletionItemKind.Field;
     case "UI5PropsInXMLAttributeKey":
       return CompletionItemKind.Property;
     case "UI5ClassesInXMLTagName":
@@ -113,6 +111,8 @@ export function computeLSPKind(
       return CompletionItemKind.Event;
     case "UI5EnumsInXMLAttributeValue":
       return CompletionItemKind.EnumMember;
+    case "BooleanValueInXMLAttributeValue":
+      return CompletionItemKind.Constant;
     default:
       // TODO: we probably need a logging solution to highlight edge cases we
       //       do not handle...
@@ -127,7 +127,7 @@ function createTextEdits(
   const additionalTextEdits: TextEdit[] = [];
   let range: Range = {
     start: originalPosition,
-    end: originalPosition
+    end: originalPosition,
   };
   let newText = suggestion.ui5Node.name;
 
@@ -154,23 +154,51 @@ function createTextEdits(
       break;
     }
     case "UI5AssociationsInXMLAttributeKey":
-    case "UI5EventsInXMLAttributeKey":
-    case "UI5PropsInXMLAttributeKey": {
+    case "UI5EventsInXMLAttributeKey": {
       range = getXMLAttributeKeyRange(suggestion.astNode) ?? range;
 
       // Auto-insert ="" for attributes
       if (suggestion.astNode.syntax.value === undefined) {
+        // The LSP tabstop ${0} puts the cursor in the marked place, between the quotes, so they can easily
+        // type the attribute value
         newText += '="${0}"';
+      }
+      break;
+    }
+    case "UI5PropsInXMLAttributeKey": {
+      range = getXMLAttributeKeyRange(suggestion.astNode) ?? range;
+
+      // Auto-insert ="<default value>" (or ="" if there is no default value) for property attributes
+      if (suggestion.astNode.syntax.value === undefined) {
+        const defaultValue = suggestion.ui5Node.default;
+        // Only simple values are added in the completion (there are default values which are objects, arrays and null)
+        if (
+          defaultValue !== undefined &&
+          includes(["number", "boolean", "string"], typeof defaultValue)
+        ) {
+          // The LSP placeholder ${0:} makes the text between : and } selected so the user can easily
+          // change it if they don't want to use the default value
+          newText += `="\${0:${defaultValue}}"`;
+        } else {
+          // The LSP tabstop ${0} puts the cursor in the marked place, between the quotes, so they can easily
+          // type the attribute value
+          newText += '="${0}"';
+        }
       }
       break;
     }
     // Tag name
     case "UI5AggregationsInXMLTagName": {
       range = getXMLTagNameRange(suggestion.astNode) ?? range;
+      const tagName = suggestion.ui5Node.name;
       // Auto-close tag
       /* istanbul ignore else */
       if (shouldCloseXMLElement(suggestion.astNode)) {
-        newText += `>\${0}</${suggestion.ui5Node.name}>`;
+        newText += `>\${0}</${tagName}>`;
+      } else {
+        additionalTextEdits.push(
+          ...getClosingTagTextEdits(suggestion.astNode, tagName)
+        );
       }
       break;
     }
@@ -188,9 +216,9 @@ function createTextEdits(
       // the attribute value syntax exists
       /* istanbul ignore next */
       range = getXMLAttributeValueRange(suggestion.astNode) ?? range;
-      newText = `"${ui5NodeToFQN(suggestion.ui5Node)}"`;
       // Namespace in attribute value can be filtered by FQN (since the FQN is written in the attribute).
       // Attribute values should contain quotation marks.
+      newText = `"${ui5NodeToFQN(suggestion.ui5Node)}"`;
       filterText = newText;
       break;
     }
@@ -199,8 +227,18 @@ function createTextEdits(
       // the attribute value syntax exists
       /* istanbul ignore next */
       range = getXMLAttributeValueRange(suggestion.astNode) ?? range;
-      newText = `"${suggestion.ui5Node.name}"`;
       // Attribute values should contain quotation marks
+      newText = `"${newText}"`;
+      filterText = newText;
+      break;
+    }
+    case "BooleanValueInXMLAttributeValue": {
+      // The 'else' part will never happen because to get suggestions for attribute value, the "" at least must exist so
+      // the attribute value syntax exists
+      /* istanbul ignore next */
+      range = getXMLAttributeValueRange(suggestion.astNode) ?? range;
+      // Attribute values should contain quotation marks
+      newText = `"${suggestion.ui5Node.value}"`;
       filterText = newText;
       break;
     }
@@ -209,10 +247,10 @@ function createTextEdits(
   return {
     textEdit: {
       range,
-      newText
+      newText,
     },
     filterText,
-    additionalTextEdits
+    additionalTextEdits,
   };
 }
 
@@ -243,6 +281,10 @@ function createTextEditsForClassInTagName(
   /* istanbul ignore else */
   if (shouldCloseXMLElement(suggestion.astNode)) {
     newText += ` \${1}>\${0}</${tagName}>`;
+  } else {
+    additionalTextEdits.push(
+      ...getClosingTagTextEdits(suggestion.astNode, tagName)
+    );
   }
   // Class name in tag can be filtered by FQN or xmlns (or none of them): all of "m:But", "But" and "sap.m.But"
   // should return "m:Button" in the tag name for sap.m.Button.
@@ -250,6 +292,54 @@ function createTextEditsForClassInTagName(
   // (the simple name option is contained in both).
   const filterText = `${tagName} ${ui5NodeToFQN(suggestion.ui5Node)}`;
   return { range, newText, filterText };
+}
+
+function getClosingTagTextEdits(
+  xmlElement: XMLElement,
+  closingTagName: string
+): TextEdit[] {
+  const textEdits: TextEdit[] = [];
+  // Note: if we implement syncronization between the opening and closing tag in the generic XML extension
+  // and it will cover changes done by code assist suggestions this logic should be removed from this extension.
+
+  // Check if the closing tag has a name and it's the same as the opening tag.
+  // The name check is required so that in the case of invalid xml where the current tag is closed but
+  // has no closing tag, and its parent tag has a closing tag, we don't change the parent closing tag name.
+  // For example, in this xml:
+  // <parentTag><innerTag></parentTag>
+  // The </parentTag> closing tag is considered the closing tag of <innerTag> but we don't want to change it.
+  if (
+    xmlElement.syntax.closeName !== undefined &&
+    xmlElement.syntax.closeName.image === xmlElement.syntax.openName?.image
+  ) {
+    // Replace name in closing tag
+    const closingTagNameRange = positionToRange(xmlElement.syntax.closeName);
+    // The 'else' here only happens if the closing tag is a dummy element (which we don't create)
+    /* istanbul ignore else */
+    if (closingTagNameRange !== undefined) {
+      const closingTagNameTextEdit = {
+        newText: closingTagName,
+        range: closingTagNameRange,
+      };
+      textEdits.push(closingTagNameTextEdit);
+    }
+  } else if (
+    xmlElement.syntax.closeName === undefined &&
+    xmlElement.syntax.closeBody !== undefined
+  ) {
+    // This is the case where there is a closing tag but it doesn't contain a name (like "</>")
+    const closingTagRange = positionToRange(xmlElement.syntax.closeBody);
+    // The 'else' here only happens if the closing tag is a dummy element (which we don't create)
+    /* istanbul ignore else */
+    if (closingTagRange !== undefined) {
+      const closingTagTextEdit = {
+        newText: `</${closingTagName}>`,
+        range: closingTagRange,
+      };
+      textEdits.push(closingTagTextEdit);
+    }
+  }
+  return textEdits;
 }
 
 function shouldCloseXMLElement(xmlElement: XMLElement): boolean {
@@ -288,10 +378,35 @@ function rangeContains(range: Range, inner: Range): boolean {
   return atMost(range.start, inner.start) && atMost(inner.end, range.end);
 }
 
-function createInsertRange(line: number, column: number): Range {
+/**
+ * Create an insert range at the position right after the sent column.
+ * For exmaple, for text "12345" the character in position 1 is "1" and the
+ * insert position after it is "1|2345".
+ * The character in position 2 is "2" and the insert position after it is "12|345".
+ * The character at position 5 is "5" and the insert position after it at the end of the text -> "12345|".
+ * */
+function createInsertRangeAfter(line: number, column: number): Range {
+  // Chevrotain positions are 1-based while VSCode positions are 0-based, therefore we have to
+  // subtract 1 from the line (we don't subtract 1 from the column because the requested position is after the character)
   return {
     start: Position.create(line - 1, column),
-    end: Position.create(line - 1, column)
+    end: Position.create(line - 1, column),
+  };
+}
+
+/**
+ * Create an insert range at the position right before the sent column.
+ * For exmaple, for text "12345" the character in position 1 is "1" and the
+ * insert position before it is the beginning of the text -> "|12345".
+ * The character in position 2 is "2" and the insert position before it is "1|2345".
+ * The character at position 5 is "5" and the insert position before it is "1234|5".
+ * */
+function createInsertRangeBefore(line: number, column: number): Range {
+  // Chevrotain positions are 1-based while VSCode positions are 0-based, therefore we have to
+  // subtract 1 from the line and column
+  return {
+    start: Position.create(line - 1, column - 1),
+    end: Position.create(line - 1, column - 1),
   };
 }
 
@@ -304,9 +419,12 @@ function positionToRange(
 
   // Check it's not a dummy position
   if (position !== undefined && !isDummyPosition(position)) {
+    // Chevrotain positions are 1-based while VSCode positions are 0-based, therefore we have to
+    // subtract 1 from the line and start column
+    // (we don't subtract 1 from the column because the end position is after the character)
     return {
       start: Position.create(position.startLine - 1, position.startColumn - 1),
-      end: Position.create(position.endLine - 1, position.endColumn)
+      end: Position.create(position.endLine - 1, position.endColumn),
     };
   }
   return undefined;
@@ -321,7 +439,7 @@ function getClassNamespacePrefix(
   /* istanbul ignore else */
   if (parent !== undefined) {
     const parentFQN = ui5NodeToFQN(parent);
-    let xmlnsPrefix = findKey(xmlElement.namespaces, _ => _ === parentFQN);
+    let xmlnsPrefix = findKey(xmlElement.namespaces, (_) => _ === parentFQN);
     // Namespace not defined in imports - guess it
     if (xmlnsPrefix === undefined) {
       // It should be the parent simple name by default, but if that already exists we'll add an index to it (name2 etc)
@@ -371,19 +489,62 @@ function getAddNamespaceEdit(
   // xml document will not be empty
   /* istanbul ignore else */
   if (parent.rootElement !== null) {
-    const position =
-      parent.rootElement.syntax.openName ?? parent.rootElement.position;
-    // We want to insert, not replace - the actual position should be at the end of the range.
-    const range = createInsertRange(position.endLine, position.endColumn);
+    let range: Range;
+    if (parent.rootElement.syntax.openName !== undefined) {
+      const position = parent.rootElement.syntax.openName;
+      // We want to insert the namespace at the end of the range, after the tag name.
+      range = createInsertRangeAfter(position.endLine, position.endColumn);
+    } else {
+      // TODO add the < token to the syntax in @xml-tools/ast and simplify this case
+      const position =
+        parent.rootElement.syntax.openBody ?? parent.rootElement.position;
+      // We want to insert the namespace after the opening tag.
+      // There is no tag name so this will be directly after the "<" token
+      // (which must exist if there is an open body or rootElement at all).
+      // When there is no ">" token the openBody will not exist so we take the rootElement position.
+      range = createInsertRangeBefore(
+        position.startLine,
+        position.startColumn + "<".length
+      );
+    }
+
     return {
       range,
-      newText: ` xmlns:${xmlns}="${value}"`
+      newText: ` xmlns:${xmlns}="${value}"`,
     };
   }
   // See above for why this case is ignored.
   // If we can't find the root element we don't add additional text edits.
   /* istanbul ignore next */
   return undefined;
+}
+
+function getLabel(suggestion: UI5XMLViewCompletion): string {
+  return suggestion.ui5Node.name;
+}
+
+function getDocumentation(
+  suggestion: UI5XMLViewCompletion,
+  model: UI5SemanticModel
+): MarkupContent | undefined {
+  if (!isUI5NodeXMLViewCompletion(suggestion)) {
+    return undefined;
+  }
+  return getNodeDocumentation(suggestion.ui5Node, model);
+}
+
+function getDetail(suggestion: UI5XMLViewCompletion): string | undefined {
+  if (!isUI5NodeXMLViewCompletion(suggestion)) {
+    return undefined;
+  }
+  let detailText = getNodeDetail(suggestion.ui5Node);
+  if (suggestion.ui5Node.experimentalInfo?.isExperimental) {
+    detailText = `(experimental) ${detailText}`;
+  }
+  if (suggestion.ui5Node.deprecatedInfo?.isDeprecated) {
+    detailText = `(deprecated) ${detailText}`;
+  }
+  return detailText;
 }
 
 function getNodeDetail(node: BaseUI5Node): string {

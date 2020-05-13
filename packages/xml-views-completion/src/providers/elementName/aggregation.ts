@@ -1,6 +1,6 @@
 import {
   flattenAggregations,
-  isElementSubClass
+  isElementSubClass,
 } from "@ui5-language-assistant/logic-utils";
 
 import { UI5AggregationsInXMLTagNameCompletion } from "../../../api";
@@ -8,7 +8,7 @@ import { map, compact, uniq } from "lodash";
 import { UI5ElementNameCompletionOptions } from "./index";
 import {
   filterMembersForSuggestion,
-  getClassByElement
+  getClassByElement,
 } from "../utils/filter-members";
 
 /**
@@ -39,7 +39,7 @@ export function aggregationSuggestions(
   }
 
   const existingAggregations = compact(
-    uniq(map(parentXMLElement.subElements, _ => _.name))
+    uniq(map(parentXMLElement.subElements, (_) => _.name))
   );
 
   const uniquePrefixMatchingAggregations = filterMembersForSuggestion(
@@ -48,9 +48,9 @@ export function aggregationSuggestions(
     existingAggregations
   );
 
-  return map(uniquePrefixMatchingAggregations, _ => ({
+  return map(uniquePrefixMatchingAggregations, (_) => ({
     type: "UI5AggregationsInXMLTagName",
     ui5Node: _,
-    astNode: xmlElement
+    astNode: xmlElement,
   }));
 }

@@ -9,21 +9,21 @@ import {
   UI5Event,
   UI5Namespace,
   UI5Prop,
-  UI5SemanticModel
+  UI5SemanticModel,
 } from "@ui5-language-assistant/semantic-model-types";
 import { createXMLAttribute, testSuggestionsScenario } from "../../utils";
 import {
   expectSuggestions,
   expectXMLAttribute,
   generateModel,
-  GEN_MODEL_TIMEOUT
 } from "@ui5-language-assistant/test-utils";
 import {
   isExistingNamespaceAttribute,
-  namespaceKeysSuggestions
+  namespaceKeysSuggestions,
 } from "../../../src/providers/attributeName/namespace";
 import { ui5NodeToFQN } from "@ui5-language-assistant/logic-utils";
 import { getXMLNamespaceKeyPrefix } from "../../../src/providers/utils/xml-ns-key";
+import { UI5NamespacesInXMLAttributeKeyCompletion } from "../../../api";
 
 const allExpectedNamespaces = [
   "sap.f",
@@ -143,21 +143,21 @@ const allExpectedNamespaces = [
   "sap.viz.ui5.types.controller",
   "sap.viz.ui5.types.layout",
   "sap.viz.ui5.types.legend",
-  "sap.zen.dsh"
+  "sap.zen.dsh",
 ];
 
-const expectNamespaceKeysSuggestions = partial(expectSuggestions, _ => {
-  expectUI5Namespace(_.ui5Node);
-  expectXMLAttribute(_.astNode);
+const expectNamespaceKeysSuggestions = partial(expectSuggestions, (_) => {
   expect(_.type).to.equal("UI5NamespacesInXMLAttributeKey");
-  return ui5NodeToFQN(_.ui5Node);
+  const namespaceInKey = _ as UI5NamespacesInXMLAttributeKeyCompletion;
+  expectUI5Namespace(namespaceInKey.ui5Node);
+  expectXMLAttribute(namespaceInKey.astNode);
+  return ui5NodeToFQN(namespaceInKey.ui5Node);
 });
 
 describe("The ui5-language-assistant xml-views-completion", () => {
   let ui5SemanticModel: UI5SemanticModel;
 
-  before(async function() {
-    this.timeout(GEN_MODEL_TIMEOUT);
+  before(async () => {
     ui5SemanticModel = await generateModel({ version: "1.74.0" });
   });
 
@@ -173,14 +173,14 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           model: ui5SemanticModel,
           xmlText: xmlSnippet,
           providers: {
-            attributeName: [namespaceKeysSuggestions]
+            attributeName: [namespaceKeysSuggestions],
           },
-          assertion: suggestions => {
+          assertion: (suggestions) => {
             expectNamespaceKeysSuggestions(
               suggestions,
               difference(allExpectedNamespaces, ["sap.ui.core.mvc"])
             );
-          }
+          },
         });
       });
 
@@ -195,14 +195,14 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           model: ui5SemanticModel,
           xmlText: xmlSnippet,
           providers: {
-            attributeName: [namespaceKeysSuggestions]
+            attributeName: [namespaceKeysSuggestions],
           },
-          assertion: suggestions => {
+          assertion: (suggestions) => {
             expectNamespaceKeysSuggestions(
               suggestions,
               difference(allExpectedNamespaces, ["sap.m", "sap.ui.core.mvc"])
             );
-          }
+          },
         });
       });
 
@@ -218,9 +218,9 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           model: ui5SemanticModel,
           xmlText: xmlSnippet,
           providers: {
-            attributeName: [namespaceKeysSuggestions]
+            attributeName: [namespaceKeysSuggestions],
           },
-          assertion: suggestions => {
+          assertion: (suggestions) => {
             expectNamespaceKeysSuggestions(suggestions, [
               "sap.m.upload",
               "sap.ui.core.util",
@@ -231,9 +231,9 @@ describe("The ui5-language-assistant xml-views-completion", () => {
               "sap.gantt.shape.ext.ubc",
               "sap.gantt.shape.ext.ulc",
               "sap.rules.ui",
-              "sap.viz.ui5"
+              "sap.viz.ui5",
             ]);
-          }
+          },
         });
       });
     });
@@ -250,11 +250,11 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           model: ui5SemanticModel,
           xmlText: xmlSnippet,
           providers: {
-            attributeName: [namespaceKeysSuggestions]
+            attributeName: [namespaceKeysSuggestions],
           },
-          assertion: suggestions => {
+          assertion: (suggestions) => {
             expect(suggestions).to.be.empty;
-          }
+          },
         });
       });
 
@@ -269,11 +269,11 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           model: ui5SemanticModel,
           xmlText: xmlSnippet,
           providers: {
-            attributeName: [namespaceKeysSuggestions]
+            attributeName: [namespaceKeysSuggestions],
           },
-          assertion: suggestions => {
+          assertion: (suggestions) => {
             expect(suggestions).to.be.empty;
-          }
+          },
         });
       });
 
@@ -290,11 +290,11 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           model: ui5SemanticModel,
           xmlText: xmlSnippet,
           providers: {
-            attributeName: [namespaceKeysSuggestions]
+            attributeName: [namespaceKeysSuggestions],
           },
-          assertion: suggestions => {
+          assertion: (suggestions) => {
             expectNamespaceKeysSuggestions(suggestions, allExpectedNamespaces);
-          }
+          },
         });
       });
     });

@@ -5,25 +5,24 @@ import { XMLElement } from "@xml-tools/ast";
 import {
   UI5Aggregation,
   UI5Class,
-  UI5SemanticModel
+  UI5SemanticModel,
 } from "@ui5-language-assistant/semantic-model-types";
-import {
-  generateModel,
-  GEN_MODEL_TIMEOUT
-} from "@ui5-language-assistant/test-utils";
+import { generateModel } from "@ui5-language-assistant/test-utils";
 
 import { classesSuggestions } from "../../../src/providers/elementName/classes";
 import { testSuggestionsScenario } from "../../utils";
 import {
   getSuperClasses,
-  ui5NodeToFQN
+  ui5NodeToFQN,
 } from "@ui5-language-assistant/logic-utils";
-import { UI5XMLViewCompletion } from "../../../api";
+import {
+  UI5XMLViewCompletion,
+  UI5ClassesInXMLTagNameCompletion,
+} from "../../../api";
 
 describe("The ui5-language-assistant xml-views-completion", () => {
   let ui5Model: UI5SemanticModel;
-  before(async function() {
-    this.timeout(GEN_MODEL_TIMEOUT);
+  before(async function () {
     ui5Model = await generateModel({ version: "1.74.0" });
   });
 
@@ -40,12 +39,12 @@ describe("The ui5-language-assistant xml-views-completion", () => {
               model: ui5Model,
               xmlText: xmlSnippet,
               providers: {
-                elementName: [classesSuggestions]
+                elementName: [classesSuggestions],
               },
-              assertion: suggestions => {
+              assertion: (suggestions) => {
                 const baseControl = ui5Model.classes["sap.ui.core.Control"];
                 expect(suggestions).to.have.length.greaterThan(200);
-                forEach(suggestions, _ => {
+                forEach(suggestions, (_) => {
                   expect(_.ui5Node.kind).to.equal("UI5Class");
                   const superClasses = getSuperClasses(_.ui5Node as UI5Class);
                   // Chai's `.include` is super slow, we must implement it ourselves...
@@ -55,7 +54,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
                     doesSuggestionExtendsControl || _.ui5Node === baseControl
                   ).to.be.true;
                 });
-              }
+              },
             });
           });
         });
@@ -70,10 +69,11 @@ describe("The ui5-language-assistant xml-views-completion", () => {
               model: ui5Model,
               xmlText: xmlSnippet,
               providers: {
-                elementName: [classesSuggestions]
+                elementName: [classesSuggestions],
               },
-              assertion: suggestions => {
-                const suggestionNames = map(suggestions, _ =>
+              assertion: (suggestions) => {
+                assertSuggestionProperties(suggestions, undefined);
+                const suggestionNames = map(suggestions, (_) =>
                   ui5NodeToFQN(_.ui5Node)
                 );
                 expect(suggestionNames).to.deep.equalInAnyOrder([
@@ -81,7 +81,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
                   "sap.m.QuickViewBase",
                   "sap.m.QuickViewCard",
                   "sap.m.QuickViewPage",
-                  "sap.ui.ux3.QuickView"
+                  "sap.ui.ux3.QuickView",
                 ]);
 
                 const quickViewGroup = ui5Model.classes["sap.m.QuickViewGroup"];
@@ -90,9 +90,9 @@ describe("The ui5-language-assistant xml-views-completion", () => {
                   ui5Model.classes["sap.ui.core.Element"]
                 );
                 expect(suggestionNames).to.not.include([
-                  "sap.m.QuickViewGroup"
+                  "sap.m.QuickViewGroup",
                 ]);
-              }
+              },
             });
           });
         });
@@ -114,10 +114,11 @@ describe("The ui5-language-assistant xml-views-completion", () => {
               model: ui5Model,
               xmlText: xmlSnippet,
               providers: {
-                elementName: [classesSuggestions]
+                elementName: [classesSuggestions],
               },
-              assertion: suggestions => {
-                const suggestionNames = map(suggestions, _ =>
+              assertion: (suggestions) => {
+                assertSuggestionProperties(suggestions, "ActionSheet");
+                const suggestionNames = map(suggestions, (_) =>
                   ui5NodeToFQN(_.ui5Node)
                 );
                 // Can "manually" traverse expected graph of `sap.m.Button` subClasses here:
@@ -129,13 +130,9 @@ describe("The ui5-language-assistant xml-views-completion", () => {
                   "sap.m.ToggleButton",
                   "sap.uxap.ObjectPageHeaderActionButton",
                   "sap.suite.ui.commons.ProcessFlowConnectionLabel",
-                  "sap.ushell.ui.footerbar.AddBookmarkButton"
+                  "sap.ushell.ui.footerbar.AddBookmarkButton",
                 ]);
-                assertSuggestionProperties({
-                  suggestions,
-                  expectedParentTag: "ActionSheet"
-                });
-              }
+              },
             });
           });
         });
@@ -155,23 +152,20 @@ describe("The ui5-language-assistant xml-views-completion", () => {
               model: ui5Model,
               xmlText: xmlSnippet,
               providers: {
-                elementName: [classesSuggestions]
+                elementName: [classesSuggestions],
               },
-              assertion: suggestions => {
-                const suggestionNames = map(suggestions, _ =>
+              assertion: (suggestions) => {
+                assertSuggestionProperties(suggestions, "ActionSheet");
+                const suggestionNames = map(suggestions, (_) =>
                   ui5NodeToFQN(_.ui5Node)
                 );
                 // Can "manually" traverse expected graph of `sap.m.Button` subClasses here:
                 //   - https://ui5.sap.com/1.74.0/#/api/sap.m.Button
                 expect(suggestionNames).to.deep.equalInAnyOrder([
                   "sap.m.OverflowToolbarButton",
-                  "sap.m.OverflowToolbarToggleButton"
+                  "sap.m.OverflowToolbarToggleButton",
                 ]);
-                assertSuggestionProperties({
-                  suggestions,
-                  expectedParentTag: "ActionSheet"
-                });
-              }
+              },
             });
           });
         });
@@ -191,23 +185,20 @@ describe("The ui5-language-assistant xml-views-completion", () => {
               model: ui5Model,
               xmlText: xmlSnippet,
               providers: {
-                elementName: [classesSuggestions]
+                elementName: [classesSuggestions],
               },
-              assertion: suggestions => {
-                const suggestionNames = map(suggestions, _ =>
+              assertion: (suggestions) => {
+                assertSuggestionProperties(suggestions, "ActionSheet");
+                const suggestionNames = map(suggestions, (_) =>
                   ui5NodeToFQN(_.ui5Node)
                 );
                 // Can "manually" traverse expected graph of `sap.m.Button` subClasses here:
                 //   - https://ui5.sap.com/1.74.0/#/api/sap.m.Button
                 expect(suggestionNames).to.deep.equalInAnyOrder([
                   "sap.m.OverflowToolbarButton",
-                  "sap.m.OverflowToolbarToggleButton"
+                  "sap.m.OverflowToolbarToggleButton",
                 ]);
-                assertSuggestionProperties({
-                  suggestions,
-                  expectedParentTag: "ActionSheet"
-                });
-              }
+              },
             });
           });
         });
@@ -229,10 +220,11 @@ describe("The ui5-language-assistant xml-views-completion", () => {
               model: ui5Model,
               xmlText: xmlSnippet,
               providers: {
-                elementName: [classesSuggestions]
+                elementName: [classesSuggestions],
               },
-              assertion: suggestions => {
-                const suggestionNames = map(suggestions, _ =>
+              assertion: (suggestions) => {
+                assertSuggestionProperties(suggestions, "layoutData");
+                const suggestionNames = map(suggestions, (_) =>
                   ui5NodeToFQN(_.ui5Node)
                 );
                 // Can "manually" traverse expected graph of `sap.ui.core.LayoutData` subClasses here:
@@ -257,13 +249,9 @@ describe("The ui5-language-assistant xml-views-completion", () => {
                   "sap.ui.commons.layout.ResponsiveFlowLayoutData",
                   "sap.ui.layout.SplitterLayoutData",
                   "sap.uxap.ObjectPageHeaderLayoutData",
-                  "sap.ui.vk.FlexibleControlLayoutData"
+                  "sap.ui.vk.FlexibleControlLayoutData",
                 ]);
-                assertSuggestionProperties({
-                  suggestions,
-                  expectedParentTag: "layoutData"
-                });
-              }
+              },
             });
           });
         });
@@ -283,10 +271,11 @@ describe("The ui5-language-assistant xml-views-completion", () => {
               model: ui5Model,
               xmlText: xmlSnippet,
               providers: {
-                elementName: [classesSuggestions]
+                elementName: [classesSuggestions],
               },
-              assertion: suggestions => {
-                const suggestionNames = map(suggestions, _ =>
+              assertion: (suggestions) => {
+                assertSuggestionProperties(suggestions, "layoutData");
+                const suggestionNames = map(suggestions, (_) =>
                   ui5NodeToFQN(_.ui5Node)
                 );
                 // Can "manually" traverse expected graph of `sap.ui.core.LayoutData` subClasses here:
@@ -294,13 +283,9 @@ describe("The ui5-language-assistant xml-views-completion", () => {
                 expect(suggestionNames).to.deep.equalInAnyOrder([
                   "sap.f.GridContainerItemLayoutData",
                   "sap.ui.layout.form.GridContainerData",
-                  "sap.ui.commons.form.GridContainerData"
+                  "sap.ui.commons.form.GridContainerData",
                 ]);
-                assertSuggestionProperties({
-                  suggestions,
-                  expectedParentTag: "layoutData"
-                });
-              }
+              },
             });
           });
         });
@@ -323,22 +308,19 @@ describe("The ui5-language-assistant xml-views-completion", () => {
                 model: ui5Model,
                 xmlText: xmlSnippet,
                 providers: {
-                  elementName: [classesSuggestions]
+                  elementName: [classesSuggestions],
                 },
-                assertion: suggestions => {
-                  const suggestionNames = map(suggestions, _ =>
+                assertion: (suggestions) => {
+                  assertSuggestionProperties(suggestions, "layoutData");
+                  const suggestionNames = map(suggestions, (_) =>
                     ui5NodeToFQN(_.ui5Node)
                   );
                   // Can "manually" traverse expected graph of `sap.ui.core.LayoutData` subClasses here:
                   //   - https://sapui5.hana.ondemand.com/1.74.0/#/api/sap.ui.core.LayoutData
                   expect(suggestionNames).to.deep.equalInAnyOrder([
-                    "sap.ui.commons.form.GridContainerData"
+                    "sap.ui.commons.form.GridContainerData",
                   ]);
-                  assertSuggestionProperties({
-                    suggestions,
-                    expectedParentTag: "layoutData"
-                  });
-                }
+                },
               });
             });
           });
@@ -362,23 +344,20 @@ describe("The ui5-language-assistant xml-views-completion", () => {
                   model: ui5Model,
                   xmlText: xmlSnippet,
                   providers: {
-                    elementName: [classesSuggestions]
+                    elementName: [classesSuggestions],
                   },
-                  assertion: suggestions => {
-                    const suggestionNames = map(suggestions, _ =>
+                  assertion: (suggestions) => {
+                    assertSuggestionProperties(suggestions, "layoutData");
+                    const suggestionNames = map(suggestions, (_) =>
                       ui5NodeToFQN(_.ui5Node)
                     );
                     // Can "manually" traverse expected graph of `sap.ui.core.LayoutData` subClasses here:
                     //   - https://sapui5.hana.ondemand.com/1.74.0/#/api/sap.ui.core.LayoutData
                     expect(suggestionNames).to.deep.equalInAnyOrder([
                       "sap.ui.commons.form.GridContainerData",
-                      "sap.ui.commons.form.GridElementData"
+                      "sap.ui.commons.form.GridElementData",
                     ]);
-                    assertSuggestionProperties({
-                      suggestions,
-                      expectedParentTag: "layoutData"
-                    });
-                  }
+                  },
                 });
               });
             }
@@ -402,16 +381,17 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           model: ui5Model,
           xmlText: xmlSnippet,
           providers: {
-            elementName: [classesSuggestions]
+            elementName: [classesSuggestions],
           },
-          assertion: suggestions => {
+          assertion: (suggestions) => {
             expect(ui5Model.classes).to.have.property("sap.m.ComboBoxBase");
             expect(ui5Model.classes["sap.m.ComboBoxBase"].abstract).to.be.true;
-            const suggestionNames = map(suggestions, _ =>
+            assertSuggestionProperties(suggestions, "layoutData");
+            const suggestionNames = map(suggestions, (_) =>
               ui5NodeToFQN(_.ui5Node)
             );
             expect(suggestionNames).to.not.include("sap.m.ComboBoxBase");
-          }
+          },
         });
       });
 
@@ -431,11 +411,11 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           model: ui5Model,
           xmlText: xmlSnippet,
           providers: {
-            elementName: [classesSuggestions]
+            elementName: [classesSuggestions],
           },
-          assertion: suggestions => {
+          assertion: (suggestions) => {
             expect(suggestions).to.be.empty;
-          }
+          },
         });
       });
 
@@ -453,11 +433,11 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           model: ui5Model,
           xmlText: xmlSnippet,
           providers: {
-            elementName: [classesSuggestions]
+            elementName: [classesSuggestions],
           },
-          assertion: suggestions => {
+          assertion: (suggestions) => {
             expect(suggestions).to.be.empty;
-          }
+          },
         });
       });
 
@@ -475,14 +455,11 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           model: ui5Model,
           xmlText: xmlSnippet,
           providers: {
-            elementName: [classesSuggestions]
+            elementName: [classesSuggestions],
           },
-          assertion: suggestions => {
-            const suggestionNames = map(suggestions, _ =>
-              ui5NodeToFQN(_.ui5Node)
-            );
-            expect(suggestionNames).to.be.empty;
-          }
+          assertion: (suggestions) => {
+            expect(suggestions).to.be.empty;
+          },
         });
       });
 
@@ -500,11 +477,11 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           model: ui5Model,
           xmlText: xmlSnippet,
           providers: {
-            elementName: [classesSuggestions]
+            elementName: [classesSuggestions],
           },
-          assertion: suggestions => {
+          assertion: (suggestions) => {
             expect(suggestions).to.be.empty;
-          }
+          },
         });
       });
 
@@ -522,11 +499,11 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           model: ui5Model,
           xmlText: xmlSnippet,
           providers: {
-            elementName: [classesSuggestions]
+            elementName: [classesSuggestions],
           },
-          assertion: suggestions => {
+          assertion: (suggestions) => {
             expect(suggestions).to.be.empty;
-          }
+          },
         });
       });
 
@@ -543,11 +520,11 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           model: ui5Model,
           xmlText: xmlSnippet,
           providers: {
-            elementName: [classesSuggestions]
+            elementName: [classesSuggestions],
           },
-          assertion: suggestions => {
+          assertion: (suggestions) => {
             expect(suggestions).to.be.empty;
-          }
+          },
         });
       });
 
@@ -556,7 +533,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
         const viewClass = clonedModel.classes["sap.ui.core.mvc.View"];
         const contentAggregation = find(
           viewClass.aggregations,
-          _ => _.name === "content"
+          (_) => _.name === "content"
         ) as UI5Aggregation;
         expect(contentAggregation).to.exist;
         const contentWithInvalidType = clone(contentAggregation);
@@ -576,11 +553,11 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           model: clonedModel,
           xmlText: xmlSnippet,
           providers: {
-            elementName: [classesSuggestions]
+            elementName: [classesSuggestions],
           },
-          assertion: suggestions => {
+          assertion: (suggestions) => {
             expect(suggestions).to.be.empty;
-          }
+          },
         });
       });
 
@@ -596,11 +573,11 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           model: ui5Model,
           xmlText: xmlSnippet,
           providers: {
-            elementName: [classesSuggestions]
+            elementName: [classesSuggestions],
           },
-          assertion: suggestions => {
+          assertion: (suggestions) => {
             expect(suggestions).to.be.empty;
-          }
+          },
         });
       });
 
@@ -609,7 +586,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
         const carouselClass = clonedModel.classes["sap.m.Carousel"];
         const pagesAggregation = find(
           carouselClass.aggregations,
-          _ => _.name === "pages"
+          (_) => _.name === "pages"
         ) as UI5Aggregation;
         // TODO: can we do supply better type signatures for chai.expect?
         expect(pagesAggregation).to.exist;
@@ -631,28 +608,30 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           model: clonedModel,
           xmlText: xmlSnippet,
           providers: {
-            elementName: [classesSuggestions]
+            elementName: [classesSuggestions],
           },
-          assertion: suggestions => {
+          assertion: (suggestions) => {
             expect(suggestions).to.be.empty;
-          }
+          },
         });
       });
     });
   });
 });
 
-function assertSuggestionProperties({
-  suggestions,
-  expectedParentTag
-}: {
-  suggestions: UI5XMLViewCompletion[];
-  expectedParentTag: string;
-}): void {
-  forEach(suggestions, _ => {
+function assertSuggestionProperties(
+  suggestions: UI5XMLViewCompletion[],
+  expectedParentTag: string | undefined
+): asserts suggestions is UI5ClassesInXMLTagNameCompletion[] {
+  forEach(suggestions, (_) => {
     expect(_.type).to.equal(`UI5ClassesInXMLTagName`);
     expect(_.ui5Node.kind).to.equal("UI5Class");
     expect(_.astNode.type).to.equal("XMLElement");
-    expect((_.astNode.parent as XMLElement).name).to.equal(expectedParentTag);
+    if (expectedParentTag === undefined) {
+      expect(_.astNode.parent.type).to.equal("XMLDocument");
+    } else {
+      expect(_.astNode.parent.type).to.equal("XMLElement");
+      expect((_.astNode.parent as XMLElement).name).to.equal(expectedParentTag);
+    }
   });
 }
