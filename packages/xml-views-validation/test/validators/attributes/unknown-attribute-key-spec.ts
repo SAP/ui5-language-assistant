@@ -20,14 +20,7 @@ describe("the unknown attribute name validation", () => {
   });
 
   context("true positive scenarios", () => {
-    it("will detect an invalid attribute key in root class element", () => {
-      const xmlSnippet = `
-          <mvc:View
-            xmlns:mvc="sap.ui.core.mvc"
-            xmlns="sap.m"
-            🢂busy1🢀="true">
-          </mvc:View>`;
-
+    function assertSingleIssue(xmlSnippet: string, message: string): void {
       testValidationsScenario({
         model: ui5SemanticModel,
         xmlText: xmlSnippet,
@@ -38,748 +31,380 @@ describe("the unknown attribute name validation", () => {
           expect(issues).to.deep.equal([
             {
               kind: "UnknownAttributeKey",
-              message: "Unknown attribute key: busy1",
+              message: message,
               offsetRange: computeExpectedRange(xmlSnippet),
               severity: "error",
             },
           ]);
         },
       });
+    }
+
+    it("will detect an invalid attribute key in root class element", () => {
+      assertSingleIssue(
+        `
+        <mvc:View
+          xmlns:mvc="sap.ui.core.mvc"
+          xmlns="sap.m"
+          🢂busy_TYPO🢀="true">
+        </mvc:View>`,
+        "Unknown attribute key: busy_TYPO"
+      );
     });
 
     it("will detect an invalid attribute key when the key starts with :", () => {
-      const xmlSnippet = `
-          <mvc:View
-            xmlns:mvc="sap.ui.core.mvc"
-            xmlns="sap.m"
-            🢂:busy🢀="true">
-          </mvc:View>`;
-
-      testValidationsScenario({
-        model: ui5SemanticModel,
-        xmlText: xmlSnippet,
-        validators: {
-          attribute: [validateUnknownAttributeKey],
-        },
-        assertion: (issues) => {
-          expect(issues).to.deep.equal([
-            {
-              kind: "UnknownAttributeKey",
-              message: "Unknown attribute key: :busy",
-              offsetRange: computeExpectedRange(xmlSnippet),
-              severity: "error",
-            },
-          ]);
-        },
-      });
+      assertSingleIssue(
+        `
+        <mvc:View
+          xmlns:mvc="sap.ui.core.mvc"
+          xmlns="sap.m"
+          🢂:busy🢀="true">
+        </mvc:View>`,
+        "Unknown attribute key: :busy"
+      );
     });
 
     it("will detect an invalid attribute key when the key ends with :", () => {
-      const xmlSnippet = `
-          <mvc:View
-            xmlns:mvc="sap.ui.core.mvc"
-            xmlns="sap.m"
-            🢂busy:🢀="true">
-          </mvc:View>`;
-
-      testValidationsScenario({
-        model: ui5SemanticModel,
-        xmlText: xmlSnippet,
-        validators: {
-          attribute: [validateUnknownAttributeKey],
-        },
-        assertion: (issues) => {
-          expect(issues).to.deep.equal([
-            {
-              kind: "UnknownAttributeKey",
-              message: "Unknown attribute key: busy:",
-              offsetRange: computeExpectedRange(xmlSnippet),
-              severity: "error",
-            },
-          ]);
-        },
-      });
+      assertSingleIssue(
+        `
+        <mvc:View
+          xmlns:mvc="sap.ui.core.mvc"
+          xmlns="sap.m"
+          🢂busy:🢀="true">
+        </mvc:View>`,
+        "Unknown attribute key: busy:"
+      );
     });
 
     it("will detect an invalid attribute key in non-root class element", () => {
-      const xmlSnippet = `
+      assertSingleIssue(
+        `
         <mvc:View
           xmlns:mvc="sap.ui.core.mvc"
           xmlns="sap.m">
           <content>
-            <List 🢂unknownattribute🢀=""></List>
+            <List 🢂TYPO🢀=""></List>
           </content>
-        </mvc:View>`;
-
-      testValidationsScenario({
-        model: ui5SemanticModel,
-        xmlText: xmlSnippet,
-        validators: {
-          attribute: [validateUnknownAttributeKey],
-        },
-        assertion: (issues) => {
-          expect(issues).to.deep.equal([
-            {
-              kind: "UnknownAttributeKey",
-              message: "Unknown attribute key: unknownattribute",
-              offsetRange: computeExpectedRange(xmlSnippet),
-              severity: "error",
-            },
-          ]);
-        },
-      });
+        </mvc:View>`,
+        "Unknown attribute key: TYPO"
+      );
     });
 
     it("will detect an invalid attribute key when the attribute doesn't have a value", () => {
-      const xmlSnippet = `
-          <mvc:View
-            xmlns:mvc="sap.ui.core.mvc"
-            xmlns="sap.m"
-            🢂busy1🢀 >
-          </mvc:View>`;
-
-      testValidationsScenario({
-        model: ui5SemanticModel,
-        xmlText: xmlSnippet,
-        validators: {
-          attribute: [validateUnknownAttributeKey],
-        },
-        assertion: (issues) => {
-          expect(issues).to.deep.equal([
-            {
-              kind: "UnknownAttributeKey",
-              message: "Unknown attribute key: busy1",
-              offsetRange: computeExpectedRange(xmlSnippet),
-              severity: "error",
-            },
-          ]);
-        },
-      });
+      assertSingleIssue(
+        `
+        <mvc:View
+          xmlns:mvc="sap.ui.core.mvc"
+          xmlns="sap.m"
+          🢂busy_TYPO🢀 >
+        </mvc:View>`,
+        "Unknown attribute key: busy_TYPO"
+      );
     });
 
     it("will detect an invalid attribute key in aggregation element", () => {
-      const xmlSnippet = `
-          <mvc:View
-            xmlns:mvc="sap.ui.core.mvc"
-            xmlns="sap.m">
-            <content 🢂unknownattribute🢀="">
-              <List></List>
-            </content>
-          </mvc:View>`;
-
-      testValidationsScenario({
-        model: ui5SemanticModel,
-        xmlText: xmlSnippet,
-        validators: {
-          attribute: [validateUnknownAttributeKey],
-        },
-        assertion: (issues) => {
-          expect(issues).to.deep.equal([
-            {
-              kind: "UnknownAttributeKey",
-              message: "Unknown attribute key: unknownattribute",
-              offsetRange: computeExpectedRange(xmlSnippet),
-              severity: "error",
-            },
-          ]);
-        },
-      });
+      assertSingleIssue(
+        `
+        <mvc:View
+          xmlns:mvc="sap.ui.core.mvc"
+          xmlns="sap.m">
+          <content 🢂TYPO🢀="">
+            <List></List>
+          </content>
+        </mvc:View>`,
+        "Unknown attribute key: TYPO"
+      );
     });
 
     it("will detect an invalid xmlns attribute key element", () => {
-      const xmlSnippet = `
-                <mvc:View
-                 xmlns:mvc="sap.ui.core.mvc"
-                 🢂xmlns:m:1🢀="sap.m">
-                </mvc:View>`;
-
-      testValidationsScenario({
-        model: ui5SemanticModel,
-        xmlText: xmlSnippet,
-        validators: {
-          attribute: [validateUnknownAttributeKey],
-        },
-        assertion: (issues) => {
-          expect(issues).to.deep.equal([
-            {
-              kind: "UnknownAttributeKey",
-              message: "Unknown attribute key: xmlns:m:1",
-              offsetRange: computeExpectedRange(xmlSnippet),
-              severity: "error",
-            },
-          ]);
-        },
-      });
+      assertSingleIssue(
+        `
+        <mvc:View
+          xmlns:mvc="sap.ui.core.mvc"
+          🢂xmlns:m:1🢀="sap.m">
+        </mvc:View>`,
+        "Unknown attribute key: xmlns:m:1"
+      );
     });
 
     it("will detect 'stashed' as invalid in aggregation element", () => {
-      const xmlSnippet = `
-      <mvc:View
-        xmlns:mvc="sap.ui.core.mvc"
-        xmlns="sap.m">
-        <content 🢂stashed🢀="">
-          <List></List>
-        </content>
-      </mvc:View>`;
-
-      testValidationsScenario({
-        model: ui5SemanticModel,
-        xmlText: xmlSnippet,
-        validators: {
-          attribute: [validateUnknownAttributeKey],
-        },
-        assertion: (issues) => {
-          expect(issues).to.deep.equal([
-            {
-              kind: "UnknownAttributeKey",
-              message: "Unknown attribute key: stashed",
-              offsetRange: computeExpectedRange(xmlSnippet),
-              severity: "error",
-            },
-          ]);
-        },
-      });
+      assertSingleIssue(
+        `
+        <mvc:View
+          xmlns:mvc="sap.ui.core.mvc"
+          xmlns="sap.m">
+          <content 🢂stashed🢀="">
+            <List></List>
+          </content>
+        </mvc:View>`,
+        "Unknown attribute key: stashed"
+      );
     });
 
     it("will detect 'binding' as invalid in aggregation element", () => {
-      const xmlSnippet = `
-      <mvc:View
-        xmlns:mvc="sap.ui.core.mvc"
-        xmlns="sap.m">
-        <content 🢂binding🢀="">
-          <List></List>
-        </content>
-      </mvc:View>`;
-
-      testValidationsScenario({
-        model: ui5SemanticModel,
-        xmlText: xmlSnippet,
-        validators: {
-          attribute: [validateUnknownAttributeKey],
-        },
-        assertion: (issues) => {
-          expect(issues).to.deep.equal([
-            {
-              kind: "UnknownAttributeKey",
-              message: "Unknown attribute key: binding",
-              offsetRange: computeExpectedRange(xmlSnippet),
-              severity: "error",
-            },
-          ]);
-        },
-      });
+      assertSingleIssue(
+        `
+        <mvc:View
+          xmlns:mvc="sap.ui.core.mvc"
+          xmlns="sap.m">
+          <content 🢂binding🢀="">
+            <List></List>
+          </content>
+        </mvc:View>`,
+        "Unknown attribute key: binding"
+      );
     });
 
     it("will detect 'class' as invalid in aggregation element", () => {
-      const xmlSnippet = `
-      <mvc:View
-        xmlns:mvc="sap.ui.core.mvc"
-        xmlns="sap.m">
-        <content 🢂class🢀="">
-          <List></List>
-        </content>
-      </mvc:View>`;
-
-      testValidationsScenario({
-        model: ui5SemanticModel,
-        xmlText: xmlSnippet,
-        validators: {
-          attribute: [validateUnknownAttributeKey],
-        },
-        assertion: (issues) => {
-          expect(issues).to.deep.equal([
-            {
-              kind: "UnknownAttributeKey",
-              message: "Unknown attribute key: class",
-              offsetRange: computeExpectedRange(xmlSnippet),
-              severity: "error",
-            },
-          ]);
-        },
-      });
+      assertSingleIssue(
+        `
+        <mvc:View
+          xmlns:mvc="sap.ui.core.mvc"
+          xmlns="sap.m">
+          <content 🢂class🢀="">
+            <List></List>
+          </content>
+        </mvc:View>`,
+        "Unknown attribute key: class"
+      );
     });
 
     it("will detect 'require' as invalid attribute when it's not in the core or template namespace", () => {
-      const xmlSnippet = `
-                <mvc:View
-                  xmlns:mvc="sap.ui.core.mvc"
-                  xmlns="sap.m"
-                  🢂mvc:require🢀="">
-                </mvc:View>`;
-
-      testValidationsScenario({
-        model: ui5SemanticModel,
-        xmlText: xmlSnippet,
-        validators: {
-          attribute: [validateUnknownAttributeKey],
-        },
-        assertion: (issues) => {
-          expect(issues).to.deep.equal([
-            {
-              kind: "UnknownAttributeKey",
-              message: "Unknown attribute key: mvc:require",
-              offsetRange: computeExpectedRange(xmlSnippet),
-              severity: "error",
-            },
-          ]);
-        },
-      });
+      assertSingleIssue(
+        `
+        <mvc:View
+          xmlns:mvc="sap.ui.core.mvc"
+          xmlns="sap.m"
+          🢂mvc:require🢀="">
+        </mvc:View>`,
+        "Unknown attribute key: mvc:require"
+      );
     });
   });
 
   context("negative edge cases", () => {
+    function assertNoIssues(xmlSnippet: string): void {
+      testValidationsScenario({
+        model: ui5SemanticModel,
+        xmlText: xmlSnippet,
+        validators: {
+          attribute: [validateUnknownAttributeKey],
+        },
+        assertion: (issues) => {
+          expect(issues).to.be.empty;
+        },
+      });
+    }
     context("class tag", () => {
       it("will not detect an issue when the attribute is a property", () => {
-        const xmlSnippet = `
-        <mvc:View
-          xmlns:mvc="sap.ui.core.mvc"
-          xmlns="sap.m"
-          busy="true">
-        </mvc:View>`;
-
-        testValidationsScenario({
-          model: ui5SemanticModel,
-          xmlText: xmlSnippet,
-          validators: {
-            attribute: [validateUnknownAttributeKey],
-          },
-          assertion: (issues) => {
-            expect(issues).to.be.empty;
-          },
-        });
+        assertNoIssues(`
+          <mvc:View
+            xmlns:mvc="sap.ui.core.mvc"
+            xmlns="sap.m"
+            busy="true">
+          </mvc:View>`);
       });
 
       it("will not detect an issue when the attribute is an event", () => {
-        const xmlSnippet = `
-        <mvc:View
-          xmlns:mvc="sap.ui.core.mvc"
-          xmlns="sap.m"
-          afterInit="true">
-        </mvc:View>`;
-
-        testValidationsScenario({
-          model: ui5SemanticModel,
-          xmlText: xmlSnippet,
-          validators: {
-            attribute: [validateUnknownAttributeKey],
-          },
-          assertion: (issues) => {
-            expect(issues).to.be.empty;
-          },
-        });
+        assertNoIssues(`
+          <mvc:View
+            xmlns:mvc="sap.ui.core.mvc"
+            xmlns="sap.m"
+            afterInit="true">
+          </mvc:View>`);
       });
 
       it("will not detect an issue when the attribute is an association", () => {
-        const xmlSnippet = `
-        <mvc:View
-          xmlns:mvc="sap.ui.core.mvc"
-          xmlns="sap.m">
-          <content>
-            <m:List ariaLabelledBy="abc"></m:List>
-          </content>
-        </mvc:View>`;
-
-        testValidationsScenario({
-          model: ui5SemanticModel,
-          xmlText: xmlSnippet,
-          validators: {
-            attribute: [validateUnknownAttributeKey],
-          },
-          assertion: (issues) => {
-            expect(issues).to.be.empty;
-          },
-        });
+        assertNoIssues(`
+          <mvc:View
+            xmlns:mvc="sap.ui.core.mvc"
+            xmlns="sap.m">
+            <content>
+              <m:List ariaLabelledBy="abc"></m:List>
+            </content>
+          </mvc:View>`);
       });
 
       it("will not detect an issue when the attribute is an aggrgation", () => {
-        const xmlSnippet = `
-        <mvc:View
-          xmlns:mvc="sap.ui.core.mvc"
-          xmlns="sap.m"
-          content="{model>elements}">
-        </mvc:View>`;
-
-        testValidationsScenario({
-          model: ui5SemanticModel,
-          xmlText: xmlSnippet,
-          validators: {
-            attribute: [validateUnknownAttributeKey],
-          },
-          assertion: (issues) => {
-            expect(issues).to.be.empty;
-          },
-        });
+        assertNoIssues(`
+          <mvc:View
+            xmlns:mvc="sap.ui.core.mvc"
+            xmlns="sap.m"
+            content="{model>elements}">
+          </mvc:View>`);
       });
 
       context("special attributes", () => {
         it("will not detect an issue when the attribute is 'core:require'", () => {
-          const xmlSnippet = `
+          assertNoIssues(`
             <mvc:View
               xmlns:mvc="sap.ui.core.mvc"
               xmlns:core="sap.ui.core"
               core:require="">
-            </mvc:View>`;
-
-          testValidationsScenario({
-            model: ui5SemanticModel,
-            xmlText: xmlSnippet,
-            validators: {
-              attribute: [validateUnknownAttributeKey],
-            },
-            assertion: (issues) => {
-              expect(issues).to.be.empty;
-            },
-          });
+            </mvc:View>`);
         });
 
         it("will not detect an issue when the attribute is 'sap.ui.dt:designtime'", () => {
-          const xmlSnippet = `
+          assertNoIssues(`
             <mvc:View
               xmlns:mvc="sap.ui.core.mvc"
               xmlns:dt="sap.ui.dt"
               dt:designtime="">
-            </mvc:View>`;
-
-          testValidationsScenario({
-            model: ui5SemanticModel,
-            xmlText: xmlSnippet,
-            validators: {
-              attribute: [validateUnknownAttributeKey],
-            },
-            assertion: (issues) => {
-              expect(issues).to.be.empty;
-            },
-          });
+            </mvc:View>`);
         });
 
         it("will not detect an issue when the attribute is 'template:require'", () => {
-          const xmlSnippet = `
-              <mvc:View
-                xmlns:mvc="sap.ui.core.mvc"
-                xmlns:template="http://schemas.sap.com/sapui5/extension/sap.ui.core.template/1"
-                template:require="">
-              </mvc:View>`;
-
-          testValidationsScenario({
-            model: ui5SemanticModel,
-            xmlText: xmlSnippet,
-            validators: {
-              attribute: [validateUnknownAttributeKey],
-            },
-            assertion: (issues) => {
-              expect(issues).to.be.empty;
-            },
-          });
+          assertNoIssues(`
+            <mvc:View
+              xmlns:mvc="sap.ui.core.mvc"
+              xmlns:template="http://schemas.sap.com/sapui5/extension/sap.ui.core.template/1"
+              template:require="">
+            </mvc:View>`);
         });
 
         it("will not detect an issue when the attribute is 'binding'", () => {
-          const xmlSnippet = `
+          assertNoIssues(`
             <mvc:View
               xmlns:mvc="sap.ui.core.mvc"
               binding="{}">
-            </mvc:View>`;
-
-          testValidationsScenario({
-            model: ui5SemanticModel,
-            xmlText: xmlSnippet,
-            validators: {
-              attribute: [validateUnknownAttributeKey],
-            },
-            assertion: (issues) => {
-              expect(issues).to.be.empty;
-            },
-          });
+            </mvc:View>`);
         });
 
         it("will not detect an issue when the attribute is 'class'", () => {
-          const xmlSnippet = `
+          assertNoIssues(`
             <mvc:View
               xmlns:mvc="sap.ui.core.mvc"
               class="small">
-            </mvc:View>`;
-
-          testValidationsScenario({
-            model: ui5SemanticModel,
-            xmlText: xmlSnippet,
-            validators: {
-              attribute: [validateUnknownAttributeKey],
-            },
-            assertion: (issues) => {
-              expect(issues).to.be.empty;
-            },
-          });
+            </mvc:View>`);
         });
 
         it("will not detect an issue when the attribute namespace is custom data", () => {
-          const xmlSnippet = `
+          assertNoIssues(`
             <mvc:View
               xmlns:mvc="sap.ui.core.mvc"
               xmlns:custom="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
               custom:unknownattr="">
-            </mvc:View>`;
-
-          testValidationsScenario({
-            model: ui5SemanticModel,
-            xmlText: xmlSnippet,
-            validators: {
-              attribute: [validateUnknownAttributeKey],
-            },
-            assertion: (issues) => {
-              expect(issues).to.be.empty;
-            },
-          });
+            </mvc:View>`);
         });
 
         it("will not detect an issue when the attribute is 'stashed' on sap.uxap.ObjectPageLazyLoader", () => {
-          const xmlSnippet = `
-          <mvc:View
-            xmlns:mvc="sap.ui.core.mvc"
-            xmlns:uxap="sap.uxap">
-            <content>
-            <uxap:ObjectPageLazyLoader stashed="true"></uxap:ObjectPageLazyLoader>
-            </content>
-          </mvc:View>`;
-
-          testValidationsScenario({
-            model: ui5SemanticModel,
-            xmlText: xmlSnippet,
-            validators: {
-              attribute: [validateUnknownAttributeKey],
-            },
-            assertion: (issues) => {
-              expect(issues).to.be.empty;
-            },
-          });
+          assertNoIssues(`
+            <mvc:View
+                xmlns:mvc="sap.ui.core.mvc"
+                xmlns:uxap="sap.uxap">
+              <content>
+              <uxap:ObjectPageLazyLoader stashed="true"></uxap:ObjectPageLazyLoader>
+              </content>
+            </mvc:View>`);
         });
 
         it("will not detect an issue when the attribute is xmlns (default)", () => {
-          const xmlSnippet = `
+          assertNoIssues(`
             <mvc:View
               xmlns:mvc="sap.ui.core.mvc">
               <content>
                 <List xmlns="sap.m"></List>
               </content>
-            </mvc:View>`;
-
-          testValidationsScenario({
-            model: ui5SemanticModel,
-            xmlText: xmlSnippet,
-            validators: {
-              attribute: [validateUnknownAttributeKey],
-            },
-            assertion: (issues) => {
-              expect(issues).to.be.empty;
-            },
-          });
+            </mvc:View>`);
         });
 
         it("will not detect an issue when the attribute is xmlns (with name)", () => {
-          const xmlSnippet = `
+          assertNoIssues(`
             <mvc:View
               xmlns:mvc="sap.ui.core.mvc"">
               <content>
                 <m:List xmlns:m="sap.m"></m:List>
               </content>
-            </mvc:View>`;
-
-          testValidationsScenario({
-            model: ui5SemanticModel,
-            xmlText: xmlSnippet,
-            validators: {
-              attribute: [validateUnknownAttributeKey],
-            },
-            assertion: (issues) => {
-              expect(issues).to.be.empty;
-            },
-          });
+            </mvc:View>`);
         });
       });
     });
 
     context("aggregation tag", () => {
       it("will not detect an issue when the attribute is 'core:require'", () => {
-        const xmlSnippet = `
-            <mvc:View
-              xmlns:mvc="sap.ui.core.mvc"
-              xmlns:core="sap.ui.core">
-              <content core:require="">
-              </content>
-            </mvc:View>`;
-
-        testValidationsScenario({
-          model: ui5SemanticModel,
-          xmlText: xmlSnippet,
-          validators: {
-            attribute: [validateUnknownAttributeKey],
-          },
-          assertion: (issues) => {
-            expect(issues).to.be.empty;
-          },
-        });
+        assertNoIssues(`
+          <mvc:View
+            xmlns:mvc="sap.ui.core.mvc"
+            xmlns:core="sap.ui.core">
+            <content core:require="">
+            </content>
+          </mvc:View>`);
       });
 
       it("will not detect an issue when the attribute is 'sap.ui.dt:designtime'", () => {
-        const xmlSnippet = `
-        <mvc:View
-          xmlns:mvc="sap.ui.core.mvc"
-          xmlns:dt="sap.ui.dt">
-          <content dt:designtime=""></content>
-        </mvc:View>`;
-
-        testValidationsScenario({
-          model: ui5SemanticModel,
-          xmlText: xmlSnippet,
-          validators: {
-            attribute: [validateUnknownAttributeKey],
-          },
-          assertion: (issues) => {
-            expect(issues).to.be.empty;
-          },
-        });
+        assertNoIssues(`
+          <mvc:View
+            xmlns:mvc="sap.ui.core.mvc"
+            xmlns:dt="sap.ui.dt">
+            <content dt:designtime=""></content>
+          </mvc:View>`);
       });
 
       it("will not detect an issue when the attribute is 'template:require'", () => {
-        const xmlSnippet = `
-              <mvc:View
-                xmlns:mvc="sap.ui.core.mvc"
-                xmlns:template="http://schemas.sap.com/sapui5/extension/sap.ui.core.template/1">
-                <content template:require=""></content>
-              </mvc:View>`;
-
-        testValidationsScenario({
-          model: ui5SemanticModel,
-          xmlText: xmlSnippet,
-          validators: {
-            attribute: [validateUnknownAttributeKey],
-          },
-          assertion: (issues) => {
-            expect(issues).to.be.empty;
-          },
-        });
+        assertNoIssues(`
+          <mvc:View
+            xmlns:mvc="sap.ui.core.mvc"
+            xmlns:template="http://schemas.sap.com/sapui5/extension/sap.ui.core.template/1">
+            <content template:require=""></content>
+          </mvc:View>`);
       });
 
       it("will not detect an issue when the attribute namespace is custom data", () => {
-        const xmlSnippet = `
-            <mvc:View
-              xmlns:mvc="sap.ui.core.mvc"
-              xmlns:custom="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
-              <content custom:unknownattr=""></content>
-            </mvc:View>`;
-
-        testValidationsScenario({
-          model: ui5SemanticModel,
-          xmlText: xmlSnippet,
-          validators: {
-            attribute: [validateUnknownAttributeKey],
-          },
-          assertion: (issues) => {
-            expect(issues).to.be.empty;
-          },
-        });
+        assertNoIssues(`
+          <mvc:View
+            xmlns:mvc="sap.ui.core.mvc"
+            xmlns:custom="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+            <content custom:unknownattr=""></content>
+          </mvc:View>`);
       });
 
       it("will not detect an issue when the attribute is xmlns (default)", () => {
-        const xmlSnippet = `
-            <mvc:View
-              xmlns:mvc="sap.ui.core.mvc"">
-              <content xmlns="sap.m">
-              </content>
-            </mvc:View>`;
-
-        testValidationsScenario({
-          model: ui5SemanticModel,
-          xmlText: xmlSnippet,
-          validators: {
-            attribute: [validateUnknownAttributeKey],
-          },
-          assertion: (issues) => {
-            expect(issues).to.be.empty;
-          },
-        });
+        assertNoIssues(`
+          <mvc:View
+            xmlns:mvc="sap.ui.core.mvc"">
+            <content xmlns="sap.m">
+            </content>
+          </mvc:View>`);
       });
 
       it("will not detect an issue when the attribute is xmlns (with name)", () => {
-        const xmlSnippet = `
+        assertNoIssues(`
           <mvc:View
             xmlns:mvc="sap.ui.core.mvc"">
             <content xmlns:m="sap.m">
             </content>
-          </mvc:View>`;
-
-        testValidationsScenario({
-          model: ui5SemanticModel,
-          xmlText: xmlSnippet,
-          validators: {
-            attribute: [validateUnknownAttributeKey],
-          },
-          assertion: (issues) => {
-            expect(issues).to.be.empty;
-          },
-        });
+          </mvc:View>`);
       });
     });
 
     context("unknown tag", () => {
       it("will not detect an issue when the attribute name is unknown for tag starting with lowecase", () => {
-        const xmlSnippet = `
+        assertNoIssues(`
           <mvc:View
             xmlns:mvc="sap.ui.core.mvc"
             xmlns="sap.m">
-            <content1 unknownattribute="">
-            </content1>
-          </mvc:View>`;
-
-        testValidationsScenario({
-          model: ui5SemanticModel,
-          xmlText: xmlSnippet,
-          validators: {
-            attribute: [validateUnknownAttributeKey],
-          },
-          assertion: (issues) => {
-            expect(issues).to.be.empty;
-          },
-        });
+            <content_TYPO TYPO="">
+            </content_TYPO>
+          </mvc:View>`);
       });
 
       it("will not detect an issue when the attribute name is unknown for tag starting with uppercase", () => {
-        const xmlSnippet = `
+        assertNoIssues(`
           <mvc:View
             xmlns:mvc="sap.ui.core.mvc">
             <content>
-              <List unknownattribute=""></List>
+              <List_TYPO TYPO=""></List_TYPO>
             </content>
-          </mvc:View>`;
-
-        testValidationsScenario({
-          model: ui5SemanticModel,
-          xmlText: xmlSnippet,
-          validators: {
-            attribute: [validateUnknownAttributeKey],
-          },
-          assertion: (issues) => {
-            expect(issues).to.be.empty;
-          },
-        });
+          </mvc:View>`);
       });
 
       it("will not detect an issue when the attribute name is unknown for tag in known namespace", () => {
-        const xmlSnippet = `
-          <mvc:View1
+        assertNoIssues(`
+          <mvc:View_TYPO
             xmlns:mvc="sap.ui.core.mvc"
             xmlns="sap.m"
-            busy1="true">
-          </mvc:View1>`;
-
-        testValidationsScenario({
-          model: ui5SemanticModel,
-          xmlText: xmlSnippet,
-          validators: {
-            attribute: [validateUnknownAttributeKey],
-          },
-          assertion: (issues) => {
-            expect(issues).to.be.empty;
-          },
-        });
+            busy_TYPO="true">
+          </mvc:View_TYPO>`);
       });
     });
 
