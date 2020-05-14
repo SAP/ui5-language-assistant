@@ -42,8 +42,7 @@ describe("the unknown attribute name validation", () => {
 
     it("will detect an invalid attribute key in root class element", () => {
       assertSingleIssue(
-        `
-        <mvc:View
+        `<mvc:View
           xmlns:mvc="sap.ui.core.mvc"
           xmlns="sap.m"
           🢂busy_TYPO🢀="true">
@@ -54,8 +53,7 @@ describe("the unknown attribute name validation", () => {
 
     it("will detect an invalid attribute key when the key starts with :", () => {
       assertSingleIssue(
-        `
-        <mvc:View
+        `<mvc:View
           xmlns:mvc="sap.ui.core.mvc"
           xmlns="sap.m"
           🢂:busy🢀="true">
@@ -66,8 +64,7 @@ describe("the unknown attribute name validation", () => {
 
     it("will detect an invalid attribute key when the key ends with :", () => {
       assertSingleIssue(
-        `
-        <mvc:View
+        `<mvc:View
           xmlns:mvc="sap.ui.core.mvc"
           xmlns="sap.m"
           🢂busy:🢀="true">
@@ -78,8 +75,7 @@ describe("the unknown attribute name validation", () => {
 
     it("will detect an invalid attribute key in non-root class element", () => {
       assertSingleIssue(
-        `
-        <mvc:View
+        `<mvc:View
           xmlns:mvc="sap.ui.core.mvc"
           xmlns="sap.m">
           <content>
@@ -92,8 +88,7 @@ describe("the unknown attribute name validation", () => {
 
     it("will detect an invalid attribute key when the attribute doesn't have a value", () => {
       assertSingleIssue(
-        `
-        <mvc:View
+        `<mvc:View
           xmlns:mvc="sap.ui.core.mvc"
           xmlns="sap.m"
           🢂busy_TYPO🢀 >
@@ -104,8 +99,7 @@ describe("the unknown attribute name validation", () => {
 
     it("will detect an invalid attribute key in aggregation element", () => {
       assertSingleIssue(
-        `
-        <mvc:View
+        `<mvc:View
           xmlns:mvc="sap.ui.core.mvc"
           xmlns="sap.m">
           <content 🢂TYPO🢀="">
@@ -118,8 +112,7 @@ describe("the unknown attribute name validation", () => {
 
     it("will detect an invalid xmlns attribute key element", () => {
       assertSingleIssue(
-        `
-        <mvc:View
+        `<mvc:View
           xmlns:mvc="sap.ui.core.mvc"
           🢂xmlns:m:1🢀="sap.m">
         </mvc:View>`,
@@ -129,8 +122,7 @@ describe("the unknown attribute name validation", () => {
 
     it("will detect 'stashed' as invalid in aggregation element", () => {
       assertSingleIssue(
-        `
-        <mvc:View
+        `<mvc:View
           xmlns:mvc="sap.ui.core.mvc"
           xmlns="sap.m">
           <content 🢂stashed🢀="">
@@ -143,8 +135,7 @@ describe("the unknown attribute name validation", () => {
 
     it("will detect 'binding' as invalid in aggregation element", () => {
       assertSingleIssue(
-        `
-        <mvc:View
+        `<mvc:View
           xmlns:mvc="sap.ui.core.mvc"
           xmlns="sap.m">
           <content 🢂binding🢀="">
@@ -157,8 +148,7 @@ describe("the unknown attribute name validation", () => {
 
     it("will detect 'class' as invalid in aggregation element", () => {
       assertSingleIssue(
-        `
-        <mvc:View
+        `<mvc:View
           xmlns:mvc="sap.ui.core.mvc"
           xmlns="sap.m">
           <content 🢂class🢀="">
@@ -171,8 +161,7 @@ describe("the unknown attribute name validation", () => {
 
     it("will detect 'require' as invalid attribute when it's not in the core or template namespace", () => {
       assertSingleIssue(
-        `
-        <mvc:View
+        `<mvc:View
           xmlns:mvc="sap.ui.core.mvc"
           xmlns="sap.m"
           🢂mvc:require🢀="">
