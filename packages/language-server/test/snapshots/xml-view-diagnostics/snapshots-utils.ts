@@ -138,8 +138,11 @@ export function computeXMLWithMarkedRanges(
     const startOffset = xmlTextDoc.offsetAt(_.start);
     const endOffset = xmlTextDoc.offsetAt(_.end);
     const prefix = xmlSnippetWithRangeMarkers.substring(0, startOffset);
-    const toBeMarked = xmlTextSnippet.substring(startOffset, endOffset);
-    const suffix = xmlTextSnippet.substring(endOffset);
+    const toBeMarked = xmlSnippetWithRangeMarkers.substring(
+      startOffset,
+      endOffset
+    );
+    const suffix = xmlSnippetWithRangeMarkers.substring(endOffset);
     xmlSnippetWithRangeMarkers = prefix + "🢂" + toBeMarked + "🢀" + suffix;
   });
 

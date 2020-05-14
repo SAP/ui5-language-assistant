@@ -1,29 +1,26 @@
-import { find, map, filter, includes, startsWith } from "lodash";
-import { InvalidSyntax, XMLElement } from "@xml-tools/ast";
+import { map, filter, includes, startsWith } from "lodash";
+import { XMLElement } from "@xml-tools/ast";
 import {
   UI5Cardinality,
   UI5Class,
   UI5Interface,
   UI5SemanticModel,
   UI5Type,
+  UI5Aggregation,
 } from "@ui5-language-assistant/semantic-model-types";
 import {
   findClassesMatchingType,
-  flattenAggregations,
   getUI5ClassByXMLElement,
   ui5NodeToFQN,
+  getUI5AggregationByXMLElement,
 } from "@ui5-language-assistant/logic-utils";
 import { UI5ClassesInXMLTagNameCompletion } from "../../../api";
 import { UI5ElementNameCompletionOptions } from "./index";
 
-// TODO: expose this const from XML-Tools?
-const invalidSyntax: InvalidSyntax = null;
 // These consts are meant to give meaningful names to the `null` value
 // returned from logical flows in this file to make them easier to understand.
 const UNRESOLVED_PREFIX_URI = null;
 const NOT_FOUND = null;
-const startsWithLowerCase = /^[a-z]/;
-const startsWithUpperCase = /^[A-Z]/;
 
 export function classesSuggestions(
   opts: UI5ElementNameCompletionOptions
@@ -96,55 +93,36 @@ function computeClassSuggestionContext({
     };
   }
 
-  const parentXMLElementName = parentXMLElement.name;
-  if (parentXMLElementName !== invalidSyntax) {
-    // possible class inside aggregation scenario
-    const grandParentXMLElement = parentXMLElement.parent;
-    if (
-      startsWithLowerCase.test(parentXMLElementName) &&
-      grandParentXMLElement.type !== "XMLDocument"
-    ) {
-      return handleInsideExplicitAggregationScenario({
-        grandParentXMLElement,
-        parentXMLElement,
-        model,
-      });
-    } else if (startsWithUpperCase.test(parentXMLElementName)) {
-      return handleDefaultAggregationScenario({ parentXMLElement, model });
-    }
-    // unrecognized scenario
-    else {
-      return NOT_FOUND;
-    }
+  // If the parent tag is a class this is an implicit (default) aggregation
+  const parentUI5Class = getUI5ClassByXMLElement(parentXMLElement, model);
+  if (parentUI5Class !== undefined) {
+    return handleDefaultAggregationScenario({
+      parentXMLElement,
+      parentUI5Class,
+    });
+  }
+  // If it's not a class, it could be an (explicit) aggregation
+  const parentUI5Aggregation = getUI5AggregationByXMLElement(
+    parentXMLElement,
+    model
+  );
+  if (parentUI5Aggregation !== undefined) {
+    return handleInsideExplicitAggregationScenario({
+      parentXMLElement,
+      parentUI5Aggregation,
+    });
   }
 
   return NOT_FOUND;
 }
 
 function handleInsideExplicitAggregationScenario({
-  grandParentXMLElement,
   parentXMLElement,
-  model,
+  parentUI5Aggregation,
 }: {
-  grandParentXMLElement: XMLElement;
   parentXMLElement: XMLElement;
-  model: UI5SemanticModel;
+  parentUI5Aggregation: UI5Aggregation;
 }): classSuggestionContext | null {
-  const grandParentUI5Class = getUI5ClassByXMLElement(
-    grandParentXMLElement,
-    model
-  );
-  if (grandParentUI5Class === undefined) {
-    return NOT_FOUND;
-  }
-  const allGrandParentAggregations = flattenAggregations(grandParentUI5Class);
-  const parentUI5Aggregation = find(allGrandParentAggregations, [
-    "name",
-    parentXMLElement.name,
-  ]);
-  if (parentUI5Aggregation === undefined) {
-    return NOT_FOUND;
-  }
   if (isClassOrInterfaceType(parentUI5Aggregation.type)) {
     return {
       allowedType: parentUI5Aggregation.type,
@@ -158,15 +136,11 @@ function handleInsideExplicitAggregationScenario({
 
 function handleDefaultAggregationScenario({
   parentXMLElement,
-  model,
+  parentUI5Class,
 }: {
   parentXMLElement: XMLElement;
-  model: UI5SemanticModel;
+  parentUI5Class: UI5Class;
 }): classSuggestionContext | null {
-  const parentUI5Class = getUI5ClassByXMLElement(parentXMLElement, model);
-  if (parentUI5Class === undefined) {
-    return NOT_FOUND;
-  }
   const defaultAggregation = parentUI5Class.defaultAggregation;
   if (defaultAggregation === undefined) {
     return NOT_FOUND;

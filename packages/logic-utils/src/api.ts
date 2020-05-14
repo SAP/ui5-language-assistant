@@ -17,5 +17,6 @@ export {
 } from "./utils/xml-ns-key";
 export {
   getUI5ClassByXMLElement,
+  getUI5AggregationByXMLElement,
   getUI5PropertyByXMLAttributeKey,
 } from "./utils/xml-node-to-ui5-node";

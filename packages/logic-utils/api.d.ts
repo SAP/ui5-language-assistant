@@ -107,6 +107,16 @@ export function getUI5ClassByXMLElement(
 ): UI5Class | undefined;
 
 /**
+ * Return the UI5 Aggregation for an XML Element
+ * @param element
+ * @param model
+ */
+export function getUI5AggregationByXMLElement(
+  element: XMLElement,
+  model: UI5SemanticModel
+): UI5Aggregation | undefined;
+
+/**
  * Return the UI5 Property for an XML Attribute
  * @param attribute
  * @param model
