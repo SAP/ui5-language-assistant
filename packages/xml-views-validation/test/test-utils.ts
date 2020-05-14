@@ -33,7 +33,12 @@ export function testValidationsScenario(opts: {
   const ast = buildAst(cst as DocumentCstNode, tokenVector);
 
   const issues = validateXMLViewImpl({
-    validators: { element: [], attribute: [], ...opts.validators },
+    validators: {
+      document: [],
+      element: [],
+      attribute: [],
+      ...opts.validators,
+    },
     xmlView: ast,
     model: opts.model,
   });

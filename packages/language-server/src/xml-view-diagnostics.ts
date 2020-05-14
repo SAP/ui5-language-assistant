@@ -4,12 +4,14 @@ import {
   Diagnostic,
   DiagnosticSeverity,
   DiagnosticTag,
+  Range as LSPRange,
 } from "vscode-languageserver-types";
 import { TextDocument } from "vscode-languageserver-textdocument";
 import { DocumentCstNode, parse } from "@xml-tools/parser";
 import { buildAst } from "@xml-tools/ast";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import {
+  OffsetRange,
   UI5XMLViewIssue,
   validateXMLView,
   XMLViewIssueSeverity,
@@ -36,18 +38,13 @@ function validationIssuesToLspDiagnostics(
 ): Diagnostic[] {
   const diagnostics: Diagnostic[] = map(issues, (currIssue) => {
     const commonDiagnosticPros: Diagnostic = {
-      range: {
-        start: document.positionAt(currIssue.offsetRange.start),
-        // Chevrotain's end offsets are none inclusive
-        end: document.positionAt(currIssue.offsetRange.end + 1),
-      },
+      range: offsetRangeToLSPRange(currIssue.offsetRange, document),
       severity: toLspSeverity(currIssue.severity),
       source: "UI5 Language Assistant",
       message: currIssue.message,
     };
 
-    const issueKind = currIssue.kind;
-    switch (issueKind) {
+    switch (currIssue.kind) {
       case "InvalidBooleanValue":
       case "UnknownEnumValue":
       case "UnknownNamespaceInXmlnsAttributeValue":
@@ -62,9 +59,24 @@ function validationIssuesToLspDiagnostics(
           ...commonDiagnosticPros,
           tags: [DiagnosticTag.Deprecated],
         };
+      case "NoneUniqueIDIssue":
+        return {
+          ...commonDiagnosticPros,
+          relatedInformation: map(currIssue.identicalIDsRanges, (_) => ({
+            // TODO: what message should be used in related issues?
+            message: "also used here",
+            location: {
+              uri: document.uri,
+              range: offsetRangeToLSPRange(_, document),
+            },
+          })),
+        };
       /* istanbul ignore next - defensive programming */
       default:
-        assertNever(issueKind);
+        // We should use assertNever, However, TSC cannot seem to apply exhaustiveness checks
+        // on inner properties (`currentIssue.kind`) nor does it seem to apply type guards correctly
+        // when we first extract the kind (`const issueKind = currIssue.kind)... before the switch.
+        throw Error("None Exhaustive Match");
     }
   });
 
@@ -89,4 +101,15 @@ function toLspSeverity(
     default:
       assertNever(issueSeverity);
   }
+}
+
+function offsetRangeToLSPRange(
+  offsetRange: OffsetRange,
+  document: TextDocument
+): LSPRange {
+  return {
+    start: document.positionAt(offsetRange.start),
+    // Chevrotain's end offsets are none inclusive
+    end: document.positionAt(offsetRange.end + 1),
+  };
 }
