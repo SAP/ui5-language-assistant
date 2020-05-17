@@ -1385,37 +1385,37 @@
     semver "^7.3.2"
     tsutils "^3.17.1"
 
-"@xml-tools/ast@4.1.0", "@xml-tools/ast@^4.0.3":
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/@xml-tools/ast/-/ast-4.1.0.tgz#2660783c9f9a600ed0c9e33bf8919542fb2be531"
-  integrity sha512-8nErsCzkk8PtRI3XP+FgSs3ZINtlR+Jr39zO73xc23VX8ASaNmdEtRgjWVXHC8aWGU1KAw+BWXmB2fVz19YCXQ==
+"@xml-tools/ast@4.2.0":
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/@xml-tools/ast/-/ast-4.2.0.tgz#cc5c4b40997e916b533d3d13fb8e0805ccecb8f0"
+  integrity sha512-1ydf18u/2Ej/rS/h1M96w+GFlr+UAn2bUp7jMkH5wgN14R4f+S0Ju6uqfc4Arf332DdGSCuKJv2SMsz6Cq6zWA==
   dependencies:
-    "@xml-tools/common" "^0.0.6"
-    "@xml-tools/parser" "^1.0.4"
+    "@xml-tools/common" "^0.1.0"
+    "@xml-tools/parser" "^1.0.5"
     lodash "4.17.15"
 
-"@xml-tools/common@^0.0.6":
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/@xml-tools/common/-/common-0.0.6.tgz#0932d44ecb65fdfea7ac597126b60f9aa37695b0"
-  integrity sha512-d/iouioRW4RXKvzE6RqY5b8ba0RSBeQgFoUrL44MdUzR9JBpdXO3TMLwNYdEKCBJGtCpi7/LiwseBNCGTNIMcw==
+"@xml-tools/common@0.1.0", "@xml-tools/common@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@xml-tools/common/-/common-0.1.0.tgz#ca454eeab1b8c596f1d3bd6f93d6be324e407378"
+  integrity sha512-c1GAeR397X9l/oEOuZm0SC8MU3Awsny+qAuGSwzYCTS4XGL2pE6dO31jsTTkahjUYo6SRBUqeysqQZGNdNfm+A==
   dependencies:
     lodash "4.17.15"
 
-"@xml-tools/content-assist@3.1.4":
-  version "3.1.4"
-  resolved "https://registry.yarnpkg.com/@xml-tools/content-assist/-/content-assist-3.1.4.tgz#b8af82827378ad1a5e3ea51531dff21eeac9cd03"
-  integrity sha512-sYgSqu35vMFtIMeIgW0u7w8yJV48JGCEZ8Z/ZAunm3gPKQNCyKu0Xtgh7PqNprQ4Tp5q9dRRnShYt436ZfAySQ==
+"@xml-tools/content-assist@3.1.5":
+  version "3.1.5"
+  resolved "https://registry.yarnpkg.com/@xml-tools/content-assist/-/content-assist-3.1.5.tgz#6e3278b74daa4b7f52f419bc8bc92c2272048e9a"
+  integrity sha512-BjBMf5Jb1lBgKzvY7zK69UUp6rkbSu+rtPfWRItOuK8r9S+VsC/HmEzQq15KtuCUVReLQ2VQR1zd2RlbdU0A2A==
   dependencies:
-    "@xml-tools/common" "^0.0.6"
-    "@xml-tools/parser" "^1.0.4"
+    "@xml-tools/common" "^0.1.0"
+    "@xml-tools/parser" "^1.0.5"
     lodash "4.17.15"
 
-"@xml-tools/parser@1.0.4", "@xml-tools/parser@^1.0.4":
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/@xml-tools/parser/-/parser-1.0.4.tgz#05cce7dc92950eaaa5e6e5a9f62c6d42c4eb10be"
-  integrity sha512-KQtKJf/G0KMV5dWzRZBmmS/YuXUVGqBvDkBSqsDxQUuOajqPTJ+0mwyL3KIxCK+KzPsrMWRbrUl3DgGmJ/on2Q==
+"@xml-tools/parser@1.0.5", "@xml-tools/parser@^1.0.5":
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/@xml-tools/parser/-/parser-1.0.5.tgz#ca788ae5435af1d3a7a3944786a06c05226e0814"
+  integrity sha512-c3ZWjRNDDH/h3i/aYe7y4FPowRynNXOHW4+N+G/DekV1le6IZMu5MueSUXXk8+6XenxTry7ugHYqdbyTd5F1HA==
   dependencies:
-    chevrotain "6.5.0"
+    chevrotain "7.0.1"
 
 "@zkochan/cmd-shim@^3.1.0":
   version "3.1.0"
@@ -2044,6 +2044,13 @@ chevrotain@6.5.0:
   integrity sha512-BwqQ/AgmKJ8jcMEjaSnfMybnKMgGTrtDKowfTP3pX4jwVy0kNjRsT/AP6h+wC3+3NC+X8X15VWBnTCQlX+wQFg==
   dependencies:
     regexp-to-ast "0.4.0"
+
+chevrotain@7.0.1:
+  version "7.0.1"
+  resolved "https://registry.yarnpkg.com/chevrotain/-/chevrotain-7.0.1.tgz#55d1d21a9afea0aad23b4d30e75650212eb4cc9f"
+  integrity sha512-B/44jrdw5GAzy483LEeVSgXSX0qOYM8lUd3l5+yf6Vl6OQjEUCm2BUiYbHRCIK6xCEvCLAFe1kj8uyV6+zdaVw==
+  dependencies:
+    regexp-to-ast "0.5.0"
 
 chokidar@3.3.0:
   version "3.3.0"
@@ -6341,6 +6348,11 @@ regexp-to-ast@0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/regexp-to-ast/-/regexp-to-ast-0.4.0.tgz#f3dbcb42726cd71902ba50193f63eab5325cd7cb"
   integrity sha512-4qf/7IsIKfSNHQXSwial1IFmfM1Cc/whNBQqRwe0V2stPe7KmN1U0tWQiIx6JiirgSrisjE0eECdNf7Tav1Ntw==
+
+regexp-to-ast@0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/regexp-to-ast/-/regexp-to-ast-0.5.0.tgz#56c73856bee5e1fef7f73a00f1473452ab712a24"
+  integrity sha512-tlbJqcMHnPKI9zSrystikWKwHkBqu2a/Sgw01h3zFjvYrMxEDYHzzoMZnUrbIfpTFEsoRnnviOXNCzFiSc54Qw==
 
 regexpp@^2.0.1:
   version "2.0.1"
