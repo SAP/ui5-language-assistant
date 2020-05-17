@@ -1,7 +1,7 @@
 import { XMLAttribute } from "@xml-tools/ast";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { findSymbol } from "@ui5-language-assistant/semantic-model";
-import { isXMLNamespaceKey } from "@ui5-language-assistant/logic-utils";
+import { isXMLNamespaceKey } from "@xml-tools/common";
 import { UnknownNamespaceInXmlnsAttributeValueIssue } from "../../../api";
 import { find } from "lodash";
 
@@ -10,7 +10,10 @@ export function validateUnknownXmlnsNamespace(
   model: UI5SemanticModel
 ): UnknownNamespaceInXmlnsAttributeValueIssue[] {
   const attributeName = attribute.key;
-  if (attributeName === null || !isXMLNamespaceKey(attributeName)) {
+  if (
+    attributeName === null ||
+    !isXMLNamespaceKey({ key: attributeName, includeEmptyPrefix: true })
+  ) {
     return [];
   }
 
