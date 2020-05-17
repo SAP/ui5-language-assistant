@@ -1,4 +1,5 @@
 import { expect } from "chai";
+import { find } from "lodash";
 import { DocumentCstNode, parse } from "@xml-tools/parser";
 import { buildAst } from "@xml-tools/ast";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
@@ -167,6 +168,25 @@ describe("the unknown attribute name validation", () => {
           🢂mvc:require🢀="">
         </mvc:View>`,
         "Unknown attribute key: mvc:require"
+      );
+    });
+
+    it("will detect a non-public attribute key in class element", () => {
+      // Check that the property exists in the model
+      const ui5Class = ui5SemanticModel.classes["sap.uxap.AnchorBar"];
+      expectExists(ui5Class, "sap.uxap.AnchorBar");
+      const _selectProperty = find(ui5Class.aggregations, ["name", "_select"]);
+      expectExists(_selectProperty, "_select");
+
+      assertSingleIssue(
+        `<mvc:View
+          xmlns:mvc="sap.ui.core.mvc"
+          xmlns:uxap="sap.uxap">
+          <content>
+            <uxap:AnchorBar 🢂_select🢀=""></uxap:AnchorBar>
+          </content>
+        </mvc:View>`,
+        "Unknown attribute key: _select"
       );
     });
   });

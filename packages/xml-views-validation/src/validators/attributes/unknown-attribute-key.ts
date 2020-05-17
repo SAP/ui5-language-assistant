@@ -1,4 +1,4 @@
-import { includes, find } from "lodash";
+import { includes, find, filter } from "lodash";
 import { XMLAttribute } from "@xml-tools/ast";
 import {
   UI5SemanticModel,
@@ -144,7 +144,9 @@ function isValidUI5ClassAttribute(
     return true;
   }
 
-  const allProps: { name: string }[] = flattenProperties(ui5Class);
+  const allProps: { name: string; visibility: string }[] = flattenProperties(
+    ui5Class
+  );
   const allEvents = flattenEvents(ui5Class);
   const allAssociations = flattenAssociations(ui5Class);
   // Aggregations can be used as attributes for binding
@@ -157,9 +159,15 @@ function isValidUI5ClassAttribute(
     .concat(allAssociations)
     .concat(allAggregations);
 
-  // TODO Should we filter out non-public/protected names?
+  // Only allow public/protected attributes
+  const allowedVisibility = ["public", "protected"];
+  const publicClassUI5Attributes = filter(allClassUI5Attributes, (_) =>
+    includes(allowedVisibility, _.visibility)
+  );
+
   if (
-    find(allClassUI5Attributes, (_) => _.name === attribute.key) !== undefined
+    find(publicClassUI5Attributes, (_) => _.name === attribute.key) !==
+    undefined
   ) {
     return true;
   }
