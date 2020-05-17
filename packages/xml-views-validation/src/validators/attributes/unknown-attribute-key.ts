@@ -149,6 +149,8 @@ function isValidUI5ClassAttribute(
   const allAssociations = flattenAssociations(ui5Class);
   // Aggregations can be used as attributes for binding
   // See: https://sapui5.hana.ondemand.com/#/topic/91f057786f4d1014b6dd926db0e91070
+  // 0..1 aggregations with alType can also be specified as attributes
+  // See: https://sapui5.hana.ondemand.com/#/topic/19eabf5b13214f27b929b9473df3195b
   const allAggregations = flattenAggregations(ui5Class);
   const allClassUI5Attributes = allProps
     .concat(allEvents)
