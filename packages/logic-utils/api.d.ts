@@ -85,18 +85,6 @@ export function getRootSymbolParent(node: BaseUI5Node): BaseUI5Node | undefined;
 export function typeToString(type: UI5Type | undefined): string;
 
 /**
- * Check if an xml attribute key is an xmlns key
- * @param key
- */
-export function isXMLNamespaceKey(key: string): boolean;
-
-/**
- * Get the attribute name, without its "xmlns:" prefix, from an xmlns attribute key
- * @param key
- */
-export function getXMLNamespaceKeyPrefix(key: string): string;
-
-/**
  * Return the UI5 Class for an XML Element
  * @param element
  * @param model
