@@ -1,8 +1,3 @@
-import * as model from "@ui5-language-assistant/semantic-model-types";
-import { Json } from "../api";
-import * as apiJson from "./api-json";
-import { isLibraryFile } from "./validate";
-import { error, hasProperty, newMap } from "./utils";
 import {
   map,
   merge,
@@ -14,6 +9,12 @@ import {
   isArray,
   isFunction,
 } from "lodash";
+import * as model from "@ui5-language-assistant/semantic-model-types";
+import { Json } from "../api";
+import * as apiJson from "./api-json";
+import { isLibraryFile } from "./validate";
+import { fixLibrary } from "./fix-api-json";
+import { error, hasProperty, newMap } from "./utils";
 
 export function convertToSemanticModel(
   libraries: Record<string, Json>,
@@ -43,6 +44,7 @@ export function convertToSemanticModel(
   reduce(
     sortedLibs,
     (model, { libraryName, fileContent }) => {
+      fixLibrary(libraryName, fileContent);
       if (
         isLibraryFile(libraryName, fileContent, strict, printValidationErrors)
       ) {
