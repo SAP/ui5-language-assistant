@@ -10,8 +10,20 @@ describe("isPossibleBindingAttributeValue", () => {
     expect(isPossibleBindingAttributeValue("")).to.be.false;
   });
 
-  it("returns false for a string with only an opening curly bracket", () => {
-    expect(isPossibleBindingAttributeValue("{"), "abc").to.be.false;
+  it("returns true for a string with only an opening curly bracket", () => {
+    expect(isPossibleBindingAttributeValue("{"), "abc").to.be.true;
+  });
+
+  it("returns false for a string with an escaped opening curly bracket", () => {
+    expect(isPossibleBindingAttributeValue("\\{"), "abc").to.be.false;
+  });
+
+  it("returns true for a string with an escaped and unescaped opening curly bracket", () => {
+    expect(isPossibleBindingAttributeValue("\\{a{"), "abc").to.be.true;
+  });
+
+  it("returns true for a string with an escaped character which is not an opening curly bracket", () => {
+    expect(isPossibleBindingAttributeValue("\\a{"), "abc").to.be.true;
   });
 
   it("returns true for a string starting and ending with curly brackets without anything in the middle", () => {
