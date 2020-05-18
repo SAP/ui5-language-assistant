@@ -1,5 +1,6 @@
 import { includes, find, filter } from "lodash";
 import { XMLAttribute } from "@xml-tools/ast";
+import { isXMLNamespaceKey } from "@xml-tools/common";
 import {
   UI5SemanticModel,
   UI5Class,
@@ -7,7 +8,6 @@ import {
 import {
   getUI5ClassByXMLElement,
   getUI5AggregationByXMLElement,
-  isXMLNamespaceKey,
   flattenProperties,
   flattenEvents,
   flattenAssociations,
@@ -80,8 +80,7 @@ function isAttributeNameAlwaysValid(attribute: XMLAttribute): boolean {
     return true;
   }
   // xmlns attributes are always valid
-  // TODO "xmlns:" should not return true (change when using new function in xml-tools)
-  if (isXMLNamespaceKey(attribute.key)) {
+  if (isXMLNamespaceKey({ key: attribute.key, includeEmptyPrefix: false })) {
     return true;
   }
 

@@ -111,7 +111,18 @@ describe("the unknown attribute name validation", () => {
       );
     });
 
-    it("will detect an invalid xmlns attribute key element", () => {
+    it("will detect an invalid xmlns attribute key element - no prefix", () => {
+      assertSingleIssue(
+        `<mvc:View
+          xmlns:mvc="sap.ui.core.mvc"
+          xmlns="sap.m"
+          🢂xmlns:🢀="my.ns">
+        </mvc:View>`,
+        "Unknown attribute key: xmlns:"
+      );
+    });
+
+    it("will detect an invalid xmlns attribute key element - more than 1 colon", () => {
       assertSingleIssue(
         `<mvc:View
           xmlns:mvc="sap.ui.core.mvc"
