@@ -1,7 +1,7 @@
 import { XMLAttribute } from "@xml-tools/ast";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { findSymbol } from "@ui5-language-assistant/semantic-model";
-import { isXMLNamespaceKey } from "@ui5-language-assistant/logic-utils";
+import { isXMLNamespaceKey } from "@xml-tools/common";
 import { UnknownNamespaceInXmlnsAttributeValueIssue } from "../../../api";
 import { find } from "lodash";
 
@@ -10,7 +10,10 @@ export function validateUnknownXmlnsNamespace(
   model: UI5SemanticModel
 ): UnknownNamespaceInXmlnsAttributeValueIssue[] {
   const attributeName = attribute.key;
-  if (attributeName === null || !isXMLNamespaceKey(attributeName)) {
+  if (
+    attributeName === null ||
+    !isXMLNamespaceKey({ key: attributeName, includeEmptyPrefix: true })
+  ) {
     return [];
   }
 
@@ -25,11 +28,12 @@ export function validateUnknownXmlnsNamespace(
   // Only check namespaces from libraries.
   // There are valid namespaces like some that start with "http" that should not return an error.
   // Additionally, customers can develop in custom namespaces, even those that start with "sap", and we don't want to give false positives.
-  // But sap library namespaces can be considered reserved.
+  // But sap library namespaces (i.e. first-level namespaces under "sap") can be considered reserved.
+  /* istanbul ignore next - defensive programming - "sap" namespace should always exist in production scenarios */
+  const reservedNamespaceRoots = model.namespaces["sap"]?.namespaces;
   if (
-    find(
-      model.includedLibraries,
-      (_) => attributeValue === _ || attributeValue.startsWith(_ + ".")
+    find(reservedNamespaceRoots, (_, fqn) =>
+      attributeValue.startsWith(fqn + ".")
     ) === undefined
   ) {
     return [];
