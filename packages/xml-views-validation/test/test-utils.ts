@@ -1,4 +1,5 @@
 import { isEmpty } from "lodash";
+import { expect } from "chai";
 import { DocumentCstNode, parse } from "@xml-tools/parser";
 import { buildAst } from "@xml-tools/ast";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
@@ -73,4 +74,44 @@ export function computeExpectedRange(markedXMLSnippet: string): OffsetRange {
     throw Error("The XML Snippet has no marked issue ranges!");
   }
   return computeExpectedRanges(markedXMLSnippet)[0];
+}
+
+export function assertNoIssues(
+  model: UI5SemanticModel,
+  validators: Partial<UI5Validators>,
+  xmlSnippet: string
+): void {
+  testValidationsScenario({
+    model: model,
+    xmlText: xmlSnippet,
+    validators: validators,
+    assertion: (issues) => {
+      expect(issues).to.be.empty;
+    },
+  });
+}
+
+export function assertSingleIssue(
+  model: UI5SemanticModel,
+  validators: Partial<UI5Validators>,
+  kind: string,
+  severity: string,
+  xmlSnippet: string,
+  message: string
+): void {
+  testValidationsScenario({
+    model: model,
+    xmlText: xmlSnippet,
+    validators: validators,
+    assertion: (issues) => {
+      expect(issues).to.deep.equal([
+        {
+          kind: kind,
+          message: message,
+          offsetRange: computeExpectedRange(xmlSnippet),
+          severity: severity,
+        },
+      ]);
+    },
+  });
 }
