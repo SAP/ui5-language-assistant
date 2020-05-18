@@ -3,10 +3,9 @@ import { UI5Namespace } from "@ui5-language-assistant/semantic-model-types";
 import {
   isElementSubClass,
   ui5NodeToFQN,
-  getXMLNamespaceKeyPrefix,
-  isXMLNamespaceKey,
 } from "@ui5-language-assistant/logic-utils";
 import { XMLAttribute } from "@xml-tools/ast";
+import { isXMLNamespaceKey, getXMLNamespaceKeyPrefix } from "@xml-tools/common";
 import { UI5AttributeNameCompletionOptions } from "./index";
 import { UI5NamespacesInXMLAttributeKeyCompletion } from "../../../api";
 
@@ -22,7 +21,12 @@ export function namespaceKeysSuggestions(
   const ui5Model = opts.context;
   const xmlElement = opts.element;
 
-  if (opts.prefix === undefined || !isXMLNamespaceKey(opts.prefix)) {
+  if (opts.prefix === undefined) {
+    return [];
+  }
+
+  const xmlnsPrefix = getXMLNamespaceKeyPrefix(opts.prefix);
+  if (xmlnsPrefix === undefined) {
     return [];
   }
 
@@ -34,8 +38,6 @@ export function namespaceKeysSuggestions(
   const existingNamespacesNames = compact(
     map(existingNamespacesAttributes, (_) => _.value)
   );
-
-  const xmlnsPrefix = getXMLNamespaceKeyPrefix(opts.prefix);
 
   const applicableNamespaces = filter(ui5Model.namespaces, (_) =>
     isNamespaceApplicable(_, xmlnsPrefix)
@@ -57,7 +59,7 @@ export function isExistingNamespaceAttribute(attribute: XMLAttribute): boolean {
     return false;
   }
 
-  if (!isXMLNamespaceKey(attribute.key)) {
+  if (!isXMLNamespaceKey({ key: attribute.key, includeEmptyPrefix: false })) {
     return false;
   }
 
