@@ -335,4 +335,18 @@ context("The ui5-language-assistant semantic model package API", () => {
       }).to.throw(TypeError, cannotDeleteMatcher);
     });
   });
+
+  describe("API JSON fixes", () => {
+    let model: UI5SemanticModel;
+    before(async () => {
+      model = await generateModel({ version: "1.74.0" });
+    });
+
+    it("sets content as the default aggregation for sap.ui.core.mvc.View", () => {
+      const view = model.classes["sap.ui.core.mvc.View"];
+      expect(view, "sap.ui.core.mvc.View").to.exist;
+      expectExists(view.defaultAggregation, "defaultAggregation");
+      expect(view.defaultAggregation.name).to.equal("content");
+    });
+  });
 });
