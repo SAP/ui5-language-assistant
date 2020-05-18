@@ -3,9 +3,8 @@ import { XMLAttribute } from "@xml-tools/ast";
 import {
   isElementSubClass,
   ui5NodeToFQN,
-  getXMLNamespaceKeyPrefix,
-  isXMLNamespaceKey,
 } from "@ui5-language-assistant/logic-utils";
+import { getXMLNamespaceKeyPrefix } from "@xml-tools/common";
 import { UI5AttributeValueCompletionOptions } from "./index";
 import { UI5NamespacesInXMLAttributeValueCompletion } from "../../../api";
 
@@ -21,7 +20,12 @@ export function namespaceValueSuggestions(
   const xmlAttribute = opts.attribute;
   const xmlAttributeName = xmlAttribute.key;
 
-  if (xmlAttributeName === null || !isXMLNamespaceKey(xmlAttributeName)) {
+  if (xmlAttributeName === null) {
+    return [];
+  }
+
+  const xmlnsPrefix = getXMLNamespaceKeyPrefix(xmlAttributeName);
+  if (xmlnsPrefix === undefined) {
     return [];
   }
 
@@ -36,8 +40,6 @@ export function namespaceValueSuggestions(
       ui5NodeToFQN(_).includes(attributeValue)
     );
   }
-
-  const xmlnsPrefix = getXMLNamespaceKeyPrefix(xmlAttributeName);
 
   if (attributeValue.endsWith(".")) {
     const applicableNamespacesForExploration = filter(

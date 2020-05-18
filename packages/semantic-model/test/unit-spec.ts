@@ -14,6 +14,7 @@ import { resolveType, setParent } from "../src/resolve";
 import { getSymbolMaps } from "../src/utils";
 import { generate } from "../src/api";
 import { ClassSymbol, NamespaceSymbol, SymbolBase } from "../src/api-json";
+import { addViewDefaultAggregation } from "../src/fix-api-json";
 
 context("The ui5-language-assistant semantic model package unit tests", () => {
   describe("resolveType", () => {
@@ -316,6 +317,20 @@ context("The ui5-language-assistant semantic model package unit tests", () => {
         result.includedLibraries,
         "includedLibraries"
       ).to.deep.equalInAnyOrder(["testLib", "lib2", "emptyLib"]);
+    });
+  });
+
+  context("API JSON fixes", () => {
+    context("addViewDefaultAggregation", () => {
+      it("doesn't fail when there is a sap.ui.core.mvc.View with no ui5-metadata", () => {
+        addViewDefaultAggregation("sap.ui.core", {
+          symbols: [
+            {
+              name: "sap.ui.core.mvc.View",
+            },
+          ],
+        });
+      });
     });
   });
 });
