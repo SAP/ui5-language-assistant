@@ -85,10 +85,13 @@ function isAttributeNameAlwaysValid(attribute: XMLAttribute): boolean {
     return true;
   }
 
-  const { ns, name } = splitAttributeByNamespace(attribute);
+  // Cast is necessary because typescript doesn't recognize the check above for attribute.key to be a type guard
+  const { ns, name } = splitAttributeByNamespace(
+    attribute as XMLAttribute & { key: string }
+  );
 
   // The following attributes are valid on all tags
-  // undefined name means all attribute names in the namespace are valid
+  const ALL_ATTRIBUTE_NAMES = undefined;
   const ALWAYS_VALID_ATTRIBUTES = [
     // See: https://sapui5.hana.ondemand.com/#/topic/de9fd55c69af4b46863f5d26b5d796c4
     { ns: "sap.ui.dt", name: "designtime" },
@@ -98,13 +101,16 @@ function isAttributeNameAlwaysValid(attribute: XMLAttribute): boolean {
     // See: https://sapui5.hana.ondemand.com/#/topic/263f6e5a915f430894ee290040e7e220
     { ns: TEMPLATING_NS, name: "require" },
     // See: https://sapui5.hana.ondemand.com/#/topic/91f0c3ee6f4d1014b6dd926db0e91070
-    { ns: CUSTOM_DATA_NS, name: undefined },
+    { ns: CUSTOM_DATA_NS, name: ALL_ATTRIBUTE_NAMES },
   ];
 
   if (
     find(
       ALWAYS_VALID_ATTRIBUTES,
-      (_) => _.ns === ns && (_.name === undefined || _.name === name)
+      (validAttribute) =>
+        validAttribute.ns === ns &&
+        (validAttribute.name === ALL_ATTRIBUTE_NAMES ||
+          validAttribute.name === name)
     ) !== undefined
   ) {
     return true;
@@ -117,28 +123,29 @@ function isValidUI5ClassAttribute(
   ui5Class: UI5Class,
   attribute: XMLAttribute
 ): boolean {
-  // The following attributes are valid on all classes
-  // undefined fqn means the attribute is valid on all classes
-  // TODO Should these be in the model? Should they be suggested for code completion?
+  // The following attributes are valid on all classes/the specified class
+  // They shouldn't be offered for code completion so we just ignore them in the validation (instead of adding them to the model)
+  const ALL_CLASSES = undefined;
   const ALWAYS_VALID_CLASS_ATTRIBUTES = [
     // "class" attribute can be used on all Controls and selected Elements
     // See: https://sapui5.hana.ondemand.com/#/topic/b564935324f449209354c7e2f9903f22
-    { name: "class", fqn: undefined },
+    { name: "class", classFQN: ALL_CLASSES },
     // "binding" is a synonym for "objectBindings" special setting on ManagedObject
     // See: https://sapui5.hana.ondemand.com/#/topic/91f05e8b6f4d1014b6dd926db0e91070
-    { name: "binding", fqn: undefined },
+    { name: "binding", classFQN: ALL_CLASSES },
     // Technically the "stashed" attribute can be under any Element but it should only be used
     // for sap.uxap.ObjectPageLazyLoader
     // See: https://sapui5.hana.ondemand.com/#/api/sap.uxap.ObjectPageLazyLoader
-    { name: "stashed", fqn: "sap.uxap.ObjectPageLazyLoader" },
+    { name: "stashed", classFQN: "sap.uxap.ObjectPageLazyLoader" },
   ];
 
   if (
     find(
       ALWAYS_VALID_CLASS_ATTRIBUTES,
-      (_) =>
-        _.name === attribute.key &&
-        (_.fqn === undefined || _.fqn === ui5NodeToFQN(ui5Class))
+      (validAttribute) =>
+        validAttribute.name === attribute.key &&
+        (validAttribute.classFQN === ALL_CLASSES ||
+          validAttribute.classFQN === ui5NodeToFQN(ui5Class))
     ) !== undefined
   ) {
     return true;
@@ -176,13 +183,8 @@ function isValidUI5ClassAttribute(
 }
 
 function splitAttributeByNamespace(
-  attribute: XMLAttribute
+  attribute: XMLAttribute & { key: string }
 ): { ns: string | undefined; name: string | undefined } {
-  // This will never happen - it was checked before calling this function
-  /* istanbul ignore if */
-  if (attribute.key === null) {
-    return { name: undefined, ns: undefined };
-  }
   if (!includes(attribute.key, ":")) {
     return { name: attribute.key, ns: undefined };
   }
