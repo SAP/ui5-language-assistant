@@ -1,4 +1,4 @@
-import { map, findKey, find, forEachRight, includes } from "lodash";
+import { map, findKey, find, forEachRight, includes, remove } from "lodash";
 import {
   CompletionItem,
   CompletionItemKind,
@@ -27,40 +27,74 @@ import {
 } from "@ui5-language-assistant/xml-views-completion";
 import { ui5NodeToFQN } from "@ui5-language-assistant/logic-utils";
 import { getNodeDocumentation, getNodeDetail } from "./documentation";
+import { getSettingsForDocument } from "@ui5-language-assistant/settings";
 
-export function getCompletionItems(
-  model: UI5SemanticModel,
-  textDocumentPosition: TextDocumentPositionParams,
-  document: TextDocument
-): CompletionItem[] {
-  const documentText = document.getText();
+export async function getCompletionItems(opts: {
+  model: UI5SemanticModel;
+  textDocumentPosition: TextDocumentPositionParams;
+  document: TextDocument;
+}): Promise<CompletionItem[]> {
+  const documentText = opts.document.getText();
   const { cst, tokenVector } = parse(documentText);
   const ast = buildAst(cst as DocumentCstNode, tokenVector);
   const suggestions = getXMLViewCompletions({
-    model: model,
-    offset: document.offsetAt(textDocumentPosition.position),
+    model: opts.model,
+    offset: opts.document.offsetAt(opts.textDocumentPosition.position),
     cst: cst as DocumentCstNode,
     ast: ast,
     tokenVector: tokenVector,
   });
 
+  const filteredSuggestions = await filterBySettings(
+    opts.document.uri,
+    suggestions
+  );
+
   const completionItems = transformToLspSuggestions(
-    suggestions,
-    model,
-    textDocumentPosition.position
+    filteredSuggestions,
+    opts.model,
+    opts.textDocumentPosition
   );
   return completionItems;
+}
+
+async function filterBySettings(
+  documentURI: string,
+  suggestions: UI5XMLViewCompletion[]
+): Promise<UI5XMLViewCompletion[]> {
+  const settings = await getSettingsForDocument(documentURI);
+  const filteredSuggestions = suggestions;
+  if (!settings.codeAssist.deprecated) {
+    remove(
+      filteredSuggestions,
+      (suggestion) =>
+        isUI5NodeXMLViewCompletion(suggestion) &&
+        suggestion.ui5Node.deprecatedInfo?.isDeprecated
+    );
+  }
+  if (!settings.codeAssist.experimental) {
+    remove(
+      filteredSuggestions,
+      (suggestions) =>
+        isUI5NodeXMLViewCompletion(suggestions) &&
+        suggestions.ui5Node.experimentalInfo?.isExperimental
+    );
+  }
+  return filteredSuggestions;
 }
 
 function transformToLspSuggestions(
   suggestions: UI5XMLViewCompletion[],
   model: UI5SemanticModel,
-  originalPosition: Position
+  textDocumentPosition: TextDocumentPositionParams
 ): CompletionItem[] {
   const lspSuggestions = map(suggestions, (suggestion) => {
     const lspKind = computeLSPKind(suggestion);
 
-    const textEditDetails = createTextEdits(suggestion, originalPosition);
+    const textEditDetails = createTextEdits(
+      suggestion,
+      textDocumentPosition.position
+    );
     const documentation = getDocumentation(suggestion, model);
     const completionItem: CompletionItem = {
       label: getLabel(suggestion),

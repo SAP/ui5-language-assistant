@@ -34,13 +34,13 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
     replacedText: string;
     attributes?: string[];
   }
-  function assertClassesCompletions(opts: {
+  async function assertClassesCompletions(opts: {
     xmlSnippet: string;
     expected: ClassCompletionItem[];
     compareAttributes?: boolean;
-  }): CompletionItem[] {
+  }): Promise<CompletionItem[]> {
     const compareAttributes = opts.compareAttributes ?? true;
-    const suggestions = getSuggestions(opts.xmlSnippet, ui5SemanticModel);
+    const suggestions = await getSuggestions(opts.xmlSnippet, ui5SemanticModel);
     const ranges = getRanges(opts.xmlSnippet);
 
     const suggestionsDetails = map(suggestions, (suggestion) => ({
@@ -89,8 +89,8 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
     return result?.[1].split(" ") ?? [];
   }
 
-  it("will get completion values for UI5 class", () => {
-    assertClassesCompletions({
+  it("will get completion values for UI5 class", async () => {
+    await assertClassesCompletions({
       xmlSnippet: `<GridLi⇶`,
       expected: [
         { label: "GridList", tagName: "f:GridList", replacedText: "GridLi" },
@@ -104,8 +104,8 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
     });
   });
 
-  it("will get completion values for UI5 class by fully qualified name", () => {
-    assertClassesCompletions({
+  it("will get completion values for UI5 class by fully qualified name", async () => {
+    await assertClassesCompletions({
       xmlSnippet: `<sap.m.Busy⇶`,
       expected: [
         {
@@ -124,8 +124,8 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
     });
   });
 
-  it("will insert class namespace with a new name when another namespace with the short name is defined", () => {
-    assertClassesCompletions({
+  it("will insert class namespace with a new name when another namespace with the short name is defined", async () => {
+    await assertClassesCompletions({
       xmlSnippet: `<sap.m.BusyI⇶ xmlns:m="sap.ui.core.mvc"`,
       expected: [
         {
@@ -138,8 +138,8 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
     });
   });
 
-  it("will get completion values for UI5 class when the cursor is in the middle of a name", () => {
-    assertClassesCompletions({
+  it("will get completion values for UI5 class when the cursor is in the middle of a name", async () => {
+    await assertClassesCompletions({
       xmlSnippet: `<Busy⇶Dialo`,
       expected: [
         {
@@ -173,8 +173,8 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
     });
   });
 
-  it("will get completion values for UI5 class FQN when the cursor is in the middle of a name", () => {
-    assertClassesCompletions({
+  it("will get completion values for UI5 class FQN when the cursor is in the middle of a name", async () => {
+    await assertClassesCompletions({
       xmlSnippet: `<sap.m.Busy⇶Dialo`,
       expected: [
         {
@@ -193,8 +193,8 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
     });
   });
 
-  it("will get completion values for UI5 class with namespace when the cursor is in the middle of a name", () => {
-    assertClassesCompletions({
+  it("will get completion values for UI5 class with namespace when the cursor is in the middle of a name", async () => {
+    await assertClassesCompletions({
       xmlSnippet: `<m:Busy⇶Dialo xmlns:m="sap.m"`,
       expected: [
         {
@@ -213,8 +213,8 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
     });
   });
 
-  it("will get completion values for UI5 class from all namespaces when default namespace exists", () => {
-    assertClassesCompletions({
+  it("will get completion values for UI5 class from all namespaces when default namespace exists", async () => {
+    await assertClassesCompletions({
       xmlSnippet: `<RadioButtonGrou⇶ xmlns="sap.m" xmlns:commons="sap.ui.commons"`,
       expected: [
         {
@@ -232,8 +232,8 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
     });
   });
 
-  it("will get completion values for UI5 class from a specific namespace", () => {
-    assertClassesCompletions({
+  it("will get completion values for UI5 class from a specific namespace", async () => {
+    await assertClassesCompletions({
       xmlSnippet: `<f:Ca⇶ xmlns:f="sap.f"`,
       expected: [
         {
@@ -246,8 +246,8 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
     });
   });
 
-  it("will get completion values for UI5 class from a specific namespace when name is not the parent name", () => {
-    assertClassesCompletions({
+  it("will get completion values for UI5 class from a specific namespace when name is not the parent name", async () => {
+    await assertClassesCompletions({
       xmlSnippet: `<g:Ca⇶ xmlns:g="sap.f"`,
       expected: [
         {
@@ -260,8 +260,8 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
     });
   });
 
-  it("will not insert the namespace when selecting completion for class in inner tag and namespace is already defined", () => {
-    assertClassesCompletions({
+  it("will not insert the namespace when selecting completion for class in inner tag and namespace is already defined", async () => {
+    await assertClassesCompletions({
       xmlSnippet: `<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m">
         <content>
           <sap.m.MenuButto⇶n
@@ -279,8 +279,8 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
     });
   });
 
-  it("will insert the namespace when selecting completion for class in inner tag and namespace is not defined", () => {
-    assertClassesCompletions({
+  it("will insert the namespace when selecting completion for class in inner tag and namespace is not defined", async () => {
+    await assertClassesCompletions({
       xmlSnippet: `<m:View⭲⭰ xmlns:m="sap.ui.core.mvc">
         <content>
           <MenuButton⇶
@@ -315,16 +315,16 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
     });
   });
 
-  it("will not get completion values for unknown class", () => {
-    assertClassesCompletions({
+  it("will not get completion values for unknown class", async () => {
+    await assertClassesCompletions({
       xmlSnippet: `<Unknown⇶`,
       expected: [],
     });
   });
 
-  it("will return valid class suggestions for empty tag with no closing bracket", () => {
+  it("will return valid class suggestions for empty tag with no closing bracket", async () => {
     const xmlSnippet = `<⇶`;
-    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
+    const suggestions = await getSuggestions(xmlSnippet, ui5SemanticModel);
     expect(suggestions).to.not.be.empty;
     forEach(suggestions, (suggestion) => {
       // We're not replacing any text, just adding
@@ -352,9 +352,9 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
     });
   });
 
-  it("will return valid class suggestions for empty tag with closing bracket", () => {
+  it("will return valid class suggestions for empty tag with closing bracket", async () => {
     const xmlSnippet = `<⇶>`;
-    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
+    const suggestions = await getSuggestions(xmlSnippet, ui5SemanticModel);
     expect(suggestions).to.not.be.empty;
     forEach(suggestions, (suggestion) => {
       // We're not replacing any text, just adding
@@ -378,8 +378,8 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
     });
   });
 
-  it("will get completion values for UI5 experimental class", () => {
-    const suggestions = assertClassesCompletions({
+  it("will get completion values for UI5 experimental class", async () => {
+    const suggestions = await assertClassesCompletions({
       xmlSnippet: `<mvc:View 
           xmlns:mvc="sap.ui.core.mvc"
           xmlns:unified="sap.ui.unified">
@@ -398,8 +398,8 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
     });
   });
 
-  it("will replace the class closing tag name when the tag is closed and has the same name as the opening tag", () => {
-    assertClassesCompletions({
+  it("will replace the class closing tag name when the tag is closed and has the same name as the opening tag", async () => {
+    await assertClassesCompletions({
       xmlSnippet: `<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m" xmlns:commons="sap.ui.commons">
         <content>
           <MenuButton⇶></⭲MenuButton⭰>
@@ -432,8 +432,8 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
     });
   });
 
-  it("will not replace the class closing tag name when the tag is closed and has a different name from the opening tag", () => {
-    assertClassesCompletions({
+  it("will not replace the class closing tag name when the tag is closed and has a different name from the opening tag", async () => {
+    await assertClassesCompletions({
       xmlSnippet: `<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m" xmlns:commons="sap.ui.commons">
         <content>
           <MenuButton⇶></MenuButton1>
@@ -456,8 +456,8 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
     });
   });
 
-  it("will not replace the class closing tag name when the tag is closed and the opening tag doesn't have a name", () => {
-    assertClassesCompletions({
+  it("will not replace the class closing tag name when the tag is closed and the opening tag doesn't have a name", async () => {
+    await assertClassesCompletions({
       xmlSnippet: `<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc">
           <customData>
               <⇶></MenuButton1>
@@ -474,8 +474,8 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
     });
   });
 
-  it("will replace the class closing tag name when the tag is closed and does not have a name", () => {
-    assertClassesCompletions({
+  it("will replace the class closing tag name when the tag is closed and does not have a name", async () => {
+    await assertClassesCompletions({
       xmlSnippet: `<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m" xmlns:commons="sap.ui.commons">
           <content>
             <MenuButton⇶>⭲</>⭰
@@ -508,8 +508,8 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
     });
   });
 
-  it("will replace the class closing tag name when also inserting the namespace", () => {
-    assertClassesCompletions({
+  it("will replace the class closing tag name when also inserting the namespace", async () => {
+    await assertClassesCompletions({
       xmlSnippet: `<mvc:View⭲⭰ xmlns:mvc="sap.ui.core.mvc">
           <content>
             <MenuButton⇶></⭲MenuButton⭰>

@@ -24,7 +24,19 @@
             "verbose"
           ],
           "default": "off",
-          "description": "Traces the communication between VS Code and the UI5 language server."
+          "description": "Trace the communication between VS Code and the UI5 language server."
+        },
+        "UI5LanguageAssistant.codeAssist.deprecated": {
+          "scope": "resource",
+          "type": "boolean",
+          "default": false,
+          "description": "Include deprecated APIs in code assist."
+        },
+        "UI5LanguageAssistant.codeAssist.experimental": {
+          "scope": "resource",
+          "type": "boolean",
+          "default": false,
+          "description": "Include experimental APIs in code assist."
         }
       }
     }
