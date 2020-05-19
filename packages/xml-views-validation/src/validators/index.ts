@@ -3,6 +3,7 @@ import { validateUnknownEnumValue } from "./attributes/unknown-enum-value";
 import { validateUnknownXmlnsNamespace } from "./attributes/unknown-xmlns-namespace";
 import { validateBooleanValue } from "./attributes/invalid-boolean-value";
 import { validateUseOfDeprecatedClass } from "./elements/use-of-deprecated-class";
+import { validateUnknownAttributeKey } from "./attributes/unknown-attribute-key";
 
 export const allValidators: UI5Validators = {
   element: [validateUseOfDeprecatedClass],
@@ -10,5 +11,6 @@ export const allValidators: UI5Validators = {
     validateUnknownEnumValue,
     validateUnknownXmlnsNamespace,
     validateBooleanValue,
+    validateUnknownAttributeKey,
   ],
 };
