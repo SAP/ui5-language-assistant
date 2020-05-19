@@ -51,6 +51,7 @@ function validationIssuesToLspDiagnostics(
       case "InvalidBooleanValue":
       case "UnknownEnumValue":
       case "UnknownNamespaceInXmlnsAttributeValue":
+      case "UnknownAttributeKey":
         return {
           ...commonDiagnosticPros,
         };

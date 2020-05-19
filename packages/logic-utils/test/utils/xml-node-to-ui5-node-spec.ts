@@ -8,6 +8,7 @@ import {
 } from "@ui5-language-assistant/test-utils";
 import {
   getUI5ClassByXMLElement,
+  getUI5AggregationByXMLElement,
   getUI5PropertyByXMLAttributeKey,
   ui5NodeToFQN,
 } from "../../src/api";
@@ -69,6 +70,91 @@ describe("The @ui5-language-assistant/logic-utils <getUI5ClassByXMLElement> func
 
     const ui5Class = getUI5ClassByXMLElement(rootElement, ui5Model);
     expect(ui5Class, "ui5 class").to.be.undefined;
+  });
+});
+
+describe("The @ui5-language-assistant/logic-utils <getUI5AggregationByXMLElement> function", () => {
+  let ui5Model: UI5SemanticModel;
+  before(async () => {
+    ui5Model = await generateModel({ version: "1.74.0" });
+  });
+
+  it("returns the aggregation for known aggregation under a class tag", () => {
+    const xmlText = `
+        <View xmlns="sap.ui.core.mvc">
+          <content></content>
+        </View>`;
+    const element = getRootElementChild(xmlText);
+
+    const ui5Aggregation = getUI5AggregationByXMLElement(element, ui5Model);
+    expectExists(ui5Aggregation, "ui5 aggregation");
+    expect(ui5NodeToFQN(ui5Aggregation)).to.equal(
+      "sap.ui.core.mvc.View.content"
+    );
+  });
+
+  it("returns undefined for unknown aggregation under a class tag", () => {
+    const xmlText = `
+        <View xmlns="sap.ui.core.mvc">
+          <content1></content1>
+        </View>`;
+    const element = getRootElementChild(xmlText);
+
+    const ui5Aggregation = getUI5AggregationByXMLElement(element, ui5Model);
+    expect(ui5Aggregation, "ui5 aggregation").to.be.undefined;
+  });
+
+  it("returns undefined for tag under an unknown class", () => {
+    const xmlText = `
+        <View1 xmlns="sap.ui.core.mvc">
+          <content></content>
+        </View1>`;
+    const element = getRootElementChild(xmlText);
+
+    const ui5Aggregation = getUI5AggregationByXMLElement(element, ui5Model);
+    expect(ui5Aggregation, "ui5 aggregation").to.be.undefined;
+  });
+
+  it("returns undefined for tag with unknown namespace under a class tag", () => {
+    const xmlText = `
+        <View xmlns="sap.ui.core.mvc">
+          <ns:content></ns:content>
+        </View>`;
+    const element = getRootElementChild(xmlText);
+
+    const ui5Aggregation = getUI5AggregationByXMLElement(element, ui5Model);
+    expect(ui5Aggregation, "ui5 aggregation").to.be.undefined;
+  });
+
+  it("returns undefined for tag with known namespace under a class tag", () => {
+    const xmlText = `
+        <View xmlns="sap.ui.core.mvc" xmlns:core="sap.ui.core">
+          <core:content></core:content>
+        </View>`;
+    const element = getRootElementChild(xmlText);
+
+    const ui5Aggregation = getUI5AggregationByXMLElement(element, ui5Model);
+    expect(ui5Aggregation, "ui5 aggregation").to.be.undefined;
+  });
+
+  it("returns undefined for non-aggregation node under a class tag", () => {
+    const xmlText = `
+        <View xmlns="sap.ui.core.mvc">
+          <busy></busy>
+        </View>`;
+    const element = getRootElementChild(xmlText);
+
+    const ui5Aggregation = getUI5AggregationByXMLElement(element, ui5Model);
+    expect(ui5Aggregation, "ui5 aggregation").to.be.undefined;
+  });
+
+  it("returns undefined root tag", () => {
+    const xmlText = `
+          <content></content>`;
+    const element = getRootElement(xmlText);
+
+    const ui5Aggregation = getUI5AggregationByXMLElement(element, ui5Model);
+    expect(ui5Aggregation, "ui5 aggregation").to.be.undefined;
   });
 });
 
@@ -137,6 +223,13 @@ function getRootElement(xmlText: string): XMLElement {
   const ast = buildAst(cst as DocumentCstNode, tokenVector);
   expectExists(ast.rootElement, "ast root element");
   return ast.rootElement;
+}
+
+function getRootElementChild(xmlText: string): XMLElement {
+  const rootElement = getRootElement(xmlText);
+  const child = rootElement.subElements[0];
+  expectExists(child, "root element first child");
+  return child;
 }
 
 function getRootElementAttribute(
