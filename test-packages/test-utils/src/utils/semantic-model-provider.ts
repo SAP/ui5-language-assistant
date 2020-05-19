@@ -238,18 +238,10 @@ export async function generateModel({
 
 // Fix functions for model issues unfixable by schema changes
 type LibraryFix = (content: Json) => void;
-const fixBaseNodeProxyImplements = (content: Json): void => {
-  const symbol = find(
-    get(content, "symbols"),
-    (symbol) => symbol.name === "sap.ui.vk.BaseNodeProxy"
-  );
-  remove(symbol.implements, (name) => name === "sap.ui.vk.BaseNodeProxy");
-};
 
 // Library version -> library name -> fix function
 const libraryFixes: Record<TestModelVersion, Record<string, LibraryFix[]>> = {
   "1.60.14": {
-    "sap.ui.vk": [fixBaseNodeProxyImplements],
     "sap.ushell": [
       (content: Json): void => {
         const symbol = find(
@@ -264,11 +256,8 @@ const libraryFixes: Record<TestModelVersion, Record<string, LibraryFix[]>> = {
       },
     ],
   },
-  "1.71.14": {
-    "sap.ui.vk": [fixBaseNodeProxyImplements],
-  },
+  "1.71.14": {},
   "1.74.0": {
-    "sap.ui.vk": [fixBaseNodeProxyImplements],
     "sap.ui.generic.app": [
       (content: Json): void => {
         // Removing from this library. There is another symbol with the same name in library "sap.fe".
