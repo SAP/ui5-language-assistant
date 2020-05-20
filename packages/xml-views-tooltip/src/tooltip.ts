@@ -1,3 +1,5 @@
+import { find, includes } from "lodash";
+import { assertNever } from "assert-never";
 import { XMLAttribute, XMLElement, DEFAULT_NS } from "@xml-tools/ast";
 import { isXMLNamespaceKey } from "@xml-tools/common";
 import {
@@ -6,13 +8,15 @@ import {
   XMLAttributeKey,
   XMLAttributeValue,
 } from "@xml-tools/ast-position";
-import { find } from "lodash";
 import {
   xmlToFQN,
   ui5NodeToFQN,
   flattenAggregations,
   getUI5ClassByXMLElement,
   getUI5PropertyByXMLAttributeKey,
+  flattenProperties,
+  flattenEvents,
+  flattenAssociations,
 } from "@ui5-language-assistant/logic-utils";
 import {
   UI5Class,
@@ -21,88 +25,135 @@ import {
   UI5EnumValue,
   UI5Enum,
   BaseUI5Node,
+  UI5Prop,
+  UI5Event,
+  UI5Association,
 } from "@ui5-language-assistant/semantic-model-types";
 import { findSymbol } from "@ui5-language-assistant/semantic-model";
 
 export function findUI5HoverNodeAtOffset(
-  visitor:
+  astPosition:
     | XMLElementOpenName
     | XMLElementCloseName
     | XMLAttributeKey
-    | XMLAttributeValue
-    | undefined,
+    | XMLAttributeValue,
   model: UI5SemanticModel
 ): BaseUI5Node | undefined {
-  if (visitor === undefined) {
+  if (astPosition === undefined) {
     return undefined;
   }
-  switch (visitor.kind) {
+  switch (astPosition.kind) {
     case "XMLElementOpenName":
-      return getUI5NodeByElement(visitor.astNode, model, visitor.kind);
+      return findUI5NodeByElement(astPosition.astNode, model, true);
     case "XMLElementCloseName":
-      return getUI5NodeByElement(visitor.astNode, model, visitor.kind);
+      return findUI5NodeByElement(astPosition.astNode, model, false);
     case "XMLAttributeKey":
-      return getUI5PropertyByXMLAttributeKey(visitor.astNode, model);
+      return findUI5NodeByXMLAttributeKey(astPosition.astNode, model);
     case "XMLAttributeValue":
-      return findUI5NodeByXMLAttributeValue(visitor.astNode, model);
+      return findUI5NodeByXMLAttributeValue(astPosition.astNode, model);
+    default:
+      assertNever(astPosition);
   }
 }
 
-function getUI5NodeByElement(
+function findUI5NodeByElement(
   astNode: XMLElement,
   model: UI5SemanticModel,
-  kind: string
+  isOpenName: boolean
 ): UI5Class | UI5Aggregation | undefined {
-  const fqnClassName =
-    kind === "XMLElementOpenName"
-      ? xmlToFQN(astNode)
-      : elementClosingTagToFQN(astNode);
-  const ui5Class = find(
-    model.classes,
-    (ui5class) => fqnClassName === ui5NodeToFQN(ui5class)
-  );
+  const fqnClassName = isOpenName
+    ? xmlToFQN(astNode)
+    : elementClosingTagToFQN(astNode);
 
-  if (astNode.parent.type === "XMLDocument" || ui5Class != undefined) {
+  const ui5Class = model.classes[fqnClassName];
+  if (astNode.parent.type === "XMLDocument" || ui5Class !== undefined) {
     return ui5Class;
   }
 
   const parentElementClass = getUI5ClassByXMLElement(astNode.parent, model);
-  const nameByKind =
-    kind === "XMLElementOpenName"
-      ? astNode.syntax.openName?.image
-      : astNode.syntax.closeName?.image;
-  return findAggragationByName(parentElementClass, nameByKind);
+  if (parentElementClass === undefined) {
+    return undefined;
+  }
+  const nameByKind = isOpenName
+    ? astNode.syntax.openName?.image
+    : astNode.syntax.closeName?.image;
+
+  return nameByKind !== undefined
+    ? findAggragationByName(parentElementClass, nameByKind)
+    : undefined;
 }
 
 function findAggragationByName(
-  ui5Class: UI5Class | undefined,
-  targetName: string | undefined
+  ui5Class: UI5Class,
+  targetName: string
 ): UI5Aggregation | undefined {
-  if (ui5Class != undefined) {
-    const allAggregations: UI5Aggregation[] = flattenAggregations(ui5Class);
-    const ui5Aggregation = find(
-      allAggregations,
-      (aggregation) => aggregation.name === targetName
-    );
+  const allAggregations: UI5Aggregation[] = flattenAggregations(ui5Class);
+  const ui5Aggregation = find(
+    allAggregations,
+    (aggregation) => aggregation.name === targetName
+  );
 
-    return ui5Aggregation;
-  }
-
-  return undefined;
+  return ui5Aggregation;
 }
 
-function elementClosingTagToFQN(astElement: XMLElement): string {
-  const baseName = astElement.syntax.closeName?.image
-    ? astElement.syntax.closeName?.image
-    : "";
-  const prefixXmlns = astElement.ns ? astElement.ns : DEFAULT_NS;
-  const resolvedXmlns = astElement.namespaces[prefixXmlns];
+function splitQNameByNamespace(
+  qName: string
+): { ns: string | undefined; name: string } {
+  if (!includes(qName, ":")) {
+    return { name: qName, ns: undefined };
+  }
+  const match = qName.match(/(?<ns>[^:]*)(:(?<name>.*))?/);
+  // There will always be a match because the attribute key always contains a colon at this point
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const matchGroups = match!.groups!;
+  return {
+    ns: matchGroups.ns,
+    name: matchGroups.name ?? "",
+  };
+}
+
+function elementClosingTagToFQN(xmlElement: XMLElement): string {
+  const qName = xmlElement.syntax.closeName?.image ?? "";
+  const { ns, name } = splitQNameByNamespace(qName);
+  const prefixXmlns = ns ?? DEFAULT_NS;
+  const resolvedXmlns = xmlElement.namespaces[prefixXmlns];
 
   if (resolvedXmlns !== undefined) {
-    return resolvedXmlns + "." + baseName;
+    return resolvedXmlns + "." + name;
   }
 
-  return baseName;
+  return name;
+}
+
+function findUI5NodeByXMLAttributeKey(
+  astNode: XMLAttribute,
+  model: UI5SemanticModel
+): UI5Prop | UI5Event | UI5Association | UI5Aggregation | undefined {
+  const parentElementClass = getUI5ClassByXMLElement(astNode.parent, model);
+  return parentElementClass
+    ? findUI5ClassMemberByName(parentElementClass, astNode.key)
+    : undefined;
+}
+
+function findUI5ClassMemberByName(
+  ui5Class: UI5Class,
+  targetName: string | null
+): UI5Prop | UI5Event | UI5Association | UI5Aggregation | undefined {
+  const allProps: (
+    | UI5Prop
+    | UI5Event
+    | UI5Association
+    | UI5Aggregation
+  )[] = flattenProperties(ui5Class);
+  const allEvents = flattenEvents(ui5Class);
+  const allAssociations = flattenAssociations(ui5Class);
+  const allAggregations = flattenAggregations(ui5Class);
+  const allClassMembers = allProps
+    .concat(allEvents)
+    .concat(allAssociations)
+    .concat(allAggregations);
+  const found = find(allClassMembers, (_) => _.name === targetName);
+  return found;
 }
 
 function findUI5NodeByXMLAttributeValue(
@@ -126,9 +177,12 @@ function getUI5EnumByElement(
   model: UI5SemanticModel
 ): UI5EnumValue | undefined {
   const enumProp = getEnumProperty(attribute, model);
-  const enumValue = find(enumProp?.fields, ["name", attribute.value]);
+  if (enumProp !== undefined) {
+    const enumValue = find(enumProp.fields, ["name", attribute.value]);
+    return enumValue;
+  }
 
-  return enumValue;
+  return undefined;
 }
 
 function getEnumProperty(

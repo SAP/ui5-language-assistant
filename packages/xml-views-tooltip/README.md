@@ -1,11 +1,8 @@
-[![npm (scoped)](https://img.shields.io/npm/v/@ui5-language-assistant/xml-views-completion.svg)](https://www.npmjs.com/package/@ui5-language-assistant/xml-views-completion)
+[![npm (scoped)](https://img.shields.io/npm/v/@ui5-language-assistant/xml-views-tooltip.svg)](https://www.npmjs.com/package/@ui5-language-assistant/xml-views-tooltip)
 
-# @ui5-language-assistant/xml-views-completion
+# @ui5-language-assistant/xml-views-tooltip
 
-Logic for UI5 XML views content assist implemented by combining:
-
-- [@xml-tools/content-assist](https://github.com/sap/xml-tools/tree/master/packages/content-assist) for the generic syntactic XML information.
-- [@ui5-language-assistant/semantic-model](../semantic-model) for the semantic UI5 data.
+Logic for UI5 XML views hover tooltip.
 
 Supported Content Assist scenarios:
 
@@ -14,7 +11,7 @@ Supported Content Assist scenarios:
 - UI5 Classes.
   - Both under default (implicit) aggregations and explicit aggregations.
   - UI5 Aggregations.
-    - Suggested according to the parent tag's matching UI5 class name.
+    - According to the parent tag's matching UI5 class name.
 
 ### In XML attribute names:
 
@@ -23,17 +20,17 @@ Supported Content Assist scenarios:
 
 ### In XML `xmlns` attributes keys:
 
-- suggestions in the xmlns prefix part.
+- Hover on xmlns.
 
 ## Installation
 
 With npm:
 
-- `npm install @ui5-language-assistant/xml-views-completion`
+- `npm install @ui5-language-assistant/xml-views-tooltip`
 
 With Yarn:
 
-- `yarn add @ui5-language-assistant/xml-views-completion`
+- `yarn add @ui5-language-assistant/xml-views-tooltip`
 
 ## Usage
 

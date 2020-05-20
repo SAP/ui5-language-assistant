@@ -10,11 +10,10 @@ import {
 } from "@ui5-language-assistant/semantic-model-types";
 
 export declare function findUI5HoverNodeAtOffset(
-  visitor:
+  astPosition:
     | XMLElementOpenName
     | XMLElementCloseName
     | XMLAttributeKey
-    | XMLAttributeValue
-    | undefined,
+    | XMLAttributeValue,
   model: UI5SemanticModel
 ): BaseUI5Node | undefined;

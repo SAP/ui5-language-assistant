@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { getHoverResponse } from "../src/hover-tooltip";
+import { getHoverResponse } from "../src/hover";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import {
   generateModel,
@@ -11,9 +11,12 @@ import {
   Hover,
   TextDocumentIdentifier,
   TextDocumentPositionParams,
+  MarkupContent,
+  MarkedString,
+  MarkupKind,
 } from "vscode-languageserver";
 
-describe.only("the UI5 language assistant Hover Tooltip Service", () => {
+describe("the UI5 language assistant Hover Tooltip Service", () => {
   let ui5SemanticModel: UI5SemanticModel;
   before(async () => {
     ui5SemanticModel = await generateModel({ version: "1.74.0" });
@@ -29,7 +32,8 @@ describe.only("the UI5 language assistant Hover Tooltip Service", () => {
                         </mvc:View>`;
     const response = getHoverItem(xmlSnippet, ui5SemanticModel);
     expectExists(response, "Hover item");
-    expect(JSON.stringify(response.contents)).to.include(
+    assertMarkup(response.contents);
+    expect(response.contents.value).to.include(
       "Defines which item separator style will be used."
     );
   });
@@ -44,7 +48,8 @@ describe.only("the UI5 language assistant Hover Tooltip Service", () => {
                         </mvc:View>`;
     const response = getHoverItem(xmlSnippet, ui5SemanticModel);
     expectExists(response, "Hover item");
-    expect(JSON.stringify(response.contents)).to.include(
+    assertMarkup(response.contents);
+    expect(response.contents.value).to.include(
       "Separators between the items including the last and the first one."
     );
   });
@@ -59,7 +64,8 @@ describe.only("the UI5 language assistant Hover Tooltip Service", () => {
                         </mvc:View>`;
     const response = getHoverItem(xmlSnippet, ui5SemanticModel);
     expectExists(response, "Hover item");
-    expect(JSON.stringify(response.contents)).to.include(
+    assertMarkup(response.contents);
+    expect(response.contents.value).to.include(
       "The main UI5 control library, with responsive controls that can be used in touch devices as well as desktop browsers."
     );
   });
@@ -74,7 +80,8 @@ describe.only("the UI5 language assistant Hover Tooltip Service", () => {
                         </mvc:View>`;
     const response = getHoverItem(xmlSnippet, ui5SemanticModel);
     expectExists(response, "Hover item");
-    expect(JSON.stringify(response.contents)).to.include(
+    assertMarkup(response.contents);
+    expect(response.contents.value).to.include(
       "The List control provides a container for all types of list items."
     );
   });
@@ -89,7 +96,8 @@ describe.only("the UI5 language assistant Hover Tooltip Service", () => {
                         </mvc:View>`;
     const response = getHoverItem(xmlSnippet, ui5SemanticModel);
     expectExists(response, "Hover item");
-    expect(JSON.stringify(response.contents)).to.include(
+    assertMarkup(response.contents);
+    expect(response.contents.value).to.include(
       "The List control provides a container for all types of list items."
     );
   });
@@ -104,9 +112,8 @@ describe.only("the UI5 language assistant Hover Tooltip Service", () => {
                         </mvc:View>`;
     const response = getHoverItem(xmlSnippet, ui5SemanticModel);
     expectExists(response, "Hover item");
-    expect(JSON.stringify(response.contents)).to.include(
-      "Child Controls of the view"
-    );
+    assertMarkup(response.contents);
+    expect(response.contents.value).to.include("Child Controls of the view");
   });
 
   it("will get hover content UI5 Aggregation - close tag", () => {
@@ -119,9 +126,8 @@ describe.only("the UI5 language assistant Hover Tooltip Service", () => {
                         </mvc:View>`;
     const response = getHoverItem(xmlSnippet, ui5SemanticModel);
     expectExists(response, "Hover item");
-    expect(JSON.stringify(response.contents)).to.include(
-      "Child Controls of the view"
-    );
+    assertMarkup(response.contents);
+    expect(response.contents.value).to.include("Child Controls of the view");
   });
 
   it("will get hover content - open tag is different from close tag", () => {
@@ -132,7 +138,8 @@ describe.only("the UI5 language assistant Hover Tooltip Service", () => {
                         </mvc:View>`;
     const response = getHoverItem(xmlSnippet, ui5SemanticModel);
     expectExists(response, "Hover item");
-    expect(JSON.stringify(response.contents)).to.include(
+    assertMarkup(response.contents);
+    expect(response.contents.value).to.include(
       "The List control provides a container for all types of list items."
     );
   });
@@ -185,4 +192,18 @@ function getXmlSnippet(
 
 function createTextDocument(languageId: string, content: string): TextDocument {
   return TextDocument.create("uri", languageId, 0, content);
+}
+
+function assertMarkup(
+  content:
+    | string
+    | MarkupContent
+    | {
+        language: string;
+        value: string;
+      }
+    | MarkedString[]
+): asserts content is MarkupContent {
+  expect(content).to.be.an("object");
+  expect((content as MarkupContent).kind).to.equal(MarkupKind.Markdown);
 }

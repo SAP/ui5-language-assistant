@@ -25,11 +25,11 @@
     "@xml-tools/ast": "4.2.0",
     "@xml-tools/ast-position": "1.1.0",
     "@xml-tools/common": "0.1.0",
-    "lodash": "4.17.15",
-    "vscode-languageserver": "6.1.1",
-    "assert-never": "1.2.1"
+    "lodash": "4.17.15"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "vscode-languageserver": "6.1.1"
+  },
   "scripts": {
     "ci": "npm-run-all clean compile lint coverage",
     "clean": "rimraf ./lib ./coverage ./nyc_output",
@@ -37,8 +37,7 @@
     "compile:watch": "tsc -p . --watch",
     "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore",
     "test": "mocha",
-    "coverage": "nyc mocha",
-    "update-snapshots": "node ./scripts/update-diagnostics-snapshots"
+    "coverage": "nyc mocha"
   },
   "publishConfig": {
     "access": "public"

@@ -1,3 +1,4 @@
+/* istanbul ignore file - soon will move to logic utils with tests */
 import {
   UI5SemanticModel,
   BaseUI5Node,

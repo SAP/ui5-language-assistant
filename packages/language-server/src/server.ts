@@ -15,7 +15,7 @@ import { getSemanticModel } from "./ui5-model";
 import { getCompletionItems } from "./completion-items";
 import { ServerInitializationOptions } from "../api";
 import { getXMLViewDiagnostics } from "./xml-view-diagnostics";
-import { getHoverResponse } from "./hover-tooltip";
+import { getHoverResponse } from "./hover";
 
 const connection = createConnection(ProposedFeatures.all);
 const documents = new TextDocuments(TextDocument);
@@ -61,6 +61,12 @@ connection.onCompletion(
   }
 );
 
+connection.onCompletionResolve(
+  (item: CompletionItem): CompletionItem => {
+    return item;
+  }
+);
+
 connection.onHover(
   async (
     textDocumentPosition: TextDocumentPositionParams
@@ -74,12 +80,6 @@ connection.onHover(
       }
     }
     return undefined;
-  }
-);
-
-connection.onCompletionResolve(
-  (item: CompletionItem): CompletionItem => {
-    return item;
   }
 );
 
