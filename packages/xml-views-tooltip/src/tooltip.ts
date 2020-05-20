@@ -71,9 +71,10 @@ function findUI5NodeByElement(
   if (parentElementClass === undefined) {
     return undefined;
   }
+
+  // openName or closeName cannot be undefined here because otherwise the ast position visitor wouldn't return their types
   const nameByKind = isOpenName
-    ? // openName or closeName cannot be undefined here because otherwise the ast position visitor wouldn't return their types
-      /* istanbul ignore next */
+    ? /* istanbul ignore next */
       astNode.syntax.openName?.image
     : /* istanbul ignore next */
       astNode.syntax.closeName?.image;
