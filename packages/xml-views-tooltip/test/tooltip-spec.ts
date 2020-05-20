@@ -1,17 +1,17 @@
 import { expect } from "chai";
+import { TextDocument, Position } from "vscode-languageserver";
+import { parse, DocumentCstNode } from "@xml-tools/parser";
+import { getAstNodeInPosition } from "@xml-tools/ast-position";
+import { buildAst } from "@xml-tools/ast";
 import {
   UI5SemanticModel,
   BaseUI5Node,
 } from "@ui5-language-assistant/semantic-model-types";
-import { parse, DocumentCstNode } from "@xml-tools/parser";
-import { getAstNodeInPosition } from "@xml-tools/ast-position";
-import { findUI5HoverNodeAtOffset } from "../src/tooltip";
 import {
   generateModel,
   expectExists,
 } from "@ui5-language-assistant/test-utils";
-import { TextDocument, Position } from "vscode-languageserver";
-import { buildAst } from "@xml-tools/ast";
+import { findUI5HoverNodeAtOffset } from "../src/tooltip";
 
 describe("the UI5 language assistant Hover Tooltip Service", () => {
   let ui5SemanticModel: UI5SemanticModel;
@@ -46,7 +46,7 @@ describe("the UI5 language assistant Hover Tooltip Service", () => {
       expect(ui5Node).to.not.exist;
     });
 
-    it("will get hover content UI5 property with unknown tag", () => {
+    it("will get hover content UI5 property in unknown tag", () => {
       const xmlSnippet = `<mvc:View
                             xmlns:mvc="sap.ui.core.mvc"
                             xmlns="sap.m"> 

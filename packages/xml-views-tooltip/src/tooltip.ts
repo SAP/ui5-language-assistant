@@ -105,7 +105,7 @@ function splitQNameByNamespace(
     return { name: qName, ns: undefined };
   }
   const match = qName.match(/(?<ns>[^:]*)(:(?<name>.*))?/);
-  // There will always be a match because the attribute key always contains a colon at this point
+  // There will always be a match because qName always contains a colon at this point
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const matchGroups = match!.groups!;
   return {

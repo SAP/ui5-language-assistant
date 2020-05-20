@@ -4,23 +4,24 @@
 
 Logic for UI5 XML views hover tooltip.
 
-Supported Content Assist scenarios:
+Supported Hover Tooltip scenarios:
 
 ### In XML tag names:
 
 - UI5 Classes.
   - Both under default (implicit) aggregations and explicit aggregations.
-  - UI5 Aggregations.
-    - According to the parent tag's matching UI5 class name.
+- UI5 Aggregations.
+  - According to the parent tag's matching UI5 class name.
 
 ### In XML attribute names:
 
-- UI5 properties, events and associations.
+- UI5 properties, events, aggregations and associations.
   - Both direct and inherited.
 
-### In XML `xmlns` attributes keys:
+### In XML attribute values:
 
-- Hover on xmlns.
+- UI5 namspaces inside xmlns attributes.
+- Enum fields.
 
 ## Installation
 
