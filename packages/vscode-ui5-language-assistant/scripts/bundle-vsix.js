@@ -108,4 +108,7 @@ packageCommand({
   useYarn: true,
   ignoreFile: undefined,
   expandGitHubIssueLinks: undefined,
+}).catch((e) => {
+  console.error(e.message);
+  process.exit(666);
 });
