@@ -19,9 +19,9 @@
     "node": ">=10.0.0"
   },
   "dependencies": {
-    "@ui5-language-assistant/semantic-model": "^1.2.1",
-    "@ui5-language-assistant/semantic-model-types": "1.2.0",
-    "@ui5-language-assistant/logic-utils": "1.1.3",
+    "@ui5-language-assistant/semantic-model": "^1.3.0",
+    "@ui5-language-assistant/semantic-model-types": "^1.3.0",
+    "@ui5-language-assistant/logic-utils": "^1.2.0",
     "@xml-tools/ast": "4.2.0",
     "@xml-tools/ast-position": "1.1.0",
     "@xml-tools/common": "0.1.0",
