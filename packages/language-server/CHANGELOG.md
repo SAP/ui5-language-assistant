@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.6.0](https://github.com/sap/ui5-language-assistant/compare/@ui5-language-assistant/language-server@1.5.1...@ui5-language-assistant/language-server@1.6.0) (2020-05-20)
+
+### Features
+
+- tooltip on hover ([#119](https://github.com/sap/ui5-language-assistant/issues/119)) ([e3bf89d](https://github.com/sap/ui5-language-assistant/commit/e3bf89d8889eac8ed8f6420a3cb744abbe44f6b2))
+
 ## [1.5.1](https://github.com/sap/ui5-language-assistant/compare/@ui5-language-assistant/language-server@1.5.0...@ui5-language-assistant/language-server@1.5.1) (2020-05-20)
 
 **Note:** Version bump only for package @ui5-language-assistant/language-server

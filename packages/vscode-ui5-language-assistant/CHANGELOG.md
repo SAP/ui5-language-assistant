@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.7](https://github.com/sap/ui5-language-assistant/tree/master/packages/vscode-ui5-language-assistant/compare/vscode-ui5-language-assistant@1.1.6...vscode-ui5-language-assistant@1.1.7) (2020-05-20)
+
+**Note:** Version bump only for package vscode-ui5-language-assistant
+
 ## [1.1.6](https://github.com/sap/ui5-language-assistant/tree/master/packages/vscode-ui5-language-assistant/compare/vscode-ui5-language-assistant@1.1.5...vscode-ui5-language-assistant@1.1.6) (2020-05-20)
 
 **Note:** Version bump only for package vscode-ui5-language-assistant
