@@ -38,32 +38,72 @@ describe("the UI5 language assistant Hover Tooltip Service", () => {
         "Defines which item separator style will be used."
       );
     });
+
+    it("will get hover content UI5 association", () => {
+      const xmlSnippet = `<mvc:View
+                            xmlns:mvc="sap.ui.core.mvc"
+                            xmlns="sap.m"> 
+                            <Button ariaDesc⇶ribedBy=""></Button>
+                          </mvc:View>`;
+      const response = getHoverItem(xmlSnippet, ui5SemanticModel);
+      expectExists(response, "Hover item");
+      assertMarkup(response.contents);
+      expect(response.contents.value).to.include(
+        "ids which describe this control"
+      );
+    });
+
+    it("will get hover content UI5 event", () => {
+      const xmlSnippet = `<mvc:View afte⇶rInit=""
+                            xmlns:mvc="sap.ui.core.mvc"
+                            xmlns="sap.m"> 
+                          </mvc:View>`;
+      const response = getHoverItem(xmlSnippet, ui5SemanticModel);
+      expectExists(response, "Hover item");
+      assertMarkup(response.contents);
+      expect(response.contents.value).to.include(
+        "Fired when the View has parsed the UI description and instantiated the contained controls"
+      );
+    });
+
+    it("will get hover content UI5 property - incorrect property", () => {
+      const xmlSnippet = `<mvc:View
+                            xmlns:mvc="sap.ui.core.mvc"
+                            xmlns="sap.m"> 
+                            <content>
+                              <List showSeparator⇶s1="All"></List>
+                            </content>
+                          </mvc:View>`;
+      const response = getHoverItem(xmlSnippet, ui5SemanticModel);
+      expect(response).to.not.exist;
+    });
   });
 
-  context("hover on attribute value", () => {});
-  it("will get hover content UI5 enum", () => {
-    const xmlSnippet = `<mvc:View
-                          xmlns:mvc="sap.ui.core.mvc"
-                          xmlns="sap.m"> 
-                          <content>
-                            <List showSeparators="Al⇶l"></List>
-                          </content>
-                        </mvc:View>`;
-    const response = getHoverItem(xmlSnippet, ui5SemanticModel);
-    expectExists(response, "Hover item");
-    assertMarkup(response.contents);
-    expect(response.contents.value).to.include(
-      "Separators between the items including the last and the first one."
-    );
+  context("hover on attribute value", () => {
+    it("will get hover content UI5 enum", () => {
+      const xmlSnippet = `<mvc:View
+                            xmlns:mvc="sap.ui.core.mvc"
+                            xmlns="sap.m"> 
+                            <content>
+                              <List showSeparators="Al⇶l"></List>
+                            </content>
+                          </mvc:View>`;
+      const response = getHoverItem(xmlSnippet, ui5SemanticModel);
+      expectExists(response, "Hover item");
+      assertMarkup(response.contents);
+      expect(response.contents.value).to.include(
+        "Separators between the items including the last and the first one."
+      );
+    });
 
     it("will get hover content UI5 namespace in xmlns attribute", () => {
       const xmlSnippet = `<mvc:View
-                            xmlns:mvc="sap.ui.core.mvc"
-                            xmlns="sap.m⇶"> 
-                            <content>
-                              <List showSeparators="All"></List>
-                            </content>
-                          </mvc:View>`;
+                              xmlns:mvc="sap.ui.core.mvc"
+                              xmlns="sap.m⇶"> 
+                              <content>
+                                <List showSeparators="All"></List>
+                              </content>
+                            </mvc:View>`;
       const response = getHoverItem(xmlSnippet, ui5SemanticModel);
       expectExists(response, "Hover item");
       assertMarkup(response.contents);
@@ -122,14 +162,14 @@ describe("the UI5 language assistant Hover Tooltip Service", () => {
       );
     });
 
-    it("will get hover content UI5 Aggregation - close tag", () => {
+    it("will get hover content UI5 Aggregation", () => {
       const xmlSnippet = `<mvc:View
-                            xmlns:mvc="sap.ui.core.mvc"
-                            xmlns="sap.m"> 
-                            <content>
-                              <List showSeparators="All"></List>
-                            </conten⇶t>
-                          </mvc:View>`;
+                              xmlns:mvc="sap.ui.core.mvc"
+                              xmlns="sap.m"> 
+                              <content>
+                                <List showSeparators="All"></List>
+                              </conten⇶t>
+                            </mvc:View>`;
       const response = getHoverItem(xmlSnippet, ui5SemanticModel);
       expectExists(response, "Hover item");
       assertMarkup(response.contents);

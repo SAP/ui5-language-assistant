@@ -10,7 +10,6 @@ import {
 } from "@xml-tools/ast-position";
 import {
   xmlToFQN,
-  ui5NodeToFQN,
   flattenAggregations,
   getUI5ClassByXMLElement,
   getUI5PropertyByXMLAttributeKey,
@@ -39,9 +38,6 @@ export function findUI5HoverNodeAtOffset(
     | XMLAttributeValue,
   model: UI5SemanticModel
 ): BaseUI5Node | undefined {
-  if (astPosition === undefined) {
-    return undefined;
-  }
   switch (astPosition.kind) {
     case "XMLElementOpenName":
       return findUI5NodeByElement(astPosition.astNode, model, true);
@@ -51,6 +47,7 @@ export function findUI5HoverNodeAtOffset(
       return findUI5NodeByXMLAttributeKey(astPosition.astNode, model);
     case "XMLAttributeValue":
       return findUI5NodeByXMLAttributeValue(astPosition.astNode, model);
+    /* istanbul ignore next - defensive programming */
     default:
       assertNever(astPosition);
   }
@@ -75,12 +72,15 @@ function findUI5NodeByElement(
     return undefined;
   }
   const nameByKind = isOpenName
-    ? astNode.syntax.openName?.image
-    : astNode.syntax.closeName?.image;
+    ? /* istanbul ignore next */
+      astNode.syntax.openName?.image
+    : /* istanbul ignore next */
+      astNode.syntax.closeName?.image;
 
   return nameByKind !== undefined
     ? findAggragationByName(parentElementClass, nameByKind)
-    : undefined;
+    : /* istanbul ignore next */
+      undefined;
 }
 
 function findAggragationByName(
@@ -108,11 +108,15 @@ function splitQNameByNamespace(
   const matchGroups = match!.groups!;
   return {
     ns: matchGroups.ns,
-    name: matchGroups.name ?? "",
+    name:
+      matchGroups.name ??
+      /* istanbul ignore next */
+      "",
   };
 }
 
 function elementClosingTagToFQN(xmlElement: XMLElement): string {
+  /* istanbul ignore next */
   const qName = xmlElement.syntax.closeName?.image ?? "";
   const { ns, name } = splitQNameByNamespace(qName);
   const prefixXmlns = ns ?? DEFAULT_NS;
@@ -132,7 +136,8 @@ function findUI5NodeByXMLAttributeKey(
   const parentElementClass = getUI5ClassByXMLElement(astNode.parent, model);
   return parentElementClass
     ? findUI5ClassMemberByName(parentElementClass, astNode.key)
-    : undefined;
+    : /* istanbul ignore next */
+      undefined;
 }
 
 function findUI5ClassMemberByName(
