@@ -1,6 +1,6 @@
 {
   "name": "@ui5-language-assistant/language-server",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "description": "UI5 Language Server",
   "keywords": [
     "LSP",
@@ -28,11 +28,11 @@
     "@xml-tools/ast": "4.2.0",
     "@xml-tools/parser": "1.0.5",
     "assert-never": "1.2.1",
+    "fs-extra": "9.0.0",
     "lodash": "4.17.15",
     "node-fetch": "2.6.0",
     "vscode-languageserver": "6.1.1",
-    "vscode-languageserver-textdocument": "1.0.1",
-    "fs-extra": "9.0.0"
+    "vscode-languageserver-textdocument": "1.0.1"
   },
   "devDependencies": {
     "@types/node-fetch": "2.5.7",
