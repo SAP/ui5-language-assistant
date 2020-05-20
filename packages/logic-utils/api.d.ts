@@ -113,3 +113,18 @@ export function getUI5PropertyByXMLAttributeKey(
   attribute: XMLAttribute,
   model: UI5SemanticModel
 ): UI5Prop | undefined;
+
+/**
+ * Return the UI5 Namespace from the specified or default XML Element namespace
+ *
+ * @param xmlElement
+ * @param model
+ */
+export function getUI5NodeFromXMLElementNamespace(
+  xmlElement: XMLElement,
+  model: UI5SemanticModel
+): {
+  namespace: BaseUI5Node | undefined;
+  isDefault: boolean;
+  isXmlnsDefined: boolean;
+};

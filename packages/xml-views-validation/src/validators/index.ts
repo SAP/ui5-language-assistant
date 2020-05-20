@@ -4,9 +4,10 @@ import { validateUnknownXmlnsNamespace } from "./attributes/unknown-xmlns-namesp
 import { validateBooleanValue } from "./attributes/invalid-boolean-value";
 import { validateUseOfDeprecatedClass } from "./elements/use-of-deprecated-class";
 import { validateUnknownAttributeKey } from "./attributes/unknown-attribute-key";
+import { validateUnknownTagName } from "./elements/unknown-tag-name";
 
 export const allValidators: UI5Validators = {
-  element: [validateUseOfDeprecatedClass],
+  element: [validateUseOfDeprecatedClass, validateUnknownTagName],
   attribute: [
     validateUnknownEnumValue,
     validateUnknownXmlnsNamespace,

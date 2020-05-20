@@ -15,4 +15,5 @@ export {
   getUI5ClassByXMLElement,
   getUI5AggregationByXMLElement,
   getUI5PropertyByXMLAttributeKey,
+  getUI5NodeFromXMLElementNamespace,
 } from "./utils/xml-node-to-ui5-node";

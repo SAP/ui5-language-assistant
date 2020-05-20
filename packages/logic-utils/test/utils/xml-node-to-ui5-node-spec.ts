@@ -11,6 +11,7 @@ import {
   getUI5AggregationByXMLElement,
   getUI5PropertyByXMLAttributeKey,
   ui5NodeToFQN,
+  getUI5NodeFromXMLElementNamespace,
 } from "../../src/api";
 import { find } from "lodash";
 
@@ -215,6 +216,128 @@ describe("The @ui5-language-assistant/logic-utils <getUI5PropertyByXMLAttributeK
 
     const prop = getUI5PropertyByXMLAttributeKey(attribute, ui5Model);
     expect(prop, "ui5 property").to.be.undefined;
+  });
+});
+
+describe("The @ui5-language-assistant/logic-utils <getUI5NodeFromXMLElementNamespace> function", () => {
+  let ui5Model: UI5SemanticModel;
+  before(async () => {
+    ui5Model = await generateModel({ version: "1.74.0" });
+  });
+
+  it("returns the namespace for tag in a defined namespace", () => {
+    const xmlText = `
+        <mvc:View xmlns:mvc="sap.ui.core.mvc">
+        </mvc:View>`;
+    const rootElement = getRootElement(xmlText);
+
+    const {
+      namespace: ui5Node,
+      isDefault,
+      isXmlnsDefined,
+    } = getUI5NodeFromXMLElementNamespace(rootElement, ui5Model);
+    expect(isDefault).to.be.false;
+    expect(isXmlnsDefined).to.be.true;
+    expectExists(ui5Node, "ui5 namespace");
+    expect(ui5NodeToFQN(ui5Node)).to.equal("sap.ui.core.mvc");
+  });
+
+  it("returns the namespace for tag in a defined namespace when namespace points to an enum", () => {
+    const xmlText = `
+        <mvc:View xmlns:mvc="sap.ui.core.BusyIndicatorSize">
+        </mvc:View>`;
+    const rootElement = getRootElement(xmlText);
+
+    const {
+      namespace: ui5Node,
+      isDefault,
+      isXmlnsDefined,
+    } = getUI5NodeFromXMLElementNamespace(rootElement, ui5Model);
+    expect(isDefault).to.be.false;
+    expect(isXmlnsDefined).to.be.true;
+    expectExists(ui5Node, "ui5 namespace");
+    expect(ui5NodeToFQN(ui5Node)).to.equal("sap.ui.core.BusyIndicatorSize");
+  });
+
+  it("returns undefined for tag in a defined unknown namespace", () => {
+    const xmlText = `
+        <mvc:View xmlns:mvc="sap.ui.core.mvc1">
+        </mvc:View>`;
+    const rootElement = getRootElement(xmlText);
+
+    const {
+      namespace: ui5Node,
+      isDefault,
+      isXmlnsDefined,
+    } = getUI5NodeFromXMLElementNamespace(rootElement, ui5Model);
+    expect(isDefault).to.be.false;
+    expect(isXmlnsDefined).to.be.true;
+    expect(ui5Node, "ui5 namespace").to.be.undefined;
+  });
+
+  it("returns undefined for tag in an undefined namespace", () => {
+    const xmlText = `
+        <mvc:View>
+        </mvc:View>`;
+    const rootElement = getRootElement(xmlText);
+
+    const {
+      namespace: ui5Node,
+      isDefault,
+      isXmlnsDefined,
+    } = getUI5NodeFromXMLElementNamespace(rootElement, ui5Model);
+    expect(isDefault).to.be.false;
+    expect(isXmlnsDefined).to.be.false;
+    expect(ui5Node, "ui5 namespace").to.be.undefined;
+  });
+
+  it("returns the namespace for tag in the default namespace when default namespace is defined", () => {
+    const xmlText = `
+        <View xmlns="sap.ui.core.mvc">
+        </View>`;
+    const rootElement = getRootElement(xmlText);
+
+    const {
+      namespace: ui5Node,
+      isDefault,
+      isXmlnsDefined,
+    } = getUI5NodeFromXMLElementNamespace(rootElement, ui5Model);
+    expect(isDefault).to.be.true;
+    expect(isXmlnsDefined).to.be.true;
+    expectExists(ui5Node, "ui5 namespace");
+    expect(ui5NodeToFQN(ui5Node)).to.equal("sap.ui.core.mvc");
+  });
+
+  it("returns the namespace for tag in the default namespace when default namespace is defined and unknown", () => {
+    const xmlText = `
+        <View xmlns="sap.ui.core.mvc1">
+        </View>`;
+    const rootElement = getRootElement(xmlText);
+
+    const {
+      namespace: ui5Node,
+      isDefault,
+      isXmlnsDefined,
+    } = getUI5NodeFromXMLElementNamespace(rootElement, ui5Model);
+    expect(isDefault).to.be.true;
+    expect(isXmlnsDefined).to.be.true;
+    expect(ui5Node, "ui5 namespace").to.be.undefined;
+  });
+
+  it("returns undefined for tag without a namespace when default namespace is not defined", () => {
+    const xmlText = `
+        <View>
+        </View>`;
+    const rootElement = getRootElement(xmlText);
+
+    const {
+      namespace: ui5Node,
+      isDefault,
+      isXmlnsDefined,
+    } = getUI5NodeFromXMLElementNamespace(rootElement, ui5Model);
+    expect(isDefault).to.be.true;
+    expect(isXmlnsDefined).to.be.false;
+    expect(ui5Node, "ui5 namespace").to.be.undefined;
   });
 });
 
