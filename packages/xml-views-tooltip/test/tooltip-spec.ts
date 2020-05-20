@@ -13,7 +13,7 @@ import {
 import { TextDocument, Position } from "vscode-languageserver";
 import { buildAst } from "@xml-tools/ast";
 
-describe.only("the UI5 language assistant Hover Tooltip Service", () => {
+describe("the UI5 language assistant Hover Tooltip Service", () => {
   let ui5SemanticModel: UI5SemanticModel;
   before(async () => {
     ui5SemanticModel = await generateModel({ version: "1.74.0" });
