@@ -15,7 +15,7 @@ import { getSemanticModel } from "./ui5-model";
 import { getCompletionItems } from "./completion-items";
 import { ServerInitializationOptions } from "../api";
 import { getXMLViewDiagnostics } from "./xml-view-diagnostics";
-import { getHoverContext } from "./hover";
+import { getHoverResponse } from "./hover-tooltip";
 
 const connection = createConnection(ProposedFeatures.all);
 const documents = new TextDocuments(TextDocument);
@@ -70,7 +70,7 @@ connection.onHover(
       const documentUri = textDocumentPosition.textDocument.uri;
       const document = documents.get(documentUri);
       if (document) {
-        return getHoverContext(model, textDocumentPosition, document);
+        return getHoverResponse(model, textDocumentPosition, document);
       }
     }
     return undefined;

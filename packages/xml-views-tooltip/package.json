@@ -1,13 +1,10 @@
 {
-  "name": "@ui5-language-assistant/language-server",
-  "version": "1.4.0",
-  "description": "UI5 Language Server",
+  "name": "@ui5-language-assistant/xml-views-tooltip",
+  "version": "1.0.0",
+  "description": "XML Views Tooltip",
   "keywords": [
-    "LSP",
-    "language-server",
-    "UI5",
-    "OpenUI5",
-    "SAPUI5"
+    "Hover",
+    "tooltip"
   ],
   "files": [
     "lib/src",
@@ -23,26 +20,16 @@
   },
   "dependencies": {
     "@ui5-language-assistant/semantic-model": "^1.2.1",
-    "@ui5-language-assistant/xml-views-completion": "^1.3.1",
-    "@ui5-language-assistant/xml-views-validation": "^0.2.0",
-    "@ui5-language-assistant/xml-views-tooltip": "^1.0.0",
+    "@ui5-language-assistant/semantic-model-types": "1.2.0",
+    "@ui5-language-assistant/logic-utils": "1.1.3",
     "@xml-tools/ast": "4.2.0",
-    "@xml-tools/parser": "1.0.5",
     "@xml-tools/ast-position": "1.1.0",
+    "@xml-tools/common": "0.1.0",
     "lodash": "4.17.15",
-    "node-fetch": "2.6.0",
     "vscode-languageserver": "6.1.1",
-    "vscode-languageserver-textdocument": "1.0.1",
     "assert-never": "1.2.1"
   },
-  "devDependencies": {
-    "@types/node-fetch": "2.5.7",
-    "@types/tmp": "0.2.0",
-    "@ui5-language-assistant/semantic-model-types": "^1.2.0",
-    "@ui5-language-assistant/test-utils": "^1.3.0",
-    "tmp-promise": "3.0.2",
-    "vscode-languageserver-types": "3.15.1"
-  },
+  "devDependencies": {},
   "scripts": {
     "ci": "npm-run-all clean compile lint coverage",
     "clean": "rimraf ./lib ./coverage ./nyc_output",
