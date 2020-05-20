@@ -72,7 +72,8 @@ function findUI5NodeByElement(
     return undefined;
   }
   const nameByKind = isOpenName
-    ? /* istanbul ignore next */
+    ? // openName or closeName cannot be undefined here because otherwise the ast position visitor wouldn't return their types
+      /* istanbul ignore next */
       astNode.syntax.openName?.image
     : /* istanbul ignore next */
       astNode.syntax.closeName?.image;
@@ -116,6 +117,7 @@ function splitQNameByNamespace(
 }
 
 function elementClosingTagToFQN(xmlElement: XMLElement): string {
+  //the closeName can't be undefined here because otherwise the ast position visitor wouldn't return its type
   /* istanbul ignore next */
   const qName = xmlElement.syntax.closeName?.image ?? "";
   const { ns, name } = splitQNameByNamespace(qName);
@@ -136,8 +138,7 @@ function findUI5NodeByXMLAttributeKey(
   const parentElementClass = getUI5ClassByXMLElement(astNode.parent, model);
   return parentElementClass
     ? findUI5ClassMemberByName(parentElementClass, astNode.key)
-    : /* istanbul ignore next */
-      undefined;
+    : undefined;
 }
 
 function findUI5ClassMemberByName(
