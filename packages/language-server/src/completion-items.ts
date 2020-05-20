@@ -18,26 +18,15 @@ import {
   XMLElement,
   XMLDocument,
 } from "@xml-tools/ast";
-import {
-  UI5SemanticModel,
-  BaseUI5Node,
-  UI5Prop,
-  UI5Aggregation,
-  UI5Association,
-  UI5Field,
-} from "@ui5-language-assistant/semantic-model-types";
+import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import {
   getXMLViewCompletions,
   UI5XMLViewCompletion,
   UI5ClassesInXMLTagNameCompletion,
   isUI5NodeXMLViewCompletion,
 } from "@ui5-language-assistant/xml-views-completion";
-import {
-  ui5NodeToFQN,
-  isRootSymbol,
-  typeToString,
-} from "@ui5-language-assistant/logic-utils";
-import { getNodeDocumentation } from "./documentation";
+import { ui5NodeToFQN } from "@ui5-language-assistant/logic-utils";
+import { getNodeDocumentation, getNodeDetail } from "./documentation";
 
 export function getCompletionItems(
   model: UI5SemanticModel,
@@ -545,31 +534,4 @@ function getDetail(suggestion: UI5XMLViewCompletion): string | undefined {
     detailText = `(deprecated) ${detailText}`;
   }
   return detailText;
-}
-
-function getNodeDetail(node: BaseUI5Node): string {
-  // Types with fully qualified name
-  if (isRootSymbol(node)) {
-    return ui5NodeToFQN(node);
-  }
-  switch (node.kind) {
-    case "UI5Prop":
-      return `(property) ${node.name}: ${typeToString((node as UI5Prop).type)}`;
-    /* istanbul ignore next */
-    case "UI5Field":
-      return `(field) ${node.name}: ${typeToString((node as UI5Field).type)}`;
-    case "UI5Aggregation":
-      return `(aggregation) ${node.name}: ${typeToString(
-        (node as UI5Aggregation).type
-      )}`;
-    case "UI5Association":
-      return `(association) ${node.name}: ${typeToString(
-        (node as UI5Association).type
-      )}`;
-    case "UI5Event":
-      return `(event) ${node.name}`;
-    case "UI5EnumValue":
-    default:
-      return node.name;
-  }
 }
