@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.3.0](https://github.com/sap/ui5-language-assistant/compare/@ui5-language-assistant/semantic-model-types@1.2.0...@ui5-language-assistant/semantic-model-types@1.3.0) (2020-05-20)
+
+### Features
+
+- add validation for unknown namespace name in xmlns attribute value ([#103](https://github.com/sap/ui5-language-assistant/issues/103)) ([f109686](https://github.com/sap/ui5-language-assistant/commit/f1096861ec041372a349d7f17d755b0483aad1e6))
+
 # [1.2.0](https://github.com/sap/ui5-language-assistant/compare/@ui5-language-assistant/semantic-model-types@1.1.0...@ui5-language-assistant/semantic-model-types@1.2.0) (2020-04-23)
 
 ### Features

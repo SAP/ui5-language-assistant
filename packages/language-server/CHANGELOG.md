@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0](https://github.com/sap/ui5-language-assistant/compare/@ui5-language-assistant/language-server@1.4.0...@ui5-language-assistant/language-server@1.5.0) (2020-05-20)
+
+### Bug Fixes
+
+- **language-server:** namespace added at wrong position for closed tag ([#100](https://github.com/sap/ui5-language-assistant/issues/100)) ([1b3c747](https://github.com/sap/ui5-language-assistant/commit/1b3c747ff44a2932383bfb64d1bf44614d8ac3b7))
+
+### Features
+
+- **language-server:** expose xml-view-validations as LSP diagnostics ([#72](https://github.com/sap/ui5-language-assistant/issues/72)) ([e347699](https://github.com/sap/ui5-language-assistant/commit/e3476992864a83b68172b4f60287e12619aadddf))
+- add support for code completion of boolean properties values ([#66](https://github.com/sap/ui5-language-assistant/issues/66)) ([d95ead4](https://github.com/sap/ui5-language-assistant/commit/d95ead46697b6508785aa331c7594b0c20470582))
+- add validation for unknown namespace name in xmlns attribute value ([#103](https://github.com/sap/ui5-language-assistant/issues/103)) ([f109686](https://github.com/sap/ui5-language-assistant/commit/f1096861ec041372a349d7f17d755b0483aad1e6))
+- validate attribute key is known in class and aggregation tags ([#120](https://github.com/sap/ui5-language-assistant/issues/120)) ([443e13b](https://github.com/sap/ui5-language-assistant/commit/443e13b55b22d982391f1d3972ea97f350d472a9))
+- validate boolean value in property ([#113](https://github.com/sap/ui5-language-assistant/issues/113)) ([59d3a69](https://github.com/sap/ui5-language-assistant/commit/59d3a699c7557bc25adfbf19091981813bade4b0))
+- validate tag name is known ([#129](https://github.com/sap/ui5-language-assistant/issues/129)) ([eaf494c](https://github.com/sap/ui5-language-assistant/commit/eaf494c5278d8c1200925a01daabcde9942f8dbc))
+
 # [1.4.0](https://github.com/sap/ui5-language-assistant/compare/@ui5-language-assistant/language-server@1.3.0...@ui5-language-assistant/language-server@1.4.0) (2020-05-06)
 
 ### Bug Fixes

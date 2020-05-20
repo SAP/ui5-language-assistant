@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.3.0](https://github.com/sap/ui5-language-assistant/compare/@ui5-language-assistant/semantic-model@1.2.1...@ui5-language-assistant/semantic-model@1.3.0) (2020-05-20)
+
+### Bug Fixes
+
+- remove message for "sap.ui.vk.BaseNodeProxy" on library startup ([#130](https://github.com/sap/ui5-language-assistant/issues/130)) ([eb5c6d3](https://github.com/sap/ui5-language-assistant/commit/eb5c6d3a6da7a1580a199f214d4e855853095335))
+
+### Features
+
+- add validation for unknown namespace name in xmlns attribute value ([#103](https://github.com/sap/ui5-language-assistant/issues/103)) ([f109686](https://github.com/sap/ui5-language-assistant/commit/f1096861ec041372a349d7f17d755b0483aad1e6))
+- **semantic-model:** set content as View default aggregation ([#125](https://github.com/sap/ui5-language-assistant/issues/125)) ([6d34f3e](https://github.com/sap/ui5-language-assistant/commit/6d34f3e6438ab322aad450c7231a73876231f1ea))
+
 ## [1.2.1](https://github.com/sap/ui5-language-assistant/compare/@ui5-language-assistant/semantic-model@1.2.0...@ui5-language-assistant/semantic-model@1.2.1) (2020-05-06)
 
 **Note:** Version bump only for package @ui5-language-assistant/semantic-model

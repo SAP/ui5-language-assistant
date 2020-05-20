@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.0](https://github.com/sap/ui5-language-assistant/compare/@ui5-language-assistant/test-utils@1.3.0...@ui5-language-assistant/test-utils@1.4.0) (2020-05-20)
+
+### Bug Fixes
+
+- remove message for "sap.ui.vk.BaseNodeProxy" on library startup ([#130](https://github.com/sap/ui5-language-assistant/issues/130)) ([eb5c6d3](https://github.com/sap/ui5-language-assistant/commit/eb5c6d3a6da7a1580a199f214d4e855853095335))
+
+### Features
+
+- add support for code completion of boolean properties values ([#66](https://github.com/sap/ui5-language-assistant/issues/66)) ([d95ead4](https://github.com/sap/ui5-language-assistant/commit/d95ead46697b6508785aa331c7594b0c20470582))
+- add validation for unknown namespace name in xmlns attribute value ([#103](https://github.com/sap/ui5-language-assistant/issues/103)) ([f109686](https://github.com/sap/ui5-language-assistant/commit/f1096861ec041372a349d7f17d755b0483aad1e6))
+
 # [1.3.0](https://github.com/sap/ui5-language-assistant/compare/@ui5-language-assistant/test-utils@1.2.0...@ui5-language-assistant/test-utils@1.3.0) (2020-05-06)
 
 ### Features
