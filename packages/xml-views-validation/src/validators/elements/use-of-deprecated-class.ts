@@ -5,7 +5,10 @@ import {
   ui5NodeToFQN,
 } from "@ui5-language-assistant/logic-utils";
 import { UseOfDeprecatedClassIssue } from "../../../api";
-import { buildDeprecatedIssueMessage } from "../../utils/deprecated-message-builder";
+import {
+  buildDeprecatedIssueMessage,
+  DeprecatedUI5Symbol,
+} from "../../utils/deprecated-message-builder";
 
 export function validateUseOfDeprecatedClass(
   xmlElement: XMLElement,
@@ -21,13 +24,11 @@ export function validateUseOfDeprecatedClass(
     // An issue lacking a position is not a useful issue...
     xmlElement.syntax.openName !== undefined
   ) {
-    const deprecatedInfo = ui5Class.deprecatedInfo;
     const deprecatedIssue: UseOfDeprecatedClassIssue = {
       kind: "UseOfDeprecatedClass",
       message: buildDeprecatedIssueMessage({
-        deprecatedInfo: deprecatedInfo,
-        fqn: ui5NodeToFQN(ui5Class),
-        ui5Kind: "Class",
+        symbol: ui5Class as DeprecatedUI5Symbol,
+        model,
       }),
       severity: "warn",
       offsetRange: {

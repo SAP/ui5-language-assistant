@@ -17,3 +17,9 @@ export {
   getUI5PropertyByXMLAttributeKey,
   getUI5NodeFromXMLElementNamespace,
 } from "./utils/xml-node-to-ui5-node";
+export {
+  getDeprecationPlainTextSnippet,
+  getDeprecationMessage,
+  convertJSDocToMarkdown,
+  getLink,
+} from "./utils/documentation";
