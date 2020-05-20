@@ -25,7 +25,8 @@ export type UI5XMLViewIssue =
   | UseOfDeprecatedClassIssue
   | UnknownNamespaceInXmlnsAttributeValueIssue
   | InvalidBooleanValueIssue
-  | UnknownAttributeKeyIssue;
+  | UnknownAttributeKeyIssue
+  | UnknownTagNameIssue;
 
 // A sub-interface per issue type may seem redundant, but this allows
 // a sub-issue type to have additional properties (if needed) in the future.
@@ -44,6 +45,10 @@ export interface UnknownNamespaceInXmlnsAttributeValueIssue
 
 export interface UnknownAttributeKeyIssue extends BaseUI5XMLViewIssue {
   kind: "UnknownAttributeKey";
+}
+
+export interface UnknownTagNameIssue extends BaseUI5XMLViewIssue {
+  kind: "UnknownTagName";
 }
 
 export interface InvalidBooleanValueIssue extends BaseUI5XMLViewIssue {

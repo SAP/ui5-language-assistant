@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { find } from "lodash";
+import { find, partial } from "lodash";
 import { DocumentCstNode, parse } from "@xml-tools/parser";
 import { buildAst } from "@xml-tools/ast";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
@@ -8,8 +8,8 @@ import {
   expectExists,
 } from "@ui5-language-assistant/test-utils";
 import {
-  computeExpectedRange,
-  testValidationsScenario,
+  assertNoIssues as assertNoIssuesBase,
+  assertSingleIssue as assertSingleIssueBase,
 } from "../../test-utils";
 import { validateUnknownAttributeKey } from "../../../src/validators/attributes/unknown-attribute-key";
 
@@ -21,25 +21,18 @@ describe("the unknown attribute name validation", () => {
   });
 
   context("true positive scenarios", () => {
-    function assertSingleIssue(xmlSnippet: string, message: string): void {
-      testValidationsScenario({
-        model: ui5SemanticModel,
-        xmlText: xmlSnippet,
-        validators: {
+    let assertSingleIssue: (xmlSnippet: string, message: string) => void;
+    before(() => {
+      assertSingleIssue = partial(
+        assertSingleIssueBase,
+        ui5SemanticModel,
+        {
           attribute: [validateUnknownAttributeKey],
         },
-        assertion: (issues) => {
-          expect(issues).to.deep.equal([
-            {
-              kind: "UnknownAttributeKey",
-              message: message,
-              offsetRange: computeExpectedRange(xmlSnippet),
-              severity: "error",
-            },
-          ]);
-        },
-      });
-    }
+        "UnknownAttributeKey",
+        "error"
+      );
+    });
 
     it("will detect an invalid attribute key in root class element", () => {
       assertSingleIssue(
@@ -203,18 +196,13 @@ describe("the unknown attribute name validation", () => {
   });
 
   context("negative edge cases", () => {
-    function assertNoIssues(xmlSnippet: string): void {
-      testValidationsScenario({
-        model: ui5SemanticModel,
-        xmlText: xmlSnippet,
-        validators: {
-          attribute: [validateUnknownAttributeKey],
-        },
-        assertion: (issues) => {
-          expect(issues).to.be.empty;
-        },
+    let assertNoIssues: (xmlSnippet: string) => void;
+    before(() => {
+      assertNoIssues = partial(assertNoIssuesBase, ui5SemanticModel, {
+        attribute: [validateUnknownAttributeKey],
       });
-    }
+    });
+
     context("class tag", () => {
       it("will not detect an issue when the attribute is a property", () => {
         assertNoIssues(`

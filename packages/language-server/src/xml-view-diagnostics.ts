@@ -52,6 +52,7 @@ function validationIssuesToLspDiagnostics(
       case "UnknownEnumValue":
       case "UnknownNamespaceInXmlnsAttributeValue":
       case "UnknownAttributeKey":
+      case "UnknownTagName":
         return {
           ...commonDiagnosticPros,
         };
