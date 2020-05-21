@@ -35,7 +35,6 @@ export function getNodeDocumentation(
       contents += NL;
     }
     contents += "Deprecated";
-    /* istanbul ignore next */
     contents += node.deprecatedInfo.since
       ? ` since version ${node.deprecatedInfo.since}`
       : EMPTY_STRING;
@@ -47,17 +46,14 @@ export function getNodeDocumentation(
   }
 
   if (node.experimentalInfo?.isExperimental) {
-    /* istanbul ignore else */
     if (contents !== "") {
       contents += NL;
     }
     contents += "Experimental";
-    /* istanbul ignore next */
     contents += node.experimentalInfo.since
       ? ` since version ${node.experimentalInfo.since}`
       : EMPTY_STRING;
     contents += ".";
-    /* istanbul ignore next */
     contents += node.experimentalInfo.text
       ? ` ${node.experimentalInfo.text}`
       : EMPTY_STRING;
@@ -73,7 +69,6 @@ export function getNodeDocumentation(
   const markdownContent = convertDescriptionToMarkup(contents, model);
 
   const symbolForDocumentation = getRootSymbolParent(node);
-  /* istanbul ignore else */
   if (
     symbolForDocumentation !== undefined &&
     symbolForDocumentation.library !== GENERATED_LIBRARY
