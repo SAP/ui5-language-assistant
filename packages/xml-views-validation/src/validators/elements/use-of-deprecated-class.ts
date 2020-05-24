@@ -1,9 +1,6 @@
 import { XMLElement } from "@xml-tools/ast";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
-import {
-  getUI5ClassByXMLElement,
-  ui5NodeToFQN,
-} from "@ui5-language-assistant/logic-utils";
+import { getUI5ClassByXMLElement } from "@ui5-language-assistant/logic-utils";
 import { UseOfDeprecatedClassIssue } from "../../../api";
 import {
   buildDeprecatedIssueMessage,

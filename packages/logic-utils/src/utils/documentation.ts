@@ -123,7 +123,7 @@ function convertJSDoc(
     },
     { matcher: /<ul>/g, replacement: { markdown: "", plaintext: "" } },
     { matcher: /<\/ul>/g, replacement: { markdown: "\n\n", plaintext: "\n" } },
-    // TODO should we handled ordered lists (ol)?
+    // TODO should we handle ordered lists (ol)?
 
     // Code value
     {
@@ -158,7 +158,7 @@ function convertJSDoc(
     {
       matcher: /{@link (([^\s}]+)\s)?([^}]+)}/g,
       replacement: {
-        markdown: (all, _, type, text) => {
+        markdown: (all, _, type, text): string => {
           return `[${text}](${getLink(model, type ?? text)})`;
         },
         plaintext: "$3",

@@ -136,7 +136,7 @@ export function getUI5NodeFromXMLElementNamespace(
  * @param opts.title - The opening sentance for the deprecation message. It should not contain a dot. "Deprecated" by default.
  */
 export function getDeprecationMessage(opts: {
-  title?: string | undefined;
+  title?: string;
   since: string | undefined;
   text: string | undefined;
 }): string;
