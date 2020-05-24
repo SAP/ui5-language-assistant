@@ -178,16 +178,20 @@ function convertJSDoc(
 
   let contents = jsdoc;
   forEach(allTagMatcherToReplacement, (_) => {
-    const replacement = _.replacement[target];
-    // Workaround for typescript signature definition
-    if (typeof replacement === "string") {
-      contents = contents.replace(_.matcher, replacement);
-    } else {
-      contents = contents.replace(_.matcher, replacement);
-    }
+    contents = replace(contents, _.matcher, _.replacement[target]);
   });
 
   return contents;
+}
+
+function replace(
+  string: string,
+  matcher: RegExp,
+  replacement: string | ReplaceFunction
+): string {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+  //@ts-ignore - 'replace' is defined with 2 overloads instead of a union type in the definitions file
+  return string.replace(matcher, replacement);
 }
 
 export function getLink(model: UI5SemanticModel, link: string): string {
