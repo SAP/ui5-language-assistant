@@ -1,125 +1,123 @@
+import { expect } from "chai";
+import { padEnd } from "lodash";
+import { buildUI5Model } from "@ui5-language-assistant/test-utils";
 import {
   getDeprecationPlainTextSnippet,
   convertJSDocToMarkdown,
 } from "../../src/utils/documentation";
-import { expect } from "chai";
-import { buildUI5Model } from "@ui5-language-assistant/test-utils";
-import { padEnd } from "lodash";
+import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 
 describe("The @ui5-language-assistant/logic-utils <getDeprecationPlainTextSnippet> function", () => {
-  const model = buildUI5Model({});
+  let model: UI5SemanticModel;
+  before(() => {
+    model = buildUI5Model({});
+  });
 
   it("returns a snippet without title, since and text", () => {
     expect(
-      getDeprecationPlainTextSnippet(
-        undefined,
-        {
+      getDeprecationPlainTextSnippet({
+        deprecatedInfo: {
           isDeprecated: true,
           since: undefined,
           text: undefined,
         },
-        model
-      )
+        model,
+      })
     ).to.equal("Deprecated.");
   });
 
   it("returns a snippet with title and without since and text", () => {
     expect(
-      getDeprecationPlainTextSnippet(
-        "This class is deprecated",
-        {
+      getDeprecationPlainTextSnippet({
+        title: "This class is deprecated",
+        deprecatedInfo: {
           isDeprecated: true,
           since: undefined,
           text: undefined,
         },
-        model
-      )
+        model,
+      })
     ).to.equal("This class is deprecated.");
   });
 
   it("returns a snippet with since and without text", () => {
     expect(
-      getDeprecationPlainTextSnippet(
-        undefined,
-        {
+      getDeprecationPlainTextSnippet({
+        title: undefined,
+        deprecatedInfo: {
           isDeprecated: true,
           since: "1.2.3",
           text: undefined,
         },
-        model
-      )
+        model,
+      })
     ).to.equal("Deprecated since version 1.2.3.");
   });
 
   it("returns a snippet without since and with text", () => {
     expect(
-      getDeprecationPlainTextSnippet(
-        undefined,
-        {
+      getDeprecationPlainTextSnippet({
+        deprecatedInfo: {
           isDeprecated: true,
           since: undefined,
           text: "Use something else instead.",
         },
-        model
-      )
+        model,
+      })
     ).to.equal("Deprecated. Use something else instead.");
   });
 
   it("returns a snippet with since and text", () => {
     expect(
-      getDeprecationPlainTextSnippet(
-        undefined,
-        {
+      getDeprecationPlainTextSnippet({
+        deprecatedInfo: {
           isDeprecated: true,
           since: "1.2.3",
           text: "Use something else instead.",
         },
-        model
-      )
+        model,
+      })
     ).to.equal("Deprecated since version 1.2.3. Use something else instead.");
   });
 
   context("text has jsdoc tags", () => {
     it("removes header tags", () => {
       expect(
-        getDeprecationPlainTextSnippet(
-          undefined,
-          {
+        getDeprecationPlainTextSnippet({
+          deprecatedInfo: {
             isDeprecated: true,
             since: undefined,
             text: "<h1>The Title</h1>",
           },
-          model
-        )
+          model,
+        })
       ).to.equal("Deprecated. \nThe Title\n");
     });
 
     it("replaces <br> tags with newline", () => {
       expect(
-        getDeprecationPlainTextSnippet(
-          undefined,
-          {
+        getDeprecationPlainTextSnippet({
+          deprecatedInfo: {
             isDeprecated: true,
             since: undefined,
             text: "The Title<br/>some text",
           },
-          model
-        )
+          model,
+        })
       ).to.equal("Deprecated. The Title\nsome text");
     });
 
     it("replaces link tags with their text", () => {
       expect(
-        getDeprecationPlainTextSnippet(
-          undefined,
-          {
+        getDeprecationPlainTextSnippet({
+          deprecatedInfo: {
             isDeprecated: true,
             since: undefined,
             text:
               "This text has a {@link the_address link with text} and a {@link link_without_text}",
           },
-          model
-        )
+          model,
+        })
       ).to.equal(
         "Deprecated. This text has a link with text and a link_without_text"
       );
@@ -128,51 +126,47 @@ describe("The @ui5-language-assistant/logic-utils <getDeprecationPlainTextSnippe
 
   it("only returns the first text sentence when the sentence is followed by a space", () => {
     expect(
-      getDeprecationPlainTextSnippet(
-        undefined,
-        {
+      getDeprecationPlainTextSnippet({
+        deprecatedInfo: {
           isDeprecated: true,
           since: undefined,
           text: "This text has two sentences. This is the second sentence.",
         },
-        model
-      )
+        model,
+      })
     ).to.equal("Deprecated. This text has two sentences.");
   });
 
   it("only returns the first text sentence when the sentence is followed by a newline", () => {
     expect(
-      getDeprecationPlainTextSnippet(
-        undefined,
-        {
+      getDeprecationPlainTextSnippet({
+        deprecatedInfo: {
           isDeprecated: true,
           since: undefined,
           text: "This text has two sentences.\nThis is the second line.",
         },
-        model
-      )
+        model,
+      })
     ).to.equal("Deprecated. This text has two sentences.");
   });
 
   it("only returns the first text sentence when the sentence is followed by a jsdoc <br> tag", () => {
     expect(
-      getDeprecationPlainTextSnippet(
-        undefined,
-        {
+      getDeprecationPlainTextSnippet({
+        deprecatedInfo: {
           isDeprecated: true,
           since: undefined,
           text: "This text has two sentences.<br/>This is the second line.",
         },
-        model
-      )
+        model,
+      })
     ).to.equal("Deprecated. This text has two sentences.");
   });
 
   it("only returns the first 500 characters of the text", () => {
     expect(
-      getDeprecationPlainTextSnippet(
-        undefined,
-        {
+      getDeprecationPlainTextSnippet({
+        deprecatedInfo: {
           isDeprecated: true,
           since: undefined,
           text: padEnd(
@@ -181,8 +175,8 @@ describe("The @ui5-language-assistant/logic-utils <getDeprecationPlainTextSnippe
             "1234567890"
           ),
         },
-        model
-      )
+        model,
+      })
     ).to.equal(
       "Deprecated. " +
         padEnd(
@@ -196,7 +190,10 @@ describe("The @ui5-language-assistant/logic-utils <getDeprecationPlainTextSnippe
 });
 
 describe("The @ui5-language-assistant/logic-utils <convertJSDocToMarkdown> function", () => {
-  const model = buildUI5Model({});
+  let model: UI5SemanticModel;
+  before(() => {
+    model = buildUI5Model({});
+  });
 
   it("replaces header tags", () => {
     expect(convertJSDocToMarkdown("<h1>The Title</h1>", model)).to.equal(

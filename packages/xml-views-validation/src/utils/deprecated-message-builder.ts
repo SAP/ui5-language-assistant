@@ -32,9 +32,9 @@ export function buildDeprecatedIssueMessage({
       assertNever(symbol.kind);
   }
   const msgPrefix = `The ${name} ${kind} is deprecated`;
-  return getDeprecationPlainTextSnippet(
-    msgPrefix,
-    symbol.deprecatedInfo,
-    model
-  );
+  return getDeprecationPlainTextSnippet({
+    title: msgPrefix,
+    deprecatedInfo: symbol.deprecatedInfo,
+    model,
+  });
 }

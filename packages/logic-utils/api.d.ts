@@ -133,7 +133,7 @@ export function getUI5NodeFromXMLElementNamespace(
 /**
  * Get the deprecated message. The returned string contains jsdoc tags.
  *
- * @param opts.title - The opening sentance for the deprecation message. It should not contain a dot. "Deprecated" by default.
+ * @param opts.title - The opening sentence for the deprecation message. It should not contain a dot. "Deprecated" by default.
  */
 export function getDeprecationMessage(opts: {
   title?: string;
@@ -144,15 +144,13 @@ export function getDeprecationMessage(opts: {
 /**
  * Get a snippet (first line) of the deprecated documentation without jsdoc tags.
  *
- * @param title - The opening sentance for the deprecation message. It should not contain a dot. "Deprecated" by default.
- * @param deprecatedInfo
- * @param model
+ * @param opts.title - The opening sentence for the deprecation message. It should not contain a dot. "Deprecated" by default.
  */
-export function getDeprecationPlainTextSnippet(
-  title: string | undefined,
-  deprecatedInfo: UI5DeprecatedInfo,
-  model: UI5SemanticModel
-): string;
+export function getDeprecationPlainTextSnippet(opts: {
+  title?: string;
+  deprecatedInfo: UI5DeprecatedInfo;
+  model: UI5SemanticModel;
+}): string;
 
 /**
  * Convert jsdoc description to markdown format string
