@@ -9,6 +9,7 @@ import {
   UI5Association,
   UI5SemanticModel,
   UI5Type,
+  UI5Namespace,
 } from "@ui5-language-assistant/semantic-model-types";
 
 /**
@@ -86,8 +87,6 @@ export function typeToString(type: UI5Type | undefined): string;
 
 /**
  * Return the UI5 Class for an XML Element
- * @param element
- * @param model
  */
 export function getUI5ClassByXMLElement(
   element: XMLElement,
@@ -96,8 +95,6 @@ export function getUI5ClassByXMLElement(
 
 /**
  * Return the UI5 Aggregation for an XML Element
- * @param element
- * @param model
  */
 export function getUI5AggregationByXMLElement(
   element: XMLElement,
@@ -106,8 +103,6 @@ export function getUI5AggregationByXMLElement(
 
 /**
  * Return the UI5 Property for an XML Attribute
- * @param attribute
- * @param model
  */
 export function getUI5PropertyByXMLAttributeKey(
   attribute: XMLAttribute,
@@ -116,15 +111,12 @@ export function getUI5PropertyByXMLAttributeKey(
 
 /**
  * Return the UI5 Namespace from the specified or default XML Element namespace
- *
- * @param xmlElement
- * @param model
  */
 export function getUI5NodeFromXMLElementNamespace(
   xmlElement: XMLElement,
   model: UI5SemanticModel
 ): {
-  namespace: BaseUI5Node | undefined;
+  namespace: UI5Namespace | undefined;
   isDefault: boolean;
   isXmlnsDefined: boolean;
 };

@@ -310,6 +310,18 @@ describe("the unknown tag name validation", () => {
             </mvc:View>`
           );
         });
+
+        it("will not detect an issue for a class under an none existent namespace which is also a valid UI5 entity FQN", () => {
+          assertNoIssues(
+            `<mvc:View
+              xmlns:mvc="sap.ui.core.mvc"
+              <!-- The error should be on the definition of an invalid xmlns which is not a UI5Namespace rather than on each usage -->
+              xmlns:AvatarColor="sap.m.AvatarColor">
+              <AvatarColor:Green>
+              </AvatarColor:Green>
+            </mvc:View>`
+          );
+        });
       });
     });
 

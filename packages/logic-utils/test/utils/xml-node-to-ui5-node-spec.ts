@@ -242,7 +242,7 @@ describe("The @ui5-language-assistant/logic-utils <getUI5NodeFromXMLElementNames
     expect(ui5NodeToFQN(ui5Node)).to.equal("sap.ui.core.mvc");
   });
 
-  it("returns the namespace for tag in a defined namespace when namespace points to an enum", () => {
+  it("returns the undefined for tag in a defined namespace when namespace points to an enum", () => {
     const xmlText = `
         <mvc:View xmlns:mvc="sap.ui.core.BusyIndicatorSize">
         </mvc:View>`;
@@ -255,8 +255,7 @@ describe("The @ui5-language-assistant/logic-utils <getUI5NodeFromXMLElementNames
     } = getUI5NodeFromXMLElementNamespace(rootElement, ui5Model);
     expect(isDefault).to.be.false;
     expect(isXmlnsDefined).to.be.true;
-    expectExists(ui5Node, "ui5 namespace");
-    expect(ui5NodeToFQN(ui5Node)).to.equal("sap.ui.core.BusyIndicatorSize");
+    expect(ui5Node, "ui5 namespace").to.be.undefined;
   });
 
   it("returns undefined for tag in a defined unknown namespace", () => {

@@ -9,10 +9,9 @@ import {
   UI5SemanticModel,
   UI5Prop,
   UI5Aggregation,
-  BaseUI5Node,
+  UI5Namespace,
 } from "@ui5-language-assistant/semantic-model-types";
 import { find } from "lodash";
-import { findSymbol } from "@ui5-language-assistant/semantic-model";
 
 export function getUI5ClassByXMLElement(
   element: XMLElement,
@@ -30,7 +29,7 @@ export function getUI5AggregationByXMLElement(
   if (element.parent.type === "XMLDocument") {
     return undefined;
   }
-  // Aggregations don't have a namesapce
+  // Aggregations don't have a namespace
   if (element.ns !== undefined) {
     return undefined;
   }
@@ -61,13 +60,13 @@ export function getUI5NodeFromXMLElementNamespace(
   xmlElement: XMLElement,
   model: UI5SemanticModel
 ): {
-  namespace: BaseUI5Node | undefined;
+  namespace: UI5Namespace | undefined;
   isDefault: boolean;
   isXmlnsDefined: boolean;
 } {
   const isDefault = xmlElement.ns === undefined;
-  const xmlNamespace = xmlElement.namespaces[xmlElement.ns ?? DEFAULT_NS];
-  if (xmlNamespace === undefined) {
+  const xmlnsFQN = xmlElement.namespaces[xmlElement.ns ?? DEFAULT_NS];
+  if (xmlnsFQN === undefined) {
     return {
       namespace: undefined,
       isDefault: isDefault,
@@ -75,7 +74,7 @@ export function getUI5NodeFromXMLElementNamespace(
     };
   }
 
-  const ui5Namespace = findSymbol(model, xmlNamespace);
+  const ui5Namespace = model.namespaces[xmlnsFQN];
   return {
     namespace: ui5Namespace,
     isDefault: isDefault,
