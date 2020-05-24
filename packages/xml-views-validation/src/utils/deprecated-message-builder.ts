@@ -27,6 +27,7 @@ export function buildDeprecatedIssueMessage({
       kind = "class";
       name = ui5NodeToFQN(symbol);
       break;
+    /* istanbul ignore next - defensive programming */
     default:
       assertNever(symbol.kind);
   }
