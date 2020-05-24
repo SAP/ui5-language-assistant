@@ -49,6 +49,6 @@ function transformToLspHover(
 }
 
 function addTitle(title: string, documentation: MarkupContent): MarkupContent {
-  const markupWithTitle = "`" + title + "`\n\n\n" + documentation.value;
+  const markupWithTitle = `\`${title}\`\n\n---\n${documentation.value}`;
   return { kind: MarkupKind.Markdown, value: markupWithTitle };
 }
