@@ -1,9 +1,9 @@
 import { expect } from "chai";
-import { padEnd } from "lodash";
 import { buildUI5Model } from "@ui5-language-assistant/test-utils";
 import {
   getDeprecationPlainTextSnippet,
   convertJSDocToMarkdown,
+  convertJSDocToPlainText,
 } from "../../src/utils/documentation";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 
@@ -80,112 +80,67 @@ describe("The @ui5-language-assistant/logic-utils <getDeprecationPlainTextSnippe
     ).to.equal("Deprecated since version 1.2.3. Use something else instead.");
   });
 
-  context("text has jsdoc tags", () => {
-    it("removes header tags", () => {
-      expect(
-        getDeprecationPlainTextSnippet({
-          deprecatedInfo: {
-            isDeprecated: true,
-            since: undefined,
-            text: "<h1>The Title</h1>",
-          },
-          model,
-        })
-      ).to.equal("Deprecated. \nThe Title\n");
-    });
-
-    it("replaces <br> tags with newline", () => {
-      expect(
-        getDeprecationPlainTextSnippet({
-          deprecatedInfo: {
-            isDeprecated: true,
-            since: undefined,
-            text: "The Title<br/>some text",
-          },
-          model,
-        })
-      ).to.equal("Deprecated. The Title\nsome text");
-    });
-
-    it("replaces link tags with their text", () => {
-      expect(
-        getDeprecationPlainTextSnippet({
-          deprecatedInfo: {
-            isDeprecated: true,
-            since: undefined,
-            text:
-              "This text has a {@link the_address link with text} and a {@link link_without_text}",
-          },
-          model,
-        })
-      ).to.equal(
-        "Deprecated. This text has a link with text and a link_without_text"
-      );
-    });
-  });
-
-  it("only returns the first text sentence when the sentence is followed by a space", () => {
+  it("replaces link tags with their text", () => {
     expect(
       getDeprecationPlainTextSnippet({
         deprecatedInfo: {
           isDeprecated: true,
           since: undefined,
-          text: "This text has two sentences. This is the second sentence.",
-        },
-        model,
-      })
-    ).to.equal("Deprecated. This text has two sentences.");
-  });
-
-  it("only returns the first text sentence when the sentence is followed by a newline", () => {
-    expect(
-      getDeprecationPlainTextSnippet({
-        deprecatedInfo: {
-          isDeprecated: true,
-          since: undefined,
-          text: "This text has two sentences.\nThis is the second line.",
-        },
-        model,
-      })
-    ).to.equal("Deprecated. This text has two sentences.");
-  });
-
-  it("only returns the first text sentence when the sentence is followed by a jsdoc <br> tag", () => {
-    expect(
-      getDeprecationPlainTextSnippet({
-        deprecatedInfo: {
-          isDeprecated: true,
-          since: undefined,
-          text: "This text has two sentences.<br/>This is the second line.",
-        },
-        model,
-      })
-    ).to.equal("Deprecated. This text has two sentences.");
-  });
-
-  it("only returns the first 500 characters of the text", () => {
-    expect(
-      getDeprecationPlainTextSnippet({
-        deprecatedInfo: {
-          isDeprecated: true,
-          since: undefined,
-          text: padEnd(
-            "This text only has one sentence but it is VERY long: ",
-            700,
-            "1234567890"
-          ),
+          text:
+            "This text has a {@link the_address link with text} and a {@link link_without_text}",
         },
         model,
       })
     ).to.equal(
-      "Deprecated. " +
-        padEnd(
-          "This text only has one sentence but it is VERY long: ",
-          500,
-          "1234567890"
-        ) +
-        "..."
+      "Deprecated. This text has a link with text and a link_without_text"
     );
+  });
+
+  it("only returns the first text line when there is a linebreak", () => {
+    expect(
+      getDeprecationPlainTextSnippet({
+        deprecatedInfo: {
+          isDeprecated: true,
+          since: undefined,
+          text: "This text has two lines\nThis is the second line.",
+        },
+        model,
+      })
+    ).to.equal("Deprecated. This text has two lines ...");
+  });
+
+  it("only returns the first text line when there is a tag that is converted to linebreak", () => {
+    expect(
+      getDeprecationPlainTextSnippet({
+        deprecatedInfo: {
+          isDeprecated: true,
+          since: undefined,
+          text: "This text has two lines<br>This is the second line.",
+        },
+        model,
+      })
+    ).to.equal("Deprecated. This text has two lines ...");
+  });
+});
+
+describe("The @ui5-language-assistant/logic-utils <convertJSDocToMarkdown> function", () => {
+  let model: UI5SemanticModel;
+  before(() => {
+    model = buildUI5Model({});
+  });
+
+  context("text has jsdoc tags", () => {
+    it("removes header tags", () => {
+      expect(convertJSDocToPlainText("<h1>The Title</h1>", model)).to.equal(
+        "\nThe Title\n"
+      );
+    });
+
+    it("replaces <br> tags with newline", () => {
+      expect(
+        convertJSDocToPlainText("The Title<br/>some text", model)
+      ).to.equal("The Title\nsome text");
+    });
   });
 });
 

@@ -2,9 +2,7 @@ import {
   UI5DeprecatedInfo,
   UI5SemanticModel,
 } from "@ui5-language-assistant/semantic-model-types";
-import { ReplaceFunction, forEach, unescape, concat } from "lodash";
-
-const MAX_SNIPPET_LENGTH = 500;
+import { ReplaceFunction, forEach, unescape, concat, includes } from "lodash";
 
 export function getDeprecationPlainTextSnippet({
   title,
@@ -18,16 +16,14 @@ export function getDeprecationPlainTextSnippet({
   let text = deprecatedInfo.text;
   if (text !== undefined) {
     text = convertJSDocToPlainText(text, model);
-    // Only take the first sentence.
-    // A sentence is defined by a dot followed by a whitespace character.
-    // TODO Should we allow the result to have more than 1 line? (If so, add "s" flag to the regex)
-    const matches = text.match(/^((?:.*?)\.)\s/);
-    if (matches !== null) {
-      text = matches[1];
-    }
-    // Limit the length of the snippet
-    if (text.length > MAX_SNIPPET_LENGTH) {
-      text = text.substring(0, MAX_SNIPPET_LENGTH) + "...";
+    // Only take the first line.
+    // Multi-line problems are displayed open in the problem view which makes less problems visible unless the user
+    // explicitly closes them.
+    // For the full deprecation message the user can hover over the tag/attribute.
+    // Note: long lines are displayed with "..." in the problems view and the user can hover over the problem to see
+    // the full text.
+    if (includes(text, "\n")) {
+      text = text.substring(0, text.indexOf("\n")) + " ...";
     }
   }
 
@@ -55,7 +51,8 @@ export function getDeprecationMessage({
   return contents;
 }
 
-function convertJSDocToPlainText(
+// Exported for testing purpose
+export function convertJSDocToPlainText(
   jsdocDescription: string,
   model: UI5SemanticModel
 ): string {
