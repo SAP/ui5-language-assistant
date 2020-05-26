@@ -24,7 +24,9 @@ import { FetchResponse } from "@ui5-language-assistant/language-server";
 //	easily build (partial) data structures for tests with mandatory "name" field
 export type PartialWithName<T> = { name: string } & Partial<T>;
 
-export function buildUI5Class(opts: PartialWithName<UI5Class>): UI5Class;
+export function buildUI5Class<T extends PartialWithName<UI5Class>>(
+  opts: T
+): UI5Class & T;
 
 export function buildUI5Interface(
   opts: PartialWithName<UI5Interface>
