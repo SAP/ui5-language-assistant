@@ -56,6 +56,10 @@ function validationIssuesToLspDiagnostics(
         return {
           ...commonDiagnosticPros,
         };
+      case "CardinalityOfAggregation":
+        return {
+          ...commonDiagnosticPros,
+        };
       case "UseOfDeprecatedClass":
         return {
           ...commonDiagnosticPros,
