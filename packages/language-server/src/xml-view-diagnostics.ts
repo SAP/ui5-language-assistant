@@ -53,6 +53,7 @@ function validationIssuesToLspDiagnostics(
       case "UnknownNamespaceInXmlnsAttributeValue":
       case "UnknownAttributeKey":
       case "UnknownTagName":
+      case "CardinalityOfAggregation":
         return {
           ...commonDiagnosticPros,
         };
