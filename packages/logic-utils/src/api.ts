@@ -23,3 +23,4 @@ export {
   convertJSDocToMarkdown,
   getLink,
 } from "./utils/documentation";
+export { splitQNameByNamespace } from "./utils/split-qname";

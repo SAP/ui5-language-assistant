@@ -13,6 +13,7 @@ import {
   flattenAssociations,
   flattenAggregations,
   ui5NodeToFQN,
+  splitQNameByNamespace,
 } from "@ui5-language-assistant/logic-utils";
 import { UnknownAttributeKeyIssue } from "../../../api";
 import { TEMPLATING_NS, CUSTOM_DATA_NS } from "../../utils/special-namespaces";
@@ -183,17 +184,14 @@ function isValidUI5ClassAttribute(
 
 function splitAttributeByNamespace(
   attribute: XMLAttribute & { key: string }
-): { ns: string | undefined; name: string | undefined } {
-  if (!includes(attribute.key, ":")) {
-    return { name: attribute.key, ns: undefined };
+): { ns: string | undefined; name: string } {
+  const { ns, name } = splitQNameByNamespace(attribute.key);
+  if (ns === undefined) {
+    return { ns, name };
   }
-  const match = attribute.key.match(/(?<ns>[^:]*)(:(?<name>.*))?/);
-  // There will always be a match because the attribute key always contains a colon at this point
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const matchGroups = match!.groups!;
-  const resolvedNS = attribute.parent.namespaces[matchGroups.ns];
+  const resolvedNS = attribute.parent.namespaces[ns];
   return {
     ns: resolvedNS,
-    name: matchGroups.name,
+    name: name,
   };
 }

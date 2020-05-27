@@ -263,9 +263,9 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
   it("will not insert the namespace when selecting completion for class in inner tag and namespace is already defined", () => {
     assertClassesCompletions({
       xmlSnippet: `<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m">
-        <content>
+        <mvc:content>
           <sap.m.MenuButto⇶n
-        </content>
+        </mvc:content>
       </m:View>`,
       expected: [
         {
@@ -282,9 +282,9 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
   it("will insert the namespace when selecting completion for class in inner tag and namespace is not defined", () => {
     assertClassesCompletions({
       xmlSnippet: `<m:View⭲⭰ xmlns:m="sap.ui.core.mvc">
-        <content>
+        <m:content>
           <MenuButton⇶
-        </content>
+        </m:content>
       </m:View>`,
       expected: [
         {
@@ -383,7 +383,7 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
       xmlSnippet: `<mvc:View 
           xmlns:mvc="sap.ui.core.mvc"
           xmlns:unified="sap.ui.unified">
-        <content> <ContentS⇶`,
+        <mvc:content> <ContentS⇶`,
       expected: [
         {
           label: "ContentSwitcher",
@@ -401,9 +401,9 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
   it("will replace the class closing tag name when the tag is closed and has the same name as the opening tag", () => {
     assertClassesCompletions({
       xmlSnippet: `<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m" xmlns:commons="sap.ui.commons">
-        <content>
+        <mvc:content>
           <MenuButton⇶></⭲MenuButton⭰>
-        </content>
+        </mvc:content>
       </m:View>`,
       expected: [
         {
@@ -435,9 +435,9 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
   it("will not replace the class closing tag name when the tag is closed and has a different name from the opening tag", () => {
     assertClassesCompletions({
       xmlSnippet: `<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m" xmlns:commons="sap.ui.commons">
-        <content>
+        <mvc:content>
           <MenuButton⇶></MenuButton1>
-        </content>
+        </mvc:content>
       </m:View>`,
       expected: [
         {
@@ -459,9 +459,9 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
   it("will not replace the class closing tag name when the tag is closed and the opening tag doesn't have a name", () => {
     assertClassesCompletions({
       xmlSnippet: `<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc">
-          <customData>
+          <mvc:customData>
               <⇶></MenuButton1>
-          </customData>
+          </mvc:customData>
       </mvc:View>`,
       expected: [
         {
@@ -477,9 +477,9 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
   it("will replace the class closing tag name when the tag is closed and does not have a name", () => {
     assertClassesCompletions({
       xmlSnippet: `<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m" xmlns:commons="sap.ui.commons">
-          <content>
+          <mvc:content>
             <MenuButton⇶>⭲</>⭰
-          </content>
+          </mvc:content>
         </m:View>`,
       expected: [
         {
@@ -511,9 +511,9 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
   it("will replace the class closing tag name when also inserting the namespace", () => {
     assertClassesCompletions({
       xmlSnippet: `<mvc:View⭲⭰ xmlns:mvc="sap.ui.core.mvc">
-          <content>
+          <mvc:content>
             <MenuButton⇶></⭲MenuButton⭰>
-          </content>
+          </mvc:content>
         </m:View>`,
       expected: [
         {

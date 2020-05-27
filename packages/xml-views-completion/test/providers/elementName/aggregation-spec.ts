@@ -112,6 +112,32 @@ describe("The ui5-language-assistant xml-views-completion", () => {
         });
       });
 
+      it("will suggest the current aggregation", () => {
+        const xmlSnippet = `
+          <mvc:View
+            xmlns:mvc="sap.ui.core.mvc"
+            xmlns="sap.m">
+            <Page>
+              <content></content>
+              <customHeader></customHeader>
+              <footer⇶></footer>
+            </Page>
+          </mvc:View>`;
+
+        testSuggestionsScenario({
+          model: REAL_UI5_MODEL,
+          xmlText: xmlSnippet,
+          providers: {
+            elementName: [aggregationSuggestions],
+          },
+          assertion: (suggestions) => {
+            const suggestedNames = map(suggestions, (_) => _.ui5Node.name);
+            expect(suggestedNames).to.include.members(["footer"]);
+            expectAggregationsSuggestions(suggestions, "Page");
+          },
+        });
+      });
+
       it("will filter suggestions on prefix (true prefix)", () => {
         const xmlSnippet = `
           <mvc:View
@@ -188,6 +214,118 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           },
         });
       });
+
+      it("will return suggestions when namespace is the same as parent", () => {
+        const xmlSnippet = `
+          <mvc:View
+            xmlns:mvc="sap.ui.core.mvc"
+            xmlns:m="sap.m">
+            <m:Page>
+              <m:cu⇶
+            </m:Page>
+          </mvc:View>`;
+
+        testSuggestionsScenario({
+          model: REAL_UI5_MODEL,
+          xmlText: xmlSnippet,
+          providers: {
+            elementName: [aggregationSuggestions],
+          },
+          assertion: (suggestions) => {
+            const suggestedNames = map(suggestions, (_) => _.ui5Node.name);
+            expect(suggestedNames).to.include.members([
+              "customData",
+              "customHeader",
+            ]);
+            expect(suggestedNames).to.not.include.members([
+              "content",
+              "dependents",
+              "dragDropConfig",
+              "footer",
+              "headerContent",
+              "landmarkInfo",
+              "layoutData",
+              "subHeader",
+              "tooltip",
+            ]);
+            expectAggregationsSuggestions(suggestions, "Page");
+          },
+        });
+      });
+
+      it("will return suggestions when parent has namespace and prefix doesn't", () => {
+        const xmlSnippet = `
+          <mvc:View
+            xmlns:mvc="sap.ui.core.mvc"
+            xmlns:m="sap.m">
+            <m:Page>
+              <cu⇶
+            </m:Page>
+          </mvc:View>`;
+
+        testSuggestionsScenario({
+          model: REAL_UI5_MODEL,
+          xmlText: xmlSnippet,
+          providers: {
+            elementName: [aggregationSuggestions],
+          },
+          assertion: (suggestions) => {
+            const suggestedNames = map(suggestions, (_) => _.ui5Node.name);
+            expect(suggestedNames).to.include.members([
+              "customData",
+              "customHeader",
+            ]);
+            expect(suggestedNames).to.not.include.members([
+              "content",
+              "dependents",
+              "dragDropConfig",
+              "footer",
+              "headerContent",
+              "landmarkInfo",
+              "layoutData",
+              "subHeader",
+              "tooltip",
+            ]);
+            expectAggregationsSuggestions(suggestions, "Page");
+          },
+        });
+      });
+
+      it("will return suggestions when prefix only contains the namespace and it is the same as parent", () => {
+        const xmlSnippet = `
+          <mvc:View
+            xmlns:mvc="sap.ui.core.mvc"
+            xmlns:m="sap.m">
+            <m:Page>
+              <m:⇶
+            </m:Page>
+          </mvc:View>`;
+
+        testSuggestionsScenario({
+          model: REAL_UI5_MODEL,
+          xmlText: xmlSnippet,
+          providers: {
+            elementName: [aggregationSuggestions],
+          },
+          assertion: (suggestions) => {
+            const suggestedNames = map(suggestions, (_) => _.ui5Node.name);
+            expect(suggestedNames).to.include.members([
+              "customData",
+              "dependents",
+              "dragDropConfig",
+              "layoutData",
+              "tooltip",
+              "content",
+              "customHeader",
+              "footer",
+              "headerContent",
+              "landmarkInfo",
+              "subHeader",
+            ]);
+            expectAggregationsSuggestions(suggestions, "Page");
+          },
+        });
+      });
     });
 
     context("none applicable scenarios", () => {
@@ -254,6 +392,50 @@ describe("The ui5-language-assistant xml-views-completion", () => {
 
         testSuggestionsScenario({
           model: clonedModel,
+          xmlText: xmlSnippet,
+          providers: {
+            elementName: [aggregationSuggestions],
+          },
+          assertion: (suggestions) => {
+            expect(suggestions).to.be.empty;
+          },
+        });
+      });
+
+      it("will not suggest when namespace is not the same as parent", () => {
+        const xmlSnippet = `
+          <mvc:View
+            xmlns:mvc="sap.ui.core.mvc"
+            xmlns:m="sap.m">
+            <m:Page>
+              <mvc:cu⇶
+            </m:Page>
+          </mvc:View>`;
+
+        testSuggestionsScenario({
+          model: REAL_UI5_MODEL,
+          xmlText: xmlSnippet,
+          providers: {
+            elementName: [aggregationSuggestions],
+          },
+          assertion: (suggestions) => {
+            expect(suggestions).to.be.empty;
+          },
+        });
+      });
+
+      it("will not suggest when prefix has namespace and parent doesn't", () => {
+        const xmlSnippet = `
+          <mvc:View
+            xmlns:mvc="sap.ui.core.mvc"
+            xmlns="sap.m">
+            <Page>
+              <mvc:⇶
+            </Page>
+          </mvc:View>`;
+
+        testSuggestionsScenario({
+          model: REAL_UI5_MODEL,
           xmlText: xmlSnippet,
           providers: {
             elementName: [aggregationSuggestions],

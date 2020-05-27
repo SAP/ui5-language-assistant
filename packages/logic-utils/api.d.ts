@@ -172,3 +172,11 @@ export function convertJSDocToMarkdown(
  * @param link
  */
 export function getLink(model: UI5SemanticModel, link: string): string;
+
+/**
+ * Split possibly qualified tag or attribute name to namespace and name
+ * @param qName
+ */
+export function splitQNameByNamespace(
+  qName: string
+): { ns: string | undefined; name: string };

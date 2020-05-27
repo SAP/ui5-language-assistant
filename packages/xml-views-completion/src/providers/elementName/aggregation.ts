@@ -2,10 +2,11 @@ import {
   flattenAggregations,
   isElementSubClass,
   getUI5ClassByXMLElement,
+  splitQNameByNamespace,
 } from "@ui5-language-assistant/logic-utils";
 
 import { UI5AggregationsInXMLTagNameCompletion } from "../../../api";
-import { map, compact, uniq } from "lodash";
+import { map, compact, uniq, reject } from "lodash";
 import { UI5ElementNameCompletionOptions } from "./index";
 import { filterMembersForSuggestion } from "../utils/filter-members";
 
@@ -26,8 +27,13 @@ export function aggregationSuggestions(
     return [];
   }
 
-  // An aggregation is always a simple one word name, it may never include XML namespaces.
-  if (opts.prefix?.includes(":")) {
+  // An aggregation must be on the parent tag namespace.
+  // We suggest the completion even if the namespace was not defined.
+  if (
+    prefix.includes(":") &&
+    (parentXMLElement.ns === undefined ||
+      !prefix.startsWith(parentXMLElement.ns + ":"))
+  ) {
     return [];
   }
 
@@ -39,11 +45,15 @@ export function aggregationSuggestions(
   const existingAggregations = compact(
     uniq(map(parentXMLElement.subElements, (_) => _.name))
   );
+  const existingAggregationsWithoutCurrent =
+    xmlElement.name === null
+      ? existingAggregations
+      : reject(existingAggregations, (name) => name === xmlElement.name);
 
   const uniquePrefixMatchingAggregations = filterMembersForSuggestion(
     flattenAggregations(parentUI5Class),
-    prefix,
-    existingAggregations
+    splitQNameByNamespace(prefix).name,
+    existingAggregationsWithoutCurrent
   );
 
   return map(uniquePrefixMatchingAggregations, (_) => ({

@@ -94,6 +94,20 @@ describe("The @ui5-language-assistant/logic-utils <getUI5AggregationByXMLElement
     );
   });
 
+  it("returns the aggregation for known aggregation under a class tag with namespace", () => {
+    const xmlText = `
+        <mvc:View xmlns:mvc="sap.ui.core.mvc">
+          <mvc:content></mvc:content>
+        </mvc:View>`;
+    const element = getRootElementChild(xmlText);
+
+    const ui5Aggregation = getUI5AggregationByXMLElement(element, ui5Model);
+    expectExists(ui5Aggregation, "ui5 aggregation");
+    expect(ui5NodeToFQN(ui5Aggregation)).to.equal(
+      "sap.ui.core.mvc.View.content"
+    );
+  });
+
   it("returns undefined for unknown aggregation under a class tag", () => {
     const xmlText = `
         <View xmlns="sap.ui.core.mvc">
@@ -127,10 +141,43 @@ describe("The @ui5-language-assistant/logic-utils <getUI5AggregationByXMLElement
     expect(ui5Aggregation, "ui5 aggregation").to.be.undefined;
   });
 
-  it("returns undefined for tag with known namespace under a class tag", () => {
+  it("returns undefined for tag with known namespace under a class tag without namespace", () => {
     const xmlText = `
         <View xmlns="sap.ui.core.mvc" xmlns:core="sap.ui.core">
           <core:content></core:content>
+        </View>`;
+    const element = getRootElementChild(xmlText);
+
+    const ui5Aggregation = getUI5AggregationByXMLElement(element, ui5Model);
+    expect(ui5Aggregation, "ui5 aggregation").to.be.undefined;
+  });
+
+  it("returns undefined for tag with known namespace under a class tag with a different namespace", () => {
+    const xmlText = `
+        <mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:core="sap.ui.core">
+          <core:content></core:content>
+        </mvc:View>`;
+    const element = getRootElementChild(xmlText);
+
+    const ui5Aggregation = getUI5AggregationByXMLElement(element, ui5Model);
+    expect(ui5Aggregation, "ui5 aggregation").to.be.undefined;
+  });
+
+  it("returns undefined for tag with unknown namespace under a class tag with a different namespace", () => {
+    const xmlText = `
+        <mvc:View xmlns:mvc="sap.ui.core.mvc">
+          <core:content></core:content>
+        </mvc:View>`;
+    const element = getRootElementChild(xmlText);
+
+    const ui5Aggregation = getUI5AggregationByXMLElement(element, ui5Model);
+    expect(ui5Aggregation, "ui5 aggregation").to.be.undefined;
+  });
+
+  it("returns undefined for tag with empty namespace under a class tag without a namespace", () => {
+    const xmlText = `
+        <View xmlns="sap.ui.core.mvc">
+          <:content></:content>
         </View>`;
     const element = getRootElementChild(xmlText);
 
@@ -149,7 +196,7 @@ describe("The @ui5-language-assistant/logic-utils <getUI5AggregationByXMLElement
     expect(ui5Aggregation, "ui5 aggregation").to.be.undefined;
   });
 
-  it("returns undefined root tag", () => {
+  it("returns undefined for root tag", () => {
     const xmlText = `
           <content></content>`;
     const element = getRootElement(xmlText);

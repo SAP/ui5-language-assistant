@@ -1,17 +1,24 @@
+import { expect } from "chai";
 import { partial } from "lodash";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { generateModel } from "@ui5-language-assistant/test-utils";
 import {
   assertNoIssues as assertNoIssuesBase,
   assertSingleIssue as assertSingleIssueBase,
+  testValidationsScenario,
+  computeExpectedRanges,
 } from "../../test-utils";
 import { validateUnknownTagName } from "../../../src/validators/elements/unknown-tag-name";
 import {
   getMessage,
   UNKNOWN_CLASS_IN_NS,
   UNKNOWN_CLASS_WITHOUT_NS,
-  UNKNOWN_TAG_NAME_IN_CLASS,
   UNKNOWN_AGGREGATION_IN_CLASS,
+  UNKNOWN_AGGREGATION_IN_CLASS_DIFF_NAMESPACE,
+  UNKNOWN_TAG_NAME_IN_CLASS,
+  UNKNOWN_TAG_NAME_IN_NS_UNDER_CLASS,
+  UNKNOWN_TAG_NAME_IN_NS,
+  UNKNOWN_TAG_NAME_NO_NS,
 } from "../../../src/utils/messages";
 
 describe("the unknown tag name validation", () => {
@@ -68,7 +75,12 @@ describe("the unknown tag name validation", () => {
               </m:Button_TYPO>
             </m:SplitApp>
           </mvc:View>`,
-          getMessage(UNKNOWN_CLASS_IN_NS, "Button_TYPO", "sap.m")
+          getMessage(
+            UNKNOWN_TAG_NAME_IN_NS_UNDER_CLASS,
+            "Button_TYPO",
+            "sap.m",
+            "sap.m.SplitApp"
+          )
         );
       });
 
@@ -77,13 +89,88 @@ describe("the unknown tag name validation", () => {
           `<mvc:View
             xmlns:mvc="sap.ui.core.mvc"
             xmlns:m="sap.m">
-            <content>
+            <mvc:content>
               <🢂m:Button_TYPO🢀>
               </m:Button_TYPO>
-            </content>
+            </mvc:content>
           </mvc:View>`,
           getMessage(UNKNOWN_CLASS_IN_NS, "Button_TYPO", "sap.m")
         );
+      });
+
+      it("will detect an invalid class name under aggregation in the same namespace", () => {
+        assertSingleIssue(
+          `<mvc:View
+            xmlns:mvc="sap.ui.core.mvc">
+            <mvc:content>
+              <🢂mvc:Button_TYPO🢀>
+              </mvc:Button_TYPO>
+            </mvc:content>
+          </mvc:View>`,
+          getMessage(UNKNOWN_CLASS_IN_NS, "Button_TYPO", "sap.ui.core.mvc")
+        );
+      });
+
+      it("will detect an invalid aggregation name under known class tag without default aggregation", () => {
+        assertSingleIssue(
+          `<mvc:View
+            xmlns:mvc="sap.ui.core.mvc"
+            xmlns:m="sap.m">
+            <m:SplitApp>
+              <🢂m:content_TYPO🢀>
+              </m:content_TYPO>
+            </m:SplitApp>
+          </mvc:View>`,
+          getMessage(
+            UNKNOWN_TAG_NAME_IN_NS_UNDER_CLASS,
+            "content_TYPO",
+            "sap.m",
+            "sap.m.SplitApp"
+          )
+        );
+      });
+
+      it("will detect an issue for unknown name under unknown class in a known namespace", () => {
+        const xmlSnippet = `
+          <mvc:View
+            xmlns:mvc="sap.ui.core.mvc"
+            xmlns:m="sap.m">
+            <🢂m:SplitApp_TYPO🢀>
+              <🢂m:Button_TYPO🢀>
+              </m:Button_TYPO>
+            </m:SplitApp_TYPO>
+          </mvc:View>`;
+        const expectedRanges = computeExpectedRanges(xmlSnippet);
+
+        testValidationsScenario({
+          model: ui5SemanticModel,
+          xmlText: xmlSnippet,
+          validators: { element: [validateUnknownTagName] },
+          assertion: (issues) => {
+            expect(issues).to.deep.equalInAnyOrder([
+              {
+                kind: "UnknownTagName",
+                message: getMessage(
+                  UNKNOWN_CLASS_IN_NS,
+                  "SplitApp_TYPO",
+                  "sap.m"
+                ),
+                offsetRange: expectedRanges[0],
+                severity: "error",
+              },
+              {
+                kind: "UnknownTagName",
+                message: getMessage(
+                  UNKNOWN_TAG_NAME_IN_NS,
+                  "Button_TYPO",
+                  "sap.m"
+                ),
+                offsetRange: expectedRanges[1],
+                severity: "error",
+              },
+            ]);
+          },
+        });
       });
     });
 
@@ -101,9 +188,9 @@ describe("the unknown tag name validation", () => {
           assertSingleIssue(
             `<mvc:View
               xmlns:mvc="sap.ui.core.mvc">
-              <content>
+              <mvc:content>
                 <🢂List🢀></List>
-              </content>
+              </mvc:content>
             </mvc:View>`,
             getMessage(UNKNOWN_CLASS_WITHOUT_NS, "List")
           );
@@ -123,22 +210,82 @@ describe("the unknown tag name validation", () => {
           );
         });
 
-        it("will detect an invalid aggregation name under known class tag without default aggregation", () => {
+        it("will detect an invalid aggregation namespace under known class tag without default aggregation", () => {
           assertSingleIssue(
             `<mvc:View
               xmlns:mvc="sap.ui.core.mvc"
               xmlns:m="sap.m">
               <m:SplitApp>
-                <🢂content_TYPO🢀>
-                </content_TYPO>
+                <🢂content🢀>
+                </content>
               </m:SplitApp>
             </mvc:View>`,
             getMessage(
-              UNKNOWN_AGGREGATION_IN_CLASS,
-              "content_TYPO",
+              UNKNOWN_AGGREGATION_IN_CLASS_DIFF_NAMESPACE,
+              "content",
               "sap.m.SplitApp"
             )
           );
+        });
+
+        it("will detect an issue for unknown name under unknown class in non-default non-ui5 namespace when name starts with uppercase", () => {
+          assertSingleIssue(
+            `<mvc:View
+              xmlns:mvc="sap.ui.core.mvc"
+              xmlns:typo="sap.m_TYPO">
+              <typo:SplitApp>
+                <🢂Button_TYPO🢀>
+                </Button_TYPO>
+              </typo:SplitApp>
+            </mvc:View>`,
+            getMessage(UNKNOWN_TAG_NAME_NO_NS, "Button_TYPO")
+          );
+        });
+      });
+
+      context("when default namespace is a ui5 namespace", () => {
+        it("will detect an issue for unknown name under unknown class in the default namespace", () => {
+          const xmlSnippet = `
+            <mvc:View
+              xmlns:mvc="sap.ui.core.mvc"
+              xmlns="sap.m">
+              <🢂SplitApp_TYPO🢀>
+                <🢂Button_TYPO🢀>
+                </Button_TYPO>
+              </SplitApp_TYPO>
+            </mvc:View>`;
+          const expectedRanges = computeExpectedRanges(xmlSnippet);
+
+          testValidationsScenario({
+            model: ui5SemanticModel,
+            xmlText: xmlSnippet,
+            validators: { element: [validateUnknownTagName] },
+            assertion: (issues) => {
+              expect(issues).to.deep.equalInAnyOrder([
+                {
+                  kind: "UnknownTagName",
+                  message: getMessage(
+                    UNKNOWN_TAG_NAME_IN_NS_UNDER_CLASS,
+                    "SplitApp_TYPO",
+                    "sap.m",
+                    "sap.ui.core.mvc.View"
+                  ),
+                  offsetRange: expectedRanges[0],
+                  severity: "error",
+                },
+                {
+                  kind: "UnknownTagName",
+                  message: getMessage(
+                    UNKNOWN_TAG_NAME_IN_NS,
+                    "Button_TYPO",
+                    "sap.m"
+                  ),
+                  offsetRange: expectedRanges[1],
+                  severity: "error",
+                },
+              ]);
+            },
+          });
         });
       });
     });
@@ -172,8 +319,9 @@ describe("the unknown tag name validation", () => {
             <🢂List_TYPO🢀></List_TYPO>
           </View>`,
           getMessage(
-            UNKNOWN_TAG_NAME_IN_CLASS,
+            UNKNOWN_TAG_NAME_IN_NS_UNDER_CLASS,
             "List_TYPO",
+            "sap.ui.core.mvc",
             "sap.ui.core.mvc.View"
           )
         );
@@ -181,14 +329,14 @@ describe("the unknown tag name validation", () => {
 
       it("will detect an invalid aggregation name under known class tag without default aggregation", () => {
         assertSingleIssue(
-          `<View
-            xmlns="sap.ui.core.mvc"
-            xmlns:m="sap.m">
-            <m:SplitApp>
+          `<mvc:View
+            xmlns:mvc="sap.ui.core.mvc"
+            xmlns="sap.m">
+            <SplitApp>
               <🢂content_TYPO🢀>
               </content_TYPO>
-            </m:SplitApp>
-          </View>`,
+            </SplitApp>
+          </mvc:View>`,
           getMessage(
             UNKNOWN_AGGREGATION_IN_CLASS,
             "content_TYPO",
@@ -275,10 +423,10 @@ describe("the unknown tag name validation", () => {
             `<mvc:View
               xmlns:mvc="sap.ui.core.mvc"
               xmlns:m="sap.m">
-              <content>
+              <mvc:content>
                 <m:Button>
                 </m:Button>
-              </content>
+              </mvc:content>
             </mvc:View>`
           );
         });
@@ -328,10 +476,10 @@ describe("the unknown tag name validation", () => {
             `<mvc:View
               xmlns:mvc="sap.ui.core.mvc"
               xmlns="sap.m">
-              <content>
+              <mvc:content>
                 <Button>
                 </Button>
-              </content>
+              </mvc:content>
             </mvc:View>`
           );
         });
@@ -366,8 +514,8 @@ describe("the unknown tag name validation", () => {
             `<mvc:View
               xmlns:mvc="sap.ui.core.mvc"
               xmlns="sap.m">
-              <content>
-              </content>
+              <mvc:content>
+              </mvc:content>
             </mvc:View>`
           );
         });
@@ -403,8 +551,8 @@ describe("the unknown tag name validation", () => {
               xmlns:typo="sap.m_TYPO"
               xmlns="sap.m">
               <typo:SplitApp>
-                <content_TYPO>
-                </content_TYPO>
+                <typo:content_TYPO>
+                </typo:content_TYPO>
               </typo:SplitApp>
             </mvc:View>`
           );
@@ -425,10 +573,10 @@ describe("the unknown tag name validation", () => {
             `<mvc:View
               xmlns:mvc="sap.ui.core.mvc"
               xmlns="sap.m_TYPO">
-              <content>
+              <mvc:content>
                 <Button_TYPO>
                 </Button_TYPO>
-              </content>
+              </mvc:content>
             </mvc:View>`
           );
         });
@@ -500,21 +648,8 @@ describe("the unknown tag name validation", () => {
               xmlns:mvc="sap.ui.core.mvc"
               xmlns:typo="sap.m_TYPO">
               <typo:SplitApp>
-                <content_TYPO>
-                </content_TYPO>
-              </typo:SplitApp>
-            </mvc:View>`
-          );
-        });
-
-        it("will not detect an issue for unknown name under unknown class in non-default non-ui5 namespace when name starts with uppercase", () => {
-          assertNoIssues(
-            `<mvc:View
-              xmlns:mvc="sap.ui.core.mvc"
-              xmlns:typo="sap.m_TYPO">
-              <typo:SplitApp>
-                <Button_TYPO>
-                </Button_TYPO>
+                <typo:content_TYPO>
+                </typo:content_TYPO>
               </typo:SplitApp>
             </mvc:View>`
           );

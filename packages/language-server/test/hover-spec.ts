@@ -27,9 +27,9 @@ describe("the UI5 language assistant Hover Tooltip Service", () => {
       const xmlSnippet = `<mvc:View
                             xmlns:mvc="sap.ui.core.mvc"
                             xmlns="sap.m"> 
-                            <content>
+                            <mvc:content>
                               <List showSeparator⇶s="All"></List>
-                            </content>
+                            </mvc:content>
                           </mvc:View>`;
       const response = getHoverItem(xmlSnippet, ui5SemanticModel);
       expectExists(response, "Hover item");
@@ -70,9 +70,9 @@ describe("the UI5 language assistant Hover Tooltip Service", () => {
       const xmlSnippet = `<mvc:View
                             xmlns:mvc="sap.ui.core.mvc"
                             xmlns="sap.m"> 
-                            <content>
+                            <mvc:content>
                               <List showSeparator⇶s1="All"></List>
-                            </content>
+                            </mvc:content>
                           </mvc:View>`;
       const response = getHoverItem(xmlSnippet, ui5SemanticModel);
       expect(response).to.not.exist;
@@ -84,9 +84,9 @@ describe("the UI5 language assistant Hover Tooltip Service", () => {
       const xmlSnippet = `<mvc:View
                             xmlns:mvc="sap.ui.core.mvc"
                             xmlns="sap.m"> 
-                            <content>
+                            <mvc:content>
                               <List showSeparators="Al⇶l"></List>
-                            </content>
+                            </mvc:content>
                           </mvc:View>`;
       const response = getHoverItem(xmlSnippet, ui5SemanticModel);
       expectExists(response, "Hover item");
@@ -100,9 +100,9 @@ describe("the UI5 language assistant Hover Tooltip Service", () => {
       const xmlSnippet = `<mvc:View
                               xmlns:mvc="sap.ui.core.mvc"
                               xmlns="sap.m⇶"> 
-                              <content>
+                              <mvc:content>
                                 <List showSeparators="All"></List>
-                              </content>
+                              </mvc:content>
                             </mvc:View>`;
       const response = getHoverItem(xmlSnippet, ui5SemanticModel);
       expectExists(response, "Hover item");
@@ -118,9 +118,9 @@ describe("the UI5 language assistant Hover Tooltip Service", () => {
       const xmlSnippet = `<mvc:View
                             xmlns:mvc="sap.ui.core.mvc"
                             xmlns="sap.m"> 
-                            <content>
+                            <mvc:content>
                               <Lis⇶t showSeparators="All"></List>
-                            </content>
+                            </mvc:content>
                           </mvc:View>`;
       const response = getHoverItem(xmlSnippet, ui5SemanticModel);
       expectExists(response, "Hover item");
@@ -134,9 +134,9 @@ describe("the UI5 language assistant Hover Tooltip Service", () => {
       const xmlSnippet = `<mvc:View
                             xmlns:mvc="sap.ui.core.mvc"
                             xmlns="sap.m"> 
-                            <conten⇶t>
+                            <mvc:conten⇶t>
                               <List showSeparators="All"></List>
-                            </content>
+                            </mvc:content>
                           </mvc:View>`;
       const response = getHoverItem(xmlSnippet, ui5SemanticModel);
       expectExists(response, "Hover item");
@@ -150,9 +150,9 @@ describe("the UI5 language assistant Hover Tooltip Service", () => {
       const xmlSnippet = `<mvc:View
                             xmlns:mvc="sap.ui.core.mvc"
                             xmlns="sap.m"> 
-                            <content>
+                            <mvc:content>
                               <List showSeparators="All"></L⇶ist>
-                            </content>
+                            </mvc:content>
                           </mvc:View>`;
       const response = getHoverItem(xmlSnippet, ui5SemanticModel);
       expectExists(response, "Hover item");
@@ -166,9 +166,9 @@ describe("the UI5 language assistant Hover Tooltip Service", () => {
       const xmlSnippet = `<mvc:View
                               xmlns:mvc="sap.ui.core.mvc"
                               xmlns="sap.m"> 
-                              <content>
+                              <mvc:content>
                                 <List showSeparators="All"></List>
-                              </conten⇶t>
+                              </mvc:conten⇶t>
                             </mvc:View>`;
       const response = getHoverItem(xmlSnippet, ui5SemanticModel);
       expectExists(response, "Hover item");
@@ -181,7 +181,7 @@ describe("the UI5 language assistant Hover Tooltip Service", () => {
     const xmlSnippet = `<mvc:View
                           xmlns:mvc="sap.ui.core.mvc"
                           xmlns="sap.m"> 
-                          <content></L⇶ist>
+                          <mvc:content></L⇶ist>
                         </mvc:View>`;
     const response = getHoverItem(xmlSnippet, ui5SemanticModel);
     expectExists(response, "Hover item");
@@ -195,9 +195,9 @@ describe("the UI5 language assistant Hover Tooltip Service", () => {
     const xmlSnippet = `<mvc:View
                           xmlns:mvc="sap.ui.core.mvc"
                           xmlns="sap.m"> 
-                          <content>
+                          <mvc:content>
                             <List ⇶ showSeparators="All"></List>
-                          </content>
+                          </mvc:content>
                         </mvc:View>`;
     const response = getHoverItem(xmlSnippet, ui5SemanticModel);
     expect(response).to.not.exist;

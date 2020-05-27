@@ -30,8 +30,9 @@ export function getUI5AggregationByXMLElement(
   if (element.parent.type === "XMLDocument") {
     return undefined;
   }
-  // Aggregations don't have a namesapce
-  if (element.ns !== undefined) {
+  // Aggregations must be in the same namespace as their parent
+  // https://sapui5.hana.ondemand.com/#/topic/19eabf5b13214f27b929b9473df3195b
+  if (element.ns !== element.parent.ns) {
     return undefined;
   }
   const ui5Class = getUI5ClassByXMLElement(element.parent, model);

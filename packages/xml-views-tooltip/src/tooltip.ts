@@ -1,4 +1,4 @@
-import { find, includes } from "lodash";
+import { find } from "lodash";
 import { assertNever } from "assert-never";
 import { XMLAttribute, XMLElement, DEFAULT_NS } from "@xml-tools/ast";
 import { isXMLNamespaceKey } from "@xml-tools/common";
@@ -16,6 +16,7 @@ import {
   flattenProperties,
   flattenEvents,
   flattenAssociations,
+  splitQNameByNamespace,
 } from "@ui5-language-assistant/logic-utils";
 import {
   UI5Class,
@@ -73,16 +74,24 @@ function findUI5NodeByElement(
   }
 
   // openName or closeName cannot be undefined here because otherwise the ast position visitor wouldn't return their types
-  const nameByKind = isOpenName
+  const tagQName = isOpenName
     ? /* istanbul ignore next */
       astNode.syntax.openName?.image
     : /* istanbul ignore next */
       astNode.syntax.closeName?.image;
+  /* istanbul ignore if */
+  if (tagQName === undefined) {
+    return undefined;
+  }
 
-  return nameByKind !== undefined
-    ? findAggragationByName(parentElementClass, nameByKind)
-    : /* istanbul ignore next */
-      undefined;
+  // Aggregations must be in the same namespace as their parent
+  // https://sapui5.hana.ondemand.com/#/topic/19eabf5b13214f27b929b9473df3195b
+  const { ns, name } = splitQNameByNamespace(tagQName);
+  if (ns !== astNode.parent.ns) {
+    return undefined;
+  }
+
+  return findAggragationByName(parentElementClass, name);
 }
 
 function findAggragationByName(
@@ -96,25 +105,6 @@ function findAggragationByName(
   );
 
   return ui5Aggregation;
-}
-
-function splitQNameByNamespace(
-  qName: string
-): { ns: string | undefined; name: string } {
-  if (!includes(qName, ":")) {
-    return { name: qName, ns: undefined };
-  }
-  const match = qName.match(/(?<ns>[^:]*)(:(?<name>.*))?/);
-  // There will always be a match because qName always contains a colon at this point
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const matchGroups = match!.groups!;
-  return {
-    ns: matchGroups.ns,
-    name:
-      matchGroups.name ??
-      /* istanbul ignore next */
-      "",
-  };
 }
 
 function elementClosingTagToFQN(xmlElement: XMLElement): string {
