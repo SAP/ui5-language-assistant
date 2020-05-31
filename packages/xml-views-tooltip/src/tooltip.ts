@@ -86,12 +86,12 @@ function findUI5NodeByElement(
 
   // Aggregations must be in the same namespace as their parent
   // https://sapui5.hana.ondemand.com/#/topic/19eabf5b13214f27b929b9473df3195b
-  const { ns, name } = splitQNameByNamespace(tagQName);
-  if (ns !== astNode.parent.ns) {
+  const { prefix, localName } = splitQNameByNamespace(tagQName);
+  if (prefix !== astNode.parent.ns) {
     return undefined;
   }
 
-  return findAggragationByName(parentElementClass, name);
+  return findAggragationByName(parentElementClass, localName);
 }
 
 function findAggragationByName(
@@ -111,15 +111,15 @@ function elementClosingTagToFQN(xmlElement: XMLElement): string {
   //the closeName can't be undefined here because otherwise the ast position visitor wouldn't return its type
   /* istanbul ignore next */
   const qName = xmlElement.syntax.closeName?.image ?? "";
-  const { ns, name } = splitQNameByNamespace(qName);
-  const prefixXmlns = ns ?? DEFAULT_NS;
+  const { prefix, localName } = splitQNameByNamespace(qName);
+  const prefixXmlns = prefix ?? DEFAULT_NS;
   const resolvedXmlns = xmlElement.namespaces[prefixXmlns];
 
   if (resolvedXmlns !== undefined) {
-    return resolvedXmlns + "." + name;
+    return resolvedXmlns + "." + localName;
   }
 
-  return name;
+  return localName;
 }
 
 function findUI5NodeByXMLAttributeKey(

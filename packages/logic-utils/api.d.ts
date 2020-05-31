@@ -174,9 +174,10 @@ export function convertJSDocToMarkdown(
 export function getLink(model: UI5SemanticModel, link: string): string;
 
 /**
- * Split possibly qualified tag or attribute name to namespace and name
+ * Split possibly qualified XML Tag or XML Attribute name to prefix and local name.
+ * If there is no prefix in the qualified name, the returned prefix will be undefined.
  * @param qName
  */
 export function splitQNameByNamespace(
   qName: string
-): { ns: string | undefined; name: string };
+): { prefix: string | undefined; localName: string };

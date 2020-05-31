@@ -52,7 +52,7 @@ export function aggregationSuggestions(
 
   const uniquePrefixMatchingAggregations = filterMembersForSuggestion(
     flattenAggregations(parentUI5Class),
-    splitQNameByNamespace(prefix).name,
+    splitQNameByNamespace(prefix).localName,
     existingAggregationsWithoutCurrent
   );
 
