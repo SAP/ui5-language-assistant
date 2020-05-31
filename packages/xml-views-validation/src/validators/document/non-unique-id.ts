@@ -47,7 +47,7 @@ function buildIssuesForSingleID(
         },
         identicalIDsRanges: map(relatedOtherDupIDAttribs, (_) => ({
           start: _.syntax.value.startOffset,
-          end: _.syntax.value.startOffset,
+          end: _.syntax.value.endOffset,
         })),
       };
     }
