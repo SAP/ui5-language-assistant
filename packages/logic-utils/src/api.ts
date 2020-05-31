@@ -24,3 +24,9 @@ export {
   getLink,
 } from "./utils/documentation";
 export { splitQNameByNamespace } from "./utils/split-qname";
+export {
+  resolveXMLNS,
+  resolveXMLNSFromPrefix,
+  isSameXMLNS,
+  isSameXMLNSFromPrefix,
+} from "./utils/xml-namespaces";

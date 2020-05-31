@@ -1,6 +1,6 @@
 import { find } from "lodash";
 import { assertNever } from "assert-never";
-import { XMLAttribute, XMLElement, DEFAULT_NS } from "@xml-tools/ast";
+import { XMLAttribute, XMLElement } from "@xml-tools/ast";
 import { isXMLNamespaceKey } from "@xml-tools/common";
 import {
   XMLElementOpenName,
@@ -17,6 +17,8 @@ import {
   flattenEvents,
   flattenAssociations,
   splitQNameByNamespace,
+  isSameXMLNSFromPrefix,
+  resolveXMLNSFromPrefix,
 } from "@ui5-language-assistant/logic-utils";
 import {
   UI5Class,
@@ -87,7 +89,9 @@ function findUI5NodeByElement(
   // Aggregations must be in the same namespace as their parent
   // https://sapui5.hana.ondemand.com/#/topic/19eabf5b13214f27b929b9473df3195b
   const { prefix, localName } = splitQNameByNamespace(tagQName);
-  if (prefix !== astNode.parent.ns) {
+  if (
+    !isSameXMLNSFromPrefix(prefix, astNode, astNode.parent.ns, astNode.parent)
+  ) {
     return undefined;
   }
 
@@ -112,8 +116,7 @@ function elementClosingTagToFQN(xmlElement: XMLElement): string {
   /* istanbul ignore next */
   const qName = xmlElement.syntax.closeName?.image ?? "";
   const { prefix, localName } = splitQNameByNamespace(qName);
-  const prefixXmlns = prefix ?? DEFAULT_NS;
-  const resolvedXmlns = xmlElement.namespaces[prefixXmlns];
+  const resolvedXmlns = resolveXMLNSFromPrefix(prefix, xmlElement);
 
   if (resolvedXmlns !== undefined) {
     return resolvedXmlns + "." + localName;

@@ -10,6 +10,7 @@ import {
   ui5NodeToFQN,
   getUI5NodeFromXMLElementNamespace,
   getUI5AggregationByXMLElement,
+  isSameXMLNS,
 } from "@ui5-language-assistant/logic-utils";
 import {
   getMessage,
@@ -94,7 +95,7 @@ function validateTagWithNamespace(
   //
   if (
     xmlElement.parent.type === "XMLElement" &&
-    xmlElement.parent.ns === xmlElement.ns &&
+    isSameXMLNS(xmlElement.parent, xmlElement) &&
     getUI5AggregationByXMLElement(xmlElement.parent, model) === undefined
   ) {
     return [

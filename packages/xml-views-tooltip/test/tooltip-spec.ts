@@ -142,6 +142,21 @@ describe("the UI5 language assistant Hover Tooltip Service", () => {
       expect(ui5Node.kind).equal("UI5Aggregation");
     });
 
+    it("will get hover content UI5 Aggregation with a different namespace prefix that references the same namespace", () => {
+      const xmlSnippet = `<mvc:View
+                            xmlns:mvc="sap.ui.core.mvc"
+                            xmlns:mvc2="sap.ui.core.mvc"
+                            xmlns="sap.m"> 
+                            <mvc2:conten⇶t>
+                              <List showSeparators="All"></List>
+                            </mvc2:content>
+                          </mvc:View>`;
+      const ui5Node = getUI5Node(xmlSnippet, ui5SemanticModel);
+      expectExists(ui5Node, "UI5Node");
+      expect(ui5Node.name).to.equal("content");
+      expect(ui5Node.kind).equal("UI5Aggregation");
+    });
+
     it("will get hover content UI5 Aggregation in the default namespace", () => {
       const xmlSnippet = `<View
                             xmlns="sap.ui.core.mvc"
@@ -214,6 +229,21 @@ describe("the UI5 language assistant Hover Tooltip Service", () => {
                             <mvc:content>
                               <List showSeparators="All"></List>
                             </mvc:conte⇶nt>
+                          </mvc:View>`;
+      const ui5Node = getUI5Node(xmlSnippet, ui5SemanticModel);
+      expectExists(ui5Node, "UI5Node");
+      expect(ui5Node.name).to.equal("content");
+      expect(ui5Node.kind).equal("UI5Aggregation");
+    });
+
+    it("will get hover content UI5 Aggregation with a different namespace prefix that references the same namespace", () => {
+      const xmlSnippet = `<mvc:View
+                            xmlns:mvc="sap.ui.core.mvc"
+                            xmlns:mvc2="sap.ui.core.mvc"
+                            xmlns="sap.m"> 
+                            <mvc_TYPO:content>
+                              <List showSeparators="All"></List>
+                            </mvc2:conte⇶nt>
                           </mvc:View>`;
       const ui5Node = getUI5Node(xmlSnippet, ui5SemanticModel);
       expectExists(ui5Node, "UI5Node");

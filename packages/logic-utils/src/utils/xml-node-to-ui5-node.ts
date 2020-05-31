@@ -2,8 +2,10 @@ import {
   xmlToFQN,
   flattenProperties,
   flattenAggregations,
+  isSameXMLNS,
+  resolveXMLNS,
 } from "@ui5-language-assistant/logic-utils";
-import { XMLElement, XMLAttribute, DEFAULT_NS } from "@xml-tools/ast";
+import { XMLElement, XMLAttribute } from "@xml-tools/ast";
 import {
   UI5Class,
   UI5SemanticModel,
@@ -32,7 +34,7 @@ export function getUI5AggregationByXMLElement(
   }
   // Aggregations must be in the same namespace as their parent
   // https://sapui5.hana.ondemand.com/#/topic/19eabf5b13214f27b929b9473df3195b
-  if (element.ns !== element.parent.ns) {
+  if (!isSameXMLNS(element, element.parent)) {
     return undefined;
   }
   const ui5Class = getUI5ClassByXMLElement(element.parent, model);
@@ -67,7 +69,7 @@ export function getUI5NodeFromXMLElementNamespace(
   isXmlnsDefined: boolean;
 } {
   const isDefault = xmlElement.ns === undefined;
-  const xmlNamespace = xmlElement.namespaces[xmlElement.ns ?? DEFAULT_NS];
+  const xmlNamespace = resolveXMLNS(xmlElement);
   if (xmlNamespace === undefined) {
     return {
       namespace: undefined,

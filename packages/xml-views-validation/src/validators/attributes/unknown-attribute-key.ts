@@ -189,6 +189,7 @@ function splitAttributeByNamespace(
   if (prefix === undefined) {
     return { ns: prefix, name: localName };
   }
+  // Can't use resolveXMLNSFromPrefix here because attributes don't use the default namespace
   const resolvedNS = attribute.parent.namespaces[prefix];
   return {
     ns: resolvedNS,

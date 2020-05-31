@@ -98,6 +98,18 @@ describe("the unknown tag name validation", () => {
         );
       });
 
+      it("will detect an invalid aggregation when it's in the wrong namespace", () => {
+        assertSingleIssue(
+          `<mvc:View
+            xmlns:mvc="sap.ui.core.mvc"
+            xmlns:m="sap.m">
+            <🢂m:content🢀>
+            </mv:content>
+          </mvc:View>`,
+          getMessage(UNKNOWN_CLASS_IN_NS, "content", "sap.m")
+        );
+      });
+
       it("will detect an invalid class name under aggregation in the same namespace", () => {
         assertSingleIssue(
           `<mvc:View
@@ -390,6 +402,17 @@ describe("the unknown tag name validation", () => {
             `<mvc:View
               xmlns:mvc="sap.ui.core.mvc"
               xmlns="sap.m">
+            </mvc:View>`
+          );
+        });
+
+        it("will not detect an issue for known aggregation in a different namespace prefix that references the same namespace", () => {
+          assertNoIssues(
+            `<mvc:View
+              xmlns:mvc="sap.ui.core.mvc"
+              xmlns:mvc2="sap.ui.core.mvc">
+              <mvc2:content>
+              </mvc2:content>
             </mvc:View>`
           );
         });

@@ -3,6 +3,7 @@ import {
   isElementSubClass,
   getUI5ClassByXMLElement,
   splitQNameByNamespace,
+  isSameXMLNSFromPrefix,
 } from "@ui5-language-assistant/logic-utils";
 
 import { UI5AggregationsInXMLTagNameCompletion } from "../../../api";
@@ -27,12 +28,18 @@ export function aggregationSuggestions(
     return [];
   }
 
+  const prefixParts = splitQNameByNamespace(prefix);
+
   // An aggregation must be on the parent tag namespace.
   // We suggest the completion even if the namespace was not defined.
   if (
-    prefix.includes(":") &&
-    (parentXMLElement.ns === undefined ||
-      !prefix.startsWith(parentXMLElement.ns + ":"))
+    prefixParts.prefix !== undefined &&
+    !isSameXMLNSFromPrefix(
+      parentXMLElement.ns,
+      parentXMLElement,
+      prefixParts.prefix,
+      xmlElement
+    )
   ) {
     return [];
   }
@@ -52,7 +59,7 @@ export function aggregationSuggestions(
 
   const uniquePrefixMatchingAggregations = filterMembersForSuggestion(
     flattenAggregations(parentUI5Class),
-    splitQNameByNamespace(prefix).localName,
+    prefixParts.localName,
     existingAggregationsWithoutCurrent
   );
 

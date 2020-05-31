@@ -253,6 +253,45 @@ describe("The ui5-language-assistant xml-views-completion", () => {
         });
       });
 
+      it("will return suggestions when namespace prefix is different but referenced namespace is the same as parent", () => {
+        const xmlSnippet = `
+          <mvc:View
+            xmlns:mvc="sap.ui.core.mvc"
+            xmlns:m="sap.m"
+            xmlns:m2="sap.m">
+            <m:Page>
+              <m2:cu⇶
+            </m:Page>
+          </mvc:View>`;
+
+        testSuggestionsScenario({
+          model: REAL_UI5_MODEL,
+          xmlText: xmlSnippet,
+          providers: {
+            elementName: [aggregationSuggestions],
+          },
+          assertion: (suggestions) => {
+            const suggestedNames = map(suggestions, (_) => _.ui5Node.name);
+            expect(suggestedNames).to.include.members([
+              "customData",
+              "customHeader",
+            ]);
+            expect(suggestedNames).to.not.include.members([
+              "content",
+              "dependents",
+              "dragDropConfig",
+              "footer",
+              "headerContent",
+              "landmarkInfo",
+              "layoutData",
+              "subHeader",
+              "tooltip",
+            ]);
+            expectAggregationsSuggestions(suggestions, "Page");
+          },
+        });
+      });
+
       it("will return suggestions when parent has namespace and prefix doesn't", () => {
         const xmlSnippet = `
           <mvc:View

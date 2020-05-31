@@ -108,6 +108,20 @@ describe("The @ui5-language-assistant/logic-utils <getUI5AggregationByXMLElement
     );
   });
 
+  it("returns the aggregation for known aggregation under a class tag with a different prefix that references the same namespace", () => {
+    const xmlText = `
+        <mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:mvc2="sap.ui.core.mvc">
+          <mvc2:content></mvc2:content>
+        </mvc:View>`;
+    const element = getRootElementChild(xmlText);
+
+    const ui5Aggregation = getUI5AggregationByXMLElement(element, ui5Model);
+    expectExists(ui5Aggregation, "ui5 aggregation");
+    expect(ui5NodeToFQN(ui5Aggregation)).to.equal(
+      "sap.ui.core.mvc.View.content"
+    );
+  });
+
   it("returns undefined for unknown aggregation under a class tag", () => {
     const xmlText = `
         <View xmlns="sap.ui.core.mvc">
