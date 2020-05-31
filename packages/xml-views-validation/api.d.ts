@@ -25,7 +25,7 @@ export type UI5XMLViewIssue =
   | UseOfDeprecatedClassIssue
   | UnknownNamespaceInXmlnsAttributeValueIssue
   | InvalidBooleanValueIssue
-  | NoneUniqueIDIssue
+  | NonUniqueIDIssue
   | InvalidBooleanValueIssue
   | UnknownAttributeKeyIssue
   | UnknownTagNameIssue
@@ -63,7 +63,7 @@ export interface InvalidBooleanValueIssue extends BaseUI5XMLViewIssue {
   kind: "InvalidBooleanValue";
 }
 
-export interface NoneUniqueIDIssue extends BaseUI5XMLViewIssue {
-  kind: "NoneUniqueIDIssue";
+export interface NonUniqueIDIssue extends BaseUI5XMLViewIssue {
+  kind: "NonUniqueIDIssue";
   identicalIDsRanges: OffsetRange[];
 }

@@ -3,18 +3,23 @@ import { validateUnknownEnumValue } from "./attributes/unknown-enum-value";
 import { validateUnknownXmlnsNamespace } from "./attributes/unknown-xmlns-namespace";
 import { validateBooleanValue } from "./attributes/invalid-boolean-value";
 import { validateUseOfDeprecatedClass } from "./elements/use-of-deprecated-class";
-import { validateUniqueID } from "./attributes/none-unique-id";
+import { validateNonUniqueID } from "./document/non-unique-id";
 import { validateUnknownAttributeKey } from "./attributes/unknown-attribute-key";
 import { validateUnknownTagName } from "./elements/unknown-tag-name";
 import { validateExplicitAggregationCardinality } from "./elements/cardinality-of-aggregation";
 
 export const allValidators: UI5Validators = {
+<<<<<<< HEAD
   document: [validateUniqueID],
   element: [
     validateUseOfDeprecatedClass,
     validateUnknownTagName,
     validateExplicitAggregationCardinality,
   ],
+=======
+  document: [validateNonUniqueID],
+  element: [validateUseOfDeprecatedClass, validateUnknownTagName],
+>>>>>>> 9adb3b0... chore: cr fixes
   attribute: [
     validateUnknownEnumValue,
     validateUnknownXmlnsNamespace,

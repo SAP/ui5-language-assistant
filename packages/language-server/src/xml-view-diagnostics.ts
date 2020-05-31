@@ -11,6 +11,7 @@ import { DocumentCstNode, parse } from "@xml-tools/parser";
 import { buildAst } from "@xml-tools/ast";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import {
+  NonUniqueIDIssue,
   OffsetRange,
   UI5XMLViewIssue,
   validateXMLView,
@@ -44,7 +45,8 @@ function validationIssuesToLspDiagnostics(
       message: currIssue.message,
     };
 
-    switch (currIssue.kind) {
+    const issueKind = currIssue.kind;
+    switch (issueKind) {
       case "InvalidBooleanValue":
       case "UnknownEnumValue":
       case "UnknownNamespaceInXmlnsAttributeValue":
@@ -59,24 +61,23 @@ function validationIssuesToLspDiagnostics(
           ...commonDiagnosticPros,
           tags: [DiagnosticTag.Deprecated],
         };
-      case "NoneUniqueIDIssue":
+      case "NonUniqueIDIssue":
         return {
           ...commonDiagnosticPros,
-          relatedInformation: map(currIssue.identicalIDsRanges, (_) => ({
-            // TODO: what message should be used in related issues?
-            message: "also used here",
-            location: {
-              uri: document.uri,
-              range: offsetRangeToLSPRange(_, document),
-            },
-          })),
+          relatedInformation: map(
+            (currIssue as NonUniqueIDIssue).identicalIDsRanges,
+            (_) => ({
+              message: "identical ID also used here",
+              location: {
+                uri: document.uri,
+                range: offsetRangeToLSPRange(_, document),
+              },
+            })
+          ),
         };
       /* istanbul ignore next - defensive programming */
       default:
-        // We should use assertNever, However, TSC cannot seem to apply exhaustiveness checks
-        // on inner properties (`currentIssue.kind`) nor does it seem to apply type guards correctly
-        // when we first extract the kind (`const issueKind = currIssue.kind)... before the switch.
-        throw Error("None Exhaustive Match");
+        assertNever(issueKind);
     }
   });
 
