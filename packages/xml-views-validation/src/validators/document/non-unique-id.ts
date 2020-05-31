@@ -31,7 +31,7 @@ function buildIssuesForSingleID(
     duplicatedAttributes,
     (currDupAttrib, currAttribIdx) => {
       const currDupIdValToken = currDupAttrib.syntax.value;
-      // Related issues must not include the "main" issue aggregation
+      // Related issues must not include the "main" issue attribute
       const relatedOtherDupIDAttribs = reject(
         duplicatedAttributes,
         (_, arrIdx) => arrIdx === currAttribIdx

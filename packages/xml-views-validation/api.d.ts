@@ -26,7 +26,6 @@ export type UI5XMLViewIssue =
   | UnknownNamespaceInXmlnsAttributeValueIssue
   | InvalidBooleanValueIssue
   | NonUniqueIDIssue
-  | InvalidBooleanValueIssue
   | UnknownAttributeKeyIssue
   | UnknownTagNameIssue
   | InvalidAggregationCardinalityIssue;
