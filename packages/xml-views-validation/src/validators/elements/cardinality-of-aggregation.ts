@@ -26,11 +26,13 @@ export function validateExplicitAggregationCardinality(
     return [];
   }
 
-  const firstCousin = getFirstSubElementAtSameDepth(allSubElementsAtSameDepth);
+  const firstSubElementAtSameDepth = getFirstSubElementAtSameDepth(
+    allSubElementsAtSameDepth
+  );
   // The error will not be shown on the first cousin element
   const redundantAggregationSubElements = filter(
     xmlElement.subElements,
-    (_) => !isFirstSubElementAtSameDepth(_, firstCousin)
+    (_) => !isFirstSubElementAtSameDepth(_, firstSubElementAtSameDepth)
   );
 
   const invalidAggregationCardinalityIssues = map(
