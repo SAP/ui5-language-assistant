@@ -29,7 +29,7 @@ export function validateExplicitAggregationCardinality(
   const firstSubElementAtSameDepth = getFirstSubElementAtSameDepth(
     allSubElementsAtSameDepth
   );
-  // The error will not be shown on the first cousin element
+  // The error will not be shown on the first sub element at same depth
   const redundantAggregationSubElements = filter(
     xmlElement.subElements,
     (_) => !isFirstSubElementAtSameDepth(_, firstSubElementAtSameDepth)
