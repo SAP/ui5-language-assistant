@@ -5,13 +5,13 @@ import { validateBooleanValue } from "./attributes/invalid-boolean-value";
 import { validateUseOfDeprecatedClass } from "./elements/use-of-deprecated-class";
 import { validateUnknownAttributeKey } from "./attributes/unknown-attribute-key";
 import { validateUnknownTagName } from "./elements/unknown-tag-name";
-import { validateCardinality } from "./elements/cardinality-of-aggregation";
+import { validateExplicitAggregationCardinality } from "./elements/cardinality-of-aggregation";
 
 export const allValidators: UI5Validators = {
   element: [
     validateUseOfDeprecatedClass,
     validateUnknownTagName,
-    validateCardinality,
+    validateExplicitAggregationCardinality,
   ],
   attribute: [
     validateUnknownEnumValue,
