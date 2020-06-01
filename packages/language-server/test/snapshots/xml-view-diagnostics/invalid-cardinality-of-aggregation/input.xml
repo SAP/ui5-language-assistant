@@ -1,0 +1,12 @@
+<mvc:View xmlns:vk="sap.ui.vk" xmlns:uxap="sap.uxap" xmlns:m="sap.m" 
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns="sap.ui.commons">
+  <m:Panel> 
+    <headerToolbar>
+      <uxap:AnchorBar></uxap:AnchorBar>
+      <🢂tnt:ToolHeader🢀></tnt:ToolHeader>
+    </headerToolbar>
+    <headerToolbar>
+      <🢂tnt:ToolHeader🢀></tnt:ToolHeader>
+    </headerToolbar>
+</mvc:View>

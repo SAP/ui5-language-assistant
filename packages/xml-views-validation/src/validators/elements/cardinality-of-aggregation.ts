@@ -80,7 +80,9 @@ function getSubElementPosition(
 /**
  *  @param aggregationElem The aggregation from which we will get all its subElements at the same depth.
  *
- * For example - for the following xml snippet the function will return an array of `Toolbar` elemnt and `tnt:ToolHeader` element
+ * For example - Given XMLSnippet aggregationElem param `headerToolbar`.
+ * The function will return an array of `Toolbar` and `tnt:ToolHeader` elements
+ *
  * ```
  * <headerToolbar>
  *     <Toolbar></Toolbar>

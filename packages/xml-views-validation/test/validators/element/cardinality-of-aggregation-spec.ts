@@ -31,6 +31,7 @@ describe("the cardinality aggregation validation", () => {
         "error"
       );
     });
+
     it("will detect aggregation with cardinality of 0..1 with more than one element", () => {
       assertSingleIssue(
         `<mvc:View xmlns:uxap="sap.uxap" xmlns:m="sap.m"
@@ -47,7 +48,7 @@ describe("the cardinality aggregation validation", () => {
       );
     });
 
-    it("will detect duplicate aggregation with cardinality of 0..1 with at least one element", () => {
+    it("multi tags with single aggreation - will detect aggregation with more elements than its cardinality allows", () => {
       assertSingleIssue(
         `<mvc:View xmlns:uxap="sap.uxap" xmlns:m="sap.m"
             xmlns:mvc="sap.ui.core.mvc"
@@ -101,6 +102,21 @@ describe("the cardinality aggregation validation", () => {
               <headerToolbar>
                 <m:Toolbar></m:Toolbar>
               </headerToolbar>
+            </m:Panel>
+          </mvc:View>`
+      );
+    });
+
+    it("will not detect an issue when there is an aggregation with cardinality of 0..n", () => {
+      assertNoIssues(
+        `<mvc:View xmlns:uxap="sap.uxap" xmlns:m="sap.m"
+            xmlns:mvc="sap.ui.core.mvc"
+            xmlns="sap.ui.commons">
+            <m:Panel>
+              <content>
+                <m:Toolbar></m:Toolbar>
+                <m:Toolbar></m:Toolbar>
+              </content>
             </m:Panel>
           </mvc:View>`
       );
