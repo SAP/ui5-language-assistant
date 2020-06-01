@@ -11,7 +11,7 @@
       {
         "message": "identical ID also used here",
         "location": {
-          "uri": "file://C:\\workspace\\ui5-language-assistant\\packages\\language-server\\test\\snapshots\\xml-view-diagnostics\\non-unique-id\\input.xml",
+          "uri": "snapshots/xml-view-diagnostics/non-unique-id/input.xml",
           "range": {
             "start": { "line": 5, "character": 13 },
             "end": { "line": 5, "character": 19 }
@@ -32,7 +32,7 @@
       {
         "message": "identical ID also used here",
         "location": {
-          "uri": "file://C:\\workspace\\ui5-language-assistant\\packages\\language-server\\test\\snapshots\\xml-view-diagnostics\\non-unique-id\\input.xml",
+          "uri": "snapshots/xml-view-diagnostics/non-unique-id/input.xml",
           "range": {
             "start": { "line": 3, "character": 11 },
             "end": { "line": 3, "character": 17 }
