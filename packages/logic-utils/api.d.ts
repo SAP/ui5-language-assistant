@@ -172,3 +172,54 @@ export function convertJSDocToMarkdown(
  * @param link
  */
 export function getLink(model: UI5SemanticModel, link: string): string;
+
+/**
+ * Split possibly qualified XML Tag or XML Attribute name to prefix and local name.
+ * If there is no prefix in the qualified name, the returned prefix will be undefined.
+ * @param qName
+ */
+export function splitQNameByNamespace(
+  qName: string
+): { prefix: string | undefined; localName: string };
+
+/**
+ * Return the xml namespace defined for the xml element prefix (ns), or undefined if not found
+ * @param xmlElement
+ */
+export function resolveXMLNS(xmlElement: XMLElement): string | undefined;
+
+/**
+ * Return the xml namespace defined for this prefix, or undefined if not found.
+ * The defined namespaces are taken from the xml element.
+ * @param prefix
+ * @param xmlElement
+ */
+export function resolveXMLNSFromPrefix(
+  prefix: string | undefined,
+  xmlElement: XMLElement
+): string | undefined;
+
+/**
+ * Check if the xml element namespace prefixes (ns) reference the same namespace
+ * @param xmlElement1
+ * @param xmlElement2
+ */
+export function isSameXMLNS(
+  xmlElement1: XMLElement,
+  xmlElement2: XMLElement
+): boolean;
+
+/**
+ * Check if the xml namespace prefixes reference the same namespace.
+ * The defined namespaces are taken from the respective xml elements.
+ * @param prefix1
+ * @param xmlElement1
+ * @param prefix2
+ * @param xmlElement2
+ */
+export function isSameXMLNSFromPrefix(
+  prefix1: string | undefined,
+  xmlElement1: XMLElement,
+  prefix2: string | undefined,
+  xmlElement2: XMLElement
+): boolean;

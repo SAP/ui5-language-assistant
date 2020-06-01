@@ -24,9 +24,9 @@ describe("the UI5 language assistant Hover Tooltip Service", () => {
       const xmlSnippet = `<mvc:View
                             xmlns:mvc="sap.ui.core.mvc"
                             xmlns="sap.m"> 
-                            <content>
+                            <mvc:content>
                               <List showSeparator⇶s="All"></List>
-                            </content>
+                            </mvc:content>
                           </mvc:View>`;
       const ui5Node = getUI5Node(xmlSnippet, ui5SemanticModel);
       expectExists(ui5Node, "UI5Node");
@@ -38,24 +38,24 @@ describe("the UI5 language assistant Hover Tooltip Service", () => {
       const xmlSnippet = `<mvc:View
                             xmlns:mvc="sap.ui.core.mvc"
                             xmlns="sap.m"> 
-                            <content>
+                            <mvc:content>
                               <List showSeparator⇶s1="All"></List>
-                            </content>
+                            </mvc:content>
                           </mvc:View>`;
       const ui5Node = getUI5Node(xmlSnippet, ui5SemanticModel);
-      expect(ui5Node).to.not.exist;
+      expect(ui5Node).to.be.undefined;
     });
 
     it("will get hover content UI5 property in unknown tag", () => {
       const xmlSnippet = `<mvc:View
                             xmlns:mvc="sap.ui.core.mvc"
                             xmlns="sap.m"> 
-                            <content>
+                            <mvc:content>
                               <List1 showSeparator⇶s="All"></List1>
-                            </content>
+                            </mvc:content>
                           </mvc:View>`;
       const ui5Node = getUI5Node(xmlSnippet, ui5SemanticModel);
-      expect(ui5Node).to.not.exist;
+      expect(ui5Node).to.be.undefined;
     });
   });
 
@@ -64,9 +64,9 @@ describe("the UI5 language assistant Hover Tooltip Service", () => {
       const xmlSnippet = `<mvc:View
                             xmlns:mvc="sap.ui.core.mvc"
                             xmlns="sap.m"> 
-                            <content>
+                            <mvc:content>
                               <List showSeparators="Al⇶l"></List>
-                            </content>
+                            </mvc:content>
                           </mvc:View>`;
       const ui5Node = getUI5Node(xmlSnippet, ui5SemanticModel);
       expectExists(ui5Node, "UI5Node");
@@ -78,33 +78,33 @@ describe("the UI5 language assistant Hover Tooltip Service", () => {
       const xmlSnippet = `<mvc:View
                             xmlns:mvc="sap.ui.core.mvc"
                             xmlns="sap.m"> 
-                            <content>
+                            <mvc:content>
                               <List busy="fal⇶se"></List>
-                            </content>
+                            </mvc:content>
                           </mvc:View>`;
       const ui5Node = getUI5Node(xmlSnippet, ui5SemanticModel);
-      expect(ui5Node).to.not.exist;
+      expect(ui5Node).to.be.undefined;
     });
 
     it("will get hover content UI5 property - incorrect enum", () => {
       const xmlSnippet = `<mvc:View
                             xmlns:mvc="sap.ui.core.mvc"
                             xmlns="sap.m"> 
-                            <content>
+                            <mvc:content>
                               <List1 showSeparators="Al⇶l1"></List1>
-                            </content>
+                            </mvc:content>
                           </mvc:View>`;
       const ui5Node = getUI5Node(xmlSnippet, ui5SemanticModel);
-      expect(ui5Node).to.not.exist;
+      expect(ui5Node).to.be.undefined;
     });
 
     it("will get hover content UI5 namespace", () => {
       const xmlSnippet = `<mvc:View
                             xmlns:mvc="sap.ui.core.mvc"
                             xmlns="sa⇶p.m"> 
-                            <content>
+                            <mvc:content>
                               <List showSeparators="All"></List>
-                            </content>
+                            </mvc:content>
                           </mvc:View>`;
       const ui5Node = getUI5Node(xmlSnippet, ui5SemanticModel);
       expectExists(ui5Node, "UI5Node");
@@ -118,9 +118,9 @@ describe("the UI5 language assistant Hover Tooltip Service", () => {
       const xmlSnippet = `<mvc:View
                             xmlns:mvc="sap.ui.core.mvc"
                             xmlns="sap.m"> 
-                            <content>
+                            <mvc:content>
                               <L⇶ist showSeparators="All"></List>
-                            </content>
+                            </mvc:content>
                           </mvc:View>`;
       const ui5Node = getUI5Node(xmlSnippet, ui5SemanticModel);
       expectExists(ui5Node, "UI5Node");
@@ -132,9 +132,9 @@ describe("the UI5 language assistant Hover Tooltip Service", () => {
       const xmlSnippet = `<mvc:View
                             xmlns:mvc="sap.ui.core.mvc"
                             xmlns="sap.m"> 
-                            <conten⇶t>
+                            <mvc:conten⇶t>
                               <List showSeparators="All"></List>
-                            </content>
+                            </mvc:content>
                           </mvc:View>`;
       const ui5Node = getUI5Node(xmlSnippet, ui5SemanticModel);
       expectExists(ui5Node, "UI5Node");
@@ -142,27 +142,79 @@ describe("the UI5 language assistant Hover Tooltip Service", () => {
       expect(ui5Node.kind).equal("UI5Aggregation");
     });
 
-    it("will get hover content of unknown tag with unknown parent tag", () => {
+    it("will get hover content UI5 Aggregation with a different namespace prefix that references the same namespace", () => {
       const xmlSnippet = `<mvc:View
                             xmlns:mvc="sap.ui.core.mvc"
+                            xmlns:mvc2="sap.ui.core.mvc"
                             xmlns="sap.m"> 
-                            <content1>
-                              <List1></Lis⇶t1>
-                            </content1>
+                            <mvc2:conten⇶t>
+                              <List showSeparators="All"></List>
+                            </mvc2:content>
                           </mvc:View>`;
       const ui5Node = getUI5Node(xmlSnippet, ui5SemanticModel);
-      expect(ui5Node).to.not.exist;
+      expectExists(ui5Node, "UI5Node");
+      expect(ui5Node.name).to.equal("content");
+      expect(ui5Node.kind).equal("UI5Aggregation");
+    });
+
+    it("will get hover content UI5 Aggregation in the default namespace", () => {
+      const xmlSnippet = `<View
+                            xmlns="sap.ui.core.mvc"
+                            xmlns:m="sap.m"> 
+                            <conten⇶t>
+                              <m:List showSeparators="All"></m:List>
+                            </content>
+                          </View>`;
+      const ui5Node = getUI5Node(xmlSnippet, ui5SemanticModel);
+      expectExists(ui5Node, "UI5Node");
+      expect(ui5Node.name).to.equal("content");
+      expect(ui5Node.kind).equal("UI5Aggregation");
+    });
+
+    it("will not get hover content for UI5 Aggregation in the wrong namespace", () => {
+      const xmlSnippet = `<mvc:View
+                            xmlns:mvc="sap.ui.core.mvc"
+                            xmlns:m="sap.m"> 
+                            <m:conten⇶t>
+                              <m:List showSeparators="All"></m:List>
+                            </m:content>
+                          </mvc:View>`;
+      const ui5Node = getUI5Node(xmlSnippet, ui5SemanticModel);
+      expect(ui5Node).to.be.undefined;
+    });
+
+    it("will not get hover content UI5 Aggregation when only the aggregation doesn't have a namespace", () => {
+      const xmlSnippet = `<mvc:View
+                            xmlns:mvc="sap.ui.core.mvc"
+                            xmlns:m="sap.m"> 
+                            <conten⇶t>
+                            </content>
+                          </mvc:View>`;
+      const ui5Node = getUI5Node(xmlSnippet, ui5SemanticModel);
+      expect(ui5Node).to.be.undefined;
     });
   });
 
   context("hover on element close tag name", () => {
+    it("will get hover content of unknown tag with unknown parent tag", () => {
+      const xmlSnippet = `<mvc:View
+                            xmlns:mvc="sap.ui.core.mvc"
+                            xmlns="sap.m"> 
+                            <mvc:content1>
+                              <List1></Lis⇶t1>
+                            </mvc:content1>
+                          </mvc:View>`;
+      const ui5Node = getUI5Node(xmlSnippet, ui5SemanticModel);
+      expect(ui5Node).to.be.undefined;
+    });
+
     it("will get hover content UI5 class", () => {
       const xmlSnippet = `<mvc:View
                             xmlns:mvc="sap.ui.core.mvc"
                             xmlns="sap.m"> 
-                            <content>
+                            <mvc:content>
                               <List showSeparators="All"></L⇶ist>
-                            </content>
+                            </mvc:content>
                           </mvc:View>`;
       const ui5Node = getUI5Node(xmlSnippet, ui5SemanticModel);
       expectExists(ui5Node, "UI5Node");
@@ -174,10 +226,39 @@ describe("the UI5 language assistant Hover Tooltip Service", () => {
       const xmlSnippet = `<mvc:View
                             xmlns:mvc="sap.ui.core.mvc"
                             xmlns="sap.m"> 
-                            <content>
+                            <mvc:content>
                               <List showSeparators="All"></List>
-                            </conte⇶nt>
+                            </mvc:conte⇶nt>
                           </mvc:View>`;
+      const ui5Node = getUI5Node(xmlSnippet, ui5SemanticModel);
+      expectExists(ui5Node, "UI5Node");
+      expect(ui5Node.name).to.equal("content");
+      expect(ui5Node.kind).equal("UI5Aggregation");
+    });
+
+    it("will get hover content UI5 Aggregation with a different namespace prefix that references the same namespace", () => {
+      const xmlSnippet = `<mvc:View
+                            xmlns:mvc="sap.ui.core.mvc"
+                            xmlns:mvc2="sap.ui.core.mvc"
+                            xmlns="sap.m"> 
+                            <mvc_TYPO:content>
+                              <List showSeparators="All"></List>
+                            </mvc2:conte⇶nt>
+                          </mvc:View>`;
+      const ui5Node = getUI5Node(xmlSnippet, ui5SemanticModel);
+      expectExists(ui5Node, "UI5Node");
+      expect(ui5Node.name).to.equal("content");
+      expect(ui5Node.kind).equal("UI5Aggregation");
+    });
+
+    it("will get hover content UI5 Aggregation in the default namespace", () => {
+      const xmlSnippet = `<View
+                            xmlns="sap.ui.core.mvc"
+                            xmlnsLm="sap.m"> 
+                            <content>
+                              <m:List showSeparators="All"></m:List>
+                            </conte⇶nt>
+                          </View>`;
       const ui5Node = getUI5Node(xmlSnippet, ui5SemanticModel);
       expectExists(ui5Node, "UI5Node");
       expect(ui5Node.name).to.equal("content");
@@ -201,14 +282,14 @@ describe("the UI5 language assistant Hover Tooltip Service", () => {
                             xmlns="sap.m"> 
                           </m:Vie⇶w>`;
       const ui5Node = getUI5Node(xmlSnippet, ui5SemanticModel);
-      expect(ui5Node).to.not.exist;
+      expect(ui5Node).to.be.undefined;
     });
 
     it("will get hover content UI5 class when open and close tag are different", () => {
       const xmlSnippet = `<mvc:View
                             xmlns:mvc="sap.ui.core.mvc"
                             xmlns="sap.m"> 
-                            <content></L⇶ist>
+                            <mvc:content></L⇶ist>
                           </mvc:View>`;
       const ui5Node = getUI5Node(xmlSnippet, ui5SemanticModel);
       expectExists(ui5Node, "UI5Node");
@@ -221,12 +302,12 @@ describe("the UI5 language assistant Hover Tooltip Service", () => {
     const xmlSnippet = `<mvc:View
                           xmlns:mvc="sap.ui.core.mvc"
                           xmlns="sap.m"> 
-                          <content>
+                          <mvc:content>
                             <List ⇶ showSeparators="All"></List>
-                          </content>
+                          </mvc:content>
                         </mvc:View>`;
     const ui5Node = getUI5Node(xmlSnippet, ui5SemanticModel);
-    expect(ui5Node).to.not.exist;
+    expect(ui5Node).to.be.undefined;
   });
 });
 

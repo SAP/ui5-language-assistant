@@ -144,8 +144,8 @@ describe("the use of deprecated class validation", () => {
             xmlns:mvc="sap.ui.core.mvc"
             xmlns="sap.ui.commons">
             <!-- An aggregation instead of a class -->
-            <content>
-            </content>
+            <mvc:content>
+            </mvc:content>
           </mvc:View>`;
 
       testValidationsScenario({
