@@ -5,9 +5,14 @@ import { validateBooleanValue } from "./attributes/invalid-boolean-value";
 import { validateUseOfDeprecatedClass } from "./elements/use-of-deprecated-class";
 import { validateUnknownAttributeKey } from "./attributes/unknown-attribute-key";
 import { validateUnknownTagName } from "./elements/unknown-tag-name";
+import { validateExplicitAggregationCardinality } from "./elements/cardinality-of-aggregation";
 
 export const allValidators: UI5Validators = {
-  element: [validateUseOfDeprecatedClass, validateUnknownTagName],
+  element: [
+    validateUseOfDeprecatedClass,
+    validateUnknownTagName,
+    validateExplicitAggregationCardinality,
+  ],
   attribute: [
     validateUnknownEnumValue,
     validateUnknownXmlnsNamespace,
