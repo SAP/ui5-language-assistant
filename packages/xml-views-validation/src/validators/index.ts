@@ -9,17 +9,12 @@ import { validateUnknownTagName } from "./elements/unknown-tag-name";
 import { validateExplicitAggregationCardinality } from "./elements/cardinality-of-aggregation";
 
 export const allValidators: UI5Validators = {
-<<<<<<< HEAD
-  document: [validateUniqueID],
+  document: [validateNonUniqueID],
   element: [
     validateUseOfDeprecatedClass,
     validateUnknownTagName,
     validateExplicitAggregationCardinality,
   ],
-=======
-  document: [validateNonUniqueID],
-  element: [validateUseOfDeprecatedClass, validateUnknownTagName],
->>>>>>> 9adb3b0... chore: cr fixes
   attribute: [
     validateUnknownEnumValue,
     validateUnknownXmlnsNamespace,

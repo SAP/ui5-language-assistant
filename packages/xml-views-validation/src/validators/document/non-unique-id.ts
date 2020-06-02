@@ -8,6 +8,12 @@ import {
   XMLToken,
 } from "@xml-tools/ast";
 import { NonUniqueIDIssue } from "../../../api";
+import {
+  SVG_NS,
+  TEMPLATING_NS,
+  XHTML_NS,
+} from "../../utils/special-namespaces";
+import { resolveXMLNS } from "@ui5-language-assistant/logic-utils";
 
 export function validateNonUniqueID(xmlDoc: XMLDocument): NonUniqueIDIssue[] {
   const idCollector = new IdsCollectorVisitor();
@@ -39,7 +45,7 @@ function buildIssuesForSingleID(
 
       return {
         kind: "NonUniqueIDIssue" as "NonUniqueIDIssue",
-        message: `Non-unique ID value: "${id}" found.`,
+        message: `Duplicate ID value: "${id}" found.`,
         severity: "error" as "error",
         offsetRange: {
           start: currDupIdValToken.startOffset,
@@ -91,15 +97,13 @@ class IdsCollectorVisitor implements XMLAstVisitor {
 // We only care about UI5 elements/controls IDs when check non-unique IDs
 // `id` attributes in these: **known** namespaces which are sometimes used
 // in UI5 xml-views are definitively not relevant for this validation
-const whiteListedNamespaces: Record<string, boolean> = {
-  "http://www.w3.org/1999/xhtml": true,
-  "http://www.w3.org/2000/svg": true,
-  "http://schemas.sap.com/sapui5/extension/sap.ui.core.template/1": true,
-};
+const whiteListedNamespaces: Record<string, boolean> = {};
+whiteListedNamespaces[SVG_NS] = true;
+whiteListedNamespaces[TEMPLATING_NS] = true;
+whiteListedNamespaces[XHTML_NS] = true;
 
 function isNoneUI5id(attrib: XMLAttribute): boolean {
   const parentElement = attrib.parent;
-  const parentPrefix = parentElement.ns ?? DEFAULT_NS;
-  const parentResolvedNamespace = parentElement.namespaces[parentPrefix];
-  return whiteListedNamespaces[parentResolvedNamespace] === true;
+  const parentResolvedNamespace = resolveXMLNS(parentElement) ?? "";
+  return whiteListedNamespaces[parentResolvedNamespace];
 }

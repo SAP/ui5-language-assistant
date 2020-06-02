@@ -53,14 +53,14 @@ describe("the use of non unique id validation", () => {
           expect(issues).to.deep.include.members([
             {
               kind: "NonUniqueIDIssue",
-              message: 'Non-unique ID value: "DUPLICATE" found.',
+              message: 'Duplicate ID: "DUPLICATE" found.',
               severity: "error",
               offsetRange: expectedRanges[0],
               identicalIDsRanges: [expectedRanges[1]],
             },
             {
               kind: "NonUniqueIDIssue",
-              message: 'Non-unique ID value: "DUPLICATE" found.',
+              message: 'Duplicate ID: "DUPLICATE" found.',
               severity: "error",
               offsetRange: expectedRanges[1],
               identicalIDsRanges: [expectedRanges[0]],
@@ -129,7 +129,7 @@ describe("the use of non unique id validation", () => {
       });
     });
 
-    it("will not detect issues for id attributes under low case element tags", () => {
+    it("will not detect issues for id attributes under lowercase element tags", () => {
       const xmlSnippet = `
           <mvc:view
             xmlns:mvc="sap.ui.core.mvc"
