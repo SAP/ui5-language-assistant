@@ -2,11 +2,11 @@
   xmlns:mvc="sap.ui.core.mvc"
   xmlns="sap.ui.commons">
   <m:Panel> 
-    <headerToolbar>
-      <uxap:AnchorBar></uxap:AnchorBar>
-      <🢂tnt:ToolHeader🢀></tnt:ToolHeader>
-    </headerToolbar>
-    <headerToolbar>
-      <🢂tnt:ToolHeader🢀></tnt:ToolHeader>
-    </headerToolbar>
+    <m:headerToolbar>
+      <m:OverflowToolbar></m:OverflowToolbar>
+      <🢂m:Toolbar🢀></m:Toolbar>
+    </m:headerToolbar>
+    <m:headerToolbar>
+      <🢂m:Toolbar🢀></m:Toolbar>
+    </m:headerToolbar>
 </mvc:View>

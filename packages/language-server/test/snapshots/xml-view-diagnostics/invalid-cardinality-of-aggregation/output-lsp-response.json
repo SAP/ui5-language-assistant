@@ -2,7 +2,7 @@
   {
     "range": {
       "start": { "line": 6, "character": 7 },
-      "end": { "line": 6, "character": 21 }
+      "end": { "line": 6, "character": 16 }
     },
     "severity": 1,
     "source": "UI5 Language Assistant",
@@ -11,7 +11,7 @@
   {
     "range": {
       "start": { "line": 9, "character": 7 },
-      "end": { "line": 9, "character": 21 }
+      "end": { "line": 9, "character": 16 }
     },
     "severity": 1,
     "source": "UI5 Language Assistant",
