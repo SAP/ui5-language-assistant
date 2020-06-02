@@ -7,8 +7,6 @@
       "test-packages/*"
     ],
     "nohoist": [
-      "vscode-ui5-language-assistant/vscode-languageclient",
-      "vscode-ui5-language-assistant/vscode-languageclient/**",
       "vscode-ui5-language-assistant/@ui5-language-assistant/language-server",
       "vscode-ui5-language-assistant/@ui5-language-assistant/language-server/**"
     ]
@@ -59,7 +57,9 @@
     "@types/rimraf": "3.0.0",
     "simple-git": "1.132.0",
     "klaw-sync": "6.0.0",
-    "fs-extra": "9.0.1"
+    "fs-extra": "9.0.1",
+    "webpack": "4.43.0",
+    "webpack-cli": "3.3.11"
   },
   "husky": {
     "hooks": {

@@ -79,6 +79,8 @@ lib
 tsconfig.tsbuildinfo
 
 *.vsix
+# avoid pretter trying to format bundled artifacts
+dist
 
 # Cached test resources
 test-packages/test-utils/.model-cache

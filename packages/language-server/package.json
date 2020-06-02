@@ -46,14 +46,15 @@
     "vscode-languageserver-types": "3.15.1"
   },
   "scripts": {
-    "ci": "npm-run-all clean compile lint coverage",
-    "clean": "rimraf ./lib ./coverage ./nyc_output",
+    "ci": "npm-run-all clean compile lint coverage bundle",
+    "clean": "rimraf ./dist ./lib ./coverage ./nyc_output",
     "compile": "yarn run clean && tsc -p .",
     "compile:watch": "tsc -p . --watch",
     "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore",
     "test": "mocha",
     "coverage": "nyc mocha",
-    "update-snapshots": "node ./scripts/update-diagnostics-snapshots"
+    "update-snapshots": "node ./scripts/update-diagnostics-snapshots",
+    "bundle": "webpack --mode development"
   },
   "publishConfig": {
     "access": "public"
