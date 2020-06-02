@@ -4,12 +4,15 @@ import {
   Diagnostic,
   DiagnosticSeverity,
   DiagnosticTag,
+  Range as LSPRange,
 } from "vscode-languageserver-types";
 import { TextDocument } from "vscode-languageserver-textdocument";
 import { DocumentCstNode, parse } from "@xml-tools/parser";
 import { buildAst } from "@xml-tools/ast";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import {
+  NonUniqueIDIssue,
+  OffsetRange,
   UI5XMLViewIssue,
   validateXMLView,
   XMLViewIssueSeverity,
@@ -36,11 +39,7 @@ function validationIssuesToLspDiagnostics(
 ): Diagnostic[] {
   const diagnostics: Diagnostic[] = map(issues, (currIssue) => {
     const commonDiagnosticPros: Diagnostic = {
-      range: {
-        start: document.positionAt(currIssue.offsetRange.start),
-        // Chevrotain's end offsets are none inclusive
-        end: document.positionAt(currIssue.offsetRange.end + 1),
-      },
+      range: offsetRangeToLSPRange(currIssue.offsetRange, document),
       severity: toLspSeverity(currIssue.severity),
       source: "UI5 Language Assistant",
       message: currIssue.message,
@@ -61,6 +60,20 @@ function validationIssuesToLspDiagnostics(
         return {
           ...commonDiagnosticPros,
           tags: [DiagnosticTag.Deprecated],
+        };
+      case "NonUniqueIDIssue":
+        return {
+          ...commonDiagnosticPros,
+          relatedInformation: map(
+            (currIssue as NonUniqueIDIssue).identicalIDsRanges,
+            (_) => ({
+              message: "identical ID also used here",
+              location: {
+                uri: document.uri,
+                range: offsetRangeToLSPRange(_, document),
+              },
+            })
+          ),
         };
       /* istanbul ignore next - defensive programming */
       default:
@@ -89,4 +102,15 @@ function toLspSeverity(
     default:
       assertNever(issueSeverity);
   }
+}
+
+function offsetRangeToLSPRange(
+  offsetRange: OffsetRange,
+  document: TextDocument
+): LSPRange {
+  return {
+    start: document.positionAt(offsetRange.start),
+    // Chevrotain's end offsets are none inclusive
+    end: document.positionAt(offsetRange.end + 1),
+  };
 }
