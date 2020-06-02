@@ -1,19 +1,19 @@
 import { reject, flatMap, map, pickBy } from "lodash";
 import {
   accept,
-  DEFAULT_NS,
   XMLAstVisitor,
   XMLAttribute,
   XMLDocument,
   XMLToken,
 } from "@xml-tools/ast";
+import { resolveXMLNS } from "@ui5-language-assistant/logic-utils";
 import { NonUniqueIDIssue } from "../../../api";
 import {
   SVG_NS,
   TEMPLATING_NS,
   XHTML_NS,
 } from "../../utils/special-namespaces";
-import { resolveXMLNS } from "@ui5-language-assistant/logic-utils";
+import { getMessage, NON_UNIQUE_ID } from "../../utils/messages";
 
 export function validateNonUniqueID(xmlDoc: XMLDocument): NonUniqueIDIssue[] {
   const idCollector = new IdsCollectorVisitor();
@@ -45,7 +45,7 @@ function buildIssuesForSingleID(
 
       return {
         kind: "NonUniqueIDIssue" as "NonUniqueIDIssue",
-        message: `Duplicate ID value: "${id}" found.`,
+        message: getMessage(NON_UNIQUE_ID, id),
         severity: "error" as "error",
         offsetRange: {
           start: currDupIdValToken.startOffset,
@@ -97,13 +97,18 @@ class IdsCollectorVisitor implements XMLAstVisitor {
 // We only care about UI5 elements/controls IDs when check non-unique IDs
 // `id` attributes in these: **known** namespaces which are sometimes used
 // in UI5 xml-views are definitively not relevant for this validation
-const whiteListedNamespaces: Record<string, boolean> = {};
-whiteListedNamespaces[SVG_NS] = true;
-whiteListedNamespaces[TEMPLATING_NS] = true;
-whiteListedNamespaces[XHTML_NS] = true;
+const whiteListedNamespaces: Record<string, boolean> = {
+  [SVG_NS]: true,
+  [TEMPLATING_NS]: true,
+  [XHTML_NS]: true,
+};
+Object.freeze(whiteListedNamespaces);
 
 function isNoneUI5id(attrib: XMLAttribute): boolean {
   const parentElement = attrib.parent;
-  const parentResolvedNamespace = resolveXMLNS(parentElement) ?? "";
+  const parentResolvedNamespace = resolveXMLNS(parentElement);
+  if (parentResolvedNamespace === undefined) {
+    return false;
+  }
   return whiteListedNamespaces[parentResolvedNamespace];
 }

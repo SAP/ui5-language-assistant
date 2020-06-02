@@ -32,7 +32,7 @@ describe("the use of non unique id validation", () => {
   });
 
   context("true positive scenarios", () => {
-    it("will detect duplicate ID in different controls ", () => {
+    it("will detect two duplicate ID in different controls", () => {
       const xmlSnippet = `
           <mvc:View
             xmlns:mvc="sap.ui.core.mvc"
@@ -50,7 +50,7 @@ describe("the use of non unique id validation", () => {
 
           const expectedRanges = computeExpectedRanges(xmlSnippet);
 
-          expect(issues).to.deep.include.members([
+          expect(issues).to.include.deep.members([
             {
               kind: "NonUniqueIDIssue",
               message: 'Duplicate ID: "DUPLICATE" found.',
@@ -64,6 +64,53 @@ describe("the use of non unique id validation", () => {
               severity: "error",
               offsetRange: expectedRanges[1],
               identicalIDsRanges: [expectedRanges[0]],
+            },
+          ]);
+        },
+      });
+    });
+
+    it("will detect three duplicate ID in different controls", () => {
+      const xmlSnippet = `
+          <mvc:View
+            xmlns:mvc="sap.ui.core.mvc"
+            xmlns="sap.ui.commons"
+            id=🢂"TRIPLICATE"🢀
+            >
+            <Button id=🢂"TRIPLICATE"🢀>
+            </Button>
+            <Button id=🢂"TRIPLICATE"🢀>
+            </Button>
+          </mvc:View>`;
+
+      testNonUniqueIDScenario({
+        xmlText: xmlSnippet,
+        assertion: (issues) => {
+          expect(issues).to.have.lengthOf(3);
+
+          const expectedRanges = computeExpectedRanges(xmlSnippet);
+
+          expect(issues).to.include.deep.members([
+            {
+              kind: "NonUniqueIDIssue",
+              message: 'Duplicate ID: "TRIPLICATE" found.',
+              severity: "error",
+              offsetRange: expectedRanges[0],
+              identicalIDsRanges: [expectedRanges[1], expectedRanges[2]],
+            },
+            {
+              kind: "NonUniqueIDIssue",
+              message: 'Duplicate ID: "TRIPLICATE" found.',
+              severity: "error",
+              offsetRange: expectedRanges[1],
+              identicalIDsRanges: [expectedRanges[0], expectedRanges[2]],
+            },
+            {
+              kind: "NonUniqueIDIssue",
+              message: 'Duplicate ID: "TRIPLICATE" found.',
+              severity: "error",
+              offsetRange: expectedRanges[2],
+              identicalIDsRanges: [expectedRanges[0], expectedRanges[1]],
             },
           ]);
         },
