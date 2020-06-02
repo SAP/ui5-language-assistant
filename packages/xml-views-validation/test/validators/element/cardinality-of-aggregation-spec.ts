@@ -38,10 +38,10 @@ describe("the cardinality aggregation validation", () => {
             xmlns:mvc="sap.ui.core.mvc"
             xmlns="sap.ui.commons">
             <m:Panel>
-              <headerToolbar>
+              <m:headerToolbar>
                 <m:Toolbar></m:Toolbar>
                 <🢂m:Toolbar🢀></m:Toolbar>
-              </headerToolbar>
+              </m:headerToolbar>
             </m:Panel>
           </mvc:View>`,
         getMessage(INVALID_AGGREGATION_CARDINALITY, "headerToolbar")
@@ -54,12 +54,12 @@ describe("the cardinality aggregation validation", () => {
             xmlns:mvc="sap.ui.core.mvc"
             xmlns="sap.ui.commons">
             <m:Panel>
-              <headerToolbar>
+              <m:headerToolbar>
                 <m:Toolbar></m:Toolbar>
-              </headerToolbar>
-              <headerToolbar>
+              </m:headerToolbar>
+              <m:headerToolbar>
                 <🢂m:Toolbar🢀></m:Toolbar>
-              </headerToolbar>
+              </m:headerToolbar>
             </m:Panel>
           </mvc:View>`,
         getMessage(INVALID_AGGREGATION_CARDINALITY, "headerToolbar")
@@ -72,12 +72,12 @@ describe("the cardinality aggregation validation", () => {
             xmlns:mvc="sap.ui.core.mvc"
             xmlns="sap.ui.commons">
             <m:Panel>
-              <headerToolbar>
+              <m:headerToolbar>
                 <m:Toolbar></m:Toolbar>
-              </headerToolbar>
-              <headerToolbar>
+              </m:headerToolbar>
+              <m:headerToolbar>
               🢂<></>🢀
-              </headerToolbar>
+              </m:headerToolbar>
             </m:Panel>
           </mvc:View>`,
         getMessage(INVALID_AGGREGATION_CARDINALITY, "headerToolbar")
@@ -99,9 +99,9 @@ describe("the cardinality aggregation validation", () => {
             xmlns:mvc="sap.ui.core.mvc"
             xmlns="sap.ui.commons">
             <m:Panel>
-              <headerToolbar>
+              <m:headerToolbar>
                 <m:Toolbar></m:Toolbar>
-              </headerToolbar>
+              </m:headerToolbar>
             </m:Panel>
           </mvc:View>`
       );
