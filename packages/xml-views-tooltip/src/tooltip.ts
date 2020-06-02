@@ -9,7 +9,6 @@ import {
   XMLAttributeValue,
 } from "@xml-tools/ast-position";
 import {
-  xmlToFQN,
   flattenAggregations,
   getUI5ClassByXMLElement,
   getUI5PropertyByXMLAttributeKey,
@@ -18,7 +17,7 @@ import {
   flattenAssociations,
   splitQNameByNamespace,
   isSameXMLNSFromPrefix,
-  resolveXMLNSFromPrefix,
+  getUI5ClassByXMLElementClosingTag,
 } from "@ui5-language-assistant/logic-utils";
 import {
   UI5Class,
@@ -61,11 +60,9 @@ function findUI5NodeByElement(
   model: UI5SemanticModel,
   isOpenName: boolean
 ): UI5Class | UI5Aggregation | undefined {
-  const fqnClassName = isOpenName
-    ? xmlToFQN(astNode)
-    : elementClosingTagToFQN(astNode);
-
-  const ui5Class = model.classes[fqnClassName];
+  const ui5Class = isOpenName
+    ? getUI5ClassByXMLElement(astNode, model)
+    : getUI5ClassByXMLElementClosingTag(astNode, model);
   if (astNode.parent.type === "XMLDocument" || ui5Class !== undefined) {
     return ui5Class;
   }
@@ -109,20 +106,6 @@ function findAggragationByName(
   );
 
   return ui5Aggregation;
-}
-
-function elementClosingTagToFQN(xmlElement: XMLElement): string {
-  //the closeName can't be undefined here because otherwise the ast position visitor wouldn't return its type
-  /* istanbul ignore next */
-  const qName = xmlElement.syntax.closeName?.image ?? "";
-  const { prefix, localName } = splitQNameByNamespace(qName);
-  const resolvedXmlns = resolveXMLNSFromPrefix(prefix, xmlElement);
-
-  if (resolvedXmlns !== undefined) {
-    return resolvedXmlns + "." + localName;
-  }
-
-  return localName;
 }
 
 function findUI5NodeByXMLAttributeKey(

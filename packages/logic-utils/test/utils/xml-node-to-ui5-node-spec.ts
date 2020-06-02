@@ -12,6 +12,7 @@ import {
   getUI5PropertyByXMLAttributeKey,
   ui5NodeToFQN,
   getUI5NodeFromXMLElementNamespace,
+  getUI5ClassByXMLElementClosingTag,
 } from "../../src/api";
 import { find } from "lodash";
 
@@ -36,6 +37,16 @@ describe("The @ui5-language-assistant/logic-utils <getUI5ClassByXMLElement> func
     const xmlText = `
         <mvc:View xmlns:mvc="sap.ui.core.mvc">
         </mvc:View>`;
+    const rootElement = getRootElement(xmlText);
+
+    const ui5Class = getUI5ClassByXMLElement(rootElement, ui5Model);
+    expectExists(ui5Class, "ui5 class");
+    expect(ui5NodeToFQN(ui5Class)).to.equal("sap.ui.core.mvc.View");
+  });
+
+  it("returns the class for class in a self-closing tag", () => {
+    const xmlText = `
+        <mvc:View xmlns:mvc="sap.ui.core.mvc" />`;
     const rootElement = getRootElement(xmlText);
 
     const ui5Class = getUI5ClassByXMLElement(rootElement, ui5Model);
@@ -70,6 +81,94 @@ describe("The @ui5-language-assistant/logic-utils <getUI5ClassByXMLElement> func
     const rootElement = getRootElement(xmlText);
 
     const ui5Class = getUI5ClassByXMLElement(rootElement, ui5Model);
+    expect(ui5Class, "ui5 class").to.be.undefined;
+  });
+
+  it("returns undefined when the class is not directly on the namespace", () => {
+    const xmlText = `
+        <core:mvc.View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc">
+        </mvc:View>`;
+    const rootElement = getRootElement(xmlText);
+
+    const ui5Class = getUI5ClassByXMLElement(rootElement, ui5Model);
+    expect(ui5Class, "ui5 class").to.be.undefined;
+  });
+});
+
+describe("The @ui5-language-assistant/logic-utils <getUI5ClassByXMLElementClosingTag> function", () => {
+  let ui5Model: UI5SemanticModel;
+  before(async () => {
+    ui5Model = await generateModel({ version: "1.74.0" });
+  });
+
+  it("returns the class for class in the default namespace", () => {
+    const xmlText = `
+        <View_OPENING xmlns="sap.ui.core.mvc">
+        </View>`;
+    const rootElement = getRootElement(xmlText);
+
+    const ui5Class = getUI5ClassByXMLElementClosingTag(rootElement, ui5Model);
+    expectExists(ui5Class, "ui5 class");
+    expect(ui5NodeToFQN(ui5Class)).to.equal("sap.ui.core.mvc.View");
+  });
+
+  it("returns the class for class in a named namespace", () => {
+    const xmlText = `
+        <mvc:View_OPENING xmlns:mvc="sap.ui.core.mvc">
+        </mvc:View>`;
+    const rootElement = getRootElement(xmlText);
+
+    const ui5Class = getUI5ClassByXMLElementClosingTag(rootElement, ui5Model);
+    expectExists(ui5Class, "ui5 class");
+    expect(ui5NodeToFQN(ui5Class)).to.equal("sap.ui.core.mvc.View");
+  });
+
+  it("returns undefined when the class name in unknown", () => {
+    const xmlText = `
+        <mvc:View xmlns:mvc="sap.ui.core.mvc">
+        </mvc:View_TYPO>`;
+    const rootElement = getRootElement(xmlText);
+
+    const ui5Class = getUI5ClassByXMLElementClosingTag(rootElement, ui5Model);
+    expect(ui5Class, "ui5 class").to.be.undefined;
+  });
+
+  it("returns undefined when the namespace is undefined", () => {
+    const xmlText = `
+        <mvc:View xmlns:mvc="sap.ui.core.mvc">
+        </mvc_TYPO:View>`;
+    const rootElement = getRootElement(xmlText);
+
+    const ui5Class = getUI5ClassByXMLElementClosingTag(rootElement, ui5Model);
+    expect(ui5Class, "ui5 class").to.be.undefined;
+  });
+
+  it("returns undefined when the namespace is unknown", () => {
+    const xmlText = `
+        <mvc_ok:View xmlns:mvc="sap.ui.core.mvc_TYPO" xmlns:mvc_ok="sap.ui.core.mvc">
+        </mvc:View>`;
+    const rootElement = getRootElement(xmlText);
+
+    const ui5Class = getUI5ClassByXMLElementClosingTag(rootElement, ui5Model);
+    expect(ui5Class, "ui5 class").to.be.undefined;
+  });
+
+  it("returns undefined when the class is not directly on the namespace", () => {
+    const xmlText = `
+        <mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:core="sap.ui.core">
+        </core:mvc.View>`;
+    const rootElement = getRootElement(xmlText);
+
+    const ui5Class = getUI5ClassByXMLElementClosingTag(rootElement, ui5Model);
+    expect(ui5Class, "ui5 class").to.be.undefined;
+  });
+
+  it("returns undefined for self-closing tag", () => {
+    const xmlText = `
+        <mvc:View xmlns:mvc="sap.ui.core.mvc" />`;
+    const rootElement = getRootElement(xmlText);
+
+    const ui5Class = getUI5ClassByXMLElementClosingTag(rootElement, ui5Model);
     expect(ui5Class, "ui5 class").to.be.undefined;
   });
 });

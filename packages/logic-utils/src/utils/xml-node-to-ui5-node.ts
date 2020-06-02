@@ -1,9 +1,11 @@
 import {
   xmlToFQN,
+  xmlClosingTagToFQN,
   flattenProperties,
   flattenAggregations,
   isSameXMLNS,
   resolveXMLNS,
+  splitQNameByNamespace,
 } from "@ui5-language-assistant/logic-utils";
 import { XMLElement, XMLAttribute } from "@xml-tools/ast";
 import {
@@ -21,7 +23,33 @@ export function getUI5ClassByXMLElement(
   model: UI5SemanticModel
 ): UI5Class | undefined {
   const elementTagFqn = xmlToFQN(element);
-  return model.classes[elementTagFqn];
+  const ui5Class = model.classes[elementTagFqn];
+  // The class name might not be the same as the element name in case the element name contained a dot
+  // (example: using core:mvc.View instead of mvc:View), which is not allowed.
+  if (ui5Class === undefined || ui5Class.name !== element.name) {
+    return undefined;
+  }
+  return ui5Class;
+}
+
+export function getUI5ClassByXMLElementClosingTag(
+  element: XMLElement,
+  model: UI5SemanticModel
+): UI5Class | undefined {
+  // Nameless closing tag cannot be a class
+  if (element.syntax.closeName === undefined) {
+    return undefined;
+  }
+  const closingTagName = splitQNameByNamespace(element.syntax.closeName.image)
+    .localName;
+  const elementTagFqn = xmlClosingTagToFQN(element);
+  const ui5Class = model.classes[elementTagFqn];
+  // The class name might not be the same as the element name in case the element name contained a dot
+  // (example: using core:mvc.View instead of mvc:View), which is not allowed.
+  if (ui5Class === undefined || ui5Class.name !== closingTagName) {
+    return undefined;
+  }
+  return ui5Class;
 }
 
 export function getUI5AggregationByXMLElement(

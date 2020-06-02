@@ -128,6 +128,14 @@ describe("the UI5 language assistant Hover Tooltip Service", () => {
       expect(ui5Node.kind).equal("UI5Class");
     });
 
+    it("will not get hover content UI5 class with a dot", () => {
+      const xmlSnippet = `<core:mvc.Vi⇶ew
+                            xmlns:core="sap.ui.core"> 
+                          </core:mvc.View>`;
+      const ui5Node = getUI5Node(xmlSnippet, ui5SemanticModel);
+      expect(ui5Node).to.be.undefined;
+    });
+
     it("will get hover content UI5 Aggregation", () => {
       const xmlSnippet = `<mvc:View
                             xmlns:mvc="sap.ui.core.mvc"
@@ -274,6 +282,15 @@ describe("the UI5 language assistant Hover Tooltip Service", () => {
       expectExists(ui5Node, "UI5Node");
       expect(ui5Node.name).to.equal("Button");
       expect(ui5Node.kind).equal("UI5Class");
+    });
+
+    it("will not get hover content UI5 class with a dot", () => {
+      const xmlSnippet = `<mvc:View
+                            xmlns:mvc="sap.ui.core.mvc"
+                            xmlns:core="sap.ui.core"> 
+                          </core:mvc.Vi⇶ew>`;
+      const ui5Node = getUI5Node(xmlSnippet, ui5SemanticModel);
+      expect(ui5Node).to.be.undefined;
     });
 
     it("will not get hover content when only the close tag has the wrong namespace", () => {

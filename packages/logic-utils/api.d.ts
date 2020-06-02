@@ -19,6 +19,12 @@ import {
 export function xmlToFQN(astElement: XMLElement): string;
 
 /**
+ * Resolve and XML closing tag's fully qualified name using available `xmlns`
+ * and UI5 semantics.
+ */
+export function xmlClosingTagToFQN(astElement: XMLElement): string;
+
+/**
  * Returns the fully qualified name of a UI5 Semantic Model Node.
  */
 export function ui5NodeToFQN(ui5Node: BaseUI5Node): string;
@@ -91,6 +97,16 @@ export function typeToString(type: UI5Type | undefined): string;
  * @param model
  */
 export function getUI5ClassByXMLElement(
+  element: XMLElement,
+  model: UI5SemanticModel
+): UI5Class | undefined;
+
+/**
+ * Return the UI5 Class for an XML Element closing tag
+ * @param element
+ * @param model
+ */
+export function getUI5ClassByXMLElementClosingTag(
   element: XMLElement,
   model: UI5SemanticModel
 ): UI5Class | undefined;
