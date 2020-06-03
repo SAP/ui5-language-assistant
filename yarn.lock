@@ -1385,28 +1385,12 @@
     semver "^7.3.2"
     tsutils "^3.17.1"
 
-"@xml-tools/ast-position@1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@xml-tools/ast-position/-/ast-position-1.1.0.tgz#0141d6d0cae735ad2bdb8d576c52946edf405b8f"
-  integrity sha512-3H1elhrOKL3cLbgnzq40UK7ljuStG+fzOvtYZAQRdHEeeeobiDSEN88DEcorQuL2jZHaXtrkwqa++A9JlmoL6g==
-  dependencies:
-    "@xml-tools/ast" "4.1.0"
-
 "@xml-tools/ast-position@2.0.0":
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@xml-tools/ast-position/-/ast-position-2.0.0.tgz#ff7695ca14d549179a1d52d63fc98023c7fc1e37"
   integrity sha512-OcVcs94Sd99qXrIb+aGvMY1bud8FqGPWiuMDiivh27LbvXD335J8VBTMrHnzup+4ax6R5UzHULQo1MAsraYoVQ==
   dependencies:
     "@xml-tools/ast" "^4.2.0"
-
-"@xml-tools/ast@4.1.0":
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/@xml-tools/ast/-/ast-4.1.0.tgz#2660783c9f9a600ed0c9e33bf8919542fb2be531"
-  integrity sha512-8nErsCzkk8PtRI3XP+FgSs3ZINtlR+Jr39zO73xc23VX8ASaNmdEtRgjWVXHC8aWGU1KAw+BWXmB2fVz19YCXQ==
-  dependencies:
-    "@xml-tools/common" "^0.0.6"
-    "@xml-tools/parser" "^1.0.4"
-    lodash "4.17.15"
 
 "@xml-tools/ast@4.2.0", "@xml-tools/ast@^4.2.0":
   version "4.2.0"
@@ -1424,13 +1408,6 @@
   dependencies:
     lodash "4.17.15"
 
-"@xml-tools/common@^0.0.6":
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/@xml-tools/common/-/common-0.0.6.tgz#0932d44ecb65fdfea7ac597126b60f9aa37695b0"
-  integrity sha512-d/iouioRW4RXKvzE6RqY5b8ba0RSBeQgFoUrL44MdUzR9JBpdXO3TMLwNYdEKCBJGtCpi7/LiwseBNCGTNIMcw==
-  dependencies:
-    lodash "4.17.15"
-
 "@xml-tools/content-assist@3.1.5":
   version "3.1.5"
   resolved "https://registry.yarnpkg.com/@xml-tools/content-assist/-/content-assist-3.1.5.tgz#6e3278b74daa4b7f52f419bc8bc92c2272048e9a"
@@ -1440,7 +1417,7 @@
     "@xml-tools/parser" "^1.0.5"
     lodash "4.17.15"
 
-"@xml-tools/parser@1.0.5", "@xml-tools/parser@^1.0.4", "@xml-tools/parser@^1.0.5":
+"@xml-tools/parser@1.0.5", "@xml-tools/parser@^1.0.5":
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/@xml-tools/parser/-/parser-1.0.5.tgz#ca788ae5435af1d3a7a3944786a06c05226e0814"
   integrity sha512-c3ZWjRNDDH/h3i/aYe7y4FPowRynNXOHW4+N+G/DekV1le6IZMu5MueSUXXk8+6XenxTry7ugHYqdbyTd5F1HA==

@@ -27,7 +27,7 @@
     "@ui5-language-assistant/xml-views-tooltip": "^1.1.1",
     "@ui5-language-assistant/xml-views-validation": "^0.4.0",
     "@xml-tools/ast": "4.2.0",
-    "@xml-tools/ast-position": "1.1.0",
+    "@xml-tools/ast-position": "2.0.0",
     "@xml-tools/parser": "1.0.5",
     "assert-never": "1.2.1",
     "fs-extra": "9.0.0",
