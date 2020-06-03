@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { TextDocument, Position } from "vscode-languageserver";
 import { parse, DocumentCstNode } from "@xml-tools/parser";
-import { getAstNodeInPosition } from "@xml-tools/ast-position";
+import { astPositionAtOffset } from "@xml-tools/ast-position";
 import { buildAst } from "@xml-tools/ast";
 import {
   UI5SemanticModel,
@@ -336,7 +336,7 @@ function getUI5Node(
   const { cst, tokenVector } = parse(document.getText());
   const ast = buildAst(cst as DocumentCstNode, tokenVector);
   const offset = document.offsetAt(position);
-  const astPosition = getAstNodeInPosition(ast, offset);
+  const astPosition = astPositionAtOffset(ast, offset);
   if (astPosition !== undefined) {
     const ui5Node = findUI5HoverNodeAtOffset(astPosition, ui5SemanticModel);
     return ui5Node;
