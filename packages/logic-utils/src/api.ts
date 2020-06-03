@@ -1,4 +1,4 @@
-export { xmlToFQN } from "./utils/xml-to-fqn";
+export { xmlToFQN, xmlClosingTagToFQN } from "./utils/xml-to-fqn";
 export { ui5NodeToFQN } from "./utils/ui5-node-to-fqn";
 export { getSuperClasses } from "./utils/get-super-class";
 export { isElementSubClass } from "./utils/is-element-sub-class";
@@ -13,6 +13,7 @@ export { isRootSymbol, getRootSymbolParent } from "./utils/root-symbols";
 export { typeToString } from "./utils/type-to-string";
 export {
   getUI5ClassByXMLElement,
+  getUI5ClassByXMLElementClosingTag,
   getUI5AggregationByXMLElement,
   getUI5PropertyByXMLAttributeKey,
   getUI5NodeFromXMLElementNamespace,
