@@ -323,6 +323,38 @@ describe("The ui5-language-assistant xml-views-completion", () => {
                 },
               });
             });
+
+            it("will only suggest classes from the specified namespace and not its sub-namespace", () => {
+              const xmlSnippet = `
+                <mvc:View
+                  xmlns:mvc="sap.ui.core.mvc"
+                  xmlns:core="sap.ui.core"
+                  >
+                  <mvc:content>
+                    <core:Con⇶
+                  </mvc:content>
+                </mvc:View>`;
+
+              testSuggestionsScenario({
+                model: ui5Model,
+                xmlText: xmlSnippet,
+                providers: {
+                  elementName: [classesSuggestions],
+                },
+                assertion: (suggestions) => {
+                  assertSuggestionProperties(suggestions, "content");
+                  const suggestionNames = map(suggestions, (_) =>
+                    ui5NodeToFQN(_.ui5Node)
+                  );
+                  expect(suggestionNames).to.deep.equalInAnyOrder([
+                    "sap.ui.core.ComponentContainer",
+                  ]);
+                  expect(suggestionNames).to.not.include(
+                    "sap.ui.core.tmpl.TemplateControl"
+                  );
+                },
+              });
+            });
           });
 
           context(
@@ -357,6 +389,43 @@ describe("The ui5-language-assistant xml-views-completion", () => {
                       "sap.ui.commons.form.GridContainerData",
                       "sap.ui.commons.form.GridElementData",
                     ]);
+                  },
+                });
+              });
+
+              it("will only suggest classes from the specified namespace and not its sub-namespaces", () => {
+                const xmlSnippet = `
+                  <mvc:View
+                    xmlns:mvc="sap.ui.core.mvc"
+                    xmlns:core="sap.ui.core"
+                    >
+                    <mvc:content>
+                      <core:⇶
+                    </mvc:content>
+                  </mvc:View>`;
+
+                testSuggestionsScenario({
+                  model: ui5Model,
+                  xmlText: xmlSnippet,
+                  providers: {
+                    elementName: [classesSuggestions],
+                  },
+                  assertion: (suggestions) => {
+                    assertSuggestionProperties(suggestions, "content");
+                    const suggestionNames = map(suggestions, (_) =>
+                      ui5NodeToFQN(_.ui5Node)
+                    );
+                    expect(suggestionNames).to.deep.equalInAnyOrder([
+                      "sap.ui.core.ComponentContainer",
+                      "sap.ui.core.HTML",
+                      "sap.ui.core.Icon",
+                      "sap.ui.core.InvisibleText",
+                      "sap.ui.core.LocalBusyIndicator",
+                      "sap.ui.core.ScrollBar",
+                    ]);
+                    expect(suggestionNames).to.not.include(
+                      "sap.ui.core.mvc.View"
+                    );
                   },
                 });
               });
