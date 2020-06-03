@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.1](https://github.com/sap/ui5-language-assistant/compare/@ui5-language-assistant/xml-views-completion@1.4.0...@ui5-language-assistant/xml-views-completion@1.4.1) (2020-06-03)
+
+### Bug Fixes
+
+- don't offer classes from sub-namespaces in code completion ([#156](https://github.com/sap/ui5-language-assistant/issues/156)) ([a6f4ec3](https://github.com/sap/ui5-language-assistant/commit/a6f4ec37a9e496acd029aae43f7f82c65e7db8fa))
+- support namespace in aggregation name ([#150](https://github.com/sap/ui5-language-assistant/issues/150)) ([cff718b](https://github.com/sap/ui5-language-assistant/commit/cff718b4a2cfddc01cc5e44bd42eca68a8831832))
+
 # [1.4.0](https://github.com/sap/ui5-language-assistant/compare/@ui5-language-assistant/xml-views-completion@1.3.1...@ui5-language-assistant/xml-views-completion@1.4.0) (2020-05-20)
 
 ### Bug Fixes

@@ -40,7 +40,7 @@ describe("the use of deprecated class validation", () => {
             {
               kind: "UseOfDeprecatedClass",
               message:
-                "UI5 Class sap.ui.commons.Button is deprecated since: 1.38.\n\treplaced by {@link sap.m.Button}.",
+                "The sap.ui.commons.Button class is deprecated since version 1.38. replaced by sap.m.Button",
               severity: "warn",
               offsetRange: computeExpectedRange(xmlSnippet),
             },
@@ -72,7 +72,7 @@ describe("the use of deprecated class validation", () => {
             {
               kind: "UseOfDeprecatedClass",
               message:
-                "UI5 Class sap.ui.commons.Button is deprecated since: 1.38.\n\treplaced by {@link sap.m.Button}.",
+                "The sap.ui.commons.Button class is deprecated since version 1.38. replaced by sap.m.Button",
               severity: "warn",
               offsetRange: computeExpectedRange(xmlSnippet),
             },
@@ -105,7 +105,7 @@ describe("the use of deprecated class validation", () => {
             {
               kind: "UseOfDeprecatedClass",
               message:
-                "UI5 Class sap.ui.commons.Button is deprecated since: 1.38.\n\treplaced by {@link sap.m.Button}.",
+                "The sap.ui.commons.Button class is deprecated since version 1.38. replaced by sap.m.Button",
               severity: "warn",
               offsetRange: computeExpectedRange(xmlSnippet),
             },
@@ -144,8 +144,8 @@ describe("the use of deprecated class validation", () => {
             xmlns:mvc="sap.ui.core.mvc"
             xmlns="sap.ui.commons">
             <!-- An aggregation instead of a class -->
-            <content>
-            </content>
+            <mvc:content>
+            </mvc:content>
           </mvc:View>`;
 
       testValidationsScenario({

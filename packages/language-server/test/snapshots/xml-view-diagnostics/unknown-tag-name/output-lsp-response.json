@@ -42,6 +42,6 @@
     },
     "severity": 1,
     "source": "UI5 Language Assistant",
-    "message": "The \"Button2_TYPO\" name is neither a class name nor an aggregation in the \"sap.ui.core.mvc.View\" class"
+    "message": "The \"Button2_TYPO\" name is neither a class name in the \"sap.m\" namespace nor an aggregation of the \"sap.ui.core.mvc.View\" class"
   }
 ]

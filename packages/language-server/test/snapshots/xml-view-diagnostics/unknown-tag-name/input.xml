@@ -2,7 +2,7 @@
     <mvc:View
      xmlns:mvc="sap.ui.core.mvc"
      xmlns="sap.m">
-     <content>
+     <mvc:content>
         <🢂Button_TYPO🢀 />
         <SplitApp>
             <🢂content_TYPO🢀>
@@ -10,7 +10,7 @@
         </SplitApp>
         <🢂mvc:TYPO🢀>
         </mvc:TYPO>
-     </content>
+     </mvc:content>
      <🢂Button2_TYPO🢀 />
     </mvc:View>
 </View>

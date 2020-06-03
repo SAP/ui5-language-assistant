@@ -28,6 +28,7 @@ import {
 import { ui5NodeToFQN } from "@ui5-language-assistant/logic-utils";
 import { getNodeDocumentation, getNodeDetail } from "./documentation";
 import { getSettingsForDocument } from "@ui5-language-assistant/settings";
+import { assertNever } from "assert-never";
 
 export async function getCompletionItems(opts: {
   model: UI5SemanticModel;
@@ -137,8 +138,7 @@ export function computeLSPKind(
     case "BooleanValueInXMLAttributeValue":
       return CompletionItemKind.Constant;
     default:
-      // TODO: we probably need a logging solution to highlight edge cases we
-      //       do not handle...
+      assertNever(suggestion, true);
       return CompletionItemKind.Text;
   }
 }
@@ -213,11 +213,20 @@ function createTextEdits(
     // Tag name
     case "UI5AggregationsInXMLTagName": {
       range = getXMLTagNameRange(suggestion.astNode) ?? range;
-      const tagName = suggestion.ui5Node.name;
+      let parentNS: string | undefined = undefined;
+      /* istanbul ignore else - defensive programming (aggregation suggestions wil not be returned in the root tag) */
+      if (suggestion.astNode.parent.type === "XMLElement") {
+        parentNS = suggestion.astNode.parent.ns;
+        if (parentNS !== undefined && parentNS !== "") {
+          parentNS += ":";
+        }
+      }
+      const tagName = `${parentNS ?? ""}${suggestion.ui5Node.name}`;
+      filterText = `${parentNS ?? ""}${suggestion.ui5Node.name}`;
       // Auto-close tag
       /* istanbul ignore else */
       if (shouldCloseXMLElement(suggestion.astNode)) {
-        newText += `>\${0}</${tagName}>`;
+        newText = `${tagName}>\${0}</${tagName}>`;
       } else {
         additionalTextEdits.push(
           ...getClosingTagTextEdits(suggestion.astNode, tagName)

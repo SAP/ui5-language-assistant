@@ -100,7 +100,9 @@ export function buildUI5Association(
   };
 }
 
-export function buildUI5Class(opts: PartialWithName<UI5Class>): UI5Class {
+export function buildUI5Class<T extends PartialWithName<UI5Class>>(
+  opts: T
+): UI5Class & T {
   return {
     ...baseUI5NodeDefaults,
     abstract: false,

@@ -33,7 +33,8 @@ describe("The `allValidators` constant", () => {
         expect(allValidators).to.satisfy((_: UI5Validators) => {
           return (
             includes(_.element, currValidatorFunc) ||
-            includes(_.attribute, currValidatorFunc)
+            includes(_.attribute, currValidatorFunc) ||
+            includes(_.document, currValidatorFunc)
           );
         });
       });

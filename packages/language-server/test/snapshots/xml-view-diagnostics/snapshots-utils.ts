@@ -3,7 +3,7 @@ import { Diagnostic, Range } from "vscode-languageserver-types";
 import { TextDocument } from "vscode-languageserver";
 import { readJsonSync, readFileSync } from "fs-extra";
 import { expect } from "chai";
-import { sortBy, forEachRight, map } from "lodash";
+import { sortBy, forEachRight, map, cloneDeep, forEach } from "lodash";
 import { generateModel } from "@ui5-language-assistant/test-utils";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { getXMLViewDiagnostics } from "../../../src/xml-view-diagnostics";
@@ -110,7 +110,10 @@ export async function computeNewDiagnosticLSPResponse(
     ui5Model,
   });
 
-  return actualDiagnostics;
+  const diagnosticsForAssertions = cleanupLSPResponseForAssertions(
+    actualDiagnostics
+  );
+  return diagnosticsForAssertions;
 }
 
 export function computeXMLWithMarkedRanges(
@@ -174,4 +177,28 @@ export function toSourcesTestDir(libTestDir: string): string {
 
 function stripRangeMarkers(text: string): string {
   return text.replace(/[🢂🢀]/gu, "");
+}
+
+function cleanupLSPResponseForAssertions(
+  diagnostics: Diagnostic[]
+): Diagnostic[] {
+  // side effect free
+  const clonedDiagnostics = cloneDeep(diagnostics);
+  forEach(clonedDiagnostics, (_) => {
+    // Platform / Machine indepednet "formatting" for the related information uri.
+    // e.g: avoid `/` vs `\` or absolute paths of specific users file system structure.
+    forEach(_.relatedInformation, (info) => {
+      const uriSuffixMatch = /.+(snapshots.*)/.exec(info.location.uri);
+      if (uriSuffixMatch === null) {
+        throw Error(
+          "Failure computing a relatedInformation URI for snapshots!"
+        );
+      }
+      const uriSuffixWithForwardSlash = uriSuffixMatch[1].replace(/\\/g, "/");
+      info.location.uri = uriSuffixWithForwardSlash;
+    });
+    return _;
+  });
+
+  return clonedDiagnostics;
 }

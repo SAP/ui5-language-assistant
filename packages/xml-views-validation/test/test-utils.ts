@@ -18,7 +18,11 @@ export function testValidationsScenario(opts: {
   validators: Partial<UI5Validators>;
   assertion: (issues: UI5XMLViewIssue[]) => void;
 }): void {
-  if (isEmpty(opts.validators.attribute) && isEmpty(opts.validators.element)) {
+  if (
+    isEmpty(opts.validators.attribute) &&
+    isEmpty(opts.validators.element) &&
+    isEmpty(opts.validators.document)
+  ) {
     throw new Error(
       "No validators provided, no relevant scenario can be tested in this manner!"
     );
@@ -33,7 +37,12 @@ export function testValidationsScenario(opts: {
   const ast = buildAst(cst as DocumentCstNode, tokenVector);
 
   const issues = validateXMLViewImpl({
-    validators: { element: [], attribute: [], ...opts.validators },
+    validators: {
+      document: [],
+      element: [],
+      attribute: [],
+      ...opts.validators,
+    },
     xmlView: ast,
     model: opts.model,
   });
