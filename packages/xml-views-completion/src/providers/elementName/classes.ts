@@ -54,20 +54,24 @@ export function classesSuggestions(
     return [];
   }
   const classesMatchingPrefix = filter(classesMatchingType, (_) => {
-    let classNameFilter = ui5NodeToFQN(_);
-    // Check if the namespace prefix matches.
-    // Only classes from the exact same namespace should be returned.
     if (prefixParts.ns !== "") {
-      if (_.parent === undefined || ui5NodeToFQN(_.parent) !== prefixParts.ns) {
-        return false;
-      }
-      // If there is a namespace prefix we only use the class base name to filter the result
-      // (so we don't return results for "core:mvc.View" for example)
-      classNameFilter = _.name;
+      // If the prefix has a namespace (looks like <ns>:<name>),
+      // the namespace part should be matched exactly (only classes from this namespace
+      // should be returned) and the name part should be included in the class base name.
+      // For example, "mvc:View" prefix (where xmlns:mvc="sap.ui.core.mvc")
+      // should match "sap.ui.core.mvc.View" and "sap.ui.core.mvc.HTMLView" classes
+      // and should not match any class from other namespaces (e.g. "sap.ui.core.mvc.subns.View").
+      return (
+        _.parent !== undefined &&
+        ui5NodeToFQN(_.parent) === prefixParts.ns &&
+        includes(_.name, prefixParts.base)
+      );
+    } else {
+      // If there is no namespace in the prefix, the prefix should be included in the
+      // class fully qualified name.
+      // For example, "mvc.View" prefix should match "sap.ui.core.mvc.View" class.
+      return includes(ui5NodeToFQN(_), prefixParts.base);
     }
-    // Check if the name matches.
-    // Classes containing the name should be returned.
-    return includes(classNameFilter, prefixParts.base);
   });
 
   const concreteClassesMatchingPrefix = filter(

@@ -349,6 +349,9 @@ describe("The ui5-language-assistant xml-views-completion", () => {
                   expect(suggestionNames).to.deep.equalInAnyOrder([
                     "sap.ui.core.ComponentContainer",
                   ]);
+                  expect(suggestionNames).to.not.include(
+                    "sap.ui.core.tmpl.TemplateControl"
+                  );
                 },
               });
             });
@@ -420,6 +423,9 @@ describe("The ui5-language-assistant xml-views-completion", () => {
                       "sap.ui.core.LocalBusyIndicator",
                       "sap.ui.core.ScrollBar",
                     ]);
+                    expect(suggestionNames).to.not.include(
+                      "sap.ui.core.mvc.View"
+                    );
                   },
                 });
               });
