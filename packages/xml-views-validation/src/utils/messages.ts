@@ -13,6 +13,9 @@ export const UNKNOWN_TAG_NAME_NO_NS = `The "{0}" name is neither a class name no
 // Invalid aggregation cardinality
 export const INVALID_AGGREGATION_CARDINALITY = `The aggregation "{0}" has cardinality of 0..1 and may only contain one element`;
 
+// Invalid aggregation type
+export const INVALID_AGGREGATION_TYPE = `The class "{0}" is not matching aggregation type "{1}"`;
+
 export function getMessage(message: string, ...params: string[]): string {
   let result = message;
   for (let index = 0; index < params.length; index++) {

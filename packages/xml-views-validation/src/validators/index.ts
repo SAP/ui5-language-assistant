@@ -6,12 +6,14 @@ import { validateUseOfDeprecatedClass } from "./elements/use-of-deprecated-class
 import { validateUnknownAttributeKey } from "./attributes/unknown-attribute-key";
 import { validateUnknownTagName } from "./elements/unknown-tag-name";
 import { validateExplicitAggregationCardinality } from "./elements/cardinality-of-aggregation";
+import { validateAggregationType } from "./elements/type-of-aggregation";
 
 export const allValidators: UI5Validators = {
   element: [
     validateUseOfDeprecatedClass,
     validateUnknownTagName,
     validateExplicitAggregationCardinality,
+    validateAggregationType,
   ],
   attribute: [
     validateUnknownEnumValue,
