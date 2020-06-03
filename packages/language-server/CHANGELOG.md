@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.7.0](https://github.com/sap/ui5-language-assistant/compare/@ui5-language-assistant/language-server@1.6.0...@ui5-language-assistant/language-server@1.7.0) (2020-06-03)
+
+### Bug Fixes
+
+- hover - add separator between title and documentation ([#142](https://github.com/sap/ui5-language-assistant/issues/142)) ([4763d3f](https://github.com/sap/ui5-language-assistant/commit/4763d3fe88d7d1bbe3e23f2a49fc5cb00ab66032))
+- support namespace in aggregation name ([#150](https://github.com/sap/ui5-language-assistant/issues/150)) ([cff718b](https://github.com/sap/ui5-language-assistant/commit/cff718b4a2cfddc01cc5e44bd42eca68a8831832))
+- tests of cardinality aggregation validation ([#154](https://github.com/sap/ui5-language-assistant/issues/154)) ([76dec21](https://github.com/sap/ui5-language-assistant/commit/76dec21dc668521ced4b1f4085d42819bb662049))
+- use description first line without jsdoc tags in deprecation warning ([#141](https://github.com/sap/ui5-language-assistant/issues/141)) ([9cf89eb](https://github.com/sap/ui5-language-assistant/commit/9cf89ebda9dbf80c00b499e66cb44fabeb4d3553))
+
+### Features
+
+- validation for cardinality aggregation ([#149](https://github.com/sap/ui5-language-assistant/issues/149)) ([7e8c01a](https://github.com/sap/ui5-language-assistant/commit/7e8c01a773584b34505b70fded387520ae1bb798))
+- validation for none unique IDs ([#121](https://github.com/sap/ui5-language-assistant/issues/121)) ([a207f27](https://github.com/sap/ui5-language-assistant/commit/a207f2791c42b654fff5e82a9c51857a3b875bcf))
+
 # [1.6.0](https://github.com/sap/ui5-language-assistant/compare/@ui5-language-assistant/language-server@1.5.1...@ui5-language-assistant/language-server@1.6.0) (2020-05-20)
 
 ### Features

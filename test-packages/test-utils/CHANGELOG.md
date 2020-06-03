@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.1](https://github.com/sap/ui5-language-assistant/compare/@ui5-language-assistant/test-utils@1.4.0...@ui5-language-assistant/test-utils@1.4.1) (2020-06-03)
+
+### Bug Fixes
+
+- use description first line without jsdoc tags in deprecation warning ([#141](https://github.com/sap/ui5-language-assistant/issues/141)) ([9cf89eb](https://github.com/sap/ui5-language-assistant/commit/9cf89ebda9dbf80c00b499e66cb44fabeb4d3553))
+
 # [1.4.0](https://github.com/sap/ui5-language-assistant/compare/@ui5-language-assistant/test-utils@1.3.0...@ui5-language-assistant/test-utils@1.4.0) (2020-05-20)
 
 ### Bug Fixes
