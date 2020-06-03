@@ -33,7 +33,7 @@
   "devDependencies": {
     "@types/chai": "4.2.11",
     "@types/mocha": "7.0.2",
-    "@types/lodash": "4.14.150",
+    "@types/lodash": "4.14.154",
     "@types/deep-equal-in-any-order": "1.0.1",
     "@types/klaw-sync": "6.0.0",
     "@types/fs-extra": "9.0.1",
