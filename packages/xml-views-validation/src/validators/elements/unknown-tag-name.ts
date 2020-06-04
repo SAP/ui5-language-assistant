@@ -58,12 +58,12 @@ function validateTagWithNamespace(
   model: UI5SemanticModel
 ): UnknownTagNameIssue[] {
   const issueDefaults = {
-    kind: "UnknownTagName" as "UnknownTagName",
+    kind: "UnknownTagName" as const,
     offsetRange: {
       start: xmlElement.syntax.openName.startOffset,
       end: xmlElement.syntax.openName.endOffset,
     },
-    severity: "error" as "error",
+    severity: "error" as const,
   };
 
   // To avoid false positives, we assume unrecognized namespaces are user-defined so we don't validate tags in them
@@ -124,12 +124,12 @@ function validateTagWithoutNamespace(
   model: UI5SemanticModel
 ): UnknownTagNameIssue[] {
   const issueDefaults = {
-    kind: "UnknownTagName" as "UnknownTagName",
+    kind: "UnknownTagName" as const,
     offsetRange: {
       start: xmlElement.syntax.openName.startOffset,
       end: xmlElement.syntax.openName.endOffset,
     },
-    severity: "error" as "error",
+    severity: "error" as const,
   };
 
   // If the default namespace is defined and it's not a known namespace, don't validate
