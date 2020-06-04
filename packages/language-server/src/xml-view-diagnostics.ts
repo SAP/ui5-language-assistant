@@ -53,6 +53,7 @@ function validationIssuesToLspDiagnostics(
       case "UnknownAttributeKey":
       case "UnknownTagName":
       case "InvalidAggregationCardinality":
+      case "InvalidAggregationType":
         return {
           ...commonDiagnosticPros,
         };
