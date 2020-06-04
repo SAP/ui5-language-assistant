@@ -873,6 +873,19 @@ describe("the UI5 language assistant Code Completion Services", () => {
       ]);
     }
 
+    it("will return non-deprecated property suggestions when not allowing deprecated", async () => {
+      const xmlSnippet = `
+        <mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m" busyIndicator⇶>
+        </m:View>`;
+      const suggestions = await getSuggestions(
+        xmlSnippet,
+        ui5SemanticModel,
+        NO_DEPRECATED_SUGGESTIONS
+      );
+      const suggestionNames = map(suggestions, (_) => _.label);
+      expect(suggestionNames).to.contain.members(["busyIndicatorSize"]);
+    });
+
     it("will not return deprecated property suggestions according to settings", async () => {
       await testDeprecated(
         `<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m">
@@ -977,6 +990,19 @@ describe("the UI5 language assistant Code Completion Services", () => {
         suggestionLabel,
       ]);
     }
+
+    it("will return non-experimental property suggestions when not allowing experimental", async () => {
+      const xmlSnippet = `
+        <mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m" busyIndicator⇶>
+        </m:View>`;
+      const suggestions = await getSuggestions(
+        xmlSnippet,
+        ui5SemanticModel,
+        NO_EXPERIMENTAL_SUGGESTIONS
+      );
+      const suggestionNames = map(suggestions, (_) => _.label);
+      expect(suggestionNames).to.contain.members(["busyIndicatorSize"]);
+    });
 
     it("will not return experimental property suggestions according to settings", async () => {
       await testExperimental(
