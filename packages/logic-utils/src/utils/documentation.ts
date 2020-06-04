@@ -186,8 +186,7 @@ function replace(
   matcher: RegExp,
   replacement: string | ReplaceFunction
 ): string {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-  //@ts-ignore - 'replace' is defined with 2 overloads instead of a union type in the definitions file
+  // @ts-expect-error - 'replace' is defined with 2 overloads instead of a union type in the definitions file
   return string.replace(matcher, replacement);
 }
 
