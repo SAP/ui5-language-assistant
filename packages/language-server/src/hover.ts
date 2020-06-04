@@ -7,7 +7,7 @@ import {
 } from "vscode-languageserver";
 import { parse, DocumentCstNode } from "@xml-tools/parser";
 import { buildAst } from "@xml-tools/ast";
-import { getAstNodeInPosition } from "@xml-tools/ast-position";
+import { astPositionAtOffset } from "@xml-tools/ast-position";
 import {
   UI5SemanticModel,
   BaseUI5Node,
@@ -24,7 +24,7 @@ export function getHoverResponse(
   const { cst, tokenVector } = parse(documentText);
   const ast = buildAst(cst as DocumentCstNode, tokenVector);
   const offset = document.offsetAt(textDocumentPosition.position);
-  const astPosition = getAstNodeInPosition(ast, offset);
+  const astPosition = astPositionAtOffset(ast, offset);
   if (astPosition !== undefined) {
     const ui5Node = findUI5HoverNodeAtOffset(astPosition, model);
     if (ui5Node !== undefined) {
