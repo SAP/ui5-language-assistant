@@ -70,7 +70,7 @@ async function filterBySettings(
       filteredSuggestions,
       (suggestion) =>
         isUI5NodeXMLViewCompletion(suggestion) &&
-        suggestion.ui5Node.deprecatedInfo?.isDeprecated
+        suggestion.ui5Node.deprecatedInfo?.isDeprecated === true
     );
   }
   if (!settings.codeAssist.experimental) {
@@ -78,7 +78,7 @@ async function filterBySettings(
       filteredSuggestions,
       (suggestions) =>
         isUI5NodeXMLViewCompletion(suggestions) &&
-        suggestions.ui5Node.experimentalInfo?.isExperimental
+        suggestions.ui5Node.experimentalInfo?.isExperimental === true
     );
   }
   return filteredSuggestions;

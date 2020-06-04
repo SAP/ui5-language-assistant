@@ -832,6 +832,207 @@ describe("the UI5 language assistant Code Completion Services", () => {
     expectLspKind("UI5UnknownKey", CompletionItemKind.Text);
   });
 
+  context("deprecated", () => {
+    const NO_DEPRECATED_SUGGESTIONS = {
+      codeAssist: { deprecated: false, experimental: true },
+    };
+    const ALLOW_DEPRECATED_SUGGESTIONS = {
+      codeAssist: { deprecated: true, experimental: true },
+    };
+
+    async function testDeprecated(
+      xmlSnippet: string,
+      suggestionLabel: string
+    ): Promise<void> {
+      // Check that it's returned when settings allow deprecated
+      const suggestionsWithDeprecated = await getSuggestions(
+        xmlSnippet,
+        ui5SemanticModel,
+        ALLOW_DEPRECATED_SUGGESTIONS
+      );
+      const suggestionNamesWithDeprecated = map(
+        suggestionsWithDeprecated,
+        (_) => _.label
+      );
+      expect(suggestionNamesWithDeprecated).to.contain.members([
+        suggestionLabel,
+      ]);
+
+      // Check that it's not returned when settings don't allow deprecated
+      const suggestionsWithoutDeprecated = await getSuggestions(
+        xmlSnippet,
+        ui5SemanticModel,
+        NO_DEPRECATED_SUGGESTIONS
+      );
+      const suggestionNamesWithoutDeprecated = map(
+        suggestionsWithoutDeprecated,
+        (_) => _.label
+      );
+      expect(suggestionNamesWithoutDeprecated).to.not.contain.members([
+        suggestionLabel,
+      ]);
+    }
+
+    it("will not return deprecated property suggestions according to settings", async () => {
+      await testDeprecated(
+        `<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m">
+          <mvc:content>
+            <m:Page icon⇶
+          </mvc:content>
+        </m:View>`,
+        "icon"
+      );
+    });
+
+    it("will not return deprecated event suggestions according to settings", async () => {
+      await testDeprecated(
+        `<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m">
+          <mvc:content>
+            <m:MessageView afterOpen⇶
+          </mvc:content>
+        </m:View>`,
+        "afterOpen"
+      );
+    });
+
+    it("will not return deprecated association suggestions according to settings", async () => {
+      await testDeprecated(
+        `<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m">
+          <mvc:content>
+            <m:Dialog leftButton⇶
+          </mvc:content>
+        </m:View>`,
+        "leftButton"
+      );
+    });
+
+    it("will not return deprecated aggregation suggestions according to settings", async () => {
+      await testDeprecated(
+        `<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:charts="sap.ca.ui.charts">
+          <mvc:content>
+            <charts:BubbleChart>
+              <charts:content⇶
+            </charts:BubbleChart>
+          </mvc:content>
+        </m:View>`,
+        "content"
+      );
+    });
+
+    it("will not return deprecated namespace suggestions according to settings", async () => {
+      await testDeprecated(
+        `<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.ui.common⇶">
+        </m:View>`,
+        "commons"
+      );
+    });
+
+    it("will not return deprecated enum value suggestions according to settings", async () => {
+      await testDeprecated(
+        `<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m">
+          <m:TileContent frameType="TwoThirds⇶"
+        </mvc:View>`,
+        "TwoThirds"
+      );
+    });
+  });
+
+  context("experimental", () => {
+    const NO_EXPERIMENTAL_SUGGESTIONS = {
+      codeAssist: { deprecated: true, experimental: false },
+    };
+    const ALLOW_EXPERIMENTAL_SUGGESTIONS = {
+      codeAssist: { deprecated: true, experimental: true },
+    };
+
+    async function testExperimental(
+      xmlSnippet: string,
+      suggestionLabel: string
+    ): Promise<void> {
+      // Check that it's returned when settings allow experimental
+      const suggestionsWithExperimental = await getSuggestions(
+        xmlSnippet,
+        ui5SemanticModel,
+        ALLOW_EXPERIMENTAL_SUGGESTIONS
+      );
+      const suggestionNamesWithExperimental = map(
+        suggestionsWithExperimental,
+        (_) => _.label
+      );
+      expect(suggestionNamesWithExperimental).to.contain.members([
+        suggestionLabel,
+      ]);
+
+      // Check that it's not returned when settings don't allow experimental
+      const suggestionsWithoutExperimental = await getSuggestions(
+        xmlSnippet,
+        ui5SemanticModel,
+        NO_EXPERIMENTAL_SUGGESTIONS
+      );
+      const suggestionNamesWithoutExperimental = map(
+        suggestionsWithoutExperimental,
+        (_) => _.label
+      );
+      expect(suggestionNamesWithoutExperimental).to.not.contain.members([
+        suggestionLabel,
+      ]);
+    }
+
+    it("will not return experimental property suggestions according to settings", async () => {
+      await testExperimental(
+        `<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m">
+          <mvc:content>
+            <m:NumericContent adaptiveFontSize⇶
+          </mvc:content>
+        </m:View>`,
+        "adaptiveFontSize"
+      );
+    });
+
+    it("will not return experimental event suggestions according to settings", async () => {
+      await testExperimental(
+        `<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:widgets="sap.ui.integration.widgets">
+          <mvc:content>
+            <widgets:Card manifestReady⇶
+          </mvc:content>
+        </m:View>`,
+        "manifestReady"
+      );
+    });
+
+    it("will not return experimental association suggestions according to settings", async () => {
+      await testExperimental(
+        `<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:table="sap.ui.table">
+          <mvc:content>
+            <table:Table groupBy⇶
+          </mvc:content>
+        </m:View>`,
+        "groupBy"
+      );
+    });
+
+    it("will not return experimental aggregation suggestions according to settings", async () => {
+      await testExperimental(
+        `<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:commons="sap.suite.ui.commons">
+          <mvc:content>
+            <commons:ProcessFlowNode>
+              <commons:zoomLevelOneContent⇶
+            </commons:ProcessFlowNode> 
+          </mvc:content>
+        </m:View>`,
+        "zoomLevelOneContent"
+      );
+    });
+
+    it("will not return experimental namespace suggestions according to settings", async () => {
+      await testExperimental(
+        `<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:vtm="sap.ui.vtm⇶">
+        </m:View>`,
+        "vtm"
+      );
+    });
+  });
+
   function expectLspKind(
     suggestionType: string,
     expectedKind: CompletionItemKind

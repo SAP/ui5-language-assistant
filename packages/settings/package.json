@@ -12,7 +12,9 @@
   "repository": "https://github.com/sap/ui5-language-assistant/",
   "license": "Apache-2.0",
   "typings": "./api.d.ts",
-  "dependencies": {},
+  "dependencies": {
+    "deep-freeze-strict": "1.1.1"
+  },
   "devDependencies": {},
   "scripts": {
     "ci": "npm-run-all clean compile lint coverage",

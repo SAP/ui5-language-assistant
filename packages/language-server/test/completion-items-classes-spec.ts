@@ -549,4 +549,92 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
       ],
     });
   });
+
+  it("will not return deprecated suggestions according to settings", async () => {
+    const NO_DEPRECATED_SUGGESTIONS = {
+      codeAssist: { deprecated: false, experimental: true },
+    };
+    const ALLOW_DEPRECATED_SUGGESTIONS = {
+      codeAssist: { deprecated: true, experimental: true },
+    };
+    const xmlSnippet = `
+      <mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m" xmlns:commons="sap.ui.commons">
+        <mvc:content>
+          <MenuButton⇶
+        </mvc:content>
+      </m:View>`;
+
+    // Check that it's returned when settings allow deprecated
+    const suggestionsWithDeprecated = await getSuggestions(
+      xmlSnippet,
+      ui5SemanticModel,
+      ALLOW_DEPRECATED_SUGGESTIONS
+    );
+    const suggestionTagNamesWithDeprecated = map(
+      suggestionsWithDeprecated,
+      (_) => getTagName(_.textEdit)
+    );
+    expect(suggestionTagNamesWithDeprecated).to.contain.members([
+      "commons:MenuButton",
+    ]);
+
+    // Check that it's not returned when settings don't allow deprecated
+    const suggestionsNoDeprecated = await getSuggestions(
+      xmlSnippet,
+      ui5SemanticModel,
+      NO_DEPRECATED_SUGGESTIONS
+    );
+    const suggestionTagNamesNoDeprecated = map(suggestionsNoDeprecated, (_) =>
+      getTagName(_.textEdit)
+    );
+    expect(suggestionTagNamesNoDeprecated).to.deep.equalInAnyOrder([
+      "m:MenuButton",
+    ]);
+    expect(suggestionTagNamesNoDeprecated).to.not.contain.members([
+      "commons:MenuButton",
+    ]);
+  });
+
+  it("will not return experimental suggestions according to settings", async () => {
+    const NO_EXPERIMENTAL_SUGGESTIONS = {
+      codeAssist: { deprecated: true, experimental: false },
+    };
+    const ALLOW_EXPERIMENTAL_SUGGESTIONS = {
+      codeAssist: { deprecated: true, experimental: true },
+    };
+    const xmlSnippet = `
+      <mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:f="sap.f">
+        <mvc:content>
+          <AvatarGroup⇶
+        </mvc:content>
+      </m:View>`;
+
+    // Check that it's returned when settings allow experimental
+    const suggestionsWithExperimental = await getSuggestions(
+      xmlSnippet,
+      ui5SemanticModel,
+      ALLOW_EXPERIMENTAL_SUGGESTIONS
+    );
+    const suggestionTagNamesWithExperimental = map(
+      suggestionsWithExperimental,
+      (_) => getTagName(_.textEdit)
+    );
+    expect(suggestionTagNamesWithExperimental).to.contain.members([
+      "f:AvatarGroup",
+    ]);
+
+    // Check that it's not returned when settings don't allow experimental
+    const suggestionsNoExperimental = await getSuggestions(
+      xmlSnippet,
+      ui5SemanticModel,
+      NO_EXPERIMENTAL_SUGGESTIONS
+    );
+    const suggestionTagNamesNoExperimental = map(
+      suggestionsNoExperimental,
+      (_) => getTagName(_.textEdit)
+    );
+    expect(suggestionTagNamesNoExperimental).to.not.contain.members([
+      "f:AvatarGroup",
+    ]);
+  });
 });

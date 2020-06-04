@@ -56,4 +56,24 @@ describe("the UI5 language assistant Code Completion Services", () => {
 
     expect(suggestionKinds).to.deep.equal([CompletionItemKind.Constant]);
   });
+
+  it("will return true and false when settings don't allow deprecated and experimental APIs", async () => {
+    it("will not return deprecated suggestions according to settings", async () => {
+      const NO_DEPRECATED_OR_EXPERIMENTAL = {
+        codeAssist: { deprecated: false, experimental: false },
+      };
+      const xmlSnippet = `
+        <mvc:View 
+          xmlns:mvc="sap.ui.core.mvc" 
+          xmlns="sap.m"
+          busy="⇶">`;
+      const suggestions = await getSuggestions(
+        xmlSnippet,
+        ui5SemanticModel,
+        NO_DEPRECATED_OR_EXPERIMENTAL
+      );
+      const suggestionNames = map(suggestions, (_) => _.label);
+      expect(suggestionNames).to.deep.equalInAnyOrder(["true", "false"]);
+    });
+  });
 });

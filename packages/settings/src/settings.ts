@@ -1,9 +1,11 @@
+import deepFreezeStrict from "deep-freeze-strict";
 import { Settings } from "../api";
 
 // These properties are defined (with their default values) in the package.json of the client
 const defaultSettings: Settings = {
   codeAssist: { deprecated: false, experimental: false },
 };
+deepFreezeStrict(defaultSettings);
 
 // The global settings, used when the `workspace/configuration` request is not supported by the client.
 // Please note that this is not the case when using this server with VSCode or Theia
@@ -12,6 +14,15 @@ let globalSettings: Settings = defaultSettings;
 
 // Cache the settings of all open documents
 const documentSettings: Map<string, Thenable<Settings>> = new Map();
+
+// Function used for testing purposes
+export function resetSettings(): void {
+  globalSettings = defaultSettings;
+  documentSettings.clear();
+}
+export function getDefaultSettings(): Settings {
+  return defaultSettings;
+}
 
 export function getSettingsForDocument(resource: string): Thenable<Settings> {
   const result = documentSettings.get(resource);
