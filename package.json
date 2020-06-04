@@ -60,7 +60,7 @@
     "@types/rimraf": "3.0.0",
     "simple-git": "1.132.0",
     "klaw-sync": "6.0.0",
-    "fs-extra": "9.0.0"
+    "fs-extra": "9.0.1"
   },
   "husky": {
     "hooks": {
