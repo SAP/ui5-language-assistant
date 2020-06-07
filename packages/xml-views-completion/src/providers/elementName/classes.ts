@@ -1,4 +1,4 @@
-import { map, filter, includes, startsWith } from "lodash";
+import { map, filter, includes } from "lodash";
 import { XMLElement } from "@xml-tools/ast";
 import {
   UI5Cardinality,
@@ -13,6 +13,8 @@ import {
   getUI5ClassByXMLElement,
   ui5NodeToFQN,
   getUI5AggregationByXMLElement,
+  splitQNameByNamespace,
+  resolveXMLNSFromPrefix,
 } from "@ui5-language-assistant/logic-utils";
 import { UI5ClassesInXMLTagNameCompletion } from "../../../api";
 import { UI5ElementNameCompletionOptions } from "./index";
@@ -52,11 +54,24 @@ export function classesSuggestions(
     return [];
   }
   const classesMatchingPrefix = filter(classesMatchingType, (_) => {
-    const classFqn = ui5NodeToFQN(_);
-    const matchingNamespace = startsWith(classFqn, prefixParts.ns);
-    const classFqnWithoutPrefix = classFqn.substring(prefixParts.ns.length);
-    const matchingBasename = includes(classFqnWithoutPrefix, prefixParts.base);
-    return matchingNamespace && matchingBasename;
+    if (prefixParts.ns !== "") {
+      // If the prefix has a namespace (looks like <ns>:<name>),
+      // the namespace part should be matched exactly (only classes from this namespace
+      // should be returned) and the name part should be included in the class base name.
+      // For example, "mvc:View" prefix (where xmlns:mvc="sap.ui.core.mvc")
+      // should match "sap.ui.core.mvc.View" and "sap.ui.core.mvc.HTMLView" classes
+      // and should not match any class from other namespaces (e.g. "sap.ui.core.mvc.subns.View").
+      return (
+        _.parent !== undefined &&
+        ui5NodeToFQN(_.parent) === prefixParts.ns &&
+        includes(_.name, prefixParts.base)
+      );
+    } else {
+      // If there is no namespace in the prefix, the prefix should be included in the
+      // class fully qualified name.
+      // For example, "mvc.View" prefix should match "sap.ui.core.mvc.View" class.
+      return includes(ui5NodeToFQN(_), prefixParts.base);
+    }
   });
 
   const concreteClassesMatchingPrefix = filter(
@@ -160,28 +175,18 @@ function getPrefixParts(
   originalPrefix: string | undefined,
   xmlElement: XMLElement
 ): { ns: string; base: string } | null {
-  if (originalPrefix === undefined) {
-    return { ns: "", base: "" };
-  }
-  // TODO: align the `NAME` parts of the regExp to XML specs.
-  //    `NAME` in XML allows just "\w+"
-  const execResult = /^(?<prefix>\w+):(?<classBaseName>\w+)?$/.exec(
-    originalPrefix
-  ) as RegExpExecArray & { groups: { prefix: string; classBaseName: string } };
-
-  if (execResult !== null) {
-    const prefix = execResult.groups.prefix;
-    const mappedURI = xmlElement.namespaces[prefix];
-    const classBaseName = execResult.groups.classBaseName;
-    if (mappedURI !== undefined) {
-      return { ns: mappedURI, base: classBaseName ?? "" };
+  const { prefix, localName } = splitQNameByNamespace(originalPrefix ?? "");
+  let resolvedNS: string | undefined = "";
+  // If there is no namespace prefix, don't fall back to the default namespace because
+  // we don't want to filter according to it (we will return classes from all namespaces if
+  // a namespace prefix is not defined)
+  if (prefix !== undefined) {
+    resolvedNS = resolveXMLNSFromPrefix(prefix, xmlElement);
+    if (resolvedNS === undefined) {
+      return UNRESOLVED_PREFIX_URI;
     }
-    return UNRESOLVED_PREFIX_URI;
-  } else {
-    // We are intentionally not using the default xmlns for filtering purposes
-    // as we wish to **offer everything** and if required do an "auto-import" and also update the xmlns section.
-    return { ns: "", base: originalPrefix };
   }
+  return { ns: resolvedNS, base: localName };
 }
 
 function isClassOrInterfaceType(

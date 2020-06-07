@@ -1,9 +1,13 @@
 import {
   xmlToFQN,
+  xmlClosingTagToFQN,
   flattenProperties,
   flattenAggregations,
+  isSameXMLNS,
+  resolveXMLNS,
+  splitQNameByNamespace,
 } from "@ui5-language-assistant/logic-utils";
-import { XMLElement, XMLAttribute, DEFAULT_NS } from "@xml-tools/ast";
+import { XMLElement, XMLAttribute } from "@xml-tools/ast";
 import {
   UI5Class,
   UI5SemanticModel,
@@ -19,7 +23,33 @@ export function getUI5ClassByXMLElement(
   model: UI5SemanticModel
 ): UI5Class | undefined {
   const elementTagFqn = xmlToFQN(element);
-  return model.classes[elementTagFqn];
+  const ui5Class = model.classes[elementTagFqn];
+  // The class name might not be the same as the element name in case the element name contained a dot
+  // (example: using core:mvc.View instead of mvc:View), which is not allowed.
+  if (ui5Class === undefined || ui5Class.name !== element.name) {
+    return undefined;
+  }
+  return ui5Class;
+}
+
+export function getUI5ClassByXMLElementClosingTag(
+  element: XMLElement,
+  model: UI5SemanticModel
+): UI5Class | undefined {
+  // Nameless closing tag cannot be a class
+  if (element.syntax.closeName === undefined) {
+    return undefined;
+  }
+  const closingTagName = splitQNameByNamespace(element.syntax.closeName.image)
+    .localName;
+  const elementTagFqn = xmlClosingTagToFQN(element);
+  const ui5Class = model.classes[elementTagFqn];
+  // The class name might not be the same as the element name in case the element name contained a dot
+  // (example: using core:mvc.View instead of mvc:View), which is not allowed.
+  if (ui5Class === undefined || ui5Class.name !== closingTagName) {
+    return undefined;
+  }
+  return ui5Class;
 }
 
 export function getUI5AggregationByXMLElement(
@@ -30,8 +60,9 @@ export function getUI5AggregationByXMLElement(
   if (element.parent.type === "XMLDocument") {
     return undefined;
   }
-  // Aggregations don't have a namesapce
-  if (element.ns !== undefined) {
+  // Aggregations must be in the same namespace as their parent
+  // https://sapui5.hana.ondemand.com/#/topic/19eabf5b13214f27b929b9473df3195b
+  if (!isSameXMLNS(element, element.parent)) {
     return undefined;
   }
   const ui5Class = getUI5ClassByXMLElement(element.parent, model);
@@ -66,7 +97,7 @@ export function getUI5NodeFromXMLElementNamespace(
   isXmlnsDefined: boolean;
 } {
   const isDefault = xmlElement.ns === undefined;
-  const xmlNamespace = xmlElement.namespaces[xmlElement.ns ?? DEFAULT_NS];
+  const xmlNamespace = resolveXMLNS(xmlElement);
   if (xmlNamespace === undefined) {
     return {
       namespace: undefined,

@@ -64,7 +64,7 @@ describe("the Language Server Client Integration Tests", () => {
     const xmlSnippet = `<mvc:View 
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns="sap.m">
-                          <content> 
+                          <mvc:content> 
                             <List> <te⇶`;
     const completionsList = ["contextMenu", "items", "swipeContent"];
     await assertCompletions(xmlSnippet, completionsList);

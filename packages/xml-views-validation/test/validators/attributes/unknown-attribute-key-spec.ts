@@ -72,9 +72,9 @@ describe("the unknown attribute name validation", () => {
         `<mvc:View
           xmlns:mvc="sap.ui.core.mvc"
           xmlns="sap.m">
-          <content>
+          <mvc:content>
             <List 🢂TYPO🢀=""></List>
-          </content>
+          </mvc:content>
         </mvc:View>`,
         "Unknown attribute key: TYPO"
       );
@@ -96,9 +96,9 @@ describe("the unknown attribute name validation", () => {
         `<mvc:View
           xmlns:mvc="sap.ui.core.mvc"
           xmlns="sap.m">
-          <content 🢂TYPO🢀="">
+          <mvc:content 🢂TYPO🢀="">
             <List></List>
-          </content>
+          </mvc:content>
         </mvc:View>`,
         "Unknown attribute key: TYPO"
       );
@@ -130,9 +130,9 @@ describe("the unknown attribute name validation", () => {
         `<mvc:View
           xmlns:mvc="sap.ui.core.mvc"
           xmlns="sap.m">
-          <content 🢂stashed🢀="">
+          <mvc:content 🢂stashed🢀="">
             <List></List>
-          </content>
+          </mvc:content>
         </mvc:View>`,
         "Unknown attribute key: stashed"
       );
@@ -143,9 +143,9 @@ describe("the unknown attribute name validation", () => {
         `<mvc:View
           xmlns:mvc="sap.ui.core.mvc"
           xmlns="sap.m">
-          <content 🢂binding🢀="">
+          <mvc:content 🢂binding🢀="">
             <List></List>
-          </content>
+          </mvc:content>
         </mvc:View>`,
         "Unknown attribute key: binding"
       );
@@ -156,9 +156,9 @@ describe("the unknown attribute name validation", () => {
         `<mvc:View
           xmlns:mvc="sap.ui.core.mvc"
           xmlns="sap.m">
-          <content 🢂class🢀="">
+          <mvc:content 🢂class🢀="">
             <List></List>
-          </content>
+          </mvc:content>
         </mvc:View>`,
         "Unknown attribute key: class"
       );
@@ -186,9 +186,9 @@ describe("the unknown attribute name validation", () => {
         `<mvc:View
           xmlns:mvc="sap.ui.core.mvc"
           xmlns:uxap="sap.uxap">
-          <content>
+          <mvc:content>
             <uxap:AnchorBar 🢂_select🢀=""></uxap:AnchorBar>
-          </content>
+          </mvc:content>
         </mvc:View>`,
         "Unknown attribute key: _select"
       );
@@ -227,9 +227,9 @@ describe("the unknown attribute name validation", () => {
           <mvc:View
             xmlns:mvc="sap.ui.core.mvc"
             xmlns="sap.m">
-            <content>
+            <mvc:content>
               <m:List ariaLabelledBy="abc"></m:List>
-            </content>
+            </mvc:content>
           </mvc:View>`);
       });
 
@@ -300,9 +300,9 @@ describe("the unknown attribute name validation", () => {
             <mvc:View
                 xmlns:mvc="sap.ui.core.mvc"
                 xmlns:uxap="sap.uxap">
-              <content>
-              <uxap:ObjectPageLazyLoader stashed="true"></uxap:ObjectPageLazyLoader>
-              </content>
+              <mvc:content>
+                <uxap:ObjectPageLazyLoader stashed="true"></uxap:ObjectPageLazyLoader>
+              </mvc:content>
             </mvc:View>`);
         });
 
@@ -310,9 +310,9 @@ describe("the unknown attribute name validation", () => {
           assertNoIssues(`
             <mvc:View
               xmlns:mvc="sap.ui.core.mvc">
-              <content>
+              <mvc:content>
                 <List xmlns="sap.m"></List>
-              </content>
+              </mvc:content>
             </mvc:View>`);
         });
 
@@ -320,9 +320,9 @@ describe("the unknown attribute name validation", () => {
           assertNoIssues(`
             <mvc:View
               xmlns:mvc="sap.ui.core.mvc"">
-              <content>
+              <mvc:content>
                 <m:List xmlns:m="sap.m"></m:List>
-              </content>
+              </mvc:content>
             </mvc:View>`);
         });
       });
@@ -334,8 +334,8 @@ describe("the unknown attribute name validation", () => {
           <mvc:View
             xmlns:mvc="sap.ui.core.mvc"
             xmlns:core="sap.ui.core">
-            <content core:require="">
-            </content>
+            <mvc:content core:require="">
+            </mvc:content>
           </mvc:View>`);
       });
 
@@ -344,7 +344,7 @@ describe("the unknown attribute name validation", () => {
           <mvc:View
             xmlns:mvc="sap.ui.core.mvc"
             xmlns:dt="sap.ui.dt">
-            <content dt:designtime=""></content>
+            <mvc:content dt:designtime=""></mvc:content>
           </mvc:View>`);
       });
 
@@ -353,7 +353,7 @@ describe("the unknown attribute name validation", () => {
           <mvc:View
             xmlns:mvc="sap.ui.core.mvc"
             xmlns:template="http://schemas.sap.com/sapui5/extension/sap.ui.core.template/1">
-            <content template:require=""></content>
+            <mvc:content template:require=""></mvc:content>
           </mvc:View>`);
       });
 
@@ -362,7 +362,7 @@ describe("the unknown attribute name validation", () => {
           <mvc:View
             xmlns:mvc="sap.ui.core.mvc"
             xmlns:custom="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
-            <content custom:unknownattr=""></content>
+            <mvc:content custom:unknownattr=""></mvc:content>
           </mvc:View>`);
       });
 
@@ -370,8 +370,8 @@ describe("the unknown attribute name validation", () => {
         assertNoIssues(`
           <mvc:View
             xmlns:mvc="sap.ui.core.mvc"">
-            <content xmlns="sap.m">
-            </content>
+            <mvc:content xmlns="sap.m">
+            </mvc:content>
           </mvc:View>`);
       });
 
@@ -379,8 +379,8 @@ describe("the unknown attribute name validation", () => {
         assertNoIssues(`
           <mvc:View
             xmlns:mvc="sap.ui.core.mvc"">
-            <content xmlns:m="sap.m">
-            </content>
+            <mvc:content xmlns:m="sap.m">
+            </mvc:content>
           </mvc:View>`);
       });
     });
@@ -391,8 +391,8 @@ describe("the unknown attribute name validation", () => {
           <mvc:View
             xmlns:mvc="sap.ui.core.mvc"
             xmlns="sap.m">
-            <content_TYPO TYPO="">
-            </content_TYPO>
+            <mvc:content_TYPO TYPO="">
+            </mvc:content_TYPO>
           </mvc:View>`);
       });
 
@@ -400,9 +400,9 @@ describe("the unknown attribute name validation", () => {
         assertNoIssues(`
           <mvc:View
             xmlns:mvc="sap.ui.core.mvc">
-            <content>
+            <mvc:content>
               <List_TYPO TYPO=""></List_TYPO>
-            </content>
+            </mvc:content>
           </mvc:View>`);
       });
 
