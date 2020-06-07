@@ -17,10 +17,16 @@ describe("The @ui5-language-assistant/language-server <getNodeDocumentation> fun
     it("will get documentation with deprecatedInfo", () => {
       const ui5Enum = buildUI5Enum({
         name: "dummy-node",
-        deprecatedInfo: { isDeprecated: true, since: "2.2.2", text: "dummy-text" },
+        deprecatedInfo: {
+          isDeprecated: true,
+          since: "2.2.2",
+          text: "dummy-text",
+        },
       });
       const result = getNodeDocumentation(ui5Enum, ui5SemanticModel);
-      expect(result.value).to.include("Deprecated since version 2.2.2. dummy-text");
+      expect(result.value).to.include(
+        "Deprecated since version 2.2.2. dummy-text"
+      );
     });
   });
 
