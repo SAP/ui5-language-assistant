@@ -57,19 +57,5 @@ describe("The @ui5-language-assistant/language-server <getNodeDocumentation> fun
       expect(result.value).to.include("Experimental.");
       expect(result.value).to.not.include("since");
     });
-
-    it("will get documentation with experimentalInfo - without since", () => {
-      const ui5Enum = buildUI5Enum({
-        name: "dummy-node",
-        experimentalInfo: {
-          isExperimental: true,
-          since: undefined,
-          text: undefined,
-        },
-      });
-      const result = getNodeDocumentation(ui5Enum, ui5SemanticModel);
-      expect(result.value).to.include("Experimental.");
-      expect(result.value).to.not.include("since");
-    });
   });
 });
