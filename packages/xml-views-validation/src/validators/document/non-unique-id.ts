@@ -44,9 +44,9 @@ function buildIssuesForSingleID(
       );
 
       return {
-        kind: "NonUniqueIDIssue" as "NonUniqueIDIssue",
+        kind: "NonUniqueIDIssue" as const,
         message: getMessage(NON_UNIQUE_ID, id),
-        severity: "error" as "error",
+        severity: "error" as const,
         offsetRange: {
           start: currDupIdValToken.startOffset,
           end: currDupIdValToken.endOffset,
@@ -84,10 +84,10 @@ class IdsCollectorVisitor implements XMLAstVisitor {
       !isNoneUI5id(attrib)
     ) {
       if (this.idsToXMLElements[attrib.value] === undefined) {
-        // @ts-ignore - TSC does not understand: `attrib.syntax.value !== undefined` is a type guard
+        // @ts-expect-error - TSC does not understand: `attrib.syntax.value !== undefined` is a type guard
         this.idsToXMLElements[attrib.value] = [attrib];
       } else {
-        // @ts-ignore - TSC does not understand: `attrib.syntax.value !== undefined` is a type guard
+        // @ts-expect-error - TSC does not understand: `attrib.syntax.value !== undefined` is a type guard
         this.idsToXMLElements[attrib.value].push(attrib);
       }
     }

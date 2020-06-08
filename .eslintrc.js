@@ -13,12 +13,18 @@ module.exports = {
       "error",
       { functions: false, classes: false },
     ],
-    // We actually need to ignore multiple things the TypeScript Compiler cannot
-    // seem to figure out by itself.
-    "@typescript-eslint/ban-ts-ignore": "off",
-    // This rule replaces `ban-ts-ignore` but we need to upgrade to latest major version of eslint+typescript
-    // to have full configuration options for it.
-    "@typescript-eslint/ban-ts-comment": "off",
+    "@typescript-eslint/ban-ts-comment": [
+      "error",
+      {
+        // We only allow ts-expect-error comments to enforce removal
+        // of outdated suppression comments when the underlying issue has been resolved.
+        // https://devblogs.microsoft.com/typescript/announcing-typescript-3-9/#what-about-ts-ignore
+        "ts-expect-error": "allow-with-description",
+        "ts-ignore": true,
+        "ts-nocheck": true,
+        "ts-check": true,
+      },
+    ],
     "eslint-comments/disable-enable-pair": ["error", { allowWholeFile: true }],
   },
   ignorePatterns: ["**/*.js"],
