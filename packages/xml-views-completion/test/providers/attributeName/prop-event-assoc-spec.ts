@@ -90,6 +90,30 @@ describe("The ui5-language-assistant xml-views-completion", () => {
         });
       });
 
+      it("will suggest special properties", () => {
+        const xmlSnippet = `
+        <mvc:View
+          xmlns:mvc="sap.ui.core.mvc"
+          xmlns="sap.m">
+          <RadioButtonGroup metada⇶>
+          </RadioButtonGroup>
+        </mvc:View>`;
+        testSuggestionsScenario({
+          model: ui5SemanticModel,
+          xmlText: xmlSnippet,
+          providers: {
+            attributeName: [propEventAssocSuggestions],
+          },
+          assertion: (suggestions) => {
+            expectAttributesSuggestions({
+              suggestions,
+              expectedSuggestionsNames: ["metadataContexts"],
+              expectedParentTag: "RadioButtonGroup",
+            });
+          },
+        });
+      });
+
       it("will filter suggestions by prefix", () => {
         const xmlSnippet = `
         <mvc:View
