@@ -12,11 +12,7 @@ import {
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { expectExists } from "@ui5-language-assistant/test-utils";
 import { getCompletionItems } from "../src/completion-items";
-import {
-  Settings,
-  setSettingsForDocument,
-  getDefaultSettings,
-} from "@ui5-language-assistant/settings";
+import { Settings, getDefaultSettings } from "@ui5-language-assistant/settings";
 
 /** Return the first part of a tag name suggestion insert text */
 export function getTagName(textEdit: TextEdit | undefined): string | undefined {
@@ -28,11 +24,11 @@ export function getTagName(textEdit: TextEdit | undefined): string | undefined {
 }
 
 /** Use ⇶ to mark the cursor position */
-export async function getSuggestions(
+export function getSuggestions(
   xmlSnippet: string,
   ui5SemanticModel: UI5SemanticModel,
   settings?: Partial<Settings>
-): Promise<CompletionItem[]> {
+): CompletionItem[] {
   const { document, position } = getXmlSnippetDocument(xmlSnippet);
   const uri: TextDocumentIdentifier = { uri: "uri" };
   const textDocPositionParams: TextDocumentPositionParams = {
@@ -48,12 +44,12 @@ export async function getSuggestions(
     settings,
     getDefaultSettings()
   ) as Settings;
-  setSettingsForDocument(uri.uri, Promise.resolve(allSettings));
 
-  const suggestions = await getCompletionItems({
+  const suggestions = getCompletionItems({
     model: ui5SemanticModel,
     textDocumentPosition: textDocPositionParams,
     document,
+    documentSettings: allSettings,
   });
   // Check that all returned suggestions will be displayed to the user
   assertSuggestionsAreValid(suggestions, xmlSnippet);

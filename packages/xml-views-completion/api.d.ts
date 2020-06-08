@@ -16,6 +16,7 @@ import {
   UI5SemanticModel,
   UI5EnumValue,
 } from "@ui5-language-assistant/semantic-model-types/api";
+import { CodeAssistSettings } from "@ui5-language-assistant/settings";
 
 export function getXMLViewCompletions(
   opts: GetXMLViewCompletionsOpts
@@ -27,6 +28,7 @@ export interface GetXMLViewCompletionsOpts {
   cst: DocumentCstNode;
   ast: XMLDocument;
   tokenVector: IToken[];
+  settings: CodeAssistSettings;
 }
 
 export type UI5CompletionNode =

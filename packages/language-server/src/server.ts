@@ -23,6 +23,7 @@ import {
   clearDocumentSettings,
   setSettingsForDocument,
   hasSettingsForDocument,
+  getSettingsForDocument,
 } from "@ui5-language-assistant/settings";
 
 const connection = createConnection(ProposedFeatures.all);
@@ -78,8 +79,14 @@ connection.onCompletion(
       const documentUri = textDocumentPosition.textDocument.uri;
       const document = documents.get(documentUri);
       if (document) {
-        updateDocumentSettings(document.uri);
-        return getCompletionItems({ model, textDocumentPosition, document });
+        ensureDocumentSettingsUpdated(document.uri);
+        const documentSettings = await getSettingsForDocument(document.uri);
+        return getCompletionItems({
+          model,
+          textDocumentPosition,
+          document,
+          documentSettings,
+        });
       }
     }
     return [];
@@ -124,7 +131,16 @@ documents.onDidChangeContent(async (changeEvent) => {
   }
 });
 
-function updateDocumentSettings(resource: string): void {
+function ensureDocumentSettingsUpdated(resource: string): void {
+  // There are 2 flows for settings, depending on the client capabilities:
+  // 1. The client doesn't support workspace/document-level settings (workspace/configuration request).
+  //    In this case we use global settings (which arrive in onDidChangeConfiguration) and don't try to fetch the
+  //    workspace/document settings.
+  // 2. The client supports workspace/configuration request.
+  //    In this case we ask for the document's settings when we need them (if we don't already have them),
+  //    and clear all the document settings when the configuration changes (onDidChangeConfiguration).
+  // The settings can be configured (in the client) on the user level, workspace level or (on theia) folder level,
+  // using fallback logic from the most specific to most general, so we keep it cached on the document level.
   if (!hasConfigurationCapability) {
     return;
   }

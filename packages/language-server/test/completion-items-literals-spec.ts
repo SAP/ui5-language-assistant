@@ -12,12 +12,12 @@ describe("the UI5 language assistant Code Completion Services", () => {
     ui5SemanticModel = await generateModel({ version: "1.74.0" });
   });
 
-  it("will get completion values for boolean value", async () => {
+  it("will get completion values for boolean value", () => {
     const xmlSnippet = `<mvc:View 
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns="sap.m"
                           busy="⇶">`;
-    const suggestions = await getSuggestions(xmlSnippet, ui5SemanticModel);
+    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
       replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
@@ -35,12 +35,12 @@ describe("the UI5 language assistant Code Completion Services", () => {
     expect(suggestionKinds).to.deep.equal([CompletionItemKind.Constant]);
   });
 
-  it("will get completion values for UI5 boolean value when the cursor is in the middle of a name", async () => {
+  it("will get completion values for UI5 boolean value when the cursor is in the middle of a name", () => {
     const xmlSnippet = `<mvc:View 
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns="sap.m"
                           busy="t⇶a">`;
-    const suggestions = await getSuggestions(xmlSnippet, ui5SemanticModel);
+    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
       replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
@@ -55,25 +55,5 @@ describe("the UI5 language assistant Code Completion Services", () => {
     ]);
 
     expect(suggestionKinds).to.deep.equal([CompletionItemKind.Constant]);
-  });
-
-  it("will return true and false when settings don't allow deprecated and experimental APIs", async () => {
-    it("will not return deprecated suggestions according to settings", async () => {
-      const NO_DEPRECATED_OR_EXPERIMENTAL = {
-        codeAssist: { deprecated: false, experimental: false },
-      };
-      const xmlSnippet = `
-        <mvc:View 
-          xmlns:mvc="sap.ui.core.mvc" 
-          xmlns="sap.m"
-          busy="⇶">`;
-      const suggestions = await getSuggestions(
-        xmlSnippet,
-        ui5SemanticModel,
-        NO_DEPRECATED_OR_EXPERIMENTAL
-      );
-      const suggestionNames = map(suggestions, (_) => _.label);
-      expect(suggestionNames).to.deep.equalInAnyOrder(["true", "false"]);
-    });
   });
 });

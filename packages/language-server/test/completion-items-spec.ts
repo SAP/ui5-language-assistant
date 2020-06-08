@@ -27,12 +27,12 @@ describe("the UI5 language assistant Code Completion Services", () => {
     ui5SemanticModel = await generateModel({ version: "1.74.0" });
   });
 
-  it("will get completion values for UI5 property", async () => {
+  it("will get completion values for UI5 property", () => {
     const xmlSnippet = `<mvc:View 
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns="sap.m"> 
                           <List show⇶`;
-    const suggestions = await getSuggestions(xmlSnippet, ui5SemanticModel);
+    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
       replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
@@ -50,12 +50,12 @@ describe("the UI5 language assistant Code Completion Services", () => {
     expect(suggestionKinds).to.deep.equal([CompletionItemKind.Property]);
   });
 
-  it("will get completion values for UI5 property with default value when the cursor is in the middle of a name", async () => {
+  it("will get completion values for UI5 property with default value when the cursor is in the middle of a name", () => {
     const xmlSnippet = `<mvc:View 
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns="sap.m"> 
                           <List show⇶Separ`;
-    const suggestions = await getSuggestions(xmlSnippet, ui5SemanticModel);
+    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
       replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
@@ -86,12 +86,12 @@ describe("the UI5 language assistant Code Completion Services", () => {
     expect(suggestionKinds).to.deep.equal([CompletionItemKind.Property]);
   });
 
-  it("will get completion values for UI5 property when the cursor is in the middle of a name and there is a value", async () => {
+  it("will get completion values for UI5 property when the cursor is in the middle of a name and there is a value", () => {
     const xmlSnippet = `<mvc:View 
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns="sap.m"> 
                           <List show⇶Separ="true"`;
-    const suggestions = await getSuggestions(xmlSnippet, ui5SemanticModel);
+    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
       replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
@@ -114,12 +114,12 @@ describe("the UI5 language assistant Code Completion Services", () => {
     expect(suggestionKinds).to.deep.equal([CompletionItemKind.Property]);
   });
 
-  it("will get completion values for UI5 event", async () => {
+  it("will get completion values for UI5 event", () => {
     const xmlSnippet = `<mvc:View 
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns="sap.m"> 
                           <List update⇶`;
-    const suggestions = await getSuggestions(xmlSnippet, ui5SemanticModel);
+    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
       replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
@@ -145,12 +145,12 @@ describe("the UI5 language assistant Code Completion Services", () => {
     expect(suggestionKinds).to.deep.equal([CompletionItemKind.Event]);
   });
 
-  it("will get completion values for UI5 event when the cursor is in the middle of a name and there is an attribute value", async () => {
+  it("will get completion values for UI5 event when the cursor is in the middle of a name and there is an attribute value", () => {
     const xmlSnippet = `<mvc:View 
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns="sap.m"> 
                           <List update⇶Start="onUpdateStart"`;
-    const suggestions = await getSuggestions(xmlSnippet, ui5SemanticModel);
+    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
       replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
@@ -176,12 +176,12 @@ describe("the UI5 language assistant Code Completion Services", () => {
     expect(suggestionKinds).to.deep.equal([CompletionItemKind.Event]);
   });
 
-  it("will get completion values for UI5 association", async () => {
+  it("will get completion values for UI5 association", () => {
     const xmlSnippet = `<mvc:View 
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns="sap.m"> 
                           <List aria⇶`;
-    const suggestions = await getSuggestions(xmlSnippet, ui5SemanticModel);
+    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
       replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
@@ -200,12 +200,12 @@ describe("the UI5 language assistant Code Completion Services", () => {
     expect(suggestionKinds).to.deep.equal([CompletionItemKind.Reference]);
   });
 
-  it("will get completion values for UI5 association when the cursor is in the middle of a name", async () => {
+  it("will get completion values for UI5 association when the cursor is in the middle of a name", () => {
     const xmlSnippet = `<mvc:View 
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns="sap.m"> 
                           <List aria⇶bbbb`;
-    const suggestions = await getSuggestions(xmlSnippet, ui5SemanticModel);
+    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
       replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
@@ -224,12 +224,12 @@ describe("the UI5 language assistant Code Completion Services", () => {
     expect(suggestionKinds).to.deep.equal([CompletionItemKind.Reference]);
   });
 
-  it("will get completion values for UI5 aggregation in the default namespace", async () => {
+  it("will get completion values for UI5 aggregation in the default namespace", () => {
     const xmlSnippet = `<mvc:View 
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns="sap.m"> 
                           <List> <te⇶`;
-    const suggestions = await getSuggestions(xmlSnippet, ui5SemanticModel);
+    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
       tagName: getTagName(suggestion.textEdit),
@@ -248,12 +248,12 @@ describe("the UI5 language assistant Code Completion Services", () => {
     expect(suggestionKinds).to.deep.equal([CompletionItemKind.Field]);
   });
 
-  it("will get completion values for UI5 aggregation in a non-default namespace", async () => {
+  it("will get completion values for UI5 aggregation in a non-default namespace", () => {
     const xmlSnippet = `<mvc:View 
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns:m="sap.m"> 
                           <m:List> <te⇶`;
-    const suggestions = await getSuggestions(xmlSnippet, ui5SemanticModel);
+    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
       tagName: getTagName(suggestion.textEdit),
@@ -272,12 +272,12 @@ describe("the UI5 language assistant Code Completion Services", () => {
     expect(suggestionKinds).to.deep.equal([CompletionItemKind.Field]);
   });
 
-  it("will get completion values for UI5 aggregation when the cursor is in the middle of a name in the default namespace", async () => {
+  it("will get completion values for UI5 aggregation when the cursor is in the middle of a name in the default namespace", () => {
     const xmlSnippet = `<mvc:View 
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns="sap.m"> 
                           <List> <te⇶Menu`;
-    const suggestions = await getSuggestions(xmlSnippet, ui5SemanticModel);
+    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
       replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
@@ -300,12 +300,12 @@ describe("the UI5 language assistant Code Completion Services", () => {
     expect(suggestionKinds).to.deep.equal([CompletionItemKind.Field]);
   });
 
-  it("will get completion values for UI5 aggregation when the cursor is in the middle of a name in a non-default namespace", async () => {
+  it("will get completion values for UI5 aggregation when the cursor is in the middle of a name in a non-default namespace", () => {
     const xmlSnippet = `<mvc:View 
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns:m="sap.m"> 
                           <m:List> <te⇶Menu`;
-    const suggestions = await getSuggestions(xmlSnippet, ui5SemanticModel);
+    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
       replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
@@ -332,7 +332,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
     expect(suggestionKinds).to.deep.equal([CompletionItemKind.Field]);
   });
 
-  it("will replace the aggregation closing tag name when the tag is closed and has the same name as the opening tag in the default namespace", async () => {
+  it("will replace the aggregation closing tag name when the tag is closed and has the same name as the opening tag in the default namespace", () => {
     const xmlSnippet = `<mvc:View 
         xmlns:mvc="sap.ui.core.mvc"
         xmlns="sap.m">
@@ -340,7 +340,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
         <te⇶></⭲te⭰>
       </List>
     </mvc:View>`;
-    const suggestions = await getSuggestions(xmlSnippet, ui5SemanticModel);
+    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
       tagName: getTagName(suggestion.textEdit),
@@ -393,7 +393,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
     expect(suggestionKinds).to.deep.equal([CompletionItemKind.Field]);
   });
 
-  it("will replace the aggregation closing tag name when the tag is closed and has the same name as the opening tag in a non-default namespace", async () => {
+  it("will replace the aggregation closing tag name when the tag is closed and has the same name as the opening tag in a non-default namespace", () => {
     const xmlSnippet = `<mvc:View 
         xmlns:mvc="sap.ui.core.mvc"
         xmlns:m="sap.m">
@@ -401,7 +401,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
         <m:te⇶></⭲m:te⭰>
       </m:List>
     </mvc:View>`;
-    const suggestions = await getSuggestions(xmlSnippet, ui5SemanticModel);
+    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
       tagName: getTagName(suggestion.textEdit),
@@ -454,7 +454,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
     expect(suggestionKinds).to.deep.equal([CompletionItemKind.Field]);
   });
 
-  it("will not replace the aggregation closing tag name when the tag is closed and has a different name from the opening tag", async () => {
+  it("will not replace the aggregation closing tag name when the tag is closed and has a different name from the opening tag", () => {
     const xmlSnippet = `<mvc:View 
         xmlns:mvc="sap.ui.core.mvc"
         xmlns="sap.m">
@@ -462,7 +462,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
         <te⇶></aaa>
       </List>
     </mvc:View>`;
-    const suggestions = await getSuggestions(xmlSnippet, ui5SemanticModel);
+    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
       tagName: getTagName(suggestion.textEdit),
@@ -500,7 +500,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
     expect(suggestionKinds).to.deep.equal([CompletionItemKind.Field]);
   });
 
-  it("will replace the aggregation closing tag name when the tag is closed and does not have a name", async () => {
+  it("will replace the aggregation closing tag name when the tag is closed and does not have a name", () => {
     const xmlSnippet = `<mvc:View 
         xmlns:mvc="sap.ui.core.mvc"
         xmlns="sap.m">
@@ -508,7 +508,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
         <te⇶>⭲</>⭰
       </List>
     </mvc:View>`;
-    const suggestions = await getSuggestions(xmlSnippet, ui5SemanticModel);
+    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
       tagName: getTagName(suggestion.textEdit),
@@ -561,11 +561,11 @@ describe("the UI5 language assistant Code Completion Services", () => {
     expect(suggestionKinds).to.deep.equal([CompletionItemKind.Field]);
   });
 
-  it("will get completion values for UI5 xmlns key namespace", async () => {
+  it("will get completion values for UI5 xmlns key namespace", () => {
     const xmlSnippet = `<mvc:View 
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns:u⇶`;
-    const suggestions = await getSuggestions(xmlSnippet, ui5SemanticModel);
+    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
       replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
@@ -627,11 +627,11 @@ describe("the UI5 language assistant Code Completion Services", () => {
     expect(suggestionKinds).to.deep.equal([CompletionItemKind.Module]);
   });
 
-  it("will get completion values for UI5 xmlns key namespace when the cursor is in the middle of a name", async () => {
+  it("will get completion values for UI5 xmlns key namespace when the cursor is in the middle of a name", () => {
     const xmlSnippet = `<mvc:View 
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns:ux⇶a`;
-    const suggestions = await getSuggestions(xmlSnippet, ui5SemanticModel);
+    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
       replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
@@ -657,11 +657,11 @@ describe("the UI5 language assistant Code Completion Services", () => {
     expect(suggestionKinds).to.deep.equal([CompletionItemKind.Module]);
   });
 
-  it("will get completion values for UI5 xmlns key namespace when the cursor is in the middle of a name and there is a value", async () => {
+  it("will get completion values for UI5 xmlns key namespace when the cursor is in the middle of a name and there is a value", () => {
     const xmlSnippet = `<mvc:View 
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns:ux⇶a="sap.m"`;
-    const suggestions = await getSuggestions(xmlSnippet, ui5SemanticModel);
+    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
       replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
@@ -679,11 +679,11 @@ describe("the UI5 language assistant Code Completion Services", () => {
     expect(suggestionKinds).to.deep.equal([CompletionItemKind.Module]);
   });
 
-  it("will get completion values for UI5 xmlns value namespace", async () => {
+  it("will get completion values for UI5 xmlns value namespace", () => {
     const xmlSnippet = `<mvc:View 
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns:ux3="⇶"`;
-    const suggestions = await getSuggestions(xmlSnippet, ui5SemanticModel);
+    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
       replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
@@ -694,11 +694,11 @@ describe("the UI5 language assistant Code Completion Services", () => {
     ]);
   });
 
-  it("will get completion values for UI5 xmlns value namespace when the cursor is in the middle of a name", async () => {
+  it("will get completion values for UI5 xmlns value namespace when the cursor is in the middle of a name", () => {
     const xmlSnippet = `<mvc:View 
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns="ux⇶a"`;
-    const suggestions = await getSuggestions(xmlSnippet, ui5SemanticModel);
+    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
       replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
@@ -710,11 +710,11 @@ describe("the UI5 language assistant Code Completion Services", () => {
     ]);
   });
 
-  it("will get completion values for UI5 xmlns value namespace FQN when the cursor is in the middle of a name", async () => {
+  it("will get completion values for UI5 xmlns value namespace FQN when the cursor is in the middle of a name", () => {
     const xmlSnippet = `<mvc:View 
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns:uxap="sap.u⇶i"`;
-    const suggestions = await getSuggestions(xmlSnippet, ui5SemanticModel);
+    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
       replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
@@ -725,12 +725,12 @@ describe("the UI5 language assistant Code Completion Services", () => {
     ]);
   });
 
-  it("will get completion values for UI5 enum value", async () => {
+  it("will get completion values for UI5 enum value", () => {
     const xmlSnippet = `<mvc:View 
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns="sap.m"> 
                           <List showSeparators="⇶"`;
-    const suggestions = await getSuggestions(xmlSnippet, ui5SemanticModel);
+    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
       replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
@@ -749,12 +749,12 @@ describe("the UI5 language assistant Code Completion Services", () => {
     expect(suggestionKinds).to.deep.equal([CompletionItemKind.EnumMember]);
   });
 
-  it("will get completion values for UI5 enum value when the cursor is in the middle of a name", async () => {
+  it("will get completion values for UI5 enum value when the cursor is in the middle of a name", () => {
     const xmlSnippet = `<mvc:View 
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns="sap.m"> 
                           <List showSeparators="n⇶ner"`;
-    const suggestions = await getSuggestions(xmlSnippet, ui5SemanticModel);
+    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
       replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
@@ -772,12 +772,12 @@ describe("the UI5 language assistant Code Completion Services", () => {
     expect(suggestionKinds).to.deep.equal([CompletionItemKind.EnumMember]);
   });
 
-  it("will get completion values for UI5 properties, events and associations", async () => {
+  it("will get completion values for UI5 properties, events and associations", () => {
     const xmlSnippet = `<mvc:View 
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns="sap.m"> 
                           <List ⇶`;
-    const suggestions = await getSuggestions(xmlSnippet, ui5SemanticModel);
+    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
     const suggestionKinds = uniq(
       map(suggestions, (suggestion) => suggestion.kind)
     );
@@ -796,11 +796,11 @@ describe("the UI5 language assistant Code Completion Services", () => {
     });
   });
 
-  it("will return valid aggregation suggestions for empty tag", async () => {
+  it("will return valid aggregation suggestions for empty tag", () => {
     const xmlSnippet = `<mvc:View xmlns:mvc="sap.ui.core.mvc">
       <⇶
     </mvc:View>`;
-    const suggestions = await getSuggestions(xmlSnippet, ui5SemanticModel);
+    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
     expect(suggestions).to.not.be.empty;
     forEach(suggestions, (suggestion) => {
       // We're not replacing any text, just adding
@@ -840,12 +840,9 @@ describe("the UI5 language assistant Code Completion Services", () => {
       codeAssist: { deprecated: true, experimental: true },
     };
 
-    async function testDeprecated(
-      xmlSnippet: string,
-      suggestionLabel: string
-    ): Promise<void> {
+    function testDeprecated(xmlSnippet: string, suggestionLabel: string): void {
       // Check that it's returned when settings allow deprecated
-      const suggestionsWithDeprecated = await getSuggestions(
+      const suggestionsWithDeprecated = getSuggestions(
         xmlSnippet,
         ui5SemanticModel,
         ALLOW_DEPRECATED_SUGGESTIONS
@@ -859,7 +856,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
       ]);
 
       // Check that it's not returned when settings don't allow deprecated
-      const suggestionsWithoutDeprecated = await getSuggestions(
+      const suggestionsWithoutDeprecated = getSuggestions(
         xmlSnippet,
         ui5SemanticModel,
         NO_DEPRECATED_SUGGESTIONS
@@ -873,79 +870,14 @@ describe("the UI5 language assistant Code Completion Services", () => {
       ]);
     }
 
-    it("will return non-deprecated property suggestions when not allowing deprecated", async () => {
-      const xmlSnippet = `
-        <mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m" busyIndicator⇶>
-        </m:View>`;
-      const suggestions = await getSuggestions(
-        xmlSnippet,
-        ui5SemanticModel,
-        NO_DEPRECATED_SUGGESTIONS
-      );
-      const suggestionNames = map(suggestions, (_) => _.label);
-      expect(suggestionNames).to.contain.members(["busyIndicatorSize"]);
-    });
-
-    it("will not return deprecated property suggestions according to settings", async () => {
-      await testDeprecated(
+    it("will not return deprecated property suggestions according to settings", () => {
+      testDeprecated(
         `<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m">
           <mvc:content>
             <m:Page icon⇶
           </mvc:content>
         </m:View>`,
         "icon"
-      );
-    });
-
-    it("will not return deprecated event suggestions according to settings", async () => {
-      await testDeprecated(
-        `<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m">
-          <mvc:content>
-            <m:MessageView afterOpen⇶
-          </mvc:content>
-        </m:View>`,
-        "afterOpen"
-      );
-    });
-
-    it("will not return deprecated association suggestions according to settings", async () => {
-      await testDeprecated(
-        `<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m">
-          <mvc:content>
-            <m:Dialog leftButton⇶
-          </mvc:content>
-        </m:View>`,
-        "leftButton"
-      );
-    });
-
-    it("will not return deprecated aggregation suggestions according to settings", async () => {
-      await testDeprecated(
-        `<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:charts="sap.ca.ui.charts">
-          <mvc:content>
-            <charts:BubbleChart>
-              <charts:content⇶
-            </charts:BubbleChart>
-          </mvc:content>
-        </m:View>`,
-        "content"
-      );
-    });
-
-    it("will not return deprecated namespace suggestions according to settings", async () => {
-      await testDeprecated(
-        `<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.ui.common⇶">
-        </m:View>`,
-        "commons"
-      );
-    });
-
-    it("will not return deprecated enum value suggestions according to settings", async () => {
-      await testDeprecated(
-        `<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m">
-          <m:TileContent frameType="TwoThirds⇶"
-        </mvc:View>`,
-        "TwoThirds"
       );
     });
   });
@@ -958,12 +890,12 @@ describe("the UI5 language assistant Code Completion Services", () => {
       codeAssist: { deprecated: true, experimental: true },
     };
 
-    async function testExperimental(
+    function testExperimental(
       xmlSnippet: string,
       suggestionLabel: string
-    ): Promise<void> {
+    ): void {
       // Check that it's returned when settings allow experimental
-      const suggestionsWithExperimental = await getSuggestions(
+      const suggestionsWithExperimental = getSuggestions(
         xmlSnippet,
         ui5SemanticModel,
         ALLOW_EXPERIMENTAL_SUGGESTIONS
@@ -977,7 +909,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
       ]);
 
       // Check that it's not returned when settings don't allow experimental
-      const suggestionsWithoutExperimental = await getSuggestions(
+      const suggestionsWithoutExperimental = getSuggestions(
         xmlSnippet,
         ui5SemanticModel,
         NO_EXPERIMENTAL_SUGGESTIONS
@@ -991,70 +923,14 @@ describe("the UI5 language assistant Code Completion Services", () => {
       ]);
     }
 
-    it("will return non-experimental property suggestions when not allowing experimental", async () => {
-      const xmlSnippet = `
-        <mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m" busyIndicator⇶>
-        </m:View>`;
-      const suggestions = await getSuggestions(
-        xmlSnippet,
-        ui5SemanticModel,
-        NO_EXPERIMENTAL_SUGGESTIONS
-      );
-      const suggestionNames = map(suggestions, (_) => _.label);
-      expect(suggestionNames).to.contain.members(["busyIndicatorSize"]);
-    });
-
-    it("will not return experimental property suggestions according to settings", async () => {
-      await testExperimental(
+    it("will not return experimental property suggestions according to settings", () => {
+      testExperimental(
         `<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m">
           <mvc:content>
             <m:NumericContent adaptiveFontSize⇶
           </mvc:content>
         </m:View>`,
         "adaptiveFontSize"
-      );
-    });
-
-    it("will not return experimental event suggestions according to settings", async () => {
-      await testExperimental(
-        `<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:widgets="sap.ui.integration.widgets">
-          <mvc:content>
-            <widgets:Card manifestReady⇶
-          </mvc:content>
-        </m:View>`,
-        "manifestReady"
-      );
-    });
-
-    it("will not return experimental association suggestions according to settings", async () => {
-      await testExperimental(
-        `<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:table="sap.ui.table">
-          <mvc:content>
-            <table:Table groupBy⇶
-          </mvc:content>
-        </m:View>`,
-        "groupBy"
-      );
-    });
-
-    it("will not return experimental aggregation suggestions according to settings", async () => {
-      await testExperimental(
-        `<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:commons="sap.suite.ui.commons">
-          <mvc:content>
-            <commons:ProcessFlowNode>
-              <commons:zoomLevelOneContent⇶
-            </commons:ProcessFlowNode> 
-          </mvc:content>
-        </m:View>`,
-        "zoomLevelOneContent"
-      );
-    });
-
-    it("will not return experimental namespace suggestions according to settings", async () => {
-      await testExperimental(
-        `<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:vtm="sap.ui.vtm⇶">
-        </m:View>`,
-        "vtm"
       );
     });
   });

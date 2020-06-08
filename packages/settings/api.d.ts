@@ -1,8 +1,13 @@
-export interface Settings {
+export type Settings = CodeAssistSettings & TraceSettings;
+
+export interface CodeAssistSettings {
   codeAssist: {
     deprecated: boolean;
     experimental: boolean;
   };
+}
+
+export interface TraceSettings {
   trace: {
     server: "off" | "messages" | "verbose";
   };

@@ -1,4 +1,4 @@
-import { map, findKey, find, forEachRight, includes, remove } from "lodash";
+import { map, findKey, find, forEachRight, includes } from "lodash";
 import {
   CompletionItem,
   CompletionItemKind,
@@ -27,14 +27,15 @@ import {
 } from "@ui5-language-assistant/xml-views-completion";
 import { ui5NodeToFQN } from "@ui5-language-assistant/logic-utils";
 import { getNodeDocumentation, getNodeDetail } from "./documentation";
-import { getSettingsForDocument } from "@ui5-language-assistant/settings";
+import { Settings } from "@ui5-language-assistant/settings";
 import { assertNever } from "assert-never";
 
-export async function getCompletionItems(opts: {
+export function getCompletionItems(opts: {
   model: UI5SemanticModel;
   textDocumentPosition: TextDocumentPositionParams;
   document: TextDocument;
-}): Promise<CompletionItem[]> {
+  documentSettings: Settings;
+}): CompletionItem[] {
   const documentText = opts.document.getText();
   const { cst, tokenVector } = parse(documentText);
   const ast = buildAst(cst as DocumentCstNode, tokenVector);
@@ -44,44 +45,15 @@ export async function getCompletionItems(opts: {
     cst: cst as DocumentCstNode,
     ast: ast,
     tokenVector: tokenVector,
+    settings: { codeAssist: opts.documentSettings.codeAssist },
   });
 
-  const filteredSuggestions = await filterBySettings(
-    opts.document.uri,
-    suggestions
-  );
-
   const completionItems = transformToLspSuggestions(
-    filteredSuggestions,
+    suggestions,
     opts.model,
     opts.textDocumentPosition
   );
   return completionItems;
-}
-
-async function filterBySettings(
-  documentURI: string,
-  suggestions: UI5XMLViewCompletion[]
-): Promise<UI5XMLViewCompletion[]> {
-  const settings = await getSettingsForDocument(documentURI);
-  const filteredSuggestions = suggestions;
-  if (!settings.codeAssist.deprecated) {
-    remove(
-      filteredSuggestions,
-      (suggestion) =>
-        isUI5NodeXMLViewCompletion(suggestion) &&
-        suggestion.ui5Node.deprecatedInfo?.isDeprecated === true
-    );
-  }
-  if (!settings.codeAssist.experimental) {
-    remove(
-      filteredSuggestions,
-      (suggestions) =>
-        isUI5NodeXMLViewCompletion(suggestions) &&
-        suggestions.ui5Node.experimentalInfo?.isExperimental === true
-    );
-  }
-  return filteredSuggestions;
 }
 
 function transformToLspSuggestions(
