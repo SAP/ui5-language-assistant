@@ -72,5 +72,18 @@ describe("The @ui5-language-assistant/language-server <getNodeDocumentation> fun
       const result = getNodeDocumentation(ui5Enum, ui5SemanticModel);
       expect(result.value).to.include("Experimental since version 2.2.2.");
     });
+
+    it("will get documentation with experimentalInfo - without since and text", () => {
+      const ui5Enum = buildUI5Enum({
+        name: "dummy-node",
+        experimentalInfo: {
+          isExperimental: true,
+          since: undefined,
+          text: undefined,
+        },
+      });
+      const result = getNodeDocumentation(ui5Enum, ui5SemanticModel);
+      expect(result.value).to.include("Experimental.");
+    });
   });
 });
