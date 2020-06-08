@@ -1,4 +1,4 @@
-import * as klawSync from "klaw-sync";
+import klawSync from "klaw-sync";
 import { map, filter, forEach, isFunction, includes } from "lodash";
 import { resolve, relative } from "path";
 import { expect } from "chai";

@@ -56,9 +56,9 @@
     "compile": "yarn run clean && tsc -p .",
     "compile:watch": "tsc -p . --watch",
     "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore",
-    "test": "npm-run-all unit-test integration-test",
-    "unit-test": "mocha --config=./test/unit/.mocharc.js",
-    "integration-test": "node lib/test/runIntegrationTests.js",
+    "test": "npm-run-all test:*",
+    "test:unit": "mocha --config=./test/unit/.mocharc.js",
+    "test:integration": "node lib/test/runIntegrationTests.js",
     "coverage": "nyc node lib/test/runIntegrationTests.js",
     "bundle": "node ./scripts/bundle-vsix"
   },
