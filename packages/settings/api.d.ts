@@ -3,6 +3,9 @@ export interface Settings {
     deprecated: boolean;
     experimental: boolean;
   };
+  trace: {
+    server: "off" | "messages" | "verbose";
+  };
 }
 
 export function getSettingsForDocument(resource: string): Thenable<Settings>;
@@ -19,3 +22,5 @@ export function clearSettings(): void;
 export function clearDocumentSettings(resource: string): void;
 
 export function setGlobalSettings(settings: Settings): void;
+
+export function getDefaultSettings(): Settings;

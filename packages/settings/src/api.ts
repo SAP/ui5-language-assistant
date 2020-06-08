@@ -5,4 +5,5 @@ export {
   hasSettingsForDocument,
   clearSettings,
   clearDocumentSettings,
+  getDefaultSettings,
 } from "./settings";

@@ -30,6 +30,7 @@ context("settings utilities", () => {
     it("will return the global settings when there is are no settings for the document", async () => {
       const globalSettings = {
         codeAssist: { deprecated: true, experimental: false },
+        trace: { server: "off" as const },
       };
       setGlobalSettings(globalSettings);
       const docSettings = await getSettingsForDocument("doc1");
@@ -39,6 +40,7 @@ context("settings utilities", () => {
     it("will return the document's settings when they are set for the document", async () => {
       const docSettings = {
         codeAssist: { deprecated: true, experimental: true },
+        trace: { server: "off" as const },
       };
       setSettingsForDocument("doc1", Promise.resolve(docSettings));
       const result = await getSettingsForDocument("doc1");
@@ -52,6 +54,7 @@ context("settings utilities", () => {
         "doc1",
         Promise.resolve({
           codeAssist: { deprecated: true, experimental: true },
+          trace: { server: "off" as const },
         })
       );
       expect(hasSettingsForDocument("doc1")).to.be.true;
@@ -65,6 +68,7 @@ context("settings utilities", () => {
         "doc2",
         Promise.resolve({
           codeAssist: { deprecated: true, experimental: true },
+          trace: { server: "off" as const },
         })
       );
       expect(hasSettingsForDocument("doc1")).to.be.false;
@@ -75,17 +79,20 @@ context("settings utilities", () => {
     it("will save the settings for the document when the document doesn't have settings", async () => {
       const docSettings = {
         codeAssist: { deprecated: true, experimental: true },
+        trace: { server: "off" as const },
       };
       setSettingsForDocument("doc1", Promise.resolve(docSettings));
       expect(await getSettingsForDocument("doc1")).to.equal(docSettings);
     });
 
-    it("will save the settings for the document when the document alsready has settings", async () => {
+    it("will save the settings for the document when the document already has settings", async () => {
       const docSettings1 = {
         codeAssist: { deprecated: true, experimental: true },
+        trace: { server: "off" as const },
       };
       const docSettings2 = {
         codeAssist: { deprecated: true, experimental: false },
+        trace: { server: "off" as const },
       };
       setSettingsForDocument("doc1", Promise.resolve(docSettings1));
       setSettingsForDocument("doc1", Promise.resolve(docSettings2));
@@ -102,9 +109,11 @@ context("settings utilities", () => {
     it("will remove the settings for all documents", () => {
       const docSettings1 = {
         codeAssist: { deprecated: true, experimental: true },
+        trace: { server: "off" as const },
       };
       const docSettings2 = {
         codeAssist: { deprecated: true, experimental: false },
+        trace: { server: "off" as const },
       };
       setSettingsForDocument("doc1", Promise.resolve(docSettings1));
       setSettingsForDocument("doc2", Promise.resolve(docSettings2));
@@ -127,6 +136,7 @@ context("settings utilities", () => {
     it("will remove the settings for a document that has settings", async () => {
       const docSettings = {
         codeAssist: { deprecated: true, experimental: true },
+        trace: { server: "off" as const },
       };
       setSettingsForDocument("doc1", Promise.resolve(docSettings));
 
@@ -139,9 +149,11 @@ context("settings utilities", () => {
     it("will not remove settings from other documents", async () => {
       const docSettings1 = {
         codeAssist: { deprecated: true, experimental: true },
+        trace: { server: "off" as const },
       };
       const docSettings2 = {
         codeAssist: { deprecated: true, experimental: false },
+        trace: { server: "off" as const },
       };
       setSettingsForDocument("doc1", Promise.resolve(docSettings1));
       setSettingsForDocument("doc2", Promise.resolve(docSettings2));
@@ -155,6 +167,7 @@ context("settings utilities", () => {
     it("will change the global settings", async () => {
       const globalSettings = {
         codeAssist: { deprecated: true, experimental: true },
+        trace: { server: "off" as const },
       };
       setGlobalSettings(globalSettings);
       expect(await getSettingsForDocument("doc1")).to.equal(globalSettings);

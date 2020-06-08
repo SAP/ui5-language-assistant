@@ -1,4 +1,4 @@
-import { forEach, map } from "lodash";
+import { forEach, map, defaultsDeep } from "lodash";
 import { expect } from "chai";
 import {
   TextDocument,
@@ -15,7 +15,7 @@ import { getCompletionItems } from "../src/completion-items";
 import {
   Settings,
   setSettingsForDocument,
-  clearSettings,
+  getDefaultSettings,
 } from "@ui5-language-assistant/settings";
 
 /** Return the first part of a tag name suggestion insert text */
@@ -31,7 +31,7 @@ export function getTagName(textEdit: TextEdit | undefined): string | undefined {
 export async function getSuggestions(
   xmlSnippet: string,
   ui5SemanticModel: UI5SemanticModel,
-  settings?: Settings
+  settings?: Partial<Settings>
 ): Promise<CompletionItem[]> {
   const { document, position } = getXmlSnippetDocument(xmlSnippet);
   const uri: TextDocumentIdentifier = { uri: "uri" };
@@ -39,12 +39,16 @@ export async function getSuggestions(
     textDocument: uri,
     position: position,
   };
-  clearSettings();
   if (settings === undefined) {
     // In the tests - show experimental and deprecated by default
     settings = { codeAssist: { deprecated: true, experimental: true } };
   }
-  setSettingsForDocument(uri.uri, Promise.resolve(settings));
+  const allSettings = defaultsDeep(
+    {},
+    settings,
+    getDefaultSettings()
+  ) as Settings;
+  setSettingsForDocument(uri.uri, Promise.resolve(allSettings));
 
   const suggestions = await getCompletionItems({
     model: ui5SemanticModel,

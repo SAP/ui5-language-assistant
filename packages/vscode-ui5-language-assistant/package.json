@@ -56,7 +56,9 @@
     "compile": "yarn run clean && tsc -p .",
     "compile:watch": "tsc -p . --watch",
     "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore",
-    "test": "node lib/test/runIntegrationTests.js",
+    "test": "npm-run-all unit-test integration-test",
+    "unit-test": "mocha --config=./test/unit/.mocharc.js",
+    "integration-test": "node lib/test/runIntegrationTests.js",
     "coverage": "nyc node lib/test/runIntegrationTests.js",
     "bundle": "node ./scripts/bundle-vsix"
   },
@@ -70,6 +72,8 @@
     "proxyquire": "2.1.3",
     "vsce": "1.74.0",
     "vscode-languageserver": "6.1.1",
-    "vscode-test": "1.4.0"
+    "vscode-test": "1.4.0",
+    "fs-extra": "9.0.0",
+    "@ui5-language-assistant/settings": "^0.0.1"
   }
 }
