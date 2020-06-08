@@ -73,7 +73,7 @@
     "vsce": "1.74.0",
     "vscode-languageserver": "6.1.1",
     "vscode-test": "1.4.0",
-    "fs-extra": "9.0.0",
+    "fs-extra": "9.0.1",
     "@ui5-language-assistant/settings": "^0.0.1"
   }
 }
