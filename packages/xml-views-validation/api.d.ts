@@ -23,6 +23,7 @@ export interface OffsetRange {
 export type UI5XMLViewIssue =
   | UnknownEnumValueIssue
   | UseOfDeprecatedClassIssue
+  | UseOfDeprecatedAggregationIssue
   | UnknownNamespaceInXmlnsAttributeValueIssue
   | InvalidBooleanValueIssue
   | NonUniqueIDIssue
@@ -38,6 +39,10 @@ export interface UnknownEnumValueIssue extends BaseUI5XMLViewIssue {
 
 export interface UseOfDeprecatedClassIssue extends BaseUI5XMLViewIssue {
   kind: "UseOfDeprecatedClass";
+}
+
+export interface UseOfDeprecatedAggregationIssue extends BaseUI5XMLViewIssue {
+  kind: "UseOfDeprecatedAggregation";
 }
 
 export interface InvalidAggregationCardinalityIssue

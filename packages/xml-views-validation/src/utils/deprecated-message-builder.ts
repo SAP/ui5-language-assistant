@@ -3,6 +3,7 @@ import {
   UI5DeprecatedInfo,
   UI5SemanticModel,
   UI5Class,
+  UI5Aggregation,
 } from "@ui5-language-assistant/semantic-model-types";
 import {
   getDeprecationPlainTextSnippet,
@@ -12,7 +13,7 @@ import {
 // TODO: add more types here as needed (e.g property/aggregation/...)
 export type DeprecatedUI5Symbol = {
   deprecatedInfo: UI5DeprecatedInfo;
-} & UI5Class;
+} & (UI5Class | UI5Aggregation);
 export function buildDeprecatedIssueMessage({
   symbol,
   model,
@@ -27,9 +28,13 @@ export function buildDeprecatedIssueMessage({
       kind = "class";
       name = ui5NodeToFQN(symbol);
       break;
+    case "UI5Aggregation":
+      kind = "aggregation";
+      name = ui5NodeToFQN(symbol);
+      break;
     /* istanbul ignore next - defensive programming */
     default:
-      assertNever(symbol.kind);
+      assertNever(symbol);
   }
   const msgPrefix = `The ${name} ${kind} is deprecated`;
   return getDeprecationPlainTextSnippet({
