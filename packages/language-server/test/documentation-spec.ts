@@ -30,7 +30,7 @@ describe("The @ui5-language-assistant/language-server <getNodeDocumentation> fun
     });
   });
 
-  context.only("experimentalInfo", () => {
+  context("experimentalInfo", () => {
     it("will get documentation with experimentalInfo", () => {
       const ui5Enum = buildUI5Enum({
         name: "dummy-node",
