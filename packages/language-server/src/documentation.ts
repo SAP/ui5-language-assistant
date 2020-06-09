@@ -45,17 +45,14 @@ export function getNodeDocumentation(
   }
 
   if (node.experimentalInfo?.isExperimental) {
-    /* istanbul ignore else */
     if (contents !== "") {
       contents += NL;
     }
     contents += "Experimental";
-    /* istanbul ignore next */
     contents += node.experimentalInfo.since
       ? ` since version ${node.experimentalInfo.since}`
       : EMPTY_STRING;
     contents += ".";
-    /* istanbul ignore next */
     contents += node.experimentalInfo.text
       ? ` ${node.experimentalInfo.text}`
       : EMPTY_STRING;
@@ -74,7 +71,6 @@ export function getNodeDocumentation(
   };
 
   const symbolForDocumentation = getRootSymbolParent(node);
-  /* istanbul ignore else */
   if (
     symbolForDocumentation !== undefined &&
     symbolForDocumentation.library !== GENERATED_LIBRARY

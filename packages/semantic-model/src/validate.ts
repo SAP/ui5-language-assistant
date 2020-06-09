@@ -1,17 +1,9 @@
-import { ValidateFunction } from "ajv";
-import Ajv from "ajv";
-import { readJsonSync } from "fs-extra";
-import { isPlainObject, isArray } from "lodash";
-import * as schema from "@ui5-language-assistant/semantic-model/resources/sap-ui-library-api.json";
+import Ajv, { ValidateFunction } from "ajv";
 import { Json } from "../api";
 import { SchemaForApiJsonFiles } from "./api-json";
-
-// https://github.com/microsoft/TypeScript/issues/38540
-// TODO: revert back to: `import * as jsonDraft06Schema from "ajv/lib/refs/json-schema-draft-06.json"`
-//       once TypeScript 3.9.5 is released.
-const jsonDraft06Schema = readJsonSync(
-  require.resolve("ajv/lib/refs/json-schema-draft-06.json")
-);
+import * as schema from "@ui5-language-assistant/semantic-model/resources/sap-ui-library-api.json";
+import * as jsonDraft06Schema from "ajv/lib/refs/json-schema-draft-06.json";
+import { isPlainObject, isArray } from "lodash";
 
 const validate = createSchemaValidator();
 
