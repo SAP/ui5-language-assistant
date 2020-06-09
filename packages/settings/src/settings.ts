@@ -1,5 +1,6 @@
 import deepFreezeStrict from "deep-freeze-strict";
 import { Settings } from "../api";
+import { cloneDeep } from "lodash";
 
 // These properties are defined (with their default values) in the package.json of the client
 const defaultSettings: Settings = {
@@ -53,5 +54,6 @@ export function clearDocumentSettings(resource: string): void {
 }
 
 export function setGlobalSettings(settings: Settings): void {
-  globalSettings = settings;
+  globalSettings = cloneDeep(settings);
+  deepFreezeStrict(globalSettings);
 }

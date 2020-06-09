@@ -15,16 +15,25 @@ context("settings utilities", () => {
     resetSettings();
   });
 
-  it("by default, deprecated and experimental suggestions will not be offered", () => {
-    const defaultSettings = getDefaultSettings();
-    expect(defaultSettings.codeAssist.deprecated).to.be.false;
-    expect(defaultSettings.codeAssist.experimental).to.be.false;
+  context("default settings", () => {
+    it("by default, deprecated and experimental suggestions will not be offered", () => {
+      const defaultSettings = getDefaultSettings();
+      expect(defaultSettings.codeAssist.deprecated).to.be.false;
+      expect(defaultSettings.codeAssist.experimental).to.be.false;
+    });
+
+    it("cannot be changed", () => {
+      const defaultSettings = getDefaultSettings();
+      expect(() => {
+        defaultSettings.codeAssist.deprecated = true;
+      }).to.throw(TypeError, "read only");
+    });
   });
 
   describe("getSettingsForDocument", () => {
     it("will return the default settings when there are no settings for the document and no global settings", async () => {
       const docSettings = await getSettingsForDocument("doc1");
-      expect(docSettings).to.equal(getDefaultSettings());
+      expect(docSettings).to.deep.equal(getDefaultSettings());
     });
 
     it("will return the global settings when there is are no settings for the document", async () => {
@@ -34,7 +43,19 @@ context("settings utilities", () => {
       };
       setGlobalSettings(globalSettings);
       const docSettings = await getSettingsForDocument("doc1");
-      expect(docSettings).to.equal(globalSettings);
+      expect(docSettings).to.deep.equal(globalSettings);
+    });
+
+    it("will return global settings which are frozen", async () => {
+      const globalSettings = {
+        codeAssist: { deprecated: true, experimental: false },
+        trace: { server: "off" as const },
+      };
+      setGlobalSettings(globalSettings);
+      const docSettings = await getSettingsForDocument("doc1");
+      expect(() => {
+        docSettings.codeAssist.deprecated = true;
+      }).to.throw(TypeError, "read only");
     });
 
     it("will return the document's settings when they are set for the document", async () => {
@@ -44,7 +65,7 @@ context("settings utilities", () => {
       };
       setSettingsForDocument("doc1", Promise.resolve(docSettings));
       const result = await getSettingsForDocument("doc1");
-      expect(result).to.equal(docSettings);
+      expect(result).to.deep.equal(docSettings);
     });
   });
 
@@ -82,7 +103,7 @@ context("settings utilities", () => {
         trace: { server: "off" as const },
       };
       setSettingsForDocument("doc1", Promise.resolve(docSettings));
-      expect(await getSettingsForDocument("doc1")).to.equal(docSettings);
+      expect(await getSettingsForDocument("doc1")).to.deep.equal(docSettings);
     });
 
     it("will save the settings for the document when the document already has settings", async () => {
@@ -96,7 +117,7 @@ context("settings utilities", () => {
       };
       setSettingsForDocument("doc1", Promise.resolve(docSettings1));
       setSettingsForDocument("doc1", Promise.resolve(docSettings2));
-      expect(await getSettingsForDocument("doc1")).to.equal(docSettings2);
+      expect(await getSettingsForDocument("doc1")).to.deep.equal(docSettings2);
     });
   });
 
@@ -128,7 +149,7 @@ context("settings utilities", () => {
     it("will do nothing when the document doesn't have settings", async () => {
       // Check it doesn't fail
       clearDocumentSettings("doc1");
-      expect(await getSettingsForDocument("doc1")).to.equal(
+      expect(await getSettingsForDocument("doc1")).to.deep.equal(
         getDefaultSettings()
       );
     });
@@ -141,7 +162,7 @@ context("settings utilities", () => {
       setSettingsForDocument("doc1", Promise.resolve(docSettings));
 
       clearDocumentSettings("doc1");
-      expect(await getSettingsForDocument("doc1")).to.equal(
+      expect(await getSettingsForDocument("doc1")).to.deep.equal(
         getDefaultSettings()
       );
     });
@@ -159,7 +180,7 @@ context("settings utilities", () => {
       setSettingsForDocument("doc2", Promise.resolve(docSettings2));
 
       clearDocumentSettings("doc1");
-      expect(await getSettingsForDocument("doc2")).to.equal(docSettings2);
+      expect(await getSettingsForDocument("doc2")).to.deep.equal(docSettings2);
     });
   });
 
@@ -170,7 +191,9 @@ context("settings utilities", () => {
         trace: { server: "off" as const },
       };
       setGlobalSettings(globalSettings);
-      expect(await getSettingsForDocument("doc1")).to.equal(globalSettings);
+      expect(await getSettingsForDocument("doc1")).to.deep.equal(
+        globalSettings
+      );
     });
   });
 });

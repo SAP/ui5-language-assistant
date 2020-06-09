@@ -1,4 +1,4 @@
-import { filter, includes, remove } from "lodash";
+import { filter, includes, reject } from "lodash";
 import { assertNever } from "assert-never";
 import { getSuggestions } from "@xml-tools/content-assist";
 import { UI5Visibility } from "@ui5-language-assistant/semantic-model-types";
@@ -49,9 +49,9 @@ function filterBySettings(
   suggestions: UI5XMLViewCompletion[],
   settings: CodeAssistSettings
 ): UI5XMLViewCompletion[] {
-  const filteredSuggestions = suggestions;
+  let filteredSuggestions = suggestions;
   if (!settings.codeAssist.deprecated) {
-    remove(
+    filteredSuggestions = reject(
       filteredSuggestions,
       (suggestion) =>
         isUI5NodeXMLViewCompletion(suggestion) &&
@@ -59,7 +59,7 @@ function filterBySettings(
     );
   }
   if (!settings.codeAssist.experimental) {
-    remove(
+    filteredSuggestions = reject(
       filteredSuggestions,
       (suggestions) =>
         isUI5NodeXMLViewCompletion(suggestions) &&

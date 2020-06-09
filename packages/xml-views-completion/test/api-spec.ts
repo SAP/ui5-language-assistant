@@ -107,179 +107,36 @@ describe("The `getXMLViewCompletions()` api", () => {
     });
   });
 
-  context("filter deprecated items according to settings", () => {
-    const NO_DEPRECATED_SUGGESTIONS = {
-      codeAssist: { deprecated: false, experimental: true },
-    };
-    const ALLOW_DEPRECATED_SUGGESTIONS = {
-      codeAssist: { deprecated: true, experimental: true },
-    };
+  context("filter by settings", () => {
+    function testSettingsFilter({
+      xmlSnippet,
+      suggestionName,
+      settings,
+      nameIsFQN = false,
+    }: {
+      xmlSnippet: string;
+      suggestionName: string;
+      settings: CodeAssistSettings;
+      nameIsFQN?: boolean;
+    }): void {
+      const ALLOW_ALL_SUGGESTIONS = {
+        codeAssist: { deprecated: true, experimental: true },
+      };
 
-    function testDeprecated(
-      xmlSnippet: string,
-      suggestionName: string,
-      nameIsFQN = false
-    ): void {
-      // Check that it's returned when settings allow deprecated
-      testSuggestionsScenario({
-        xmlText: xmlSnippet,
-        model: REAL_UI5_MODEL,
-        settings: ALLOW_DEPRECATED_SUGGESTIONS,
-        assertion: (suggestionsWithDeprecated) => {
-          const suggestionNamesWithDeprecated = map(
-            suggestionsWithDeprecated,
-            (_) =>
-              nameIsFQN && isUI5NodeXMLViewCompletion(_)
-                ? ui5NodeToFQN(_.ui5Node)
-                : _.ui5Node.name
-          );
-          expect(suggestionNamesWithDeprecated).to.contain.members([
-            suggestionName,
-          ]);
-        },
-      });
-
-      // Check that it's not returned when settings don't allow deprecated
-      testSuggestionsScenario({
-        xmlText: xmlSnippet,
-        model: REAL_UI5_MODEL,
-        settings: NO_DEPRECATED_SUGGESTIONS,
-        assertion: (suggestionsWithoutDeprecated) => {
-          const suggestionNamesWithoutDeprecated = map(
-            suggestionsWithoutDeprecated,
-            (_) =>
-              nameIsFQN && isUI5NodeXMLViewCompletion(_)
-                ? ui5NodeToFQN(_.ui5Node)
-                : _.ui5Node.name
-          );
-          expect(suggestionNamesWithoutDeprecated).to.not.contain.members([
-            suggestionName,
-          ]);
-        },
-      });
-    }
-
-    it("will return non-deprecated property suggestions when not allowing deprecated", () => {
-      const xmlSnippet = `
-        <mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m" busyIndicator⇶>
-        </m:View>`;
-      testSuggestionsScenario({
-        xmlText: xmlSnippet,
-        model: REAL_UI5_MODEL,
-        settings: NO_DEPRECATED_SUGGESTIONS,
-        assertion: (suggestionsWithoutDeprecated) => {
-          const suggestionNames = map(
-            suggestionsWithoutDeprecated,
-            (_) => _.ui5Node.name
-          );
-          expect(suggestionNames).to.contain.members(["busyIndicatorSize"]);
-        },
-      });
-    });
-
-    it("will not return deprecated property suggestions according to settings", () => {
-      testDeprecated(
-        `<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m">
-          <mvc:content>
-            <m:Page icon⇶
-          </mvc:content>
-        </m:View>`,
-        "icon"
-      );
-    });
-
-    it("will not return deprecated event suggestions according to settings", () => {
-      testDeprecated(
-        `<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m">
-          <mvc:content>
-            <m:MessageView afterOpen⇶
-          </mvc:content>
-        </m:View>`,
-        "afterOpen"
-      );
-    });
-
-    it("will not return deprecated association suggestions according to settings", () => {
-      testDeprecated(
-        `<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m">
-          <mvc:content>
-            <m:Dialog leftButton⇶
-          </mvc:content>
-        </m:View>`,
-        "leftButton"
-      );
-    });
-
-    it("will not return deprecated aggregation suggestions according to settings", () => {
-      testDeprecated(
-        `<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:charts="sap.ca.ui.charts">
-          <mvc:content>
-            <charts:BubbleChart>
-              <charts:content⇶
-            </charts:BubbleChart>
-          </mvc:content>
-        </m:View>`,
-        "content"
-      );
-    });
-
-    it("will not return deprecated namespace suggestions according to settings", () => {
-      testDeprecated(
-        `<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.ui.common⇶">
-        </m:View>`,
-        "commons"
-      );
-    });
-
-    it("will not return deprecated enum value suggestions according to settings", () => {
-      testDeprecated(
-        `<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m">
-          <m:TileContent frameType="TwoThirds⇶"
-        </mvc:View>`,
-        "TwoThirds"
-      );
-    });
-
-    it("will not return deprecated class suggestions according to settings", () => {
-      testDeprecated(
-        `<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m" xmlns:commons="sap.ui.commons">
-          <mvc:content>
-            <MenuButton⇶
-          </mvc:content>
-        </m:View>`,
-        "sap.ui.commons.MenuButton",
-        true
-      );
-    });
-  });
-
-  context("filter experimental items according to settings", () => {
-    const NO_EXPERIMENTAL_SUGGESTIONS = {
-      codeAssist: { deprecated: true, experimental: false },
-    };
-    const ALLOW_EXPERIMENTAL_SUGGESTIONS = {
-      codeAssist: { deprecated: true, experimental: true },
-    };
-
-    function testExperimental(
-      xmlSnippet: string,
-      suggestionName: string,
-      nameIsFQN = false
-    ): void {
       // Check that it's returned when settings allow experimental
       testSuggestionsScenario({
         xmlText: xmlSnippet,
         model: REAL_UI5_MODEL,
-        settings: ALLOW_EXPERIMENTAL_SUGGESTIONS,
-        assertion: (suggestionsWithExperimental) => {
-          const suggestionNamesWithExperimental = map(
-            suggestionsWithExperimental,
+        settings: ALLOW_ALL_SUGGESTIONS,
+        assertion: (suggestionsAllAllowed) => {
+          const suggestionNamesWithAllAllowed = map(
+            suggestionsAllAllowed,
             (_) =>
               nameIsFQN && isUI5NodeXMLViewCompletion(_)
                 ? ui5NodeToFQN(_.ui5Node)
                 : _.ui5Node.name
           );
-          expect(suggestionNamesWithExperimental).to.contain.members([
+          expect(suggestionNamesWithAllAllowed).to.contain.members([
             suggestionName,
           ]);
         },
@@ -289,104 +146,234 @@ describe("The `getXMLViewCompletions()` api", () => {
       testSuggestionsScenario({
         xmlText: xmlSnippet,
         model: REAL_UI5_MODEL,
-        settings: NO_EXPERIMENTAL_SUGGESTIONS,
-        assertion: (suggestionsWithoutExperimental) => {
-          const suggestionNamesWithoutExperimental = map(
-            suggestionsWithoutExperimental,
+        settings: settings,
+        assertion: (suggestionsWithSentSettings) => {
+          const suggestionNamesWithSentSettings = map(
+            suggestionsWithSentSettings,
             (_) =>
               nameIsFQN && isUI5NodeXMLViewCompletion(_)
                 ? ui5NodeToFQN(_.ui5Node)
                 : _.ui5Node.name
           );
-          expect(suggestionNamesWithoutExperimental).to.not.contain.members([
+          expect(suggestionNamesWithSentSettings).to.not.contain.members([
             suggestionName,
           ]);
         },
       });
     }
 
-    it("will return non-experimental property suggestions when not allowing experimental", () => {
-      const xmlSnippet = `
-        <mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m" busyIndicator⇶>
-        </m:View>`;
-      testSuggestionsScenario({
-        xmlText: xmlSnippet,
-        model: REAL_UI5_MODEL,
-        settings: NO_EXPERIMENTAL_SUGGESTIONS,
-        assertion: (suggestionsWithoutExperimental) => {
-          const suggestionNames = map(
-            suggestionsWithoutExperimental,
-            (_) => _.ui5Node.name
-          );
-          expect(suggestionNames).to.contain.members(["busyIndicatorSize"]);
-        },
+    context("filter experimental items according to settings", () => {
+      const NO_EXPERIMENTAL_SUGGESTIONS = {
+        codeAssist: { deprecated: true, experimental: false },
+      };
+
+      it("will return non-experimental property suggestions when not allowing experimental", () => {
+        const xmlSnippet = `
+          <mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m" busyIndicator⇶>
+          </m:View>`;
+        testSuggestionsScenario({
+          xmlText: xmlSnippet,
+          model: REAL_UI5_MODEL,
+          settings: NO_EXPERIMENTAL_SUGGESTIONS,
+          assertion: (suggestionsWithoutExperimental) => {
+            const suggestionNames = map(
+              suggestionsWithoutExperimental,
+              (_) => _.ui5Node.name
+            );
+            expect(suggestionNames).to.contain.members(["busyIndicatorSize"]);
+          },
+        });
+      });
+
+      it("will not return experimental property suggestions according to settings", () => {
+        testSettingsFilter({
+          xmlSnippet: `
+            <mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m">
+              <mvc:content>
+                <m:NumericContent adaptiveFontSize⇶
+              </mvc:content>
+            </m:View>`,
+          suggestionName: "adaptiveFontSize",
+          settings: NO_EXPERIMENTAL_SUGGESTIONS,
+        });
+      });
+
+      it("will not return experimental event suggestions according to settings", () => {
+        testSettingsFilter({
+          xmlSnippet: `
+            <mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:widgets="sap.ui.integration.widgets">
+              <mvc:content>
+                <widgets:Card manifestReady⇶
+              </mvc:content>
+            </m:View>`,
+          suggestionName: "manifestReady",
+          settings: NO_EXPERIMENTAL_SUGGESTIONS,
+        });
+      });
+
+      it("will not return experimental association suggestions according to settings", () => {
+        testSettingsFilter({
+          xmlSnippet: `
+            <mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:table="sap.ui.table">
+              <mvc:content>
+                <table:Table groupBy⇶
+              </mvc:content>
+            </m:View>`,
+          suggestionName: "groupBy",
+          settings: NO_EXPERIMENTAL_SUGGESTIONS,
+        });
+      });
+
+      it("will not return experimental aggregation suggestions according to settings", () => {
+        testSettingsFilter({
+          xmlSnippet: `
+            <mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:commons="sap.suite.ui.commons">
+              <mvc:content>
+                <commons:ProcessFlowNode>
+                  <commons:zoomLevelOneContent⇶
+                </commons:ProcessFlowNode> 
+              </mvc:content>
+            </m:View>`,
+          suggestionName: "zoomLevelOneContent",
+          settings: NO_EXPERIMENTAL_SUGGESTIONS,
+        });
+      });
+
+      it("will not return experimental namespace suggestions according to settings", () => {
+        testSettingsFilter({
+          xmlSnippet: `
+            <mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:vtm="sap.ui.vtm⇶">
+            </m:View>`,
+          suggestionName: "vtm",
+          settings: NO_EXPERIMENTAL_SUGGESTIONS,
+        });
+      });
+
+      it("will not return experimental class suggestions according to settings", () => {
+        testSettingsFilter({
+          xmlSnippet: `
+            <mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:f="sap.f">
+              <mvc:content>
+                <AvatarGroup⇶
+              </mvc:content>
+            </m:View>`,
+          suggestionName: "sap.f.AvatarGroup",
+          settings: NO_EXPERIMENTAL_SUGGESTIONS,
+          nameIsFQN: true,
+        });
       });
     });
 
-    it("will not return experimental property suggestions according to settings", () => {
-      testExperimental(
-        `<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m">
-          <mvc:content>
-            <m:NumericContent adaptiveFontSize⇶
-          </mvc:content>
-        </m:View>`,
-        "adaptiveFontSize"
-      );
-    });
+    context("filter deprecated items according to settings", () => {
+      const NO_DEPRECATED_SUGGESTIONS = {
+        codeAssist: { deprecated: false, experimental: true },
+      };
+      it("will return non-deprecated property suggestions when not allowing deprecated", () => {
+        const xmlSnippet = `
+          <mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m" busyIndicator⇶>
+          </m:View>`;
+        testSuggestionsScenario({
+          xmlText: xmlSnippet,
+          model: REAL_UI5_MODEL,
+          settings: NO_DEPRECATED_SUGGESTIONS,
+          assertion: (suggestionsWithoutDeprecated) => {
+            const suggestionNames = map(
+              suggestionsWithoutDeprecated,
+              (_) => _.ui5Node.name
+            );
+            expect(suggestionNames).to.contain.members(["busyIndicatorSize"]);
+          },
+        });
+      });
 
-    it("will not return experimental event suggestions according to settings", () => {
-      testExperimental(
-        `<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:widgets="sap.ui.integration.widgets">
-          <mvc:content>
-            <widgets:Card manifestReady⇶
-          </mvc:content>
-        </m:View>`,
-        "manifestReady"
-      );
-    });
+      it("will not return deprecated property suggestions according to settings", () => {
+        testSettingsFilter({
+          xmlSnippet: `
+            <mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m">
+              <mvc:content>
+                <m:Page icon⇶
+              </mvc:content>
+            </m:View>`,
+          suggestionName: "icon",
+          settings: NO_DEPRECATED_SUGGESTIONS,
+        });
+      });
 
-    it("will not return experimental association suggestions according to settings", () => {
-      testExperimental(
-        `<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:table="sap.ui.table">
-          <mvc:content>
-            <table:Table groupBy⇶
-          </mvc:content>
-        </m:View>`,
-        "groupBy"
-      );
-    });
+      it("will not return deprecated event suggestions according to settings", () => {
+        testSettingsFilter({
+          xmlSnippet: `
+            <mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m">
+              <mvc:content>
+                <m:MessageView afterOpen⇶
+              </mvc:content>
+            </m:View>`,
+          suggestionName: "afterOpen",
+          settings: NO_DEPRECATED_SUGGESTIONS,
+        });
+      });
 
-    it("will not return experimental aggregation suggestions according to settings", () => {
-      testExperimental(
-        `<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:commons="sap.suite.ui.commons">
-          <mvc:content>
-            <commons:ProcessFlowNode>
-              <commons:zoomLevelOneContent⇶
-            </commons:ProcessFlowNode> 
-          </mvc:content>
-        </m:View>`,
-        "zoomLevelOneContent"
-      );
-    });
+      it("will not return deprecated association suggestions according to settings", () => {
+        testSettingsFilter({
+          xmlSnippet: `
+          <mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m">
+              <mvc:content>
+                <m:Dialog leftButton⇶
+              </mvc:content>
+            </m:View>`,
+          suggestionName: "leftButton",
+          settings: NO_DEPRECATED_SUGGESTIONS,
+        });
+      });
 
-    it("will not return experimental namespace suggestions according to settings", () => {
-      testExperimental(
-        `<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:vtm="sap.ui.vtm⇶">
-        </m:View>`,
-        "vtm"
-      );
-    });
+      it("will not return deprecated aggregation suggestions according to settings", () => {
+        testSettingsFilter({
+          xmlSnippet: `
+            <mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:charts="sap.ca.ui.charts">
+              <mvc:content>
+                <charts:BubbleChart>
+                  <charts:content⇶
+                </charts:BubbleChart>
+              </mvc:content>
+            </m:View>`,
+          suggestionName: "content",
+          settings: NO_DEPRECATED_SUGGESTIONS,
+        });
+      });
 
-    it("will not return experimental class suggestions according to settings", () => {
-      testExperimental(
-        `<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:f="sap.f">
-        <mvc:content>
-          <AvatarGroup⇶
-        </mvc:content>
-      </m:View>`,
-        "sap.f.AvatarGroup",
-        true
-      );
+      it("will not return deprecated namespace suggestions according to settings", () => {
+        testSettingsFilter({
+          xmlSnippet: `
+            <mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.ui.common⇶">
+            </m:View>`,
+          suggestionName: "commons",
+          settings: NO_DEPRECATED_SUGGESTIONS,
+        });
+      });
+
+      it("will not return deprecated enum value suggestions according to settings", () => {
+        testSettingsFilter({
+          xmlSnippet: `
+            <mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m">
+              <m:TileContent frameType="TwoThirds⇶"
+            </mvc:View>`,
+          suggestionName: "TwoThirds",
+          settings: NO_DEPRECATED_SUGGESTIONS,
+        });
+      });
+
+      it("will not return deprecated class suggestions according to settings", () => {
+        testSettingsFilter({
+          xmlSnippet: `
+            <mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m" xmlns:commons="sap.ui.commons">
+              <mvc:content>
+                <MenuButton⇶
+              </mvc:content>
+            </m:View>`,
+          suggestionName: "sap.ui.commons.MenuButton",
+          settings: NO_DEPRECATED_SUGGESTIONS,
+          nameIsFQN: true,
+        });
+      });
     });
   });
 

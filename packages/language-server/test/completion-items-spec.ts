@@ -3,6 +3,7 @@ import { map, uniq, forEach } from "lodash";
 import { CompletionItemKind } from "vscode-languageserver";
 import { UI5XMLViewCompletion } from "@ui5-language-assistant/xml-views-completion";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
+import { Settings } from "@ui5-language-assistant/settings";
 import { generateModel } from "@ui5-language-assistant/test-utils";
 import { computeLSPKind } from "../src/completion-items";
 import {
@@ -832,106 +833,80 @@ describe("the UI5 language assistant Code Completion Services", () => {
     expectLspKind("UI5UnknownKey", CompletionItemKind.Text);
   });
 
-  context("deprecated", () => {
-    const NO_DEPRECATED_SUGGESTIONS = {
-      codeAssist: { deprecated: false, experimental: true },
-    };
-    const ALLOW_DEPRECATED_SUGGESTIONS = {
-      codeAssist: { deprecated: true, experimental: true },
-    };
-
-    function testDeprecated(xmlSnippet: string, suggestionLabel: string): void {
-      // Check that it's returned when settings allow deprecated
-      const suggestionsWithDeprecated = getSuggestions(
-        xmlSnippet,
-        ui5SemanticModel,
-        ALLOW_DEPRECATED_SUGGESTIONS
-      );
-      const suggestionNamesWithDeprecated = map(
-        suggestionsWithDeprecated,
-        (_) => _.label
-      );
-      expect(suggestionNamesWithDeprecated).to.contain.members([
-        suggestionLabel,
-      ]);
-
-      // Check that it's not returned when settings don't allow deprecated
-      const suggestionsWithoutDeprecated = getSuggestions(
-        xmlSnippet,
-        ui5SemanticModel,
-        NO_DEPRECATED_SUGGESTIONS
-      );
-      const suggestionNamesWithoutDeprecated = map(
-        suggestionsWithoutDeprecated,
-        (_) => _.label
-      );
-      expect(suggestionNamesWithoutDeprecated).to.not.contain.members([
-        suggestionLabel,
-      ]);
-    }
-
-    it("will not return deprecated property suggestions according to settings", () => {
-      testDeprecated(
-        `<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m">
-          <mvc:content>
-            <m:Page icon⇶
-          </mvc:content>
-        </m:View>`,
-        "icon"
-      );
-    });
-  });
-
-  context("experimental", () => {
+  context("settings", () => {
     const NO_EXPERIMENTAL_SUGGESTIONS = {
       codeAssist: { deprecated: true, experimental: false },
     };
-    const ALLOW_EXPERIMENTAL_SUGGESTIONS = {
-      codeAssist: { deprecated: true, experimental: true },
+    const NO_DEPRECATED_SUGGESTIONS = {
+      codeAssist: { deprecated: false, experimental: true },
     };
 
-    function testExperimental(
-      xmlSnippet: string,
-      suggestionLabel: string
-    ): void {
+    function testSettingsFilter({
+      xmlSnippet,
+      suggestionLabel,
+      settings,
+    }: {
+      xmlSnippet: string;
+      suggestionLabel: string;
+      settings: Partial<Settings>;
+    }): void {
+      const ALLOW_ALL_SUGGESTIONS = {
+        codeAssist: { deprecated: true, experimental: true },
+      };
+
       // Check that it's returned when settings allow experimental
-      const suggestionsWithExperimental = getSuggestions(
+      const suggestionsAllAllowed = getSuggestions(
         xmlSnippet,
         ui5SemanticModel,
-        ALLOW_EXPERIMENTAL_SUGGESTIONS
+        ALLOW_ALL_SUGGESTIONS
       );
-      const suggestionNamesWithExperimental = map(
-        suggestionsWithExperimental,
+      const suggestionNamesWithAllAllowed = map(
+        suggestionsAllAllowed,
         (_) => _.label
       );
-      expect(suggestionNamesWithExperimental).to.contain.members([
+      expect(suggestionNamesWithAllAllowed).to.contain.members([
         suggestionLabel,
       ]);
 
       // Check that it's not returned when settings don't allow experimental
-      const suggestionsWithoutExperimental = getSuggestions(
+      const suggestionsWithSentSettings = getSuggestions(
         xmlSnippet,
         ui5SemanticModel,
-        NO_EXPERIMENTAL_SUGGESTIONS
+        settings
       );
-      const suggestionNamesWithoutExperimental = map(
-        suggestionsWithoutExperimental,
+      const suggestionNamesWithSentSettings = map(
+        suggestionsWithSentSettings,
         (_) => _.label
       );
-      expect(suggestionNamesWithoutExperimental).to.not.contain.members([
+      expect(suggestionNamesWithSentSettings).to.not.contain.members([
         suggestionLabel,
       ]);
     }
 
     it("will not return experimental property suggestions according to settings", () => {
-      testExperimental(
-        `<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m">
-          <mvc:content>
-            <m:NumericContent adaptiveFontSize⇶
-          </mvc:content>
-        </m:View>`,
-        "adaptiveFontSize"
-      );
+      testSettingsFilter({
+        xmlSnippet: `
+          <mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m">
+            <mvc:content>
+              <m:NumericContent adaptiveFontSize⇶
+            </mvc:content>
+          </m:View>`,
+        suggestionLabel: "adaptiveFontSize",
+        settings: NO_EXPERIMENTAL_SUGGESTIONS,
+      });
+    });
+
+    it("will not return deprecated property suggestions according to settings", () => {
+      testSettingsFilter({
+        xmlSnippet: `
+          <mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m">
+            <mvc:content>
+              <m:Page icon⇶
+            </mvc:content>
+          </m:View>`,
+        suggestionLabel: "icon",
+        settings: NO_DEPRECATED_SUGGESTIONS,
+      });
     });
   });
 

@@ -17,14 +17,20 @@ describe("settings configuration properties", () => {
 
   it("default setting values in package.json have the correct type", () => {
     forEach(packageJsonSettings, (value, key) => {
-      expect(typeof value.default, `setting: ${key}`).to.equal(value.type);
+      expect(
+        typeof value.default,
+        `Setting ${key} default value type does not match the setting's defined type`
+      ).to.equal(value.type);
     });
   });
 
   it("settings in package.json are in sync with the settings package", () => {
     const defaultSettingsFromPackageJson = parseSettings(packageJsonSettings);
     const defaultSettings = getDefaultSettings();
-    expect(defaultSettingsFromPackageJson).to.deep.equal({
+    expect(
+      defaultSettingsFromPackageJson,
+      "settings from package.json don't match the default settings in the language server"
+    ).to.deep.equal({
       UI5LanguageAssistant: defaultSettings,
     });
   });
