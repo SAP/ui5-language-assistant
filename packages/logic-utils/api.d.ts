@@ -78,7 +78,6 @@ export function findClassesMatchingType({
 /**
  * Check if a UI5 Class is type of the give `type`.
  */
-
 export function classIsOfType(
   clazz: UI5Class,
   type: UI5Class | UI5Interface

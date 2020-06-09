@@ -3,7 +3,7 @@ import {
   UI5SemanticModel,
   UI5Interface,
   UI5Class,
-  UI5Type,
+  UI5Aggregation,
 } from "@ui5-language-assistant/semantic-model-types";
 import {
   getUI5ClassByXMLElement,
@@ -23,26 +23,41 @@ export function validateAggregationType(
     return [];
   }
 
-  const allowedTypeInAggregation = getAllowedTypeForSubNodesByXMLElement(
+  const parentAggregation = getAggregationByXMLElement(
     xmlElement.parent,
     model
   );
-  if (ui5class !== undefined && allowedTypeInAggregation !== undefined) {
-    return getInvalidAggregationTypeIssue(
-      xmlElement,
-      ui5class,
-      allowedTypeInAggregation
-    );
+
+  if (parentAggregation === undefined) {
+    return [];
   }
 
-  return [];
+  const allowedTypeInAggregation = getValidAggregationTypeForSubNodes(
+    parentAggregation
+  );
+  if (ui5class === undefined || allowedTypeInAggregation === undefined) {
+    return [];
+  }
+
+  return getInvalidAggregationTypeIssue({
+    xmlElement,
+    ui5Class: ui5class,
+    aggregationName: parentAggregation.name,
+    aggregationType: allowedTypeInAggregation,
+  });
 }
 
-function getInvalidAggregationTypeIssue(
-  xmlElement: XMLElement,
-  ui5Class: UI5Class,
-  aggregationType: UI5Class | UI5Interface
-): InvalidAggregationTypeIssue[] {
+function getInvalidAggregationTypeIssue({
+  xmlElement,
+  ui5Class,
+  aggregationName,
+  aggregationType,
+}: {
+  xmlElement: XMLElement;
+  ui5Class: UI5Class;
+  aggregationName: string;
+  aggregationType: UI5Class | UI5Interface;
+}): InvalidAggregationTypeIssue[] {
   const isTypeOf = classIsOfType(ui5Class, aggregationType);
   if (!isTypeOf && xmlElement.syntax.openName !== undefined) {
     const invalidAggregationTypeIssue: InvalidAggregationTypeIssue = {
@@ -50,6 +65,7 @@ function getInvalidAggregationTypeIssue(
       message: getMessage(
         INVALID_AGGREGATION_TYPE,
         ui5Class.name,
+        aggregationName,
         aggregationType.name
       ),
       severity: "error",
@@ -64,10 +80,10 @@ function getInvalidAggregationTypeIssue(
   return [];
 }
 
-function getValidAggregationType(
-  aggregationType: UI5Type | undefined
+function getValidAggregationTypeForSubNodes(
+  aggregation: UI5Aggregation
 ): UI5Class | UI5Interface | undefined {
-  /* istanbul ignore if */
+  const aggregationType = aggregation.type;
   if (aggregationType === undefined) {
     return undefined;
   }
@@ -83,23 +99,22 @@ function getValidAggregationType(
   }
 }
 
-function getAllowedTypeForSubNodesByXMLElement(
+function getAggregationByXMLElement(
   xmlElement: XMLElement,
   model: UI5SemanticModel
-): UI5Class | UI5Interface | undefined {
+): UI5Aggregation | undefined {
   const aggregation = getUI5AggregationByXMLElement(xmlElement, model);
 
   // Case of explicit aggregation
   if (aggregation !== undefined) {
-    return getValidAggregationType(aggregation.type);
+    return aggregation;
   }
 
   // Case of possible default aggregation
   const ui5class = getUI5ClassByXMLElement(xmlElement, model);
-  /* istanbul ignore if */
-  if (ui5class === undefined || ui5class.defaultAggregation === undefined) {
-    return undefined;
+  if (ui5class !== undefined && ui5class.defaultAggregation !== undefined) {
+    return ui5class.defaultAggregation;
   }
 
-  return getValidAggregationType(ui5class.defaultAggregation.type);
+  return undefined;
 }

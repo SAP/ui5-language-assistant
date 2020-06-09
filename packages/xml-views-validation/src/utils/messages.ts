@@ -11,7 +11,7 @@ export const UNKNOWN_TAG_NAME_IN_NS = `The "{0}" name is neither a class name in
 export const UNKNOWN_TAG_NAME_NO_NS = `The "{0}" name is neither a class name nor an aggregation of its parent tag, please specify a namespace`;
 
 export const INVALID_AGGREGATION_CARDINALITY = `The aggregation "{0}" has cardinality of 0..1 and may only contain one element`;
-export const INVALID_AGGREGATION_TYPE = `The class "{0}" is not matching aggregation type "{1}"`;
+export const INVALID_AGGREGATION_TYPE = `The class "{0}" is under the aggregation "{1}" and must match the type "{2}"`;
 export const NON_UNIQUE_ID = `Duplicate ID: "{0}" found.`;
 
 export function getMessage(template: string, ...params: string[]): string {

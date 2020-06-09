@@ -1,5 +1,9 @@
-import { partial } from "lodash";
-import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
+import { expect } from "chai";
+import { partial, cloneDeep, find } from "lodash";
+import {
+  UI5SemanticModel,
+  UI5Aggregation,
+} from "@ui5-language-assistant/semantic-model-types";
 import { generateModel } from "@ui5-language-assistant/test-utils";
 import {
   assertNoIssues as assertNoIssuesBase,
@@ -32,22 +36,27 @@ describe("the type aggregation validation", () => {
       );
     });
 
-    it("will detect mismatch of class to explicit aggregation type", () => {
+    it("will detect mismatch of class to explicit aggregation of 'UI5Class' type", () => {
       assertSingleIssue(
         `<mvc:View xmlns:uxap="sap.uxap" xmlns:m="sap.m"
             xmlns:mvc="sap.ui.core.mvc"
             xmlns="sap.ui.commons">
             <m:Panel>
               <m:headerToolbar>
-                <🢂Toolbar🢀></Toolbar>
+                <🢂Button🢀></Button>
               </m:headerToolbar>
             </m:Panel>
-          </mvc:View>`,
-        getMessage(INVALID_AGGREGATION_TYPE, "Toolbar", "Toolbar")
+         </mvc:View>`,
+        getMessage(
+          INVALID_AGGREGATION_TYPE,
+          "Button",
+          "headerToolbar",
+          "Toolbar"
+        )
       );
     });
 
-    it("will detect mismatch of class to explicit aggregation of 'UI5Interface' type", () => {
+    it("will detect mismatch of class to default aggregation of 'UI5Interface' type", () => {
       assertSingleIssue(
         `<mvc:View xmlns:uxap="sap.uxap" xmlns:m="sap.m"
               xmlns:mvc="sap.ui.core.mvc"
@@ -55,23 +64,29 @@ describe("the type aggregation validation", () => {
               <m:Panel>
                 <🢂ToolbarSeparator🢀></ToolbarSeparator>
               </m:Panel>
-            </mvc:View>`,
-        getMessage(INVALID_AGGREGATION_TYPE, "ToolbarSeparator", "Control")
+         </mvc:View>`,
+        getMessage(
+          INVALID_AGGREGATION_TYPE,
+          "ToolbarSeparator",
+          "content",
+          "Control"
+        )
       );
     });
 
-    it("will detect mismatch of class to default aggregation type", () => {
+    it("will detect mismatch of class to explicit aggregation of 'UI5Class' type", () => {
       assertSingleIssue(
         `<mvc:View xmlns:uxap="sap.uxap" xmlns:m="sap.m"
               xmlns:mvc="sap.ui.core.mvc"
               xmlns="sap.ui.commons">
               <m:Page>
                 <m:footer>
+                  <!-- The class "Toolbar" is under the aggregation "footer" and must match the type "IBar" -->
                   <🢂Toolbar🢀></Toolbar>
                 </m:footer>
               </m:Page>
-            </mvc:View>`,
-        getMessage(INVALID_AGGREGATION_TYPE, "Toolbar", "IBar")
+        </mvc:View>`,
+        getMessage(INVALID_AGGREGATION_TYPE, "Toolbar", "footer", "IBar")
       );
     });
   });
@@ -84,13 +99,53 @@ describe("the type aggregation validation", () => {
       });
     });
 
-    it("will not detect an issue when the class is not under aggregation", () => {
+    it("will not detect an issue when the class is under the default aggregation", () => {
       assertNoIssues(
         `<mvc:View xmlns:uxap="sap.uxap" xmlns:m="sap.m"
-              xmlns:mvc="sap.ui.core.mvc"
-              xmlns="sap.ui.commons">
-              <m:Shell></m:Shell>
-            </mvc:View>`
+          xmlns:mvc="sap.ui.core.mvc"
+          xmlns="sap.ui.commons">
+          <m:Shell></m:Shell>
+        </mvc:View>`
+      );
+    });
+
+    it("will not detect an issue when the class is under non-ui5 aggregation", () => {
+      assertNoIssues(
+        `<mvc:View xmlns:uxap="sap.uxap" xmlns:m="sap.m"
+        xmlns:mvc="sap.ui.core.mvc"
+        xmlns="sap.ui.commons">
+        <UnknownTag>
+          <Toolbar></Toolbar>
+        </UnknownTag>
+      </mvc:View>`
+      );
+    });
+
+    it("will not detect an issue when the class is under explicit aggregation when the aggregartion type is not a UI5Class or UI5Interface", () => {
+      const clonedModel = cloneDeep(ui5SemanticModel);
+      const viewClass = clonedModel.classes["sap.ui.core.mvc.View"];
+      const contentAggregation = find(
+        viewClass.aggregations,
+        (_) => _.name === "content"
+      ) as UI5Aggregation;
+      expect(contentAggregation).to.exist;
+      contentAggregation.type = undefined;
+      viewClass.aggregations = [contentAggregation];
+      const xmlSnippet = `
+      <mvc:View
+        xmlns:mvc="sap.ui.core.mvc"
+        xmlns="sap.m">
+        <mvc:content>
+          <m:Shell></m:Shell>
+        </mvc:content>
+      </mvc:View>`;
+
+      assertNoIssuesBase(
+        clonedModel,
+        {
+          element: [validateAggregationType],
+        },
+        xmlSnippet
       );
     });
   });
