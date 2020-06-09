@@ -3,6 +3,7 @@ import { map, uniq, forEach } from "lodash";
 import { CompletionItemKind } from "vscode-languageserver";
 import { UI5XMLViewCompletion } from "@ui5-language-assistant/xml-views-completion";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
+import { Settings } from "@ui5-language-assistant/settings";
 import { generateModel } from "@ui5-language-assistant/test-utils";
 import { computeLSPKind } from "../src/completion-items";
 import {
@@ -830,6 +831,83 @@ describe("the UI5 language assistant Code Completion Services", () => {
       CompletionItemKind.Constant
     );
     expectLspKind("UI5UnknownKey", CompletionItemKind.Text);
+  });
+
+  context("settings", () => {
+    const NO_EXPERIMENTAL_SUGGESTIONS = {
+      codeAssist: { deprecated: true, experimental: false },
+    };
+    const NO_DEPRECATED_SUGGESTIONS = {
+      codeAssist: { deprecated: false, experimental: true },
+    };
+
+    function testSettingsFilter({
+      xmlSnippet,
+      suggestionLabel,
+      settings,
+    }: {
+      xmlSnippet: string;
+      suggestionLabel: string;
+      settings: Partial<Settings>;
+    }): void {
+      const ALLOW_ALL_SUGGESTIONS = {
+        codeAssist: { deprecated: true, experimental: true },
+      };
+
+      // Check that it's returned when settings allow experimental
+      const suggestionsAllAllowed = getSuggestions(
+        xmlSnippet,
+        ui5SemanticModel,
+        ALLOW_ALL_SUGGESTIONS
+      );
+      const suggestionNamesWithAllAllowed = map(
+        suggestionsAllAllowed,
+        (_) => _.label
+      );
+      expect(suggestionNamesWithAllAllowed).to.contain.members([
+        suggestionLabel,
+      ]);
+
+      // Check that it's not returned when settings don't allow experimental
+      const suggestionsWithSentSettings = getSuggestions(
+        xmlSnippet,
+        ui5SemanticModel,
+        settings
+      );
+      const suggestionNamesWithSentSettings = map(
+        suggestionsWithSentSettings,
+        (_) => _.label
+      );
+      expect(suggestionNamesWithSentSettings).to.not.contain.members([
+        suggestionLabel,
+      ]);
+    }
+
+    it("will not return experimental property suggestions according to settings", () => {
+      testSettingsFilter({
+        xmlSnippet: `
+          <mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m">
+            <mvc:content>
+              <m:NumericContent adaptiveFontSize⇶
+            </mvc:content>
+          </m:View>`,
+        suggestionLabel: "adaptiveFontSize",
+        settings: NO_EXPERIMENTAL_SUGGESTIONS,
+      });
+    });
+
+    it("will not return deprecated property suggestions according to settings", () => {
+      testSettingsFilter({
+        xmlSnippet: `
+          <mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m">
+            <mvc:content>
+              <m:Page icon⇶
+            </mvc:content>
+          </m:View>`,
+        suggestionLabel: "icon",
+        settings: NO_DEPRECATED_SUGGESTIONS,
+      });
+    });
   });
 
   function expectLspKind(

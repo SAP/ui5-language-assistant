@@ -1,7 +1,7 @@
 /* Based on https://github.com/microsoft/vscode-extension-samples/blob/master/lsp-sample/client/src/test/index.ts */
 import { resolve } from "path";
-import * as Mocha from "mocha";
-import * as glob from "glob";
+import Mocha from "mocha";
+import glob from "glob";
 import "source-map-support/register";
 
 export function run(): Promise<void> {

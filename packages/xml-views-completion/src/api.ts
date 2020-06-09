@@ -1,4 +1,4 @@
-import { filter, includes } from "lodash";
+import { filter, includes, reject } from "lodash";
 import { assertNever } from "assert-never";
 import { getSuggestions } from "@xml-tools/content-assist";
 import { UI5Visibility } from "@ui5-language-assistant/semantic-model-types";
@@ -10,6 +10,7 @@ import {
 import { elementNameProviders } from "./providers/elementName";
 import { attributeNameProviders } from "./providers/attributeName";
 import { attributeValueProviders } from "./providers/attributeValue";
+import { CodeAssistSettings } from "@ui5-language-assistant/settings";
 
 export function getXMLViewCompletions(
   opts: GetXMLViewCompletionsOpts
@@ -36,7 +37,36 @@ export function getXMLViewCompletions(
       includes(allowedVisibility, _.ui5Node.visibility)
   );
 
-  return publicAndProtectedSuggestions;
+  const filteredSuggestions = filterBySettings(
+    publicAndProtectedSuggestions,
+    opts.settings
+  );
+
+  return filteredSuggestions;
+}
+
+function filterBySettings(
+  suggestions: UI5XMLViewCompletion[],
+  settings: CodeAssistSettings
+): UI5XMLViewCompletion[] {
+  let filteredSuggestions = suggestions;
+  if (!settings.codeAssist.deprecated) {
+    filteredSuggestions = reject(
+      filteredSuggestions,
+      (suggestion) =>
+        isUI5NodeXMLViewCompletion(suggestion) &&
+        suggestion.ui5Node.deprecatedInfo?.isDeprecated === true
+    );
+  }
+  if (!settings.codeAssist.experimental) {
+    filteredSuggestions = reject(
+      filteredSuggestions,
+      (suggestions) =>
+        isUI5NodeXMLViewCompletion(suggestions) &&
+        suggestions.ui5Node.experimentalInfo?.isExperimental === true
+    );
+  }
+  return filteredSuggestions;
 }
 
 export function isUI5NodeXMLViewCompletion(

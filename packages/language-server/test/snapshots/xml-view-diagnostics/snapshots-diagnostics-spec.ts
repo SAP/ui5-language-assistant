@@ -1,4 +1,4 @@
-import * as klawSync from "klaw-sync";
+import klawSync from "klaw-sync";
 import { map, forEach, filter } from "lodash";
 import { basename, relative, dirname } from "path";
 import {

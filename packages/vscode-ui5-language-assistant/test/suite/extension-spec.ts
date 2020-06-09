@@ -78,7 +78,7 @@ describe("the Language Server Client Integration Tests", () => {
       "unified",
       "upload",
       "util",
-      "ux3",
+      "uxap",
       "ubc",
       "ui",
       "ui", // This "ui" is in a different parent

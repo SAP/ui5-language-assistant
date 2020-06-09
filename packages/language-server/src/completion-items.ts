@@ -27,28 +27,31 @@ import {
 } from "@ui5-language-assistant/xml-views-completion";
 import { ui5NodeToFQN } from "@ui5-language-assistant/logic-utils";
 import { getNodeDocumentation, getNodeDetail } from "./documentation";
+import { Settings } from "@ui5-language-assistant/settings";
 import { assertNever } from "assert-never";
 
-export function getCompletionItems(
-  model: UI5SemanticModel,
-  textDocumentPosition: TextDocumentPositionParams,
-  document: TextDocument
-): CompletionItem[] {
-  const documentText = document.getText();
+export function getCompletionItems(opts: {
+  model: UI5SemanticModel;
+  textDocumentPosition: TextDocumentPositionParams;
+  document: TextDocument;
+  documentSettings: Settings;
+}): CompletionItem[] {
+  const documentText = opts.document.getText();
   const { cst, tokenVector } = parse(documentText);
   const ast = buildAst(cst as DocumentCstNode, tokenVector);
   const suggestions = getXMLViewCompletions({
-    model: model,
-    offset: document.offsetAt(textDocumentPosition.position),
+    model: opts.model,
+    offset: opts.document.offsetAt(opts.textDocumentPosition.position),
     cst: cst as DocumentCstNode,
     ast: ast,
     tokenVector: tokenVector,
+    settings: { codeAssist: opts.documentSettings.codeAssist },
   });
 
   const completionItems = transformToLspSuggestions(
     suggestions,
-    model,
-    textDocumentPosition.position
+    opts.model,
+    opts.textDocumentPosition
   );
   return completionItems;
 }
@@ -56,12 +59,15 @@ export function getCompletionItems(
 function transformToLspSuggestions(
   suggestions: UI5XMLViewCompletion[],
   model: UI5SemanticModel,
-  originalPosition: Position
+  textDocumentPosition: TextDocumentPositionParams
 ): CompletionItem[] {
   const lspSuggestions = map(suggestions, (suggestion) => {
     const lspKind = computeLSPKind(suggestion);
 
-    const textEditDetails = createTextEdits(suggestion, originalPosition);
+    const textEditDetails = createTextEdits(
+      suggestion,
+      textDocumentPosition.position
+    );
     const documentation = getDocumentation(suggestion, model);
     const completionItem: CompletionItem = {
       label: getLabel(suggestion),
