@@ -23,18 +23,19 @@ export function buildDeprecatedIssueMessage({
 }): string {
   let kind: string;
   let name: string;
-  switch (symbol.kind) {
+  const symbolKind = symbol.kind;
+  switch (symbolKind) {
     case "UI5Class":
       kind = "class";
       name = ui5NodeToFQN(symbol);
       break;
     case "UI5Aggregation":
       kind = "aggregation";
-      name = ui5NodeToFQN(symbol);
+      name = symbol.name;
       break;
     /* istanbul ignore next - defensive programming */
     default:
-      assertNever(symbol);
+      assertNever(symbolKind);
   }
   const msgPrefix = `The ${name} ${kind} is deprecated`;
   return getDeprecationPlainTextSnippet({
