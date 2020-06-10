@@ -110,7 +110,7 @@ describe("the use of deprecated aggregation validation", () => {
         element: [validateUseOfDeprecatedAggregation],
       });
     });
-    
+
     it("will not detect an issue when the aggregation has not been deprecated", () => {
       assertNoIssues(
         `<mvc:View xmlns:m="sap.m" xmlns:mvc="sap.ui.core.mvc" xmlns:charts="sap.ca.ui.charts">
