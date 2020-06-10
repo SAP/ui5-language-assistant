@@ -39,7 +39,7 @@ describe("the use of deprecated aggregation validation", () => {
             {
               kind: "UseOfDeprecatedAggregation",
               message:
-                "The sap.ca.ui.charts.BubbleChart.content aggregation is deprecated since version 7.20.0. This method is deprecated now.",
+                "The content aggregation is deprecated since version 7.20.0. This method is deprecated now.",
               severity: "warn",
               offsetRange: computeExpectedRange(xmlSnippet),
             },
@@ -73,7 +73,7 @@ describe("the use of deprecated aggregation validation", () => {
             {
               kind: "UseOfDeprecatedAggregation",
               message:
-                "The sap.ca.ui.charts.BubbleChart.content aggregation is deprecated since version 7.20.0. This method is deprecated now.",
+                "The content aggregation is deprecated since version 7.20.0. This method is deprecated now.",
               severity: "warn",
               offsetRange: computeExpectedRange(xmlSnippet),
             },
@@ -105,7 +105,7 @@ describe("the use of deprecated aggregation validation", () => {
             {
               kind: "UseOfDeprecatedAggregation",
               message:
-                "The sap.ca.ui.charts.BubbleChart.content aggregation is deprecated since version 7.20.0. This method is deprecated now.",
+                "The content aggregation is deprecated since version 7.20.0. This method is deprecated now.",
               severity: "warn",
               offsetRange: computeExpectedRange(xmlSnippet),
             },
