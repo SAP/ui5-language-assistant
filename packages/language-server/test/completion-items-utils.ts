@@ -1,4 +1,4 @@
-import { forEach, map } from "lodash";
+import { forEach, map, defaultsDeep } from "lodash";
 import { expect } from "chai";
 import {
   TextDocument,
@@ -12,6 +12,7 @@ import {
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { expectExists } from "@ui5-language-assistant/test-utils";
 import { getCompletionItems } from "../src/completion-items";
+import { Settings, getDefaultSettings } from "@ui5-language-assistant/settings";
 
 /** Return the first part of a tag name suggestion insert text */
 export function getTagName(textEdit: TextEdit | undefined): string | undefined {
@@ -25,7 +26,8 @@ export function getTagName(textEdit: TextEdit | undefined): string | undefined {
 /** Use ⇶ to mark the cursor position */
 export function getSuggestions(
   xmlSnippet: string,
-  ui5SemanticModel: UI5SemanticModel
+  ui5SemanticModel: UI5SemanticModel,
+  settings?: Partial<Settings>
 ): CompletionItem[] {
   const { document, position } = getXmlSnippetDocument(xmlSnippet);
   const uri: TextDocumentIdentifier = { uri: "uri" };
@@ -33,12 +35,22 @@ export function getSuggestions(
     textDocument: uri,
     position: position,
   };
+  if (settings === undefined) {
+    // In the tests - show experimental and deprecated by default
+    settings = { codeAssist: { deprecated: true, experimental: true } };
+  }
+  const allSettings = defaultsDeep(
+    {},
+    settings,
+    getDefaultSettings()
+  ) as Settings;
 
-  const suggestions = getCompletionItems(
-    ui5SemanticModel,
-    textDocPositionParams,
-    document
-  );
+  const suggestions = getCompletionItems({
+    model: ui5SemanticModel,
+    textDocumentPosition: textDocPositionParams,
+    document,
+    documentSettings: allSettings,
+  });
   // Check that all returned suggestions will be displayed to the user
   assertSuggestionsAreValid(suggestions, xmlSnippet);
   return suggestions;

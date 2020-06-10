@@ -13,6 +13,9 @@
       "path": "./packages/semantic-model-types"
     },
     {
+      "path": "./packages/settings"
+    },
+    {
       "path": "./packages/vscode-ui5-language-assistant"
     },
     {
