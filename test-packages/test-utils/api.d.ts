@@ -26,55 +26,67 @@ export type PartialWithName<T> = { name: string } & Partial<T>;
 
 export function buildUI5Class<T extends PartialWithName<UI5Class>>(
   opts: T
-): UI5Class & T;
+): UI5Class & Pick<T, keyof UI5Class>;
 
-export function buildUI5Interface(
-  opts: PartialWithName<UI5Interface>
-): UI5Interface;
+export function buildUI5Interface<T extends PartialWithName<UI5Interface>>(
+  opts: T
+): UI5Interface & Pick<T, keyof UI5Interface>;
 
-export function buildUI5Enum(opts: PartialWithName<UI5Enum>): UI5Enum;
+export function buildUI5Enum<T extends PartialWithName<UI5Enum>>(
+  opts: T
+): UI5Enum & Pick<T, keyof UI5Enum>;
 
-export function buildUI5Typedef(opts: PartialWithName<UI5Typedef>): UI5Typedef;
+export function buildUI5Typedef<T extends PartialWithName<UI5Typedef>>(
+  opts: T
+): UI5Typedef & Pick<T, keyof UI5Typedef>;
 
-export function buildUI5Function(
-  opts: PartialWithName<UI5Function>
-): UI5Function;
+export function buildUI5Function<T extends PartialWithName<UI5Function>>(
+  opts: T
+): UI5Function & Pick<T, keyof UI5Function>;
 
-export function buildUI5Namespace(
-  opts: PartialWithName<UI5Namespace>
-): UI5Namespace;
+export function buildUI5Namespace<T extends PartialWithName<UI5Namespace>>(
+  opts: T
+): UI5Namespace & Pick<T, keyof UI5Namespace>;
 
-export function buildUI5Property(opts: PartialWithName<UI5Prop>): UI5Prop;
+export function buildUI5Property<T extends PartialWithName<UI5Prop>>(
+  opts: T
+): UI5Prop & Pick<T, keyof UI5Prop>;
 
-export function buildUI5Field(opts: PartialWithName<UI5Field>): UI5Field;
+export function buildUI5Field<T extends PartialWithName<UI5Field>>(
+  opts: T
+): UI5Field & Pick<T, keyof UI5Field>;
 
-export function buildUI5EnumValue(
-  opts: PartialWithName<UI5EnumValue>
-): UI5EnumValue;
+export function buildUI5EnumValue<T extends PartialWithName<UI5EnumValue>>(
+  opts: T
+): UI5EnumValue & Pick<T, keyof UI5EnumValue>;
 
-export function buildUI5Event(opts: PartialWithName<UI5Event>): UI5Event;
+export function buildUI5Event<T extends PartialWithName<UI5Event>>(
+  opts: T
+): UI5Event & Pick<T, keyof UI5Event>;
 
-export function buildUI5Method(opts: PartialWithName<UI5Method>): UI5Method;
+export function buildUI5Method<T extends PartialWithName<UI5Method>>(
+  opts: T
+): UI5Method & Pick<T, keyof UI5Method>;
 
-export function buildUI5Constructor(
-  opts: Partial<UI5Constructor>
-): UI5Constructor;
+export function buildUI5Constructor<T extends Partial<UI5Constructor>>(
+  opts: T
+): UI5Constructor & Pick<T, keyof UI5Constructor>;
 
-export function buildUI5Association(
-  opts: PartialWithName<UI5Association>
-): UI5Association;
+export function buildUI5Association<T extends PartialWithName<UI5Association>>(
+  opts: T
+): UI5Association & Pick<T, keyof UI5Association>;
 
-export function buildUI5Aggregation(
-  opts: PartialWithName<UI5Aggregation>
-): UI5Aggregation;
+export function buildUI5Aggregation<T extends PartialWithName<UI5Aggregation>>(
+  opts: T
+): UI5Aggregation & Pick<T, keyof UI5Aggregation>;
 
-export function buildUI5DeprecatedInfo(
-  opts: Partial<UI5DeprecatedInfo>
-): UI5DeprecatedInfo;
+export function buildUI5DeprecatedInfo<T extends Partial<UI5DeprecatedInfo>>(
+  opts: T
+): UI5DeprecatedInfo & Pick<T, keyof UI5DeprecatedInfo>;
 
-export function buildUI5Model(
+export function buildUI5Model<T extends Partial<UI5SemanticModel>>(
   opts: Partial<UI5SemanticModel>
-): UI5SemanticModel;
+): UI5SemanticModel & Pick<T, keyof UI5SemanticModel>;
 
 export type TestModelVersion = "1.60.14" | "1.74.0" | "1.75.0" | "1.71.14";
 
