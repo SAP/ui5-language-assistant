@@ -17,7 +17,7 @@ export function findClassesMatchingType({
   return values(matchingClasses);
 }
 
-function classIsOfType(
+export function classIsOfType(
   clazz: UI5Class,
   type: UI5Class | UI5Interface
 ): boolean {

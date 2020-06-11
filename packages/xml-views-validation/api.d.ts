@@ -29,7 +29,8 @@ export type UI5XMLViewIssue =
   | NonUniqueIDIssue
   | UnknownAttributeKeyIssue
   | UnknownTagNameIssue
-  | InvalidAggregationCardinalityIssue;
+  | InvalidAggregationCardinalityIssue
+  | InvalidAggregationTypeIssue;
 
 // A sub-interface per issue type may seem redundant, but this allows
 // a sub-issue type to have additional properties (if needed) in the future.
@@ -48,6 +49,10 @@ export interface UseOfDeprecatedAggregationIssue extends BaseUI5XMLViewIssue {
 export interface InvalidAggregationCardinalityIssue
   extends BaseUI5XMLViewIssue {
   kind: "InvalidAggregationCardinality";
+}
+
+export interface InvalidAggregationTypeIssue extends BaseUI5XMLViewIssue {
+  kind: "InvalidAggregationType";
 }
 
 export interface UnknownNamespaceInXmlnsAttributeValueIssue

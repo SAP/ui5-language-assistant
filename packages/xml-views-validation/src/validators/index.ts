@@ -8,6 +8,7 @@ import { validateNonUniqueID } from "./document/non-unique-id";
 import { validateUnknownAttributeKey } from "./attributes/unknown-attribute-key";
 import { validateUnknownTagName } from "./elements/unknown-tag-name";
 import { validateExplicitAggregationCardinality } from "./elements/cardinality-of-aggregation";
+import { validateAggregationType } from "./elements/type-of-aggregation";
 
 export const allValidators: UI5Validators = {
   document: [validateNonUniqueID],
@@ -16,6 +17,7 @@ export const allValidators: UI5Validators = {
     validateUseOfDeprecatedAggregation,
     validateUnknownTagName,
     validateExplicitAggregationCardinality,
+    validateAggregationType,
   ],
   attribute: [
     validateUnknownEnumValue,

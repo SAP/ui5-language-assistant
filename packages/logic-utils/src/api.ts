@@ -8,7 +8,10 @@ export {
   flattenProperties,
   flattenAssociations,
 } from "./utils/flatten-members";
-export { findClassesMatchingType } from "./utils/find-classes-matching-type";
+export {
+  findClassesMatchingType,
+  classIsOfType,
+} from "./utils/find-classes-matching-type";
 export { isRootSymbol, getRootSymbolParent } from "./utils/root-symbols";
 export { typeToString } from "./utils/type-to-string";
 export {

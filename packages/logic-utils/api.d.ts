@@ -76,6 +76,14 @@ export function findClassesMatchingType({
 }): UI5Class[];
 
 /**
+ * Check if a UI5 Class is type of the give `type`.
+ */
+export function classIsOfType(
+  clazz: UI5Class,
+  type: UI5Class | UI5Interface
+): boolean;
+
+/**
  * Check if a UI5 node is a root symbol. A root symbol is a symbol that exists in one of the model symbol maps.
  */
 export function isRootSymbol(node: BaseUI5Node): boolean;
