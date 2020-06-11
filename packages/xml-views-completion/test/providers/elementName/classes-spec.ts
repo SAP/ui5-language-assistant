@@ -254,6 +254,42 @@ describe("The ui5-language-assistant xml-views-completion", () => {
               },
             });
           });
+
+          it("will suggest classes that implement the interface when the aggregation has an interface type", () => {
+            const xmlSnippet = `
+            <mvc:View
+              xmlns:mvc="sap.ui.core.mvc"
+              xmlns="sap.m">
+              <Page>
+                <footer>
+                  <⇶
+                </footer>
+                </Page>
+            </mvc:View>`;
+
+            testSuggestionsScenario({
+              model: ui5Model,
+              xmlText: xmlSnippet,
+              providers: {
+                elementName: [classesSuggestions],
+              },
+              assertion: (suggestions) => {
+                assertSuggestionProperties(suggestions, "footer");
+                const suggestionNames = map(suggestions, (_) =>
+                  ui5NodeToFQN(_.ui5Node)
+                );
+                expect(suggestionNames).to.deep.equalInAnyOrder([
+                  "sap.f.ShellBar",
+                  "sap.m.Bar",
+                  "sap.m.OverflowToolbar",
+                  "sap.gantt.simple.ContainerToolbar",
+                  "sap.tnt.ToolHeader",
+                  "sap.uxap.AnchorBar",
+                  "sap.m.Toolbar",
+                ]);
+              },
+            });
+          });
         });
 
         context("prefix without xmlns", () => {
