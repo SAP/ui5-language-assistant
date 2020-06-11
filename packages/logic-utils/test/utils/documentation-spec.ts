@@ -173,7 +173,7 @@ describe("The @ui5-language-assistant/logic-utils <convertJSDocToMarkdown> funct
     );
   });
 
-  it.only("replaces link tags that point to UI5 classes with markdown links when model has a version", () => {
+  it("replaces link tags that point to UI5 classes with markdown links when model has a version", () => {
     const modelWithVersion = buildUI5Model({ version: "1.2.3" });
     expect(
       convertJSDocToMarkdown(
