@@ -23,7 +23,7 @@ describe("The @ui5-language-assistant/language-server <getNodeDocumentation> fun
           text: "dummy-text",
         },
       });
-      const result = getNodeDocumentation(ui5Enum, ui5SemanticModel);
+      const result = getNodeDocumentation(ui5Enum, ui5SemanticModel.version);
       expect(result.value).to.include(
         "Deprecated since version 2.2.2. dummy-text"
       );
@@ -40,7 +40,7 @@ describe("The @ui5-language-assistant/language-server <getNodeDocumentation> fun
           text: "dummyy-text",
         },
       });
-      const result = getNodeDocumentation(ui5Enum, ui5SemanticModel);
+      const result = getNodeDocumentation(ui5Enum, ui5SemanticModel.version);
       expect(result.value).to.include(
         "Experimental since version 2.2.2. dummyy-text"
       );
@@ -55,7 +55,7 @@ describe("The @ui5-language-assistant/language-server <getNodeDocumentation> fun
           text: "dummyy-text",
         },
       });
-      const result = getNodeDocumentation(ui5Enum, ui5SemanticModel);
+      const result = getNodeDocumentation(ui5Enum, ui5SemanticModel.version);
       expect(result.value).to.include("Experimental. dummyy-text");
       expect(result.value).to.not.include("since");
     });
@@ -69,7 +69,7 @@ describe("The @ui5-language-assistant/language-server <getNodeDocumentation> fun
           text: undefined,
         },
       });
-      const result = getNodeDocumentation(ui5Enum, ui5SemanticModel);
+      const result = getNodeDocumentation(ui5Enum, ui5SemanticModel.version);
       expect(result.value).to.include("Experimental since version 2.2.2.");
     });
 
@@ -82,7 +82,7 @@ describe("The @ui5-language-assistant/language-server <getNodeDocumentation> fun
           text: undefined,
         },
       });
-      const result = getNodeDocumentation(ui5Enum, ui5SemanticModel);
+      const result = getNodeDocumentation(ui5Enum, ui5SemanticModel.version);
       expect(result.value).to.include("Experimental.");
     });
   });

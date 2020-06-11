@@ -25,7 +25,7 @@ export function validateUseOfDeprecatedAggregation(
       kind: "UseOfDeprecatedAggregation",
       message: buildDeprecatedIssueMessage({
         symbol: aggregation as DeprecatedUI5Symbol,
-        model,
+        modelVersion: model.version,
       }),
       severity: "warn",
       offsetRange: {

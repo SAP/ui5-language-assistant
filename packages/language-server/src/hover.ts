@@ -28,7 +28,7 @@ export function getHoverResponse(
   if (astPosition !== undefined) {
     const ui5Node = findUI5HoverNodeAtOffset(astPosition, model);
     if (ui5Node !== undefined) {
-      return transformToLspHover(ui5Node, model);
+      return transformToLspHover(ui5Node, model.version);
     }
   }
 
@@ -37,12 +37,12 @@ export function getHoverResponse(
 
 function transformToLspHover(
   ui5Node: BaseUI5Node,
-  model: UI5SemanticModel
+  modelVersion: string | undefined
 ): Hover | undefined {
   const hoverItem: Hover = {
     contents: addTitle(
       getNodeDetail(ui5Node),
-      getNodeDocumentation(ui5Node, model)
+      getNodeDocumentation(ui5Node, modelVersion)
     ),
   };
   return hoverItem;

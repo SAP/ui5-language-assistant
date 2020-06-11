@@ -1,7 +1,6 @@
 import { assertNever } from "assert-never";
 import {
   UI5DeprecatedInfo,
-  UI5SemanticModel,
   UI5Class,
   UI5Aggregation,
 } from "@ui5-language-assistant/semantic-model-types";
@@ -16,10 +15,10 @@ export type DeprecatedUI5Symbol = {
 } & (UI5Class | UI5Aggregation);
 export function buildDeprecatedIssueMessage({
   symbol,
-  model,
+  modelVersion,
 }: {
   symbol: DeprecatedUI5Symbol;
-  model: UI5SemanticModel;
+  modelVersion: string | undefined;
 }): string {
   let kind: string;
   let name: string;
@@ -41,6 +40,6 @@ export function buildDeprecatedIssueMessage({
   return getDeprecationPlainTextSnippet({
     title: msgPrefix,
     deprecatedInfo: symbol.deprecatedInfo,
-    model,
+    modelVersion,
   });
 }

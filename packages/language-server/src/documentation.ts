@@ -1,5 +1,4 @@
 import {
-  UI5SemanticModel,
   BaseUI5Node,
   UI5Prop,
   UI5Field,
@@ -20,7 +19,7 @@ import { GENERATED_LIBRARY } from "@ui5-language-assistant/semantic-model";
 
 export function getNodeDocumentation(
   node: BaseUI5Node,
-  model: UI5SemanticModel
+  modelVersion: string | undefined
 ): MarkupContent {
   // Note: most of this code was taken from ui5-typescript repository and adapted for better markdown support.
   // This should be consolidated in the future.
@@ -67,7 +66,7 @@ export function getNodeDocumentation(
 
   const markdownContent: MarkupContent = {
     kind: "markdown",
-    value: convertJSDocToMarkdown(contents, model),
+    value: convertJSDocToMarkdown(contents, modelVersion),
   };
 
   const symbolForDocumentation = getRootSymbolParent(node);
@@ -75,7 +74,7 @@ export function getNodeDocumentation(
     symbolForDocumentation !== undefined &&
     symbolForDocumentation.library !== GENERATED_LIBRARY
   ) {
-    const link = getLink(model, ui5NodeToFQN(symbolForDocumentation));
+    const link = getLink(modelVersion, ui5NodeToFQN(symbolForDocumentation));
     markdownContent.value += NL + `[More information](${link})` + NL;
   }
 

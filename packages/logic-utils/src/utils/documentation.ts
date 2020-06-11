@@ -1,21 +1,18 @@
-import {
-  UI5DeprecatedInfo,
-  UI5SemanticModel,
-} from "@ui5-language-assistant/semantic-model-types";
+import { UI5DeprecatedInfo } from "@ui5-language-assistant/semantic-model-types";
 import { ReplaceFunction, forEach, unescape, concat, includes } from "lodash";
 
 export function getDeprecationPlainTextSnippet({
   title,
   deprecatedInfo,
-  model,
+  modelVersion,
 }: {
   title?: string;
   deprecatedInfo: UI5DeprecatedInfo;
-  model: UI5SemanticModel;
+  modelVersion: string | undefined;
 }): string {
   let text = deprecatedInfo.text;
   if (text !== undefined) {
-    text = convertJSDocToPlainText(text, model);
+    text = convertJSDocToPlainText(text, modelVersion);
     // Only take the first line.
     // Multi-line problems are displayed open in the problem view which makes less problems visible unless the user
     // explicitly closes them.
@@ -54,16 +51,16 @@ export function getDeprecationMessage({
 // Exported for testing purpose
 export function convertJSDocToPlainText(
   jsdocDescription: string,
-  model: UI5SemanticModel
+  modelVersion: string | undefined
 ): string {
-  return convertJSDoc(jsdocDescription, "plaintext", model);
+  return convertJSDoc(jsdocDescription, "plaintext", modelVersion);
 }
 
 export function convertJSDocToMarkdown(
   jsdocDescription: string,
-  model: UI5SemanticModel
+  modelVersion: string | undefined
 ): string {
-  return convertJSDoc(jsdocDescription, "markdown", model);
+  return convertJSDoc(jsdocDescription, "markdown", modelVersion);
 }
 
 type ConvertTarget = "markdown" | "plaintext";
@@ -153,7 +150,7 @@ const tagMatcherToReplacement: {
 function convertJSDoc(
   jsdoc: string,
   target: ConvertTarget,
-  model: UI5SemanticModel
+  modelVersion: string | undefined
 ): string {
   // We add replacements that require the model here (because they cannot be in tagMatcherToReplacement which is defined
   // outside of the function).
@@ -166,7 +163,7 @@ function convertJSDoc(
       matcher: /{@link (([^\s}]+)\s)?([^}]+)}/g,
       replacement: {
         markdown: (all, _, type, text): string => {
-          return `[${text}](${getLink(model, type ?? text)})`;
+          return `[${text}](${getLink(modelVersion, type ?? text)})`;
         },
         plaintext: "$3",
       },
@@ -190,12 +187,15 @@ function replace(
   return string.replace(matcher, replacement);
 }
 
-export function getLink(model: UI5SemanticModel, link: string): string {
+export function getLink(
+  modelVersion: string | undefined,
+  link: string
+): string {
   if (link.startsWith("http:") || link.startsWith("https:")) {
     return link;
   }
-  if (model.version) {
-    return `https://sapui5.hana.ondemand.com/${model.version}/#/api/${link}`;
+  if (modelVersion) {
+    return `https://sapui5.hana.ondemand.com/${modelVersion}/#/api/${link}`;
   }
   return `https://sapui5.hana.ondemand.com/#/api/${link}`;
 }

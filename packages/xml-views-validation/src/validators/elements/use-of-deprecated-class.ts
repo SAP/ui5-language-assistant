@@ -25,7 +25,7 @@ export function validateUseOfDeprecatedClass(
       kind: "UseOfDeprecatedClass",
       message: buildDeprecatedIssueMessage({
         symbol: ui5Class as DeprecatedUI5Symbol,
-        model,
+        modelVersion: model.version,
       }),
       severity: "warn",
       offsetRange: {

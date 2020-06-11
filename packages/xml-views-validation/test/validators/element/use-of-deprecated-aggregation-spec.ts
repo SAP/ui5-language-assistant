@@ -51,7 +51,7 @@ describe("the use of deprecated aggregation validation", () => {
         </m:View>`,
         buildDeprecatedIssueMessage({
           symbol: contentAggregation as DeprecatedUI5Symbol,
-          model: ui5SemanticModel,
+          modelVersion: ui5SemanticModel.version,
         })
       );
     });
@@ -74,7 +74,7 @@ describe("the use of deprecated aggregation validation", () => {
         </m:View>`,
         buildDeprecatedIssueMessage({
           symbol: contentAggregation as DeprecatedUI5Symbol,
-          model: ui5SemanticModel,
+          modelVersion: ui5SemanticModel.version,
         })
       );
     });
@@ -97,7 +97,7 @@ describe("the use of deprecated aggregation validation", () => {
         </m:View>`,
         buildDeprecatedIssueMessage({
           symbol: contentAggregation as DeprecatedUI5Symbol,
-          model: ui5SemanticModel,
+          modelVersion: ui5SemanticModel.version,
         })
       );
     });

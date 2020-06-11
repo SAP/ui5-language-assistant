@@ -23,7 +23,7 @@ describe("the deprecated message builder", () => {
 
     const actualMessage = buildDeprecatedIssueMessage({
       symbol: ui5Class,
-      model,
+      modelVersion: model.version,
     });
     expect(actualMessage).to.eql(
       "The osem.Bisli class is deprecated since version 6.6.6. use osem.Bamba instead."
@@ -39,7 +39,7 @@ describe("the deprecated message builder", () => {
 
     const actualMessage = buildDeprecatedIssueMessage({
       symbol: ui5Class,
-      model,
+      modelVersion: model.version,
     });
     expect(actualMessage).to.eql("The osem.Bisli class is deprecated.");
   });
@@ -55,7 +55,7 @@ describe("the deprecated message builder", () => {
 
     const actualMessage = buildDeprecatedIssueMessage({
       symbol: ui5Class,
-      model,
+      modelVersion: model.version,
     });
     expect(actualMessage).to.eql(
       "The osem.Bisli class is deprecated since version 6.6.6."
@@ -73,7 +73,7 @@ describe("the deprecated message builder", () => {
 
     const actualMessage = buildDeprecatedIssueMessage({
       symbol: ui5Class,
-      model,
+      modelVersion: model.version,
     });
     expect(actualMessage).to.eql(
       "The osem.Bisli class is deprecated. use osem.Bamba instead."

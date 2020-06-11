@@ -165,17 +165,17 @@ export function getDeprecationMessage(opts: {
 export function getDeprecationPlainTextSnippet(opts: {
   title?: string;
   deprecatedInfo: UI5DeprecatedInfo;
-  model: UI5SemanticModel;
+  modelVersion: string | undefined;
 }): string;
 
 /**
  * Convert jsdoc description to markdown format string
  * @param jsdocDescription
- * @param model
+ * @param modelVersion
  */
 export function convertJSDocToMarkdown(
   jsdocDescription: string,
-  model: UI5SemanticModel
+  modelVersion: string | undefined
 ): string;
 
 /**
@@ -184,10 +184,10 @@ export function convertJSDocToMarkdown(
  * - http/https links - returned as-is
  * - Other strings are considered to be UI5 FQNs. A link to the relevant SDK page is returned.
  *
- * @param model
+ * @param modelVersion
  * @param link
  */
-export function getLink(model: UI5SemanticModel, link: string): string;
+export function getLink(modelVersion: string | undefined, link: string): string;
 
 /**
  * Split possibly qualified XML Tag or XML Attribute name to prefix and local name.

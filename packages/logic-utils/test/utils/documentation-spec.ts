@@ -21,7 +21,7 @@ describe("The @ui5-language-assistant/logic-utils <getDeprecationPlainTextSnippe
           since: undefined,
           text: undefined,
         },
-        model,
+        modelVersion: model.version,
       })
     ).to.equal("Deprecated.");
   });
@@ -35,7 +35,7 @@ describe("The @ui5-language-assistant/logic-utils <getDeprecationPlainTextSnippe
           since: undefined,
           text: undefined,
         },
-        model,
+        modelVersion: model.version,
       })
     ).to.equal("This class is deprecated.");
   });
@@ -49,7 +49,7 @@ describe("The @ui5-language-assistant/logic-utils <getDeprecationPlainTextSnippe
           since: "1.2.3",
           text: undefined,
         },
-        model,
+        modelVersion: model.version,
       })
     ).to.equal("Deprecated since version 1.2.3.");
   });
@@ -62,7 +62,7 @@ describe("The @ui5-language-assistant/logic-utils <getDeprecationPlainTextSnippe
           since: undefined,
           text: "Use something else instead.",
         },
-        model,
+        modelVersion: model.version,
       })
     ).to.equal("Deprecated. Use something else instead.");
   });
@@ -75,7 +75,7 @@ describe("The @ui5-language-assistant/logic-utils <getDeprecationPlainTextSnippe
           since: "1.2.3",
           text: "Use something else instead.",
         },
-        model,
+        modelVersion: model.version,
       })
     ).to.equal("Deprecated since version 1.2.3. Use something else instead.");
   });
@@ -89,7 +89,7 @@ describe("The @ui5-language-assistant/logic-utils <getDeprecationPlainTextSnippe
           text:
             "This text has a {@link the_address link with text} and a {@link link_without_text}",
         },
-        model,
+        modelVersion: model.version,
       })
     ).to.equal(
       "Deprecated. This text has a link with text and a link_without_text"
@@ -104,7 +104,7 @@ describe("The @ui5-language-assistant/logic-utils <getDeprecationPlainTextSnippe
           since: undefined,
           text: "This text has two lines\nThis is the second line.",
         },
-        model,
+        modelVersion: model.version,
       })
     ).to.equal("Deprecated. This text has two lines ...");
   });
@@ -117,7 +117,7 @@ describe("The @ui5-language-assistant/logic-utils <getDeprecationPlainTextSnippe
           since: undefined,
           text: "This text has two lines<br>This is the second line.",
         },
-        model,
+        modelVersion: model.version,
       })
     ).to.equal("Deprecated. This text has two lines ...");
   });
@@ -131,14 +131,14 @@ describe("The @ui5-language-assistant/logic-utils <convertJSDocToMarkdown> funct
 
   context("text has jsdoc tags", () => {
     it("removes header tags", () => {
-      expect(convertJSDocToPlainText("<h1>The Title</h1>", model)).to.equal(
-        "\nThe Title\n"
-      );
+      expect(
+        convertJSDocToPlainText("<h1>The Title</h1>", model.version)
+      ).to.equal("\nThe Title\n");
     });
 
     it("replaces <br> tags with newline", () => {
       expect(
-        convertJSDocToPlainText("The Title<br/>some text", model)
+        convertJSDocToPlainText("The Title<br/>some text", model.version)
       ).to.equal("The Title\nsome text");
     });
   });
@@ -151,34 +151,34 @@ describe("The @ui5-language-assistant/logic-utils <convertJSDocToMarkdown> funct
   });
 
   it("replaces header tags", () => {
-    expect(convertJSDocToMarkdown("<h1>The Title</h1>", model)).to.equal(
-      "\n# The Title\n\n"
-    );
+    expect(
+      convertJSDocToMarkdown("<h1>The Title</h1>", model.version)
+    ).to.equal("\n# The Title\n\n");
   });
 
   it("replaces <br> tags with newline", () => {
-    expect(convertJSDocToMarkdown("The Title<br/>some text", model)).to.equal(
-      "The Title\nsome text"
-    );
+    expect(
+      convertJSDocToMarkdown("The Title<br/>some text", model.version)
+    ).to.equal("The Title\nsome text");
   });
 
   it("replaces link tags with markdown links", () => {
     expect(
       convertJSDocToMarkdown(
         "This text has a {@link http://my.link link with text} and a {@link https://link.without.text}",
-        model
+        model.version
       )
     ).to.equal(
       "This text has a [link with text](http://my.link) and a [https://link.without.text](https://link.without.text)"
     );
   });
 
-  it("replaces link tags that point to UI5 classes with markdown links when model has a version", () => {
+  it.only("replaces link tags that point to UI5 classes with markdown links when model has a version", () => {
     const modelWithVersion = buildUI5Model({ version: "1.2.3" });
     expect(
       convertJSDocToMarkdown(
         "This text has a {@link sap.m.Button link to Button} and a nameless link to a type: {@link sap.m.Button}",
-        modelWithVersion
+        modelWithVersion.version
       )
     ).to.equal(
       "This text has a [link to Button](https://sapui5.hana.ondemand.com/1.2.3/#/api/sap.m.Button) and a nameless link to a type: [sap.m.Button](https://sapui5.hana.ondemand.com/1.2.3/#/api/sap.m.Button)"
@@ -189,7 +189,7 @@ describe("The @ui5-language-assistant/logic-utils <convertJSDocToMarkdown> funct
     expect(
       convertJSDocToMarkdown(
         "This text has a {@link sap.m.Button link to Button} and a nameless link to a type: {@link sap.m.Button}",
-        model
+        model.version
       )
     ).to.equal(
       "This text has a [link to Button](https://sapui5.hana.ondemand.com/#/api/sap.m.Button) and a nameless link to a type: [sap.m.Button](https://sapui5.hana.ondemand.com/#/api/sap.m.Button)"
@@ -198,7 +198,10 @@ describe("The @ui5-language-assistant/logic-utils <convertJSDocToMarkdown> funct
 
   it("unescapes html entities after replacing tags", () => {
     expect(
-      convertJSDocToMarkdown("This text has a <br> and a &lt;br&gt;", model)
+      convertJSDocToMarkdown(
+        "This text has a <br> and a &lt;br&gt;",
+        model.version
+      )
     ).to.equal("This text has a \n and a <br>");
   });
 });

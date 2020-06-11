@@ -50,7 +50,7 @@ export function getCompletionItems(opts: {
 
   const completionItems = transformToLspSuggestions(
     suggestions,
-    opts.model,
+    opts.model.version,
     opts.textDocumentPosition
   );
   return completionItems;
@@ -58,7 +58,7 @@ export function getCompletionItems(opts: {
 
 function transformToLspSuggestions(
   suggestions: UI5XMLViewCompletion[],
-  model: UI5SemanticModel,
+  modelVersion: string | undefined,
   textDocumentPosition: TextDocumentPositionParams
 ): CompletionItem[] {
   const lspSuggestions = map(suggestions, (suggestion) => {
@@ -68,7 +68,7 @@ function transformToLspSuggestions(
       suggestion,
       textDocumentPosition.position
     );
-    const documentation = getDocumentation(suggestion, model);
+    const documentation = getDocumentation(suggestion, modelVersion);
     const completionItem: CompletionItem = {
       label: getLabel(suggestion),
       filterText: textEditDetails.filterText,
@@ -529,12 +529,12 @@ function getLabel(suggestion: UI5XMLViewCompletion): string {
 
 function getDocumentation(
   suggestion: UI5XMLViewCompletion,
-  model: UI5SemanticModel
+  modelVersion: string | undefined
 ): MarkupContent | undefined {
   if (!isUI5NodeXMLViewCompletion(suggestion)) {
     return undefined;
   }
-  return getNodeDocumentation(suggestion.ui5Node, model);
+  return getNodeDocumentation(suggestion.ui5Node, modelVersion);
 }
 
 function getDetail(suggestion: UI5XMLViewCompletion): string | undefined {
