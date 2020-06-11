@@ -17,34 +17,37 @@ export function validateAggregationType(
   xmlElement: XMLElement,
   model: UI5SemanticModel
 ): InvalidAggregationTypeIssue[] {
-  const ui5class = getUI5ClassByXMLElement(xmlElement, model);
   // Root element can never be inside aggregation
   if (xmlElement.parent.type === "XMLDocument") {
     return [];
   }
 
+  const ui5class = getUI5ClassByXMLElement(xmlElement, model);
   const parentAggregation = getAggregationByXMLElement(
     xmlElement.parent,
     model
   );
 
-  if (parentAggregation === undefined) {
+  if (ui5class === undefined || parentAggregation === undefined) {
     return [];
   }
 
   const allowedTypeInAggregation = getValidAggregationTypeForSubNodes(
     parentAggregation
   );
-  if (ui5class === undefined || allowedTypeInAggregation === undefined) {
+
+  if (allowedTypeInAggregation === undefined) {
     return [];
   }
 
-  return getInvalidAggregationTypeIssue({
+  const invalidAggregationTypeIssue = getInvalidAggregationTypeIssue({
     xmlElement,
     ui5Class: ui5class,
     aggregationName: parentAggregation.name,
     aggregationType: allowedTypeInAggregation,
   });
+
+  return invalidAggregationTypeIssue;
 }
 
 function getInvalidAggregationTypeIssue({

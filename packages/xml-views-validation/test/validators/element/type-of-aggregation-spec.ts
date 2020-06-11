@@ -99,7 +99,7 @@ describe("the type aggregation validation", () => {
       });
     });
 
-    it("will not detect an issue when the class is under the default aggregation", () => {
+    it("will not detect an issue when the class is under the default aggregation and matching its type", () => {
       assertNoIssues(
         `<mvc:View xmlns:uxap="sap.uxap" xmlns:m="sap.m"
           xmlns:mvc="sap.ui.core.mvc"

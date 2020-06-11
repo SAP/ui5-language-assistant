@@ -84,4 +84,10 @@ describe("The @ui5-language-assistant/logic-utils <classIsOfType> function", () 
     const ui5Class = ui5Model.classes["sap.m.Table"];
     expect(classIsOfType(ui5Class, targetClassType)).to.be.true;
   });
+
+  it("negative case - can tell if the class matching a UI5Interface type", () => {
+    const targetInterface = ui5Model.interfaces["sap.m.IBar"];
+    const ui5Class = ui5Model.classes["sap.m.IconTabFilter"];
+    expect(classIsOfType(ui5Class, targetInterface)).to.be.false;
+  });
 });
