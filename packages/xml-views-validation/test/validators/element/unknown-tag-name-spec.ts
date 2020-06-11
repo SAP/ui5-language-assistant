@@ -406,6 +406,16 @@ describe("the unknown tag name validation", () => {
           );
         });
 
+        it("will not detect an issue for sap.ui.core.FragmentDefinition in the root tag", () => {
+          assertNoIssues(
+            `<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+                <Label text="These controls are within one multi-root Fragment:" />
+                <Input />
+                <Button text="Still in the same Fragment" />
+            </core:FragmentDefinition>`
+          );
+        });
+
         it("will not detect an issue for known aggregation in a different namespace prefix that references the same namespace", () => {
           assertNoIssues(
             `<mvc:View
@@ -491,6 +501,16 @@ describe("the unknown tag name validation", () => {
             `<View
               xmlns="sap.ui.core.mvc">
             </View>`
+          );
+        });
+
+        it("will not detect an issue for sap.ui.core.FragmentDefinition in the root tag", () => {
+          assertNoIssues(
+            `<FragmentDefinition xmlns:m="sap.m" xmlns="sap.ui.core">
+                <m:Label text="These controls are within one multi-root Fragment:" />
+                <m:Input />
+                <m:Button text="Still in the same Fragment" />
+            </FragmentDefinition>`
           );
         });
 

@@ -16,7 +16,11 @@ import {
   splitQNameByNamespace,
 } from "@ui5-language-assistant/logic-utils";
 import { UnknownAttributeKeyIssue } from "../../../api";
-import { TEMPLATING_NS, CUSTOM_DATA_NS } from "../../utils/special-namespaces";
+import {
+  TEMPLATING_NS,
+  CUSTOM_DATA_NS,
+  CORE_NS,
+} from "../../utils/special-namespaces";
 
 export function validateUnknownAttributeKey(
   attribute: XMLAttribute,
@@ -97,7 +101,7 @@ function isAttributeNameAlwaysValid(attribute: XMLAttribute): boolean {
     { ns: "sap.ui.dt", name: "designtime" },
     // See: https://sapui5.hana.ondemand.com/#/topic/b11d853a8e784db6b2d210ef57b0f7d7
     // TODO this attribute is not valid for FragmentDefinition inside xml views
-    { ns: "sap.ui.core", name: "require" },
+    { ns: CORE_NS, name: "require" },
     // See: https://sapui5.hana.ondemand.com/#/topic/263f6e5a915f430894ee290040e7e220
     { ns: TEMPLATING_NS, name: "require" },
     // See: https://sapui5.hana.ondemand.com/#/topic/91f0c3ee6f4d1014b6dd926db0e91070
