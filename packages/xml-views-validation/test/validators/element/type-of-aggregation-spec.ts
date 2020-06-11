@@ -136,7 +136,7 @@ describe("the type aggregation validation", () => {
         xmlns:mvc="sap.ui.core.mvc"
         xmlns="sap.m">
         <mvc:content>
-          <m:Shell></m:Shell>
+          <Shell></Shell>
         </mvc:content>
       </mvc:View>`;
 
