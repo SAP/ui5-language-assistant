@@ -31,7 +31,7 @@ export function validateUseOfDeprecatedAttribute(
     attribute,
     model
   );
-  
+
   if (
     ui5PropEventAssociation === undefined ||
     ui5PropEventAssociation.deprecatedInfo === undefined
