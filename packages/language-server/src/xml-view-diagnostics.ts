@@ -59,6 +59,7 @@ function validationIssuesToLspDiagnostics(
         };
       case "UseOfDeprecatedClass":
       case "UseOfDeprecatedAggregation":
+      case "UseOfDeprecatedAttribute":
         return {
           ...commonDiagnosticPros,
           tags: [DiagnosticTag.Deprecated],

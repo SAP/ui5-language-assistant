@@ -1,0 +1,32 @@
+[
+  {
+    "range": {
+      "start": { "line": 2, "character": 10 },
+      "end": { "line": 2, "character": 23 }
+    },
+    "severity": 2,
+    "source": "UI5 Language Assistant",
+    "message": "The navButtonText property is deprecated since version 1.20. Deprecated since the MVI theme is removed now. This property only affected the NavButton in that theme.",
+    "tags": [2]
+  },
+  {
+    "range": {
+      "start": { "line": 4, "character": 9 },
+      "end": { "line": 4, "character": 26 }
+    },
+    "severity": 2,
+    "source": "UI5 Language Assistant",
+    "message": "The orientationChange event is deprecated since version 1.20.0. use sap.ui.Device.orientation.attachHandler(...)",
+    "tags": [2]
+  },
+  {
+    "range": {
+      "start": { "line": 6, "character": 13 },
+      "end": { "line": 6, "character": 23 }
+    },
+    "severity": 2,
+    "source": "UI5 Language Assistant",
+    "message": "The leftButton association is deprecated since version 1.15.1. This property has been deprecated since 1.15.1. Please use the beginButton instead.",
+    "tags": [2]
+  }
+]

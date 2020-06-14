@@ -4,6 +4,9 @@ import {
   UI5SemanticModel,
   UI5Class,
   UI5Aggregation,
+  UI5Prop,
+  UI5Event,
+  UI5Association,
 } from "@ui5-language-assistant/semantic-model-types";
 import {
   getDeprecationPlainTextSnippet,
@@ -13,7 +16,7 @@ import {
 // TODO: add more types here as needed (e.g property/aggregation/...)
 export type DeprecatedUI5Symbol = {
   deprecatedInfo: UI5DeprecatedInfo;
-} & (UI5Class | UI5Aggregation);
+} & (UI5Class | UI5Aggregation | UI5Prop | UI5Event | UI5Association);
 export function buildDeprecatedIssueMessage({
   symbol,
   model,
@@ -31,6 +34,18 @@ export function buildDeprecatedIssueMessage({
       break;
     case "UI5Aggregation":
       kind = "aggregation";
+      name = symbol.name;
+      break;
+    case "UI5Prop":
+      kind = "property";
+      name = symbol.name;
+      break;
+    case "UI5Event":
+      kind = "event";
+      name = symbol.name;
+      break;
+    case "UI5Association":
+      kind = "association";
       name = symbol.name;
       break;
     /* istanbul ignore next - defensive programming */
