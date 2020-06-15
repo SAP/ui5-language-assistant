@@ -3,14 +3,14 @@
     xmlns="sap.ui.commons">
     <m:Page>
         <m:footer>
-            <🢂🢂Toolb🢀ar🢀>
-            </Toolbar> 
+            <🢂m:Button🢀>
+            </m:Button>
         </m:footer>
     </m:Page>
     <m:Panel>
         <m:headerToolbar>
-            <🢂🢂Butt🢀on🢀>
-            </Button>
+            <🢂m:Button🢀>
+            </m:Button>
         </m:headerToolbar>
     </m:Panel>
 </mvc:View>

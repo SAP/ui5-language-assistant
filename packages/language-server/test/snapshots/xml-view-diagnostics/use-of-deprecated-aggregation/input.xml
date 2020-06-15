@@ -1,8 +1,5 @@
-<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:charts="sap.ca.ui.charts">
-    <mvc:content>
-        <🢂charts:BubbleChart🢀>
-            <🢂charts:content🢀>
-            </charts:content>
-        </charts:BubbleChart>
-    </mvc:content>
+<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:table="sap.ui.table">
+    <table:Table>
+        <🢂table:toolbar🢀></table:toolbar>
+    </table:Table>
 </m:View>

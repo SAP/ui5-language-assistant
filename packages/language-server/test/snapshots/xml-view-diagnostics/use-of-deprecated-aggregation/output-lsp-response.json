@@ -2,21 +2,11 @@
   {
     "range": {
       "start": { "line": 2, "character": 9 },
-      "end": { "line": 2, "character": 27 }
+      "end": { "line": 2, "character": 22 }
     },
     "severity": 2,
     "source": "UI5 Language Assistant",
-    "message": "The sap.ca.ui.charts.BubbleChart class is deprecated since version 1.24. Sap.ca charts have been replaced with sap.viz and vizFrame in 1.24. The UI5 control \"sap.viz.ui5.controls.VizFrame\" serves as a single point of entry for all the new charts. Now that 1.24 is available you are asked to use sap.viz charts and the VizFrame instead! This control will not be supported anymore from 1.24.",
-    "tags": [2]
-  },
-  {
-    "range": {
-      "start": { "line": 3, "character": 13 },
-      "end": { "line": 3, "character": 27 }
-    },
-    "severity": 2,
-    "source": "UI5 Language Assistant",
-    "message": "The content aggregation is deprecated since version 7.20.0. This method is deprecated now.",
+    "message": "The toolbar aggregation is deprecated since version 1.38. This aggregation is deprecated, use the extension aggregation instead.",
     "tags": [2]
   }
 ]
