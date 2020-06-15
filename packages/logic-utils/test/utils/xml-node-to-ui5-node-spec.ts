@@ -382,7 +382,7 @@ describe("The @ui5-language-assistant/logic-utils <getUI5NodeByXMLAttributeKey> 
       rootElement.subElements,
       (_) => _.name === "Popover"
     );
-    
+
     expectExists(popoverElement, `sub element 'Popover' of the root element`);
     const attribute = find(
       popoverElement.attributes,
