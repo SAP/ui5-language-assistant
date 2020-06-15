@@ -24,7 +24,9 @@ export type UI5XMLViewIssue =
   | UnknownEnumValueIssue
   | UseOfDeprecatedClassIssue
   | UseOfDeprecatedAggregationIssue
-  | UseOfDeprecatedAttributeIssue
+  | UseOfDeprecatedPropertyIssue
+  | UseOfDeprecatedEventIssue
+  | UseOfDeprecatedAssociationIssue
   | UnknownNamespaceInXmlnsAttributeValueIssue
   | InvalidBooleanValueIssue
   | NonUniqueIDIssue
@@ -47,8 +49,16 @@ export interface UseOfDeprecatedAggregationIssue extends BaseUI5XMLViewIssue {
   kind: "UseOfDeprecatedAggregation";
 }
 
-export interface UseOfDeprecatedAttributeIssue extends BaseUI5XMLViewIssue {
-  kind: "UseOfDeprecatedAttribute";
+export interface UseOfDeprecatedPropertyIssue extends BaseUI5XMLViewIssue {
+  kind: "UseOfDeprecatedProperty";
+}
+
+export interface UseOfDeprecatedEventIssue extends BaseUI5XMLViewIssue {
+  kind: "UseOfDeprecatedEvent";
+}
+
+export interface UseOfDeprecatedAssociationIssue extends BaseUI5XMLViewIssue {
+  kind: "UseOfDeprecatedAssociation";
 }
 
 export interface InvalidAggregationCardinalityIssue

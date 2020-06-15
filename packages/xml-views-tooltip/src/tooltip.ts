@@ -12,12 +12,10 @@ import {
   flattenAggregations,
   getUI5ClassByXMLElement,
   getUI5PropertyByXMLAttributeKey,
-  flattenProperties,
-  flattenEvents,
-  flattenAssociations,
   splitQNameByNamespace,
   isSameXMLNSFromPrefix,
   getUI5ClassByXMLElementClosingTag,
+  getUI5NodeByXMLAttributeKey,
 } from "@ui5-language-assistant/logic-utils";
 import {
   UI5Class,
@@ -26,9 +24,6 @@ import {
   UI5EnumValue,
   UI5Enum,
   BaseUI5Node,
-  UI5Prop,
-  UI5Event,
-  UI5Association,
 } from "@ui5-language-assistant/semantic-model-types";
 import { findSymbol } from "@ui5-language-assistant/semantic-model";
 
@@ -46,7 +41,7 @@ export function findUI5HoverNodeAtOffset(
     case "XMLElementCloseName":
       return findUI5NodeByElement(astPosition.astNode, model, false);
     case "XMLAttributeKey":
-      return findUI5NodeByXMLAttributeKey(astPosition.astNode, model);
+      return getUI5NodeByXMLAttributeKey(astPosition.astNode, model);
     case "XMLAttributeValue":
       return findUI5NodeByXMLAttributeValue(astPosition.astNode, model);
     /* istanbul ignore next - defensive programming */
@@ -106,37 +101,6 @@ function findAggragationByName(
   );
 
   return ui5Aggregation;
-}
-
-function findUI5NodeByXMLAttributeKey(
-  astNode: XMLAttribute,
-  model: UI5SemanticModel
-): UI5Prop | UI5Event | UI5Association | UI5Aggregation | undefined {
-  const parentElementClass = getUI5ClassByXMLElement(astNode.parent, model);
-  return parentElementClass
-    ? findUI5ClassMemberByName(parentElementClass, astNode.key)
-    : undefined;
-}
-
-function findUI5ClassMemberByName(
-  ui5Class: UI5Class,
-  targetName: string | null
-): UI5Prop | UI5Event | UI5Association | UI5Aggregation | undefined {
-  const allProps: (
-    | UI5Prop
-    | UI5Event
-    | UI5Association
-    | UI5Aggregation
-  )[] = flattenProperties(ui5Class);
-  const allEvents = flattenEvents(ui5Class);
-  const allAssociations = flattenAssociations(ui5Class);
-  const allAggregations = flattenAggregations(ui5Class);
-  const allClassMembers = allProps
-    .concat(allEvents)
-    .concat(allAssociations)
-    .concat(allAggregations);
-  const found = find(allClassMembers, (_) => _.name === targetName);
-  return found;
 }
 
 function findUI5NodeByXMLAttributeValue(

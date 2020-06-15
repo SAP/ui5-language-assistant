@@ -1,48 +1,54 @@
-import { find } from "lodash";
+import { assertNever } from "assert-never";
 import { XMLAttribute } from "@xml-tools/ast";
 import {
   UI5SemanticModel,
   UI5Prop,
   UI5Event,
   UI5Association,
+  UI5Aggregation,
 } from "@ui5-language-assistant/semantic-model-types";
+import { getUI5NodeByXMLAttributeKey } from "@ui5-language-assistant/logic-utils";
 import {
-  flattenEvents,
-  getUI5ClassByXMLElement,
-  flattenAssociations,
-  flattenProperties,
-} from "@ui5-language-assistant/logic-utils";
-import { UseOfDeprecatedAttributeIssue } from "../../../api";
+  UseOfDeprecatedPropertyIssue,
+  UseOfDeprecatedEventIssue,
+  UseOfDeprecatedAssociationIssue,
+  UseOfDeprecatedAggregationIssue,
+} from "../../../api";
 import {
   buildDeprecatedIssueMessage,
   DeprecatedUI5Symbol,
 } from "../../utils/deprecated-message-builder";
+
+type UseOfDeprecatedAttributeIssue =
+  | UseOfDeprecatedPropertyIssue
+  | UseOfDeprecatedAggregationIssue
+  | UseOfDeprecatedEventIssue
+  | UseOfDeprecatedAssociationIssue;
+type DeprecatedAttributeIssueKind =
+  | "UseOfDeprecatedProperty"
+  | "UseOfDeprecatedEvent"
+  | "UseOfDeprecatedAssociation"
+  | "UseOfDeprecatedAggregation";
 
 export function validateUseOfDeprecatedAttribute(
   attribute: XMLAttribute,
   model: UI5SemanticModel
 ): UseOfDeprecatedAttributeIssue[] {
   if (attribute.syntax.key === undefined || attribute.key === null) {
-    // Can't give an error without a position or value
+    // Can't give an error without a position or key name
     return [];
   }
 
-  const ui5PropEventAssociation = findUI5PropEventAssociationByXMLAttributeKey(
-    attribute,
-    model
-  );
+  const ui5Node = getUI5NodeByXMLAttributeKey(attribute, model);
 
-  if (
-    ui5PropEventAssociation === undefined ||
-    ui5PropEventAssociation.deprecatedInfo === undefined
-  ) {
+  if (ui5Node === undefined || ui5Node.deprecatedInfo === undefined) {
     return [];
   }
 
   const deprecatedIssue: UseOfDeprecatedAttributeIssue = {
-    kind: "UseOfDeprecatedAttribute",
+    kind: getDeprecatedAttributeIssueKind(ui5Node),
     message: buildDeprecatedIssueMessage({
-      symbol: ui5PropEventAssociation as DeprecatedUI5Symbol,
+      symbol: ui5Node as DeprecatedUI5Symbol,
       model,
     }),
     severity: "warn",
@@ -55,24 +61,21 @@ export function validateUseOfDeprecatedAttribute(
   return [deprecatedIssue];
 }
 
-function findUI5PropEventAssociationByXMLAttributeKey(
-  attribute: XMLAttribute,
-  model: UI5SemanticModel
-): UI5Prop | UI5Event | UI5Association | undefined {
-  const parentClass = getUI5ClassByXMLElement(attribute.parent, model);
-  if (parentClass === undefined) {
-    return undefined;
+function getDeprecatedAttributeIssueKind(
+  ui5Node: UI5Prop | UI5Event | UI5Association | UI5Aggregation
+): DeprecatedAttributeIssueKind {
+  const uiNodeKind = ui5Node.kind;
+  switch (uiNodeKind) {
+    case "UI5Prop":
+      return "UseOfDeprecatedProperty";
+    case "UI5Event":
+      return "UseOfDeprecatedEvent";
+    case "UI5Association":
+      return "UseOfDeprecatedAssociation";
+    case "UI5Aggregation":
+      return "UseOfDeprecatedAggregation";
+    /* istanbul ignore next - defensive programming */
+    default:
+      assertNever(uiNodeKind);
   }
-
-  const allProps: (UI5Prop | UI5Event | UI5Association)[] = flattenProperties(
-    parentClass
-  );
-
-  const allEvents = flattenEvents(parentClass);
-  const allAssociations = flattenAssociations(parentClass);
-  const allPropertiesEventsAssociations = allProps
-    .concat(allEvents)
-    .concat(allAssociations);
-
-  return find(allPropertiesEventsAssociations, ["name", attribute.key]);
 }

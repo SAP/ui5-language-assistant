@@ -6,6 +6,8 @@ import {
   isSameXMLNS,
   resolveXMLNS,
   splitQNameByNamespace,
+  flattenEvents,
+  flattenAssociations,
 } from "@ui5-language-assistant/logic-utils";
 import { XMLElement, XMLAttribute } from "@xml-tools/ast";
 import {
@@ -14,6 +16,8 @@ import {
   UI5Prop,
   UI5Aggregation,
   BaseUI5Node,
+  UI5Event,
+  UI5Association,
 } from "@ui5-language-assistant/semantic-model-types";
 import { find } from "lodash";
 import { findSymbol } from "@ui5-language-assistant/semantic-model";
@@ -86,6 +90,37 @@ export function getUI5PropertyByXMLAttributeKey(
   const properties = flattenProperties(elementClass);
   const ui5Property = find(properties, ["name", attribute.key]);
   return ui5Property;
+}
+
+export function getUI5NodeByXMLAttributeKey(
+  attribute: XMLAttribute,
+  model: UI5SemanticModel
+): UI5Prop | UI5Event | UI5Association | UI5Aggregation | undefined {
+  const parentElementClass = getUI5ClassByXMLElement(attribute.parent, model);
+  return parentElementClass
+    ? findUI5ClassMemberByName(parentElementClass, attribute.key)
+    : undefined;
+}
+
+function findUI5ClassMemberByName(
+  ui5Class: UI5Class,
+  targetName: string | null
+): UI5Prop | UI5Event | UI5Association | UI5Aggregation | undefined {
+  const allProps: (
+    | UI5Prop
+    | UI5Event
+    | UI5Association
+    | UI5Aggregation
+  )[] = flattenProperties(ui5Class);
+  const allEvents = flattenEvents(ui5Class);
+  const allAssociations = flattenAssociations(ui5Class);
+  const allAggregations = flattenAggregations(ui5Class);
+  const allClassMembers = allProps
+    .concat(allEvents)
+    .concat(allAssociations)
+    .concat(allAggregations);
+  const found = find(allClassMembers, (_) => _.name === targetName);
+  return found;
 }
 
 export function getUI5NodeFromXMLElementNamespace(

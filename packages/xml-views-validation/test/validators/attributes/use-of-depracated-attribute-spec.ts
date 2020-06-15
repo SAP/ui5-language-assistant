@@ -25,18 +25,22 @@ describe("the use of deprecated attribute validation", () => {
   });
 
   context("true positive scenarios", () => {
-    let assertSingleIssue: (xmlSnippet: string, message: string) => void;
-    before(() => {
-      assertSingleIssue = partial(
-        assertSingleIssueBase,
+    function assertSingleIssue(
+      xmlSnippet: string,
+      message: string,
+      issueKind: string
+    ) {
+      return assertSingleIssueBase(
         ui5SemanticModel,
         {
           attribute: [validateUseOfDeprecatedAttribute],
         },
-        "UseOfDeprecatedAttribute",
-        "warn"
+        issueKind,
+        "warn",
+        xmlSnippet,
+        message
       );
-    });
+    }
 
     it("will detect usage of a deprecated attribute property", () => {
       const pageClass = ui5SemanticModel.classes["sap.m.Page"];
@@ -54,7 +58,8 @@ describe("the use of deprecated attribute validation", () => {
         buildDeprecatedIssueMessage({
           symbol: navButtonTextProperty as DeprecatedUI5Symbol,
           model: ui5SemanticModel,
-        })
+        }),
+        "UseOfDeprecatedProperty"
       );
     });
 
@@ -74,7 +79,8 @@ describe("the use of deprecated attribute validation", () => {
         buildDeprecatedIssueMessage({
           symbol: orientationChangeEvent as DeprecatedUI5Symbol,
           model: ui5SemanticModel,
-        })
+        }),
+        "UseOfDeprecatedEvent"
       );
     });
 
@@ -94,7 +100,29 @@ describe("the use of deprecated attribute validation", () => {
         buildDeprecatedIssueMessage({
           symbol: leftButtonAssociation as DeprecatedUI5Symbol,
           model: ui5SemanticModel,
-        })
+        }),
+        "UseOfDeprecatedAssociation"
+      );
+    });
+
+    it("will detect usage of a deprecated attribute aggregation", () => {
+      const genericTileClass = ui5SemanticModel.classes["sap.m.GenericTile"];
+      const iconAggregation = find(
+        genericTileClass.aggregations,
+        (_) => _.name === "icon"
+      );
+
+      assertSingleIssue(
+        `<mvc:View xmlns:m="sap.m" 
+          xmlns:mvc="sap.ui.core.mvc">
+          <m:GenericTile 🢂icon🢀="">
+          </m:GenericTile> 
+        </mvc:View>`,
+        buildDeprecatedIssueMessage({
+          symbol: iconAggregation as DeprecatedUI5Symbol,
+          model: ui5SemanticModel,
+        }),
+        "UseOfDeprecatedAggregation"
       );
     });
   });
