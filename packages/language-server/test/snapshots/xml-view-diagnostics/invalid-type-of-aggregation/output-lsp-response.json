@@ -1,0 +1,20 @@
+[
+  {
+    "range": {
+      "start": { "line": 5, "character": 13 },
+      "end": { "line": 5, "character": 21 }
+    },
+    "severity": 1,
+    "source": "UI5 Language Assistant",
+    "message": "The class \"Button\" is under the aggregation \"footer\" and must match the type \"IBar\""
+  },
+  {
+    "range": {
+      "start": { "line": 11, "character": 13 },
+      "end": { "line": 11, "character": 21 }
+    },
+    "severity": 1,
+    "source": "UI5 Language Assistant",
+    "message": "The class \"Button\" is under the aggregation \"headerToolbar\" and must match the type \"Toolbar\""
+  }
+]

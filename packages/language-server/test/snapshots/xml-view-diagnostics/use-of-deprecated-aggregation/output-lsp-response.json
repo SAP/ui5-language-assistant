@@ -1,0 +1,12 @@
+[
+  {
+    "range": {
+      "start": { "line": 2, "character": 9 },
+      "end": { "line": 2, "character": 22 }
+    },
+    "severity": 2,
+    "source": "UI5 Language Assistant",
+    "message": "The toolbar aggregation is deprecated since version 1.38. This aggregation is deprecated, use the extension aggregation instead.",
+    "tags": [2]
+  }
+]
