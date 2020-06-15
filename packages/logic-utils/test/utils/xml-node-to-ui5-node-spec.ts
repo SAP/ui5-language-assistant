@@ -14,7 +14,7 @@ import {
   ui5NodeToFQN,
   getUI5NodeFromXMLElementNamespace,
   getUI5ClassByXMLElementClosingTag,
-  getUI5NodeByXMLAttributeKey,
+  getUI5NodeByXMLAttribute,
 } from "../../src/api";
 
 describe("The @ui5-language-assistant/logic-utils <getUI5ClassByXMLElement> function", () => {
@@ -320,7 +320,7 @@ describe("The @ui5-language-assistant/logic-utils <getUI5AggregationByXMLElement
   });
 });
 
-describe("The @ui5-language-assistant/logic-utils <getUI5NodeByXMLAttributeKey> function", () => {
+describe("The @ui5-language-assistant/logic-utils <getUI5NodeByXMLAttribute> function", () => {
   let ui5Model: UI5SemanticModel;
   before(async () => {
     ui5Model = await generateModel({ version: "1.74.0" });
@@ -332,7 +332,7 @@ describe("The @ui5-language-assistant/logic-utils <getUI5NodeByXMLAttributeKey> 
         </mvc:View1>`;
     const attribute = getRootElementAttribute(xmlText, "busy");
 
-    const ui5Node = getUI5NodeByXMLAttributeKey(attribute, ui5Model);
+    const ui5Node = getUI5NodeByXMLAttribute(attribute, ui5Model);
     expect(ui5Node, "ui5 node").to.be.undefined;
   });
 
@@ -342,7 +342,7 @@ describe("The @ui5-language-assistant/logic-utils <getUI5NodeByXMLAttributeKey> 
         </mvc:View>`;
     const attribute = getRootElementAttribute(xmlText, "busy1");
 
-    const ui5Node = getUI5NodeByXMLAttributeKey(attribute, ui5Model);
+    const ui5Node = getUI5NodeByXMLAttribute(attribute, ui5Model);
     expect(ui5Node, "ui5 node").to.be.undefined;
   });
 
@@ -352,8 +352,9 @@ describe("The @ui5-language-assistant/logic-utils <getUI5NodeByXMLAttributeKey> 
         </mvc:View>`;
     const attribute = getRootElementAttribute(xmlText, "busy");
 
-    const prop = getUI5NodeByXMLAttributeKey(attribute, ui5Model);
+    const prop = getUI5NodeByXMLAttribute(attribute, ui5Model);
     expectExists(prop, "ui5 property");
+    expect(prop.kind).to.equal("UI5Prop");
     // "busy" is defined on Control
     expect(ui5NodeToFQN(prop)).to.equal("sap.ui.core.Control.busy");
   });
@@ -364,8 +365,9 @@ describe("The @ui5-language-assistant/logic-utils <getUI5NodeByXMLAttributeKey> 
         </mvc:View>`;
     const attribute = getRootElementAttribute(xmlText, "afterInit");
 
-    const event = getUI5NodeByXMLAttributeKey(attribute, ui5Model);
+    const event = getUI5NodeByXMLAttribute(attribute, ui5Model);
     expectExists(event, "ui5 event");
+    expect(event.kind).to.equal("UI5Event");
     expect(ui5NodeToFQN(event)).to.equal("sap.ui.core.mvc.View.afterInit");
   });
 
@@ -390,8 +392,9 @@ describe("The @ui5-language-assistant/logic-utils <getUI5NodeByXMLAttributeKey> 
     );
 
     expectExists(attribute, `attribute 'leftButton' of the 'Popover' element`);
-    const association = getUI5NodeByXMLAttributeKey(attribute, ui5Model);
+    const association = getUI5NodeByXMLAttribute(attribute, ui5Model);
     expectExists(association, "ui5 association");
+    expect(association.kind).to.equal("UI5Association");
     expect(ui5NodeToFQN(association)).to.equal("sap.m.Popover.leftButton");
   });
 
@@ -401,8 +404,9 @@ describe("The @ui5-language-assistant/logic-utils <getUI5NodeByXMLAttributeKey> 
         </mvc:View`;
     const attribute = getRootElementAttribute(xmlText, "content");
 
-    const aggregation = getUI5NodeByXMLAttributeKey(attribute, ui5Model);
+    const aggregation = getUI5NodeByXMLAttribute(attribute, ui5Model);
     expectExists(aggregation, "ui5 aggregation");
+    expect(aggregation.kind).to.equal("UI5Aggregation");
     expect(ui5NodeToFQN(aggregation)).to.equal("sap.ui.core.mvc.View.content");
   });
 });

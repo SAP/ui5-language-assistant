@@ -92,14 +92,16 @@ export function getUI5PropertyByXMLAttributeKey(
   return ui5Property;
 }
 
-export function getUI5NodeByXMLAttributeKey(
+export function getUI5NodeByXMLAttribute(
   attribute: XMLAttribute,
   model: UI5SemanticModel
 ): UI5Prop | UI5Event | UI5Association | UI5Aggregation | undefined {
   const parentElementClass = getUI5ClassByXMLElement(attribute.parent, model);
-  return parentElementClass
-    ? findUI5ClassMemberByName(parentElementClass, attribute.key)
-    : undefined;
+  if (parentElementClass === undefined) {
+    return undefined;
+  }
+
+  return findUI5ClassMemberByName(parentElementClass, attribute.key);
 }
 
 function findUI5ClassMemberByName(

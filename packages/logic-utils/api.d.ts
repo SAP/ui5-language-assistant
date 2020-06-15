@@ -144,7 +144,7 @@ export function getUI5PropertyByXMLAttributeKey(
  * @param attribute
  * @param model
  */
-export function getUI5NodeByXMLAttributeKey(
+export function getUI5NodeByXMLAttribute(
   attribute: XMLAttribute,
   model: UI5SemanticModel
 ): UI5Prop | UI5Event | UI5Association | UI5Aggregation | undefined;

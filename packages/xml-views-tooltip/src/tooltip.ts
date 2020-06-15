@@ -15,7 +15,7 @@ import {
   splitQNameByNamespace,
   isSameXMLNSFromPrefix,
   getUI5ClassByXMLElementClosingTag,
-  getUI5NodeByXMLAttributeKey,
+  getUI5NodeByXMLAttribute,
 } from "@ui5-language-assistant/logic-utils";
 import {
   UI5Class,
@@ -41,7 +41,7 @@ export function findUI5HoverNodeAtOffset(
     case "XMLElementCloseName":
       return findUI5NodeByElement(astPosition.astNode, model, false);
     case "XMLAttributeKey":
-      return getUI5NodeByXMLAttributeKey(astPosition.astNode, model);
+      return getUI5NodeByXMLAttribute(astPosition.astNode, model);
     case "XMLAttributeValue":
       return findUI5NodeByXMLAttributeValue(astPosition.astNode, model);
     /* istanbul ignore next - defensive programming */

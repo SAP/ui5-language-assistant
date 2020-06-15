@@ -7,7 +7,7 @@ import {
   UI5Association,
   UI5Aggregation,
 } from "@ui5-language-assistant/semantic-model-types";
-import { getUI5NodeByXMLAttributeKey } from "@ui5-language-assistant/logic-utils";
+import { getUI5NodeByXMLAttribute } from "@ui5-language-assistant/logic-utils";
 import {
   UseOfDeprecatedPropertyIssue,
   UseOfDeprecatedEventIssue,
@@ -39,7 +39,7 @@ export function validateUseOfDeprecatedAttribute(
     return [];
   }
 
-  const ui5Node = getUI5NodeByXMLAttributeKey(attribute, model);
+  const ui5Node = getUI5NodeByXMLAttribute(attribute, model);
 
   if (ui5Node === undefined || ui5Node.deprecatedInfo === undefined) {
     return [];
@@ -64,8 +64,8 @@ export function validateUseOfDeprecatedAttribute(
 function getDeprecatedAttributeIssueKind(
   ui5Node: UI5Prop | UI5Event | UI5Association | UI5Aggregation
 ): DeprecatedAttributeIssueKind {
-  const uiNodeKind = ui5Node.kind;
-  switch (uiNodeKind) {
+  const ui5NodeKind = ui5Node.kind;
+  switch (ui5NodeKind) {
     case "UI5Prop":
       return "UseOfDeprecatedProperty";
     case "UI5Event":
@@ -76,6 +76,6 @@ function getDeprecatedAttributeIssueKind(
       return "UseOfDeprecatedAggregation";
     /* istanbul ignore next - defensive programming */
     default:
-      assertNever(uiNodeKind);
+      assertNever(ui5NodeKind);
   }
 }
