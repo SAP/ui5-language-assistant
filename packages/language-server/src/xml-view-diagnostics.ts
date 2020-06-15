@@ -58,6 +58,9 @@ function validationIssuesToLspDiagnostics(
           ...commonDiagnosticPros,
         };
       case "UseOfDeprecatedClass":
+      case "UseOfDeprecatedProperty":
+      case "UseOfDeprecatedEvent":
+      case "UseOfDeprecatedAssociation":
       case "UseOfDeprecatedAggregation":
         return {
           ...commonDiagnosticPros,

@@ -140,6 +140,16 @@ export function getUI5PropertyByXMLAttributeKey(
 ): UI5Prop | undefined;
 
 /**
+ * Return the UI5 node for an XML Attribute
+ * @param attribute
+ * @param model
+ */
+export function getUI5NodeByXMLAttribute(
+  attribute: XMLAttribute,
+  model: UI5SemanticModel
+): UI5Prop | UI5Event | UI5Association | UI5Aggregation | undefined;
+
+/**
  * Return the UI5 Namespace from the specified or default XML Element namespace
  *
  * @param xmlElement
