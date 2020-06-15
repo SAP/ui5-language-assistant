@@ -1,0 +1,16 @@
+<mvc:View xmlns:uxap="sap.uxap" xmlns:m="sap.m"
+    xmlns:mvc="sap.ui.core.mvc" 
+    xmlns="sap.ui.commons">
+    <m:Page>
+        <m:footer>
+            <🢂🢂Toolb🢀ar🢀>
+            </Toolbar> 
+        </m:footer>
+    </m:Page>
+    <m:Panel>
+        <m:headerToolbar>
+            <🢂🢂Butt🢀on🢀>
+            </Button>
+        </m:headerToolbar>
+    </m:Panel>
+</mvc:View>
