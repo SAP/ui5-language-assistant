@@ -54,7 +54,7 @@
     "test": "mocha",
     "coverage": "nyc mocha",
     "update-snapshots": "node ./scripts/update-diagnostics-snapshots",
-    "bundle": "webpack --mode development"
+    "bundle": "webpack --mode production"
   },
   "publishConfig": {
     "access": "public"

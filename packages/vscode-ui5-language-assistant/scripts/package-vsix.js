@@ -15,8 +15,8 @@ const proxyquire = require("proxyquire");
 const { expect } = require("chai");
 const { resolve } = require("path");
 const { cloneDeep, forEach } = require("lodash");
-const { readJsonSync, writeJsonSync } = require("fs-extra");
-const { format } = require("prettier");
+const { readFileSync, writeFileSync } = require("fs");
+const { writeJsonSync } = require("fs-extra");
 
 const extensionRootPkg = require("../package.json");
 const monoRepoRootPkg = require("../../../package.json");
@@ -59,7 +59,10 @@ const { packageCommand } = proxyquire("vsce/out/package", {
 });
 
 const pkgJsonPath = resolve(rootPkgDir, "package.json");
-const pkgJsonOrg = readJsonSync(pkgJsonPath);
+// Read & save the original literal representation of the pkg.json
+// To avoid dealing with re-formatting (prettier) later on.
+const pkgJsonOrgStr = readFileSync(pkgJsonPath, "utf8");
+const pkgJsonOrg = JSON.parse(pkgJsonOrgStr);
 // During development flows the `main` should point to the compiled sourced
 // for fast dev feedback loops.
 expect(pkgJsonOrg.main).to.equal("./lib/src/extension");
@@ -84,5 +87,5 @@ packageCommand({
   })
   .finally(() => {
     // revert changes to the pkg.json, ensure clean git working directory
-    writeJsonSync(pkgJsonPath, pkgJsonOrg, { spaces: 2, EOF: "\n" });
+    writeFileSync(pkgJsonPath, pkgJsonOrgStr);
   });

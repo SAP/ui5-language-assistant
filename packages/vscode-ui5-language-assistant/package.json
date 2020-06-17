@@ -60,7 +60,7 @@
     "test:unit": "mocha --config=./test/unit/.mocharc.js",
     "test:integration": "node lib/test/runIntegrationTests.js",
     "coverage": "nyc node lib/test/runIntegrationTests.js",
-    "bundle": "webpack --mode development",
+    "bundle": "webpack --mode production",
     "package": "node ./scripts/package-vsix"
   },
   "dependencies": {
