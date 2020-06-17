@@ -1,6 +1,6 @@
 {
   "name": "@ui5-language-assistant/settings",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Settings for UI5 Language Assistant",
   "keywords": [],
   "files": [
@@ -15,7 +15,6 @@
   "dependencies": {
     "deep-freeze-strict": "1.1.1"
   },
-  "devDependencies": {},
   "scripts": {
     "ci": "npm-run-all clean compile lint coverage",
     "clean": "rimraf ./lib ./coverage ./nyc_output",

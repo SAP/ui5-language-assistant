@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.3.0](https://github.com/sap/ui5-language-assistant/compare/@ui5-language-assistant/logic-utils@1.2.1...@ui5-language-assistant/logic-utils@1.3.0) (2020-06-17)
+
+### Features
+
+- deprecated attribute validation ([#183](https://github.com/sap/ui5-language-assistant/issues/183)) ([f2d2923](https://github.com/sap/ui5-language-assistant/commit/f2d29237e633cf30454f7ecba03fed1e940e999f))
+- type aggregation validation ([#164](https://github.com/sap/ui5-language-assistant/issues/164)) ([63c5b5a](https://github.com/sap/ui5-language-assistant/commit/63c5b5a9ddcd10a5557b7b69c94371f2bebab7f6))
+
 ## [1.2.1](https://github.com/sap/ui5-language-assistant/compare/@ui5-language-assistant/logic-utils@1.2.0...@ui5-language-assistant/logic-utils@1.2.1) (2020-06-03)
 
 ### Bug Fixes

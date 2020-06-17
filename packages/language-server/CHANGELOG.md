@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.8.0](https://github.com/sap/ui5-language-assistant/compare/@ui5-language-assistant/language-server@1.7.0...@ui5-language-assistant/language-server@1.8.0) (2020-06-17)
+
+### Features
+
+- add settings to include deprecated and experimental APIs ([#143](https://github.com/sap/ui5-language-assistant/issues/143)) ([fad2d9b](https://github.com/sap/ui5-language-assistant/commit/fad2d9b0c998fa2a1f3d8d4cd7ba8e997d24d30b))
+- deprecated aggregation tag validation ([#170](https://github.com/sap/ui5-language-assistant/issues/170)) ([f9e492a](https://github.com/sap/ui5-language-assistant/commit/f9e492aae72ff0230542901fedcb5c5f93b06a21))
+- deprecated attribute validation ([#183](https://github.com/sap/ui5-language-assistant/issues/183)) ([f2d2923](https://github.com/sap/ui5-language-assistant/commit/f2d29237e633cf30454f7ecba03fed1e940e999f))
+- type aggregation validation ([#164](https://github.com/sap/ui5-language-assistant/issues/164)) ([63c5b5a](https://github.com/sap/ui5-language-assistant/commit/63c5b5a9ddcd10a5557b7b69c94371f2bebab7f6))
+
 # [1.7.0](https://github.com/sap/ui5-language-assistant/compare/@ui5-language-assistant/language-server@1.6.0...@ui5-language-assistant/language-server@1.7.0) (2020-06-03)
 
 ### Bug Fixes
