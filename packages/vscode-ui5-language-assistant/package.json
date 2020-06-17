@@ -69,7 +69,7 @@
   },
   "devDependencies": {
     "@types/lodash": "4.14.155",
-    "@types/vscode": "1.44.0",
+    "@types/vscode": "1.46.0",
     "@ui5-language-assistant/settings": "^0.1.0",
     "lodash": "4.17.15",
     "proxyquire": "2.1.3",
