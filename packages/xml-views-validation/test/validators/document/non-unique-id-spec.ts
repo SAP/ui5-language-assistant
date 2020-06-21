@@ -7,6 +7,7 @@ import {
   computeExpectedRanges,
   testValidationsScenario,
 } from "../../test-utils";
+import { getMessage, NON_UNIQUE_ID } from "../../../src/utils/messages";
 
 describe("the use of non unique id validation", () => {
   let ui5SemanticModel: UI5SemanticModel;
@@ -53,14 +54,52 @@ describe("the use of non unique id validation", () => {
           expect(issues).to.include.deep.members([
             {
               kind: "NonUniqueIDIssue",
-              message: 'Duplicate ID: "DUPLICATE" found.',
+              message: getMessage(NON_UNIQUE_ID, "DUPLICATE"),
               severity: "error",
               offsetRange: expectedRanges[0],
               identicalIDsRanges: [expectedRanges[1]],
             },
             {
               kind: "NonUniqueIDIssue",
-              message: 'Duplicate ID: "DUPLICATE" found.',
+              message: getMessage(NON_UNIQUE_ID, "DUPLICATE"),
+              severity: "error",
+              offsetRange: expectedRanges[1],
+              identicalIDsRanges: [expectedRanges[0]],
+            },
+          ]);
+        },
+      });
+    });
+
+    it("will detect two duplicate ID in different custom controls", () => {
+      const xmlSnippet = `
+          <custom:View
+            xmlns:custom="foo.bar"
+            xmlns="bar.foo"
+            id=🢂"DUPLICATE"🢀
+            >
+            <Button id=🢂"DUPLICATE"🢀>
+            </Button>
+          </custom:View>`;
+
+      testNonUniqueIDScenario({
+        xmlText: xmlSnippet,
+        assertion: (issues) => {
+          expect(issues).to.have.lengthOf(2);
+
+          const expectedRanges = computeExpectedRanges(xmlSnippet);
+
+          expect(issues).to.include.deep.members([
+            {
+              kind: "NonUniqueIDIssue",
+              message: getMessage(NON_UNIQUE_ID, "DUPLICATE"),
+              severity: "error",
+              offsetRange: expectedRanges[0],
+              identicalIDsRanges: [expectedRanges[1]],
+            },
+            {
+              kind: "NonUniqueIDIssue",
+              message: getMessage(NON_UNIQUE_ID, "DUPLICATE"),
               severity: "error",
               offsetRange: expectedRanges[1],
               identicalIDsRanges: [expectedRanges[0]],
@@ -93,21 +132,21 @@ describe("the use of non unique id validation", () => {
           expect(issues).to.include.deep.members([
             {
               kind: "NonUniqueIDIssue",
-              message: 'Duplicate ID: "TRIPLICATE" found.',
+              message: getMessage(NON_UNIQUE_ID, "TRIPLICATE"),
               severity: "error",
               offsetRange: expectedRanges[0],
               identicalIDsRanges: [expectedRanges[1], expectedRanges[2]],
             },
             {
               kind: "NonUniqueIDIssue",
-              message: 'Duplicate ID: "TRIPLICATE" found.',
+              message: getMessage(NON_UNIQUE_ID, "TRIPLICATE"),
               severity: "error",
               offsetRange: expectedRanges[1],
               identicalIDsRanges: [expectedRanges[0], expectedRanges[2]],
             },
             {
               kind: "NonUniqueIDIssue",
-              message: 'Duplicate ID: "TRIPLICATE" found.',
+              message: getMessage(NON_UNIQUE_ID, "TRIPLICATE"),
               severity: "error",
               offsetRange: expectedRanges[2],
               identicalIDsRanges: [expectedRanges[0], expectedRanges[1]],
