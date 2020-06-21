@@ -51,7 +51,7 @@
     "vscode": "^1.44.0"
   },
   "scripts": {
-    "ci": "npm-run-all clean compile lint coverage bundle package",
+    "ci": "npm-run-all clean compile lint test:unit coverage bundle package",
     "clean": "rimraf ./dist ./lib ./coverage ./nyc_output *.vsix",
     "compile": "yarn run clean && tsc -p .",
     "compile:watch": "tsc -p . --watch",

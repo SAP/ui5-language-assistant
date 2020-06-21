@@ -1,21 +1,16 @@
 /* istanbul ignore file */
-import {
-  workspace,
-  window,
-  WorkspaceConfiguration,
-  ExtensionContext,
-} from "vscode";
+import { workspace, window, ExtensionContext } from "vscode";
 import {
   LanguageClient,
   LanguageClientOptions,
   ServerOptions,
   TransportKind,
 } from "vscode-languageclient";
-import { isArray, find, some } from "lodash";
 import {
   SERVER_PATH,
   ServerInitializationOptions,
 } from "@ui5-language-assistant/language-server";
+import { registerManifestSchema } from "./registerManifestSchema";
 
 let client: LanguageClient;
 
@@ -56,32 +51,11 @@ export async function activate(context: ExtensionContext): Promise<void> {
     clientOptions
   );
 
-  const jsonSchemaConfig:
-    | WorkspaceConfiguration
-    | undefined = workspace.getConfiguration().get("json.schemas");
-  if (
-    process.env["THEIA_PARENT_PID"] !== undefined &&
-    isArray(jsonSchemaConfig)
-  ) {
-    const providedManifestSchemaConfigs = find(jsonSchemaConfig, (_) => {
-      return some(
-        _.fileMatch,
-        (fileMatchEntry) => fileMatchEntry === "manifest.json"
-      );
-    });
-
-    if (providedManifestSchemaConfigs === undefined) {
-      const manifestSchemaConfig = {
-        fileMatch: ["manifest.json"],
-        url:
-          "https://cdn.jsdelivr.net/gh/SAP/ui5-language-assistant/packages/vscode-ui5-language-assistant/resources/manifest-schema/rel-1.19/schema/schema.json",
-      };
-
-      jsonSchemaConfig.push(manifestSchemaConfig);
-      workspace
-        .getConfiguration()
-        .update("json.schemas", jsonSchemaConfig, true);
-    }
+  // This is a workaround to config `manifest.json` schema.
+  // Theia has a bug which there is no support for `contributes.jsonValidation`
+  //  - https://code.visualstudio.com/api/references/contribution-points#contributes.jsonValidation
+  if (process.env["THEIA_PARENT_PID"] !== undefined) {
+    registerManifestSchema();
   }
 
   client.start();
