@@ -13,7 +13,7 @@
   "license": "Apache-2.0",
   "typings": "./api.d.ts",
   "dependencies": {
-    "@xml-tools/ast": "4.2.0",
+    "@xml-tools/ast": "4.2.1",
     "lodash": "4.17.15"
   },
   "devDependencies": {
