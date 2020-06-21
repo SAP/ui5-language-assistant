@@ -1543,19 +1543,26 @@
   dependencies:
     "@xml-tools/ast" "^4.2.0"
 
-"@xml-tools/ast@4.2.0", "@xml-tools/ast@^4.2.0":
-  version "4.2.0"
-  resolved "https://registry.yarnpkg.com/@xml-tools/ast/-/ast-4.2.0.tgz#cc5c4b40997e916b533d3d13fb8e0805ccecb8f0"
-  integrity sha512-1ydf18u/2Ej/rS/h1M96w+GFlr+UAn2bUp7jMkH5wgN14R4f+S0Ju6uqfc4Arf332DdGSCuKJv2SMsz6Cq6zWA==
+"@xml-tools/ast@4.2.1", "@xml-tools/ast@^4.2.0":
+  version "4.2.1"
+  resolved "https://registry.yarnpkg.com/@xml-tools/ast/-/ast-4.2.1.tgz#1f392acca302cfc223f09f6e306e8706a96ec6b2"
+  integrity sha512-sJdxe+VQUvGqFaAlqVJt+F1kNecJ9J63R0UHaTLarhFovEYudTwKP7sG4IQAIwylCNh3yKL4ndJKbePH/eSkpA==
   dependencies:
-    "@xml-tools/common" "^0.1.0"
-    "@xml-tools/parser" "^1.0.5"
+    "@xml-tools/common" "^0.1.1"
+    "@xml-tools/parser" "^1.0.6"
     lodash "4.17.15"
 
-"@xml-tools/common@0.1.0", "@xml-tools/common@^0.1.0":
+"@xml-tools/common@0.1.0":
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/@xml-tools/common/-/common-0.1.0.tgz#ca454eeab1b8c596f1d3bd6f93d6be324e407378"
   integrity sha512-c1GAeR397X9l/oEOuZm0SC8MU3Awsny+qAuGSwzYCTS4XGL2pE6dO31jsTTkahjUYo6SRBUqeysqQZGNdNfm+A==
+  dependencies:
+    lodash "4.17.15"
+
+"@xml-tools/common@^0.1.0", "@xml-tools/common@^0.1.1":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@xml-tools/common/-/common-0.1.1.tgz#a0e795e7062ae87e658f7151a629aa0143f3f96b"
+  integrity sha512-8smD1NmyU0HcdA32wVH0FdnwN5ak5dLpWEXPZ/fSn2GZq/e/gD4uQiVm4nX7sZwnX9rkOmFaixK05ZhbTIjorg==
   dependencies:
     lodash "4.17.15"
 
@@ -1568,7 +1575,7 @@
     "@xml-tools/parser" "^1.0.5"
     lodash "4.17.15"
 
-"@xml-tools/parser@1.0.6", "@xml-tools/parser@^1.0.5":
+"@xml-tools/parser@1.0.6", "@xml-tools/parser@^1.0.5", "@xml-tools/parser@^1.0.6":
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/@xml-tools/parser/-/parser-1.0.6.tgz#8d5ec0ddc5aeff4acf1d98b9de99d1b7cb6a4d8a"
   integrity sha512-m0B8AGXrR6GrzINIklS9Cu6Nm2P1wBVITYgVFDWsJYX6k4R10M0e9U/7shSSnmRLcbsvqg9fXQ5dahf8kRMCJg==
