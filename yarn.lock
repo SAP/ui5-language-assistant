@@ -1536,14 +1536,14 @@
     "@webassemblyjs/wast-parser" "1.9.0"
     "@xtuc/long" "4.2.2"
 
-"@xml-tools/ast-position@2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@xml-tools/ast-position/-/ast-position-2.0.0.tgz#ff7695ca14d549179a1d52d63fc98023c7fc1e37"
-  integrity sha512-OcVcs94Sd99qXrIb+aGvMY1bud8FqGPWiuMDiivh27LbvXD335J8VBTMrHnzup+4ax6R5UzHULQo1MAsraYoVQ==
+"@xml-tools/ast-position@2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@xml-tools/ast-position/-/ast-position-2.0.1.tgz#2bfdafbca9056b1a927d308b7f4cd6b326071082"
+  integrity sha512-Uv/dLiAvQd7DmJJwr+yMkam39G0HQf/X3f4r0/V9aX130CBDZ+XCYlEyRKDC1zwAmPjQ8tnERKOrr8MXX2YXMQ==
   dependencies:
-    "@xml-tools/ast" "^4.2.0"
+    "@xml-tools/ast" "^4.2.1"
 
-"@xml-tools/ast@4.2.1", "@xml-tools/ast@^4.2.0":
+"@xml-tools/ast@4.2.1", "@xml-tools/ast@^4.2.1":
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/@xml-tools/ast/-/ast-4.2.1.tgz#1f392acca302cfc223f09f6e306e8706a96ec6b2"
   integrity sha512-sJdxe+VQUvGqFaAlqVJt+F1kNecJ9J63R0UHaTLarhFovEYudTwKP7sG4IQAIwylCNh3yKL4ndJKbePH/eSkpA==
