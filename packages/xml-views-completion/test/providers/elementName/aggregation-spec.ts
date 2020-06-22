@@ -1,21 +1,23 @@
 import { expect } from "chai";
 import { map, cloneDeep, forEach } from "lodash";
 import { XMLElement } from "@xml-tools/ast";
-
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import {
   buildUI5Aggregation,
   generateModel,
 } from "@ui5-language-assistant/test-utils";
-
-import { testSuggestionsScenario } from "../../utils";
+import { generate } from "@ui5-language-assistant/semantic-model";
 import { aggregationSuggestions } from "../../../src/providers/elementName/aggregation";
+import { testSuggestionsScenario } from "../../utils";
 import { UI5XMLViewCompletion } from "../../../api";
 
 describe("The ui5-language-assistant xml-views-completion", () => {
   let REAL_UI5_MODEL: UI5SemanticModel;
   before(async () => {
-    REAL_UI5_MODEL = await generateModel({ version: "1.74.0" });
+    REAL_UI5_MODEL = await generateModel({
+      version: "1.74.0",
+      modelGenerator: generate,
+    });
   });
 
   context("aggregations", () => {

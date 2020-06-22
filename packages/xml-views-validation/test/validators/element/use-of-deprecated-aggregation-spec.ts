@@ -1,21 +1,25 @@
 import { partial, find } from "lodash";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
-import {
-  assertNoIssues as assertNoIssuesBase,
-  assertSingleIssue as assertSingleIssueBase,
-} from "../../test-utils";
+import { generate } from "@ui5-language-assistant/semantic-model";
 import { generateModel } from "@ui5-language-assistant/test-utils";
 import { validateUseOfDeprecatedAggregation } from "../../../src/validators/elements/use-of-depracated-aggregation";
 import {
   buildDeprecatedIssueMessage,
   DeprecatedUI5Symbol,
 } from "../../../src/utils/deprecated-message-builder";
+import {
+  assertNoIssues as assertNoIssuesBase,
+  assertSingleIssue as assertSingleIssueBase,
+} from "../../test-utils";
 
 describe("the use of deprecated aggregation validation", () => {
   let ui5SemanticModel: UI5SemanticModel;
 
   before(async () => {
-    ui5SemanticModel = await generateModel({ version: "1.74.0" });
+    ui5SemanticModel = await generateModel({
+      version: "1.74.0",
+      modelGenerator: generate,
+    });
   });
 
   context("true positive scenarios", () => {

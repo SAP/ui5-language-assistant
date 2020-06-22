@@ -1,12 +1,12 @@
 import { expect } from "chai";
 import { cloneDeep } from "lodash";
+import { UI5Class } from "@ui5-language-assistant/semantic-model-types";
+import { generate } from "@ui5-language-assistant/semantic-model";
 import {
   buildUI5Class,
   generateModel,
 } from "@ui5-language-assistant/test-utils";
-
 import { getSuperClasses } from "../../src/api";
-import { UI5Class } from "@ui5-language-assistant/semantic-model-types";
 
 describe("The @ui5-language-assistant/logic-utils <getSuperClasses> function", () => {
   const clazzA = buildUI5Class({ name: "A", library: "sap.ui.core" });
@@ -34,7 +34,9 @@ describe("The @ui5-language-assistant/logic-utils <getSuperClasses> function", (
   });
 
   it("will avoid infinite loops in case of cyclic extends clauses", async () => {
-    const ui5Model = cloneDeep(await generateModel({ version: "1.74.0" }));
+    const ui5Model = cloneDeep(
+      await generateModel({ version: "1.74.0", modelGenerator: generate })
+    );
     const fAvatar = ui5Model.classes["sap.f.Avatar"];
     const mAvatar = fAvatar.extends as UI5Class;
     // create cyclic extends refs

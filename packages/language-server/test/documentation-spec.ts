@@ -3,6 +3,7 @@ import {
   buildUI5Enum,
   generateModel,
 } from "@ui5-language-assistant/test-utils";
+import { generate } from "@ui5-language-assistant/semantic-model";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { getNodeDocumentation } from "../src/documentation";
 
@@ -10,7 +11,10 @@ describe("The @ui5-language-assistant/language-server <getNodeDocumentation> fun
   let ui5SemanticModel: UI5SemanticModel;
   before(async function () {
     //TODO: use 1.71.x
-    ui5SemanticModel = await generateModel({ version: "1.74.0" });
+    ui5SemanticModel = await generateModel({
+      version: "1.74.0",
+      modelGenerator: generate,
+    });
   });
 
   context("deprecatedInfo", () => {

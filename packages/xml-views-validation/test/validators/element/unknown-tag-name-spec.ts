@@ -2,12 +2,7 @@ import { expect } from "chai";
 import { partial } from "lodash";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { generateModel } from "@ui5-language-assistant/test-utils";
-import {
-  assertNoIssues as assertNoIssuesBase,
-  assertSingleIssue as assertSingleIssueBase,
-  testValidationsScenario,
-  computeExpectedRanges,
-} from "../../test-utils";
+import { generate } from "@ui5-language-assistant/semantic-model";
 import { validateUnknownTagName } from "../../../src/validators/elements/unknown-tag-name";
 import {
   getMessage,
@@ -20,12 +15,21 @@ import {
   UNKNOWN_TAG_NAME_IN_NS,
   UNKNOWN_TAG_NAME_NO_NS,
 } from "../../../src/utils/messages";
+import {
+  assertNoIssues as assertNoIssuesBase,
+  assertSingleIssue as assertSingleIssueBase,
+  testValidationsScenario,
+  computeExpectedRanges,
+} from "../../test-utils";
 
 describe("the unknown tag name validation", () => {
   let ui5SemanticModel: UI5SemanticModel;
 
   before(async () => {
-    ui5SemanticModel = await generateModel({ version: "1.74.0" });
+    ui5SemanticModel = await generateModel({
+      version: "1.74.0",
+      modelGenerator: generate,
+    });
   });
 
   context("true positive scenarios", () => {

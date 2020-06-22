@@ -1,7 +1,5 @@
 import { expect, use } from "chai";
 import { XMLAttribute, XMLElement } from "@xml-tools/ast";
-import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
-import { getFQN } from "./model-test-utils";
 import { UI5XMLViewCompletion } from "@ui5-language-assistant/xml-views-completion";
 import { map } from "lodash";
 import deepEqualInAnyOrder = require("deep-equal-in-any-order");
@@ -31,24 +29,6 @@ export function expectProperty<T>(
   message: string
 ): asserts value is T {
   expect(value, message).to.haveOwnProperty(property);
-}
-
-export function expectModelObjectsEqual(
-  model: UI5SemanticModel,
-  value: unknown,
-  expectedValue: unknown,
-  message: string
-): void {
-  // Using expect on expression because in case of error the diff generation creates an allocation failure error
-  const result = value === expectedValue;
-  // Only calling getFQN if the message will be used because it takes too long to calculate for every call to this function
-  if (!result) {
-    const valueName = getFQN(model, value) ?? (value as { name: string }).name;
-    const expectedName =
-      getFQN(model, expectedValue) ?? (expectedValue as { name: string }).name;
-    message = `${message}: got ${valueName} instead of ${expectedName}`;
-  }
-  expect(result, message).to.be.true;
 }
 
 export function expectSuggestions(

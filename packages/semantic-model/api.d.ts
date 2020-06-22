@@ -3,7 +3,7 @@ import {
   UI5SemanticModel,
 } from "@ui5-language-assistant/semantic-model-types";
 
-export type TypeNameFix = Parameters<typeof generate>[0]["typeNameFix"];
+export type TypeNameFix = Record<string, string | undefined>;
 
 export type Json = unknown;
 
@@ -18,7 +18,7 @@ export declare const GENERATED_LIBRARY: string;
 export function generate(opts: {
   version: string;
   libraries: Record<string, Json>;
-  typeNameFix: Record<string, string | undefined>;
+  typeNameFix: TypeNameFix;
   strict: boolean;
   printValidationErrors?: boolean;
 }): UI5SemanticModel;
@@ -28,6 +28,7 @@ export function generate(opts: {
  * @param model
  * @param iteratee
  */
+// TODO: used in cyclic dep
 export function forEachSymbol(
   model: UI5SemanticModel,
   iteratee: (symbol: BaseUI5Node, fqn: string) => boolean | void
