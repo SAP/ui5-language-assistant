@@ -1,15 +1,10 @@
-import {
-  generate,
-  TypeNameFix,
-  Json,
-} from "@ui5-language-assistant/semantic-model";
-import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
-import { TestModelVersion } from "../../api";
 import { readdirSync } from "fs";
 import { readJsonSync, readJson, existsSync } from "fs-extra";
 import { resolve, dirname } from "path";
 import { filter, reduce, has, forEach, remove, get, find } from "lodash";
 import { FetchResponse } from "@ui5-language-assistant/language-server";
+import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
+import { generateFunc, TestModelVersion, TypeNameFix, Json } from "../../api";
 import { addUi5Resources } from "./download-ui5-resources";
 
 const MODEL_CACHE: Record<TestModelVersion, UI5SemanticModel> = Object.create(
@@ -200,10 +195,12 @@ export async function generateModel({
   version,
   downloadLibs = true,
   strict = true,
+  modelGenerator,
 }: {
   version: TestModelVersion;
   downloadLibs?: boolean;
   strict?: boolean;
+  modelGenerator: generateFunc;
 }): Promise<UI5SemanticModel> {
   // Don't cache the model if it's not created with the default options
   const useCache = strict === true;
@@ -222,7 +219,7 @@ export async function generateModel({
     fixLibraries(version, libToFileContent);
   }
 
-  const model = generate({
+  const model = modelGenerator({
     version: version,
     libraries: libToFileContent,
     typeNameFix: getTypeNameFixForVersion(version),

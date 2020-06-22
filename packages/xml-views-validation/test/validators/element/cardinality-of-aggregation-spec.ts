@@ -1,21 +1,25 @@
 import { partial } from "lodash";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { generateModel } from "@ui5-language-assistant/test-utils";
-import {
-  assertNoIssues as assertNoIssuesBase,
-  assertSingleIssue as assertSingleIssueBase,
-} from "../../test-utils";
+import { generate } from "@ui5-language-assistant/semantic-model";
 import { validateExplicitAggregationCardinality } from "../../../src/validators/elements/cardinality-of-aggregation";
 import {
   getMessage,
   INVALID_AGGREGATION_CARDINALITY,
 } from "../../../src/utils/messages";
+import {
+  assertNoIssues as assertNoIssuesBase,
+  assertSingleIssue as assertSingleIssueBase,
+} from "../../test-utils";
 
 describe("the cardinality aggregation validation", () => {
   let ui5SemanticModel: UI5SemanticModel;
 
   before(async () => {
-    ui5SemanticModel = await generateModel({ version: "1.74.0" });
+    ui5SemanticModel = await generateModel({
+      version: "1.74.0",
+      modelGenerator: generate,
+    });
   });
 
   context("true positive scenarios", () => {

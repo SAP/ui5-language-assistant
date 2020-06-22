@@ -1,13 +1,14 @@
 import { expect } from "chai";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { generateModel } from "@ui5-language-assistant/test-utils";
+import { generate } from "@ui5-language-assistant/semantic-model";
+import { getMessage, NON_UNIQUE_ID } from "../../../src/utils/messages";
 import { validateNonUniqueID } from "../../../src/validators/document/non-unique-id";
 import { NonUniqueIDIssue } from "../../../api";
 import {
   computeExpectedRanges,
   testValidationsScenario,
 } from "../../test-utils";
-import { getMessage, NON_UNIQUE_ID } from "../../../src/utils/messages";
 
 describe("the use of non unique id validation", () => {
   let ui5SemanticModel: UI5SemanticModel;
@@ -18,7 +19,10 @@ describe("the use of non unique id validation", () => {
   }) => void;
 
   before(async () => {
-    ui5SemanticModel = await generateModel({ version: "1.74.0" });
+    ui5SemanticModel = await generateModel({
+      version: "1.74.0",
+      modelGenerator: generate,
+    });
 
     testNonUniqueIDScenario = (opts): void =>
       testValidationsScenario({

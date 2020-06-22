@@ -6,6 +6,7 @@ import { expect } from "chai";
 import { sortBy, forEachRight, map, cloneDeep, forEach } from "lodash";
 import { generateModel } from "@ui5-language-assistant/test-utils";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
+import { generate } from "@ui5-language-assistant/semantic-model";
 import { getXMLViewDiagnostics } from "../../../src/xml-view-diagnostics";
 
 export const INPUT_FILE_NAME = "input.xml";
@@ -88,7 +89,10 @@ export function readSnapshotDiagnosticsLSPResponse(
   return expectedDiagnostics;
 }
 
-const ui5ModelPromise = generateModel({ version: "1.71.14" });
+const ui5ModelPromise = generateModel({
+  version: "1.71.14",
+  modelGenerator: generate,
+});
 let ui5Model: UI5SemanticModel | undefined = undefined;
 
 export async function computeNewDiagnosticLSPResponse(

@@ -1,6 +1,7 @@
 import { expect } from "chai";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { generateModel } from "@ui5-language-assistant/test-utils";
+import { generate } from "@ui5-language-assistant/semantic-model";
 import { validateBooleanValue } from "../../../src/validators/attributes/invalid-boolean-value";
 import {
   computeExpectedRange,
@@ -11,7 +12,10 @@ describe("the invalid boolean value validation", () => {
   let ui5SemanticModel: UI5SemanticModel;
 
   before(async () => {
-    ui5SemanticModel = await generateModel({ version: "1.74.0" });
+    ui5SemanticModel = await generateModel({
+      version: "1.74.0",
+      modelGenerator: generate,
+    });
   });
 
   context("true positive scenarios", () => {

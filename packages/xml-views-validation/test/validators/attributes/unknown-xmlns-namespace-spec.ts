@@ -6,12 +6,16 @@ import {
   computeExpectedRange,
 } from "../../test-utils";
 import { validateUnknownXmlnsNamespace } from "../../../src/validators/attributes/unknown-xmlns-namespace";
+import { generate } from "@ui5-language-assistant/semantic-model";
 
 describe("the unknown namespace in xmlns attribute value validation", () => {
   let ui5SemanticModel: UI5SemanticModel;
 
   before(async () => {
-    ui5SemanticModel = await generateModel({ version: "1.74.0" });
+    ui5SemanticModel = await generateModel({
+      version: "1.74.0",
+      modelGenerator: generate,
+    });
   });
 
   context("true positive scenarios", () => {

@@ -2,13 +2,14 @@ import { expect } from "chai";
 import { difference, forEach, partial } from "lodash";
 import { XMLAttribute } from "@xml-tools/ast";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
+import { generate } from "@ui5-language-assistant/semantic-model";
 import {
   expectSuggestions,
   expectXMLAttribute,
   generateModel,
 } from "@ui5-language-assistant/test-utils";
-import { UI5XMLViewCompletion } from "../../../api";
 import { propEventAssocSuggestions } from "../../../src/providers/attributeName/prop-event-assoc";
+import { UI5XMLViewCompletion } from "../../../api";
 import { testSuggestionsScenario } from "../../utils";
 
 const uiCoreControlProperties = [
@@ -59,7 +60,10 @@ describe("The ui5-language-assistant xml-views-completion", () => {
   let ui5SemanticModel: UI5SemanticModel;
 
   before(async () => {
-    ui5SemanticModel = await generateModel({ version: "1.74.0" });
+    ui5SemanticModel = await generateModel({
+      version: "1.74.0",
+      modelGenerator: generate,
+    });
   });
 
   context("properties, events and associations", () => {

@@ -1,29 +1,31 @@
 import { expect } from "chai";
 import { clone, cloneDeep, find, forEach, map } from "lodash";
 import { XMLElement } from "@xml-tools/ast";
-
 import {
   UI5Aggregation,
   UI5Class,
   UI5SemanticModel,
 } from "@ui5-language-assistant/semantic-model-types";
 import { generateModel } from "@ui5-language-assistant/test-utils";
-
-import { classesSuggestions } from "../../../src/providers/elementName/classes";
-import { testSuggestionsScenario } from "../../utils";
+import { generate } from "@ui5-language-assistant/semantic-model";
 import {
   getSuperClasses,
   ui5NodeToFQN,
 } from "@ui5-language-assistant/logic-utils";
+import { classesSuggestions } from "../../../src/providers/elementName/classes";
 import {
   UI5XMLViewCompletion,
   UI5ClassesInXMLTagNameCompletion,
 } from "../../../api";
+import { testSuggestionsScenario } from "../../utils";
 
 describe("The ui5-language-assistant xml-views-completion", () => {
   let ui5Model: UI5SemanticModel;
   before(async function () {
-    ui5Model = await generateModel({ version: "1.74.0" });
+    ui5Model = await generateModel({
+      version: "1.74.0",
+      modelGenerator: generate,
+    });
   });
 
   context("UI5 Classes Suggestions", () => {
