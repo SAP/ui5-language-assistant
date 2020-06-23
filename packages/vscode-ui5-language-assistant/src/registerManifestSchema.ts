@@ -64,10 +64,19 @@ function getIndexOfPreviousConfigEntry(
   const previousConfigEntryIndex = findIndex(
     jsonSchemaConfig,
     (jsonSchemaConfigEntry: IJSONValidationExtensionPoint) => {
-      return (
-        jsonSchemaConfigEntry.fileMatch === MANIFEST_FILE_MATCH &&
-        jsonSchemaConfigEntry.comment === MANIFEST_COMMENT
-      );
+      if (
+        isArray(jsonSchemaConfigEntry.fileMatch) &&
+        jsonSchemaConfigEntry.fileMatch.length === 1
+      ) {
+        return some(
+          jsonSchemaConfigEntry.fileMatch,
+          (fileMatchEntry) =>
+            fileMatchEntry === MANIFEST_FILE_MATCH &&
+            jsonSchemaConfigEntry.comment === MANIFEST_COMMENT
+        );
+      }
+
+      return false;
     }
   );
 

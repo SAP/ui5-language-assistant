@@ -10,7 +10,7 @@ export const MANIFEST_COMMENT =
 
 export function getManifestSchemaConfigEntry(): IJSONValidationExtensionPoint {
   const manifestSchemaConfig = {
-    fileMatch: MANIFEST_FILE_MATCH,
+    fileMatch: [MANIFEST_FILE_MATCH],
     comment: MANIFEST_COMMENT,
     url:
       "https://cdn.jsdelivr.net/gh/SAP/ui5-language-assistant/packages/vscode-ui5-language-assistant/resources/manifest-schema/rel-1.19/schema/schema.json",
