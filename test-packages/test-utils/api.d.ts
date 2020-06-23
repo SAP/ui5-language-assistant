@@ -16,7 +16,6 @@ import {
   UI5EnumValue,
   UI5DeprecatedInfo,
 } from "@ui5-language-assistant/semantic-model-types";
-import { TypeNameFix } from "@ui5-language-assistant/semantic-model";
 import { XMLAttribute, XMLElement } from "@xml-tools/ast";
 import { UI5XMLViewCompletion } from "@ui5-language-assistant/xml-views-completion";
 import { FetchResponse } from "@ui5-language-assistant/language-server";
@@ -96,16 +95,18 @@ export type TestModelVersion = "1.60.14" | "1.74.0" | "1.75.0" | "1.71.14";
  * If downloadLibraries is true (default), increase the timeout of the test/hook to GEN_MODEL_TIMEOUT.
  *
  * @param opts.version
- * @param opts.downloadLibraries By default, download the library files before creating the model.
- *        If you call downloadLibraries explicitly before this function, send false (it will improve the performance).
- * @param opts.fixLibs Apply fixes to the model so that it can be created in strict mode. True by default.
- * @param opts.strict Generate the model in strict mode. True by default.
+ * @param opts.downloadLibraries - By default, download the library files before creating the model.
+ * @param opts.strict - Generate the model in strict mode. True by default.
+ * @param opts.modelGenerator - DI for the actual api.json -> UI5Model builder, pass the `generate`
+ *                              function from the @ui5-language-assistant/semantic-model package.
+ *                              This DI is needed to avoid cyclic dependency graph.
+ *                              ... -> semantic-model -> test-utils -> semantic-model -> ...
  */
 export function generateModel(opts: {
   version: TestModelVersion;
   downloadLibs?: boolean;
-  fixLibs?: boolean;
   strict?: boolean;
+  modelGenerator: generateFunc;
 }): Promise<UI5SemanticModel>;
 
 export function getTypeNameFixForVersion(
@@ -121,13 +122,6 @@ export function expectXMLAttribute(
   astNode: XMLElement | XMLAttribute
 ): asserts astNode is XMLAttribute;
 
-export function isObject(value: unknown): value is Record<string, unknown>;
-
-export function getFQN(
-  model: UI5SemanticModel,
-  target: unknown
-): string | undefined;
-
 export function expectExists(value: unknown, message: string): asserts value;
 
 export function expectProperty<T>(
@@ -135,13 +129,6 @@ export function expectProperty<T>(
   property: keyof T & string,
   message: string
 ): asserts value is T;
-
-export function expectModelObjectsEqual(
-  model: UI5SemanticModel,
-  value: unknown,
-  expectedValue: unknown,
-  message: string
-): void;
 
 export function expectSuggestions(
   actualNameGetter: (suggestion: UI5XMLViewCompletion) => string,
@@ -155,3 +142,19 @@ export function readTestLibraryFile(
 ): Promise<FetchResponse>;
 
 export function downloadLibraries(version: TestModelVersion): Promise<void>;
+
+// These types are **duplicated** from `semantic-model` package
+// to avoid **cyclic** package dependencies.
+// As this is a **test** package, this workaround is preferable to the overhead of
+// creating a new production package only for these types, nor do they
+// belong in semantic-model-types packages.
+export type TypeNameFix = Record<string, string | undefined>;
+export type Json = unknown;
+
+export type generateFunc = (opts: {
+  version: string;
+  libraries: Record<string, Json>;
+  typeNameFix: TypeNameFix;
+  strict: boolean;
+  printValidationErrors?: boolean;
+}) => UI5SemanticModel;

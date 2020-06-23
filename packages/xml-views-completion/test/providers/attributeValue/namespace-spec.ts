@@ -1,16 +1,17 @@
-import { createXMLAttribute, testSuggestionsScenario } from "../../utils";
+import { expect } from "chai";
+import { partial } from "lodash";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
+import { ui5NodeToFQN } from "@ui5-language-assistant/logic-utils";
+import { UI5NamespacesInXMLAttributeValueCompletion } from "@ui5-language-assistant/xml-views-completion";
+import { generate } from "@ui5-language-assistant/semantic-model";
 import {
   expectSuggestions,
   expectXMLAttribute,
   generateModel,
 } from "@ui5-language-assistant/test-utils";
 import { namespaceValueSuggestions } from "../../../src/providers/attributeValue/namespace";
+import { createXMLAttribute, testSuggestionsScenario } from "../../utils";
 import { expectUI5Namespace } from "../attributeName/namespace-spec";
-import { expect } from "chai";
-import { partial } from "lodash";
-import { ui5NodeToFQN } from "@ui5-language-assistant/logic-utils";
-import { UI5NamespacesInXMLAttributeValueCompletion } from "@ui5-language-assistant/xml-views-completion";
 
 const expectNamespaceValuesSuggestions = partial(expectSuggestions, (_) => {
   expect(_.type).to.equal("UI5NamespacesInXMLAttributeValue");
@@ -23,7 +24,10 @@ const expectNamespaceValuesSuggestions = partial(expectSuggestions, (_) => {
 describe("The ui5-editor-tools xml-views-completion", () => {
   let ui5SemanticModel: UI5SemanticModel;
   before(async () => {
-    ui5SemanticModel = await generateModel({ version: "1.74.0" });
+    ui5SemanticModel = await generateModel({
+      version: "1.74.0",
+      modelGenerator: generate,
+    });
   });
 
   context("namespaces values", () => {

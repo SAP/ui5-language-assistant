@@ -3,6 +3,7 @@ import { find } from "lodash";
 import { parse, DocumentCstNode } from "@xml-tools/parser";
 import { buildAst, XMLElement, XMLAttribute } from "@xml-tools/ast";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
+import { generate } from "@ui5-language-assistant/semantic-model";
 import {
   generateModel,
   expectExists,
@@ -20,7 +21,10 @@ import {
 describe("The @ui5-language-assistant/logic-utils <getUI5ClassByXMLElement> function", () => {
   let ui5Model: UI5SemanticModel;
   before(async () => {
-    ui5Model = await generateModel({ version: "1.74.0" });
+    ui5Model = await generateModel({
+      version: "1.74.0",
+      modelGenerator: generate,
+    });
   });
 
   it("returns the class for class in the default namespace", () => {
@@ -99,7 +103,10 @@ describe("The @ui5-language-assistant/logic-utils <getUI5ClassByXMLElement> func
 describe("The @ui5-language-assistant/logic-utils <getUI5ClassByXMLElementClosingTag> function", () => {
   let ui5Model: UI5SemanticModel;
   before(async () => {
-    ui5Model = await generateModel({ version: "1.74.0" });
+    ui5Model = await generateModel({
+      version: "1.74.0",
+      modelGenerator: generate,
+    });
   });
 
   it("returns the class for class in the default namespace", () => {
@@ -177,7 +184,10 @@ describe("The @ui5-language-assistant/logic-utils <getUI5ClassByXMLElementClosin
 describe("The @ui5-language-assistant/logic-utils <getUI5AggregationByXMLElement> function", () => {
   let ui5Model: UI5SemanticModel;
   before(async () => {
-    ui5Model = await generateModel({ version: "1.74.0" });
+    ui5Model = await generateModel({
+      version: "1.74.0",
+      modelGenerator: generate,
+    });
   });
 
   it("returns the aggregation for known aggregation under a class tag", () => {
@@ -323,7 +333,10 @@ describe("The @ui5-language-assistant/logic-utils <getUI5AggregationByXMLElement
 describe("The @ui5-language-assistant/logic-utils <getUI5NodeByXMLAttribute> function", () => {
   let ui5Model: UI5SemanticModel;
   before(async () => {
-    ui5Model = await generateModel({ version: "1.74.0" });
+    ui5Model = await generateModel({
+      version: "1.74.0",
+      modelGenerator: generate,
+    });
   });
 
   it("returns undefined for unknown class", () => {
@@ -414,7 +427,10 @@ describe("The @ui5-language-assistant/logic-utils <getUI5NodeByXMLAttribute> fun
 describe("The @ui5-language-assistant/logic-utils <getUI5PropertyByXMLAttributeKey> function", () => {
   let ui5Model: UI5SemanticModel;
   before(async () => {
-    ui5Model = await generateModel({ version: "1.74.0" });
+    ui5Model = await generateModel({
+      version: "1.74.0",
+      modelGenerator: generate,
+    });
   });
 
   it("returns undefined for unknown class", () => {
@@ -474,7 +490,10 @@ describe("The @ui5-language-assistant/logic-utils <getUI5PropertyByXMLAttributeK
 describe("The @ui5-language-assistant/logic-utils <getUI5NodeFromXMLElementNamespace> function", () => {
   let ui5Model: UI5SemanticModel;
   before(async () => {
-    ui5Model = await generateModel({ version: "1.74.0" });
+    ui5Model = await generateModel({
+      version: "1.74.0",
+      modelGenerator: generate,
+    });
   });
 
   it("returns the namespace for tag in a defined namespace", () => {

@@ -1,6 +1,5 @@
 import { expect } from "chai";
 import { difference, partial } from "lodash";
-
 import {
   UI5Aggregation,
   UI5Association,
@@ -11,7 +10,8 @@ import {
   UI5Prop,
   UI5SemanticModel,
 } from "@ui5-language-assistant/semantic-model-types";
-import { createXMLAttribute, testSuggestionsScenario } from "../../utils";
+import { generate } from "@ui5-language-assistant/semantic-model";
+import { ui5NodeToFQN } from "@ui5-language-assistant/logic-utils";
 import {
   expectSuggestions,
   expectXMLAttribute,
@@ -21,8 +21,8 @@ import {
   isExistingNamespaceAttribute,
   namespaceKeysSuggestions,
 } from "../../../src/providers/attributeName/namespace";
-import { ui5NodeToFQN } from "@ui5-language-assistant/logic-utils";
 import { UI5NamespacesInXMLAttributeKeyCompletion } from "../../../api";
+import { createXMLAttribute, testSuggestionsScenario } from "../../utils";
 
 const allExpectedNamespaces = [
   "sap.f",
@@ -157,7 +157,10 @@ describe("The ui5-language-assistant xml-views-completion", () => {
   let ui5SemanticModel: UI5SemanticModel;
 
   before(async () => {
-    ui5SemanticModel = await generateModel({ version: "1.74.0" });
+    ui5SemanticModel = await generateModel({
+      version: "1.74.0",
+      modelGenerator: generate,
+    });
   });
 
   context("namespaces", () => {

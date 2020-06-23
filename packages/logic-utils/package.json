@@ -13,6 +13,7 @@
   "license": "Apache-2.0",
   "typings": "./api.d.ts",
   "dependencies": {
+    "@ui5-language-assistant/semantic-model-types": "^1.3.0",
     "@xml-tools/ast": "4.2.1",
     "lodash": "4.17.15"
   },

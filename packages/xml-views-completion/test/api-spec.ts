@@ -2,23 +2,25 @@ import { expect } from "chai";
 import { find, map, forEach } from "lodash";
 import { buildAst, XMLElement } from "@xml-tools/ast";
 import { DocumentCstNode, parse } from "@xml-tools/parser";
-
 import {
   UI5Aggregation,
   UI5SemanticModel,
 } from "@ui5-language-assistant/semantic-model-types";
 import { generateModel } from "@ui5-language-assistant/test-utils";
-
-import { getXMLViewCompletions, isUI5NodeXMLViewCompletion } from "../src/api";
-import { UI5XMLViewCompletion } from "../api";
 import { CodeAssistSettings } from "@ui5-language-assistant/settings";
 import { ui5NodeToFQN } from "@ui5-language-assistant/logic-utils";
+import { generate } from "@ui5-language-assistant/semantic-model";
+import { getXMLViewCompletions, isUI5NodeXMLViewCompletion } from "../src/api";
+import { UI5XMLViewCompletion } from "../api";
 
 describe("The `getXMLViewCompletions()` api", () => {
   let REAL_UI5_MODEL: UI5SemanticModel;
 
   before(async function () {
-    REAL_UI5_MODEL = await generateModel({ version: "1.74.0" });
+    REAL_UI5_MODEL = await generateModel({
+      version: "1.74.0",
+      modelGenerator: generate,
+    });
   });
 
   it("will filter none public/protected suggestions", () => {

@@ -5,21 +5,25 @@ import {
   UI5Aggregation,
 } from "@ui5-language-assistant/semantic-model-types";
 import { generateModel } from "@ui5-language-assistant/test-utils";
-import {
-  assertNoIssues as assertNoIssuesBase,
-  assertSingleIssue as assertSingleIssueBase,
-} from "../../test-utils";
+import { generate } from "@ui5-language-assistant/semantic-model";
 import { validateAggregationType } from "../../../src/validators/elements/type-of-aggregation";
 import {
   getMessage,
   INVALID_AGGREGATION_TYPE,
 } from "../../../src/utils/messages";
+import {
+  assertNoIssues as assertNoIssuesBase,
+  assertSingleIssue as assertSingleIssueBase,
+} from "../../test-utils";
 
 describe("the type aggregation validation", () => {
   let ui5SemanticModel: UI5SemanticModel;
 
   before(async () => {
-    ui5SemanticModel = await generateModel({ version: "1.74.0" });
+    ui5SemanticModel = await generateModel({
+      version: "1.74.0",
+      modelGenerator: generate,
+    });
   });
 
   context("true positive scenarios", () => {

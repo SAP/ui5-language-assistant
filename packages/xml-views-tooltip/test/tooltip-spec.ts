@@ -7,6 +7,7 @@ import {
   UI5SemanticModel,
   BaseUI5Node,
 } from "@ui5-language-assistant/semantic-model-types";
+import { generate } from "@ui5-language-assistant/semantic-model";
 import {
   generateModel,
   expectExists,
@@ -16,7 +17,10 @@ import { findUI5HoverNodeAtOffset } from "../src/tooltip";
 describe("the UI5 language assistant Hover Tooltip Service", () => {
   let ui5SemanticModel: UI5SemanticModel;
   before(async () => {
-    ui5SemanticModel = await generateModel({ version: "1.74.0" });
+    ui5SemanticModel = await generateModel({
+      version: "1.74.0",
+      modelGenerator: generate,
+    });
   });
 
   context("hover on attribute key", () => {

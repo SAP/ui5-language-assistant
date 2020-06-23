@@ -1,10 +1,4 @@
 import { expect } from "chai";
-import { getHoverResponse } from "../src/hover";
-import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
-import {
-  generateModel,
-  expectExists,
-} from "@ui5-language-assistant/test-utils";
 import {
   TextDocument,
   Position,
@@ -15,11 +9,21 @@ import {
   MarkedString,
   MarkupKind,
 } from "vscode-languageserver";
+import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
+import {
+  generateModel,
+  expectExists,
+} from "@ui5-language-assistant/test-utils";
+import { generate } from "@ui5-language-assistant/semantic-model";
+import { getHoverResponse } from "../src/hover";
 
 describe("the UI5 language assistant Hover Tooltip Service", () => {
   let ui5SemanticModel: UI5SemanticModel;
   before(async () => {
-    ui5SemanticModel = await generateModel({ version: "1.74.0" });
+    ui5SemanticModel = await generateModel({
+      version: "1.74.0",
+      modelGenerator: generate,
+    });
   });
 
   context("hover on attribute key", () => {

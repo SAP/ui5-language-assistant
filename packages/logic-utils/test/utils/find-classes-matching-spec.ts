@@ -2,6 +2,7 @@ import { map, forEach } from "lodash";
 import { expect } from "chai";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { generateModel } from "@ui5-language-assistant/test-utils";
+import { generate } from "@ui5-language-assistant/semantic-model";
 import {
   findClassesMatchingType,
   ui5NodeToFQN,
@@ -11,7 +12,10 @@ import {
 describe("The @ui5-language-assistant/logic-utils <findClassesMatchingType> function", () => {
   let ui5Model: UI5SemanticModel;
   before(async () => {
-    ui5Model = await generateModel({ version: "1.74.0" });
+    ui5Model = await generateModel({
+      version: "1.74.0",
+      modelGenerator: generate,
+    });
   });
 
   it("can locate classes matching an interface directly", () => {
@@ -70,7 +74,10 @@ describe("The @ui5-language-assistant/logic-utils <findClassesMatchingType> func
 describe("The @ui5-language-assistant/logic-utils <classIsOfType> function", () => {
   let ui5Model: UI5SemanticModel;
   before(async () => {
-    ui5Model = await generateModel({ version: "1.74.0" });
+    ui5Model = await generateModel({
+      version: "1.74.0",
+      modelGenerator: generate,
+    });
   });
 
   it("can tell if the class matching a UI5Interface type", () => {

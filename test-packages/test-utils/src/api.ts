@@ -28,6 +28,4 @@ export {
   expectSuggestions,
   expectExists,
   expectProperty,
-  expectModelObjectsEqual,
 } from "./utils/expect";
-export { isObject, getFQN } from "./utils/model-test-utils";
