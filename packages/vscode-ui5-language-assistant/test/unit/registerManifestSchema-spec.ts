@@ -1,16 +1,22 @@
 import { expect } from "chai";
-import { getManifestSchemaConfig } from "../../src/manifestSchemaConfig";
+import { getManifestSchemaConfigEntry } from "../../src/manifestSchemaConfig";
 
-describe("the comment field in manifest's schema configuration", () => {
-  it("it must never be changed", () => {
+/**
+ * fileMatch / comment values used to **identify** workspace settings
+ * that have been automatically added by this vscode extension.
+ */
+describe("the manifest schema entry configuration", () => {
+  it("file match must never be changed", () => {
+    const manifestSchemaConfig = getManifestSchemaConfigEntry();
+    expect(manifestSchemaConfig.fileMatch).to.exist;
+    expect(manifestSchemaConfig.fileMatch).to.equal("manifest.json");
+  });
+
+  it("comment must never be changed", () => {
     const expectedComment =
       "Automatic configuration for manifest.json schema - added by UI5 Language Assistant";
-    const errorMessage =
-      "used as a flag to allow future undo of this workaround";
-    const manifestSchemaConfig = getManifestSchemaConfig();
+    const manifestSchemaConfig = getManifestSchemaConfigEntry();
     expect(manifestSchemaConfig.comment).to.exist;
-    expect(manifestSchemaConfig.comment, `${errorMessage}`).to.equal(
-      expectedComment
-    );
+    expect(manifestSchemaConfig.comment).to.equal(expectedComment);
   });
 });
