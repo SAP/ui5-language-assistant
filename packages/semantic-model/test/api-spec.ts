@@ -12,8 +12,12 @@ import {
   UnresolvedType,
 } from "@ui5-language-assistant/semantic-model-types";
 import { forEachSymbol } from "../src/utils";
-import { generate } from "../api";
-import { isObject, getFQN } from "./utils/model-test-utils";
+import { generate } from "../src/api";
+import {
+  isObject,
+  getFQN,
+  expectModelObjectsEqual,
+} from "./utils/model-test-utils";
 
 context("The ui5-language-assistant semantic model package API", () => {
   // Properties with these names are types
@@ -61,7 +65,6 @@ context("The ui5-language-assistant semantic model package API", () => {
       const parent = symbol.parent;
       if (fqn.indexOf(".") >= 0 && fqn.indexOf(".") !== fqn.length - 1) {
         expectExists(parent, `Symbol ${fqn} does not have a parent`);
-        // TODO: only usage of getFQN in productive packages
         const parentFqn = getFQN(model, parent);
         expectExists(
           parentFqn,
@@ -80,10 +83,6 @@ context("The ui5-language-assistant semantic model package API", () => {
   }
 
   function assertSymbolPropertiesParent(model: UI5SemanticModel): void {
-    function getNameOrFQN(node: unknown, model: UI5SemanticModel): string {
-      return getFQN(model, node) ?? (node as { name: string }).name;
-    }
-
     // Top-level symbol parents are checked in assertRootSymbolsParent
     runOnValue(
       {
@@ -106,13 +105,12 @@ context("The ui5-language-assistant semantic model package API", () => {
             `${fqn} does not have a parent property`
           );
           expect(value.parent, `${fqn} does not have a parent`).to.exist;
-          expect(
+          expectModelObjectsEqual(
+            model,
             value.parent,
-            `${fqn} has unexpected parent: got ${getNameOrFQN(
-              value.parent,
-              model
-            )} instead of ${getNameOrFQN(expectedParent, model)}`
-          ).to.equal(expectedParent);
+            expectedParent,
+            `${fqn} has unexpected parent`
+          );
         }
 
         if (!deep) {
