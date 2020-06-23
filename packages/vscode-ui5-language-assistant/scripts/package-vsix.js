@@ -15,7 +15,7 @@ const proxyquire = require("proxyquire");
 const { expect } = require("chai");
 const { resolve } = require("path");
 const { forEach } = require("lodash");
-const { readFileSync, writeFileSync } = require("fs");
+const { readFileSync, writeFileSync, copyFileSync } = require("fs");
 const { writeJsonSync } = require("fs-extra");
 
 const extensionRootPkg = require("../package.json");
@@ -50,15 +50,15 @@ const langServerDir = resolve(
 );
 
 // **Hot-Patching** VSCE using proxyquire.
-const rootPkgDir = resolve(__dirname, "..");
+const rootExtDir = resolve(__dirname, "..");
 const getDepsStub = {
-  getDependencies: async () => [rootPkgDir, langServerDir],
+  getDependencies: async () => [rootExtDir, langServerDir],
 };
 const { packageCommand } = proxyquire("vsce/out/package", {
   "./npm": getDepsStub,
 });
 
-const pkgJsonPath = resolve(rootPkgDir, "package.json");
+const pkgJsonPath = resolve(rootExtDir, "package.json");
 // Read & save the original literal representation of the pkg.json
 // To avoid dealing with re-formatting (prettier) later on.
 const pkgJsonOrgStr = readFileSync(pkgJsonPath, "utf8");
@@ -71,8 +71,17 @@ expect(pkgJson.main).to.equal("./lib/src/extension");
 pkgJson.main = "./dist/extension";
 writeJsonSync(pkgJsonPath, pkgJson, { spaces: 2, EOF: "\n" });
 
+// Ensure License an Notice files are part of the packaged .vsix
+const rootMonoRepoDir = resolve(__dirname, "..", "..", "..");
+const noticeRootMonoRepoPath = resolve(rootMonoRepoDir, "NOTICE");
+const licenseRootMonoRepoPath = resolve(rootMonoRepoDir, "LICENSE");
+const noticeExtPath = resolve(rootExtDir, "NOTICE");
+const licenseExtPath = resolve(rootExtDir, "LICENSE");
+copyFileSync(noticeRootMonoRepoPath, noticeExtPath);
+copyFileSync(licenseRootMonoRepoPath, licenseExtPath);
+
 packageCommand({
-  cwd: rootPkgDir,
+  cwd: rootExtDir,
   packagePath: undefined,
   baseContentUrl: undefined,
   baseImagesUrl: undefined,
