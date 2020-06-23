@@ -244,6 +244,7 @@ context("The ui5-language-assistant semantic model package API", () => {
       it(`is created successfully in strict mode`, async () => {
         const model = await generateModel({
           version,
+          downloadLibs: false,
           modelGenerator: generate,
         });
         expect(model).to.exist;

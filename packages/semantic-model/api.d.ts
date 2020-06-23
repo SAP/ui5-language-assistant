@@ -28,7 +28,6 @@ export function generate(opts: {
  * @param model
  * @param iteratee
  */
-// TODO: used in cyclic dep
 export function forEachSymbol(
   model: UI5SemanticModel,
   iteratee: (symbol: BaseUI5Node, fqn: string) => boolean | void
