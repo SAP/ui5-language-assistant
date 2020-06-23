@@ -4,8 +4,8 @@ import {
   generateModel,
 } from "@ui5-language-assistant/test-utils";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
-import { ui5NodeToFQN } from "@ui5-language-assistant/logic-utils";
 import { findSymbol, generate } from "../src/api";
+import { getFQN } from "./utils/model-test-utils";
 
 describe("The semantic model utils", () => {
   let model: UI5SemanticModel;
@@ -22,7 +22,7 @@ describe("The semantic model utils", () => {
       const button = findSymbol(model, "sap.m.Button");
       expectExists(button, "find symbol failed");
       expect(button.kind).to.eql("UI5Class");
-      expect(ui5NodeToFQN(button)).to.eql("sap.m.Button");
+      expect(getFQN(model, button)).to.eql("sap.m.Button");
     });
   });
 });
