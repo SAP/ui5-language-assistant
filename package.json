@@ -12,6 +12,7 @@
     ]
   },
   "scripts": {
+    "build:quick": "lerna run compile && lerna run bundle && lerna run package",
     "lerna:version": "lerna version && yarn run cirlce:release",
     "cirlce:release": "node ./scripts/trigger-release",
     "lerna:publish": "lerna publish from-git --yes",
