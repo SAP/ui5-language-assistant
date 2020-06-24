@@ -32,22 +32,18 @@ export function registerManifestSchema(): void {
 function isMissingConfig(
   jsonSchemaConfig: IJSONValidationExtensionPoint[]
 ): boolean {
-  const missingConfigEntry =
+  const isMissingConfigEntry =
     find(
       jsonSchemaConfig,
       (jsonSchemaConfigEntry: IJSONValidationExtensionPoint) => {
-        if (isArray(jsonSchemaConfigEntry.fileMatch)) {
-          return some(
-            jsonSchemaConfigEntry.fileMatch,
-            (fileMatchEntry) => fileMatchEntry === MANIFEST_FILE_MATCH
-          );
-        }
-
-        return jsonSchemaConfigEntry.fileMatch === MANIFEST_FILE_MATCH;
+        return some(
+          jsonSchemaConfigEntry.fileMatch,
+          (fileMatchEntry) => fileMatchEntry === MANIFEST_FILE_MATCH
+        );
       }
     ) === undefined;
 
-  return missingConfigEntry;
+  return isMissingConfigEntry;
 }
 
 function createConfig(jsonSchemaConfig: IJSONValidationExtensionPoint[]): void {
@@ -64,10 +60,8 @@ function getIndexOfPreviousConfigEntry(
   const previousConfigEntryIndex = findIndex(
     jsonSchemaConfig,
     (jsonSchemaConfigEntry: IJSONValidationExtensionPoint) => {
-      if (
-        isArray(jsonSchemaConfigEntry.fileMatch) &&
-        jsonSchemaConfigEntry.fileMatch.length === 1
-      ) {
+      if (jsonSchemaConfigEntry.fileMatch.length === 1) {
+        // we are looking for exact match to be sure we are only changing 'settings.json' we added
         return some(
           jsonSchemaConfigEntry.fileMatch,
           (fileMatchEntry) =>
@@ -96,9 +90,9 @@ function updatePreviousConfigEntry(
 function configureSchemaInWorkspaceSettings(
   updatedSchemaConfig: IJSONValidationExtensionPoint[]
 ): void {
-  // We pass 'undefined' for multi-root
+  // We pass 'true' for global settings
   //  - https://code.visualstudio.com/api/references/vscode-api#WorkspaceConfiguration
   workspace
     .getConfiguration()
-    .update("json.schemas", updatedSchemaConfig, undefined);
+    .update("json.schemas", updatedSchemaConfig, true);
 }

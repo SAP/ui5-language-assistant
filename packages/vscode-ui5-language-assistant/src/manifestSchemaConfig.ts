@@ -1,5 +1,5 @@
 export interface IJSONValidationExtensionPoint {
-  fileMatch: string | string[];
+  fileMatch: string[];
   comment?: string;
   url: string;
 }
