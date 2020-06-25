@@ -88,6 +88,8 @@ and cannot be configured by the end user.
 
 #### Description:
 
+Tooltips will be shown while hovering over an item.
+
 #### Available In:
 
 - in XML Tags
