@@ -27,7 +27,7 @@
   "devDependencies": {
     "@ui5-language-assistant/semantic-model": "^1.4.0",
     "@ui5-language-assistant/test-utils": "^1.4.2",
-    "@xml-tools/parser": "1.0.6"
+    "@xml-tools/parser": "1.0.7"
   },
   "scripts": {
     "ci": "npm-run-all clean compile lint coverage",
