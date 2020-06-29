@@ -2,9 +2,18 @@
   "name": "vscode-ui5-language-assistant",
   "displayName": "UI5 Language Assistant",
   "private": true,
-  "description": "UI5 extension for VSCode",
+  "description": "Language Support For SAPUI5",
   "version": "1.2.0",
-  "publisher": "SAPSE",
+  "publisher": "SAPOSS",
+  "icon": "resources/ui5-language-assistant.png",
+  "keywords": [
+    "UI5",
+    "OpenUI5",
+    "SAPUI5"
+  ],
+  "categories": [
+    "Programming Languages"
+  ],
   "license": "Apache-2.0",
   "main": "./lib/src/extension",
   "activationEvents": [
@@ -42,17 +51,12 @@
     }
   },
   "repository": "https://github.com/sap/ui5-language-assistant/tree/master/packages/vscode-ui5-language-assistant",
-  "keywords": [
-    "UI5",
-    "OpenUI5",
-    "SAPUI5"
-  ],
   "engines": {
     "vscode": "^1.46.0"
   },
   "scripts": {
     "ci": "npm-run-all clean compile lint test:unit coverage bundle package",
-    "clean": "rimraf ./dist ./lib ./coverage ./nyc_output *.vsix",
+    "clean": "rimraf ./dist ./lib ./coverage ./nyc_output *.vsix NOTICE LICENSE",
     "compile": "yarn run clean && tsc -p .",
     "compile:watch": "tsc -p . --watch",
     "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore",
