@@ -1,6 +1,6 @@
 {
   "name": "@ui5-language-assistant/semantic-model",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "Semantic model provider for UI5",
   "keywords": [],
   "files": [
@@ -22,7 +22,7 @@
   },
   "devDependencies": {
     "@types/deep-freeze-strict": "1.1.0",
-    "@ui5-language-assistant/test-utils": "^1.4.2",
+    "@ui5-language-assistant/test-utils": "^1.4.3",
     "json-schema-to-typescript": "9.1.0"
   },
   "scripts": {

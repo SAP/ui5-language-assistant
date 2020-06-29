@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.3.0](https://github.com/sap/ui5-language-assistant/tree/master/packages/vscode-ui5-language-assistant/compare/vscode-ui5-language-assistant@1.2.0...vscode-ui5-language-assistant@1.3.0) (2020-06-29)
+
+### Features
+
+- set schema configuration for manifest.json ([#192](https://github.com/sap/ui5-language-assistant/tree/master/packages/vscode-ui5-language-assistant/issues/192)) ([7e7880a](https://github.com/sap/ui5-language-assistant/tree/master/packages/vscode-ui5-language-assistant/commit/7e7880af58a52f59241b956faa77f757a310b95f))
+
 # [1.2.0](https://github.com/sap/ui5-language-assistant/tree/master/packages/vscode-ui5-language-assistant/compare/vscode-ui5-language-assistant@1.1.8...vscode-ui5-language-assistant@1.2.0) (2020-06-17)
 
 ### Features
