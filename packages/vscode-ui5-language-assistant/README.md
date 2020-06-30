@@ -105,6 +105,16 @@ Tooltips will be shown while hovering over an item.
 
   - Enum fields / SAPUI5 Namespaces
 
+### manifest.json Auto-Complete and Validations
+
+#### Preview
+
+![](./resources/preview-manifest-json.gif)
+
+#### Description:
+
+Implemented using the UI5 [manifest.json schema](https://github.com/SAP/ui5-manifest/blob/master/schema.json).
+
 ## Installation
 
 ### From the VSCode Marketplace
