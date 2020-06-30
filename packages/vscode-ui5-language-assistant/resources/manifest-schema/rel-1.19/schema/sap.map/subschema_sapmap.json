@@ -1,6 +1,0 @@
-{
-  "title": "JSON schema for SAP.MAP Namespace",
-
-  "description": "Represents specific attributes for SAP.MAP  ",
-  "type": "object"
-}

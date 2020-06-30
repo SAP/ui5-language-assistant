@@ -1,7 +1,0 @@
-{
-  "title": "JSON schema for SAP.CLOUD.PORTAL Namespace",
-
-  "description": "Represents Cloud Portal specific attributes",
-
-  "type": "object"
-}

@@ -1,6 +1,0 @@
-{
-  "title": "JSON schema for SAP.FE Namespace",
-
-  "description": "Represents specific attributes for Fiori Elements ",
-  "type": "object"
-}
