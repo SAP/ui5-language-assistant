@@ -5389,9 +5389,6 @@
           }
         }
       }
-    },
-    "http://adaptivecards.io/schemas/adaptive-card.json": {
-      "$ref": "http://adaptivecards.io/schemas/adaptive-card.json"
     }
   }
 }
