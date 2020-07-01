@@ -3814,13 +3814,6 @@
                   "enum": ["AdaptiveCard"]
                 }
               }
-            },
-            {
-              "properties": {
-                "content": {
-                  "$ref": "#/properties/sap.card/definitions/ContentType.AdaptiveCard"
-                }
-              }
             }
           ]
         }
@@ -4836,10 +4829,6 @@
               ]
             }
           }
-        },
-        "ContentType.AdaptiveCard": {
-          "description": "Represents AdaptiveCard content",
-          "$ref": "http://adaptivecards.io/schemas/adaptive-card.json#/definitions/AdaptiveCard"
         },
         "progressIndicator": {
           "description": "Represents progress indicator attributes",
