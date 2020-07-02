@@ -10,7 +10,6 @@ import {
   SERVER_PATH,
   ServerInitializationOptions,
 } from "@ui5-language-assistant/language-server";
-import { registerManifestSchema } from "./registerManifestSchema";
 
 let client: LanguageClient;
 
@@ -50,13 +49,6 @@ export async function activate(context: ExtensionContext): Promise<void> {
     serverOptions,
     clientOptions
   );
-
-  // This is a workaround to config `manifest.json` schema.
-  // Theia has a bug which there is no support for `contributes.jsonValidation`
-  //  - https://code.visualstudio.com/api/references/contribution-points#contributes.jsonValidation
-  if (process.env["THEIA_PARENT_PID"] !== undefined) {
-    registerManifestSchema();
-  }
 
   client.start();
 }

@@ -1,5 +1,2 @@
 # schema.json for manifest
 packages/vscode-ui5-language-assistant/resources/ @sapirpol
-
-# register manifest.json schema in workspace configuration - theia workaround
-packages/vscode-ui5-language-assistant/src/registerManifestSchema.ts @sapirpol @bd82
