@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.1](https://github.com/sap/ui5-language-assistant/tree/master/packages/vscode-ui5-language-assistant/compare/vscode-ui5-language-assistant@1.4.0...vscode-ui5-language-assistant@1.4.1) (2020-07-02)
+
+### Reverts
+
+- remove Theia manifet.json via settings.json workaround ([#220](https://github.com/sap/ui5-language-assistant/tree/master/packages/vscode-ui5-language-assistant/issues/220)) ([4ca8eb9](https://github.com/sap/ui5-language-assistant/tree/master/packages/vscode-ui5-language-assistant/commit/4ca8eb92c509a78ccc1f6ea9acac76cccdbc4fee))
+
 # [1.4.0](https://github.com/sap/ui5-language-assistant/tree/master/packages/vscode-ui5-language-assistant/compare/vscode-ui5-language-assistant@1.3.0...vscode-ui5-language-assistant@1.4.0) (2020-06-30)
 
 ### Features
