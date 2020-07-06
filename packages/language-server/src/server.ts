@@ -172,7 +172,8 @@ documents.onDidChangeContent(async (changeEvent) => {
   const documentUri = changeEvent.document.uri;
   const document = documents.get(documentUri);
   if (document !== undefined) {
-    //const isFlexEnabledFlag = getFlagForXMLFile(documentUri); - we should pass it later to diagnostics
+    // We should pass the flag to diagnostics
+    getFlagForXMLFile(documentUri);
     const diagnostics = getXMLViewDiagnostics({ document, ui5Model });
     connection.sendDiagnostics({ uri: changeEvent.document.uri, diagnostics });
   }
