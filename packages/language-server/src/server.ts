@@ -1,4 +1,7 @@
 /* istanbul ignore file */
+import { forEach, maxBy, map } from "lodash";
+import globby from "globby";
+import { readFile } from "fs-extra";
 import {
   createConnection,
   TextDocuments,
@@ -10,13 +13,12 @@ import {
   Hover,
   DidChangeConfigurationNotification,
 } from "vscode-languageserver";
+import { URI } from "vscode-uri";
+import { dirname } from "path";
 import { TextDocument } from "vscode-languageserver-textdocument";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { getSemanticModel } from "./ui5-model";
 import { getCompletionItems } from "./completion-items";
-import { ServerInitializationOptions } from "../api";
-import { getXMLViewDiagnostics } from "./xml-view-diagnostics";
-import { getHoverResponse } from "./hover";
 import {
   clearSettings,
   setGlobalSettings,
@@ -25,8 +27,18 @@ import {
   hasSettingsForDocument,
   getSettingsForDocument,
 } from "@ui5-language-assistant/settings";
+import { ServerInitializationOptions } from "../api";
+import { getXMLViewDiagnostics } from "./xml-view-diagnostics";
+import { getHoverResponse } from "./hover";
+
+let workspaceFolderUri: string | null;
+let workspaceFolderPath: string | null;
+type absolutePath = string;
+type manifestsData = Record<absolutePath, { isFlexEnabled: boolean }>;
+const manifestData: manifestsData = Object.create(null);
 
 const connection = createConnection(ProposedFeatures.all);
+let manifestDocuments: string[];
 const documents = new TextDocuments(TextDocument);
 let getSemanticModelPromise: Promise<UI5SemanticModel> | undefined = undefined;
 let initializationOptions: ServerInitializationOptions | undefined;
@@ -34,6 +46,13 @@ let hasConfigurationCapability = false;
 
 connection.onInitialize((params: InitializeParams) => {
   const capabilities = params.capabilities;
+  workspaceFolderUri = params.rootUri;
+  if (workspaceFolderUri) {
+    workspaceFolderPath = URI.parse(workspaceFolderUri).fsPath;
+  }
+
+  setManifestDocuments();
+
   // Does the client support the `workspace/configuration` request?
   // If not, we will fall back using global settings
   hasConfigurationCapability =
@@ -115,8 +134,35 @@ connection.onHover(
   }
 );
 
+connection.onDidChangeWatchedFiles(async (changeEvent) => {
+  forEach(changeEvent.changes, async (change) => {
+    const uri = change.uri;
+    if (!isManifestDoc(uri)) {
+      return;
+    }
+
+    const isFlexEnabled = await getFlagFromManifestFile(uri);
+    switch (change.type) {
+      case 1: //created
+      case 2: //changed
+        // Parsing of manifest.json failed because the file is invalid
+        if (isFlexEnabled !== "INVALID") {
+          const filePath = URI.parse(uri).fsPath;
+          manifestData[filePath] = { isFlexEnabled };
+        }
+        return;
+      case 3: //deleted
+        delete manifestData[uri];
+        return;
+    }
+  });
+});
+
 documents.onDidChangeContent(async (changeEvent) => {
-  if (getSemanticModelPromise === undefined) {
+  if (
+    getSemanticModelPromise === undefined ||
+    isManifestDoc(changeEvent.document.uri)
+  ) {
     return;
   }
   const ui5Model = await getSemanticModelPromise;
@@ -126,6 +172,7 @@ documents.onDidChangeContent(async (changeEvent) => {
   const documentUri = changeEvent.document.uri;
   const document = documents.get(documentUri);
   if (document !== undefined) {
+    //const isFlexEnabledFlag = getFlagForXMLFile(documentUri); - we should pass it later to diagnostics
     const diagnostics = getXMLViewDiagnostics({ document, ui5Model });
     connection.sendDiagnostics({ uri: changeEvent.document.uri, diagnostics });
   }
@@ -174,3 +221,60 @@ documents.onDidClose((e) => {
 documents.listen(connection);
 
 connection.listen();
+
+function isManifestDoc(uri: string): boolean {
+  return uri.endsWith("manifest.json");
+}
+
+function getFlagForXMLFile(uri: string): boolean {
+  const manifestFilesForCurrentFolder = Object.keys(
+    manifestData
+  ).filter((manifestUri) => uri.includes(dirname(manifestUri)));
+  const requiredManifestPath = maxBy(
+    manifestFilesForCurrentFolder,
+    (manifestFile) => manifestFile.length
+  );
+
+  if (requiredManifestPath === undefined) {
+    return false;
+  }
+
+  return manifestData[requiredManifestPath].isFlexEnabled;
+}
+
+async function getManifestDocumentsPromise(): Promise<string[]> {
+  return globby(`${workspaceFolderPath}/**/manifest.json`, {
+    cwd: `${workspaceFolderPath}`,
+  });
+}
+
+async function setManifestDocuments(): Promise<void[]> {
+  manifestDocuments = await getManifestDocumentsPromise();
+  const readManifestPromises = map(manifestDocuments, async (manifestDoc) => {
+    const isFlexEnabled = await getFlagFromManifestFile(manifestDoc);
+    // Parsing of manifest.json failed because the file is invalid
+    if (isFlexEnabled !== "INVALID") {
+      manifestData[manifestDoc] = { isFlexEnabled };
+    }
+  });
+
+  return Promise.all(readManifestPromises);
+}
+
+async function getFlagFromManifestFile(
+  manifestUri: string
+): Promise<boolean | "INVALID"> {
+  const manifestPath = await readFile(URI.parse(manifestUri).fsPath, "utf-8");
+  let manifestJsonObject;
+  try {
+    manifestJsonObject = JSON.parse(manifestPath);
+  } catch (err) {
+    console.log(err);
+    return "INVALID";
+  }
+
+  const ui5Object = manifestJsonObject["sap.ui5"] ?? { flexEnabled: false };
+  const isFlexEnabled = ui5Object.flexEnabled;
+
+  return isFlexEnabled;
+}
