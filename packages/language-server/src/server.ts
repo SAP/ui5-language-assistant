@@ -41,6 +41,7 @@ const connection = createConnection(ProposedFeatures.all);
 let manifestDocuments: string[];
 const documents = new TextDocuments(TextDocument);
 let getSemanticModelPromise: Promise<UI5SemanticModel> | undefined = undefined;
+let getInitialManifestStatePromise: Promise<void[]> | undefined = undefined;
 let initializationOptions: ServerInitializationOptions | undefined;
 let hasConfigurationCapability = false;
 
@@ -51,7 +52,7 @@ connection.onInitialize((params: InitializeParams) => {
     workspaceFolderPath = URI.parse(workspaceFolderUri).fsPath;
   }
 
-  setManifestDocuments();
+  getInitialManifestStatePromise = setManifestDocuments();
 
   // Does the client support the `workspace/configuration` request?
   // If not, we will fall back using global settings
@@ -161,11 +162,13 @@ connection.onDidChangeWatchedFiles(async (changeEvent) => {
 documents.onDidChangeContent(async (changeEvent) => {
   if (
     getSemanticModelPromise === undefined ||
+    getInitialManifestStatePromise === undefined ||
     isManifestDoc(changeEvent.document.uri)
   ) {
     return;
   }
   const ui5Model = await getSemanticModelPromise;
+  await getInitialManifestStatePromise;
   // TODO: should we check we are dealing with a *.[view|fragment].xml?
   //       The client does this, but perhaps we should be extra defensive in case of
   //       additional clients.
