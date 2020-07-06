@@ -23,7 +23,7 @@
   "devDependencies": {
     "@types/deep-freeze-strict": "1.1.0",
     "@ui5-language-assistant/test-utils": "^1.4.3",
-    "json-schema-to-typescript": "9.1.0"
+    "json-schema-to-typescript": "9.1.1"
   },
   "scripts": {
     "ci": "npm-run-all clean generate-json-api compile lint coverage",
