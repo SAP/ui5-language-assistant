@@ -36,18 +36,18 @@ import {
 
 const connection = createConnection(ProposedFeatures.all);
 const documents = new TextDocuments(TextDocument);
-let getSemanticModelPromise: Promise<UI5SemanticModel> | undefined = undefined;
-let getInitialManifestStatePromise: Promise<void[]> | undefined = undefined;
+let semanticModelLoaded: Promise<UI5SemanticModel> | undefined = undefined;
+let manifestStateInitialized: Promise<void[]> | undefined = undefined;
 let initializationOptions: ServerInitializationOptions | undefined;
 let hasConfigurationCapability = false;
 
 connection.onInitialize((params: InitializeParams) => {
   const capabilities = params.capabilities;
   const workspaceFolderUri = params.rootUri;
-  if (workspaceFolderUri) {
-    const workspaceFolderPath = URI.parse(workspaceFolderUri).fsPath;
-    getInitialManifestStatePromise = initializeManifestDocuments(
-      workspaceFolderPath
+  if (workspaceFolderUri !== null) {
+    const workspaceFolderAbsPath = URI.parse(workspaceFolderUri).fsPath;
+    manifestStateInitialized = initializeManifestDocuments(
+      workspaceFolderAbsPath
     );
   }
 
@@ -74,9 +74,7 @@ connection.onInitialize((params: InitializeParams) => {
 });
 
 connection.onInitialized(async () => {
-  getSemanticModelPromise = getSemanticModel(
-    initializationOptions?.modelCachePath
-  );
+  semanticModelLoaded = getSemanticModel(initializationOptions?.modelCachePath);
 
   if (hasConfigurationCapability) {
     // Register for all configuration changes
@@ -91,8 +89,8 @@ connection.onCompletion(
   async (
     textDocumentPosition: TextDocumentPositionParams
   ): Promise<CompletionItem[]> => {
-    if (getSemanticModelPromise !== undefined) {
-      const model = await getSemanticModelPromise;
+    if (semanticModelLoaded !== undefined) {
+      const model = await semanticModelLoaded;
       const documentUri = textDocumentPosition.textDocument.uri;
       const document = documents.get(documentUri);
       if (document) {
@@ -120,8 +118,8 @@ connection.onHover(
   async (
     textDocumentPosition: TextDocumentPositionParams
   ): Promise<Hover | undefined> => {
-    if (getSemanticModelPromise !== undefined) {
-      const model = await getSemanticModelPromise;
+    if (semanticModelLoaded !== undefined) {
+      const model = await semanticModelLoaded;
       const documentUri = textDocumentPosition.textDocument.uri;
       const document = documents.get(documentUri);
       if (document) {
@@ -145,23 +143,25 @@ connection.onDidChangeWatchedFiles(async (changeEvent) => {
 
 documents.onDidChangeContent(async (changeEvent) => {
   if (
-    getSemanticModelPromise === undefined ||
-    getInitialManifestStatePromise === undefined ||
-    isManifestDoc(changeEvent.document.uri)
+    semanticModelLoaded === undefined ||
+    manifestStateInitialized === undefined ||
+    !isXMLView(changeEvent.document.uri)
   ) {
     return;
   }
-  const ui5Model = await getSemanticModelPromise;
-  await getInitialManifestStatePromise;
+
+  const ui5Model = await semanticModelLoaded;
+  await manifestStateInitialized;
   // TODO: should we check we are dealing with a *.[view|fragment].xml?
   //       The client does this, but perhaps we should be extra defensive in case of
   //       additional clients.
   const documentUri = changeEvent.document.uri;
   const document = documents.get(documentUri);
   if (document !== undefined) {
-    // We should pass the flag to diagnostics
     const documentPath = URI.parse(documentUri).fsPath;
-    getFlexEnabledFlagForXMLFile(documentPath);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const isFlexEnabled = getFlexEnabledFlagForXMLFile(documentPath);
+    // TODO: We should pass the `flexEnabled` flag to diagnostics
     const diagnostics = getXMLViewDiagnostics({ document, ui5Model });
     connection.sendDiagnostics({ uri: changeEvent.document.uri, diagnostics });
   }
@@ -210,3 +210,7 @@ documents.onDidClose((e) => {
 documents.listen(connection);
 
 connection.listen();
+
+function isXMLView(uri: string): boolean {
+  return /(view|fragment)\.xml/i.test(uri);
+}

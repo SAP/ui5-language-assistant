@@ -36,10 +36,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
   const clientOptions: LanguageClientOptions = {
     documentSelector: [{ scheme: "file", pattern: "**/*.{view,fragment}.xml" }],
     synchronize: {
-      fileEvents: [
-        workspace.createFileSystemWatcher("**/*.{view,fragment}.xml"),
-        workspace.createFileSystemWatcher("**/manifest.json"),
-      ],
+      fileEvents: [workspace.createFileSystemWatcher("**/manifest.json")],
     },
     // Sending a channel we created instead of only giving it a name in outputChannelName so that if necessary we
     // can print to it before the client starts (in this method)

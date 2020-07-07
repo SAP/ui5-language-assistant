@@ -1,14 +1,13 @@
+import { dirname } from "path";
 import { maxBy, map, filter } from "lodash";
 import { readFile } from "fs-extra";
 import { URI } from "vscode-uri";
-import { dirname } from "path";
 import globby from "globby";
 import { FileChangeType } from "vscode-languageserver";
 
 type AbsolutePath = string;
-type ManifestData = Record<AbsolutePath, { isFlexEnabled: boolean }>;
+type ManifestData = Record<AbsolutePath, { flexEnabled: boolean }>;
 const manifestData: ManifestData = Object.create(null);
-let manifestDocuments: string[];
 
 export function isManifestDoc(uri: string): boolean {
   return uri.endsWith("manifest.json");
@@ -17,16 +16,18 @@ export function isManifestDoc(uri: string): boolean {
 export async function initializeManifestDocuments(
   workspaceFolderPath: string
 ): Promise<void[]> {
-  manifestDocuments = await findAllManifestDocumentsInWorkspace(
+  const manifestDocuments = await findAllManifestDocumentsInWorkspace(
     workspaceFolderPath
   );
+
   const readManifestPromises = map(manifestDocuments, async (manifestDoc) => {
     const isFlexEnabled = await readFlexEnabledFlagFromManifestFile(
       manifestDoc
     );
+
     // Parsing of manifest.json failed because the file is invalid
     if (isFlexEnabled !== "INVALID") {
-      manifestData[manifestDoc] = { isFlexEnabled };
+      manifestData[manifestDoc] = { flexEnabled: isFlexEnabled };
     }
   });
 
@@ -36,34 +37,41 @@ export async function initializeManifestDocuments(
 export function getFlexEnabledFlagForXMLFile(xmlPath: string): boolean {
   const manifestFilesForCurrentFolder = filter(
     Object.keys(manifestData),
-    (manifestPath) => xmlPath.includes(dirname(manifestPath))
+    (manifestPath) => xmlPath.startsWith(dirname(manifestPath))
   );
-  const requiredManifestPath = maxBy(
+
+  const closestManifestPath = maxBy(
     manifestFilesForCurrentFolder,
     (manifestPath) => manifestPath.length
   );
 
-  if (requiredManifestPath === undefined) {
+  if (closestManifestPath === undefined) {
     return false;
   }
 
-  return manifestData[requiredManifestPath].isFlexEnabled;
+  return manifestData[closestManifestPath].flexEnabled;
 }
 
 export async function updateManifestData(
   manifestUri: string,
   changeType: FileChangeType
 ): Promise<void> {
-  const isFlexEnabled = await readFlexEnabledFlagFromManifestFile(manifestUri);
   const manifestPath = URI.parse(manifestUri).fsPath;
+  /*eslint no-case-declarations: "error"*/
   switch (changeType) {
     case 1: //created
-    case 2: //changed
+    case 2: {
+      //changed
+      const isFlexEnabled = await readFlexEnabledFlagFromManifestFile(
+        manifestUri
+      );
       // Parsing of manifest.json failed because the file is invalid
+      // We want to keep last successfully read state - manifset.json file may be actively edited
       if (isFlexEnabled !== "INVALID") {
-        manifestData[manifestPath] = { isFlexEnabled };
+        manifestData[manifestPath] = { flexEnabled: isFlexEnabled };
       }
       return;
+    }
     case 3: //deleted
       delete manifestData[manifestPath];
       return;
@@ -73,9 +81,7 @@ export async function updateManifestData(
 async function findAllManifestDocumentsInWorkspace(
   workspaceFolderPath: string
 ): Promise<string[]> {
-  return globby(`${workspaceFolderPath}/**/manifest.json`, {
-    cwd: `${workspaceFolderPath}`,
-  });
+  return globby(`${workspaceFolderPath}/**/manifest.json`);
 }
 
 async function readFlexEnabledFlagFromManifestFile(
@@ -85,11 +91,11 @@ async function readFlexEnabledFlagFromManifestFile(
     URI.parse(manifestUri).fsPath,
     "utf-8"
   );
+
   let manifestJsonObject;
   try {
     manifestJsonObject = JSON.parse(manifestContent);
   } catch (err) {
-    console.log(err);
     return "INVALID";
   }
 
