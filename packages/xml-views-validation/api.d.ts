@@ -91,3 +91,7 @@ export interface NonUniqueIDIssue extends BaseUI5XMLViewIssue {
   kind: "NonUniqueIDIssue";
   identicalIDsRanges: OffsetRange[];
 }
+
+export interface NonStableIDIssue extends BaseUI5XMLViewIssue {
+  kind: "NonStableIDIssue";
+}
