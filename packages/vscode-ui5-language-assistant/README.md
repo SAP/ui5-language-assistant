@@ -109,9 +109,7 @@ The feature is available in the following:
 
 ### manifest.json Auto-Complete and Validations
 
-#### Preview
-
-![](https://cdn.jsdelivr.net/gh/SAP/ui5-language-assistant@master/packages/vscode-ui5-language-assistanhttps://cdn.jsdelivr.net/gh/SAP/ui5-language-assistant@master/packages/vscode-ui5-language-assistant/resources/readme/readme/preview-manifest-json.gif)
+![](https://cdn.jsdelivr.net/gh/SAP/ui5-language-assistant@master/packages/vscode-ui5-language-assistant/resources/readme/preview-manifest-json.gif)
 
 #### Description:
 
@@ -121,7 +119,7 @@ Implemented using the UI5 [manifest.json schema](https://github.com/SAP/ui5-mani
 
 ### From the VS Code Marketplace
 
-In the [UI5 Language Assistant](https://marketplace.visualstudio.com/items?itemName=SAPOSS.ui5-language-assistant) VS Code marketplace page, click **Install**.
+In the [UI5 Language Assistant](https://marketplace.visualstudio.com/items?itemName=SAPOSS.vscode-ui5-language-assistant) VS Code marketplace page, click **Install**.
 
 ### From GitHub Releases
 
