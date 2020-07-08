@@ -1,4 +1,4 @@
-# SAPUI5 Language Support
+# UI5 Language Support
 
 This VS Code extension provides SAPUI5 language editor support.
 
@@ -66,7 +66,7 @@ and cannot be configured by the end user.
   - Unknown `eum` values
   - Unknown `xmlns` namespace
   - Unknown tag names
-  - No unique tag IDs
+  - Duplicate ID tags
   - Wrong cardinality of aggregation
   - Wrong type of tags inside aggregations
 
@@ -96,8 +96,8 @@ The feature is available in the following:
   - Aggregations
 
 - XML attribute keys:
- 
- - Properties
+
+  - Properties
   - Events
   - Associations
   - Aggregations
@@ -106,7 +106,6 @@ The feature is available in the following:
 
   - Enum values
   - SAPUI5 Namespaces
- 
 
 ### manifest.json Auto-Complete and Validations
 
@@ -123,7 +122,6 @@ Implemented using the UI5 [manifest.json schema](https://github.com/SAP/ui5-mani
 ### From the VS Code Marketplace
 
 In the [UI5 Language Assistant](https://marketplace.visualstudio.com/items?itemName=SAPOSS.ui5-language-assistant) VS Code marketplace page, click **Install**.
-
 
 ### From GitHub Releases
 
