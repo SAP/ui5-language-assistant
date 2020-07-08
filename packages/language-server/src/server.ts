@@ -30,7 +30,7 @@ import { getHoverResponse } from "./hover";
 import {
   getFlexEnabledFlagForXMLFile,
   isManifestDoc,
-  initializeManifestDocuments,
+  initializeManifestData,
   updateManifestData,
 } from "./manifest-handling";
 
@@ -46,9 +46,7 @@ connection.onInitialize((params: InitializeParams) => {
   const workspaceFolderUri = params.rootUri;
   if (workspaceFolderUri !== null) {
     const workspaceFolderAbsPath = URI.parse(workspaceFolderUri).fsPath;
-    manifestStateInitialized = initializeManifestDocuments(
-      workspaceFolderAbsPath
-    );
+    manifestStateInitialized = initializeManifestData(workspaceFolderAbsPath);
   }
 
   // Does the client support the `workspace/configuration` request?

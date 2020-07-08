@@ -13,7 +13,7 @@ export function isManifestDoc(uri: string): boolean {
   return uri.endsWith("manifest.json");
 }
 
-export async function initializeManifestDocuments(
+export async function initializeManifestData(
   workspaceFolderPath: string
 ): Promise<void[]> {
   const manifestDocuments = await findAllManifestDocumentsInWorkspace(
