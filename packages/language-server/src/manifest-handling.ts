@@ -57,7 +57,6 @@ export async function updateManifestData(
   changeType: FileChangeType
 ): Promise<void> {
   const manifestPath = URI.parse(manifestUri).fsPath;
-  /*eslint no-case-declarations: "error"*/
   switch (changeType) {
     case 1: //created
     case 2: {

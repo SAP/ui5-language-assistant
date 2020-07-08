@@ -150,9 +150,6 @@ documents.onDidChangeContent(async (changeEvent) => {
 
   const ui5Model = await semanticModelLoaded;
   await manifestStateInitialized;
-  // TODO: should we check we are dealing with a *.[view|fragment].xml?
-  //       The client does this, but perhaps we should be extra defensive in case of
-  //       additional clients.
   const documentUri = changeEvent.document.uri;
   const document = documents.get(documentUri);
   if (document !== undefined) {
@@ -210,5 +207,5 @@ documents.listen(connection);
 connection.listen();
 
 function isXMLView(uri: string): boolean {
-  return /(view|fragment)\.xml/i.test(uri);
+  return /(view|fragment)\.xml$/.test(uri);
 }
