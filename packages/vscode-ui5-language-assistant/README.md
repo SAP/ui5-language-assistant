@@ -1,115 +1,117 @@
 # UI5 Language Support
 
-A VSCode extension providing SAPUI5 language editor support.
+This VS Code extension provides SAPUI5 language editor support.
 
 ## Features
 
-### XML Views Auto-Complete / Context-Assist
+### XML Views Auto-Complete/Context-Assist
 
-#### Preview
-
-![](./resources/preview-content-assist.gif)
+![](https://cdn.jsdelivr.net/gh/SAP/ui5-language-assistant@master/packages/vscode-ui5-language-assistant/resources/readme/preview-content-assist.gif)
 
 #### Description
 
-- Relevant filters would be applied to suggestions, e.g:
+The tool provides the following support:
 
-  - Only classes that match the parent aggregation's **type** would be offered.
-  - In a "full" aggregation with cardinality `0..1`, no more suggestions would be made.
-  - Only classes inside the xmlns prefix used would be offered.
-  - Deprecated and Experimental SAPUI5 node would not be offered by default (configurable).
+- Relevant filters to suggestions. For example:
 
-- Additional text would be inserted for ease of use, e.g:
+  - Only classes that match the parent aggregation's **type** are offered.
+  - In a "full" aggregation with cardinality `0..1`, no more suggestions are made.
+  - Only classes inside the `xmlns` prefix used are offered.
+  - Deprecated and experimental SAPUI5 nodes are not be offered by default (configurable).
 
-  - Auto insertion of closing tags name for classes and aggregations.
-  - Auto insertion of `=""` for attributes keys suggestions.
-  - Auto insertion of xmlns prefix for classes and aggregation tags.
+- Additional text for ease of use. For example:
 
-- Tooltips will be shown while browsing the suggestions.
+  - Auto-insertion of name for closing tags for classes and aggregations.
+  - Auto-insertion of `=""` for attribute key suggestions.
+  - Auto-insertion of the `xmlns` prefix for classes and aggregation tags.
 
-  - Including a clickable link to the SAPUI5 SDK.
+- Tooltips displayed while browsing the suggestions including a clickable link to the SAPUI5 SDK (Demo Kit).
 
-#### Available In:
+#### Availability
 
-- In XML tags:
+The feature is available in the following:
 
-  - Classes.
-  - Aggregations.
+- XML tags:
 
-- In XML attribute keys:
+  - Classes
+  - Aggregations
 
-  - Properties.
-  - Events.
-  - Associations.
-  - Namespaces prefixes.
+- XML attribute keys:
 
-- In XML attribute values:
-  - Enum values.
-  - Boolean values.
-  - Namespaces fully qualified names.
+  - Properties
+  - Events
+  - Associations
+  - Namespace prefixes
 
-### XML Views Validations
+- XML attribute values:
+  - Enum values
+  - Boolean values
+  - Namespaces fully qualified names
 
-#### Preview
+### XML View Validations
 
-![](./resources/preview-validations.gif)
+![](https://cdn.jsdelivr.net/gh/SAP/ui5-language-assistant@master/packages/vscode-ui5-language-assistant/resources/readme/preview-validations.gif)
 
 #### Description
 
 The list of validations and their severity are currently hard-coded
 and cannot be configured by the end user.
 
-#### Validations List
+#### Validation List
 
 - Errors:
 
-  - Invalid boolean values.
-  - Unknown attribute keys.
-  - Unknown eum values.
-  - Unknown xmlns namespace.
-  - Unknown tag names.
-  - None unique tags IDs.
-  - Wrong cardinality of aggregation.
-  - Wrong type of tags inside aggregations.
+  - Invalid boolean values
+  - Unknown attribute keys
+  - Unknown `eum` values
+  - Unknown `xmlns` namespace
+  - Unknown tag names
+  - Duplicate ID tags
+  - Wrong cardinality of aggregation
+  - Wrong type of tags inside aggregations
 
 - Warnings:
 
-  - Use of deprecated classes.
-  - Use of deprecated aggregations.
-  - Use of deprecated properties.
-  - Use of deprecated events.
-  - Use of deprecated associations.
+  - Use of deprecated classes
+  - Use of deprecated aggregations
+  - Use of deprecated properties
+  - Use of deprecated events
+  - Use of deprecated associations
 
-### XML Views Hover Tooltips
+### XML View Hover Tooltips
 
-#### Preview
+![](https://cdn.jsdelivr.net/gh/SAP/ui5-language-assistant@master/packages/vscode-ui5-language-assistant/resources/readme/preview-hover-tooltips.gif)
 
-![](./resources/preview-hover-tooltips.gif)
+#### Description
 
-#### Description:
+Tooltips will be shown when hovering over an item.
 
-Tooltips will be shown while hovering over an item.
+#### Availability
 
-#### Available In:
+The feature is available in the following:
 
-- in XML Tags
+- XML tags:
 
-  - Classes.
-  - Aggregations.
+  - Classes
+  - Aggregations
 
-- In XML attribute keys:
+- XML attribute keys:
 
-  - Property / event / association / aggregation.
+  - Properties
+  - Events
+  - Associations
+  - Aggregations
 
-- In XML attribute Values:
+- XML attribute values:
 
-  - Enum fields / SAPUI5 Namespaces
+  - Enum values
+  - SAPUI5 Namespaces
 
 ### manifest.json Auto-Complete and Validations
 
 #### Preview
 
-![](./resources/preview-manifest-json.gif)
+![](https://cdn.jsdelivr.net/gh/SAP/ui5-language-assistant@master/packages/vscode-ui5-language-assistanhttps://cdn.jsdelivr.net/gh/SAP/ui5-language-assistant@master/packages/vscode-ui5-language-assistant/resources/readme/readme/preview-manifest-json.gif)
 
 #### Description:
 
@@ -117,42 +119,39 @@ Implemented using the UI5 [manifest.json schema](https://github.com/SAP/ui5-mani
 
 ## Installation
 
-### From the VSCode Marketplace
+### From the VS Code Marketplace
 
-Click the `install` button on [UI5 Language Assistant VSCode marketplace page](https://marketplace.visualstudio.com/items?itemName=SAPOSS.ui5-language-assistant).
+In the [UI5 Language Assistant](https://marketplace.visualstudio.com/items?itemName=SAPOSS.ui5-language-assistant) VS Code marketplace page, click **Install**.
 
-### From Github Releases
+### From GitHub Releases
 
-The extension can also be downloaded and installed via [Github Releases](https://github.com/sap/ui5-language-assistant/releases).
-
-- The .vsix archive can be found under the **"ui5-language-assist\@x.y.z"** releases.
-  - Replace `x.y.z` with the desired version number.
-- See [VSCode's guide](https://code.visualstudio.com/docs/editor/extension-gallery#_install-from-a-vsix)
-  for installing an extension from a .vsix file.
+1. Go to [GitHub Releases](https://github.com/sap/ui5-language-assistant/releases).
+2. Search for the `.vsix` archive under `ui5-language-assist\@x.y.z` releases. (Replace `x.y.z` with the desired version number.)
+3. Follow the instructions for installing an extension from a `.vsix` file in the [VSCode's guide](https://code.visualstudio.com/docs/editor/extension-gallery#_install-from-a-vsix).
 
 ### Usage
 
-This extension's features will automatically be enabled when opening/editing relevant SAPUI5 source files.
-In the case of SAPUI5 XML views this means:`*.view.xml` or `*.fragment.xml` files.
+This extension's features are automatically enabled when opening/editing relevant SAPUI5 source files.
+For SAPUI5 XML views, this means:`*.view.xml` or `*.fragment.xml` files.
 
 Note that the extension **lazily** downloads the SAPUI5 metadata needed for its features.
-This means there may be a delay between starting VSCode and having the relevant features available.
+This means that there may be a delay between starting VS Code and having the relevant features available.
 
 ### Limitations
 
-#### SAPUI5 Version
+#### SAPUI5 version
 
 This extension currently uses a hard-coded (1.71.x) version for the SAPUI5 metadata.
 
-#### Custom Controls
+#### Custom controls
 
-This extension does not currently support custom controls, some features, e.g: validations
-may use heuristics to guess a tag is a custom control, however no auto-complete is currently offered
+This extension does not currently support custom controls, some features, such as validations,
+may use heuristics to guess that a tag is a custom control. However, no auto-complete is currently offered
 for custom controls.
 
 ### Support
 
-Please open [issues](https://github.com/SAP/ui5-language-assistant/issues) on github.
+You can open [issues](https://github.com/SAP/ui5-language-assistant/issues) on GitHub.
 
 ### Contributing
 

@@ -17,3 +17,6 @@ coverage/**
 lib/test/**
 test/**
 scripts
+
+# Readme gifs (linked via jsdeliver instead of part of vsix).
+resources/readme
