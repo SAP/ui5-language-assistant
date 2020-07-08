@@ -1,4 +1,5 @@
 /* istanbul ignore file */
+import { forEach } from "lodash";
 import {
   createConnection,
   TextDocuments,
@@ -10,13 +11,9 @@ import {
   Hover,
   DidChangeConfigurationNotification,
 } from "vscode-languageserver";
+import { URI } from "vscode-uri";
 import { TextDocument } from "vscode-languageserver-textdocument";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
-import { getSemanticModel } from "./ui5-model";
-import { getCompletionItems } from "./completion-items";
-import { ServerInitializationOptions } from "../api";
-import { getXMLViewDiagnostics } from "./xml-view-diagnostics";
-import { getHoverResponse } from "./hover";
 import {
   clearSettings,
   setGlobalSettings,
@@ -25,15 +22,33 @@ import {
   hasSettingsForDocument,
   getSettingsForDocument,
 } from "@ui5-language-assistant/settings";
+import { ServerInitializationOptions } from "../api";
+import { getSemanticModel } from "./ui5-model";
+import { getCompletionItems } from "./completion-items";
+import { getXMLViewDiagnostics } from "./xml-view-diagnostics";
+import { getHoverResponse } from "./hover";
+import {
+  getFlexEnabledFlagForXMLFile,
+  isManifestDoc,
+  initializeManifestData,
+  updateManifestData,
+} from "./manifest-handling";
 
 const connection = createConnection(ProposedFeatures.all);
 const documents = new TextDocuments(TextDocument);
-let getSemanticModelPromise: Promise<UI5SemanticModel> | undefined = undefined;
+let semanticModelLoaded: Promise<UI5SemanticModel> | undefined = undefined;
+let manifestStateInitialized: Promise<void[]> | undefined = undefined;
 let initializationOptions: ServerInitializationOptions | undefined;
 let hasConfigurationCapability = false;
 
 connection.onInitialize((params: InitializeParams) => {
   const capabilities = params.capabilities;
+  const workspaceFolderUri = params.rootUri;
+  if (workspaceFolderUri !== null) {
+    const workspaceFolderAbsPath = URI.parse(workspaceFolderUri).fsPath;
+    manifestStateInitialized = initializeManifestData(workspaceFolderAbsPath);
+  }
+
   // Does the client support the `workspace/configuration` request?
   // If not, we will fall back using global settings
   hasConfigurationCapability =
@@ -57,9 +72,7 @@ connection.onInitialize((params: InitializeParams) => {
 });
 
 connection.onInitialized(async () => {
-  getSemanticModelPromise = getSemanticModel(
-    initializationOptions?.modelCachePath
-  );
+  semanticModelLoaded = getSemanticModel(initializationOptions?.modelCachePath);
 
   if (hasConfigurationCapability) {
     // Register for all configuration changes
@@ -74,8 +87,8 @@ connection.onCompletion(
   async (
     textDocumentPosition: TextDocumentPositionParams
   ): Promise<CompletionItem[]> => {
-    if (getSemanticModelPromise !== undefined) {
-      const model = await getSemanticModelPromise;
+    if (semanticModelLoaded !== undefined) {
+      const model = await semanticModelLoaded;
       const documentUri = textDocumentPosition.textDocument.uri;
       const document = documents.get(documentUri);
       if (document) {
@@ -103,8 +116,8 @@ connection.onHover(
   async (
     textDocumentPosition: TextDocumentPositionParams
   ): Promise<Hover | undefined> => {
-    if (getSemanticModelPromise !== undefined) {
-      const model = await getSemanticModelPromise;
+    if (semanticModelLoaded !== undefined) {
+      const model = await semanticModelLoaded;
       const documentUri = textDocumentPosition.textDocument.uri;
       const document = documents.get(documentUri);
       if (document) {
@@ -115,17 +128,35 @@ connection.onHover(
   }
 );
 
+connection.onDidChangeWatchedFiles(async (changeEvent) => {
+  forEach(changeEvent.changes, async (change) => {
+    const uri = change.uri;
+    if (!isManifestDoc(uri)) {
+      return;
+    }
+
+    await updateManifestData(uri, change.type);
+  });
+});
+
 documents.onDidChangeContent(async (changeEvent) => {
-  if (getSemanticModelPromise === undefined) {
+  if (
+    semanticModelLoaded === undefined ||
+    manifestStateInitialized === undefined ||
+    !isXMLView(changeEvent.document.uri)
+  ) {
     return;
   }
-  const ui5Model = await getSemanticModelPromise;
-  // TODO: should we check we are dealing with a *.[view|fragment].xml?
-  //       The client does this, but perhaps we should be extra defensive in case of
-  //       additional clients.
+
+  const ui5Model = await semanticModelLoaded;
+  await manifestStateInitialized;
   const documentUri = changeEvent.document.uri;
   const document = documents.get(documentUri);
   if (document !== undefined) {
+    const documentPath = URI.parse(documentUri).fsPath;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const isFlexEnabled = getFlexEnabledFlagForXMLFile(documentPath);
+    // TODO: We should pass the `flexEnabled` flag to diagnostics
     const diagnostics = getXMLViewDiagnostics({ document, ui5Model });
     connection.sendDiagnostics({ uri: changeEvent.document.uri, diagnostics });
   }
@@ -174,3 +205,7 @@ documents.onDidClose((e) => {
 documents.listen(connection);
 
 connection.listen();
+
+function isXMLView(uri: string): boolean {
+  return /(view|fragment)\.xml$/.test(uri);
+}
