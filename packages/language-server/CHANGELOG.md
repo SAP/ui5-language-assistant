@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.9.0](https://github.com/sap/ui5-language-assistant/compare/@ui5-language-assistant/language-server@1.8.1...@ui5-language-assistant/language-server@1.9.0) (2020-07-08)
+
+### Features
+
+- manifest.json state management ([#224](https://github.com/sap/ui5-language-assistant/issues/224)) ([da2682e](https://github.com/sap/ui5-language-assistant/commit/da2682e474ff13d42ad913a6c7e57bb65d546f66))
+
 ## [1.8.1](https://github.com/sap/ui5-language-assistant/compare/@ui5-language-assistant/language-server@1.8.0...@ui5-language-assistant/language-server@1.8.1) (2020-06-29)
 
 **Note:** Version bump only for package @ui5-language-assistant/language-server
