@@ -6,14 +6,9 @@ import {
   XMLDocument,
   XMLToken,
 } from "@xml-tools/ast";
-import { resolveXMLNS } from "@ui5-language-assistant/logic-utils";
 import { NonUniqueIDIssue } from "../../../api";
-import {
-  SVG_NS,
-  TEMPLATING_NS,
-  XHTML_NS,
-} from "../../utils/special-namespaces";
 import { getMessage, NON_UNIQUE_ID } from "../../utils/messages";
+import { isCustomClass } from "../../utils/custom-class";
 
 export function validateNonUniqueID(xmlDoc: XMLDocument): NonUniqueIDIssue[] {
   const idCollector = new IdsCollectorVisitor();
@@ -77,11 +72,7 @@ class IdsCollectorVisitor implements XMLAstVisitor {
       attrib.value !== "" &&
       attrib.syntax.value !== undefined &&
       attrib.parent.name !== null &&
-      // Heuristic to limit false positives by only checking tags starting with upper
-      // case names, This would **mostly** limit the checks for things that can actually be
-      // UI5 Elements / Controls.
-      /^[A-Z]/.test(attrib.parent.name) &&
-      !isNoneUI5id(attrib)
+      isCustomClass(attrib.parent)
     ) {
       if (this.idsToXMLElements[attrib.value] === undefined) {
         // @ts-expect-error - TSC does not understand: `attrib.syntax.value !== undefined` is a type guard
@@ -92,23 +83,4 @@ class IdsCollectorVisitor implements XMLAstVisitor {
       }
     }
   }
-}
-
-// We only care about UI5 elements/controls IDs when check non-unique IDs
-// `id` attributes in these: **known** namespaces which are sometimes used
-// in UI5 xml-views are definitively not relevant for this validation
-const whiteListedNamespaces: Record<string, boolean> = {
-  [SVG_NS]: true,
-  [TEMPLATING_NS]: true,
-  [XHTML_NS]: true,
-};
-Object.freeze(whiteListedNamespaces);
-
-function isNoneUI5id(attrib: XMLAttribute): boolean {
-  const parentElement = attrib.parent;
-  const parentResolvedNamespace = resolveXMLNS(parentElement);
-  if (parentResolvedNamespace === undefined) {
-    return false;
-  }
-  return whiteListedNamespaces[parentResolvedNamespace];
 }

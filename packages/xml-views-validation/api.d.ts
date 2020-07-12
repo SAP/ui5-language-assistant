@@ -4,6 +4,7 @@ import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 export function validateXMLView(opts: {
   model: UI5SemanticModel;
   xmlView: XMLDocument;
+  flexEnabled: boolean;
 }): UI5XMLViewIssue[];
 
 export type XMLViewIssueSeverity = "hint" | "info" | "warn" | "error";
@@ -30,6 +31,7 @@ export type UI5XMLViewIssue =
   | UnknownNamespaceInXmlnsAttributeValueIssue
   | InvalidBooleanValueIssue
   | NonUniqueIDIssue
+  | NonStableIDIssue
   | UnknownAttributeKeyIssue
   | UnknownTagNameIssue
   | InvalidAggregationCardinalityIssue

@@ -34,7 +34,11 @@ describe("the ui5 xml views validations API", () => {
     const { cst, tokenVector } = parse(xmlSnippet);
     const ast = buildAst(cst as DocumentCstNode, tokenVector);
 
-    const issues = validateXMLView({ model: ui5SemanticModel, xmlView: ast });
+    const issues = validateXMLView({
+      model: ui5SemanticModel,
+      xmlView: ast,
+      flexEnabled: false,
+    });
     expect(issues).to.have.lengthOf(2);
     const issueTypes = map(issues, (_) => _.kind);
     expect(issueTypes).to.include.members([

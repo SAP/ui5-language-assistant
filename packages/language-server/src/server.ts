@@ -154,10 +154,12 @@ documents.onDidChangeContent(async (changeEvent) => {
   const document = documents.get(documentUri);
   if (document !== undefined) {
     const documentPath = URI.parse(documentUri).fsPath;
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const isFlexEnabled = getFlexEnabledFlagForXMLFile(documentPath);
-    // TODO: We should pass the `flexEnabled` flag to diagnostics
-    const diagnostics = getXMLViewDiagnostics({ document, ui5Model });
+    const flexEnabled = getFlexEnabledFlagForXMLFile(documentPath);
+    const diagnostics = getXMLViewDiagnostics({
+      document,
+      ui5Model,
+      flexEnabled,
+    });
     connection.sendDiagnostics({ uri: changeEvent.document.uri, diagnostics });
   }
 });
