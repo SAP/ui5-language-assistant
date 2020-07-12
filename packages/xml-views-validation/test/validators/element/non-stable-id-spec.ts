@@ -165,7 +165,7 @@ describe("the use of non stable id validation", () => {
     it("will not detect an issue for tag without a name", () => {
       assertNoIssues(
         `< >
-                </View>`
+        </View>`
       );
     });
   });

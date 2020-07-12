@@ -6,6 +6,8 @@ import { resolveXMLNS } from "@ui5-language-assistant/logic-utils";
 // case names, This would **mostly** limit the checks for things that can actually be
 // UI5 Elements / Controls.
 export function isCustomClass(xmlElement: XMLElement): boolean {
+  // This will never happen - it was checked before calling this function
+  /* istanbul ignore if */
   if (xmlElement.name === null) {
     return false;
   }

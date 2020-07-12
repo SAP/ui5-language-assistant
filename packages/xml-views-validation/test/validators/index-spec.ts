@@ -13,7 +13,10 @@ describe("The `allValidators` constant", () => {
   const filePaths = map(klawItems, (_) => _.path);
   validatorPaths = filter(
     filePaths,
-    (_) => _.endsWith(".js") && !_.endsWith("index.js")
+    (_) =>
+      _.endsWith(".js") &&
+      !_.endsWith("index.js") &&
+      !_.endsWith("non-stable-id.js")
   );
   expect(validatorPaths).to.not.be.empty;
 
