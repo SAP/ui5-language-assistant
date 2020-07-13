@@ -146,7 +146,7 @@ describe("the use of non stable id validation", () => {
       );
     });
 
-    it("will not detect an issue when there is a whitelisted UI5 class", () => {
+    it("will not detect an issue for a whitelisted UI5 class", () => {
       assertNoIssues(
         `<mvc:View xmlns:core="sap.ui.core" xmlns:uxap="sap.uxap" xmlns:m="sap.m"
           xmlns:mvc="sap.ui.core.mvc"
