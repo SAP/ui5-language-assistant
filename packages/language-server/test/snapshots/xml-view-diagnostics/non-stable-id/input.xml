@@ -9,7 +9,7 @@
             </m:customData>
         </m:Button>
         <m:Panel sap.ui.dt:designtime="not-adaptable">
-            <🢂m:Button🢀>
-            </m:Button>
+            <🢂m:Dialog🢀>
+            </m:Dialog>
         </m:Panel>
 </mvc:View>

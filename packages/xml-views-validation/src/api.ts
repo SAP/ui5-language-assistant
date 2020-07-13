@@ -9,7 +9,7 @@ import { validateNonStableId } from "./validators/elements/non-stable-id";
 export function validateXMLView(opts: {
   model: UI5SemanticModel;
   xmlView: XMLDocument;
-  flexEnabled: boolean;
+  flexEnabled?: boolean;
 }): UI5XMLViewIssue[] {
   const actualValidators = cloneDeep(allValidators);
   if (opts.flexEnabled) {

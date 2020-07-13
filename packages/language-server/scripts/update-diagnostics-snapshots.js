@@ -2,8 +2,7 @@
 const klawSync = require("klaw-sync");
 const { forEach, filter, map } = require("lodash");
 const { resolve, dirname } = require("path");
-const { writeFileSync } = require("fs");
-const { existsSync } = require("fs-extra");
+const { writeFileSync, existsSync } = require("fs");
 const { format } = require("prettier");
 
 const {

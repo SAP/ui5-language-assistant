@@ -13,7 +13,7 @@ export const UNKNOWN_TAG_NAME_NO_NS = `The "{0}" name is neither a class name no
 export const INVALID_AGGREGATION_CARDINALITY = `The aggregation "{0}" has cardinality of 0..1 and may only contain one element`;
 export const INVALID_AGGREGATION_TYPE = `The class "{0}" is under the aggregation "{1}" and must match the type "{2}"`;
 export const NON_UNIQUE_ID = `Duplicate ID: "{0}" found.`;
-export const NON_STABLE_ID = `The class "{0}" is missing stable ID`;
+export const NON_STABLE_ID = `The class "{0}" must declare a none empty ID attribute when flexEnabled is "true"`;
 
 export function getMessage(template: string, ...params: string[]): string {
   let result = template;

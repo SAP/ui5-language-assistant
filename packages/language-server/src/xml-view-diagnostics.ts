@@ -21,7 +21,7 @@ import {
 export function getXMLViewDiagnostics(opts: {
   document: TextDocument;
   ui5Model: UI5SemanticModel;
-  flexEnabled: boolean;
+  flexEnabled?: boolean;
 }): Diagnostic[] {
   const documentText = opts.document.getText();
   const { cst, tokenVector } = parse(documentText);

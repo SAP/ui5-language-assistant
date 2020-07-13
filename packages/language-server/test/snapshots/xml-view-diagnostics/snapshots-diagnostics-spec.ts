@@ -1,7 +1,7 @@
 import { resolve, basename, relative, dirname } from "path";
 import klawSync from "klaw-sync";
 import { map, forEach, filter } from "lodash";
-import { existsSync } from "fs-extra";
+import { existsSync } from "fs";
 import {
   snapshotTestLSPDiagnostic,
   toSourcesTestDir,
@@ -18,7 +18,7 @@ describe(`The language server diagnostics capability`, () => {
   });
   const testDirs = map(inputFiles, (_) => dirname(_.path));
 
-  forEach(testDirs, async (dirPath) => {
+  forEach(testDirs, (dirPath) => {
     const dirName = basename(dirPath);
 
     // UNCOMMENT THE LINES BELOW AND CHANGE onlyTestDirName TO ONLY RUN A SPECIFIC SNAPSHOT TEST

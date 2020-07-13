@@ -5,10 +5,11 @@ import {
   XMLAttribute,
   XMLDocument,
   XMLToken,
+  XMLElement,
 } from "@xml-tools/ast";
 import { NonUniqueIDIssue } from "../../../api";
 import { getMessage, NON_UNIQUE_ID } from "../../utils/messages";
-import { isCustomClass } from "../../utils/custom-class";
+import { isPossibleCustomClass } from "../../utils/ui5-classes";
 
 export function validateNonUniqueID(xmlDoc: XMLDocument): NonUniqueIDIssue[] {
   const idCollector = new IdsCollectorVisitor();
@@ -72,7 +73,7 @@ class IdsCollectorVisitor implements XMLAstVisitor {
       attrib.value !== "" &&
       attrib.syntax.value !== undefined &&
       attrib.parent.name !== null &&
-      isCustomClass(attrib.parent)
+      isPossibleCustomClass(attrib.parent as XMLElement & { name: string })
     ) {
       if (this.idsToXMLElements[attrib.value] === undefined) {
         // @ts-expect-error - TSC does not understand: `attrib.syntax.value !== undefined` is a type guard

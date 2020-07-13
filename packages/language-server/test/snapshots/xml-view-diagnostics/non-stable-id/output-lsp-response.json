@@ -24,6 +24,6 @@
     },
     "severity": 1,
     "source": "UI5 Language Assistant",
-    "message": "The class \"Button\" is missing stable ID"
+    "message": "The class \"Dialog\" is missing stable ID"
   }
 ]

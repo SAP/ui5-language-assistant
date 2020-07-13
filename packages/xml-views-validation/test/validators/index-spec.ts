@@ -16,6 +16,8 @@ describe("The `allValidators` constant", () => {
     (_) =>
       _.endsWith(".js") &&
       !_.endsWith("index.js") &&
+      // "non-stable-id" validation is not part of allValidators.
+      // We use it onlt when `flexEnabled` is set to true.
       !_.endsWith("non-stable-id.js")
   );
   expect(validatorPaths).to.not.be.empty;

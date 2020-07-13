@@ -1,14 +1,13 @@
 import { some, includes } from "lodash";
 import { XMLElement } from "@xml-tools/ast";
-import {
-  getUI5ClassByXMLElement,
-  ui5NodeToFQN,
-  resolveXMLNS,
-} from "@ui5-language-assistant/logic-utils";
+import { resolveXMLNS } from "@ui5-language-assistant/logic-utils";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { NonStableIDIssue } from "../../../api";
 import { NON_STABLE_ID, getMessage } from "../../utils/messages";
-import { isCustomClass } from "../../utils/custom-class";
+import {
+  isPossibleCustomClass,
+  isKnownUI5Class,
+} from "../../utils/ui5-classes";
 import { CORE_NS } from "../../utils/special-namespaces";
 
 export function validateNonStableId(
@@ -20,11 +19,14 @@ export function validateNonStableId(
     return [];
   }
 
-  if (isWhiteListed(xmlElement, model)) {
+  if (isWhiteListedClass(xmlElement)) {
     return [];
   }
 
-  if (!isCustomClass(xmlElement)) {
+  if (
+    !isPossibleCustomClass(xmlElement as XMLElement & { name: string }) &&
+    !isKnownUI5Class(xmlElement, model)
+  ) {
     return [];
   }
 
@@ -52,35 +54,36 @@ export function validateNonStableId(
   return [nonStableIDIssue];
 }
 
-function isWhiteListed(
-  xmlElement: XMLElement,
-  model: UI5SemanticModel
-): boolean {
-  const ui5Class = getUI5ClassByXMLElement(xmlElement, model);
-
-  const coreNsRootClassExceptions = ["View", "FragmentDefinition"];
+function isWhiteListedClass(xmlElement: XMLElement): boolean {
+  const rootWhiteListedExceptions: Record<string, string[]> = {
+    "sap.ui.core.mvc": ["View"],
+    "sap.ui.core": ["View", "FragmentDefinition"],
+  };
 
   // The class is in the root level
-  if (
-    xmlElement.parent.type === "XMLDocument" &&
-    ui5Class !== undefined &&
-    ui5NodeToFQN(ui5Class) === "sap.ui.core.mvc.View"
-  ) {
-    return true;
-  } else if (
-    xmlElement.parent.type === "XMLDocument" &&
-    resolveXMLNS(xmlElement) === CORE_NS &&
-    includes(coreNsRootClassExceptions, xmlElement.name)
-  ) {
-    return true;
+  if (xmlElement.parent.type === "XMLDocument") {
+    const resolvedXMLNS = resolveXMLNS(xmlElement);
+    if (
+      Object.keys(rootWhiteListedExceptions).some(
+        (_) =>
+          _ === resolvedXMLNS &&
+          includes(rootWhiteListedExceptions[_], xmlElement.name)
+      )
+    ) {
+      return true;
+    }
   }
 
-  const classExceptions = ["Fragment", "CustomData", "ExtensionPoint"];
+  const coreNsWhiteListedExceptions = [
+    "Fragment",
+    "CustomData",
+    "ExtensionPoint",
+  ];
 
-  const isWhiteListed =
+  const isCoreNsWhiteListed =
     resolveXMLNS(xmlElement) === CORE_NS &&
-    includes(classExceptions, xmlElement.name);
-  return isWhiteListed;
+    includes(coreNsWhiteListedExceptions, xmlElement.name);
+  return isCoreNsWhiteListed;
 }
 
 function hasNonAdaptableMetaData(xmlElement: XMLElement): boolean {
@@ -98,6 +101,7 @@ function hasNonAdaptableTreeMetaData(xmlElement: XMLElement): boolean {
     const hasNonAdaptableTreeMetaData = some(
       currElement.attributes,
       (attribute) =>
+        //TODO - inspect if we need to properly resolve the attribute "NS" / use plain string matcher
         attribute.key === "sap.ui.dt:designtime" &&
         attribute.value === "not-adaptable-tree"
     );
@@ -118,6 +122,7 @@ function isElementWithStableID(xmlElement: XMLElement): boolean {
     (attribute) =>
       attribute.key === "id" &&
       attribute.value !== null &&
+      // Contains a single non ws character
       /\S/.test(attribute.value)
   );
 }

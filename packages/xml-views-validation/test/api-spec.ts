@@ -47,7 +47,7 @@ describe("the ui5 xml views validations API", () => {
     ]);
   });
 
-  it("will detect semantic UI5 xml view issues (smoke) when flexEnabled is true", () => {
+  it("will detect non stable ID issue", () => {
     const xmlSnippet = `
           <mvc:View
             xmlns:mvc="sap.ui.core.mvc"

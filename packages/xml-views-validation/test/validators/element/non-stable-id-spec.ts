@@ -47,13 +47,13 @@ describe("the use of non stable id validation", () => {
 
     it("will detect missing stable id in custom control", () => {
       assertSingleIssue(
-        `<🢂custom:View🢀
-          xmlns:custom="foo.bar"
-          xmlns="bar.foo">
-            <Button id="dummy-id">
-            </Button>
-        </custom:View>`,
-        getMessage(NON_STABLE_ID, "View")
+        `<mvc:View xmlns:uxap="sap.uxap"
+          xmlns:mvc="sap.ui.core.mvc"
+          xmlns="sap.ui.commons" xmlns:custom="sap.m">
+            <🢂custom:Button🢀>
+            </custom:Button>
+        </mvc:View>`,
+        getMessage(NON_STABLE_ID, "Button")
       );
     });
 
@@ -62,14 +62,14 @@ describe("the use of non stable id validation", () => {
         `<mvc:View xmlns:uxap="sap.uxap" xmlns:m="sap.m"
             xmlns:mvc="sap.ui.core.mvc"
             xmlns="sap.ui.commons">
-              <🢂m:Panel🢀>
-              </m:Panel>
+              <🢂mvc:View🢀>
+              </mvc:View>
           </mvc:View>`,
-        getMessage(NON_STABLE_ID, "Panel")
+        getMessage(NON_STABLE_ID, "View")
       );
     });
 
-    it("will detect missing stable in sub element when the element has attribute sap.ui.dt:designtime='not-adaptable'", () => {
+    it("will detect missing stable in sub element when the parent element has attribute sap.ui.dt:designtime='not-adaptable'", () => {
       assertSingleIssue(
         `<mvc:View xmlns:uxap="sap.uxap" xmlns:m="sap.m"
           xmlns:mvc="sap.ui.core.mvc"
@@ -82,6 +82,30 @@ describe("the use of non stable id validation", () => {
         getMessage(NON_STABLE_ID, "Button")
       );
     });
+
+    it("will detect missing stable id when there is null id attribute value", () => {
+      assertSingleIssue(
+        `<mvc:View xmlns:uxap="sap.uxap" xmlns:m="sap.m"
+          xmlns:mvc="sap.ui.core.mvc"
+          xmlns="sap.ui.commons">
+            <🢂m:Panel🢀 id=>
+            </m:Panel>
+        </mvc:View>`,
+        getMessage(NON_STABLE_ID, "Panel")
+      );
+    });
+
+    it("will detect missing stable id when there is empty id attribute value", () => {
+      assertSingleIssue(
+        `<mvc:View xmlns:uxap="sap.uxap" xmlns:m="sap.m"
+          xmlns:mvc="sap.ui.core.mvc"
+          xmlns="sap.ui.commons">
+            <🢂m:Panel🢀 id="">
+            </m:Panel>
+        </mvc:View>`,
+        getMessage(NON_STABLE_ID, "Panel")
+      );
+    });
   });
 
   context("negative edge cases", () => {
@@ -92,7 +116,7 @@ describe("the use of non stable id validation", () => {
       });
     });
 
-    it("will not detect an issue when there is a root-whitelisted UI5 class", () => {
+    it("will not detect an issue for a root-whitelisted UI5 class", () => {
       assertNoIssues(
         `<!-- sap.ui.core.mvc.View is whitlisted root class -->
         <mvc:View xmlns:uxap="sap.uxap" xmlns:m="sap.m"
@@ -102,7 +126,7 @@ describe("the use of non stable id validation", () => {
       );
     });
 
-    it("will not detect an issue when there is a root-whitelisted UI5 class - core ns", () => {
+    it("will not detect an issue for a root-whitelisted UI5 class - core ns", () => {
       assertNoIssues(
         `<!-- sap.ui.core.FragmentDefinition is whitlisted root class -->
         <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
@@ -124,7 +148,7 @@ describe("the use of non stable id validation", () => {
       );
     });
 
-    it("will not detect an issue when the control has attribute attribute sap.ui.dt:designtime='not-adaptable'", () => {
+    it("will not detect an issue for a control with attribute sap.ui.dt:designtime='not-adaptable'", () => {
       assertNoIssues(
         `<mvc:View xmlns:uxap="sap.uxap" xmlns:m="sap.m"
             xmlns:mvc="sap.ui.core.mvc"
@@ -136,19 +160,7 @@ describe("the use of non stable id validation", () => {
       );
     });
 
-    it("will not detect an issue when the control has attribute attribute sap.ui.dt:designtime='not-adaptable'", () => {
-      assertNoIssues(
-        `<mvc:View xmlns:uxap="sap.uxap" xmlns:m="sap.m"
-          xmlns:mvc="sap.ui.core.mvc"
-          xmlns="sap.ui.commons"
-          xmlns:sap.ui.dt="sap.ui.dt">
-            <m:Panel sap.ui.dt:designtime="not-adaptable">
-            </m:Panel>
-        </mvc:View>`
-      );
-    });
-
-    it("will not detect an issue when the control has attribute attribute sap.ui.dt:designtime='not-adaptable-tree'", () => {
+    it("will not detect an issue for a control and it's sub elements when it contains attribute sap.ui.dt:designtime='not-adaptable-tree'", () => {
       assertNoIssues(
         `<mvc:View xmlns:uxap="sap.uxap" xmlns:m="sap.m"
           xmlns:mvc="sap.ui.core.mvc"
