@@ -57,6 +57,18 @@ describe("the use of non stable id validation", () => {
       );
     });
 
+    it("will detect missing stable id in root level custom control", () => {
+      assertSingleIssue(
+        `<🢂custom:View🢀
+          xmlns:custom="foo.bar"
+          xmlns="bar.foo">
+            <Button id="dummy-id">
+            </Button>
+        </custom:View>`,
+        getMessage(NON_STABLE_ID, "View")
+      );
+    });
+
     it("will detect missing stable id in whitelisted root class when it's not in the root", () => {
       assertSingleIssue(
         `<mvc:View xmlns:uxap="sap.uxap" xmlns:m="sap.m"
