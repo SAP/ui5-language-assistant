@@ -1,0 +1,15 @@
+<mvc:View xmlns:core="sap.ui.core" xmlns:uxap="sap.uxap" xmlns:m="sap.m"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.ui.commons"
+    xmlns:sap.ui.dt=🢂"sap.ui.dt"🢀>
+        <m:CheckBox id="dummy-id"></m:CheckBox>
+        <🢂m:Button🢀>
+            <m:customData>
+                <core:CustomData></core:CustomData>
+            </m:customData>
+        </m:Button>
+        <m:Panel sap.ui.dt:designtime="not-adaptable">
+            <🢂m:Button🢀>
+            </m:Button>
+        </m:Panel>
+</mvc:View>

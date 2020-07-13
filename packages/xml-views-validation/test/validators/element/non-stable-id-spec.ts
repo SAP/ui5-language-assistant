@@ -36,11 +36,11 @@ describe("the use of non stable id validation", () => {
     it("will detect missing stable id in non-whitelisted UI5 class", () => {
       assertSingleIssue(
         `<mvc:View xmlns:uxap="sap.uxap" xmlns:m="sap.m"
-                    xmlns:mvc="sap.ui.core.mvc"
-                    xmlns="sap.ui.commons">
-                        <🢂m:Panel🢀>
-                        </m:Panel>
-                </mvc:View>`,
+          xmlns:mvc="sap.ui.core.mvc"
+          xmlns="sap.ui.commons">
+            <🢂m:Panel🢀>
+            </m:Panel>
+        </mvc:View>`,
         getMessage(NON_STABLE_ID, "Panel")
       );
     });
@@ -48,11 +48,11 @@ describe("the use of non stable id validation", () => {
     it("will detect missing stable id in custom control", () => {
       assertSingleIssue(
         `<🢂custom:View🢀
-                    xmlns:custom="foo.bar"
-                    xmlns="bar.foo">
-                        <Button id="dummy-id">
-                        </Button>
-                </custom:View>`,
+          xmlns:custom="foo.bar"
+          xmlns="bar.foo">
+            <Button id="dummy-id">
+            </Button>
+        </custom:View>`,
         getMessage(NON_STABLE_ID, "View")
       );
     });
@@ -60,11 +60,11 @@ describe("the use of non stable id validation", () => {
     it("will detect missing stable id in whitelisted root class when it's not in the root", () => {
       assertSingleIssue(
         `<mvc:View xmlns:uxap="sap.uxap" xmlns:m="sap.m"
-                    xmlns:mvc="sap.ui.core.mvc"
-                    xmlns="sap.ui.commons">
-                        <🢂m:Panel🢀>
-                        </m:Panel>
-                </mvc:View>`,
+            xmlns:mvc="sap.ui.core.mvc"
+            xmlns="sap.ui.commons">
+              <🢂m:Panel🢀>
+              </m:Panel>
+          </mvc:View>`,
         getMessage(NON_STABLE_ID, "Panel")
       );
     });
@@ -72,13 +72,13 @@ describe("the use of non stable id validation", () => {
     it("will detect missing stable in sub element when the element has attribute sap.ui.dt:designtime='not-adaptable'", () => {
       assertSingleIssue(
         `<mvc:View xmlns:uxap="sap.uxap" xmlns:m="sap.m"
-                    xmlns:mvc="sap.ui.core.mvc"
-                    xmlns="sap.ui.commons"
-                    xmlns:sap.ui.dt="sap.ui.dt">
-                        <m:Panel sap.ui.dt:designtime="not-adaptable">
-                            <🢂m:Button🢀></m:Button>
-                        </m:Panel>
-                </mvc:View>`,
+          xmlns:mvc="sap.ui.core.mvc"
+          xmlns="sap.ui.commons"
+          xmlns:sap.ui.dt="sap.ui.dt">
+            <m:Panel sap.ui.dt:designtime="not-adaptable">
+              <🢂m:Button🢀></m:Button>
+            </m:Panel>
+        </mvc:View>`,
         getMessage(NON_STABLE_ID, "Button")
       );
     });
@@ -95,70 +95,70 @@ describe("the use of non stable id validation", () => {
     it("will not detect an issue when there is a root-whitelisted UI5 class", () => {
       assertNoIssues(
         `<!-- sap.ui.core.mvc.View is whitlisted root class -->
-                <mvc:View xmlns:uxap="sap.uxap" xmlns:m="sap.m"
-                    xmlns:mvc="sap.ui.core.mvc"
-                    xmlns="sap.ui.commons">
-                </mvc:View>`
+        <mvc:View xmlns:uxap="sap.uxap" xmlns:m="sap.m"
+          xmlns:mvc="sap.ui.core.mvc"
+          xmlns="sap.ui.commons">
+        </mvc:View>`
       );
     });
 
     it("will not detect an issue when there is a root-whitelisted UI5 class - core ns", () => {
       assertNoIssues(
         `<!-- sap.ui.core.FragmentDefinition is whitlisted root class -->
-                <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
-                </core:FragmentDefinition>`
+        <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+        </core:FragmentDefinition>`
       );
     });
 
     it("will not detect an issue when there is a whitelisted UI5 class", () => {
       assertNoIssues(
         `<mvc:View xmlns:core="sap.ui.core" xmlns:uxap="sap.uxap" xmlns:m="sap.m"
-                    xmlns:mvc="sap.ui.core.mvc"
-                    xmlns="sap.ui.commons">
-                        <m:Button id="yyy">
-                            <m:customData>
-                                <core:CustomData></core:CustomData>
-                            </m:customData>
-                        </m:Button>
-                </mvc:View>`
+          xmlns:mvc="sap.ui.core.mvc"
+          xmlns="sap.ui.commons">
+            <m:Button id="yyy">
+                <m:customData>
+                    <core:CustomData></core:CustomData>
+                </m:customData>
+            </m:Button>
+        </mvc:View>`
       );
     });
 
     it("will not detect an issue when the control has attribute attribute sap.ui.dt:designtime='not-adaptable'", () => {
       assertNoIssues(
         `<mvc:View xmlns:uxap="sap.uxap" xmlns:m="sap.m"
-                    xmlns:mvc="sap.ui.core.mvc"
-                    xmlns="sap.ui.commons"
-                    xmlns:sap.ui.dt="sap.ui.dt">
-                        <m:Panel sap.ui.dt:designtime="not-adaptable">
-                        </m:Panel>
-                </mvc:View>`
+            xmlns:mvc="sap.ui.core.mvc"
+            xmlns="sap.ui.commons"
+            xmlns:sap.ui.dt="sap.ui.dt">
+              <m:Panel sap.ui.dt:designtime="not-adaptable">
+              </m:Panel>
+        </mvc:View>`
       );
     });
 
     it("will not detect an issue when the control has attribute attribute sap.ui.dt:designtime='not-adaptable'", () => {
       assertNoIssues(
         `<mvc:View xmlns:uxap="sap.uxap" xmlns:m="sap.m"
-                    xmlns:mvc="sap.ui.core.mvc"
-                    xmlns="sap.ui.commons"
-                    xmlns:sap.ui.dt="sap.ui.dt">
-                        <m:Panel sap.ui.dt:designtime="not-adaptable">
-                        </m:Panel>
-                </mvc:View>`
+          xmlns:mvc="sap.ui.core.mvc"
+          xmlns="sap.ui.commons"
+          xmlns:sap.ui.dt="sap.ui.dt">
+            <m:Panel sap.ui.dt:designtime="not-adaptable">
+            </m:Panel>
+        </mvc:View>`
       );
     });
 
     it("will not detect an issue when the control has attribute attribute sap.ui.dt:designtime='not-adaptable-tree'", () => {
       assertNoIssues(
         `<mvc:View xmlns:uxap="sap.uxap" xmlns:m="sap.m"
-                    xmlns:mvc="sap.ui.core.mvc"
-                    xmlns="sap.ui.commons"
-                    xmlns:sap.ui.dt="sap.ui.dt">
-                    <m:Panel sap.ui.dt:designtime="not-adaptable-tree">
-                        <m:Button>
-                        </m:Button>
-                    </m:Panel>
-                </mvc:View>`
+          xmlns:mvc="sap.ui.core.mvc"
+          xmlns="sap.ui.commons"
+          xmlns:sap.ui.dt="sap.ui.dt">
+            <m:Panel sap.ui.dt:designtime="not-adaptable-tree">
+                <m:Button>
+                </m:Button>
+            </m:Panel>
+        </mvc:View>`
       );
     });
 

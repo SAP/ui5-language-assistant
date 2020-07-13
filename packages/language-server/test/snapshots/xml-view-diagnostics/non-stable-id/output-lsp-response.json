@@ -1,0 +1,29 @@
+[
+  {
+    "range": {
+      "start": { "line": 3, "character": 20 },
+      "end": { "line": 3, "character": 31 }
+    },
+    "severity": 2,
+    "source": "UI5 Language Assistant",
+    "message": "Unknown namespace: \"sap.ui.dt\""
+  },
+  {
+    "range": {
+      "start": { "line": 5, "character": 9 },
+      "end": { "line": 5, "character": 17 }
+    },
+    "severity": 1,
+    "source": "UI5 Language Assistant",
+    "message": "The class \"Button\" is missing stable ID"
+  },
+  {
+    "range": {
+      "start": { "line": 11, "character": 13 },
+      "end": { "line": 11, "character": 21 }
+    },
+    "severity": 1,
+    "source": "UI5 Language Assistant",
+    "message": "The class \"Button\" is missing stable ID"
+  }
+]
