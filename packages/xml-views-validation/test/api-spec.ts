@@ -7,7 +7,7 @@ import { DocumentCstNode, parse } from "@xml-tools/parser";
 import { buildAst } from "@xml-tools/ast";
 import { validateXMLView } from "../src/api";
 
-describe.only("the ui5 xml views validations API", () => {
+describe("the ui5 xml views validations API", () => {
   let ui5SemanticModel: UI5SemanticModel;
 
   before(async () => {
