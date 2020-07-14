@@ -6,7 +6,7 @@ This VS Code extension provides SAPUI5 language editor support.
 
 ### XML Views Auto-Complete/Context-Assist
 
-![](https://cdn.jsdelivr.net/gh/SAP/ui5-language-assistant@master/packages/vscode-ui5-language-assistant/resources/readme/preview-content-assist.gif)
+![](https://cdn.jsdelivr.net/gh/SAP/ui5-language-assistant/packages/vscode-ui5-language-assistant/resources/readme/preview-content-assist.gif)
 
 #### Description
 
@@ -50,7 +50,7 @@ The feature is available in the following:
 
 ### XML View Validations
 
-![](https://cdn.jsdelivr.net/gh/SAP/ui5-language-assistant@master/packages/vscode-ui5-language-assistant/resources/readme/preview-validations.gif)
+![](https://cdn.jsdelivr.net/gh/SAP/ui5-language-assistant/packages/vscode-ui5-language-assistant/resources/readme/preview-validations.gif)
 
 #### Description
 
@@ -80,7 +80,7 @@ and cannot be configured by the end user.
 
 ### XML View Hover Tooltips
 
-![](https://cdn.jsdelivr.net/gh/SAP/ui5-language-assistant@master/packages/vscode-ui5-language-assistant/resources/readme/preview-hover-tooltips.gif)
+![](https://cdn.jsdelivr.net/gh/SAP/ui5-language-assistant/packages/vscode-ui5-language-assistant/resources/readme/preview-hover-tooltips.gif)
 
 #### Description
 
@@ -109,7 +109,7 @@ The feature is available in the following:
 
 ### manifest.json Auto-Complete and Validations
 
-![](https://cdn.jsdelivr.net/gh/SAP/ui5-language-assistant@master/packages/vscode-ui5-language-assistant/resources/readme/preview-manifest-json.gif)
+![](https://cdn.jsdelivr.net/gh/SAP/ui5-language-assistant/packages/vscode-ui5-language-assistant/resources/readme/preview-manifest-json.gif)
 
 #### Description:
 
