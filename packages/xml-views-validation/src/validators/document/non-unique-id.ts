@@ -5,7 +5,6 @@ import {
   XMLAttribute,
   XMLDocument,
   XMLToken,
-  XMLElement,
 } from "@xml-tools/ast";
 import { NonUniqueIDIssue } from "../../../api";
 import { getMessage, NON_UNIQUE_ID } from "../../utils/messages";
@@ -73,7 +72,8 @@ class IdsCollectorVisitor implements XMLAstVisitor {
       attrib.value !== "" &&
       attrib.syntax.value !== undefined &&
       attrib.parent.name !== null &&
-      isPossibleCustomClass(attrib.parent as XMLElement & { name: string })
+      // @ts-expect-error - we already checked that xmlElement.name is not null
+      isPossibleCustomClass(attrib.parent)
     ) {
       if (this.idsToXMLElements[attrib.value] === undefined) {
         // @ts-expect-error - TSC does not understand: `attrib.syntax.value !== undefined` is a type guard

@@ -19,12 +19,13 @@ export function validateNonStableId(
     return [];
   }
 
-  if (isWhiteListedClass(xmlElement)) {
+  if (isWhiteListedTag(xmlElement)) {
     return [];
   }
 
   if (
-    !isPossibleCustomClass(xmlElement as XMLElement & { name: string }) &&
+    // @ts-expect-error - we already checked that xmlElement.name is not null
+    !isPossibleCustomClass(xmlElement) &&
     !isKnownUI5Class(xmlElement, model)
   ) {
     return [];
@@ -54,7 +55,7 @@ export function validateNonStableId(
   return [nonStableIDIssue];
 }
 
-function isWhiteListedClass(xmlElement: XMLElement): boolean {
+function isWhiteListedTag(xmlElement: XMLElement): boolean {
   const rootWhiteListedExceptions: Record<string, string[]> = {
     "sap.ui.core.mvc": ["View"],
     "sap.ui.core": ["View", "FragmentDefinition"],
@@ -63,13 +64,9 @@ function isWhiteListedClass(xmlElement: XMLElement): boolean {
   // The class is in the root level
   if (xmlElement.parent.type === "XMLDocument") {
     const resolvedXMLNS = resolveXMLNS(xmlElement);
-    if (
-      Object.keys(rootWhiteListedExceptions).some(
-        (_) =>
-          _ === resolvedXMLNS &&
-          includes(rootWhiteListedExceptions[_], xmlElement.name)
-      )
-    ) {
+    // @ts-expect-error - it's fine to use undefined in member access
+    const exceptionsForResolvedXMLNS = rootWhiteListedExceptions[resolvedXMLNS];
+    if (includes(exceptionsForResolvedXMLNS, xmlElement.name)) {
       return true;
     }
   }

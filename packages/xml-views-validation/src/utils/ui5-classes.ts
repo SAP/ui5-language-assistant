@@ -12,7 +12,9 @@ import { SVG_NS, TEMPLATING_NS, XHTML_NS } from "./special-namespaces";
 export function isPossibleCustomClass(
   xmlElement: XMLElement & { name: string }
 ): boolean {
-  return /^[A-Z]/.test(xmlElement.name) && !isPartOfUI5Namespace(xmlElement);
+  return (
+    /^[A-Z]/.test(xmlElement.name) && !isCommonExternalNamespace(xmlElement)
+  );
 }
 
 export function isKnownUI5Class(
@@ -32,7 +34,7 @@ const whiteListedNamespaces: Record<string, boolean> = {
 
 Object.freeze(whiteListedNamespaces);
 
-function isPartOfUI5Namespace(xmlElement: XMLElement): boolean {
+function isCommonExternalNamespace(xmlElement: XMLElement): boolean {
   const parentResolvedNamespace = resolveXMLNS(xmlElement);
   if (parentResolvedNamespace === undefined) {
     return false;
