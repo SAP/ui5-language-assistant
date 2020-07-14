@@ -13,7 +13,12 @@ describe("The `allValidators` constant", () => {
   const filePaths = map(klawItems, (_) => _.path);
   validatorPaths = filter(
     filePaths,
-    (_) => _.endsWith(".js") && !_.endsWith("index.js")
+    (_) =>
+      _.endsWith(".js") &&
+      !_.endsWith("index.js") &&
+      // "non-stable-id" validation is not part of allValidators.
+      // We use it only when `flexEnabled` is set to true.
+      !_.endsWith("non-stable-id.js")
   );
   expect(validatorPaths).to.not.be.empty;
 

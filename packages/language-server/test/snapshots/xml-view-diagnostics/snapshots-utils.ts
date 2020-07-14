@@ -11,9 +11,11 @@ import { getXMLViewDiagnostics } from "../../../src/xml-view-diagnostics";
 
 export const INPUT_FILE_NAME = "input.xml";
 export const OUTPUT_LSP_RESPONSE_FILE_NAME = "output-lsp-response.json";
+export type LSPDiagnosticOptions = { flexEnabled: boolean };
 
 export async function snapshotTestLSPDiagnostic(
-  testDir: string
+  testDir: string,
+  options: LSPDiagnosticOptions
 ): Promise<void> {
   const pkgJsonPath = require.resolve(
     "@ui5-language-assistant/language-server/package.json"
@@ -47,7 +49,8 @@ export async function snapshotTestLSPDiagnostic(
   ).to.equal(snapshotXMLWithMarkedRanges);
 
   const newlyComputedDiagnostics = await computeNewDiagnosticLSPResponse(
-    testDir
+    testDir,
+    options
   );
   expect(
     newlyComputedDiagnostics,
@@ -96,7 +99,8 @@ const ui5ModelPromise = generateModel({
 let ui5Model: UI5SemanticModel | undefined = undefined;
 
 export async function computeNewDiagnosticLSPResponse(
-  testDir: string
+  testDir: string,
+  options: LSPDiagnosticOptions
 ): Promise<Diagnostic[]> {
   // No top level await
   ui5Model = await ui5ModelPromise;
@@ -112,6 +116,7 @@ export async function computeNewDiagnosticLSPResponse(
   const actualDiagnostics = getXMLViewDiagnostics({
     document: xmlTextDoc,
     ui5Model,
+    flexEnabled: options ? options.flexEnabled : false,
   });
 
   const diagnosticsForAssertions = cleanupLSPResponseForAssertions(

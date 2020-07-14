@@ -34,10 +34,45 @@ describe("the ui5 xml views validations API", () => {
     const { cst, tokenVector } = parse(xmlSnippet);
     const ast = buildAst(cst as DocumentCstNode, tokenVector);
 
-    const issues = validateXMLView({ model: ui5SemanticModel, xmlView: ast });
+    const issues = validateXMLView({
+      model: ui5SemanticModel,
+      xmlView: ast,
+      flexEnabled: false,
+    });
     expect(issues).to.have.lengthOf(2);
     const issueTypes = map(issues, (_) => _.kind);
     expect(issueTypes).to.include.members([
+      "UnknownEnumValue",
+      "UseOfDeprecatedClass",
+    ]);
+  });
+
+  it("will detect non stable ID issue", () => {
+    const xmlSnippet = `
+          <mvc:View
+            xmlns:mvc="sap.ui.core.mvc"
+            xmlns="sap.m"
+            xmlns:commons="sap.ui.commons">
+            >            
+            <!-- TYPO💩 is not a valid value for 'showSeparators' enum -->
+            <List showSeparators = "TYPO💩">
+            </List>
+            <!-- This sap.ui.commons.Button class is deprecated -->
+            <commons:Button/>
+          </mvc:View>`;
+
+    const { cst, tokenVector } = parse(xmlSnippet);
+    const ast = buildAst(cst as DocumentCstNode, tokenVector);
+
+    const issues = validateXMLView({
+      model: ui5SemanticModel,
+      xmlView: ast,
+      flexEnabled: true,
+    });
+    expect(issues).to.have.lengthOf(4);
+    const issueTypes = map(issues, (_) => _.kind);
+    expect(issueTypes).to.include.members([
+      "NonStableIDIssue",
       "UnknownEnumValue",
       "UseOfDeprecatedClass",
     ]);

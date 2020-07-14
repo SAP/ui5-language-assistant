@@ -21,6 +21,7 @@ import {
 export function getXMLViewDiagnostics(opts: {
   document: TextDocument;
   ui5Model: UI5SemanticModel;
+  flexEnabled?: boolean;
 }): Diagnostic[] {
   const documentText = opts.document.getText();
   const { cst, tokenVector } = parse(documentText);
@@ -28,6 +29,7 @@ export function getXMLViewDiagnostics(opts: {
   const issues = validateXMLView({
     xmlView: xmlDocAst,
     model: opts.ui5Model,
+    flexEnabled: opts.flexEnabled,
   });
   const diagnostics = validationIssuesToLspDiagnostics(issues, opts.document);
   return diagnostics;
@@ -54,6 +56,7 @@ function validationIssuesToLspDiagnostics(
       case "UnknownTagName":
       case "InvalidAggregationCardinality":
       case "InvalidAggregationType":
+      case "NonStableIDIssue":
         return {
           ...commonDiagnosticPros,
         };

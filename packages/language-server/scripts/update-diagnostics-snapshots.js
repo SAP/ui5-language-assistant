@@ -2,7 +2,7 @@
 const klawSync = require("klaw-sync");
 const { forEach, filter, map } = require("lodash");
 const { resolve, dirname } = require("path");
-const { writeFileSync } = require("fs");
+const { writeFileSync, existsSync } = require("fs");
 const { format } = require("prettier");
 
 const {
@@ -28,9 +28,17 @@ const xmlSampleFiles = filter(sampleFiles, (fileDesc) => {
 forEach(xmlSampleFiles, async (xmlSample) => {
   console.log(`Reading <${xmlSample.path}>`);
   const specDirPath = dirname(xmlSample.path);
+  const optionsPath = resolve(specDirPath, "options.js");
+  let options;
+  if (existsSync(optionsPath)) {
+    options = require(optionsPath);
+  } else {
+    options = { flexEnabled: false };
+  }
 
   const newlyComputedResponse = await computeNewDiagnosticLSPResponse(
-    specDirPath
+    specDirPath,
+    options
   );
   const newlyComputedResponseText = JSON.stringify(newlyComputedResponse);
   const newlyComputedResponseTextFormatted = format(newlyComputedResponseText, {

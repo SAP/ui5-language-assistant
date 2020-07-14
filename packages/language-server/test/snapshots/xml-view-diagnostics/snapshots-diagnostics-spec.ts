@@ -1,10 +1,12 @@
+import { resolve, basename, relative, dirname } from "path";
 import klawSync from "klaw-sync";
 import { map, forEach, filter } from "lodash";
-import { basename, relative, dirname } from "path";
+import { existsSync } from "fs";
 import {
   snapshotTestLSPDiagnostic,
   toSourcesTestDir,
   INPUT_FILE_NAME,
+  LSPDiagnosticOptions,
 } from "./snapshots-utils";
 
 describe(`The language server diagnostics capability`, () => {
@@ -24,12 +26,19 @@ describe(`The language server diagnostics capability`, () => {
     // if (dirName !== onlyTestDirName) {
     //   return;
     // }
+    const optionsPath = resolve(dirPath, "options.js");
+    let options: LSPDiagnosticOptions;
+    if (existsSync(optionsPath)) {
+      options = require(optionsPath);
+    } else {
+      options = { flexEnabled: false };
+    }
 
     it(`Can create diagnostic for ${dirName.replace(/-/g, " ")} (${relative(
       snapshotTestsDir,
       dirPath
     )})`, async () => {
-      await snapshotTestLSPDiagnostic(dirPath);
+      await snapshotTestLSPDiagnostic(dirPath, options);
     });
   });
 });
