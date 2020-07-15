@@ -58,7 +58,7 @@
   },
   "repository": "https://github.com/sap/ui5-language-assistant/tree/master/packages/vscode-ui5-language-assistant",
   "engines": {
-    "vscode": "^1.46.0"
+    "vscode": "^1.47.0"
   },
   "scripts": {
     "ci": "npm-run-all clean compile lint test:unit coverage bundle package",
@@ -79,7 +79,7 @@
   },
   "devDependencies": {
     "@types/lodash": "4.14.157",
-    "@types/vscode": "1.46.0",
+    "@types/vscode": "1.47.0",
     "@ui5-language-assistant/settings": "^0.1.0",
     "lodash": "4.17.19",
     "proxyquire": "2.1.3",
