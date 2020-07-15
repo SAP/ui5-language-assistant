@@ -1,9 +1,9 @@
+import { find, includes } from "lodash";
 import { XMLAttribute } from "@xml-tools/ast";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { findSymbol } from "@ui5-language-assistant/semantic-model";
 import { isXMLNamespaceKey } from "@xml-tools/common";
 import { UnknownNamespaceInXmlnsAttributeValueIssue } from "../../../api";
-import { find } from "lodash";
 
 export function validateUnknownXmlnsNamespace(
   attribute: XMLAttribute,
@@ -19,9 +19,14 @@ export function validateUnknownXmlnsNamespace(
 
   const attributeValue = attribute.value;
   const attributeValueToken = attribute.syntax.value;
+  const whiteListedNamespaces = ["sap.ui.dt"];
 
   // TODO empty namespaces aren't valid but this should be handled in xml-tools because it's a general xml issue.
-  if (attributeValueToken === undefined || attributeValue === null) {
+  if (
+    attributeValueToken === undefined ||
+    attributeValue === null ||
+    includes(whiteListedNamespaces, attributeValue)
+  ) {
     return [];
   }
 

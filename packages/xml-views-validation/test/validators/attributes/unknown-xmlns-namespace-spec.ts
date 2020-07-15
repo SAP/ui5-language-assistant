@@ -1,12 +1,12 @@
 import { expect } from "chai";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { generateModel } from "@ui5-language-assistant/test-utils";
+import { generate } from "@ui5-language-assistant/semantic-model";
 import {
   testValidationsScenario,
   computeExpectedRange,
 } from "../../test-utils";
 import { validateUnknownXmlnsNamespace } from "../../../src/validators/attributes/unknown-xmlns-namespace";
-import { generate } from "@ui5-language-assistant/semantic-model";
 
 describe("the unknown namespace in xmlns attribute value validation", () => {
   let ui5SemanticModel: UI5SemanticModel;
@@ -192,6 +192,25 @@ describe("the unknown namespace in xmlns attribute value validation", () => {
       <mvc:View
           xmlns:mvc="sap.ui.core.mvc"
           xmlns:m >
+      </mvc:View>`;
+
+      testValidationsScenario({
+        model: ui5SemanticModel,
+        xmlText: xmlSnippet,
+        validators: {
+          attribute: [validateUnknownXmlnsNamespace],
+        },
+        assertion: (issues) => {
+          expect(issues).to.be.empty;
+        },
+      });
+    });
+
+    it("will not detect an issue when the attribute value is a whitelisted namespace", () => {
+      const xmlSnippet = `
+      <mvc:View
+        xmlns:mvc="sap.ui.core.mvc"
+        xmlns:sap.ui.dt="sap.ui.dt">
       </mvc:View>`;
 
       testValidationsScenario({
