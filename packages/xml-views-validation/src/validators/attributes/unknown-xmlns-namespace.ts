@@ -19,14 +19,14 @@ export function validateUnknownXmlnsNamespace(
 
   const attributeValue = attribute.value;
   const attributeValueToken = attribute.syntax.value;
-  const whiteListedNamespaces = ["sap.ui.dt"];
 
   // TODO empty namespaces aren't valid but this should be handled in xml-tools because it's a general xml issue.
-  if (
-    attributeValueToken === undefined ||
-    attributeValue === null ||
-    includes(whiteListedNamespaces, attributeValue)
-  ) {
+  if (attributeValueToken === undefined || attributeValue === null) {
+    return [];
+  }
+
+  const whiteListedNamespaces = ["sap.ui.dt"];
+  if (includes(whiteListedNamespaces, attributeValue)) {
     return [];
   }
 
