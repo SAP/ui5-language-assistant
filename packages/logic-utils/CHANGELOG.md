@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.3](https://github.com/sap/ui5-language-assistant/compare/@ui5-language-assistant/logic-utils@1.3.2...@ui5-language-assistant/logic-utils@1.3.3) (2020-07-15)
+
+**Note:** Version bump only for package @ui5-language-assistant/logic-utils
+
 ## [1.3.2](https://github.com/sap/ui5-language-assistant/compare/@ui5-language-assistant/logic-utils@1.3.1...@ui5-language-assistant/logic-utils@1.3.2) (2020-07-08)
 
 **Note:** Version bump only for package @ui5-language-assistant/logic-utils

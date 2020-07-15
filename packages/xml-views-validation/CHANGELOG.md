@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.6.0](https://github.com/sap/ui5-language-assistant/compare/@ui5-language-assistant/xml-views-validation@0.5.2...@ui5-language-assistant/xml-views-validation@0.6.0) (2020-07-15)
+
+### Bug Fixes
+
+- ignore unknown namespace message for whitelisted namespaces ([#234](https://github.com/sap/ui5-language-assistant/issues/234)) ([bdcab7d](https://github.com/sap/ui5-language-assistant/commit/bdcab7d3d984cf96819874c8f507a2898bc671d5))
+
+### Features
+
+- stable ID validation ([#231](https://github.com/sap/ui5-language-assistant/issues/231)) ([65ddb60](https://github.com/sap/ui5-language-assistant/commit/65ddb60844274beb309bfb1c32a3698ec3ec15c4))
+
 ## [0.5.2](https://github.com/sap/ui5-language-assistant/compare/@ui5-language-assistant/xml-views-validation@0.5.1...@ui5-language-assistant/xml-views-validation@0.5.2) (2020-07-08)
 
 **Note:** Version bump only for package @ui5-language-assistant/xml-views-validation
