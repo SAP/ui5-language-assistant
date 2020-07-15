@@ -1,15 +1,6 @@
 [
   {
     "range": {
-      "start": { "line": 3, "character": 20 },
-      "end": { "line": 3, "character": 31 }
-    },
-    "severity": 2,
-    "source": "UI5 Language Assistant",
-    "message": "Unknown namespace: \"sap.ui.dt\""
-  },
-  {
-    "range": {
       "start": { "line": 5, "character": 9 },
       "end": { "line": 5, "character": 17 }
     },

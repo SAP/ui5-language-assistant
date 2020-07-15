@@ -1,7 +1,7 @@
 <mvc:View xmlns:core="sap.ui.core" xmlns:uxap="sap.uxap" xmlns:m="sap.m"
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.ui.commons"
-    xmlns:sap.ui.dt=🢂"sap.ui.dt"🢀>
+    xmlns:sap.ui.dt="sap.ui.dt">
         <m:CheckBox id="dummy-id"></m:CheckBox>
         <🢂m:Button🢀>
             <m:customData>
