@@ -1,17 +1,23 @@
 import * as vscode from "vscode";
-import { expect } from "chai";
 import { resolve, dirname } from "path";
 import { map } from "lodash";
-import { promises as fs } from "fs";
+import { expect } from "chai";
 import { TextDocument, Position } from "vscode-languageserver";
-import { deactivate } from "../../src/extension";
+import { deactivate } from "../../../src/extension";
+import { sleep, setXMLContent } from "../test-utils";
 
 const pkgJsonPath = require.resolve(
   "vscode-ui5-language-assistant/package.json"
 );
 const rootPkgFolder = dirname(pkgJsonPath);
 
-const docPath = resolve(rootPkgFolder, "test", "testFixture", "test.view.xml");
+const docPath = resolve(
+  rootPkgFolder,
+  "test",
+  "test-fixtures",
+  "completions",
+  "test.view.xml"
+);
 const docUri = vscode.Uri.file(docPath);
 
 describe("the Language Server Client Integration Tests", () => {
@@ -23,7 +29,7 @@ describe("the Language Server Client Integration Tests", () => {
   });
 
   after(async () => {
-    await setContent("");
+    await setXMLContent("", docPath);
     await deactivate();
   });
 
@@ -105,21 +111,12 @@ describe("the Language Server Client Integration Tests", () => {
     await assertCompletions(xmlSnippet, completionsList);
   });
 
-  async function setContent(content: string): Promise<void> {
-    await fs.writeFile(docPath, content);
-    await sleep(1000);
-  }
-
-  async function sleep(ms: number): Promise<void> {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-  }
-
   async function assertCompletions(
     xmlSnippet: string,
     expectedCompletionNames: string[]
   ): Promise<void> {
     const content = xmlSnippet.replace("⇶", "");
-    await setContent(content);
+    await setXMLContent(content, docPath);
 
     const offset = xmlSnippet.indexOf("⇶");
     const doc = TextDocument.create(docPath, "xml", 0, content);
