@@ -1,4 +1,3 @@
-import { resolve } from "path";
 import { promises as fs } from "fs";
 import * as vscode from "vscode";
 import * as chai from "chai";
