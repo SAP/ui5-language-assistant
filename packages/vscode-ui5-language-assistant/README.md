@@ -69,6 +69,7 @@ and cannot be configured by the end user.
   - Duplicate ID tags
   - Wrong cardinality of aggregation
   - Wrong type of tags inside aggregations
+  - Missing or empty ID when `flexEnabled` is true (stableID)
 
 - Warnings:
 

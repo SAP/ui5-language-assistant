@@ -2,6 +2,15 @@
 
 Please see the top level [Contribution Guide](../../CONTRIBUTING.md) for the project setup and all development flows.
 
+## Updating the List of Features
+
+The [README.md](./README.md) includes a list of features.
+Each commit which adds a new feature, **must** also update the list of features.
+
+By modifying this package's files in a `feat:` type commit As that will ensure
+This package's [CHANGELOG](./CHANGELOG.md) and **version** will be updated appropriately
+during release.
+
 ## Package-specific Development Flows
 
 This package is a VS Code extension and uses [VS Code APIs](https://code.visualstudio.com/api).
