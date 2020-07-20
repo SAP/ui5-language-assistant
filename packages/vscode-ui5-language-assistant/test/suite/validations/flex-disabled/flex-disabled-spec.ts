@@ -4,14 +4,12 @@ import {
   setFileTextContents,
   expectProblemView,
   sleep,
-  rootPkgFolder,
 } from "../../test-utils";
 
 const EXTENSION_START_TIMEOUT = 5000;
 
 describe("the Language Server Client Validations Integration Tests - Flex Disabled", () => {
   const scenarioPath = resolve(
-    rootPkgFolder,
     "test",
     "test-fixtures",
     "validations",

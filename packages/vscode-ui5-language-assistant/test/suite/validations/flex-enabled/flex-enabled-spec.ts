@@ -9,7 +9,6 @@ import {
   expectProblemView,
   sleep,
   getRanges,
-  rootPkgFolder,
 } from "../../test-utils";
 
 const EXTENSION_START_TIMEOUT = 5000;
@@ -17,7 +16,6 @@ const UI5LANG_ERROR_MSG = "UI5 Language Assistant";
 
 describe("the Language Server Client Validations Integration Tests - Flex Enabled", () => {
   const scenarioPath = resolve(
-    rootPkgFolder,
     "test",
     "test-fixtures",
     "validations",

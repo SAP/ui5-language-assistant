@@ -8,8 +8,6 @@ import { TextDocument } from "vscode-languageclient";
 
 chai.use(deepEqualInAnyOrder);
 
-export const rootPkgFolder = resolve(__dirname, "..", "..", "..");
-
 export async function setFileTextContents(
   content: string,
   xmlPath: string
