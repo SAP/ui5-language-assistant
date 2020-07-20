@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import { resolve, dirname } from "path";
+import { resolve } from "path";
 import {
   getMessage,
   NON_STABLE_ID,
@@ -9,21 +9,11 @@ import {
   expectProblemView,
   sleep,
   getRanges,
+  rootPkgFolder,
 } from "../../test-utils";
 
 const EXTENSION_START_TIMEOUT = 5000;
 const UI5LANG_ERROR_MSG = "UI5 Language Assistant";
-const pkgJsonPath = resolve(
-  __dirname,
-  "..",
-  "..",
-  "..",
-  "..",
-  "..",
-  "package.json"
-);
-
-const rootPkgFolder = dirname(pkgJsonPath);
 
 describe("the Language Server Client Validations Integration Tests - Flex Enabled", () => {
   const scenarioPath = resolve(

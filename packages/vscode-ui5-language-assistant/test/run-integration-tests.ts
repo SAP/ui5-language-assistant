@@ -1,15 +1,16 @@
-import { resolve, dirname } from "path";
+import { resolve } from "path";
 import { runTests } from "vscode-test";
 import globby from "globby";
 
 async function main(): Promise<void> {
   try {
-    const pkgJsonPath = resolve(__dirname, "..", "..", "package.json");
-
-    const rootPkgFolder = dirname(pkgJsonPath);
-    const testPkgFolder = resolve(rootPkgFolder, "lib", "test", "suite");
-
-    const extensionDevelopmentPath = resolve(rootPkgFolder);
+    const extensionDevelopmentPath = resolve(__dirname, "..", "..");
+    const testPkgFolder = resolve(
+      extensionDevelopmentPath,
+      "lib",
+      "test",
+      "suite"
+    );
 
     const scenarioPaths = await globby(`${testPkgFolder}/**/index.js`);
     // Use for of + await to ensure running in sequence because vscode-test library cannot start multiple vscode instances at the same time

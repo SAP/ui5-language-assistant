@@ -1,15 +1,12 @@
 import * as vscode from "vscode";
-import { resolve, dirname } from "path";
+import { resolve } from "path";
 import { map } from "lodash";
 import { expect } from "chai";
 import { TextDocument, Position } from "vscode-languageserver";
-import { sleep, setFileTextContents } from "../test-utils";
+import { sleep, setFileTextContents, rootPkgFolder } from "../test-utils";
 
 const EXTENSION_START_TIMEOUT = 5000;
 
-const pkgJsonPath = resolve(__dirname, "..", "..", "..", "..", "package.json");
-
-const rootPkgFolder = dirname(pkgJsonPath);
 const scenarioPath = resolve(
   rootPkgFolder,
   "test",
