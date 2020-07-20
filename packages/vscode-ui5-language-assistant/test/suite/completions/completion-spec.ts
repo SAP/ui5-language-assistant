@@ -3,12 +3,11 @@ import { resolve } from "path";
 import { map } from "lodash";
 import { expect } from "chai";
 import { TextDocument, Position } from "vscode-languageserver";
-import { sleep, setFileTextContents, rootPkgFolder } from "../test-utils";
+import { sleep, setFileTextContents } from "../test-utils";
 
 const EXTENSION_START_TIMEOUT = 5000;
 
 const scenarioPath = resolve(
-  rootPkgFolder,
   "test",
   "test-fixtures",
   "completions",
