@@ -1,3 +1,4 @@
+import { resolve } from "path";
 import { promises as fs } from "fs";
 import * as vscode from "vscode";
 import * as chai from "chai";
@@ -6,6 +7,8 @@ import deepEqualInAnyOrder from "deep-equal-in-any-order";
 import { TextDocument } from "vscode-languageclient";
 
 chai.use(deepEqualInAnyOrder);
+
+export const rootPkgFolder = resolve(__dirname, "..", "..", "..");
 
 export async function setFileTextContents(
   content: string,
