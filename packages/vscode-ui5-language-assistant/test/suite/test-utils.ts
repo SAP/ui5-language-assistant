@@ -7,19 +7,19 @@ import { TextDocument } from "vscode-languageclient";
 
 chai.use(deepEqualInAnyOrder);
 
-export async function setXMLContent(
+export async function setFileTextContents(
   content: string,
   xmlPath: string
 ): Promise<void> {
   await fs.writeFile(xmlPath, content);
-  await sleep(1000);
+  await sleep(500);
 }
 
 export async function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-export function testDiagnostics(
+export function expectProblemView(
   docUri: vscode.Uri,
   expectedDiagnostics: vscode.Diagnostic[]
 ): void {

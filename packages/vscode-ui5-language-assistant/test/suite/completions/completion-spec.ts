@@ -3,34 +3,33 @@ import { resolve, dirname } from "path";
 import { map } from "lodash";
 import { expect } from "chai";
 import { TextDocument, Position } from "vscode-languageserver";
-import { deactivate } from "../../../src/extension";
-import { sleep, setXMLContent } from "../test-utils";
+import { sleep, setFileTextContents } from "../test-utils";
 
-const pkgJsonPath = require.resolve(
-  "vscode-ui5-language-assistant/package.json"
-);
+const EXTENSION_START_TIMEOUT = 5000;
+
+const pkgJsonPath = resolve(__dirname, "..", "..", "..", "..", "package.json");
+
 const rootPkgFolder = dirname(pkgJsonPath);
-
-const docPath = resolve(
+const scenarioPath = resolve(
   rootPkgFolder,
   "test",
   "test-fixtures",
   "completions",
   "test.view.xml"
 );
-const docUri = vscode.Uri.file(docPath);
+
+const scenarioUri = vscode.Uri.file(scenarioPath);
 
 describe("the Language Server Client Integration Tests", () => {
   before(async () => {
-    await vscode.workspace.openTextDocument(docUri);
-    await vscode.window.showTextDocument(docUri);
+    await vscode.workspace.openTextDocument(scenarioUri);
+    await vscode.window.showTextDocument(scenarioUri);
     // Explicitly wait for extension to load
-    await sleep(1000);
+    await sleep(EXTENSION_START_TIMEOUT);
   });
 
   after(async () => {
-    await setXMLContent("", docPath);
-    await deactivate();
+    await setFileTextContents("", scenarioPath);
   });
 
   it("will get completion values for UI5 class", async () => {
@@ -116,18 +115,19 @@ describe("the Language Server Client Integration Tests", () => {
     expectedCompletionNames: string[]
   ): Promise<void> {
     const content = xmlSnippet.replace("⇶", "");
-    await setXMLContent(content, docPath);
+    await setFileTextContents(content, scenarioPath);
 
     const offset = xmlSnippet.indexOf("⇶");
-    const doc = TextDocument.create(docPath, "xml", 0, content);
+    const doc = TextDocument.create(scenarioPath, "xml", 0, content);
     const docPos: Position = doc.positionAt(offset);
     const position: vscode.Position = new vscode.Position(
       docPos.line,
       docPos.character
     );
+
     const completionsList = (await vscode.commands.executeCommand(
       "vscode.executeCompletionItemProvider",
-      docUri,
+      scenarioUri,
       position
     )) as vscode.CompletionList;
 
@@ -135,6 +135,7 @@ describe("the Language Server Client Integration Tests", () => {
       completionsList.items,
       (completion) => completion.label
     );
+
     expect(completionNames).to.include.members(expectedCompletionNames);
   }
 });

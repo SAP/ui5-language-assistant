@@ -1,30 +1,37 @@
 import * as vscode from "vscode";
 import { resolve, dirname } from "path";
-import { deactivate } from "../../../../src/extension";
-import { setXMLContent, testDiagnostics, sleep } from "../../test-utils";
+import {
+  setFileTextContents,
+  expectProblemView,
+  sleep,
+} from "../../test-utils";
 
-const pkgJsonPath = require.resolve(
-  "vscode-ui5-language-assistant/package.json"
+const EXTENSION_START_TIMEOUT = 5000;
+const pkgJsonPath = resolve(
+  __dirname,
+  "..",
+  "..",
+  "..",
+  "..",
+  "..",
+  "package.json"
 );
 
 const rootPkgFolder = dirname(pkgJsonPath);
-const testFixtureValidationsFolder = resolve(
-  rootPkgFolder,
-  "test",
-  "test-fixtures",
-  "validations"
-);
 
 describe("the Language Server Client Validations Integration Tests - Flex Disabled", () => {
-  const testFolderPath = resolve(
-    testFixtureValidationsFolder,
+  const scenarioPath = resolve(
+    rootPkgFolder,
+    "test",
+    "test-fixtures",
+    "validations",
     "flex-disabled-spec"
   );
 
-  const testFolderUri = vscode.Uri.file(testFolderPath);
-  const xmlPath = resolve(testFolderPath, "test.view.xml");
+  const testFolderUri = vscode.Uri.file(scenarioPath);
+  const xmlPath = resolve(scenarioPath, "test.view.xml");
   const xmlUri = vscode.Uri.file(xmlPath);
-  const manifestPath = resolve(testFolderPath, "manifest.json");
+  const manifestPath = resolve(scenarioPath, "manifest.json");
   const manifestUri = vscode.Uri.file(manifestPath);
 
   before(async () => {
@@ -32,12 +39,11 @@ describe("the Language Server Client Validations Integration Tests - Flex Disabl
     await vscode.window.showTextDocument(xmlUri);
     await vscode.workspace.openTextDocument(manifestUri);
     // Explicitly wait for extension to load
-    await sleep(1000);
+    await sleep(EXTENSION_START_TIMEOUT);
   });
 
   after(async () => {
-    await setXMLContent("", xmlPath);
-    await deactivate();
+    await setFileTextContents("", xmlPath);
   });
 
   it("will not detect missing stable id in non-whitelisted UI5 class", async () => {
@@ -48,7 +54,7 @@ describe("the Language Server Client Validations Integration Tests - Flex Disabl
                 <m:Panel>
                 </m:Panel>
         </mvc:View>`;
-    await setXMLContent(xmlSnippet, xmlPath);
-    testDiagnostics(xmlUri, []);
+    await setFileTextContents(xmlSnippet, xmlPath);
+    expectProblemView(xmlUri, []);
   });
 });
