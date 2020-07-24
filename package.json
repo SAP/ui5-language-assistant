@@ -29,7 +29,7 @@
     "update-snapshots": "lerna run update-snapshots"
   },
   "devDependencies": {
-    "@types/chai": "4.2.11",
+    "@types/chai": "4.2.12",
     "@types/mocha": "7.0.2",
     "@types/lodash": "4.14.158",
     "@types/deep-equal-in-any-order": "1.0.1",
