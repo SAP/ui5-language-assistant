@@ -3053,6 +3053,14 @@ deep-eql@^3.0.1:
   dependencies:
     type-detect "^4.0.0"
 
+deep-equal-in-any-order@1.0.27:
+  version "1.0.27"
+  resolved "https://registry.yarnpkg.com/deep-equal-in-any-order/-/deep-equal-in-any-order-1.0.27.tgz#607c4250368f3f95dddb07cc768ef5428132c16e"
+  integrity sha512-yxZ1zYvaiZidcpprBq5hZdbiWNzNXQtcDjc10R2iMfoCgYx6oIdwkPrIaXbcvZkk6spsJvG/C1nRyVTcI748Jg==
+  dependencies:
+    lodash.mapvalues "^4.6.0"
+    sort-any "^1.1.21"
+
 deep-equal-in-any-order@^1.0.24:
   version "1.0.28"
   resolved "https://registry.yarnpkg.com/deep-equal-in-any-order/-/deep-equal-in-any-order-1.0.28.tgz#2b002827e03b9e6b048692baf7faa0a07d3dd1d8"

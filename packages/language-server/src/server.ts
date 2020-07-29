@@ -1,5 +1,5 @@
 /* istanbul ignore file */
-import { forEach } from "lodash";
+import { forEach, filter, find } from "lodash";
 import {
   createConnection,
   TextDocuments,
@@ -10,6 +10,17 @@ import {
   InitializeParams,
   Hover,
   DidChangeConfigurationNotification,
+  Diagnostic,
+  CodeAction,
+  Command,
+  CodeActionKind,
+  TextDocumentEdit,
+  TextEdit,
+  Position,
+  CodeActionParams,
+  TextDocumentIdentifier,
+  Range,
+  CodeActionContext,
 } from "vscode-languageserver";
 import { URI } from "vscode-uri";
 import { TextDocument } from "vscode-languageserver-textdocument";
@@ -33,6 +44,7 @@ import {
   initializeManifestData,
   updateManifestData,
 } from "./manifest-handling";
+import { getCodeActionForDiagnostic, updateDiagnosticData } from "./quick-fix";
 
 const connection = createConnection(ProposedFeatures.all);
 const documents = new TextDocuments(TextDocument);
@@ -67,6 +79,10 @@ connection.onInitialize((params: InitializeParams) => {
         triggerCharacters: ['"', "'", ":", "<"],
       },
       hoverProvider: true,
+      codeActionProvider: true,
+      executeCommandProvider: {
+        commands: ["stableIdQuickFix"],
+      },
     },
   };
 });
@@ -160,7 +176,50 @@ documents.onDidChangeContent(async (changeEvent) => {
       ui5Model,
       flexEnabled,
     });
+
+    updateDiagnosticData(changeEvent.document.uri, diagnostics);
     connection.sendDiagnostics({ uri: changeEvent.document.uri, diagnostics });
+  }
+});
+
+connection.onCodeAction((params) => {
+  const docUri = params.textDocument.uri;
+  let codeActions: CodeAction[] = [];
+  const textDocument = documents.get(docUri);
+  if (textDocument === undefined) {
+    return undefined;
+  }
+
+  const diagnostics = params.context.diagnostics;
+  forEach(diagnostics, (_) => {
+    const codeAction = getCodeActionForDiagnostic(docUri, _);
+    if (codeAction !== undefined) {
+      codeActions.push(codeAction);
+    }
+  });
+
+  return codeActions;
+});
+
+connection.onExecuteCommand(async (params) => {
+  if (params.arguments === undefined) {
+    return;
+  }
+
+  const textDocument = documents.get(params.arguments[0]);
+  if (textDocument === undefined) {
+    return;
+  }
+  params.command !== "stableIdQuickFix";
+
+  switch (params.command) {
+    case "stableIdQuickFix":
+      executeQuickFixIdCommand({
+        textDocument,
+        quickFixRange: params.arguments[1],
+        quickFixIDSuggestion: params.arguments[2],
+      });
+      return;
   }
 });
 
@@ -210,4 +269,24 @@ connection.listen();
 
 function isXMLView(uri: string): boolean {
   return /(view|fragment)\.xml$/.test(uri);
+}
+
+function executeQuickFixIdCommand(opts: {
+  textDocument: TextDocument;
+  quickFixRange: Range;
+  quickFixIDSuggestion: string;
+}) {
+  connection.workspace.applyEdit({
+    documentChanges: [
+      TextDocumentEdit.create(
+        { uri: opts.textDocument.uri, version: opts.textDocument.version },
+        [
+          TextEdit.replace(
+            opts.quickFixRange,
+            `id="${opts.quickFixIDSuggestion}" `
+          ),
+        ]
+      ),
+    ],
+  });
 }

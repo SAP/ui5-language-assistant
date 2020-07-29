@@ -14,6 +14,8 @@ export interface BaseUI5XMLViewIssue {
   message: string;
   severity: "hint" | "info" | "warn" | "error";
   offsetRange: OffsetRange;
+  quickFixIdSuggestion?: string;
+  quickFixIdRange?: OffsetRange;
 }
 
 export interface OffsetRange {
@@ -96,4 +98,6 @@ export interface NonUniqueIDIssue extends BaseUI5XMLViewIssue {
 
 export interface NonStableIDIssue extends BaseUI5XMLViewIssue {
   kind: "NonStableIDIssue";
+  quickFixIdSuggestion: string;
+  quickFixIdRange: OffsetRange;
 }

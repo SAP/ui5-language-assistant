@@ -4,7 +4,7 @@ import { XMLDocument } from "@xml-tools/ast";
 import { UI5XMLViewIssue } from "../api";
 import { validateXMLView as validateXMLViewImpl } from "./validate-xml-views";
 import { allValidators } from "./validators";
-import { validateNonStableId } from "./validators/elements/non-stable-id";
+import { validateNonStableId } from "./validators/document/non-stable-id";
 
 export function validateXMLView(opts: {
   model: UI5SemanticModel;
@@ -13,7 +13,7 @@ export function validateXMLView(opts: {
 }): UI5XMLViewIssue[] {
   const actualValidators = cloneDeep(allValidators);
   if (opts.flexEnabled) {
-    actualValidators.element.push(validateNonStableId);
+    actualValidators.document.push(validateNonStableId);
   }
 
   return validateXMLViewImpl({ validators: actualValidators, ...opts });

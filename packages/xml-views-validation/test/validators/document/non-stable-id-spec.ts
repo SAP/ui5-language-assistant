@@ -6,8 +6,12 @@ import { getMessage, NON_STABLE_ID } from "../../../src/utils/messages";
 import {
   assertNoIssues as assertNoIssuesBase,
   assertSingleIssue as assertSingleIssueBase,
+  testValidationsScenario,
+  computeExpectedRange,
 } from "../../test-utils";
-import { validateNonStableId } from "../../../src/validators/elements/non-stable-id";
+import { validateNonStableId } from "../../../src/validators/document/non-stable-id";
+import { UI5Validators } from "src/validate-xml-views";
+import { expect } from "chai";
 
 describe("the use of non stable id validation", () => {
   let ui5SemanticModel: UI5SemanticModel;
@@ -26,7 +30,7 @@ describe("the use of non stable id validation", () => {
         assertSingleIssueBase,
         ui5SemanticModel,
         {
-          element: [validateNonStableId],
+          document: [validateNonStableId],
         },
         "NonStableIDIssue",
         "error"
@@ -124,7 +128,7 @@ describe("the use of non stable id validation", () => {
     let assertNoIssues: (xmlSnippet: string) => void;
     before(() => {
       assertNoIssues = partial(assertNoIssuesBase, ui5SemanticModel, {
-        element: [validateNonStableId],
+        document: [validateNonStableId],
       });
     });
 

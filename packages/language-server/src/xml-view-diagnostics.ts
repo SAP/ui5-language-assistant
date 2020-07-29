@@ -1,11 +1,14 @@
-import { map } from "lodash";
+import { map, filter } from "lodash";
 import { assertNever } from "assert-never";
 import {
   Diagnostic,
   DiagnosticSeverity,
   DiagnosticTag,
   Range as LSPRange,
+  CodeAction,
+  CodeActionKind,
 } from "vscode-languageserver-types";
+import { WorkspaceEdit } from "vscode";
 import { TextDocument } from "vscode-languageserver-textdocument";
 import { DocumentCstNode, parse } from "@xml-tools/parser";
 import { buildAst } from "@xml-tools/ast";
@@ -16,6 +19,7 @@ import {
   UI5XMLViewIssue,
   validateXMLView,
   XMLViewIssueSeverity,
+  NonStableIDIssue,
 } from "@ui5-language-assistant/xml-views-validation";
 
 export function getXMLViewDiagnostics(opts: {
@@ -46,7 +50,6 @@ function validationIssuesToLspDiagnostics(
       source: "UI5 Language Assistant",
       message: currIssue.message,
     };
-
     const issueKind = currIssue.kind;
     switch (issueKind) {
       case "InvalidBooleanValue":
@@ -56,9 +59,19 @@ function validationIssuesToLspDiagnostics(
       case "UnknownTagName":
       case "InvalidAggregationCardinality":
       case "InvalidAggregationType":
+        return {
+          ...commonDiagnosticPros,
+        };
       case "NonStableIDIssue":
         return {
           ...commonDiagnosticPros,
+          quickFixIdSuggestion: currIssue.quickFixIdSuggestion,
+          quickFixIdRange: offsetRangeToLSPRange(
+            // @ts-expect-error - NonStableIDIssue always contains quickFixIdRange
+            currIssue.quickFixIdRange,
+            document
+          ),
+          code: 666,
         };
       case "UseOfDeprecatedClass":
       case "UseOfDeprecatedProperty":

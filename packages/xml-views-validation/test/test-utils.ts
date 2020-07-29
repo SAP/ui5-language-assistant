@@ -106,7 +106,8 @@ export function assertSingleIssue(
   kind: string,
   severity: string,
   xmlSnippet: string,
-  message: string
+  message: string,
+  extraProps: Object = {}
 ): void {
   testValidationsScenario({
     model: model,
@@ -119,6 +120,7 @@ export function assertSingleIssue(
           message: message,
           offsetRange: computeExpectedRange(xmlSnippet),
           severity: severity,
+          ...extraProps,
         },
       ]);
     },
