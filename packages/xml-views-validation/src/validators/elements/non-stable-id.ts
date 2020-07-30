@@ -46,6 +46,7 @@ export function validateNonStableId(
     kind: "NonStableIDIssue",
     message: getMessage(NON_STABLE_ID, xmlElement.name),
     severity: "error",
+    code: 666,
     offsetRange: {
       start: xmlElement.syntax.openName.startOffset,
       end: xmlElement.syntax.openName.endOffset,

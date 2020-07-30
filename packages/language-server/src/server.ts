@@ -10,6 +10,7 @@ import {
   InitializeParams,
   Hover,
   DidChangeConfigurationNotification,
+  CodeAction,
 } from "vscode-languageserver";
 import { URI } from "vscode-uri";
 import { TextDocument } from "vscode-languageserver-textdocument";
@@ -33,6 +34,7 @@ import {
   initializeManifestData,
   updateManifestData,
 } from "./manifest-handling";
+import { getQuickFixCodeAction, executeCommand } from "./quick-fix";
 
 const connection = createConnection(ProposedFeatures.all);
 const documents = new TextDocuments(TextDocument);
@@ -67,6 +69,10 @@ connection.onInitialize((params: InitializeParams) => {
         triggerCharacters: ['"', "'", ":", "<"],
       },
       hoverProvider: true,
+      codeActionProvider: true,
+      executeCommandProvider: {
+        commands: ["nonStableIdQuickFix"],
+      },
     },
   };
 });
@@ -161,6 +167,43 @@ documents.onDidChangeContent(async (changeEvent) => {
       flexEnabled,
     });
     connection.sendDiagnostics({ uri: changeEvent.document.uri, diagnostics });
+  }
+});
+
+connection.onCodeAction((params) => {
+  const docUri = params.textDocument.uri;
+  const codeActions: CodeAction[] = [];
+  const textDocument = documents.get(docUri);
+  if (textDocument === undefined) {
+    return undefined;
+  }
+
+  const diagnostics = params.context.diagnostics;
+  forEach(diagnostics, (_) => {
+    const codeAction = getQuickFixCodeAction(textDocument, _);
+    if (codeAction !== undefined) {
+      codeActions.push(codeAction);
+    }
+  });
+
+  return codeActions;
+});
+
+connection.onExecuteCommand(async (params) => {
+  if (params.arguments === undefined) {
+    return;
+  }
+
+  const textDocument = documents.get(params.arguments[0]);
+  if (textDocument === undefined) {
+    return;
+  }
+
+  const textEdit = executeCommand(textDocument, params);
+  if (textEdit !== undefined) {
+    connection.workspace.applyEdit({
+      documentChanges: textEdit,
+    });
   }
 });
 
