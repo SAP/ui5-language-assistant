@@ -61,7 +61,7 @@ function validationIssuesToLspDiagnostics(
       case "NonStableIDIssue":
         return {
           ...commonDiagnosticPros,
-          code: currIssue.code,
+          code: 666,
         };
       case "UseOfDeprecatedClass":
       case "UseOfDeprecatedProperty":

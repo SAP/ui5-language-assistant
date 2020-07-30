@@ -14,7 +14,6 @@ export interface BaseUI5XMLViewIssue {
   message: string;
   severity: "hint" | "info" | "warn" | "error";
   offsetRange: OffsetRange;
-  code?: number;
 }
 
 export interface OffsetRange {
