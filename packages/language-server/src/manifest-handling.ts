@@ -80,7 +80,10 @@ export async function updateManifestData(
 async function findAllManifestDocumentsInWorkspace(
   workspaceFolderPath: string
 ): Promise<string[]> {
-  return globby(`${workspaceFolderPath}/**/manifest.json`);
+  return globby([
+    `${workspaceFolderPath}/**/manifest.json`,
+    `!**/node_modules/**/manifest.json`,
+  ]);
 }
 
 async function readFlexEnabledFlagFromManifestFile(
