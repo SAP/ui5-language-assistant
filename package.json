@@ -59,7 +59,7 @@
     "simple-git": "1.132.0",
     "klaw-sync": "6.0.0",
     "fs-extra": "9.0.1",
-    "webpack": "4.44.0",
+    "webpack": "4.44.1",
     "webpack-cli": "3.3.12"
   },
   "husky": {
