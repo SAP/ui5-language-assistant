@@ -13,8 +13,8 @@ const ID_PATTERN = /^_IDGen(.+)([1-9]\d*)$/;
 const ID_PREFIX_PATTERN = "_IDGen";
 
 type quickFixIdInfo = {
-  quickFixIdSuggesion: string;
-  quickFixIdOffsetRange: OffsetRange;
+  suggestion: string;
+  offsetRange: OffsetRange;
 };
 
 export function getQuickFixIdInfo(
@@ -30,7 +30,8 @@ export function getQuickFixIdInfo(
   }
 
   const xmlElement = astNode.astNode;
-  if (xmlElement.name === null) {
+  /* istanbul ignore if - ast node of kind "XMLElementOpenName" will always have name  */
+  if (xmlElement.name === null || xmlElement.syntax.openName === undefined) {
     return undefined;
   }
 
@@ -39,29 +40,21 @@ export function getQuickFixIdInfo(
     (attrib) => attrib.key === "id"
   );
 
-  const quickFixIdSuggesion = getQuickFixIdSuggestion(
+  const suggestion = getQuickFixIdSuggestion(
     biggestIdsOfElements,
     xmlElement.name,
     isExistIdKey
   );
 
-  const quickFixIdRange = getQuickFixIdRange(xmlElement);
-  if (quickFixIdRange === undefined) {
-    return undefined;
-  }
-
-  return { quickFixIdSuggesion, quickFixIdOffsetRange: quickFixIdRange };
+  const offsetRange = getQuickFixIdRange(xmlElement);
+  return { suggestion, offsetRange };
 }
 
 class IdsByElementNameCollectorVisitor implements XMLAstVisitor {
   public biggestIdsOfElements: Record<string, number> = Object.create(null);
 
   visitXMLAttribute(xmlAttribute: XMLAttribute) {
-    if (
-      xmlAttribute.key === "id" &&
-      xmlAttribute.value !== null &&
-      ID_PATTERN.test(xmlAttribute.value)
-    ) {
+    if (xmlAttribute.key === "id" && xmlAttribute.value !== null) {
       const match = ID_PATTERN.exec(xmlAttribute.value);
       if (match === null) {
         return;
@@ -87,28 +80,28 @@ function getQuickFixIdSuggestion(
   const suffix = biggestIdsOfElements[elementName]
     ? biggestIdsOfElements[elementName] + 1
     : 1;
-  let quickFixSuggestion = `id="${ID_PREFIX_PATTERN}${elementName}${suffix}"`;
+  let suggestion = `id="${ID_PREFIX_PATTERN}${elementName}${suffix}"`;
   if (!isExistIdKey) {
     // We want extra space if there is no id key
-    quickFixSuggestion = " " + quickFixSuggestion;
+    suggestion = " " + suggestion;
   }
 
-  return quickFixSuggestion;
+  return suggestion;
 }
 
-function getQuickFixIdRange(xmlElement: XMLElement): OffsetRange | undefined {
+function getQuickFixIdRange(xmlElement: XMLElement): OffsetRange {
   const idAttrib = find(xmlElement.attributes, (attrib) => attrib.key === "id");
   if (idAttrib !== undefined && idAttrib.syntax.key !== undefined) {
     return {
       start: idAttrib.position.startOffset,
       end: idAttrib.position.endOffset,
     };
-  } else if (xmlElement.syntax.openName !== undefined) {
+  } else {
     return {
+      //@ts-expect-error - we already checked the element has open name
       start: xmlElement.syntax.openName.endOffset + 1,
+      //@ts-expect-error - we already checked the element has open name
       end: xmlElement.syntax.openName.endOffset,
     };
   }
-
-  return undefined;
 }

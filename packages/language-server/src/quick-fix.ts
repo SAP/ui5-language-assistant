@@ -77,11 +77,8 @@ function getCodeActionForQuickFixId(opts: {
       title,
       "nonStableIdQuickFix",
       opts.document.uri,
-      offsetRangeToLSPRange(
-        quickFixIdInfo.quickFixIdOffsetRange,
-        opts.document
-      ),
-      quickFixIdInfo.quickFixIdSuggesion
+      offsetRangeToLSPRange(quickFixIdInfo.offsetRange, opts.document),
+      quickFixIdInfo.suggestion
     ),
     CodeActionKind.QuickFix
   );
