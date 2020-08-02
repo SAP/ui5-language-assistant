@@ -23,7 +23,7 @@
     "jsonValidation": [
       {
         "fileMatch": "manifest.json",
-        "url": "https://cdn.jsdelivr.net/gh/SAP/ui5-language-assistant/packages/vscode-ui5-language-assistant/resources/manifest-schema/rel-1.19/schema/schema.json"
+        "url": "https://raw.githubusercontent.com/SAP/ui5-manifest/master/schema.json"
       }
     ],
     "configuration": {
