@@ -57,6 +57,7 @@ describe("the Language Server Client Validations Integration Tests - Flex Enable
         message: getMessage(NON_STABLE_ID, "Panel"),
         range: getRanges(xmlSnippet)[0],
         source: UI5LANG_ERROR_MSG,
+        code: 666,
       },
     ]);
   });
@@ -78,6 +79,7 @@ describe("the Language Server Client Validations Integration Tests - Flex Enable
         message: getMessage(NON_STABLE_ID, "Button"),
         range: getRanges(xmlSnippet)[0],
         source: UI5LANG_ERROR_MSG,
+        code: 666,
       },
     ]);
   });
@@ -97,6 +99,7 @@ describe("the Language Server Client Validations Integration Tests - Flex Enable
         message: getMessage(NON_STABLE_ID, "Panel"),
         range: getRanges(xmlSnippet)[0],
         source: UI5LANG_ERROR_MSG,
+        code: 666,
       },
     ]);
   });
