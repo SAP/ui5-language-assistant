@@ -11,10 +11,6 @@ import {
   Hover,
   DidChangeConfigurationNotification,
   ExecuteCommandParams,
-  TextDocumentEdit,
-  CreateFile,
-  RenameFile,
-  DeleteFile,
 } from "vscode-languageserver";
 import { URI } from "vscode-uri";
 import { TextDocument } from "vscode-languageserver-textdocument";
@@ -39,9 +35,9 @@ import {
   updateManifestData,
 } from "./manifest-handling";
 import {
-  getQuickFixCodeAction,
-  executeQuickFixIdCommand,
-  QUICK_FIX_STABLE_ID,
+  diagnosticToCodeActionFix,
+  executeQuickFixStableIdCommand,
+  QUICK_FIX_STABLE_ID_COMMAND,
 } from "./quick-fix";
 
 const connection = createConnection(ProposedFeatures.all);
@@ -80,7 +76,7 @@ connection.onInitialize((params: InitializeParams) => {
       codeActionProvider: true,
       // Each command executes a different code action scenario
       executeCommandProvider: {
-        commands: [QUICK_FIX_STABLE_ID],
+        commands: [QUICK_FIX_STABLE_ID_COMMAND],
       },
     },
   };
@@ -188,7 +184,7 @@ connection.onCodeAction((params) => {
 
   const diagnostics = params.context.diagnostics;
   const codeActions = compact(
-    map(diagnostics, (_) => getQuickFixCodeAction(textDocument, _))
+    map(diagnostics, (_) => diagnosticToCodeActionFix(textDocument, _))
   );
 
   return codeActions;
@@ -204,12 +200,7 @@ connection.onExecuteCommand(async (params) => {
     return;
   }
 
-  const textEdit = executeCommand(textDocument, params);
-  if (textEdit !== undefined) {
-    connection.workspace.applyEdit({
-      documentChanges: textEdit,
-    });
-  }
+  executeCommand(textDocument, params);
 });
 
 function ensureDocumentSettingsUpdated(resource: string): void {
@@ -263,16 +254,20 @@ function isXMLView(uri: string): boolean {
 function executeCommand(
   textDocument: TextDocument,
   params: ExecuteCommandParams
-): (TextDocumentEdit | CreateFile | RenameFile | DeleteFile)[] | undefined {
+): void {
   switch (params.command) {
-    case QUICK_FIX_STABLE_ID: {
-      return executeQuickFixIdCommand({
+    case QUICK_FIX_STABLE_ID_COMMAND: {
+      const change = executeQuickFixStableIdCommand({
         textDocument,
         // @ts-expect-error - we already checked arguments exist
         quickFixRange: params.arguments[1],
         // @ts-expect-error - we already checked arguments exist
         quickFixIDSuggestion: params.arguments[2],
       });
+      connection.workspace.applyEdit({
+        documentChanges: change,
+      });
+      return;
     }
     default:
       return undefined;

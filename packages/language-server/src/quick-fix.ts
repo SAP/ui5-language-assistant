@@ -13,10 +13,10 @@ import { parse, DocumentCstNode } from "@xml-tools/parser";
 import { buildAst, XMLDocument } from "@xml-tools/ast";
 import { LSPRangeToOffsetRange, offsetRangeToLSPRange } from "./range-utils";
 
-export const QUICK_FIX_STABLE_ID = "nonStableIdQuickFix";
-const QUICK_FIX_STABLE_ID_TITLE = "Generate ID";
+export const QUICK_FIX_STABLE_ID_COMMAND = "ui5_lang.quick_fix_stable_id";
+const QUICK_FIX_STABLE_ID_COMMAND_TITLE = "Generate ID";
 
-export function getQuickFixCodeAction(
+export function diagnosticToCodeActionFix(
   document: TextDocument,
   diagnostic: Diagnostic
 ): CodeAction | undefined {
@@ -56,21 +56,24 @@ function computeCodeActionForQuickFixStableId(opts: {
     return undefined;
   }
 
-  const title = QUICK_FIX_STABLE_ID_TITLE;
+  const suggestionRange = offsetRangeToLSPRange(
+    quickFixIdInfo.offsetRange,
+    opts.document
+  );
   return CodeAction.create(
-    title,
+    QUICK_FIX_STABLE_ID_COMMAND_TITLE,
     Command.create(
-      title,
-      QUICK_FIX_STABLE_ID,
+      QUICK_FIX_STABLE_ID_COMMAND_TITLE,
+      QUICK_FIX_STABLE_ID_COMMAND,
       opts.document.uri,
-      offsetRangeToLSPRange(quickFixIdInfo.offsetRange, opts.document),
+      suggestionRange,
       quickFixIdInfo.suggestion
     ),
     CodeActionKind.QuickFix
   );
 }
 
-export function executeQuickFixIdCommand(opts: {
+export function executeQuickFixStableIdCommand(opts: {
   textDocument: TextDocument;
   quickFixRange: LSPRange;
   quickFixIDSuggestion: string;
