@@ -1,5 +1,5 @@
 /* istanbul ignore file */
-import { forEach } from "lodash";
+import { forEach, compact, map } from "lodash";
 import {
   createConnection,
   TextDocuments,
@@ -10,7 +10,6 @@ import {
   InitializeParams,
   Hover,
   DidChangeConfigurationNotification,
-  CodeAction,
   ExecuteCommandParams,
   TextDocumentEdit,
   CreateFile,
@@ -182,19 +181,15 @@ documents.onDidChangeContent(async (changeEvent) => {
 
 connection.onCodeAction((params) => {
   const docUri = params.textDocument.uri;
-  const codeActions: CodeAction[] = [];
   const textDocument = documents.get(docUri);
   if (textDocument === undefined) {
     return undefined;
   }
 
   const diagnostics = params.context.diagnostics;
-  forEach(diagnostics, (_) => {
-    const codeAction = getQuickFixCodeAction(textDocument, _);
-    if (codeAction !== undefined) {
-      codeActions.push(codeAction);
-    }
-  });
+  const codeActions = compact(
+    map(diagnostics, (_) => getQuickFixCodeAction(textDocument, _))
+  );
 
   return codeActions;
 });

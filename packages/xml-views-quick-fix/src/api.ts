@@ -1,1 +1,1 @@
-export { computeQuickFixStableIdInfo as getQuickFixIdInfo } from "./quick-fix-id";
+export { computeQuickFixStableIdInfo } from "./quick-fix-id";
