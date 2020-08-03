@@ -91,7 +91,7 @@ packageCommand({
 })
   .catch((e) => {
     console.error(e.message);
-    process.exitCode = 666;
+    process.exitCode = 1000;
   })
   .finally(() => {
     // revert changes to the pkg.json, ensure clean git working directory

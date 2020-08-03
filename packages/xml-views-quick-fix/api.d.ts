@@ -1,12 +1,8 @@
 import { XMLDocument } from "@xml-tools/ast";
-import { OffsetRange } from "@ui5-language-assistant/xml-views-validation";
+import { OffsetRange } from "@ui5-language-assistant/logic-utils";
+import { QuickFixStableIdInfo } from "./src/quick-fix-id";
 
-type quickFixIdInfo = {
-  suggestion: string;
-  offsetRange: OffsetRange;
-};
-
-export declare function getQuickFixIdInfo(
+export declare function computeQuickFixStableIdInfo(
   xmlDoc: XMLDocument,
   errorOffset: OffsetRange
-): quickFixIdInfo | undefined;
+): QuickFixStableIdInfo | undefined;

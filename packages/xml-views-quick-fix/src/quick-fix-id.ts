@@ -7,20 +7,20 @@ import {
   XMLAttribute,
   XMLElement,
 } from "@xml-tools/ast";
-import { OffsetRange } from "@ui5-language-assistant/xml-views-validation";
+import { OffsetRange } from "@ui5-language-assistant/logic-utils";
 
 const ID_PATTERN = /^_IDGen(.+)([1-9]\d*)$/;
 const ID_PREFIX_PATTERN = "_IDGen";
 
-type quickFixIdInfo = {
+export type QuickFixStableIdInfo = {
   suggestion: string;
   offsetRange: OffsetRange;
 };
 
-export function getQuickFixIdInfo(
+export function computeQuickFixStableIdInfo(
   xmlDoc: XMLDocument,
   errorOffset: OffsetRange
-): quickFixIdInfo | undefined {
+): QuickFixStableIdInfo | undefined {
   const biggestIdsCollector = new IdsByElementNameCollectorVisitor();
   accept(xmlDoc, biggestIdsCollector);
   const biggestIdsOfElements = biggestIdsCollector.biggestIdsOfElements;

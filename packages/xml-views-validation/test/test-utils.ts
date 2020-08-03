@@ -3,11 +3,12 @@ import { expect } from "chai";
 import { DocumentCstNode, parse } from "@xml-tools/parser";
 import { buildAst } from "@xml-tools/ast";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
+import { OffsetRange } from "@ui5-language-assistant/logic-utils";
 import {
   UI5Validators,
   validateXMLView as validateXMLViewImpl,
 } from "../src/validate-xml-views";
-import { OffsetRange, UI5XMLViewIssue } from "../api";
+import { UI5XMLViewIssue } from "../api";
 
 const START_RANGE_MARKER = "🢂";
 const END_RANGE_MARKER = "🢀";

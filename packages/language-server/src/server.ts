@@ -11,6 +11,11 @@ import {
   Hover,
   DidChangeConfigurationNotification,
   CodeAction,
+  ExecuteCommandParams,
+  TextDocumentEdit,
+  CreateFile,
+  RenameFile,
+  DeleteFile,
 } from "vscode-languageserver";
 import { URI } from "vscode-uri";
 import { TextDocument } from "vscode-languageserver-textdocument";
@@ -34,7 +39,11 @@ import {
   initializeManifestData,
   updateManifestData,
 } from "./manifest-handling";
-import { getQuickFixCodeAction, executeCommand } from "./quick-fix";
+import {
+  getQuickFixCodeAction,
+  executeQuickFixIdCommand,
+  QUICK_FIX_STABLE_ID,
+} from "./quick-fix";
 
 const connection = createConnection(ProposedFeatures.all);
 const documents = new TextDocuments(TextDocument);
@@ -70,8 +79,9 @@ connection.onInitialize((params: InitializeParams) => {
       },
       hoverProvider: true,
       codeActionProvider: true,
+      // Each command executes a different code action scenario
       executeCommandProvider: {
-        commands: ["nonStableIdQuickFix"],
+        commands: [QUICK_FIX_STABLE_ID],
       },
     },
   };
@@ -253,4 +263,23 @@ connection.listen();
 
 function isXMLView(uri: string): boolean {
   return /(view|fragment)\.xml$/.test(uri);
+}
+
+function executeCommand(
+  textDocument: TextDocument,
+  params: ExecuteCommandParams
+): (TextDocumentEdit | CreateFile | RenameFile | DeleteFile)[] | undefined {
+  switch (params.command) {
+    case QUICK_FIX_STABLE_ID: {
+      return executeQuickFixIdCommand({
+        textDocument,
+        // @ts-expect-error - we already checked arguments exist
+        quickFixRange: params.arguments[1],
+        // @ts-expect-error - we already checked arguments exist
+        quickFixIDSuggestion: params.arguments[2],
+      });
+    }
+    default:
+      return undefined;
+  }
 }

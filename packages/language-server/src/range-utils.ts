@@ -1,6 +1,6 @@
 import { TextDocument } from "vscode-languageserver";
 import { Range as LSPRange } from "vscode-languageserver-types";
-import { OffsetRange } from "@ui5-language-assistant/xml-views-validation";
+import { OffsetRange } from "@ui5-language-assistant/logic-utils";
 
 export function LSPRangeToOffsetRange(
   LSPRange: LSPRange,

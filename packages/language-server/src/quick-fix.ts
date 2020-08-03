@@ -1,4 +1,3 @@
-import { ExecuteCommandParams } from "vscode-languageserver";
 import {
   Diagnostic,
   Range as LSPRange,
@@ -9,10 +8,13 @@ import {
   TextDocumentEdit,
   TextEdit,
 } from "vscode-languageserver-types";
-import { getQuickFixIdInfo } from "@ui5-language-assistant/xml-views-quick-fix";
+import { computeQuickFixStableIdInfo } from "@ui5-language-assistant/xml-views-quick-fix";
 import { parse, DocumentCstNode } from "@xml-tools/parser";
 import { buildAst, XMLDocument } from "@xml-tools/ast";
 import { LSPRangeToOffsetRange, offsetRangeToLSPRange } from "./range-utils";
+
+export const QUICK_FIX_STABLE_ID = "nonStableIdQuickFix";
+const QUICK_FIX_STABLE_ID_TITLE = "Generate ID";
 
 export function getQuickFixCodeAction(
   document: TextDocument,
@@ -23,9 +25,9 @@ export function getQuickFixCodeAction(
   const { cst, tokenVector } = parse(documentText);
   const xmlDocAst = buildAst(cst as DocumentCstNode, tokenVector);
   switch (diagnostic.code) {
-    case 666: {
+    case 1000: {
       // non stable id
-      return getCodeActionForQuickFixId({
+      return computeCodeActionForQuickFixStableId({
         document,
         xmlDocument: xmlDocAst,
         nonStableIdDiagnostic: diagnostic,
@@ -36,26 +38,7 @@ export function getQuickFixCodeAction(
   }
 }
 
-export function executeCommand(
-  textDocument: TextDocument,
-  params: ExecuteCommandParams
-): TextDocumentEdit[] | undefined {
-  switch (params.command) {
-    case "nonStableIdQuickFix": {
-      return executeQuickFixIdCommand({
-        textDocument,
-        // @ts-expect-error - we already checked arguments exist
-        quickFixRange: params.arguments[1],
-        // @ts-expect-error - we already checked arguments exist
-        quickFixIDSuggestion: params.arguments[2],
-      });
-    }
-    default:
-      return undefined;
-  }
-}
-
-function getCodeActionForQuickFixId(opts: {
+function computeCodeActionForQuickFixStableId(opts: {
   document: TextDocument;
   xmlDocument: XMLDocument;
   nonStableIdDiagnostic: Diagnostic;
@@ -65,17 +48,20 @@ function getCodeActionForQuickFixId(opts: {
     opts.document
   );
 
-  const quickFixIdInfo = getQuickFixIdInfo(opts.xmlDocument, errorOffset);
+  const quickFixIdInfo = computeQuickFixStableIdInfo(
+    opts.xmlDocument,
+    errorOffset
+  );
   if (quickFixIdInfo === undefined) {
     return undefined;
   }
 
-  const title = "Generate ID";
+  const title = QUICK_FIX_STABLE_ID_TITLE;
   return CodeAction.create(
     title,
     Command.create(
       title,
-      "nonStableIdQuickFix",
+      QUICK_FIX_STABLE_ID,
       opts.document.uri,
       offsetRangeToLSPRange(quickFixIdInfo.offsetRange, opts.document),
       quickFixIdInfo.suggestion
@@ -84,11 +70,11 @@ function getCodeActionForQuickFixId(opts: {
   );
 }
 
-function executeQuickFixIdCommand(opts: {
+export function executeQuickFixIdCommand(opts: {
   textDocument: TextDocument;
   quickFixRange: LSPRange;
   quickFixIDSuggestion: string;
-}) {
+}): TextDocumentEdit[] {
   const documentEdit = [
     TextDocumentEdit.create(
       { uri: opts.textDocument.uri, version: opts.textDocument.version },

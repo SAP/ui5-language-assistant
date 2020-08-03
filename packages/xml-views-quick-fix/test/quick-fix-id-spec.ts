@@ -3,7 +3,7 @@ import { TextDocument } from "vscode-languageserver";
 import { parse, DocumentCstNode } from "@xml-tools/parser";
 import { buildAst, XMLDocument } from "@xml-tools/ast";
 import { expectExists } from "@ui5-language-assistant/test-utils";
-import { getQuickFixIdInfo } from "../src/quick-fix-id";
+import { computeQuickFixStableIdInfo } from "../src/quick-fix-id";
 
 describe("the UI5 language assistant QuickFix Service", () => {
   context("true positive scenarios", () => {
@@ -20,7 +20,10 @@ describe("the UI5 language assistant QuickFix Service", () => {
         testXmlSnippet
       );
       const testXmlDoc = getXmlDocument(document);
-      const quickFixInfo = getQuickFixIdInfo(testXmlDoc, { start, end });
+      const quickFixInfo = computeQuickFixStableIdInfo(testXmlDoc, {
+        start,
+        end,
+      });
       expectExists(quickFixInfo, "Quick Fix Info");
       expect(quickFixInfo.suggestion).to.equal(expectedSuggestion);
       expect(quickFixInfo.offsetRange.start).to.equal(idStartOffest);
@@ -40,7 +43,10 @@ describe("the UI5 language assistant QuickFix Service", () => {
         testXmlSnippet
       );
       const testXmlDoc = getXmlDocument(document);
-      const quickFixInfo = getQuickFixIdInfo(testXmlDoc, { start, end });
+      const quickFixInfo = computeQuickFixStableIdInfo(testXmlDoc, {
+        start,
+        end,
+      });
       expectExists(quickFixInfo, "Quick Fix Info");
       expect(quickFixInfo.suggestion).to.equal(expectedSuggestion);
       expect(quickFixInfo.offsetRange.start).to.equal(idStartOffest);
@@ -61,7 +67,10 @@ describe("the UI5 language assistant QuickFix Service", () => {
         testXmlSnippet
       );
       const testXmlDoc = getXmlDocument(document);
-      const quickFixInfo = getQuickFixIdInfo(testXmlDoc, { start, end });
+      const quickFixInfo = computeQuickFixStableIdInfo(testXmlDoc, {
+        start,
+        end,
+      });
       expectExists(quickFixInfo, "Quick Fix Info");
       expect(quickFixInfo.suggestion).to.equal(expectedSuggestion);
       expect(quickFixInfo.offsetRange.start).to.equal(idStartOffest);
@@ -80,7 +89,10 @@ describe("the UI5 language assistant QuickFix Service", () => {
         testXmlSnippet
       );
       const testXmlDoc = getXmlDocument(document);
-      const quickFixInfo = getQuickFixIdInfo(testXmlDoc, { start, end });
+      const quickFixInfo = computeQuickFixStableIdInfo(testXmlDoc, {
+        start,
+        end,
+      });
       expectExists(quickFixInfo, "Quick Fix Info");
       expect(quickFixInfo.suggestion).to.equal(expectedSuggestion);
       expect(quickFixInfo.offsetRange.start).to.equal(idStartOffest);
@@ -99,7 +111,10 @@ describe("the UI5 language assistant QuickFix Service", () => {
         testXmlSnippet
       );
       const testXmlDoc = getXmlDocument(document);
-      const quickFixInfo = getQuickFixIdInfo(testXmlDoc, { start, end });
+      const quickFixInfo = computeQuickFixStableIdInfo(testXmlDoc, {
+        start,
+        end,
+      });
       expectExists(quickFixInfo, "Quick Fix Info");
       expect(quickFixInfo.suggestion).to.equal(expectedSuggestion);
       expect(quickFixInfo.offsetRange.start).to.equal(idStartOffest);
@@ -117,21 +132,7 @@ describe("the UI5 language assistant QuickFix Service", () => {
                               </mvc:View>`;
       const { document, start, end } = getXmlSnippet(testXmlSnippet);
       const testXmlDoc = getXmlDocument(document);
-      const quickFixInfo = getQuickFixIdInfo(testXmlDoc, {
-        start,
-        end,
-      });
-
-      expect(quickFixInfo).to.not.exist;
-    });
-
-    it("will not suggest quick fix id when the tag is empty", () => {
-      const testXmlSnippet = `<🢂🢀>
-                                xmlns="sap.ui.core.mvc">
-                              </View>`;
-      const { document, start, end } = getXmlSnippet(testXmlSnippet);
-      const testXmlDoc = getXmlDocument(document);
-      const quickFixInfo = getQuickFixIdInfo(testXmlDoc, {
+      const quickFixInfo = computeQuickFixStableIdInfo(testXmlDoc, {
         start,
         end,
       });

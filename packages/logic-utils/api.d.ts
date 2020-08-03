@@ -12,6 +12,11 @@ import {
   UI5DeprecatedInfo,
 } from "@ui5-language-assistant/semantic-model-types";
 
+export interface OffsetRange {
+  start: number;
+  end: number;
+}
+
 /**
  * Resolves an XML Tag's fully qualified name using available `xmlns`
  * and UI5 semantics.
