@@ -10,7 +10,6 @@ import {
   InitializeParams,
   Hover,
   DidChangeConfigurationNotification,
-  ExecuteCommandParams,
 } from "vscode-languageserver";
 import { URI } from "vscode-uri";
 import { TextDocument } from "vscode-languageserver-textdocument";
@@ -36,9 +35,9 @@ import {
 } from "./manifest-handling";
 import {
   diagnosticToCodeActionFix,
-  executeQuickFixStableIdCommand,
   QUICK_FIX_STABLE_ID_COMMAND,
 } from "./quick-fix";
+import { executeCommand } from "./commads";
 
 const connection = createConnection(ProposedFeatures.all);
 const documents = new TextDocuments(TextDocument);
@@ -191,17 +190,7 @@ connection.onCodeAction((params) => {
 });
 
 connection.onExecuteCommand(async (params) => {
-  if (params.arguments === undefined) {
-    return;
-  }
-
-  // Document assumption that all commands have textDocument URI in the first argument
-  const textDocument = documents.get(params.arguments[0]);
-  if (textDocument === undefined) {
-    return;
-  }
-
-  executeCommand(textDocument, params);
+  executeCommand(connection, params);
 });
 
 function ensureDocumentSettingsUpdated(resource: string): void {
@@ -250,31 +239,4 @@ connection.listen();
 
 function isXMLView(uri: string): boolean {
   return /(view|fragment)\.xml$/.test(uri);
-}
-
-function executeCommand(
-  textDocument: TextDocument,
-  params: ExecuteCommandParams
-): void {
-  if (params.arguments === undefined) {
-    return;
-  }
-
-  switch (params.command) {
-    case QUICK_FIX_STABLE_ID_COMMAND: {
-      const change = executeQuickFixStableIdCommand({
-        textDocument,
-        // Document assumption that this command has the following arguments.
-        // We passed them when the command was created.
-        quickFixReplaceRange: params.arguments[1],
-        quickFixNewText: params.arguments[2],
-      });
-      connection.workspace.applyEdit({
-        documentChanges: change,
-      });
-      return;
-    }
-    default:
-      return undefined;
-  }
 }
