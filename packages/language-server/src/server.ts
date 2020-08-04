@@ -195,6 +195,7 @@ connection.onExecuteCommand(async (params) => {
     return;
   }
 
+  // Document assumption that all commands have textDocument URI in the first argument
   const textDocument = documents.get(params.arguments[0]);
   if (textDocument === undefined) {
     return;
@@ -255,14 +256,18 @@ function executeCommand(
   textDocument: TextDocument,
   params: ExecuteCommandParams
 ): void {
+  if (params.arguments === undefined) {
+    return;
+  }
+
   switch (params.command) {
     case QUICK_FIX_STABLE_ID_COMMAND: {
       const change = executeQuickFixStableIdCommand({
         textDocument,
-        // @ts-expect-error - we already checked arguments exist
-        quickFixRange: params.arguments[1],
-        // @ts-expect-error - we already checked arguments exist
-        quickFixIDSuggestion: params.arguments[2],
+        // Document assumption that this command has the following arguments.
+        // We passed them when the command was created.
+        quickFixReplaceRange: params.arguments[1],
+        quickFixNewText: params.arguments[2],
       });
       connection.workspace.applyEdit({
         documentChanges: change,

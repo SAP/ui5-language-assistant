@@ -3,7 +3,7 @@ import { TextDocument } from "vscode-languageserver";
 import { parse, DocumentCstNode } from "@xml-tools/parser";
 import { buildAst, XMLDocument } from "@xml-tools/ast";
 import { expectExists } from "@ui5-language-assistant/test-utils";
-import { computeQuickFixStableIdInfo } from "../src/quick-fix-id";
+import { computeQuickFixStableIdInfo } from "../src/quick-fix-stable-id";
 
 describe("the UI5 language assistant QuickFix Service", () => {
   context("true positive scenarios", () => {
@@ -25,8 +25,8 @@ describe("the UI5 language assistant QuickFix Service", () => {
         end,
       });
       expectExists(quickFixInfo, "Quick Fix Info");
-      expect(quickFixInfo.suggestion).to.equal(expectedSuggestion);
-      expect(quickFixInfo.offsetRange.start).to.equal(idStartOffest);
+      expect(quickFixInfo.newText).to.equal(expectedSuggestion);
+      expect(quickFixInfo.replaceRange.start).to.equal(idStartOffest);
     });
 
     it("will get quick fix info when class is missing id attribute key - more than one id with different pattern", () => {
@@ -48,8 +48,8 @@ describe("the UI5 language assistant QuickFix Service", () => {
         end,
       });
       expectExists(quickFixInfo, "Quick Fix Info");
-      expect(quickFixInfo.suggestion).to.equal(expectedSuggestion);
-      expect(quickFixInfo.offsetRange.start).to.equal(idStartOffest);
+      expect(quickFixInfo.newText).to.equal(expectedSuggestion);
+      expect(quickFixInfo.replaceRange.start).to.equal(idStartOffest);
     });
 
     it("will get quick fix info when class is missing id attribute key - more than one id from same pattern", () => {
@@ -72,8 +72,8 @@ describe("the UI5 language assistant QuickFix Service", () => {
         end,
       });
       expectExists(quickFixInfo, "Quick Fix Info");
-      expect(quickFixInfo.suggestion).to.equal(expectedSuggestion);
-      expect(quickFixInfo.offsetRange.start).to.equal(idStartOffest);
+      expect(quickFixInfo.newText).to.equal(expectedSuggestion);
+      expect(quickFixInfo.replaceRange.start).to.equal(idStartOffest);
     });
 
     it("will get quick fix info when class has empty id attribute", () => {
@@ -94,8 +94,8 @@ describe("the UI5 language assistant QuickFix Service", () => {
         end,
       });
       expectExists(quickFixInfo, "Quick Fix Info");
-      expect(quickFixInfo.suggestion).to.equal(expectedSuggestion);
-      expect(quickFixInfo.offsetRange.start).to.equal(idStartOffest);
+      expect(quickFixInfo.newText).to.equal(expectedSuggestion);
+      expect(quickFixInfo.replaceRange.start).to.equal(idStartOffest);
     });
 
     it("will get quick fix info when class has empty id attribute between other attributes", () => {
@@ -116,8 +116,8 @@ describe("the UI5 language assistant QuickFix Service", () => {
         end,
       });
       expectExists(quickFixInfo, "Quick Fix Info");
-      expect(quickFixInfo.suggestion).to.equal(expectedSuggestion);
-      expect(quickFixInfo.offsetRange.start).to.equal(idStartOffest);
+      expect(quickFixInfo.newText).to.equal(expectedSuggestion);
+      expect(quickFixInfo.replaceRange.start).to.equal(idStartOffest);
     });
   });
 

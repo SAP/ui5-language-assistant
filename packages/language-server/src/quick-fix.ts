@@ -48,16 +48,16 @@ function computeCodeActionForQuickFixStableId(opts: {
     opts.document
   );
 
-  const quickFixIdInfo = computeQuickFixStableIdInfo(
+  const quickFixStableIdInfo = computeQuickFixStableIdInfo(
     opts.xmlDocument,
     errorOffset
   );
-  if (quickFixIdInfo === undefined) {
+  if (quickFixStableIdInfo === undefined) {
     return undefined;
   }
 
-  const suggestionRange = offsetRangeToLSPRange(
-    quickFixIdInfo.offsetRange,
+  const replaceRange = offsetRangeToLSPRange(
+    quickFixStableIdInfo.replaceRange,
     opts.document
   );
   return CodeAction.create(
@@ -66,8 +66,8 @@ function computeCodeActionForQuickFixStableId(opts: {
       QUICK_FIX_STABLE_ID_COMMAND_TITLE,
       QUICK_FIX_STABLE_ID_COMMAND,
       opts.document.uri,
-      suggestionRange,
-      quickFixIdInfo.suggestion
+      replaceRange,
+      quickFixStableIdInfo.newText
     ),
     CodeActionKind.QuickFix
   );
@@ -75,13 +75,13 @@ function computeCodeActionForQuickFixStableId(opts: {
 
 export function executeQuickFixStableIdCommand(opts: {
   textDocument: TextDocument;
-  quickFixRange: LSPRange;
-  quickFixIDSuggestion: string;
+  quickFixReplaceRange: LSPRange;
+  quickFixNewText: string;
 }): TextDocumentEdit[] {
   const documentEdit = [
     TextDocumentEdit.create(
       { uri: opts.textDocument.uri, version: opts.textDocument.version },
-      [TextEdit.replace(opts.quickFixRange, `${opts.quickFixIDSuggestion}`)]
+      [TextEdit.replace(opts.quickFixReplaceRange, `${opts.quickFixNewText}`)]
     ),
   ];
 
