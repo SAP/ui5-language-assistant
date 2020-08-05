@@ -1,5 +1,6 @@
 import { XMLDocument } from "@xml-tools/ast";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
+import { OffsetRange } from "@ui5-language-assistant/logic-utils";
 
 export function validateXMLView(opts: {
   model: UI5SemanticModel;
@@ -14,11 +15,6 @@ export interface BaseUI5XMLViewIssue {
   message: string;
   severity: "hint" | "info" | "warn" | "error";
   offsetRange: OffsetRange;
-}
-
-export interface OffsetRange {
-  start: number;
-  end: number;
 }
 
 export type UI5XMLViewIssue =

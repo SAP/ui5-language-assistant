@@ -1,5 +1,5 @@
 /* istanbul ignore file */
-import { forEach } from "lodash";
+import { forEach, compact, map } from "lodash";
 import {
   createConnection,
   TextDocuments,
@@ -33,6 +33,11 @@ import {
   initializeManifestData,
   updateManifestData,
 } from "./manifest-handling";
+import {
+  diagnosticToCodeActionFix,
+  QUICK_FIX_STABLE_ID_COMMAND,
+} from "./quick-fix";
+import { executeCommand } from "./commads";
 
 const connection = createConnection(ProposedFeatures.all);
 const documents = new TextDocuments(TextDocument);
@@ -67,6 +72,11 @@ connection.onInitialize((params: InitializeParams) => {
         triggerCharacters: ['"', "'", ":", "<"],
       },
       hoverProvider: true,
+      codeActionProvider: true,
+      // Each command executes a different code action scenario
+      executeCommandProvider: {
+        commands: [QUICK_FIX_STABLE_ID_COMMAND],
+      },
     },
   };
 });
@@ -162,6 +172,25 @@ documents.onDidChangeContent(async (changeEvent) => {
     });
     connection.sendDiagnostics({ uri: changeEvent.document.uri, diagnostics });
   }
+});
+
+connection.onCodeAction((params) => {
+  const docUri = params.textDocument.uri;
+  const textDocument = documents.get(docUri);
+  if (textDocument === undefined) {
+    return undefined;
+  }
+
+  const diagnostics = params.context.diagnostics;
+  const codeActions = compact(
+    map(diagnostics, (_) => diagnosticToCodeActionFix(textDocument, _))
+  );
+
+  return codeActions;
+});
+
+connection.onExecuteCommand(async (params) => {
+  executeCommand(connection, params);
 });
 
 function ensureDocumentSettingsUpdated(resource: string): void {

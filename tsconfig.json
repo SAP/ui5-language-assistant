@@ -22,6 +22,9 @@
       "path": "./packages/xml-views-completion"
     },
     {
+      "path": "./packages/xml-views-quick-fix"
+    },
+    {
       "path": "./packages/xml-views-tooltip"
     },
     {

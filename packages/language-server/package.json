@@ -27,6 +27,7 @@
     "@ui5-language-assistant/xml-views-completion": "^1.5.3",
     "@ui5-language-assistant/xml-views-tooltip": "^1.2.3",
     "@ui5-language-assistant/xml-views-validation": "^0.6.0",
+    "@ui5-language-assistant/xml-views-quick-fix": "^1.0.0",
     "@xml-tools/ast": "5.0.0",
     "@xml-tools/ast-position": "2.0.2",
     "@xml-tools/parser": "1.0.7",

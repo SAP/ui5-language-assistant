@@ -79,6 +79,17 @@ and cannot be configured by the end user.
   - Use of deprecated events
   - Use of deprecated associations
 
+### XML View Quick Fix
+
+#### Description
+
+Quick Fix will be shown for some of the validations when overing over an item or from problems view.
+
+#### Quick Fix List
+
+- Missing or empty ID when `flexEnabled` is true (stableID).
+  - will suggest to quick fix all missing IDs in the file.
+
 ### XML View Hover Tooltips
 
 ![](https://raw.githubusercontent.com/SAP/ui5-language-assistant/master/packages/vscode-ui5-language-assistant/resources/readme/preview-hover-tooltips.gif)
