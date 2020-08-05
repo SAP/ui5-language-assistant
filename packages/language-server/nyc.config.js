@@ -1,4 +1,4 @@
-const baseConfig = require("../../nyc.config");
+const baseConfig = require("../nyc.config");
 module.exports = {
   ...baseConfig,
   include: ["lib/**/*.js"],
