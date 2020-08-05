@@ -22,6 +22,7 @@ The following packages:
 - [![npm-xml-views-completion][npm-xml-views-completion-image]][npm-xml-views-completion-url] [@ui5-language-assistant/xml-views-completion](./packages/xml-views-completion) Logic for UI5 XML views code assist.
 - [![npm-xml-views-tooltip][npm-xml-views-tooltip-image]][npm-xml-views-tooltip-url] [@ui5-language-assistant/xml-views-tooltip](./packages/xml-views-tooltip) Logic for UI5 XML views hover tooltip.
 - [![npm-xml-views-validation][npm-xml-views-validation-image]][npm-xml-views-validation-url] [@ui5-language-assistant/xml-views-validation](./packages/xml-views-validation) Logic for UI5 XML views semantic validations.
+- [![npm-xml-views-quick-fix][npm-xml-views-quick-fix-image]][npm-xml-views-quick-fix-url] [@ui5-language-assistant/xml-views-quick-fix](./packages/xml-views-quick-fix) Logic for UI5 XML-Views quick-fixes.
 
 [npm-language-server-image]: https://img.shields.io/npm/v/@ui5-language-assistant/language-server.svg
 [npm-language-server-url]: https://www.npmjs.com/package/@ui5-language-assistant/language-server
@@ -39,6 +40,8 @@ The following packages:
 [npm-xml-views-tooltip-url]: https://www.npmjs.com/package/@ui5-language-assistant/xml-views-tooltip
 [npm-xml-views-validation-image]: https://img.shields.io/npm/v/@ui5-language-assistant/xml-views-validation.svg
 [npm-xml-views-validation-url]: https://www.npmjs.com/package/@ui5-language-assistant/xml-views-validation
+[npm-xml-views-quick-fix-image]: https://img.shields.io/npm/v/@ui5-language-assistant/xml-views-quick-fix.svg
+[npm-xml-views-quick-fix-url]: https://www.npmjs.com/package/@ui5-language-assistant/xml-views-quick-fix
 
 ## Support
 
