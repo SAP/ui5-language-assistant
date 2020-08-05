@@ -8,6 +8,11 @@ jobs:
       - checkout
       - run: yarn
       - run: yarn run ci
+      - run:
+          command: cat ./coverage/lcov.info | ./node_modules/.bin/coveralls
+          environment:
+            COVERALLS_SERVICE_NAME: circle-ci
+            COVERALLS_GIT_BRANCH: ${CIRCLE_BRANCH}
 
   build-node12:
     docker:
