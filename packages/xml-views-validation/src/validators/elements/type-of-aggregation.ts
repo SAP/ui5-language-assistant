@@ -1,3 +1,4 @@
+import { includes } from "lodash";
 import { XMLElement } from "@xml-tools/ast";
 import {
   UI5SemanticModel,
@@ -9,6 +10,7 @@ import {
   getUI5ClassByXMLElement,
   getUI5AggregationByXMLElement,
   classIsOfType,
+  ui5NodeToFQN,
 } from "@ui5-language-assistant/logic-utils";
 import { InvalidAggregationTypeIssue } from "../../../api";
 import { INVALID_AGGREGATION_TYPE, getMessage } from "../../utils/messages";
@@ -32,6 +34,10 @@ export function validateAggregationType(
     return [];
   }
 
+  if (isWhiteListedClass(ui5class)) {
+    return [];
+  }
+
   const allowedTypeInAggregation = getValidAggregationTypeForSubNodes(
     parentAggregation
   );
@@ -48,6 +54,18 @@ export function validateAggregationType(
   });
 
   return invalidAggregationTypeIssue;
+}
+
+const whiteListedClasses = [
+  // A `Fragment` "inlines" source code from a `FragmentDefinition`
+  // We are not (currently) aware of the contents being inlined
+  // and instead skip in this case to avoid false positives.
+  "sap.ui.core.Fragment",
+];
+
+function isWhiteListedClass(ui5Class: UI5Class): boolean {
+  const classFqn = ui5NodeToFQN(ui5Class);
+  return includes(whiteListedClasses, classFqn);
 }
 
 function getInvalidAggregationTypeIssue({

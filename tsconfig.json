@@ -16,9 +16,6 @@
       "path": "./packages/settings"
     },
     {
-      "path": "./packages/vscode-ui5-language-assistant"
-    },
-    {
       "path": "./packages/xml-views-completion"
     },
     {
@@ -32,6 +29,9 @@
     },
     {
       "path": "./test-packages/test-utils"
+    },
+    {
+      "path": "./packages/vscode-ui5-language-assistant"
     }
   ],
   "include": ["src/**/*"]

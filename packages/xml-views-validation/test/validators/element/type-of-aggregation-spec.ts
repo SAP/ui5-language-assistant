@@ -152,5 +152,20 @@ describe("the type aggregation validation", () => {
         xmlSnippet
       );
     });
+
+    it("will not detect an issue when the class is a `sap.ui.core.Fragment", () => {
+      assertNoIssues(
+        `<mvc:View xmlns:uxap="sap.uxap" 
+        xmlns:m="sap.m"
+        xmlns:mvc="sap.ui.core.mvc"
+        xmlns:core="sap.ui.core">
+        <m:Page>
+            <m:content>
+                <core:Fragment fragmentName="Fragment1" type="XML" />
+            </m:content>
+        </m:Page>
+      </mvc:View>`
+      );
+    });
   });
 });
