@@ -8,22 +8,12 @@ import {
   UI5Aggregation,
 } from "@ui5-language-assistant/semantic-model-types";
 import { getUI5NodeByXMLAttribute } from "@ui5-language-assistant/logic-utils";
-import {
-  UseOfDeprecatedPropertyIssue,
-  UseOfDeprecatedEventIssue,
-  UseOfDeprecatedAssociationIssue,
-  UseOfDeprecatedAggregationIssue,
-} from "../../../api";
+import { UseOfDeprecatedAttributeIssue } from "../../../api";
 import {
   buildDeprecatedIssueMessage,
   DeprecatedUI5Symbol,
 } from "../../utils/deprecated-message-builder";
 
-type UseOfDeprecatedAttributeIssue =
-  | UseOfDeprecatedPropertyIssue
-  | UseOfDeprecatedAggregationIssue
-  | UseOfDeprecatedEventIssue
-  | UseOfDeprecatedAssociationIssue;
 type DeprecatedAttributeIssueKind =
   | "UseOfDeprecatedProperty"
   | "UseOfDeprecatedEvent"

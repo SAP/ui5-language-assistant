@@ -11,7 +11,20 @@ import { validateUnknownTagName } from "./elements/unknown-tag-name";
 import { validateExplicitAggregationCardinality } from "./elements/cardinality-of-aggregation";
 import { validateAggregationType } from "./elements/type-of-aggregation";
 
-export const allValidators: UI5Validators = {
+export { validateUnknownEnumValue } from "./attributes/unknown-enum-value";
+export { validateUnknownXmlnsNamespace } from "./attributes/unknown-xmlns-namespace";
+export { validateBooleanValue } from "./attributes/invalid-boolean-value";
+export { validateUseOfDeprecatedClass } from "./elements/use-of-deprecated-class";
+export { validateUseOfDeprecatedAggregation } from "./elements/use-of-depracated-aggregation";
+export { validateUseOfDeprecatedAttribute } from "./attributes/use-of-depracated-attribute";
+export { validateNonUniqueID } from "./document/non-unique-id";
+export { validateUnknownAttributeKey } from "./attributes/unknown-attribute-key";
+export { validateUnknownTagName } from "./elements/unknown-tag-name";
+export { validateExplicitAggregationCardinality } from "./elements/cardinality-of-aggregation";
+export { validateAggregationType } from "./elements/type-of-aggregation";
+export { validateNonStableId } from "./elements/non-stable-id";
+
+export const defaultValidators: UI5Validators = {
   document: [validateNonUniqueID],
   element: [
     validateUseOfDeprecatedClass,

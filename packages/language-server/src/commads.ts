@@ -2,6 +2,8 @@ import { ExecuteCommandParams, createConnection } from "vscode-languageserver";
 import {
   QUICK_FIX_STABLE_ID_COMMAND,
   executeQuickFixStableIdCommand,
+  QUICK_FIX_FILE_STABLE_ID_COMMAND,
+  executeQuickFixFIleStableIdCommand,
 } from "./quick-fix";
 
 type LSPConnection = ReturnType<typeof createConnection>;
@@ -28,6 +30,16 @@ export function executeCommand(
       });
       return;
     }
+    // case QUICK_FIX_FILE_STABLE_ID_COMMAND: {
+    //   const change = executeQuickFixFIleStableIdCommand(
+    //     params.arguments[0],
+    //     params.arguments[1]
+    //   );
+    //   connection.workspace.applyEdit({
+    //     documentChanges: change,
+    //   });
+    //   return;
+    // }
     default:
       return undefined;
   }

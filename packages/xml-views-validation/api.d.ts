@@ -1,21 +1,30 @@
-import { XMLDocument } from "@xml-tools/ast";
+import { XMLDocument, XMLElement, XMLAttribute } from "@xml-tools/ast";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { OffsetRange } from "@ui5-language-assistant/logic-utils";
+import { UI5Validators } from "./src/validate-xml-views";
 
 export function validateXMLView(opts: {
+  validators: UI5Validators;
   model: UI5SemanticModel;
   xmlView: XMLDocument;
-  flexEnabled?: boolean;
 }): UI5XMLViewIssue[];
+
+export declare const defaultValidators: UI5Validators;
 
 export type XMLViewIssueSeverity = "hint" | "info" | "warn" | "error";
 
 export interface BaseUI5XMLViewIssue {
   kind: string;
   message: string;
-  severity: "hint" | "info" | "warn" | "error";
+  severity: XMLViewIssueSeverity;
   offsetRange: OffsetRange;
 }
+
+export type UseOfDeprecatedAttributeIssue =
+  | UseOfDeprecatedPropertyIssue
+  | UseOfDeprecatedAggregationIssue
+  | UseOfDeprecatedEventIssue
+  | UseOfDeprecatedAssociationIssue;
 
 export type UI5XMLViewIssue =
   | UnknownEnumValueIssue
@@ -93,3 +102,60 @@ export interface NonUniqueIDIssue extends BaseUI5XMLViewIssue {
 export interface NonStableIDIssue extends BaseUI5XMLViewIssue {
   kind: "NonStableIDIssue";
 }
+
+export function validateUnknownEnumValue(
+  attribute: XMLAttribute,
+  model: UI5SemanticModel
+): UnknownEnumValueIssue[];
+
+export function validateUnknownXmlnsNamespace(
+  attribute: XMLAttribute,
+  model: UI5SemanticModel
+): UnknownNamespaceInXmlnsAttributeValueIssue[];
+
+export function validateBooleanValue(
+  attribute: XMLAttribute,
+  model: UI5SemanticModel
+): InvalidBooleanValueIssue[];
+
+export function validateUseOfDeprecatedClass(
+  xmlElement: XMLElement,
+  model: UI5SemanticModel
+): UseOfDeprecatedClassIssue[];
+
+export function validateUseOfDeprecatedAggregation(
+  xmlElement: XMLElement,
+  model: UI5SemanticModel
+): UseOfDeprecatedAggregationIssue[];
+
+export function validateUseOfDeprecatedAttribute(
+  attribute: XMLAttribute,
+  model: UI5SemanticModel
+): UseOfDeprecatedAttributeIssue[];
+
+export function validateNonUniqueID(xmlDoc: XMLDocument): NonUniqueIDIssue[];
+
+export function validateUnknownAttributeKey(
+  attribute: XMLAttribute,
+  model: UI5SemanticModel
+): UnknownAttributeKeyIssue[];
+
+export function validateUnknownTagName(
+  xmlElement: XMLElement,
+  model: UI5SemanticModel
+): UnknownTagNameIssue[];
+
+export function validateExplicitAggregationCardinality(
+  xmlElement: XMLElement,
+  model: UI5SemanticModel
+): InvalidAggregationCardinalityIssue[];
+
+export function validateAggregationType(
+  xmlElement: XMLElement,
+  model: UI5SemanticModel
+): InvalidAggregationTypeIssue[];
+
+export function validateNonStableId(
+  xmlElement: XMLElement,
+  model: UI5SemanticModel
+): NonStableIDIssue[];

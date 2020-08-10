@@ -2,7 +2,7 @@ import klawSync from "klaw-sync";
 import { map, filter, forEach, isFunction, includes } from "lodash";
 import { resolve, relative } from "path";
 import { expect } from "chai";
-import { allValidators } from "../../src/validators";
+import { defaultValidators } from "../../src/validators";
 import { UI5Validators } from "../../src/validate-xml-views";
 
 describe("The `allValidators` constant", () => {
@@ -35,7 +35,7 @@ describe("The `allValidators` constant", () => {
       ).to.have.lengthOf(1);
 
       forEach(validatorModuleFuncs, (currValidatorFunc) => {
-        expect(allValidators).to.satisfy((_: UI5Validators) => {
+        expect(defaultValidators).to.satisfy((_: UI5Validators) => {
           return (
             includes(_.element, currValidatorFunc) ||
             includes(_.attribute, currValidatorFunc) ||

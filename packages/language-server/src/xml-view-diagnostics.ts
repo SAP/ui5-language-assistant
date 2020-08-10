@@ -1,4 +1,4 @@
-import { map } from "lodash";
+import { map, cloneDeep } from "lodash";
 import { assertNever } from "assert-never";
 import {
   Diagnostic,
@@ -14,6 +14,8 @@ import {
   UI5XMLViewIssue,
   validateXMLView,
   XMLViewIssueSeverity,
+  defaultValidators,
+  validateNonStableId,
 } from "@ui5-language-assistant/xml-views-validation";
 import { offsetRangeToLSPRange } from "./range-utils";
 
@@ -25,10 +27,14 @@ export function getXMLViewDiagnostics(opts: {
   const documentText = opts.document.getText();
   const { cst, tokenVector } = parse(documentText);
   const xmlDocAst = buildAst(cst as DocumentCstNode, tokenVector);
+  const actualValidators = cloneDeep(defaultValidators);
+  if (opts.flexEnabled) {
+    actualValidators.element.push(validateNonStableId);
+  }
   const issues = validateXMLView({
+    validators: actualValidators,
     xmlView: xmlDocAst,
     model: opts.ui5Model,
-    flexEnabled: opts.flexEnabled,
   });
   const diagnostics = validationIssuesToLspDiagnostics(issues, opts.document);
   return diagnostics;

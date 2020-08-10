@@ -1,11 +1,13 @@
 import { expect } from "chai";
-import { map } from "lodash";
+import { map, cloneDeep } from "lodash";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { generateModel } from "@ui5-language-assistant/test-utils";
 import { generate } from "@ui5-language-assistant/semantic-model";
 import { DocumentCstNode, parse } from "@xml-tools/parser";
 import { buildAst } from "@xml-tools/ast";
 import { validateXMLView } from "../src/api";
+import { defaultValidators } from "../src/validators";
+import { validateNonStableId } from "../src/validators/elements/non-stable-id";
 
 describe("the ui5 xml views validations API", () => {
   let ui5SemanticModel: UI5SemanticModel;
@@ -35,9 +37,9 @@ describe("the ui5 xml views validations API", () => {
     const ast = buildAst(cst as DocumentCstNode, tokenVector);
 
     const issues = validateXMLView({
+      validators: defaultValidators,
       model: ui5SemanticModel,
       xmlView: ast,
-      flexEnabled: false,
     });
     expect(issues).to.have.lengthOf(2);
     const issueTypes = map(issues, (_) => _.kind);
@@ -63,11 +65,12 @@ describe("the ui5 xml views validations API", () => {
 
     const { cst, tokenVector } = parse(xmlSnippet);
     const ast = buildAst(cst as DocumentCstNode, tokenVector);
-
+    const actualValidators = cloneDeep(defaultValidators);
+    actualValidators.element.push(validateNonStableId);
     const issues = validateXMLView({
+      validators: defaultValidators,
       model: ui5SemanticModel,
       xmlView: ast,
-      flexEnabled: true,
     });
     expect(issues).to.have.lengthOf(4);
     const issueTypes = map(issues, (_) => _.kind);

@@ -4,11 +4,8 @@ import { DocumentCstNode, parse } from "@xml-tools/parser";
 import { buildAst } from "@xml-tools/ast";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { OffsetRange } from "@ui5-language-assistant/logic-utils";
-import {
-  UI5Validators,
-  validateXMLView as validateXMLViewImpl,
-} from "../src/validate-xml-views";
-import { UI5XMLViewIssue } from "../api";
+import { UI5Validators } from "../src/validate-xml-views";
+import { UI5XMLViewIssue, validateXMLView } from "../api";
 
 const START_RANGE_MARKER = "🢂";
 const END_RANGE_MARKER = "🢀";
@@ -37,7 +34,7 @@ export function testValidationsScenario(opts: {
   const { cst, tokenVector } = parse(xmlTextNoMarkers);
   const ast = buildAst(cst as DocumentCstNode, tokenVector);
 
-  const issues = validateXMLViewImpl({
+  const issues = validateXMLView({
     validators: {
       document: [],
       element: [],
