@@ -15,19 +15,21 @@ import { LSPRangeToOffsetRange, offsetRangeToLSPRange } from "./range-utils";
 import {
   validateXMLView,
   validateNonStableId,
-  UI5XMLViewIssue,
 } from "@ui5-language-assistant/xml-views-validation";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
-import { UI5Validators } from "@ui5-language-assistant/xml-views-validation/src/validate-xml-views";
-import { map, concat, compact, forEach } from "lodash";
-import { OffsetRange } from "@ui5-language-assistant/logic-utils";
-import { QuickFixStableIdInfo } from "@ui5-language-assistant/xml-views-quick-fix/src/quick-fix-stable-id";
+import { map, compact, forEach } from "lodash";
+import { Range } from "vscode-languageserver-textdocument";
 
 export const QUICK_FIX_STABLE_ID_COMMAND = "ui5_lang.quick_fix_stable_id";
 export const QUICK_FIX_FILE_STABLE_ID_COMMAND =
   "ui5_lang.quick_fix_file_stable_id";
 const QUICK_FIX_STABLE_ID_COMMAND_TITLE = "Generate ID";
 const QUICK_FIX_FILE_STABLE_ID_COMMAND_TITLE = "Generate IDs for all file";
+
+type QuickFixStableIdLSPInfo = {
+  newText: string;
+  replaceRange: Range;
+};
 
 export function diagnosticToCodeActionFix(
   document: TextDocument,
@@ -41,7 +43,7 @@ export function diagnosticToCodeActionFix(
   switch (diagnostic.code) {
     case 1000: {
       // non stable id
-      return computeCodeActionForQuickFixStableId({
+      return computeCodeActionsForQuickFixStableId({
         document,
         xmlDocument: xmlDocAst,
         nonStableIdDiagnostic: diagnostic,
@@ -53,13 +55,13 @@ export function diagnosticToCodeActionFix(
   }
 }
 
-function computeCodeActionForQuickFixStableId(opts: {
+function computeCodeActionsForQuickFixStableId(opts: {
   document: TextDocument;
   xmlDocument: XMLDocument;
   nonStableIdDiagnostic: Diagnostic;
   ui5Model: UI5SemanticModel;
 }): CodeAction[] | undefined {
-  const codeActions = [];
+  let codeActions: CodeAction[] = [];
   const errorOffset = LSPRangeToOffsetRange(
     opts.nonStableIdDiagnostic.range,
     opts.document
@@ -79,16 +81,6 @@ function computeCodeActionForQuickFixStableId(opts: {
     opts.document
   );
 
-  const validators = {
-    document: [],
-    element: [validateNonStableId],
-    attribute: [],
-  };
-  const nonStableIdFileIssues = validateXMLView({
-    validators,
-    model: opts.ui5Model,
-    xmlView: opts.xmlDocument,
-  });
   codeActions.push(
     CodeAction.create(
       QUICK_FIX_STABLE_ID_COMMAND_TITLE,
@@ -96,6 +88,7 @@ function computeCodeActionForQuickFixStableId(opts: {
         QUICK_FIX_STABLE_ID_COMMAND_TITLE,
         QUICK_FIX_STABLE_ID_COMMAND,
         opts.document.uri,
+        opts.document.version,
         replaceRange,
         quickFixStableIdInfo.newText
       ),
@@ -103,28 +96,85 @@ function computeCodeActionForQuickFixStableId(opts: {
     )
   );
 
-  // codeActions.push(CodeAction.create(
-  //   QUICK_FIX_FILE_STABLE_ID_COMMAND_TITLE,
-  //   Command.create(
-  //     QUICK_FIX_FILE_STABLE_ID_COMMAND_TITLE,
-  //     QUICK_FIX_FILE_STABLE_ID_COMMAND,
-  //     opts.document.uri,
-  //     compact(map(nonStableIdFileIssues, _ => computeQuickFixStableIdInfo(opts.xmlDocument, _.offsetRange)))
-  //   ),
-  //   CodeActionKind.QuickFix
-  // ));
+  const quickFixFileStableIdCodeActions = computeCodeActionsForQuickFixFileStableId(
+    {
+      document: opts.document,
+      xmlDocument: opts.xmlDocument,
+      ui5Model: opts.ui5Model,
+    }
+  );
+
+  codeActions = codeActions.concat(quickFixFileStableIdCodeActions);
 
   return codeActions;
 }
 
+function computeCodeActionsForQuickFixFileStableId(opts: {
+  document: TextDocument;
+  xmlDocument: XMLDocument;
+  ui5Model: UI5SemanticModel;
+}): CodeAction[] {
+  const validators = {
+    document: [validateNonStableId],
+    element: [],
+    attribute: [],
+  };
+
+  const nonStableIdFileIssues = validateXMLView({
+    validators,
+    model: opts.ui5Model,
+    xmlView: opts.xmlDocument,
+  });
+
+  if (nonStableIdFileIssues.length === 1) {
+    return [];
+  }
+
+  const nonStableIdFileIssuesInfo: QuickFixStableIdLSPInfo[] = compact(
+    map(nonStableIdFileIssues, (_) => {
+      const quickFixStableIdInfo = computeQuickFixStableIdInfo(
+        opts.xmlDocument,
+        _.offsetRange
+      );
+      if (quickFixStableIdInfo !== undefined) {
+        return {
+          newText: quickFixStableIdInfo.newText,
+          replaceRange: offsetRangeToLSPRange(
+            quickFixStableIdInfo.replaceRange,
+            opts.document
+          ),
+        };
+      }
+
+      return undefined;
+    })
+  );
+
+  return [
+    CodeAction.create(
+      QUICK_FIX_FILE_STABLE_ID_COMMAND_TITLE,
+      Command.create(
+        QUICK_FIX_FILE_STABLE_ID_COMMAND_TITLE,
+        QUICK_FIX_FILE_STABLE_ID_COMMAND,
+        opts.document,
+        opts.document.uri,
+        opts.document.version,
+        nonStableIdFileIssuesInfo
+      ),
+      CodeActionKind.QuickFix
+    ),
+  ];
+}
+
 export function executeQuickFixStableIdCommand(opts: {
-  textDocument: TextDocument;
+  documentUri: string;
+  documentVersion: number;
   quickFixReplaceRange: LSPRange;
   quickFixNewText: string;
 }): TextDocumentEdit[] {
   const documentEdit = [
     TextDocumentEdit.create(
-      { uri: opts.textDocument.uri, version: opts.textDocument.version },
+      { uri: opts.documentUri, version: opts.documentVersion },
       [TextEdit.replace(opts.quickFixReplaceRange, `${opts.quickFixNewText}`)]
     ),
   ];
@@ -132,23 +182,20 @@ export function executeQuickFixStableIdCommand(opts: {
   return documentEdit;
 }
 
-export function executeQuickFixFIleStableIdCommand(
-  textDocument: TextDocument,
-  nonStableIdIssues: QuickFixStableIdInfo[]
-): TextDocumentEdit[] {
+export function executeQuickFixFIleStableIdCommand(opts: {
+  document: TextDocument;
+  documentUri: string;
+  documentVersion: number;
+  nonStableIdIssues: QuickFixStableIdLSPInfo[];
+}): TextDocumentEdit[] {
   const textEdits: TextEdit[] = [];
-  forEach(nonStableIdIssues, (_) => {
-    textEdits.push(
-      TextEdit.replace(
-        offsetRangeToLSPRange(_.replaceRange, textDocument),
-        `${_.newText}`
-      )
-    );
+  forEach(opts.nonStableIdIssues, (_) => {
+    textEdits.push(TextEdit.replace(_.replaceRange, `${_.newText}`));
   });
 
   const documentEdit = [
     TextDocumentEdit.create(
-      { uri: textDocument.uri, version: textDocument.version },
+      { uri: opts.documentUri, version: opts.documentVersion },
       textEdits
     ),
   ];
