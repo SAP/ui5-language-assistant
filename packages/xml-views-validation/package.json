@@ -1,6 +1,6 @@
 {
   "name": "@ui5-language-assistant/xml-views-validation",
-  "version": "0.6.0",
+  "version": "1.0.0",
   "description": "Validations Logic for UI5 XML-Views",
   "keywords": [
     "xml",

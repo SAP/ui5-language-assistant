@@ -1411,6 +1411,17 @@
   dependencies:
     eslint-visitor-keys "^1.1.0"
 
+"@ui5-language-assistant/xml-views-validation@^0.6.0":
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/@ui5-language-assistant/xml-views-validation/-/xml-views-validation-0.6.0.tgz#721895255d6cc5e35f5c6511212e4d47a2dd9120"
+  integrity sha512-YLmXOfjX0eHqBATU3BWNOV54GOFpDdLHMEtgamIINBVTXdS+cLf1IJ+OgkKo/lzrrXpdlMgr2iWkKXP/5ML5WA==
+  dependencies:
+    "@ui5-language-assistant/logic-utils" "^1.3.3"
+    "@ui5-language-assistant/semantic-model-types" "^1.3.0"
+    "@xml-tools/ast" "5.0.0"
+    "@xml-tools/common" "0.1.2"
+    lodash "4.17.19"
+
 "@webassemblyjs/ast@1.9.0":
   version "1.9.0"
   resolved "https://registry.yarnpkg.com/@webassemblyjs/ast/-/ast-1.9.0.tgz#bd850604b4042459a5a41cd7d338cbed695ed964"
