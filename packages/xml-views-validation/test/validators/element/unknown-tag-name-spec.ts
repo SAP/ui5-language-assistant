@@ -3,7 +3,7 @@ import { partial } from "lodash";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { generateModel } from "@ui5-language-assistant/test-utils";
 import { generate } from "@ui5-language-assistant/semantic-model";
-import { validateUnknownTagName } from "../../../src/validators/elements/unknown-tag-name";
+import { validators } from "../../../src/api";
 import {
   getMessage,
   UNKNOWN_CLASS_IN_NS,
@@ -39,7 +39,7 @@ describe("the unknown tag name validation", () => {
         assertSingleIssueBase,
         ui5SemanticModel,
         {
-          element: [validateUnknownTagName],
+          element: [validators.validateUnknownTagName],
         },
         "UnknownTagName",
         "error"
@@ -161,7 +161,7 @@ describe("the unknown tag name validation", () => {
         testValidationsScenario({
           model: ui5SemanticModel,
           xmlText: xmlSnippet,
-          validators: { element: [validateUnknownTagName] },
+          validators: { element: [validators.validateUnknownTagName] },
           assertion: (issues) => {
             expect(issues).to.deep.equalInAnyOrder([
               {
@@ -275,7 +275,7 @@ describe("the unknown tag name validation", () => {
           testValidationsScenario({
             model: ui5SemanticModel,
             xmlText: xmlSnippet,
-            validators: { element: [validateUnknownTagName] },
+            validators: { element: [validators.validateUnknownTagName] },
             assertion: (issues) => {
               expect(issues).to.deep.equalInAnyOrder([
                 {
@@ -367,7 +367,7 @@ describe("the unknown tag name validation", () => {
     let assertNoIssues: (xmlSnippet: string) => void;
     before(() => {
       assertNoIssues = partial(assertNoIssuesBase, ui5SemanticModel, {
-        element: [validateUnknownTagName],
+        element: [validators.validateUnknownTagName],
       });
     });
 

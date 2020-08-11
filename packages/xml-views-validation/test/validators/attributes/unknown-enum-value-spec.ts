@@ -2,7 +2,7 @@ import { expect } from "chai";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { generateModel } from "@ui5-language-assistant/test-utils";
 import { generate } from "@ui5-language-assistant/semantic-model";
-import { validateUnknownEnumValue } from "../../../src/validators/attributes/unknown-enum-value";
+import { validators } from "../../../src/api";
 import {
   computeExpectedRange,
   testValidationsScenario,
@@ -32,7 +32,7 @@ describe("the unknown enum value validation", () => {
         model: ui5SemanticModel,
         xmlText: xmlSnippet,
         validators: {
-          attribute: [validateUnknownEnumValue],
+          attribute: [validators.validateUnknownEnumValue],
         },
         assertion: (issues) => {
           expect(issues).to.deep.equal([
@@ -63,7 +63,7 @@ describe("the unknown enum value validation", () => {
         model: ui5SemanticModel,
         xmlText: xmlSnippet,
         validators: {
-          attribute: [validateUnknownEnumValue],
+          attribute: [validators.validateUnknownEnumValue],
         },
         assertion: (issues) => {
           expect(issues).to.be.empty;
@@ -84,7 +84,7 @@ describe("the unknown enum value validation", () => {
         model: ui5SemanticModel,
         xmlText: xmlSnippet,
         validators: {
-          attribute: [validateUnknownEnumValue],
+          attribute: [validators.validateUnknownEnumValue],
         },
         assertion: (issues) => {
           expect(issues).to.be.empty;
@@ -105,7 +105,7 @@ describe("the unknown enum value validation", () => {
         model: ui5SemanticModel,
         xmlText: xmlSnippet,
         validators: {
-          attribute: [validateUnknownEnumValue],
+          attribute: [validators.validateUnknownEnumValue],
         },
         assertion: (issues) => {
           expect(issues).to.be.empty;
@@ -126,7 +126,7 @@ describe("the unknown enum value validation", () => {
         model: ui5SemanticModel,
         xmlText: xmlSnippet,
         validators: {
-          attribute: [validateUnknownEnumValue],
+          attribute: [validators.validateUnknownEnumValue],
         },
         assertion: (issues) => {
           expect(issues).to.be.empty;
@@ -147,7 +147,7 @@ describe("the unknown enum value validation", () => {
         model: ui5SemanticModel,
         xmlText: xmlSnippet,
         validators: {
-          attribute: [validateUnknownEnumValue],
+          attribute: [validators.validateUnknownEnumValue],
         },
         assertion: (issues) => {
           expect(issues).to.be.empty;
@@ -168,7 +168,7 @@ describe("the unknown enum value validation", () => {
         model: ui5SemanticModel,
         xmlText: xmlSnippet,
         validators: {
-          attribute: [validateUnknownEnumValue],
+          attribute: [validators.validateUnknownEnumValue],
         },
         assertion: (issues) => {
           expect(issues).to.be.empty;

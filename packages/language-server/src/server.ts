@@ -1,5 +1,5 @@
 /* istanbul ignore file */
-import { forEach, compact, map } from "lodash";
+import { forEach } from "lodash";
 import {
   createConnection,
   TextDocuments,
@@ -36,6 +36,7 @@ import {
 import {
   diagnosticToCodeActionFix,
   QUICK_FIX_STABLE_ID_COMMAND,
+  QUICK_FIX_FILE_STABLE_ID_COMMAND,
 } from "./quick-fix";
 import { executeCommand } from "./commads";
 
@@ -75,7 +76,10 @@ connection.onInitialize((params: InitializeParams) => {
       codeActionProvider: true,
       // Each command executes a different code action scenario
       executeCommandProvider: {
-        commands: [QUICK_FIX_STABLE_ID_COMMAND],
+        commands: [
+          QUICK_FIX_STABLE_ID_COMMAND,
+          QUICK_FIX_FILE_STABLE_ID_COMMAND,
+        ],
       },
     },
   };
@@ -174,7 +178,12 @@ documents.onDidChangeContent(async (changeEvent) => {
   }
 });
 
-connection.onCodeAction((params) => {
+connection.onCodeAction(async (params) => {
+  if (semanticModelLoaded === undefined) {
+    return;
+  }
+
+  const ui5Model = await semanticModelLoaded;
   const docUri = params.textDocument.uri;
   const textDocument = documents.get(docUri);
   if (textDocument === undefined) {
@@ -182,10 +191,11 @@ connection.onCodeAction((params) => {
   }
 
   const diagnostics = params.context.diagnostics;
-  const codeActions = compact(
-    map(diagnostics, (_) => diagnosticToCodeActionFix(textDocument, _))
+  const codeActions = diagnosticToCodeActionFix(
+    textDocument,
+    diagnostics,
+    ui5Model
   );
-
   return codeActions;
 });
 

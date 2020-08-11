@@ -22,7 +22,8 @@
     "@ui5-language-assistant/semantic-model-types": "^1.3.0",
     "@xml-tools/ast": "5.0.0",
     "@xml-tools/common": "0.1.2",
-    "lodash": "4.17.19"
+    "lodash": "4.17.19",
+    "deep-freeze-strict": "1.1.1"
   },
   "devDependencies": {
     "@ui5-language-assistant/semantic-model": "^1.4.3",

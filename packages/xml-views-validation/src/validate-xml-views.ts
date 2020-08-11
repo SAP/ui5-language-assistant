@@ -4,12 +4,11 @@ import {
   XMLAstVisitor,
   XMLAttribute,
   XMLElement,
-  accept,
 } from "@xml-tools/ast";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { UI5XMLViewIssue } from "../api";
 
-export interface UI5Validators {
+export interface UI5ValidatorsConfig {
   /**
    * Careful on abusing top level document validators.
    * If such validators need to traverse the whole AST there may
@@ -31,12 +30,12 @@ export interface UI5Validators {
   ) => UI5XMLViewIssue[])[];
 }
 
-class ValidatorVisitor implements XMLAstVisitor {
+export class ValidatorVisitor implements XMLAstVisitor {
   public collectedIssues: UI5XMLViewIssue[] = [];
 
   constructor(
     private model: UI5SemanticModel,
-    private validators: UI5Validators
+    private validators: UI5ValidatorsConfig
   ) {}
 
   visitXMLDocument(node: XMLDocument): void {
@@ -59,15 +58,4 @@ class ValidatorVisitor implements XMLAstVisitor {
     );
     this.collectedIssues = this.collectedIssues.concat(nodeIssues);
   }
-}
-
-export function validateXMLView(opts: {
-  validators: UI5Validators;
-  model: UI5SemanticModel;
-  xmlView: XMLDocument;
-}): UI5XMLViewIssue[] {
-  const validatorVisitor = new ValidatorVisitor(opts.model, opts.validators);
-  accept(opts.xmlView, validatorVisitor);
-  const issues = validatorVisitor.collectedIssues;
-  return issues;
 }

@@ -2,7 +2,7 @@ import { expect } from "chai";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { generateModel } from "@ui5-language-assistant/test-utils";
 import { generate } from "@ui5-language-assistant/semantic-model";
-import { validateBooleanValue } from "../../../src/validators/attributes/invalid-boolean-value";
+import { validators } from "../../../src/api";
 import {
   computeExpectedRange,
   testValidationsScenario,
@@ -31,7 +31,7 @@ describe("the invalid boolean value validation", () => {
         model: ui5SemanticModel,
         xmlText: xmlSnippet,
         validators: {
-          attribute: [validateBooleanValue],
+          attribute: [validators.validateBooleanValue],
         },
         assertion: (issues) => {
           expect(issues).to.deep.equal([
@@ -61,7 +61,7 @@ describe("the invalid boolean value validation", () => {
         model: ui5SemanticModel,
         xmlText: xmlSnippet,
         validators: {
-          attribute: [validateBooleanValue],
+          attribute: [validators.validateBooleanValue],
         },
         assertion: (issues) => {
           expect(issues).to.be.empty;
@@ -81,7 +81,7 @@ describe("the invalid boolean value validation", () => {
         model: ui5SemanticModel,
         xmlText: xmlSnippet,
         validators: {
-          attribute: [validateBooleanValue],
+          attribute: [validators.validateBooleanValue],
         },
         assertion: (issues) => {
           expect(issues).to.be.empty;
@@ -101,7 +101,7 @@ describe("the invalid boolean value validation", () => {
         model: ui5SemanticModel,
         xmlText: xmlSnippet,
         validators: {
-          attribute: [validateBooleanValue],
+          attribute: [validators.validateBooleanValue],
         },
         assertion: (issues) => {
           expect(issues).to.be.empty;
@@ -121,7 +121,7 @@ describe("the invalid boolean value validation", () => {
         model: ui5SemanticModel,
         xmlText: xmlSnippet,
         validators: {
-          attribute: [validateBooleanValue],
+          attribute: [validators.validateBooleanValue],
         },
         assertion: (issues) => {
           expect(issues).to.be.empty;
@@ -141,7 +141,7 @@ describe("the invalid boolean value validation", () => {
         model: ui5SemanticModel,
         xmlText: xmlSnippet,
         validators: {
-          attribute: [validateBooleanValue],
+          attribute: [validators.validateBooleanValue],
         },
         assertion: (issues) => {
           expect(issues).to.be.empty;
@@ -161,7 +161,7 @@ describe("the invalid boolean value validation", () => {
         model: ui5SemanticModel,
         xmlText: xmlSnippet,
         validators: {
-          attribute: [validateBooleanValue],
+          attribute: [validators.validateBooleanValue],
         },
         assertion: (issues) => {
           expect(issues).to.be.empty;

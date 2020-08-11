@@ -1,21 +1,30 @@
-import { XMLDocument } from "@xml-tools/ast";
+import { XMLDocument, XMLElement, XMLAttribute } from "@xml-tools/ast";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { OffsetRange } from "@ui5-language-assistant/logic-utils";
+import { UI5ValidatorsConfig } from "./src/validate-xml-views";
 
 export function validateXMLView(opts: {
+  validators: UI5ValidatorsConfig;
   model: UI5SemanticModel;
   xmlView: XMLDocument;
-  flexEnabled?: boolean;
 }): UI5XMLViewIssue[];
+
+export declare const defaultValidators: UI5ValidatorsConfig;
 
 export type XMLViewIssueSeverity = "hint" | "info" | "warn" | "error";
 
 export interface BaseUI5XMLViewIssue {
   kind: string;
   message: string;
-  severity: "hint" | "info" | "warn" | "error";
+  severity: XMLViewIssueSeverity;
   offsetRange: OffsetRange;
 }
+
+export type UseOfDeprecatedAttributeIssue =
+  | UseOfDeprecatedPropertyIssue
+  | UseOfDeprecatedAggregationIssue
+  | UseOfDeprecatedEventIssue
+  | UseOfDeprecatedAssociationIssue;
 
 export type UI5XMLViewIssue =
   | UnknownEnumValueIssue
@@ -93,3 +102,40 @@ export interface NonUniqueIDIssue extends BaseUI5XMLViewIssue {
 export interface NonStableIDIssue extends BaseUI5XMLViewIssue {
   kind: "NonStableIDIssue";
 }
+
+type XMLAttributeValidator<T> = (
+  attribute: XMLAttribute,
+  model: UI5SemanticModel
+) => T[];
+
+type XMLDocumentValidator<T> = (document: XMLDocument) => T[];
+
+type XMLElementValidator<T> = (
+  XMLElement: XMLElement,
+  model: UI5SemanticModel
+) => T[];
+
+type Validators = {
+  validateUnknownEnumValue: XMLAttributeValidator<UnknownEnumValueIssue>;
+  validateUnknownXmlnsNamespace: XMLAttributeValidator<
+    UnknownNamespaceInXmlnsAttributeValueIssue
+  >;
+  validateBooleanValue: XMLAttributeValidator<InvalidBooleanValueIssue>;
+  validateUseOfDeprecatedAttribute: XMLAttributeValidator<
+    UseOfDeprecatedAttributeIssue
+  >;
+  validateUnknownAttributeKey: XMLAttributeValidator<UnknownAttributeKeyIssue>;
+  validateNonUniqueID: XMLDocumentValidator<NonUniqueIDIssue>;
+  validateUseOfDeprecatedAggregation: XMLElementValidator<
+    UseOfDeprecatedAggregationIssue
+  >;
+  validateUseOfDeprecatedClass: XMLElementValidator<UseOfDeprecatedClassIssue>;
+  validateUnknownTagName: XMLElementValidator<UnknownTagNameIssue>;
+  validateExplicitAggregationCardinality: XMLElementValidator<
+    InvalidAggregationCardinalityIssue
+  >;
+  validateAggregationType: XMLElementValidator<InvalidAggregationTypeIssue>;
+  validateNonStableId: XMLElementValidator<NonStableIDIssue>;
+};
+
+export const validators: Validators;

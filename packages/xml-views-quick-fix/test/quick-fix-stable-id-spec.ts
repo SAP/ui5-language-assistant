@@ -20,13 +20,15 @@ describe("the UI5 language assistant QuickFix Service", () => {
         testXmlSnippet
       );
       const testXmlDoc = getXmlDocument(document);
-      const quickFixInfo = computeQuickFixStableIdInfo(testXmlDoc, {
-        start,
-        end,
-      });
+      const quickFixInfo = computeQuickFixStableIdInfo(testXmlDoc, [
+        {
+          start,
+          end,
+        },
+      ]);
       expectExists(quickFixInfo, "Quick Fix Info");
-      expect(quickFixInfo.newText).to.equal(expectedSuggestion);
-      expect(quickFixInfo.replaceRange.start).to.equal(idStartOffest);
+      expect(quickFixInfo[0].newText).to.equal(expectedSuggestion);
+      expect(quickFixInfo[0].replaceRange.start).to.equal(idStartOffest);
     });
 
     it("will get quick fix info when class is missing id attribute key - more than one id with different pattern", () => {
@@ -43,13 +45,15 @@ describe("the UI5 language assistant QuickFix Service", () => {
         testXmlSnippet
       );
       const testXmlDoc = getXmlDocument(document);
-      const quickFixInfo = computeQuickFixStableIdInfo(testXmlDoc, {
-        start,
-        end,
-      });
+      const quickFixInfo = computeQuickFixStableIdInfo(testXmlDoc, [
+        {
+          start,
+          end,
+        },
+      ]);
       expectExists(quickFixInfo, "Quick Fix Info");
-      expect(quickFixInfo.newText).to.equal(expectedSuggestion);
-      expect(quickFixInfo.replaceRange.start).to.equal(idStartOffest);
+      expect(quickFixInfo[0].newText).to.equal(expectedSuggestion);
+      expect(quickFixInfo[0].replaceRange.start).to.equal(idStartOffest);
     });
 
     it("will get quick fix info when class is missing id attribute key - more than one id from same pattern", () => {
@@ -67,13 +71,15 @@ describe("the UI5 language assistant QuickFix Service", () => {
         testXmlSnippet
       );
       const testXmlDoc = getXmlDocument(document);
-      const quickFixInfo = computeQuickFixStableIdInfo(testXmlDoc, {
-        start,
-        end,
-      });
+      const quickFixInfo = computeQuickFixStableIdInfo(testXmlDoc, [
+        {
+          start,
+          end,
+        },
+      ]);
       expectExists(quickFixInfo, "Quick Fix Info");
-      expect(quickFixInfo.newText).to.equal(expectedSuggestion);
-      expect(quickFixInfo.replaceRange.start).to.equal(idStartOffest);
+      expect(quickFixInfo[0].newText).to.equal(expectedSuggestion);
+      expect(quickFixInfo[0].replaceRange.start).to.equal(idStartOffest);
     });
 
     it("will get quick fix info when class has empty id attribute", () => {
@@ -89,13 +95,15 @@ describe("the UI5 language assistant QuickFix Service", () => {
         testXmlSnippet
       );
       const testXmlDoc = getXmlDocument(document);
-      const quickFixInfo = computeQuickFixStableIdInfo(testXmlDoc, {
-        start,
-        end,
-      });
+      const quickFixInfo = computeQuickFixStableIdInfo(testXmlDoc, [
+        {
+          start,
+          end,
+        },
+      ]);
       expectExists(quickFixInfo, "Quick Fix Info");
-      expect(quickFixInfo.newText).to.equal(expectedSuggestion);
-      expect(quickFixInfo.replaceRange.start).to.equal(idStartOffest);
+      expect(quickFixInfo[0].newText).to.equal(expectedSuggestion);
+      expect(quickFixInfo[0].replaceRange.start).to.equal(idStartOffest);
     });
 
     it("will get quick fix info when class has empty id attribute between other attributes", () => {
@@ -111,13 +119,15 @@ describe("the UI5 language assistant QuickFix Service", () => {
         testXmlSnippet
       );
       const testXmlDoc = getXmlDocument(document);
-      const quickFixInfo = computeQuickFixStableIdInfo(testXmlDoc, {
-        start,
-        end,
-      });
+      const quickFixInfo = computeQuickFixStableIdInfo(testXmlDoc, [
+        {
+          start,
+          end,
+        },
+      ]);
       expectExists(quickFixInfo, "Quick Fix Info");
-      expect(quickFixInfo.newText).to.equal(expectedSuggestion);
-      expect(quickFixInfo.replaceRange.start).to.equal(idStartOffest);
+      expect(quickFixInfo[0].newText).to.equal(expectedSuggestion);
+      expect(quickFixInfo[0].replaceRange.start).to.equal(idStartOffest);
     });
   });
 
@@ -132,12 +142,14 @@ describe("the UI5 language assistant QuickFix Service", () => {
                               </mvc:View>`;
       const { document, start, end } = getXmlSnippet(testXmlSnippet);
       const testXmlDoc = getXmlDocument(document);
-      const quickFixInfo = computeQuickFixStableIdInfo(testXmlDoc, {
-        start,
-        end,
-      });
+      const quickFixInfo = computeQuickFixStableIdInfo(testXmlDoc, [
+        {
+          start,
+          end,
+        },
+      ]);
 
-      expect(quickFixInfo).to.not.exist;
+      expect(quickFixInfo).to.be.empty;
     });
   });
 });

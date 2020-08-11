@@ -4,5 +4,5 @@ import { QuickFixStableIdInfo } from "./src/quick-fix-stable-id";
 
 export declare function computeQuickFixStableIdInfo(
   xmlDoc: XMLDocument,
-  errorOffset: OffsetRange
-): QuickFixStableIdInfo | undefined;
+  errorOffset: OffsetRange[]
+): QuickFixStableIdInfo[];

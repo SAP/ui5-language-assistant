@@ -6,7 +6,7 @@ import {
 } from "@ui5-language-assistant/semantic-model-types";
 import { generateModel } from "@ui5-language-assistant/test-utils";
 import { generate } from "@ui5-language-assistant/semantic-model";
-import { validateAggregationType } from "../../../src/validators/elements/type-of-aggregation";
+import { validators } from "../../../src/api";
 import {
   getMessage,
   INVALID_AGGREGATION_TYPE,
@@ -33,7 +33,7 @@ describe("the type aggregation validation", () => {
         assertSingleIssueBase,
         ui5SemanticModel,
         {
-          element: [validateAggregationType],
+          element: [validators.validateAggregationType],
         },
         "InvalidAggregationType",
         "error"
@@ -99,7 +99,7 @@ describe("the type aggregation validation", () => {
     let assertNoIssues: (xmlSnippet: string) => void;
     before(() => {
       assertNoIssues = partial(assertNoIssuesBase, ui5SemanticModel, {
-        element: [validateAggregationType],
+        element: [validators.validateAggregationType],
       });
     });
 
@@ -147,7 +147,7 @@ describe("the type aggregation validation", () => {
       assertNoIssuesBase(
         clonedModel,
         {
-          element: [validateAggregationType],
+          element: [validators.validateAggregationType],
         },
         xmlSnippet
       );

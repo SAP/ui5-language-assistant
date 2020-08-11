@@ -2,7 +2,7 @@ import { expect } from "chai";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { generate } from "@ui5-language-assistant/semantic-model";
 import { generateModel } from "@ui5-language-assistant/test-utils";
-import { validateUseOfDeprecatedClass } from "../../../src/validators/elements/use-of-deprecated-class";
+import { validators } from "../../../src/api";
 import {
   computeExpectedRange,
   testValidationsScenario,
@@ -32,7 +32,7 @@ describe("the use of deprecated class validation", () => {
         model: ui5SemanticModel,
         xmlText: xmlSnippet,
         validators: {
-          element: [validateUseOfDeprecatedClass],
+          element: [validators.validateUseOfDeprecatedClass],
         },
         assertion: (issues) => {
           expect(
@@ -65,7 +65,7 @@ describe("the use of deprecated class validation", () => {
         model: ui5SemanticModel,
         xmlText: xmlSnippet,
         validators: {
-          element: [validateUseOfDeprecatedClass],
+          element: [validators.validateUseOfDeprecatedClass],
         },
         assertion: (issues) => {
           expect(
@@ -97,7 +97,7 @@ describe("the use of deprecated class validation", () => {
         model: ui5SemanticModel,
         xmlText: xmlSnippet,
         validators: {
-          element: [validateUseOfDeprecatedClass],
+          element: [validators.validateUseOfDeprecatedClass],
         },
         assertion: (issues) => {
           expect(
@@ -134,7 +134,7 @@ describe("the use of deprecated class validation", () => {
         model: ui5SemanticModel,
         xmlText: xmlSnippet,
         validators: {
-          element: [validateUseOfDeprecatedClass],
+          element: [validators.validateUseOfDeprecatedClass],
         },
         assertion: (issues) => {
           expect(issues).to.be.empty;
@@ -156,7 +156,7 @@ describe("the use of deprecated class validation", () => {
         model: ui5SemanticModel,
         xmlText: xmlSnippet,
         validators: {
-          element: [validateUseOfDeprecatedClass],
+          element: [validators.validateUseOfDeprecatedClass],
         },
         assertion: (issues) => {
           expect(issues).to.be.empty;

@@ -6,7 +6,7 @@ import {
   testValidationsScenario,
   computeExpectedRange,
 } from "../../test-utils";
-import { validateUnknownXmlnsNamespace } from "../../../src/validators/attributes/unknown-xmlns-namespace";
+import { validators } from "../../../src/api";
 
 describe("the unknown namespace in xmlns attribute value validation", () => {
   let ui5SemanticModel: UI5SemanticModel;
@@ -30,7 +30,7 @@ describe("the unknown namespace in xmlns attribute value validation", () => {
         model: ui5SemanticModel,
         xmlText: xmlSnippet,
         validators: {
-          attribute: [validateUnknownXmlnsNamespace],
+          attribute: [validators.validateUnknownXmlnsNamespace],
         },
         assertion: (issues) => {
           expect(issues).to.deep.equal([
@@ -56,7 +56,7 @@ describe("the unknown namespace in xmlns attribute value validation", () => {
         model: ui5SemanticModel,
         xmlText: xmlSnippet,
         validators: {
-          attribute: [validateUnknownXmlnsNamespace],
+          attribute: [validators.validateUnknownXmlnsNamespace],
         },
         assertion: (issues) => {
           expect(issues).to.deep.equal([
@@ -84,7 +84,7 @@ describe("the unknown namespace in xmlns attribute value validation", () => {
         model: ui5SemanticModel,
         xmlText: xmlSnippet,
         validators: {
-          attribute: [validateUnknownXmlnsNamespace],
+          attribute: [validators.validateUnknownXmlnsNamespace],
         },
         assertion: (issues) => {
           expect(issues).to.be.empty;
@@ -103,7 +103,7 @@ describe("the unknown namespace in xmlns attribute value validation", () => {
         model: ui5SemanticModel,
         xmlText: xmlSnippet,
         validators: {
-          attribute: [validateUnknownXmlnsNamespace],
+          attribute: [validators.validateUnknownXmlnsNamespace],
         },
         assertion: (issues) => {
           expect(issues).to.be.empty;
@@ -122,7 +122,7 @@ describe("the unknown namespace in xmlns attribute value validation", () => {
         model: ui5SemanticModel,
         xmlText: xmlSnippet,
         validators: {
-          attribute: [validateUnknownXmlnsNamespace],
+          attribute: [validators.validateUnknownXmlnsNamespace],
         },
         assertion: (issues) => {
           expect(issues).to.be.empty;
@@ -141,7 +141,7 @@ describe("the unknown namespace in xmlns attribute value validation", () => {
         model: ui5SemanticModel,
         xmlText: xmlSnippet,
         validators: {
-          attribute: [validateUnknownXmlnsNamespace],
+          attribute: [validators.validateUnknownXmlnsNamespace],
         },
         assertion: (issues) => {
           expect(issues).to.be.empty;
@@ -160,7 +160,7 @@ describe("the unknown namespace in xmlns attribute value validation", () => {
         model: ui5SemanticModel,
         xmlText: xmlSnippet,
         validators: {
-          attribute: [validateUnknownXmlnsNamespace],
+          attribute: [validators.validateUnknownXmlnsNamespace],
         },
         assertion: (issues) => {
           expect(issues).to.be.empty;
@@ -179,7 +179,7 @@ describe("the unknown namespace in xmlns attribute value validation", () => {
         model: ui5SemanticModel,
         xmlText: xmlSnippet,
         validators: {
-          attribute: [validateUnknownXmlnsNamespace],
+          attribute: [validators.validateUnknownXmlnsNamespace],
         },
         assertion: (issues) => {
           expect(issues).to.be.empty;
@@ -198,7 +198,7 @@ describe("the unknown namespace in xmlns attribute value validation", () => {
         model: ui5SemanticModel,
         xmlText: xmlSnippet,
         validators: {
-          attribute: [validateUnknownXmlnsNamespace],
+          attribute: [validators.validateUnknownXmlnsNamespace],
         },
         assertion: (issues) => {
           expect(issues).to.be.empty;
@@ -217,7 +217,7 @@ describe("the unknown namespace in xmlns attribute value validation", () => {
         model: ui5SemanticModel,
         xmlText: xmlSnippet,
         validators: {
-          attribute: [validateUnknownXmlnsNamespace],
+          attribute: [validators.validateUnknownXmlnsNamespace],
         },
         assertion: (issues) => {
           expect(issues).to.be.empty;

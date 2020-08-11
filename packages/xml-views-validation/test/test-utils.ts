@@ -4,11 +4,9 @@ import { DocumentCstNode, parse } from "@xml-tools/parser";
 import { buildAst } from "@xml-tools/ast";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { OffsetRange } from "@ui5-language-assistant/logic-utils";
-import {
-  UI5Validators,
-  validateXMLView as validateXMLViewImpl,
-} from "../src/validate-xml-views";
+import { UI5ValidatorsConfig } from "../src/validate-xml-views";
 import { UI5XMLViewIssue } from "../api";
+import { validateXMLView } from "../src/api";
 
 const START_RANGE_MARKER = "🢂";
 const END_RANGE_MARKER = "🢀";
@@ -16,7 +14,7 @@ const END_RANGE_MARKER = "🢀";
 export function testValidationsScenario(opts: {
   xmlText: string;
   model: UI5SemanticModel;
-  validators: Partial<UI5Validators>;
+  validators: Partial<UI5ValidatorsConfig>;
   assertion: (issues: UI5XMLViewIssue[]) => void;
 }): void {
   if (
@@ -37,7 +35,7 @@ export function testValidationsScenario(opts: {
   const { cst, tokenVector } = parse(xmlTextNoMarkers);
   const ast = buildAst(cst as DocumentCstNode, tokenVector);
 
-  const issues = validateXMLViewImpl({
+  const issues = validateXMLView({
     validators: {
       document: [],
       element: [],
@@ -88,7 +86,7 @@ export function computeExpectedRange(markedXMLSnippet: string): OffsetRange {
 
 export function assertNoIssues(
   model: UI5SemanticModel,
-  validators: Partial<UI5Validators>,
+  validators: Partial<UI5ValidatorsConfig>,
   xmlSnippet: string
 ): void {
   testValidationsScenario({
@@ -103,7 +101,7 @@ export function assertNoIssues(
 
 export function assertSingleIssue(
   model: UI5SemanticModel,
-  validators: Partial<UI5Validators>,
+  validators: Partial<UI5ValidatorsConfig>,
   kind: string,
   severity: string,
   xmlSnippet: string,

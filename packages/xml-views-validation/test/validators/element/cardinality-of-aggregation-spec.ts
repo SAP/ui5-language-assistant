@@ -2,7 +2,7 @@ import { partial } from "lodash";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { generateModel } from "@ui5-language-assistant/test-utils";
 import { generate } from "@ui5-language-assistant/semantic-model";
-import { validateExplicitAggregationCardinality } from "../../../src/validators/elements/cardinality-of-aggregation";
+import { validators } from "../../../src/api";
 import {
   getMessage,
   INVALID_AGGREGATION_CARDINALITY,
@@ -29,7 +29,7 @@ describe("the cardinality aggregation validation", () => {
         assertSingleIssueBase,
         ui5SemanticModel,
         {
-          element: [validateExplicitAggregationCardinality],
+          element: [validators.validateExplicitAggregationCardinality],
         },
         "InvalidAggregationCardinality",
         "error"
@@ -93,7 +93,7 @@ describe("the cardinality aggregation validation", () => {
     let assertNoIssues: (xmlSnippet: string) => void;
     before(() => {
       assertNoIssues = partial(assertNoIssuesBase, ui5SemanticModel, {
-        element: [validateExplicitAggregationCardinality],
+        element: [validators.validateExplicitAggregationCardinality],
       });
     });
 
