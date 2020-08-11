@@ -8,7 +8,7 @@ import {
   expectExists,
 } from "@ui5-language-assistant/test-utils";
 import { generate } from "@ui5-language-assistant/semantic-model";
-import { validateUnknownAttributeKey } from "../../../src/api";
+import { validators } from "../../../src/api";
 import {
   assertNoIssues as assertNoIssuesBase,
   assertSingleIssue as assertSingleIssueBase,
@@ -31,7 +31,7 @@ describe("the unknown attribute name validation", () => {
         assertSingleIssueBase,
         ui5SemanticModel,
         {
-          attribute: [validateUnknownAttributeKey],
+          attribute: [validators.validateUnknownAttributeKey],
         },
         "UnknownAttributeKey",
         "error"
@@ -203,7 +203,7 @@ describe("the unknown attribute name validation", () => {
     let assertNoIssues: (xmlSnippet: string) => void;
     before(() => {
       assertNoIssues = partial(assertNoIssuesBase, ui5SemanticModel, {
-        attribute: [validateUnknownAttributeKey],
+        attribute: [validators.validateUnknownAttributeKey],
       });
     });
 
@@ -436,7 +436,7 @@ describe("the unknown attribute name validation", () => {
           ...attr,
           key: null,
         };
-        const issues = validateUnknownAttributeKey(
+        const issues = validators.validateUnknownAttributeKey(
           attrWithoutKey,
           ui5SemanticModel
         );

@@ -3,7 +3,7 @@ import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { generateModel } from "@ui5-language-assistant/test-utils";
 import { generate } from "@ui5-language-assistant/semantic-model";
 import { getMessage, NON_UNIQUE_ID } from "../../../src/utils/messages";
-import { validateNonUniqueID } from "../../../src/api";
+import { validators } from "../../../src/api";
 import { NonUniqueIDIssue } from "../../../api";
 import {
   computeExpectedRanges,
@@ -28,7 +28,7 @@ describe("the use of non unique id validation", () => {
       testValidationsScenario({
         model: ui5SemanticModel,
         validators: {
-          document: [validateNonUniqueID],
+          document: [validators.validateNonUniqueID],
         },
         xmlText: opts.xmlText,
         // eslint-disable-next-line @typescript-eslint/no-explicit-any

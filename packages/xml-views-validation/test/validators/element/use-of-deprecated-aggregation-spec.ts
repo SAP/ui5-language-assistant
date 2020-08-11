@@ -2,7 +2,7 @@ import { partial, find } from "lodash";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { generate } from "@ui5-language-assistant/semantic-model";
 import { generateModel } from "@ui5-language-assistant/test-utils";
-import { validateUseOfDeprecatedAggregation } from "../../../src/api";
+import { validators } from "../../../src/api";
 import {
   buildDeprecatedIssueMessage,
   DeprecatedUI5Symbol,
@@ -29,7 +29,7 @@ describe("the use of deprecated aggregation validation", () => {
         assertSingleIssueBase,
         ui5SemanticModel,
         {
-          element: [validateUseOfDeprecatedAggregation],
+          element: [validators.validateUseOfDeprecatedAggregation],
         },
         "UseOfDeprecatedAggregation",
         "warn"
@@ -111,7 +111,7 @@ describe("the use of deprecated aggregation validation", () => {
     let assertNoIssues: (xmlSnippet: string) => void;
     before(() => {
       assertNoIssues = partial(assertNoIssuesBase, ui5SemanticModel, {
-        element: [validateUseOfDeprecatedAggregation],
+        element: [validators.validateUseOfDeprecatedAggregation],
       });
     });
 

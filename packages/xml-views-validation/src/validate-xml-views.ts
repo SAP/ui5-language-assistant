@@ -8,7 +8,7 @@ import {
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { UI5XMLViewIssue } from "../api";
 
-export interface UI5Validators {
+export interface UI5ValidatorsConfig {
   /**
    * Careful on abusing top level document validators.
    * If such validators need to traverse the whole AST there may
@@ -35,7 +35,7 @@ export class ValidatorVisitor implements XMLAstVisitor {
 
   constructor(
     private model: UI5SemanticModel,
-    private validators: UI5Validators
+    private validators: UI5ValidatorsConfig
   ) {}
 
   visitXMLDocument(node: XMLDocument): void {

@@ -8,7 +8,7 @@ import {
   expectExists,
 } from "@ui5-language-assistant/test-utils";
 import { generate } from "@ui5-language-assistant/semantic-model";
-import { validateUseOfDeprecatedAttribute } from "../../../src/api";
+import { validators } from "../../../src/api";
 import {
   buildDeprecatedIssueMessage,
   DeprecatedUI5Symbol,
@@ -37,7 +37,7 @@ describe("the use of deprecated attribute validation", () => {
       return assertSingleIssueBase(
         ui5SemanticModel,
         {
-          attribute: [validateUseOfDeprecatedAttribute],
+          attribute: [validators.validateUseOfDeprecatedAttribute],
         },
         issueKind,
         "warn",
@@ -135,7 +135,7 @@ describe("the use of deprecated attribute validation", () => {
     let assertNoIssues: (xmlSnippet: string) => void;
     before(() => {
       assertNoIssues = partial(assertNoIssuesBase, ui5SemanticModel, {
-        attribute: [validateUseOfDeprecatedAttribute],
+        attribute: [validators.validateUseOfDeprecatedAttribute],
       });
     });
 
@@ -185,7 +185,7 @@ describe("the use of deprecated attribute validation", () => {
         key: null,
       };
 
-      const issues = validateUseOfDeprecatedAttribute(
+      const issues = validators.validateUseOfDeprecatedAttribute(
         attrWithoutKey,
         ui5SemanticModel
       );

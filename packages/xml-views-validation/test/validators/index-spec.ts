@@ -3,7 +3,7 @@ import { map, filter, forEach, isFunction, includes } from "lodash";
 import { resolve, relative } from "path";
 import { expect } from "chai";
 import { defaultValidators } from "../../src/api";
-import { UI5Validators } from "../../src/validate-xml-views";
+import { UI5ValidatorsConfig } from "../../src/validate-xml-views";
 
 describe("The `allValidators` constant", () => {
   let validatorPaths: string[] = [];
@@ -35,7 +35,7 @@ describe("The `allValidators` constant", () => {
       ).to.have.lengthOf(1);
 
       forEach(validatorModuleFuncs, (currValidatorFunc) => {
-        expect(defaultValidators).to.satisfy((_: UI5Validators) => {
+        expect(defaultValidators).to.satisfy((_: UI5ValidatorsConfig) => {
           return (
             includes(_.element, currValidatorFunc) ||
             includes(_.attribute, currValidatorFunc) ||

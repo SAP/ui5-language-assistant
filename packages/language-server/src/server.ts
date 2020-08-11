@@ -1,5 +1,5 @@
 /* istanbul ignore file */
-import { forEach, find } from "lodash";
+import { forEach } from "lodash";
 import {
   createConnection,
   TextDocuments,
@@ -191,14 +191,9 @@ connection.onCodeAction(async (params) => {
   }
 
   const diagnostics = params.context.diagnostics;
-  const nonStableIdIssue = find(diagnostics, (_) => _.code === 1000);
-  if (nonStableIdIssue === undefined) {
-    return;
-  }
-
   const codeActions = diagnosticToCodeActionFix(
     textDocument,
-    nonStableIdIssue,
+    diagnostics,
     ui5Model
   );
   return codeActions;

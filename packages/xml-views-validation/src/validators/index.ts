@@ -1,4 +1,5 @@
-import { UI5Validators } from "../validate-xml-views";
+import deepFreezeStrict from "deep-freeze-strict";
+import { UI5ValidatorsConfig } from "../validate-xml-views";
 import { validateUnknownEnumValue } from "./attributes/unknown-enum-value";
 import { validateUnknownXmlnsNamespace } from "./attributes/unknown-xmlns-namespace";
 import { validateBooleanValue } from "./attributes/invalid-boolean-value";
@@ -24,7 +25,7 @@ export { validateExplicitAggregationCardinality } from "./elements/cardinality-o
 export { validateAggregationType } from "./elements/type-of-aggregation";
 export { validateNonStableId } from "./elements/non-stable-id";
 
-export const defaultValidators: UI5Validators = {
+export const defaultValidators: UI5ValidatorsConfig = {
   document: [validateNonUniqueID],
   element: [
     validateUseOfDeprecatedClass,
@@ -41,3 +42,5 @@ export const defaultValidators: UI5Validators = {
     validateUseOfDeprecatedAttribute,
   ],
 };
+
+deepFreezeStrict(defaultValidators);

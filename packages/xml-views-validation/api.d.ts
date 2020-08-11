@@ -1,15 +1,15 @@
 import { XMLDocument, XMLElement, XMLAttribute } from "@xml-tools/ast";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { OffsetRange } from "@ui5-language-assistant/logic-utils";
-import { UI5Validators } from "./src/validate-xml-views";
+import { UI5ValidatorsConfig } from "./src/validate-xml-views";
 
 export function validateXMLView(opts: {
-  validators: UI5Validators;
+  validators: UI5ValidatorsConfig;
   model: UI5SemanticModel;
   xmlView: XMLDocument;
 }): UI5XMLViewIssue[];
 
-export declare const defaultValidators: UI5Validators;
+export declare const defaultValidators: UI5ValidatorsConfig;
 
 export type XMLViewIssueSeverity = "hint" | "info" | "warn" | "error";
 
@@ -103,59 +103,39 @@ export interface NonStableIDIssue extends BaseUI5XMLViewIssue {
   kind: "NonStableIDIssue";
 }
 
-export function validateUnknownEnumValue(
+type XMLAttributeValidator<T> = (
   attribute: XMLAttribute,
   model: UI5SemanticModel
-): UnknownEnumValueIssue[];
+) => T[];
 
-export function validateUnknownXmlnsNamespace(
-  attribute: XMLAttribute,
+type XMLDocumentValidator<T> = (document: XMLDocument) => T[];
+
+type XMLElementValidator<T> = (
+  XMLElement: XMLElement,
   model: UI5SemanticModel
-): UnknownNamespaceInXmlnsAttributeValueIssue[];
+) => T[];
 
-export function validateBooleanValue(
-  attribute: XMLAttribute,
-  model: UI5SemanticModel
-): InvalidBooleanValueIssue[];
+type Validators = {
+  validateUnknownEnumValue: XMLAttributeValidator<UnknownEnumValueIssue>;
+  validateUnknownXmlnsNamespace: XMLAttributeValidator<
+    UnknownNamespaceInXmlnsAttributeValueIssue
+  >;
+  validateBooleanValue: XMLAttributeValidator<InvalidBooleanValueIssue>;
+  validateUseOfDeprecatedAttribute: XMLAttributeValidator<
+    UseOfDeprecatedAttributeIssue
+  >;
+  validateUnknownAttributeKey: XMLAttributeValidator<UnknownAttributeKeyIssue>;
+  validateNonUniqueID: XMLDocumentValidator<NonUniqueIDIssue>;
+  validateUseOfDeprecatedAggregation: XMLElementValidator<
+    UseOfDeprecatedAggregationIssue
+  >;
+  validateUseOfDeprecatedClass: XMLElementValidator<UseOfDeprecatedClassIssue>;
+  validateUnknownTagName: XMLElementValidator<UnknownTagNameIssue>;
+  validateExplicitAggregationCardinality: XMLElementValidator<
+    InvalidAggregationCardinalityIssue
+  >;
+  validateAggregationType: XMLElementValidator<InvalidAggregationTypeIssue>;
+  validateNonStableId: XMLElementValidator<NonStableIDIssue>;
+};
 
-export function validateUseOfDeprecatedClass(
-  xmlElement: XMLElement,
-  model: UI5SemanticModel
-): UseOfDeprecatedClassIssue[];
-
-export function validateUseOfDeprecatedAggregation(
-  xmlElement: XMLElement,
-  model: UI5SemanticModel
-): UseOfDeprecatedAggregationIssue[];
-
-export function validateUseOfDeprecatedAttribute(
-  attribute: XMLAttribute,
-  model: UI5SemanticModel
-): UseOfDeprecatedAttributeIssue[];
-
-export function validateNonUniqueID(xmlDoc: XMLDocument): NonUniqueIDIssue[];
-
-export function validateUnknownAttributeKey(
-  attribute: XMLAttribute,
-  model: UI5SemanticModel
-): UnknownAttributeKeyIssue[];
-
-export function validateUnknownTagName(
-  xmlElement: XMLElement,
-  model: UI5SemanticModel
-): UnknownTagNameIssue[];
-
-export function validateExplicitAggregationCardinality(
-  xmlElement: XMLElement,
-  model: UI5SemanticModel
-): InvalidAggregationCardinalityIssue[];
-
-export function validateAggregationType(
-  xmlElement: XMLElement,
-  model: UI5SemanticModel
-): InvalidAggregationTypeIssue[];
-
-export function validateNonStableId(
-  xmlElement: XMLElement,
-  model: UI5SemanticModel
-): NonStableIDIssue[];
+export const validators: Validators;

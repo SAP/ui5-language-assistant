@@ -92,6 +92,7 @@ function computeQuickFixIdSuggestion(
   const suffix = biggestIdsByElementName[elementName]
     ? biggestIdsByElementName[elementName] + 1
     : 1;
+  // Data structure supports multiple fixes in the same file without conflicts
   biggestIdsByElementName[elementName] = suffix;
   let newText = `id="${ID_PREFIX_PATTERN}${elementName}${suffix}"`;
   if (!hasIdAttribute) {

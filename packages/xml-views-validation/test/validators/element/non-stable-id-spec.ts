@@ -7,7 +7,7 @@ import {
   assertNoIssues as assertNoIssuesBase,
   assertSingleIssue as assertSingleIssueBase,
 } from "../../test-utils";
-import { validateNonStableId } from "../../../src/api";
+import { validators } from "../../../src/api";
 
 describe("the use of non stable id validation", () => {
   let ui5SemanticModel: UI5SemanticModel;
@@ -26,7 +26,7 @@ describe("the use of non stable id validation", () => {
         assertSingleIssueBase,
         ui5SemanticModel,
         {
-          element: [validateNonStableId],
+          element: [validators.validateNonStableId],
         },
         "NonStableIDIssue",
         "error"
@@ -124,7 +124,7 @@ describe("the use of non stable id validation", () => {
     let assertNoIssues: (xmlSnippet: string) => void;
     before(() => {
       assertNoIssues = partial(assertNoIssuesBase, ui5SemanticModel, {
-        element: [validateNonStableId],
+        element: [validators.validateNonStableId],
       });
     });
 
