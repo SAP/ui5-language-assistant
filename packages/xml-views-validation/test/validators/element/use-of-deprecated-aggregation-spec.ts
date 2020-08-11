@@ -2,7 +2,7 @@ import { partial, find } from "lodash";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { generate } from "@ui5-language-assistant/semantic-model";
 import { generateModel } from "@ui5-language-assistant/test-utils";
-import { validateUseOfDeprecatedAggregation } from "../../../src/validators/elements/use-of-depracated-aggregation";
+import { validateUseOfDeprecatedAggregation } from "../../../src/api";
 import {
   buildDeprecatedIssueMessage,
   DeprecatedUI5Symbol,

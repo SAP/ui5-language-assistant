@@ -3,7 +3,7 @@ import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { generateModel } from "@ui5-language-assistant/test-utils";
 import { generate } from "@ui5-language-assistant/semantic-model";
 import { getMessage, NON_UNIQUE_ID } from "../../../src/utils/messages";
-import { validateNonUniqueID } from "../../../src/validators/document/non-unique-id";
+import { validateNonUniqueID } from "../../../src/api";
 import { NonUniqueIDIssue } from "../../../api";
 import {
   computeExpectedRanges,

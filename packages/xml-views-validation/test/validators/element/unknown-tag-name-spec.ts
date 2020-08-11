@@ -3,7 +3,7 @@ import { partial } from "lodash";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { generateModel } from "@ui5-language-assistant/test-utils";
 import { generate } from "@ui5-language-assistant/semantic-model";
-import { validateUnknownTagName } from "../../../src/validators/elements/unknown-tag-name";
+import { validateUnknownTagName } from "../../../src/api";
 import {
   getMessage,
   UNKNOWN_CLASS_IN_NS,

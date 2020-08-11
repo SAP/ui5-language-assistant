@@ -8,7 +8,7 @@ import {
   expectExists,
 } from "@ui5-language-assistant/test-utils";
 import { generate } from "@ui5-language-assistant/semantic-model";
-import { validateUnknownAttributeKey } from "../../../src/validators/attributes/unknown-attribute-key";
+import { validateUnknownAttributeKey } from "../../../src/api";
 import {
   assertNoIssues as assertNoIssuesBase,
   assertSingleIssue as assertSingleIssueBase,

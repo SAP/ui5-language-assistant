@@ -6,7 +6,7 @@ import {
   testValidationsScenario,
   computeExpectedRange,
 } from "../../test-utils";
-import { validateUnknownXmlnsNamespace } from "../../../src/validators/attributes/unknown-xmlns-namespace";
+import { validateUnknownXmlnsNamespace } from "../../../src/api";
 
 describe("the unknown namespace in xmlns attribute value validation", () => {
   let ui5SemanticModel: UI5SemanticModel;

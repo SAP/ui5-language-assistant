@@ -7,7 +7,7 @@ import {
   assertNoIssues as assertNoIssuesBase,
   assertSingleIssue as assertSingleIssueBase,
 } from "../../test-utils";
-import { validateNonStableId } from "../../../src/validators/elements/non-stable-id";
+import { validateNonStableId } from "../../../src/api";
 
 describe("the use of non stable id validation", () => {
   let ui5SemanticModel: UI5SemanticModel;

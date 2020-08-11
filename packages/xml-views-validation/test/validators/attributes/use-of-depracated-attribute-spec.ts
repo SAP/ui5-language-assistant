@@ -8,7 +8,7 @@ import {
   expectExists,
 } from "@ui5-language-assistant/test-utils";
 import { generate } from "@ui5-language-assistant/semantic-model";
-import { validateUseOfDeprecatedAttribute } from "../../../src/validators/attributes/use-of-depracated-attribute";
+import { validateUseOfDeprecatedAttribute } from "../../../src/api";
 import {
   buildDeprecatedIssueMessage,
   DeprecatedUI5Symbol,

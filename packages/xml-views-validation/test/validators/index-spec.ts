@@ -2,7 +2,7 @@ import klawSync from "klaw-sync";
 import { map, filter, forEach, isFunction, includes } from "lodash";
 import { resolve, relative } from "path";
 import { expect } from "chai";
-import { defaultValidators } from "../../src/validators";
+import { defaultValidators } from "../../src/api";
 import { UI5Validators } from "../../src/validate-xml-views";
 
 describe("The `allValidators` constant", () => {

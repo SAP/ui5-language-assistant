@@ -6,7 +6,7 @@ import {
 } from "@ui5-language-assistant/semantic-model-types";
 import { generateModel } from "@ui5-language-assistant/test-utils";
 import { generate } from "@ui5-language-assistant/semantic-model";
-import { validateAggregationType } from "../../../src/validators/elements/type-of-aggregation";
+import { validateAggregationType } from "../../../src/api";
 import {
   getMessage,
   INVALID_AGGREGATION_TYPE,

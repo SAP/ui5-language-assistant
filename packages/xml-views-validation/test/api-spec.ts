@@ -6,7 +6,7 @@ import { generate } from "@ui5-language-assistant/semantic-model";
 import { DocumentCstNode, parse } from "@xml-tools/parser";
 import { buildAst } from "@xml-tools/ast";
 import { validateXMLView } from "../src/api";
-import { defaultValidators } from "../src/validators";
+import { defaultValidators } from "../src/api";
 import { validateNonStableId } from "../src/validators/elements/non-stable-id";
 
 describe("the ui5 xml views validations API", () => {
