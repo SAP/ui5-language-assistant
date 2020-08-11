@@ -5,7 +5,8 @@ import { buildAst } from "@xml-tools/ast";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { OffsetRange } from "@ui5-language-assistant/logic-utils";
 import { UI5Validators } from "../src/validate-xml-views";
-import { UI5XMLViewIssue, validateXMLView } from "../api";
+import { UI5XMLViewIssue } from "../api";
+import { validateXMLView } from "../src/api";
 
 const START_RANGE_MARKER = "🢂";
 const END_RANGE_MARKER = "🢀";

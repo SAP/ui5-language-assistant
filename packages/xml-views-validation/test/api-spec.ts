@@ -68,7 +68,7 @@ describe("the ui5 xml views validations API", () => {
     const actualValidators = cloneDeep(defaultValidators);
     actualValidators.element.push(validateNonStableId);
     const issues = validateXMLView({
-      validators: defaultValidators,
+      validators: actualValidators,
       model: ui5SemanticModel,
       xmlView: ast,
     });

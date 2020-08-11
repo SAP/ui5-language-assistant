@@ -3,18 +3,6 @@ import { XMLDocument, accept } from "@xml-tools/ast";
 import { UI5XMLViewIssue } from "../api";
 import { UI5Validators, ValidatorVisitor } from "./validate-xml-views";
 
-// export function validateXMLView(opts: {
-//   model: UI5SemanticModel;
-//   xmlView: XMLDocument;
-//   flexEnabled?: boolean;
-// }): UI5XMLViewIssue[] {
-//   const actualValidators = cloneDeep(allValidators);
-//   if (opts.flexEnabled) {
-//     actualValidators.element.push(validateNonStableId);
-//   }
-
-//   return validateXMLViewImpl({ validators: actualValidators, ...opts });
-// }
 export {
   defaultValidators,
   validateUnknownEnumValue,
