@@ -15,7 +15,7 @@ import {
   validateXMLView,
   XMLViewIssueSeverity,
   defaultValidators,
-  validateNonStableId,
+  validators,
 } from "@ui5-language-assistant/xml-views-validation";
 import { offsetRangeToLSPRange } from "./range-utils";
 
@@ -29,7 +29,7 @@ export function getXMLViewDiagnostics(opts: {
   const xmlDocAst = buildAst(cst as DocumentCstNode, tokenVector);
   const actualValidators = cloneDeep(defaultValidators);
   if (opts.flexEnabled) {
-    actualValidators.element.push(validateNonStableId);
+    actualValidators.element.push(validators.validateNonStableId);
   }
   const issues = validateXMLView({
     validators: actualValidators,
