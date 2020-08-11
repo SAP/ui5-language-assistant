@@ -1,7 +1,7 @@
 {
   "name": "@ui5-language-assistant/xml-views-quick-fix",
   "version": "1.0.0",
-  "description": "XML Views QuickFix",
+  "description": "Logic for UI5 XML-Views quick-fixes",
   "keywords": [
     "QuickFix"
   ],
