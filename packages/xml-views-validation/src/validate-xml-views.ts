@@ -4,7 +4,6 @@ import {
   XMLAstVisitor,
   XMLAttribute,
   XMLElement,
-  accept,
 } from "@xml-tools/ast";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { UI5XMLViewIssue } from "../api";

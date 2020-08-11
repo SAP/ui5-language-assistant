@@ -1,5 +1,5 @@
 /* istanbul ignore file */
-import { forEach, compact, map, filter, find } from "lodash";
+import { forEach, find } from "lodash";
 import {
   createConnection,
   TextDocuments,

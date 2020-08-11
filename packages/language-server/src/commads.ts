@@ -3,7 +3,7 @@ import {
   QUICK_FIX_STABLE_ID_COMMAND,
   executeQuickFixStableIdCommand,
   QUICK_FIX_FILE_STABLE_ID_COMMAND,
-  executeQuickFixFIleStableIdCommand,
+  executeQuickFixFileStableIdCommand,
 } from "./quick-fix";
 
 type LSPConnection = ReturnType<typeof createConnection>;
@@ -32,8 +32,7 @@ export function executeCommand(
       return;
     }
     case QUICK_FIX_FILE_STABLE_ID_COMMAND: {
-      const change = executeQuickFixFIleStableIdCommand({
-        document: params.arguments[0],
+      const change = executeQuickFixFileStableIdCommand({
         documentUri: params.arguments[1],
         documentVersion: params.arguments[2],
         nonStableIdIssues: params.arguments[3],

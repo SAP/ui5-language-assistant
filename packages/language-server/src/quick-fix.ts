@@ -17,7 +17,7 @@ import {
   validateNonStableId,
 } from "@ui5-language-assistant/xml-views-validation";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
-import { map, compact, forEach } from "lodash";
+import { map, forEach } from "lodash";
 import { Range } from "vscode-languageserver-textdocument";
 
 export const QUICK_FIX_STABLE_ID_COMMAND = "ui5_lang.quick_fix_stable_id";
@@ -67,17 +67,12 @@ function computeCodeActionsForQuickFixStableId(opts: {
     opts.document
   );
 
-  const quickFixStableIdInfo = computeQuickFixStableIdInfo(
-    opts.xmlDocument,
-    errorOffset
-  );
-
-  if (quickFixStableIdInfo === undefined) {
-    return undefined;
-  }
+  const quickFixStableIdInfo = computeQuickFixStableIdInfo(opts.xmlDocument, [
+    errorOffset,
+  ]);
 
   const replaceRange = offsetRangeToLSPRange(
-    quickFixStableIdInfo.replaceRange,
+    quickFixStableIdInfo[0].replaceRange,
     opts.document
   );
 
@@ -90,7 +85,7 @@ function computeCodeActionsForQuickFixStableId(opts: {
         opts.document.uri,
         opts.document.version,
         replaceRange,
-        quickFixStableIdInfo.newText
+        quickFixStableIdInfo[0].newText
       ),
       CodeActionKind.QuickFix
     )
@@ -115,8 +110,8 @@ function computeCodeActionsForQuickFixFileStableId(opts: {
   ui5Model: UI5SemanticModel;
 }): CodeAction[] {
   const validators = {
-    document: [validateNonStableId],
-    element: [],
+    document: [],
+    element: [validateNonStableId],
     attribute: [],
   };
 
@@ -130,24 +125,19 @@ function computeCodeActionsForQuickFixFileStableId(opts: {
     return [];
   }
 
-  const nonStableIdFileIssuesInfo: QuickFixStableIdLSPInfo[] = compact(
-    map(nonStableIdFileIssues, (_) => {
-      const quickFixStableIdInfo = computeQuickFixStableIdInfo(
-        opts.xmlDocument,
-        _.offsetRange
-      );
-      if (quickFixStableIdInfo !== undefined) {
-        return {
-          newText: quickFixStableIdInfo.newText,
-          replaceRange: offsetRangeToLSPRange(
-            quickFixStableIdInfo.replaceRange,
-            opts.document
-          ),
-        };
-      }
-
-      return undefined;
-    })
+  const errorsOffset = map(nonStableIdFileIssues, (_) => _.offsetRange);
+  const nonStableIdFileIssuesInfo = computeQuickFixStableIdInfo(
+    opts.xmlDocument,
+    errorsOffset
+  );
+  const nonStableIdFileIssuesLSPInfo: QuickFixStableIdLSPInfo[] = map(
+    nonStableIdFileIssuesInfo,
+    (_) => {
+      return {
+        newText: _.newText,
+        replaceRange: offsetRangeToLSPRange(_.replaceRange, opts.document),
+      };
+    }
   );
 
   return [
@@ -159,7 +149,7 @@ function computeCodeActionsForQuickFixFileStableId(opts: {
         opts.document,
         opts.document.uri,
         opts.document.version,
-        nonStableIdFileIssuesInfo
+        nonStableIdFileIssuesLSPInfo
       ),
       CodeActionKind.QuickFix
     ),
@@ -182,8 +172,7 @@ export function executeQuickFixStableIdCommand(opts: {
   return documentEdit;
 }
 
-export function executeQuickFixFIleStableIdCommand(opts: {
-  document: TextDocument;
+export function executeQuickFixFileStableIdCommand(opts: {
   documentUri: string;
   documentVersion: number;
   nonStableIdIssues: QuickFixStableIdLSPInfo[];
