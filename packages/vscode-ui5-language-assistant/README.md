@@ -83,12 +83,13 @@ and cannot be configured by the end user.
 
 #### Description
 
-Quick Fix will be shown for some of the validations when overing over an item or from problems view.
+Quick Fix will be shown for some validations when hovering over a diagnostic or from the problems view.
 
-#### Quick Fix List
+#### Quick Fixes List
 
 - Missing or empty ID when `flexEnabled` is true (stableID).
-  - will suggest to quick fix all missing IDs in the file.
+  - Will add a generated ID.
+  - Supports both fixing a single missing ID or all missing IDs in an entire file.
 
 ### XML View Hover Tooltips
 
