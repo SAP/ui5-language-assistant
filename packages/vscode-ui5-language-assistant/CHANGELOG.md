@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.6.0](https://github.com/sap/ui5-language-assistant/tree/master/packages/vscode-ui5-language-assistant/compare/vscode-ui5-language-assistant@1.5.1...vscode-ui5-language-assistant@1.6.0) (2020-08-12)
+
+### Features
+
+- non stable id quick fix ([#266](https://github.com/sap/ui5-language-assistant/tree/master/packages/vscode-ui5-language-assistant/issues/266)) ([c564db4](https://github.com/sap/ui5-language-assistant/tree/master/packages/vscode-ui5-language-assistant/commit/c564db4ed7a5ec9e026be0f10a72c734a366c3f7))
+
 ## [1.5.1](https://github.com/sap/ui5-language-assistant/tree/master/packages/vscode-ui5-language-assistant/compare/vscode-ui5-language-assistant@1.5.0...vscode-ui5-language-assistant@1.5.1) (2020-07-15)
 
 **Note:** Version bump only for package vscode-ui5-language-assistant

@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.0](https://github.com/sap/ui5-language-assistant/compare/@ui5-language-assistant/logic-utils@1.3.3...@ui5-language-assistant/logic-utils@1.4.0) (2020-08-12)
+
+### Features
+
+- non stable id quick fix ([#266](https://github.com/sap/ui5-language-assistant/issues/266)) ([c564db4](https://github.com/sap/ui5-language-assistant/commit/c564db4ed7a5ec9e026be0f10a72c734a366c3f7))
+
 ## [1.3.3](https://github.com/sap/ui5-language-assistant/compare/@ui5-language-assistant/logic-utils@1.3.2...@ui5-language-assistant/logic-utils@1.3.3) (2020-07-15)
 
 **Note:** Version bump only for package @ui5-language-assistant/logic-utils

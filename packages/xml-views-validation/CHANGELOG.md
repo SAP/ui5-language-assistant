@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0](https://github.com/sap/ui5-language-assistant/compare/@ui5-language-assistant/xml-views-validation@0.6.0...@ui5-language-assistant/xml-views-validation@2.0.0) (2020-08-12)
+
+### Bug Fixes
+
+- **xml-views-validation:** Fragments in aggregations can cause a false positive ([#276](https://github.com/sap/ui5-language-assistant/issues/276)) ([05600d7](https://github.com/sap/ui5-language-assistant/commit/05600d7fe62e8ba4bd9c2a49c25e15b0da744b76)), closes [#274](https://github.com/sap/ui5-language-assistant/issues/274)
+
+### Features
+
+- non stable id quick fix ([#266](https://github.com/sap/ui5-language-assistant/issues/266)) ([c564db4](https://github.com/sap/ui5-language-assistant/commit/c564db4ed7a5ec9e026be0f10a72c734a366c3f7))
+- quick fix stable id for entire file ([#283](https://github.com/sap/ui5-language-assistant/issues/283)) ([b3945da](https://github.com/sap/ui5-language-assistant/commit/b3945da286479d0cca1955dba092cba44f4359fa))
+
+### BREAKING CHANGES
+
+- - computeQuickFixStableIdInfo function signature has changed.
+
+* validateXMLView no longer accepts `flexEnabled` optional argument and always requires passing a `UI5ValidatorsConfig`
+
 # [0.6.0](https://github.com/sap/ui5-language-assistant/compare/@ui5-language-assistant/xml-views-validation@0.5.2...@ui5-language-assistant/xml-views-validation@0.6.0) (2020-07-15)
 
 ### Bug Fixes
