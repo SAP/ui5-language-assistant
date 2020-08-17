@@ -5,8 +5,6 @@ import { buildAst, XMLDocument } from "@xml-tools/ast";
 import { expectExists } from "@ui5-language-assistant/test-utils";
 import { computeQuickFixStableIdInfo } from "../src/quick-fix-stable-id";
 
-const UNFOUND_CHAR = -1;
-
 describe("the UI5 language assistant QuickFix Service", () => {
   context("true positive scenarios", () => {
     it("will get quick fix info when class is missing id attribute key", () => {
@@ -17,7 +15,6 @@ describe("the UI5 language assistant QuickFix Service", () => {
                                     <🢂List🢀$></List>
                                   </mvc:content>
                               </mvc:View>`;
-      const expectedSuggestion = ' id="_IDGenList1"';
       const { document, quickFixStableIdTestInfo } = getXmlSnippet(
         testXmlSnippet
       );
@@ -30,13 +27,13 @@ describe("the UI5 language assistant QuickFix Service", () => {
         },
       ]);
       expectExists(quickFixInfo, "Quick Fix Info");
-      expect(quickFixInfo[0].newText).to.equal(expectedSuggestion);
+      expect(quickFixInfo[0].newText).to.equal(' id="_IDGenList1"');
       expect(quickFixInfo[0].replaceRange.start).to.equal(
         quickFixStableIdTestInfo[0].idStartOffest
       );
     });
 
-    it("will get quick fix suggestions when classes are missing id attribute key", () => {
+    it("will get quick fix suggestions when multiple classes are missing id attribute key", () => {
       const testXmlSnippet = `<mvc:View
                                 xmlns:mvc="sap.ui.core.mvc"
                                 xmlns="sap.m"> 
@@ -45,8 +42,6 @@ describe("the UI5 language assistant QuickFix Service", () => {
                                     <🢂List🢀$></List>
                                   </mvc:content>
                               </mvc:View>`;
-      const expectedFirstSuggestion = ' id="_IDGenList1"';
-      const expectedSecondSuggestion = ' id="_IDGenList2"';
       const { document, quickFixStableIdTestInfo } = getXmlSnippet(
         testXmlSnippet
       );
@@ -63,11 +58,11 @@ describe("the UI5 language assistant QuickFix Service", () => {
         },
       ]);
       expectExists(quickFixInfo, "Quick Fix Info");
-      expect(quickFixInfo[0].newText).to.equal(expectedFirstSuggestion);
+      expect(quickFixInfo[0].newText).to.equal(' id="_IDGenList1"');
       expect(quickFixInfo[0].replaceRange.start).to.equal(
         quickFixStableIdTestInfo[0].idStartOffest
       );
-      expect(quickFixInfo[1].newText).to.equal(expectedSecondSuggestion);
+      expect(quickFixInfo[1].newText).to.equal(' id="_IDGenList2"');
       expect(quickFixInfo[1].replaceRange.start).to.equal(
         quickFixStableIdTestInfo[1].idStartOffest
       );
@@ -231,10 +226,7 @@ function getXmlSnippet(
 } {
   const quickFixStableIdTestInfo = [];
   let xmlText = xmlSnippet;
-  while (
-    xmlText.indexOf("🢂") !== UNFOUND_CHAR &&
-    xmlText.indexOf("🢀") !== UNFOUND_CHAR
-  ) {
+  while (xmlText.indexOf("🢂") !== -1 && xmlText.indexOf("🢀") !== -1) {
     const start = xmlText.indexOf("🢂");
     xmlText = xmlText.replace("🢂", "");
     const end = xmlText.indexOf("🢀");
