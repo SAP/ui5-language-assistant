@@ -12,8 +12,13 @@ import {
   classIsOfType,
   ui5NodeToFQN,
 } from "@ui5-language-assistant/logic-utils";
+import {
+  validations,
+  buildMessage,
+} from "@ui5-language-assistant/end-user-strings";
 import { InvalidAggregationTypeIssue } from "../../../api";
-import { INVALID_AGGREGATION_TYPE, getMessage } from "../../utils/messages";
+
+const { INVALID_AGGREGATION_TYPE } = validations;
 
 export function validateAggregationType(
   xmlElement: XMLElement,
@@ -83,8 +88,8 @@ function getInvalidAggregationTypeIssue({
   if (!isTypeOf && xmlElement.syntax.openName !== undefined) {
     const invalidAggregationTypeIssue: InvalidAggregationTypeIssue = {
       kind: "InvalidAggregationType",
-      message: getMessage(
-        INVALID_AGGREGATION_TYPE,
+      message: buildMessage(
+        INVALID_AGGREGATION_TYPE.msg,
         ui5Class.name,
         aggregationName,
         aggregationType.name

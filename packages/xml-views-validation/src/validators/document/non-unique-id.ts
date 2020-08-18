@@ -6,9 +6,14 @@ import {
   XMLDocument,
   XMLToken,
 } from "@xml-tools/ast";
+import {
+  validations,
+  buildMessage,
+} from "@ui5-language-assistant/end-user-strings";
 import { NonUniqueIDIssue } from "../../../api";
-import { getMessage, NON_UNIQUE_ID } from "../../utils/messages";
 import { isPossibleCustomClass } from "../../utils/ui5-classes";
+
+const { NON_UNIQUE_ID } = validations;
 
 export function validateNonUniqueID(xmlDoc: XMLDocument): NonUniqueIDIssue[] {
   const idCollector = new IdsCollectorVisitor();
@@ -40,7 +45,7 @@ function buildIssuesForSingleID(
 
       return {
         kind: "NonUniqueIDIssue" as const,
-        message: getMessage(NON_UNIQUE_ID, id),
+        message: buildMessage(NON_UNIQUE_ID.msg, id),
         severity: "error" as const,
         offsetRange: {
           start: currDupIdValToken.startOffset,

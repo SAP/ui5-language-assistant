@@ -1,6 +1,9 @@
 {
   "references": [
     {
+      "path": "./packages/end-user-strings"
+    },
+    {
       "path": "./packages/language-server"
     },
     {

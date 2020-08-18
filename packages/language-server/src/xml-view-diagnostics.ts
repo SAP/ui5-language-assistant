@@ -9,6 +9,7 @@ import { TextDocument } from "vscode-languageserver-textdocument";
 import { DocumentCstNode, parse } from "@xml-tools/parser";
 import { buildAst } from "@xml-tools/ast";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
+import { validations } from "@ui5-language-assistant/end-user-strings";
 import {
   NonUniqueIDIssue,
   UI5XMLViewIssue,
@@ -67,7 +68,7 @@ function validationIssuesToLspDiagnostics(
       case "NonStableIDIssue":
         return {
           ...commonDiagnosticPros,
-          code: 1000,
+          code: validations.NON_STABLE_ID.code,
         };
       case "UseOfDeprecatedClass":
       case "UseOfDeprecatedProperty":

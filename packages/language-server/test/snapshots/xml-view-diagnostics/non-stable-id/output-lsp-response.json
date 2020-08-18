@@ -7,7 +7,7 @@
     "severity": 1,
     "source": "UI5 Language Assistant",
     "message": "The class \"Button\" must declare a non-empty ID attribute when flexEnabled is \"true\"",
-    "code": 1000
+    "code": 1012
   },
   {
     "range": {
@@ -17,6 +17,6 @@
     "severity": 1,
     "source": "UI5 Language Assistant",
     "message": "The class \"Dialog\" must declare a non-empty ID attribute when flexEnabled is \"true\"",
-    "code": 1000
+    "code": 1012
   }
 ]
