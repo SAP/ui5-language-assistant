@@ -4,6 +4,8 @@
 
 import { Validations } from "../api";
 
+// ESLint will remove the ":string" causing an error in "implementation-matches-public-api.ts"
+// eslint-disable-next-line @typescript-eslint/no-inferrable-types
 export const DIAGNOSTIC_SOURCE: string = "UI5 Language Assistant";
 
 export const validations: Validations = {
