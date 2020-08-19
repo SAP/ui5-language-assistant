@@ -9,7 +9,7 @@ type validationText = {
 };
 
 type commandText = {
-  command: string;
+  name: string;
   title: string;
 };
 

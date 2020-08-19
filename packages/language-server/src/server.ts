@@ -74,8 +74,8 @@ connection.onInitialize((params: InitializeParams) => {
       // Each command executes a different code action scenario
       executeCommandProvider: {
         commands: [
-          commands.QUICK_FIX_STABLE_ID_ERROR.command,
-          commands.QUICK_FIX_STABLE_ID_FILE_ERRORS.command,
+          commands.QUICK_FIX_STABLE_ID_ERROR.name,
+          commands.QUICK_FIX_STABLE_ID_FILE_ERRORS.name,
         ],
       },
     },

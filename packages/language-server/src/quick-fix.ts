@@ -83,7 +83,7 @@ function computeCodeActionsForQuickFixStableId(opts: {
       commands.QUICK_FIX_STABLE_ID_ERROR.title,
       Command.create(
         commands.QUICK_FIX_STABLE_ID_ERROR.title,
-        commands.QUICK_FIX_STABLE_ID_ERROR.command,
+        commands.QUICK_FIX_STABLE_ID_ERROR.name,
         opts.document.uri,
         opts.document.version,
         replaceRange,
@@ -147,7 +147,7 @@ function computeCodeActionsForQuickFixFileStableId(opts: {
       commands.QUICK_FIX_STABLE_ID_FILE_ERRORS.title,
       Command.create(
         commands.QUICK_FIX_STABLE_ID_FILE_ERRORS.title,
-        commands.QUICK_FIX_STABLE_ID_FILE_ERRORS.command,
+        commands.QUICK_FIX_STABLE_ID_FILE_ERRORS.name,
         opts.document,
         opts.document.uri,
         opts.document.version,
