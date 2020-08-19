@@ -15,7 +15,7 @@ import {
 import {
   validations,
   buildMessage,
-} from "@ui5-language-assistant/end-user-strings";
+} from "@ui5-language-assistant/user-facing-text";
 import { InvalidAggregationTypeIssue } from "../../../api";
 
 const { INVALID_AGGREGATION_TYPE } = validations;

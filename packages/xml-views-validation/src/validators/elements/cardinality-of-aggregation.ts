@@ -5,7 +5,7 @@ import { getUI5AggregationByXMLElement } from "@ui5-language-assistant/logic-uti
 import {
   validations,
   buildMessage,
-} from "@ui5-language-assistant/end-user-strings";
+} from "@ui5-language-assistant/user-facing-text";
 import { InvalidAggregationCardinalityIssue } from "../../../api";
 
 const { INVALID_AGGREGATION_CARDINALITY } = validations;

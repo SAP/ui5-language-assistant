@@ -1,3 +1,3 @@
 export { validations, DIAGNOSTIC_SOURCE } from "./validations";
-export { quickFixCommands } from "./quick-fix";
+export { commands } from "./commands";
 export { buildMessage } from "./build-message";

@@ -2,9 +2,8 @@ import { expect } from "chai";
 import { buildMessage } from "../src/api";
 
 describe("buildMessage", () => {
-  it("will build an error message for the validation", () => {
-    const expectedErrorMessage = "Hello wonderful world";
+  it("will build a message from given multiple arguments", () => {
     const result = buildMessage("{0} wonderful {1}", "Hello", "world");
-    expect(expectedErrorMessage).to.be.equal(result);
+    expect(result).to.equal("Hello wonderful world");
   });
 });

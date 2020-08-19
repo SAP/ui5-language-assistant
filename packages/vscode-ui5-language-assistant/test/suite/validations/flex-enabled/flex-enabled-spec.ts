@@ -4,7 +4,7 @@ import { expect } from "chai";
 import {
   validations,
   buildMessage,
-} from "@ui5-language-assistant/end-user-strings";
+} from "@ui5-language-assistant/user-facing-text";
 import {
   setFileTextContents,
   expectProblemView,

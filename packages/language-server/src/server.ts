@@ -22,7 +22,7 @@ import {
   hasSettingsForDocument,
   getSettingsForDocument,
 } from "@ui5-language-assistant/settings";
-import { quickFixCommands } from "@ui5-language-assistant/end-user-strings";
+import { commands } from "@ui5-language-assistant/user-facing-text";
 import { ServerInitializationOptions } from "../api";
 import { getSemanticModel } from "./ui5-model";
 import { getCompletionItems } from "./completion-items";
@@ -74,8 +74,8 @@ connection.onInitialize((params: InitializeParams) => {
       // Each command executes a different code action scenario
       executeCommandProvider: {
         commands: [
-          quickFixCommands.STABLE_ID_ERROR.command,
-          quickFixCommands.STABLE_ID_FILE.command,
+          commands.QUICK_FIX_STABLE_ID_ERROR.command,
+          commands.QUICK_FIX_STABLE_ID_FILE_ERRORS.command,
         ],
       },
     },

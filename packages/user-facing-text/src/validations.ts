@@ -1,5 +1,5 @@
 /**
- * Validations strings
+ * Validations text
  */
 
 import { Validations } from "../api";

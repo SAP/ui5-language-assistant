@@ -12,7 +12,7 @@ import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import {
   validations,
   DIAGNOSTIC_SOURCE,
-} from "@ui5-language-assistant/end-user-strings";
+} from "@ui5-language-assistant/user-facing-text";
 import {
   NonUniqueIDIssue,
   UI5XMLViewIssue,

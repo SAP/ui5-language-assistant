@@ -5,7 +5,7 @@ import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import {
   validations,
   buildMessage,
-} from "@ui5-language-assistant/end-user-strings";
+} from "@ui5-language-assistant/user-facing-text";
 import { NonStableIDIssue } from "../../../api";
 import {
   isPossibleCustomClass,

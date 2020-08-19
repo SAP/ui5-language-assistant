@@ -1,9 +1,6 @@
 {
   "references": [
     {
-      "path": "./packages/end-user-strings"
-    },
-    {
       "path": "./packages/language-server"
     },
     {
@@ -17,6 +14,9 @@
     },
     {
       "path": "./packages/settings"
+    },
+    {
+      "path": "./packages/user-facing-text"
     },
     {
       "path": "./packages/xml-views-completion"

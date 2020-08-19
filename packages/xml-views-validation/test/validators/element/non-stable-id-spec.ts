@@ -5,7 +5,7 @@ import { generate } from "@ui5-language-assistant/semantic-model";
 import {
   validations,
   buildMessage,
-} from "@ui5-language-assistant/end-user-strings";
+} from "@ui5-language-assistant/user-facing-text";
 import {
   assertNoIssues as assertNoIssuesBase,
   assertSingleIssue as assertSingleIssueBase,

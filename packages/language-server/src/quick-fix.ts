@@ -20,8 +20,8 @@ import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { computeQuickFixStableIdInfo } from "@ui5-language-assistant/xml-views-quick-fix";
 import {
   validations,
-  quickFixCommands,
-} from "@ui5-language-assistant/end-user-strings";
+  commands,
+} from "@ui5-language-assistant/user-facing-text";
 import { LSPRangeToOffsetRange, offsetRangeToLSPRange } from "./range-utils";
 
 type QuickFixStableIdLSPInfo = {
@@ -80,10 +80,10 @@ function computeCodeActionsForQuickFixStableId(opts: {
 
   codeActions.push(
     CodeAction.create(
-      quickFixCommands.STABLE_ID_ERROR.title,
+      commands.QUICK_FIX_STABLE_ID_ERROR.title,
       Command.create(
-        quickFixCommands.STABLE_ID_ERROR.title,
-        quickFixCommands.STABLE_ID_ERROR.command,
+        commands.QUICK_FIX_STABLE_ID_ERROR.title,
+        commands.QUICK_FIX_STABLE_ID_ERROR.command,
         opts.document.uri,
         opts.document.version,
         replaceRange,
@@ -144,10 +144,10 @@ function computeCodeActionsForQuickFixFileStableId(opts: {
 
   return [
     CodeAction.create(
-      quickFixCommands.STABLE_ID_FILE.title,
+      commands.QUICK_FIX_STABLE_ID_FILE_ERRORS.title,
       Command.create(
-        quickFixCommands.STABLE_ID_FILE.title,
-        quickFixCommands.STABLE_ID_FILE.command,
+        commands.QUICK_FIX_STABLE_ID_FILE_ERRORS.title,
+        commands.QUICK_FIX_STABLE_ID_FILE_ERRORS.command,
         opts.document,
         opts.document.uri,
         opts.document.version,

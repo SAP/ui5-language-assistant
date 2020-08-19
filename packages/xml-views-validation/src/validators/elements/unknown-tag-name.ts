@@ -16,7 +16,7 @@ import {
 import {
   validations,
   buildMessage,
-} from "@ui5-language-assistant/end-user-strings";
+} from "@ui5-language-assistant/user-facing-text";
 import { CORE_NS } from "../../utils/special-namespaces";
 
 const {

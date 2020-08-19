@@ -1,15 +1,15 @@
 /**
- * Quick fix commands strings
+ * Commands text
  */
 
-import { QuickFixCommands } from "../api";
+import { Commands } from "../api";
 
-export const quickFixCommands: QuickFixCommands = {
-  STABLE_ID_ERROR: {
+export const commands: Commands = {
+  QUICK_FIX_STABLE_ID_ERROR: {
     command: "ui5_lang.quick_fix_stable_id",
     title: "Generate ID",
   },
-  STABLE_ID_FILE: {
+  QUICK_FIX_STABLE_ID_FILE_ERRORS: {
     command: "ui5_lang.quick_fix_file_stable_id",
     title: "Generate IDs for entire file",
   },
