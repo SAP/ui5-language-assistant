@@ -4,6 +4,8 @@
 
 import { Validations } from "../api";
 
+export const DIAGNOSTIC_SOURCE: string = "UI5 Language Assistant";
+
 export const validations: Validations = {
   UNKNOWN_CLASS_IN_NS: {
     msg: `The "{0}" class does not exist in the "{1}" namespace`,

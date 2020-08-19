@@ -32,3 +32,4 @@ type QuickFixCommands = {
 
 export const validations: Validations;
 export const quickFixCommands: QuickFixCommands;
+export declare const DIAGNOSTIC_SOURCE: string;
