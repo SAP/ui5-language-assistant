@@ -4,6 +4,7 @@ import { expect } from "chai";
 import {
   validations,
   buildMessage,
+  commands,
 } from "@ui5-language-assistant/user-facing-text";
 import {
   setFileTextContents,
@@ -146,7 +147,9 @@ describe("the Language Server Client Validations Integration Tests - Flex Enable
 
       expect(fixes).to.exist;
       //@ts-expect-error - test assumption
-      expect(fixes[0].command.title).to.be.equal("Generate ID");
+      expect(fixes[0].command.title).to.be.equal(
+        commands.QUICK_FIX_STABLE_ID_ERROR.title
+      );
       await vscode.commands.executeCommand(
         //@ts-expect-error - test assumption
         fixes[0].command.command,
@@ -186,7 +189,7 @@ describe("the Language Server Client Validations Integration Tests - Flex Enable
       expect(fixes).to.exist;
       //@ts-expect-error - test assumption
       expect(fixes[1].command.title).to.be.equal(
-        "Generate IDs for entire file"
+        commands.QUICK_FIX_STABLE_ID_FILE_ERRORS.title
       );
       await vscode.commands.executeCommand(
         //@ts-expect-error - test assumption
