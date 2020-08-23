@@ -6,7 +6,7 @@
     },
     "severity": 1,
     "source": "UI5 Language Assistant",
-    "message": "The class \"Button\" is under the aggregation \"footer\" and must match the type \"IBar\""
+    "message": "The \"Button\" class is under the \"footer\" aggregation and must match the \"IBar\" type."
   },
   {
     "range": {
@@ -15,6 +15,6 @@
     },
     "severity": 1,
     "source": "UI5 Language Assistant",
-    "message": "The class \"Button\" is under the aggregation \"headerToolbar\" and must match the type \"Toolbar\""
+    "message": "The \"Button\" class is under the \"headerToolbar\" aggregation and must match the \"Toolbar\" type."
   }
 ]

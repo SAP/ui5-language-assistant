@@ -5,6 +5,7 @@ export function buildMessage(template: string, ...params: string[]): string;
 
 type validationText = {
   msg: string;
+  relatedInfo?: string;
   code: number;
 };
 

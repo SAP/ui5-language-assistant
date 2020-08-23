@@ -88,7 +88,7 @@ function validationIssuesToLspDiagnostics(
           relatedInformation: map(
             (currIssue as NonUniqueIDIssue).identicalIDsRanges,
             (_) => ({
-              message: "identical ID also used here",
+              message: validations.NON_UNIQUE_ID.relatedInfo ?? "",
               location: {
                 uri: document.uri,
                 range: offsetRangeToLSPRange(_, document),
