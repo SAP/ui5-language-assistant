@@ -50,7 +50,7 @@ export const validations: Validations = {
     code: 1010,
   },
   NON_UNIQUE_ID: {
-    msg: `Select a unique ID. The current ID "{0}" has already been used.`,
+    msg: `Select a unique ID. The current "{0}" ID has already been used.`,
     relatedInfo: `An identical ID is also used here.`,
     code: 1011,
   },

@@ -6,7 +6,7 @@
     },
     "severity": 1,
     "source": "UI5 Language Assistant",
-    "message": "Select a unique ID. The current ID \"OOPS\" has already been used.",
+    "message": "Select a unique ID. The current \"OOPS\" ID has already been used.",
     "relatedInformation": [
       {
         "message": "An identical ID is also used here.",
@@ -27,7 +27,7 @@
     },
     "severity": 1,
     "source": "UI5 Language Assistant",
-    "message": "Select a unique ID. The current ID \"OOPS\" has already been used.",
+    "message": "Select a unique ID. The current \"OOPS\" ID has already been used.",
     "relatedInformation": [
       {
         "message": "An identical ID is also used here.",
