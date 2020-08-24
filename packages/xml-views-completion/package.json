@@ -9,6 +9,8 @@
     "content-assist"
   ],
   "files": [
+    ".reuse",
+    "LICENSES",
     "lib/src",
     "api.d.ts",
     "src"

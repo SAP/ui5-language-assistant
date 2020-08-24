@@ -10,6 +10,8 @@
     "SAPUI5"
   ],
   "files": [
+    ".reuse",
+    "LICENSES",
     "lib/src",
     "api.d.ts",
     "src"

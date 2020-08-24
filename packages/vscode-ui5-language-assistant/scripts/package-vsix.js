@@ -16,7 +16,7 @@ const { expect } = require("chai");
 const { resolve } = require("path");
 const { forEach } = require("lodash");
 const { readFileSync, writeFileSync, copyFileSync } = require("fs");
-const { writeJsonSync } = require("fs-extra");
+const { writeJsonSync, copySync, emptyDirSync } = require("fs-extra");
 
 const extensionRootPkg = require("../package.json");
 const monoRepoRootPkg = require("../../../package.json");
@@ -71,15 +71,23 @@ expect(pkgJson.main).to.equal("./lib/src/extension");
 pkgJson.main = "./dist/extension";
 writeJsonSync(pkgJsonPath, pkgJson, { spaces: 2, EOF: "\n" });
 
-// Ensure License an Notice files are part of the packaged .vsix
+// Ensure License and copywrite related files are part of the packaged .vsix
 const rootMonoRepoDir = resolve(__dirname, "..", "..", "..");
-const noticeRootMonoRepoPath = resolve(rootMonoRepoDir, "NOTICE");
 const licenseRootMonoRepoPath = resolve(rootMonoRepoDir, "LICENSE");
-const noticeExtPath = resolve(rootExtDir, "NOTICE");
 const licenseExtPath = resolve(rootExtDir, "LICENSE");
-copyFileSync(noticeRootMonoRepoPath, noticeExtPath);
 copyFileSync(licenseRootMonoRepoPath, licenseExtPath);
 
+const licensesDirPath = resolve(rootMonoRepoDir, "LICENSES");
+const licensesDirExtPath = resolve(rootExtDir, "LICENSES");
+emptyDirSync(licensesDirExtPath);
+copySync(licensesDirPath, licensesDirExtPath);
+
+const reuseDirPath = resolve(rootMonoRepoDir, ".reuse");
+const reuseDirExtPath = resolve(rootExtDir, "LICENSES");
+emptyDirSync(reuseDirExtPath);
+copySync(reuseDirPath, reuseDirExtPath);
+
+// Time to create the VSIX.
 packageCommand({
   cwd: rootExtDir,
   packagePath: undefined,

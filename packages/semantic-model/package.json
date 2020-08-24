@@ -4,6 +4,8 @@
   "description": "Semantic model provider for UI5",
   "keywords": [],
   "files": [
+    ".reuse",
+    "LICENSES",
     "lib/src",
     "api.d.ts",
     "src",
