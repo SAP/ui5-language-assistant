@@ -2,11 +2,13 @@ import { filter, sortBy, map, isEmpty, flatMap } from "lodash";
 import { XMLElement, XMLToken, SourcePosition } from "@xml-tools/ast";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { getUI5AggregationByXMLElement } from "@ui5-language-assistant/logic-utils";
-import { InvalidAggregationCardinalityIssue } from "../../../api";
 import {
-  getMessage,
-  INVALID_AGGREGATION_CARDINALITY,
-} from "../../utils/messages";
+  validations,
+  buildMessage,
+} from "@ui5-language-assistant/user-facing-text";
+import { InvalidAggregationCardinalityIssue } from "../../../api";
+
+const { INVALID_AGGREGATION_CARDINALITY } = validations;
 
 export function validateExplicitAggregationCardinality(
   xmlElement: XMLElement,
@@ -39,7 +41,10 @@ export function validateExplicitAggregationCardinality(
     redundantAggregationSubElements,
     (_): InvalidAggregationCardinalityIssue => ({
       kind: "InvalidAggregationCardinality",
-      message: getMessage(INVALID_AGGREGATION_CARDINALITY, aggregation.name),
+      message: buildMessage(
+        INVALID_AGGREGATION_CARDINALITY.msg,
+        aggregation.name
+      ),
       severity: "error",
       offsetRange: {
         start: getSubElementPosition(_).startOffset,

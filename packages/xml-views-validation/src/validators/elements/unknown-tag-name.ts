@@ -14,7 +14,12 @@ import {
   resolveXMLNS,
 } from "@ui5-language-assistant/logic-utils";
 import {
-  getMessage,
+  validations,
+  buildMessage,
+} from "@ui5-language-assistant/user-facing-text";
+import { CORE_NS } from "../../utils/special-namespaces";
+
+const {
   UNKNOWN_CLASS_IN_NS,
   UNKNOWN_CLASS_WITHOUT_NS,
   UNKNOWN_AGGREGATION_IN_CLASS,
@@ -23,8 +28,7 @@ import {
   UNKNOWN_TAG_NAME_IN_NS_UNDER_CLASS,
   UNKNOWN_TAG_NAME_IN_NS,
   UNKNOWN_TAG_NAME_NO_NS,
-} from "../../utils/messages";
-import { CORE_NS } from "../../utils/special-namespaces";
+} = validations;
 
 export function validateUnknownTagName(
   xmlElement: XMLElement,
@@ -245,9 +249,13 @@ function getUnknownClassMessage(
   ui5Namespace: BaseUI5Node | undefined
 ): string {
   if (ui5Namespace !== undefined) {
-    return getMessage(UNKNOWN_CLASS_IN_NS, name, ui5NodeToFQN(ui5Namespace));
+    return buildMessage(
+      UNKNOWN_CLASS_IN_NS.msg,
+      name,
+      ui5NodeToFQN(ui5Namespace)
+    );
   }
-  return getMessage(UNKNOWN_CLASS_WITHOUT_NS, name);
+  return buildMessage(UNKNOWN_CLASS_WITHOUT_NS.msg, name);
 }
 
 function getUnknownAggregationMessage(
@@ -258,13 +266,17 @@ function getUnknownAggregationMessage(
 ): string {
   // Aggregations must be in the same namespace as the class
   if (ns !== classNS) {
-    return getMessage(
-      UNKNOWN_AGGREGATION_IN_CLASS_DIFF_NAMESPACE,
+    return buildMessage(
+      UNKNOWN_AGGREGATION_IN_CLASS_DIFF_NAMESPACE.msg,
       name,
       ui5NodeToFQN(ui5Class)
     );
   }
-  return getMessage(UNKNOWN_AGGREGATION_IN_CLASS, name, ui5NodeToFQN(ui5Class));
+  return buildMessage(
+    UNKNOWN_AGGREGATION_IN_CLASS.msg,
+    name,
+    ui5NodeToFQN(ui5Class)
+  );
 }
 
 function getUnknownTagNameMessage(
@@ -273,21 +285,25 @@ function getUnknownTagNameMessage(
   parentUI5Class: UI5Class | undefined
 ): string {
   if (parentUI5Class !== undefined && ui5Namespace !== undefined) {
-    return getMessage(
-      UNKNOWN_TAG_NAME_IN_NS_UNDER_CLASS,
+    return buildMessage(
+      UNKNOWN_TAG_NAME_IN_NS_UNDER_CLASS.msg,
       name,
       ui5NodeToFQN(ui5Namespace),
       ui5NodeToFQN(parentUI5Class)
     );
   } else if (parentUI5Class !== undefined && ui5Namespace === undefined) {
-    return getMessage(
-      UNKNOWN_TAG_NAME_IN_CLASS,
+    return buildMessage(
+      UNKNOWN_TAG_NAME_IN_CLASS.msg,
       name,
       ui5NodeToFQN(parentUI5Class)
     );
   } else if (parentUI5Class === undefined && ui5Namespace !== undefined) {
-    return getMessage(UNKNOWN_TAG_NAME_IN_NS, name, ui5NodeToFQN(ui5Namespace));
+    return buildMessage(
+      UNKNOWN_TAG_NAME_IN_NS.msg,
+      name,
+      ui5NodeToFQN(ui5Namespace)
+    );
   } else {
-    return getMessage(UNKNOWN_TAG_NAME_NO_NS, name);
+    return buildMessage(UNKNOWN_TAG_NAME_NO_NS.msg, name);
   }
 }

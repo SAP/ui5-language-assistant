@@ -16,6 +16,9 @@
       "path": "./packages/settings"
     },
     {
+      "path": "./packages/user-facing-text"
+    },
+    {
       "path": "./packages/xml-views-completion"
     },
     {

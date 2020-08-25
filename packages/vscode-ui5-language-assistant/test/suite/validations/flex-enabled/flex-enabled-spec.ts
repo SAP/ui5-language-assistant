@@ -2,9 +2,10 @@ import * as vscode from "vscode";
 import { resolve } from "path";
 import { expect } from "chai";
 import {
-  getMessage,
-  NON_STABLE_ID,
-} from "@ui5-language-assistant/xml-views-validation/lib/src/utils/messages";
+  validations,
+  buildMessage,
+  commands,
+} from "@ui5-language-assistant/user-facing-text";
 import {
   setFileTextContents,
   expectProblemView,
@@ -13,6 +14,8 @@ import {
   rootPkgFolder,
 } from "../../test-utils";
 import { filter } from "lodash";
+
+const { NON_STABLE_ID } = validations;
 
 const EXTENSION_START_TIMEOUT = 5000;
 const EXECUTE_COMMAD_TIMEOUT = 500;
@@ -58,10 +61,10 @@ describe("the Language Server Client Validations Integration Tests - Flex Enable
       expectProblemView(xmlUri, [
         {
           severity: vscode.DiagnosticSeverity.Error,
-          message: getMessage(NON_STABLE_ID, "Panel"),
+          message: buildMessage(NON_STABLE_ID.msg, "Panel"),
           range: getRanges(xmlSnippet)[0],
           source: UI5LANG_ERROR_MSG,
-          code: 1000,
+          code: NON_STABLE_ID.code,
         },
       ]);
     });
@@ -80,10 +83,10 @@ describe("the Language Server Client Validations Integration Tests - Flex Enable
       expectProblemView(xmlUri, [
         {
           severity: vscode.DiagnosticSeverity.Error,
-          message: getMessage(NON_STABLE_ID, "Button"),
+          message: buildMessage(NON_STABLE_ID.msg, "Button"),
           range: getRanges(xmlSnippet)[0],
           source: UI5LANG_ERROR_MSG,
-          code: 1000,
+          code: NON_STABLE_ID.code,
         },
       ]);
     });
@@ -100,10 +103,10 @@ describe("the Language Server Client Validations Integration Tests - Flex Enable
       expectProblemView(xmlUri, [
         {
           severity: vscode.DiagnosticSeverity.Error,
-          message: getMessage(NON_STABLE_ID, "Panel"),
+          message: buildMessage(NON_STABLE_ID.msg, "Panel"),
           range: getRanges(xmlSnippet)[0],
           source: UI5LANG_ERROR_MSG,
-          code: 1000,
+          code: NON_STABLE_ID.code,
         },
       ]);
     });
@@ -128,10 +131,10 @@ describe("the Language Server Client Validations Integration Tests - Flex Enable
       expectProblemView(xmlUri, [
         {
           severity: vscode.DiagnosticSeverity.Error,
-          message: getMessage(NON_STABLE_ID, "Panel"),
+          message: buildMessage(NON_STABLE_ID.msg, "Panel"),
           range: getRanges(xmlSnippet)[0],
           source: UI5LANG_ERROR_MSG,
-          code: 1000,
+          code: NON_STABLE_ID.code,
         },
       ]);
 
@@ -144,7 +147,9 @@ describe("the Language Server Client Validations Integration Tests - Flex Enable
 
       expect(fixes).to.exist;
       //@ts-expect-error - test assumption
-      expect(fixes[0].command.title).to.be.equal("Generate ID");
+      expect(fixes[0].command.title).to.be.equal(
+        commands.QUICK_FIX_STABLE_ID_ERROR.title
+      );
       await vscode.commands.executeCommand(
         //@ts-expect-error - test assumption
         fixes[0].command.command,
@@ -171,7 +176,7 @@ describe("the Language Server Client Validations Integration Tests - Flex Enable
       const actualDiagnostics = vscode.languages.getDiagnostics(xmlUri);
       const nonStableIdDiagnostics = filter(
         actualDiagnostics,
-        (_) => _.code === 1000
+        (_) => _.code === NON_STABLE_ID.code
       );
       expect(nonStableIdDiagnostics.length).to.be.equal(3);
       const fixes = await vscode.commands.executeCommand<vscode.CodeAction[]>(
@@ -184,7 +189,7 @@ describe("the Language Server Client Validations Integration Tests - Flex Enable
       expect(fixes).to.exist;
       //@ts-expect-error - test assumption
       expect(fixes[1].command.title).to.be.equal(
-        "Generate IDs for entire file"
+        commands.QUICK_FIX_STABLE_ID_FILE_ERRORS.title
       );
       await vscode.commands.executeCommand(
         //@ts-expect-error - test assumption

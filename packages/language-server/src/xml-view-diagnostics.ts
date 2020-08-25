@@ -10,6 +10,10 @@ import { DocumentCstNode, parse } from "@xml-tools/parser";
 import { buildAst } from "@xml-tools/ast";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import {
+  validations,
+  DIAGNOSTIC_SOURCE,
+} from "@ui5-language-assistant/user-facing-text";
+import {
   NonUniqueIDIssue,
   UI5XMLViewIssue,
   validateXMLView,
@@ -48,7 +52,7 @@ function validationIssuesToLspDiagnostics(
     const commonDiagnosticPros: Diagnostic = {
       range: offsetRangeToLSPRange(currIssue.offsetRange, document),
       severity: toLspSeverity(currIssue.severity),
-      source: "UI5 Language Assistant",
+      source: DIAGNOSTIC_SOURCE,
       message: currIssue.message,
     };
 
@@ -67,7 +71,7 @@ function validationIssuesToLspDiagnostics(
       case "NonStableIDIssue":
         return {
           ...commonDiagnosticPros,
-          code: 1000,
+          code: validations.NON_STABLE_ID.code,
         };
       case "UseOfDeprecatedClass":
       case "UseOfDeprecatedProperty":
@@ -84,7 +88,7 @@ function validationIssuesToLspDiagnostics(
           relatedInformation: map(
             (currIssue as NonUniqueIDIssue).identicalIDsRanges,
             (_) => ({
-              message: "identical ID also used here",
+              message: validations.NON_UNIQUE_ID_RELATED_INFO.msg,
               location: {
                 uri: document.uri,
                 range: offsetRangeToLSPRange(_, document),

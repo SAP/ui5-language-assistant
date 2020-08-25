@@ -3,9 +3,19 @@ import { partial } from "lodash";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { generateModel } from "@ui5-language-assistant/test-utils";
 import { generate } from "@ui5-language-assistant/semantic-model";
+import {
+  validations,
+  buildMessage,
+} from "@ui5-language-assistant/user-facing-text";
 import { validators } from "../../../src/api";
 import {
-  getMessage,
+  assertNoIssues as assertNoIssuesBase,
+  assertSingleIssue as assertSingleIssueBase,
+  testValidationsScenario,
+  computeExpectedRanges,
+} from "../../test-utils";
+
+const {
   UNKNOWN_CLASS_IN_NS,
   UNKNOWN_CLASS_WITHOUT_NS,
   UNKNOWN_AGGREGATION_IN_CLASS,
@@ -14,13 +24,7 @@ import {
   UNKNOWN_TAG_NAME_IN_NS_UNDER_CLASS,
   UNKNOWN_TAG_NAME_IN_NS,
   UNKNOWN_TAG_NAME_NO_NS,
-} from "../../../src/utils/messages";
-import {
-  assertNoIssues as assertNoIssuesBase,
-  assertSingleIssue as assertSingleIssueBase,
-  testValidationsScenario,
-  computeExpectedRanges,
-} from "../../test-utils";
+} = validations;
 
 describe("the unknown tag name validation", () => {
   let ui5SemanticModel: UI5SemanticModel;
@@ -53,7 +57,7 @@ describe("the unknown tag name validation", () => {
             xmlns:mvc="sap.ui.core.mvc"
             xmlns="sap.m">
           </mvc:View_TYPO>`,
-          getMessage(UNKNOWN_CLASS_IN_NS, "View_TYPO", "sap.ui.core.mvc")
+          buildMessage(UNKNOWN_CLASS_IN_NS.msg, "View_TYPO", "sap.ui.core.mvc")
         );
       });
 
@@ -65,7 +69,7 @@ describe("the unknown tag name validation", () => {
             <🢂m:Button_TYPO🢀>
             </m:Button_TYPO>
           </mvc:View>`,
-          getMessage(UNKNOWN_CLASS_IN_NS, "Button_TYPO", "sap.m")
+          buildMessage(UNKNOWN_CLASS_IN_NS.msg, "Button_TYPO", "sap.m")
         );
       });
 
@@ -79,8 +83,8 @@ describe("the unknown tag name validation", () => {
               </m:Button_TYPO>
             </m:SplitApp>
           </mvc:View>`,
-          getMessage(
-            UNKNOWN_TAG_NAME_IN_NS_UNDER_CLASS,
+          buildMessage(
+            UNKNOWN_TAG_NAME_IN_NS_UNDER_CLASS.msg,
             "Button_TYPO",
             "sap.m",
             "sap.m.SplitApp"
@@ -98,7 +102,7 @@ describe("the unknown tag name validation", () => {
               </m:Button_TYPO>
             </mvc:content>
           </mvc:View>`,
-          getMessage(UNKNOWN_CLASS_IN_NS, "Button_TYPO", "sap.m")
+          buildMessage(UNKNOWN_CLASS_IN_NS.msg, "Button_TYPO", "sap.m")
         );
       });
 
@@ -110,7 +114,7 @@ describe("the unknown tag name validation", () => {
             <🢂m:content🢀>
             </mv:content>
           </mvc:View>`,
-          getMessage(UNKNOWN_CLASS_IN_NS, "content", "sap.m")
+          buildMessage(UNKNOWN_CLASS_IN_NS.msg, "content", "sap.m")
         );
       });
 
@@ -123,7 +127,11 @@ describe("the unknown tag name validation", () => {
               </mvc:Button_TYPO>
             </mvc:content>
           </mvc:View>`,
-          getMessage(UNKNOWN_CLASS_IN_NS, "Button_TYPO", "sap.ui.core.mvc")
+          buildMessage(
+            UNKNOWN_CLASS_IN_NS.msg,
+            "Button_TYPO",
+            "sap.ui.core.mvc"
+          )
         );
       });
 
@@ -137,8 +145,8 @@ describe("the unknown tag name validation", () => {
               </m:content_TYPO>
             </m:SplitApp>
           </mvc:View>`,
-          getMessage(
-            UNKNOWN_TAG_NAME_IN_NS_UNDER_CLASS,
+          buildMessage(
+            UNKNOWN_TAG_NAME_IN_NS_UNDER_CLASS.msg,
             "content_TYPO",
             "sap.m",
             "sap.m.SplitApp"
@@ -166,8 +174,8 @@ describe("the unknown tag name validation", () => {
             expect(issues).to.deep.equalInAnyOrder([
               {
                 kind: "UnknownTagName",
-                message: getMessage(
-                  UNKNOWN_CLASS_IN_NS,
+                message: buildMessage(
+                  UNKNOWN_CLASS_IN_NS.msg,
                   "SplitApp_TYPO",
                   "sap.m"
                 ),
@@ -176,8 +184,8 @@ describe("the unknown tag name validation", () => {
               },
               {
                 kind: "UnknownTagName",
-                message: getMessage(
-                  UNKNOWN_TAG_NAME_IN_NS,
+                message: buildMessage(
+                  UNKNOWN_TAG_NAME_IN_NS.msg,
                   "Button_TYPO",
                   "sap.m"
                 ),
@@ -196,7 +204,7 @@ describe("the unknown tag name validation", () => {
           assertSingleIssue(
             `<🢂View🢀>
             </View>`,
-            getMessage(UNKNOWN_CLASS_WITHOUT_NS, "View")
+            buildMessage(UNKNOWN_CLASS_WITHOUT_NS.msg, "View")
           );
         });
 
@@ -208,7 +216,7 @@ describe("the unknown tag name validation", () => {
                 <🢂List🢀></List>
               </mvc:content>
             </mvc:View>`,
-            getMessage(UNKNOWN_CLASS_WITHOUT_NS, "List")
+            buildMessage(UNKNOWN_CLASS_WITHOUT_NS.msg, "List")
           );
         });
 
@@ -218,8 +226,8 @@ describe("the unknown tag name validation", () => {
               xmlns:mvc="sap.ui.core.mvc">
               <🢂List🢀></List>
             </mvc:View>`,
-            getMessage(
-              UNKNOWN_TAG_NAME_IN_CLASS,
+            buildMessage(
+              UNKNOWN_TAG_NAME_IN_CLASS.msg,
               "List",
               "sap.ui.core.mvc.View"
             )
@@ -236,8 +244,8 @@ describe("the unknown tag name validation", () => {
                 </content>
               </m:SplitApp>
             </mvc:View>`,
-            getMessage(
-              UNKNOWN_AGGREGATION_IN_CLASS_DIFF_NAMESPACE,
+            buildMessage(
+              UNKNOWN_AGGREGATION_IN_CLASS_DIFF_NAMESPACE.msg,
               "content",
               "sap.m.SplitApp"
             )
@@ -254,7 +262,7 @@ describe("the unknown tag name validation", () => {
                 </Button_TYPO>
               </typo:SplitApp>
             </mvc:View>`,
-            getMessage(UNKNOWN_TAG_NAME_NO_NS, "Button_TYPO")
+            buildMessage(UNKNOWN_TAG_NAME_NO_NS.msg, "Button_TYPO")
           );
         });
       });
@@ -280,8 +288,8 @@ describe("the unknown tag name validation", () => {
               expect(issues).to.deep.equalInAnyOrder([
                 {
                   kind: "UnknownTagName",
-                  message: getMessage(
-                    UNKNOWN_TAG_NAME_IN_NS_UNDER_CLASS,
+                  message: buildMessage(
+                    UNKNOWN_TAG_NAME_IN_NS_UNDER_CLASS.msg,
                     "SplitApp_TYPO",
                     "sap.m",
                     "sap.ui.core.mvc.View"
@@ -291,8 +299,8 @@ describe("the unknown tag name validation", () => {
                 },
                 {
                   kind: "UnknownTagName",
-                  message: getMessage(
-                    UNKNOWN_TAG_NAME_IN_NS,
+                  message: buildMessage(
+                    UNKNOWN_TAG_NAME_IN_NS.msg,
                     "Button_TYPO",
                     "sap.m"
                   ),
@@ -312,7 +320,7 @@ describe("the unknown tag name validation", () => {
           `<🢂View_TYPO🢀
             xmlns="sap.ui.core.mvc">
           </View_TYPO>`,
-          getMessage(UNKNOWN_CLASS_IN_NS, "View_TYPO", "sap.ui.core.mvc")
+          buildMessage(UNKNOWN_CLASS_IN_NS.msg, "View_TYPO", "sap.ui.core.mvc")
         );
       });
 
@@ -324,7 +332,7 @@ describe("the unknown tag name validation", () => {
               <🢂List_TYPO🢀></List_TYPO>
             </content>
           </View>`,
-          getMessage(UNKNOWN_CLASS_IN_NS, "List_TYPO", "sap.ui.core.mvc")
+          buildMessage(UNKNOWN_CLASS_IN_NS.msg, "List_TYPO", "sap.ui.core.mvc")
         );
       });
 
@@ -334,8 +342,8 @@ describe("the unknown tag name validation", () => {
             xmlns="sap.ui.core.mvc">
             <🢂List_TYPO🢀></List_TYPO>
           </View>`,
-          getMessage(
-            UNKNOWN_TAG_NAME_IN_NS_UNDER_CLASS,
+          buildMessage(
+            UNKNOWN_TAG_NAME_IN_NS_UNDER_CLASS.msg,
             "List_TYPO",
             "sap.ui.core.mvc",
             "sap.ui.core.mvc.View"
@@ -353,8 +361,8 @@ describe("the unknown tag name validation", () => {
               </content_TYPO>
             </SplitApp>
           </mvc:View>`,
-          getMessage(
-            UNKNOWN_AGGREGATION_IN_CLASS,
+          buildMessage(
+            UNKNOWN_AGGREGATION_IN_CLASS.msg,
             "content_TYPO",
             "sap.m.SplitApp"
           )

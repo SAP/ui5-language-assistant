@@ -2,13 +2,18 @@ import { some, includes } from "lodash";
 import { XMLElement } from "@xml-tools/ast";
 import { resolveXMLNS } from "@ui5-language-assistant/logic-utils";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
+import {
+  validations,
+  buildMessage,
+} from "@ui5-language-assistant/user-facing-text";
 import { NonStableIDIssue } from "../../../api";
-import { NON_STABLE_ID, getMessage } from "../../utils/messages";
 import {
   isPossibleCustomClass,
   isKnownUI5Class,
 } from "../../utils/ui5-classes";
 import { CORE_NS } from "../../utils/special-namespaces";
+
+const { NON_STABLE_ID } = validations;
 
 export function validateNonStableId(
   xmlElement: XMLElement,
@@ -44,7 +49,7 @@ export function validateNonStableId(
 
   const nonStableIDIssue: NonStableIDIssue = {
     kind: "NonStableIDIssue",
-    message: getMessage(NON_STABLE_ID, xmlElement.name),
+    message: buildMessage(NON_STABLE_ID.msg, xmlElement.name),
     severity: "error",
     offsetRange: {
       start: xmlElement.syntax.openName.startOffset,

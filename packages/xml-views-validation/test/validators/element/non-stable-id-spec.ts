@@ -2,12 +2,17 @@ import { partial } from "lodash";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { generateModel } from "@ui5-language-assistant/test-utils";
 import { generate } from "@ui5-language-assistant/semantic-model";
-import { getMessage, NON_STABLE_ID } from "../../../src/utils/messages";
+import {
+  validations,
+  buildMessage,
+} from "@ui5-language-assistant/user-facing-text";
 import {
   assertNoIssues as assertNoIssuesBase,
   assertSingleIssue as assertSingleIssueBase,
 } from "../../test-utils";
 import { validators } from "../../../src/api";
+
+const { NON_STABLE_ID } = validations;
 
 describe("the use of non stable id validation", () => {
   let ui5SemanticModel: UI5SemanticModel;
@@ -41,7 +46,7 @@ describe("the use of non stable id validation", () => {
             <🢂m:Panel🢀>
             </m:Panel>
         </mvc:View>`,
-        getMessage(NON_STABLE_ID, "Panel")
+        buildMessage(NON_STABLE_ID.msg, "Panel")
       );
     });
 
@@ -53,7 +58,7 @@ describe("the use of non stable id validation", () => {
             <🢂custom:Button🢀>
             </custom:Button>
         </mvc:View>`,
-        getMessage(NON_STABLE_ID, "Button")
+        buildMessage(NON_STABLE_ID.msg, "Button")
       );
     });
 
@@ -65,7 +70,7 @@ describe("the use of non stable id validation", () => {
             <Button id="dummy-id">
             </Button>
         </custom:View>`,
-        getMessage(NON_STABLE_ID, "View")
+        buildMessage(NON_STABLE_ID.msg, "View")
       );
     });
 
@@ -77,7 +82,7 @@ describe("the use of non stable id validation", () => {
               <🢂mvc:View🢀>
               </mvc:View>
           </mvc:View>`,
-        getMessage(NON_STABLE_ID, "View")
+        buildMessage(NON_STABLE_ID.msg, "View")
       );
     });
 
@@ -91,7 +96,7 @@ describe("the use of non stable id validation", () => {
               <🢂m:Button🢀></m:Button>
             </m:Panel>
         </mvc:View>`,
-        getMessage(NON_STABLE_ID, "Button")
+        buildMessage(NON_STABLE_ID.msg, "Button")
       );
     });
 
@@ -103,7 +108,7 @@ describe("the use of non stable id validation", () => {
             <🢂m:Panel🢀 id=>
             </m:Panel>
         </mvc:View>`,
-        getMessage(NON_STABLE_ID, "Panel")
+        buildMessage(NON_STABLE_ID.msg, "Panel")
       );
     });
 
@@ -115,7 +120,7 @@ describe("the use of non stable id validation", () => {
             <🢂m:Panel🢀 id="">
             </m:Panel>
         </mvc:View>`,
-        getMessage(NON_STABLE_ID, "Panel")
+        buildMessage(NON_STABLE_ID.msg, "Panel")
       );
     });
   });

@@ -18,13 +18,11 @@ import {
 } from "@ui5-language-assistant/xml-views-validation";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { computeQuickFixStableIdInfo } from "@ui5-language-assistant/xml-views-quick-fix";
+import {
+  validations,
+  commands,
+} from "@ui5-language-assistant/user-facing-text";
 import { LSPRangeToOffsetRange, offsetRangeToLSPRange } from "./range-utils";
-
-export const QUICK_FIX_STABLE_ID_COMMAND = "ui5_lang.quick_fix_stable_id";
-export const QUICK_FIX_FILE_STABLE_ID_COMMAND =
-  "ui5_lang.quick_fix_file_stable_id";
-const QUICK_FIX_STABLE_ID_COMMAND_TITLE = "Generate ID";
-const QUICK_FIX_FILE_STABLE_ID_COMMAND_TITLE = "Generate IDs for entire file";
 
 type QuickFixStableIdLSPInfo = {
   newText: string;
@@ -42,7 +40,7 @@ export function diagnosticToCodeActionFix(
   const xmlDocAst = buildAst(cst as DocumentCstNode, tokenVector);
   const codeActions = flatMap(diagnostics, (diagnostic) => {
     switch (diagnostic.code) {
-      case 1000: {
+      case validations.NON_STABLE_ID.code: {
         // non stable id
         return computeCodeActionsForQuickFixStableId({
           document,
@@ -82,10 +80,10 @@ function computeCodeActionsForQuickFixStableId(opts: {
 
   codeActions.push(
     CodeAction.create(
-      QUICK_FIX_STABLE_ID_COMMAND_TITLE,
+      commands.QUICK_FIX_STABLE_ID_ERROR.title,
       Command.create(
-        QUICK_FIX_STABLE_ID_COMMAND_TITLE,
-        QUICK_FIX_STABLE_ID_COMMAND,
+        commands.QUICK_FIX_STABLE_ID_ERROR.title,
+        commands.QUICK_FIX_STABLE_ID_ERROR.name,
         opts.document.uri,
         opts.document.version,
         replaceRange,
@@ -146,10 +144,10 @@ function computeCodeActionsForQuickFixFileStableId(opts: {
 
   return [
     CodeAction.create(
-      QUICK_FIX_FILE_STABLE_ID_COMMAND_TITLE,
+      commands.QUICK_FIX_STABLE_ID_FILE_ERRORS.title,
       Command.create(
-        QUICK_FIX_FILE_STABLE_ID_COMMAND_TITLE,
-        QUICK_FIX_FILE_STABLE_ID_COMMAND,
+        commands.QUICK_FIX_STABLE_ID_FILE_ERRORS.title,
+        commands.QUICK_FIX_STABLE_ID_FILE_ERRORS.name,
         opts.document,
         opts.document.uri,
         opts.document.version,

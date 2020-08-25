@@ -6,15 +6,17 @@ import {
 } from "@ui5-language-assistant/semantic-model-types";
 import { generateModel } from "@ui5-language-assistant/test-utils";
 import { generate } from "@ui5-language-assistant/semantic-model";
-import { validators } from "../../../src/api";
 import {
-  getMessage,
-  INVALID_AGGREGATION_TYPE,
-} from "../../../src/utils/messages";
+  validations,
+  buildMessage,
+} from "@ui5-language-assistant/user-facing-text";
+import { validators } from "../../../src/api";
 import {
   assertNoIssues as assertNoIssuesBase,
   assertSingleIssue as assertSingleIssueBase,
 } from "../../test-utils";
+
+const { INVALID_AGGREGATION_TYPE } = validations;
 
 describe("the type aggregation validation", () => {
   let ui5SemanticModel: UI5SemanticModel;
@@ -51,8 +53,8 @@ describe("the type aggregation validation", () => {
               </m:headerToolbar>
             </m:Panel>
          </mvc:View>`,
-        getMessage(
-          INVALID_AGGREGATION_TYPE,
+        buildMessage(
+          INVALID_AGGREGATION_TYPE.msg,
           "Button",
           "headerToolbar",
           "Toolbar"
@@ -69,8 +71,8 @@ describe("the type aggregation validation", () => {
                 <🢂ToolbarSeparator🢀></ToolbarSeparator>
               </m:Panel>
          </mvc:View>`,
-        getMessage(
-          INVALID_AGGREGATION_TYPE,
+        buildMessage(
+          INVALID_AGGREGATION_TYPE.msg,
           "ToolbarSeparator",
           "content",
           "Control"
@@ -90,7 +92,7 @@ describe("the type aggregation validation", () => {
                 </m:footer>
               </m:Page>
         </mvc:View>`,
-        getMessage(INVALID_AGGREGATION_TYPE, "Toolbar", "footer", "IBar")
+        buildMessage(INVALID_AGGREGATION_TYPE.msg, "Toolbar", "footer", "IBar")
       );
     });
   });

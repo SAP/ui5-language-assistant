@@ -1,8 +1,7 @@
 import { ExecuteCommandParams, createConnection } from "vscode-languageserver";
+import { commands } from "@ui5-language-assistant/user-facing-text";
 import {
-  QUICK_FIX_STABLE_ID_COMMAND,
   executeQuickFixStableIdCommand,
-  QUICK_FIX_FILE_STABLE_ID_COMMAND,
   executeQuickFixFileStableIdCommand,
 } from "./quick-fix";
 
@@ -17,7 +16,7 @@ export function executeCommand(
   }
 
   switch (params.command) {
-    case QUICK_FIX_STABLE_ID_COMMAND: {
+    case commands.QUICK_FIX_STABLE_ID_ERROR.name: {
       const change = executeQuickFixStableIdCommand({
         // Assumption that this command has the following arguments.
         // We passed them when the command was created.
@@ -31,7 +30,7 @@ export function executeCommand(
       });
       return;
     }
-    case QUICK_FIX_FILE_STABLE_ID_COMMAND: {
+    case commands.QUICK_FIX_STABLE_ID_FILE_ERRORS.name: {
       const change = executeQuickFixFileStableIdCommand({
         documentUri: params.arguments[1],
         documentVersion: params.arguments[2],

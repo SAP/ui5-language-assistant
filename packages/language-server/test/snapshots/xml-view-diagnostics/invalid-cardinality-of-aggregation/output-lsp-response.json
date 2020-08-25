@@ -6,7 +6,7 @@
     },
     "severity": 1,
     "source": "UI5 Language Assistant",
-    "message": "The aggregation \"headerToolbar\" has cardinality of 0..1 and may only contain one element"
+    "message": "The \"headerToolbar\" aggregation has a cardinality of 0..1 and may only contain one element."
   },
   {
     "range": {
@@ -15,6 +15,6 @@
     },
     "severity": 1,
     "source": "UI5 Language Assistant",
-    "message": "The aggregation \"headerToolbar\" has cardinality of 0..1 and may only contain one element"
+    "message": "The \"headerToolbar\" aggregation has a cardinality of 0..1 and may only contain one element."
   }
 ]

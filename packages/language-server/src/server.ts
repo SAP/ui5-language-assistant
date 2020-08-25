@@ -22,6 +22,7 @@ import {
   hasSettingsForDocument,
   getSettingsForDocument,
 } from "@ui5-language-assistant/settings";
+import { commands } from "@ui5-language-assistant/user-facing-text";
 import { ServerInitializationOptions } from "../api";
 import { getSemanticModel } from "./ui5-model";
 import { getCompletionItems } from "./completion-items";
@@ -33,11 +34,7 @@ import {
   initializeManifestData,
   updateManifestData,
 } from "./manifest-handling";
-import {
-  diagnosticToCodeActionFix,
-  QUICK_FIX_STABLE_ID_COMMAND,
-  QUICK_FIX_FILE_STABLE_ID_COMMAND,
-} from "./quick-fix";
+import { diagnosticToCodeActionFix } from "./quick-fix";
 import { executeCommand } from "./commads";
 
 const connection = createConnection(ProposedFeatures.all);
@@ -77,8 +74,8 @@ connection.onInitialize((params: InitializeParams) => {
       // Each command executes a different code action scenario
       executeCommandProvider: {
         commands: [
-          QUICK_FIX_STABLE_ID_COMMAND,
-          QUICK_FIX_FILE_STABLE_ID_COMMAND,
+          commands.QUICK_FIX_STABLE_ID_ERROR.name,
+          commands.QUICK_FIX_STABLE_ID_FILE_ERRORS.name,
         ],
       },
     },

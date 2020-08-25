@@ -1,0 +1,30 @@
+{
+  "name": "@ui5-language-assistant/user-facing-text",
+  "version": "1.0.0",
+  "description": "End user strings for UI5 Language Assistant",
+  "keywords": [],
+  "files": [
+    "lib/src",
+    "api.d.ts",
+    "src"
+  ],
+  "main": "lib/src/api.js",
+  "repository": "https://github.com/sap/ui5-language-assistant/",
+  "license": "Apache-2.0",
+  "typings": "./api.d.ts",
+  "dependencies": {
+    "deep-freeze-strict": "1.1.1"
+  },
+  "scripts": {
+    "ci": "npm-run-all clean compile lint coverage",
+    "clean": "rimraf ./lib ./coverage ./nyc_output",
+    "compile": "yarn run clean && tsc -p .",
+    "compile:watch": "tsc -p . --watch",
+    "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore",
+    "test": "mocha",
+    "coverage": "nyc mocha"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

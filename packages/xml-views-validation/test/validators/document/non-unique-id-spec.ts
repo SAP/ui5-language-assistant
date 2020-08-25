@@ -2,13 +2,18 @@ import { expect } from "chai";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { generateModel } from "@ui5-language-assistant/test-utils";
 import { generate } from "@ui5-language-assistant/semantic-model";
-import { getMessage, NON_UNIQUE_ID } from "../../../src/utils/messages";
+import {
+  validations,
+  buildMessage,
+} from "@ui5-language-assistant/user-facing-text";
 import { validators } from "../../../src/api";
 import { NonUniqueIDIssue } from "../../../api";
 import {
   computeExpectedRanges,
   testValidationsScenario,
 } from "../../test-utils";
+
+const { NON_UNIQUE_ID } = validations;
 
 describe("the use of non unique id validation", () => {
   let ui5SemanticModel: UI5SemanticModel;
@@ -58,14 +63,14 @@ describe("the use of non unique id validation", () => {
           expect(issues).to.include.deep.members([
             {
               kind: "NonUniqueIDIssue",
-              message: getMessage(NON_UNIQUE_ID, "DUPLICATE"),
+              message: buildMessage(NON_UNIQUE_ID.msg, "DUPLICATE"),
               severity: "error",
               offsetRange: expectedRanges[0],
               identicalIDsRanges: [expectedRanges[1]],
             },
             {
               kind: "NonUniqueIDIssue",
-              message: getMessage(NON_UNIQUE_ID, "DUPLICATE"),
+              message: buildMessage(NON_UNIQUE_ID.msg, "DUPLICATE"),
               severity: "error",
               offsetRange: expectedRanges[1],
               identicalIDsRanges: [expectedRanges[0]],
@@ -96,14 +101,14 @@ describe("the use of non unique id validation", () => {
           expect(issues).to.include.deep.members([
             {
               kind: "NonUniqueIDIssue",
-              message: getMessage(NON_UNIQUE_ID, "DUPLICATE"),
+              message: buildMessage(NON_UNIQUE_ID.msg, "DUPLICATE"),
               severity: "error",
               offsetRange: expectedRanges[0],
               identicalIDsRanges: [expectedRanges[1]],
             },
             {
               kind: "NonUniqueIDIssue",
-              message: getMessage(NON_UNIQUE_ID, "DUPLICATE"),
+              message: buildMessage(NON_UNIQUE_ID.msg, "DUPLICATE"),
               severity: "error",
               offsetRange: expectedRanges[1],
               identicalIDsRanges: [expectedRanges[0]],
@@ -136,21 +141,21 @@ describe("the use of non unique id validation", () => {
           expect(issues).to.include.deep.members([
             {
               kind: "NonUniqueIDIssue",
-              message: getMessage(NON_UNIQUE_ID, "TRIPLICATE"),
+              message: buildMessage(NON_UNIQUE_ID.msg, "TRIPLICATE"),
               severity: "error",
               offsetRange: expectedRanges[0],
               identicalIDsRanges: [expectedRanges[1], expectedRanges[2]],
             },
             {
               kind: "NonUniqueIDIssue",
-              message: getMessage(NON_UNIQUE_ID, "TRIPLICATE"),
+              message: buildMessage(NON_UNIQUE_ID.msg, "TRIPLICATE"),
               severity: "error",
               offsetRange: expectedRanges[1],
               identicalIDsRanges: [expectedRanges[0], expectedRanges[2]],
             },
             {
               kind: "NonUniqueIDIssue",
-              message: getMessage(NON_UNIQUE_ID, "TRIPLICATE"),
+              message: buildMessage(NON_UNIQUE_ID.msg, "TRIPLICATE"),
               severity: "error",
               offsetRange: expectedRanges[2],
               identicalIDsRanges: [expectedRanges[0], expectedRanges[1]],
