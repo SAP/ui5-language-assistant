@@ -1,11 +1,13 @@
 /**
  * Build a message from given template and arguments.
+ * For example:
+ * We call to this function with template 'Hello {0}` and the argument 'World'.
+ * The result will be 'Hello World'.
  */
 export function buildMessage(template: string, ...params: string[]): string;
 
 type validationText = {
   msg: string;
-  relatedInfo?: string;
   code: number;
 };
 
@@ -19,6 +21,7 @@ type Validations = {
   INVALID_AGGREGATION_TYPE: validationText;
   NON_STABLE_ID: validationText;
   NON_UNIQUE_ID: validationText;
+  NON_UNIQUE_ID_RELATED_INFO: validationText;
   UNKNOWN_AGGREGATION_IN_CLASS: validationText;
   UNKNOWN_AGGREGATION_IN_CLASS_DIFF_NAMESPACE: validationText;
   UNKNOWN_CLASS_IN_NS: validationText;

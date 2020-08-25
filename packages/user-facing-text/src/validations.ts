@@ -51,8 +51,11 @@ export const validations: Validations = {
   },
   NON_UNIQUE_ID: {
     msg: `Select a unique ID. The current "{0}" ID has already been used.`,
-    relatedInfo: `An identical ID is also used here.`,
     code: 1011,
+  },
+  NON_UNIQUE_ID_RELATED_INFO: {
+    msg: `An identical ID is also used here.`,
+    code: NaN,
   },
   NON_STABLE_ID: {
     msg: `The "{0}" class can't have an empty ID attribute when flexEnabled is "true".`,
