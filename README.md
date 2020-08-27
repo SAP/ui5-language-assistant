@@ -20,6 +20,7 @@ The following packages:
 - [![npm-semantic-model][npm-semantic-model-image]][npm-semantic-model-url] [@ui5-language-assistant/semantic-model](./packages/semantic-model) Data structure and related utils to represent the UI5 metadata.
 - [![npm-semantic-model-types][npm-semantic-model-types-image]][npm-semantic-model-types-url] [@ui5-language-assistant/semantic-model-types](./packages/semantic-model-types) Type signatures for the semantic model.
 - [![npm-settings][npm-settings-image]][npm-settings-url] [@ui5-language-assistant/settings](./packages/settings) Settings used in other packages in this mono-repo.
+- [![npm-user-facing-text][npm-user-facing-text-image]][npm-user-facing-text-url] [@ui5-language-assistant/user-facing-text](./packages/user-facing-text) User facing text used in other packages in this mono-repo.
 - [![npm-xml-views-completion][npm-xml-views-completion-image]][npm-xml-views-completion-url] [@ui5-language-assistant/xml-views-completion](./packages/xml-views-completion) Logic for UI5 XML views code assist.
 - [![npm-xml-views-tooltip][npm-xml-views-tooltip-image]][npm-xml-views-tooltip-url] [@ui5-language-assistant/xml-views-tooltip](./packages/xml-views-tooltip) Logic for UI5 XML views hover tooltip.
 - [![npm-xml-views-validation][npm-xml-views-validation-image]][npm-xml-views-validation-url] [@ui5-language-assistant/xml-views-validation](./packages/xml-views-validation) Logic for UI5 XML views semantic validations.
@@ -35,6 +36,8 @@ The following packages:
 [npm-semantic-model-types-url]: https://www.npmjs.com/package/@ui5-language-assistant/semantic-model-types
 [npm-settings-image]: https://img.shields.io/npm/v/@ui5-language-assistant/settings.svg
 [npm-settings-url]: https://www.npmjs.com/package/@ui5-language-assistant/settings
+[npm-user-facing-text-image]: https://img.shields.io/npm/v/@ui5-language-assistant/user-facing-text.svg
+[npm-user-facing-text-url]: https://www.npmjs.com/package/@ui5-language-assistant/user-facing-text
 [npm-xml-views-completion-image]: https://img.shields.io/npm/v/@ui5-language-assistant/xml-views-completion.svg
 [npm-xml-views-completion-url]: https://www.npmjs.com/package/@ui5-language-assistant/xml-views-completion
 [npm-xml-views-tooltip-image]: https://img.shields.io/npm/v/@ui5-language-assistant/xml-views-tooltip.svg
