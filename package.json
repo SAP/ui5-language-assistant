@@ -16,7 +16,7 @@
     "lerna:version": "lerna version && yarn run cirlce:release",
     "cirlce:release": "node ./scripts/trigger-release",
     "lerna:publish": "lerna publish from-git --yes",
-    "ci": "npm-run-all format:validate ci:subpackages coverage:merge",
+    "ci": "npm-run-all format:validate ci:subpackages coverage:merge legal:*",
     "compile": "yarn run clean && tsc --build",
     "compile:watch": "yarn run clean && tsc --build --watch",
     "format:fix": "prettier --write \"**/*.@(js|ts|json|md)\" --ignore-path=.gitignore",
@@ -27,7 +27,9 @@
     "coverage": "lerna run coverage",
     "coverage:merge": "node ./scripts/merge-coverage",
     "clean": "lerna run clean",
-    "update-snapshots": "lerna run update-snapshots"
+    "update-snapshots": "lerna run update-snapshots",
+    "legal:delete": "lerna exec \"shx rm -rf .reuse LICENSES\" || true",
+    "legal:copy": "lerna exec \"shx cp -r ../../.reuse .reuse && shx cp -r ../../LICENSES LICENSES\""
   },
   "devDependencies": {
     "@types/chai": "4.2.12",
@@ -64,7 +66,8 @@
     "webpack-cli": "3.3.12",
     "coveralls": "3.1.0",
     "make-dir": "3.1.0",
-    "glob": "7.1.6"
+    "glob": "7.1.6",
+    "shx": "0.3.2"
   },
   "husky": {
     "hooks": {

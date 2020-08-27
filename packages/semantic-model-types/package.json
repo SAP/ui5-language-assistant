@@ -4,6 +4,8 @@
   "description": "UI5 Semantic model type definitions",
   "keywords": [],
   "files": [
+    ".reuse",
+    "LICENSES",
     "api.d.ts"
   ],
   "repository": "https://github.com/sap/ui5-language-assistant/",

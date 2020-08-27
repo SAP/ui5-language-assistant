@@ -3,6 +3,7 @@
 [![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 [![DependentBot](https://api.dependabot.com/badges/status?host=github&repo=SAP/ui5-language-assistant)](https://dependabot.com/)
+[![REUSE status](https://api.reuse.software/badge/github.com/SAP/ui5-language-assistant)](https://api.reuse.software/info/github.com/SAP/ui5-language-assistant)
 
 # UI5 Language Assistant
 
@@ -50,11 +51,6 @@ Please open [issues](https://github.com/SAP/ui5-language-assistant/issues) on gi
 ## Contributing
 
 See [CONTRIBUTING.md](./CONTRIBUTING.md).
-
-## License
-
-Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
-This file is licensed under the Apache Software License, v. 2 except as noted otherwise in the [LICENSE file](./LICENSE).
 
 [mono-repo]: https://github.com/babel/babel/blob/master/doc/design/monorepo.md
 [ui5]: https://ui5.sap.com

@@ -4,6 +4,8 @@
   "description": "End user strings for UI5 Language Assistant",
   "keywords": [],
   "files": [
+    ".reuse",
+    "LICENSES",
     "lib/src",
     "api.d.ts",
     "src"

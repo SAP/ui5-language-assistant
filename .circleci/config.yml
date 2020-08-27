@@ -5,6 +5,7 @@ jobs:
       - image: circleci/node:14-browsers
     working_directory: ~/repo
     steps:
+      - run: sudo apt-get install libxss1
       - checkout
       - run: yarn
       - run: yarn run ci
@@ -19,6 +20,7 @@ jobs:
       - image: circleci/node:12-browsers
     working_directory: ~/repo
     steps:
+      - run: sudo apt-get install libxss1
       - checkout
       - run: yarn
       - run: yarn run ci
@@ -28,15 +30,29 @@ jobs:
       - image: circleci/node:10-browsers
     working_directory: ~/repo
     steps:
+      - run: sudo apt-get install libxss1
       - checkout
       - run: yarn
       - run: yarn run ci
+
+  compliance:
+    docker:
+      - image: circleci/python:3.6.4
+    working_directory: ~/workdir
+    steps:
+      - checkout
+      - run:
+          name: compliance check
+          command: |
+            pip3 install --user reuse
+            ~/.local/bin/reuse lint
 
   deploy-npm:
     docker:
       - image: circleci/node:12-browsers
     working_directory: ~/repo
     steps:
+      - run: sudo apt-get install libxss1
       - checkout
       - run: yarn --pure-lockfile
       - run: yarn run ci
@@ -50,6 +66,7 @@ jobs:
       - image: circleci/node:12-browsers
     working_directory: ~/repo
     steps:
+      - run: sudo apt-get install libxss1
       - checkout
       - run: yarn
       - run: yarn run ci
@@ -72,7 +89,6 @@ jobs:
             VERSION=${CIRCLE_TAG}
             ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} ./dist/
 
-
 workflows:
   version: 2
   voter:
@@ -80,6 +96,7 @@ workflows:
       - build-node10
       - build-node12
       - build-node14
+      - compliance
   release:
     jobs:
       - deploy-npm:

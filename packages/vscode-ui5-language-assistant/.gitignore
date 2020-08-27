@@ -1,5 +1,4 @@
 # These files will be copied from the root package during bundling.
-/NOTICE
 /LICENSE
 
 .cache

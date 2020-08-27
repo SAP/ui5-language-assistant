@@ -5,7 +5,7 @@ A sub-package **may** have an additional CONTRIBUTING.md file if needed.
 
 ## Legal
 
-All contributors must sign the CLA
+All contributors must sign the DCO
 
 - https://cla-assistant.io/SAP/ui5-language-assistant
 
