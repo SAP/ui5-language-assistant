@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.4](https://github.com/sap/ui5-language-assistant/compare/@ui5-language-assistant/semantic-model@1.4.3...@ui5-language-assistant/semantic-model@1.4.4) (2020-08-27)
+
+**Note:** Version bump only for package @ui5-language-assistant/semantic-model
+
 ## [1.4.3](https://github.com/sap/ui5-language-assistant/compare/@ui5-language-assistant/semantic-model@1.4.2...@ui5-language-assistant/semantic-model@1.4.3) (2020-07-15)
 
 **Note:** Version bump only for package @ui5-language-assistant/semantic-model
