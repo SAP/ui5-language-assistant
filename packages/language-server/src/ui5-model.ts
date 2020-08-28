@@ -2,6 +2,8 @@ import { map } from "lodash";
 import fetch from "node-fetch";
 import { resolve } from "path";
 import { pathExists, lstat, readJson, writeJson, mkdirs } from "fs-extra";
+import { HttpsProxyAgent } from "https-proxy-agent";
+import { HttpProxyAgent } from "http-proxy-agent";
 
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import {
@@ -29,6 +31,7 @@ export async function getSemanticModelWithFetcher(
   const baseUrl = `https://sapui5.hana.ondemand.com/${version}/test-resources/`;
   const suffix = "/designtime/api.json";
   const libs = getLibs();
+
   let cacheFolder: string | undefined;
 
   // Note: all cache handling (reading, writing etc) is optional from the user perspective but
@@ -55,7 +58,41 @@ export async function getSemanticModelWithFetcher(
       // If the file doesn't exist in the cache (or we couldn't read it), fetch it from the network
       if (apiJson === undefined) {
         const url = baseUrl + libName.replace(/\./g, "/") + suffix;
-        const response = await fetcher(url);
+
+        let response;
+
+        if (
+          process.env["NO_PROXY"]
+            ?.split(",")
+            .some((_noProxy) => url.includes(_noProxy))
+        ) {
+          console.debug(
+            "Ressource URL is in NO_PROXY env, so no proxy is used."
+          );
+          response = await fetcher(url);
+        } else if (process.env["HTTPS_PROXY"] && url.startsWith("https://")) {
+          console.debug(
+            "Ressource URL is https and HTTPS_PROXY env is set, so https proxy is used"
+          );
+          const agent = new HttpsProxyAgent(process.env["HTTPS_PROXY"]);
+
+          // https://github.com/TooTallNate/node-https-proxy-agent/issues/108
+          // have to pass agent as any was workaround
+          response = await fetcher(url, { agent: agent as any });
+        } else if (process.env["HTTP_PROXY"] && url.startsWith("http://")) {
+          console.debug(
+            "Ressource URL is https and HTTP_PROXY env is set, so http proxy is used"
+          );
+          const agent = new HttpProxyAgent(process.env["HTTP_PROXY"]);
+
+          // https://github.com/TooTallNate/node-https-proxy-agent/issues/108
+          // have to pass agent as any was workaround
+          response = await fetcher(url, { agent: agent as any });
+        } else {
+          console.debug("Using no proxy at all");
+          response = await fetcher(url);
+        }
+
         if (response.ok) {
           apiJson = await response.json();
           await writeToCache(cacheFilePath, apiJson);
