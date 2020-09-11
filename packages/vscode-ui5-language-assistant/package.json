@@ -82,7 +82,7 @@
   },
   "devDependencies": {
     "@types/lodash": "4.14.159",
-    "@types/vscode": "1.47.0",
+    "@types/vscode": "1.49.0",
     "@ui5-language-assistant/settings": "^0.1.1",
     "@ui5-language-assistant/user-facing-text": "^1.0.1",
     "deep-equal-in-any-order": "1.0.27",
