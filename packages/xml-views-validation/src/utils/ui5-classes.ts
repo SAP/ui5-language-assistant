@@ -26,13 +26,13 @@ export function isKnownUI5Class(
   return ui5Class !== undefined;
 }
 
-const whiteListedNamespaces: Record<string, boolean> = {
+const allowedListedNamespaces: Record<string, boolean> = {
   [SVG_NS]: true,
   [TEMPLATING_NS]: true,
   [XHTML_NS]: true,
 };
 
-Object.freeze(whiteListedNamespaces);
+Object.freeze(allowedListedNamespaces);
 
 function isCommonExternalNamespace(xmlElement: XMLElement): boolean {
   const parentResolvedNamespace = resolveXMLNS(xmlElement);
@@ -40,5 +40,5 @@ function isCommonExternalNamespace(xmlElement: XMLElement): boolean {
     return false;
   }
 
-  return whiteListedNamespaces[parentResolvedNamespace];
+  return allowedListedNamespaces[parentResolvedNamespace];
 }
