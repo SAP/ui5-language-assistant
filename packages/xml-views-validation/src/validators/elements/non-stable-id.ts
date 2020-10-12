@@ -24,7 +24,7 @@ export function validateNonStableId(
     return [];
   }
 
-  if (isWhiteListedTag(xmlElement)) {
+  if (isAllowedListedTag(xmlElement)) {
     return [];
   }
 
@@ -60,8 +60,8 @@ export function validateNonStableId(
   return [nonStableIDIssue];
 }
 
-function isWhiteListedTag(xmlElement: XMLElement): boolean {
-  const rootWhiteListedExceptions: Record<string, string[]> = {
+function isAllowedListedTag(xmlElement: XMLElement): boolean {
+  const rootAllowedListedExceptions: Record<string, string[]> = {
     "sap.ui.core.mvc": ["View"],
     "sap.ui.core": ["View", "FragmentDefinition"],
   };
@@ -70,22 +70,22 @@ function isWhiteListedTag(xmlElement: XMLElement): boolean {
   if (xmlElement.parent.type === "XMLDocument") {
     const resolvedXMLNS = resolveXMLNS(xmlElement);
     // @ts-expect-error - it's fine to use undefined in member access
-    const exceptionsForResolvedXMLNS = rootWhiteListedExceptions[resolvedXMLNS];
+    const exceptionsForResolvedXMLNS = rootAllowedListedExceptions[resolvedXMLNS];
     if (includes(exceptionsForResolvedXMLNS, xmlElement.name)) {
       return true;
     }
   }
 
-  const coreNsWhiteListedExceptions = [
+  const coreNsAllowedListedExceptions = [
     "Fragment",
     "CustomData",
     "ExtensionPoint",
   ];
 
-  const isCoreNsWhiteListed =
+  const isCoreNsAllowedListed =
     resolveXMLNS(xmlElement) === CORE_NS &&
-    includes(coreNsWhiteListedExceptions, xmlElement.name);
-  return isCoreNsWhiteListed;
+    includes(coreNsAllowedListedExceptions, xmlElement.name);
+  return isCoreNsAllowedListed;
 }
 
 function hasNonAdaptableMetaData(xmlElement: XMLElement): boolean {
