@@ -69,8 +69,8 @@ function isAllowedListedTag(xmlElement: XMLElement): boolean {
   // The class is in the root level
   if (xmlElement.parent.type === "XMLDocument") {
     const resolvedXMLNS = resolveXMLNS(xmlElement);
-    // @ts-expect-error - it's fine to use undefined in member access
     const exceptionsForResolvedXMLNS =
+      // @ts-expect-error - it's fine to use undefined in member access
       rootAllowedListedExceptions[resolvedXMLNS];
     if (includes(exceptionsForResolvedXMLNS, xmlElement.name)) {
       return true;
