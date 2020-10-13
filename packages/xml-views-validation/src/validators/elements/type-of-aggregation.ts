@@ -61,7 +61,7 @@ export function validateAggregationType(
   return invalidAggregationTypeIssue;
 }
 
-const whiteListedClasses = [
+const allowedListedClasses = [
   // A `Fragment` "inlines" source code from a `FragmentDefinition`
   // We are not (currently) aware of the contents being inlined
   // and instead skip in this case to avoid false positives.
@@ -70,7 +70,7 @@ const whiteListedClasses = [
 
 function isWhiteListedClass(ui5Class: UI5Class): boolean {
   const classFqn = ui5NodeToFQN(ui5Class);
-  return includes(whiteListedClasses, classFqn);
+  return includes(allowedListedClasses, classFqn);
 }
 
 function getInvalidAggregationTypeIssue({
