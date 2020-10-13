@@ -25,8 +25,8 @@ export function validateUnknownXmlnsNamespace(
     return [];
   }
 
-  const whiteListedNamespaces = ["sap.ui.dt"];
-  if (includes(whiteListedNamespaces, attributeValue)) {
+  const allowedListedNamespaces = ["sap.ui.dt"];
+  if (includes(allowedListedNamespaces, attributeValue)) {
     return [];
   }
 
