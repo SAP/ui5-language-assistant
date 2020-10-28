@@ -1,5 +1,6 @@
 [![CircleCI](https://circleci.com/gh/SAP/ui5-language-assistant.svg?style=svg)](https://circleci.com/gh/SAP/ui5-language-assistant)
 [![Coverage Status](https://coveralls.io/repos/github/SAP/ui5-language-assistant/badge.svg?branch=master)](https://coveralls.io/github/SAP/ui5-language-assistant?branch=master)
+[![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/SAP/ui5-language-assistant.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/SAP/ui5-language-assistant/context:javascript)
 [![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 [![DependentBot](https://api.dependabot.com/badges/status?host=github&repo=SAP/ui5-language-assistant)](https://dependabot.com/)
