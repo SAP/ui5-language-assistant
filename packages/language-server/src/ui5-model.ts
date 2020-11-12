@@ -11,7 +11,7 @@ import {
 } from "@ui5-language-assistant/semantic-model";
 import { Fetcher } from "../api";
 
-const DEFAULT_UI5_VERSION = "1.71.14";
+const DEFAULT_UI5_VERSION = "1.82.2";
 
 export async function getSemanticModel(
   modelCachePath: string | undefined
