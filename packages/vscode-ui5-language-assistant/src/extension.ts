@@ -1,4 +1,6 @@
 /* istanbul ignore file */
+import { resolve } from "path";
+import { readFileSync } from "fs";
 import { workspace, window, ExtensionContext } from "vscode";
 import {
   LanguageClient,
@@ -28,8 +30,13 @@ export async function activate(context: ExtensionContext): Promise<void> {
     },
   };
 
+  const meta = JSON.parse(
+    readFileSync(resolve(context.extensionPath, "package.json"), "utf8")
+  );
   const initializationOptions: ServerInitializationOptions = {
     modelCachePath: context.globalStoragePath,
+    publisher: meta.publisher,
+    name: meta.name,
   };
 
   const clientOptions: LanguageClientOptions = {

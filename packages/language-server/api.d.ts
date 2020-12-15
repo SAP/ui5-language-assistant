@@ -6,6 +6,14 @@ export declare const SERVER_PATH: string;
 
 export type ServerInitializationOptions = {
   modelCachePath: string;
+  /**
+   * optional VSCode publisher name.
+   */
+  publisher?: string;
+  /**
+   * optional VSCode ext name.
+   */
+  name?: string;
 };
 
 export type FetchResponse = {

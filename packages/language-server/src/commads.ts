@@ -4,6 +4,7 @@ import {
   executeQuickFixStableIdCommand,
   executeQuickFixFileStableIdCommand,
 } from "./quick-fix";
+import { track } from "./swa";
 
 type LSPConnection = ReturnType<typeof createConnection>;
 
@@ -28,6 +29,7 @@ export function executeCommand(
       connection.workspace.applyEdit({
         documentChanges: change,
       });
+      track("MANIFEST_STABLE_ID", "single");
       return;
     }
     case commands.QUICK_FIX_STABLE_ID_FILE_ERRORS.name: {
@@ -39,6 +41,7 @@ export function executeCommand(
       connection.workspace.applyEdit({
         documentChanges: change,
       });
+      track("MANIFEST_STABLE_ID", "multiple");
       return;
     }
     default:

@@ -36,6 +36,7 @@ import {
 } from "./manifest-handling";
 import { diagnosticToCodeActionFix } from "./quick-fix";
 import { executeCommand } from "./commads";
+import { initSwa } from "./swa";
 
 const connection = createConnection(ProposedFeatures.all);
 const documents = new TextDocuments(TextDocument);
@@ -45,6 +46,7 @@ let initializationOptions: ServerInitializationOptions | undefined;
 let hasConfigurationCapability = false;
 
 connection.onInitialize((params: InitializeParams) => {
+  initSwa(params);
   const capabilities = params.capabilities;
   const workspaceFolderUri = params.rootUri;
   if (workspaceFolderUri !== null) {
