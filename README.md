@@ -8,7 +8,7 @@
 
 # UI5 Language Assistant
 
-This npm [mono-repo][mono-repo] contains editor related tooling for [SAPUI5][ui5] and [OpenUI5][openui5] projects.
+This npm [mono-repo][mono-repo] contains editor related tooling for [SAPUI5][ui5] and [OpenUI5][openui5] projects 123!.
 
 It currently contains:
 
