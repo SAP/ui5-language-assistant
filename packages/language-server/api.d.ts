@@ -1,3 +1,4 @@
+import { Agent } from "http";
 /**
  * Absolute path to the server's "main" module
  * This is useful when launching the server in a separate process (e.g via spawn).
@@ -13,4 +14,9 @@ export type FetchResponse = {
   json: () => Promise<unknown>;
 };
 
-export type Fetcher = (url: string) => Promise<FetchResponse>;
+export type Fetcher = (
+  url: string,
+  options?: {
+    agent: Agent;
+  }
+) => Promise<FetchResponse>;
