@@ -2,6 +2,10 @@ import { resolve } from "path";
 import { runTests } from "vscode-test";
 import globby from "globby";
 
+function sleep(milliseconds: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, milliseconds));
+}
+
 async function main(): Promise<void> {
   try {
     const extensionDevelopmentPath = resolve(__dirname, "..", "..");
@@ -19,6 +23,7 @@ async function main(): Promise<void> {
         extensionDevelopmentPath,
         extensionTestsPath: path,
       });
+      await sleep(5000);
     }
   } catch (err) {
     console.error("Failed to run tests: ", err);
