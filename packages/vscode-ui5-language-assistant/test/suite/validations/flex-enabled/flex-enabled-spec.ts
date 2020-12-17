@@ -21,7 +21,7 @@ const EXTENSION_START_TIMEOUT = 5000;
 const EXECUTE_COMMAD_TIMEOUT = 500;
 const UI5LANG_ERROR_MSG = "UI5 Language Assistant";
 
-describe("the Language Server Client Validations Integration Tests - Flex Enabled", () => {
+describe.skip("the Language Server Client Validations Integration Tests - Flex Enabled", () => {
   const scenarioPath = resolve(
     rootPkgFolder,
     "test",
