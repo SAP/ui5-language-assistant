@@ -224,7 +224,7 @@ function getXmlSnippet(
   document: TextDocument;
   quickFixStableIdTestInfo: QuickFixStableIdTestInfo[];
 } {
-  const quickFixStableIdTestInfo = [];
+  const quickFixStableIdTestInfo: QuickFixStableIdTestInfo[] = [];
   let xmlText = xmlSnippet;
   while (xmlText.indexOf("🢂") !== -1 && xmlText.indexOf("🢀") !== -1) {
     const start = xmlText.indexOf("🢂");

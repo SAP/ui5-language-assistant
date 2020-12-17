@@ -49,7 +49,7 @@ export function testValidationsScenario(opts: {
 }
 
 export function computeExpectedRanges(markedXMLSnippet: string): OffsetRange[] {
-  const expectedRanges = [];
+  const expectedRanges: OffsetRange[] = [];
 
   function previousMarkersOffset(): number {
     return (

@@ -14,6 +14,7 @@ import {
 } from "@ui5-language-assistant/semantic-model-types";
 import { findUI5HoverNodeAtOffset } from "@ui5-language-assistant/xml-views-tooltip";
 import { getNodeDocumentation, getNodeDetail } from "./documentation";
+import { track } from "./swa";
 
 export function getHoverResponse(
   model: UI5SemanticModel,
@@ -28,6 +29,7 @@ export function getHoverResponse(
   if (astPosition !== undefined) {
     const ui5Node = findUI5HoverNodeAtOffset(astPosition, model);
     if (ui5Node !== undefined) {
+      track("XML_UI5_DOC_HOVER", ui5Node.kind);
       return transformToLspHover(ui5Node, model);
     }
   }
