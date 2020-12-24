@@ -4,6 +4,7 @@ import { readFile } from "fs-extra";
 import { URI } from "vscode-uri";
 import globby from "globby";
 import { FileChangeType } from "vscode-languageserver";
+import { getLogger } from "./logger";
 
 type AbsolutePath = string;
 type ManifestData = Record<AbsolutePath, { flexEnabled: boolean }>;
@@ -31,6 +32,8 @@ export async function initializeManifestData(
     }
   });
 
+  // must **not** log the `manifestData` itself as file paths may include user information
+  getLogger().info("manifest data initialized");
   return Promise.all(readManifestPromises);
 }
 
@@ -56,6 +59,8 @@ export async function updateManifestData(
   manifestUri: string,
   changeType: FileChangeType
 ): Promise<void> {
+  // intentionally **not** logging the manifest URI.
+  getLogger().debug("`updateManifestData` function called");
   const manifestPath = URI.parse(manifestUri).fsPath;
   switch (changeType) {
     case 1: //created

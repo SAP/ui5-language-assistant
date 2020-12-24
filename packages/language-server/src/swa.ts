@@ -1,5 +1,6 @@
 import { SWATracker } from "@sap/swa-for-sapbas-vsx";
 import { InitializeParams } from "vscode-languageserver";
+import { getLogger } from "./logger";
 
 export type ISWATracker = Pick<SWATracker, "track">;
 
@@ -28,6 +29,7 @@ export function initSwa(
   if (params?.initializationOptions) {
     const { publisher, name } = params.initializationOptions;
     if (publisher !== undefined && name !== undefined) {
+      getLogger().info("SWA is being initialized", { publisher, name });
       // Currently ("@sap/swa-for-sapbas-vsx": "1.1.5") would not perform any usage analytics
       // when running inside an Language Server process which was initialized from VSCode.
       // It would only run in BAS.
