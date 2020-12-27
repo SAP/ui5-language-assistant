@@ -10,6 +10,7 @@ import {
   TypeNameFix,
 } from "@ui5-language-assistant/semantic-model";
 import { Fetcher } from "../api";
+import { getLogger } from "./logger";
 
 const DEFAULT_UI5_VERSION = "1.71.14";
 
@@ -25,6 +26,7 @@ export async function getSemanticModelWithFetcher(
   modelCachePath: string | undefined
 ): Promise<UI5SemanticModel> {
   const version = DEFAULT_UI5_VERSION;
+  getLogger().info("building UI5 semantic Model for version", { version });
   const jsonMap: Record<string, Json> = {};
   const baseUrl = `https://sapui5.hana.ondemand.com/${version}/test-resources/`;
   const suffix = "/designtime/api.json";
@@ -36,14 +38,14 @@ export async function getSemanticModelWithFetcher(
   // a warning to the user
   if (modelCachePath !== undefined) {
     cacheFolder = getCacheFolder(modelCachePath, version);
-    console.log(`${cacheFolder} will be used to cache UI5 resources`);
+    getLogger().info("Caching UI5 resources in", { cacheFolder });
     try {
       await mkdirs(cacheFolder);
     } catch (err) {
-      console.warn(
-        `Could not create folder ${cacheFolder} for caching UI5 resources`,
-        err
-      );
+      getLogger().warn("Failed creating UI5 resources cache folder`", {
+        cacheFolder,
+        msg: err,
+      });
       cacheFolder = undefined;
     }
   }
@@ -54,14 +56,20 @@ export async function getSemanticModelWithFetcher(
       let apiJson = await readFromCache(cacheFilePath);
       // If the file doesn't exist in the cache (or we couldn't read it), fetch it from the network
       if (apiJson === undefined) {
+        getLogger().info("No cache found for UI5 lib", { libName });
         const url = baseUrl + libName.replace(/\./g, "/") + suffix;
         const response = await fetcher(url);
         if (response.ok) {
           apiJson = await response.json();
           await writeToCache(cacheFilePath, apiJson);
         } else {
-          console.error(`Could not read UI5 resources from ${url}`);
+          getLogger().error("Could not read UI5 resources from", { url });
         }
+      } else {
+        getLogger().info("Reading Cache For UI5 Lib ", {
+          libName,
+          cacheFilePath,
+        });
       }
       if (apiJson !== undefined) {
         jsonMap[libName] = apiJson;
@@ -85,10 +93,10 @@ async function readFromCache(filePath: string | undefined): Promise<unknown> {
         return await readJson(filePath);
       }
     } catch (err) {
-      console.warn(
-        `Could not read file ${filePath} from UI5 resources cache`,
-        err
-      );
+      getLogger().warn("Could not read cache file For UI5 lib", {
+        filePath,
+        error: err,
+      });
     }
   }
   return undefined;
@@ -102,7 +110,10 @@ async function writeToCache(
     try {
       await writeJson(filePath, apiJson);
     } catch (err) {
-      console.warn(`Could not cache UI5 resources to file ${filePath}`, err);
+      getLogger().warn("Could not read cache file For UI5 lib", {
+        filePath,
+        error: err,
+      });
     }
   }
 }

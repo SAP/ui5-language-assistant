@@ -34,9 +34,7 @@ export function initSwa(
       // when running inside an Language Server process which was initialized from VSCode.
       // It would only run in BAS.
       const swa = new SWATracker(publisher, name, (err) => {
-        // Currently this would get sent to the client's output channel when
-        // running via the UI5-Lang-Assistant VSCode ext.
-        console.error(err);
+        getLogger().error("Failure during SWA tracking", { error: err });
       });
       setGlobalSWA(swa);
     }
@@ -60,6 +58,6 @@ export function track(
     SWA_IMPL.track(TRACK_EVENTS[eventType], custom_events);
   } catch (e) {
     /* istanbul ignore next -- extremely difficult to test this edge case as `.track()` is never supposed to throw */
-    console.error(`failed usage analytics tracking: ${e.message}`);
+    getLogger().error("Runtime Exception during swa.trace()", { error: e });
   }
 }
