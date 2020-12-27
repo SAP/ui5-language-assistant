@@ -1,4 +1,4 @@
-export type Settings = CodeAssistSettings & TraceSettings;
+export type Settings = CodeAssistSettings & TraceSettings & LoggingSettings;
 
 export interface CodeAssistSettings {
   codeAssist: {
@@ -9,9 +9,35 @@ export interface CodeAssistSettings {
 
 export interface TraceSettings {
   trace: {
-    server: "off" | "messages" | "verbose";
+    server: keyof IValidTraceServerValues;
   };
 }
+
+export interface IValidTraceServerValues {
+  off: true;
+  messages: true;
+  verbose: true;
+}
+
+export const validTraceServerValues: IValidTraceServerValues;
+
+export interface LoggingSettings {
+  logging: {
+    level: "off" | "fatal" | "error" | "warn" | "info" | "debug" | "trace";
+  };
+}
+
+export interface IValidLoggingLevelValues {
+  off: true;
+  fatal: true;
+  error: true;
+  warn: true;
+  info: true;
+  debug: true;
+  trace: true;
+}
+
+export const validLoggingLevelValues: IValidLoggingLevelValues;
 
 export function getSettingsForDocument(resource: string): Thenable<Settings>;
 

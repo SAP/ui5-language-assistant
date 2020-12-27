@@ -1,11 +1,12 @@
 import deepFreezeStrict from "deep-freeze-strict";
-import { Settings } from "../api";
 import { cloneDeep } from "lodash";
+import { Settings } from "../api";
 
 // These properties are defined (with their default values) in the package.json of the client
 const defaultSettings: Settings = {
   codeAssist: { deprecated: false, experimental: false },
   trace: { server: "off" },
+  logging: { level: "error" },
 };
 deepFreezeStrict(defaultSettings);
 
