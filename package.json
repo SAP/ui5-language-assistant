@@ -63,7 +63,7 @@
     "klaw-sync": "6.0.0",
     "fs-extra": "9.0.1",
     "webpack": "4.44.1",
-    "webpack-cli": "3.3.12",
+    "webpack-cli": "4.3.0",
     "coveralls": "3.1.0",
     "make-dir": "3.1.0",
     "glob": "7.1.6",
