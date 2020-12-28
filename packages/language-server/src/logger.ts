@@ -1,43 +1,66 @@
-import { cloneDeep } from "lodash";
+import { cloneDeep, map } from "lodash";
 import omitDeep from "omit-deep-lodash";
+import { IChildLogger, IVSCodeExtLogger } from "@vscode-logging/types";
+import { getExtensionLogger, LogLevel } from "@vscode-logging/logger";
 
-// TODO: This interface should be provided by the logging library.
-// Initially we are only providing a fairly simple API, additional variants can be added as needed...
-export interface ILogger {
-  /* eslint-disable @typescript-eslint/no-explicit-any -- meta is an object with string type key and any type value */
-  fatal: (msg: string, meta?: Record<string, any>) => void;
-  error: (msg: string, meta?: Record<string, any>) => void;
-  warn: (msg: string, meta?: Record<string, any>) => void;
-  info: (msg: string, meta?: Record<string, any>) => void;
-  debug: (msg: string, meta?: Record<string, any>) => void;
-  trace: (msg: string, meta?: Record<string, any>) => void;
-  /* eslint-enable @typescript-eslint/no-explicit-any -- meta is an object with string type key and any type value */
+// eslint-disable-next-line @typescript-eslint/no-var-requires -- Using `require` for .json file as this gets bundled with webpack correctly.
+const meta = require("../../package.json");
+
+export type ILogger = Omit<IChildLogger, "getChildLogger">;
+
+/**
+ * We are using the VSCode Logging library right now as it is:
+ * 1. The only one of our logging libraries available on npmjs.com (currently).
+ * 2. Supports console logging which would be re-directed to the VSCode extension's output Channel
+ *    - Assuming this LSP server processes was spawned from the VSCode Extension
+ */
+const loggerImpl: IVSCodeExtLogger = getExtensionLogger({
+  extName: meta.name,
+  level: "error",
+  logConsole: true,
+});
+
+function buildSafeLoggerMethod(
+  methodName: LogLevel
+): (msg: string, ...args: unknown[]) => void {
+  return function (msg: string, ...args: unknown[]): void {
+    const safeArgs = map(args, removePossibleUserInformation);
+    loggerImpl[methodName].apply(loggerImpl, [msg, ...safeArgs]);
+  };
 }
 
-const NOOP_LOGGER: ILogger = {
-  /* eslint-disable @typescript-eslint/no-empty-function -- NOOP */
-  fatal: () => {},
-  error: () => {},
-  warn: () => {},
-  info: () => {},
-  debug: () => {},
-  trace: () => {},
-  /* eslint-enable @typescript-eslint/no-empty-function -- NOOP */
+const loggerWrapper: ILogger = {
+  fatal: buildSafeLoggerMethod("fatal"),
+  error: buildSafeLoggerMethod("error"),
+  warn: buildSafeLoggerMethod("warn"),
+  info: buildSafeLoggerMethod("info"),
+  debug: buildSafeLoggerMethod("debug"),
+  trace: buildSafeLoggerMethod("trace"),
 };
 
-let logger = NOOP_LOGGER;
 export function getLogger(): ILogger {
-  return logger;
+  return loggerWrapper;
 }
 
-export function initBasFileLogger(): void {
-  const possibleSensitiveProps = ["uri"];
-  // TODO: use this to transform the meta argument to the log methods and remove possible personal information
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  function removePossibleUserInformation(obj: Record<string, unknown>) {
-    const clonedObj = cloneDeep(obj);
-    return omitDeep(clonedObj, possibleSensitiveProps);
-  }
-  // TODO: init FILE Based BAS Logger
-  logger = NOOP_LOGGER;
+const possibleSensitiveProps = { uri: true };
+
+export function changeLogLevel(newLevel: LogLevel): void {
+  loggerImpl.changeLevel(newLevel);
+}
+
+/**
+ * Will create a **new** object that does not contain possible user information containing properties.
+ * - Note this is **side effect free** and does not mutate the original param.
+ *
+ * @param obj - The target object from which to **recursively** remove properties that may contain user information.
+ *
+ * Note that the return type signature is does not describe the transformation.
+ * It seems too much overhead to include these complex type signatures in our project
+ * - see: https://stackoverflow.com/questions/55539387/deep-omit-with-typescript
+ */
+export function removePossibleUserInformation<
+  T extends Record<string, unknown>
+>(obj: T): T {
+  const clonedObj = cloneDeep(obj);
+  return omitDeep(clonedObj, Object.keys(possibleSensitiveProps)) as T;
 }
