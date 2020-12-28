@@ -15,19 +15,19 @@ export interface ILogger {
 }
 
 const NOOP_LOGGER: ILogger = {
-  /* eslint-disable @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any -- NOOP */
-  fatal: (msg: string, meta?: Record<string, any>) => {},
-  error: (msg: string, meta?: Record<string, any>) => {},
-  warn: (msg: string, meta?: Record<string, any>) => {},
-  info: (msg: string, meta?: Record<string, any>) => {},
-  debug: (msg: string, meta?: Record<string, any>) => {},
-  trace: (msg: string, meta?: Record<string, any>) => {},
-  /* eslint-enable @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any -- NOOP */
+  /* eslint-disable @typescript-eslint/no-empty-function -- NOOP */
+  fatal: () => {},
+  error: () => {},
+  warn: () => {},
+  info: () => {},
+  debug: () => {},
+  trace: () => {},
+  /* eslint-enable @typescript-eslint/no-empty-function -- NOOP */
 };
 
 let logger = NOOP_LOGGER;
 export function getLogger(): ILogger {
-  return NOOP_LOGGER;
+  return logger;
 }
 
 export function initBasFileLogger(): void {
@@ -39,6 +39,5 @@ export function initBasFileLogger(): void {
     return omitDeep(clonedObj, possibleSensitiveProps);
   }
   // TODO: init FILE Based BAS Logger
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   logger = NOOP_LOGGER;
 }

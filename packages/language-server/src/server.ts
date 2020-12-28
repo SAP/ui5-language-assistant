@@ -104,10 +104,8 @@ connection.onCompletion(
     textDocumentPosition: TextDocumentPositionParams
   ): Promise<CompletionItem[]> => {
     if (semanticModelLoaded !== undefined) {
-      // we must avoid logging the whole `textDocumentPosition` param as it contains the document URI
-      // which may contain personal information.
       getLogger().debug("`onCompletion` event", {
-        position: textDocumentPosition.position,
+        textDocumentPosition,
       });
 
       const model = await semanticModelLoaded;
@@ -175,7 +173,7 @@ connection.onDidChangeWatchedFiles(async (changeEvent) => {
 });
 
 documents.onDidChangeContent(async (changeEvent) => {
-  getLogger().trace("`onDidChangeWatchedFiles` event", { changeEvent });
+  getLogger().trace("`onDidChangeContent` event", { changeEvent });
   if (
     semanticModelLoaded === undefined ||
     manifestStateInitialized === undefined ||
@@ -260,7 +258,7 @@ connection.onDidChangeConfiguration((change) => {
   } else {
     if (change.settings.UI5LanguageAssistant !== undefined) {
       const ui5LangAssistSettings = change.settings.UI5LanguageAssistant;
-      getLogger().trace("Reset all cached document settings", {
+      getLogger().trace("Set global settings", {
         ui5LangAssistSettings,
       });
       setGlobalSettings(ui5LangAssistSettings);

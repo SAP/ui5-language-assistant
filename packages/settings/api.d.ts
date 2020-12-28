@@ -23,7 +23,7 @@ export const validTraceServerValues: IValidTraceServerValues;
 
 export interface LoggingSettings {
   logging: {
-    level: "off" | "fatal" | "error" | "warn" | "info" | "debug" | "trace";
+    level: keyof IValidLoggingLevelValues;
   };
 }
 

@@ -110,7 +110,7 @@ async function writeToCache(
     try {
       await writeJson(filePath, apiJson);
     } catch (err) {
-      getLogger().warn("Could not read cache file For UI5 lib", {
+      getLogger().warn("Could not write cache file For UI5 lib", {
         filePath,
         error: err,
       });
