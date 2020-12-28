@@ -1,5 +1,4 @@
 import {
-  resetSettings,
   getSettingsForDocument,
   getDefaultSettings,
   setGlobalSettings,
@@ -7,7 +6,8 @@ import {
   hasSettingsForDocument,
   clearDocumentSettings,
   clearSettings,
-} from "../src/settings";
+} from "../src/api";
+import { resetSettings } from "../src/settings";
 import { expect } from "chai";
 
 context("settings utilities", () => {
