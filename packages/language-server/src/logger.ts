@@ -8,6 +8,7 @@ const meta = require("../../package.json");
 
 export type ILogger = Omit<IChildLogger, "getChildLogger">;
 
+let logLevel: LogLevel = "error";
 /**
  * We are using the VSCode Logging library right now as it is:
  * 1. The only one of our logging libraries available on npmjs.com (currently).
@@ -16,7 +17,7 @@ export type ILogger = Omit<IChildLogger, "getChildLogger">;
  */
 const loggerImpl: IVSCodeExtLogger = getExtensionLogger({
   extName: meta.name,
-  level: "error",
+  level: logLevel,
   logConsole: true,
 });
 
@@ -44,8 +45,13 @@ export function getLogger(): ILogger {
 
 const possibleSensitiveProps = { uri: true };
 
-export function changeLogLevel(newLevel: LogLevel): void {
+export function setLogLevel(newLevel: LogLevel): void {
+  logLevel = newLevel;
   loggerImpl.changeLevel(newLevel);
+}
+
+export function getLogLevel(): LogLevel {
+  return logLevel;
 }
 
 /**
