@@ -1259,10 +1259,10 @@
   dependencies:
     "@types/node" ">= 8"
 
-"@sap/swa-for-sapbas-vsx@1.1.5":
-  version "1.1.5"
-  resolved "https://registry.yarnpkg.com/@sap/swa-for-sapbas-vsx/-/swa-for-sapbas-vsx-1.1.5.tgz#08f4f90d05a664609c1a81634bd7c6802d0f9ebf"
-  integrity sha512-HTS0C1hv/Bqa2u5AQoy0e2mL6WZO7FHZcP4qvsyT5huiYNZWUEBr01ACS3dr/WjOO/0ZgnsNqgYNA8h95hNwDg==
+"@sap/swa-for-sapbas-vsx@1.1.9":
+  version "1.1.9"
+  resolved "https://registry.yarnpkg.com/@sap/swa-for-sapbas-vsx/-/swa-for-sapbas-vsx-1.1.9.tgz#c180dcf7e25abc443127df19332a2f2d0a6c780c"
+  integrity sha512-+GYqIkxeGBFnNdHvlD9Ew9l/YOpuI8PmEgRjbfJ8IUYsEBMLJdIeppZYFqEOoV7CRGue+dKKK2UxKuF2OJCiPw==
   dependencies:
     esm "3.2.25"
     lodash "4.17.20"
@@ -1335,10 +1335,10 @@
   resolved "https://registry.yarnpkg.com/@types/minimist/-/minimist-1.2.0.tgz#69a23a3ad29caf0097f06eda59b361ee2f0639f6"
   integrity sha1-aaI6OtKcrwCX8G7aWbNh7i8GOfY=
 
-"@types/mocha@7.0.2":
-  version "7.0.2"
-  resolved "https://registry.yarnpkg.com/@types/mocha/-/mocha-7.0.2.tgz#b17f16cf933597e10d6d78eae3251e692ce8b0ce"
-  integrity sha512-ZvO2tAcjmMi8V/5Z3JsyofMe3hasRcaw88cto5etSVMwVQfeivGAlEYmaQgceUSVYFofVjT+ioHsATjdWcFt1w==
+"@types/mocha@8.2.0":
+  version "8.2.0"
+  resolved "https://registry.yarnpkg.com/@types/mocha/-/mocha-8.2.0.tgz#3eb56d13a1de1d347ecb1957c6860c911704bc44"
+  integrity sha512-/Sge3BymXo4lKc31C8OINJgXLaw+7vL1/L1pGiBNpGrBiT8FQiaFpSYV0uhTaG4y78vcMBTMFsWaHDvuD+xGzQ==
 
 "@types/node-fetch@2.5.7":
   version "2.5.7"
