@@ -20,4 +20,5 @@ export const SERVER_PATH: string = isDevelopmentRun
     sourcesPath
   : bundledPath;
 
-export const CHANGE_LOG_LEVEL_REQUEST = "changeLogLevel";
+// eslint-disable-next-line @typescript-eslint/no-inferrable-types -- need to match api.dts
+export const CHANGE_LOG_LEVEL_REQUEST: string = "changeLogLevel";
