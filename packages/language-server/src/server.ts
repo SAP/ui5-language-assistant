@@ -12,7 +12,6 @@ import {
   DidChangeConfigurationNotification,
 } from "vscode-languageserver";
 import { URI } from "vscode-uri";
-import { LogLevel } from "@vscode-logging/types";
 import { TextDocument } from "vscode-languageserver-textdocument";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import {
@@ -39,7 +38,6 @@ import { diagnosticToCodeActionFix } from "./quick-fix";
 import { executeCommand } from "./commads";
 import { initSwa } from "./swa";
 import { getLogger, setLogLevel } from "./logger";
-import { CHANGE_LOG_LEVEL_REQUEST } from "./api";
 
 const connection = createConnection(ProposedFeatures.all);
 const documents = new TextDocuments(TextDocument);
@@ -261,6 +259,11 @@ connection.onDidChangeConfiguration((change) => {
   if (hasConfigurationCapability) {
     getLogger().trace("Reset all cached document settings");
     clearSettings();
+    const possibleNewLogLevel =
+      change.settings?.UI5LanguageAssistant?.logging?.level;
+    if (change.settings?.UI5LanguageAssistant?.logging?.level) {
+      setLogLevel(possibleNewLogLevel);
+    }
   } else {
     if (change.settings.UI5LanguageAssistant !== undefined) {
       const ui5LangAssistSettings = change.settings.UI5LanguageAssistant;
@@ -272,10 +275,6 @@ connection.onDidChangeConfiguration((change) => {
   }
   // No further actions are required currently during configuration change. In the future we might want to
   // re-validate the files.
-});
-
-connection.onRequest(CHANGE_LOG_LEVEL_REQUEST, (newLogLevel: LogLevel) => {
-  setLogLevel(newLogLevel);
 });
 
 // Only keep settings for open documents

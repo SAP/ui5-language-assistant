@@ -19,6 +19,3 @@ export const SERVER_PATH: string = isDevelopmentRun
   ? /* istanbul ignore else - no tests (yet?) on bundled artifacts */
     sourcesPath
   : bundledPath;
-
-// eslint-disable-next-line @typescript-eslint/no-inferrable-types -- need to match api.dts
-export const CHANGE_LOG_LEVEL_REQUEST: string = "changeLogLevel";

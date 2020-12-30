@@ -8,11 +8,12 @@ import {
   ServerOptions,
   TransportKind,
 } from "vscode-languageclient";
+import { LogLevel } from "@vscode-logging/types";
 import {
   SERVER_PATH,
   ServerInitializationOptions,
 } from "@ui5-language-assistant/language-server";
-import { listenToLogLevelChanges } from "./configuration";
+import { LOGGING_LEVEL_CONFIG_PROP } from "./constants";
 
 let client: LanguageClient;
 
@@ -31,10 +32,15 @@ export async function activate(context: ExtensionContext): Promise<void> {
   const meta = JSON.parse(
     readFileSync(resolve(context.extensionPath, "package.json"), "utf8")
   );
+
+  const logLevel = workspace.getConfiguration().get(LOGGING_LEVEL_CONFIG_PROP);
+
   const initializationOptions: ServerInitializationOptions = {
     modelCachePath: context.globalStoragePath,
     publisher: meta.publisher,
     name: meta.name,
+    // validation of the logLevel value is done on the language server process.
+    logLevel: logLevel as LogLevel,
   };
 
   const clientOptions: LanguageClientOptions = {
@@ -53,12 +59,6 @@ export async function activate(context: ExtensionContext): Promise<void> {
     clientOptions
   );
 
-  listenToLogLevelChanges({
-    subscriptions: context.subscriptions,
-    sendRequest: client.sendRequest.bind(client),
-    getConfiguration: workspace.getConfiguration,
-    onDidChangeConfiguration: workspace.onDidChangeConfiguration,
-  });
   client.start();
 }
 

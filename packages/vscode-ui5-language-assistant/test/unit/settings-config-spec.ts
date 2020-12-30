@@ -3,7 +3,7 @@ import { readJsonSync } from "fs-extra";
 import { forEach, set, pickBy, has, keys, camelCase } from "lodash";
 import { getDefaultSettings } from "@ui5-language-assistant/settings";
 import * as settingsModule from "@ui5-language-assistant/settings";
-import { LOGGING_LEVEL_CONFIG_PROP } from "../../src/configuration";
+import { LOGGING_LEVEL_CONFIG_PROP } from "../../src/constants";
 
 describe("settings configuration properties", () => {
   let packageJsonSettings: Record<string, Setting>;
