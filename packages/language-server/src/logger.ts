@@ -1,7 +1,11 @@
 import { cloneDeep, map } from "lodash";
 import omitDeep from "omit-deep-lodash";
-import { IChildLogger, IVSCodeExtLogger } from "@vscode-logging/types";
-import { getExtensionLogger, LogLevel } from "@vscode-logging/logger";
+import {
+  IChildLogger,
+  IVSCodeExtLogger,
+  LogLevel,
+} from "@vscode-logging/types";
+import { getExtensionLogger } from "@vscode-logging/logger";
 import { validLoggingLevelValues } from "@ui5-language-assistant/settings";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires -- Using `require` for .json file as this gets bundled with webpack correctly.
