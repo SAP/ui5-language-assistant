@@ -52,26 +52,4 @@ describe("the Language Server Logger", () => {
       setLogLevel(orgLevel);
     });
   });
-
-  it("removes possible personal information from the logs", async () => {
-    getLogger().error("hello world", {
-      a: 1,
-      b: 2,
-      uri: "c:\\users\\donald_trump",
-    });
-    const logEntry = errorSpy.args[0];
-    const jsonLogEntry = JSON.parse(logEntry);
-    expect(jsonLogEntry).to.not.have.property("uri");
-  });
-
-  it("removes possible personal information from the logs **deeply**", async () => {
-    getLogger().error("hello world", {
-      a: 1,
-      b: 2,
-      obj1: { uri: "c:\\users\\donald_trump" },
-    });
-    const logEntry = errorSpy.args[0];
-    const jsonLogEntry = JSON.parse(logEntry);
-    expect(jsonLogEntry).to.not.have.deep.property("uri");
-  });
 });

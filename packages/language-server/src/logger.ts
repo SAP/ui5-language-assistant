@@ -1,5 +1,3 @@
-import { cloneDeep, map } from "lodash";
-import omitDeep from "omit-deep-lodash";
 import {
   IChildLogger,
   IVSCodeExtLogger,
@@ -26,29 +24,9 @@ const loggerImpl: IVSCodeExtLogger = getExtensionLogger({
   logConsole: true,
 });
 
-function buildSafeLoggerMethod(
-  methodName: LogLevel
-): (msg: string, ...args: unknown[]) => void {
-  return function (msg: string, ...args: unknown[]): void {
-    const safeArgs = map(args, removePossibleUserInformation);
-    loggerImpl[methodName].apply(loggerImpl, [msg, ...safeArgs]);
-  };
-}
-
-const loggerWrapper: ILogger = {
-  fatal: buildSafeLoggerMethod("fatal"),
-  error: buildSafeLoggerMethod("error"),
-  warn: buildSafeLoggerMethod("warn"),
-  info: buildSafeLoggerMethod("info"),
-  debug: buildSafeLoggerMethod("debug"),
-  trace: buildSafeLoggerMethod("trace"),
-};
-
 export function getLogger(): ILogger {
-  return loggerWrapper;
+  return loggerImpl;
 }
-
-const possibleSensitiveProps = ["uri"];
 
 export function setLogLevel(newLevel: LogLevel): void {
   if (validLoggingLevelValues[newLevel]) {
@@ -59,21 +37,4 @@ export function setLogLevel(newLevel: LogLevel): void {
 
 export function getLogLevel(): LogLevel {
   return logLevel;
-}
-
-/**
- * Will create a **new** object that does not contain possible user information containing properties.
- * - Note this is **side effect free** and does not mutate the original param.
- *
- * @param obj - The target object from which to **recursively** remove properties that may contain user information.
- *
- * Note that the return type signature is does not describe the transformation.
- * It seems too much overhead to include these complex type signatures in our project
- * - see: https://stackoverflow.com/questions/55539387/deep-omit-with-typescript
- */
-export function removePossibleUserInformation<
-  T extends Record<string, unknown>
->(obj: T): T {
-  const clonedObj = cloneDeep(obj);
-  return omitDeep(clonedObj, possibleSensitiveProps) as T;
 }
