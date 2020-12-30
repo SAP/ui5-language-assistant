@@ -54,7 +54,12 @@ export async function activate(context: ExtensionContext): Promise<void> {
     clientOptions
   );
 
-  listenToLogLevelChanges(context, client);
+  listenToLogLevelChanges({
+    context,
+    client,
+    getConfiguration: workspace.getConfiguration,
+    onDidChangeConfiguration: workspace.onDidChangeConfiguration,
+  });
   client.start();
 }
 
