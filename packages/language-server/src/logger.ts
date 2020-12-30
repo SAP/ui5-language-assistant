@@ -43,7 +43,7 @@ export function getLogger(): ILogger {
   return loggerWrapper;
 }
 
-const possibleSensitiveProps = { uri: true };
+const possibleSensitiveProps = ["uri"];
 
 export function setLogLevel(newLevel: LogLevel): void {
   logLevel = newLevel;
@@ -68,5 +68,5 @@ export function removePossibleUserInformation<
   T extends Record<string, unknown>
 >(obj: T): T {
   const clonedObj = cloneDeep(obj);
-  return omitDeep(clonedObj, Object.keys(possibleSensitiveProps)) as T;
+  return omitDeep(clonedObj, possibleSensitiveProps) as T;
 }

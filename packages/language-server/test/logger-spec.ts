@@ -1,22 +1,17 @@
 import { expect } from "chai";
-import * as sinon from "sinon";
+import { restore, spy } from "sinon";
 import { getLogger, getLogLevel, setLogLevel } from "../src/logger";
 import { LogLevel } from "@vscode-logging/logger";
 
 describe("the Language Server Logger", () => {
   let errorSpy;
-  let sandbox;
-
-  before(() => {
-    sandbox = sinon.createSandbox();
-  });
 
   beforeEach(() => {
-    errorSpy = sandbox.spy(console, "error");
+    errorSpy = spy(console, "error");
   });
 
   afterEach(() => {
-    sandbox.restore();
+    restore();
   });
 
   it("supports structured JSON logging", async () => {
