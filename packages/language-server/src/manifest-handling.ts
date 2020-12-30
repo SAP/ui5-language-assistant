@@ -32,8 +32,7 @@ export async function initializeManifestData(
     }
   });
 
-  // must **not** log the `manifestData` itself as file paths may include user information
-  getLogger().info("manifest data initialized");
+  getLogger().info("manifest data initialized", { manifestDocuments });
   return Promise.all(readManifestPromises);
 }
 
@@ -59,8 +58,10 @@ export async function updateManifestData(
   manifestUri: string,
   changeType: FileChangeType
 ): Promise<void> {
-  // intentionally **not** logging the manifest URI.
-  getLogger().debug("`updateManifestData` function called");
+  getLogger().debug("`updateManifestData` function called", {
+    manifestUri,
+    changeType,
+  });
   const manifestPath = URI.parse(manifestUri).fsPath;
   switch (changeType) {
     case 1: //created
