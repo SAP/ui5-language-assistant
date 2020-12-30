@@ -39,6 +39,7 @@ import { diagnosticToCodeActionFix } from "./quick-fix";
 import { executeCommand } from "./commads";
 import { initSwa } from "./swa";
 import { getLogger, setLogLevel } from "./logger";
+import { CHANGE_LOG_LEVEL_REQUEST } from "./api";
 
 const connection = createConnection(ProposedFeatures.all);
 const documents = new TextDocuments(TextDocument);
@@ -273,7 +274,7 @@ connection.onDidChangeConfiguration((change) => {
   // re-validate the files.
 });
 
-connection.onRequest("changeLogLevel", (newLogLevel: LogLevel) => {
+connection.onRequest(CHANGE_LOG_LEVEL_REQUEST, (newLogLevel: LogLevel) => {
   setLogLevel(newLogLevel);
 });
 

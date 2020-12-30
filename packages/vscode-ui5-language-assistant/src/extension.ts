@@ -42,8 +42,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
     synchronize: {
       fileEvents: [workspace.createFileSystemWatcher("**/manifest.json")],
     },
-    // TODO: test what would have been the default name?
-    outputChannelName: meta.name,
+    outputChannelName: meta.displayName,
     initializationOptions: initializationOptions,
   };
 
@@ -56,7 +55,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
 
   listenToLogLevelChanges({
     subscriptions: context.subscriptions,
-    sendRequest: client.sendRequest,
+    sendRequest: client.sendRequest.bind(client),
     getConfiguration: workspace.getConfiguration,
     onDidChangeConfiguration: workspace.onDidChangeConfiguration,
   });
