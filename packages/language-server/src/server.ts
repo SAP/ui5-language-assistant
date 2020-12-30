@@ -37,6 +37,7 @@ import {
 import { diagnosticToCodeActionFix } from "./quick-fix";
 import { executeCommand } from "./commads";
 import { initSwa } from "./swa";
+import { getLogger, setLogLevel } from "./logger";
 
 const connection = createConnection(ProposedFeatures.all);
 const documents = new TextDocuments(TextDocument);
@@ -46,7 +47,12 @@ let initializationOptions: ServerInitializationOptions | undefined;
 let hasConfigurationCapability = false;
 
 connection.onInitialize((params: InitializeParams) => {
+  getLogger().info("`onInitialize` event", params);
+  if (params?.initializationOptions?.logLevel) {
+    setLogLevel(params?.initializationOptions?.logLevel);
+  }
   initSwa(params);
+
   const capabilities = params.capabilities;
   const workspaceFolderUri = params.rootUri;
   if (workspaceFolderUri !== null) {
@@ -85,6 +91,7 @@ connection.onInitialize((params: InitializeParams) => {
 });
 
 connection.onInitialized(async () => {
+  getLogger().info("`onInitialized` event");
   semanticModelLoaded = getSemanticModel(initializationOptions?.modelCachePath);
 
   if (hasConfigurationCapability) {
@@ -101,18 +108,24 @@ connection.onCompletion(
     textDocumentPosition: TextDocumentPositionParams
   ): Promise<CompletionItem[]> => {
     if (semanticModelLoaded !== undefined) {
+      getLogger().debug("`onCompletion` event", {
+        textDocumentPosition,
+      });
+
       const model = await semanticModelLoaded;
       const documentUri = textDocumentPosition.textDocument.uri;
       const document = documents.get(documentUri);
       if (document) {
         ensureDocumentSettingsUpdated(document.uri);
         const documentSettings = await getSettingsForDocument(document.uri);
-        return getCompletionItems({
+        const completionItems = getCompletionItems({
           model,
           textDocumentPosition,
           document,
           documentSettings,
         });
+        getLogger().trace("computed completion items", { completionItems });
+        return completionItems;
       }
     }
     return [];
@@ -130,11 +143,22 @@ connection.onHover(
     textDocumentPosition: TextDocumentPositionParams
   ): Promise<Hover | undefined> => {
     if (semanticModelLoaded !== undefined) {
+      getLogger().debug("`onHover` event", {
+        textDocumentPosition,
+      });
       const model = await semanticModelLoaded;
       const documentUri = textDocumentPosition.textDocument.uri;
       const document = documents.get(documentUri);
       if (document) {
-        return getHoverResponse(model, textDocumentPosition, document);
+        const hoverResponse = getHoverResponse(
+          model,
+          textDocumentPosition,
+          document
+        );
+        getLogger().trace("computed hoverResponse", {
+          hoverResponse,
+        });
+        return hoverResponse;
       }
     }
     return undefined;
@@ -142,17 +166,18 @@ connection.onHover(
 );
 
 connection.onDidChangeWatchedFiles(async (changeEvent) => {
+  getLogger().debug("`onDidChangeWatchedFiles` event", { changeEvent });
   forEach(changeEvent.changes, async (change) => {
     const uri = change.uri;
     if (!isManifestDoc(uri)) {
       return;
     }
-
     await updateManifestData(uri, change.type);
   });
 });
 
 documents.onDidChangeContent(async (changeEvent) => {
+  getLogger().trace("`onDidChangeContent` event", { changeEvent });
   if (
     semanticModelLoaded === undefined ||
     manifestStateInitialized === undefined ||
@@ -173,11 +198,13 @@ documents.onDidChangeContent(async (changeEvent) => {
       ui5Model,
       flexEnabled,
     });
+    getLogger().trace("computed diagnostics", { diagnostics });
     connection.sendDiagnostics({ uri: changeEvent.document.uri, diagnostics });
   }
 });
 
 connection.onCodeAction(async (params) => {
+  getLogger().debug("`onCodeAction` event", { params });
   if (semanticModelLoaded === undefined) {
     return;
   }
@@ -195,10 +222,12 @@ connection.onCodeAction(async (params) => {
     diagnostics,
     ui5Model
   );
+  getLogger().trace("`computed codeActions", { codeActions });
   return codeActions;
 });
 
 connection.onExecuteCommand(async (params) => {
+  getLogger().debug("`onExecuteCommand` event", { params });
   executeCommand(connection, params);
 });
 
@@ -220,17 +249,35 @@ function ensureDocumentSettingsUpdated(resource: string): void {
       scopeUri: resource,
       section: "UI5LanguageAssistant",
     });
+    getLogger().debug("updating settings for document", { result });
     setSettingsForDocument(resource, result);
   }
 }
 
 connection.onDidChangeConfiguration((change) => {
+  getLogger().debug("`onDidChangeConfiguration` event");
   if (hasConfigurationCapability) {
-    // Reset all cached document settings
+    getLogger().trace("Reset all cached document settings");
     clearSettings();
+    // intentionally, ignoring the results of this promise
+    // and avoiding using an async function as the API of the changeHandler is `synced`
+    // Note the change object appears to be empty of VSCode which is why we attempt to obtain
+    // the possible new settings via a `getConfiguration` async call.
+    void connection.workspace
+      .getConfiguration({
+        section: "UI5LanguageAssistant",
+      })
+      .then((ui5LangAssistSettings) => {
+        setLogLevel(ui5LangAssistSettings?.logging?.level);
+      });
   } else {
     if (change.settings.UI5LanguageAssistant !== undefined) {
-      setGlobalSettings(change.settings.UI5LanguageAssistant);
+      const ui5LangAssistSettings = change.settings.UI5LanguageAssistant;
+      getLogger().trace("Set global settings", {
+        ui5LangAssistSettings,
+      });
+      setGlobalSettings(ui5LangAssistSettings);
+      setLogLevel(ui5LangAssistSettings?.logging?.level);
     }
   }
   // No further actions are required currently during configuration change. In the future we might want to
@@ -238,8 +285,9 @@ connection.onDidChangeConfiguration((change) => {
 });
 
 // Only keep settings for open documents
-documents.onDidClose((e) => {
-  clearDocumentSettings(e.document.uri);
+documents.onDidClose((textDocumentChangeEvent) => {
+  getLogger().debug("`onDidClose` event", { textDocumentChangeEvent });
+  clearDocumentSettings(textDocumentChangeEvent.document.uri);
 });
 
 documents.listen(connection);

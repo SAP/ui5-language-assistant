@@ -1,24 +1,23 @@
 /* istanbul ignore file */
 import { resolve } from "path";
 import { readFileSync } from "fs";
-import { workspace, window, ExtensionContext } from "vscode";
+import { workspace, ExtensionContext } from "vscode";
 import {
   LanguageClient,
   LanguageClientOptions,
   ServerOptions,
   TransportKind,
 } from "vscode-languageclient";
+import { LogLevel } from "@vscode-logging/types";
 import {
   SERVER_PATH,
   ServerInitializationOptions,
 } from "@ui5-language-assistant/language-server";
+import { LOGGING_LEVEL_CONFIG_PROP } from "./constants";
 
 let client: LanguageClient;
 
 export async function activate(context: ExtensionContext): Promise<void> {
-  // TODO: read name from package.json
-  const channel = window.createOutputChannel("UI5 Language Assistant");
-
   const debugOptions = { execArgv: ["--nolazy", "--inspect=6009"] };
 
   const serverOptions: ServerOptions = {
@@ -33,10 +32,15 @@ export async function activate(context: ExtensionContext): Promise<void> {
   const meta = JSON.parse(
     readFileSync(resolve(context.extensionPath, "package.json"), "utf8")
   );
+
+  const logLevel = workspace.getConfiguration().get(LOGGING_LEVEL_CONFIG_PROP);
+
   const initializationOptions: ServerInitializationOptions = {
     modelCachePath: context.globalStoragePath,
     publisher: meta.publisher,
     name: meta.name,
+    // validation of the logLevel value is done on the language server process.
+    logLevel: logLevel as LogLevel,
   };
 
   const clientOptions: LanguageClientOptions = {
@@ -44,9 +48,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
     synchronize: {
       fileEvents: [workspace.createFileSystemWatcher("**/manifest.json")],
     },
-    // Sending a channel we created instead of only giving it a name in outputChannelName so that if necessary we
-    // can print to it before the client starts (in this method)
-    outputChannel: channel,
+    outputChannelName: meta.displayName,
     initializationOptions: initializationOptions,
   };
 
