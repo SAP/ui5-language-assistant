@@ -1,6 +1,6 @@
 {
   "name": "@ui5-language-assistant/logic-utils",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "TBD",
   "keywords": [],
   "files": [
@@ -20,8 +20,8 @@
     "lodash": "4.17.20"
   },
   "devDependencies": {
-    "@ui5-language-assistant/semantic-model": "^1.4.4",
-    "@ui5-language-assistant/test-utils": "^1.4.3",
+    "@ui5-language-assistant/semantic-model": "^1.4.5",
+    "@ui5-language-assistant/test-utils": "^1.4.4",
     "@xml-tools/parser": "1.0.7"
   },
   "scripts": {
