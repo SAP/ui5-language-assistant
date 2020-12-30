@@ -12,6 +12,4 @@ export const attributeNameProviders: AttributeNameCompletion<
   UI5SemanticModel
 >[] = [propEventAssocSuggestions, namespaceKeysSuggestions];
 
-export type UI5AttributeNameCompletionOptions = AttributeNameCompletionOptions<
-  UI5SemanticModel
->;
+export type UI5AttributeNameCompletionOptions = AttributeNameCompletionOptions<UI5SemanticModel>;

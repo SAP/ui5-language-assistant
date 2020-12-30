@@ -12,6 +12,4 @@ export const elementNameProviders: ElementNameCompletion<
   UI5SemanticModel
 >[] = [aggregationSuggestions, classesSuggestions];
 
-export type UI5ElementNameCompletionOptions = ElementNameCompletionOptions<
-  UI5SemanticModel
->;
+export type UI5ElementNameCompletionOptions = ElementNameCompletionOptions<UI5SemanticModel>;

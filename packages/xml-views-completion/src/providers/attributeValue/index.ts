@@ -13,6 +13,4 @@ export const attributeValueProviders: AttributeValueCompletion<
   UI5SemanticModel
 >[] = [enumSuggestions, namespaceValueSuggestions, booleanSuggestions];
 
-export type UI5AttributeValueCompletionOptions = AttributeValueCompletionOptions<
-  UI5SemanticModel
->;
+export type UI5AttributeValueCompletionOptions = AttributeValueCompletionOptions<UI5SemanticModel>;

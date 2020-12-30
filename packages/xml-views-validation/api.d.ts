@@ -117,23 +117,15 @@ type XMLElementValidator<T> = (
 
 type Validators = {
   validateUnknownEnumValue: XMLAttributeValidator<UnknownEnumValueIssue>;
-  validateUnknownXmlnsNamespace: XMLAttributeValidator<
-    UnknownNamespaceInXmlnsAttributeValueIssue
-  >;
+  validateUnknownXmlnsNamespace: XMLAttributeValidator<UnknownNamespaceInXmlnsAttributeValueIssue>;
   validateBooleanValue: XMLAttributeValidator<InvalidBooleanValueIssue>;
-  validateUseOfDeprecatedAttribute: XMLAttributeValidator<
-    UseOfDeprecatedAttributeIssue
-  >;
+  validateUseOfDeprecatedAttribute: XMLAttributeValidator<UseOfDeprecatedAttributeIssue>;
   validateUnknownAttributeKey: XMLAttributeValidator<UnknownAttributeKeyIssue>;
   validateNonUniqueID: XMLDocumentValidator<NonUniqueIDIssue>;
-  validateUseOfDeprecatedAggregation: XMLElementValidator<
-    UseOfDeprecatedAggregationIssue
-  >;
+  validateUseOfDeprecatedAggregation: XMLElementValidator<UseOfDeprecatedAggregationIssue>;
   validateUseOfDeprecatedClass: XMLElementValidator<UseOfDeprecatedClassIssue>;
   validateUnknownTagName: XMLElementValidator<UnknownTagNameIssue>;
-  validateExplicitAggregationCardinality: XMLElementValidator<
-    InvalidAggregationCardinalityIssue
-  >;
+  validateExplicitAggregationCardinality: XMLElementValidator<InvalidAggregationCardinalityIssue>;
   validateAggregationType: XMLElementValidator<InvalidAggregationTypeIssue>;
   validateNonStableId: XMLElementValidator<NonStableIDIssue>;
 };
