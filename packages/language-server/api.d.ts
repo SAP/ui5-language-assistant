@@ -6,6 +6,8 @@ import { LogLevel } from "@vscode-logging/types";
 
 export declare const SERVER_PATH: string;
 
+export declare const CHANGE_LOG_LEVEL_REQUEST: string;
+
 export type ServerInitializationOptions = {
   modelCachePath: string;
   /**

@@ -55,8 +55,8 @@ export async function activate(context: ExtensionContext): Promise<void> {
   );
 
   listenToLogLevelChanges({
-    context,
-    client,
+    subscriptions: context.subscriptions,
+    sendRequest: client.sendRequest,
     getConfiguration: workspace.getConfiguration,
     onDidChangeConfiguration: workspace.onDidChangeConfiguration,
   });

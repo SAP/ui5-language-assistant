@@ -79,15 +79,15 @@
     "vscode": "^1.47.0"
   },
   "scripts": {
-    "ci": "npm-run-all clean compile lint test:unit coverage bundle package",
+    "ci": "npm-run-all clean compile lint coverage:* bundle package",
     "clean": "rimraf ./dist ./lib ./coverage ./nyc_output *.vsix NOTICE LICENSE",
     "compile": "yarn run clean && tsc -p .",
     "compile:watch": "tsc -p . --watch",
     "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore",
-    "test": "npm-run-all test:*",
-    "test:unit": "mocha --config=./test/unit/.mocharc.js",
     "test:integration": "node lib/test/run-integration-tests.js",
-    "coverage": "nyc node lib/test/run-integration-tests.js",
+    "test:unit": "mocha --config=./test/unit/.mocharc.js",
+    "coverage:integration:": "nyc node lib/test/run-integration-tests.js",
+    "coverage:unit": "nyc mocha --config=./test/unit/.mocharc.js",
     "bundle": "webpack --mode production",
     "package": "node ./scripts/package-vsix"
   },
