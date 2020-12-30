@@ -20,7 +20,7 @@ export type ServerInitializationOptions = {
   /**
    * Initial logging level for the language server.
    * The log level may be changed **after** the server has started
-   * By send a custom request (TBD document!!!).
+   * By send a custom `changeLogLevel` LSP request
    */
   logLevel?: LogLevel;
 };

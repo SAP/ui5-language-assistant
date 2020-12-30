@@ -12,6 +12,7 @@ import {
   DidChangeConfigurationNotification,
 } from "vscode-languageserver";
 import { URI } from "vscode-uri";
+import { LogLevel } from "@vscode-logging/types";
 import { TextDocument } from "vscode-languageserver-textdocument";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import {
@@ -38,7 +39,6 @@ import { diagnosticToCodeActionFix } from "./quick-fix";
 import { executeCommand } from "./commads";
 import { initSwa } from "./swa";
 import { getLogger, setLogLevel } from "./logger";
-import { LogLevel } from "@vscode-logging/logger";
 
 const connection = createConnection(ProposedFeatures.all);
 const documents = new TextDocuments(TextDocument);
@@ -50,7 +50,6 @@ let hasConfigurationCapability = false;
 connection.onInitialize((params: InitializeParams) => {
   getLogger().info("`onInitialize` event", params);
   if (params?.initializationOptions?.logLevel) {
-    // TODO: check if the logLevel is valid?
     setLogLevel(params?.initializationOptions?.logLevel);
   }
   initSwa(params);
