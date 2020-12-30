@@ -37,7 +37,8 @@ import {
 import { diagnosticToCodeActionFix } from "./quick-fix";
 import { executeCommand } from "./commads";
 import { initSwa } from "./swa";
-import { getLogger } from "./logger";
+import { getLogger, setLogLevel } from "./logger";
+import { LogLevel } from "@vscode-logging/logger";
 
 const connection = createConnection(ProposedFeatures.all);
 const documents = new TextDocuments(TextDocument);
@@ -48,7 +49,12 @@ let hasConfigurationCapability = false;
 
 connection.onInitialize((params: InitializeParams) => {
   getLogger().info("`onInitialize` event", params);
+  if (params?.initializationOptions?.logLevel) {
+    // TODO: check if the logLevel is valid?
+    setLogLevel(params?.initializationOptions?.logLevel);
+  }
   initSwa(params);
+
   const capabilities = params.capabilities;
   const workspaceFolderUri = params.rootUri;
   if (workspaceFolderUri !== null) {
@@ -266,6 +272,10 @@ connection.onDidChangeConfiguration((change) => {
   }
   // No further actions are required currently during configuration change. In the future we might want to
   // re-validate the files.
+});
+
+connection.onRequest("changeLogLevel", (newLogLevel: LogLevel) => {
+  setLogLevel(newLogLevel);
 });
 
 // Only keep settings for open documents

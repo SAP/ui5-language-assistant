@@ -2,6 +2,7 @@ import { cloneDeep, map } from "lodash";
 import omitDeep from "omit-deep-lodash";
 import { IChildLogger, IVSCodeExtLogger } from "@vscode-logging/types";
 import { getExtensionLogger, LogLevel } from "@vscode-logging/logger";
+import { validLoggingLevelValues } from "@ui5-language-assistant/settings";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires -- Using `require` for .json file as this gets bundled with webpack correctly.
 const meta = require("../../package.json");
@@ -46,8 +47,10 @@ export function getLogger(): ILogger {
 const possibleSensitiveProps = ["uri"];
 
 export function setLogLevel(newLevel: LogLevel): void {
-  logLevel = newLevel;
-  loggerImpl.changeLevel(newLevel);
+  if (validLoggingLevelValues[newLevel]) {
+    logLevel = newLevel;
+    loggerImpl.changeLevel(newLevel);
+  }
 }
 
 export function getLogLevel(): LogLevel {

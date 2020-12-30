@@ -2,6 +2,7 @@ import { expect } from "chai";
 import { restore, spy } from "sinon";
 import { getLogger, getLogLevel, setLogLevel } from "../src/logger";
 import { LogLevel } from "@vscode-logging/logger";
+import { validLoggingLevelValues } from "@ui5-language-assistant/settings";
 
 describe("the Language Server Logger", () => {
   let errorSpy;
@@ -25,7 +26,7 @@ describe("the Language Server Logger", () => {
   context("log level", () => {
     let orgLevel: LogLevel;
 
-    before(() => {
+    beforeEach(() => {
       orgLevel = getLogLevel();
     });
 
@@ -39,7 +40,15 @@ describe("the Language Server Logger", () => {
       expect(errorSpy).to.have.been.called;
     });
 
-    after(() => {
+    it("does not allow changing to an **unknown** logLevel", async () => {
+      // "Verbose" is not a valid log level for the language server
+      setLogLevel("Verbose" as "trace");
+      const currentLogLevel = getLogLevel();
+      expect(currentLogLevel).to.not.equal("Verbose");
+      expect(validLoggingLevelValues[currentLogLevel]).to.be.true;
+    });
+
+    afterEach(() => {
       setLogLevel(orgLevel);
     });
   });

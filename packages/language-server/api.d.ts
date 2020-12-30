@@ -2,6 +2,8 @@
  * Absolute path to the server's "main" module
  * This is useful when launching the server in a separate process (e.g via spawn).
  */
+import { LogLevel } from "@vscode-logging/types";
+
 export declare const SERVER_PATH: string;
 
 export type ServerInitializationOptions = {
@@ -14,6 +16,13 @@ export type ServerInitializationOptions = {
    * optional VSCode ext name.
    */
   name?: string;
+
+  /**
+   * Initial logging level for the language server.
+   * The log level may be changed **after** the server has started
+   * By send a custom request (TBD document!!!).
+   */
+  logLevel?: LogLevel;
 };
 
 export type FetchResponse = {

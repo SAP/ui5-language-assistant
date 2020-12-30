@@ -1,7 +1,7 @@
 /* istanbul ignore file */
 import { resolve } from "path";
 import { readFileSync } from "fs";
-import { workspace, window, ExtensionContext } from "vscode";
+import { workspace, ExtensionContext } from "vscode";
 import {
   LanguageClient,
   LanguageClientOptions,
@@ -12,13 +12,11 @@ import {
   SERVER_PATH,
   ServerInitializationOptions,
 } from "@ui5-language-assistant/language-server";
+import { listenToLogLevelChanges } from "./configuration";
 
 let client: LanguageClient;
 
 export async function activate(context: ExtensionContext): Promise<void> {
-  // TODO: read name from package.json
-  const channel = window.createOutputChannel("UI5 Language Assistant");
-
   const debugOptions = { execArgv: ["--nolazy", "--inspect=6009"] };
 
   const serverOptions: ServerOptions = {
@@ -44,9 +42,8 @@ export async function activate(context: ExtensionContext): Promise<void> {
     synchronize: {
       fileEvents: [workspace.createFileSystemWatcher("**/manifest.json")],
     },
-    // Sending a channel we created instead of only giving it a name in outputChannelName so that if necessary we
-    // can print to it before the client starts (in this method)
-    outputChannel: channel,
+    // TODO: test what would have been the default name?
+    outputChannelName: meta.name,
     initializationOptions: initializationOptions,
   };
 
@@ -57,6 +54,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
     clientOptions
   );
 
+  listenToLogLevelChanges(context, client);
   client.start();
 }
 
