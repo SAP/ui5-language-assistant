@@ -28,7 +28,7 @@
   "devDependencies": {
     "@ui5-language-assistant/test-utils": "^1.4.4",
     "@xml-tools/parser": "1.0.7",
-    "vscode-languageserver": "6.1.1"
+    "vscode-languageserver": "7.0.0"
   },
   "scripts": {
     "ci": "npm-run-all clean compile lint coverage",
