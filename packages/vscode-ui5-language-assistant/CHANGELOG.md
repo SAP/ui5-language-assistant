@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.7.1](https://github.com/sap/ui5-language-assistant/tree/master/packages/vscode-ui5-language-assistant/compare/vscode-ui5-language-assistant@1.7.0...vscode-ui5-language-assistant@1.7.1) (2021-01-03)
+
+### Bug Fixes
+
+- logging level scope changed, `resource`--> `window` ([a47abd0](https://github.com/sap/ui5-language-assistant/tree/master/packages/vscode-ui5-language-assistant/commit/a47abd00c72a16a7cce960ddce4ad0a400c4c236))
+
 # [1.7.0](https://github.com/sap/ui5-language-assistant/tree/master/packages/vscode-ui5-language-assistant/compare/vscode-ui5-language-assistant@1.6.1...vscode-ui5-language-assistant@1.7.0) (2020-12-30)
 
 ### Features

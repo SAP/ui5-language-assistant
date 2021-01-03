@@ -3,7 +3,7 @@
   "displayName": "UI5 Language Assistant",
   "private": true,
   "description": "Language Support For SAPUI5",
-  "version": "1.7.0",
+  "version": "1.7.1",
   "publisher": "SAPOSS",
   "icon": "resources/ui5-language-assistant.png",
   "keywords": [
@@ -92,7 +92,7 @@
     "package": "node ./scripts/package-vsix"
   },
   "dependencies": {
-    "@ui5-language-assistant/language-server": "^2.1.0",
+    "@ui5-language-assistant/language-server": "^2.1.1",
     "vscode-languageclient": "6.1.3"
   },
   "devDependencies": {
