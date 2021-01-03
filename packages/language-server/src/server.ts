@@ -96,10 +96,9 @@ connection.onInitialized(async () => {
 
   if (hasConfigurationCapability) {
     // Register for all configuration changes
-    connection.client.register(
-      DidChangeConfigurationNotification.type,
-      undefined
-    );
+    connection.client.register(DidChangeConfigurationNotification.type, {
+      section: "UI5LanguageAssistant",
+    });
   }
 });
 
@@ -259,17 +258,6 @@ connection.onDidChangeConfiguration((change) => {
   if (hasConfigurationCapability) {
     getLogger().trace("Reset all cached document settings");
     clearSettings();
-    // intentionally, ignoring the results of this promise
-    // and avoiding using an async function as the API of the changeHandler is `synced`
-    // Note the change object appears to be empty of VSCode which is why we attempt to obtain
-    // the possible new settings via a `getConfiguration` async call.
-    void connection.workspace
-      .getConfiguration({
-        section: "UI5LanguageAssistant",
-      })
-      .then((ui5LangAssistSettings) => {
-        setLogLevel(ui5LangAssistSettings?.logging?.level);
-      });
   } else {
     if (change.settings.UI5LanguageAssistant !== undefined) {
       const ui5LangAssistSettings = change.settings.UI5LanguageAssistant;
@@ -277,11 +265,13 @@ connection.onDidChangeConfiguration((change) => {
         ui5LangAssistSettings,
       });
       setGlobalSettings(ui5LangAssistSettings);
-      setLogLevel(ui5LangAssistSettings?.logging?.level);
     }
   }
-  // No further actions are required currently during configuration change. In the future we might want to
-  // re-validate the files.
+  // In the future we might want to
+  // re-validate the files related to the `cached document settings`.
+
+  // `setLogLevel` will ignore `undefined` values
+  setLogLevel(change?.settings?.UI5LanguageAssistant?.logging?.level);
 });
 
 // Only keep settings for open documents
