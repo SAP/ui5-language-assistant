@@ -64,7 +64,7 @@
     "simple-git": "1.132.0",
     "klaw-sync": "6.0.0",
     "fs-extra": "9.0.1",
-    "webpack": "4.44.1",
+    "webpack": "5.12.3",
     "webpack-cli": "4.3.0",
     "coveralls": "3.1.0",
     "make-dir": "3.1.0",
