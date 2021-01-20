@@ -29,7 +29,7 @@
   },
   "devDependencies": {
     "@ui5-language-assistant/semantic-model": "^1.4.6",
-    "@xml-tools/parser": "1.0.7",
+    "@xml-tools/parser": "1.0.9",
     "chevrotain": "7.0.1"
   },
   "scripts": {
