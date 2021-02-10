@@ -1738,21 +1738,28 @@
   dependencies:
     "@xml-tools/ast" "^5.0.0"
 
-"@xml-tools/ast@5.0.0", "@xml-tools/ast@^5.0.0":
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/@xml-tools/ast/-/ast-5.0.0.tgz#dd1c944d010a51cd9209bdd0843b28b64f6967a0"
-  integrity sha512-NLMBbvW1S6bG+pHvPfQeM3ci+le9LexuA4E+obqoRpTWqlJSQGiPKxq8p+HauQmdlF4UC9GUIGsa+9FNFefKyg==
+"@xml-tools/ast@5.0.4", "@xml-tools/ast@^5.0.0":
+  version "5.0.4"
+  resolved "https://registry.yarnpkg.com/@xml-tools/ast/-/ast-5.0.4.tgz#7ce2af5e9b0b256ba3997c7f21701d188d37ce22"
+  integrity sha512-k6BFvF2uQMXJTTZO100v1CgezOawoZOsL+L4xTDQBoRVU3LOkAYglL6xfKGCPHbTN1+EPVw9qE4+kXr4HVvvyg==
   dependencies:
-    "@xml-tools/common" "^0.1.2"
-    "@xml-tools/parser" "^1.0.7"
-    lodash "4.17.15"
+    "@xml-tools/common" "^0.1.5"
+    "@xml-tools/parser" "^1.0.10"
+    lodash "4.17.20"
 
-"@xml-tools/common@0.1.2", "@xml-tools/common@^0.1.2":
+"@xml-tools/common@0.1.2":
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/@xml-tools/common/-/common-0.1.2.tgz#ed02cb9b9791a22615c5ec523650fd1336c65c3e"
   integrity sha512-5U0CbB3u5WDRKX+oPjHEm6ZkJk8z5LZMpEI6uzBzcnP+3dIxahCF90lhwljQ/rPVSLMLxLfv72xru6RbePeLWA==
   dependencies:
     lodash "4.17.15"
+
+"@xml-tools/common@^0.1.2", "@xml-tools/common@^0.1.5":
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/@xml-tools/common/-/common-0.1.5.tgz#247765c76ea5dd7c87630fbbd0a12ae4ac3cd4fb"
+  integrity sha512-uEv4A1fZGd9c89AcD+OloGccmY1T6OtYNCf7dCiWwTdCpn2JoLj2TozXLX4lBAuY3oAuyigvrxupcUQWFTvg+Q==
+  dependencies:
+    lodash "4.17.20"
 
 "@xml-tools/content-assist@3.1.7":
   version "3.1.7"
@@ -1763,12 +1770,19 @@
     "@xml-tools/parser" "^1.0.7"
     lodash "4.17.15"
 
-"@xml-tools/parser@1.0.7", "@xml-tools/parser@^1.0.7":
+"@xml-tools/parser@1.0.7":
   version "1.0.7"
   resolved "https://registry.yarnpkg.com/@xml-tools/parser/-/parser-1.0.7.tgz#2228b77856cd552392057b8e2e507101b64261cb"
   integrity sha512-mdjG4dWj4zaubxWAgr0YMNkZr182aHek5xrpDqgITNnGf+E8FhvAmCU95QiL9+pGjqK8Qfd+qnuer9f8KELRyQ==
   dependencies:
     chevrotain "7.0.1"
+
+"@xml-tools/parser@^1.0.10", "@xml-tools/parser@^1.0.7":
+  version "1.0.10"
+  resolved "https://registry.yarnpkg.com/@xml-tools/parser/-/parser-1.0.10.tgz#d1dd3a4323d713fcca5279005c96b37058ccbc33"
+  integrity sha512-9oRb68wEKT+MRB7e2GwTiKicRKVXKzquBDGgH6YcGafvnSYXorWi2oaTVtbv2109RlGiQSnoXaQFUXCnHwFS7Q==
+  dependencies:
+    chevrotain "7.1.1"
 
 "@xtuc/ieee754@^1.2.0":
   version "1.2.0"
@@ -2445,6 +2459,13 @@ chevrotain@7.0.1:
   version "7.0.1"
   resolved "https://registry.yarnpkg.com/chevrotain/-/chevrotain-7.0.1.tgz#55d1d21a9afea0aad23b4d30e75650212eb4cc9f"
   integrity sha512-B/44jrdw5GAzy483LEeVSgXSX0qOYM8lUd3l5+yf6Vl6OQjEUCm2BUiYbHRCIK6xCEvCLAFe1kj8uyV6+zdaVw==
+  dependencies:
+    regexp-to-ast "0.5.0"
+
+chevrotain@7.1.1:
+  version "7.1.1"
+  resolved "https://registry.yarnpkg.com/chevrotain/-/chevrotain-7.1.1.tgz#5122814eafd1585a9601f9180a7be9c42d5699c6"
+  integrity sha512-wy3mC1x4ye+O+QkEinVJkPf5u2vsrDIYW9G7ZuwFl6v/Yu0LwUuT2POsb+NUWApebyxfkQq6+yDfRExbnI5rcw==
   dependencies:
     regexp-to-ast "0.5.0"
 
