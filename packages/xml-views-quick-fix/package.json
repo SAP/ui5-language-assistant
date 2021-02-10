@@ -27,7 +27,7 @@
   },
   "devDependencies": {
     "@ui5-language-assistant/test-utils": "^1.4.4",
-    "@xml-tools/parser": "1.0.7",
+    "@xml-tools/parser": "1.0.10",
     "vscode-languageserver": "6.1.1"
   },
   "scripts": {
