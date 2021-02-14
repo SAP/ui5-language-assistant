@@ -4,5 +4,5 @@ Upstream-Contact: Shachar Soel <shachar.soel@sap.com>
 Source: https://github.com/SAP/ui5-language-assistant
 
 Files: *
-Copyright: 2020 SAP SE or an SAP affiliate company and UI5 Language Assistant contributors
+Copyright: 2020-2021 SAP SE or an SAP affiliate company and UI5 Language Assistant contributors
 License: Apache-2.0
