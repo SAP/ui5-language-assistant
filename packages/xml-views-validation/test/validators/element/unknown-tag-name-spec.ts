@@ -409,6 +409,18 @@ describe("the unknown tag name validation", () => {
       });
 
       context("ui5 namespace", () => {
+        let assertSingleIssue: (xmlSnippet: string, message: string) => void;
+        before(() => {
+          assertSingleIssue = partial(
+            assertSingleIssueBase,
+            ui5SemanticModel,
+            {
+              element: [validators.validateUnknownTagName],
+            },
+            "UnknownTagName",
+            "error"
+          );
+        });
         it("will not detect an issue for known class in the root tag", () => {
           assertNoIssues(
             `<mvc:View
@@ -501,6 +513,53 @@ describe("the unknown tag name validation", () => {
                 </m:Button>
               </SplitApp>
             </mvc:View>`
+          );
+        });
+
+        it("will not detect an issue for sap.ui.core.ExtensionPoint as top level element in sap.ui.core.mvc.View", () => {
+          assertNoIssues(
+            `<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:core="sap.ui.core">
+                <core:ExtensionPoint name="extension1"/>
+            </mvc:View>`
+          );
+        });
+
+        it("will not detect an issue for sap.ui.core.ExtensionPoint as top level element in sap.ui.core.Fragment", () => {
+          assertNoIssues(
+            `<FragmentDefinition xmlns="sap.ui.core">
+                <ExtensionPoint name="extension1"/>
+            </FragmentDefinition>`
+          );
+        });
+
+        it("will not detect an issue for sap.ui.core.ExtensionPoint as nested element in sap.ui.core.mvc.View", () => {
+          assertNoIssues(
+            `<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:core="sap.ui.core" xmlns:m="sap.m">
+                <m:Page>
+                  <m:content>
+                    <core:ExtensionPoint name="extension1"/>
+                  </m:content>
+                </m:Page>
+            </mvc:View>`
+          );
+        });
+
+        it("will not detect an issue for sap.ui.core.ExtensionPoint as nested element in sap.ui.core.Fragment", () => {
+          assertNoIssues(
+            `<FragmentDefinition xmlns="sap.ui.core">
+              <m:Panel>
+                <m:content>
+                  <core:ExtensionPoint name="extension1"/>
+                </m:content>
+              </m:Panel>
+            </FragmentDefinition>`
+          );
+        });
+
+        it("will detect an issue for sap.ui.core.ExtensionPoint in the root tag", () => {
+          assertSingleIssue(
+            `<ExtensionPoint name="extension1"></ExtensionPoint>`,
+            buildMessage(UNKNOWN_CLASS_WITHOUT_NS.msg, "ExtensionPoint")
           );
         });
       });
