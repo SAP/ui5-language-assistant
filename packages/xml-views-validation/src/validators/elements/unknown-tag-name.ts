@@ -241,12 +241,11 @@ function shouldIgnoreElement(xmlElement: XMLElement): boolean {
   // We allow the tag sap.ui.core:ExtensionPoint except on the root of the document
   // See https://ui5.sap.com/#/topic/403c050da4ae4566b6aafec2bc590389
   return (
-    (xmlElement.parent.type === "XMLDocument" &&
-      resolveXMLNS(xmlElement) === CORE_NS &&
+    resolveXMLNS(xmlElement) === CORE_NS &&
+    ((xmlElement.parent.type === "XMLDocument" &&
       xmlElement.name === "FragmentDefinition") ||
-    (xmlElement.parent.type !== "XMLDocument" &&
-      resolveXMLNS(xmlElement) === CORE_NS &&
-      xmlElement.name === "ExtensionPoint")
+      (xmlElement.parent.type !== "XMLDocument" &&
+        xmlElement.name === "ExtensionPoint"))
   );
 }
 
