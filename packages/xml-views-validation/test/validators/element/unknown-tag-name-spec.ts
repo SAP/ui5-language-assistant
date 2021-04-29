@@ -558,7 +558,7 @@ describe("the unknown tag name validation", () => {
 
         it("will detect an issue for sap.ui.core.ExtensionPoint in the root tag", () => {
           assertSingleIssue(
-            `<ExtensionPoint name="extension1"></ExtensionPoint>`,
+            `<🢂ExtensionPoint🢀 name="extension1"></ExtensionPoint>`,
             buildMessage(UNKNOWN_CLASS_WITHOUT_NS.msg, "ExtensionPoint")
           );
         });
