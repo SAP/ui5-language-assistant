@@ -16,7 +16,7 @@
     "node-fetch": "2.6.1"
   },
   "devDependencies": {
-    "@types/node-fetch": "2.5.7"
+    "@types/node-fetch": "2.5.10"
   },
   "scripts": {
     "ci": "npm-run-all clean compile lint",
