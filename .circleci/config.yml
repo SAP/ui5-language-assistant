@@ -10,10 +10,13 @@ jobs:
       - run: yarn
       - run: yarn run ci
       - run:
-          command: cat ./coverage/lcov.info | ./node_modules/.bin/coveralls
-          environment:
-            COVERALLS_SERVICE_NAME: circle-ci
-            COVERALLS_GIT_BRANCH: ${CIRCLE_BRANCH}
+          name: coveralls report
+          command: |
+            if [ -n "$CIRCLE_PR_NUMBER" ]; then
+              circleci step halt
+            fi
+            # disabling coveralls.io as it is currently broken.
+            # cat ./coverage/lcov.info | ./node_modules/.bin/coveralls
 
   build-node12:
     docker:
