@@ -1,5 +1,15 @@
 version: 2.1
 jobs:
+  build-node16:
+    docker:
+      - image: circleci/node:16-browsers
+    working_directory: ~/repo
+    steps:
+      - run: sudo apt-get install libxss1
+      - checkout
+      - run: yarn
+      - run: yarn run ci
+
   build-node14:
     docker:
       - image: circleci/node:14-browsers
@@ -21,16 +31,6 @@ jobs:
   build-node12:
     docker:
       - image: circleci/node:12-browsers
-    working_directory: ~/repo
-    steps:
-      - run: sudo apt-get install libxss1
-      - checkout
-      - run: yarn
-      - run: yarn run ci
-
-  build-node10:
-    docker:
-      - image: circleci/node:10-browsers
     working_directory: ~/repo
     steps:
       - run: sudo apt-get install libxss1
@@ -96,9 +96,10 @@ workflows:
   version: 2
   voter:
     jobs:
-      - build-node10
-      - build-node12
+#   no tag for version 16 on https://hub.docker.com/r/circleci/node yet
+#      - build-node16
       - build-node14
+      - build-node12
       - compliance
   release:
     jobs:
