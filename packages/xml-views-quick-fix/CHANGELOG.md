@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.4](https://github.com/sap/ui5-language-assistant/compare/@ui5-language-assistant/xml-views-quick-fix@2.0.3...@ui5-language-assistant/xml-views-quick-fix@2.0.4) (2021-05-04)
+
+**Note:** Version bump only for package @ui5-language-assistant/xml-views-quick-fix
+
 ## [2.0.3](https://github.com/sap/ui5-language-assistant/compare/@ui5-language-assistant/xml-views-quick-fix@2.0.2...@ui5-language-assistant/xml-views-quick-fix@2.0.3) (2021-01-03)
 
 **Note:** Version bump only for package @ui5-language-assistant/xml-views-quick-fix

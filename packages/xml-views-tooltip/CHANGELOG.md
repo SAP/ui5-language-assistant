@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.8](https://github.com/sap/ui5-language-assistant/compare/@ui5-language-assistant/xml-views-tooltip@1.2.7...@ui5-language-assistant/xml-views-tooltip@1.2.8) (2021-05-04)
+
+**Note:** Version bump only for package @ui5-language-assistant/xml-views-tooltip
+
 ## [1.2.7](https://github.com/sap/ui5-language-assistant/compare/@ui5-language-assistant/xml-views-tooltip@1.2.6...@ui5-language-assistant/xml-views-tooltip@1.2.7) (2021-01-03)
 
 **Note:** Version bump only for package @ui5-language-assistant/xml-views-tooltip
