@@ -15,7 +15,7 @@
     "build:quick": "lerna run compile && lerna run bundle && lerna run package",
     "lerna:version": "lerna version && yarn run cirlce:release",
     "cirlce:release": "node ./scripts/trigger-release",
-    "lerna:publish": "lerna publish from-git --yes",
+    "lerna:publish": "lerna publish from-git --yes --no-verify-access",
     "ci": "npm-run-all format:validate ci:subpackages coverage:merge legal:*",
     "compile": "yarn run clean && tsc --build",
     "compile:watch": "yarn run clean && tsc --build --watch",
