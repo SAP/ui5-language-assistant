@@ -134,9 +134,9 @@ Performing a release requires push permissions to the repository.
 - Ensure you are on `master` branch and synced with origin.
 - `yarn run lerna:version`
 - Follow the lerna CLI instructions.
-- Track the `RELEASE` and `vscode-ui5-language-assistant@x.y.z` tag builds on circle-ci.
+- Track the new `/v\d+.\d+.\d+/` tag build on circle-ci.
   - https://circleci.com/gh/SAP/ui5-language-assistant.
 - Once the tag builds have successfully finished:
   - Inspect the npm registry to see the new sub packages versions.
-  - Inspect the new github release named: `vscode-ui5-language-assistant@x.y.z`
+  - Inspect the new github release named after the new `/v\d+.\d+.\d+/` tag
     and verify it contains the `.vsix` artifact.
