@@ -97,8 +97,7 @@ workflows:
   version: 2
   voter:
     jobs:
-#   no tag for version 16 on https://hub.docker.com/r/circleci/node yet
-#      - build-node16
+      - build-node16
       - build-node14
       - build-node12
       - compliance
