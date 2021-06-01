@@ -13,7 +13,7 @@
   },
   "scripts": {
     "build:quick": "lerna run compile && lerna run bundle && lerna run package",
-    "lerna:version": "lerna version",
+    "release:version": "lerna version",
     "release:publish": "lerna publish from-git --yes",
     "ci": "npm-run-all format:validate ci:subpackages coverage:merge legal:*",
     "compile": "yarn run clean && tsc --build",
