@@ -2,13 +2,14 @@
   "packages": ["packages/*", "test-packages/*"],
   "useWorkspaces": true,
   "npmClient": "yarn",
-  "version": "independent",
+  "version": "2.9.9",
   "command": {
     "publish": {
       "conventionalCommits": true
     },
     "version": {
-      "message": "chore(release): release"
+      "allowBranch": "master",
+      "message": "chore(release): release %s"
     }
   }
 }
