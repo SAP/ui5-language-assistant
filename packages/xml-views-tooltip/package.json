@@ -27,7 +27,7 @@
     "@xml-tools/ast": "5.0.0",
     "@xml-tools/ast-position": "2.0.2",
     "@xml-tools/common": "0.1.2",
-    "lodash": "4.17.20"
+    "lodash": "4.17.21"
   },
   "devDependencies": {
     "vscode-languageserver": "6.1.1"

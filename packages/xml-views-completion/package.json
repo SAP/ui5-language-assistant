@@ -25,7 +25,7 @@
     "@xml-tools/common": "0.1.2",
     "@xml-tools/content-assist": "3.1.7",
     "assert-never": "1.2.1",
-    "lodash": "4.17.20"
+    "lodash": "4.17.21"
   },
   "devDependencies": {
     "@ui5-language-assistant/semantic-model": "^1.4.7",

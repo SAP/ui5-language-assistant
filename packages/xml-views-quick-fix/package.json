@@ -23,7 +23,7 @@
     "@ui5-language-assistant/logic-utils": "^1.4.4",
     "@xml-tools/ast": "5.0.0",
     "@xml-tools/ast-position": "2.0.2",
-    "lodash": "4.17.20"
+    "lodash": "4.17.21"
   },
   "devDependencies": {
     "@ui5-language-assistant/test-utils": "^1.4.5",
