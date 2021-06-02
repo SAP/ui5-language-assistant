@@ -1,0 +1,36 @@
+{
+  "name": "@ui5-language-assistant/dist-metadata",
+  "version": "3.0.1",
+  "description": "Utilities for fetching and processing UI5 distributions metadata",
+  "keywords": [],
+  "files": [
+    ".reuse",
+    "LICENSES",
+    "lib/src",
+    "api.d.ts",
+    "src"
+  ],
+  "main": "lib/src/api.js",
+  "repository": "https://github.com/sap/ui5-language-assistant/",
+  "license": "Apache-2.0",
+  "typings": "./api.d.ts",
+  "dependencies": {
+    "node-fetch": "^2.6.1",
+    "lodash": "4.17.21"
+  },
+  "devDependencies": {
+    "@types/node-fetch": "^2.5.10"
+  },
+  "scripts": {
+    "ci": "npm-run-all clean compile lint coverage",
+    "clean": "rimraf ./lib ./coverage ./nyc_output",
+    "compile": "yarn run clean && tsc -p .",
+    "compile:watch": "tsc -p . --watch",
+    "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore",
+    "test": "mocha",
+    "coverage": "nyc mocha"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
