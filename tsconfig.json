@@ -1,6 +1,9 @@
 {
   "references": [
     {
+      "path": "./packages/dist-metadata"
+    },
+    {
       "path": "./packages/language-server"
     },
     {
