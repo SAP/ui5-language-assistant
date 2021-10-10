@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.1.0](https://github.com/sap/ui5-language-assistant/tree/master/packages/vscode-ui5-language-assistant/compare/v3.0.1...v3.1.0) (2021-10-10)
+
+### Features
+
+- add src/manifest.json path to jsonValidation ([#425](https://github.com/sap/ui5-language-assistant/tree/master/packages/vscode-ui5-language-assistant/issues/425)) ([f4aaf33](https://github.com/sap/ui5-language-assistant/tree/master/packages/vscode-ui5-language-assistant/commit/f4aaf333aeb17c1238747990e549edfa674830b6))
+
 ## [3.0.1](https://github.com/sap/ui5-language-assistant/tree/master/packages/vscode-ui5-language-assistant/compare/v3.0.0...v3.0.1) (2021-06-01)
 
 **Note:** Version bump only for package vscode-ui5-language-assistant
