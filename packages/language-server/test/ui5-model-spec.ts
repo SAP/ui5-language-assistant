@@ -7,15 +7,15 @@ import {
   getSemanticModelWithFetcher,
   getCacheFilePath,
   getCacheFolder,
+  getAxiosClient,
 } from "../src/ui5-model";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
-import { FetchResponse } from "../api";
 import { expectExists } from "@ui5-language-assistant/test-utils";
 import { forEach, isPlainObject } from "lodash";
-
+import MockAdapter from "axios-mock-adapter";
 describe("the UI5 language assistant ui5 model", () => {
   // The default timeout is 2000ms and getSemanticModel can take ~3000-5000ms
-  const GET_MODEL_TIMEOUT = 10000;
+  const GET_MODEL_TIMEOUT = 60000;
   const VERSION = "1.71.14";
   const NO_CACHE_FOLDER = undefined;
 
@@ -52,14 +52,21 @@ describe("the UI5 language assistant ui5 model", () => {
   }).timeout(GET_MODEL_TIMEOUT);
 
   it("doesn't fail if a file cannot be fetched", async () => {
-    const ui5Model = await getSemanticModelWithFetcher(async (url: string) => {
+    const axiosClient = await getAxiosClient();
+    const mock = new MockAdapter(axiosClient);
+
+    const suffix = /\/designtime\/api.json/;
+    mock.onGet(suffix).reply(404, () => {
       return {
-        ok: false,
         json: (): never => {
-          throw new Error(`Cannot read from ${url}`);
+          throw new Error(`Cannot read from ${suffix}`);
         },
       };
-    }, NO_CACHE_FOLDER);
+    });
+    const ui5Model = await getSemanticModelWithFetcher(
+      axiosClient,
+      NO_CACHE_FOLDER
+    );
     expect(ui5Model).to.exist;
   });
 
@@ -86,13 +93,28 @@ describe("the UI5 language assistant ui5 model", () => {
 
         // Call getSemanticModel again with the same path and check it doesn't try to read from the URL
         let fetcherCalled = false;
-        const ui5ModelFromCache = await getSemanticModelWithFetcher(
-          (url: string): never => {
+        const axiosClient = await getAxiosClient();
+        const mock = new MockAdapter(axiosClient);
+        axiosClient.interceptors.request.use(
+          function (config) {
+            // Do something before request is sent
             fetcherCalled = true;
-            throw new Error(
-              `The files should be taken from the cache, got call for ${url}`
-            );
+            return config;
           },
+          function (error) {
+            // Do something with request error
+            return Promise.reject(error);
+          }
+        );
+        const suffix = /\/designtime\/api.json/;
+        mock.onGet(suffix).reply(200, () => {
+          fetcherCalled = true;
+          throw new Error(
+            `The files should be taken from the cache, got call for ${suffix}`
+          );
+        });
+        const ui5ModelFromCache = await getSemanticModelWithFetcher(
+          axiosClient,
           cachePath
         );
         expect(fetcherCalled).to.be.false;
@@ -165,15 +187,29 @@ describe("the UI5 language assistant ui5 model", () => {
 
         // Call getSemanticModel again with the same path and check it doesn't try to read from the URL
         let fetcherCalled = false;
-        await getSemanticModelWithFetcher(async (): Promise<FetchResponse> => {
-          fetcherCalled = true;
+        const axiosClient = await getAxiosClient();
+        const mock = new MockAdapter(axiosClient);
+        const suffix = /\/designtime\/api.json/;
+        axiosClient.interceptors.request.use(
+          function (config) {
+            // Do something before request is sent
+            fetcherCalled = true;
+            return config;
+          },
+          function (error) {
+            // Do something with request error
+            return Promise.reject(error);
+          }
+        );
+        mock.onGet(suffix).reply(200, () => {
           return {
             ok: true,
             json: async (): Promise<unknown> => {
               return {};
             },
           };
-        }, cachePath);
+        });
+        await getSemanticModelWithFetcher(axiosClient, cachePath);
         expect(fetcherCalled).to.be.true;
       }).timeout(GET_MODEL_TIMEOUT);
     });
