@@ -13,10 +13,14 @@
   "license": "Apache-2.0",
   "typings": "./api.d.ts",
   "dependencies": {
-    "node-fetch": "2.6.1"
+    "axios": "^0.24.0",
+    "get-proxy-settings": "^0.1.13",
+    "node-fetch": "2.6.1",
+    "tunnel": "0.0.6"
   },
   "devDependencies": {
-    "@types/node-fetch": "2.5.10"
+    "@types/node-fetch": "2.5.10",
+    "@types/tunnel": "0.0.3"
   },
   "scripts": {
     "ci": "npm-run-all clean compile lint",

@@ -38,9 +38,12 @@
     "@xml-tools/ast-position": "2.0.2",
     "@xml-tools/parser": "1.0.7",
     "assert-never": "1.2.1",
+    "axios": "^0.24.0",
     "fs-extra": "9.0.1",
+    "get-proxy-settings": "^0.1.13",
     "lodash": "4.17.21",
     "node-fetch": "2.6.1",
+    "tunnel": "0.0.6",
     "vscode-languageserver": "6.1.1",
     "vscode-languageserver-textdocument": "1.0.1",
     "vscode-uri": "2.1.2"
@@ -48,6 +51,7 @@
   "devDependencies": {
     "@types/node-fetch": "2.5.10",
     "@types/tmp": "0.2.0",
+    "@types/tunnel": "0.0.3",
     "@ui5-language-assistant/semantic-model-types": "^3.0.1",
     "@ui5-language-assistant/test-utils": "^3.0.1",
     "tmp-promise": "3.0.2",

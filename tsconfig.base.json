@@ -12,7 +12,8 @@
     "strict": true,
     "noImplicitAny": false,
     "noImplicitReturns": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "skipLibCheck": true
   },
   "include": ["src/**/*", "api.d.ts"]
 }

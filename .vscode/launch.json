@@ -9,6 +9,8 @@
       "request": "launch",
       "name": "Launch Client",
       "runtimeExecutable": "${execPath}",
+      "preLaunchTask": "npm: compile",
+
       "args": [
         "--extensionDevelopmentPath=${workspaceRoot}/packages/vscode-ui5-language-assistant"
       ],

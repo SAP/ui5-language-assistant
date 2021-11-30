@@ -1,8 +1,10 @@
 import { map } from "lodash";
 import fetch from "node-fetch";
+import axios, { AxiosInstance } from "axios";
 import { resolve } from "path";
 import { pathExists, lstat, readJson, writeJson, mkdirs } from "fs-extra";
-
+import { getProxySettings } from "get-proxy-settings";
+import { httpsOverHttp } from "tunnel";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import {
   generate,
@@ -26,9 +28,9 @@ export async function getSemanticModelWithFetcher(
   modelCachePath: string | undefined
 ): Promise<UI5SemanticModel> {
   const version = DEFAULT_UI5_VERSION;
+
   getLogger().info("building UI5 semantic Model for version", { version });
   const jsonMap: Record<string, Json> = {};
-  const baseUrl = `https://sapui5.hana.ondemand.com/${version}/test-resources/`;
   const suffix = "/designtime/api.json";
   const libs = getLibs();
   let cacheFolder: string | undefined;
@@ -57,13 +59,23 @@ export async function getSemanticModelWithFetcher(
       // If the file doesn't exist in the cache (or we couldn't read it), fetch it from the network
       if (apiJson === undefined) {
         getLogger().info("No cache found for UI5 lib", { libName });
-        const url = baseUrl + libName.replace(/\./g, "/") + suffix;
-        const response = await fetcher(url);
-        if (response.ok) {
-          apiJson = await response.json();
-          await writeToCache(cacheFilePath, apiJson);
-        } else {
-          getLogger().error("Could not read UI5 resources from", { url });
+        const url = "/" + libName.replace(/\./g, "/") + suffix;
+
+        const axiosClient = await getAxiosClient();
+        try {
+          const response = await axiosClient.get(url);
+          if (response.status === 200) {
+            apiJson = response.data;
+            await writeToCache(cacheFilePath, apiJson);
+          } else {
+            getLogger().error("Could not read UI5 resources from", {
+              url,
+            });
+          }
+        } catch (error) {
+          getLogger().error("Could not read UI5 resources from", {
+            error,
+          });
         }
       } else {
         getLogger().info("Reading Cache For UI5 Lib ", {
@@ -86,6 +98,31 @@ export async function getSemanticModelWithFetcher(
   });
 }
 
+async function getAxiosClient(): Promise<AxiosInstance> {
+  const version = DEFAULT_UI5_VERSION;
+
+  const proxy = await getProxySettings();
+  const baseUrl = `https://sapui5.hana.ondemand.com/${version}/test-resources`;
+
+  if (proxy?.https) {
+    const agent = httpsOverHttp({
+      proxy: {
+        host: proxy.https.host,
+        port: parseInt(proxy.https.port),
+        proxyAuth: `${proxy.https.credentials.username}:${proxy.https.credentials.password}`,
+      },
+    });
+    return axios.create({
+      baseURL: baseUrl,
+      httpsAgent: agent,
+      proxy: false,
+    });
+  } else {
+    return axios.create({
+      baseURL: baseUrl,
+    });
+  }
+}
 async function readFromCache(filePath: string | undefined): Promise<unknown> {
   if (filePath !== undefined) {
     try {

@@ -1,7 +1,9 @@
-import { zipObject, keys, map, noop } from "lodash";
+import { zipObject, keys, map, noop, isEmpty } from "lodash";
 import { resolve } from "path";
 import { writeFile, mkdirs, pathExists } from "fs-extra";
-import fetch from "node-fetch";
+import axios, { AxiosInstance } from "axios";
+import { getProxySettings } from "get-proxy-settings";
+import { httpsOverHttp } from "tunnel";
 import { TestModelVersion } from "../../api";
 
 // Disable this flag if you want/need spam/info in the tests logs.
@@ -20,15 +22,22 @@ async function getLibs(version: TestModelVersion): Promise<string[]> {
   if (versionInMetadataURL !== "1.76.0") {
     versionInMetadataURL = "1.76.0";
   }
-  const url = `https://unpkg.com/@sapui5/distribution-metadata@${versionInMetadataURL}/metadata.json`;
-  const response = await fetch(url);
-  if (!response.ok) {
+  const url = `/@sapui5/distribution-metadata@${versionInMetadataURL}/metadata.json`;
+
+  const axiosClient = await getAxiosClient(`https://unpkg.com`);
+  // console.log(
+  //   `${url}@sapui5/distribution-metadata@${versionInMetadataURL}/metadata.json`
+  // );
+
+  const response = await axiosClient.get(url);
+
+  if (response.status !== 200) {
     log(`error fetching from ${url}`);
     return [];
   }
-  const fileContent = await response.text();
-  const librariesMetadata = JSON.parse(fileContent);
-  return keys(librariesMetadata.libraries);
+  const fileContent = await response.data;
+  // const librariesMetadata = JSON.parse(fileContent);
+  return keys(fileContent.libraries);
 }
 
 export async function addUi5Resources(
@@ -59,6 +68,29 @@ export async function addUi5Resources(
   );
 }
 
+async function getAxiosClient(url: string): Promise<AxiosInstance> {
+  const proxy = await getProxySettings();
+  const baseUrl = url;
+
+  if (proxy?.https) {
+    const agent = httpsOverHttp({
+      proxy: {
+        host: proxy.https.host,
+        port: parseInt(proxy.https.port),
+        proxyAuth: `${proxy.https.credentials.username}:${proxy.https.credentials.password}`,
+      },
+    });
+    return axios.create({
+      baseURL: baseUrl,
+      httpsAgent: agent,
+      proxy: false,
+    });
+  } else {
+    return axios.create({
+      baseURL: baseUrl,
+    });
+  }
+}
 async function writeUrlToFile(url: string, file: string): Promise<void> {
   // Don't download the file if it already exists
   if (await pathExists(file)) {
@@ -66,16 +98,24 @@ async function writeUrlToFile(url: string, file: string): Promise<void> {
   }
 
   log(`fetching from ${url}`);
-  const response = await fetch(url);
-  if (!response.ok) {
+  const axiosClient = await getAxiosClient(url);
+  let text;
+  try {
+    const response = await axiosClient.get("");
+    if (response.status !== 200) {
+      error(`error fetching from ${url}`);
+      return;
+    }
+    text = await response.data;
+
+    if (isEmpty(text)) {
+      // These files don't add anything to the model but they return an error in strict mode
+      log(`empty object returned from ${url}`);
+      return;
+    }
+    const textStr = JSON.stringify(text);
+    await writeFile(file, textStr);
+  } catch (oError) {
     error(`error fetching from ${url}`);
-    return;
   }
-  const text = await response.text();
-  if (text === "{}") {
-    // These files don't add anything to the model but they return an error in strict mode
-    log(`empty object returned from ${url}`);
-    return;
-  }
-  await writeFile(file, text);
 }
