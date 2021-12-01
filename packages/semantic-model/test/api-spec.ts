@@ -236,7 +236,9 @@ context("The ui5-language-assistant semantic model package API", () => {
   }
 
   function createModelConsistencyTests(version: TestModelVersion): void {
-    describe(`Model generated from ${version}`, () => {
+    describe(`Model generated from ${version}`, function () {
+      this.timeout(25000);
+
       before(async () => {
         await downloadLibraries(version);
       });

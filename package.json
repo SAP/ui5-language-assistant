@@ -21,7 +21,7 @@
     "format:fix": "prettier --write \"**/*.@(js|ts|json|md)\" --ignore-path=.gitignore",
     "format:validate": "prettier --check \"**/*.@(js|ts|json|md)\" --ignore-path=.gitignore",
     "lint": "eslint . --ext .ts --fix --max-warnings=0 --ignore-path=.gitignore",
-    "ci:subpackages": "lerna run ci",
+    "ci:subpackages": "lerna run ci --concurrency 1",
     "test": "lerna run test",
     "coverage": "lerna run coverage",
     "coverage:merge": "node ./scripts/merge-coverage",

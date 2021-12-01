@@ -60,10 +60,8 @@ export async function getSemanticModelWithFetcher(
       if (apiJson === undefined) {
         getLogger().info("No cache found for UI5 lib", { libName });
         const url = "/" + libName.replace(/\./g, "/") + suffix;
-
-        const axiosClient = await getAxiosClient();
         try {
-          const response = await axiosClient.get(url);
+          const response = await fetcher.get(url);
           if (response.status === 200) {
             apiJson = response.data;
             await writeToCache(cacheFilePath, apiJson);
