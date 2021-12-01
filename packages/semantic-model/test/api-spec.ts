@@ -294,11 +294,13 @@ context("The ui5-language-assistant semantic model package API", () => {
     createModelConsistencyTests(version);
   }
 
-  describe("returned model is frozen", () => {
+  describe("returned model is frozen", function() {
     const readOnlyMessageMatcher = "read only";
     const objectNotExtensibleMatcher = "not extensible";
     const cannotDeleteMatcher = "Cannot delete";
     let model: UI5SemanticModel;
+    this.timeout(25000);
+
     before(async () => {
       model = await generateModel({
         version: "1.74.0",
@@ -353,8 +355,10 @@ context("The ui5-language-assistant semantic model package API", () => {
     });
   });
 
-  describe("API JSON fixes", () => {
+  describe("API JSON fixes", function() {
     let model: UI5SemanticModel;
+    this.timeout(25000);
+
     before(async () => {
       model = await generateModel({
         version: "1.74.0",
