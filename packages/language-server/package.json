@@ -54,6 +54,7 @@
     "@types/tunnel": "0.0.3",
     "@ui5-language-assistant/semantic-model-types": "^3.0.1",
     "@ui5-language-assistant/test-utils": "^3.0.1",
+    "axios-mock-adapter": "^1.20.0",
     "tmp-promise": "3.0.2",
     "vscode-languageserver-types": "3.16.0"
   },

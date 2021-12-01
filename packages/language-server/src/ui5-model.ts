@@ -11,7 +11,6 @@ import {
   Json,
   TypeNameFix,
 } from "@ui5-language-assistant/semantic-model";
-import { Fetcher } from "../api";
 import { getLogger } from "./logger";
 
 const DEFAULT_UI5_VERSION = "1.71.14";
@@ -19,12 +18,14 @@ const DEFAULT_UI5_VERSION = "1.71.14";
 export async function getSemanticModel(
   modelCachePath: string | undefined
 ): Promise<UI5SemanticModel> {
-  return getSemanticModelWithFetcher(fetch, modelCachePath);
+  const axiosClient = await getAxiosClient();
+
+  return getSemanticModelWithFetcher(axiosClient, modelCachePath);
 }
 
 // This function is exported for testing purposes (using a mock fetcher)
 export async function getSemanticModelWithFetcher(
-  fetcher: Fetcher,
+  fetcher: AxiosInstance,
   modelCachePath: string | undefined
 ): Promise<UI5SemanticModel> {
   const version = DEFAULT_UI5_VERSION;
