@@ -99,7 +99,7 @@ export async function getSemanticModelWithFetcher(
   });
 }
 
-async function getAxiosClient(): Promise<AxiosInstance> {
+export async function getAxiosClient(): Promise<AxiosInstance> {
   const version = DEFAULT_UI5_VERSION;
 
   const proxy = await getProxySettings();
