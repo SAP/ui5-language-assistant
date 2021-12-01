@@ -1,5 +1,4 @@
 import { map } from "lodash";
-import fetch from "node-fetch";
 import axios, { AxiosInstance } from "axios";
 import { resolve } from "path";
 import { pathExists, lstat, readJson, writeJson, mkdirs } from "fs-extra";

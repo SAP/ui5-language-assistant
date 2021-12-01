@@ -42,7 +42,6 @@
     "fs-extra": "9.0.1",
     "get-proxy-settings": "^0.1.13",
     "lodash": "4.17.21",
-    "node-fetch": "2.6.1",
     "tunnel": "0.0.6",
     "vscode-languageserver": "6.1.1",
     "vscode-languageserver-textdocument": "1.0.1",
