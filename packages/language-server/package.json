@@ -46,7 +46,8 @@
     "vscode-uri": "2.1.2"
   },
   "devDependencies": {
-    "@types/node-fetch": "2.5.10",
+    "@types/http-proxy-agent": "^4.0.1",
+    "@types/node-fetch": "^3.0.3",
     "@types/tmp": "0.2.0",
     "@ui5-language-assistant/semantic-model-types": "^3.0.1",
     "@ui5-language-assistant/test-utils": "^3.0.1",
