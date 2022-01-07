@@ -3,7 +3,8 @@
   "compilerOptions": {
     "rootDir": ".",
     "outDir": "lib",
-    "baseUrl": "."
+    "baseUrl": ".",
+    "strictNullChecks": false
   },
   "include": ["src/**/*", "test/**/*", "api.d.ts"]
 }
