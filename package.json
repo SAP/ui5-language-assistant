@@ -96,5 +96,8 @@
     "extends": [
       "@commitlint/config-conventional"
     ]
+  },
+  "dependencies": {
+    "node-fetch-with-proxy": "^0.1.6"
   }
 }

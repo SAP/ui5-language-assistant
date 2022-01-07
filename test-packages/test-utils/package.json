@@ -16,7 +16,8 @@
     "node-fetch": "2.6.1"
   },
   "devDependencies": {
-    "@types/node-fetch": "2.5.10"
+    "@types/http-proxy-agent": "^4.0.1",
+    "@types/node-fetch": "^3.0.3"
   },
   "scripts": {
     "ci": "npm-run-all clean compile lint",

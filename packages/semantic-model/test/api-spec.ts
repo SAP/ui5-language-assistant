@@ -30,6 +30,7 @@ context("The ui5-language-assistant semantic model package API", () => {
     "UI5Namespace",
     "UI5Typedef",
   ];
+  const GET_MODEL_TIMEOUT = 20000;
 
   // Object kind -> property names
   // Properties with these names on objects of these kinds exist in other places in the model
@@ -237,8 +238,6 @@ context("The ui5-language-assistant semantic model package API", () => {
 
   function createModelConsistencyTests(version: TestModelVersion): void {
     describe(`Model generated from ${version}`, () => {
-      this.timeout(25000);
-
       before(async () => {
         await downloadLibraries(version);
       });
@@ -285,7 +284,7 @@ context("The ui5-language-assistant semantic model package API", () => {
         });
         // TODO: assert no cyclic references in extends or implements or parent - maybe not in a test
       });
-    });
+    }).timeout(GET_MODEL_TIMEOUT);
   }
 
   // TOOO add 1.75.0
@@ -295,8 +294,6 @@ context("The ui5-language-assistant semantic model package API", () => {
   }
 
   describe("returned model is frozen", () => {
-    this.timeout(25000);
-
     const readOnlyMessageMatcher = "read only";
     const objectNotExtensibleMatcher = "not extensible";
     const cannotDeleteMatcher = "Cannot delete";
@@ -341,7 +338,7 @@ context("The ui5-language-assistant semantic model package API", () => {
 
     it("cannot remove first-level property from the model", () => {
       expect(() => {
-        delete model.namespaces;
+        delete newFunction(model);
       }).to.throw(TypeError, cannotDeleteMatcher);
     });
 
@@ -353,11 +350,10 @@ context("The ui5-language-assistant semantic model package API", () => {
         delete firstClass.name;
       }).to.throw(TypeError, cannotDeleteMatcher);
     });
-  });
+  }).timeout(GET_MODEL_TIMEOUT);
 
   describe("API JSON fixes", () => {
     let model: UI5SemanticModel;
-    this.timeout(25000);
 
     before(async () => {
       model = await generateModel({
@@ -372,5 +368,8 @@ context("The ui5-language-assistant semantic model package API", () => {
       expectExists(view.defaultAggregation, "defaultAggregation");
       expect(view.defaultAggregation.name).to.equal("content");
     });
-  });
+  }).timeout(GET_MODEL_TIMEOUT);
 });
+function newFunction(model: UI5SemanticModel) {
+  return model.namespaces;
+}
