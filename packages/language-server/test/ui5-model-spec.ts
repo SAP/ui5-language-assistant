@@ -15,7 +15,7 @@ import { forEach, isPlainObject } from "lodash";
 
 describe("the UI5 language assistant ui5 model", () => {
   // The default timeout is 2000ms and getSemanticModel can take ~3000-5000ms
-  const GET_MODEL_TIMEOUT = 10000;
+  const GET_MODEL_TIMEOUT = 20000;
   const VERSION = "1.71.14";
   const NO_CACHE_FOLDER = undefined;
 

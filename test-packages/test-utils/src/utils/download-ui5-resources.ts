@@ -1,7 +1,7 @@
 import { zipObject, keys, map, noop } from "lodash";
 import { resolve } from "path";
 import { writeFile, mkdirs, pathExists } from "fs-extra";
-import fetch from "node-fetch";
+import fetch from "node-fetch-with-proxy";
 import { TestModelVersion } from "../../api";
 
 // Disable this flag if you want/need spam/info in the tests logs.

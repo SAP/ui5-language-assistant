@@ -1,5 +1,5 @@
 import { map } from "lodash";
-import fetch from "node-fetch";
+import fetch from "node-fetch-with-proxy";
 import { resolve } from "path";
 import { pathExists, lstat, readJson, writeJson, mkdirs } from "fs-extra";
 
