@@ -29,5 +29,7 @@ export type FetchResponse = {
   ok: boolean;
   json: () => Promise<unknown>;
 };
-
-export type Fetcher = (url: string) => Promise<FetchResponse>;
+export type Fetcher = (
+  url: string,
+  options: Record<string, unknown>
+) => Promise<FetchResponse>;

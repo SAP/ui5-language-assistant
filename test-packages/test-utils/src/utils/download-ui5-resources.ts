@@ -1,7 +1,9 @@
 import { zipObject, keys, map, noop } from "lodash";
 import { resolve } from "path";
 import { writeFile, mkdirs, pathExists } from "fs-extra";
-import fetch from "node-fetch-with-proxy";
+import fetch from "node-fetch";
+import getProxy from "get-proxy";
+import ProxyAgent from "simple-proxy-agent";
 import { TestModelVersion } from "../../api";
 
 // Disable this flag if you want/need spam/info in the tests logs.
@@ -66,7 +68,19 @@ async function writeUrlToFile(url: string, file: string): Promise<void> {
   }
 
   log(`fetching from ${url}`);
-  const response = await fetch(url);
+  const proxy = getProxy();
+
+  const fetchOptions = proxy
+    ? {
+        agent: new ProxyAgent(proxy, {
+          // Options, with all defaults
+          tunnel: true, // If true, will tunnel all HTTPS using CONNECT method
+          timeout: 5000, // Time in milli-seconds, to maximum wait for proxy connection to establish
+        }),
+      }
+    : {};
+
+  const response = await fetch(url, fetchOptions);
   if (!response.ok) {
     error(`error fetching from ${url}`);
     return;
