@@ -1,8 +1,9 @@
 import { map } from "lodash";
-import fetch from "node-fetch-with-proxy";
+import fetch from "node-fetch";
 import { resolve } from "path";
 import { pathExists, lstat, readJson, writeJson, mkdirs } from "fs-extra";
-
+import getProxy from "get-proxy";
+import ProxyAgent from "simple-proxy-agent";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import {
   generate,
@@ -58,7 +59,17 @@ export async function getSemanticModelWithFetcher(
       if (apiJson === undefined) {
         getLogger().info("No cache found for UI5 lib", { libName });
         const url = baseUrl + libName.replace(/\./g, "/") + suffix;
-        const response = await fetcher(url);
+        const proxy = getProxy();
+        let fetchOptions = {};
+        if (proxy) {
+          fetchOptions["agent"] = new ProxyAgent(proxy, {
+            // Options, with all defaults
+            tunnel: true, // If true, will tunnel all HTTPS using CONNECT method
+            timeout: 5000, // Time in milli-seconds, to maximum wait for proxy connection to establish
+          });
+        }
+
+        const response = await fetcher(url, fetchOptions);
         if (response.ok) {
           apiJson = await response.json();
           await writeToCache(cacheFilePath, apiJson);

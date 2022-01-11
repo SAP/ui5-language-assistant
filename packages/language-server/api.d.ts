@@ -30,4 +30,4 @@ export type FetchResponse = {
   json: () => Promise<unknown>;
 };
 
-export type Fetcher = (url: string) => Promise<FetchResponse>;
+export type Fetcher = (url: string, options: object) => Promise<FetchResponse>;
