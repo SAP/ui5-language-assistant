@@ -2,7 +2,7 @@ version: 2.1
 jobs:
   build-node16:
     docker:
-      - image: circleci/node:16-browsers
+      - image: cimg/node:16.15-browsers
     working_directory: ~/repo
     steps:
       - run: sudo apt-get install libxss1
@@ -12,7 +12,7 @@ jobs:
 
   build-node14:
     docker:
-      - image: circleci/node:14-browsers
+      - image: cimg/node:14.19-browsers
     working_directory: ~/repo
     steps:
       - run: sudo apt-get install libxss1
@@ -30,7 +30,7 @@ jobs:
 
   build-node12:
     docker:
-      - image: circleci/node:12-browsers
+      - image: cimg/node:12.13-browsers
     working_directory: ~/repo
     steps:
       - run: sudo apt-get install libxss1
@@ -40,7 +40,7 @@ jobs:
 
   compliance:
     docker:
-      - image: circleci/python:3.6.4
+      - image: cimg/python:3.6
     working_directory: ~/workdir
     steps:
       - checkout
@@ -52,7 +52,7 @@ jobs:
 
   deploy-npm:
     docker:
-      - image: circleci/node:12-browsers
+      - image: cimg/node:12.13-browsers
     working_directory: ~/repo
     steps:
       - run: sudo apt-get install libxss1
@@ -67,7 +67,7 @@ jobs:
 
   prepare-vsix:
     docker:
-      - image: circleci/node:12-browsers
+      - image: cimg/node:12.13-browsers
     working_directory: ~/repo
     steps:
       - run: sudo apt-get install libxss1
@@ -82,7 +82,7 @@ jobs:
 
   deploy-gh-releases:
     docker:
-      - image: circleci/golang:1.13
+      - image: cimg/go:1.13
     steps:
       - attach_workspace:
           at: ./dist
