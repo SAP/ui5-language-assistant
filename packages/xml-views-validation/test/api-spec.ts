@@ -14,6 +14,7 @@ describe("the ui5 xml views validations API", () => {
 
   before(async () => {
     ui5SemanticModel = await generateModel({
+      framework: "sapui5",
       version: "1.105.0",
       modelGenerator: generate,
     });

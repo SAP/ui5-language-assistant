@@ -8,6 +8,7 @@ import {
   downloadLibraries,
 } from "@ui5-language-assistant/test-utils";
 import {
+  UI5Framework,
   UI5SemanticModel,
   UnresolvedType,
 } from "@ui5-language-assistant/semantic-model-types";
@@ -235,7 +236,7 @@ context("The ui5-language-assistant semantic model package API", () => {
     );
   }
 
-  function createModelConsistencyTests(version: TestModelVersion): void {
+  function createModelConsistencyTests(framework: UI5Framework, version: TestModelVersion): void {
     describe(`Model generated from ${version}`, () => {
       before(async () => {
         await downloadLibraries(version);
@@ -243,6 +244,7 @@ context("The ui5-language-assistant semantic model package API", () => {
 
       it(`is created successfully in strict mode`, async () => {
         const model = await generateModel({
+          framework,
           version,
           downloadLibs: false,
           modelGenerator: generate,
@@ -252,6 +254,7 @@ context("The ui5-language-assistant semantic model package API", () => {
 
       it(`is created successfully in non-strict mode`, async () => {
         const model = await generateModel({
+          framework: "sapui5",
           version,
           downloadLibs: false,
           strict: false,
@@ -264,6 +267,7 @@ context("The ui5-language-assistant semantic model package API", () => {
         let model: UI5SemanticModel;
         before(async () => {
           model = await generateModel({
+            framework: "sapui5",
             version,
             downloadLibs: false,
             modelGenerator: generate,
@@ -286,9 +290,11 @@ context("The ui5-language-assistant semantic model package API", () => {
     });
   }
 
+  // TODO: old patches may be removed, should be updated continuously
   const versions: TestModelVersion[] = ["1.60.44", "1.71.49", "1.84.27", "1.96.11", "1.105.0"];
   for (const version of versions) {
-    createModelConsistencyTests(version);
+    // TODO: consider also openui5? 
+    createModelConsistencyTests("sapui5", version);
   }
 
   describe("returned model is frozen", () => {
@@ -298,6 +304,7 @@ context("The ui5-language-assistant semantic model package API", () => {
     let model: UI5SemanticModel;
     before(async () => {
       model = await generateModel({
+        framework: "sapui5",
         version: "1.105.0",
         modelGenerator: generate,
       });
@@ -354,6 +361,7 @@ context("The ui5-language-assistant semantic model package API", () => {
     let model: UI5SemanticModel;
     before(async () => {
       model = await generateModel({
+        framework: "sapui5",
         version: "1.105.0",
         modelGenerator: generate,
       });

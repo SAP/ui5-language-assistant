@@ -23,6 +23,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
   let ui5Model: UI5SemanticModel;
   before(async function () {
     ui5Model = await generateModel({
+      framework: "sapui5",
       version: "1.105.0",
       modelGenerator: generate,
     });

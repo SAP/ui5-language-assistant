@@ -107,7 +107,6 @@ export async function getSemanticModelWithFetcher(
   );
 
   return generate({
-    framework: framework,
     version: version,
     libraries: jsonMap,
     typeNameFix: getTypeNameFix(),

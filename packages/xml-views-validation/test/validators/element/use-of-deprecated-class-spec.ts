@@ -13,6 +13,7 @@ describe("the use of deprecated class validation", () => {
 
   before(async () => {
     ui5SemanticModel = await generateModel({
+      framework: "sapui5",
       version: "1.105.0",
       modelGenerator: generate,
     });

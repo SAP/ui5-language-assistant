@@ -3,7 +3,7 @@ import { readJsonSync, readJson, existsSync } from "fs-extra";
 import { resolve, dirname } from "path";
 import { filter, reduce, has, forEach, remove, get, find } from "lodash";
 import { FetchResponse } from "@ui5-language-assistant/language-server";
-import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
+import { UI5Framework, UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { generateFunc, TestModelVersion, TypeNameFix, Json } from "../../api";
 import { addUi5Resources } from "./download-ui5-resources";
 
@@ -171,7 +171,7 @@ export async function downloadLibraries(
 
 // Load the library files from the file system.
 // To save the libraries to the file system use downloadLibraries.
-function loadLibraries(version: TestModelVersion): Record<string, Json> {
+function loadLibraries(framework: UI5Framework, version: TestModelVersion): Record<string, Json> {
   const inputFolder = getModelFolder(version);
   const files = readdirSync(inputFolder);
   const LIBFILE_SUFFIX = ".designtime.api.json";
@@ -189,11 +189,13 @@ function loadLibraries(version: TestModelVersion): Record<string, Json> {
 }
 
 export async function generateModel({
+  framework,
   version,
   downloadLibs = true,
   strict = true,
   modelGenerator,
 }: {
+  framework: UI5Framework;
   version: TestModelVersion;
   downloadLibs?: boolean;
   strict?: boolean;
@@ -209,7 +211,7 @@ export async function generateModel({
     await downloadLibraries(version);
   }
 
-  const libToFileContent = loadLibraries(version);
+  const libToFileContent = loadLibraries(framework, version);
 
   // If we want the libraries in strict mode we have to fix them first
   if (strict) {
@@ -217,6 +219,7 @@ export async function generateModel({
   }
 
   const model = modelGenerator({
+    framework: framework,
     version: version,
     libraries: libToFileContent,
     typeNameFix: getTypeNameFixForVersion(version),

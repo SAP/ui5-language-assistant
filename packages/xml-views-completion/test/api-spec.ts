@@ -18,6 +18,7 @@ describe("The `getXMLViewCompletions()` api", () => {
 
   before(async function () {
     REAL_UI5_MODEL = await generateModel({
+      framework: "sapui5",
       version: "1.105.0",
       modelGenerator: generate,
     });
