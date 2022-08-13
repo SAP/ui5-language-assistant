@@ -65,7 +65,7 @@ export function getUI5AggregationByXMLElement(
     return undefined;
   }
   // Aggregations must be in the same namespace as their parent
-  // https://sapui5.hana.ondemand.com/#/topic/19eabf5b13214f27b929b9473df3195b
+  // https://ui5.sap.com/#/topic/19eabf5b13214f27b929b9473df3195b
   if (!isSameXMLNS(element, element.parent)) {
     return undefined;
   }

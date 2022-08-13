@@ -16,7 +16,8 @@ import { forEach, isPlainObject } from "lodash";
 describe("the UI5 language assistant ui5 model", () => {
   // The default timeout is 2000ms and getSemanticModel can take ~3000-5000ms
   const GET_MODEL_TIMEOUT = 10000;
-  const VERSION = "1.71.14";
+  const FRAMEWORK = "sapui5";
+  const VERSION = "1.71.49";
   const NO_CACHE_FOLDER = undefined;
 
   function assertSemanticModel(ui5Model: UI5SemanticModel): void {
@@ -47,7 +48,7 @@ describe("the UI5 language assistant ui5 model", () => {
   }
 
   it("will get UI5 semantic model", async () => {
-    const ui5Model = await getSemanticModel(NO_CACHE_FOLDER);
+    const ui5Model = await getSemanticModel(NO_CACHE_FOLDER, "");
     assertSemanticModel(ui5Model);
   }).timeout(GET_MODEL_TIMEOUT);
 
@@ -55,11 +56,12 @@ describe("the UI5 language assistant ui5 model", () => {
     const ui5Model = await getSemanticModelWithFetcher(async (url: string) => {
       return {
         ok: false,
+        status: 500,
         json: (): never => {
           throw new Error(`Cannot read from ${url}`);
         },
       };
-    }, NO_CACHE_FOLDER);
+    }, NO_CACHE_FOLDER, "");
     expect(ui5Model).to.exist;
   });
 
@@ -77,7 +79,7 @@ describe("the UI5 language assistant ui5 model", () => {
       });
 
       it("caches the model the first time getSemanticModel is called", async () => {
-        const ui5Model = await getSemanticModel(cachePath);
+        const ui5Model = await getSemanticModel(cachePath, "");
         assertSemanticModel(ui5Model);
 
         // Check the files were created in the folder
@@ -93,7 +95,7 @@ describe("the UI5 language assistant ui5 model", () => {
               `The files should be taken from the cache, got call for ${url}`
             );
           },
-          cachePath
+          cachePath, ""
         );
         expect(fetcherCalled).to.be.false;
         // Make sure it's not the model itself that is cached
@@ -119,13 +121,13 @@ describe("the UI5 language assistant ui5 model", () => {
       it("doesn't fail when file cannot be written to the cache", async () => {
         // Create a folder with the file name so the file will not be written
         const cacheFilePath = getCacheFilePath(
-          getCacheFolder(cachePath, VERSION),
+          getCacheFolder(cachePath, FRAMEWORK, VERSION),
           "sap.m"
         );
         expectExists(cacheFilePath, "cacheFilePath");
         await mkdirs(cacheFilePath);
 
-        const ui5Model = await getSemanticModel(cachePath);
+        const ui5Model = await getSemanticModel(cachePath, "");
         expect(ui5Model).to.exist;
         // Check we still got the sap.m library data
         expect(Object.keys(ui5Model.namespaces)).to.contain("sap.m");
@@ -134,13 +136,13 @@ describe("the UI5 language assistant ui5 model", () => {
 
       it("doesn't fail when file cannot be read from the cache", async () => {
         // Create a file with non-json content so the file will not be deserialized
-        const cacheFolder = getCacheFolder(cachePath, VERSION);
+        const cacheFolder = getCacheFolder(cachePath, FRAMEWORK, VERSION);
         await mkdirs(cacheFolder);
         const cacheFilePath = getCacheFilePath(cacheFolder, "sap.m");
         expectExists(cacheFilePath, "cacheFilePath");
         await writeFile(cacheFilePath, "not json");
 
-        const ui5Model = await getSemanticModel(cachePath);
+        const ui5Model = await getSemanticModel(cachePath, "");
         expect(ui5Model).to.exist;
         // Check we still got the sap.m library data
         expect(Object.keys(ui5Model.namespaces)).to.contain("sap.m");
@@ -160,7 +162,7 @@ describe("the UI5 language assistant ui5 model", () => {
       });
 
       it("does not cache the model", async () => {
-        const ui5Model = await getSemanticModel(cachePath);
+        const ui5Model = await getSemanticModel(cachePath, "");
         assertSemanticModel(ui5Model);
 
         // Call getSemanticModel again with the same path and check it doesn't try to read from the URL
@@ -169,11 +171,12 @@ describe("the UI5 language assistant ui5 model", () => {
           fetcherCalled = true;
           return {
             ok: true,
+            status: 200,
             json: async (): Promise<unknown> => {
               return {};
             },
           };
-        }, cachePath);
+        }, cachePath, "");
         expect(fetcherCalled).to.be.true;
       }).timeout(GET_MODEL_TIMEOUT);
     });

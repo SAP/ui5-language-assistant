@@ -12,7 +12,7 @@ describe("The semantic model utils", () => {
 
   before(async () => {
     model = await generateModel({
-      version: "1.74.0",
+      version: "1.105.0",
       modelGenerator: generate,
     });
   });

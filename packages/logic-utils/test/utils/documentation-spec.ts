@@ -181,7 +181,7 @@ describe("The @ui5-language-assistant/logic-utils <convertJSDocToMarkdown> funct
         modelWithVersion
       )
     ).to.equal(
-      "This text has a [link to Button](https://sapui5.hana.ondemand.com/1.2.3/#/api/sap.m.Button) and a nameless link to a type: [sap.m.Button](https://sapui5.hana.ondemand.com/1.2.3/#/api/sap.m.Button)"
+      "This text has a [link to Button](https://ui5.sap.com/1.2.3/#/api/sap.m.Button) and a nameless link to a type: [sap.m.Button](https://sapui5.hana.oui5.sap.comsap.m.Button)"
     );
   });
 
@@ -192,7 +192,7 @@ describe("The @ui5-language-assistant/logic-utils <convertJSDocToMarkdown> funct
         model
       )
     ).to.equal(
-      "This text has a [link to Button](https://sapui5.hana.ondemand.com/#/api/sap.m.Button) and a nameless link to a type: [sap.m.Button](https://sapui5.hana.ondemand.com/#/api/sap.m.Button)"
+      "This text has a [link to Button](https://ui5.sap.com/#/api/sap.m.Button) and a nameless link to a type: [sap.m.Button](https://sapui5.hana.oui5.sap.comButton)"
     );
   });
 

@@ -12,7 +12,7 @@ const MODEL_CACHE: Record<TestModelVersion, UI5SemanticModel> = Object.create(
 );
 
 const fixes: Record<TestModelVersion, TypeNameFix> = {
-  "1.60.14": {
+  "1.60.44": {
     "{sap.ui.layout.cssgrid.IGridConfigurable}": undefined,
     "sap.m.IHyphenation": undefined,
     "sap.ui.core.IDScope": undefined,
@@ -50,44 +50,7 @@ const fixes: Record<TestModelVersion, TypeNameFix> = {
     "sap.ui.vk.SelectionMode": undefined,
     "sap.viz.ui5.controls.VizRangeSlider": undefined,
   },
-  "1.74.0": {
-    "sap.m.PlanningCalendarHeader": undefined,
-    "sap.m.TimePickerSlider": undefined,
-    "sap.ui.fl.write._internal.transport.TransportDialog": undefined,
-    "sap.ui.layout.cssgrid.IGridItemLayoutData": undefined,
-    "sap.ui.layout.ResponsiveSplitterPage": undefined,
-    "sap.ui.integration.designtime.BaseEditor": undefined,
-    "sap.ui.vk.AnimationPlayer": undefined,
-    "sap.ui.vk.IPlaybackCollection": undefined,
-    "sap.ui.vk.ViewManager": undefined,
-
-    Control: "sap.ui.core.Control",
-    Element: "sap.ui.core.Element",
-    array: "any[]",
-    Array: "any[]",
-    bloolean: "boolean",
-    "sap.gantt.misc.AxisTime": "sap.gantt.misc.AxisTimes",
-    "sap.gantt.control.Toolbar": undefined,
-    "sap.gantt.DragOrientation": undefined,
-    "sap.gantt.simple.GanttHeader": undefined,
-    "sap.gantt.simple.InnerGanttChart": undefined,
-    "sap.rules.ui.RuleBase": undefined,
-    "sap.ui.generic.app.transaction.BaseController": undefined,
-    "sap.ui.vk.tools.HitTestIdMode": undefined,
-    "sap.ui.vk.tools.CoordinateSystem": undefined,
-    "sap.ui.vk.SelectionMode": undefined,
-    "sap.viz.ui5.controls.VizRangeSlider": undefined,
-  },
-  "1.75.0": {
-    "sap.m.PlanningCalendarHeader": undefined,
-    "sap.m.TimePickerSlider": "sap.m.TimePickerSliders",
-    "sap.ui.fl.write._internal.transport.TransportDialog": undefined,
-    "sap.ui.layout.cssgrid.IGridItemLayoutData": undefined,
-    "sap.ui.layout.ResponsiveSplitterPage": undefined,
-    "Object.<string,any>": undefined,
-    "sap.gantt.control.Toolbar": undefined,
-  },
-  "1.71.14": {
+  "1.71.49": {
     Control: "sap.ui.core.Control",
     Element: "sap.ui.core.Element",
     array: "any[]",
@@ -117,6 +80,38 @@ const fixes: Record<TestModelVersion, TypeNameFix> = {
     "sap.ui.vk.RenderMode": undefined,
     "sap.viz.ui5.controls.VizRangeSlider": undefined,
   },
+  "1.84.27": {
+    Control: "sap.ui.core.Control",
+    Element: "sap.ui.core.Element",
+    array: "any[]",
+    Array: "any[]",
+    bloolean: "boolean",
+    "sap.m.PlanningCalendarHeader": undefined,
+    "sap.m.TimePickerSlider": undefined,
+    "sap.ui.layout.ResponsiveSplitterPage": undefined,
+    "sap.gantt.misc.AxisTime": "sap.gantt.misc.AxisTimes",
+    "sap.gantt.control.Toolbar": undefined,
+    "sap.gantt.DragOrientation": undefined,
+    "sap.gantt.simple.GanttHeader": undefined,
+    "sap.gantt.simple.InnerGanttChart": undefined,
+    "sap.rules.ui.RuleBase": undefined,
+    "sap.ui.generic.app.transaction.BaseController": undefined,
+    "sap.ui.vk.BillboardTextEncoding": undefined,
+    "sap.ui.vk.BillboardStyle": undefined,
+    "sap.ui.vk.BillboardBorderLineStyle": undefined,
+    "sap.ui.vk.BillboardHorizontalAlignment": undefined,
+    "sap.ui.vk.BillboardCoordinateSpace": undefined,
+    "sap.ui.vk.DetailViewType": undefined,
+    "sap.ui.vk.DetailViewShape": undefined,
+    "sap.ui.vk.tools.HitTestIdMode": undefined,
+    "sap.ui.vk.tools.CoordinateSystem": undefined,
+    "sap.ui.vk.AnimationTimeSlider": undefined,
+    "sap.ui.vk.SelectionMode": undefined,
+    "sap.ui.vk.RenderMode": undefined,
+    "sap.viz.ui5.controls.VizRangeSlider": undefined,
+  },
+  "1.96.11": {}, // newer versions (>= 1.96) should not require fixes
+  "1.105.0": {}, // newer versions (>= 1.96) should not require fixes
 };
 
 function getModelFolder(version: TestModelVersion): string {
@@ -146,11 +141,13 @@ export async function readTestLibraryFile(
     const ok = existsSync(filePath);
     return {
       ok: ok,
+      status: 200,
       json: (): Promise<unknown> => readJson(filePath),
     };
   } catch (error) {
     return {
       ok: false,
+      status: 404,
       json: (): never => {
         throw error;
       },
@@ -238,7 +235,7 @@ type LibraryFix = (content: Json) => void;
 
 // Library version -> library name -> fix function
 const libraryFixes: Record<TestModelVersion, Record<string, LibraryFix[]>> = {
-  "1.60.14": {
+  "1.60.44": {
     "sap.ushell": [
       (content: Json): void => {
         const symbol = find(
@@ -253,29 +250,10 @@ const libraryFixes: Record<TestModelVersion, Record<string, LibraryFix[]>> = {
       },
     ],
   },
-  "1.71.14": {},
-  "1.74.0": {
-    "sap.ui.generic.app": [
-      (content: Json): void => {
-        // Removing from this library. There is another symbol with the same name in library "sap.fe".
-        remove(
-          get(content, "symbols"),
-          (symbol) =>
-            get(symbol, "name") ===
-            "sap.ui.generic.app.navigation.service.NavigationHandler"
-        );
-      },
-    ],
-    "sap.ushell": [
-      (content: Json): void => {
-        const symbols = get(content, "symbols");
-        remove(symbols, (symbol) => get(symbol, "basename") === "");
-      },
-    ],
-  },
-  "1.75.0": {
-    // No consistency tests on this library version yet
-  },
+  "1.71.49": {},
+  "1.84.27": {},
+  "1.96.11": {},
+  "1.105.0": {},
 };
 
 function fixLibraries(

@@ -12,7 +12,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
   let ui5SemanticModel: UI5SemanticModel;
   before(async function () {
     ui5SemanticModel = await generateModel({
-      version: "1.74.0",
+      version: "1.105.0",
       modelGenerator: generate,
     });
   });

@@ -286,8 +286,7 @@ context("The ui5-language-assistant semantic model package API", () => {
     });
   }
 
-  // TOOO add 1.75.0
-  const versions: TestModelVersion[] = ["1.60.14", "1.74.0", "1.71.14"];
+  const versions: TestModelVersion[] = ["1.60.44", "1.71.49", "1.84.27", "1.96.11", "1.105.0"];
   for (const version of versions) {
     createModelConsistencyTests(version);
   }
@@ -299,7 +298,7 @@ context("The ui5-language-assistant semantic model package API", () => {
     let model: UI5SemanticModel;
     before(async () => {
       model = await generateModel({
-        version: "1.74.0",
+        version: "1.105.0",
         modelGenerator: generate,
       });
     });
@@ -355,7 +354,7 @@ context("The ui5-language-assistant semantic model package API", () => {
     let model: UI5SemanticModel;
     before(async () => {
       model = await generateModel({
-        version: "1.74.0",
+        version: "1.105.0",
         modelGenerator: generate,
       });
     });

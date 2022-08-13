@@ -13,7 +13,7 @@ describe("the invalid boolean value validation", () => {
 
   before(async () => {
     ui5SemanticModel = await generateModel({
-      version: "1.74.0",
+      version: "1.105.0",
       modelGenerator: generate,
     });
   });

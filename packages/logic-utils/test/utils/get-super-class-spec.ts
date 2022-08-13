@@ -35,7 +35,7 @@ describe("The @ui5-language-assistant/logic-utils <getSuperClasses> function", (
 
   it("will avoid infinite loops in case of cyclic extends clauses", async () => {
     const ui5Model = cloneDeep(
-      await generateModel({ version: "1.74.0", modelGenerator: generate })
+      await generateModel({ version: "1.105.0", modelGenerator: generate })
     );
     const fAvatar = ui5Model.classes["sap.f.Avatar"];
     const mAvatar = fAvatar.extends as UI5Class;

@@ -97,14 +97,14 @@ function isAttributeNameAlwaysValid(attribute: XMLAttribute): boolean {
   // The following attributes are valid on all tags
   const ALL_ATTRIBUTE_NAMES = undefined;
   const ALWAYS_VALID_ATTRIBUTES = [
-    // See: https://sapui5.hana.ondemand.com/#/topic/de9fd55c69af4b46863f5d26b5d796c4
+    // See: https://ui5.sap.com/#/topic/de9fd55c69af4b46863f5d26b5d796c4
     { ns: "sap.ui.dt", name: "designtime" },
-    // See: https://sapui5.hana.ondemand.com/#/topic/b11d853a8e784db6b2d210ef57b0f7d7
+    // See: https://ui5.sap.com/#/topic/b11d853a8e784db6b2d210ef57b0f7d7
     // TODO this attribute is not valid for FragmentDefinition inside xml views
     { ns: CORE_NS, name: "require" },
-    // See: https://sapui5.hana.ondemand.com/#/topic/263f6e5a915f430894ee290040e7e220
+    // See: https://ui5.sap.com/#/topic/263f6e5a915f430894ee290040e7e220
     { ns: TEMPLATING_NS, name: "require" },
-    // See: https://sapui5.hana.ondemand.com/#/topic/91f0c3ee6f4d1014b6dd926db0e91070
+    // See: https://ui5.sap.com/#/topic/91f0c3ee6f4d1014b6dd926db0e91070
     { ns: CUSTOM_DATA_NS, name: ALL_ATTRIBUTE_NAMES },
   ];
 
@@ -132,14 +132,14 @@ function isValidUI5ClassAttribute(
   const ALL_CLASSES = undefined;
   const ALWAYS_VALID_CLASS_ATTRIBUTES = [
     // "class" attribute can be used on all Controls and selected Elements
-    // See: https://sapui5.hana.ondemand.com/#/topic/b564935324f449209354c7e2f9903f22
+    // See: https://ui5.sap.com/#/topic/b564935324f449209354c7e2f9903f22
     { name: "class", classFQN: ALL_CLASSES },
     // "binding" is a synonym for "objectBindings" special setting on ManagedObject
-    // See: https://sapui5.hana.ondemand.com/#/topic/91f05e8b6f4d1014b6dd926db0e91070
+    // See: https://ui5.sap.com/#/topic/91f05e8b6f4d1014b6dd926db0e91070
     { name: "binding", classFQN: ALL_CLASSES },
     // Technically the "stashed" attribute can be under any Element but it should only be used
     // for sap.uxap.ObjectPageLazyLoader
-    // See: https://sapui5.hana.ondemand.com/#/api/sap.uxap.ObjectPageLazyLoader
+    // See: https://ui5.sap.com/#/api/sap.uxap.ObjectPageLazyLoader
     { name: "stashed", classFQN: "sap.uxap.ObjectPageLazyLoader" },
   ];
 
@@ -161,9 +161,9 @@ function isValidUI5ClassAttribute(
   const allEvents = flattenEvents(ui5Class);
   const allAssociations = flattenAssociations(ui5Class);
   // Aggregations can be used as attributes for binding
-  // See: https://sapui5.hana.ondemand.com/#/topic/91f057786f4d1014b6dd926db0e91070
+  // See: https://ui5.sap.com/#/topic/91f057786f4d1014b6dd926db0e91070
   // 0..1 aggregations with alType can also be specified as attributes
-  // See: https://sapui5.hana.ondemand.com/#/topic/19eabf5b13214f27b929b9473df3195b
+  // See: https://ui5.sap.com/#/topic/19eabf5b13214f27b929b9473df3195b
   const allAggregations = flattenAggregations(ui5Class);
   const allClassUI5Attributes = allProps
     .concat(allEvents)

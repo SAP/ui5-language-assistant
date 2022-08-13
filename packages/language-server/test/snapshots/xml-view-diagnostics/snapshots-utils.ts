@@ -93,7 +93,7 @@ export function readSnapshotDiagnosticsLSPResponse(
 }
 
 const ui5ModelPromise = generateModel({
-  version: "1.71.14",
+  version: "1.71.49",
   modelGenerator: generate,
 });
 let ui5Model: UI5SemanticModel | undefined = undefined;
