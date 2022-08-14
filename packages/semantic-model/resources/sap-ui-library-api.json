@@ -821,7 +821,8 @@
             "controller",
             "controllerextension",
             "template",
-            "xmlmacro"
+            "xmlmacro",
+            "webcomponent"
           ]
         },
         "specialSettings": {
