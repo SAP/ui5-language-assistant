@@ -13,11 +13,23 @@ export type TypedefSymbol = SymbolBase &
   (
     | {
         kind?: "typedef";
+        extends?: string;
+        "ui5-metamodel"?: boolean;
+        type?: string;
         properties?: ObjProperty[];
         [k: string]: any;
       }
     | {
         kind?: "typedef";
+        extends?: string;
+        "ui5-metamodel"?: boolean;
+        type?: string;
+        properties?: Ui5Property[];
+        [k: string]: any;
+      }
+    | {
+        kind?: "typedef";
+        extends?: string;
         parameters?: ObjCallableParameters;
         returnValue?: {
           type?: string;
@@ -43,6 +55,7 @@ export type Examples = {
   caption?: string;
   text?: string;
 }[];
+export type Ui5SettingName = string;
 export type ObjCallableParameters = {
   name: string;
   type: string;
@@ -53,6 +66,7 @@ export type ObjCallableParameters = {
   since?: Since;
   experimental?: Experimental;
   deprecated?: Deprecated;
+  repeatable?: boolean;
 }[];
 /**
  * With this element, a callable (constructor, method) can document the exceptions that may occur during its execution
@@ -68,13 +82,14 @@ export type Exceptions = {
 export type NamespaceSymbol = SymbolBase & {
   kind?: "namespace" | "member";
   extends?: string;
+  implements?: string[];
   properties?: ObjProperty[];
   methods?: ObjMethod[];
   events?: ObjEvent[];
   abstract?: boolean;
   final?: boolean;
   "ui5-metamodel"?: boolean;
-  "ui5-metadata"?: {};
+  "ui5-metadata"?: Ui5Metadata;
   [k: string]: any;
 };
 /**
@@ -86,7 +101,7 @@ export type DatatypeSymbol = SymbolBase & {
   "ui5-metamodel"?: boolean;
   "ui5-metadata": {
     stereotype?: "datatype";
-    basetype?: "string" | "int" | "any";
+    basetype?: "string" | "int" | "any" | "float[]";
     pattern?: string;
     range?: {
       minExclusive?: number;
@@ -149,7 +164,6 @@ export type ClassSymbol = SymbolBase & {
   })[];
   [k: string]: any;
 };
-export type Ui5SettingName = string;
 /**
  * A function can be a top-level symbol when exported from a module
  */
@@ -192,6 +206,7 @@ export interface SymbolBase {
   experimental?: Experimental;
   deprecated?: Deprecated;
   references?: References;
+  allowedFor?: string[];
   [k: string]: any;
 }
 /**
@@ -224,6 +239,27 @@ export interface ObjProperty {
   deprecated?: Deprecated;
   examples?: Examples;
   references?: References;
+  optional?: boolean;
+  allowedFor?: string[];
+  properties?: {
+    [k: string]: any;
+  };
+}
+export interface Ui5Property {
+  name: Ui5SettingName;
+  type?: string;
+  defaultValue?: any;
+  group?: string;
+  visibility?: "public" | "hidden" | "restricted";
+  description?: string;
+  since?: Since;
+  bindable?: boolean;
+  experimental?: Experimental;
+  deprecated?: Deprecated;
+  methods?: string[];
+  optional?: boolean;
+  static?: boolean;
+  allowedFor?: string[];
 }
 export interface NestedProperties {
   [k: string]: {
@@ -258,6 +294,7 @@ export interface ObjMethod {
   examples?: Examples;
   references?: References;
   "ui5-metamodel"?: boolean;
+  allowedFor?: string[];
   [k: string]: any;
 }
 export interface ObjEvent {
@@ -281,22 +318,7 @@ export interface ObjEvent {
   deprecated?: Deprecated;
   examples?: Examples;
   references?: References;
-}
-export interface EnumProperty {
-  name: string;
-  module?: ModuleName;
-  export?: string;
-  resource?: string;
-  visibility?: "public" | "protected" | "private" | "restricted";
-  static?: boolean;
-  type?: string;
-  description?: string;
-  since?: Since;
-  experimental?: Experimental;
-  deprecated?: Deprecated;
-  examples?: Examples;
-  references?: References;
-  value?: string | number;
+  allowedFor?: string[];
 }
 export interface Ui5Metadata {
   stereotype?:
@@ -307,7 +329,9 @@ export interface Ui5Metadata {
     | "library"
     | "controller"
     | "controllerextension"
-    | "template";
+    | "template"
+    | "xmlmacro"
+    | "webcomponent";
   specialSettings?: Ui5SpecialSetting[];
   properties?: Ui5Property[];
   defaultProperty?: Ui5SettingName;
@@ -339,25 +363,13 @@ export interface Ui5Metadata {
 export interface Ui5SpecialSetting {
   name: Ui5SettingName;
   type?: string;
-  visibility?: "public" | "hidden";
+  visibility?: "public" | "hidden" | "restricted";
   description?: string;
   since?: Since;
   experimental?: Experimental;
   deprecated?: Deprecated;
   methods?: string[];
-}
-export interface Ui5Property {
-  name: Ui5SettingName;
-  type?: string;
-  defaultValue?: any;
-  group?: string;
-  visibility?: "public" | "hidden";
-  description?: string;
-  since?: Since;
-  bindable?: boolean;
-  experimental?: Experimental;
-  deprecated?: Deprecated;
-  methods?: string[];
+  allowedFor?: string[];
 }
 export interface Ui5Aggregation {
   name: Ui5SettingName;
@@ -365,7 +377,7 @@ export interface Ui5Aggregation {
   type?: string;
   altTypes?: string[];
   cardinality?: "0..1" | "0..n";
-  visibility?: "public" | "hidden";
+  visibility?: "public" | "hidden" | "restricted";
   bindable?: boolean;
   description?: string;
   since?: Since;
@@ -380,22 +392,24 @@ export interface Ui5Aggregation {
         layout?: "Vertical" | "Horizontal";
         [k: string]: any;
       };
+  allowedFor?: string[];
 }
 export interface Ui5Association {
   name: Ui5SettingName;
   singularName?: Ui5SettingName;
   type?: string;
   cardinality?: "0..1" | "0..n";
-  visibility?: "public" | "hidden";
+  visibility?: "public" | "hidden" | "restricted";
   description?: string;
   since?: Since;
   experimental?: Experimental;
   deprecated?: Deprecated;
   methods?: string[];
+  allowedFor?: string[];
 }
 export interface Ui5Event {
   name: Ui5SettingName;
-  visibility?: "public" | "hidden";
+  visibility?: "public" | "hidden" | "restricted";
   description?: string;
   since?: Since;
   experimental?: Experimental;
@@ -411,6 +425,27 @@ export interface Ui5Event {
     };
   };
   methods?: string[];
+  allowPreventDefault?: boolean;
+  enableEventBubbling?: boolean;
+  allowedFor?: string[];
+}
+export interface EnumProperty {
+  name: string;
+  module?: ModuleName;
+  export?: string;
+  resource?: string;
+  visibility?: "public" | "protected" | "private" | "restricted";
+  static?: boolean;
+  type?: string;
+  description?: string;
+  since?: Since;
+  experimental?: Experimental;
+  deprecated?: Deprecated;
+  examples?: Examples;
+  references?: References;
+  value?: string | number;
+  optional?: boolean;
+  allowedFor?: string[];
 }
 export interface ObjConstructor {
   visibility?: "public" | "protected" | "private" | "restricted";
@@ -419,4 +454,6 @@ export interface ObjConstructor {
   description?: string;
   examples?: Examples;
   references?: References;
+  allowedFor?: string[];
+  tsSkip?: boolean;
 }

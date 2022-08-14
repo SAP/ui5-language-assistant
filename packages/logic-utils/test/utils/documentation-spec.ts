@@ -196,6 +196,33 @@ describe("The @ui5-language-assistant/logic-utils <convertJSDocToMarkdown> funct
     );
   });
 
+  it("replaces link tags that point to UI5 classes with markdown links when model has a version (OpenUI5)", () => {
+    const modelWithVersion = buildUI5Model({
+      framework: "openui5",
+      version: "1.2.3",
+    });
+    expect(
+      convertJSDocToMarkdown(
+        "This text has a {@link sap.m.Button link to Button} and a nameless link to a type: {@link sap.m.Button}",
+        modelWithVersion
+      )
+    ).to.equal(
+      "This text has a [link to Button](https://sdk.openui5.org/1.2.3/#/api/sap.m.Button) and a nameless link to a type: [sap.m.Button](https://sdk.openui5.org/1.2.3/#/api/sap.m.Button)"
+    );
+  });
+
+  it("replaces link tags that point to UI5 classes with markdown links when model doesn't have a version (OpenUI5)", () => {
+    const modelOpenUI5 = buildUI5Model({ framework: "openui5" });
+    expect(
+      convertJSDocToMarkdown(
+        "This text has a {@link sap.m.Button link to Button} and a nameless link to a type: {@link sap.m.Button}",
+        modelOpenUI5
+      )
+    ).to.equal(
+      "This text has a [link to Button](https://sdk.openui5.org/#/api/sap.m.Button) and a nameless link to a type: [sap.m.Button](https://sdk.openui5.org/#/api/sap.m.Button)"
+    );
+  });
+
   it("unescapes html entities after replacing tags", () => {
     expect(
       convertJSDocToMarkdown("This text has a <br> and a &lt;br&gt;", model)
