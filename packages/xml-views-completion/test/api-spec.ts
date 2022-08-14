@@ -19,7 +19,7 @@ describe("The `getXMLViewCompletions()` api", () => {
   before(async function () {
     REAL_UI5_MODEL = await generateModel({
       framework: "sapui5",
-      version: "1.105.0",
+      version: "1.71.49",
       modelGenerator: generate,
     });
   });
@@ -191,12 +191,12 @@ describe("The `getXMLViewCompletions()` api", () => {
       it("will not return experimental property suggestions according to settings", () => {
         testSettingsFilter({
           xmlSnippet: `
-            <mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m">
+            <mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:widgets="sap.ui.integration.widgets">
               <mvc:content>
-                <m:NumericContent adaptiveFontSize⇶
+                <widgets:Card dataMode⇶
               </mvc:content>
             </m:View>`,
-          suggestionName: "adaptiveFontSize",
+          suggestionName: "dataMode",
           settings: NO_EXPERIMENTAL_SUGGESTIONS,
         });
       });
@@ -206,10 +206,10 @@ describe("The `getXMLViewCompletions()` api", () => {
           xmlSnippet: `
             <mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:widgets="sap.ui.integration.widgets">
               <mvc:content>
-                <widgets:Card manifestReady⇶
+                <widgets:Card action⇶
               </mvc:content>
             </m:View>`,
-          suggestionName: "manifestReady",
+          suggestionName: "action",
           settings: NO_EXPERIMENTAL_SUGGESTIONS,
         });
       });
@@ -255,12 +255,12 @@ describe("The `getXMLViewCompletions()` api", () => {
       it("will not return experimental class suggestions according to settings", () => {
         testSettingsFilter({
           xmlSnippet: `
-            <mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:f="sap.f">
+            <mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:vtm="sap.ui.vtm">
               <mvc:content>
-                <AvatarGroup⇶
+                <Panel⇶
               </mvc:content>
             </m:View>`,
-          suggestionName: "sap.f.AvatarGroup",
+          suggestionName: "sap.ui.vtm.Panel",
           settings: NO_EXPERIMENTAL_SUGGESTIONS,
           nameIsFQN: true,
         });
@@ -307,10 +307,10 @@ describe("The `getXMLViewCompletions()` api", () => {
           xmlSnippet: `
             <mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m">
               <mvc:content>
-                <m:MessageView afterOpen⇶
+                <m:Button tap⇶
               </mvc:content>
             </m:View>`,
-          suggestionName: "afterOpen",
+          suggestionName: "tap",
           settings: NO_DEPRECATED_SUGGESTIONS,
         });
       });

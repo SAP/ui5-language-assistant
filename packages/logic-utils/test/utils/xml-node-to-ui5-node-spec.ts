@@ -23,7 +23,7 @@ describe("The @ui5-language-assistant/logic-utils <getUI5ClassByXMLElement> func
   before(async () => {
     ui5Model = await generateModel({
       framework: "sapui5",
-      version: "1.105.0",
+      version: "1.71.49",
       modelGenerator: generate,
     });
   });
@@ -106,7 +106,7 @@ describe("The @ui5-language-assistant/logic-utils <getUI5ClassByXMLElementClosin
   before(async () => {
     ui5Model = await generateModel({
       framework: "sapui5",
-      version: "1.105.0",
+      version: "1.71.49",
       modelGenerator: generate,
     });
   });
@@ -188,7 +188,7 @@ describe("The @ui5-language-assistant/logic-utils <getUI5AggregationByXMLElement
   before(async () => {
     ui5Model = await generateModel({
       framework: "sapui5",
-      version: "1.105.0",
+      version: "1.71.49",
       modelGenerator: generate,
     });
   });
@@ -338,7 +338,7 @@ describe("The @ui5-language-assistant/logic-utils <getUI5NodeByXMLAttribute> fun
   before(async () => {
     ui5Model = await generateModel({
       framework: "sapui5",
-      version: "1.105.0",
+      version: "1.71.49",
       modelGenerator: generate,
     });
   });
@@ -433,7 +433,7 @@ describe("The @ui5-language-assistant/logic-utils <getUI5PropertyByXMLAttributeK
   before(async () => {
     ui5Model = await generateModel({
       framework: "sapui5",
-      version: "1.105.0",
+      version: "1.71.49",
       modelGenerator: generate,
     });
   });
@@ -497,7 +497,7 @@ describe("The @ui5-language-assistant/logic-utils <getUI5NodeFromXMLElementNames
   before(async () => {
     ui5Model = await generateModel({
       framework: "sapui5",
-      version: "1.105.0",
+      version: "1.71.49",
       modelGenerator: generate,
     });
   });

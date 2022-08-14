@@ -24,7 +24,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
   before(async function () {
     ui5Model = await generateModel({
       framework: "sapui5",
-      version: "1.105.0",
+      version: "1.71.49",
       modelGenerator: generate,
     });
   });
@@ -125,7 +125,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
                   ui5NodeToFQN(_.ui5Node)
                 );
                 // Can "manually" traverse expected graph of `sap.m.Button` subClasses here:
-                //   - https://ui5.sap.com/1.105.0/#/api/sap.m.Button
+                //   - https://ui5.sap.com/1.71.49/#/api/sap.m.Button
                 expect(suggestionNames).to.deep.equalInAnyOrder([
                   "sap.m.Button",
                   "sap.m.OverflowToolbarButton",
@@ -163,7 +163,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
                   ui5NodeToFQN(_.ui5Node)
                 );
                 // Can "manually" traverse expected graph of `sap.m.Button` subClasses here:
-                //   - https://ui5.sap.com/1.105.0/#/api/sap.m.Button
+                //   - https://ui5.sap.com/1.71.49/#/api/sap.m.Button
                 expect(suggestionNames).to.deep.equalInAnyOrder([
                   "sap.m.OverflowToolbarButton",
                   "sap.m.OverflowToolbarToggleButton",
@@ -196,7 +196,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
                   ui5NodeToFQN(_.ui5Node)
                 );
                 // Can "manually" traverse expected graph of `sap.m.Button` subClasses here:
-                //   - https://ui5.sap.com/1.105.0/#/api/sap.m.Button
+                //   - https://ui5.sap.com/1.71.49/#/api/sap.m.Button
                 expect(suggestionNames).to.deep.equalInAnyOrder([
                   "sap.m.OverflowToolbarButton",
                   "sap.m.OverflowToolbarToggleButton",
@@ -231,7 +231,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
                   ui5NodeToFQN(_.ui5Node)
                 );
                 // Can "manually" traverse expected graph of `sap.ui.core.LayoutData` subClasses here:
-                //   - https://ui5.sap.com/1.105.0/#/api/sap.ui.core.LayoutData
+                //   - https://ui5.sap.com/1.71.49/#/api/sap.ui.core.LayoutData
                 expect(suggestionNames).to.deep.equalInAnyOrder([
                   "sap.ui.core.VariantLayoutData",
                   "sap.f.GridContainerItemLayoutData",
@@ -240,7 +240,6 @@ describe("The ui5-language-assistant xml-views-completion", () => {
                   "sap.m.OverflowToolbarLayoutData",
                   "sap.ui.layout.BlockLayoutCellData",
                   "sap.ui.layout.cssgrid.GridItemLayoutData",
-                  "sap.ui.layout.cssgrid.ResponsiveColumnItemLayoutData",
                   "sap.ui.layout.form.ColumnContainerData",
                   "sap.ui.layout.form.ColumnElementData",
                   "sap.ui.layout.form.GridContainerData",
@@ -318,7 +317,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
                   ui5NodeToFQN(_.ui5Node)
                 );
                 // Can "manually" traverse expected graph of `sap.ui.core.LayoutData` subClasses here:
-                //   - https://ui5.sap.com/1.105.0/#/api/sap.ui.core.LayoutData
+                //   - https://ui5.sap.com/1.71.49/#/api/sap.ui.core.LayoutData
                 expect(suggestionNames).to.deep.equalInAnyOrder([
                   "sap.f.GridContainerItemLayoutData",
                   "sap.ui.layout.form.GridContainerData",
@@ -355,7 +354,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
                     ui5NodeToFQN(_.ui5Node)
                   );
                   // Can "manually" traverse expected graph of `sap.ui.core.LayoutData` subClasses here:
-                  //   - https://ui5.sap.com/1.105.0/#/api/sap.ui.core.LayoutData
+                  //   - https://ui5.sap.com/1.71.49/#/api/sap.ui.core.LayoutData
                   expect(suggestionNames).to.deep.equalInAnyOrder([
                     "sap.ui.commons.form.GridContainerData",
                   ]);
@@ -423,7 +422,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
                       ui5NodeToFQN(_.ui5Node)
                     );
                     // Can "manually" traverse expected graph of `sap.ui.core.LayoutData` subClasses here:
-                    //   - https://ui5.sap.com/1.105.0/#/api/sap.ui.core.LayoutData
+                    //   - https://ui5.sap.com/1.71.49/#/api/sap.ui.core.LayoutData
                     expect(suggestionNames).to.deep.equalInAnyOrder([
                       "sap.ui.commons.form.GridContainerData",
                       "sap.ui.commons.form.GridElementData",

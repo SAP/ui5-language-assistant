@@ -30,7 +30,6 @@ const allExpectedNamespaces = [
   "sap.f.dnd",
   "sap.f.semantic",
   "sap.m",
-  "sap.m.plugins",
   "sap.m.semantic",
   "sap.m.upload",
   "sap.tnt",
@@ -43,7 +42,9 @@ const allExpectedNamespaces = [
   "sap.ui.core.search",
   "sap.ui.core.tmpl",
   "sap.ui.core.util",
+  "sap.ui.demokit",
   "sap.ui.fl.variants",
+  "sap.ui.fl.transport",
   "sap.ui.layout",
   "sap.ui.layout.cssgrid",
   "sap.ui.layout.form",
@@ -104,18 +105,9 @@ const allExpectedNamespaces = [
   "sap.ui.comp.smartmultiinput",
   "sap.ui.comp.smarttable",
   "sap.ui.comp.smartvariants",
+  "sap.ui.comp.transport",
   "sap.ui.comp.valuehelpdialog",
   "sap.ui.comp.variants",
-  "sap.ui.integration.designtime.baseEditor",
-  "sap.ui.integration.designtime.baseEditor.propertyEditor",
-  "sap.ui.integration.designtime.baseEditor.propertyEditor.arrayEditor",
-  "sap.ui.integration.designtime.baseEditor.propertyEditor.booleanEditor",
-  "sap.ui.integration.designtime.baseEditor.propertyEditor.enumStringEditor",
-  "sap.ui.integration.designtime.baseEditor.propertyEditor.iconEditor",
-  "sap.ui.integration.designtime.baseEditor.propertyEditor.jsonEditor",
-  "sap.ui.integration.designtime.baseEditor.propertyEditor.mapEditor",
-  "sap.ui.integration.designtime.baseEditor.propertyEditor.numberEditor",
-  "sap.ui.integration.designtime.baseEditor.propertyEditor.stringEditor",
   "sap.ui.integration.widgets",
   "sap.ui.richtexteditor",
   "sap.ui.vbm",
@@ -142,7 +134,6 @@ const allExpectedNamespaces = [
   "sap.viz.ui5.types.controller",
   "sap.viz.ui5.types.layout",
   "sap.viz.ui5.types.legend",
-  "sap.zen.dsh",
 ];
 
 const expectNamespaceKeysSuggestions = partial(expectSuggestions, (_) => {
@@ -159,7 +150,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
   before(async () => {
     ui5SemanticModel = await generateModel({
       framework: "sapui5",
-      version: "1.105.0",
+      version: "1.71.49",
       modelGenerator: generate,
     });
   });
