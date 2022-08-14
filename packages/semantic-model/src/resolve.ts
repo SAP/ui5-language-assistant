@@ -29,7 +29,12 @@ export function setParent(
     const parent = findSymbol(model, parentFqn);
     if (parent === undefined) {
       // Always throwing an error because we add these symbols implicitly so an error here means we have a bug
-      error(`Symbol ${parentFqn} not found (should be parent of ${fqn}) [${model.framework || "sapui5"}:${model.version}]`, true);
+      error(
+        `Symbol ${parentFqn} not found (should be parent of ${fqn}) [${
+          model.framework || "sapui5"
+        }:${model.version}]`,
+        true
+      );
     }
     symbol.parent = parent;
   }
@@ -59,7 +64,11 @@ export function resolveSemanticProperties(
       ) {
         if (extendsType.kind !== "UI5Class") {
           error(
-            `${jsonSymbol.extends} is a ${extendsType.kind} and not a class (class ${key} extends it) [${model.framework || "sapui5"}:${model.version}]`,
+            `${jsonSymbol.extends} is a ${
+              extendsType.kind
+            } and not a class (class ${key} extends it) [${
+              model.framework || "sapui5"
+            }:${model.version}]`,
             strict
           );
           continue;
@@ -73,7 +82,11 @@ export function resolveSemanticProperties(
         if (interfaceType !== undefined) {
           if (interfaceType.kind !== "UI5Interface") {
             error(
-              `${interfacee} is a ${interfaceType.kind} and not an interface (class ${key} implements it) [${model.framework || "sapui5"}:${model.version}]`,
+              `${interfacee} is a ${
+                interfaceType.kind
+              } and not an interface (class ${key} implements it) [${
+                model.framework || "sapui5"
+              }:${model.version}]`,
               strict
             );
             continue;
@@ -93,7 +106,9 @@ export function resolveSemanticProperties(
       );
       if (classs.defaultAggregation === undefined) {
         error(
-          `Unknown default aggregation ${defaultAggregation} in class ${key} [${model.framework || "sapui5"}:${model.version}]`,
+          `Unknown default aggregation ${defaultAggregation} in class ${key} [${
+            model.framework || "sapui5"
+          }:${model.version}]`,
           strict
         );
       }
@@ -232,7 +247,12 @@ export function resolveType({
       type: innerType,
     };
   } else {
-    error(`Unknown type: ${typeName} [${model.framework || "sapui5"}:${model.version}]`, strict);
+    error(
+      `Unknown type: ${typeName} [${model.framework || "sapui5"}:${
+        model.version
+      }]`,
+      strict
+    );
     return {
       kind: "UnresolvedType",
       name: typeName,

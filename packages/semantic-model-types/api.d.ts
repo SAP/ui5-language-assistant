@@ -1,6 +1,4 @@
-export type UI5Framework =
-  | "openui5"
-  | "sapui5";
+export type UI5Framework = "openui5" | "sapui5";
 
 export interface UI5SemanticModel {
   version?: string;

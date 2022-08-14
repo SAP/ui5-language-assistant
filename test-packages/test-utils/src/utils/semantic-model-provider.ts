@@ -3,7 +3,10 @@ import { readJsonSync, readJson, existsSync } from "fs-extra";
 import { resolve, dirname } from "path";
 import { filter, reduce, has, forEach, remove, get, find } from "lodash";
 import { FetchResponse } from "@ui5-language-assistant/language-server";
-import { UI5Framework, UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
+import {
+  UI5Framework,
+  UI5SemanticModel,
+} from "@ui5-language-assistant/semantic-model-types";
 import { generateFunc, TestModelVersion, TypeNameFix, Json } from "../../api";
 import { addUi5Resources } from "./download-ui5-resources";
 
@@ -53,7 +56,7 @@ const fixes: Record<TestModelVersion, TypeNameFix> = {
   "1.71.49": {
     array: "any[]",
     Array: "any[]",
-    "bloolean": undefined,
+    bloolean: undefined,
     Control: "sap.ui.core.Control",
     Element: "sap.ui.core.Element",
     "sap.fe.macros.MacroMetadata": undefined,
@@ -118,8 +121,8 @@ const fixes: Record<TestModelVersion, TypeNameFix> = {
     Array: "any[]",
     "object|string": "object",
     "boolean|string": "boolean",
-    "Boolean": "boolean",
-    "Promise": undefined,
+    Boolean: "boolean",
+    Promise: undefined,
 
     "function() : function": undefined,
     "function() : boolean": undefined,
@@ -159,7 +162,7 @@ const fixes: Record<TestModelVersion, TypeNameFix> = {
     Array: "any[]",
     "object|string": "object",
     "boolean|string": "boolean",
-    "Promise": undefined,
+    Promise: undefined,
 
     "function() : function": undefined,
     "function() : boolean": undefined,
@@ -261,7 +264,10 @@ export async function downloadLibraries(
 
 // Load the library files from the file system.
 // To save the libraries to the file system use downloadLibraries.
-function loadLibraries(framework: UI5Framework, version: TestModelVersion): Record<string, Json> {
+function loadLibraries(
+  framework: UI5Framework,
+  version: TestModelVersion
+): Record<string, Json> {
   const inputFolder = getModelFolder(version);
   const files = readdirSync(inputFolder);
   const LIBFILE_SUFFIX = ".designtime.api.json";
@@ -349,20 +355,21 @@ const libraryFixes: Record<TestModelVersion, Record<string, LibraryFix[]>> = {
     "sap.ui.mdc": [
       (content: Json): void => {
         forEach(get(content, "symbols"), (symbol) => {
-          const defaultAggregation = symbol?.["ui5-metadata"]?.defaultAggregation;
-          if (defaultAggregation && !symbol["ui5-metadata"].aggregations?.[defaultAggregation]) {
-            symbol["ui5-metadata"].aggregations = symbol["ui5-metadata"].aggregations || [];
-            symbol["ui5-metadata"].aggregations.push(                    {
-              "name": "content",
-              "singularName": "content",
-              "type": "sap.ui.core.Control",
-              "cardinality": "0..1",
-              "visibility": "public",
-              "methods": [
-                  "getContent",
-                  "destroyContent",
-                  "setContent"
-              ]
+          const defaultAggregation =
+            symbol?.["ui5-metadata"]?.defaultAggregation;
+          if (
+            defaultAggregation &&
+            !symbol["ui5-metadata"].aggregations?.[defaultAggregation]
+          ) {
+            symbol["ui5-metadata"].aggregations =
+              symbol["ui5-metadata"].aggregations || [];
+            symbol["ui5-metadata"].aggregations.push({
+              name: "content",
+              singularName: "content",
+              type: "sap.ui.core.Control",
+              cardinality: "0..1",
+              visibility: "public",
+              methods: ["getContent", "destroyContent", "setContent"],
             });
           }
         });
@@ -373,20 +380,21 @@ const libraryFixes: Record<TestModelVersion, Record<string, LibraryFix[]>> = {
     "sap.ui.mdc": [
       (content: Json): void => {
         forEach(get(content, "symbols"), (symbol) => {
-          const defaultAggregation = symbol?.["ui5-metadata"]?.defaultAggregation;
-          if (defaultAggregation && !symbol["ui5-metadata"].aggregations?.[defaultAggregation]) {
-            symbol["ui5-metadata"].aggregations = symbol["ui5-metadata"].aggregations || [];
-            symbol["ui5-metadata"].aggregations.push(                    {
-              "name": "content",
-              "singularName": "content",
-              "type": "sap.ui.core.Control",
-              "cardinality": "0..1",
-              "visibility": "public",
-              "methods": [
-                  "getContent",
-                  "destroyContent",
-                  "setContent"
-              ]
+          const defaultAggregation =
+            symbol?.["ui5-metadata"]?.defaultAggregation;
+          if (
+            defaultAggregation &&
+            !symbol["ui5-metadata"].aggregations?.[defaultAggregation]
+          ) {
+            symbol["ui5-metadata"].aggregations =
+              symbol["ui5-metadata"].aggregations || [];
+            symbol["ui5-metadata"].aggregations.push({
+              name: "content",
+              singularName: "content",
+              type: "sap.ui.core.Control",
+              cardinality: "0..1",
+              visibility: "public",
+              methods: ["getContent", "destroyContent", "setContent"],
             });
           }
         });

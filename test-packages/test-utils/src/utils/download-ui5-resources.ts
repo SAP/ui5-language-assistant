@@ -29,7 +29,7 @@ async function getLibs(version: TestModelVersion): Promise<string[]> {
   }
   const versionInfo = await response.json();
   // read libraries from version information
-  return versionInfo?.libraries?.map(lib => {
+  return versionInfo?.libraries?.map((lib) => {
     return lib.name;
   }) as string[];
 }

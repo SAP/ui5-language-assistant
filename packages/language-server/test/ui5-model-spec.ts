@@ -53,15 +53,19 @@ describe("the UI5 language assistant ui5 model", () => {
   }).timeout(GET_MODEL_TIMEOUT);
 
   it("doesn't fail if a file cannot be fetched", async () => {
-    const ui5Model = await getSemanticModelWithFetcher(async (url: string) => {
-      return {
-        ok: false,
-        status: 500,
-        json: (): never => {
-          throw new Error(`Cannot read from ${url}`);
-        },
-      };
-    }, NO_CACHE_FOLDER, "");
+    const ui5Model = await getSemanticModelWithFetcher(
+      async (url: string) => {
+        return {
+          ok: false,
+          status: 500,
+          json: (): never => {
+            throw new Error(`Cannot read from ${url}`);
+          },
+        };
+      },
+      NO_CACHE_FOLDER,
+      ""
+    );
     expect(ui5Model).to.exist;
   });
 
@@ -95,7 +99,8 @@ describe("the UI5 language assistant ui5 model", () => {
               `The files should be taken from the cache, got call for ${url}`
             );
           },
-          cachePath, ""
+          cachePath,
+          ""
         );
         expect(fetcherCalled).to.be.false;
         // Make sure it's not the model itself that is cached
@@ -167,16 +172,20 @@ describe("the UI5 language assistant ui5 model", () => {
 
         // Call getSemanticModel again with the same path and check it doesn't try to read from the URL
         let fetcherCalled = false;
-        await getSemanticModelWithFetcher(async (): Promise<FetchResponse> => {
-          fetcherCalled = true;
-          return {
-            ok: true,
-            status: 200,
-            json: async (): Promise<unknown> => {
-              return {};
-            },
-          };
-        }, cachePath, "");
+        await getSemanticModelWithFetcher(
+          async (): Promise<FetchResponse> => {
+            fetcherCalled = true;
+            return {
+              ok: true,
+              status: 200,
+              json: async (): Promise<unknown> => {
+                return {};
+              },
+            };
+          },
+          cachePath,
+          ""
+        );
         expect(fetcherCalled).to.be.true;
       }).timeout(GET_MODEL_TIMEOUT);
     });

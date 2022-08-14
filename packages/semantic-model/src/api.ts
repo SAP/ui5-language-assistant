@@ -1,4 +1,7 @@
-import { UI5Framework, UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
+import {
+  UI5Framework,
+  UI5SemanticModel,
+} from "@ui5-language-assistant/semantic-model-types";
 import { TypeNameFix, Json } from "../api";
 import { ConcreteSymbol } from "./api-json";
 import { convertToSemanticModel } from "./convert";

@@ -38,7 +38,7 @@ describe("The @ui5-language-assistant/logic-utils <getSuperClasses> function", (
       await generateModel({
         framework: "sapui5",
         version: "1.71.49",
-        modelGenerator: generate
+        modelGenerator: generate,
       })
     );
     const fAvatar = ui5Model.classes["sap.f.Avatar"];

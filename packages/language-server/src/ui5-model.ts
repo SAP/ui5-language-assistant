@@ -1,7 +1,14 @@
 import { map } from "lodash";
 import fetch from "node-fetch";
 import { resolve } from "path";
-import { readFile, pathExists, lstat, readJson, writeJson, mkdirs } from "fs-extra";
+import {
+  readFile,
+  pathExists,
+  lstat,
+  readJson,
+  writeJson,
+  mkdirs,
+} from "fs-extra";
 
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import {
@@ -18,8 +25,8 @@ const DEFAULT_UI5_FRAMEWORK = "sapui5";
 const DEFAULT_UI5_VERSION = "1.71.49";
 
 const UI5_FRAMEWORK_CDN_BASE_URL = {
-  "openui5": "https://sdk.openui5.org/",
-  "sapui5": "https://ui5.sap.com/"
+  openui5: "https://sdk.openui5.org/",
+  sapui5: "https://ui5.sap.com/",
 };
 
 export async function getSemanticModel(
@@ -48,7 +55,9 @@ export async function getSemanticModelWithFetcher(
     //   version: "1.71.49"
     const ui5YamlPath = (await globby([`${workspacePath}/ui5.yaml`]))?.pop();
     if (ui5YamlPath) {
-      getLogger().error("Reading framework/version from ui5.yaml ", { ui5YamlPath });
+      getLogger().error("Reading framework/version from ui5.yaml ", {
+        ui5YamlPath,
+      });
       const ui5YamlContent = await readFile(ui5YamlPath, { encoding: "utf8" });
       const ui5Yaml = parse(ui5YamlContent);
       framework = ui5Yaml?.framework?.name?.toLowerCase();
@@ -66,10 +75,16 @@ export async function getSemanticModelWithFetcher(
     //   }
     // }
     if (!framework || !version) {
-      const packageJsonPath = (await globby([`${workspacePath}/package.json`]))?.pop();
+      const packageJsonPath = (
+        await globby([`${workspacePath}/package.json`])
+      )?.pop();
       if (packageJsonPath) {
-        getLogger().error("Reading framwork/version from package.json ", { packageJsonPath });
-        const packageJsonContent = await readFile(packageJsonPath, { encoding: "utf8" });
+        getLogger().error("Reading framwork/version from package.json ", {
+          packageJsonPath,
+        });
+        const packageJsonContent = await readFile(packageJsonPath, {
+          encoding: "utf8",
+        });
         const packageJson = JSON.parse(packageJsonContent);
         framework = packageJson?.ui5?.framework?.name?.toLowerCase();
         version = packageJson?.ui5?.framework?.version;
@@ -80,7 +95,9 @@ export async function getSemanticModelWithFetcher(
   // no framework/version determined? use defaults!
   if (!framework) {
     framework = DEFAULT_UI5_FRAMEWORK;
-    getLogger().warn("No framework configuration found, using default framework! ");
+    getLogger().warn(
+      "No framework configuration found, using default framework! "
+    );
   }
   if (!version) {
     version = DEFAULT_UI5_VERSION;
@@ -88,7 +105,10 @@ export async function getSemanticModelWithFetcher(
   }
 
   // Log the detected framework name/version
-  getLogger().error("The following framework/version has been detected ", { framework, version });
+  getLogger().error("The following framework/version has been detected ", {
+    framework,
+    version,
+  });
 
   // Note: all cache handling (reading, writing etc) is optional from the user perspective but
   // impacts performance, therefore if any errors occur when handling the cache we ignore them but output
@@ -108,14 +128,20 @@ export async function getSemanticModelWithFetcher(
     }
   }
 
-  getLogger().info("building UI5 semantic Model for framework/version", { framework, version });
+  getLogger().info("building UI5 semantic Model for framework/version", {
+    framework,
+    version,
+  });
 
   const jsonMap: Record<string, Json> = {};
   const cdnBaseUrl = `${UI5_FRAMEWORK_CDN_BASE_URL[framework]}${version}/`;
   const baseUrl = `${cdnBaseUrl}test-resources/`;
   const suffix = "/designtime/api.json";
 
-  const libs = await getLibsAsync(getCacheFilePath(cacheFolder, "_libs"), cdnBaseUrl);
+  const libs = await getLibsAsync(
+    getCacheFilePath(cacheFolder, "_libs"),
+    cdnBaseUrl
+  );
 
   await Promise.all(
     map(libs, async (libName) => {
@@ -241,15 +267,18 @@ function getTypeNameFix(): TypeNameFix {
   return fixes;
 }
 
-async function getLibsAsync(cacheFilePath: string | undefined, cdnBaseUrl: string): Promise<string[]> {
-  let libs = await readFromCache(cacheFilePath) as string[];
+async function getLibsAsync(
+  cacheFilePath: string | undefined,
+  cdnBaseUrl: string
+): Promise<string[]> {
+  let libs = (await readFromCache(cacheFilePath)) as string[];
   if (libs === undefined) {
     const url = `${cdnBaseUrl}resources/sap-ui-version.json`;
     const response = await fetch(url);
     if (response.ok) {
       const versionInfo = await response.json();
       // read libraries from version information
-      libs = versionInfo?.libraries?.map(lib => {
+      libs = versionInfo?.libraries?.map((lib) => {
         return lib.name;
       }) as string[];
       writeToCache(cacheFilePath, libs);

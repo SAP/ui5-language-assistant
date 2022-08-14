@@ -1081,7 +1081,7 @@
                 },
                 "extends": {
                   "type": "string"
-                },    
+                },
                 "parameters": {
                   "$ref": "#/definitions/obj-callable-parameters"
                 },
@@ -1455,11 +1455,13 @@
             "anyOf": [
               { "$ref": "#/definitions/symbol-propertyNames" },
               { "$ref": "#/definitions/obj-method-propertyNames" },
-              { "properties": {
+              {
                 "properties": {
-                  "type": "array"
+                  "properties": {
+                    "type": "array"
+                  }
                 }
-              }}
+              }
             ]
           }
         }
