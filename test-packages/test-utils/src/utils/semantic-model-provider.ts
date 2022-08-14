@@ -333,8 +333,54 @@ const libraryFixes: Record<TestModelVersion, Record<string, LibraryFix[]>> = {
   },
   "1.71.49": {},
   "1.84.27": {},
-  "1.96.11": {},
-  "1.105.0": {},
+  "1.96.11": {
+    "sap.ui.mdc": [
+      (content: Json): void => {
+        forEach(get(content, "symbols"), (symbol) => {
+          const defaultAggregation = symbol?.["ui5-metadata"]?.defaultAggregation;
+          if (defaultAggregation && !symbol["ui5-metadata"].aggregations?.[defaultAggregation]) {
+            symbol["ui5-metadata"].aggregations = symbol["ui5-metadata"].aggregations || [];
+            symbol["ui5-metadata"].aggregations.push(                    {
+              "name": "content",
+              "singularName": "content",
+              "type": "sap.ui.core.Control",
+              "cardinality": "0..1",
+              "visibility": "public",
+              "methods": [
+                  "getContent",
+                  "destroyContent",
+                  "setContent"
+              ]
+            });
+          }
+        });
+      },
+    ],
+  },
+  "1.105.0": {
+    "sap.ui.mdc": [
+      (content: Json): void => {
+        forEach(get(content, "symbols"), (symbol) => {
+          const defaultAggregation = symbol?.["ui5-metadata"]?.defaultAggregation;
+          if (defaultAggregation && !symbol["ui5-metadata"].aggregations?.[defaultAggregation]) {
+            symbol["ui5-metadata"].aggregations = symbol["ui5-metadata"].aggregations || [];
+            symbol["ui5-metadata"].aggregations.push(                    {
+              "name": "content",
+              "singularName": "content",
+              "type": "sap.ui.core.Control",
+              "cardinality": "0..1",
+              "visibility": "public",
+              "methods": [
+                  "getContent",
+                  "destroyContent",
+                  "setContent"
+              ]
+            });
+          }
+        });
+      },
+    ],
+  },
 };
 
 function fixLibraries(
