@@ -35,19 +35,60 @@ export async function getSemanticModelWithFetcher(
   modelCachePath: string | undefined,
   workspacePath: string | undefined
 ): Promise<UI5SemanticModel> {
-  let framework = DEFAULT_UI5_FRAMEWORK;
-  let version = DEFAULT_UI5_VERSION;
-
-  // The ui5.yaml provides the information about the framework and version to be used for the UI5 model
+  // determine the ui5 version from the project configuration:
+  //   1.) ui5.yaml in project root
+  //   2.) package.json in project root
+  //   3.) use default framework/version
+  let framework, version;
   if (workspacePath) {
-    const ui5YamlPath = (await globby([`${workspacePath}/**/ui5.yaml`, `!${workspacePath}/node_modules/**`]))?.pop();
+    // by default the framework/version are determined from the ui5.yaml:
+    //
+    // framework:
+    //   name: SAPUI5
+    //   version: "1.71.49"
+    const ui5YamlPath = (await globby([`${workspacePath}/ui5.yaml`]))?.pop();
     if (ui5YamlPath) {
+      getLogger().error("Reading framework/version from ui5.yaml ", { ui5YamlPath });
       const ui5YamlContent = await readFile(ui5YamlPath, { encoding: "utf8" });
       const ui5Yaml = parse(ui5YamlContent);
-      framework = ui5Yaml?.framework?.name?.toLowerCase() || framework;
-      version = ui5Yaml?.framework?.version || version;
+      framework = ui5Yaml?.framework?.name?.toLowerCase();
+      version = ui5Yaml?.framework?.version;
+    }
+    // if the framework/version cannot be read from the ui5.yaml fallback to package.json
+    // to read the framework/version from the package.json>ui5>framework section:
+    //
+    // {
+    //   "ui5": {
+    //     "framework": {
+    //       "name": "SAPUI5",
+    //       "version": "1.71.49"
+    //     }
+    //   }
+    // }
+    if (!framework || !version) {
+      const packageJsonPath = (await globby([`${workspacePath}/package.json`]))?.pop();
+      if (packageJsonPath) {
+        getLogger().error("Reading framwork/version from package.json ", { packageJsonPath });
+        const packageJsonContent = await readFile(packageJsonPath, { encoding: "utf8" });
+        const packageJson = JSON.parse(packageJsonContent);
+        framework = packageJson?.ui5?.framework?.name?.toLowerCase();
+        version = packageJson?.ui5?.framework?.version;
+      }
     }
   }
+
+  // no framework/version determined? use defaults!
+  if (!framework) {
+    framework = DEFAULT_UI5_FRAMEWORK;
+    getLogger().warn("No framework configuration found, using default framework! ");
+  }
+  if (!version) {
+    version = DEFAULT_UI5_VERSION;
+    getLogger().warn("No version configuration found, using default version! ");
+  }
+
+  // Log the detected framework name/version
+  getLogger().error("The following framework/version has been detected ", { framework, version });
 
   // Note: all cache handling (reading, writing etc) is optional from the user perspective but
   // impacts performance, therefore if any errors occur when handling the cache we ignore them but output
