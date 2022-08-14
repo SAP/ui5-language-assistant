@@ -6,7 +6,7 @@
   "definitions": {
     "libraryVersion": {
       "type": "string",
-      "pattern": "^\\d+(\\.\\d+(\\.\\d+([.-][a-zA-Z0-9_-]+)?)?)?$"
+      "pattern": "^\\d+(\\.\\d+(\\.\\d+([.-][a-zA-Z0-9_-]+)?)?)?(\\n)?$"
     },
     "moduleName": {
       "type": "string",
@@ -584,6 +584,9 @@
           }
         },
         "optional": {
+          "type": "boolean"
+        },
+        "static": {
           "type": "boolean"
         },
         "allowedFor": {
@@ -1450,7 +1453,12 @@
           "propertyNames": {
             "anyOf": [
               { "$ref": "#/definitions/symbol-propertyNames" },
-              { "$ref": "#/definitions/obj-method-propertyNames" }
+              { "$ref": "#/definitions/obj-method-propertyNames" },
+              { "properties": {
+                "properties": {
+                  "type": "array"
+                }
+              }}
             ]
           }
         }
