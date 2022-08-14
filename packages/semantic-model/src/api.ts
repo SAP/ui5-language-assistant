@@ -1,5 +1,4 @@
 import {
-  UI5Framework,
   UI5SemanticModel,
 } from "@ui5-language-assistant/semantic-model-types";
 import { TypeNameFix, Json } from "../api";
