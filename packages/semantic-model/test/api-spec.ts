@@ -254,7 +254,7 @@ context("The ui5-language-assistant semantic model package API", () => {
 
       it(`is created successfully in non-strict mode`, async () => {
         const model = await generateModel({
-          framework: "sapui5",
+          framework: framework,
           version,
           downloadLibs: false,
           strict: false,
@@ -267,7 +267,7 @@ context("The ui5-language-assistant semantic model package API", () => {
         let model: UI5SemanticModel;
         before(async () => {
           model = await generateModel({
-            framework: "sapui5",
+            framework: framework,
             version,
             downloadLibs: false,
             modelGenerator: generate,
@@ -305,7 +305,7 @@ context("The ui5-language-assistant semantic model package API", () => {
     before(async () => {
       model = await generateModel({
         framework: "sapui5",
-        version: "1.105.0",
+        version: "1.71.49",
         modelGenerator: generate,
       });
     });
@@ -362,7 +362,7 @@ context("The ui5-language-assistant semantic model package API", () => {
     before(async () => {
       model = await generateModel({
         framework: "sapui5",
-        version: "1.105.0",
+        version: "1.71.49",
         modelGenerator: generate,
       });
     });

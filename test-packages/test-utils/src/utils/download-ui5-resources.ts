@@ -1,4 +1,4 @@
-import { zipObject, keys, map, noop } from "lodash";
+import { zipObject, map, noop } from "lodash";
 import { resolve } from "path";
 import { writeFile, mkdirs, pathExists } from "fs-extra";
 import fetch from "node-fetch";
