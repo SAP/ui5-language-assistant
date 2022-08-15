@@ -20,7 +20,6 @@ async function getLibs(version: TestModelVersion): Promise<string[]> {
   if (versionInMetadataURL !== "1.71.49") {
     versionInMetadataURL = "1.71.49";
   }
-  //const url = `https://unpkg.com/@sapui5/distribution-metadata@${versionInMetadataURL}/metadata.json`;
   const url = `https://ui5.sap.com/${versionInMetadataURL}/resources/sap-ui-version.json`;
   const response = await fetch(url);
   if (!response.ok) {
