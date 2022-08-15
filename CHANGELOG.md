@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.2.0](https://github.com/SAP/ui5-language-assistant/compare/v3.1.0...v3.2.0) (2022-08-15)
+
+### Features
+
+- multi-version support for UI5 XMLView code completion ([#469](https://github.com/SAP/ui5-language-assistant/issues/469)) ([6cca109](https://github.com/SAP/ui5-language-assistant/commit/6cca1092e01fbb77fdc510d039f0ce94529b2a9e)), closes [#468](https://github.com/SAP/ui5-language-assistant/issues/468)
+
 # [3.1.0](https://github.com/SAP/ui5-language-assistant/compare/v3.0.1...v3.1.0) (2021-10-10)
 
 ### Features
