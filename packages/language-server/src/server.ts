@@ -45,6 +45,7 @@ let semanticModelLoaded: Promise<UI5SemanticModel> | undefined = undefined;
 let manifestStateInitialized: Promise<void[]> | undefined = undefined;
 let initializationOptions: ServerInitializationOptions | undefined;
 let hasConfigurationCapability = false;
+let workspacePath: string | undefined = undefined;
 
 connection.onInitialize((params: InitializeParams) => {
   getLogger().info("`onInitialize` event", params);
@@ -58,6 +59,7 @@ connection.onInitialize((params: InitializeParams) => {
   if (workspaceFolderUri !== null) {
     const workspaceFolderAbsPath = URI.parse(workspaceFolderUri).fsPath;
     manifestStateInitialized = initializeManifestData(workspaceFolderAbsPath);
+    workspacePath = workspaceFolderAbsPath;
   }
 
   // Does the client support the `workspace/configuration` request?
@@ -92,7 +94,10 @@ connection.onInitialize((params: InitializeParams) => {
 
 connection.onInitialized(async () => {
   getLogger().info("`onInitialized` event");
-  semanticModelLoaded = getSemanticModel(initializationOptions?.modelCachePath);
+  semanticModelLoaded = getSemanticModel(
+    initializationOptions?.modelCachePath,
+    workspacePath
+  );
 
   if (hasConfigurationCapability) {
     // Register for all configuration changes
@@ -168,10 +173,18 @@ connection.onDidChangeWatchedFiles(async (changeEvent) => {
   getLogger().debug("`onDidChangeWatchedFiles` event", { changeEvent });
   forEach(changeEvent.changes, async (change) => {
     const uri = change.uri;
-    if (!isManifestDoc(uri)) {
-      return;
+    if (
+      uri.endsWith(workspacePath + "/ui5.yaml") ||
+      uri.endsWith(workspacePath + "/package.json")
+    ) {
+      // if the workspace root ui5.yaml or package.json is modified, we invalidate the semantic model
+      semanticModelLoaded = getSemanticModel(
+        initializationOptions?.modelCachePath,
+        workspacePath
+      );
+    } else if (isManifestDoc(uri)) {
+      await updateManifestData(uri, change.type);
     }
-    await updateManifestData(uri, change.type);
   });
 });
 

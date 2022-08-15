@@ -20,12 +20,12 @@ context(
       ): () => UI5SemanticModel {
         const generateCall = (): UI5SemanticModel => {
           return generate({
-            version: "1.74.0",
+            version: "1.71.49",
             libraries: {
               validLib: {
                 "$schema-ref":
                   "http://schemas.sap.com/sapui5/designtime/api.json/1.0",
-                version: "1.74.0",
+                version: "1.71.49",
                 library: "validLib",
                 symbols: [
                   {
@@ -81,7 +81,7 @@ context(
         const validLibNamespaces = ["sap.valid", "sap"];
         const invalidLibValidNamespaces = ["sap.validNS"];
         expect(model).to.exist;
-        expect(model.version).to.equal("1.74.0");
+        expect(model.version).to.equal("1.71.49");
         expect(keys(model.namespaces), "model.namespaces").to.contain.members(
           validLibNamespaces
         );
@@ -118,7 +118,7 @@ context(
       describe("$schema-ref is not a string", () => {
         const fileContent = {
           "$schema-ref": 123,
-          version: "1.74.0",
+          version: "1.71.49",
           library: "invalidLib",
           symbols: [validSymbolFromInvalidLib],
         };
@@ -156,7 +156,7 @@ context(
         const fileContent = {
           "$schema-ref":
             "http://schemas.sap.com/sapui5/designtime/api.json/1.0",
-          version: "1.74.0",
+          version: "1.71.49",
           library: 123,
           symbols: [validSymbolFromInvalidLib],
         };
@@ -175,7 +175,7 @@ context(
         const fileContent = {
           "$schema-ref":
             "http://schemas.sap.com/sapui5/designtime/api.json/1.0",
-          version: "1.74.0",
+          version: "1.71.49",
           library: "invalidLib",
           symbols: 123,
         };
@@ -194,7 +194,7 @@ context(
         const fileContent = {
           "$schema-ref":
             "http://schemas.sap.com/sapui5/designtime/api.json/1.0",
-          version: "1.74.0",
+          version: "1.71.49",
           library: "invalidLib",
           symbols: [
             validSymbolFromInvalidLib,
@@ -230,7 +230,7 @@ context(
             const fileContent = {
               "$schema-ref":
                 "http://schemas.sap.com/sapui5/designtime/api.json/1.0",
-              version: "1.74.0",
+              version: "1.71.49",
               library: "invalidLib",
               symbols: [
                 validSymbolFromInvalidLib,
@@ -265,7 +265,7 @@ context(
             const fileContent = {
               "$schema-ref":
                 "http://schemas.sap.com/sapui5/designtime/api.json/1.0",
-              version: "1.74.0",
+              version: "1.71.49",
               library: "invalidLib",
               symbols: [
                 validSymbolFromInvalidLib,
@@ -302,7 +302,7 @@ context(
             const fileContent = {
               "$schema-ref":
                 "http://schemas.sap.com/sapui5/designtime/api.json/1.0",
-              version: "1.74.0",
+              version: "1.71.49",
               library: "invalidLib",
               symbols: [
                 validSymbolFromInvalidLib,
@@ -339,7 +339,7 @@ context(
             const fileContent = {
               "$schema-ref":
                 "http://schemas.sap.com/sapui5/designtime/api.json/1.0",
-              version: "1.74.0",
+              version: "1.71.49",
               library: "invalidLib",
               symbols: [
                 validSymbolFromInvalidLib,
@@ -374,7 +374,7 @@ context(
             const fileContent = {
               "$schema-ref":
                 "http://schemas.sap.com/sapui5/designtime/api.json/1.0",
-              version: "1.74.0",
+              version: "1.71.49",
               library: "invalidLib",
               symbols: [
                 validSymbolFromInvalidLib,
@@ -411,7 +411,7 @@ context(
             const fileContent = {
               "$schema-ref":
                 "http://schemas.sap.com/sapui5/designtime/api.json/1.0",
-              version: "1.74.0",
+              version: "1.71.49",
               library: "invalidLib",
               symbols: [
                 validSymbolFromInvalidLib,
@@ -452,7 +452,7 @@ context(
             const fileContent = {
               "$schema-ref":
                 "http://schemas.sap.com/sapui5/designtime/api.json/1.0",
-              version: "1.74.0",
+              version: "1.71.49",
               library: "invalidLib",
               symbols: [
                 validSymbolFromInvalidLib,
@@ -487,7 +487,7 @@ context(
             const fileContent = {
               "$schema-ref":
                 "http://schemas.sap.com/sapui5/designtime/api.json/1.0",
-              version: "1.74.0",
+              version: "1.71.49",
               library: "invalidLib",
               symbols: [
                 validSymbolFromInvalidLib,
@@ -524,7 +524,7 @@ context(
             const fileContent = {
               "$schema-ref":
                 "http://schemas.sap.com/sapui5/designtime/api.json/1.0",
-              version: "1.74.0",
+              version: "1.71.49",
               library: "invalidLib",
               symbols: [
                 validSymbolFromInvalidLib,
@@ -563,7 +563,7 @@ context(
           const fileContent = {
             "$schema-ref":
               "http://schemas.sap.com/sapui5/designtime/api.json/1.0",
-            version: "1.74.0",
+            version: "1.71.49",
             library: "invalidLib",
             symbols: [
               validSymbolFromInvalidLib,
@@ -596,7 +596,7 @@ context(
           const fileContent = {
             "$schema-ref":
               "http://schemas.sap.com/sapui5/designtime/api.json/1.0",
-            version: "1.74.0",
+            version: "1.71.49",
             library: "invalidLib",
             symbols: [
               validSymbolFromInvalidLib,
@@ -631,7 +631,7 @@ context(
           const fileContent = {
             "$schema-ref":
               "http://schemas.sap.com/sapui5/designtime/api.json/1.0",
-            version: "1.74.0",
+            version: "1.71.49",
             library: "invalidLib",
             symbols: [
               validSymbolFromInvalidLib,
@@ -671,7 +671,7 @@ context(
           const fileContent = {
             "$schema-ref":
               "http://schemas.sap.com/sapui5/designtime/api.json/1.0",
-            version: "1.74.0",
+            version: "1.71.49",
             library: "invalidLib",
             symbols: [
               validSymbolFromInvalidLib,
@@ -718,7 +718,7 @@ context(
           const fileContent = {
             "$schema-ref":
               "http://schemas.sap.com/sapui5/designtime/api.json/1.0",
-            version: "1.74.0",
+            version: "1.71.49",
             library: "invalidLib",
             symbols: [
               validSymbolFromInvalidLib,
@@ -770,7 +770,7 @@ context(
         const fileContent = {
           "$schema-ref":
             "http://schemas.sap.com/sapui5/designtime/api.json/1.0",
-          version: "1.74.0",
+          version: "1.71.49",
           library: "invalidLib",
           symbols: [
             validSymbolFromInvalidLib,
@@ -820,7 +820,7 @@ context(
         const fileContent = {
           "$schema-ref":
             "http://schemas.sap.com/sapui5/designtime/api.json/1.0",
-          version: "1.74.0",
+          version: "1.71.49",
           library: "invalidLib",
           symbols: [
             validSymbolFromInvalidLib,
@@ -870,7 +870,7 @@ context(
         const fileContent = {
           "$schema-ref":
             "http://schemas.sap.com/sapui5/designtime/api.json/1.0",
-          version: "1.74.0",
+          version: "1.71.49",
           library: "invalidLib",
           symbols: [
             validSymbolFromInvalidLib,
@@ -915,7 +915,7 @@ context(
         const fileContent = {
           "$schema-ref":
             "http://schemas.sap.com/sapui5/designtime/api.json/1.0",
-          version: "1.74.0",
+          version: "1.71.49",
           library: "invalidLib",
           symbols: [
             validSymbolFromInvalidLib,

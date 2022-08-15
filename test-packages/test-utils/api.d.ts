@@ -15,6 +15,7 @@ import {
   UI5Field,
   UI5EnumValue,
   UI5DeprecatedInfo,
+  UI5Framework,
 } from "@ui5-language-assistant/semantic-model-types";
 import { XMLAttribute, XMLElement } from "@xml-tools/ast";
 import { UI5XMLViewCompletion } from "@ui5-language-assistant/xml-views-completion";
@@ -87,13 +88,20 @@ export function buildUI5Model<T extends Partial<UI5SemanticModel>>(
   opts: Partial<UI5SemanticModel>
 ): UI5SemanticModel & Pick<T, keyof UI5SemanticModel>;
 
-export type TestModelVersion = "1.60.14" | "1.74.0" | "1.75.0" | "1.71.14";
+// TODO: list should be updated continuously!
+export type TestModelVersion =
+  | "1.60.44"
+  | /* OOM */ "1.71.49"
+  | "1.84.27"
+  | "1.96.11"
+  | "1.105.0";
 
 /**
  * Return a UI5SemanticModel for the specified version.
  *
  * If downloadLibraries is true (default), increase the timeout of the test/hook to GEN_MODEL_TIMEOUT.
  *
+ * @param opts.framework
  * @param opts.version
  * @param opts.downloadLibraries - By default, download the library files before creating the model.
  * @param opts.strict - Generate the model in strict mode. True by default.
@@ -103,6 +111,7 @@ export type TestModelVersion = "1.60.14" | "1.74.0" | "1.75.0" | "1.71.14";
  *                              ... -> semantic-model -> test-utils -> semantic-model -> ...
  */
 export function generateModel(opts: {
+  framework: UI5Framework;
   version: TestModelVersion;
   downloadLibs?: boolean;
   strict?: boolean;
@@ -152,6 +161,7 @@ export type TypeNameFix = Record<string, string | undefined>;
 export type Json = unknown;
 
 export type generateFunc = (opts: {
+  framework: UI5Framework;
   version: string;
   libraries: Record<string, Json>;
   typeNameFix: TypeNameFix;

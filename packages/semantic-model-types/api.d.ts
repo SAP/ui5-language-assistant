@@ -1,5 +1,8 @@
+export type UI5Framework = "openui5" | "sapui5";
+
 export interface UI5SemanticModel {
   version?: string;
+  framework?: UI5Framework;
   includedLibraries: string[];
   classes: Record<string, UI5Class>;
   enums: Record<string, UI5Enum>;

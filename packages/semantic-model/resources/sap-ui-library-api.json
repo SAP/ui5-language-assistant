@@ -6,7 +6,7 @@
   "definitions": {
     "libraryVersion": {
       "type": "string",
-      "pattern": "^\\d+(\\.\\d+(\\.\\d+([.-][a-zA-Z0-9_-]+)?)?)?$"
+      "pattern": "^\\d+(\\.\\d+(\\.\\d+([.-][a-zA-Z0-9_-]+)?)?)?(\\n)?$"
     },
     "moduleName": {
       "type": "string",
@@ -163,6 +163,18 @@
         },
         "references": {
           "$ref": "#/definitions/references"
+        },
+        "optional": {
+          "type": "boolean"
+        },
+        "allowedFor": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "properties": {
+          "type": "object"
         }
       },
       "additionalProperties": false,
@@ -216,6 +228,15 @@
         },
         "value": {
           "oneOf": [{ "type": "string" }, { "type": "integer" }]
+        },
+        "optional": {
+          "type": "boolean"
+        },
+        "allowedFor": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       },
       "additionalProperties": false,
@@ -253,6 +274,9 @@
           },
           "deprecated": {
             "$ref": "#/definitions/deprecated"
+          },
+          "repeatable": {
+            "type": "boolean"
           }
         },
         "additionalProperties": false,
@@ -321,6 +345,12 @@
         "ui5-metamodel": {
           "type": "boolean",
           "defaultValue": false
+        },
+        "allowedFor": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       },
       "required": ["name"]
@@ -347,6 +377,15 @@
         },
         "references": {
           "$ref": "#/definitions/references"
+        },
+        "allowedFor": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "tsSkip": {
+          "type": "boolean"
         }
       },
       "additionalProperties": false,
@@ -370,7 +409,9 @@
         "examples",
         "references",
         "ui5-metamodel",
-        "export"
+        "export",
+        "allowedFor",
+        "tsSkip"
       ]
     },
     "obj-event": {
@@ -443,6 +484,12 @@
         },
         "references": {
           "$ref": "#/definitions/references"
+        },
+        "allowedFor": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       },
       "additionalProperties": false,
@@ -464,7 +511,7 @@
         },
         "visibility": {
           "type": "string",
-          "enum": ["public", "hidden"],
+          "enum": ["public", "hidden", "restricted"],
           "defaultValue": "public"
         },
         "description": {
@@ -480,6 +527,12 @@
           "$ref": "#/definitions/deprecated"
         },
         "methods": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "allowedFor": {
           "type": "array",
           "items": {
             "type": "string"
@@ -505,7 +558,7 @@
         },
         "visibility": {
           "type": "string",
-          "enum": ["public", "hidden"],
+          "enum": ["public", "hidden", "restricted"],
           "defaultValue": "public"
         },
         "description": {
@@ -525,6 +578,18 @@
           "$ref": "#/definitions/deprecated"
         },
         "methods": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "optional": {
+          "type": "boolean"
+        },
+        "static": {
+          "type": "boolean"
+        },
+        "allowedFor": {
           "type": "array",
           "items": {
             "type": "string"
@@ -560,7 +625,7 @@
         },
         "visibility": {
           "type": "string",
-          "enum": ["public", "hidden"],
+          "enum": ["public", "hidden", "restricted"],
           "defaultValue": "public"
         },
         "bindable": {
@@ -607,6 +672,12 @@
               }
             }
           ]
+        },
+        "allowedFor": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       },
       "additionalProperties": false,
@@ -632,7 +703,7 @@
         },
         "visibility": {
           "type": "string",
-          "enum": ["public", "hidden"],
+          "enum": ["public", "hidden", "restricted"],
           "defaultValue": "public"
         },
         "description": {
@@ -652,6 +723,12 @@
           "items": {
             "type": "string"
           }
+        },
+        "allowedFor": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       },
       "additionalProperties": false,
@@ -665,7 +742,7 @@
         },
         "visibility": {
           "type": "string",
-          "enum": ["public", "hidden"],
+          "enum": ["public", "hidden", "restricted"],
           "defaultValue": "public"
         },
         "description": {
@@ -713,6 +790,18 @@
           "items": {
             "type": "string"
           }
+        },
+        "allowPreventDefault": {
+          "type": "boolean"
+        },
+        "enableEventBubbling": {
+          "type": "boolean"
+        },
+        "allowedFor": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       },
       "additionalProperties": false,
@@ -731,7 +820,9 @@
             "library",
             "controller",
             "controllerextension",
-            "template"
+            "template",
+            "xmlmacro",
+            "webcomponent"
           ]
         },
         "specialSettings": {
@@ -890,6 +981,12 @@
         },
         "references": {
           "$ref": "#/definitions/references"
+        },
+        "allowedFor": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       },
       "required": ["name", "basename"]
@@ -908,7 +1005,8 @@
         "since",
         "experimental",
         "deprecated",
-        "references"
+        "references",
+        "allowedFor"
       ]
     },
 
@@ -925,6 +1023,15 @@
                 "kind": {
                   "enum": ["typedef"]
                 },
+                "extends": {
+                  "type": "string"
+                },
+                "ui5-metamodel": {
+                  "type": "boolean"
+                },
+                "type": {
+                  "type": "string"
+                },
                 "properties": {
                   "type": "array",
                   "items": { "$ref": "#/definitions/obj-property" }
@@ -933,7 +1040,35 @@
               "propertyNames": {
                 "anyOf": [
                   { "$ref": "#/definitions/symbol-propertyNames" },
-                  { "enum": ["properties"] }
+                  { "enum": ["properties", "extends", "ui5-metamodel", "type"] }
+                ]
+              }
+            },
+            {
+              "$comment": "A (falsy) typedef for a structure type (from sap.fe)",
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "enum": ["typedef"]
+                },
+                "extends": {
+                  "type": "string"
+                },
+                "ui5-metamodel": {
+                  "type": "boolean"
+                },
+                "type": {
+                  "type": "string"
+                },
+                "properties": {
+                  "type": "array",
+                  "items": { "$ref": "#/definitions/ui5-property" }
+                }
+              },
+              "propertyNames": {
+                "anyOf": [
+                  { "$ref": "#/definitions/symbol-propertyNames" },
+                  { "enum": ["properties", "extends", "ui5-metamodel", "type"] }
                 ]
               }
             },
@@ -943,6 +1078,9 @@
               "properties": {
                 "kind": {
                   "enum": ["typedef"]
+                },
+                "extends": {
+                  "type": "string"
                 },
                 "parameters": {
                   "$ref": "#/definitions/obj-callable-parameters"
@@ -967,7 +1105,7 @@
               "propertyNames": {
                 "anyOf": [
                   { "$ref": "#/definitions/symbol-propertyNames" },
-                  { "enum": ["parameters", "returnValue", "throws"] }
+                  { "enum": ["parameters", "returnValue", "throws", "extends"] }
                 ]
               }
             }
@@ -988,6 +1126,12 @@
             },
             "extends": {
               "type": "string"
+            },
+            "implements": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
             },
             "properties": {
               "type": "array",
@@ -1017,9 +1161,7 @@
               "type": "boolean"
             },
             "ui5-metadata": {
-              "type": "object",
-              "properties": {},
-              "additionalProperties": false
+              "$ref": "#/definitions/ui5-metadata"
             }
           },
           "propertyNames": {
@@ -1028,6 +1170,7 @@
               {
                 "enum": [
                   "extends",
+                  "implements",
                   "properties",
                   "methods",
                   "events",
@@ -1068,7 +1211,7 @@
                 },
                 "basetype": {
                   "type": "string",
-                  "enum": ["string", "int", "any"]
+                  "enum": ["string", "int", "any", "float[]"]
                 },
                 "pattern": {
                   "type": "string"
@@ -1311,7 +1454,14 @@
           "propertyNames": {
             "anyOf": [
               { "$ref": "#/definitions/symbol-propertyNames" },
-              { "$ref": "#/definitions/obj-method-propertyNames" }
+              { "$ref": "#/definitions/obj-method-propertyNames" },
+              {
+                "properties": {
+                  "properties": {
+                    "type": "array"
+                  }
+                }
+              }
             ]
           }
         }

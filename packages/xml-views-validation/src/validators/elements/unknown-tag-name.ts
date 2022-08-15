@@ -235,7 +235,7 @@ function validateTagWithoutNamespace(
 
 function shouldIgnoreElement(xmlElement: XMLElement): boolean {
   // We allow the tag sap.ui.core:FragmentDefinition at the root of the document
-  // See: https://sapui5.hana.ondemand.com/1.71.14/#/topic/23b9c779c2274213a281c1fc46b4962b
+  // See: https://ui5.sap.com/1.71.49/#/topic/23b9c779c2274213a281c1fc46b4962b
   // TODO: This should probably only be allowed in fragment.xml files
 
   // We allow the tag sap.ui.core:ExtensionPoint except on the root of the document

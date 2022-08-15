@@ -21,7 +21,8 @@ describe("the UI5 language assistant Hover Tooltip Service", () => {
   let ui5SemanticModel: UI5SemanticModel;
   before(async () => {
     ui5SemanticModel = await generateModel({
-      version: "1.74.0",
+      framework: "sapui5",
+      version: "1.71.49",
       modelGenerator: generate,
     });
   });

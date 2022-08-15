@@ -12,7 +12,8 @@ describe("The semantic model utils", () => {
 
   before(async () => {
     model = await generateModel({
-      version: "1.74.0",
+      framework: "sapui5",
+      version: "1.71.49",
       modelGenerator: generate,
     });
   });

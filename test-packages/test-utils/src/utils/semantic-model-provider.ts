@@ -3,7 +3,10 @@ import { readJsonSync, readJson, existsSync } from "fs-extra";
 import { resolve, dirname } from "path";
 import { filter, reduce, has, forEach, remove, get, find } from "lodash";
 import { FetchResponse } from "@ui5-language-assistant/language-server";
-import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
+import {
+  UI5Framework,
+  UI5SemanticModel,
+} from "@ui5-language-assistant/semantic-model-types";
 import { generateFunc, TestModelVersion, TypeNameFix, Json } from "../../api";
 import { addUi5Resources } from "./download-ui5-resources";
 
@@ -12,7 +15,7 @@ const MODEL_CACHE: Record<TestModelVersion, UI5SemanticModel> = Object.create(
 );
 
 const fixes: Record<TestModelVersion, TypeNameFix> = {
-  "1.60.14": {
+  "1.60.44": {
     "{sap.ui.layout.cssgrid.IGridConfigurable}": undefined,
     "sap.m.IHyphenation": undefined,
     "sap.ui.core.IDScope": undefined,
@@ -50,59 +53,23 @@ const fixes: Record<TestModelVersion, TypeNameFix> = {
     "sap.ui.vk.SelectionMode": undefined,
     "sap.viz.ui5.controls.VizRangeSlider": undefined,
   },
-  "1.74.0": {
-    "sap.m.PlanningCalendarHeader": undefined,
-    "sap.m.TimePickerSlider": undefined,
-    "sap.ui.fl.write._internal.transport.TransportDialog": undefined,
-    "sap.ui.layout.cssgrid.IGridItemLayoutData": undefined,
-    "sap.ui.layout.ResponsiveSplitterPage": undefined,
-    "sap.ui.integration.designtime.BaseEditor": undefined,
-    "sap.ui.vk.AnimationPlayer": undefined,
-    "sap.ui.vk.IPlaybackCollection": undefined,
-    "sap.ui.vk.ViewManager": undefined,
-
-    Control: "sap.ui.core.Control",
-    Element: "sap.ui.core.Element",
+  "1.71.49": {
     array: "any[]",
     Array: "any[]",
-    bloolean: "boolean",
-    "sap.gantt.misc.AxisTime": "sap.gantt.misc.AxisTimes",
+    bloolean: undefined,
+    Control: "sap.ui.core.Control",
+    Element: "sap.ui.core.Element",
+    "sap.fe.macros.MacroMetadata": undefined,
+    "sap.gantt.misc.AxisTime": undefined,
     "sap.gantt.control.Toolbar": undefined,
     "sap.gantt.DragOrientation": undefined,
     "sap.gantt.simple.GanttHeader": undefined,
     "sap.gantt.simple.InnerGanttChart": undefined,
-    "sap.rules.ui.RuleBase": undefined,
-    "sap.ui.generic.app.transaction.BaseController": undefined,
-    "sap.ui.vk.tools.HitTestIdMode": undefined,
-    "sap.ui.vk.tools.CoordinateSystem": undefined,
-    "sap.ui.vk.SelectionMode": undefined,
-    "sap.viz.ui5.controls.VizRangeSlider": undefined,
-  },
-  "1.75.0": {
-    "sap.m.PlanningCalendarHeader": undefined,
-    "sap.m.TimePickerSlider": "sap.m.TimePickerSliders",
-    "sap.ui.fl.write._internal.transport.TransportDialog": undefined,
-    "sap.ui.layout.cssgrid.IGridItemLayoutData": undefined,
-    "sap.ui.layout.ResponsiveSplitterPage": undefined,
-    "Object.<string,any>": undefined,
-    "sap.gantt.control.Toolbar": undefined,
-  },
-  "1.71.14": {
-    Control: "sap.ui.core.Control",
-    Element: "sap.ui.core.Element",
-    array: "any[]",
-    Array: "any[]",
-    bloolean: "boolean",
     "sap.m.PlanningCalendarHeader": undefined,
     "sap.m.TimePickerSlider": undefined,
-    "sap.ui.layout.ResponsiveSplitterPage": undefined,
-    "sap.gantt.misc.AxisTime": "sap.gantt.misc.AxisTimes",
-    "sap.gantt.control.Toolbar": undefined,
-    "sap.gantt.DragOrientation": undefined,
-    "sap.gantt.simple.GanttHeader": undefined,
-    "sap.gantt.simple.InnerGanttChart": undefined,
     "sap.rules.ui.RuleBase": undefined,
     "sap.ui.generic.app.transaction.BaseController": undefined,
+    "sap.ui.layout.ResponsiveSplitterPage": undefined,
     "sap.ui.vk.BillboardTextEncoding": undefined,
     "sap.ui.vk.BillboardStyle": undefined,
     "sap.ui.vk.BillboardBorderLineStyle": undefined,
@@ -116,6 +83,127 @@ const fixes: Record<TestModelVersion, TypeNameFix> = {
     "sap.ui.vk.SelectionMode": undefined,
     "sap.ui.vk.RenderMode": undefined,
     "sap.viz.ui5.controls.VizRangeSlider": undefined,
+  },
+  "1.84.27": {
+    array: "any[]",
+    Array: "any[]",
+    Control: "sap.ui.core.Control",
+    Element: "sap.ui.core.Element",
+    "sap.ui.base.Element": "sap.ui.core.Element",
+    "sap.fe.macros.MacroMetadata": undefined,
+    "sap.fe.macros.NavigationType": undefined,
+    "sap.fe.navigation.NavError": undefined,
+    "sap.fe.navigation.NavigationHandler": undefined,
+    "sap.fe.navigation.PresentationVariant": undefined,
+    "sap.fe.navigation.SelectionVariant": undefined,
+    "sap.gantt.control.Toolbar": undefined,
+    "sap.gantt.simple.GanttHeader": undefined,
+    "sap.gantt.simple.InnerGanttChart": undefined,
+    "sap.m.PlanningCalendarHeader": undefined,
+    "sap.m.TimePickerSlider": undefined,
+    "sap.rules.ui.RuleBase": undefined,
+    "sap.ui.core.mvc.XMLProcessingMode": undefined,
+    "sap.ui.fl.write._internal.transport.TransportDialog": undefined,
+    "sap.ui.generic.app.transaction.BaseController": undefined,
+    "sap.ui.integration.designtime.editor.fields.BaseField": undefined,
+    "sap.ui.layout.ResponsiveSplitterPage": undefined,
+    "sap.ui.layout.cssgrid.IGridItemLayoutData": undefined,
+    "sap.ui.mdc.DraftIndicatorType": undefined,
+    "sap.ui.mdc.FilterBarP13nMode": undefined,
+    "sap.ui.mdc.filterbar.FilterBarBase": undefined,
+    "sap.ui.vk.IPlaybackCollection": undefined,
+    "sap.ui.vk.ViewManager": undefined,
+    "sap.viz.ui5.controls.VizRangeSlider": undefined,
+    "QUnit.Assert": undefined,
+  },
+  "1.96.11": {
+    array: "any[]",
+    Array: "any[]",
+    "object|string": "object",
+    "boolean|string": "boolean",
+    Boolean: "boolean",
+    Promise: undefined,
+
+    "function() : function": undefined,
+    "function() : boolean": undefined,
+
+    Element: "sap.ui.core.Element",
+    "sap.fe.core.TemplateComponent": undefined,
+    "sap.fe.macros.NavigationType": undefined,
+    "sap.fe.navigation.NavError": undefined,
+    "sap.fe.navigation.NavigationHandler": undefined,
+    "sap.fe.navigation.PresentationVariant": undefined,
+    "sap.fe.navigation.SelectionVariant": undefined,
+    "sap.gantt.control.Toolbar": undefined,
+    "sap.gantt.simple.GanttHeader": undefined,
+    "sap.gantt.simple.InnerGanttChart": undefined,
+    "sap.m.p13n.AbstractContainer": undefined,
+    "sap.m.PlanningCalendarHeader": undefined,
+    "sap.m.internal.ToggleSpinButton": undefined,
+    "sap.m.TimePickerClock": undefined,
+    "sap.m.TimePickerSlider": undefined,
+    "sap.rules.ui.RuleBase": undefined,
+    "sap.ui.core.mvc.XMLProcessingMode": undefined,
+    "sap.ui.layout.ResponsiveSplitterPage": undefined,
+    "sap.ui.mdc.IxState": undefined,
+    "sap.ui.mdc.field.FieldValueHelpTableWrapperBase": undefined,
+    "sap.ui.mdc.filterbar.IFilterContainer": undefined,
+    "sap.ui.mdc.p13n.panels.BasePanel": undefined,
+    "sap.ui.mdc.Table": undefined,
+    "sap.ui.mdc.ui.Container": undefined,
+    "sap.ui.vk.IncludeUsageIdType": undefined,
+    "sap.ui.vk.RedlineComment": undefined,
+    "sap.ui.vk.ViewManager": undefined,
+    "sap.viz.ui5.controls.VizRangeSlider": undefined,
+    "QUnit.Assert": undefined,
+  },
+  "1.105.0": {
+    array: "any[]",
+    Array: "any[]",
+    "object|string": "object",
+    "boolean|string": "boolean",
+    Promise: undefined,
+
+    "function() : function": undefined,
+    "function() : boolean": undefined,
+
+    Element: "sap.ui.core.Element",
+
+    "sap.f.cards.NumericIndicators": undefined,
+    "sap.fe.core.TemplateComponent": undefined,
+    "sap.fe.macros.MacroMetadata": undefined,
+    "sap.fe.macros.NavigationType": undefined,
+    "sap.fe.navigation.NavError": undefined,
+    "sap.fe.navigation.NavigationHandler": undefined,
+    "sap.fe.navigation.PresentationVariant": undefined,
+    "sap.fe.navigation.SelectionVariant": undefined,
+    "sap.fe.templates.ExtensionAPI": undefined,
+    "sap.gantt.control.Toolbar": undefined,
+    "sap.gantt.simple.GanttSearchSidePanel": undefined,
+    "sap.gantt.simple.GanttHeader": undefined,
+    "sap.gantt.simple.InnerGanttChart": undefined,
+    "sap.m.PlanningCalendarHeader": undefined,
+    "sap.m.internal.ToggleSpinButton": undefined,
+    "sap.m.TimePickerClock": undefined,
+    "sap.m.TimePickerSlider": undefined,
+    "sap.rules.ui.RuleBase": undefined,
+    "sap.sac.df.DFKernel": undefined,
+    "sap.suite.ui.commons.FilePickerModes": undefined,
+    "sap.ui.core.mvc.XMLProcessingMode": undefined,
+    "Object<string,(string|function(sap.ui.core.Control) : string)>": "object",
+    "sap.ui.integration.cards.filters.FilterBar": undefined,
+    "sap.ui.layout.ResponsiveSplitterPage": undefined,
+    "sap.ui.mdc.IxState": undefined,
+    "sap.ui.mdc.chart.ChartToolbar": undefined,
+    "sap.ui.mdc.field.FieldValueHelpTableWrapperBase": undefined,
+    "sap.ui.mdc.filterbar.IFilterContainer": undefined,
+    "sap.ui.mdc.TableType": undefined,
+    "sap.ui.vk.RedlineComment": undefined,
+    "sap.ui.vk.ToggleMenuItem": undefined,
+    "sap.ui.vk.ViewManager": undefined,
+    "sap.ushell.ui.tile.TileBase": undefined,
+    "sap.viz.ui5.controls.VizRangeSlider": undefined,
+    "QUnit.Assert": undefined,
   },
 };
 
@@ -146,11 +234,13 @@ export async function readTestLibraryFile(
     const ok = existsSync(filePath);
     return {
       ok: ok,
+      status: 200,
       json: (): Promise<unknown> => readJson(filePath),
     };
   } catch (error) {
     return {
       ok: false,
+      status: 404,
       json: (): never => {
         throw error;
       },
@@ -174,7 +264,10 @@ export async function downloadLibraries(
 
 // Load the library files from the file system.
 // To save the libraries to the file system use downloadLibraries.
-function loadLibraries(version: TestModelVersion): Record<string, Json> {
+function loadLibraries(
+  framework: UI5Framework,
+  version: TestModelVersion
+): Record<string, Json> {
   const inputFolder = getModelFolder(version);
   const files = readdirSync(inputFolder);
   const LIBFILE_SUFFIX = ".designtime.api.json";
@@ -192,11 +285,13 @@ function loadLibraries(version: TestModelVersion): Record<string, Json> {
 }
 
 export async function generateModel({
+  framework,
   version,
   downloadLibs = true,
   strict = true,
   modelGenerator,
 }: {
+  framework: UI5Framework;
   version: TestModelVersion;
   downloadLibs?: boolean;
   strict?: boolean;
@@ -212,7 +307,7 @@ export async function generateModel({
     await downloadLibraries(version);
   }
 
-  const libToFileContent = loadLibraries(version);
+  const libToFileContent = loadLibraries(framework, version);
 
   // If we want the libraries in strict mode we have to fix them first
   if (strict) {
@@ -220,6 +315,7 @@ export async function generateModel({
   }
 
   const model = modelGenerator({
+    framework: framework,
     version: version,
     libraries: libToFileContent,
     typeNameFix: getTypeNameFixForVersion(version),
@@ -238,7 +334,7 @@ type LibraryFix = (content: Json) => void;
 
 // Library version -> library name -> fix function
 const libraryFixes: Record<TestModelVersion, Record<string, LibraryFix[]>> = {
-  "1.60.14": {
+  "1.60.44": {
     "sap.ushell": [
       (content: Json): void => {
         const symbol = find(
@@ -253,28 +349,57 @@ const libraryFixes: Record<TestModelVersion, Record<string, LibraryFix[]>> = {
       },
     ],
   },
-  "1.71.14": {},
-  "1.74.0": {
-    "sap.ui.generic.app": [
+  "1.71.49": {},
+  "1.84.27": {},
+  "1.96.11": {
+    "sap.ui.mdc": [
       (content: Json): void => {
-        // Removing from this library. There is another symbol with the same name in library "sap.fe".
-        remove(
-          get(content, "symbols"),
-          (symbol) =>
-            get(symbol, "name") ===
-            "sap.ui.generic.app.navigation.service.NavigationHandler"
-        );
-      },
-    ],
-    "sap.ushell": [
-      (content: Json): void => {
-        const symbols = get(content, "symbols");
-        remove(symbols, (symbol) => get(symbol, "basename") === "");
+        forEach(get(content, "symbols"), (symbol) => {
+          const defaultAggregation =
+            symbol?.["ui5-metadata"]?.defaultAggregation;
+          if (
+            defaultAggregation &&
+            !symbol["ui5-metadata"].aggregations?.[defaultAggregation]
+          ) {
+            symbol["ui5-metadata"].aggregations =
+              symbol["ui5-metadata"].aggregations || [];
+            symbol["ui5-metadata"].aggregations.push({
+              name: "content",
+              singularName: "content",
+              type: "sap.ui.core.Control",
+              cardinality: "0..1",
+              visibility: "public",
+              methods: ["getContent", "destroyContent", "setContent"],
+            });
+          }
+        });
       },
     ],
   },
-  "1.75.0": {
-    // No consistency tests on this library version yet
+  "1.105.0": {
+    "sap.ui.mdc": [
+      (content: Json): void => {
+        forEach(get(content, "symbols"), (symbol) => {
+          const defaultAggregation =
+            symbol?.["ui5-metadata"]?.defaultAggregation;
+          if (
+            defaultAggregation &&
+            !symbol["ui5-metadata"].aggregations?.[defaultAggregation]
+          ) {
+            symbol["ui5-metadata"].aggregations =
+              symbol["ui5-metadata"].aggregations || [];
+            symbol["ui5-metadata"].aggregations.push({
+              name: "content",
+              singularName: "content",
+              type: "sap.ui.core.Control",
+              cardinality: "0..1",
+              visibility: "public",
+              methods: ["getContent", "destroyContent", "setContent"],
+            });
+          }
+        });
+      },
+    ],
   },
 };
 

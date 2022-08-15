@@ -1,4 +1,4 @@
-import { zipObject, keys, map, noop } from "lodash";
+import { zipObject, map, noop } from "lodash";
 import { resolve } from "path";
 import { writeFile, mkdirs, pathExists } from "fs-extra";
 import fetch from "node-fetch";
@@ -17,18 +17,20 @@ async function getLibs(version: TestModelVersion): Promise<string[]> {
   // For now we assume the libraries are the same in all versions, when we support newer versions we should
   // do a better check here
   let versionInMetadataURL: string = version;
-  if (versionInMetadataURL !== "1.76.0") {
-    versionInMetadataURL = "1.76.0";
+  if (versionInMetadataURL !== "1.71.49") {
+    versionInMetadataURL = "1.71.49";
   }
-  const url = `https://unpkg.com/@sapui5/distribution-metadata@${versionInMetadataURL}/metadata.json`;
+  const url = `https://ui5.sap.com/${versionInMetadataURL}/resources/sap-ui-version.json`;
   const response = await fetch(url);
   if (!response.ok) {
     log(`error fetching from ${url}`);
     return [];
   }
-  const fileContent = await response.text();
-  const librariesMetadata = JSON.parse(fileContent);
-  return keys(librariesMetadata.libraries);
+  const versionInfo = await response.json();
+  // read libraries from version information
+  return versionInfo?.libraries?.map((lib) => {
+    return lib.name;
+  }) as string[];
 }
 
 export async function addUi5Resources(
@@ -36,10 +38,10 @@ export async function addUi5Resources(
   folder: string
 ): Promise<void> {
   // CDN libraries (example URL):
-  // https://sapui5-sapui5.dispatcher.us1.hana.ondemand.com/test-resources/sap/m/designtime/api.json
+  // https://ui5.sap.com/test-resources/sap/m/designtime/api.json
   // Older versions:
-  // https://sapui5.hana.ondemand.com/1.71.14/test-resources/sap/m/designtime/api.json
-  const baseUrl = `https://sapui5.hana.ondemand.com/${version}/test-resources/`;
+  // https://ui5.sap.com/1.71.49/test-resources/sap/m/designtime/api.json
+  const baseUrl = `https://ui5.sap.com/${version}/test-resources/`;
   const libs = await getLibs(version);
   const nameToFile = zipObject(
     libs,

@@ -25,9 +25,9 @@ describe("the UI5 language assistant Code Completion Services", () => {
 
   let ui5SemanticModel: UI5SemanticModel;
   before(async () => {
-    //TODO: use 1.71.x
     ui5SemanticModel = await generateModel({
-      version: "1.74.0",
+      framework: "sapui5",
+      version: "1.71.49",
       modelGenerator: generate,
     });
   });
@@ -890,12 +890,12 @@ describe("the UI5 language assistant Code Completion Services", () => {
     it("will not return experimental property suggestions according to settings", () => {
       testSettingsFilter({
         xmlSnippet: `
-          <mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m">
+          <mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:widgets="sap.ui.integration.widgets">
             <mvc:content>
-              <m:NumericContent adaptiveFontSize⇶
+              <widgets:Card dataMode⇶
             </mvc:content>
           </m:View>`,
-        suggestionLabel: "adaptiveFontSize",
+        suggestionLabel: "dataMode",
         settings: NO_EXPERIMENTAL_SUGGESTIONS,
       });
     });

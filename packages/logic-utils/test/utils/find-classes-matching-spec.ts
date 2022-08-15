@@ -13,7 +13,8 @@ describe("The @ui5-language-assistant/logic-utils <findClassesMatchingType> func
   let ui5Model: UI5SemanticModel;
   before(async () => {
     ui5Model = await generateModel({
-      version: "1.74.0",
+      framework: "sapui5",
+      version: "1.71.49",
       modelGenerator: generate,
     });
   });
@@ -75,7 +76,8 @@ describe("The @ui5-language-assistant/logic-utils <classIsOfType> function", () 
   let ui5Model: UI5SemanticModel;
   before(async () => {
     ui5Model = await generateModel({
-      version: "1.74.0",
+      framework: "sapui5",
+      version: "1.71.49",
       modelGenerator: generate,
     });
   });

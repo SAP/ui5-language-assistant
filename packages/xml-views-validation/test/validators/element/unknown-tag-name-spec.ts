@@ -31,7 +31,8 @@ describe("the unknown tag name validation", () => {
 
   before(async () => {
     ui5SemanticModel = await generateModel({
-      version: "1.74.0",
+      framework: "sapui5",
+      version: "1.71.49",
       modelGenerator: generate,
     });
   });

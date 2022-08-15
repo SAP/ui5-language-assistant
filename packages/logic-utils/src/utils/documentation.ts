@@ -194,8 +194,14 @@ export function getLink(model: UI5SemanticModel, link: string): string {
   if (link.startsWith("http:") || link.startsWith("https:")) {
     return link;
   }
-  if (model.version) {
-    return `https://sapui5.hana.ondemand.com/${model.version}/#/api/${link}`;
+  let baseUrl;
+  if (model.framework === "openui5") {
+    baseUrl = "https://sdk.openui5.org/";
+  } else {
+    baseUrl = "https://ui5.sap.com/";
   }
-  return `https://sapui5.hana.ondemand.com/#/api/${link}`;
+  if (model.version) {
+    return `${baseUrl}${model.version}/#/api/${link}`;
+  }
+  return `${baseUrl}#/api/${link}`;
 }
