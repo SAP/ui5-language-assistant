@@ -9,6 +9,8 @@ import {
   writeJson,
   mkdirs,
 } from "fs-extra";
+import globby from "globby";
+import { parse } from "yaml";
 
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import {
@@ -18,8 +20,6 @@ import {
 } from "@ui5-language-assistant/semantic-model";
 import { Fetcher } from "../api";
 import { getLogger } from "./logger";
-import globby from "globby";
-import { parse } from "yaml";
 
 const DEFAULT_UI5_FRAMEWORK = "sapui5";
 const DEFAULT_UI5_VERSION = "1.71.49";
