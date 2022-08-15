@@ -55,7 +55,7 @@ export async function getSemanticModelWithFetcher(
     //   version: "1.71.49"
     const ui5YamlPath = (await globby([`${workspacePath}/ui5.yaml`]))?.pop();
     if (ui5YamlPath) {
-      getLogger().error("Reading framework/version from ui5.yaml ", {
+      getLogger().info("Reading framework/version from ui5.yaml ", {
         ui5YamlPath,
       });
       const ui5YamlContent = await readFile(ui5YamlPath, { encoding: "utf8" });
@@ -79,7 +79,7 @@ export async function getSemanticModelWithFetcher(
         await globby([`${workspacePath}/package.json`])
       )?.pop();
       if (packageJsonPath) {
-        getLogger().error("Reading framwork/version from package.json ", {
+        getLogger().info("Reading framwork/version from package.json ", {
           packageJsonPath,
         });
         const packageJsonContent = await readFile(packageJsonPath, {
@@ -105,7 +105,7 @@ export async function getSemanticModelWithFetcher(
   }
 
   // Log the detected framework name/version
-  getLogger().error("The following framework/version has been detected ", {
+  getLogger().info("The following framework/version has been detected ", {
     framework,
     version,
   });
