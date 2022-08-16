@@ -7,6 +7,7 @@ import {
   getSemanticModelWithFetcher,
   getCacheFilePath,
   getCacheFolder,
+  negotiateVersionWithFetcher,
 } from "../src/ui5-model";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { FetchResponse } from "../api";
@@ -218,6 +219,272 @@ describe("the UI5 language assistant ui5 model", () => {
         );
         expect(fetcherCalled).to.be.true;
       }).timeout(GET_MODEL_TIMEOUT);
+    });
+  });
+
+  describe("version negotiation", async () => {
+    let cachePath: string;
+    let cleanup: () => Promise<void>;
+    const versionMap = {
+      latest: {
+        version: "1.105.0",
+        support: "Maintenance",
+        lts: true,
+      },
+      "1.105": {
+        version: "1.105.0",
+        support: "Maintenance",
+        lts: true,
+      },
+      "1.96": {
+        version: "1.96.11",
+        support: "Maintenance",
+        lts: true,
+      },
+      "1.84": {
+        version: "1.84.27",
+        support: "Maintenance",
+        lts: true,
+      },
+      "1.71": {
+        version: "1.71.50",
+        support: "Maintenance",
+        lts: true,
+      },
+    };
+    const versionInfo = {
+      libraries: [
+        {
+          name: "sap.ui.core",
+        },
+      ],
+    };
+    const createResponse = (ok: boolean, status: number, json?: unknown) => {
+      return {
+        ok,
+        status,
+        json: async (): Promise<unknown> => {
+          return json;
+        },
+      };
+    };
+
+    beforeEach(async () => {
+      ({ path: cachePath, cleanup } = await tempFile());
+    });
+
+    afterEach(async () => {
+      await cleanup();
+    });
+
+    it("resolve the default version", async () => {
+      expect(
+        await negotiateVersionWithFetcher(
+          async (url: string): Promise<FetchResponse> => {
+            if (url.endsWith("/version.json")) {
+              // request for version mapping info
+              return createResponse(true, 200, versionMap);
+            } else {
+              // request for version info (needs to be just an object => found!)
+              return createResponse(true, 200, versionInfo);
+            }
+          },
+          cachePath,
+          FRAMEWORK,
+          VERSION
+        )
+      ).to.be.equal(VERSION);
+    });
+
+    it("resolve available concrete version", async () => {
+      expect(
+        await negotiateVersionWithFetcher(
+          async (url: string): Promise<FetchResponse> => {
+            if (url.endsWith("/version.json")) {
+              // request for version mapping info
+              return createResponse(true, 200, versionMap);
+            } else {
+              // request for version info (needs to be just an object => found!)
+              return createResponse(true, 200, versionInfo);
+            }
+          },
+          cachePath,
+          FRAMEWORK,
+          "1.105.0"
+        )
+      ).to.be.equal("1.105.0");
+      expect(
+        await negotiateVersionWithFetcher(
+          async (url: string): Promise<FetchResponse> => {
+            if (url.endsWith("/version.json")) {
+              // request for version mapping info
+              return createResponse(true, 200, versionMap);
+            } else {
+              // request for version info (needs to be just an object => found!)
+              return createResponse(true, 200, versionInfo);
+            }
+          },
+          cachePath,
+          FRAMEWORK,
+          "1.104.0"
+        )
+      ).to.be.equal("1.104.0");
+    });
+
+    it("resolve not available concrete version (should be latest)", async () => {
+      expect(
+        await negotiateVersionWithFetcher(
+          async (url: string): Promise<FetchResponse> => {
+            if (url.endsWith("/version.json")) {
+              // request for version mapping info
+              return createResponse(true, 200, versionMap);
+            } else {
+              // request for version info (needs to be just an object => found!)
+              return createResponse(false, 404);
+            }
+          },
+          cachePath,
+          FRAMEWORK,
+          "1.104.0"
+        )
+      ).to.be.equal("1.105.0");
+    });
+
+    it("resolve major.minor versions (should be closest)", async () => {
+      expect(
+        await negotiateVersionWithFetcher(
+          async (url: string): Promise<FetchResponse> => {
+            if (url.endsWith("/version.json")) {
+              // request for version mapping info
+              return createResponse(true, 200, versionMap);
+            } else {
+              // request for version info (needs to be just an object => found!)
+              return createResponse(false, 404);
+            }
+          },
+          cachePath,
+          FRAMEWORK,
+          "1.103"
+        )
+      ).to.be.equal("1.105.0");
+      expect(
+        await negotiateVersionWithFetcher(
+          async (url: string): Promise<FetchResponse> => {
+            if (url.endsWith("/version.json")) {
+              // request for version mapping info
+              return createResponse(true, 200, versionMap);
+            } else {
+              // request for version info (needs to be just an object => found!)
+              return createResponse(false, 404);
+            }
+          },
+          cachePath,
+          FRAMEWORK,
+          "1.96"
+        )
+      ).to.be.equal("1.96.11");
+      expect(
+        await negotiateVersionWithFetcher(
+          async (url: string): Promise<FetchResponse> => {
+            if (url.endsWith("/version.json")) {
+              // request for version mapping info
+              return createResponse(true, 200, versionMap);
+            } else {
+              // request for version info (needs to be just an object => found!)
+              return createResponse(false, 404);
+            }
+          },
+          cachePath,
+          FRAMEWORK,
+          "1.84"
+        )
+      ).to.be.equal("1.84.27");
+      expect(
+        await negotiateVersionWithFetcher(
+          async (url: string): Promise<FetchResponse> => {
+            if (url.endsWith("/version.json")) {
+              // request for version mapping info
+              return createResponse(true, 200, versionMap);
+            } else {
+              // request for version info (needs to be just an object => found!)
+              return createResponse(false, 404);
+            }
+          },
+          cachePath,
+          FRAMEWORK,
+          "1.71"
+        )
+      ).to.be.equal("1.71.50");
+      expect(
+        await negotiateVersionWithFetcher(
+          async (url: string): Promise<FetchResponse> => {
+            if (url.endsWith("/version.json")) {
+              // request for version mapping info
+              return createResponse(true, 200, versionMap);
+            } else {
+              // request for version info (needs to be just an object => found!)
+              return createResponse(false, 404);
+            }
+          },
+          cachePath,
+          FRAMEWORK,
+          "1.18"
+        )
+      ).to.be.equal("1.71.50");
+    });
+
+    it("resolve major version (should be closest)", async () => {
+      expect(
+        await negotiateVersionWithFetcher(
+          async (url: string): Promise<FetchResponse> => {
+            if (url.endsWith("/version.json")) {
+              // request for version mapping info
+              return createResponse(true, 200, versionMap);
+            } else {
+              // request for version info (needs to be just an object => found!)
+              return createResponse(false, 404);
+            }
+          },
+          cachePath,
+          FRAMEWORK,
+          "1"
+        )
+      ).to.be.equal("1.71.50");
+    });
+
+    it("resolve invalid versions (should be default)", async () => {
+      expect(
+        await negotiateVersionWithFetcher(
+          async (url: string): Promise<FetchResponse> => {
+            if (url.endsWith("/version.json")) {
+              // request for version mapping info
+              return createResponse(true, 200, versionMap);
+            } else {
+              // request for version info (needs to be just an object => found!)
+              return createResponse(false, 404);
+            }
+          },
+          cachePath,
+          FRAMEWORK,
+          ""
+        )
+      ).to.be.equal("1.71.49");
+      expect(
+        await negotiateVersionWithFetcher(
+          async (url: string): Promise<FetchResponse> => {
+            if (url.endsWith("/version.json")) {
+              // request for version mapping info
+              return createResponse(true, 200, versionMap);
+            } else {
+              // request for version info (needs to be just an object => found!)
+              return createResponse(false, 404);
+            }
+          },
+          cachePath,
+          FRAMEWORK,
+          undefined
+        )
+      ).to.be.equal("1.71.49");
     });
   });
 });

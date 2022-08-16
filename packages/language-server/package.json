@@ -48,6 +48,7 @@
   },
   "devDependencies": {
     "@types/node-fetch": "2.5.10",
+    "@types/semver": "7.3.12",
     "@types/tmp": "0.2.0",
     "@ui5-language-assistant/semantic-model-types": "^3.2.0",
     "@ui5-language-assistant/test-utils": "^3.2.0",

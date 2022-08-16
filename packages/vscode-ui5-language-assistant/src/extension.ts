@@ -46,11 +46,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
   const clientOptions: LanguageClientOptions = {
     documentSelector: [{ scheme: "file", pattern: "**/*.{view,fragment}.xml" }],
     synchronize: {
-      fileEvents: [
-        workspace.createFileSystemWatcher("**/package.json"),
-        workspace.createFileSystemWatcher("**/ui5.yaml"),
-        workspace.createFileSystemWatcher("**/manifest.json"),
-      ],
+      fileEvents: [workspace.createFileSystemWatcher("**/manifest.json")],
     },
     outputChannelName: meta.displayName,
     initializationOptions: initializationOptions,
