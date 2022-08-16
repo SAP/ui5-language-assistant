@@ -1,7 +1,16 @@
 /* istanbul ignore file */
 import { resolve } from "path";
 import { readFileSync } from "fs";
-import { workspace, ExtensionContext } from "vscode";
+import {
+  workspace,
+  ExtensionContext,
+  StatusBarItem,
+  window,
+  StatusBarAlignment,
+  commands,
+  env,
+  Uri,
+} from "vscode";
 import {
   LanguageClient,
   LanguageClientOptions,
@@ -13,9 +22,10 @@ import {
   SERVER_PATH,
   ServerInitializationOptions,
 } from "@ui5-language-assistant/language-server";
-import { LOGGING_LEVEL_CONFIG_PROP } from "./constants";
+import { COMMAND_OPEN_DEMOKIT, LOGGING_LEVEL_CONFIG_PROP } from "./constants";
 
 let client: LanguageClient;
+let statusBarItem: StatusBarItem;
 
 export async function activate(context: ExtensionContext): Promise<void> {
   const debugOptions = { execArgv: ["--nolazy", "--inspect=6009"] };
@@ -58,6 +68,36 @@ export async function activate(context: ExtensionContext): Promise<void> {
     serverOptions,
     clientOptions
   );
+
+  // keep a reference to the current UI5 version
+  let currentVersion;
+
+  // create and register the command to open the SAPUI5 demokit
+  context.subscriptions.push(
+    commands.registerCommand(COMMAND_OPEN_DEMOKIT, () => {
+      env.openExternal(Uri.parse(`https://ui5.sap.com/${currentVersion}/`));
+    })
+  );
+
+  // create a statusbar item to display the currently used UI5 version
+  statusBarItem = window.createStatusBarItem(StatusBarAlignment.Right, 100);
+  statusBarItem.tooltip = "UI5 Version (XML Editor)";
+  statusBarItem.command = COMMAND_OPEN_DEMOKIT;
+
+  // show/hide and update the status bar
+  client.onReady().then(() => {
+    client.onNotification(
+      "UI5LanguageAssistant/ui5Model",
+      (version: string) => {
+        currentVersion = version;
+        statusBarItem.text = `$(notebook-mimetype) ${version}`;
+        statusBarItem.show();
+      }
+    );
+  });
+  window.onDidChangeActiveTextEditor(() => {
+    statusBarItem.hide();
+  });
 
   client.start();
 }

@@ -103,7 +103,6 @@ connection.onCompletion(
   async (
     textDocumentPosition: TextDocumentPositionParams
   ): Promise<CompletionItem[]> => {
-    // TODO if (semanticModelLoaded !== undefined) {
     getLogger().debug("`onCompletion` event", {
       textDocumentPosition,
     });
@@ -118,6 +117,10 @@ connection.onCompletion(
         "SAPUI5",
         minUI5Version
       );
+      connection.sendNotification(
+        "UI5LanguageAssistant/ui5Model",
+        model.version
+      );
       ensureDocumentSettingsUpdated(document.uri);
       const documentSettings = await getSettingsForDocument(document.uri);
       const completionItems = getCompletionItems({
@@ -129,7 +132,6 @@ connection.onCompletion(
       getLogger().trace("computed completion items", { completionItems });
       return completionItems;
     }
-    //}
     return [];
   }
 );
@@ -144,7 +146,6 @@ connection.onHover(
   async (
     textDocumentPosition: TextDocumentPositionParams
   ): Promise<Hover | undefined> => {
-    // TODO if (semanticModelLoaded !== undefined) {
     getLogger().debug("`onHover` event", {
       textDocumentPosition,
     });
@@ -158,6 +159,10 @@ connection.onHover(
         "SAPUI5",
         minUI5Version
       );
+      connection.sendNotification(
+        "UI5LanguageAssistant/ui5Model",
+        ui5Model.version
+      );
       const hoverResponse = getHoverResponse(
         ui5Model,
         textDocumentPosition,
@@ -168,7 +173,6 @@ connection.onHover(
       });
       return hoverResponse;
     }
-    //}
     return undefined;
   }
 );
@@ -204,6 +208,10 @@ documents.onDidChangeContent(async (changeEvent) => {
       "SAPUI5",
       minUI5Version
     );
+    connection.sendNotification(
+      "UI5LanguageAssistant/ui5Model",
+      ui5Model.version
+    );
     const diagnostics = getXMLViewDiagnostics({
       document,
       ui5Model,
@@ -229,6 +237,10 @@ connection.onCodeAction(async (params) => {
     initializationOptions?.modelCachePath,
     "SAPUI5",
     minUI5Version
+  );
+  connection.sendNotification(
+    "UI5LanguageAssistant/ui5Model",
+    ui5Model.version
   );
 
   const diagnostics = params.context.diagnostics;
