@@ -13,7 +13,6 @@ import {
 } from "vscode-languageserver";
 import { URI } from "vscode-uri";
 import { TextDocument } from "vscode-languageserver-textdocument";
-import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import {
   clearSettings,
   setGlobalSettings,
@@ -30,6 +29,7 @@ import { getXMLViewDiagnostics } from "./xml-view-diagnostics";
 import { getHoverResponse } from "./hover";
 import {
   getFlexEnabledFlagForXMLFile,
+  getMinUI5VersionForXMLFile,
   isManifestDoc,
   initializeManifestData,
   updateManifestData,
@@ -41,11 +41,9 @@ import { getLogger, setLogLevel } from "./logger";
 
 const connection = createConnection(ProposedFeatures.all);
 const documents = new TextDocuments(TextDocument);
-let semanticModelLoaded: Promise<UI5SemanticModel> | undefined = undefined;
 let manifestStateInitialized: Promise<void[]> | undefined = undefined;
 let initializationOptions: ServerInitializationOptions | undefined;
 let hasConfigurationCapability = false;
-let workspacePath: string | undefined = undefined;
 
 connection.onInitialize((params: InitializeParams) => {
   getLogger().info("`onInitialize` event", params);
@@ -59,7 +57,6 @@ connection.onInitialize((params: InitializeParams) => {
   if (workspaceFolderUri !== null) {
     const workspaceFolderAbsPath = URI.parse(workspaceFolderUri).fsPath;
     manifestStateInitialized = initializeManifestData(workspaceFolderAbsPath);
-    workspacePath = workspaceFolderAbsPath;
   }
 
   // Does the client support the `workspace/configuration` request?
@@ -94,11 +91,6 @@ connection.onInitialize((params: InitializeParams) => {
 
 connection.onInitialized(async () => {
   getLogger().info("`onInitialized` event");
-  semanticModelLoaded = getSemanticModel(
-    initializationOptions?.modelCachePath,
-    workspacePath
-  );
-
   if (hasConfigurationCapability) {
     // Register for all configuration changes
     connection.client.register(DidChangeConfigurationNotification.type, {
@@ -111,27 +103,33 @@ connection.onCompletion(
   async (
     textDocumentPosition: TextDocumentPositionParams
   ): Promise<CompletionItem[]> => {
-    if (semanticModelLoaded !== undefined) {
-      getLogger().debug("`onCompletion` event", {
-        textDocumentPosition,
-      });
+    // TODO if (semanticModelLoaded !== undefined) {
+    getLogger().debug("`onCompletion` event", {
+      textDocumentPosition,
+    });
 
-      const model = await semanticModelLoaded;
-      const documentUri = textDocumentPosition.textDocument.uri;
-      const document = documents.get(documentUri);
-      if (document) {
-        ensureDocumentSettingsUpdated(document.uri);
-        const documentSettings = await getSettingsForDocument(document.uri);
-        const completionItems = getCompletionItems({
-          model,
-          textDocumentPosition,
-          document,
-          documentSettings,
-        });
-        getLogger().trace("computed completion items", { completionItems });
-        return completionItems;
-      }
+    const documentUri = textDocumentPosition.textDocument.uri;
+    const document = documents.get(documentUri);
+    if (document) {
+      const documentPath = URI.parse(documentUri).fsPath;
+      const minUI5Version = getMinUI5VersionForXMLFile(documentPath);
+      const model = await getSemanticModel(
+        initializationOptions?.modelCachePath,
+        "SAPUI5",
+        minUI5Version
+      );
+      ensureDocumentSettingsUpdated(document.uri);
+      const documentSettings = await getSettingsForDocument(document.uri);
+      const completionItems = getCompletionItems({
+        model,
+        textDocumentPosition,
+        document,
+        documentSettings,
+      });
+      getLogger().trace("computed completion items", { completionItems });
+      return completionItems;
     }
+    //}
     return [];
   }
 );
@@ -146,25 +144,31 @@ connection.onHover(
   async (
     textDocumentPosition: TextDocumentPositionParams
   ): Promise<Hover | undefined> => {
-    if (semanticModelLoaded !== undefined) {
-      getLogger().debug("`onHover` event", {
+    // TODO if (semanticModelLoaded !== undefined) {
+    getLogger().debug("`onHover` event", {
+      textDocumentPosition,
+    });
+    const documentUri = textDocumentPosition.textDocument.uri;
+    const document = documents.get(documentUri);
+    if (document) {
+      const documentPath = URI.parse(documentUri).fsPath;
+      const minUI5Version = getMinUI5VersionForXMLFile(documentPath);
+      const ui5Model = await getSemanticModel(
+        initializationOptions?.modelCachePath,
+        "SAPUI5",
+        minUI5Version
+      );
+      const hoverResponse = getHoverResponse(
+        ui5Model,
         textDocumentPosition,
+        document
+      );
+      getLogger().trace("computed hoverResponse", {
+        hoverResponse,
       });
-      const model = await semanticModelLoaded;
-      const documentUri = textDocumentPosition.textDocument.uri;
-      const document = documents.get(documentUri);
-      if (document) {
-        const hoverResponse = getHoverResponse(
-          model,
-          textDocumentPosition,
-          document
-        );
-        getLogger().trace("computed hoverResponse", {
-          hoverResponse,
-        });
-        return hoverResponse;
-      }
+      return hoverResponse;
     }
+    //}
     return undefined;
   }
 );
@@ -173,16 +177,7 @@ connection.onDidChangeWatchedFiles(async (changeEvent) => {
   getLogger().debug("`onDidChangeWatchedFiles` event", { changeEvent });
   forEach(changeEvent.changes, async (change) => {
     const uri = change.uri;
-    if (
-      uri.endsWith(workspacePath + "/ui5.yaml") ||
-      uri.endsWith(workspacePath + "/package.json")
-    ) {
-      // if the workspace root ui5.yaml or package.json is modified, we invalidate the semantic model
-      semanticModelLoaded = getSemanticModel(
-        initializationOptions?.modelCachePath,
-        workspacePath
-      );
-    } else if (isManifestDoc(uri)) {
+    if (isManifestDoc(uri)) {
       await updateManifestData(uri, change.type);
     }
   });
@@ -191,20 +186,24 @@ connection.onDidChangeWatchedFiles(async (changeEvent) => {
 documents.onDidChangeContent(async (changeEvent) => {
   getLogger().trace("`onDidChangeContent` event", { changeEvent });
   if (
-    semanticModelLoaded === undefined ||
     manifestStateInitialized === undefined ||
     !isXMLView(changeEvent.document.uri)
   ) {
     return;
   }
 
-  const ui5Model = await semanticModelLoaded;
   await manifestStateInitialized;
   const documentUri = changeEvent.document.uri;
   const document = documents.get(documentUri);
   if (document !== undefined) {
     const documentPath = URI.parse(documentUri).fsPath;
     const flexEnabled = getFlexEnabledFlagForXMLFile(documentPath);
+    const minUI5Version = getMinUI5VersionForXMLFile(documentPath);
+    const ui5Model = await getSemanticModel(
+      initializationOptions?.modelCachePath,
+      "SAPUI5",
+      minUI5Version
+    );
     const diagnostics = getXMLViewDiagnostics({
       document,
       ui5Model,
@@ -217,16 +216,20 @@ documents.onDidChangeContent(async (changeEvent) => {
 
 connection.onCodeAction(async (params) => {
   getLogger().debug("`onCodeAction` event", { params });
-  if (semanticModelLoaded === undefined) {
-    return;
-  }
 
-  const ui5Model = await semanticModelLoaded;
   const docUri = params.textDocument.uri;
   const textDocument = documents.get(docUri);
   if (textDocument === undefined) {
     return undefined;
   }
+
+  const documentPath = URI.parse(docUri).fsPath;
+  const minUI5Version = getMinUI5VersionForXMLFile(documentPath);
+  const ui5Model = await getSemanticModel(
+    initializationOptions?.modelCachePath,
+    "SAPUI5",
+    minUI5Version
+  );
 
   const diagnostics = params.context.diagnostics;
   const codeActions = diagnosticToCodeActionFix(

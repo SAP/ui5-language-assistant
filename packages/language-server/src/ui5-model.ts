@@ -1,18 +1,13 @@
 import { map } from "lodash";
 import fetch from "node-fetch";
 import { resolve } from "path";
-import {
-  readFile,
-  pathExists,
-  lstat,
-  readJson,
-  writeJson,
-  mkdirs,
-} from "fs-extra";
-import globby from "globby";
-import { parse } from "yaml";
+import { pathExists, lstat, readJson, writeJson, mkdirs } from "fs-extra";
+import semver from "semver";
 
-import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
+import {
+  UI5Framework,
+  UI5SemanticModel,
+} from "@ui5-language-assistant/semantic-model-types";
 import {
   generate,
   Json,
@@ -21,94 +16,81 @@ import {
 import { Fetcher } from "../api";
 import { getLogger } from "./logger";
 
-const DEFAULT_UI5_FRAMEWORK = "sapui5";
+const DEFAULT_UI5_FRAMEWORK = "SAPUI5";
 const DEFAULT_UI5_VERSION = "1.71.49";
 
 const UI5_FRAMEWORK_CDN_BASE_URL = {
-  openui5: "https://sdk.openui5.org/",
-  sapui5: "https://ui5.sap.com/",
+  OPENUI5: "https://sdk.openui5.org/",
+  SAPUI5: "https://ui5.sap.com/",
 };
+
+const semanticModelCache: Record<string, UI5SemanticModel> = Object.create(
+  null
+);
+function createSemanticModelCacheKey(
+  framework: UI5Framework,
+  version: string
+): string {
+  return `${framework}:${version}`;
+}
 
 export async function getSemanticModel(
   modelCachePath: string | undefined,
-  workspacePath: string | undefined
+  framework: UI5Framework | undefined,
+  version: string | undefined,
+  ignoreCache?: boolean
 ): Promise<UI5SemanticModel> {
-  return getSemanticModelWithFetcher(fetch, modelCachePath, workspacePath);
+  return getSemanticModelWithFetcher(
+    fetch,
+    modelCachePath,
+    framework,
+    version,
+    ignoreCache
+  );
 }
 
 // This function is exported for testing purposes (using a mock fetcher)
 export async function getSemanticModelWithFetcher(
   fetcher: Fetcher,
   modelCachePath: string | undefined,
-  workspacePath: string | undefined
+  framework: UI5Framework | undefined,
+  version: string | undefined,
+  ignoreCache?: boolean
 ): Promise<UI5SemanticModel> {
-  // determine the ui5 version from the project configuration:
-  //   1.) ui5.yaml in project root
-  //   2.) package.json in project root
-  //   3.) use default framework/version
-  let framework, version;
-  if (workspacePath) {
-    // by default the framework/version are determined from the ui5.yaml:
-    //
-    // framework:
-    //   name: SAPUI5
-    //   version: "1.71.49"
-    const ui5YamlPath = (await globby([`${workspacePath}/ui5.yaml`]))?.pop();
-    if (ui5YamlPath) {
-      getLogger().info("Reading framework/version from ui5.yaml ", {
-        ui5YamlPath,
-      });
-      const ui5YamlContent = await readFile(ui5YamlPath, { encoding: "utf8" });
-      const ui5Yaml = parse(ui5YamlContent);
-      framework = ui5Yaml?.framework?.name?.toLowerCase();
-      version = ui5Yaml?.framework?.version;
-    }
-    // if the framework/version cannot be read from the ui5.yaml fallback to package.json
-    // to read the framework/version from the package.json>ui5>framework section:
-    //
-    // {
-    //   "ui5": {
-    //     "framework": {
-    //       "name": "SAPUI5",
-    //       "version": "1.71.49"
-    //     }
-    //   }
-    // }
-    if (!framework || !version) {
-      const packageJsonPath = (
-        await globby([`${workspacePath}/package.json`])
-      )?.pop();
-      if (packageJsonPath) {
-        getLogger().info("Reading framwork/version from package.json ", {
-          packageJsonPath,
-        });
-        const packageJsonContent = await readFile(packageJsonPath, {
-          encoding: "utf8",
-        });
-        const packageJson = JSON.parse(packageJsonContent);
-        framework = packageJson?.ui5?.framework?.name?.toLowerCase();
-        version = packageJson?.ui5?.framework?.version;
-      }
-    }
-  }
-
-  // no framework/version determined? use defaults!
+  // no framework? use default!
   if (!framework) {
     framework = DEFAULT_UI5_FRAMEWORK;
     getLogger().warn(
-      "No framework configuration found, using default framework! "
+      "No framework configuration found, using default framework!"
     );
   }
+
+  // no version? use default!
   if (!version) {
     version = DEFAULT_UI5_VERSION;
-    getLogger().warn("No version configuration found, using default version! ");
+    getLogger().warn("No version configuration found, using default version!");
+  } else {
+    // ensure version to be semver compliant
+    const parsedVersion = semver.coerce(version);
+    if (parsedVersion) {
+      version = parsedVersion.toString() as string;
+    } else {
+      getLogger().warn(`Version ${version} is invalid, using default version!`);
+      version = DEFAULT_UI5_VERSION;
+    }
   }
 
   // Log the detected framework name/version
-  getLogger().info("The following framework/version has been detected ", {
+  getLogger().info("The following framework/version has been detected", {
     framework,
     version,
   });
+
+  // retrieve the framework/version model from cache
+  const key = createSemanticModelCacheKey(framework, version);
+  if (!ignoreCache && semanticModelCache[key]) {
+    return semanticModelCache[key];
+  }
 
   // Note: all cache handling (reading, writing etc) is optional from the user perspective but
   // impacts performance, therefore if any errors occur when handling the cache we ignore them but output
@@ -162,7 +144,7 @@ export async function getSemanticModelWithFetcher(
           getLogger().error("Could not read UI5 lib from", { url });
         }
       } else {
-        getLogger().info("Reading Cache For UI5 Lib ", {
+        getLogger().info("Reading Cache For UI5 Lib", {
           libName,
           cacheFilePath,
         });
@@ -173,13 +155,14 @@ export async function getSemanticModelWithFetcher(
     })
   );
 
-  return generate({
+  const model = generate({
     version: version,
     libraries: jsonMap,
     typeNameFix: getTypeNameFix(),
     strict: false,
     printValidationErrors: false,
   });
+  return (semanticModelCache[key] = model);
 }
 
 async function readFromCache(filePath: string | undefined): Promise<unknown> {

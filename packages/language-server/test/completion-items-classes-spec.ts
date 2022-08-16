@@ -22,7 +22,7 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
   let ui5SemanticModel: UI5SemanticModel;
   before(async function () {
     ui5SemanticModel = await generateModel({
-      framework: "sapui5",
+      framework: "SAPUI5",
       version: "1.71.49",
       modelGenerator: generate,
     });

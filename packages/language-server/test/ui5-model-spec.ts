@@ -16,7 +16,7 @@ import { forEach, isPlainObject } from "lodash";
 describe("the UI5 language assistant ui5 model", () => {
   // The default timeout is 2000ms and getSemanticModel can take ~3000-5000ms
   const GET_MODEL_TIMEOUT = 10000;
-  const FRAMEWORK = "sapui5";
+  const FRAMEWORK = "SAPUI5";
   const VERSION = "1.71.49";
   const NO_CACHE_FOLDER = undefined;
 
@@ -48,7 +48,12 @@ describe("the UI5 language assistant ui5 model", () => {
   }
 
   it("will get UI5 semantic model", async () => {
-    const ui5Model = await getSemanticModel(NO_CACHE_FOLDER, "");
+    const ui5Model = await getSemanticModel(
+      NO_CACHE_FOLDER,
+      undefined,
+      undefined,
+      true
+    );
     assertSemanticModel(ui5Model);
   }).timeout(GET_MODEL_TIMEOUT);
 
@@ -64,7 +69,9 @@ describe("the UI5 language assistant ui5 model", () => {
         };
       },
       NO_CACHE_FOLDER,
-      ""
+      undefined,
+      undefined,
+      true
     );
     expect(ui5Model).to.exist;
   });
@@ -83,7 +90,12 @@ describe("the UI5 language assistant ui5 model", () => {
       });
 
       it("caches the model the first time getSemanticModel is called", async () => {
-        const ui5Model = await getSemanticModel(cachePath, "");
+        const ui5Model = await getSemanticModel(
+          cachePath,
+          undefined,
+          undefined,
+          true
+        );
         assertSemanticModel(ui5Model);
 
         // Check the files were created in the folder
@@ -100,7 +112,9 @@ describe("the UI5 language assistant ui5 model", () => {
             );
           },
           cachePath,
-          ""
+          undefined,
+          undefined,
+          true
         );
         expect(fetcherCalled).to.be.false;
         // Make sure it's not the model itself that is cached
@@ -132,7 +146,11 @@ describe("the UI5 language assistant ui5 model", () => {
         expectExists(cacheFilePath, "cacheFilePath");
         await mkdirs(cacheFilePath);
 
-        const ui5Model = await getSemanticModel(cachePath, "");
+        const ui5Model = await getSemanticModel(
+          cachePath,
+          undefined,
+          undefined
+        );
         expect(ui5Model).to.exist;
         // Check we still got the sap.m library data
         expect(Object.keys(ui5Model.namespaces)).to.contain("sap.m");
@@ -147,7 +165,12 @@ describe("the UI5 language assistant ui5 model", () => {
         expectExists(cacheFilePath, "cacheFilePath");
         await writeFile(cacheFilePath, "not json");
 
-        const ui5Model = await getSemanticModel(cachePath, "");
+        const ui5Model = await getSemanticModel(
+          cachePath,
+          undefined,
+          undefined,
+          true
+        );
         expect(ui5Model).to.exist;
         // Check we still got the sap.m library data
         expect(Object.keys(ui5Model.namespaces)).to.contain("sap.m");
@@ -167,7 +190,12 @@ describe("the UI5 language assistant ui5 model", () => {
       });
 
       it("does not cache the model", async () => {
-        const ui5Model = await getSemanticModel(cachePath, "");
+        const ui5Model = await getSemanticModel(
+          cachePath,
+          undefined,
+          undefined,
+          true
+        );
         assertSemanticModel(ui5Model);
 
         // Call getSemanticModel again with the same path and check it doesn't try to read from the URL
@@ -184,7 +212,9 @@ describe("the UI5 language assistant ui5 model", () => {
             };
           },
           cachePath,
-          ""
+          undefined,
+          undefined,
+          true
         );
         expect(fetcherCalled).to.be.true;
       }).timeout(GET_MODEL_TIMEOUT);
