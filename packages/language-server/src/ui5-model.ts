@@ -162,7 +162,9 @@ export async function getSemanticModelWithFetcher(
     strict: false,
     printValidationErrors: false,
   });
-  return (semanticModelCache[key] = model);
+  // cache the model
+  semanticModelCache[key] = model;
+  return model;
 }
 
 async function readFromCache(filePath: string | undefined): Promise<unknown> {
