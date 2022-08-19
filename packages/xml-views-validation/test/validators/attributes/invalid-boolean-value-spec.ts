@@ -13,7 +13,7 @@ describe("the invalid boolean value validation", () => {
 
   before(async () => {
     ui5SemanticModel = await generateModel({
-      framework: "sapui5",
+      framework: "SAPUI5",
       version: "1.71.49",
       modelGenerator: generate,
     });

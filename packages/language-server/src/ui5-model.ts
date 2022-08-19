@@ -1,18 +1,14 @@
-import { map } from "lodash";
+import { map, get } from "lodash";
 import fetch from "node-fetch";
 import { resolve } from "path";
-import {
-  readFile,
-  pathExists,
-  lstat,
-  readJson,
-  writeJson,
-  mkdirs,
-} from "fs-extra";
-import globby from "globby";
-import { parse } from "yaml";
+import { pathExists, lstat, readJson, writeJson, mkdirs } from "fs-extra";
+import semver from "semver";
+import semverMinSatisfying from "semver/ranges/min-satisfying";
 
-import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
+import {
+  UI5Framework,
+  UI5SemanticModel,
+} from "@ui5-language-assistant/semantic-model-types";
 import {
   generate,
   Json,
@@ -21,91 +17,74 @@ import {
 import { Fetcher } from "../api";
 import { getLogger } from "./logger";
 
-const DEFAULT_UI5_FRAMEWORK = "sapui5";
+const DEFAULT_UI5_FRAMEWORK = "SAPUI5";
 const DEFAULT_UI5_VERSION = "1.71.49";
 
 const UI5_FRAMEWORK_CDN_BASE_URL = {
-  openui5: "https://sdk.openui5.org/",
-  sapui5: "https://ui5.sap.com/",
+  OPENUI5: "https://sdk.openui5.org/",
+  SAPUI5: "https://ui5.sap.com/",
 };
 
 export async function getSemanticModel(
   modelCachePath: string | undefined,
-  workspacePath: string | undefined
+  framework: UI5Framework | undefined,
+  version: string | undefined,
+  ignoreCache?: boolean
 ): Promise<UI5SemanticModel> {
-  return getSemanticModelWithFetcher(fetch, modelCachePath, workspacePath);
+  return getSemanticModelWithFetcher(
+    fetch,
+    modelCachePath,
+    framework,
+    version,
+    ignoreCache
+  );
 }
 
+// cache the semantic model creation promise to ensure unique instances per version
+const semanticModelCache: Record<
+  string,
+  Promise<UI5SemanticModel>
+> = Object.create(null);
 // This function is exported for testing purposes (using a mock fetcher)
 export async function getSemanticModelWithFetcher(
   fetcher: Fetcher,
   modelCachePath: string | undefined,
-  workspacePath: string | undefined
+  framework: UI5Framework | undefined,
+  version: string | undefined,
+  ignoreCache?: boolean
 ): Promise<UI5SemanticModel> {
-  // determine the ui5 version from the project configuration:
-  //   1.) ui5.yaml in project root
-  //   2.) package.json in project root
-  //   3.) use default framework/version
-  let framework, version;
-  if (workspacePath) {
-    // by default the framework/version are determined from the ui5.yaml:
-    //
-    // framework:
-    //   name: SAPUI5
-    //   version: "1.71.49"
-    const ui5YamlPath = (await globby([`${workspacePath}/ui5.yaml`]))?.pop();
-    if (ui5YamlPath) {
-      getLogger().info("Reading framework/version from ui5.yaml ", {
-        ui5YamlPath,
-      });
-      const ui5YamlContent = await readFile(ui5YamlPath, { encoding: "utf8" });
-      const ui5Yaml = parse(ui5YamlContent);
-      framework = ui5Yaml?.framework?.name?.toLowerCase();
-      version = ui5Yaml?.framework?.version;
-    }
-    // if the framework/version cannot be read from the ui5.yaml fallback to package.json
-    // to read the framework/version from the package.json>ui5>framework section:
-    //
-    // {
-    //   "ui5": {
-    //     "framework": {
-    //       "name": "SAPUI5",
-    //       "version": "1.71.49"
-    //     }
-    //   }
-    // }
-    if (!framework || !version) {
-      const packageJsonPath = (
-        await globby([`${workspacePath}/package.json`])
-      )?.pop();
-      if (packageJsonPath) {
-        getLogger().info("Reading framwork/version from package.json ", {
-          packageJsonPath,
-        });
-        const packageJsonContent = await readFile(packageJsonPath, {
-          encoding: "utf8",
-        });
-        const packageJson = JSON.parse(packageJsonContent);
-        framework = packageJson?.ui5?.framework?.name?.toLowerCase();
-        version = packageJson?.ui5?.framework?.version;
-      }
-    }
+  const cacheKey = `${framework || "INVALID"}:${version || "INVALID"}`;
+  if (ignoreCache || semanticModelCache[cacheKey] === undefined) {
+    semanticModelCache[cacheKey] = createSemanticModelWithFetcher(
+      fetcher,
+      modelCachePath,
+      framework,
+      version
+    );
   }
+  return semanticModelCache[cacheKey];
+}
 
-  // no framework/version determined? use defaults!
+// This function is exported for testing purposes (using a mock fetcher)
+async function createSemanticModelWithFetcher(
+  fetcher: Fetcher,
+  modelCachePath: string | undefined,
+  framework: UI5Framework | undefined,
+  version: string | undefined
+): Promise<UI5SemanticModel> {
+  // no framework? use default!
   if (!framework) {
     framework = DEFAULT_UI5_FRAMEWORK;
     getLogger().warn(
-      "No framework configuration found, using default framework! "
+      "No framework configuration found, using default framework!"
     );
   }
-  if (!version) {
-    version = DEFAULT_UI5_VERSION;
-    getLogger().warn("No version configuration found, using default version! ");
-  }
+
+  // negotiate the closest available version for the given framework
+  version = await negotiateVersion(modelCachePath, framework, version);
 
   // Log the detected framework name/version
-  getLogger().info("The following framework/version has been detected ", {
+  getLogger().info("The following framework/version has been detected", {
     framework,
     version,
   });
@@ -134,14 +113,11 @@ export async function getSemanticModelWithFetcher(
   });
 
   const jsonMap: Record<string, Json> = {};
-  const cdnBaseUrl = `${UI5_FRAMEWORK_CDN_BASE_URL[framework]}${version}/`;
+  const cdnBaseUrl = getCDNBaseUrl(framework, version);
   const baseUrl = `${cdnBaseUrl}test-resources/`;
   const suffix = "/designtime/api.json";
 
-  const libs = await getLibsAsync(
-    getCacheFilePath(cacheFolder, "_libs"),
-    cdnBaseUrl
-  );
+  const libs = await getLibs(modelCachePath, framework, version);
 
   await Promise.all(
     map(libs, async (libName) => {
@@ -162,7 +138,7 @@ export async function getSemanticModelWithFetcher(
           getLogger().error("Could not read UI5 lib from", { url });
         }
       } else {
-        getLogger().info("Reading Cache For UI5 Lib ", {
+        getLogger().info("Reading Cache For UI5 Lib", {
           libName,
           cacheFilePath,
         });
@@ -267,24 +243,186 @@ function getTypeNameFix(): TypeNameFix {
   return fixes;
 }
 
-async function getLibsAsync(
-  cacheFilePath: string | undefined,
-  cdnBaseUrl: string
-): Promise<string[]> {
-  let libs = (await readFromCache(cacheFilePath)) as string[];
-  if (libs === undefined) {
-    const url = `${cdnBaseUrl}resources/sap-ui-version.json`;
-    const response = await fetch(url);
+function getCDNBaseUrl(framework: UI5Framework, version: string): string {
+  return `${UI5_FRAMEWORK_CDN_BASE_URL[framework]}${version}/`;
+}
+
+async function getVersionInfo(
+  fetcher: Fetcher,
+  modelCachePath: string | undefined,
+  framework: UI5Framework,
+  version: string
+): Promise<Json | undefined> {
+  let cacheFilePath;
+  if (modelCachePath !== undefined) {
+    const cacheFolder = getCacheFolder(modelCachePath, framework, version);
+    cacheFilePath = getCacheFilePath(cacheFolder, "sap-ui-version.json");
+  }
+  let versionInfo = await readFromCache(cacheFilePath);
+  if (versionInfo === undefined) {
+    const url = `${getCDNBaseUrl(
+      framework,
+      version
+    )}resources/sap-ui-version.json`;
+    const response = await fetcher(url);
     if (response.ok) {
-      const versionInfo = await response.json();
-      // read libraries from version information
-      libs = versionInfo?.libraries?.map((lib) => {
-        return lib.name;
-      }) as string[];
-      writeToCache(cacheFilePath, libs);
+      versionInfo = await response.json();
+      writeToCache(cacheFilePath, versionInfo);
     } else {
-      getLogger().error("Could not read UI5 libraries from", { url });
+      getLogger().error("Could not read version information", { url });
     }
   }
+  return versionInfo;
+}
+
+async function getLibs(
+  modelCachePath: string | undefined,
+  framework: UI5Framework,
+  version: string
+): Promise<string[] | undefined> {
+  let libs: string[] | undefined = undefined;
+  const versionInfo = await getVersionInfo(
+    fetch,
+    modelCachePath,
+    framework,
+    version
+  );
+  if (versionInfo !== undefined) {
+    // read libraries from version information
+    libs = map(get(versionInfo, "libraries"), (lib) => {
+      return lib.name;
+    }) as string[];
+  }
   return libs;
+}
+
+// if library is not found, resolve next minor highest patch
+let versionMap: Record<
+  string,
+  { version: string; support: string; lts: boolean }
+>; // just an in-memory cache!
+const resolvedVersions: Record<string, string> = Object.create(null);
+/*
+ * VERSION RESOLUTION LOGIC:
+ * =========================
+ *
+ * The version is provided from the minUI5Version of the closest manifest.json. The version can be one of the following variants:
+ *
+ *   1.) "1.105.0"   : major.minor.patch version => use concrete version, fallback to min-satisfying version
+ *   2.) "1.96"      : major.minor version       => prefer min-satisfying version (^1.96)
+ *   3.) "${latest}" : version placeholder       => prefer latest
+ *   4.) "a.b.c"     : invalid version           => prefer latest
+ *   5.) undefined   : n/a version               => use default version
+ *
+ * The min-satisfying version will be derived from the version mapping information: https://ui5.sap.com/version.json. From the
+ * version mapping information a list of the current supported major.minor.patch version will be derived which will be used to
+ * derive the next closest version.
+ *
+ * The latest version will also be derived from the version mapping information by lookup the "latest" entry and extract the
+ * major.minor.patch version.
+ *
+ * In any case, if a version cannot be resolved, the fallback will be the DEFAULT_UI5_VERSION (see above).
+ *
+ * /!\ If the version mapping information cannot be loaded, the DEFAULT_UI5_VERSION will be used as "latest" version.
+ *
+ */
+async function negotiateVersion(
+  modelCachePath: string | undefined,
+  framework: UI5Framework,
+  version: string | undefined
+): Promise<string> {
+  return negotiateVersionWithFetcher(
+    fetch,
+    fetch,
+    modelCachePath,
+    framework,
+    version
+  );
+}
+// This function is exported for testing purposes (using a mock fetcher)
+export async function negotiateVersionWithFetcher(
+  versionJsonFetcher: Fetcher,
+  versionInfoJsonFetcher: Fetcher,
+  modelCachePath: string | undefined,
+  framework: UI5Framework,
+  version: string | undefined
+): Promise<string> {
+  // try to negotiate version
+  if (!version) {
+    // no version defined, using default version
+    getLogger().warn(
+      "No version defined! Please check the minUI5Version in your manifest.json!"
+    );
+    version = DEFAULT_UI5_VERSION;
+  } else if (resolvedVersions[version]) {
+    // version already resolved?
+    version = resolvedVersions[version];
+  } else if (
+    !(await getVersionInfo(
+      versionInfoJsonFetcher,
+      modelCachePath,
+      framework,
+      version
+    ))
+  ) {
+    const requestedVersion = version;
+    // no version information found, try to negotiate the version
+    if (!versionMap) {
+      // retrieve the version mapping (only exists for SAPUI5 so far)
+      const url = `${UI5_FRAMEWORK_CDN_BASE_URL["SAPUI5"]}version.json`;
+      const response = await versionJsonFetcher(url);
+      if (response.ok) {
+        versionMap = (await response.json()) as Record<
+          string,
+          { version: string; support: string; lts: boolean }
+        >;
+      } else {
+        getLogger().error(
+          "Could not read version mapping, fallback to default version",
+          { url, DEFAULT_UI5_VERSION }
+        );
+        versionMap = {
+          latest: {
+            version: DEFAULT_UI5_VERSION,
+            support: "Maintenance",
+            lts: true,
+          },
+        };
+      }
+    }
+    // coerce the version (check for invalid version, which indicates development scenario)
+    const parsedVersion = semver.coerce(version);
+    if (parsedVersion) {
+      if (versionMap[`${parsedVersion.major}.${parsedVersion.minor}`]) {
+        // lookup for a valid major.minor entry
+        version =
+          versionMap[`${parsedVersion.major}.${parsedVersion.minor}`].version;
+      }
+      if (
+        !(await getVersionInfo(
+          versionInfoJsonFetcher,
+          modelCachePath,
+          framework,
+          version
+        ))
+      ) {
+        // find closest supported version
+        version =
+          semverMinSatisfying(
+            Object.values(versionMap).map((entry) => {
+              return entry.version;
+            }) as string[],
+            `^${version}`
+          ) || versionMap["latest"].version;
+      }
+    } else {
+      // development scenario => use latest version
+      version = versionMap["latest"].version;
+    }
+    // store the resolved version
+    if (requestedVersion) {
+      resolvedVersions[requestedVersion] = version;
+    }
+  }
+  return version;
 }

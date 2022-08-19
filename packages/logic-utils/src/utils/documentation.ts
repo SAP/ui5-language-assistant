@@ -195,7 +195,7 @@ export function getLink(model: UI5SemanticModel, link: string): string {
     return link;
   }
   let baseUrl;
-  if (model.framework === "openui5") {
+  if (model.framework === "OPENUI5") {
     baseUrl = "https://sdk.openui5.org/";
   } else {
     baseUrl = "https://ui5.sap.com/";

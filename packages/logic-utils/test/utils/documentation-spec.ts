@@ -198,7 +198,7 @@ describe("The @ui5-language-assistant/logic-utils <convertJSDocToMarkdown> funct
 
   it("replaces link tags that point to UI5 classes with markdown links when model has a version (OpenUI5)", () => {
     const modelWithVersion = buildUI5Model({
-      framework: "openui5",
+      framework: "OPENUI5",
       version: "1.2.3",
     });
     expect(
@@ -212,7 +212,7 @@ describe("The @ui5-language-assistant/logic-utils <convertJSDocToMarkdown> funct
   });
 
   it("replaces link tags that point to UI5 classes with markdown links when model doesn't have a version (OpenUI5)", () => {
-    const modelOpenUI5 = buildUI5Model({ framework: "openui5" });
+    const modelOpenUI5 = buildUI5Model({ framework: "OPENUI5" });
     expect(
       convertJSDocToMarkdown(
         "This text has a {@link sap.m.Button link to Button} and a nameless link to a type: {@link sap.m.Button}",

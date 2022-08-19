@@ -7,6 +7,7 @@ import {
   getSemanticModelWithFetcher,
   getCacheFilePath,
   getCacheFolder,
+  negotiateVersionWithFetcher,
 } from "../src/ui5-model";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { FetchResponse } from "../api";
@@ -16,7 +17,7 @@ import { forEach, isPlainObject } from "lodash";
 describe("the UI5 language assistant ui5 model", () => {
   // The default timeout is 2000ms and getSemanticModel can take ~3000-5000ms
   const GET_MODEL_TIMEOUT = 10000;
-  const FRAMEWORK = "sapui5";
+  const FRAMEWORK = "SAPUI5";
   const VERSION = "1.71.49";
   const NO_CACHE_FOLDER = undefined;
 
@@ -48,7 +49,12 @@ describe("the UI5 language assistant ui5 model", () => {
   }
 
   it("will get UI5 semantic model", async () => {
-    const ui5Model = await getSemanticModel(NO_CACHE_FOLDER, "");
+    const ui5Model = await getSemanticModel(
+      NO_CACHE_FOLDER,
+      undefined,
+      undefined,
+      true
+    );
     assertSemanticModel(ui5Model);
   }).timeout(GET_MODEL_TIMEOUT);
 
@@ -64,7 +70,9 @@ describe("the UI5 language assistant ui5 model", () => {
         };
       },
       NO_CACHE_FOLDER,
-      ""
+      undefined,
+      undefined,
+      true
     );
     expect(ui5Model).to.exist;
   });
@@ -83,7 +91,12 @@ describe("the UI5 language assistant ui5 model", () => {
       });
 
       it("caches the model the first time getSemanticModel is called", async () => {
-        const ui5Model = await getSemanticModel(cachePath, "");
+        const ui5Model = await getSemanticModel(
+          cachePath,
+          undefined,
+          undefined,
+          true
+        );
         assertSemanticModel(ui5Model);
 
         // Check the files were created in the folder
@@ -100,7 +113,9 @@ describe("the UI5 language assistant ui5 model", () => {
             );
           },
           cachePath,
-          ""
+          undefined,
+          undefined,
+          true
         );
         expect(fetcherCalled).to.be.false;
         // Make sure it's not the model itself that is cached
@@ -132,7 +147,11 @@ describe("the UI5 language assistant ui5 model", () => {
         expectExists(cacheFilePath, "cacheFilePath");
         await mkdirs(cacheFilePath);
 
-        const ui5Model = await getSemanticModel(cachePath, "");
+        const ui5Model = await getSemanticModel(
+          cachePath,
+          undefined,
+          undefined
+        );
         expect(ui5Model).to.exist;
         // Check we still got the sap.m library data
         expect(Object.keys(ui5Model.namespaces)).to.contain("sap.m");
@@ -147,7 +166,12 @@ describe("the UI5 language assistant ui5 model", () => {
         expectExists(cacheFilePath, "cacheFilePath");
         await writeFile(cacheFilePath, "not json");
 
-        const ui5Model = await getSemanticModel(cachePath, "");
+        const ui5Model = await getSemanticModel(
+          cachePath,
+          undefined,
+          undefined,
+          true
+        );
         expect(ui5Model).to.exist;
         // Check we still got the sap.m library data
         expect(Object.keys(ui5Model.namespaces)).to.contain("sap.m");
@@ -167,7 +191,12 @@ describe("the UI5 language assistant ui5 model", () => {
       });
 
       it("does not cache the model", async () => {
-        const ui5Model = await getSemanticModel(cachePath, "");
+        const ui5Model = await getSemanticModel(
+          cachePath,
+          undefined,
+          undefined,
+          true
+        );
         assertSemanticModel(ui5Model);
 
         // Call getSemanticModel again with the same path and check it doesn't try to read from the URL
@@ -184,10 +213,245 @@ describe("the UI5 language assistant ui5 model", () => {
             };
           },
           cachePath,
-          ""
+          undefined,
+          undefined,
+          true
         );
         expect(fetcherCalled).to.be.true;
       }).timeout(GET_MODEL_TIMEOUT);
+    });
+  });
+
+  describe("version negotiation", async () => {
+    let cachePath: string;
+    let cleanup: () => Promise<void>;
+    const versionMap = {
+      latest: {
+        version: "1.105.0",
+        support: "Maintenance",
+        lts: true,
+      },
+      "1.105": {
+        version: "1.105.0",
+        support: "Maintenance",
+        lts: true,
+      },
+      "1.96": {
+        version: "1.96.11",
+        support: "Maintenance",
+        lts: true,
+      },
+      "1.84": {
+        version: "1.84.27",
+        support: "Maintenance",
+        lts: true,
+      },
+      "1.71": {
+        version: "1.71.50",
+        support: "Maintenance",
+        lts: true,
+      },
+    };
+    const versionInfo = {
+      libraries: [
+        {
+          name: "sap.ui.core",
+        },
+      ],
+    };
+    const createResponse = (ok: boolean, status: number, json?: unknown) => {
+      return {
+        ok,
+        status,
+        json: async (): Promise<unknown> => {
+          return json;
+        },
+      };
+    };
+
+    beforeEach(async () => {
+      ({ path: cachePath, cleanup } = await tempFile());
+    });
+
+    afterEach(async () => {
+      await cleanup();
+    });
+
+    it("resolve the default version", async () => {
+      expect(
+        await negotiateVersionWithFetcher(
+          async (): Promise<FetchResponse> => {
+            return createResponse(true, 200, versionMap);
+          },
+          async (): Promise<FetchResponse> => {
+            return createResponse(true, 200, versionInfo);
+          },
+          cachePath,
+          FRAMEWORK,
+          VERSION
+        )
+      ).to.be.equal(VERSION);
+    });
+
+    it("resolve available concrete version (1.105.0)", async () => {
+      expect(
+        await negotiateVersionWithFetcher(
+          async (): Promise<FetchResponse> => {
+            return createResponse(true, 200, versionMap);
+          },
+          async (): Promise<FetchResponse> => {
+            return createResponse(true, 200, versionInfo);
+          },
+          cachePath,
+          FRAMEWORK,
+          "1.105.0"
+        )
+      ).to.be.equal("1.105.0");
+    });
+
+    it("resolve available concrete version (1.104.0)", async () => {
+      expect(
+        await negotiateVersionWithFetcher(
+          async (): Promise<FetchResponse> => {
+            return createResponse(true, 200, versionMap);
+          },
+          async (): Promise<FetchResponse> => {
+            return createResponse(true, 200, versionInfo);
+          },
+          cachePath,
+          FRAMEWORK,
+          "1.104.0"
+        )
+      ).to.be.equal("1.104.0");
+    });
+
+    it("resolve not available concrete version (should be latest)", async () => {
+      expect(
+        await negotiateVersionWithFetcher(
+          async (): Promise<FetchResponse> => {
+            return createResponse(true, 200, versionMap);
+          },
+          async (): Promise<FetchResponse> => {
+            return createResponse(false, 404);
+          },
+          cachePath,
+          FRAMEWORK,
+          "1.104.0"
+        )
+      ).to.be.equal("1.105.0");
+    });
+
+    it("resolve major.minor versions (should be closest)", async () => {
+      expect(
+        await negotiateVersionWithFetcher(
+          async (): Promise<FetchResponse> => {
+            return createResponse(true, 200, versionMap);
+          },
+          async (): Promise<FetchResponse> => {
+            return createResponse(false, 404);
+          },
+          cachePath,
+          FRAMEWORK,
+          "1.103"
+        )
+      ).to.be.equal("1.105.0");
+      expect(
+        await negotiateVersionWithFetcher(
+          async (): Promise<FetchResponse> => {
+            return createResponse(true, 200, versionMap);
+          },
+          async (): Promise<FetchResponse> => {
+            return createResponse(false, 404);
+          },
+          cachePath,
+          FRAMEWORK,
+          "1.96"
+        )
+      ).to.be.equal("1.96.11");
+      expect(
+        await negotiateVersionWithFetcher(
+          async (): Promise<FetchResponse> => {
+            return createResponse(true, 200, versionMap);
+          },
+          async (): Promise<FetchResponse> => {
+            return createResponse(false, 404);
+          },
+          cachePath,
+          FRAMEWORK,
+          "1.84"
+        )
+      ).to.be.equal("1.84.27");
+      expect(
+        await negotiateVersionWithFetcher(
+          async (): Promise<FetchResponse> => {
+            return createResponse(true, 200, versionMap);
+          },
+          async (): Promise<FetchResponse> => {
+            return createResponse(false, 404);
+          },
+          cachePath,
+          FRAMEWORK,
+          "1.71"
+        )
+      ).to.be.equal("1.71.50");
+      expect(
+        await negotiateVersionWithFetcher(
+          async (): Promise<FetchResponse> => {
+            return createResponse(true, 200, versionMap);
+          },
+          async (): Promise<FetchResponse> => {
+            return createResponse(false, 404);
+          },
+          cachePath,
+          FRAMEWORK,
+          "1.18"
+        )
+      ).to.be.equal("1.71.50");
+    });
+
+    it("resolve major version (should be closest)", async () => {
+      expect(
+        await negotiateVersionWithFetcher(
+          async (): Promise<FetchResponse> => {
+            return createResponse(true, 200, versionMap);
+          },
+          async (): Promise<FetchResponse> => {
+            return createResponse(false, 404);
+          },
+          cachePath,
+          FRAMEWORK,
+          "1"
+        )
+      ).to.be.equal("1.71.50");
+    });
+
+    it("resolve invalid versions (should be latest)", async () => {
+      expect(
+        await negotiateVersionWithFetcher(
+          async (): Promise<FetchResponse> => {
+            return createResponse(true, 200, versionMap);
+          },
+          async (): Promise<FetchResponse> => {
+            return createResponse(false, 404);
+          },
+          cachePath,
+          FRAMEWORK,
+          ""
+        )
+      ).to.be.equal("1.71.49");
+      expect(
+        await negotiateVersionWithFetcher(
+          async (): Promise<FetchResponse> => {
+            return createResponse(true, 200, versionMap);
+          },
+          async (): Promise<FetchResponse> => {
+            return createResponse(false, 404);
+          },
+          cachePath,
+          FRAMEWORK,
+          undefined
+        )
+      ).to.be.equal("1.71.49");
     });
   });
 });

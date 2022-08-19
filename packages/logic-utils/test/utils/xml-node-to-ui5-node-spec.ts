@@ -22,7 +22,7 @@ describe("The @ui5-language-assistant/logic-utils <getUI5ClassByXMLElement> func
   let ui5Model: UI5SemanticModel;
   before(async () => {
     ui5Model = await generateModel({
-      framework: "sapui5",
+      framework: "SAPUI5",
       version: "1.71.49",
       modelGenerator: generate,
     });
@@ -105,7 +105,7 @@ describe("The @ui5-language-assistant/logic-utils <getUI5ClassByXMLElementClosin
   let ui5Model: UI5SemanticModel;
   before(async () => {
     ui5Model = await generateModel({
-      framework: "sapui5",
+      framework: "SAPUI5",
       version: "1.71.49",
       modelGenerator: generate,
     });
@@ -187,7 +187,7 @@ describe("The @ui5-language-assistant/logic-utils <getUI5AggregationByXMLElement
   let ui5Model: UI5SemanticModel;
   before(async () => {
     ui5Model = await generateModel({
-      framework: "sapui5",
+      framework: "SAPUI5",
       version: "1.71.49",
       modelGenerator: generate,
     });
@@ -337,7 +337,7 @@ describe("The @ui5-language-assistant/logic-utils <getUI5NodeByXMLAttribute> fun
   let ui5Model: UI5SemanticModel;
   before(async () => {
     ui5Model = await generateModel({
-      framework: "sapui5",
+      framework: "SAPUI5",
       version: "1.71.49",
       modelGenerator: generate,
     });
@@ -432,7 +432,7 @@ describe("The @ui5-language-assistant/logic-utils <getUI5PropertyByXMLAttributeK
   let ui5Model: UI5SemanticModel;
   before(async () => {
     ui5Model = await generateModel({
-      framework: "sapui5",
+      framework: "SAPUI5",
       version: "1.71.49",
       modelGenerator: generate,
     });
@@ -496,7 +496,7 @@ describe("The @ui5-language-assistant/logic-utils <getUI5NodeFromXMLElementNames
   let ui5Model: UI5SemanticModel;
   before(async () => {
     ui5Model = await generateModel({
-      framework: "sapui5",
+      framework: "SAPUI5",
       version: "1.71.49",
       modelGenerator: generate,
     });

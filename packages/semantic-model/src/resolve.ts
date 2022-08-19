@@ -31,7 +31,7 @@ export function setParent(
       // Always throwing an error because we add these symbols implicitly so an error here means we have a bug
       error(
         `Symbol ${parentFqn} not found (should be parent of ${fqn}) [${
-          model.framework || "sapui5"
+          model.framework || "SAPUI5"
         }:${model.version}]`,
         true
       );
@@ -67,7 +67,7 @@ export function resolveSemanticProperties(
             `${jsonSymbol.extends} is a ${
               extendsType.kind
             } and not a class (class ${key} extends it) [${
-              model.framework || "sapui5"
+              model.framework || "SAPUI5"
             }:${model.version}]`,
             strict
           );
@@ -85,7 +85,7 @@ export function resolveSemanticProperties(
               `${interfacee} is a ${
                 interfaceType.kind
               } and not an interface (class ${key} implements it) [${
-                model.framework || "sapui5"
+                model.framework || "SAPUI5"
               }:${model.version}]`,
               strict
             );
@@ -107,7 +107,7 @@ export function resolveSemanticProperties(
       if (classs.defaultAggregation === undefined) {
         error(
           `Unknown default aggregation ${defaultAggregation} in class ${key} [${
-            model.framework || "sapui5"
+            model.framework || "SAPUI5"
           }:${model.version}]`,
           strict
         );
@@ -248,7 +248,7 @@ export function resolveType({
     };
   } else {
     error(
-      `Unknown type: ${typeName} [${model.framework || "sapui5"}:${
+      `Unknown type: ${typeName} [${model.framework || "SAPUI5"}:${
         model.version
       }]`,
       strict
