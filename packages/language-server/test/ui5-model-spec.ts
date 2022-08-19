@@ -280,14 +280,11 @@ describe("the UI5 language assistant ui5 model", () => {
     it("resolve the default version", async () => {
       expect(
         await negotiateVersionWithFetcher(
-          async (url: string): Promise<FetchResponse> => {
-            if (url.endsWith("/version.json")) {
-              // request for version mapping info
-              return createResponse(true, 200, versionMap);
-            } else {
-              // request for version info (needs to be just an object => found!)
-              return createResponse(true, 200, versionInfo);
-            }
+          async (): Promise<FetchResponse> => {
+            return createResponse(true, 200, versionMap);
+          },
+          async (): Promise<FetchResponse> => {
+            return createResponse(true, 200, versionInfo);
           },
           cachePath,
           FRAMEWORK,
@@ -296,33 +293,30 @@ describe("the UI5 language assistant ui5 model", () => {
       ).to.be.equal(VERSION);
     });
 
-    it("resolve available concrete version", async () => {
+    it("resolve available concrete version (1.105.0)", async () => {
       expect(
         await negotiateVersionWithFetcher(
-          async (url: string): Promise<FetchResponse> => {
-            if (url.endsWith("/version.json")) {
-              // request for version mapping info
-              return createResponse(true, 200, versionMap);
-            } else {
-              // request for version info (needs to be just an object => found!)
-              return createResponse(true, 200, versionInfo);
-            }
+          async (): Promise<FetchResponse> => {
+            return createResponse(true, 200, versionMap);
+          },
+          async (): Promise<FetchResponse> => {
+            return createResponse(true, 200, versionInfo);
           },
           cachePath,
           FRAMEWORK,
           "1.105.0"
         )
       ).to.be.equal("1.105.0");
+    });
+
+    it("resolve available concrete version (1.104.0)", async () => {
       expect(
         await negotiateVersionWithFetcher(
-          async (url: string): Promise<FetchResponse> => {
-            if (url.endsWith("/version.json")) {
-              // request for version mapping info
-              return createResponse(true, 200, versionMap);
-            } else {
-              // request for version info (needs to be just an object => found!)
-              return createResponse(true, 200, versionInfo);
-            }
+          async (): Promise<FetchResponse> => {
+            return createResponse(true, 200, versionMap);
+          },
+          async (): Promise<FetchResponse> => {
+            return createResponse(true, 200, versionInfo);
           },
           cachePath,
           FRAMEWORK,
@@ -334,14 +328,11 @@ describe("the UI5 language assistant ui5 model", () => {
     it("resolve not available concrete version (should be latest)", async () => {
       expect(
         await negotiateVersionWithFetcher(
-          async (url: string): Promise<FetchResponse> => {
-            if (url.endsWith("/version.json")) {
-              // request for version mapping info
-              return createResponse(true, 200, versionMap);
-            } else {
-              // request for version info (needs to be just an object => found!)
-              return createResponse(false, 404);
-            }
+          async (): Promise<FetchResponse> => {
+            return createResponse(true, 200, versionMap);
+          },
+          async (): Promise<FetchResponse> => {
+            return createResponse(false, 404);
           },
           cachePath,
           FRAMEWORK,
@@ -353,14 +344,11 @@ describe("the UI5 language assistant ui5 model", () => {
     it("resolve major.minor versions (should be closest)", async () => {
       expect(
         await negotiateVersionWithFetcher(
-          async (url: string): Promise<FetchResponse> => {
-            if (url.endsWith("/version.json")) {
-              // request for version mapping info
-              return createResponse(true, 200, versionMap);
-            } else {
-              // request for version info (needs to be just an object => found!)
-              return createResponse(false, 404);
-            }
+          async (): Promise<FetchResponse> => {
+            return createResponse(true, 200, versionMap);
+          },
+          async (): Promise<FetchResponse> => {
+            return createResponse(false, 404);
           },
           cachePath,
           FRAMEWORK,
@@ -369,14 +357,11 @@ describe("the UI5 language assistant ui5 model", () => {
       ).to.be.equal("1.105.0");
       expect(
         await negotiateVersionWithFetcher(
-          async (url: string): Promise<FetchResponse> => {
-            if (url.endsWith("/version.json")) {
-              // request for version mapping info
-              return createResponse(true, 200, versionMap);
-            } else {
-              // request for version info (needs to be just an object => found!)
-              return createResponse(false, 404);
-            }
+          async (): Promise<FetchResponse> => {
+            return createResponse(true, 200, versionMap);
+          },
+          async (): Promise<FetchResponse> => {
+            return createResponse(false, 404);
           },
           cachePath,
           FRAMEWORK,
@@ -385,14 +370,11 @@ describe("the UI5 language assistant ui5 model", () => {
       ).to.be.equal("1.96.11");
       expect(
         await negotiateVersionWithFetcher(
-          async (url: string): Promise<FetchResponse> => {
-            if (url.endsWith("/version.json")) {
-              // request for version mapping info
-              return createResponse(true, 200, versionMap);
-            } else {
-              // request for version info (needs to be just an object => found!)
-              return createResponse(false, 404);
-            }
+          async (): Promise<FetchResponse> => {
+            return createResponse(true, 200, versionMap);
+          },
+          async (): Promise<FetchResponse> => {
+            return createResponse(false, 404);
           },
           cachePath,
           FRAMEWORK,
@@ -401,14 +383,11 @@ describe("the UI5 language assistant ui5 model", () => {
       ).to.be.equal("1.84.27");
       expect(
         await negotiateVersionWithFetcher(
-          async (url: string): Promise<FetchResponse> => {
-            if (url.endsWith("/version.json")) {
-              // request for version mapping info
-              return createResponse(true, 200, versionMap);
-            } else {
-              // request for version info (needs to be just an object => found!)
-              return createResponse(false, 404);
-            }
+          async (): Promise<FetchResponse> => {
+            return createResponse(true, 200, versionMap);
+          },
+          async (): Promise<FetchResponse> => {
+            return createResponse(false, 404);
           },
           cachePath,
           FRAMEWORK,
@@ -417,14 +396,11 @@ describe("the UI5 language assistant ui5 model", () => {
       ).to.be.equal("1.71.50");
       expect(
         await negotiateVersionWithFetcher(
-          async (url: string): Promise<FetchResponse> => {
-            if (url.endsWith("/version.json")) {
-              // request for version mapping info
-              return createResponse(true, 200, versionMap);
-            } else {
-              // request for version info (needs to be just an object => found!)
-              return createResponse(false, 404);
-            }
+          async (): Promise<FetchResponse> => {
+            return createResponse(true, 200, versionMap);
+          },
+          async (): Promise<FetchResponse> => {
+            return createResponse(false, 404);
           },
           cachePath,
           FRAMEWORK,
@@ -436,14 +412,11 @@ describe("the UI5 language assistant ui5 model", () => {
     it("resolve major version (should be closest)", async () => {
       expect(
         await negotiateVersionWithFetcher(
-          async (url: string): Promise<FetchResponse> => {
-            if (url.endsWith("/version.json")) {
-              // request for version mapping info
-              return createResponse(true, 200, versionMap);
-            } else {
-              // request for version info (needs to be just an object => found!)
-              return createResponse(false, 404);
-            }
+          async (): Promise<FetchResponse> => {
+            return createResponse(true, 200, versionMap);
+          },
+          async (): Promise<FetchResponse> => {
+            return createResponse(false, 404);
           },
           cachePath,
           FRAMEWORK,
@@ -452,17 +425,14 @@ describe("the UI5 language assistant ui5 model", () => {
       ).to.be.equal("1.71.50");
     });
 
-    it("resolve invalid versions (should be default)", async () => {
+    it("resolve invalid versions (should be latest)", async () => {
       expect(
         await negotiateVersionWithFetcher(
-          async (url: string): Promise<FetchResponse> => {
-            if (url.endsWith("/version.json")) {
-              // request for version mapping info
-              return createResponse(true, 200, versionMap);
-            } else {
-              // request for version info (needs to be just an object => found!)
-              return createResponse(false, 404);
-            }
+          async (): Promise<FetchResponse> => {
+            return createResponse(true, 200, versionMap);
+          },
+          async (): Promise<FetchResponse> => {
+            return createResponse(false, 404);
           },
           cachePath,
           FRAMEWORK,
@@ -471,14 +441,11 @@ describe("the UI5 language assistant ui5 model", () => {
       ).to.be.equal("1.71.49");
       expect(
         await negotiateVersionWithFetcher(
-          async (url: string): Promise<FetchResponse> => {
-            if (url.endsWith("/version.json")) {
-              // request for version mapping info
-              return createResponse(true, 200, versionMap);
-            } else {
-              // request for version info (needs to be just an object => found!)
-              return createResponse(false, 404);
-            }
+          async (): Promise<FetchResponse> => {
+            return createResponse(true, 200, versionMap);
+          },
+          async (): Promise<FetchResponse> => {
+            return createResponse(false, 404);
           },
           cachePath,
           FRAMEWORK,

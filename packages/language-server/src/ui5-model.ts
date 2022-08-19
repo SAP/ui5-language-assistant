@@ -331,11 +331,18 @@ async function negotiateVersion(
   framework: UI5Framework,
   version: string | undefined
 ): Promise<string> {
-  return negotiateVersionWithFetcher(fetch, modelCachePath, framework, version);
+  return negotiateVersionWithFetcher(
+    fetch,
+    fetch,
+    modelCachePath,
+    framework,
+    version
+  );
 }
 // This function is exported for testing purposes (using a mock fetcher)
 export async function negotiateVersionWithFetcher(
-  fetcher: Fetcher,
+  versionJsonFetcher: Fetcher,
+  versionInfoJsonFetcher: Fetcher,
   modelCachePath: string | undefined,
   framework: UI5Framework,
   version: string | undefined
@@ -351,14 +358,19 @@ export async function negotiateVersionWithFetcher(
     // version already resolved?
     version = resolvedVersions[version];
   } else if (
-    !(await getVersionInfo(fetcher, modelCachePath, framework, version))
+    !(await getVersionInfo(
+      versionInfoJsonFetcher,
+      modelCachePath,
+      framework,
+      version
+    ))
   ) {
     const requestedVersion = version;
     // no version information found, try to negotiate the version
     if (!versionMap) {
       // retrieve the version mapping (only exists for SAPUI5 so far)
       const url = `${UI5_FRAMEWORK_CDN_BASE_URL["SAPUI5"]}version.json`;
-      const response = await fetcher(url);
+      const response = await versionJsonFetcher(url);
       if (response.ok) {
         versionMap = (await response.json()) as Record<
           string,
@@ -387,7 +399,12 @@ export async function negotiateVersionWithFetcher(
           versionMap[`${parsedVersion.major}.${parsedVersion.minor}`].version;
       }
       if (
-        !(await getVersionInfo(fetcher, modelCachePath, framework, version))
+        !(await getVersionInfo(
+          versionInfoJsonFetcher,
+          modelCachePath,
+          framework,
+          version
+        ))
       ) {
         // find closest supported version
         version =
