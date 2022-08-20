@@ -1,6 +1,6 @@
 {
   "name": "@ui5-language-assistant/xml-views-tooltip",
-  "version": "3.2.0",
+  "version": "3.2.1",
   "description": "XML Views Tooltip",
   "keywords": [
     "Hover",
@@ -21,9 +21,9 @@
     "node": ">=10.0.0"
   },
   "dependencies": {
-    "@ui5-language-assistant/logic-utils": "^3.2.0",
-    "@ui5-language-assistant/semantic-model": "^3.2.0",
-    "@ui5-language-assistant/semantic-model-types": "^3.2.0",
+    "@ui5-language-assistant/logic-utils": "^3.2.1",
+    "@ui5-language-assistant/semantic-model": "^3.2.1",
+    "@ui5-language-assistant/semantic-model-types": "^3.2.1",
     "@xml-tools/ast": "5.0.0",
     "@xml-tools/ast-position": "2.0.2",
     "@xml-tools/common": "0.1.2",

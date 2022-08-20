@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.2.1](https://github.com/SAP/ui5-language-assistant/compare/v3.2.0...v3.2.1) (2022-08-20)
+
+### Bug Fixes
+
+- **language-server:** detect the UI5 version from closest manifest.json ([#472](https://github.com/SAP/ui5-language-assistant/issues/472)) ([39c2728](https://github.com/SAP/ui5-language-assistant/commit/39c2728809e02ac57e624c4b8e02a046d5f67b2d))
+
 # [3.2.0](https://github.com/SAP/ui5-language-assistant/compare/v3.1.0...v3.2.0) (2022-08-15)
 
 ### Features
