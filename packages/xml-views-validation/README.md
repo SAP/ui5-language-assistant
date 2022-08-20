@@ -2,7 +2,7 @@
 
 # @ui5-language-assistant/xml-views-validation
 
-Logic for UI5 XML views semantic validations.
+Logic for UI5 XMLView semantic validations.
 
 Supported Content Assist scenarios:
 
@@ -36,3 +36,7 @@ Please open [issues](https://github.com/SAP/ui5-language-assistant/issues) on gi
 ## Contributing
 
 See [CONTRIBUTING.md](./CONTRIBUTING.md).
+
+## Licensing
+
+Copyright 2022 SAP SE. Please see our [LICENSE](../../LICENSE) for copyright and license information. Detailed information including third-party components and their licensing/copyright information is available [via the REUSE tool](https://api.reuse.software/info/github.com/SAP/ui5-language-assistant).
