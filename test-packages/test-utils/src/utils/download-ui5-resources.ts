@@ -1,7 +1,15 @@
-import { zipObject, map, noop } from "lodash";
+import { zipObject, map, noop, get } from "lodash";
 import { resolve } from "path";
 import { writeFile, mkdirs, pathExists } from "fs-extra";
-import fetch from "node-fetch";
+import {
+  default as nodeFetch,
+  RequestInfo,
+  RequestInit,
+  Response,
+} from "node-fetch";
+import { HttpsProxyAgent } from "https-proxy-agent";
+import { getProxyForUrl } from "proxy-from-env";
+
 import { TestModelVersion } from "../../api";
 
 // Disable this flag if you want/need spam/info in the tests logs.
@@ -11,6 +19,20 @@ const silent = true;
 const log = silent ? noop : (_: string) => console.log(_);
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const error = silent ? noop : (_: string) => console.error(_);
+
+async function fetch(url: RequestInfo, init?: RequestInit): Promise<Response> {
+  // determine the proxy settings for the given url
+  const proxy = getProxyForUrl(url) as string;
+  // if a proxy has been found we override the agent of
+  // the init opts to add the proxy agent
+  if (proxy) {
+    init = Object.assign({}, init, {
+      agent: new HttpsProxyAgent(proxy),
+    });
+  }
+  // call the node-fetch API
+  return nodeFetch(url, init);
+}
 
 async function getLibs(version: TestModelVersion): Promise<string[]> {
   // The metadata.json seems to have been added only very recently :(
@@ -28,7 +50,7 @@ async function getLibs(version: TestModelVersion): Promise<string[]> {
   }
   const versionInfo = await response.json();
   // read libraries from version information
-  return versionInfo?.libraries?.map((lib) => {
+  return map(get(versionInfo, "libraries"), (lib) => {
     return lib.name;
   }) as string[];
 }

@@ -2,6 +2,10 @@ import { expect } from "chai";
 import { dir as tempDir, file as tempFile } from "tmp-promise";
 import { readdir, mkdirs, writeFile } from "fs-extra";
 import { sync as rimrafSync } from "rimraf";
+import { forEach, isPlainObject } from "lodash";
+
+import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
+import { expectExists } from "@ui5-language-assistant/test-utils";
 import {
   getSemanticModel,
   getSemanticModelWithFetcher,
@@ -9,10 +13,7 @@ import {
   getCacheFolder,
   negotiateVersionWithFetcher,
 } from "../src/ui5-model";
-import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { FetchResponse } from "../api";
-import { expectExists } from "@ui5-language-assistant/test-utils";
-import { forEach, isPlainObject } from "lodash";
 
 describe("the UI5 language assistant ui5 model", () => {
   // The default timeout is 2000ms and getSemanticModel can take ~3000-5000ms
