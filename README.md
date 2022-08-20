@@ -59,3 +59,7 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md).
 [mono-repo]: https://github.com/babel/babel/blob/master/doc/design/monorepo.md
 [ui5]: https://ui5.sap.com
 [openui5]: https://openui5.org
+
+## Licensing
+
+Copyright 2022 SAP SE. Please see our [LICENSE](LICENSE) for copyright and license information. Detailed information including third-party components and their licensing/copyright information is available [via the REUSE tool](https://api.reuse.software/info/github.com/SAP/ui5-language-assistant).

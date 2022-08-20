@@ -27,7 +27,6 @@ Please open [issues](https://github.com/SAP/ui5-language-assistant/issues) on gi
 
 See [CONTRIBUTING.md](./CONTRIBUTING.md).
 
-## License
+## Licensing
 
-Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
-This file is licensed under the Apache Software License, v. 2 except as noted otherwise in the [LICENSE file](../../LICENSE).
+Copyright 2022 SAP SE. Please see our [LICENSE](../../LICENSE) for copyright and license information. Detailed information including third-party components and their licensing/copyright information is available [via the REUSE tool](https://api.reuse.software/info/github.com/SAP/ui5-language-assistant).
