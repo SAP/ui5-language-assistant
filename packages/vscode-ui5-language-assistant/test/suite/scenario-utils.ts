@@ -10,7 +10,6 @@ export function createIndexRun(scenarioRoot: string): () => Promise<void> {
       ui: "bdd",
       timeout: 20000,
     });
-    mocha.useColors(true);
 
     const scenarioRootAbs = resolve(scenarioRoot);
 
