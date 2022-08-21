@@ -28,7 +28,10 @@
     "clean": "lerna run clean",
     "update-snapshots": "lerna run update-snapshots",
     "legal:delete": "lerna exec \"shx rm -rf .reuse LICENSES\" || true",
-    "legal:copy": "lerna exec \"shx cp -r ../../.reuse .reuse && shx cp -r ../../LICENSES LICENSES\""
+    "legal:copy": "lerna exec \"shx cp -r ../../.reuse .reuse && shx cp -r ../../LICENSES LICENSES\"",
+    "prepare": "node ./.husky/skip.js || husky install",
+    "hooks:pre-commit": "lint-staged",
+    "hooks:commit-msg": "commitlint -e"
   },
   "devDependencies": {
     "@commitlint/cli": "11.0.0",
@@ -38,23 +41,23 @@
     "@types/fs-extra": "9.0.11",
     "@types/klaw-sync": "6.0.0",
     "@types/lodash": "4.14.168",
-    "@types/mocha": "^7.0.2",
+    "@types/mocha": "7.0.2",
     "@types/rimraf": "3.0.0",
     "@types/sinon": "9.0.10",
     "@types/sinon-chai": "3.2.5",
     "@typescript-eslint/eslint-plugin": "4.14.0",
     "@typescript-eslint/parser": "4.14.0",
     "chai": "4.2.0",
-    "conventional-changelog-cli": "^2.1.1",
+    "conventional-changelog-cli": "2.1.1",
     "coveralls": "3.1.0",
     "cz-conventional-changelog": "3.3.0",
-    "deep-equal-in-any-order": "^1.0.28",
+    "deep-equal-in-any-order": "1.0.28",
     "eslint": "7.18.0",
     "eslint-config-prettier": "7.2.0",
     "eslint-plugin-eslint-comments": "3.2.0",
     "fs-extra": "9.1.0",
     "glob": "7.1.6",
-    "husky": "4.3.8",
+    "husky": "8.0.1",
     "klaw-sync": "6.0.0",
     "lerna": "3.22.1",
     "lint-staged": "10.5.3",
@@ -72,12 +75,6 @@
     "typescript": "3.9.7",
     "webpack": "5.36.2",
     "webpack-cli": "4.4.0"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-    }
   },
   "lint-staged": {
     "*.{js,ts,md,json}": [

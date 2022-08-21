@@ -1,9 +1,24 @@
 version: 2.1
 jobs:
+  build-node18:
+    docker:
+      - image: cimg/node:18.7-browsers
+    working_directory: ~/repo
+    environment:
+      HUSKY_SKIP: "true"
+      NODE_OPTIONS: "--openssl-legacy-provider"
+    steps:
+      - run: sudo apt-get install libxss1
+      - checkout
+      - run: yarn
+      - run: yarn run ci
+
   build-node16:
     docker:
-      - image: cimg/node:16.15-browsers
+      - image: cimg/node:16.17-browsers
     working_directory: ~/repo
+    environment:
+      HUSKY_SKIP: "true"
     steps:
       - run: sudo apt-get install libxss1
       - checkout
@@ -12,26 +27,10 @@ jobs:
 
   build-node14:
     docker:
-      - image: cimg/node:14.19-browsers
+      - image: cimg/node:14.20-browsers
     working_directory: ~/repo
-    steps:
-      - run: sudo apt-get install libxss1
-      - checkout
-      - run: yarn
-      - run: yarn run ci
-      - run:
-          name: coveralls report
-          command: |
-            if [ -n "$CIRCLE_PR_NUMBER" ]; then
-              circleci step halt
-            fi
-            # disabling coveralls.io as it is currently broken.
-            # cat ./coverage/lcov.info | ./node_modules/.bin/coveralls
-
-  build-node12:
-    docker:
-      - image: cimg/node:12.13-browsers
-    working_directory: ~/repo
+    environment:
+      HUSKY_SKIP: "true"
     steps:
       - run: sudo apt-get install libxss1
       - checkout
@@ -42,6 +41,8 @@ jobs:
     docker:
       - image: cimg/python:3.6
     working_directory: ~/workdir
+    environment:
+      HUSKY_SKIP: "true"
     steps:
       - checkout
       - run:
@@ -52,8 +53,10 @@ jobs:
 
   deploy-npm:
     docker:
-      - image: cimg/node:12.13-browsers
+      - image: cimg/node:16.17-browsers
     working_directory: ~/repo
+    environment:
+      HUSKY_SKIP: "true"
     steps:
       - run: sudo apt-get install libxss1
       - checkout
@@ -67,8 +70,10 @@ jobs:
 
   prepare-vsix:
     docker:
-      - image: cimg/node:12.13-browsers
+      - image: cimg/node:16.17-browsers
     working_directory: ~/repo
+    environment:
+      HUSKY_SKIP: "true"
     steps:
       - run: sudo apt-get install libxss1
       - checkout
@@ -94,12 +99,12 @@ jobs:
             ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} ./dist/
 
 workflows:
-  version: 2
+  version: 2  
   voter:
     jobs:
+      - build-node18
       - build-node16
       - build-node14
-      - build-node12
       - compliance
   release:
     jobs:
