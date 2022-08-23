@@ -1,8 +1,8 @@
+import { ReplaceFunction, forEach, unescape, concat, includes } from "lodash";
 import {
   UI5DeprecatedInfo,
   UI5SemanticModel,
 } from "@ui5-language-assistant/semantic-model-types";
-import { ReplaceFunction, forEach, unescape, concat, includes } from "lodash";
 
 export function getDeprecationPlainTextSnippet({
   title,

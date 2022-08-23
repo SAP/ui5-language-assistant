@@ -1,13 +1,4 @@
 import {
-  BaseUI5Node,
-  PrimitiveTypeName,
-  UI5SemanticModel,
-  UI5Type,
-} from "@ui5-language-assistant/semantic-model-types";
-import { TypeNameFix } from "../api";
-import { SymbolBase, ClassSymbol } from "./api-json";
-import { error, getParentFqn, findValueInMaps, findSymbol } from "./utils";
-import {
   forEach,
   has,
   find,
@@ -17,6 +8,16 @@ import {
   isArray,
   isPlainObject,
 } from "lodash";
+
+import {
+  BaseUI5Node,
+  PrimitiveTypeName,
+  UI5SemanticModel,
+  UI5Type,
+} from "@ui5-language-assistant/semantic-model-types";
+import { TypeNameFix } from "../api";
+import { SymbolBase, ClassSymbol } from "./api-json";
+import { error, getParentFqn, findValueInMaps, findSymbol } from "./utils";
 
 // Exported for testing purpose
 export function setParent(

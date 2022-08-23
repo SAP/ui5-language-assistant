@@ -1,5 +1,4 @@
 import { map, get } from "lodash";
-import fetch from "node-fetch";
 import { resolve } from "path";
 import { pathExists, lstat, readJson, writeJson, mkdirs } from "fs-extra";
 import semver from "semver";
@@ -15,6 +14,7 @@ import {
   TypeNameFix,
 } from "@ui5-language-assistant/semantic-model";
 import { Fetcher } from "../api";
+import fetch from "./fetch";
 import { getLogger } from "./logger";
 import {
   DEFAULT_UI5_VERSION,

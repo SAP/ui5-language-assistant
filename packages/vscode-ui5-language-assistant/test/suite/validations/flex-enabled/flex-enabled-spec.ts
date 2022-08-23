@@ -1,6 +1,8 @@
+import { filter } from "lodash";
 import * as vscode from "vscode";
 import { resolve } from "path";
 import { expect } from "chai";
+
 import {
   validations,
   buildMessage,
@@ -13,7 +15,6 @@ import {
   getRanges,
   rootPkgFolder,
 } from "../../test-utils";
-import { filter } from "lodash";
 
 const { NON_STABLE_ID } = validations;
 
