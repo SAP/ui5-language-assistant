@@ -47,11 +47,13 @@
     "vscode-uri": "2.1.2"
   },
   "devDependencies": {
+    "@types/js-yaml": "4.0.5",
     "@types/node-fetch": "2.5.10",
     "@types/semver": "7.3.12",
     "@types/tmp": "0.2.0",
     "@ui5-language-assistant/semantic-model-types": "^3.2.1",
     "@ui5-language-assistant/test-utils": "^3.2.0",
+    "js-yaml": "4.1.0",
     "tmp-promise": "3.0.2",
     "vscode-languageserver-types": "3.16.0"
   },
