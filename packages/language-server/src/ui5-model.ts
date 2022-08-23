@@ -16,18 +16,16 @@ import {
 } from "@ui5-language-assistant/semantic-model";
 import { Fetcher } from "../api";
 import { getLogger } from "./logger";
-
-const DEFAULT_UI5_FRAMEWORK = "SAPUI5";
-const DEFAULT_UI5_VERSION = "1.71.49";
-
-const UI5_FRAMEWORK_CDN_BASE_URL = {
-  OPENUI5: "https://sdk.openui5.org/",
-  SAPUI5: "https://ui5.sap.com/",
-};
+import {
+  DEFAULT_UI5_VERSION,
+  getLibraryAPIJsonUrl,
+  getVersionInfoUrl,
+  getVersionJsonUrl,
+} from "./ui5-helper";
 
 export async function getSemanticModel(
   modelCachePath: string | undefined,
-  framework: UI5Framework | undefined,
+  framework: UI5Framework,
   version: string | undefined,
   ignoreCache?: boolean
 ): Promise<UI5SemanticModel> {
@@ -49,7 +47,7 @@ const semanticModelCache: Record<
 export async function getSemanticModelWithFetcher(
   fetcher: Fetcher,
   modelCachePath: string | undefined,
-  framework: UI5Framework | undefined,
+  framework: UI5Framework,
   version: string | undefined,
   ignoreCache?: boolean
 ): Promise<UI5SemanticModel> {
@@ -69,17 +67,9 @@ export async function getSemanticModelWithFetcher(
 async function createSemanticModelWithFetcher(
   fetcher: Fetcher,
   modelCachePath: string | undefined,
-  framework: UI5Framework | undefined,
+  framework: UI5Framework,
   version: string | undefined
 ): Promise<UI5SemanticModel> {
-  // no framework? use default!
-  if (!framework) {
-    framework = DEFAULT_UI5_FRAMEWORK;
-    getLogger().warn(
-      "No framework configuration found, using default framework!"
-    );
-  }
-
   // negotiate the closest available version for the given framework
   version = await negotiateVersion(modelCachePath, framework, version);
 
@@ -113,9 +103,6 @@ async function createSemanticModelWithFetcher(
   });
 
   const jsonMap: Record<string, Json> = {};
-  const cdnBaseUrl = getCDNBaseUrl(framework, version);
-  const baseUrl = `${cdnBaseUrl}test-resources/`;
-  const suffix = "/designtime/api.json";
 
   const libs = await getLibs(modelCachePath, framework, version);
 
@@ -126,7 +113,7 @@ async function createSemanticModelWithFetcher(
       // If the file doesn't exist in the cache (or we couldn't read it), fetch it from the network
       if (apiJson === undefined) {
         getLogger().info("No cache found for UI5 lib", { libName });
-        const url = baseUrl + libName.replace(/\./g, "/") + suffix;
+        const url = getLibraryAPIJsonUrl(framework, version as string, libName);
         const response = await fetcher(url);
         if (response.ok) {
           apiJson = await response.json();
@@ -243,10 +230,6 @@ function getTypeNameFix(): TypeNameFix {
   return fixes;
 }
 
-function getCDNBaseUrl(framework: UI5Framework, version: string): string {
-  return `${UI5_FRAMEWORK_CDN_BASE_URL[framework]}${version}/`;
-}
-
 async function getVersionInfo(
   fetcher: Fetcher,
   modelCachePath: string | undefined,
@@ -260,10 +243,7 @@ async function getVersionInfo(
   }
   let versionInfo = await readFromCache(cacheFilePath);
   if (versionInfo === undefined) {
-    const url = `${getCDNBaseUrl(
-      framework,
-      version
-    )}resources/sap-ui-version.json`;
+    const url = getVersionInfoUrl(framework, version);
     const response = await fetcher(url);
     if (response.ok) {
       versionInfo = await response.json();
@@ -369,7 +349,7 @@ export async function negotiateVersionWithFetcher(
     // no version information found, try to negotiate the version
     if (!versionMap) {
       // retrieve the version mapping (only exists for SAPUI5 so far)
-      const url = `${UI5_FRAMEWORK_CDN_BASE_URL["SAPUI5"]}version.json`;
+      const url = getVersionJsonUrl();
       const response = await versionJsonFetcher(url);
       if (response.ok) {
         versionMap = (await response.json()) as Record<

@@ -24,9 +24,11 @@ import {
 } from "@ui5-language-assistant/language-server";
 import { COMMAND_OPEN_DEMOKIT, LOGGING_LEVEL_CONFIG_PROP } from "./constants";
 
+type UI5Model = { url: string; framework: string; version: string };
+
 let client: LanguageClient;
 let statusBarItem: StatusBarItem;
-let currentVersion: string | undefined;
+let currentModel: UI5Model | undefined;
 
 export async function activate(context: ExtensionContext): Promise<void> {
   // create the LanguageClient (+Server)
@@ -37,12 +39,12 @@ export async function activate(context: ExtensionContext): Promise<void> {
 
   // show/hide and update the status bar
   client.onReady().then(() => {
-    client.onNotification("UI5LanguageAssistant/ui5Model", (version: string) =>
-      updateCurrentVersion(version)
+    client.onNotification("UI5LanguageAssistant/ui5Model", (model: UI5Model) =>
+      updateCurrentModel(model)
     );
   });
   window.onDidChangeActiveTextEditor(() => {
-    updateCurrentVersion(undefined);
+    updateCurrentModel(undefined);
   });
 
   client.start();
@@ -77,7 +79,10 @@ function createLanguageClient(context: ExtensionContext): LanguageClient {
   const clientOptions: LanguageClientOptions = {
     documentSelector: [{ scheme: "file", pattern: "**/*.{view,fragment}.xml" }],
     synchronize: {
-      fileEvents: [workspace.createFileSystemWatcher("**/manifest.json")],
+      fileEvents: [
+        workspace.createFileSystemWatcher("**/manifest.json"),
+        workspace.createFileSystemWatcher("**/ui5.yaml"),
+      ],
     },
     outputChannelName: meta.displayName,
     initializationOptions: initializationOptions,
@@ -95,22 +100,24 @@ function createStatusBarItem(context: ExtensionContext): StatusBarItem {
   // create and register the command to open the SAPUI5 demokit
   context.subscriptions.push(
     commands.registerCommand(COMMAND_OPEN_DEMOKIT, () => {
-      env.openExternal(Uri.parse(`https://ui5.sap.com/${currentVersion}/`));
+      env.openExternal(Uri.parse(`${currentModel?.url}`));
     })
   );
 
   // create a statusbar item to display the currently used UI5 version
   statusBarItem = window.createStatusBarItem(StatusBarAlignment.Right, 100);
-  statusBarItem.tooltip = "UI5 Version (XML Editor)";
   statusBarItem.command = COMMAND_OPEN_DEMOKIT;
   return statusBarItem;
 }
 
-function updateCurrentVersion(version: string | undefined) {
-  currentVersion = version;
+function updateCurrentModel(model: UI5Model | undefined) {
+  currentModel = model;
   if (statusBarItem) {
-    if (version) {
-      statusBarItem.text = `$(notebook-mimetype) ${version}`;
+    if (currentModel) {
+      statusBarItem.tooltip = `${currentModel.framework} Version (XMLView Editor)`;
+      statusBarItem.text = `$(notebook-mimetype) ${currentModel.version}${
+        currentModel.framework === "OpenUI5" ? "'" : ""
+      }`;
       statusBarItem.show();
     } else {
       statusBarItem.hide();
@@ -122,6 +129,6 @@ export function deactivate(): Thenable<void> | undefined {
   if (!client) {
     return undefined;
   }
-  updateCurrentVersion(undefined);
+  updateCurrentModel(undefined);
   return client.stop();
 }
