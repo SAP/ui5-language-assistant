@@ -105,7 +105,16 @@ export async function updateManifestData(
 async function findAllManifestDocumentsInWorkspace(
   workspaceFolderPath: string
 ): Promise<string[]> {
-  return globby(`${workspaceFolderPath}/**/manifest.json`);
+  return globby(`${workspaceFolderPath}/**/manifest.json`).catch((reason) => {
+    getLogger().error(
+      `Failed to find all manifest.json files in current workspace!`,
+      {
+        workspaceFolderPath,
+        reason,
+      }
+    );
+    return [];
+  });
 }
 
 async function readManifestFile(

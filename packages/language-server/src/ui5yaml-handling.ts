@@ -104,7 +104,16 @@ export async function updateUI5YamlData(
 async function findAllUI5YamlDocumentsInWorkspace(
   workspaceFolderPath: string
 ): Promise<string[]> {
-  return globby(`${workspaceFolderPath}/**/ui5.yaml`);
+  return globby(`${workspaceFolderPath}/**/ui5.yaml`).catch((reason) => {
+    getLogger().error(
+      `Failed to find all ui5.yaml files in current workspace!`,
+      {
+        workspaceFolderPath,
+        reason,
+      }
+    );
+    return [];
+  });
 }
 
 async function readUI5YamlFile(
