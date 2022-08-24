@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.3.0](https://github.com/sap/ui5-language-assistant/compare/v3.2.1...v3.3.0) (2022-08-24)
+
+### Features
+
+- add framework awareness by reading closest ui5.yaml ([#481](https://github.com/sap/ui5-language-assistant/issues/481)) ([9a81530](https://github.com/sap/ui5-language-assistant/commit/9a8153081def735df610b0709220411dd1ba0a69)), closes [#239](https://github.com/sap/ui5-language-assistant/issues/239)
+
 ## [3.2.1](https://github.com/sap/ui5-language-assistant/compare/v3.2.0...v3.2.1) (2022-08-20)
 
 ### Bug Fixes

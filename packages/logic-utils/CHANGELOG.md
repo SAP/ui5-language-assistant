@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.3.0](https://github.com/sap/ui5-language-assistant/compare/v3.2.1...v3.3.0) (2022-08-24)
+
+### Bug Fixes
+
+- **language-server:** ensure proper urls for topic links ([#484](https://github.com/sap/ui5-language-assistant/issues/484)) ([0869f72](https://github.com/sap/ui5-language-assistant/commit/0869f7269bf015a6e56cda4eec446617814261ae)), closes [#444](https://github.com/sap/ui5-language-assistant/issues/444)
+
+### Features
+
+- **language-server:** proxy support ([#478](https://github.com/sap/ui5-language-assistant/issues/478)) ([916d1e8](https://github.com/sap/ui5-language-assistant/commit/916d1e8d7f8309ddac19364d903357143442b7b0))
+- add framework awareness by reading closest ui5.yaml ([#481](https://github.com/sap/ui5-language-assistant/issues/481)) ([9a81530](https://github.com/sap/ui5-language-assistant/commit/9a8153081def735df610b0709220411dd1ba0a69)), closes [#239](https://github.com/sap/ui5-language-assistant/issues/239)
+
 ## [3.2.1](https://github.com/sap/ui5-language-assistant/compare/v3.2.0...v3.2.1) (2022-08-20)
 
 ### Bug Fixes
