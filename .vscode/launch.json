@@ -17,6 +17,23 @@
       ]
     },
     {
+      "type": "extensionHost",
+      "request": "launch",
+      "name": "Launch Client (with proxy)",
+      "runtimeExecutable": "${execPath}",
+      "args": [
+        "--extensionDevelopmentPath=${workspaceRoot}/packages/vscode-ui5-language-assistant"
+      ],
+      "env": {
+        "https_proxy": "http://localhost:8000",
+        "no_proxy": "sdk.openui5.org",
+        "NODE_TLS_REJECT_UNAUTHORIZED": "0"
+      },
+      "outFiles": [
+        "${workspaceRoot}/packages/vscode-ui5-language-assistant/lib/src/**/*.js"
+      ]
+    },
+    {
       "type": "node",
       "request": "attach",
       "name": "Attach to Server",
