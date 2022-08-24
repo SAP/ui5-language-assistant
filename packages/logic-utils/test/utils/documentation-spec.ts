@@ -223,6 +223,33 @@ describe("The @ui5-language-assistant/logic-utils <convertJSDocToMarkdown> funct
     );
   });
 
+  it("replaces topic links with markdown links when model has a version", () => {
+    const modelWithVersion = buildUI5Model({
+      framework: "OpenUI5",
+      version: "1.2.3",
+    });
+    expect(
+      convertJSDocToMarkdown(
+        "This text link to the topic {@link topic:a4afb138acf64a61a038aa5b91a4f082 App}.",
+        modelWithVersion
+      )
+    ).to.equal(
+      "This text link to the topic [App](https://sdk.openui5.org/1.2.3/#/topic/a4afb138acf64a61a038aa5b91a4f082)."
+    );
+  });
+
+  it("replaces topic links with markdown links when model doesn't have a version", () => {
+    const modelOpenUI5 = buildUI5Model({ framework: "OpenUI5" });
+    expect(
+      convertJSDocToMarkdown(
+        "This text link to the topic {@link topic:a4afb138acf64a61a038aa5b91a4f082 App}.",
+        modelOpenUI5
+      )
+    ).to.equal(
+      "This text link to the topic [App](https://sdk.openui5.org/#/topic/a4afb138acf64a61a038aa5b91a4f082)."
+    );
+  });
+
   it("unescapes html entities after replacing tags", () => {
     expect(
       convertJSDocToMarkdown("This text has a <br> and a &lt;br&gt;", model)

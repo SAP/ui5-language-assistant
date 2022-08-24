@@ -194,6 +194,11 @@ export function getLink(model: UI5SemanticModel, link: string): string {
   if (link.startsWith("http:") || link.startsWith("https:")) {
     return link;
   }
+  if (link.startsWith("topic:")) {
+    link = `topic/${link.substring(6)}`;
+  } else {
+    link = `api/${link}`;
+  }
   let baseUrl;
   if (model.framework === "OpenUI5") {
     baseUrl = "https://sdk.openui5.org/";
@@ -201,7 +206,7 @@ export function getLink(model: UI5SemanticModel, link: string): string {
     baseUrl = "https://ui5.sap.com/";
   }
   if (model.version) {
-    return `${baseUrl}${model.version}/#/api/${link}`;
+    return `${baseUrl}${model.version}/#/${link}`;
   }
-  return `${baseUrl}#/api/${link}`;
+  return `${baseUrl}#/${link}`;
 }
