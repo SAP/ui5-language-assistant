@@ -87,16 +87,17 @@ jobs:
 
   deploy-gh-releases:
     docker:
-      - image: cimg/go:1.13
+      - image: cimg/go:1.16
     steps:
-      - attach_workspace:
-          at: ./dist
+#      - attach_workspace:
+#          at: ./dist
       - run:
           name: "Publish Release on GitHub"
           command: |
-            go get github.com/tcnksm/ghr@v0.14.0
-            VERSION=${CIRCLE_TAG}
-            ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} ./dist/
+            go get -u github.com/tcnksm/ghr
+            ghr
+#            VERSION=${CIRCLE_TAG}
+#            ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} ./dist/
 
 workflows:
   version: 2  
@@ -106,6 +107,7 @@ workflows:
       - build-node16
       - build-node14
       - compliance
+      - deploy-gh-releases # testing build... TODO: REMOVE THIS LATER
   release:
     jobs:
       - deploy-npm:
