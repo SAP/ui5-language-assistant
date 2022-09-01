@@ -87,16 +87,21 @@ jobs:
 
   deploy-gh-releases:
     docker:
-      - image: cimg/go:1.13
+      - image: cimg/go:1.16
     steps:
       - attach_workspace:
           at: ./dist
       - run:
+          name: "Inspect dist Folder"
+          working_directory: ./artifacts
+          command: ls -la
+      - run:
           name: "Publish Release on GitHub"
           command: |
-            go get github.com/tcnksm/ghr@v0.14.0
+            echo 'export GOPATH=~/go' >> $BASH_ENV
+            go get github.com/tcnksm/ghr
             VERSION=${CIRCLE_TAG}
-            ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} ./dist/
+            ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -replace ${VERSION} ./artifacts/
 
 workflows:
   version: 2  
