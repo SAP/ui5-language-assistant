@@ -9,7 +9,8 @@
     },
     "version": {
       "allowBranch": "master",
-      "message": "chore(release): release %s"
+      "message": "chore(release): release %s",
+      "exact": true
     }
   }
 }
