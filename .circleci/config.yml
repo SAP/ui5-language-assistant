@@ -90,7 +90,7 @@ jobs:
       - image: cimg/go:1.16
     steps:
       - attach_workspace:
-          at: ./dist
+          at: ./artifacts
       - run:
           name: "Inspect dist Folder"
           working_directory: ./artifacts
