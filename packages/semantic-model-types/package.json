@@ -12,7 +12,7 @@
   "license": "Apache-2.0",
   "typings": "./api.d.ts",
   "scripts": {
-    "ci": "npm-run-all clean compile lint coverage",
+    "ci": "npm-run-all clean compile lint",
     "clean": "echo \"nothing to clean\"",
     "compile": "yarn run clean && tsc -p .",
     "compile:watch": "tsc -p . --watch",

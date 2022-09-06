@@ -65,8 +65,6 @@
     "compile": "yarn run clean && tsc -p .",
     "compile:watch": "tsc -p . --watch",
     "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore",
-    "test": "mocha",
-    "coverage": "nyc mocha",
     "update-snapshots": "node ./scripts/update-diagnostics-snapshots",
     "bundle": "webpack --mode production"
   },

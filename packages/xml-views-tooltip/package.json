@@ -33,13 +33,11 @@
     "vscode-languageserver": "6.1.1"
   },
   "scripts": {
-    "ci": "npm-run-all clean compile lint coverage",
+    "ci": "npm-run-all clean compile lint",
     "clean": "rimraf ./lib ./coverage ./nyc_output",
     "compile": "yarn run clean && tsc -p .",
     "compile:watch": "tsc -p . --watch",
-    "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore",
-    "test": "mocha",
-    "coverage": "nyc mocha"
+    "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore"
   },
   "publishConfig": {
     "access": "public"
