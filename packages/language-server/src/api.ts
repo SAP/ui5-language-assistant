@@ -17,3 +17,8 @@ export const SERVER_PATH: string = isDevelopmentRun
   ? /* istanbul ignore else - no tests (yet?) on bundled artifacts */
     sourcesPath
   : bundledPath;
+
+export const packageJSONPath: string = isDevelopmentRun
+  ? /* istanbul ignore else - no tests (yet?) on bundled artifacts */
+    "../package.json"
+  : "../../package.json";

@@ -5,9 +5,10 @@ import {
 } from "@vscode-logging/types";
 import { getExtensionLogger } from "@vscode-logging/logger";
 import { validLoggingLevelValues } from "@ui5-language-assistant/settings";
+import { packageJSONPath } from "./api";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires -- Using `require` for .json file as this gets bundled with webpack correctly.
-const meta = require("../package.json");
+const meta = require(packageJSONPath);
 
 export type ILogger = Omit<IChildLogger, "getChildLogger">;
 

@@ -1,3 +1,7 @@
+import chai from "chai";
+
+import deepEqualInAnyOrder from "deep-equal-in-any-order";
+chai.use(deepEqualInAnyOrder);
 import { expect } from "chai";
 import { forEach, map } from "lodash";
 import { XMLAttribute, XMLElement } from "@xml-tools/ast";

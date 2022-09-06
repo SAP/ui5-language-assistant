@@ -1,3 +1,7 @@
+import chai from "chai";
+
+import deepEqualInAnyOrder from "deep-equal-in-any-order";
+chai.use(deepEqualInAnyOrder);
 import { expect } from "chai";
 import { forEach, isArray, includes, keys } from "lodash";
 import {
@@ -352,6 +356,7 @@ describe("The ui5-language-assistant semantic model package API", () => {
 
     it("cannot remove first-level property from the model", () => {
       expect(() => {
+        //@ts-expect-error negative test to throw an error
         delete model.namespaces;
       }).to.throw(TypeError, cannotDeleteMatcher);
     });
@@ -361,6 +366,8 @@ describe("The ui5-language-assistant semantic model package API", () => {
       expect(firstClass).to.exist;
       expect(firstClass.name).to.exist;
       expect(() => {
+        //@ts-expect-error negative test to throw an error
+
         delete firstClass.name;
       }).to.throw(TypeError, cannotDeleteMatcher);
     });

@@ -60,7 +60,7 @@
     "vscode-languageserver-types": "3.16.0"
   },
   "scripts": {
-    "ci": "npm-run-all clean compile lint coverage bundle",
+    "ci": "npm-run-all clean compile lint bundle",
     "clean": "rimraf ./dist ./lib ./coverage ./nyc_output",
     "compile": "yarn run clean && tsc -p .",
     "compile:watch": "tsc -p . --watch",

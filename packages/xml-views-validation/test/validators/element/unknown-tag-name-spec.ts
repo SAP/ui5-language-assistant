@@ -1,3 +1,7 @@
+import chai from "chai";
+
+import deepEqualInAnyOrder from "deep-equal-in-any-order";
+chai.use(deepEqualInAnyOrder);
 import { expect } from "chai";
 import { partial } from "lodash";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";

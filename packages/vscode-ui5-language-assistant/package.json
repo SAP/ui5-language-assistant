@@ -88,7 +88,6 @@
     "test:integration": "node lib/test/run-integration-tests.js",
     "test:unit": "mocha --config=./test/unit/.mocharc.js",
     "coverage:integration": "nyc node lib/test/run-integration-tests.js",
-    "coverage:unit": "nyc mocha --config=./test/unit/.mocharc.js",
     "bundle": "webpack --mode production",
     "package": "node ./scripts/package-vsix"
   },

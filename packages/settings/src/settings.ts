@@ -16,7 +16,7 @@ deepFreezeStrict(defaultSettings);
 let globalSettings: Settings = defaultSettings;
 
 // Cache the settings of all open documents
-const documentSettings: Map<string, Thenable<Settings>> = new Map();
+const documentSettings: Map<string, PromiseLike<Settings>> = new Map();
 
 // Function used for testing purposes
 export function resetSettings(): void {
@@ -27,7 +27,9 @@ export function getDefaultSettings(): Settings {
   return defaultSettings;
 }
 
-export function getSettingsForDocument(resource: string): Thenable<Settings> {
+export function getSettingsForDocument(
+  resource: string
+): PromiseLike<Settings> {
   const result = documentSettings.get(resource);
   if (result === undefined) {
     return Promise.resolve(globalSettings);
@@ -41,7 +43,7 @@ export function hasSettingsForDocument(resource: string): boolean {
 
 export function setSettingsForDocument(
   resource: string,
-  settings: Thenable<Settings>
+  settings: PromiseLike<Settings>
 ): void {
   documentSettings.set(resource, settings);
 }

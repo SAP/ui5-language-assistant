@@ -1,7 +1,7 @@
 import { getLogger, getLogLevel, setLogLevel } from "../src/logger";
 import { LogLevel } from "@vscode-logging/logger";
 import { validLoggingLevelValues } from "@ui5-language-assistant/settings";
-import { SpyInstance, vi } from "vitest";
+import { vi } from "vitest";
 describe("the Language Server Logger", () => {
   let errorSpy;
 
