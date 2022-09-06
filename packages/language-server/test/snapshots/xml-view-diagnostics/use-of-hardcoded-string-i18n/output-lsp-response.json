@@ -1,0 +1,12 @@
+[
+  {
+    "range": {
+      "start": { "line": 3, "character": 19 },
+      "end": { "line": 3, "character": 36 }
+    },
+    "severity": 2,
+    "source": "UI5 Language Assistant",
+    "message": "Consider externalizing UI texts to a resource bundle or other model: \"i18n_dummy_text\".",
+    "code": 1013
+  }
+]

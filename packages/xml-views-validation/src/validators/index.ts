@@ -11,6 +11,7 @@ import { validateUnknownAttributeKey } from "./attributes/unknown-attribute-key"
 import { validateUnknownTagName } from "./elements/unknown-tag-name";
 import { validateExplicitAggregationCardinality } from "./elements/cardinality-of-aggregation";
 import { validateAggregationType } from "./elements/type-of-aggregation";
+import { validateI18nExternalization } from "./attributes/use-of-hardcoded-i18n-string";
 
 export { validateUnknownEnumValue } from "./attributes/unknown-enum-value";
 export { validateUnknownXmlnsNamespace } from "./attributes/unknown-xmlns-namespace";
@@ -24,6 +25,7 @@ export { validateUnknownTagName } from "./elements/unknown-tag-name";
 export { validateExplicitAggregationCardinality } from "./elements/cardinality-of-aggregation";
 export { validateAggregationType } from "./elements/type-of-aggregation";
 export { validateNonStableId } from "./elements/non-stable-id";
+export { validateI18nExternalization } from "./attributes/use-of-hardcoded-i18n-string";
 
 export const defaultValidators: UI5ValidatorsConfig = {
   document: [validateNonUniqueID],
@@ -40,6 +42,7 @@ export const defaultValidators: UI5ValidatorsConfig = {
     validateBooleanValue,
     validateUnknownAttributeKey,
     validateUseOfDeprecatedAttribute,
+    validateI18nExternalization,
   ],
 };
 
