@@ -22,6 +22,7 @@
     "format:validate": "prettier --check \"**/*.@(js|ts|json|md)\" --ignore-path=.gitignore",
     "lint": "eslint . --ext .ts --fix --max-warnings=0 --ignore-path=.gitignore",
     "ci:subpackages": "lerna run ci",
+    "pretest": "yarn run compile",
     "test": "lerna run test",
     "coverage": "lerna run coverage",
     "coverage:merge": "node ./scripts/merge-coverage",
@@ -73,6 +74,7 @@
     "sinon-chai": "3.5.0",
     "source-map-support": "0.5.19",
     "typescript": "3.9.7",
+    "vitest": "^0.23.1",
     "webpack": "5.36.2",
     "webpack-cli": "4.4.0"
   },

@@ -20,7 +20,7 @@ import {
   expectModelObjectsEqual,
 } from "./utils/model-test-utils";
 
-context("The ui5-language-assistant semantic model package API", () => {
+describe("The ui5-language-assistant semantic model package API", () => {
   // Properties with these names are types
   const TYPE_PROPERTIES: string[] = ["type", "altTypes"];
   // Types of these kinds exist in other places in the model
@@ -241,7 +241,7 @@ context("The ui5-language-assistant semantic model package API", () => {
     version: TestModelVersion
   ): void {
     describe(`Model generated from ${version}`, () => {
-      before(async () => {
+      beforeAll(async () => {
         await downloadLibraries(version);
       });
 
@@ -268,7 +268,7 @@ context("The ui5-language-assistant semantic model package API", () => {
 
       describe("model consistency", () => {
         let model: UI5SemanticModel;
-        before(async () => {
+        beforeAll(async () => {
           model = await generateModel({
             framework: framework,
             version,
@@ -311,7 +311,7 @@ context("The ui5-language-assistant semantic model package API", () => {
     const objectNotExtensibleMatcher = "not extensible";
     const cannotDeleteMatcher = "Cannot delete";
     let model: UI5SemanticModel;
-    before(async () => {
+    beforeAll(async () => {
       model = await generateModel({
         framework: "SAPUI5",
         version: "1.71.49",
@@ -368,7 +368,7 @@ context("The ui5-language-assistant semantic model package API", () => {
 
   describe("API JSON fixes", () => {
     let model: UI5SemanticModel;
-    before(async () => {
+    beforeAll(async () => {
       model = await generateModel({
         framework: "SAPUI5",
         version: "1.71.49",

@@ -12,7 +12,8 @@
     "strict": true,
     "noImplicitAny": false,
     "noImplicitReturns": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "types": ["vitest/globals"]
   },
   "include": ["src/**/*", "api.d.ts"]
 }

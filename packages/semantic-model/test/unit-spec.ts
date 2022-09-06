@@ -16,7 +16,7 @@ import { generate } from "../src/api";
 import { ClassSymbol, NamespaceSymbol, SymbolBase } from "../src/api-json";
 import { addViewDefaultAggregation } from "../src/fix-api-json";
 
-context("The ui5-language-assistant semantic model package unit tests", () => {
+describe("The ui5-language-assistant semantic model package unit tests", () => {
   describe("resolveType", () => {
     it("returns the same type if it's resolved", () => {
       const model = buildUI5Model({});
@@ -255,7 +255,7 @@ context("The ui5-language-assistant semantic model package unit tests", () => {
     });
   });
 
-  context("includedLibraries", () => {
+  describe("includedLibraries", () => {
     function generateFromLibraries(
       libraries: Record<string, unknown>
     ): UI5SemanticModel {
@@ -320,8 +320,8 @@ context("The ui5-language-assistant semantic model package unit tests", () => {
     });
   });
 
-  context("API JSON fixes", () => {
-    context("addViewDefaultAggregation", () => {
+  describe("API JSON fixes", () => {
+    describe("addViewDefaultAggregation", () => {
       it("doesn't fail when there is a sap.ui.core.mvc.View with no ui5-metadata", () => {
         addViewDefaultAggregation("sap.ui.core", {
           symbols: [

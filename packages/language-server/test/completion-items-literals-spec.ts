@@ -8,7 +8,7 @@ import { getSuggestions, getTextInRange } from "./completion-items-utils";
 
 describe("the UI5 language assistant Code Completion Services", () => {
   let ui5SemanticModel: UI5SemanticModel;
-  before(async () => {
+  beforeAll(async () => {
     ui5SemanticModel = await generateModel({
       framework: "SAPUI5",
       version: "1.71.49",

@@ -18,7 +18,7 @@ const scenarioPath = resolve(
 const scenarioUri = vscode.Uri.file(scenarioPath);
 
 describe("the Language Server Client Integration Tests", () => {
-  before(async () => {
+  beforeAll(async () => {
     await vscode.workspace.openTextDocument(scenarioUri);
     await vscode.window.showTextDocument(scenarioUri);
     // Explicitly wait for extension to load

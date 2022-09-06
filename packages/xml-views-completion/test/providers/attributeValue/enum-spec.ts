@@ -10,7 +10,7 @@ import { testSuggestionsScenario } from "../../utils";
 
 describe("The ui5-language-assistant xml-views-completion", () => {
   let ui5SemanticModel: UI5SemanticModel;
-  before(async function () {
+  beforeAll(async function () {
     ui5SemanticModel = await generateModel({
       framework: "SAPUI5",
       version: "1.71.49",
@@ -18,8 +18,8 @@ describe("The ui5-language-assistant xml-views-completion", () => {
     });
   });
 
-  context("enum values", () => {
-    context("applicable scenarios", () => {
+  describe("enum values", () => {
+    describe("applicable scenarios", () => {
       it("will suggest enum values with no prefix provided", () => {
         const xmlSnippet = `
           <mvc:View
@@ -92,7 +92,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
       });
     });
 
-    context("none applicable scenarios", () => {
+    describe("none applicable scenarios", () => {
       it("will not provide any suggestions when the property is not of enum type", () => {
         const xmlSnippet = `
           <mvc:View

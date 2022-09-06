@@ -11,7 +11,7 @@ import {
 describe("the unknown enum value validation", () => {
   let ui5SemanticModel: UI5SemanticModel;
 
-  before(async () => {
+  beforeAll(async () => {
     ui5SemanticModel = await generateModel({
       framework: "SAPUI5",
       version: "1.71.49",
@@ -19,7 +19,7 @@ describe("the unknown enum value validation", () => {
     });
   });
 
-  context("true positive scenarios", () => {
+  describe("true positive scenarios", () => {
     it("will detect an enum value that does not fit the expected type", () => {
       const xmlSnippet = `
           <mvc:View
@@ -50,7 +50,7 @@ describe("the unknown enum value validation", () => {
     });
   });
 
-  context("negative edge cases", () => {
+  describe("negative edge cases", () => {
     it("will not detect an issue when the enum value is valid", () => {
       const xmlSnippet = `
           <mvc:View

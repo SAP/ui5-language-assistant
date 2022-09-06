@@ -1,14 +1,17 @@
-import { expect } from "chai";
 import { readJsonSync } from "fs-extra";
 import { forEach, set, pickBy, has, keys, camelCase } from "lodash";
 import { getDefaultSettings } from "@ui5-language-assistant/settings";
 import * as settingsModule from "@ui5-language-assistant/settings";
 import { LOGGING_LEVEL_CONFIG_PROP } from "../../src/constants";
+import chai from "chai";
 
+import deepEqualInAnyOrder from "deep-equal-in-any-order";
+chai.use(deepEqualInAnyOrder);
+import { expect } from "chai";
 describe("settings configuration properties", () => {
   let packageJsonSettings: Record<string, Setting>;
 
-  before(() => {
+  beforeAll(() => {
     // Get the settings from the package.json
     const packageJsonPath = require.resolve(
       "vscode-ui5-language-assistant/package.json"

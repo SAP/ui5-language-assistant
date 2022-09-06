@@ -147,7 +147,7 @@ const expectNamespaceKeysSuggestions = partial(expectSuggestions, (_) => {
 describe("The ui5-language-assistant xml-views-completion", () => {
   let ui5SemanticModel: UI5SemanticModel;
 
-  before(async () => {
+  beforeAll(async () => {
     ui5SemanticModel = await generateModel({
       framework: "SAPUI5",
       version: "1.71.49",
@@ -155,8 +155,8 @@ describe("The ui5-language-assistant xml-views-completion", () => {
     });
   });
 
-  context("namespaces", () => {
-    context("applicable scenarios", () => {
+  describe("namespaces", () => {
+    describe("applicable scenarios", () => {
       it("will suggest when 'xmlns' prefix provided", () => {
         const xmlSnippet = `
         <mvc:View
@@ -293,9 +293,9 @@ describe("The ui5-language-assistant xml-views-completion", () => {
       });
     });
 
-    context("not reproducible scenario", () => {
+    describe("not reproducible scenario", () => {
       //TODO check with Shachar if this case can be received from xml
-      context("isExistingNamespaceAttribute", () => {
+      describe("isExistingNamespaceAttribute", () => {
         it("invalid attribute key", () => {
           const attributeWithInvalidKey = createXMLAttribute(
             "dummy",

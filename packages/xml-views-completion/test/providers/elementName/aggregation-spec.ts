@@ -13,7 +13,7 @@ import { UI5XMLViewCompletion } from "../../../api";
 
 describe("The ui5-language-assistant xml-views-completion", () => {
   let REAL_UI5_MODEL: UI5SemanticModel;
-  before(async () => {
+  beforeAll(async () => {
     REAL_UI5_MODEL = await generateModel({
       framework: "SAPUI5",
       version: "1.71.49",
@@ -21,8 +21,8 @@ describe("The ui5-language-assistant xml-views-completion", () => {
     });
   });
 
-  context("aggregations", () => {
-    context("applicable scenarios", () => {
+  describe("aggregations", () => {
+    describe("applicable scenarios", () => {
       it("will suggest direct aggregations", () => {
         const xmlSnippet = `
           <mvc:View
@@ -370,7 +370,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
       });
     });
 
-    context("none applicable scenarios", () => {
+    describe("none applicable scenarios", () => {
       it("will not suggest on tag with xmlns prefix", () => {
         const clonedModel = cloneDeep(REAL_UI5_MODEL);
         const aggregationWithPrefix = buildUI5Aggregation({

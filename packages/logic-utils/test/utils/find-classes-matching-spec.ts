@@ -1,4 +1,8 @@
 import { map, forEach } from "lodash";
+import chai from "chai";
+
+import deepEqualInAnyOrder from "deep-equal-in-any-order";
+chai.use(deepEqualInAnyOrder);
 import { expect } from "chai";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { generateModel } from "@ui5-language-assistant/test-utils";
@@ -11,7 +15,7 @@ import {
 
 describe("The @ui5-language-assistant/logic-utils <findClassesMatchingType> function", () => {
   let ui5Model: UI5SemanticModel;
-  before(async () => {
+  beforeAll(async () => {
     ui5Model = await generateModel({
       framework: "SAPUI5",
       version: "1.71.49",
@@ -74,7 +78,7 @@ describe("The @ui5-language-assistant/logic-utils <findClassesMatchingType> func
 
 describe("The @ui5-language-assistant/logic-utils <classIsOfType> function", () => {
   let ui5Model: UI5SemanticModel;
-  before(async () => {
+  beforeAll(async () => {
     ui5Model = await generateModel({
       framework: "SAPUI5",
       version: "1.71.49",
