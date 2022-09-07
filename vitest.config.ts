@@ -11,8 +11,7 @@ export default defineConfig({
       "packages/vscode-ui5-language-assistant/**/*",
     ],
     coverage: {
-      provider: "istanbul",
-      reporter: ["json", "html"], // or 'c8'
+      reporter: ["text"], // or 'c8'
     },
     silent: true,
   },

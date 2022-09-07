@@ -6,11 +6,32 @@
       "outputs": ["dist/**"]
     },
     "ci": {
-      "dependsOn": ["^lint", "^ci"]
+      "dependsOn": ["^package"],
+      "outputs": ["dist/**", "lib/**"]
     },
-    "//#test": {
-      "outputs": [],
-      "inputs": ["src/**/*.d.ts", "src/**/*.ts", "test/**/*.ts"]
+    "bundle": {
+      "dependsOn": ["//#coverage", "^lint"],
+      "outputs": ["dist/**", "lib/**"]
+    },
+    "package": {
+      "dependsOn": ["^bundle"],
+      "outputs": ["*.vsix"]
+    },
+    "generate-json-api": {
+      "inputs": ["resources/sap-ui-library-api.json"],
+      "outputs": ["src"]
+    },
+    "compile": {
+      "dependsOn": [],
+      "outputs": ["lib/**"]
+    },
+    "clean": {
+      "outputs": []
+    },
+    "//#coverage": {
+      "dependsOn": ["^clean", "^generate-json-api", "^compile"],
+      "outputs": ["coverage"],
+      "inputs": ["**/src/**/*.d.ts", "**/src/**/*.ts", "**/test/**/*.ts"]
     },
     "lint": {
       "outputs": []

@@ -18,9 +18,9 @@
     "deep-freeze-strict": "1.1.1"
   },
   "scripts": {
-    "ci": "npm-run-all clean compile lint",
+    "ci": "yarn run compile",
     "clean": "rimraf ./lib ./coverage ./nyc_output",
-    "compile": "yarn run clean && tsc -p .",
+    "compile": "tsc -p .",
     "compile:watch": "tsc -p . --watch",
     "format:validate": "prettier --check \"**/*.@(js|ts|json|md)\" --ignore-path=.gitignore",
     "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore"
