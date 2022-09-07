@@ -18,7 +18,8 @@
     "compile:watch": "tsc -p . --watch",
     "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore",
     "test": "echo nothing to test",
-    "coverage": "echo nothing to test"
+    "coverage": "echo nothing to test",
+    "format:validate": "prettier --check \"**/*.@(js|ts|json|md)\" --ignore-path=.gitignore"
   },
   "publishConfig": {
     "access": "public"

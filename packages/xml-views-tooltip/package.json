@@ -33,6 +33,7 @@
     "vscode-languageserver": "6.1.1"
   },
   "scripts": {
+    "format:validate": "prettier --check \"**/*.@(js|ts|json|md)\" --ignore-path=.gitignore",
     "ci": "npm-run-all clean compile lint",
     "clean": "rimraf ./lib ./coverage ./nyc_output",
     "compile": "yarn run clean && tsc -p .",
