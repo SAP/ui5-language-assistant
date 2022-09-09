@@ -17,6 +17,7 @@
     "release:publish": "lerna publish from-git --yes",
     "compile": "turbo run compile",
     "ci": "turbo run ci",
+    "preci": "turbo run coverage",
     "compile:watch": "yarn run clean && tsc --build --watch",
     "format:fix": "prettier --write \"**/*.@(js|ts|json|md)\" --ignore-path=.gitignore",
     "lint": "turbo run lint",

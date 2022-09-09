@@ -11,6 +11,8 @@ export default defineConfig({
       "packages/vscode-ui5-language-assistant/**/*",
     ],
     coverage: {
+      include: ["packages/**/*-spec.ts", "test-packages/**/*-spec.ts"],
+      exclude: [],
       reporter: ["text"],
     },
     silent: true,

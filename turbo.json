@@ -7,7 +7,7 @@
     },
 
     "ci": {
-      "dependsOn": ["//#coverage", "^package"],
+      "dependsOn": ["^package"],
       "outputs": ["dist/**", "lib/**"]
     },
     "bundle": {
