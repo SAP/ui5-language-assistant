@@ -22,7 +22,11 @@ import {
   SERVER_PATH,
   ServerInitializationOptions,
 } from "@ui5-language-assistant/language-server";
-import { COMMAND_OPEN_DEMOKIT, LOGGING_LEVEL_CONFIG_PROP } from "./constants";
+import {
+  COMMAND_OPEN_DEMOKIT,
+  COMMAND_OPEN_WEBVIEW,
+  LOGGING_LEVEL_CONFIG_PROP,
+} from "./constants";
 
 type UI5Model = { url: string; framework: string; version: string };
 
@@ -123,6 +127,18 @@ function updateCurrentModel(model: UI5Model | undefined) {
       statusBarItem.hide();
     }
   }
+}
+
+function createWebView(context: ExtensionContext) {
+  const command = "myExtension.sayHello";
+
+  const commandHandler = (name: string = "world") => {
+    console.log(`Hello ${name}!!!`);
+  };
+
+  context.subscriptions.push(
+    commands.registerCommand(COMMAND_OPEN_WEBVIEW, commandHandler)
+  );
 }
 
 export function deactivate(): Thenable<void> | undefined {

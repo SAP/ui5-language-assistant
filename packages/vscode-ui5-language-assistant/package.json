@@ -20,6 +20,12 @@
     "*"
   ],
   "contributes": {
+    "commands": [
+      {
+        "command": "UI5LanguageAssistant.command.webView",
+        "title": "UI5 Say Hello"
+      }
+    ],
     "jsonValidation": [
       {
         "fileMatch": [
