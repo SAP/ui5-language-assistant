@@ -23,6 +23,7 @@
     "lint": "turbo run lint",
     "ci:subpackages": "lerna run ci",
     "test": "vitest",
+    "precoverage": "turbo run pretest",
     "pretest": "turbo run pretest",
     "prebuild": "yarn run clean",
     "prebundle": "turbo run clean",
