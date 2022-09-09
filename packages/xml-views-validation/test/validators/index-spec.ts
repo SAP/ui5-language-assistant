@@ -14,11 +14,11 @@ describe("The `allValidators` constant", () => {
   validatorPaths = filter(
     filePaths,
     (_) =>
-      _.endsWith(".js") &&
-      !_.endsWith("index.js") &&
+      _.endsWith(".ts") &&
+      !_.endsWith("index.ts") &&
       // "non-stable-id" validation is not part of allValidators.
       // We use it only when `flexEnabled` is set to true.
-      !_.endsWith("non-stable-id.js")
+      !_.endsWith("non-stable-id.ts")
   );
   expect(validatorPaths).to.not.be.empty;
 

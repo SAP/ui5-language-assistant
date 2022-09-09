@@ -37,7 +37,7 @@ describe.skip("the Language Server Client Validations Integration Tests - Flex E
   const manifestPath = resolve(scenarioPath, "manifest.json");
   const manifestUri = vscode.Uri.file(manifestPath);
 
-  before(async () => {
+  beforeAll(async () => {
     await vscode.commands.executeCommand("vscode.openFolder", testFolderUri);
     await vscode.window.showTextDocument(xmlUri);
     await vscode.workspace.openTextDocument(manifestUri);
@@ -49,7 +49,7 @@ describe.skip("the Language Server Client Validations Integration Tests - Flex E
     await setFileTextContents("", xmlPath);
   });
 
-  context("validations", () => {
+  describe("validations", () => {
     it("will detect missing stable id in non-whitelisted UI5 class", async () => {
       const xmlSnippet = `
           <mvc:View xmlns:uxap="sap.uxap" xmlns:m="sap.m"
@@ -113,7 +113,7 @@ describe.skip("the Language Server Client Validations Integration Tests - Flex E
     });
   });
 
-  context("quick fix", () => {
+  describe("quick fix", () => {
     afterEach(async () => {
       await vscode.commands.executeCommand(
         "workbench.action.closeActiveEditor"

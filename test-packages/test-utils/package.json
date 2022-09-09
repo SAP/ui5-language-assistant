@@ -21,9 +21,10 @@
     "@types/node-fetch": "2.5.10"
   },
   "scripts": {
-    "ci": "npm-run-all clean compile lint",
+    "ci": "yarn run compile",
     "clean": "rimraf ./lib ./coverage ./nyc_output ./.model-cache",
-    "compile": "yarn run clean && tsc -p .",
+    "compile": "tsc -p .",
+    "build": "etsc",
     "compile:watch": "tsc -p . --watch",
     "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore"
   }

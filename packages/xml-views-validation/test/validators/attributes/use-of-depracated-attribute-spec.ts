@@ -21,7 +21,7 @@ import {
 describe("the use of deprecated attribute validation", () => {
   let ui5SemanticModel: UI5SemanticModel;
 
-  before(async () => {
+  beforeAll(async () => {
     ui5SemanticModel = await generateModel({
       framework: "SAPUI5",
       version: "1.71.49",
@@ -29,7 +29,7 @@ describe("the use of deprecated attribute validation", () => {
     });
   });
 
-  context("true positive scenarios", () => {
+  describe("true positive scenarios", () => {
     function assertSingleIssue(
       xmlSnippet: string,
       message: string,
@@ -132,9 +132,9 @@ describe("the use of deprecated attribute validation", () => {
     });
   });
 
-  context("negative edge cases", () => {
+  describe("negative edge cases", () => {
     let assertNoIssues: (xmlSnippet: string) => void;
-    before(() => {
+    beforeAll(() => {
       assertNoIssues = partial(assertNoIssuesBase, ui5SemanticModel, {
         attribute: [validators.validateUseOfDeprecatedAttribute],
       });
@@ -169,7 +169,7 @@ describe("the use of deprecated attribute validation", () => {
     });
   });
 
-  context("non-reproducible unit tests", () => {
+  describe("non-reproducible unit tests", () => {
     it("will not detect an issue when the attribute doesn't have a key", () => {
       const xmlSnippet = `
           <mvc:View

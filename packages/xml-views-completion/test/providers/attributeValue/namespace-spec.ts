@@ -23,7 +23,7 @@ const expectNamespaceValuesSuggestions = partial(expectSuggestions, (_) => {
 
 describe("The ui5-editor-tools xml-views-completion", () => {
   let ui5SemanticModel: UI5SemanticModel;
-  before(async () => {
+  beforeAll(async () => {
     ui5SemanticModel = await generateModel({
       framework: "SAPUI5",
       version: "1.71.49",
@@ -31,8 +31,8 @@ describe("The ui5-editor-tools xml-views-completion", () => {
     });
   });
 
-  context("namespaces values", () => {
-    context("applicable scenarios", () => {
+  describe("namespaces values", () => {
+    describe("applicable scenarios", () => {
       it("will suggest namespace values with no prefix provided", () => {
         const xmlSnippet = `
           <mvc:View
@@ -216,7 +216,7 @@ describe("The ui5-editor-tools xml-views-completion", () => {
       });
     });
 
-    context("not reproducible scenarios", () => {
+    describe("not reproducible scenarios", () => {
       it("will not suggest when attribute key is null", () => {
         const xmlAttribute = createXMLAttribute("dummy", null, null, {});
         const suggestions = namespaceValueSuggestions({

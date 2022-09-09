@@ -5,11 +5,20 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Attach by Process ID",
+      "processId": "${command:PickProcess}",
+      "request": "attach",
+      "skipFiles": ["<node_internals>/**"],
+      "type": "node"
+    },
+    {
       "type": "extensionHost",
       "request": "launch",
       "name": "Launch Client",
       "runtimeExecutable": "${execPath}",
       "args": [
+        "--disable-extensions",
+
         "--extensionDevelopmentPath=${workspaceRoot}/packages/vscode-ui5-language-assistant"
       ],
       "outFiles": [

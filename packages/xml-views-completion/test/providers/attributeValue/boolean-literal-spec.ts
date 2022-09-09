@@ -1,3 +1,7 @@
+import chai from "chai";
+
+import deepEqualInAnyOrder from "deep-equal-in-any-order";
+chai.use(deepEqualInAnyOrder);
 import { expect } from "chai";
 import { forEach, map } from "lodash";
 import { XMLAttribute, XMLElement } from "@xml-tools/ast";
@@ -13,7 +17,7 @@ import { testSuggestionsScenario } from "../../utils";
 
 describe("The ui5-language-assistant xml-views-completion", () => {
   let ui5SemanticModel: UI5SemanticModel;
-  before(async () => {
+  beforeAll(async () => {
     ui5SemanticModel = await generateModel({
       framework: "SAPUI5",
       version: "1.71.49",
@@ -21,8 +25,8 @@ describe("The ui5-language-assistant xml-views-completion", () => {
     });
   });
 
-  context("boolean values", () => {
-    context("applicable scenarios", () => {
+  describe("boolean values", () => {
+    describe("applicable scenarios", () => {
       it("will suggest boolean values with no prefix provided", () => {
         const xmlSnippet = `
           <mvc:View
@@ -93,7 +97,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
       });
     });
 
-    context("non-applicable scenarios", () => {
+    describe("non-applicable scenarios", () => {
       it("will not provide any suggestions when the property is not of boolean type", () => {
         const xmlSnippet = `
           <mvc:View

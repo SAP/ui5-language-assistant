@@ -24,7 +24,7 @@ describe.skip("the Language Server Client Validations Integration Tests - Flex D
   const manifestPath = resolve(scenarioPath, "manifest.json");
   const manifestUri = vscode.Uri.file(manifestPath);
 
-  before(async () => {
+  beforeAll(async () => {
     await vscode.commands.executeCommand("vscode.openFolder", testFolderUri);
     await vscode.window.showTextDocument(xmlUri);
     await vscode.workspace.openTextDocument(manifestUri);

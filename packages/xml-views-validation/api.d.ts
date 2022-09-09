@@ -130,4 +130,4 @@ type Validators = {
   validateNonStableId: XMLElementValidator<NonStableIDIssue>;
 };
 
-export const validators: Validators;
+export const validators: Validators = {};
