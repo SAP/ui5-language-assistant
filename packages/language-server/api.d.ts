@@ -6,7 +6,7 @@ import { LogLevel } from "@vscode-logging/types";
 
 export declare const SERVER_PATH: string;
 
-export declare const packageJSONPath: string;
+export declare const PACKAGE_JSON_PATH: string;
 
 export type ServerInitializationOptions = {
   modelCachePath: string;

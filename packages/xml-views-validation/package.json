@@ -29,14 +29,19 @@
     "lodash": "4.17.21"
   },
   "devDependencies": {
+    "@esbuild-kit/cjs-loader": "^2.3.3",
+    "@esbuild-kit/esm-loader": "^2.4.2",
     "@ui5-language-assistant/semantic-model": "3.3.1",
     "@ui5-language-assistant/test-utils": "3.3.1",
-    "@xml-tools/parser": "1.0.7"
+    "@xml-tools/parser": "1.0.7",
+    "esbuild-node-tsc": "^2.0.2",
+    "rimraf": "^3.0.2"
   },
   "scripts": {
     "ci": "yarn run compile",
-    "clean": "rimraf ./lib ./coverage ./nyc_output",
+    "clean": "rimraf ./lib ./coverage ./.nyc_output",
     "compile": "tsc -p .",
+    "build": "etsc",
     "compile:watch": "tsc -p . --watch",
     "format:validate": "prettier --check \"**/*.@(js|ts|json|md)\" --ignore-path=.gitignore",
     "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore"

@@ -2,16 +2,17 @@
   "$schema": "https://turborepo.org/schema.json",
   "pipeline": {
     "build": {
-      "dependsOn": ["^build"],
-      "outputs": ["dist/**"]
+      "dependsOn": ["^generate-json-api"],
+      "outputs": ["lib/**"]
     },
+
     "ci": {
-      "dependsOn": ["^package"],
+      "dependsOn": ["//#coverage", "^package"],
       "outputs": ["dist/**", "lib/**"]
     },
     "bundle": {
-      "dependsOn": ["//#coverage", "^lint"],
-      "outputs": ["dist/**", "lib/**"]
+      "dependsOn": ["compile"],
+      "outputs": ["lib/**"]
     },
     "package": {
       "dependsOn": ["^bundle"],
@@ -22,16 +23,28 @@
       "outputs": ["src"]
     },
     "compile": {
-      "dependsOn": [],
+      "dependsOn": ["clean"],
       "outputs": ["lib/**"]
     },
     "clean": {
+      "inputs": ["**/src/**/*.d.ts", "**/src/**/*.ts", "**/test/**/*.ts"],
+      "outputs": []
+    },
+    "pretest": {
+      "dependsOn": ["^compile"],
+      "inputs": ["**/src/**/*.d.ts", "**/src/**/*.ts", "**/test/**/*.ts"],
       "outputs": []
     },
     "//#coverage": {
-      "dependsOn": ["^clean", "^generate-json-api", "^compile"],
+      "dependsOn": ["^build"],
       "outputs": ["coverage"],
       "inputs": ["**/src/**/*.d.ts", "**/src/**/*.ts", "**/test/**/*.ts"]
+    },
+    "format:validate": {
+      "outputs": []
+    },
+    "//#format:fix": {
+      "outputs": []
     },
     "lint": {
       "outputs": []

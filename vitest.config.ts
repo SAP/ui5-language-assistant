@@ -6,12 +6,12 @@ export default defineConfig({
     include: ["packages/**/*-spec.ts", "test-packages/**/*-spec.ts"],
     exclude: [
       ...configDefaults.exclude,
-      "packages/**/*.js",
-      "test-packages/**/*.js",
+      "packages/**/lib/*.js",
+      "test-packages/**/lib/*.js",
       "packages/vscode-ui5-language-assistant/**/*",
     ],
     coverage: {
-      reporter: ["text"], // or 'c8'
+      reporter: ["text"],
     },
     silent: true,
   },

@@ -19,7 +19,11 @@ export interface IValidTraceServerValues {
   verbose: true;
 }
 
-export const validTraceServerValues: IValidTraceServerValues;
+export const validTraceServerValues: IValidTraceServerValues = {
+  messages: true,
+  off: true,
+  verbose: true,
+};
 
 export interface LoggingSettings {
   logging: {
@@ -37,7 +41,15 @@ export interface IValidLoggingLevelValues {
   trace: true;
 }
 
-export const validLoggingLevelValues: IValidLoggingLevelValues;
+export const validLoggingLevelValues: IValidLoggingLevelValues = {
+  off: true,
+  fatal: true,
+  error: true,
+  warn: true,
+  info: true,
+  debug: true,
+  trace: true,
+};
 
 export function getSettingsForDocument(resource: string): Thenable<Settings>;
 

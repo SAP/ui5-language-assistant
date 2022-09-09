@@ -26,8 +26,9 @@
   },
   "scripts": {
     "ci": "yarn run compile",
-    "clean": "rimraf ./lib ./coverage ./nyc_output",
+    "clean": "rimraf ./lib ./coverage ./.nyc_output",
     "compile": "tsc -p .",
+    "build": "etsc",
     "compile:watch": "tsc -p . --watch",
     "format:validate": "prettier --check \"**/*.@(js|ts|json|md)\" --ignore-path=.gitignore",
     "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore"

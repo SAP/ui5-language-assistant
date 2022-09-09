@@ -6,6 +6,10 @@ const bundledPath = resolve(__dirname, "..", "..", "dist", "server.js");
 
 const sourcesPath = resolve(__dirname, "server.ts");
 
+const bundledPackagePath = resolve(__dirname, "..", "..", "package.json");
+
+const sourcesPackagePath = resolve(__dirname, "..", "package.json");
+
 // We assume that if the `node_modules` directory exists then we are running
 // in development mode, We rely on the fact that the bundled .vsix file of the
 // VSCode extension excludes the this package's `node_modules` folder (among others).
@@ -18,7 +22,6 @@ export const SERVER_PATH: string = isDevelopmentRun
     sourcesPath
   : bundledPath;
 
-export const packageJSONPath: string = isDevelopmentRun
-  ? /* istanbul ignore else - no tests (yet?) on bundled artifacts */
-    "../package.json"
-  : "../../package.json";
+export const PACKAGE_JSON_PATH: string = isDevelopmentRun
+  ? sourcesPackagePath
+  : bundledPackagePath;

@@ -3,13 +3,15 @@ import {
   IVSCodeExtLogger,
   LogLevel,
 } from "@vscode-logging/types";
+import * as fs from "fs";
 import { getExtensionLogger } from "@vscode-logging/logger";
 import { validLoggingLevelValues } from "@ui5-language-assistant/settings";
-import { packageJSONPath } from "./api";
+import { PACKAGE_JSON_PATH } from "./api";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires -- Using `require` for .json file as this gets bundled with webpack correctly.
-const meta = require(packageJSONPath);
-
+// const meta = require("../package.json");
+const jsonFile = fs.readFileSync(PACKAGE_JSON_PATH, "utf8");
+const meta = JSON.parse(jsonFile);
 export type ILogger = Omit<IChildLogger, "getChildLogger">;
 
 let logLevel: LogLevel = "error";

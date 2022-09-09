@@ -24,6 +24,7 @@
     "ci": "yarn run compile",
     "clean": "rimraf ./lib ./coverage ./nyc_output ./.model-cache",
     "compile": "tsc -p .",
+    "build": "etsc",
     "compile:watch": "tsc -p . --watch",
     "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore"
   }

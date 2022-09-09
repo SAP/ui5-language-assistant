@@ -17,6 +17,8 @@
       "name": "Launch Client",
       "runtimeExecutable": "${execPath}",
       "args": [
+        "--disable-extensions",
+
         "--extensionDevelopmentPath=${workspaceRoot}/packages/vscode-ui5-language-assistant"
       ],
       "outFiles": [

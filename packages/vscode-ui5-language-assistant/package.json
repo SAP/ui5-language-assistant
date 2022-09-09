@@ -80,8 +80,8 @@
     "vscode": "^1.47.0"
   },
   "scripts": {
-    "ci": "npm-run-all coverage:* bundle package",
-    "clean": "rimraf ./dist ./lib ./coverage ./nyc_output *.vsix NOTICE LICENSE",
+    "ci": "yarn run compile",
+    "clean": "rimraf ./dist ./lib ./coverage ./.nyc_output *.vsix NOTICE LICENSE",
     "compile": "tsc -p .",
     "compile:watch": "tsc -p . --watch",
     "format:validate": "prettier --check \"**/*.@(js|ts|json|md)\" --ignore-path=.gitignore",
