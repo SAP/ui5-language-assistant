@@ -96,7 +96,7 @@
   "scripts": {
     "ci": "npm-run-all clean compile lint coverage:* bundle package",
     "clean": "rimraf ./dist ./lib ./coverage ./nyc_output *.vsix NOTICE LICENSE",
-    "compile": "yarn run clean && tsc -p .",
+    "compile": "tsc -p .",
     "compile:watch": "tsc -p . --watch",
     "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore",
     "test:integration": "node lib/test/run-integration-tests.js",
