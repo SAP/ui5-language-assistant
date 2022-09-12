@@ -2,10 +2,7 @@
  * Absolute path to the server's "main" module
  * This is useful when launching the server in a separate process (e.g via spawn).
  */
-import {
-  BaseUI5Node,
-  UI5SemanticModel,
-} from "@ui5-language-assistant/semantic-model-types";
+
 import { LogLevel } from "@vscode-logging/types";
 export declare const SERVER_PATH: string;
 

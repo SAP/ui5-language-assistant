@@ -1,9 +1,5 @@
 import { resolve } from "path";
 import { existsSync } from "fs";
-import {
-  BaseUI5Node,
-  UI5SemanticModel,
-} from "@ui5-language-assistant/semantic-model-types";
 import { getNodeDetail, getUI5NodeName } from "./documentation";
 
 // for use in productive flows

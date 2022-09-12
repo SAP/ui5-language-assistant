@@ -10,7 +10,7 @@ import {
   getNodeDocumentation,
   getUI5NodeName,
 } from "../src/documentation";
-import { dir as tempDir, file as tempFile } from "tmp-promise";
+import { dir as tempDir } from "tmp-promise";
 
 import { Position } from "vscode-languageserver";
 import { TextDocument } from "vscode-languageserver-textdocument";
@@ -117,7 +117,11 @@ describe("The @ui5-language-assistant/language-server <getNodeDocumentation> fun
         document.getText(),
         ui5SemanticModel
       );
-      expect(getNodeDetail(result!)).to.equal("sap.m.Input");
+      if (result) {
+        expect(getNodeDetail(result)).to.equal("sap.m.Input");
+      } else {
+        expect(result).to.equal("sap.m.Input");
+      }
     });
 
     it("get the UI5 node name without a model", async () => {
@@ -150,7 +154,10 @@ describe("The @ui5-language-assistant/language-server <getNodeDocumentation> fun
         "SAPUI5",
         ui5Model.version
       );
-      expect(getNodeDetail(result!)).to.equal("sap.m.Input");
+      if (result) expect(getNodeDetail(result)).to.equal("sap.m.Input");
+      else {
+        expect(result).to.equal("sap.m.Input");
+      }
     });
   });
 

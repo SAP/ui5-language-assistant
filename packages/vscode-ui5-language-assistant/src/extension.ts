@@ -31,7 +31,6 @@ import {
   COMMAND_OPEN_WEBVIEW,
   LOGGING_LEVEL_CONFIG_PROP,
 } from "./constants";
-import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 
 type UI5Model = {
   cachePath: string;
@@ -159,7 +158,8 @@ async function showWebView(url?: string | undefined) {
       ? window.activeTextEditor.viewColumn + 1
       : ViewColumn.One;
   const apiRefUrl = url || currentModel?.url;
-  if (!apiRefUrl) throw Error("Model not initialised");
+  if (!apiRefUrl)
+    throw Error("UI5-Language-Assistant: Model not initialised, try again");
   const document = window.activeTextEditor?.document;
   let name: string | undefined;
   if (
@@ -189,6 +189,9 @@ async function showWebView(url?: string | undefined) {
       {
         enableScripts: true,
       }
+    );
+    currentPanel.iconPath = Uri.file(
+      resolve(__dirname, "..", "..", "resources", "logo_ui5.png")
     );
     currentPanel.webview.html = getWebviewContent(ui5Url);
 
