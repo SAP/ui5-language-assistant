@@ -10,6 +10,7 @@ import {
   InitializeParams,
   Hover,
   DidChangeConfigurationNotification,
+  DefinitionParams,
 } from "vscode-languageserver";
 import { URI } from "vscode-uri";
 import { TextDocument } from "vscode-languageserver-textdocument";
@@ -45,6 +46,7 @@ import { executeCommand } from "./commands";
 import { initSwa } from "./swa";
 import { getLogger, setLogLevel } from "./logger";
 import { getCDNBaseUrl } from "./ui5-helper";
+import { getUI5NodeName } from "./documentation";
 
 const connection = createConnection(ProposedFeatures.all);
 const documents = new TextDocuments(TextDocument);
@@ -110,24 +112,44 @@ connection.onInitialized(async () => {
   }
 });
 
-connection.onDefinition((params) => {
-  getLogger().debug("`onDefinition` event", {});
-  // const documentUri = params.textDocument.uri;
-  // const document = documents.get(documentUri);
-  // if (document) {
-  //   const documentPath = URI.parse(documentUri).fsPath;
-  //   const minUI5Version = getMinUI5VersionForXMLFile(documentPath);
-  //   const framework = getUI5FrameworkForXMLFile(documentPath);
-  //   const model = await getSemanticModel(
-  //     initializationOptions?.modelCachePath,
-  //     framework,
-  //     minUI5Version
-  //   );
-  //   const ui5Url = getCDNBaseUrl(framework, model.version)
+connection.onDefinition(async (params: DefinitionParams) => {
+  const documentUri = params.textDocument.uri;
+  const document = documents.get(documentUri);
+  if (document) {
+    const documentPath = URI.parse(documentUri).fsPath;
+    const minUI5Version = getMinUI5VersionForXMLFile(documentPath);
+    const framework = getUI5FrameworkForXMLFile(documentPath);
+    const model = await getSemanticModel(
+      initializationOptions?.modelCachePath,
+      framework,
+      minUI5Version
+    );
 
-  // }
-  connection.sendNotification("UI5LanguageAssistant/ui5Definition", {});
-  return undefined;
+    const ui5Url = getCDNBaseUrl(framework, model.version);
+
+    getLogger().debug("`onDefinition` event", {
+      url: ui5Url,
+    });
+
+    // const documentUri = params.textDocument.uri;
+    // const document = documents.get(documentUri);
+    // if (document) {
+    //   const documentPath = URI.parse(documentUri).fsPath;
+    //   const minUI5Version = getMinUI5VersionForXMLFile(documentPath);
+    //   const framework = getUI5FrameworkForXMLFile(documentPath);
+    //   const model = await getSemanticModel(
+    //     initializationOptions?.modelCachePath,
+    //     framework,
+    //     minUI5Version
+    //   );
+    //   const ui5Url = getCDNBaseUrl(framework, model.version)
+
+    // }
+    connection.sendNotification("UI5LanguageAssistant/ui5Definition", {
+      url: ui5Url,
+    });
+  }
+  return null;
 });
 
 connection.onCompletion(
@@ -150,6 +172,7 @@ connection.onCompletion(
         minUI5Version
       );
       connection.sendNotification("UI5LanguageAssistant/ui5Model", {
+        cachePath: initializationOptions?.modelCachePath,
         url: getCDNBaseUrl(framework, model.version),
         framework,
         version: model.version,
@@ -194,6 +217,7 @@ connection.onHover(
         minUI5Version
       );
       connection.sendNotification("UI5LanguageAssistant/ui5Model", {
+        cachePath: initializationOptions?.modelCachePath,
         url: getCDNBaseUrl(framework, ui5Model.version),
         framework,
         version: ui5Model.version,
@@ -248,6 +272,8 @@ documents.onDidChangeContent(async (changeEvent) => {
       minUI5Version
     );
     connection.sendNotification("UI5LanguageAssistant/ui5Model", {
+      cachePath: initializationOptions?.modelCachePath,
+
       url: getCDNBaseUrl(framework, ui5Model.version),
       framework,
       version: ui5Model.version,
@@ -280,6 +306,8 @@ connection.onCodeAction(async (params) => {
     minUI5Version
   );
   connection.sendNotification("UI5LanguageAssistant/ui5Model", {
+    cachePath: initializationOptions?.modelCachePath,
+
     url: getCDNBaseUrl(framework, ui5Model.version),
     framework,
     version: ui5Model.version,

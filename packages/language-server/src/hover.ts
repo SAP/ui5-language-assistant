@@ -5,33 +5,30 @@ import {
   MarkupContent,
   MarkupKind,
 } from "vscode-languageserver";
-import { parse, DocumentCstNode } from "@xml-tools/parser";
-import { buildAst } from "@xml-tools/ast";
-import { astPositionAtOffset } from "@xml-tools/ast-position";
 import {
   UI5SemanticModel,
   BaseUI5Node,
 } from "@ui5-language-assistant/semantic-model-types";
-import { findUI5HoverNodeAtOffset } from "@ui5-language-assistant/xml-views-tooltip";
-import { getNodeDocumentation, getNodeDetail } from "./documentation";
+import {
+  getNodeDocumentation,
+  getNodeDetail,
+  getUI5NodeName,
+} from "./documentation";
 import { track } from "./swa";
 
-export function getHoverResponse(
+export async function getHoverResponse(
   model: UI5SemanticModel,
   textDocumentPosition: TextDocumentPositionParams,
   document: TextDocument
-): Hover | undefined {
-  const documentText = document.getText();
-  const { cst, tokenVector } = parse(documentText);
-  const ast = buildAst(cst as DocumentCstNode, tokenVector);
-  const offset = document.offsetAt(textDocumentPosition.position);
-  const astPosition = astPositionAtOffset(ast, offset);
-  if (astPosition !== undefined) {
-    const ui5Node = findUI5HoverNodeAtOffset(astPosition, model);
-    if (ui5Node !== undefined) {
-      track("XML_UI5_DOC_HOVER", ui5Node.kind);
-      return transformToLspHover(ui5Node, model);
-    }
+): Promise<Hover | undefined> {
+  const ui5Node = await getUI5NodeName(
+    document.offsetAt(textDocumentPosition.position),
+    document.getText(),
+    model
+  );
+  if (ui5Node !== undefined) {
+    track("XML_UI5_DOC_HOVER", ui5Node.kind);
+    return transformToLspHover(ui5Node, model);
   }
 
   return undefined;

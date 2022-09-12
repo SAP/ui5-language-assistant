@@ -24,30 +24,34 @@ import { LogLevel } from "@vscode-logging/types";
 import {
   SERVER_PATH,
   ServerInitializationOptions,
+  getNodeName,
 } from "@ui5-language-assistant/language-server";
 import {
   COMMAND_OPEN_DEMOKIT,
   COMMAND_OPEN_WEBVIEW,
   LOGGING_LEVEL_CONFIG_PROP,
-  REPLACE_GO_TO_DEFINITION,
 } from "./constants";
-import { utils } from "./util";
+import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 
-type UI5Model = { url: string; framework: string; version: string };
+type UI5Model = {
+  cachePath: string;
+  url: string;
+  framework: string;
+  version: string;
+};
 
 let client: LanguageClient;
 let statusBarItem: StatusBarItem;
 let currentModel: UI5Model | undefined;
 let currentPanel: WebviewPanel | undefined;
-let context: ExtensionContext | undefined;
+let extContext: ExtensionContext | undefined;
 export async function activate(context: ExtensionContext): Promise<void> {
   // create the LanguageClient (+Server)
   client = createLanguageClient(context);
-  context = context;
+  extContext = context;
   // create the StatusBarItem which displays the used UI5 version
   statusBarItem = createStatusBarItem(context);
   createWebView(context);
-
   // show/hide and update the status bar
   client.onReady().then(() => {
     client.onNotification(
@@ -57,12 +61,9 @@ export async function activate(context: ExtensionContext): Promise<void> {
       }
     );
 
-    client.onNotification(
-      "UI5LanguageAssistant/ui5Definition",
-      (model: UI5Model) => {
-        showWebView();
-      }
-    );
+    client.onNotification("UI5LanguageAssistant/ui5Definition", (params) => {
+      showWebView(params.url);
+    });
   });
   window.onDidChangeActiveTextEditor(() => {
     updateCurrentModel(undefined);
@@ -131,6 +132,12 @@ function createStatusBarItem(context: ExtensionContext): StatusBarItem {
   return statusBarItem;
 }
 
+function createWebView(context: ExtensionContext) {
+  context.subscriptions.push(
+    commands.registerCommand(COMMAND_OPEN_WEBVIEW, showWebView)
+  );
+}
+
 function updateCurrentModel(model: UI5Model | undefined) {
   currentModel = model;
   if (statusBarItem) {
@@ -146,23 +153,33 @@ function updateCurrentModel(model: UI5Model | undefined) {
   }
 }
 
-function createWebView(context: ExtensionContext) {
-  context.subscriptions.push(
-    commands.registerCommand(COMMAND_OPEN_WEBVIEW, showWebView)
-  );
-  context.subscriptions.push(
-    commands.registerCommand(REPLACE_GO_TO_DEFINITION, showWebView)
-  );
-}
-
-function showWebView() {
-  const columnToShowIn = window.activeTextEditor
-    ? window.activeTextEditor.viewColumn! + 1
-    : ViewColumn.One;
-  const control = new utils().findControl(window.activeTextEditor);
-  const ui5Url = `${new URL(currentModel!.url).href}${
-    control ? "#/api/" + control : ""
-  }`;
+async function showWebView(url?: string | undefined) {
+  const columnToShowIn =
+    window.activeTextEditor && window.activeTextEditor.viewColumn
+      ? window.activeTextEditor.viewColumn + 1
+      : ViewColumn.One;
+  const apiRefUrl = url || currentModel?.url;
+  if (!apiRefUrl) throw Error("Model not initialised");
+  const document = window.activeTextEditor?.document;
+  let name: string | undefined;
+  if (
+    currentModel?.framework &&
+    currentModel.version &&
+    window.activeTextEditor?.selection.active &&
+    document
+  ) {
+    name = await getNodeName(
+      document.getText(),
+      document.offsetAt(window.activeTextEditor?.selection.active),
+      currentModel.cachePath,
+      currentModel.framework,
+      currentModel.version
+    ).catch((Error) => {
+      console.log(Error);
+      return undefined;
+    });
+  }
+  const ui5Url = `${new URL(apiRefUrl).href}${name ? "#/api/" + name : ""}`;
 
   const createWebView = () => {
     currentPanel = window.createWebviewPanel(
@@ -181,7 +198,7 @@ function showWebView() {
         currentPanel = undefined;
       },
       null,
-      context!.subscriptions
+      extContext?.subscriptions
     );
   };
   if (currentPanel) {
