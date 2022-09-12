@@ -60,13 +60,13 @@
     "vscode-languageserver-types": "3.16.0"
   },
   "scripts": {
-    "ci": "npm-run-all clean compile lint coverage bundle",
+    "ci": "yarn run compile",
     "clean": "rimraf ./dist ./lib ./coverage ./nyc_output",
-    "compile": "yarn run clean && tsc -p .",
+    "compile": "tsc -p .",
+    "build": "etsc",
     "compile:watch": "tsc -p . --watch",
+    "format:validate": "prettier --check \"**/*.@(js|ts|json|md)\" --ignore-path=.gitignore",
     "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore",
-    "test": "mocha",
-    "coverage": "nyc mocha",
     "update-snapshots": "node ./scripts/update-diagnostics-snapshots",
     "bundle": "webpack --mode production"
   },

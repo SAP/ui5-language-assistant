@@ -27,7 +27,7 @@ const NOT_FOUND = null;
 export function classesSuggestions(
   opts: UI5ElementNameCompletionOptions
 ): UI5ClassesInXMLTagNameCompletion[] {
-  const classSuggestionContext = computeClassSuggestionContext({
+  const classSuggestionContext = computeClassSuggestiondescribe({
     xmlElement: opts.element,
     model: opts.context,
   });
@@ -91,7 +91,7 @@ type classSuggestionContext = {
   parentXMLTag?: XMLElement;
 };
 
-function computeClassSuggestionContext({
+function computeClassSuggestiondescribe({
   xmlElement,
   model,
 }: {

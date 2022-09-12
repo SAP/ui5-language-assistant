@@ -24,7 +24,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
   }
 
   let ui5SemanticModel: UI5SemanticModel;
-  before(async () => {
+  beforeAll(async () => {
     ui5SemanticModel = await generateModel({
       framework: "SAPUI5",
       version: "1.71.49",
@@ -837,7 +837,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
     expectLspKind("UI5UnknownKey", CompletionItemKind.Text);
   });
 
-  context("settings", () => {
+  describe("settings", () => {
     const NO_EXPERIMENTAL_SUGGESTIONS = {
       codeAssist: { deprecated: true, experimental: false },
     };

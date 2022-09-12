@@ -18,7 +18,7 @@ import { getSemanticModel } from "../src/ui5-model";
 
 describe("The @ui5-language-assistant/language-server <getNodeDocumentation> function", () => {
   let ui5SemanticModel: UI5SemanticModel;
-  before(async function () {
+  beforeAll(async function () {
     ui5SemanticModel = await generateModel({
       framework: "SAPUI5",
       version: "1.71.49",
@@ -26,7 +26,7 @@ describe("The @ui5-language-assistant/language-server <getNodeDocumentation> fun
     });
   });
 
-  context("deprecatedInfo", () => {
+  describe("deprecatedInfo", () => {
     it("will get documentation with deprecatedInfo", () => {
       const ui5Enum = buildUI5Enum({
         name: "dummy-node",
@@ -43,7 +43,7 @@ describe("The @ui5-language-assistant/language-server <getNodeDocumentation> fun
     });
   });
 
-  context("experimentalInfo", () => {
+  describe("experimentalInfo", () => {
     it("will get documentation with experimentalInfo", () => {
       const ui5Enum = buildUI5Enum({
         name: "dummy-node",

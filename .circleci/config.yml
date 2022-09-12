@@ -66,6 +66,7 @@ jobs:
       # To help debug when lerna detects changes to the working tree and fails the publish
       - run: git status
       # https://github.com/lerna/lerna/issues/2788
+      - run: unset NODE_OPTIONS
       - run: yarn run release:publish --no-verify-access
 
   prepare-vsix:

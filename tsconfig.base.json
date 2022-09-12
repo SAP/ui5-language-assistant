@@ -10,9 +10,11 @@
     "resolveJsonModule": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
+    "skipLibCheck": true,
     "noImplicitAny": false,
     "noImplicitReturns": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "types": ["vitest/globals"]
   },
   "include": ["src/**/*", "api.d.ts"]
 }

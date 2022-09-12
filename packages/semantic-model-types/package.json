@@ -12,13 +12,14 @@
   "license": "Apache-2.0",
   "typings": "./api.d.ts",
   "scripts": {
-    "ci": "npm-run-all clean compile lint coverage",
-    "clean": "echo \"nothing to clean\"",
-    "compile": "yarn run clean && tsc -p .",
+    "ci": "yarn run compile",
+    "clean": "rimraf ./dist ./lib ./coverage ./nyc_output",
+    "compile": "tsc -p .",
     "compile:watch": "tsc -p . --watch",
     "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore",
     "test": "echo nothing to test",
-    "coverage": "echo nothing to test"
+    "coverage": "echo nothing to test",
+    "format:validate": "prettier --check \"**/*.@(js|ts|json|md)\" --ignore-path=.gitignore"
   },
   "publishConfig": {
     "access": "public"

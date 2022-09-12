@@ -1,0 +1,7 @@
+{
+  "SAP HANA Database Explorer.displaySapWebAnalyticsStartupNotification": false,
+  "files.watcherExclude": {
+    "**/node_modules/*/**": false,
+    "**/node_modules/[!@]*/**/*": true
+  }
+}

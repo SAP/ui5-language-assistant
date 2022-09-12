@@ -10,12 +10,12 @@ import {
 import { resetSettings } from "../src/settings";
 import { expect } from "chai";
 
-context("settings utilities", () => {
+describe("settings utilities", () => {
   beforeEach(() => {
     resetSettings();
   });
 
-  context("default settings", () => {
+  describe("default settings", () => {
     it("by default, deprecated and experimental suggestions will not be offered", () => {
       const defaultSettings = getDefaultSettings();
       expect(defaultSettings.codeAssist.deprecated).to.be.false;
