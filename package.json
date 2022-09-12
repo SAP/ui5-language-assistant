@@ -24,6 +24,7 @@
     "ci:subpackages": "lerna run ci",
     "test": "turbo run test",
     "pretest": "turbo run compile",
+    "precoverage": "turbo run pretest",
     "prebuild": "yarn run clean",
     "prebundle": "turbo run clean",
     "build": "turbo run build",
