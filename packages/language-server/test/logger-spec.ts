@@ -2,11 +2,24 @@ import { getLogger, getLogLevel, setLogLevel } from "../src/logger";
 import { LogLevel } from "@vscode-logging/logger";
 import { validLoggingLevelValues } from "@ui5-language-assistant/settings";
 import { vi } from "vitest";
+
+import * as fs from "fs";
+
 describe("the Language Server Logger", () => {
   let errorSpy;
 
   beforeEach(() => {
     errorSpy = vi.spyOn(console, "error");
+    vi.mock("fs", async () => {
+      return {
+        ...(await vi.importActual<typeof import("fs")>("fs")),
+        readFileSync: vi
+          .fn()
+          .mockReturnValue(
+            JSON.stringify({ name: "@ui5-language-assistant/language-server" })
+          ),
+      };
+    });
   });
 
   afterEach(() => {
