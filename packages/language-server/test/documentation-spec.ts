@@ -10,8 +10,11 @@ import {
   getNodeDocumentation,
   getUI5NodeName,
 } from "../src/documentation";
+import { dir as tempDir, file as tempFile } from "tmp-promise";
+
 import { Position } from "vscode-languageserver";
 import { TextDocument } from "vscode-languageserver-textdocument";
+import { getSemanticModel } from "../src/ui5-model";
 
 describe("The @ui5-language-assistant/language-server <getNodeDocumentation> function", () => {
   let ui5SemanticModel: UI5SemanticModel;
@@ -117,21 +120,38 @@ describe("The @ui5-language-assistant/language-server <getNodeDocumentation> fun
       expect(getNodeDetail(result!)).to.equal("sap.m.Input");
     });
 
-    // it("get the UI5 node name without a model", async () => {
-    //   const xmlText = `<mvc:View displayBlock="true"
-    //   xmlns="sap.m"
-    //   xmlns:pwd="openui5.password"
-    //   xmlns:mvc="sap.ui.core.mvc">
-    //   <Page>
-    //     <content>
-    //       <Input liveChange="onInput" />
-    //     </content>
-    //   </Page>
-    // </mvc:View>`
+    it("get the UI5 node name without a model", async () => {
+      const xmlSnippet = `<mvc:View displayBlock="true"
+      xmlns="sap.m"
+      xmlns:pwd="openui5.password"
+      xmlns:mvc="sap.ui.core.mvc">
+      <Page>
+        <content>
+          <Input liveChange="onInput" />
+        </content>
+      </Page>
+    </mvc:View>`;
 
-    //   const result = await getUI5NodeName(132, xmlText, undefined, "OPENUI5",  );
-    //   expect(result?.name).to.equal("sap.m.Input");
-    // });
+      const cachePath = await tempDir();
+      const ui5Model = await getSemanticModel(
+        cachePath.path,
+        "SAPUI5",
+        undefined,
+        true
+      );
+
+      const { document, position } = getXmlSnippet(xmlSnippet);
+
+      const result = await getUI5NodeName(
+        document.offsetAt(position),
+        document.getText(),
+        undefined,
+        cachePath.path,
+        "SAPUI5",
+        ui5Model.version
+      );
+      expect(getNodeDetail(result!)).to.equal("sap.m.Input");
+    });
   });
 
   function getXmlSnippet(
