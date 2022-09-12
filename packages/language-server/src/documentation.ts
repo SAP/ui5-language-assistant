@@ -17,6 +17,11 @@ import {
   getLink,
 } from "@ui5-language-assistant/logic-utils";
 import { GENERATED_LIBRARY } from "@ui5-language-assistant/semantic-model";
+import { DocumentCstNode, parse } from "@xml-tools/parser";
+import { buildAst } from "@xml-tools/ast";
+import { astPositionAtOffset } from "@xml-tools/ast-position";
+import { findUI5HoverNodeAtOffset } from "@ui5-language-assistant/xml-views-tooltip";
+import { getSemanticModel } from "./ui5-model";
 
 export function getNodeDocumentation(
   node: BaseUI5Node,
@@ -107,4 +112,31 @@ export function getNodeDetail(node: BaseUI5Node): string {
     default:
       return node.name;
   }
+}
+
+export async function getUI5NodeName(
+  offsetAt: number,
+  text: string,
+  model?: UI5SemanticModel,
+  cachePath?: string,
+  framework?: string,
+  ui5Version?: string
+): Promise<BaseUI5Node | undefined> {
+  const documentText = text;
+  const { cst, tokenVector } = parse(documentText);
+  const ast = buildAst(cst as DocumentCstNode, tokenVector);
+  const offset = offsetAt;
+  const astPosition = astPositionAtOffset(ast, offset);
+  if (!model) {
+    model = await fetchModel(cachePath, framework, ui5Version);
+  }
+  if (astPosition !== undefined) {
+    return findUI5HoverNodeAtOffset(astPosition, model);
+  }
+  return undefined;
+}
+
+async function fetchModel(cachePath, framework, ui5Version) {
+  const ui5Model = await getSemanticModel(cachePath, framework, ui5Version);
+  return ui5Model;
 }

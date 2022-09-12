@@ -28,7 +28,7 @@ describe("the UI5 language assistant Hover Tooltip Service", () => {
   });
 
   describe("hover on attribute key", () => {
-    it("will get hover content UI5 property", () => {
+    it("will get hover content UI5 property", async () => {
       const xmlSnippet = `<mvc:View
                             xmlns:mvc="sap.ui.core.mvc"
                             xmlns="sap.m"> 
@@ -36,7 +36,7 @@ describe("the UI5 language assistant Hover Tooltip Service", () => {
                               <List showSeparator⇶s="All"></List>
                             </mvc:content>
                           </mvc:View>`;
-      const response = getHoverItem(xmlSnippet, ui5SemanticModel);
+      const response = await getHoverItem(xmlSnippet, ui5SemanticModel);
       expectExists(response, "Hover item");
       assertMarkup(response.contents);
       expect(response.contents.value).to.include(
@@ -44,13 +44,13 @@ describe("the UI5 language assistant Hover Tooltip Service", () => {
       );
     });
 
-    it("will get hover content UI5 association", () => {
+    it("will get hover content UI5 association", async () => {
       const xmlSnippet = `<mvc:View
                             xmlns:mvc="sap.ui.core.mvc"
                             xmlns="sap.m"> 
                             <Button ariaDesc⇶ribedBy=""></Button>
                           </mvc:View>`;
-      const response = getHoverItem(xmlSnippet, ui5SemanticModel);
+      const response = await getHoverItem(xmlSnippet, ui5SemanticModel);
       expectExists(response, "Hover item");
       assertMarkup(response.contents);
       expect(response.contents.value).to.include(
@@ -58,12 +58,12 @@ describe("the UI5 language assistant Hover Tooltip Service", () => {
       );
     });
 
-    it("will get hover content UI5 event", () => {
+    it("will get hover content UI5 event", async () => {
       const xmlSnippet = `<mvc:View afte⇶rInit=""
                             xmlns:mvc="sap.ui.core.mvc"
                             xmlns="sap.m"> 
                           </mvc:View>`;
-      const response = getHoverItem(xmlSnippet, ui5SemanticModel);
+      const response = await getHoverItem(xmlSnippet, ui5SemanticModel);
       expectExists(response, "Hover item");
       assertMarkup(response.contents);
       expect(response.contents.value).to.include(
@@ -71,7 +71,7 @@ describe("the UI5 language assistant Hover Tooltip Service", () => {
       );
     });
 
-    it("will get hover content UI5 property - incorrect property", () => {
+    it("will get hover content UI5 property - incorrect property", async () => {
       const xmlSnippet = `<mvc:View
                             xmlns:mvc="sap.ui.core.mvc"
                             xmlns="sap.m"> 
@@ -79,13 +79,13 @@ describe("the UI5 language assistant Hover Tooltip Service", () => {
                               <List showSeparator⇶s1="All"></List>
                             </mvc:content>
                           </mvc:View>`;
-      const response = getHoverItem(xmlSnippet, ui5SemanticModel);
+      const response = await getHoverItem(xmlSnippet, ui5SemanticModel);
       expect(response).to.not.exist;
     });
   });
 
   describe("hover on attribute value", () => {
-    it("will get hover content UI5 enum", () => {
+    it("will get hover content UI5 enum", async () => {
       const xmlSnippet = `<mvc:View
                             xmlns:mvc="sap.ui.core.mvc"
                             xmlns="sap.m"> 
@@ -93,7 +93,7 @@ describe("the UI5 language assistant Hover Tooltip Service", () => {
                               <List showSeparators="Al⇶l"></List>
                             </mvc:content>
                           </mvc:View>`;
-      const response = getHoverItem(xmlSnippet, ui5SemanticModel);
+      const response = await getHoverItem(xmlSnippet, ui5SemanticModel);
       expectExists(response, "Hover item");
       assertMarkup(response.contents);
       expect(response.contents.value).to.include(
@@ -101,7 +101,7 @@ describe("the UI5 language assistant Hover Tooltip Service", () => {
       );
     });
 
-    it("will get hover content UI5 namespace in xmlns attribute", () => {
+    it("will get hover content UI5 namespace in xmlns attribute", async () => {
       const xmlSnippet = `<mvc:View
                               xmlns:mvc="sap.ui.core.mvc"
                               xmlns="sap.m⇶"> 
@@ -109,7 +109,7 @@ describe("the UI5 language assistant Hover Tooltip Service", () => {
                                 <List showSeparators="All"></List>
                               </mvc:content>
                             </mvc:View>`;
-      const response = getHoverItem(xmlSnippet, ui5SemanticModel);
+      const response = await getHoverItem(xmlSnippet, ui5SemanticModel);
       expectExists(response, "Hover item");
       assertMarkup(response.contents);
       expect(response.contents.value).to.include(
@@ -119,7 +119,7 @@ describe("the UI5 language assistant Hover Tooltip Service", () => {
   });
 
   describe("hover on element open tag name", () => {
-    it("will get hover content UI5 class", () => {
+    it("will get hover content UI5 class", async () => {
       const xmlSnippet = `<mvc:View
                             xmlns:mvc="sap.ui.core.mvc"
                             xmlns="sap.m"> 
@@ -127,7 +127,7 @@ describe("the UI5 language assistant Hover Tooltip Service", () => {
                               <Lis⇶t showSeparators="All"></List>
                             </mvc:content>
                           </mvc:View>`;
-      const response = getHoverItem(xmlSnippet, ui5SemanticModel);
+      const response = await getHoverItem(xmlSnippet, ui5SemanticModel);
       expectExists(response, "Hover item");
       assertMarkup(response.contents);
       expect(response.contents.value).to.include(
@@ -135,7 +135,7 @@ describe("the UI5 language assistant Hover Tooltip Service", () => {
       );
     });
 
-    it("will get hover content UI5 Aggregation", () => {
+    it("will get hover content UI5 Aggregation", async () => {
       const xmlSnippet = `<mvc:View
                             xmlns:mvc="sap.ui.core.mvc"
                             xmlns="sap.m"> 
@@ -143,7 +143,7 @@ describe("the UI5 language assistant Hover Tooltip Service", () => {
                               <List showSeparators="All"></List>
                             </mvc:content>
                           </mvc:View>`;
-      const response = getHoverItem(xmlSnippet, ui5SemanticModel);
+      const response = await getHoverItem(xmlSnippet, ui5SemanticModel);
       expectExists(response, "Hover item");
       assertMarkup(response.contents);
       expect(response.contents.value).to.include("Child Controls of the view");
@@ -151,7 +151,7 @@ describe("the UI5 language assistant Hover Tooltip Service", () => {
   });
 
   describe("hover on element close tag name", () => {
-    it("will get hover content UI5 class", () => {
+    it("will get hover content UI5 class", async () => {
       const xmlSnippet = `<mvc:View
                             xmlns:mvc="sap.ui.core.mvc"
                             xmlns="sap.m"> 
@@ -159,7 +159,7 @@ describe("the UI5 language assistant Hover Tooltip Service", () => {
                               <List showSeparators="All"></L⇶ist>
                             </mvc:content>
                           </mvc:View>`;
-      const response = getHoverItem(xmlSnippet, ui5SemanticModel);
+      const response = await getHoverItem(xmlSnippet, ui5SemanticModel);
       expectExists(response, "Hover item");
       assertMarkup(response.contents);
       expect(response.contents.value).to.include(
@@ -167,7 +167,7 @@ describe("the UI5 language assistant Hover Tooltip Service", () => {
       );
     });
 
-    it("will get hover content UI5 Aggregation", () => {
+    it("will get hover content UI5 Aggregation", async () => {
       const xmlSnippet = `<mvc:View
                               xmlns:mvc="sap.ui.core.mvc"
                               xmlns="sap.m"> 
@@ -175,20 +175,20 @@ describe("the UI5 language assistant Hover Tooltip Service", () => {
                                 <List showSeparators="All"></List>
                               </mvc:conten⇶t>
                             </mvc:View>`;
-      const response = getHoverItem(xmlSnippet, ui5SemanticModel);
+      const response = await getHoverItem(xmlSnippet, ui5SemanticModel);
       expectExists(response, "Hover item");
       assertMarkup(response.contents);
       expect(response.contents.value).to.include("Child Controls of the view");
     });
   });
 
-  it("will get hover content - open tag is different from close tag", () => {
+  it("will get hover content - open tag is different from close tag", async () => {
     const xmlSnippet = `<mvc:View
                           xmlns:mvc="sap.ui.core.mvc"
                           xmlns="sap.m"> 
                           <mvc:content></L⇶ist>
                         </mvc:View>`;
-    const response = getHoverItem(xmlSnippet, ui5SemanticModel);
+    const response = await getHoverItem(xmlSnippet, ui5SemanticModel);
     expectExists(response, "Hover item");
     assertMarkup(response.contents);
     expect(response.contents.value).to.include(
@@ -196,7 +196,7 @@ describe("the UI5 language assistant Hover Tooltip Service", () => {
     );
   });
 
-  it("will get undefined hover content", () => {
+  it("will get undefined hover content", async () => {
     const xmlSnippet = `<mvc:View
                           xmlns:mvc="sap.ui.core.mvc"
                           xmlns="sap.m"> 
@@ -204,15 +204,15 @@ describe("the UI5 language assistant Hover Tooltip Service", () => {
                             <List ⇶ showSeparators="All"></List>
                           </mvc:content>
                         </mvc:View>`;
-    const response = getHoverItem(xmlSnippet, ui5SemanticModel);
+    const response = await getHoverItem(xmlSnippet, ui5SemanticModel);
     expect(response).to.not.exist;
   });
 });
 
-export function getHoverItem(
+export async function getHoverItem(
   xmlSnippet: string,
   ui5SemanticModel: UI5SemanticModel
-): Hover | undefined {
+): Promise<Hover | undefined> {
   const { document, position } = getXmlSnippet(xmlSnippet);
   const uri: TextDocumentIdentifier = { uri: "uri" };
   const textDocPositionParams: TextDocumentPositionParams = {
@@ -220,7 +220,7 @@ export function getHoverItem(
     position: position,
   };
 
-  const hoverItem = getHoverResponse(
+  const hoverItem = await getHoverResponse(
     ui5SemanticModel,
     textDocPositionParams,
     document

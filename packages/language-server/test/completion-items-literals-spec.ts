@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import { map, uniq } from "lodash";
-import { CompletionItemKind } from "vscode-languageserver";
+import { CompletionItemKind, TextEdit } from "vscode-languageserver";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { generateModel } from "@ui5-language-assistant/test-utils";
 import { generate } from "@ui5-language-assistant/semantic-model";
@@ -22,11 +22,14 @@ describe("the UI5 language assistant Code Completion Services", () => {
                           xmlns="sap.m"
                           busy="⇶">`;
     const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
-    const suggestionsDetails = map(suggestions, (suggestion) => ({
-      label: suggestion.label,
-      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
-      newText: suggestion.textEdit?.newText,
-    }));
+    const suggestionsDetails = map(suggestions, (suggestion) => {
+      const textEdit = suggestion.textEdit as TextEdit;
+      return {
+        label: suggestion.label,
+        replacedText: getTextInRange(xmlSnippet, textEdit.range),
+        newText: suggestion.textEdit?.newText,
+      };
+    });
     const suggestionKinds = uniq(
       map(suggestions, (suggestion) => suggestion.kind)
     );
@@ -45,11 +48,14 @@ describe("the UI5 language assistant Code Completion Services", () => {
                           xmlns="sap.m"
                           busy="t⇶a">`;
     const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
-    const suggestionsDetails = map(suggestions, (suggestion) => ({
-      label: suggestion.label,
-      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
-      newText: suggestion.textEdit?.newText,
-    }));
+    const suggestionsDetails = map(suggestions, (suggestion) => {
+      const textEdit = suggestion.textEdit as TextEdit;
+      return {
+        label: suggestion.label,
+        replacedText: getTextInRange(xmlSnippet, textEdit.range),
+        newText: suggestion.textEdit?.newText,
+      };
+    });
     const suggestionKinds = uniq(
       map(suggestions, (suggestion) => suggestion.kind)
     );

@@ -20,6 +20,20 @@
     "*"
   ],
   "contributes": {
+    "commands": [
+      {
+        "command": "UI5LanguageAssistant.command.webView",
+        "title": "UI5-Language-Assistant: View API Reference"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "UI5LanguageAssistant.command.webView",
+        "key": "F12",
+        "mac": "F12",
+        "when": "resourceLangId == xml"
+      }
+    ],
     "jsonValidation": [
       {
         "fileMatch": [
