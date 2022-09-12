@@ -47,16 +47,17 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
     const suggestions = getSuggestions(opts.xmlSnippet, ui5SemanticModel);
     const ranges = getRanges(opts.xmlSnippet);
 
-    const suggestionsDetails = map(suggestions, (suggestion) => ({
-      label: suggestion.label,
-      tagName: getTagName(suggestion.textEdit),
-      attributes: compareAttributes
-        ? getAttributes(suggestion.textEdit)
-        : undefined,
-      additionalTextEdits: suggestion.additionalTextEdits,
-      replacedText: getTextInRange(opts.xmlSnippet, suggestion.textEdit?.range),
-      kind: suggestion.kind,
-    }));
+    const suggestionsDetails = map(suggestions, (suggestion) => {
+      const textEdit = suggestion.textEdit as TextEdit;
+      return {
+        label: suggestion.label,
+        tagName: getTagName(textEdit),
+        attributes: compareAttributes ? getAttributes(textEdit) : undefined,
+        additionalTextEdits: suggestion.additionalTextEdits,
+        replacedText: getTextInRange(opts.xmlSnippet, textEdit.range),
+        kind: suggestion.kind,
+      };
+    });
 
     const expectedSuggestionsDetails = map(
       opts.expected,
@@ -331,16 +332,15 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
     const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
     expect(suggestions).to.not.be.empty;
     forEach(suggestions, (suggestion) => {
+      const textEdit = suggestion.textEdit as TextEdit;
       // We're not replacing any text, just adding
-      expect(getTextInRange(xmlSnippet, suggestion.textEdit?.range)).to.equal(
-        ""
-      );
+      expect(getTextInRange(xmlSnippet, textEdit.range)).to.equal("");
       // Check the namespace is added at the correct position
       expect(suggestion.additionalTextEdits, "additionalTextEdits").to.be.empty;
-      const tagName = getTagName(suggestion.textEdit);
+      const tagName = getTagName(textEdit);
       expectExists(tagName, "tag name in suggestion");
       const ns = tagName.split(":")[0];
-      const attributes = getAttributes(suggestion.textEdit);
+      const attributes = getAttributes(textEdit);
       expect(
         attributes,
         `attributes of ${suggestion.textEdit?.newText}`
@@ -361,16 +361,16 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
     const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
     expect(suggestions).to.not.be.empty;
     forEach(suggestions, (suggestion) => {
+      const textEdit = suggestion.textEdit as TextEdit;
+
       // We're not replacing any text, just adding
-      expect(getTextInRange(xmlSnippet, suggestion.textEdit?.range)).to.equal(
-        ""
-      );
+      expect(getTextInRange(xmlSnippet, textEdit.range)).to.equal("");
       // Check the namespace is added at the correct position
       expect(suggestion.additionalTextEdits, "additionalTextEdits").to.be.empty;
-      const tagName = getTagName(suggestion.textEdit);
+      const tagName = getTagName(textEdit);
       expectExists(tagName, "tag name in suggestion");
       const ns = tagName.split(":")[0];
-      const attributes = getAttributes(suggestion.textEdit);
+      const attributes = getAttributes(textEdit);
       expect(
         attributes,
         `attributes of ${suggestion.textEdit?.newText}`
