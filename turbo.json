@@ -1,0 +1,56 @@
+{
+  "$schema": "https://turborepo.org/schema.json",
+  "pipeline": {
+    "build": {
+      "dependsOn": ["^generate-json-api"],
+      "outputs": ["lib/**"]
+    },
+
+    "ci": {
+      "dependsOn": ["^package"],
+      "outputs": ["dist/**", "lib/**"]
+    },
+    "bundle": {
+      "dependsOn": ["compile"],
+      "outputs": ["lib/**"]
+    },
+    "package": {
+      "dependsOn": ["^bundle"],
+      "outputs": ["*.vsix"]
+    },
+    "generate-json-api": {
+      "inputs": ["resources/sap-ui-library-api.json"],
+      "outputs": ["src"]
+    },
+    "compile": {
+      "dependsOn": ["clean"],
+      "outputs": ["lib/**"]
+    },
+    "clean": {
+      "inputs": ["**/src/**/*.d.ts", "**/src/**/*.ts", "**/test/**/*.ts"],
+      "outputs": []
+    },
+    "pretest": {
+      "dependsOn": ["^compile"],
+      "inputs": ["**/src/**/*.d.ts", "**/src/**/*.ts", "**/test/**/*.ts"],
+      "outputs": []
+    },
+    "coverage": {
+      "dependsOn": ["^coverage"],
+      "outputs": ["coverage"],
+      "inputs": ["**/src/**/*.d.ts", "**/src/**/*.ts", "**/test/**/*.ts"]
+    },
+    "format:validate": {
+      "outputs": []
+    },
+    "//#format:fix": {
+      "outputs": []
+    },
+    "lint": {
+      "outputs": []
+    },
+    "dev": {
+      "cache": false
+    }
+  }
+}
