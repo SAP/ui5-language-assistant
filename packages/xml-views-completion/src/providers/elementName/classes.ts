@@ -156,7 +156,19 @@ function handleDefaultAggregationScenario({
   parentXMLElement: XMLElement;
   parentUI5Class: UI5Class;
 }): classSuggestionContext | null {
-  const defaultAggregation = parentUI5Class.defaultAggregation;
+  let defaultAggregation: UI5Aggregation | undefined = undefined;
+
+  // handle inheritance
+  let currentClass: UI5Class | undefined = parentUI5Class;
+  while (currentClass) {
+    if (currentClass.defaultAggregation === undefined) {
+      currentClass = currentClass.extends;
+    } else {
+      defaultAggregation = currentClass.defaultAggregation;
+      break;
+    }
+  }
+
   if (defaultAggregation === undefined) {
     return NOT_FOUND;
   }
