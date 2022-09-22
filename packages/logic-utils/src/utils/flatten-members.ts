@@ -1,7 +1,7 @@
 import { partial } from "lodash";
 import { UI5Class } from "@ui5-language-assistant/semantic-model-types";
 
-function flattenMembers<T>(
+function flattenMembers<T extends { name: string }>(
   membersGetter: (ui5Class: UI5Class) => T[],
   ui5Class: UI5Class
 ): T[] {
@@ -10,7 +10,13 @@ function flattenMembers<T>(
   if (ui5SuperClass !== undefined) {
     // UI5 SDK refers to inherited members (properties, events, aggregations. ...) as "borrowed" ...
     const borrowedMembers = flattenMembers(membersGetter, ui5SuperClass);
-    return directMembers.concat(borrowedMembers);
+    return directMembers.concat(
+      borrowedMembers.filter(
+        (borrowed) =>
+          directMembers.find((direct) => direct.name === borrowed.name) ===
+          undefined
+      )
+    );
   }
   return directMembers;
 }
