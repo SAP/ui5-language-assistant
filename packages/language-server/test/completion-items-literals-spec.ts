@@ -1,19 +1,27 @@
 import { expect } from "chai";
 import { map, uniq } from "lodash";
 import { CompletionItemKind } from "vscode-languageserver";
-import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
+import {
+  AppContext,
+  UI5SemanticModel,
+} from "@ui5-language-assistant/semantic-model-types";
 import { generateModel } from "@ui5-language-assistant/test-utils";
 import { generate } from "@ui5-language-assistant/semantic-model";
 import { getSuggestions, getTextInRange } from "./completion-items-utils";
 
 describe("the UI5 language assistant Code Completion Services", () => {
   let ui5SemanticModel: UI5SemanticModel;
+  let appContext: AppContext;
   before(async () => {
     ui5SemanticModel = await generateModel({
       framework: "SAPUI5",
       version: "1.71.49",
       modelGenerator: generate,
     });
+    appContext = {
+      services: {},
+      ui5Model: ui5SemanticModel,
+    };
   });
 
   it("will get completion values for boolean value", () => {
@@ -21,7 +29,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns="sap.m"
                           busy="⇶">`;
-    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
+    const suggestions = getSuggestions(xmlSnippet, appContext);
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
       replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
@@ -44,7 +52,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns="sap.m"
                           busy="t⇶a">`;
-    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
+    const suggestions = getSuggestions(xmlSnippet, appContext);
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
       replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),

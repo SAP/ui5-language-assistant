@@ -1,5 +1,5 @@
 import { XMLElement } from "@xml-tools/ast";
-import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
+import { AppContext } from "@ui5-language-assistant/semantic-model-types";
 import { getUI5ClassByXMLElement } from "@ui5-language-assistant/logic-utils";
 import { UseOfDeprecatedClassIssue } from "../../../api";
 import {
@@ -9,9 +9,9 @@ import {
 
 export function validateUseOfDeprecatedClass(
   xmlElement: XMLElement,
-  model: UI5SemanticModel
+  context: AppContext
 ): UseOfDeprecatedClassIssue[] {
-  const ui5Class = getUI5ClassByXMLElement(xmlElement, model);
+  const ui5Class = getUI5ClassByXMLElement(xmlElement, context.ui5Model);
   if (ui5Class === undefined) {
     return [];
   }
@@ -25,7 +25,7 @@ export function validateUseOfDeprecatedClass(
       kind: "UseOfDeprecatedClass",
       message: buildDeprecatedIssueMessage({
         symbol: ui5Class as DeprecatedUI5Symbol,
-        model,
+        model: context.ui5Model,
       }),
       severity: "warn",
       offsetRange: {

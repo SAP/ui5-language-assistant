@@ -2,6 +2,7 @@ import { expect } from "chai";
 import { clone, cloneDeep, find, forEach, map } from "lodash";
 import { XMLElement } from "@xml-tools/ast";
 import {
+  AppContext,
   UI5Aggregation,
   UI5Class,
   UI5SemanticModel,
@@ -21,12 +22,17 @@ import { testSuggestionsScenario } from "../../utils";
 
 describe("The ui5-language-assistant xml-views-completion", () => {
   let ui5Model: UI5SemanticModel;
+  let appContext: AppContext;
   before(async function () {
     ui5Model = await generateModel({
       framework: "SAPUI5",
       version: "1.71.49",
       modelGenerator: generate,
     });
+    appContext = {
+      services: {},
+      ui5Model,
+    };
   });
 
   context("UI5 Classes Suggestions", () => {
@@ -39,7 +45,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
             `;
 
             testSuggestionsScenario({
-              model: ui5Model,
+              context: appContext,
               xmlText: xmlSnippet,
               providers: {
                 elementName: [classesSuggestions],
@@ -69,7 +75,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
             `;
 
             testSuggestionsScenario({
-              model: ui5Model,
+              context: appContext,
               xmlText: xmlSnippet,
               providers: {
                 elementName: [classesSuggestions],
@@ -114,7 +120,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
             </mvc:View>`;
 
             testSuggestionsScenario({
-              model: ui5Model,
+              context: appContext,
               xmlText: xmlSnippet,
               providers: {
                 elementName: [classesSuggestions],
@@ -152,7 +158,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
             </mvc:View>`;
 
             testSuggestionsScenario({
-              model: ui5Model,
+              context: appContext,
               xmlText: xmlSnippet,
               providers: {
                 elementName: [classesSuggestions],
@@ -185,7 +191,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
             </mvc:View>`;
 
             testSuggestionsScenario({
-              model: ui5Model,
+              context: appContext,
               xmlText: xmlSnippet,
               providers: {
                 elementName: [classesSuggestions],
@@ -220,7 +226,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
             </mvc:View>`;
 
             testSuggestionsScenario({
-              model: ui5Model,
+              context: appContext,
               xmlText: xmlSnippet,
               providers: {
                 elementName: [classesSuggestions],
@@ -270,7 +276,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
             </mvc:View>`;
 
             testSuggestionsScenario({
-              model: ui5Model,
+              context: appContext,
               xmlText: xmlSnippet,
               providers: {
                 elementName: [classesSuggestions],
@@ -306,7 +312,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
             </mvc:View>`;
 
             testSuggestionsScenario({
-              model: ui5Model,
+              context: appContext,
               xmlText: xmlSnippet,
               providers: {
                 elementName: [classesSuggestions],
@@ -343,7 +349,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
             </mvc:View>`;
 
               testSuggestionsScenario({
-                model: ui5Model,
+                context: appContext,
                 xmlText: xmlSnippet,
                 providers: {
                   elementName: [classesSuggestions],
@@ -374,7 +380,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
                 </mvc:View>`;
 
               testSuggestionsScenario({
-                model: ui5Model,
+                context: appContext,
                 xmlText: xmlSnippet,
                 providers: {
                   elementName: [classesSuggestions],
@@ -411,7 +417,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
             </mvc:View>`;
 
                 testSuggestionsScenario({
-                  model: ui5Model,
+                  context: appContext,
                   xmlText: xmlSnippet,
                   providers: {
                     elementName: [classesSuggestions],
@@ -443,7 +449,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
                   </mvc:View>`;
 
                 testSuggestionsScenario({
-                  model: ui5Model,
+                  context: appContext,
                   xmlText: xmlSnippet,
                   providers: {
                     elementName: [classesSuggestions],
@@ -485,7 +491,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
             </mvc:View>`;
 
         testSuggestionsScenario({
-          model: ui5Model,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             elementName: [classesSuggestions],
@@ -515,7 +521,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
             </mvc:View>`;
 
         testSuggestionsScenario({
-          model: ui5Model,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             elementName: [classesSuggestions],
@@ -537,7 +543,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
             </mvc:View>`;
 
         testSuggestionsScenario({
-          model: ui5Model,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             elementName: [classesSuggestions],
@@ -559,7 +565,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
             </mvc:View>`;
 
         testSuggestionsScenario({
-          model: ui5Model,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             elementName: [classesSuggestions],
@@ -581,7 +587,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
             </mvc:View>`;
 
         testSuggestionsScenario({
-          model: ui5Model,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             elementName: [classesSuggestions],
@@ -603,7 +609,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
             </mvc:ViewTypo>`;
 
         testSuggestionsScenario({
-          model: ui5Model,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             elementName: [classesSuggestions],
@@ -625,7 +631,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
             </mvc:View>`;
 
         testSuggestionsScenario({
-          model: ui5Model,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             elementName: [classesSuggestions],
@@ -647,7 +653,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
             </mvc:View>`;
 
         testSuggestionsScenario({
-          model: ui5Model,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             elementName: [classesSuggestions],
@@ -668,7 +674,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
             </mvc:View>`;
 
         testSuggestionsScenario({
-          model: ui5Model,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             elementName: [classesSuggestions],
@@ -680,8 +686,8 @@ describe("The ui5-language-assistant xml-views-completion", () => {
       });
 
       it("will offer no suggestions inside an explicit aggregation when the aggregation type is not a UI5Class or UI5Interface", () => {
-        const clonedModel = cloneDeep(ui5Model);
-        const viewClass = clonedModel.classes["sap.ui.core.mvc.View"];
+        const clonedModel = cloneDeep(appContext);
+        const viewClass = clonedModel.ui5Model.classes["sap.ui.core.mvc.View"];
         const contentAggregation = find(
           viewClass.aggregations,
           (_) => _.name === "content"
@@ -701,7 +707,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
             </mvc:View>`;
 
         testSuggestionsScenario({
-          model: clonedModel,
+          context: clonedModel,
           xmlText: xmlSnippet,
           providers: {
             elementName: [classesSuggestions],
@@ -721,7 +727,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
             </mvc:ViewTypo>`;
 
         testSuggestionsScenario({
-          model: ui5Model,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             elementName: [classesSuggestions],
@@ -733,8 +739,8 @@ describe("The ui5-language-assistant xml-views-completion", () => {
       });
 
       it("will offer no suggestions inside a default (implicit) aggregation when the aggregation type is not a UI5Class or UI5Interface", () => {
-        const clonedModel = cloneDeep(ui5Model);
-        const carouselClass = clonedModel.classes["sap.m.Carousel"];
+        const clonedModel = cloneDeep(appContext);
+        const carouselClass = clonedModel.ui5Model.classes["sap.m.Carousel"];
         const pagesAggregation = find(
           carouselClass.aggregations,
           (_) => _.name === "pages"
@@ -756,7 +762,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
             </Carousel>`;
 
         testSuggestionsScenario({
-          model: clonedModel,
+          context: clonedModel,
           xmlText: xmlSnippet,
           providers: {
             elementName: [classesSuggestions],

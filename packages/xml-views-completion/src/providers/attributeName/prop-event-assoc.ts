@@ -43,7 +43,7 @@ const NodeKindToSuggestionType: Record<
 export function propEventAssocSuggestions(
   opts: UI5AttributeNameCompletionOptions
 ): PropEventsAssocInXMLAttributeKeyCompletion[] {
-  const ui5Model = opts.context;
+  const ui5Model = opts.context.ui5Model;
   const xmlElement = opts.element;
 
   const elementClass = getUI5ClassByXMLElement(xmlElement, ui5Model);

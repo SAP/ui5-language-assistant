@@ -1,8 +1,9 @@
 import { UnknownTagNameIssue } from "../../../api";
 import {
-  UI5SemanticModel,
+  AppContext,
   BaseUI5Node,
   UI5Class,
+  UI5SemanticModel,
 } from "@ui5-language-assistant/semantic-model-types";
 import { XMLElement, XMLToken } from "@xml-tools/ast";
 import {
@@ -32,7 +33,7 @@ const {
 
 export function validateUnknownTagName(
   xmlElement: XMLElement,
-  model: UI5SemanticModel
+  context: AppContext
 ): UnknownTagNameIssue[] {
   // Can't give an error if there is no position
   if (xmlElement.syntax.openName == undefined || xmlElement.name === null) {
@@ -46,10 +47,16 @@ export function validateUnknownTagName(
   // Get the namespace
   if (xmlElement.ns !== undefined) {
     // The cast is necessary because typescript doesn't recognize the conditions above as type guards
-    return validateTagWithNamespace(xmlElement as NamedXMLElementWithNS, model);
+    return validateTagWithNamespace(
+      xmlElement as NamedXMLElementWithNS,
+      context.ui5Model
+    );
   } else {
     // The cast is necessary because typescript doesn't recognize the condition above as a type guard
-    return validateTagWithoutNamespace(xmlElement as NamedXMLElement, model);
+    return validateTagWithoutNamespace(
+      xmlElement as NamedXMLElement,
+      context.ui5Model
+    );
   }
 }
 

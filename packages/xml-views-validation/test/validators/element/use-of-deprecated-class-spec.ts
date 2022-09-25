@@ -1,5 +1,8 @@
 import { expect } from "chai";
-import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
+import {
+  AppContext,
+  UI5SemanticModel,
+} from "@ui5-language-assistant/semantic-model-types";
 import { generate } from "@ui5-language-assistant/semantic-model";
 import { generateModel } from "@ui5-language-assistant/test-utils";
 import { validators } from "../../../src/api";
@@ -9,6 +12,7 @@ import {
 } from "../../test-utils";
 
 describe("the use of deprecated class validation", () => {
+  let appContext: AppContext;
   let ui5SemanticModel: UI5SemanticModel;
 
   before(async () => {
@@ -17,6 +21,10 @@ describe("the use of deprecated class validation", () => {
       version: "1.71.49",
       modelGenerator: generate,
     });
+    appContext = {
+      services: {},
+      ui5Model: ui5SemanticModel,
+    };
   });
 
   context("true positive scenarios", () => {
@@ -30,7 +38,7 @@ describe("the use of deprecated class validation", () => {
           </mvc:View>`;
 
       testValidationsScenario({
-        model: ui5SemanticModel,
+        context: appContext,
         xmlText: xmlSnippet,
         validators: {
           element: [validators.validateUseOfDeprecatedClass],
@@ -63,7 +71,7 @@ describe("the use of deprecated class validation", () => {
           </mvc:View>`;
 
       testValidationsScenario({
-        model: ui5SemanticModel,
+        context: appContext,
         xmlText: xmlSnippet,
         validators: {
           element: [validators.validateUseOfDeprecatedClass],
@@ -95,7 +103,7 @@ describe("the use of deprecated class validation", () => {
           </mvc:View>`;
 
       testValidationsScenario({
-        model: ui5SemanticModel,
+        context: appContext,
         xmlText: xmlSnippet,
         validators: {
           element: [validators.validateUseOfDeprecatedClass],
@@ -132,7 +140,7 @@ describe("the use of deprecated class validation", () => {
           </mvc:View>`;
 
       testValidationsScenario({
-        model: ui5SemanticModel,
+        context: appContext,
         xmlText: xmlSnippet,
         validators: {
           element: [validators.validateUseOfDeprecatedClass],
@@ -154,7 +162,7 @@ describe("the use of deprecated class validation", () => {
           </mvc:View>`;
 
       testValidationsScenario({
-        model: ui5SemanticModel,
+        context: appContext,
         xmlText: xmlSnippet,
         validators: {
           element: [validators.validateUseOfDeprecatedClass],

@@ -52,7 +52,7 @@ export function getFlexEnabledFlagForXMLFile(xmlPath: string): boolean {
     return false;
   }
 
-  return manifestData[closestManifestPath].flexEnabled;
+  return manifestData[closestManifestPath].flexEnabled ?? false;
 }
 
 export function getMinUI5VersionForXMLFile(

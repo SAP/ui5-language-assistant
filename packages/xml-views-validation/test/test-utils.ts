@@ -2,7 +2,7 @@ import { isEmpty } from "lodash";
 import { expect } from "chai";
 import { DocumentCstNode, parse } from "@xml-tools/parser";
 import { buildAst } from "@xml-tools/ast";
-import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
+import { AppContext } from "@ui5-language-assistant/semantic-model-types";
 import { OffsetRange } from "@ui5-language-assistant/logic-utils";
 import { UI5ValidatorsConfig } from "../src/validate-xml-views";
 import { UI5XMLViewIssue } from "../api";
@@ -13,7 +13,7 @@ const END_RANGE_MARKER = "🢀";
 
 export function testValidationsScenario(opts: {
   xmlText: string;
-  model: UI5SemanticModel;
+  context: AppContext;
   validators: Partial<UI5ValidatorsConfig>;
   assertion: (issues: UI5XMLViewIssue[]) => void;
 }): void {
@@ -43,7 +43,7 @@ export function testValidationsScenario(opts: {
       ...opts.validators,
     },
     xmlView: ast,
-    model: opts.model,
+    context: opts.context,
   });
   opts.assertion(issues);
 }
@@ -85,12 +85,12 @@ export function computeExpectedRange(markedXMLSnippet: string): OffsetRange {
 }
 
 export function assertNoIssues(
-  model: UI5SemanticModel,
+  context: AppContext,
   validators: Partial<UI5ValidatorsConfig>,
   xmlSnippet: string
 ): void {
   testValidationsScenario({
-    model: model,
+    context: context,
     xmlText: xmlSnippet,
     validators: validators,
     assertion: (issues) => {
@@ -100,7 +100,7 @@ export function assertNoIssues(
 }
 
 export function assertSingleIssue(
-  model: UI5SemanticModel,
+  context: AppContext,
   validators: Partial<UI5ValidatorsConfig>,
   kind: string,
   severity: string,
@@ -108,7 +108,7 @@ export function assertSingleIssue(
   message: string
 ): void {
   testValidationsScenario({
-    model: model,
+    context,
     xmlText: xmlSnippet,
     validators: validators,
     assertion: (issues) => {

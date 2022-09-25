@@ -24,6 +24,10 @@
     "node": ">=10.0.0"
   },
   "dependencies": {
+    "@sap-ux/annotation-converter": "0.5.19",
+    "@sap-ux/edmx-parser": "0.5.12",
+    "@sap-ux/vocabularies-types": "0.6.7",
+    "@sap-ux/ui5-config": "0.15.0",
     "@sap/swa-for-sapbas-vsx": "1.1.9",
     "@ui5-language-assistant/semantic-model": "3.3.1",
     "@ui5-language-assistant/settings": "3.3.1",
@@ -39,6 +43,7 @@
     "@xml-tools/parser": "1.0.7",
     "assert-never": "1.2.1",
     "fs-extra": "9.0.1",
+    "find-up": "5.0.0",
     "https-proxy-agent": "5.0.1",
     "lodash": "4.17.21",
     "node-fetch": "2.6.7",

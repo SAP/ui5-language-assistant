@@ -5,7 +5,10 @@ import {
   TextEdit,
   CompletionItem,
 } from "vscode-languageserver";
-import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
+import {
+  AppContext,
+  UI5SemanticModel,
+} from "@ui5-language-assistant/semantic-model-types";
 import {
   generateModel,
   expectExists,
@@ -20,12 +23,18 @@ import {
 
 describe("the UI5 language assistant Code Completion Services - classes", () => {
   let ui5SemanticModel: UI5SemanticModel;
+  let appContext: AppContext;
+
   before(async function () {
     ui5SemanticModel = await generateModel({
       framework: "SAPUI5",
       version: "1.71.49",
       modelGenerator: generate,
     });
+    appContext = {
+      services: {},
+      ui5Model: ui5SemanticModel,
+    };
   });
 
   /** The first (but not final) place the custor stops when inserting the completion. Pressing tab moves it to the next place. */
@@ -44,7 +53,7 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
     compareAttributes?: boolean;
   }): CompletionItem[] {
     const compareAttributes = opts.compareAttributes ?? true;
-    const suggestions = getSuggestions(opts.xmlSnippet, ui5SemanticModel);
+    const suggestions = getSuggestions(opts.xmlSnippet, appContext);
     const ranges = getRanges(opts.xmlSnippet);
 
     const suggestionsDetails = map(suggestions, (suggestion) => ({
@@ -328,7 +337,7 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
 
   it("will return valid class suggestions for empty tag with no closing bracket", () => {
     const xmlSnippet = `<⇶`;
-    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
+    const suggestions = getSuggestions(xmlSnippet, appContext);
     expect(suggestions).to.not.be.empty;
     forEach(suggestions, (suggestion) => {
       // We're not replacing any text, just adding
@@ -358,7 +367,7 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
 
   it("will return valid class suggestions for empty tag with closing bracket", () => {
     const xmlSnippet = `<⇶>`;
-    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
+    const suggestions = getSuggestions(xmlSnippet, appContext);
     expect(suggestions).to.not.be.empty;
     forEach(suggestions, (suggestion) => {
       // We're not replacing any text, just adding

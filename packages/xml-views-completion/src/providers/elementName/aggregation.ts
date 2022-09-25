@@ -18,7 +18,7 @@ import { filterMembersForSuggestion } from "../utils/filter-members";
 export function aggregationSuggestions(
   opts: UI5ElementNameCompletionOptions
 ): UI5AggregationsInXMLTagNameCompletion[] {
-  const ui5Model = opts.context;
+  const ui5Model = opts.context.ui5Model;
   const prefix = opts.prefix ?? "";
   const xmlElement = opts.element;
   const parentXMLElement = xmlElement.parent;

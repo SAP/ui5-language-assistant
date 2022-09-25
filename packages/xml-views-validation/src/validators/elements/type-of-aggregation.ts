@@ -1,6 +1,7 @@
 import { includes } from "lodash";
 import { XMLElement } from "@xml-tools/ast";
 import {
+  AppContext,
   UI5SemanticModel,
   UI5Interface,
   UI5Class,
@@ -22,17 +23,17 @@ const { INVALID_AGGREGATION_TYPE } = validations;
 
 export function validateAggregationType(
   xmlElement: XMLElement,
-  model: UI5SemanticModel
+  context: AppContext
 ): InvalidAggregationTypeIssue[] {
   // Root element can never be inside aggregation
   if (xmlElement.parent.type === "XMLDocument") {
     return [];
   }
 
-  const ui5class = getUI5ClassByXMLElement(xmlElement, model);
+  const ui5class = getUI5ClassByXMLElement(xmlElement, context.ui5Model);
   const parentAggregation = getAggregationByXMLElement(
     xmlElement.parent,
-    model
+    context.ui5Model
   );
 
   if (ui5class === undefined || parentAggregation === undefined) {

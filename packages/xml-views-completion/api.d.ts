@@ -13,8 +13,8 @@ import {
   UI5Namespace,
   UI5Prop,
   UI5Association,
-  UI5SemanticModel,
   UI5EnumValue,
+  AppContext,
 } from "@ui5-language-assistant/semantic-model-types/api";
 import { CodeAssistSettings } from "@ui5-language-assistant/settings";
 
@@ -23,7 +23,7 @@ export function getXMLViewCompletions(
 ): UI5XMLViewCompletion[];
 
 export interface GetXMLViewCompletionsOpts {
-  model: UI5SemanticModel;
+  context: AppContext;
   offset: number;
   cst: DocumentCstNode;
   ast: XMLDocument;
@@ -39,10 +39,12 @@ export type UI5CompletionNode =
   | UI5Prop
   | UI5Association
   | UI5EnumValue
-  | BooleanValue;
+  | BooleanValue
+  | AnnotationPathValue;
 
 export type UI5XMLViewCompletion =
   | UI5NodeXMLViewCompletion
+  | AnnotationPathInXMLAttributeValueCompletion
   | BooleanValueInXMLAttributeValueCompletion;
 
 export type UI5NodeXMLViewCompletion =
@@ -64,7 +66,8 @@ export type UI5XMLViewCompletionTypeName =
   | "UI5AssociationsInXMLAttributeKey"
   | "UI5NamespacesInXMLAttributeKey"
   | "UI5NamespacesInXMLAttributeValue"
-  | "BooleanValueInXMLAttributeValue";
+  | "BooleanValueInXMLAttributeValue"
+  | "AnnotationPathInXMLAttributeValue";
 
 /**
  * Note that this interface does not deal with "Editor Behavior". e.g:
@@ -142,6 +145,24 @@ export interface BooleanValue {
 export interface BooleanValueInXMLAttributeValueCompletion
   extends BaseXMLViewCompletion<XMLAttribute, BooleanValue> {
   type: "BooleanValueInXMLAttributeValue";
+}
+
+export interface AnnotationPathValue {
+  kind: "AnnotationPath";
+  name: string;
+  value: string;
+}
+
+export interface AnnotationPathCompletionDetails {
+  startString: string;
+  remainingString: string;
+  commitCharacters: string[];
+}
+
+export interface AnnotationPathInXMLAttributeValueCompletion
+  extends BaseXMLViewCompletion<XMLAttribute, AnnotationPathValue> {
+  type: "AnnotationPathInXMLAttributeValue";
+  details?: AnnotationPathCompletionDetails;
 }
 
 /** Check if the suggestion is a UI5 semantic model xml completion according to its type property */

@@ -20,7 +20,7 @@ export function getXMLViewCompletions(
     cst: opts.cst,
     ast: opts.ast,
     tokenVector: opts.tokenVector,
-    context: opts.model,
+    context: opts.context,
     providers: {
       elementContent: [],
       elementName: elementNameProviders,
@@ -85,6 +85,9 @@ export function isUI5NodeXMLViewCompletion(
       return true;
     }
     case "BooleanValueInXMLAttributeValue": {
+      return false;
+    }
+    case "AnnotationPathInXMLAttributeValue": {
       return false;
     }
     /* istanbul ignore next - defensive programming */

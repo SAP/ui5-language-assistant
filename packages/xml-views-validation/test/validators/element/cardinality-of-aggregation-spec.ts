@@ -1,5 +1,8 @@
 import { partial } from "lodash";
-import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
+import {
+  AppContext,
+  UI5SemanticModel,
+} from "@ui5-language-assistant/semantic-model-types";
 import { generateModel } from "@ui5-language-assistant/test-utils";
 import { generate } from "@ui5-language-assistant/semantic-model";
 import {
@@ -16,6 +19,7 @@ const { INVALID_AGGREGATION_CARDINALITY } = validations;
 
 describe("the cardinality aggregation validation", () => {
   let ui5SemanticModel: UI5SemanticModel;
+  let appContext: AppContext;
 
   before(async () => {
     ui5SemanticModel = await generateModel({
@@ -23,6 +27,10 @@ describe("the cardinality aggregation validation", () => {
       version: "1.71.49",
       modelGenerator: generate,
     });
+    appContext = {
+      services: {},
+      ui5Model: ui5SemanticModel,
+    };
   });
 
   context("true positive scenarios", () => {
@@ -30,7 +38,7 @@ describe("the cardinality aggregation validation", () => {
     before(() => {
       assertSingleIssue = partial(
         assertSingleIssueBase,
-        ui5SemanticModel,
+        appContext,
         {
           element: [validators.validateExplicitAggregationCardinality],
         },
@@ -95,7 +103,7 @@ describe("the cardinality aggregation validation", () => {
   context("negative edge cases", () => {
     let assertNoIssues: (xmlSnippet: string) => void;
     before(() => {
-      assertNoIssues = partial(assertNoIssuesBase, ui5SemanticModel, {
+      assertNoIssues = partial(assertNoIssuesBase, appContext, {
         element: [validators.validateExplicitAggregationCardinality],
       });
     });

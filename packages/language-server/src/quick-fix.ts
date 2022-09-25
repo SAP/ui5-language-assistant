@@ -16,7 +16,7 @@ import {
   validateXMLView,
   validators,
 } from "@ui5-language-assistant/xml-views-validation";
-import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
+import { AppContext } from "@ui5-language-assistant/semantic-model-types";
 import { computeQuickFixStableIdInfo } from "@ui5-language-assistant/xml-views-quick-fix";
 import {
   validations,
@@ -32,7 +32,7 @@ type QuickFixStableIdLSPInfo = {
 export function diagnosticToCodeActionFix(
   document: TextDocument,
   diagnostics: Diagnostic[],
-  ui5Model: UI5SemanticModel
+  context: AppContext
 ): CodeAction[] {
   const documentText = document.getText();
   // We prefer to parse the document again to avoid cache state handling
@@ -46,7 +46,7 @@ export function diagnosticToCodeActionFix(
           document,
           xmlDocument: xmlDocAst,
           nonStableIdDiagnostic: diagnostic,
-          ui5Model,
+          context,
         });
       }
       default:
@@ -61,7 +61,7 @@ function computeCodeActionsForQuickFixStableId(opts: {
   document: TextDocument;
   xmlDocument: XMLDocument;
   nonStableIdDiagnostic: Diagnostic;
-  ui5Model: UI5SemanticModel;
+  context: AppContext;
 }): CodeAction[] {
   let codeActions: CodeAction[] = [];
   const errorOffset = LSPRangeToOffsetRange(
@@ -97,7 +97,7 @@ function computeCodeActionsForQuickFixStableId(opts: {
     {
       document: opts.document,
       xmlDocument: opts.xmlDocument,
-      ui5Model: opts.ui5Model,
+      context: opts.context,
     }
   );
 
@@ -109,7 +109,7 @@ function computeCodeActionsForQuickFixStableId(opts: {
 function computeCodeActionsForQuickFixFileStableId(opts: {
   document: TextDocument;
   xmlDocument: XMLDocument;
-  ui5Model: UI5SemanticModel;
+  context: AppContext;
 }): CodeAction[] {
   const actualValidators = {
     document: [],
@@ -120,7 +120,7 @@ function computeCodeActionsForQuickFixFileStableId(opts: {
   // We re-validate intentionally to keep the flow simple & stateless
   const nonStableIdFileIssues = validateXMLView({
     validators: actualValidators,
-    model: opts.ui5Model,
+    context: opts.context,
     xmlView: opts.xmlDocument,
   });
 

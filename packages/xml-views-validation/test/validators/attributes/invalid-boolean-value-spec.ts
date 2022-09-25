@@ -1,5 +1,8 @@
 import { expect } from "chai";
-import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
+import {
+  AppContext,
+  UI5SemanticModel,
+} from "@ui5-language-assistant/semantic-model-types";
 import { generateModel } from "@ui5-language-assistant/test-utils";
 import { generate } from "@ui5-language-assistant/semantic-model";
 import { validators } from "../../../src/api";
@@ -10,6 +13,7 @@ import {
 
 describe("the invalid boolean value validation", () => {
   let ui5SemanticModel: UI5SemanticModel;
+  let appContext: AppContext;
 
   before(async () => {
     ui5SemanticModel = await generateModel({
@@ -17,6 +21,10 @@ describe("the invalid boolean value validation", () => {
       version: "1.71.49",
       modelGenerator: generate,
     });
+    appContext = {
+      services: {},
+      ui5Model: ui5SemanticModel,
+    };
   });
 
   context("true positive scenarios", () => {
@@ -29,7 +37,7 @@ describe("the invalid boolean value validation", () => {
           </mvc:View>`;
 
       testValidationsScenario({
-        model: ui5SemanticModel,
+        context: appContext,
         xmlText: xmlSnippet,
         validators: {
           attribute: [validators.validateBooleanValue],
@@ -59,7 +67,7 @@ describe("the invalid boolean value validation", () => {
           </mvc:View>`;
 
       testValidationsScenario({
-        model: ui5SemanticModel,
+        context: appContext,
         xmlText: xmlSnippet,
         validators: {
           attribute: [validators.validateBooleanValue],
@@ -79,7 +87,7 @@ describe("the invalid boolean value validation", () => {
           </mvc:View>`;
 
       testValidationsScenario({
-        model: ui5SemanticModel,
+        context: appContext,
         xmlText: xmlSnippet,
         validators: {
           attribute: [validators.validateBooleanValue],
@@ -99,7 +107,7 @@ describe("the invalid boolean value validation", () => {
         </mvc:View1>`;
 
       testValidationsScenario({
-        model: ui5SemanticModel,
+        context: appContext,
         xmlText: xmlSnippet,
         validators: {
           attribute: [validators.validateBooleanValue],
@@ -119,7 +127,7 @@ describe("the invalid boolean value validation", () => {
         </mvc:View>`;
 
       testValidationsScenario({
-        model: ui5SemanticModel,
+        context: appContext,
         xmlText: xmlSnippet,
         validators: {
           attribute: [validators.validateBooleanValue],
@@ -139,7 +147,7 @@ describe("the invalid boolean value validation", () => {
       </mvc:View>`;
 
       testValidationsScenario({
-        model: ui5SemanticModel,
+        context: appContext,
         xmlText: xmlSnippet,
         validators: {
           attribute: [validators.validateBooleanValue],
@@ -159,7 +167,7 @@ describe("the invalid boolean value validation", () => {
         </mvc:View>`;
 
       testValidationsScenario({
-        model: ui5SemanticModel,
+        context: appContext,
         xmlText: xmlSnippet,
         validators: {
           attribute: [validators.validateBooleanValue],

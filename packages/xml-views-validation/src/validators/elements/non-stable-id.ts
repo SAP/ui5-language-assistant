@@ -1,7 +1,7 @@
 import { some, includes } from "lodash";
 import { XMLElement } from "@xml-tools/ast";
 import { resolveXMLNS } from "@ui5-language-assistant/logic-utils";
-import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
+import { AppContext } from "@ui5-language-assistant/semantic-model-types";
 import {
   validations,
   buildMessage,
@@ -17,7 +17,7 @@ const { NON_STABLE_ID } = validations;
 
 export function validateNonStableId(
   xmlElement: XMLElement,
-  model: UI5SemanticModel
+  context: AppContext
 ): NonStableIDIssue[] {
   // Can't give an error if there is no position or name
   if (xmlElement.name === null || xmlElement.syntax.openName === undefined) {
@@ -31,7 +31,7 @@ export function validateNonStableId(
   if (
     // @ts-expect-error - we already checked that xmlElement.name is not null
     !isPossibleCustomClass(xmlElement) &&
-    !isKnownUI5Class(xmlElement, model)
+    !isKnownUI5Class(xmlElement, context.ui5Model)
   ) {
     return [];
   }

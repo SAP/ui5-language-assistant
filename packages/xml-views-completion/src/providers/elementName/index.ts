@@ -5,11 +5,11 @@ import {
   ElementNameCompletionOptions,
 } from "@xml-tools/content-assist";
 import { UI5XMLViewCompletion } from "../../../api";
-import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
+import { AppContext } from "@ui5-language-assistant/semantic-model-types";
 
 export const elementNameProviders: ElementNameCompletion<
   UI5XMLViewCompletion,
-  UI5SemanticModel
+  AppContext
 >[] = [aggregationSuggestions, classesSuggestions];
 
-export type UI5ElementNameCompletionOptions = ElementNameCompletionOptions<UI5SemanticModel>;
+export type UI5ElementNameCompletionOptions = ElementNameCompletionOptions<AppContext>;

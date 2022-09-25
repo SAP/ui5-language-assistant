@@ -2,7 +2,10 @@ import { expect } from "chai";
 import { find, partial } from "lodash";
 import { DocumentCstNode, parse } from "@xml-tools/parser";
 import { buildAst } from "@xml-tools/ast";
-import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
+import {
+  AppContext,
+  UI5SemanticModel,
+} from "@ui5-language-assistant/semantic-model-types";
 import {
   generateModel,
   expectExists,
@@ -16,6 +19,7 @@ import {
 
 describe("the unknown attribute name validation", () => {
   let ui5SemanticModel: UI5SemanticModel;
+  let appContext: AppContext;
 
   before(async () => {
     ui5SemanticModel = await generateModel({
@@ -23,6 +27,10 @@ describe("the unknown attribute name validation", () => {
       version: "1.71.49",
       modelGenerator: generate,
     });
+    appContext = {
+      services: {},
+      ui5Model: ui5SemanticModel,
+    };
   });
 
   context("true positive scenarios", () => {
@@ -30,7 +38,7 @@ describe("the unknown attribute name validation", () => {
     before(() => {
       assertSingleIssue = partial(
         assertSingleIssueBase,
-        ui5SemanticModel,
+        appContext,
         {
           attribute: [validators.validateUnknownAttributeKey],
         },
@@ -203,7 +211,7 @@ describe("the unknown attribute name validation", () => {
   context("negative edge cases", () => {
     let assertNoIssues: (xmlSnippet: string) => void;
     before(() => {
-      assertNoIssues = partial(assertNoIssuesBase, ui5SemanticModel, {
+      assertNoIssues = partial(assertNoIssuesBase, appContext, {
         attribute: [validators.validateUnknownAttributeKey],
       });
     });
@@ -439,7 +447,7 @@ describe("the unknown attribute name validation", () => {
         };
         const issues = validators.validateUnknownAttributeKey(
           attrWithoutKey,
-          ui5SemanticModel
+          appContext
         );
         expect(issues).to.be.empty;
       });

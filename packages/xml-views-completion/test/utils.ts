@@ -1,4 +1,7 @@
-import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
+import {
+  AppContext,
+  UI5SemanticModel,
+} from "@ui5-language-assistant/semantic-model-types";
 import { DocumentCstNode, parse } from "@xml-tools/parser";
 import {
   buildAst,
@@ -14,20 +17,20 @@ import { UI5XMLViewCompletion } from "../api";
 
 export function testSuggestionsScenario(opts: {
   xmlText: string;
-  model: UI5SemanticModel;
-  providers: SuggestionProviders<UI5XMLViewCompletion, UI5SemanticModel>;
+  context: AppContext;
+  providers: SuggestionProviders<UI5XMLViewCompletion, AppContext>;
   assertion: (x: UI5XMLViewCompletion[]) => void;
 }): void {
   const realXmlText = opts.xmlText.replace("⇶", "");
   const offset = opts.xmlText.indexOf("⇶");
   const { cst, tokenVector } = parse(realXmlText);
   const ast = buildAst(cst as DocumentCstNode, tokenVector);
-  const suggestions = getSuggestions<UI5XMLViewCompletion, UI5SemanticModel>({
+  const suggestions = getSuggestions<UI5XMLViewCompletion, AppContext>({
     offset: offset,
     cst: cst as DocumentCstNode,
     ast: ast,
     tokenVector: tokenVector,
-    context: opts.model,
+    context: opts.context,
     providers: opts.providers,
   });
 

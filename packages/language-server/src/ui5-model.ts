@@ -5,6 +5,7 @@ import semver from "semver";
 import semverMinSatisfying from "semver/ranges/min-satisfying";
 
 import {
+  ManifestDetails,
   UI5Framework,
   UI5SemanticModel,
 } from "@ui5-language-assistant/semantic-model-types";
@@ -23,48 +24,8 @@ import {
   getVersionJsonUrl,
 } from "./ui5-helper";
 
-export async function getSemanticModel(
-  modelCachePath: string | undefined,
-  framework: UI5Framework,
-  version: string | undefined,
-  ignoreCache?: boolean
-): Promise<UI5SemanticModel> {
-  return getSemanticModelWithFetcher(
-    fetch,
-    modelCachePath,
-    framework,
-    version,
-    ignoreCache
-  );
-}
-
-// cache the semantic model creation promise to ensure unique instances per version
-const semanticModelCache: Record<
-  string,
-  Promise<UI5SemanticModel>
-> = Object.create(null);
 // This function is exported for testing purposes (using a mock fetcher)
-export async function getSemanticModelWithFetcher(
-  fetcher: Fetcher,
-  modelCachePath: string | undefined,
-  framework: UI5Framework,
-  version: string | undefined,
-  ignoreCache?: boolean
-): Promise<UI5SemanticModel> {
-  const cacheKey = `${framework || "INVALID"}:${version || "INVALID"}`;
-  if (ignoreCache || semanticModelCache[cacheKey] === undefined) {
-    semanticModelCache[cacheKey] = createSemanticModelWithFetcher(
-      fetcher,
-      modelCachePath,
-      framework,
-      version
-    );
-  }
-  return semanticModelCache[cacheKey];
-}
-
-// This function is exported for testing purposes (using a mock fetcher)
-async function createSemanticModelWithFetcher(
+export async function createSemanticModelWithFetcher(
   fetcher: Fetcher,
   modelCachePath: string | undefined,
   framework: UI5Framework,

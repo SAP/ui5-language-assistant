@@ -1,13 +1,13 @@
 import { find, includes } from "lodash";
 import { XMLAttribute } from "@xml-tools/ast";
-import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
+import { AppContext } from "@ui5-language-assistant/semantic-model-types";
 import { findSymbol } from "@ui5-language-assistant/semantic-model";
 import { isXMLNamespaceKey } from "@xml-tools/common";
 import { UnknownNamespaceInXmlnsAttributeValueIssue } from "../../../api";
 
 export function validateUnknownXmlnsNamespace(
   attribute: XMLAttribute,
-  model: UI5SemanticModel
+  context: AppContext
 ): UnknownNamespaceInXmlnsAttributeValueIssue[] {
   const attributeName = attribute.key;
   if (
@@ -35,7 +35,7 @@ export function validateUnknownXmlnsNamespace(
   // Additionally, customers can develop in custom namespaces, even those that start with "sap", and we don't want to give false positives.
   // But sap library namespaces (i.e. first-level namespaces under "sap") can be considered reserved.
   /* istanbul ignore next - defensive programming - "sap" namespace should always exist in production scenarios */
-  const reservedNamespaceRoots = model.namespaces["sap"]?.namespaces;
+  const reservedNamespaceRoots = context.ui5Model.namespaces["sap"]?.namespaces;
   if (
     find(reservedNamespaceRoots, (_, fqn) =>
       attributeValue.startsWith(fqn + ".")
@@ -46,7 +46,7 @@ export function validateUnknownXmlnsNamespace(
 
   // Find the namespace. In most cases it would actually be a namespace but some classes are defined inside other things
   // (e.g. sap.gantt.legend which is an Enum in 1.71.*)
-  if (findSymbol(model, attributeValue) === undefined) {
+  if (findSymbol(context.ui5Model, attributeValue) === undefined) {
     return [
       {
         kind: "UnknownNamespaceInXmlnsAttributeValue",

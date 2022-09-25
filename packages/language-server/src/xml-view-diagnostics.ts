@@ -8,7 +8,7 @@ import {
 import { TextDocument } from "vscode-languageserver-textdocument";
 import { DocumentCstNode, parse } from "@xml-tools/parser";
 import { buildAst } from "@xml-tools/ast";
-import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
+import { AppContext } from "@ui5-language-assistant/semantic-model-types";
 import {
   validations,
   DIAGNOSTIC_SOURCE,
@@ -25,7 +25,7 @@ import { offsetRangeToLSPRange } from "./range-utils";
 
 export function getXMLViewDiagnostics(opts: {
   document: TextDocument;
-  ui5Model: UI5SemanticModel;
+  context: AppContext;
   flexEnabled?: boolean;
 }): Diagnostic[] {
   const documentText = opts.document.getText();
@@ -38,7 +38,7 @@ export function getXMLViewDiagnostics(opts: {
   const issues = validateXMLView({
     validators: actualValidators,
     xmlView: xmlDocAst,
-    model: opts.ui5Model,
+    context: opts.context,
   });
   const diagnostics = validationIssuesToLspDiagnostics(issues, opts.document);
   return diagnostics;

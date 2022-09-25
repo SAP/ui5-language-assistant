@@ -20,6 +20,9 @@
     "test": "echo nothing to test",
     "coverage": "echo nothing to test"
   },
+  "devDependencies": {
+    "@sap-ux/vocabularies-types": "0.6.7"
+  },
   "publishConfig": {
     "access": "public"
   }

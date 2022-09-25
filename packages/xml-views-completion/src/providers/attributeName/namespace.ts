@@ -18,7 +18,7 @@ import { UI5NamespacesInXMLAttributeKeyCompletion } from "../../../api";
 export function namespaceKeysSuggestions(
   opts: UI5AttributeNameCompletionOptions
 ): UI5NamespacesInXMLAttributeKeyCompletion[] {
-  const ui5Model = opts.context;
+  const ui5Model = opts.context.ui5Model;
   const xmlElement = opts.element;
 
   if (opts.prefix === undefined) {

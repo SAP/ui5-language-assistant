@@ -18,7 +18,10 @@ import {
   XMLElement,
   XMLDocument,
 } from "@xml-tools/ast";
-import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
+import {
+  AppContext,
+  UI5SemanticModel,
+} from "@ui5-language-assistant/semantic-model-types";
 import {
   getXMLViewCompletions,
   UI5XMLViewCompletion,
@@ -31,7 +34,7 @@ import { Settings } from "@ui5-language-assistant/settings";
 import { assertNever } from "assert-never";
 
 export function getCompletionItems(opts: {
-  model: UI5SemanticModel;
+  context: AppContext;
   textDocumentPosition: TextDocumentPositionParams;
   document: TextDocument;
   documentSettings: Settings;
@@ -40,7 +43,7 @@ export function getCompletionItems(opts: {
   const { cst, tokenVector } = parse(documentText);
   const ast = buildAst(cst as DocumentCstNode, tokenVector);
   const suggestions = getXMLViewCompletions({
-    model: opts.model,
+    context: opts.context,
     offset: opts.document.offsetAt(opts.textDocumentPosition.position),
     cst: cst as DocumentCstNode,
     ast: ast,
@@ -50,7 +53,7 @@ export function getCompletionItems(opts: {
 
   const completionItems = transformToLspSuggestions(
     suggestions,
-    opts.model,
+    opts.context.ui5Model,
     opts.textDocumentPosition
   );
   return completionItems;
@@ -107,6 +110,8 @@ export function computeLSPKind(
       return CompletionItemKind.Event;
     case "UI5EnumsInXMLAttributeValue":
       return CompletionItemKind.EnumMember;
+    case "AnnotationPathInXMLAttributeValue":
+      return CompletionItemKind.Value;
     case "BooleanValueInXMLAttributeValue":
       return CompletionItemKind.Constant;
     default:

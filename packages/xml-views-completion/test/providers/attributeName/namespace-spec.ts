@@ -1,6 +1,7 @@
 import { expect } from "chai";
 import { difference, partial } from "lodash";
 import {
+  AppContext,
   UI5Aggregation,
   UI5Association,
   UI5Class,
@@ -146,6 +147,7 @@ const expectNamespaceKeysSuggestions = partial(expectSuggestions, (_) => {
 
 describe("The ui5-language-assistant xml-views-completion", () => {
   let ui5SemanticModel: UI5SemanticModel;
+  let appContext: AppContext;
 
   before(async () => {
     ui5SemanticModel = await generateModel({
@@ -153,6 +155,10 @@ describe("The ui5-language-assistant xml-views-completion", () => {
       version: "1.71.49",
       modelGenerator: generate,
     });
+    appContext = {
+      services: {},
+      ui5Model: ui5SemanticModel,
+    };
   });
 
   context("namespaces", () => {
@@ -164,7 +170,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           xmlns:mvc="sap.ui.core.mvc">
         </mvc:View>`;
         testSuggestionsScenario({
-          model: ui5SemanticModel,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             attributeName: [namespaceKeysSuggestions],
@@ -186,7 +192,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           xmlns="sap.m" enable="true">
         </mvc:View>`;
         testSuggestionsScenario({
-          model: ui5SemanticModel,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             attributeName: [namespaceKeysSuggestions],
@@ -209,7 +215,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           xmlns:suite="">
         </mvc:View>`;
         testSuggestionsScenario({
-          model: ui5SemanticModel,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             attributeName: [namespaceKeysSuggestions],
@@ -241,7 +247,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           xmlns:m>
         </mvc:View>`;
         testSuggestionsScenario({
-          model: ui5SemanticModel,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             attributeName: [namespaceKeysSuggestions],
@@ -260,7 +266,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           xmlns="sap.m">
         </mvc:View>`;
         testSuggestionsScenario({
-          model: ui5SemanticModel,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             attributeName: [namespaceKeysSuggestions],
@@ -281,7 +287,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
             </Page1>
           </mvc:View>`;
         testSuggestionsScenario({
-          model: ui5SemanticModel,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             attributeName: [namespaceKeysSuggestions],

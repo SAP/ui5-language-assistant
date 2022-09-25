@@ -9,7 +9,10 @@ import {
   TextEdit,
   Range,
 } from "vscode-languageserver";
-import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
+import {
+  AppContext,
+  UI5SemanticModel,
+} from "@ui5-language-assistant/semantic-model-types";
 import { expectExists } from "@ui5-language-assistant/test-utils";
 import { getCompletionItems } from "../src/completion-items";
 import { Settings, getDefaultSettings } from "@ui5-language-assistant/settings";
@@ -26,7 +29,7 @@ export function getTagName(textEdit: TextEdit | undefined): string | undefined {
 /** Use ⇶ to mark the cursor position */
 export function getSuggestions(
   xmlSnippet: string,
-  ui5SemanticModel: UI5SemanticModel,
+  context: AppContext,
   settings?: Partial<Settings>
 ): CompletionItem[] {
   const { document, position } = getXmlSnippetDocument(xmlSnippet);
@@ -46,7 +49,7 @@ export function getSuggestions(
   ) as Settings;
 
   const suggestions = getCompletionItems({
-    model: ui5SemanticModel,
+    context,
     textDocumentPosition: textDocPositionParams,
     document,
     documentSettings: allSettings,

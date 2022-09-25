@@ -3,8 +3,8 @@
   "compilerOptions": {
     "composite": true,
     "module": "commonjs",
-    "lib": ["es7"],
-    "target": "es2017",
+    "lib": ["ES2019"],
+    "target": "ES2019",
     "declaration": true,
     "sourceMap": true,
     "resolveJsonModule": true,

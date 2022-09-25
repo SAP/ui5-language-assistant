@@ -3,6 +3,7 @@ import { find, map, forEach } from "lodash";
 import { buildAst, XMLElement } from "@xml-tools/ast";
 import { DocumentCstNode, parse } from "@xml-tools/parser";
 import {
+  AppContext,
   UI5Aggregation,
   UI5SemanticModel,
 } from "@ui5-language-assistant/semantic-model-types";
@@ -15,6 +16,7 @@ import { UI5XMLViewCompletion } from "../api";
 
 describe("The `getXMLViewCompletions()` api", () => {
   let REAL_UI5_MODEL: UI5SemanticModel;
+  let appContext: AppContext;
 
   before(async function () {
     REAL_UI5_MODEL = await generateModel({
@@ -22,6 +24,10 @@ describe("The `getXMLViewCompletions()` api", () => {
       version: "1.71.49",
       modelGenerator: generate,
     });
+    appContext = {
+      services: {},
+      ui5Model: REAL_UI5_MODEL,
+    };
   });
 
   it("will filter none public/protected suggestions", () => {
@@ -43,7 +49,7 @@ describe("The `getXMLViewCompletions()` api", () => {
     expect(_contentAggregation.visibility).to.equal("hidden");
 
     testSuggestionsScenario({
-      model: REAL_UI5_MODEL,
+      context: appContext,
       xmlText: xmlSnippet,
       assertion: (suggestions) => {
         const suggestedNames = map(suggestions, (_) => _.ui5Node.name);
@@ -64,7 +70,7 @@ describe("The `getXMLViewCompletions()` api", () => {
           </mvc:View>`;
 
     testSuggestionsScenario({
-      model: REAL_UI5_MODEL,
+      context: appContext,
       xmlText: xmlSnippet,
       assertion: (suggestions) => {
         const suggestedNames = map(suggestions, (_) => _.ui5Node.name);
@@ -99,7 +105,7 @@ describe("The `getXMLViewCompletions()` api", () => {
         </mvc:View>`;
 
       testSuggestionsScenario({
-        model: REAL_UI5_MODEL,
+        context: appContext,
         xmlText: xmlSnippet,
         assertion: (suggestions) => {
           forEach(suggestions, (_) => {
@@ -129,7 +135,7 @@ describe("The `getXMLViewCompletions()` api", () => {
       // Check that it's returned when settings allow experimental
       testSuggestionsScenario({
         xmlText: xmlSnippet,
-        model: REAL_UI5_MODEL,
+        context: appContext,
         settings: ALLOW_ALL_SUGGESTIONS,
         assertion: (suggestionsAllAllowed) => {
           const suggestionNamesWithAllAllowed = map(
@@ -148,7 +154,7 @@ describe("The `getXMLViewCompletions()` api", () => {
       // Check that it's not returned when settings don't allow experimental
       testSuggestionsScenario({
         xmlText: xmlSnippet,
-        model: REAL_UI5_MODEL,
+        context: appContext,
         settings: settings,
         assertion: (suggestionsWithSentSettings) => {
           const suggestionNamesWithSentSettings = map(
@@ -176,7 +182,7 @@ describe("The `getXMLViewCompletions()` api", () => {
           </m:View>`;
         testSuggestionsScenario({
           xmlText: xmlSnippet,
-          model: REAL_UI5_MODEL,
+          context: appContext,
           settings: NO_EXPERIMENTAL_SUGGESTIONS,
           assertion: (suggestionsWithoutExperimental) => {
             const suggestionNames = map(
@@ -277,7 +283,7 @@ describe("The `getXMLViewCompletions()` api", () => {
           </m:View>`;
         testSuggestionsScenario({
           xmlText: xmlSnippet,
-          model: REAL_UI5_MODEL,
+          context: appContext,
           settings: NO_DEPRECATED_SUGGESTIONS,
           assertion: (suggestionsWithoutDeprecated) => {
             const suggestionNames = map(
@@ -391,7 +397,7 @@ describe("The `getXMLViewCompletions()` api", () => {
         busy="⇶">`;
     testSuggestionsScenario({
       xmlText: xmlSnippet,
-      model: REAL_UI5_MODEL,
+      context: appContext,
       settings: NO_DEPRECATED_OR_EXPERIMENTAL,
       assertion: (suggestions) => {
         const suggestionNames = map(suggestions, (_) => _.ui5Node.name);
@@ -403,7 +409,7 @@ describe("The `getXMLViewCompletions()` api", () => {
 
 export function testSuggestionsScenario(opts: {
   xmlText: string;
-  model: UI5SemanticModel;
+  context: AppContext;
   settings?: CodeAssistSettings;
   assertion: (suggestions: UI5XMLViewCompletion[]) => void;
 }): void {
@@ -423,7 +429,7 @@ export function testSuggestionsScenario(opts: {
     cst: cst as DocumentCstNode,
     ast: ast,
     tokenVector: tokenVector,
-    model: opts.model,
+    context: opts.context,
     settings: settings,
   });
 

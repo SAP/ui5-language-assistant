@@ -1,5 +1,8 @@
 import { expect } from "chai";
-import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
+import {
+  AppContext,
+  UI5SemanticModel,
+} from "@ui5-language-assistant/semantic-model-types";
 import { generateModel } from "@ui5-language-assistant/test-utils";
 import { generate } from "@ui5-language-assistant/semantic-model";
 import {
@@ -17,6 +20,7 @@ const { NON_UNIQUE_ID } = validations;
 
 describe("the use of non unique id validation", () => {
   let ui5SemanticModel: UI5SemanticModel;
+  let appContext: AppContext;
 
   let testNonUniqueIDScenario: (opts: {
     xmlText: string;
@@ -29,10 +33,14 @@ describe("the use of non unique id validation", () => {
       version: "1.71.49",
       modelGenerator: generate,
     });
+    appContext = {
+      services: {},
+      ui5Model: ui5SemanticModel,
+    };
 
     testNonUniqueIDScenario = (opts): void =>
       testValidationsScenario({
-        model: ui5SemanticModel,
+        context: appContext,
         validators: {
           document: [validators.validateNonUniqueID],
         },

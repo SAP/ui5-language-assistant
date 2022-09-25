@@ -10,7 +10,9 @@ import {
   UI5SemanticModel,
   UI5Type,
   UI5DeprecatedInfo,
+  AppContext,
 } from "@ui5-language-assistant/semantic-model-types";
+import { AnnotationTerm } from "./src/api";
 
 export interface OffsetRange {
   start: number;
@@ -262,3 +264,38 @@ export function isSameXMLNSFromPrefix(
   prefix2: string | undefined,
   xmlElement2: XMLElement
 ): boolean;
+
+/**
+ * Searches for top-most parent XMLElement
+ * @param element
+ */
+export function getRootElement(element: XMLElement): XMLElement;
+
+/**
+ * Returns XML element attribute value
+ * @param element - current element
+ * @param attributeName - attribute name
+ */
+export function getElementAttributeValue(
+  element: XMLElement,
+  attributeName: string
+): string | null | undefined;
+
+/**
+ * Searches for controllerName attribute in the root XML element above the current
+ * and returns entitySet name defined in custom view referenced by controllerName
+ * @param element - current element
+ * @param context - context object
+ */
+export function getEntitySetFromController(
+  element: XMLElement,
+  context: AppContext
+): string | undefined;
+
+/**
+ * Returns allowed annotation terms for XML element representing UI control
+ * @param controlName - element name
+ */
+export function getAllowedAnnotationsTermsForControl(
+  controlName: string
+): AnnotationTerm[];

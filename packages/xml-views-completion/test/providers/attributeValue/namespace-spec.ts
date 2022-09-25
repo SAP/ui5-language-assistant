@@ -1,6 +1,9 @@
 import { expect } from "chai";
 import { partial } from "lodash";
-import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
+import {
+  AppContext,
+  UI5SemanticModel,
+} from "@ui5-language-assistant/semantic-model-types";
 import { ui5NodeToFQN } from "@ui5-language-assistant/logic-utils";
 import { UI5NamespacesInXMLAttributeValueCompletion } from "@ui5-language-assistant/xml-views-completion";
 import { generate } from "@ui5-language-assistant/semantic-model";
@@ -23,12 +26,18 @@ const expectNamespaceValuesSuggestions = partial(expectSuggestions, (_) => {
 
 describe("The ui5-editor-tools xml-views-completion", () => {
   let ui5SemanticModel: UI5SemanticModel;
+  let appContext: AppContext;
+
   before(async () => {
     ui5SemanticModel = await generateModel({
       framework: "SAPUI5",
       version: "1.71.49",
       modelGenerator: generate,
     });
+    appContext = {
+      services: {},
+      ui5Model: ui5SemanticModel,
+    };
   });
 
   context("namespaces values", () => {
@@ -41,7 +50,7 @@ describe("The ui5-editor-tools xml-views-completion", () => {
           </mvc:View>`;
 
         testSuggestionsScenario({
-          model: ui5SemanticModel,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             attributeValue: [namespaceValueSuggestions],
@@ -65,7 +74,7 @@ describe("The ui5-editor-tools xml-views-completion", () => {
           </mvc:View>`;
 
         testSuggestionsScenario({
-          model: ui5SemanticModel,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             attributeValue: [namespaceValueSuggestions],
@@ -87,7 +96,7 @@ describe("The ui5-editor-tools xml-views-completion", () => {
           </mvc:View>`;
 
         testSuggestionsScenario({
-          model: ui5SemanticModel,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             attributeValue: [namespaceValueSuggestions],
@@ -108,7 +117,7 @@ describe("The ui5-editor-tools xml-views-completion", () => {
           </mvc:View>`;
 
         testSuggestionsScenario({
-          model: ui5SemanticModel,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             attributeValue: [namespaceValueSuggestions],
@@ -132,7 +141,7 @@ describe("The ui5-editor-tools xml-views-completion", () => {
           </mvc:View>`;
 
         testSuggestionsScenario({
-          model: ui5SemanticModel,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             attributeValue: [namespaceValueSuggestions],
@@ -157,7 +166,7 @@ describe("The ui5-editor-tools xml-views-completion", () => {
           </mvc:View>`;
 
         testSuggestionsScenario({
-          model: ui5SemanticModel,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             attributeValue: [namespaceValueSuggestions],
@@ -180,7 +189,7 @@ describe("The ui5-editor-tools xml-views-completion", () => {
           </mvc:View>`;
 
         testSuggestionsScenario({
-          model: ui5SemanticModel,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             attributeValue: [namespaceValueSuggestions],
@@ -204,7 +213,7 @@ describe("The ui5-editor-tools xml-views-completion", () => {
         </mvc:Controller1>`;
 
         testSuggestionsScenario({
-          model: ui5SemanticModel,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             attributeValue: [namespaceValueSuggestions],
@@ -221,7 +230,7 @@ describe("The ui5-editor-tools xml-views-completion", () => {
         const xmlAttribute = createXMLAttribute("dummy", null, null, {});
         const suggestions = namespaceValueSuggestions({
           attribute: xmlAttribute,
-          context: ui5SemanticModel,
+          context: appContext,
           element: xmlAttribute.parent,
           prefix: "",
         });

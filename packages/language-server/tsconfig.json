@@ -2,6 +2,7 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "rootDir": ".",
+    "lib": ["ES2019", "DOM"],
     "outDir": "lib",
     "baseUrl": "."
   },

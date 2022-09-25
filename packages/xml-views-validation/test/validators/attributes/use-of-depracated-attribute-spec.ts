@@ -2,7 +2,10 @@ import { partial, find } from "lodash";
 import { expect } from "chai";
 import { parse, DocumentCstNode } from "@xml-tools/parser";
 import { buildAst } from "@xml-tools/ast";
-import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
+import {
+  AppContext,
+  UI5SemanticModel,
+} from "@ui5-language-assistant/semantic-model-types";
 import {
   generateModel,
   expectExists,
@@ -20,6 +23,7 @@ import {
 
 describe("the use of deprecated attribute validation", () => {
   let ui5SemanticModel: UI5SemanticModel;
+  let appContext: AppContext;
 
   before(async () => {
     ui5SemanticModel = await generateModel({
@@ -27,6 +31,10 @@ describe("the use of deprecated attribute validation", () => {
       version: "1.71.49",
       modelGenerator: generate,
     });
+    appContext = {
+      services: {},
+      ui5Model: ui5SemanticModel,
+    };
   });
 
   context("true positive scenarios", () => {
@@ -36,7 +44,7 @@ describe("the use of deprecated attribute validation", () => {
       issueKind: string
     ) {
       return assertSingleIssueBase(
-        ui5SemanticModel,
+        appContext,
         {
           attribute: [validators.validateUseOfDeprecatedAttribute],
         },
@@ -135,7 +143,7 @@ describe("the use of deprecated attribute validation", () => {
   context("negative edge cases", () => {
     let assertNoIssues: (xmlSnippet: string) => void;
     before(() => {
-      assertNoIssues = partial(assertNoIssuesBase, ui5SemanticModel, {
+      assertNoIssues = partial(assertNoIssuesBase, appContext, {
         attribute: [validators.validateUseOfDeprecatedAttribute],
       });
     });
@@ -188,7 +196,7 @@ describe("the use of deprecated attribute validation", () => {
 
       const issues = validators.validateUseOfDeprecatedAttribute(
         attrWithoutKey,
-        ui5SemanticModel
+        appContext
       );
 
       expect(issues).to.be.empty;

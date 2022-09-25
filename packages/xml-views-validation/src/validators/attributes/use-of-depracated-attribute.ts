@@ -1,7 +1,7 @@
 import { assertNever } from "assert-never";
 import { XMLAttribute } from "@xml-tools/ast";
 import {
-  UI5SemanticModel,
+  AppContext,
   UI5Prop,
   UI5Event,
   UI5Association,
@@ -22,14 +22,14 @@ type DeprecatedAttributeIssueKind =
 
 export function validateUseOfDeprecatedAttribute(
   attribute: XMLAttribute,
-  model: UI5SemanticModel
+  context: AppContext
 ): UseOfDeprecatedAttributeIssue[] {
   if (attribute.syntax.key === undefined || attribute.key === null) {
     // Can't give an error without a position or key name
     return [];
   }
 
-  const ui5Node = getUI5NodeByXMLAttribute(attribute, model);
+  const ui5Node = getUI5NodeByXMLAttribute(attribute, context.ui5Model);
 
   if (ui5Node === undefined || ui5Node.deprecatedInfo === undefined) {
     return [];
@@ -39,7 +39,7 @@ export function validateUseOfDeprecatedAttribute(
     kind: getDeprecatedAttributeIssueKind(ui5Node),
     message: buildDeprecatedIssueMessage({
       symbol: ui5Node as DeprecatedUI5Symbol,
-      model,
+      model: context.ui5Model,
     }),
     severity: "warn",
     offsetRange: {

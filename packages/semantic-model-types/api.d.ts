@@ -1,4 +1,23 @@
+import type { ConvertedMetadata } from "@sap-ux/vocabularies-types";
 export type UI5Framework = "OpenUI5" | "SAPUI5";
+
+export interface AppContext {
+  services: Record<string, ServiceDetails>;
+  manifest?: ManifestDetails;
+  ui5Model: UI5SemanticModel;
+}
+
+export type ManifestDetails = {
+  flexEnabled: boolean | undefined;
+  minUI5Version: string | undefined;
+  mainServicePath?: string;
+  customViews: { [name: string]: { entitySet: string } };
+};
+
+export interface ServiceDetails {
+  path: string;
+  convertedMetadata: ConvertedMetadata;
+}
 
 export interface UI5SemanticModel {
   version?: string;

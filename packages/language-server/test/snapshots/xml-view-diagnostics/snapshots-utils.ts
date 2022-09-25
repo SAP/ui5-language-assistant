@@ -5,7 +5,10 @@ import { readJsonSync, readFileSync } from "fs-extra";
 import { expect } from "chai";
 import { sortBy, forEachRight, map, cloneDeep, forEach } from "lodash";
 import { generateModel } from "@ui5-language-assistant/test-utils";
-import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
+import {
+  AppContext,
+  UI5SemanticModel,
+} from "@ui5-language-assistant/semantic-model-types";
 import { generate } from "@ui5-language-assistant/semantic-model";
 import { getXMLViewDiagnostics } from "../../../src/xml-view-diagnostics";
 
@@ -106,6 +109,10 @@ export async function computeNewDiagnosticLSPResponse(
   // No top level await
   ui5Model = await ui5ModelPromise;
 
+  const appContext: AppContext = {
+    services: {},
+    ui5Model,
+  };
   const xmlTextSnippet = readInputXMLSnippet(testDir);
   const xmlTextDoc = TextDocument.create(
     `file://${getInputXMLSnippetPath(testDir)}`,
@@ -116,7 +123,7 @@ export async function computeNewDiagnosticLSPResponse(
 
   const actualDiagnostics = getXMLViewDiagnostics({
     document: xmlTextDoc,
-    ui5Model,
+    context: appContext,
     flexEnabled: options ? options.flexEnabled : false,
   });
 
