@@ -1,4 +1,4 @@
-import { partial, find } from "lodash";
+import { partial } from "lodash";
 import { expect } from "chai";
 import { parse, DocumentCstNode } from "@xml-tools/parser";
 import { buildAst } from "@xml-tools/ast";
