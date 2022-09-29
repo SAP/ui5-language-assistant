@@ -5,6 +5,7 @@ export interface AppContext {
   services: Record<string, ServiceDetails>;
   manifest?: ManifestDetails;
   ui5Model: UI5SemanticModel;
+  customViewId?: string;
 }
 
 export type ManifestDetails = {

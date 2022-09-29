@@ -282,17 +282,6 @@ export function getElementAttributeValue(
 ): string | null | undefined;
 
 /**
- * Searches for controllerName attribute in the root XML element above the current
- * and returns entitySet name defined in custom view referenced by controllerName
- * @param element - current element
- * @param context - context object
- */
-export function getEntitySetFromController(
-  element: XMLElement,
-  context: AppContext
-): string | undefined;
-
-/**
  * Returns allowed annotation terms for XML element representing UI control
  * @param controlName - element name
  */

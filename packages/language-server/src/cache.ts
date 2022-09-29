@@ -1,6 +1,6 @@
 import { readFile } from "fs/promises";
 import { fileURLToPath } from "url";
-import { sep, normalize, join } from "path";
+import { sep, normalize, join, parse as pathParser } from "path";
 
 import { Fetcher } from "api";
 import fetch from "node-fetch";
@@ -165,7 +165,30 @@ async function getProjectTypeAndKind(
     };
   }
 }
-
+/**
+ * Get custom view id.
+ * Id of a `.view.xml` or `.fragment.xml` is calculated based on manifest app id and relative file from app root folder
+ */
+const getCustomViewId = (
+  fileUri: string,
+  appId = "",
+  appRoot?: string
+): string | undefined => {
+  if (!appRoot) {
+    return undefined;
+  }
+  const relativeFilePart = fileUri.split(appRoot)[1];
+  const parsePart = pathParser(relativeFilePart);
+  const relativeFilePartWithoutExtension = join(
+    parsePart.dir,
+    parsePart.name.split(".").slice(0, -1).join(".")
+  );
+  const relativeFileId = relativeFilePartWithoutExtension
+    .split(sep)
+    .filter((item) => item)
+    .join(".");
+  return `${appId}.${relativeFileId}`;
+};
 export async function getContextForFile(
   uri: string,
   modelCachePath?: string
@@ -197,11 +220,13 @@ export async function getContextForFile(
       convertedMetadata: service.convertedMetadata,
     };
   }
-
+  const appId = app?.manifest["sap.app"].id;
+  const customViewId = getCustomViewId(documentPath, appId, appRoot);
   return {
     services,
     manifest: app?.manifestDetails,
     ui5Model,
+    customViewId,
   };
 }
 
@@ -425,6 +450,16 @@ async function getManifestDetails(
           customViews[settings.viewName] = {
             entitySet: settings.entitySet,
           };
+        }
+        if (settings?.entitySet && settings?.content) {
+          // search for custom section and get its entity set
+          const templateKey =
+            settings?.content?.body?.sections?.CustomSection.template;
+          if (templateKey) {
+            customViews[templateKey] = {
+              entitySet: settings?.entitySet,
+            };
+          }
         }
       }
     }

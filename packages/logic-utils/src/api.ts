@@ -38,7 +38,6 @@ export {
 export {
   getRootElement,
   getElementAttributeValue,
-  getEntitySetFromController,
   getAllowedAnnotationsTermsForControl,
 } from "./utils/annotations";
 

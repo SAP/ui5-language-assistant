@@ -1,6 +1,3 @@
 export { specification, AnnotationTerm } from "./spec";
-export {
-  getAllowedAnnotationsTermsForControl,
-  getEntitySetFromController,
-} from "./misc";
+export { getAllowedAnnotationsTermsForControl } from "./misc";
 export { getElementAttributeValue, getRootElement } from "./xml-utils";

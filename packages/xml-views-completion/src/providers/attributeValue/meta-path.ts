@@ -1,7 +1,6 @@
 import {
   getAllowedAnnotationsTermsForControl,
   getElementAttributeValue,
-  getEntitySetFromController,
   getUI5PropertyByXMLAttributeKey,
 } from "@ui5-language-assistant/logic-utils";
 import { AnnotationPathInXMLAttributeValueCompletion } from "../../../api";
@@ -50,7 +49,9 @@ export function metaPathSuggestions({
     if (typeof contextPath === "string") {
       // TODO: resolve context and get annotations for it
     } else {
-      const entitySet = getEntitySetFromController(element, context) ?? "";
+      const entitySet =
+        context.manifest?.customViews[context.customViewId ?? ""]?.entitySet ??
+        "";
       contextPath = `/${entitySet}`;
       const type = service.convertedMetadata.entitySets.find(
         (e) => e.name === entitySet
@@ -101,7 +102,7 @@ function collectAnnotationsForType(
   const matchedAnnotations: any[] = [];
   if (type) {
     for (const term of allowedTerms) {
-      const annotations = type.annotations[term.alias];
+      const annotations = type.annotations[term.alias] ?? {};
       const paths = Object.keys(annotations);
       for (const path of paths) {
         const annotation = annotations[path];
