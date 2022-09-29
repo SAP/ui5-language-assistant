@@ -84,7 +84,7 @@ function computeQuickFixI18nSuggestion(
   const newTextSuggestion = {
     suggestionKey: i18nReplacementSuggestionKey,
     suggestionValue: i18nReplacementSuggestionValue,
-    newText: `${attributeKey}="{i18n>${i18nReplacementSuggestionValue}}"`,
+    newText: `${attributeKey}="{i18n>${i18nReplacementSuggestionKey}}"`,
   };
   return newTextSuggestion;
 }

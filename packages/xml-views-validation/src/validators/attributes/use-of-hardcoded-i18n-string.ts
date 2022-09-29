@@ -4,6 +4,7 @@ import { getUI5PropertyByXMLAttributeKey } from "@ui5-language-assistant/logic-u
 import { UseOfHardcodedI18nStringIssue } from "../../../api";
 import { isPossibleBindingAttributeValue } from "../../utils/is-binding-attribute-value";
 import { getUserFacingAttributes } from "../../utils/ui5-user-facing-attributes";
+import { find } from "lodash";
 
 export function validateI18nExternalization(
   attribute: XMLAttribute,
@@ -37,10 +38,9 @@ export function validateI18nExternalization(
   const oUITextProperties = getUserFacingAttributes();
 
   if (propParentClassFullName && oUITextProperties[propParentClassFullName]) {
-    const sUITextualProperty = oUITextProperties[propParentClassFullName].find(
-      (sUITextualProperty) => {
-        return sUITextualProperty === ui5Property?.name;
-      }
+    const sUITextualProperty = find(
+      oUITextProperties[propParentClassFullName],
+      (sUITextualProperty) => sUITextualProperty === ui5Property?.name
     );
 
     if (sUITextualProperty) {
