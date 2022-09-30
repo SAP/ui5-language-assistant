@@ -6,6 +6,9 @@ import { isPossibleBindingAttributeValue } from "../../utils/is-binding-attribut
 import { getUserFacingAttributes } from "../../utils/ui5-user-facing-attributes";
 import { find } from "lodash";
 
+const NEW_LINE_PATTERN = /[\n\t]/g;
+const DOUBLE_SPACE_PATTERN = /\s+(?=\s)/g;
+
 export function validateI18nExternalization(
   attribute: XMLAttribute,
   model: UI5SemanticModel
@@ -23,44 +26,52 @@ export function validateI18nExternalization(
 
   const ui5Property = getUI5PropertyByXMLAttributeKey(attribute, model);
   const propType = ui5Property?.type;
-  const propLibrary = ui5Property?.library;
-  const propParentClass = ui5Property?.parent?.name;
-  let propParentClassFullName = "";
-  if (propLibrary && propParentClass) {
-    propParentClassFullName = propLibrary + "." + propParentClass;
-  }
+  const propParent = ui5Property?.parent;
 
-  if (propType?.kind !== "PrimitiveType" || propType.name !== "String") {
+  if (!ui5Property || !propType || !propParent) {
     return [];
   }
 
-  //Check whether the current UI5 property holds GUI text. Limitation: getUI5PropertyByXMLAttributeKey only supports property attributes, but not aggregation attributes that accept strings e.g. <sap.ui.layout.form.FormElement label="some text">.
-  const oUITextProperties = getUserFacingAttributes();
-
-  if (propParentClassFullName && oUITextProperties[propParentClassFullName]) {
-    const sUITextualProperty = find(
-      oUITextProperties[propParentClassFullName],
-      (sUITextualProperty) => sUITextualProperty === ui5Property?.name
-    );
-
-    if (sUITextualProperty) {
-      const actualAttributeValueTokenTrim = actualAttributeValueToken.image
-        .trim()
-        .replace(/[\n\t]/g, "")
-        .replace(/\s+(?=\s)/g, "");
-      return [
-        {
-          kind: "UseOfHardcodedI18nString",
-          message: `Consider externalizing UI texts to a resource bundle or other model: ${actualAttributeValueTokenTrim}.`,
-          severity: "warn",
-          offsetRange: {
-            start: actualAttributeValueToken.startOffset,
-            end: actualAttributeValueToken.endOffset,
-          },
-        },
-      ];
-    }
+  if (propType.kind !== "PrimitiveType" || propType.name !== "String") {
+    return [];
   }
 
-  return [];
+  const propLibrary = ui5Property.library;
+  const propParentClass = propParent.name;
+  const propParentClassFullName = propLibrary + "." + propParentClass;
+
+  //Load UI textual properties
+  const oUITextProperties = getUserFacingAttributes();
+
+  //Check if the current UI5 element can include UI5 properties that hold GUI text
+  if (!oUITextProperties[propParentClassFullName]) {
+    return [];
+  }
+
+  //Check if the current UI5 property holds GUI text. Limitation: getUI5PropertyByXMLAttributeKey only supports property attributes, but not aggregation attributes that accept strings e.g. <sap.ui.layout.form.FormElement label="some text">.
+  const sUITextualProperty = find(
+    oUITextProperties[propParentClassFullName],
+    (sUITextualProperty) => sUITextualProperty === ui5Property.name
+  );
+
+  if (!sUITextualProperty) {
+    return [];
+  }
+
+  const actualAttributeValueTokenTrim = actualAttributeValueToken.image
+    .trim()
+    .replace(NEW_LINE_PATTERN, "")
+    .replace(DOUBLE_SPACE_PATTERN, "");
+
+  const hardcodedStringIssue: UseOfHardcodedI18nStringIssue = {
+    kind: "UseOfHardcodedI18nString",
+    message: `Consider externalizing UI texts to a resource bundle or other model: ${actualAttributeValueTokenTrim}.`,
+    severity: "warn",
+    offsetRange: {
+      start: actualAttributeValueToken.startOffset,
+      end: actualAttributeValueToken.endOffset,
+    },
+  };
+
+  return [hardcodedStringIssue];
 }

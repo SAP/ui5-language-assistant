@@ -2,11 +2,11 @@
   {
     "range": {
       "start": { "line": 3, "character": 19 },
-      "end": { "line": 3, "character": 36 }
+      "end": { "line": 3, "character": 31 }
     },
     "severity": 2,
     "source": "UI5 Language Assistant",
-    "message": "Consider externalizing UI texts to a resource bundle or other model: \"i18n_dummy_text\".",
+    "message": "Consider externalizing UI texts to a resource bundle or other model: \"dummy-text\".",
     "code": 1013
   }
 ]

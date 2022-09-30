@@ -4,6 +4,9 @@ import { XMLDocument } from "@xml-tools/ast";
 import { OffsetRange } from "@ui5-language-assistant/logic-utils";
 import { Property } from "properties-file";
 
+const NEW_LINE_PATTERN = /[\n\t]/g;
+const DOUBLE_SPACE_PATTERN = /\s+(?=\s)/g;
+
 export type QuickFixHardcodedI18nStringInfo = {
   newTextSuggestions: QuickFixHardcodedI18nSuggestion[];
   replaceRange: OffsetRange;
@@ -28,41 +31,42 @@ export function computeQuickFixHardcodedI18nStringInfo(
       }
 
       const xmlAttribute = astNode.astNode;
+      let key = "";
       if (
         xmlAttribute.key === null ||
-        xmlAttribute.key === undefined ||
         xmlAttribute.value === null ||
-        xmlAttribute.value === undefined
+        xmlAttribute.value === ""
       ) {
+        return undefined;
+      } else {
+        key = xmlAttribute.key;
+      }
+
+      if (resourceBundle.length === 0) {
         return undefined;
       }
 
       const newTextSuggestions: QuickFixHardcodedI18nSuggestion[] = [];
 
-      //If there are keys to iterate from the resource bundle, check for quick fixes
-      if (resourceBundle.length > 0) {
-        // Text value for xmlAttribute.value without spaces, tabs, new lines
-        const escapedXmlAttributeValue = xmlAttribute.value
-          .trim()
-          .replace(/[\n\t]/g, "")
-          .replace(/\s+(?=\s)/g, "");
-        // Possible i18n key replacements to suggest (only 100% matches are returned)
-        const i18nReplacementSuggestions = resourceBundle.filter((property) => {
-          return property.escapedValue === escapedXmlAttributeValue;
-        });
+      // Text value for xmlAttribute.value without spaces, tabs, new lines
+      const escapedXmlAttributeValue = xmlAttribute.value
+        .trim()
+        .replace(NEW_LINE_PATTERN, "")
+        .replace(DOUBLE_SPACE_PATTERN, "");
+      // Possible i18n key replacements to suggest (only 100% matches are returned)
+      const i18nReplacementSuggestions = resourceBundle.filter((property) => {
+        return property.escapedValue === escapedXmlAttributeValue;
+      });
 
-        // If i18n key replacements are found, suggest them as possible fixes
-        i18nReplacementSuggestions.forEach((property) => {
-          if (xmlAttribute.key) {
-            const newTextSuggestion = computeQuickFixI18nSuggestion(
-              xmlAttribute.key,
-              property.escapedValue,
-              property.escapedKey
-            );
-            newTextSuggestions.push(newTextSuggestion);
-          }
-        });
-      }
+      // If i18n key replacements are found, suggest them as possible fixes
+      i18nReplacementSuggestions.forEach((property) => {
+        const newTextSuggestion = computeQuickFixI18nSuggestion(
+          key,
+          property.escapedValue,
+          property.escapedKey
+        );
+        newTextSuggestions.push(newTextSuggestion);
+      });
 
       const replaceRange = {
         start: xmlAttribute.position.startOffset,
