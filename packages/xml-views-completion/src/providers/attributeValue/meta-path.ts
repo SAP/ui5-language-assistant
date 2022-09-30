@@ -1,7 +1,6 @@
 import {
   getAllowedAnnotationsTermsForControl,
   getElementAttributeValue,
-  getEntitySetFromController,
   getUI5PropertyByXMLAttributeKey,
 } from "@ui5-language-assistant/logic-utils";
 import {
@@ -9,7 +8,7 @@ import {
   PropertyPathInXMLAttributeValueCompletion,
 } from "../../../api";
 import { UI5AttributeValueCompletionOptions } from "./index";
-import { ConvertedMetadata, EntityType } from "@sap-ux/vocabularies-types";
+import { EntityType } from "@sap-ux/vocabularies-types";
 import { AnnotationTerm } from "@ui5-language-assistant/logic-utils/src/api";
 import {
   collectAnnotationsForType,
@@ -61,7 +60,9 @@ export function metaPathSuggestions({
     if (!service) {
       return [];
     }
-    const entitySet = getEntitySetFromController(element, context) ?? "";
+    const entitySet =
+      (context.manifest?.customViews || {})[context.customViewId || ""]
+        .entitySet ?? "";
     let baseType: EntityType | undefined;
     let isNavSegmentsAllowed = true;
     if (typeof contextPath === "string") {

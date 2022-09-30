@@ -6,7 +6,6 @@ import {
 import {
   getAllowedAnnotationsTermsForControl,
   getElementAttributeValue,
-  getEntitySetFromController,
   getUI5PropertyByXMLAttributeKey,
 } from "@ui5-language-assistant/logic-utils";
 import { AnnotationIssue } from "../../../api";
@@ -52,7 +51,9 @@ export function validateUnknownAnnotationPath(
       return [];
     }
     let contextPath = getElementAttributeValue(element, "contextPath");
-    const entitySet = getEntitySetFromController(element, context) ?? "";
+    const entitySet =
+      (context.manifest?.customViews || {})[context.customViewId || ""]
+        .entitySet ?? "";
 
     let isNavSegmentsAllowed = true;
     if (typeof contextPath === "string") {

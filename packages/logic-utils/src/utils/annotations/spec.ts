@@ -1,10 +1,12 @@
 export interface BuildingBlockSpecification {
   name: string;
+  allowedTargets: string[];
   allowedAnnotations: AnnotationTerm[];
 }
 export interface BuildingBlockSpecificationCondensed {
   name: string;
   allowedAnnotations: string[];
+  allowedTargets: string[];
 }
 
 export const NAMESPACE_TO_ALIAS: Map<string, string> = new Map([
@@ -44,35 +46,63 @@ const specs: BuildingBlockSpecificationCondensed[] = [
   {
     name: "FilterBar",
     allowedAnnotations: ["com.sap.vocabularies.UI.v1.SelectionFields"],
+    allowedTargets: ["EntitySet", "EntityType"],
   },
   {
     name: "Form",
-    allowedAnnotations: ["com.sap.vocabularies.UI.v1.FieldGroup"],
+    allowedAnnotations: [
+      "@com.sap.vocabularies.UI.v1.FieldGroup",
+      "@com.sap.vocabularies.UI.v1.CollectionFacet",
+      "@com.sap.vocabularies.UI.v1.ReferenceFacet",
+    ],
+    allowedTargets: [
+      "EntitySet",
+      "EntityType",
+      "Singleton",
+      "NavigationProperty",
+    ],
   },
   {
     name: "Field",
-    allowedAnnotations: [
-      // "com.sap.vocabularies.UI.v1.DataField",
-      // "com.sap.vocabularies.UI.v1.DataPoint",
+    allowedAnnotations: [],
+    allowedTargets: [
+      "EntitySet",
+      "EntityType",
+      "Singleton",
+      "NavigationProperty",
+      "Property",
     ],
   },
   {
     name: "MicroChart",
     allowedAnnotations: ["com.sap.vocabularies.UI.v1.Chart"],
+    allowedTargets: [],
   },
   {
     name: "Chart",
     allowedAnnotations: ["com.sap.vocabularies.UI.v1.Chart"],
+    allowedTargets: [
+      "EntitySet",
+      "EntityType",
+      "Singleton",
+      "NavigationProperty",
+    ],
   },
   {
     name: "Table",
     allowedAnnotations: [
       "com.sap.vocabularies.UI.v1.LineItem",
       "com.sap.vocabularies.UI.v1.PresentationVariant",
+      "com.sap.vocabularies.UI.v1.SelectionPresentationVariant",
+    ],
+    allowedTargets: [
+      "EntitySet",
+      "EntityType",
+      "Singleton",
+      "NavigationProperty",
     ],
   },
 ];
-
 export const specification = specs.reduce(
   (
     acc: {
@@ -82,6 +112,7 @@ export const specification = specs.reduce(
   ) => {
     acc[spec.name] = {
       name: spec.name,
+      allowedTargets: spec.allowedTargets,
       allowedAnnotations: spec.allowedAnnotations.map((fullyQualifiedName) => {
         const segments = fullyQualifiedName.split(".");
         const namespace = segments.slice(0, -1).join(".");

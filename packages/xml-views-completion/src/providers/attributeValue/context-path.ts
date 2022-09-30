@@ -1,7 +1,6 @@
 import {
   getAllowedAnnotationsTermsForControl,
   getElementAttributeValue,
-  getEntitySetFromController,
   getUI5PropertyByXMLAttributeKey,
 } from "@ui5-language-assistant/logic-utils";
 import {
