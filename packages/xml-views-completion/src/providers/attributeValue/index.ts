@@ -9,6 +9,7 @@ import { namespaceValueSuggestions } from "./namespace";
 import { booleanSuggestions } from "./boolean-literal";
 import { filterBarAttributeSuggestions } from "./filter-bar";
 import { metaPathSuggestions } from "./meta-path";
+import { contextPathSuggestions } from "./context-path";
 
 export const attributeValueProviders: AttributeValueCompletion<
   UI5XMLViewCompletion,
@@ -19,6 +20,7 @@ export const attributeValueProviders: AttributeValueCompletion<
   booleanSuggestions,
   filterBarAttributeSuggestions,
   metaPathSuggestions,
+  contextPathSuggestions,
 ];
 
 export type UI5AttributeValueCompletionOptions = AttributeValueCompletionOptions<AppContext>;

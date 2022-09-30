@@ -90,6 +90,12 @@ export function isUI5NodeXMLViewCompletion(
     case "AnnotationPathInXMLAttributeValue": {
       return false;
     }
+    case "PropertyPathInXMLAttributeValue": {
+      return false;
+    }
+    case "AnnotationTargetInXMLAttributeValue": {
+      return false;
+    }
     /* istanbul ignore next - defensive programming */
     default: {
       assertNever(type, true);
@@ -97,3 +103,9 @@ export function isUI5NodeXMLViewCompletion(
     }
   }
 }
+
+export {
+  collectAnnotationsForType,
+  getNavigationTargets,
+  isPropertyPathAllowed,
+} from "./providers/utils/annotationUtils";

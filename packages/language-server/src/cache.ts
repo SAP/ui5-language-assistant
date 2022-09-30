@@ -166,12 +166,25 @@ async function getProjectTypeAndKind(
   }
 }
 
+async function findTopProjectRoot(documentPath): Promise<string | undefined> {
+  let projectRoot: string | undefined;
+  try {
+    projectRoot = await findProjectRoot(documentPath, true);
+    if (!projectRoot) {
+      projectRoot = await findProjectRoot(documentPath, false);
+    }
+  } catch (e) {
+    projectRoot = undefined;
+  }
+  return projectRoot;
+}
+
 export async function getContextForFile(
   uri: string,
   modelCachePath?: string
 ): Promise<AppContext> {
   const documentPath = fileURLToPath(uri);
-  const projectRoot = await findProjectRoot(documentPath, false).catch(
+  const projectRoot = await findTopProjectRoot(documentPath).catch(
     () => undefined
   );
   const appRoot = await findAppRoot(documentPath);
@@ -261,7 +274,7 @@ export async function updateManifestData(uri: string): Promise<void> {
 
 export async function updateAppFile(uri: string): Promise<void> {
   const path = fileURLToPath(uri);
-  const projectRoot = await findProjectRoot(path, false).catch(() => undefined);
+  const projectRoot = await findTopProjectRoot(path).catch(() => undefined);
   const appRoot = await findAppRoot(path);
   if (!projectRoot || !appRoot) {
     return;
@@ -280,7 +293,7 @@ export async function updateAppFile(uri: string): Promise<void> {
 
 export async function updatePackageJson(uri: string): Promise<void> {
   const path = fileURLToPath(uri);
-  const projectRoot = await findProjectRoot(path, false).catch(() => undefined);
+  const projectRoot = await findTopProjectRoot(path).catch(() => undefined);
   const appRoot = await findAppRoot(path);
   if (!projectRoot || !appRoot) {
     return;
@@ -335,7 +348,7 @@ export async function updateServiceFiles(uris: string[]): Promise<void> {
   const projectRoots = new Set<string>();
   for (const uri of uris) {
     const path = fileURLToPath(uri);
-    const projectRoot = await findProjectRoot(path).catch(() => undefined);
+    const projectRoot = await findTopProjectRoot(path).catch(() => undefined);
     if (projectRoot) {
       projectRoots.add(projectRoot);
     }
@@ -387,7 +400,8 @@ async function loadApp(
   if (localServiceFiles) {
     const metadata =
       project.type === CAP_PROJECT_TYPE
-        ? project.services.get(localServiceFiles.path)
+        ? project.services.get(localServiceFiles.path) ??
+          project.services.get(localServiceFiles.path.replace(/^\//, ""))
         : undefined;
     if (metadata) {
       // override local service metadata with latest metadata from service

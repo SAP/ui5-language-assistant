@@ -52,8 +52,8 @@ const specs: BuildingBlockSpecificationCondensed[] = [
   {
     name: "Field",
     allowedAnnotations: [
-      "com.sap.vocabularies.UI.v1.DataField",
-      "com.sap.vocabularies.UI.v1.DataPoint",
+      // "com.sap.vocabularies.UI.v1.DataField",
+      // "com.sap.vocabularies.UI.v1.DataPoint",
     ],
   },
   {

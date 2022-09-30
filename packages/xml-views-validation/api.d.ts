@@ -26,6 +26,16 @@ export type UseOfDeprecatedAttributeIssue =
   | UseOfDeprecatedEventIssue
   | UseOfDeprecatedAssociationIssue;
 
+export type AnnotationIssue =
+  | UnknownAnnotationPathIssue
+  | AnnotationTargetRequiredIssue
+  | AnnotationPathRequiredIssue
+  | PathDoesNotExistIssue
+  | InvalidAnnotationTargetIssue
+  | InvalidAnnotationTermIssue
+  | PropertyPathNotAllowedIssue
+  | UnknownPropertyPathIssue;
+
 export type UI5XMLViewIssue =
   | UnknownEnumValueIssue
   | UseOfDeprecatedClassIssue
@@ -40,7 +50,8 @@ export type UI5XMLViewIssue =
   | UnknownAttributeKeyIssue
   | UnknownTagNameIssue
   | InvalidAggregationCardinalityIssue
-  | InvalidAggregationTypeIssue;
+  | InvalidAggregationTypeIssue
+  | AnnotationIssue;
 
 // A sub-interface per issue type may seem redundant, but this allows
 // a sub-issue type to have additional properties (if needed) in the future.
@@ -101,6 +112,38 @@ export interface NonUniqueIDIssue extends BaseUI5XMLViewIssue {
 
 export interface NonStableIDIssue extends BaseUI5XMLViewIssue {
   kind: "NonStableIDIssue";
+}
+
+export interface AnnotationTargetRequiredIssue extends BaseUI5XMLViewIssue {
+  kind: "AnnotationTargetRequired";
+}
+
+export interface InvalidAnnotationTargetIssue extends BaseUI5XMLViewIssue {
+  kind: "InvalidAnnotationTarget";
+}
+
+export interface UnknownAnnotationPathIssue extends BaseUI5XMLViewIssue {
+  kind: "UnknownAnnotationPath";
+}
+
+export interface AnnotationPathRequiredIssue extends BaseUI5XMLViewIssue {
+  kind: "AnnotationPathRequired";
+}
+
+export interface PathDoesNotExistIssue extends BaseUI5XMLViewIssue {
+  kind: "PathDoesNotExist";
+}
+
+export interface InvalidAnnotationTermIssue extends BaseUI5XMLViewIssue {
+  kind: "InvalidAnnotationTerm";
+}
+
+export interface UnknownPropertyPathIssue extends BaseUI5XMLViewIssue {
+  kind: "UnknownPropertyPath";
+}
+
+export interface PropertyPathNotAllowedIssue extends BaseUI5XMLViewIssue {
+  kind: "PropertyPathNotAllowed";
 }
 
 type XMLAttributeValidator<T> = (

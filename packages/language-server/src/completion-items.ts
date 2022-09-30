@@ -112,6 +112,10 @@ export function computeLSPKind(
       return CompletionItemKind.EnumMember;
     case "AnnotationPathInXMLAttributeValue":
       return CompletionItemKind.Value;
+    case "PropertyPathInXMLAttributeValue":
+      return CompletionItemKind.Value;
+    case "AnnotationTargetInXMLAttributeValue":
+      return CompletionItemKind.Value;
     case "BooleanValueInXMLAttributeValue":
       return CompletionItemKind.Constant;
     default:
@@ -231,6 +235,7 @@ function createTextEdits(
       filterText = newText;
       break;
     }
+    case "AnnotationTargetInXMLAttributeValue":
     case "UI5EnumsInXMLAttributeValue": {
       // The 'else' part will never happen because to get suggestions for attribute value, the "" at least must exist so
       // the attribute value syntax exists
@@ -238,6 +243,23 @@ function createTextEdits(
       range = getXMLAttributeValueRange(suggestion.astNode) ?? range;
       // Attribute values should contain quotation marks
       newText = `"${newText}"`;
+      filterText = newText;
+      break;
+    }
+    //    case "PropertyPathInXMLAttributeValue":
+    case "AnnotationPathInXMLAttributeValue":
+    case "PropertyPathInXMLAttributeValue": {
+      // The 'else' part will never happen because to get suggestions for attribute value, the "" at least must exist so
+      // the attribute value syntax exists
+      /* istanbul ignore next */
+      // if (suggestion.details) {
+      //   range = getAffectedRange(suggestion.details, originalPosition);
+      //   commitCharacters = suggestion.details.commitCharacters;
+      // } else {
+      range = getXMLAttributeValueRange(suggestion.astNode) ?? range;
+      // Attribute values should contain quotation marks
+      newText = `"${newText}"`;
+      // }
       filterText = newText;
       break;
     }

@@ -15,8 +15,11 @@ import {
   UI5Association,
   UI5EnumValue,
   AppContext,
+  ServiceDetails,
 } from "@ui5-language-assistant/semantic-model-types/api";
 import { CodeAssistSettings } from "@ui5-language-assistant/settings";
+import { AnnotationTerm } from "@ui5-language-assistant/logic-utils/src/api";
+import { ConvertedMetadata, EntityType } from "@sap-ux/vocabularies-types";
 
 export function getXMLViewCompletions(
   opts: GetXMLViewCompletionsOpts
@@ -40,12 +43,15 @@ export type UI5CompletionNode =
   | UI5Association
   | UI5EnumValue
   | BooleanValue
-  | AnnotationPathValue;
+  | AnnotationPathValue
+  | AnnotationTargetValue;
 
 export type UI5XMLViewCompletion =
   | UI5NodeXMLViewCompletion
   | AnnotationPathInXMLAttributeValueCompletion
-  | BooleanValueInXMLAttributeValueCompletion;
+  | AnnotationTargetInXMLAttributeValueCompletion
+  | BooleanValueInXMLAttributeValueCompletion
+  | PropertyPathInXMLAttributeValueCompletion;
 
 export type UI5NodeXMLViewCompletion =
   | UI5ClassesInXMLTagNameCompletion
@@ -67,7 +73,9 @@ export type UI5XMLViewCompletionTypeName =
   | "UI5NamespacesInXMLAttributeKey"
   | "UI5NamespacesInXMLAttributeValue"
   | "BooleanValueInXMLAttributeValue"
-  | "AnnotationPathInXMLAttributeValue";
+  | "AnnotationPathInXMLAttributeValue"
+  | "PropertyPathInXMLAttributeValue"
+  | "AnnotationTargetInXMLAttributeValue";
 
 /**
  * Note that this interface does not deal with "Editor Behavior". e.g:
@@ -153,6 +161,12 @@ export interface AnnotationPathValue {
   value: string;
 }
 
+export interface AnnotationTargetValue {
+  kind: "AnnotationTarget";
+  name: string;
+  value: string;
+}
+
 export interface AnnotationPathCompletionDetails {
   startString: string;
   remainingString: string;
@@ -165,7 +179,37 @@ export interface AnnotationPathInXMLAttributeValueCompletion
   details?: AnnotationPathCompletionDetails;
 }
 
+export interface PropertyPathInXMLAttributeValueCompletion
+  extends BaseXMLViewCompletion<XMLAttribute, AnnotationPathValue> {
+  type: "PropertyPathInXMLAttributeValue";
+  details?: AnnotationPathCompletionDetails;
+}
+
+export interface AnnotationTargetInXMLAttributeValueCompletion
+  extends BaseXMLViewCompletion<XMLAttribute, AnnotationTargetValue> {
+  type: "AnnotationTargetInXMLAttributeValue";
+}
+
 /** Check if the suggestion is a UI5 semantic model xml completion according to its type property */
 export function isUI5NodeXMLViewCompletion(
   suggestion: UI5XMLViewCompletion
 ): suggestion is UI5NodeXMLViewCompletion;
+
+export function getNavigationTargets(
+  service: ServiceDetails,
+  options: {
+    allowedTerms: AnnotationTerm[];
+    isCollection?: boolean;
+    isPropertyPath?: boolean;
+    includeProperties?: boolean;
+    relativeFor?: EntityType;
+  }
+): string[];
+export function isPropertyPathAllowed(control: string): boolean;
+export function collectAnnotationsForType(
+  convertedMetadata: ConvertedMetadata,
+  entityType: string | EntityType,
+  allowedTerms: AnnotationTerm[],
+  property?: string,
+  navigationProperty?: string
+): any[];

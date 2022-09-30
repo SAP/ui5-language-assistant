@@ -65,6 +65,14 @@ function validationIssuesToLspDiagnostics(
       case "UnknownTagName":
       case "InvalidAggregationCardinality":
       case "InvalidAggregationType":
+      case "InvalidAnnotationTarget":
+      case "AnnotationTargetRequired":
+      case "AnnotationPathRequired":
+      case "InvalidAnnotationTerm":
+      case "PathDoesNotExist":
+      case "PropertyPathNotAllowed":
+      case "UnknownAnnotationPath":
+      case "UnknownPropertyPath":
         return {
           ...commonDiagnosticPros,
         };

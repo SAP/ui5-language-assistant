@@ -32,7 +32,7 @@ export async function getCdsMetadata(
       odataForeignKeys: true,
       odataContainment: false,
     });
-  } catch (error: unknown) {
+  } catch (error) {
     if (typeof error === "string") {
       getLogger().trace(error);
     } else if (typeof error?.toString === "function") {
