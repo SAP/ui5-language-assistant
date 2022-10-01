@@ -1,12 +1,13 @@
 import { zipObject, map, noop, get } from "lodash";
 import { resolve } from "path";
 import { writeFile, mkdirs, pathExists } from "fs-extra";
-import {
-  default as nodeFetch,
-  RequestInfo,
-  RequestInit,
-  Response,
-} from "node-fetch";
+const importDynamic = new Function("modulePath", "return import(modulePath)");
+// eslint-disable-next-line  @typescript-eslint/no-explicit-any
+const nodeFetch = async (...args: any[]) => {
+  const module = await importDynamic("node-fetch");
+  return module.default(...args);
+};
+import { RequestInfo, RequestInit, Response } from "node-fetch";
 import { HttpsProxyAgent } from "https-proxy-agent";
 import { getProxyForUrl } from "proxy-from-env";
 
