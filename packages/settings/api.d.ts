@@ -1,3 +1,4 @@
+import Thenable from "vscode-languageserver";
 export type Settings = CodeAssistSettings & TraceSettings & LoggingSettings;
 
 export interface CodeAssistSettings {
