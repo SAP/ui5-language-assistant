@@ -9,6 +9,7 @@ import { isPossibleBindingAttributeValue } from "../../utils/is-binding-attribut
 import {
   collectAnnotationsForType,
   getNavigationTargets,
+  isPropertyPathAllowed,
 } from "@ui5-language-assistant/xml-views-completion";
 
 export function validateUnknownAnnotationTarget(
@@ -64,7 +65,7 @@ export function validateUnknownAnnotationTarget(
       ...getNavigationTargets(service, {
         allowedTerms,
         isCollection,
-        isPropertyPath: control === "Field",
+        isPropertyPath: isPropertyPathAllowed(control),
       }),
     ];
 

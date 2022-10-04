@@ -51,9 +51,9 @@ const specs: BuildingBlockSpecificationCondensed[] = [
   {
     name: "Form",
     allowedAnnotations: [
-      "@com.sap.vocabularies.UI.v1.FieldGroup",
-      "@com.sap.vocabularies.UI.v1.CollectionFacet",
-      "@com.sap.vocabularies.UI.v1.ReferenceFacet",
+      "com.sap.vocabularies.UI.v1.FieldGroup",
+      "com.sap.vocabularies.UI.v1.CollectionFacet",
+      "com.sap.vocabularies.UI.v1.ReferenceFacet",
     ],
     allowedTargets: [
       "EntitySet",

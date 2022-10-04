@@ -10,14 +10,15 @@ import {
 } from "@ui5-language-assistant/logic-utils";
 import { AnnotationIssue } from "../../../api";
 import { isPossibleBindingAttributeValue } from "../../utils/is-binding-attribute-value";
-import { EntityType } from "@sap-ux/vocabularies-types";
+import { EntityType, Property } from "@sap-ux/vocabularies-types";
 import { AnnotationTerm } from "@ui5-language-assistant/logic-utils/src/api";
 import {
   collectAnnotationsForType,
+  getNavigationTargets,
   isPropertyPathAllowed,
 } from "@ui5-language-assistant/xml-views-completion";
 
-export function validateUnknownAnnotationPath(
+export function validateUnknownPropertyPath(
   attribute: XMLAttribute,
   context: AppContext
 ): AnnotationIssue[] {
@@ -42,10 +43,6 @@ export function validateUnknownAnnotationPath(
     const element = attribute.parent;
     const control = element.name ?? "";
 
-    let annotationList: AnnotationLookupResultEntry[] | undefined;
-    let baseType: EntityType | undefined;
-
-    // const annotationListAssoc: { navSegment: string; annotations: any[] }[] = [];
     const mainServicePath = context.manifest?.mainServicePath;
     const service = mainServicePath
       ? context.services[mainServicePath]
@@ -53,6 +50,8 @@ export function validateUnknownAnnotationPath(
     if (!service) {
       return [];
     }
+
+    let baseType: EntityType | undefined;
     let contextPath = getElementAttributeValue(element, "contextPath");
     const entitySet =
       (context.manifest?.customViews || {})[context.customViewId || ""]
@@ -89,30 +88,33 @@ export function validateUnknownAnnotationPath(
     }
     const allowedTerms = getAllowedAnnotationsTermsForControl(control);
 
-    if (baseType) {
-      annotationList = collectAnnotations(
-        baseType,
-        service,
-        allowedTerms,
-        isNavSegmentsAllowed
-      );
-    }
-
-    const match = (annotationList || []).find((entry) => {
-      const fullPaths = entry.annotations.map((annotation) =>
-        composeAnnotationPath(entry.path, annotation)
-      );
-      return fullPaths.includes(attribute.value || "");
-    });
-
-    if (match) {
+    let targetList: string[];
+    if (baseType && isPropertyPathAllowed(control)) {
+      // direct props and ones reachable via navigation
+      if (isNavSegmentsAllowed) {
+        targetList = getNavigationTargets(service, {
+          allowedTerms: [],
+          includeProperties: true,
+          isPropertyPath: true,
+          relativeFor: baseType,
+        });
+      } else {
+        // direct props
+        targetList = baseType.entityProperties.map((prop) => prop.name);
+      }
+    } else {
       return [];
     }
+
+    if (targetList.includes(attribute.value || "")) {
+      return [];
+    }
+
     if (!attribute.value) {
       return [
         {
-          kind: "AnnotationPathRequired",
-          message: "Annotation path is required",
+          kind: "PropertyPathRequired",
+          message: "Property path is required",
           offsetRange: {
             start: actualAttributeValueToken.startOffset,
             end: actualAttributeValueToken.endOffset,
@@ -121,46 +123,11 @@ export function validateUnknownAnnotationPath(
         },
       ];
     }
-    if (!(attribute.value || "").includes("@")) {
-      if (isPropertyPathAllowed(control)) {
-        // The value seem to be a property path, another validator takes care
-        return [];
-      } else {
-        return [
-          {
-            kind: "PropertyPathNotAllowed",
-            message: `Property path not allowed. Use code completion to select annotation path`,
-            offsetRange: {
-              start: actualAttributeValueToken.startOffset,
-              end: actualAttributeValueToken.endOffset,
-            },
-            severity: "warn",
-          },
-        ];
-      }
-    }
 
     // resolve by segments
     const segments = (attribute.value || "").split("/");
     const originalSegments = [...segments];
-    const termSegmentIndex = segments.findIndex((segment) =>
-      segment.includes("@")
-    );
-    segments.splice(termSegmentIndex);
-    if (segments.length > 1 && !segments[0]) {
-      // absolute path not allowed
-      return [
-        {
-          kind: "InvalidAnnotationTerm",
-          message: `Absolute paths not allowed in metaPath`,
-          offsetRange: {
-            start: actualAttributeValueToken.startOffset,
-            end: actualAttributeValueToken.endOffset,
-          },
-          severity: "warn",
-        } as AnnotationIssue,
-      ];
-    } else if (segments.length > 0 && !isNavSegmentsAllowed) {
+    if (segments.length > 1 && !isNavSegmentsAllowed) {
       return [
         {
           kind: "InvalidAnnotationTerm",
@@ -175,7 +142,43 @@ export function validateUnknownAnnotationPath(
     }
 
     let targetEntity: EntityType | undefined = baseType;
+    let targetProperty: Property | undefined;
     let lastValidSegmentIndex = -1;
+    let isAbsolutePath = false;
+    if (segments.length > 1 && !segments[0]) {
+      // absolute path
+      segments.shift();
+      targetEntity = service.convertedMetadata.entityTypes.find(
+        (entityType) => entityType.name === segments[0]
+      );
+      lastValidSegmentIndex = targetEntity ? 1 : 0;
+      isAbsolutePath = true;
+      segments.shift();
+      if (!segments.length) {
+        return [
+          targetEntity
+            ? {
+                kind: "UnknownPropertyPath",
+                message: `Path should lead to property or navigation property: "${attribute.value}"`,
+                offsetRange: {
+                  start: actualAttributeValueToken.startOffset,
+                  end: actualAttributeValueToken.endOffset,
+                },
+                severity: "warn",
+              }
+            : {
+                kind: "PathDoesNotExist",
+                message: `Path does not exist: "${attribute.value}"`,
+                offsetRange: {
+                  start: actualAttributeValueToken.startOffset,
+                  end: actualAttributeValueToken.endOffset,
+                },
+                severity: "warn",
+              },
+        ];
+      }
+    }
+
     if (targetEntity) {
       for (const segment of segments) {
         if (!targetEntity) {
@@ -184,55 +187,40 @@ export function validateUnknownAnnotationPath(
         const navProperty = targetEntity.navigationProperties.find(
           (p) => p.name === segment
         );
+        targetProperty = targetEntity.entityProperties.find(
+          (p) => p.name === segment
+        );
         targetEntity = navProperty?.targetType;
-        if (targetEntity) {
+        if (targetEntity || targetProperty) {
           lastValidSegmentIndex++;
         }
       }
     }
     if (!targetEntity) {
-      originalSegments.splice(lastValidSegmentIndex + 1);
-      const correctPart = originalSegments.length
-        ? originalSegments.join("/")
-        : "";
-      return [
-        {
-          kind: "PathDoesNotExist",
-          message: `Path does not exist: "${contextPath}/${attribute.value}"`,
-          offsetRange: {
-            start:
-              actualAttributeValueToken.startOffset + correctPart.length + 1,
-            end: actualAttributeValueToken.endOffset - 1,
+      if (
+        !targetProperty ||
+        lastValidSegmentIndex < originalSegments.length - 1
+      ) {
+        originalSegments.splice(lastValidSegmentIndex + 1);
+        const correctPart = originalSegments.join("/");
+        return [
+          {
+            kind: "PathDoesNotExist",
+            message: `Path does not exist: "${
+              isAbsolutePath ? "" : contextPath + "/"
+            }${attribute.value}"`,
+            offsetRange: {
+              start:
+                actualAttributeValueToken.startOffset + correctPart.length + 1,
+              end: actualAttributeValueToken.endOffset - 1,
+            },
+            severity: "warn",
           },
-          severity: "warn",
-        },
-      ];
+        ];
+      }
     } else {
-      const termSegment = originalSegments[termSegmentIndex];
-      const parts = termSegment.split("@");
-      let annos: any[] | undefined;
-      if (parts[0]) {
-        // annotation applied on property
-        annos = collectAnnotationsForType(
-          service.convertedMetadata,
-          targetEntity,
-          allowedTerms,
-          undefined,
-          parts[0]
-        );
-      } else {
-        annos = collectAnnotationsForType(
-          service.convertedMetadata,
-          targetEntity,
-          allowedTerms
-        );
-      }
-      const match = annos.find(
-        (anno) => composeAnnotationPath([], anno) === "@" + parts[1]
-      );
-      if (match) {
-        return [];
-      }
+      // path exists
+      return [];
 
       // TODO: distinguish not existing and not suitable term
 
@@ -261,17 +249,17 @@ export function validateUnknownAnnotationPath(
       //   return [issue];
       // }
 
-      return [
-        {
-          kind: "PathDoesNotExist",
-          message: `Path does not exist: "${contextPath}/${attribute.value}"`,
-          offsetRange: {
-            start: actualAttributeValueToken.startOffset,
-            end: actualAttributeValueToken.endOffset,
-          },
-          severity: "warn",
-        },
-      ];
+      // return [
+      //   {
+      //     kind: 'PathDoesNotExist',
+      //     message: `Path does not exist: "${contextPath}/${attribute.value}"`,
+      //     offsetRange: {
+      //       start: actualAttributeValueToken.startOffset,
+      //       end: actualAttributeValueToken.endOffset,
+      //     },
+      //     severity: 'warn',
+      //   },
+      // ];
     }
   }
 

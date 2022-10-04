@@ -62,7 +62,7 @@ export function metaPathSuggestions({
     }
     const entitySet =
       (context.manifest?.customViews || {})[context.customViewId || ""]
-        .entitySet ?? "";
+        ?.entitySet ?? "";
     let baseType: EntityType | undefined;
     let isNavSegmentsAllowed = true;
     if (typeof contextPath === "string") {
