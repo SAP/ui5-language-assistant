@@ -71,6 +71,7 @@ function validationIssuesToLspDiagnostics(
       case "InvalidAnnotationTerm":
       case "PathDoesNotExist":
       case "PropertyPathNotAllowed":
+      case "PropertyPathRequired":
       case "UnknownAnnotationPath":
       case "UnknownPropertyPath":
         return {

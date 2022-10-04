@@ -8,7 +8,7 @@ import { AnnotationTerm } from "@ui5-language-assistant/logic-utils/src/api";
 import { ServiceDetails } from "@ui5-language-assistant/semantic-model-types";
 
 export function isPropertyPathAllowed(control: string): boolean {
-  return control === "Field";
+  return ["Field", "FormElement"].includes(control);
 }
 
 // export function collectAnnotationsForType(convertedMetadata: ConvertedMetadata, entityType: string | EntityType, allowedTerms: AnnotationTerm[]): any[] {

@@ -1,19 +1,13 @@
 import {
   getAllowedAnnotationsTermsForControl,
-  getElementAttributeValue,
   getUI5PropertyByXMLAttributeKey,
 } from "@ui5-language-assistant/logic-utils";
-import {
-  AnnotationPathInXMLAttributeValueCompletion,
-  AnnotationTargetInXMLAttributeValueCompletion,
-} from "../../../api";
+import { AnnotationTargetInXMLAttributeValueCompletion } from "../../../api";
 import { UI5AttributeValueCompletionOptions } from "./index";
-import { ConvertedMetadata } from "@sap-ux/vocabularies-types";
-import { AnnotationTerm } from "@ui5-language-assistant/logic-utils/src/api";
-import { ServiceDetails } from "@ui5-language-assistant/semantic-model-types";
 import {
   collectAnnotationsForType,
   getNavigationTargets,
+  isPropertyPathAllowed,
 } from "../utils/annotationUtils";
 
 export interface CompletionItem {
@@ -70,7 +64,7 @@ export function contextPathSuggestions({
       ...targets,
       ...getNavigationTargets(service, {
         allowedTerms,
-        isPropertyPath: control === "Field",
+        isPropertyPath: isPropertyPathAllowed(control),
       }),
     ];
 

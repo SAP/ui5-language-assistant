@@ -34,6 +34,7 @@ export type AnnotationIssue =
   | InvalidAnnotationTargetIssue
   | InvalidAnnotationTermIssue
   | PropertyPathNotAllowedIssue
+  | PropertyPathRequiredIssue
   | UnknownPropertyPathIssue;
 
 export type UI5XMLViewIssue =
@@ -128,6 +129,10 @@ export interface UnknownAnnotationPathIssue extends BaseUI5XMLViewIssue {
 
 export interface AnnotationPathRequiredIssue extends BaseUI5XMLViewIssue {
   kind: "AnnotationPathRequired";
+}
+
+export interface PropertyPathRequiredIssue extends BaseUI5XMLViewIssue {
+  kind: "PropertyPathRequired";
 }
 
 export interface PathDoesNotExistIssue extends BaseUI5XMLViewIssue {
