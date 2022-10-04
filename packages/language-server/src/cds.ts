@@ -3,6 +3,10 @@ import { getLogger } from "./logger";
 
 const metadataCache: { [path: string]: string } = {};
 
+const isModel = (e: any): e is any => {
+  return !!e?.model;
+};
+
 // TODO: multiples services
 
 export async function getCdsMetadata(
@@ -20,8 +24,8 @@ export async function getCdsMetadata(
         join(root, "db"),
         join(root, "srv"),
       ]); // TODO: more robust project loading
-    } catch (e: any) {
-      if (e?.model) {
+    } catch (e) {
+      if (isModel(e)) {
         csn = e.model;
       } else {
         throw e;

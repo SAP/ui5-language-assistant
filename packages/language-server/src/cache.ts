@@ -22,7 +22,7 @@ import {
 
 import { parse, merge } from "@sap-ux/edmx-parser";
 import { convert } from "@sap-ux/annotation-converter";
-import type { Manifest } from "@sap-ux/project-types";
+import type { Manifest } from "@sap-ux/project-access";
 import { getUI5FrameworkForXMLFile } from "./ui5yaml-handling";
 import {
   isCapJavaProject,
@@ -34,9 +34,16 @@ import {
   getAppRootFromWebappPath,
 } from "@sap-ux/project-access/dist/project/findApps";
 
-import { FileName } from "@sap-ux/project-types";
 import { Configuration, UI5Config } from "@sap-ux/ui5-config";
 import findUp from "find-up";
+
+const FileName = {
+  Manifest: "manifest.json",
+  Package: "package.json",
+  Ui5Yaml: "ui5.yaml",
+  Ui5LocalYaml: "ui5-local.yaml",
+  Ui5MockYaml: "ui5-mock.yaml",
+} as const;
 
 const CAP_PROJECT_TYPE = "CAP";
 interface CAPProject {

@@ -24,6 +24,7 @@
     "node": ">=10.0.0"
   },
   "dependencies": {
+    "@sap-ux/project-access": "0.0.1",
     "@sap-ux/annotation-converter": "0.5.19",
     "@sap-ux/edmx-parser": "0.5.12",
     "@sap-ux/vocabularies-types": "0.6.7",
