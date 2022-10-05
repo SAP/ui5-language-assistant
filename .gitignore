@@ -94,3 +94,4 @@ dist
 
 # Cached test resources
 test-packages/test-utils/.model-cache
+test-packages/test-utils/projects-copy

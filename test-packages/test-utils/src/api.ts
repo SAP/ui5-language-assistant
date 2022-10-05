@@ -29,3 +29,11 @@ export {
   expectExists,
   expectProperty,
 } from "./utils/expect";
+
+export {
+  Config,
+  ProjectInfo,
+  ProjectName,
+  ProjectType,
+  TestUtils,
+} from "./test-utils";

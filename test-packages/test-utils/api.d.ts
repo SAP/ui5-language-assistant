@@ -168,3 +168,11 @@ export type generateFunc = (opts: {
   strict: boolean;
   printValidationErrors?: boolean;
 }) => UI5SemanticModel;
+
+export {
+  Config,
+  ProjectInfo,
+  ProjectName,
+  ProjectType,
+  TestUtils,
+} from "./src/test-utils";

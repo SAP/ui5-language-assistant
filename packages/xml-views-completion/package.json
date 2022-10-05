@@ -29,6 +29,7 @@
   },
   "devDependencies": {
     "@ui5-language-assistant/semantic-model": "3.3.1",
+    "@ui5-language-assistant/test-utils": "3.3.1",
     "@xml-tools/parser": "1.0.7",
     "chevrotain": "7.0.1"
   },

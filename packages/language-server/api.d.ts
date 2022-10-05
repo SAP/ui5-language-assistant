@@ -3,7 +3,7 @@
  * This is useful when launching the server in a separate process (e.g via spawn).
  */
 import { LogLevel } from "@vscode-logging/types";
-
+import { AppContext } from "@ui5-language-assistant/semantic-model-types";
 export declare const SERVER_PATH: string;
 
 export type ServerInitializationOptions = {
@@ -32,3 +32,9 @@ export type FetchResponse = {
 };
 
 export type Fetcher = (url: string) => Promise<FetchResponse>;
+
+// export { getContextForFile } from "./src/cache";
+export function getContextForFile(
+  uri: string,
+  modelCachePath?: string
+): Promise<AppContext>;

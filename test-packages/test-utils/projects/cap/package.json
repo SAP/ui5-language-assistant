@@ -1,0 +1,90 @@
+{
+  "name": "teched2022-dt181",
+  "version": "1.0.0",
+  "description": "CAP flight demo scenario",
+  "repository": "https://github.com/SAP-samples/teched2022-DT181",
+  "engines": {
+    "node": ">=14"
+  },
+  "dependencies": {
+    "@sap/cds": ">=5.4.5",
+    "@sap/xssec": "^3.2.7",
+    "express": "^4",
+    "hdb": "^0.19.1",
+    "passport": "^0.6.0"
+  },
+  "devDependencies": {
+    "@sap/ux-specification": "1.102.6",
+    "axios": "^0",
+    "chai": "^4.3.0",
+    "chai-as-promised": "^7.1.1",
+    "chai-subset": "^1.6.0",
+    "jest": "^29.0.2",
+    "qunit": "^2.9.3",
+    "sqlite3": "^5"
+  },
+  "scripts": {
+    "start": "cds run",
+    "test": "jest --runInBand",
+    "watch-manage_travels": "cds watch --open manage_travels/webapp/index.html?sap-ui-xx-viewCache=false"
+  },
+  "cds": {
+    "requires": {
+      "db": {
+        "kind": "sql"
+      },
+      "[production]": {
+        "db": {
+          "kind": "hana-cloud"
+        },
+        "auth": {
+          "kind": "xsuaa"
+        }
+      },
+      "auth": {
+        "[development]": {
+          "strategy": "dummy"
+        }
+      }
+    },
+    "hana": {
+      "deploy-format": "hdbtable"
+    },
+    "log": {
+      "service": true
+    },
+    "features": {
+      "preserve_computed": true
+    },
+    "build": {
+      "[node]": {
+        "target": "gen",
+        "tasks": [
+          {
+            "for": "node-cf"
+          },
+          {
+            "for": "hana"
+          }
+        ]
+      },
+      "[hana]": {
+        "target": "gen",
+        "tasks": [
+          {
+            "for": "hana"
+          }
+        ]
+      }
+    }
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "testTimeout": 20000
+  },
+  "license": "SAP SAMPLE CODE LICENSE",
+  "private": true,
+  "sapux": [
+    "app/manage_travels"
+  ]
+}
