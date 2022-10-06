@@ -1,13 +1,16 @@
 import { Position, Range } from "vscode-languageserver-types";
 import { AppContext } from "@ui5-language-assistant/semantic-model-types";
+import { fileURLToPath } from "url";
 import { join } from "path";
 import { readFile, writeFile } from "fs/promises";
-import { getContextForFile } from "@ui5-language-assistant/language-server";
+import {
+  emptyCache,
+  getContextForFile,
+} from "@ui5-language-assistant/language-server";
 import { DocumentCstNode, parse } from "@xml-tools/parser";
 import { buildAst, XMLDocument } from "@xml-tools/ast";
 import { IToken } from "chevrotain";
 import { URI } from "vscode-uri";
-import { getSuggestions, SuggestionProviders } from "@xml-tools/content-assist";
 import {
   npmInstall,
   deleteCopy,
@@ -16,8 +19,9 @@ import {
   fileExitsSync,
   print,
 } from "./utils";
-import { UI5XMLViewCompletion } from "@ui5-language-assistant/xml-views-completion";
+
 interface TestUtil {}
+
 export enum ProjectName {
   cap = "cap",
 }
@@ -42,14 +46,6 @@ export interface ReadFileResult {
   ast: XMLDocument;
   tokenVector: IToken[];
   offset: number;
-}
-export interface SuggestionParams {
-  offset: number;
-  cst: DocumentCstNode;
-  ast: XMLDocument;
-  tokenVector: IToken[];
-  context: AppContext;
-  providers: SuggestionProviders<UI5XMLViewCompletion, AppContext>;
 }
 export class TestUtils implements TestUtil {
   private projectInfo: ProjectInfo;
@@ -171,23 +167,6 @@ export class TestUtils implements TestUtil {
       offset: this.offset,
     };
   }
-  public getSuggestions({
-    cst,
-    ast,
-    context,
-    offset,
-    providers,
-    tokenVector,
-  }: SuggestionParams): UI5XMLViewCompletion[] {
-    return getSuggestions<UI5XMLViewCompletion, AppContext>({
-      offset,
-      cst,
-      ast,
-      tokenVector,
-      context,
-      providers,
-    });
-  }
   /**
    * Segments to a file i.e view.xml
    * @param segments
@@ -210,6 +189,13 @@ export class TestUtils implements TestUtil {
     modelCachePath?: string
   ): Promise<AppContext> {
     return getContextForFile(uri, modelCachePath);
+  }
+  /**
+   * Will be removed once cache.ts is refactored
+   */
+  public emptyCache() {
+    const root = fileURLToPath(this.getFileUri([]));
+    emptyCache(root);
   }
   public getModelCachePath(): string {
     return join(__dirname, "..", "..", ".model-cache");

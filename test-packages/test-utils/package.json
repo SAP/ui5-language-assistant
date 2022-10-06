@@ -19,7 +19,13 @@
   },
   "devDependencies": {
     "@types/node-fetch": "2.5.10",
-    "vscode-languageserver-types": "3.16.0"
+    "vscode-languageserver-types": "3.16.0",
+    "@ui5-language-assistant/semantic-model-types": "3.3.1",
+    "@ui5-language-assistant/language-server": "3.3.1",
+    "@xml-tools/parser": "1.0.7",
+    "@xml-tools/ast": "5.0.0",
+    "chevrotain": "7.0.1",
+    "vscode-uri": "2.1.2"
   },
   "scripts": {
     "ci": "npm-run-all clean compile lint",
