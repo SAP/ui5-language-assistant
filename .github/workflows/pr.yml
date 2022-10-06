@@ -1,0 +1,51 @@
+name: UI5-Language-Assistant
+
+on:
+  
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      HUSKY_SKIP: "true"
+      # NODE_OPTIONS: "--openssl-legacy-provider"
+    strategy:
+      matrix:
+        node-version: [14.x, 16.x, 18.x]
+    
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'yarn'
+    - name: Setup yarn
+      run: npm install -g yarn
+    - name: Override NODE options for the most recent version
+      if: matrix.node-version == '18.x'
+      run: |
+         echo "hello world"
+         echo "NODE_OPTIONS=--openssl-legacy-provider" >> $GITHUB_ENV
+    - name: Build
+      run: |
+        
+        yarn
+        yarn run ci
+  compliance:
+    runs-on: ubuntu-latest
+    env:
+      HUSKY_SKIP: "true"
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: compliance check
+        run: |
+          sudo apt-get update
+          sudo apt-get -y install python3-pip
+          pip3 install --user reuse
+          ~/.local/bin/reuse lint
+  

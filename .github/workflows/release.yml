@@ -1,0 +1,80 @@
+name: UI5-Language-Assistant
+
+on:
+  
+  push:
+    branches: [ "master" ]
+
+jobs:
+  deploy-npm:
+    runs-on: ubuntu-latest
+    env:
+      HUSKY_SKIP: "true"
+      # NODE_OPTIONS: "--openssl-legacy-provider"
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js 16.x
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16.x
+        cache: 'yarn'
+    - name: Setup yarn
+      run: npm install -g yarn
+    - name: deploy-npm
+      run: |
+        sudo apt-get update
+        sudo apt-get install libxss1
+        yarn --pure-lockfile
+        yarn run ci
+        echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
+        # To help debug when lerna detects changes to the working tree and fails the publish
+        git status
+        # https://github.com/lerna/lerna/issues/2788
+        yarn run release:publish --no-verify-access
+    
+    - name: prepare-vsix
+      uses: actions/upload-artifact@v3
+      with:
+          name: vsix
+          path: ./packages/vscode-ui5-language-assistant/vscode-ui5-language-assistant-*
+          if-no-files-found: error # 'warn' or 'ignore' are also available, defaults to `warn`
+    
+        
+
+
+  deploy-gh-releases:
+    needs: deploy-npm
+    runs-on: ubuntu-latest
+    env:
+      HUSKY_SKIP: "true"
+      # NODE_OPTIONS: "--openssl-legacy-provider"
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Use Node.js 16.x
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16.x
+        cache: 'yarn'
+    - name: Setup yarn
+      run: npm install -g yarn
+    - uses: actions/download-artifact@v3
+      with:
+        name: vsix
+    
+    - name: Inspect dist Folder
+      run: ls -R
+    - name: get-npm-version
+      id: package-version
+      uses: martinbeentjes/npm-get-version-action@main
+      with:
+        path: ./packages/vscode-ui5-language-assistant
+    - name: "Publish Release on GitHub"
+      uses: "marvinpinto/action-automatic-releases@latest"
+      with:
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
+        automatic_release_tag: ${{ steps.package-version.outputs.current-version}}
+        prerelease: true
+        title: "v${{ steps.package-version.outputs.current-version}}"
+        files: |
+          ${{steps.download.outputs.download-path}}/*
