@@ -1,7 +1,4 @@
-import {
-  AppContext,
-  UI5SemanticModel,
-} from "@ui5-language-assistant/semantic-model-types";
+import { AppContext } from "@ui5-language-assistant/semantic-model-types";
 import { DocumentCstNode, parse } from "@xml-tools/parser";
 import {
   buildAst,
@@ -14,6 +11,12 @@ import {
 import { getSuggestions, SuggestionProviders } from "@xml-tools/content-assist";
 
 import { UI5XMLViewCompletion } from "../api";
+import {
+  Config,
+  ProjectName,
+  ProjectType,
+  TestUtils,
+} from "@ui5-language-assistant/test-utils";
 
 export function testSuggestionsScenario(opts: {
   xmlText: string;
@@ -77,3 +80,50 @@ export function createXMLAttribute(
   };
   return xmlAttribute;
 }
+
+export const getSuggestionsScenario = (
+  config?: Config,
+  modelCachePath?: string
+) => {
+  const useConfig: Config = config ?? {
+    projectInfo: {
+      name: ProjectName.cap,
+      type: ProjectType.cap,
+      npmInstall: true,
+    },
+  };
+  const testUtils = new TestUtils(useConfig);
+  const useModelCachePath = modelCachePath ?? testUtils.getModelCachePath();
+  const run = async (
+    content: string,
+    providers: SuggestionProviders<UI5XMLViewCompletion, AppContext>,
+    pathSegments?: string[]
+  ): Promise<UI5XMLViewCompletion[]> => {
+    const usePathSegments = pathSegments ?? [
+      "app",
+      "manage_travels",
+      "webapp",
+      "ext",
+      "main",
+      "Main.view.xml",
+    ];
+    await testUtils.updateFile(usePathSegments, content);
+    const { ast, cst, offset, tokenVector } = await testUtils.readFile(
+      usePathSegments
+    );
+    const fileUri = testUtils.getFileUri(usePathSegments);
+    const context = await testUtils.getContextForFile(
+      fileUri,
+      useModelCachePath
+    );
+    return getSuggestions<UI5XMLViewCompletion, AppContext>({
+      offset,
+      cst,
+      ast,
+      tokenVector,
+      context,
+      providers,
+    });
+  };
+  return { testUtils, run };
+};

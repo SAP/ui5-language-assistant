@@ -210,7 +210,14 @@ const getCustomViewId = (
     .join(".");
   return `${appId}.${relativeFileId}`;
 };
-
+/**
+ * Empty cache
+ * @param root root to project
+ * @note only need for test purpose
+ */
+export const emptyCache = (root: string) => {
+  cache.delete(root);
+};
 export async function getContextForFile(
   uri: string,
   modelCachePath?: string

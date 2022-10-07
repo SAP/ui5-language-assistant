@@ -33,8 +33,9 @@ export type FetchResponse = {
 
 export type Fetcher = (url: string) => Promise<FetchResponse>;
 
-// export { getContextForFile } from "./src/cache";
 export function getContextForFile(
   uri: string,
   modelCachePath?: string
 ): Promise<AppContext>;
+
+export function emptyCache(root: string): void;

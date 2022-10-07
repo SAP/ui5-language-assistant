@@ -2,7 +2,6 @@
   "name": "teched2022-dt181",
   "version": "1.0.0",
   "description": "CAP flight demo scenario",
-  "repository": "https://github.com/SAP-samples/teched2022-DT181",
   "engines": {
     "node": ">=14"
   },
