@@ -127,6 +127,24 @@ for each package and automatically generate the changelog by adhering to [Conven
 [lerna-mode]: https://github.com/lerna/lerna#independent-mode
 [cc]: https://www.conventionalcommits.org/en/v1.0.0/
 
+### Prerelease testing
+
+You can test the CI flow using [act](https://github.com/nektos/act). Follow the installation process and use command
+
+#### Pull Requests
+
+```
+act --detect-event  pull-request
+```
+
+#### Complete push to master
+
+Prerequisite: Create a folder /tmp/ghartifacts or change the path below
+
+```
+act --detect-event  push --artifact-server-path /tmp/ghartifacts
+```
+
 ### Release Process
 
 Performing a release requires push permissions to the repository.
@@ -134,8 +152,6 @@ Performing a release requires push permissions to the repository.
 - Ensure you are on `master` branch and synced with origin.
 - `yarn run release:version`
 - Follow the lerna CLI instructions.
-- Track the new `/v\d+.\d+.\d+/` tag build on circle-ci.
-  - https://circleci.com/gh/SAP/ui5-language-assistant.
 - Once the tag builds have successfully finished:
   - Inspect the npm registry to see the new sub packages versions.
   - Inspect the new github release named after the new `/v\d+.\d+.\d+/` tag
