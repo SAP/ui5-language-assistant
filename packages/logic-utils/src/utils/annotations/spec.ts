@@ -104,27 +104,28 @@ const specs: BuildingBlockSpecificationCondensed[] = [
   },
 ];
 export const specification = specs.reduce(
-  (
-    acc: {
-      [name: string]: BuildingBlockSpecification;
-    },
-    spec
-  ) => {
+  (acc: { [name: string]: BuildingBlockSpecification }, spec) => {
     acc[spec.name] = {
       name: spec.name,
       allowedTargets: spec.allowedTargets,
       allowedAnnotations: spec.allowedAnnotations.map((fullyQualifiedName) => {
-        const segments = fullyQualifiedName.split(".");
-        const namespace = segments.slice(0, -1).join(".");
-        const [name] = segments.slice(-1);
-        return {
-          fullyQualifiedName,
-          alias: NAMESPACE_TO_ALIAS.get(namespace) ?? "",
-          name,
-        };
+        return fullyQualifiedNameToTerm(fullyQualifiedName);
       }),
     };
     return acc;
   },
   {}
 );
+
+export function fullyQualifiedNameToTerm(
+  fullyQualifiedName: string
+): AnnotationTerm {
+  const segments = fullyQualifiedName.split(".");
+  const namespace = segments.slice(0, -1).join(".");
+  const [name] = segments.slice(-1);
+  return {
+    fullyQualifiedName,
+    alias: NAMESPACE_TO_ALIAS.get(namespace) ?? "",
+    name,
+  };
+}
