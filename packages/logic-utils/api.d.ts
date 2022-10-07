@@ -288,3 +288,11 @@ export function getElementAttributeValue(
 export function getAllowedAnnotationsTermsForControl(
   controlName: string
 ): AnnotationTerm[];
+
+/**
+ * Converts fully qualified term name into AnnotationTerm object
+ * @param fullyQualifiedName - fully qualified term name (string)
+ */
+export function fullyQualifiedNameToTerm(
+  fullyQualifiedName: string
+): AnnotationTerm;

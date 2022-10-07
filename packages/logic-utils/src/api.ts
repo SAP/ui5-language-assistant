@@ -39,6 +39,7 @@ export {
   getRootElement,
   getElementAttributeValue,
   getAllowedAnnotationsTermsForControl,
+  fullyQualifiedNameToTerm,
 } from "./utils/annotations";
 
 export type { AnnotationTerm } from "./utils/annotations";

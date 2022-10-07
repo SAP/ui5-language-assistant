@@ -4,6 +4,7 @@ import {
   ServiceDetails,
 } from "@ui5-language-assistant/semantic-model-types";
 import {
+  fullyQualifiedNameToTerm,
   getAllowedAnnotationsTermsForControl,
   getElementAttributeValue,
   getUI5PropertyByXMLAttributeKey,
@@ -152,7 +153,7 @@ export function validateUnknownAnnotationPath(
       return [
         {
           kind: "InvalidAnnotationTerm",
-          message: `Absolute paths not allowed in metaPath`,
+          message: `Absolute annotation paths not allowed in metaPath. Use contextPath attribute to change path context`,
           offsetRange: {
             start: actualAttributeValueToken.startOffset,
             end: actualAttributeValueToken.endOffset,
@@ -232,34 +233,35 @@ export function validateUnknownAnnotationPath(
       );
       if (match) {
         return [];
+      } else {
+        // check whether the annotation exists on target
+        const term: AnnotationTerm = fullyQualifiedNameToTerm(parts[1]);
+        annos = collectAnnotationsForType(
+          service.convertedMetadata,
+          targetEntity,
+          [term]
+        );
+        const match = annos.find(
+          (anno) => composeAnnotationPath([], anno) === "@" + parts[1]
+        );
+        if (match) {
+          const messageAddOn = annotationList?.length
+            ? `Trigger code completion to choose one of allowed annotations`
+            : `There are no annotations in the project that are suitable for the current element`;
+
+          return [
+            {
+              kind: "InvalidAnnotationTerm",
+              message: `Invalid annotation term: "${attribute.value}". ${messageAddOn}`,
+              offsetRange: {
+                start: actualAttributeValueToken.startOffset,
+                end: actualAttributeValueToken.endOffset,
+              },
+              severity: "warn",
+            },
+          ];
+        }
       }
-
-      // TODO: distinguish not existing and not suitable term
-
-      //      const isAnnotationExists = (annotationList || []).find(annotation => annotationToPath(annotation) === attribute.value);
-      // const isAnnotationExists = false;
-
-      // if (isAnnotationExists) {
-      //   // Wrong term or no suitable annotations for control
-      //   const issue = {
-      //     kind: 'InvalidAnnotationTerm',
-      //     message: `Invalid term: ${actualAttributeValueToken.image}`,
-      //     offsetRange: {
-      //       start: actualAttributeValueToken.startOffset,
-      //       end: actualAttributeValueToken.endOffset,
-      //     },
-      //     severity: 'warn',
-      //   } as AnnotationIssue;
-
-      //   // if (filteredAnnotations.length) {
-      //   //   const expectedTerms = filteredAnnotations.map(annotation => annotationToPath(annotation));
-      //   //   issue.message = `${issue.message}. Expected: ${expectedTerms.join(',')}`;
-      //   // } else {
-      //   //   issue.message = `${issue.message}. There are no annotations in the project that are suitable for the current element`;
-      //   // }
-
-      //   return [issue];
-      // }
 
       return [
         {
@@ -276,29 +278,6 @@ export function validateUnknownAnnotationPath(
   }
 
   return [];
-}
-
-function annotationToPath(annotation: {
-  term: string;
-  qualifier?: string;
-}): string {
-  const fullPath = annotation.qualifier
-    ? `${annotation.term}#${annotation.qualifier}`
-    : annotation.term;
-  return `@${fullPath}`;
-}
-
-function collectAnnotationsForTarget(annotations: any[], contextPath: string) {
-  const annotationsForTarget = annotations.filter((annotationList) => {
-    const namespaceEndIndex = annotationList.target.indexOf(".");
-
-    return (
-      contextPath === `/${annotationList.target.slice(namespaceEndIndex + 1)}`
-    );
-  });
-  return [].concat(
-    ...annotationsForTarget.map((entry) => entry.annotations || [])
-  );
 }
 
 function composeAnnotationPath(

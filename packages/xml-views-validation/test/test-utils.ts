@@ -7,6 +7,12 @@ import { OffsetRange } from "@ui5-language-assistant/logic-utils";
 import { UI5ValidatorsConfig } from "../src/validate-xml-views";
 import { UI5XMLViewIssue } from "../api";
 import { validateXMLView } from "../src/api";
+import {
+  Config,
+  ProjectName,
+  ProjectType,
+  TestUtils,
+} from "@ui5-language-assistant/test-utils";
 
 const START_RANGE_MARKER = "🢂";
 const END_RANGE_MARKER = "🢀";
@@ -122,4 +128,91 @@ export function assertSingleIssue(
       ]);
     },
   });
+}
+
+export async function assertSingleAnnotationIssue(
+  testUtils: TestUtils,
+  validators: Partial<UI5ValidatorsConfig>,
+  severity: string,
+  segments: string[],
+  xmlSnippet: string,
+  kind: string,
+  message: string
+): Promise<void> {
+  await testAnnotationPathValidationsScenario({
+    testUtils,
+    segments,
+    xmlText: xmlSnippet,
+    validators: validators,
+    assertion: (issues) => {
+      expect(issues).to.deep.equal([
+        {
+          kind: kind,
+          message: message,
+          offsetRange: computeExpectedRange(xmlSnippet),
+          severity: severity,
+        },
+      ]);
+    },
+  });
+}
+
+export async function assertNoAnnotationIssues(
+  testUtils: TestUtils,
+  validators: Partial<UI5ValidatorsConfig>,
+  segments: string[],
+  xmlSnippet: string
+): Promise<void> {
+  await testAnnotationPathValidationsScenario({
+    testUtils,
+    segments,
+    xmlText: xmlSnippet,
+    validators: validators,
+    assertion: (issues) => {
+      expect(issues).to.deep.equal([]);
+    },
+  });
+}
+
+export async function testAnnotationPathValidationsScenario(opts: {
+  xmlText: string;
+  segments: string[];
+  testUtils: TestUtils;
+  validators: Partial<UI5ValidatorsConfig>;
+  assertion: (issues: UI5XMLViewIssue[]) => void;
+}): Promise<void> {
+  if (
+    isEmpty(opts.validators.attribute) &&
+    isEmpty(opts.validators.element) &&
+    isEmpty(opts.validators.document)
+  ) {
+    throw new Error(
+      "No validators provided, no relevant scenario can be tested in this manner!"
+    );
+  }
+
+  const { segments, testUtils } = opts;
+  const modelCachePath = opts.testUtils.getModelCachePath();
+  const rangeMarkersRegExp = new RegExp(
+    `[${START_RANGE_MARKER}${END_RANGE_MARKER}]`,
+    "gu"
+  );
+  const content = opts.xmlText.replace(rangeMarkersRegExp, "");
+
+  await opts.testUtils.updateFile(opts.segments, content);
+  const { ast } = await testUtils.readFile(segments);
+  const fileUri = testUtils.getFileUri(segments);
+  const context = await testUtils.getContextForFile(fileUri, modelCachePath);
+
+  const issues = validateXMLView({
+    validators: {
+      document: [],
+      element: [],
+      attribute: [],
+      ...opts.validators,
+    },
+    xmlView: ast,
+    context,
+  });
+  opts.assertion(issues);
 }

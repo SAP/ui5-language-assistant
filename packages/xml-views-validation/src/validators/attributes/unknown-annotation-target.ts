@@ -173,6 +173,10 @@ export function validateUnknownAnnotationTarget(
         ];
       }
     } else {
+      if (isPropertyPathAllowed(control)) {
+        return [];
+      }
+
       // Path itself is correct but doesn't suit current context
       const issue = {
         kind: "InvalidAnnotationTarget",
@@ -189,7 +193,7 @@ export function validateUnknownAnnotationTarget(
       } else if (isCollection === false && isPathLeadingToCollection) {
         issue.message = `${issue.message}. Path should lead to 1-to-1 associated entity. Trigger code completion to choose one of available annotation targets`;
       } else if (isCollection === true && !isPathLeadingToCollection) {
-        issue.message = `${issue.message}. Path should lead to entity collection. Trigger code completion to choose one of available annotation targets`;
+        issue.message = `${issue.message}. Path should lead to collection valued target. Trigger code completion to choose one of available annotation targets`;
       } else {
         issue.message = `${issue.message}. Trigger code completion to choose one of available annotation targets`;
       }
