@@ -10,8 +10,7 @@ import {
   InitializeParams,
   Hover,
   DidChangeConfigurationNotification,
-  DefinitionParams,
-} from "vscode-languageserver";
+} from "vscode-languageserver/node";
 import { URI } from "vscode-uri";
 import { TextDocument } from "vscode-languageserver-textdocument";
 import {
@@ -46,6 +45,7 @@ import { executeCommand } from "./commands";
 import { initSwa } from "./swa";
 import { getLogger, setLogLevel } from "./logger";
 import { getCDNBaseUrl } from "./ui5-helper";
+import { DefinitionParams } from "vscode-languageserver";
 
 const connection = createConnection(ProposedFeatures.all);
 const documents = new TextDocuments(TextDocument);
