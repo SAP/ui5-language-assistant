@@ -59,7 +59,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
     );
 
     client.onNotification("UI5LanguageAssistant/ui5Definition", (params) => {
-      showWebView(params.url);
+      showWebView();
     });
   });
   window.onDidChangeActiveTextEditor(() => {
@@ -150,12 +150,12 @@ function updateCurrentModel(model: UI5Model | undefined) {
   }
 }
 
-async function showWebView(url?: string | undefined) {
+async function showWebView() {
   const columnToShowIn =
     window.activeTextEditor && window.activeTextEditor.viewColumn
       ? window.activeTextEditor.viewColumn + 1
       : ViewColumn.One;
-  const apiRefUrl = url || currentModel?.url;
+  const apiRefUrl = currentModel?.url;
   if (!apiRefUrl)
     throw Error("UI5-Language-Assistant: Model not initialised, try again");
   const document = window.activeTextEditor?.document;

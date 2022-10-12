@@ -26,6 +26,15 @@
         "title": "UI5-Language-Assistant: View API Reference"
       }
     ],
+    "menus": {
+      "editor/context": [
+        {
+          "when": "resourceLangId == xml",
+          "command": "UI5LanguageAssistant.command.webView",
+          "group": "navigation"
+        }
+      ]
+    },
     "keybindings": [
       {
         "command": "UI5LanguageAssistant.command.webView",
