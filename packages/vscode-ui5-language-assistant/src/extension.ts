@@ -58,7 +58,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
       updateCurrentModel(model)
     );
 
-    client.onNotification("UI5LanguageAssistant/ui5Definition", (params) => {
+    client.onNotification("UI5LanguageAssistant/ui5Definition", () => {
       showWebView();
     });
   });
