@@ -179,7 +179,7 @@ async function showWebView() {
   }
   const ui5Url = `${new URL(apiRefUrl).href}${name ? "#/api/" + name : ""}`;
   const openIn = workspace.getConfiguration().get(VIEW_API_REF);
-  if (openIn === "vscode") {
+  if (openIn === "editor") {
     const createWebView = () => {
       currentPanel = window.createWebviewPanel(
         "ui5APIRef",

@@ -61,10 +61,10 @@
           "type": "string",
           "enum": [
             "browser",
-            "vscode"
+            "editor"
           ],
-          "default": "vscode",
-          "description": "How to open the API reference, in a browser window or webview inside vscode"
+          "default": "editor",
+          "description": "How to open the API reference, in a browser window or webview inside the editor"
         },
         "UI5LanguageAssistant.logging.level": {
           "type": "string",
