@@ -29,8 +29,8 @@
     "keybindings": [
       {
         "command": "UI5LanguageAssistant.command.webView",
-        "key": "F12",
-        "mac": "F12",
+        "key": "ctrl+alt+d",
+        "mac": "ctrl+opt+d",
         "when": "resourceLangId == xml"
       }
     ],
@@ -48,6 +48,15 @@
       "type": "object",
       "title": "UI5 Language Assistant",
       "properties": {
+        "UI5LanguageAssistant.View.API_Reference": {
+          "type": "string",
+          "enum": [
+            "browser",
+            "vscode"
+          ],
+          "default": "vscode",
+          "description": "How to open the API reference, in a browser window or webview inside vscode"
+        },
         "UI5LanguageAssistant.logging.level": {
           "type": "string",
           "enum": [

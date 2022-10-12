@@ -30,6 +30,7 @@ import {
   COMMAND_OPEN_DEMOKIT,
   COMMAND_OPEN_WEBVIEW,
   LOGGING_LEVEL_CONFIG_PROP,
+  VIEW_API_REF,
 } from "./constants";
 
 type UI5Model = {
@@ -177,43 +178,47 @@ async function showWebView(url?: string | undefined) {
     });
   }
   const ui5Url = `${new URL(apiRefUrl).href}${name ? "#/api/" + name : ""}`;
+  const openIn = workspace.getConfiguration().get(VIEW_API_REF);
+  if (openIn === "vscode") {
+    const createWebView = () => {
+      currentPanel = window.createWebviewPanel(
+        "ui5APIRef",
+        "UI5 API Reference",
+        columnToShowIn,
+        {
+          enableScripts: true,
+        }
+      );
+      currentPanel.iconPath = Uri.file(
+        resolve(__dirname, "..", "..", "resources", "logo_ui5.png")
+      );
+      currentPanel.webview.html = getWebviewContent(ui5Url);
 
-  const createWebView = () => {
-    currentPanel = window.createWebviewPanel(
-      "ui5APIRef",
-      "UI5 API Reference",
-      columnToShowIn,
-      {
-        enableScripts: true,
-      }
-    );
-    currentPanel.iconPath = Uri.file(
-      resolve(__dirname, "..", "..", "resources", "logo_ui5.png")
-    );
-    currentPanel.webview.html = getWebviewContent(ui5Url);
+      // Reset when the current panel is closed
+      currentPanel.onDidDispose(
+        () => {
+          currentPanel = undefined;
+        },
+        null,
+        extContext?.subscriptions
+      );
+    };
+    if (currentPanel) {
+      // If the panel is disposed, then create a new one.
+      try {
+        currentPanel.webview.postMessage({ url: ui5Url });
 
-    // Reset when the current panel is closed
-    currentPanel.onDidDispose(
-      () => {
+        currentPanel.reveal(columnToShowIn);
+      } catch (error) {
         currentPanel = undefined;
-      },
-      null,
-      extContext?.subscriptions
-    );
-  };
-  if (currentPanel) {
-    // If the panel is disposed, then create a new one.
-    try {
-      currentPanel.webview.postMessage({ url: ui5Url });
-
-      currentPanel.reveal(columnToShowIn);
-    } catch (error) {
-      currentPanel = undefined;
-      // Otherwise, create a new panel.
+        // Otherwise, create a new panel.
+        createWebView();
+      }
+    } else {
       createWebView();
     }
   } else {
-    createWebView();
+    env.openExternal(Uri.parse(ui5Url));
   }
 }
 
