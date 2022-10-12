@@ -111,46 +111,6 @@ connection.onInitialized(async () => {
   }
 });
 
-connection.onDefinition(async (params: DefinitionParams) => {
-  const documentUri = params.textDocument.uri;
-  const document = documents.get(documentUri);
-  if (document) {
-    const documentPath = URI.parse(documentUri).fsPath;
-    const minUI5Version = getMinUI5VersionForXMLFile(documentPath);
-    const framework = getUI5FrameworkForXMLFile(documentPath);
-    const model = await getSemanticModel(
-      initializationOptions?.modelCachePath,
-      framework,
-      minUI5Version
-    );
-
-    const ui5Url = getCDNBaseUrl(framework, model.version);
-
-    getLogger().debug("`onDefinition` event", {
-      url: ui5Url,
-    });
-
-    // const documentUri = params.textDocument.uri;
-    // const document = documents.get(documentUri);
-    // if (document) {
-    //   const documentPath = URI.parse(documentUri).fsPath;
-    //   const minUI5Version = getMinUI5VersionForXMLFile(documentPath);
-    //   const framework = getUI5FrameworkForXMLFile(documentPath);
-    //   const model = await getSemanticModel(
-    //     initializationOptions?.modelCachePath,
-    //     framework,
-    //     minUI5Version
-    //   );
-    //   const ui5Url = getCDNBaseUrl(framework, model.version)
-
-    // }
-    connection.sendNotification("UI5LanguageAssistant/ui5Definition", {
-      url: ui5Url,
-    });
-  }
-  return null;
-});
-
 connection.onCompletion(
   async (
     textDocumentPosition: TextDocumentPositionParams
