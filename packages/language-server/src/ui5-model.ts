@@ -22,6 +22,7 @@ import {
   getVersionInfoUrl,
   getVersionJsonUrl,
 } from "./ui5-helper";
+import { cache } from "./cache";
 
 export async function getSemanticModel(
   modelCachePath: string | undefined,
@@ -38,11 +39,6 @@ export async function getSemanticModel(
   );
 }
 
-// cache the semantic model creation promise to ensure unique instances per version
-const semanticModelCache: Record<
-  string,
-  Promise<UI5SemanticModel>
-> = Object.create(null);
 // This function is exported for testing purposes (using a mock fetcher)
 export async function getSemanticModelWithFetcher(
   fetcher: Fetcher,
@@ -52,15 +48,16 @@ export async function getSemanticModelWithFetcher(
   ignoreCache?: boolean
 ): Promise<UI5SemanticModel> {
   const cacheKey = `${framework || "INVALID"}:${version || "INVALID"}`;
-  if (ignoreCache || semanticModelCache[cacheKey] === undefined) {
-    semanticModelCache[cacheKey] = createSemanticModelWithFetcher(
+  if (ignoreCache || cache.getUI5Model(cacheKey) === undefined) {
+    const data = await createSemanticModelWithFetcher(
       fetcher,
       modelCachePath,
       framework,
       version
     );
+    cache.setUI5Model(cacheKey, data);
   }
-  return semanticModelCache[cacheKey];
+  return cache.getUI5Model(cacheKey) as UI5SemanticModel;
 }
 
 // This function is exported for testing purposes (using a mock fetcher)

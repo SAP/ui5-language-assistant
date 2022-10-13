@@ -29,3 +29,4 @@ export {
   expectExists,
   expectProperty,
 } from "./utils/expect";
+export { getContextForFile } from "./utils/context";

@@ -1,5 +1,19 @@
 export type UI5Framework = "OpenUI5" | "SAPUI5";
 
+export interface AppContext {
+  manifest?: ManifestDetails;
+  ui5Model: UI5SemanticModel;
+}
+
+export type ManifestDetails = {
+  flexEnabled: boolean;
+  minUI5Version: string | undefined;
+};
+export type YamlDetails = {
+  flexEnabled: boolean;
+  version: string;
+};
+
 export interface UI5SemanticModel {
   version?: string;
   framework?: UI5Framework;

@@ -23,19 +23,15 @@ import {
 } from "@ui5-language-assistant/settings";
 import { commands } from "@ui5-language-assistant/user-facing-text";
 import { ServerInitializationOptions } from "../api";
-import { getSemanticModel } from "./ui5-model";
 import { getCompletionItems } from "./completion-items";
 import { getXMLViewDiagnostics } from "./xml-view-diagnostics";
 import { getHoverResponse } from "./hover";
 import {
-  getFlexEnabledFlagForXMLFile,
-  getMinUI5VersionForXMLFile,
   isManifestDoc,
   initializeManifestData,
   updateManifestData,
 } from "./manifest-handling";
 import {
-  getUI5FrameworkForXMLFile,
   isUI5YamlDoc,
   initializeUI5YamlData,
   updateUI5YamlData,
@@ -45,6 +41,7 @@ import { executeCommand } from "./commands";
 import { initSwa } from "./swa";
 import { getLogger, setLogLevel } from "./logger";
 import { getCDNBaseUrl } from "./ui5-helper";
+import { getContextForFile } from "./context";
 
 const connection = createConnection(ProposedFeatures.all);
 const documents = new TextDocuments(TextDocument);
@@ -120,22 +117,21 @@ connection.onCompletion(
     const document = documents.get(documentUri);
     if (document) {
       const documentPath = URI.parse(documentUri).fsPath;
-      const minUI5Version = getMinUI5VersionForXMLFile(documentPath);
-      const framework = getUI5FrameworkForXMLFile(documentPath);
-      const model = await getSemanticModel(
-        initializationOptions?.modelCachePath,
-        framework,
-        minUI5Version
+      const context = await getContextForFile(
+        documentPath,
+        initializationOptions?.modelCachePath
       );
+      const framework = context.ui5Model.framework ?? "SAPUI5";
+      const version = context.ui5Model.version;
       connection.sendNotification("UI5LanguageAssistant/ui5Model", {
-        url: getCDNBaseUrl(framework, model.version),
+        url: getCDNBaseUrl(framework, version),
         framework,
-        version: model.version,
+        version,
       });
       ensureDocumentSettingsUpdated(document.uri);
       const documentSettings = await getSettingsForDocument(document.uri);
       const completionItems = getCompletionItems({
-        model,
+        context,
         textDocumentPosition,
         document,
         documentSettings,
@@ -164,20 +160,19 @@ connection.onHover(
     const document = documents.get(documentUri);
     if (document) {
       const documentPath = URI.parse(documentUri).fsPath;
-      const minUI5Version = getMinUI5VersionForXMLFile(documentPath);
-      const framework = getUI5FrameworkForXMLFile(documentPath);
-      const ui5Model = await getSemanticModel(
-        initializationOptions?.modelCachePath,
-        framework,
-        minUI5Version
+      const context = await getContextForFile(
+        documentPath,
+        initializationOptions?.modelCachePath
       );
+      const framework = context.ui5Model.framework ?? "SAPUI5";
+      const version = context.ui5Model.version;
       connection.sendNotification("UI5LanguageAssistant/ui5Model", {
-        url: getCDNBaseUrl(framework, ui5Model.version),
+        url: getCDNBaseUrl(framework, version),
         framework,
-        version: ui5Model.version,
+        version,
       });
       const hoverResponse = getHoverResponse(
-        ui5Model,
+        context.ui5Model,
         textDocumentPosition,
         document
       );
@@ -217,23 +212,21 @@ documents.onDidChangeContent(async (changeEvent) => {
   const document = documents.get(documentUri);
   if (document !== undefined) {
     const documentPath = URI.parse(documentUri).fsPath;
-    const flexEnabled = getFlexEnabledFlagForXMLFile(documentPath);
-    const minUI5Version = getMinUI5VersionForXMLFile(documentPath);
-    const framework = getUI5FrameworkForXMLFile(documentPath);
-    const ui5Model = await getSemanticModel(
-      initializationOptions?.modelCachePath,
-      framework,
-      minUI5Version
+    const context = await getContextForFile(
+      documentPath,
+      initializationOptions?.modelCachePath
     );
+    const framework = context.ui5Model.framework ?? "SAPUI5";
+    const version = context.ui5Model.version;
     connection.sendNotification("UI5LanguageAssistant/ui5Model", {
-      url: getCDNBaseUrl(framework, ui5Model.version),
+      url: getCDNBaseUrl(framework, version),
       framework,
-      version: ui5Model.version,
+      version,
     });
     const diagnostics = getXMLViewDiagnostics({
       document,
-      ui5Model,
-      flexEnabled,
+      ui5Model: context.ui5Model,
+      flexEnabled: context.manifest?.flexEnabled,
     });
     getLogger().trace("computed diagnostics", { diagnostics });
     connection.sendDiagnostics({ uri: changeEvent.document.uri, diagnostics });
@@ -250,24 +243,23 @@ connection.onCodeAction(async (params) => {
   }
 
   const documentPath = URI.parse(docUri).fsPath;
-  const minUI5Version = getMinUI5VersionForXMLFile(documentPath);
-  const framework = getUI5FrameworkForXMLFile(documentPath);
-  const ui5Model = await getSemanticModel(
-    initializationOptions?.modelCachePath,
-    framework,
-    minUI5Version
+  const context = await getContextForFile(
+    documentPath,
+    initializationOptions?.modelCachePath
   );
+  const framework = context.ui5Model.framework ?? "SAPUI5";
+  const version = context.ui5Model.version;
   connection.sendNotification("UI5LanguageAssistant/ui5Model", {
-    url: getCDNBaseUrl(framework, ui5Model.version),
+    url: getCDNBaseUrl(framework, version),
     framework,
-    version: ui5Model.version,
+    version,
   });
 
   const diagnostics = params.context.diagnostics;
   const codeActions = diagnosticToCodeActionFix(
     textDocument,
     diagnostics,
-    ui5Model
+    context.ui5Model
   );
   getLogger().trace("`computed codeActions", { codeActions });
   return codeActions;

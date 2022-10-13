@@ -5,13 +5,9 @@ import { URI } from "vscode-uri";
 import globby from "globby";
 import { FileChangeType } from "vscode-languageserver";
 import { getLogger } from "./logger";
-
-type AbsolutePath = string;
-type ManifestData = Record<
-  AbsolutePath,
-  { flexEnabled: boolean; minUI5Version: string }
->;
-const manifestData: ManifestData = Object.create(null);
+import { cache } from "./cache";
+import { ManifestDetails } from "@ui5-language-assistant/semantic-model-types";
+import { join } from "path";
 
 export function isManifestDoc(uri: string): boolean {
   return uri.endsWith("manifest.json");
@@ -29,7 +25,7 @@ export async function initializeManifestData(
 
     // Parsing of manifest.json failed because the file is invalid
     if (response !== "INVALID") {
-      manifestData[manifestDoc] = response;
+      cache.setManifestDetails(join(manifestDoc), response);
     }
   });
 
@@ -39,7 +35,7 @@ export async function initializeManifestData(
 
 export function getFlexEnabledFlagForXMLFile(xmlPath: string): boolean {
   const manifestFilesForCurrentFolder = filter(
-    Object.keys(manifestData),
+    Array.from(cache.getAllManifestDetails().keys()),
     (manifestPath) => xmlPath.startsWith(dirname(manifestPath))
   );
 
@@ -52,14 +48,14 @@ export function getFlexEnabledFlagForXMLFile(xmlPath: string): boolean {
     return false;
   }
 
-  return manifestData[closestManifestPath].flexEnabled;
+  return cache.getManifestDetails(closestManifestPath)?.flexEnabled ?? false;
 }
 
 export function getMinUI5VersionForXMLFile(
   xmlPath: string
 ): string | undefined {
   const manifestFilesForCurrentFolder = filter(
-    Object.keys(manifestData),
+    Array.from(cache.getAllManifestDetails().keys()),
     (manifestPath) => xmlPath.startsWith(dirname(manifestPath))
   );
 
@@ -72,7 +68,7 @@ export function getMinUI5VersionForXMLFile(
     return undefined;
   }
 
-  return manifestData[closestManifestPath].minUI5Version;
+  return cache.getManifestDetails(closestManifestPath)?.minUI5Version;
 }
 
 export async function updateManifestData(
@@ -90,14 +86,14 @@ export async function updateManifestData(
       //changed
       const response = await readManifestFile(manifestUri);
       // Parsing of manifest.json failed because the file is invalid
-      // We want to keep last successfully read state - manifset.json file may be actively edited
+      // We want to keep last successfully read state - manifest.json file may be actively edited
       if (response !== "INVALID") {
-        manifestData[manifestPath] = response;
+        cache.setManifestDetails(manifestPath, response);
       }
       return;
     }
     case 3: //deleted
-      delete manifestData[manifestPath];
+      cache.deleteManifestDetails(manifestPath);
       return;
   }
 }
@@ -119,7 +115,7 @@ async function findAllManifestDocumentsInWorkspace(
 
 async function readManifestFile(
   manifestUri: string
-): Promise<{ flexEnabled: boolean; minUI5Version: string } | "INVALID"> {
+): Promise<ManifestDetails | "INVALID"> {
   const manifestContent = await readFile(
     URI.parse(manifestUri).fsPath,
     "utf-8"
@@ -135,6 +131,8 @@ async function readManifestFile(
   const flexEnabled = manifestJsonObject["sap.ui5"]?.flexEnabled;
   const minUI5Version =
     manifestJsonObject["sap.ui5"]?.dependencies?.minUI5Version;
-
-  return { flexEnabled: flexEnabled, minUI5Version: minUI5Version };
+  return {
+    flexEnabled: flexEnabled,
+    minUI5Version: minUI5Version,
+  };
 }

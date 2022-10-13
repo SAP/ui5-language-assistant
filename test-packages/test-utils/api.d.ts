@@ -16,6 +16,7 @@ import {
   UI5EnumValue,
   UI5DeprecatedInfo,
   UI5Framework,
+  AppContext,
 } from "@ui5-language-assistant/semantic-model-types";
 import { XMLAttribute, XMLElement } from "@xml-tools/ast";
 import { UI5XMLViewCompletion } from "@ui5-language-assistant/xml-views-completion";
@@ -168,3 +169,11 @@ export type generateFunc = (opts: {
   strict: boolean;
   printValidationErrors?: boolean;
 }) => UI5SemanticModel;
+
+export function getContextForFile(opts: {
+  framework: UI5Framework;
+  version: TestModelVersion;
+  downloadLibs?: boolean;
+  strict?: boolean;
+  modelGenerator: generateFunc;
+}): Promise<AppContext>;
