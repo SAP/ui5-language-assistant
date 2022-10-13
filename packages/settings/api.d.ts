@@ -1,5 +1,8 @@
 import Thenable from "vscode-languageserver";
-export type Settings = CodeAssistSettings & TraceSettings & LoggingSettings;
+export type Settings = CodeAssistSettings &
+  TraceSettings &
+  LoggingSettings &
+  API_Reference;
 
 export interface CodeAssistSettings {
   codeAssist: {
@@ -14,11 +17,24 @@ export interface TraceSettings {
   };
 }
 
+export interface API_Reference {
+  view: {
+    API_Reference: keyof IValidApiReferenceValues;
+  };
+}
+
 export interface IValidTraceServerValues {
   off: true;
   messages: true;
   verbose: true;
 }
+
+export interface IValidApiReferenceValues {
+  editor: true;
+  browser: true;
+}
+
+export const validViewApiReferenceValues: IValidApiReferenceValues;
 
 export const validTraceServerValues: IValidTraceServerValues;
 

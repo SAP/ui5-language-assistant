@@ -57,7 +57,7 @@
       "type": "object",
       "title": "UI5 Language Assistant",
       "properties": {
-        "UI5LanguageAssistant.View.API_Reference": {
+        "UI5LanguageAssistant.view.API_Reference": {
           "type": "string",
           "enum": [
             "browser",

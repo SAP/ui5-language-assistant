@@ -14,6 +14,11 @@ export const validTraceServerValues = {
   verbose: true as const,
 };
 
+export const validViewApiReferenceValues = {
+  editor: true as const,
+  browser: true as const,
+};
+
 export const validLoggingLevelValues = {
   off: true as const,
   fatal: true as const,
