@@ -22,6 +22,7 @@ import {
   validators,
 } from "@ui5-language-assistant/xml-views-validation";
 import { offsetRangeToLSPRange } from "./range-utils";
+import { getDiagnostics as extDiagnostic } from "@ui5-language-assistant/ui5-odata-language-server-extension";
 
 export function getXMLViewDiagnostics(opts: {
   document: TextDocument;
@@ -41,7 +42,12 @@ export function getXMLViewDiagnostics(opts: {
     model: opts.ui5Model,
   });
   const diagnostics = validationIssuesToLspDiagnostics(issues, opts.document);
-  return diagnostics;
+  // this can be controlled by use defined settings. i.e ignoreODataUI5
+  const extAllDiagnostic = extDiagnostic({
+    ui5Model: opts.ui5Model,
+    ast: xmlDocAst,
+  });
+  return [...diagnostics, ...extAllDiagnostic];
 }
 
 function validationIssuesToLspDiagnostics(

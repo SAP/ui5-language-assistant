@@ -1,0 +1,41 @@
+{
+  "name": "@ui5-language-assistant/ui5-odata-language-server-extension",
+  "version": "3.3.1",
+  "description": "Language server support for UI5 OData domain",
+  "keywords": [
+    "xml",
+    "OData",
+    "ui5",
+    "openui5",
+    "content-assist"
+  ],
+  "files": [
+    ".reuse",
+    "LICENSES",
+    "lib/src",
+    "api.d.ts",
+    "src"
+  ],
+  "main": "lib/src/api.js",
+  "repository": "https://github.com/sap/ui5-language-assistant/",
+  "license": "Apache-2.0",
+  "typings": "./api.d.ts",
+  "dependencies": {
+    "vscode-languageserver": "8.0.2"
+  },
+  "devDependencies": {
+    "@ui5-language-assistant/ui5-language-server-extension-types": "3.3.1"
+  },
+  "scripts": {
+    "ci": "npm-run-all clean compile lint coverage",
+    "clean": "rimraf ./lib ./coverage ./nyc_output",
+    "compile": "yarn run clean && tsc -p .",
+    "compile:watch": "tsc -p . --watch",
+    "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore",
+    "test": "mocha",
+    "coverage": "nyc mocha"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

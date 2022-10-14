@@ -46,6 +46,11 @@ import { initSwa } from "./swa";
 import { getLogger, setLogLevel } from "./logger";
 import { getCDNBaseUrl } from "./ui5-helper";
 
+import {
+  initialize as extInitialize,
+  onDidChangeWatchedFiles as extOnDidChangeWatchedFiles,
+} from "@ui5-language-assistant/ui5-odata-language-server-extension";
+
 const connection = createConnection(ProposedFeatures.all);
 const documents = new TextDocuments(TextDocument);
 let manifestStateInitialized: Promise<void[]> | undefined = undefined;
@@ -200,6 +205,7 @@ connection.onDidChangeWatchedFiles(async (changeEvent) => {
       await updateUI5YamlData(uri, change.type);
     }
   });
+  await extOnDidChangeWatchedFiles(changeEvent);
 });
 
 documents.onDidChangeContent(async (changeEvent) => {
@@ -225,6 +231,7 @@ documents.onDidChangeContent(async (changeEvent) => {
       framework,
       minUI5Version
     );
+    await extInitialize(documentPath);
     connection.sendNotification("UI5LanguageAssistant/ui5Model", {
       url: getCDNBaseUrl(framework, ui5Model.version),
       framework,

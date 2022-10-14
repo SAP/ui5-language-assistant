@@ -29,6 +29,7 @@ import { ui5NodeToFQN } from "@ui5-language-assistant/logic-utils";
 import { getNodeDocumentation, getNodeDetail } from "./documentation";
 import { Settings } from "@ui5-language-assistant/settings";
 import { assertNever } from "assert-never";
+import { getCompletionItems as extCompletionItems } from "@ui5-language-assistant/ui5-odata-language-server-extension";
 
 export function getCompletionItems(opts: {
   model: UI5SemanticModel;
@@ -53,7 +54,16 @@ export function getCompletionItems(opts: {
     opts.model,
     opts.textDocumentPosition
   );
-  return completionItems;
+  // this can be controlled by use defined settings. i.e ignoreODataUI5
+  const extCompletions = extCompletionItems({
+    ui5Model: opts.model,
+    offset: opts.document.offsetAt(opts.textDocumentPosition.position),
+    cst: cst as DocumentCstNode,
+    ast,
+    tokenVector,
+    documentSettings: opts.documentSettings,
+  });
+  return [...completionItems, ...extCompletions];
 }
 
 function transformToLspSuggestions(
