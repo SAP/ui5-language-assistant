@@ -7,8 +7,8 @@ describe("cache", () => {
     cache.setUI5Model("key01", ({} as unknown) as UI5SemanticModel);
     // importing again - no new instance is generated
     const cacheModule = await import("../src/cache");
-    expect(cache.getAllUI5Model()).to.deep.equal(
-      cacheModule.cache.getAllUI5Model()
+    expect(cache.getUI5ModelEntries()).to.deep.equal(
+      cacheModule.cache.getUI5ModelEntries()
     );
   });
 });

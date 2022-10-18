@@ -17,10 +17,10 @@ class ProjectCache {
   }
 
   /**
-   * Get all cached manifest details
+   * Get entries of cached manifest details
    */
-  getAllManifestDetails(): Map<AbsolutePathToManifest, ManifestDetails> {
-    return this._manifestDetails;
+  getManifestDetailsEntries(): string[] {
+    return [...this._manifestDetails.keys()];
   }
   getManifestDetails(documentPath: string): ManifestDetails | undefined {
     return this._manifestDetails.get(documentPath);
@@ -32,10 +32,10 @@ class ProjectCache {
     return this._manifestDetails.delete(documentPath);
   }
   /**
-   * Get all cached yaml details
+   * Get entries of cached yaml details
    */
-  getAllYamlDetails(): Map<AbsolutePathToYaml, YamlDetails> {
-    return this._ui5YamlDetails;
+  getYamlDetailsEntries(): string[] {
+    return [...this._ui5YamlDetails.keys()];
   }
   getYamlDetails(documentPath: string): YamlDetails | undefined {
     return this._ui5YamlDetails.get(documentPath);
@@ -47,10 +47,10 @@ class ProjectCache {
     return this._ui5YamlDetails.delete(documentPath);
   }
   /**
-   * Get all cached UI5 model
+   * Get entries of cached UI5 model
    */
-  getAllUI5Model(): Map<AbsolutePathToManifest, UI5SemanticModel> {
-    return this._ui5Model;
+  getUI5ModelEntries(): string[] {
+    return [...this._ui5Model.keys()];
   }
   getUI5Model(key: string): UI5SemanticModel | undefined {
     return this._ui5Model.get(key);

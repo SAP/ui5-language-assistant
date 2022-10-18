@@ -35,7 +35,7 @@ export async function initializeManifestData(
 
 export function getFlexEnabledFlagForXMLFile(xmlPath: string): boolean {
   const manifestFilesForCurrentFolder = filter(
-    Array.from(cache.getAllManifestDetails().keys()),
+    cache.getManifestDetailsEntries(),
     (manifestPath) => xmlPath.startsWith(dirname(manifestPath))
   );
 
@@ -55,7 +55,7 @@ export function getMinUI5VersionForXMLFile(
   xmlPath: string
 ): string | undefined {
   const manifestFilesForCurrentFolder = filter(
-    Array.from(cache.getAllManifestDetails().keys()),
+    cache.getManifestDetailsEntries(),
     (manifestPath) => xmlPath.startsWith(dirname(manifestPath))
   );
 

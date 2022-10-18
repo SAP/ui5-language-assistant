@@ -1,4 +1,4 @@
-import { dirname } from "path";
+import { dirname, join } from "path";
 import { maxBy, map, filter } from "lodash";
 import { readFile } from "fs-extra";
 import { URI } from "vscode-uri";
@@ -8,13 +8,7 @@ import { loadAll } from "js-yaml";
 
 import { getLogger } from "./logger";
 import { UI5Framework } from "@ui5-language-assistant/semantic-model-types";
-
-type AbsolutePath = string;
-type UI5YamlData = Record<
-  AbsolutePath,
-  { framework: UI5Framework; version: string }
->;
-const ui5YamlData: UI5YamlData = Object.create(null);
+import { cache } from "./cache";
 
 export function isUI5YamlDoc(uri: string): boolean {
   return uri.endsWith("ui5.yaml");
@@ -32,7 +26,7 @@ export async function initializeUI5YamlData(
 
     // Parsing of ui5.yaml failed because the file is invalid
     if (response !== "INVALID") {
-      ui5YamlData[ui5YamlDoc] = response;
+      cache.setYamlDetails(join(ui5YamlDoc), response);
     }
   });
 
@@ -42,7 +36,7 @@ export async function initializeUI5YamlData(
 
 export function getUI5FrameworkForXMLFile(xmlPath: string): UI5Framework {
   const ui5YamlFilesForCurrentFolder = filter(
-    Object.keys(ui5YamlData),
+    cache.getYamlDetailsEntries(),
     (ui5YamlPath) => xmlPath.startsWith(dirname(ui5YamlPath))
   );
 
@@ -51,14 +45,15 @@ export function getUI5FrameworkForXMLFile(xmlPath: string): UI5Framework {
     (ui5YamlPath) => ui5YamlPath.length
   );
 
-  return closestUI5YamlPath
-    ? ui5YamlData[closestUI5YamlPath].framework
-    : "SAPUI5";
+  if (closestUI5YamlPath) {
+    return cache.getYamlDetails(closestUI5YamlPath)?.framework ?? "SAPUI5";
+  }
+  return "SAPUI5";
 }
 
 export function getVersionForXMLFile(xmlPath: string): string | undefined {
   const ui5YamlFilesForCurrentFolder = filter(
-    Object.keys(ui5YamlData),
+    cache.getYamlDetailsEntries(),
     (ui5YamlPath) => xmlPath.startsWith(dirname(ui5YamlPath))
   );
 
@@ -71,7 +66,7 @@ export function getVersionForXMLFile(xmlPath: string): string | undefined {
     return undefined;
   }
 
-  return ui5YamlData[closestUI5YamlPath].version;
+  return cache.getYamlDetails(closestUI5YamlPath)?.version;
 }
 
 export async function updateUI5YamlData(
@@ -91,12 +86,12 @@ export async function updateUI5YamlData(
       // Parsing of ui5Yaml.json failed because the file is invalid
       // We want to keep last successfully read state - manifset.json file may be actively edited
       if (response !== "INVALID") {
-        ui5YamlData[ui5YamlPath] = response;
+        cache.setYamlDetails(ui5YamlPath, response);
       }
       return;
     }
     case 3: //deleted
-      delete ui5YamlData[ui5YamlPath];
+      cache.deleteYamlDetails(ui5YamlPath);
       return;
   }
 }

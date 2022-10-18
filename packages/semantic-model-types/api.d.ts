@@ -10,7 +10,7 @@ export type ManifestDetails = {
   minUI5Version: string | undefined;
 };
 export type YamlDetails = {
-  flexEnabled: boolean;
+  framework: UI5Framework;
   version: string;
 };
 
