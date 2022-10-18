@@ -28,20 +28,20 @@ jobs:
       run: |
             npm install -g yarn
             yarn
-    - name: Build Node v18 Linux
+    - name: Build Node v18 - Linux
       if: ${{ (matrix.node-version == '18.x') && (runner.os == 'Linux') }}
       run: xvfb-run -a yarn run ci
       env:
           NODE_OPTIONS: "--openssl-legacy-provider"
-    - name: Build Node v18 Others
+    - name: Build Node v18 - Others OS
       if: ${{ (matrix.node-version == '18.x') && (runner.os != 'Linux') }}
       run: yarn run ci
       env:
           NODE_OPTIONS: "--openssl-legacy-provider"
-    - name: Build Node v14/16
+    - name: Build Node v14/16 - Linux
       if: ${{ (matrix.node-version != '18.x') && (runner.os == 'Linux') }}
       run: xvfb-run -a yarn run ci
-    - name: Build Node v14/16
+    - name: Build Node v14/16 - Other OS
       if: ${{ (matrix.node-version != '18.x') && (runner.os != 'Linux') }}
       run: yarn run ci
   
