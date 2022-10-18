@@ -28,25 +28,21 @@ jobs:
       run: |
             npm install -g yarn
             yarn
-    # - name: Override NODE options with openssl-legacy-provider for webpack on node v18
-    #   if: matrix.node-version == '18.x'
-    #   run: |
-    #      echo "NODE_OPTIONS=--openssl-legacy-provider" >> $GITHUB_ENV
     - name: Build Node v18 Linux
-      if: ${{ (matrix.node-version == '18.x') && (runner.os == 'Linux')
+      if: ${{ (matrix.node-version == '18.x') && (runner.os == 'Linux') }}
       run: xvfb-run -a yarn run ci
       env:
           NODE_OPTIONS: "--openssl-legacy-provider"
     - name: Build Node v18 Others
-      if: ${{ (matrix.node-version == '18.x') && (runner.os != 'Linux')
+      if: ${{ (matrix.node-version == '18.x') && (runner.os != 'Linux') }}
       run: yarn run ci
       env:
           NODE_OPTIONS: "--openssl-legacy-provider"
     - name: Build Node v14/16
-      if: ${{ (matrix.node-version != '18.x') && (runner.os == 'Linux')
+      if: ${{ (matrix.node-version != '18.x') && (runner.os == 'Linux') }}
       run: xvfb-run -a yarn run ci
     - name: Build Node v14/16
-      if: ${{ (matrix.node-version != '18.x') && (runner.os != 'Linux')
+      if: ${{ (matrix.node-version != '18.x') && (runner.os != 'Linux') }}
       run: yarn run ci
   
   compliance:
