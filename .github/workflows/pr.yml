@@ -7,14 +7,15 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
     env:
       HUSKY_SKIP: "true"
       # NODE_OPTIONS: "--openssl-legacy-provider"
     strategy:
       matrix:
         node-version: [14.x, 16.x, 18.x]
-    
+        os: [macos-latest, ubuntu-latest, windows-latest]
+
+    runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v3
 
@@ -24,25 +25,26 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'yarn'
     - name: Setup yarn
-      run: npm install -g yarn
+    - run: npm install -g yarn
+    - run: yarn
     # - name: Override NODE options with openssl-legacy-provider for webpack on node v18
     #   if: matrix.node-version == '18.x'
     #   run: |
     #      echo "NODE_OPTIONS=--openssl-legacy-provider" >> $GITHUB_ENV
     - name: Build Node v18
       if: matrix.node-version == '18.x'
-      run: |
-        
-        yarn
-        yarn run ci
+    - run: yarn run ci
+      if: runner.os != 'Linux'
+    - run: xvfb-run -a yarn run ci
+      if: runner.os == 'Linux'  
       env:
           NODE_OPTIONS: "--openssl-legacy-provider"
     - name: Build Node v14/16
       if: matrix.node-version != '18.x'
-      run: |
-        
-        yarn
-        yarn run ci
+    - run: yarn run ci
+      if: runner.os != 'Linux'
+    - run: xvfb-run -a yarn run ci
+      if: runner.os == 'Linux'  
     # - name: Remove openssl-legacy-provider from node options on node v18
     #   if: matrix.node-version == '18.x'
     #   run: |
