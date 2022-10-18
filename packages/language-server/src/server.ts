@@ -139,7 +139,7 @@ connection.onCompletion(
       });
       ensureDocumentSettingsUpdated(document.uri);
       const documentSettings = await getSettingsForDocument(document.uri);
-      const completionItems = getCompletionItems({
+      const completionItems = await getCompletionItems({
         model,
         textDocumentPosition,
         document,
@@ -237,7 +237,7 @@ documents.onDidChangeContent(async (changeEvent) => {
       framework,
       version: ui5Model.version,
     });
-    const diagnostics = getXMLViewDiagnostics({
+    const diagnostics = await getXMLViewDiagnostics({
       document,
       ui5Model,
       flexEnabled,

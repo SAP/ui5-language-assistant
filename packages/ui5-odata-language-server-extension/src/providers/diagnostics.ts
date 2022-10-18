@@ -1,6 +1,11 @@
 import { Diagnostic } from "vscode-languageserver";
+import { ExtensionDiagnosticParams } from "@ui5-language-assistant/ui5-language-server-extension-types";
 
-export function getDiagnostics(): Diagnostic[] {
+export async function getDiagnostics({
+  documentPath,
+  ast,
+  ui5Model,
+}: ExtensionDiagnosticParams): Promise<Diagnostic[]> {
   try {
     return [
       {

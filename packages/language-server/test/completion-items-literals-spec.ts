@@ -16,12 +16,12 @@ describe("the UI5 language assistant Code Completion Services", () => {
     });
   });
 
-  it("will get completion values for boolean value", () => {
+  it("will get completion values for boolean value", async () => {
     const xmlSnippet = `<mvc:View 
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns="sap.m"
                           busy="⇶">`;
-    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
+    const suggestions = await getSuggestions(xmlSnippet, ui5SemanticModel);
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
       replacedText: getTextInRange(
@@ -42,12 +42,12 @@ describe("the UI5 language assistant Code Completion Services", () => {
     expect(suggestionKinds).to.deep.equal([CompletionItemKind.Constant]);
   });
 
-  it("will get completion values for UI5 boolean value when the cursor is in the middle of a name", () => {
+  it("will get completion values for UI5 boolean value when the cursor is in the middle of a name", async () => {
     const xmlSnippet = `<mvc:View 
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns="sap.m"
                           busy="t⇶a">`;
-    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
+    const suggestions = await getSuggestions(xmlSnippet, ui5SemanticModel);
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
       replacedText: getTextInRange(

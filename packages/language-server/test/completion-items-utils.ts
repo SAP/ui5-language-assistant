@@ -24,11 +24,11 @@ export function getTagName(textEdit: TextEdit | undefined): string | undefined {
 }
 
 /** Use ⇶ to mark the cursor position */
-export function getSuggestions(
+export async function getSuggestions(
   xmlSnippet: string,
   ui5SemanticModel: UI5SemanticModel,
   settings?: Partial<Settings>
-): CompletionItem[] {
+): Promise<CompletionItem[]> {
   const { document, position } = getXmlSnippetDocument(xmlSnippet);
   const uri: TextDocumentIdentifier = { uri: "uri" };
   const textDocPositionParams: TextDocumentPositionParams = {
@@ -45,7 +45,7 @@ export function getSuggestions(
     getDefaultSettings()
   ) as Settings;
 
-  const suggestions = getCompletionItems({
+  const suggestions = await getCompletionItems({
     model: ui5SemanticModel,
     textDocumentPosition: textDocPositionParams,
     document,

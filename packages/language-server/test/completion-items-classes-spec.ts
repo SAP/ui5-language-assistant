@@ -38,13 +38,13 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
     replacedText: string;
     attributes?: string[];
   }
-  function assertClassesCompletions(opts: {
+  async function assertClassesCompletions(opts: {
     xmlSnippet: string;
     expected: ClassCompletionItem[];
     compareAttributes?: boolean;
-  }): CompletionItem[] {
+  }): Promise<CompletionItem[]> {
     const compareAttributes = opts.compareAttributes ?? true;
-    const suggestions = getSuggestions(opts.xmlSnippet, ui5SemanticModel);
+    const suggestions = await getSuggestions(opts.xmlSnippet, ui5SemanticModel);
     const ranges = getRanges(opts.xmlSnippet);
 
     const suggestionsDetails = map(suggestions, (suggestion) => ({
@@ -329,9 +329,9 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
     });
   });
 
-  it("will return valid class suggestions for empty tag with no closing bracket", () => {
+  it("will return valid class suggestions for empty tag with no closing bracket", async () => {
     const xmlSnippet = `<⇶`;
-    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
+    const suggestions = await getSuggestions(xmlSnippet, ui5SemanticModel);
     expect(suggestions).to.not.be.empty;
     forEach(suggestions, (suggestion) => {
       // We're not replacing any text, just adding
@@ -359,9 +359,9 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
     });
   });
 
-  it("will return valid class suggestions for empty tag with closing bracket", () => {
+  it("will return valid class suggestions for empty tag with closing bracket", async () => {
     const xmlSnippet = `<⇶>`;
-    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
+    const suggestions = await getSuggestions(xmlSnippet, ui5SemanticModel);
     expect(suggestions).to.not.be.empty;
     forEach(suggestions, (suggestion) => {
       // We're not replacing any text, just adding
@@ -385,8 +385,8 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
     });
   });
 
-  it("will get completion values for UI5 experimental class", () => {
-    const suggestions = assertClassesCompletions({
+  it("will get completion values for UI5 experimental class", async () => {
+    const suggestions = await assertClassesCompletions({
       xmlSnippet: `<mvc:View 
           xmlns:mvc="sap.ui.core.mvc"
           xmlns:unified="sap.ui.unified">

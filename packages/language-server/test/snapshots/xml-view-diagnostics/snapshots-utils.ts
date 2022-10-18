@@ -114,7 +114,7 @@ export async function computeNewDiagnosticLSPResponse(
     xmlTextSnippet
   );
 
-  const actualDiagnostics = getXMLViewDiagnostics({
+  const actualDiagnostics = await getXMLViewDiagnostics({
     document: xmlTextDoc,
     ui5Model,
     flexEnabled: options ? options.flexEnabled : false,

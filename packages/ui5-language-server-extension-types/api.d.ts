@@ -6,6 +6,7 @@ import type { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-ty
 import type { DocumentCstNode } from "@xml-tools/parser";
 import type { Settings } from "@ui5-language-assistant/settings";
 export interface ExtensionCompletionParams {
+  documentPath: string;
   ui5Model: UI5SemanticModel;
   offset: number;
   cst: DocumentCstNode;
@@ -14,6 +15,7 @@ export interface ExtensionCompletionParams {
   documentSettings: Settings;
 }
 export interface ExtensionDiagnosticParams {
+  documentPath: string;
   ui5Model: UI5SemanticModel;
   ast: XMLDocument;
 }
@@ -33,10 +35,12 @@ export interface ExtensionAPI {
    * Provides completion items
    * @note gently handle exceptions and return empty array in case of exception
    */
-  getCompletionItems: (params: ExtensionCompletionParams) => CompletionItem[];
+  getCompletionItems: (
+    params: ExtensionCompletionParams
+  ) => Promise<CompletionItem[]>;
   /**
    * Provides diagnostics
    * @note gently handle exceptions and return empty array in case of exception
    */
-  getDiagnostics: (params: ExtensionDiagnosticParams) => Diagnostic[];
+  getDiagnostics: (params: ExtensionDiagnosticParams) => Promise<Diagnostic[]>;
 }

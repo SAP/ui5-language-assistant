@@ -22,13 +22,14 @@ import {
   validators,
 } from "@ui5-language-assistant/xml-views-validation";
 import { offsetRangeToLSPRange } from "./range-utils";
+import { URI } from "vscode-uri";
 import { getDiagnostics as extDiagnostic } from "@ui5-language-assistant/ui5-odata-language-server-extension";
 
-export function getXMLViewDiagnostics(opts: {
+export async function getXMLViewDiagnostics(opts: {
   document: TextDocument;
   ui5Model: UI5SemanticModel;
   flexEnabled?: boolean;
-}): Diagnostic[] {
+}): Promise<Diagnostic[]> {
   const documentText = opts.document.getText();
   const { cst, tokenVector } = parse(documentText);
   const xmlDocAst = buildAst(cst as DocumentCstNode, tokenVector);
@@ -43,7 +44,8 @@ export function getXMLViewDiagnostics(opts: {
   });
   const diagnostics = validationIssuesToLspDiagnostics(issues, opts.document);
   // this can be controlled by use defined settings. i.e ignoreODataUI5
-  const extAllDiagnostic = extDiagnostic({
+  const extAllDiagnostic = await extDiagnostic({
+    documentPath: URI.parse(opts.document.uri).fsPath,
     ui5Model: opts.ui5Model,
     ast: xmlDocAst,
   });
