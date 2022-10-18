@@ -29,7 +29,7 @@ jobs:
     #   if: matrix.node-version == '18.x'
     #   run: |
     #      echo "NODE_OPTIONS=--openssl-legacy-provider" >> $GITHUB_ENV
-    - name: Build
+    - name: Build Node v18
       if: matrix.node-version == '18.x'
       run: |
         
@@ -37,7 +37,7 @@ jobs:
         yarn run ci
       env:
           NODE_OPTIONS: "--openssl-legacy-provider"
-    - name: Build
+    - name: Build Node v14/16
       if: matrix.node-version != '18.x'
       run: |
         
