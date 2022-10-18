@@ -24,9 +24,9 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'yarn'
-    - name: Setup yarn
-    - run: npm install -g yarn
-    - run: yarn
+    - run: |
+            npm install -g yarn
+            yarn
     # - name: Override NODE options with openssl-legacy-provider for webpack on node v18
     #   if: matrix.node-version == '18.x'
     #   run: |
