@@ -153,6 +153,7 @@ This means that there may be a delay between starting VS Code and having the rel
 #### SAPUI5 version
 
 This extension reads the UI5 version in the following sequence
+
 1. the minUI5Version from the manifest.json file
 2. The ui5.yaml file framework version
 3. Default back to 1.71.xx (depending patch level)
