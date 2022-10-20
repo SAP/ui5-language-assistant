@@ -150,13 +150,15 @@ This means that there may be a delay between starting VS Code and having the rel
 
 ### Limitations
 
-#### SAPUI5 version
+#### UI5 version and framework
 
-This extension reads the UI5 version in the following sequence
+This extension derives the UI5 version in the following sequence:
 
 1. the minUI5Version from the manifest.json file
-2. The ui5.yaml file framework version
-3. Default back to 1.71.xx (depending patch level)
+2. Lookup in CDN for UI5 version and negotiates to the closest LTS version, if not found
+3. Default back to 1.71 (latest patch level)
+
+The framework(SAPUI5/OpenUI5) is derived from the ui5.yaml file. This defaults to SAPUI5.
 
 #### Custom controls
 
