@@ -124,6 +124,15 @@ The feature is available in the following:
 
 ![](https://raw.githubusercontent.com/SAP/ui5-language-assistant/master/packages/vscode-ui5-language-assistant/resources/readme/preview-manifest-json.gif)
 
+### Quick navigation to API Reference
+
+Right click a tag in the XML file and use the View API reference shortcut to navigate directly to the API reference. Use the setting 
+```
+"UI5LanguageAssistant.view.API_Reference": "browser" | "editor"
+```
+
+The default setting is editor which opens the API reference in a new editor to the side.
+
 #### Description:
 
 Implemented using the UI5 [manifest.json schema](https://github.com/SAP/ui5-manifest/blob/master/schema.json).
