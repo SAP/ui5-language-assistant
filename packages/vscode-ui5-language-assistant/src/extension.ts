@@ -10,6 +10,10 @@ import {
   commands,
   env,
   Uri,
+  OverviewRulerLane,
+  DecorationOptions,
+  Range,
+  DecorationRangeBehavior,
 } from "vscode";
 import {
   LanguageClient,
@@ -46,7 +50,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
   window.onDidChangeActiveTextEditor(() => {
     updateCurrentModel(undefined);
   });
-
+  textDecorator(context);
   client.start();
 }
 
@@ -123,6 +127,94 @@ function updateCurrentModel(model: UI5Model | undefined) {
       statusBarItem.hide();
     }
   }
+}
+
+function textDecorator(context: ExtensionContext): void {
+  let timeout: NodeJS.Timer | undefined = undefined;
+
+  // create a decorator type that we use to decorate small numbers
+  const InlineIconDecoration = window.createTextEditorDecorationType({
+    textDecoration: "none; opacity: 0.6 !important;",
+    rangeBehavior: DecorationRangeBehavior.ClosedClosed,
+  });
+
+  const HideTextDecoration = window.createTextEditorDecorationType({
+    textDecoration: "none; display: none;", // a hack to inject custom style
+  });
+
+  let activeEditor = window.activeTextEditor;
+
+  function updateDecorations() {
+    if (!activeEditor) {
+      return;
+    }
+    const regEx = /sap-icon:\/\/(\w+)/g;
+    const text = activeEditor.document.getText();
+    const decoratirOptions: DecorationOptions[] = [];
+    let match;
+    while ((match = regEx.exec(text))) {
+      const startPos = activeEditor.document.positionAt(match.index);
+      const endPos = activeEditor.document.positionAt(
+        match.index + match[0].length
+      );
+      const item: DecorationOptions = {
+        range: new Range(startPos, endPos),
+        renderOptions: {
+          before: {
+            fontStyle: "SAP-icons",
+            contentText: "",
+          },
+        },
+        hoverMessage: "",
+      };
+
+      decoratirOptions.push(item);
+    }
+    activeEditor.setDecorations(InlineIconDecoration, decoratirOptions);
+    activeEditor.setDecorations(
+      HideTextDecoration,
+      decoratirOptions
+        .map(({ range }) => range)
+        .filter((i) => i.start.line !== activeEditor!.selection.start.line)
+    );
+  }
+
+  function triggerUpdateDecorations(throttle = false) {
+    if (timeout) {
+      clearTimeout(timeout);
+      timeout = undefined;
+    }
+    if (throttle) {
+      timeout = setTimeout(updateDecorations, 500);
+    } else {
+      updateDecorations();
+    }
+  }
+
+  if (activeEditor) {
+    triggerUpdateDecorations();
+  }
+
+  window.onDidChangeActiveTextEditor(
+    (editor) => {
+      activeEditor = editor;
+      if (editor) {
+        triggerUpdateDecorations();
+      }
+    },
+    null,
+    context.subscriptions
+  );
+
+  workspace.onDidChangeTextDocument(
+    (event) => {
+      if (activeEditor && event.document === activeEditor.document) {
+        triggerUpdateDecorations(true);
+      }
+    },
+    null,
+    context.subscriptions
+  );
 }
 
 export function deactivate(): Thenable<void> | undefined {
