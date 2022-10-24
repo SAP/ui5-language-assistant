@@ -345,7 +345,9 @@ describe("the UI5 language assistant Code Completion Services", () => {
         <te⇶></⭲te⭰>
       </List>
     </mvc:View>`;
-    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
+    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel).filter(
+      (suggestion) => suggestion.kind === CompletionItemKind.Field
+    );
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
       tagName: getTagName(suggestion.textEdit),
@@ -406,7 +408,9 @@ describe("the UI5 language assistant Code Completion Services", () => {
         <m:te⇶></⭲m:te⭰>
       </m:List>
     </mvc:View>`;
-    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
+    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel).filter(
+      (suggestion) => suggestion.kind === CompletionItemKind.Field
+    );
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
       tagName: getTagName(suggestion.textEdit),
@@ -467,7 +471,9 @@ describe("the UI5 language assistant Code Completion Services", () => {
         <te⇶></aaa>
       </List>
     </mvc:View>`;
-    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
+    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel).filter(
+      (suggestion) => suggestion.kind === CompletionItemKind.Field
+    );
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
       tagName: getTagName(suggestion.textEdit),
@@ -513,7 +519,9 @@ describe("the UI5 language assistant Code Completion Services", () => {
         <te⇶>⭲</>⭰
       </List>
     </mvc:View>`;
-    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
+    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel).filter(
+      (suggestion) => suggestion.kind === CompletionItemKind.Field
+    );
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
       tagName: getTagName(suggestion.textEdit),
