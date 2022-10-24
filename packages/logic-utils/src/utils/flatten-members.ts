@@ -1,4 +1,4 @@
-import { partial, filter, concat } from "lodash";
+import { partial, filter, concat, find } from "lodash";
 import { UI5Class } from "@ui5-language-assistant/semantic-model-types";
 
 function flattenMembers<T extends { name: string }>(
@@ -13,7 +13,7 @@ function flattenMembers<T extends { name: string }>(
     const borrowedMembersWithoutOverrides = filter(
       borrowedMembers,
       (borrowed) =>
-        directMembers.find((direct) => direct.name === borrowed.name) ===
+        find(directMembers, (direct) => direct.name === borrowed.name) ===
         undefined
     );
     return concat(directMembers, borrowedMembersWithoutOverrides);
