@@ -120,17 +120,18 @@ function assertSuggestionsAreValid(
   const { document, position } = getXmlSnippetDocument(xmlSnippet);
   forEach(suggestions, (suggestion) => {
     expectExists(suggestion.textEdit, "suggestion contains a textEdit");
-    assertRangeContains(suggestion.textEdit.range, position, suggestion.label);
+    const textEdit = suggestion.textEdit as TextEdit;
+    assertRangeContains(textEdit.range, position, suggestion.label);
     assertRangesDoNotOverlap(
       document,
       suggestion.label,
-      suggestion.textEdit,
+      textEdit,
       suggestion.additionalTextEdits || []
     );
     // The filter text is checked until the position in the document
     // (for example, we can replace "Ab⇶cd" with "Abzzz" even though "c" and "d" aren't in "Abzzz")
     const checkedRange = {
-      start: suggestion.textEdit?.range.start,
+      start: textEdit.range.start,
       end: position,
     };
     assertFilterMatches(

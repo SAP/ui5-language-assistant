@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import { map, uniq } from "lodash";
-import { CompletionItemKind } from "vscode-languageserver";
+import { CompletionItemKind, TextEdit } from "vscode-languageserver";
 import {
   AppContext,
   UI5SemanticModel,
@@ -32,7 +32,10 @@ describe("the UI5 language assistant Code Completion Services", () => {
     const suggestions = getSuggestions(xmlSnippet, appContext);
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
-      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
+      replacedText: getTextInRange(
+        xmlSnippet,
+        (suggestion.textEdit as TextEdit)?.range
+      ),
       newText: suggestion.textEdit?.newText,
     }));
     const suggestionKinds = uniq(
@@ -55,7 +58,10 @@ describe("the UI5 language assistant Code Completion Services", () => {
     const suggestions = getSuggestions(xmlSnippet, appContext);
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
-      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
+      replacedText: getTextInRange(
+        xmlSnippet,
+        (suggestion.textEdit as TextEdit)?.range
+      ),
       newText: suggestion.textEdit?.newText,
     }));
     const suggestionKinds = uniq(

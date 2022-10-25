@@ -14,7 +14,7 @@
   "typings": "./api.d.ts",
   "dependencies": {
     "https-proxy-agent": "5.0.1",
-    "node-fetch": "2.6.7",
+    "node-fetch": "3.2.10",
     "proxy-from-env": "1.1.0"
   },
   "devDependencies": {
