@@ -71,7 +71,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
 
 function createLanguageClient(context: ExtensionContext): LanguageClient {
   const debugOptions = { execArgv: ["--nolazy", "--inspect=6009"] };
-  console.log(SERVER_PATH);
+
   const serverOptions: ServerOptions = {
     run: { module: SERVER_PATH, transport: TransportKind.ipc },
     debug: {
