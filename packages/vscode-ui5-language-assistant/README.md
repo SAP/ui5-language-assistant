@@ -126,7 +126,8 @@ The feature is available in the following:
 
 ### Quick navigation to API Reference
 
-Right click a tag in the XML file and use the View API reference shortcut to navigate directly to the API reference. Use the setting 
+Right click a tag in the XML file and use the View API reference shortcut to navigate directly to the API reference. Use the setting
+
 ```
 "UI5LanguageAssistant.view.API_Reference": "browser" | "editor"
 ```
