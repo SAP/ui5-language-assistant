@@ -1424,10 +1424,10 @@
   resolved "https://registry.yarnpkg.com/@types/estree/-/estree-0.0.47.tgz#d7a51db20f0650efec24cd04994f523d93172ed4"
   integrity sha512-c5ciR06jK8u9BstrmJyO97m+klJrrhCf9u3rLu3DEAJBirxRqSCvDQoYKmxuYwQI5SZChAWu+tq9oVlGRuzPAg==
 
-"@types/fs-extra@9.0.11":
-  version "9.0.11"
-  resolved "https://registry.yarnpkg.com/@types/fs-extra/-/fs-extra-9.0.11.tgz#8cc99e103499eab9f347dbc6ca4e99fb8d2c2b87"
-  integrity sha512-mZsifGG4QeQ7hlkhO56u7zt/ycBgGxSVsFI/6lGTU34VtwkiqrrSDgw0+ygs8kFGWcXnFQWMrzF2h7TtDFNixA==
+"@types/fs-extra@9.0.13":
+  version "9.0.13"
+  resolved "https://registry.yarnpkg.com/@types/fs-extra/-/fs-extra-9.0.13.tgz#7594fbae04fe7f1918ce8b3d213f74ff44ac1f45"
+  integrity sha512-nEnwB++1u5lVDM2UI4c1+5R+FYaKfaAzS4OococimjVm3nQw3TuzH5UNsocrcTBbhnerblyHj4A49qXbIiZdpA==
   dependencies:
     "@types/node" "*"
 
@@ -8840,11 +8840,6 @@ tr46@^1.0.1:
   integrity sha1-qLE/1r/SSJUZZ0zN5VujaTtwbQk=
   dependencies:
     punycode "^2.1.0"
-
-tr46@~0.0.3:
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/tr46/-/tr46-0.0.3.tgz#8184fd347dac9cdc185992f3a6622e14b9d9ab6a"
-  integrity sha512-N3WMsuqV66lT30CrXNbEjx4GEwlow3v6rr4mCcv6prnfwhS01rkgyFdjPNBYd9br7LpXV1+Emh01fHnq2Gdgrw==
 
 "traverse@>=0.3.0 <0.4":
   version "0.3.9"
