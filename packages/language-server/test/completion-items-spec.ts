@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import { map, uniq, forEach, filter } from "lodash";
-import { CompletionItemKind } from "vscode-languageserver";
+import { CompletionItemKind, TextEdit } from "vscode-languageserver";
 import { UI5XMLViewCompletion } from "@ui5-language-assistant/xml-views-completion";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { Settings } from "@ui5-language-assistant/settings";
@@ -40,7 +40,10 @@ describe("the UI5 language assistant Code Completion Services", () => {
     const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
-      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
+      replacedText: getTextInRange(
+        xmlSnippet,
+        (suggestion.textEdit as TextEdit)?.range
+      ),
     }));
     const suggestionKinds = uniq(
       map(suggestions, (suggestion) => suggestion.kind)
@@ -63,7 +66,10 @@ describe("the UI5 language assistant Code Completion Services", () => {
     const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
-      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
+      replacedText: getTextInRange(
+        xmlSnippet,
+        (suggestion.textEdit as TextEdit)?.range
+      ),
       newText: suggestion.textEdit?.newText,
     }));
     const suggestionKinds = uniq(
@@ -99,7 +105,10 @@ describe("the UI5 language assistant Code Completion Services", () => {
     const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
-      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
+      replacedText: getTextInRange(
+        xmlSnippet,
+        (suggestion.textEdit as TextEdit)?.range
+      ),
       newText: suggestion.textEdit?.newText,
     }));
     const suggestionKinds = uniq(
@@ -127,7 +136,10 @@ describe("the UI5 language assistant Code Completion Services", () => {
     const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
-      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
+      replacedText: getTextInRange(
+        xmlSnippet,
+        (suggestion.textEdit as TextEdit)?.range
+      ),
       newText: suggestion.textEdit?.newText,
     }));
     const suggestionKinds = uniq(
@@ -158,7 +170,10 @@ describe("the UI5 language assistant Code Completion Services", () => {
     const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
-      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
+      replacedText: getTextInRange(
+        xmlSnippet,
+        (suggestion.textEdit as TextEdit)?.range
+      ),
       newText: suggestion.textEdit?.newText,
     }));
     const suggestionKinds = uniq(
@@ -189,7 +204,10 @@ describe("the UI5 language assistant Code Completion Services", () => {
     const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
-      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
+      replacedText: getTextInRange(
+        xmlSnippet,
+        (suggestion.textEdit as TextEdit)?.range
+      ),
     }));
     const suggestionKinds = uniq(
       map(suggestions, (suggestion) => suggestion.kind)
@@ -213,7 +231,10 @@ describe("the UI5 language assistant Code Completion Services", () => {
     const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
-      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
+      replacedText: getTextInRange(
+        xmlSnippet,
+        (suggestion.textEdit as TextEdit)?.range
+      ),
     }));
     const suggestionKinds = uniq(
       map(suggestions, (suggestion) => suggestion.kind)
@@ -240,8 +261,11 @@ describe("the UI5 language assistant Code Completion Services", () => {
     );
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
-      tagName: getTagName(suggestion.textEdit),
-      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
+      tagName: getTagName(suggestion.textEdit as TextEdit),
+      replacedText: getTextInRange(
+        xmlSnippet,
+        (suggestion.textEdit as TextEdit)?.range
+      ),
     }));
     const suggestionKinds = uniq(
       map(suggestions, (suggestion) => suggestion.kind)
@@ -267,8 +291,11 @@ describe("the UI5 language assistant Code Completion Services", () => {
     );
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
-      tagName: getTagName(suggestion.textEdit),
-      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
+      tagName: getTagName(suggestion.textEdit as TextEdit),
+      replacedText: getTextInRange(
+        xmlSnippet,
+        (suggestion.textEdit as TextEdit)?.range
+      ),
     }));
     const suggestionKinds = uniq(
       map(suggestions, (suggestion) => suggestion.kind)
@@ -294,8 +321,11 @@ describe("the UI5 language assistant Code Completion Services", () => {
     );
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
-      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
-      tagName: getTagName(suggestion.textEdit),
+      replacedText: getTextInRange(
+        xmlSnippet,
+        (suggestion.textEdit as TextEdit)?.range
+      ),
+      tagName: getTagName(suggestion.textEdit as TextEdit),
     }));
     const suggestionKinds = uniq(
       map(suggestions, (suggestion) => suggestion.kind)
@@ -325,8 +355,11 @@ describe("the UI5 language assistant Code Completion Services", () => {
     );
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
-      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
-      tagName: getTagName(suggestion.textEdit),
+      replacedText: getTextInRange(
+        xmlSnippet,
+        (suggestion.textEdit as TextEdit)?.range
+      ),
+      tagName: getTagName(suggestion.textEdit as TextEdit),
     }));
     const suggestionKinds = uniq(
       map(suggestions, (suggestion) => suggestion.kind)
@@ -363,9 +396,12 @@ describe("the UI5 language assistant Code Completion Services", () => {
     );
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
-      tagName: getTagName(suggestion.textEdit),
+      tagName: getTagName(suggestion.textEdit as TextEdit),
       additionalTextEdits: suggestion.additionalTextEdits,
-      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
+      replacedText: getTextInRange(
+        xmlSnippet,
+        (suggestion.textEdit as TextEdit)?.range
+      ),
     }));
     const suggestionKinds = uniq(
       map(suggestions, (suggestion) => suggestion.kind)
@@ -427,9 +463,12 @@ describe("the UI5 language assistant Code Completion Services", () => {
     );
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
-      tagName: getTagName(suggestion.textEdit),
+      tagName: getTagName(suggestion.textEdit as TextEdit),
       additionalTextEdits: suggestion.additionalTextEdits,
-      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
+      replacedText: getTextInRange(
+        xmlSnippet,
+        (suggestion.textEdit as TextEdit)?.range
+      ),
     }));
     const suggestionKinds = uniq(
       map(suggestions, (suggestion) => suggestion.kind)
@@ -491,9 +530,12 @@ describe("the UI5 language assistant Code Completion Services", () => {
     );
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
-      tagName: getTagName(suggestion.textEdit),
+      tagName: getTagName(suggestion.textEdit as TextEdit),
       additionalTextEdits: suggestion.additionalTextEdits,
-      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
+      replacedText: getTextInRange(
+        xmlSnippet,
+        (suggestion.textEdit as TextEdit)?.range
+      ),
     }));
     const suggestionKinds = uniq(
       map(suggestions, (suggestion) => suggestion.kind)
@@ -540,9 +582,12 @@ describe("the UI5 language assistant Code Completion Services", () => {
     );
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
-      tagName: getTagName(suggestion.textEdit),
+      tagName: getTagName(suggestion.textEdit as TextEdit),
       additionalTextEdits: suggestion.additionalTextEdits,
-      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
+      replacedText: getTextInRange(
+        xmlSnippet,
+        (suggestion.textEdit as TextEdit)?.range
+      ),
     }));
     const suggestionKinds = uniq(
       map(suggestions, (suggestion) => suggestion.kind)
@@ -597,7 +642,10 @@ describe("the UI5 language assistant Code Completion Services", () => {
     const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
-      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
+      replacedText: getTextInRange(
+        xmlSnippet,
+        (suggestion.textEdit as TextEdit)?.range
+      ),
       newText: suggestion.textEdit?.newText,
     }));
     const suggestionKinds = uniq(
@@ -663,7 +711,10 @@ describe("the UI5 language assistant Code Completion Services", () => {
     const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
-      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
+      replacedText: getTextInRange(
+        xmlSnippet,
+        (suggestion.textEdit as TextEdit)?.range
+      ),
       newText: suggestion.textEdit?.newText,
     }));
     const suggestionKinds = uniq(
@@ -693,7 +744,10 @@ describe("the UI5 language assistant Code Completion Services", () => {
     const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
-      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
+      replacedText: getTextInRange(
+        xmlSnippet,
+        (suggestion.textEdit as TextEdit)?.range
+      ),
       newText: suggestion.textEdit?.newText,
     }));
     const suggestionKinds = uniq(
@@ -715,7 +769,10 @@ describe("the UI5 language assistant Code Completion Services", () => {
     const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
-      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
+      replacedText: getTextInRange(
+        xmlSnippet,
+        (suggestion.textEdit as TextEdit)?.range
+      ),
       newTtext: suggestion.textEdit?.newText,
     }));
     expect(suggestionsDetails).to.deep.equalInAnyOrder([
@@ -730,7 +787,10 @@ describe("the UI5 language assistant Code Completion Services", () => {
     const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
-      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
+      replacedText: getTextInRange(
+        xmlSnippet,
+        (suggestion.textEdit as TextEdit)?.range
+      ),
       newText: suggestion.textEdit?.newText,
     }));
     expect(suggestionsDetails).to.deep.equalInAnyOrder([
@@ -746,7 +806,10 @@ describe("the UI5 language assistant Code Completion Services", () => {
     const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
-      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
+      replacedText: getTextInRange(
+        xmlSnippet,
+        (suggestion.textEdit as TextEdit)?.range
+      ),
       newText: suggestion.textEdit?.newText,
     }));
     expect(suggestionsDetails).to.deep.equalInAnyOrder([
@@ -762,7 +825,10 @@ describe("the UI5 language assistant Code Completion Services", () => {
     const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
-      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
+      replacedText: getTextInRange(
+        xmlSnippet,
+        (suggestion.textEdit as TextEdit)?.range
+      ),
       newText: suggestion.textEdit?.newText,
     }));
     const suggestionKinds = uniq(
@@ -786,7 +852,10 @@ describe("the UI5 language assistant Code Completion Services", () => {
     const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
-      replacedText: getTextInRange(xmlSnippet, suggestion.textEdit?.range),
+      replacedText: getTextInRange(
+        xmlSnippet,
+        (suggestion.textEdit as TextEdit)?.range
+      ),
       newText: suggestion.textEdit?.newText,
     }));
     const suggestionKinds = uniq(
@@ -819,9 +888,9 @@ describe("the UI5 language assistant Code Completion Services", () => {
 
     forEach(suggestions, (suggestion) => {
       // We're not replacing any text, just adding
-      expect(getTextInRange(xmlSnippet, suggestion.textEdit?.range)).to.equal(
-        ""
-      );
+      expect(
+        getTextInRange(xmlSnippet, (suggestion.textEdit as TextEdit)?.range)
+      ).to.equal("");
     });
   });
 
@@ -833,9 +902,9 @@ describe("the UI5 language assistant Code Completion Services", () => {
     expect(suggestions).to.not.be.empty;
     forEach(suggestions, (suggestion) => {
       // We're not replacing any text, just adding
-      expect(getTextInRange(xmlSnippet, suggestion.textEdit?.range)).to.equal(
-        ""
-      );
+      expect(
+        getTextInRange(xmlSnippet, (suggestion.textEdit as TextEdit)?.range)
+      ).to.equal("");
     });
   });
 

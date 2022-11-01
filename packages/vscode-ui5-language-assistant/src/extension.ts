@@ -16,7 +16,7 @@ import {
   LanguageClientOptions,
   ServerOptions,
   TransportKind,
-} from "vscode-languageclient";
+} from "vscode-languageclient/node";
 import { LogLevel } from "@vscode-logging/types";
 import {
   SERVER_PATH,
@@ -38,7 +38,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
   statusBarItem = createStatusBarItem(context);
 
   // show/hide and update the status bar
-  client.onReady().then(() => {
+  client.start().then(() => {
     client.onNotification("UI5LanguageAssistant/ui5Model", (model: UI5Model) =>
       updateCurrentModel(model)
     );
