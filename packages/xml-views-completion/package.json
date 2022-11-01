@@ -30,7 +30,7 @@
   "devDependencies": {
     "@ui5-language-assistant/semantic-model": "3.3.1",
     "@xml-tools/parser": "1.0.7",
-    "chevrotain": "7.0.1"
+    "chevrotain": "10.4.0"
   },
   "scripts": {
     "ci": "npm-run-all clean compile lint coverage",
