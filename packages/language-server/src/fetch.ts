@@ -7,6 +7,16 @@ const nodeFetch = async (...args: any[]) => {
 };
 import { RequestInfo, RequestInit, Response } from "node-fetch";
 import HttpsProxyAgent from "https-proxy-agent";
+
+// import {
+//   default as nodeFetch,
+//   RequestInfo,
+//   RequestInit,
+//   Response,
+// } from 'node-fetch';
+// // import  nodeFetch  from "node-fetch";
+// import { HttpsProxyAgent } from 'https-proxy-agent';
+
 import { getProxyForUrl } from "proxy-from-env";
 
 /**

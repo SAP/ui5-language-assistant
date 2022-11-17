@@ -40,6 +40,37 @@
       "port": 6009,
       "restart": true,
       "outFiles": ["${workspaceRoot}/packages/language-server/lib/src/**/*.js"]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Run Current Test File",
+      "program": "yarn mocha",
+      "args": ["${file}"],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "disableOptimisticBPs": true,
+      "windows": {
+        "program": "${workspaceFolder}/packages/xml-views-completion/yarn mocha"
+      }
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Mocha Tests",
+      "program": "${workspaceFolder}/node_modules/mocha/bin/mocha.js",
+      "args": [
+        "--require",
+        "esm",
+        "--reporter",
+        "dot",
+        "--slow",
+        "5000",
+        "-grep",
+        "${workspaceFolder}/a"
+      ],
+      "internalConsoleOptions": "openOnSessionStart",
+      "skipFiles": ["<node_internals>/**"]
     }
   ]
 }

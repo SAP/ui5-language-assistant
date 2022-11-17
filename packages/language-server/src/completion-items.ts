@@ -235,7 +235,6 @@ function createTextEdits(
       filterText = newText;
       break;
     }
-    case "AnnotationTargetInXMLAttributeValue":
     case "UI5EnumsInXMLAttributeValue": {
       // The 'else' part will never happen because to get suggestions for attribute value, the "" at least must exist so
       // the attribute value syntax exists
@@ -246,9 +245,9 @@ function createTextEdits(
       filterText = newText;
       break;
     }
-    //    case "PropertyPathInXMLAttributeValue":
     case "AnnotationPathInXMLAttributeValue":
-    case "PropertyPathInXMLAttributeValue": {
+    case "PropertyPathInXMLAttributeValue":
+    case "AnnotationTargetInXMLAttributeValue": {
       // The 'else' part will never happen because to get suggestions for attribute value, the "" at least must exist so
       // the attribute value syntax exists
       /* istanbul ignore next */
@@ -257,12 +256,26 @@ function createTextEdits(
       //   commitCharacters = suggestion.details.commitCharacters;
       // } else {
       range = getXMLAttributeValueRange(suggestion.astNode) ?? range;
-      // Attribute values should contain quotation marks
-      newText = `"${newText}"`;
       // }
       filterText = newText;
       break;
     }
+    // case "AnnotationPathInXMLAttributeValue":
+    // case "PropertyPathInXMLAttributeValue": {
+    //   // The 'else' part will never happen because to get suggestions for attribute value, the "" at least must exist so
+    //   // the attribute value syntax exists
+    //   /* istanbul ignore next */
+    //   // if (suggestion.details) {
+    //   //   range = getAffectedRange(suggestion.details, originalPosition);
+    //   //   commitCharacters = suggestion.details.commitCharacters;
+    //   // } else {
+    //   range = getXMLAttributeValueRange(suggestion.astNode) ?? range;
+    //   // Attribute values should contain quotation marks
+    //   newText = `"${newText}"`;
+    //   // }
+    //   filterText = newText;
+    //   break;
+    // }
     case "BooleanValueInXMLAttributeValue": {
       // The 'else' part will never happen because to get suggestions for attribute value, the "" at least must exist so
       // the attribute value syntax exists

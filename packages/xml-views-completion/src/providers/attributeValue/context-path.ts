@@ -1,14 +1,14 @@
 import {
   getAllowedAnnotationsTermsForControl,
+  getNextPossiblePathTargets,
+  getRootElements,
   getUI5PropertyByXMLAttributeKey,
-} from "@ui5-language-assistant/logic-utils";
-import { AnnotationTargetInXMLAttributeValueCompletion } from "../../../api";
-import { UI5AttributeValueCompletionOptions } from "./index";
-import {
-  collectAnnotationsForType,
-  getNavigationTargets,
   isPropertyPathAllowed,
-} from "../utils/annotationUtils";
+  resolvePathTarget,
+} from "@ui5-language-assistant/logic-utils";
+
+import { AnnotationTargetInXMLAttributeValueCompletion } from "../../../api";
+import { allowedTargets, UI5AttributeValueCompletionOptions } from "./index";
 
 export interface CompletionItem {
   name: string;
@@ -36,7 +36,6 @@ export function contextPathSuggestions({
     ui5Property?.library === "sap.fe.macros" &&
     ui5Property.name === "contextPath"
   ) {
-    let annotationList: any[] | undefined;
     const control = element.name ?? "";
     const mainServicePath = context.manifest?.mainServicePath;
     const service = mainServicePath
@@ -45,37 +44,96 @@ export function contextPathSuggestions({
     if (!service) {
       return [];
     }
-
+    const metadata = service.convertedMetadata;
     const allowedTerms = getAllowedAnnotationsTermsForControl(control);
+    const isPropertyPath = isPropertyPathAllowed(control);
+    const completionItems: string[] = [];
+    const segments = (attribute.value || "").split("/");
+    const precedingSegments = (prefix || "").split("/");
+    const completionSegmentIndex = precedingSegments.length - 1;
+    precedingSegments.pop();
+    const completionSegmentOffset =
+      precedingSegments.join("/").length + (precedingSegments.length ? 1 : 0);
+    const isAbsolutePath = segments.length && !segments[0];
+    if (!isAbsolutePath && completionSegmentIndex > 0) {
+      // relative paths are not supported
+      return [];
+    }
 
-    const targets = (allowedTerms.length
-      ? service.convertedMetadata.entityTypes.filter((entity) => {
-          annotationList = collectAnnotationsForType(
-            service.convertedMetadata,
-            entity.fullyQualifiedName,
-            allowedTerms
-          );
-          return annotationList.length > 0;
-        })
-      : service.convertedMetadata.entityTypes
-    ).map((target) => `/${target.name}`);
-
-    const targetList = [
-      ...targets,
-      ...getNavigationTargets(service, {
+    if (completionSegmentIndex < 2) {
+      // completion for root element
+      const roots = getRootElements(
+        metadata,
         allowedTerms,
-        isPropertyPath: isPropertyPathAllowed(control),
-      }),
-    ];
+        allowedTargets,
+        isPropertyPath
+      );
+      const texts = roots.map(
+        (root) =>
+          `${completionSegmentIndex === 0 ? "/" : ""}${
+            root._type === "EntityContainer"
+              ? root.fullyQualifiedName
+              : root.name
+          }`
+      );
+      completionItems.push(...new Set(texts).values()); // removes duplicates
+    } else {
+      // completion for (navigation) property segment
+      const precedingPath = segments.slice(0, completionSegmentIndex).join("/");
+      const { target, isCollection } = resolvePathTarget(
+        service.convertedMetadata,
+        precedingPath
+      );
+      if (!target) {
+        // target not resolved or path leads to collection - no further segments possible
+        return [];
+      } else if (target._type === "Property") {
+        // no further segments possible after entity property, container is not supported
+        return [];
+      } else {
+        const possibleTargets = getNextPossiblePathTargets(
+          service.convertedMetadata,
+          target,
+          true,
+          {
+            allowedTerms,
+            allowedTargets,
+            isPropertyPath,
+            isCollection: isCollection ? false : undefined,
+          },
+          [target.fullyQualifiedName]
+        );
+        completionItems.push(
+          ...possibleTargets.map((target) => {
+            return `${target.name}`;
+          })
+        );
+      }
+    }
 
-    return targetList.map((target) => {
+    // Calculate completion range considering that value region includes quotes
+    const completionSegmentStart =
+      (attribute.syntax.value?.startColumn ?? 0) + 1 + completionSegmentOffset;
+    const completionSegmentEnd = (attribute.syntax.value?.endColumn ?? 2) - 1;
+
+    return completionItems.map((item) => {
       return {
         type: "AnnotationTargetInXMLAttributeValue",
-        astNode: attribute,
+        astNode: {
+          ...attribute,
+          syntax: {
+            ...attribute.syntax,
+            value: {
+              ...attribute.syntax.value,
+              startColumn: completionSegmentStart,
+              endColumn: completionSegmentEnd,
+            },
+          },
+        },
         ui5Node: {
           kind: "AnnotationTarget",
-          name: target,
-          value: target,
+          name: item,
+          value: item,
         },
       } as AnnotationTargetInXMLAttributeValueCompletion;
     });

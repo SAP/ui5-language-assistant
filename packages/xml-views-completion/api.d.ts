@@ -18,8 +18,8 @@ import {
   ServiceDetails,
 } from "@ui5-language-assistant/semantic-model-types/api";
 import { CodeAssistSettings } from "@ui5-language-assistant/settings";
+import { EntityType } from "@sap-ux/vocabularies-types";
 import { AnnotationTerm } from "@ui5-language-assistant/logic-utils/src/api";
-import { ConvertedMetadata, EntityType } from "@sap-ux/vocabularies-types";
 
 export function getXMLViewCompletions(
   opts: GetXMLViewCompletionsOpts
@@ -205,11 +205,11 @@ export function getNavigationTargets(
     relativeFor?: EntityType;
   }
 ): string[];
-export function isPropertyPathAllowed(control: string): boolean;
-export function collectAnnotationsForType(
-  convertedMetadata: ConvertedMetadata,
-  entityType: string | EntityType,
-  allowedTerms: AnnotationTerm[],
-  property?: string,
-  navigationProperty?: string
-): any[];
+// export function isPropertyPathAllowed(control: string): boolean;
+// export function collectAnnotationsForElement(
+//   metadata: ConvertedMetadata,
+//   allowedTerms: AnnotationTerm[],
+//   element: string | EntityType | EntitySet | Singleton,
+//   property?: string,
+//   navigationProperty?: string
+// ): any[];

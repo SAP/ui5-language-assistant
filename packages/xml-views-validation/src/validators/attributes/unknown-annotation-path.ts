@@ -1,22 +1,28 @@
 import { XMLAttribute } from "@xml-tools/ast";
+import { AppContext } from "@ui5-language-assistant/semantic-model-types";
+import type {
+  AnnotationTerm,
+  ResolvedPathTargetType,
+} from "@ui5-language-assistant/logic-utils";
 import {
-  AppContext,
-  ServiceDetails,
-} from "@ui5-language-assistant/semantic-model-types";
-import {
+  collectAnnotationsForElement,
   fullyQualifiedNameToTerm,
   getAllowedAnnotationsTermsForControl,
   getElementAttributeValue,
   getUI5PropertyByXMLAttributeKey,
+  isPropertyPathAllowed,
+  resolvePathTarget,
 } from "@ui5-language-assistant/logic-utils";
 import { AnnotationIssue } from "../../../api";
 import { isPossibleBindingAttributeValue } from "../../utils/is-binding-attribute-value";
-import { EntityType } from "@sap-ux/vocabularies-types";
-import { AnnotationTerm } from "@ui5-language-assistant/logic-utils/src/api";
 import {
-  collectAnnotationsForType,
-  isPropertyPathAllowed,
-} from "@ui5-language-assistant/xml-views-completion";
+  EntityContainer,
+  EntitySet,
+  EntityType,
+  Singleton,
+  Property,
+  ConvertedMetadata,
+} from "@sap-ux/vocabularies-types";
 
 export function validateUnknownAnnotationPath(
   attribute: XMLAttribute,
@@ -44,7 +50,6 @@ export function validateUnknownAnnotationPath(
     const control = element.name ?? "";
 
     let annotationList: AnnotationLookupResultEntry[] | undefined;
-    let baseType: EntityType | undefined;
 
     // const annotationListAssoc: { navSegment: string; annotations: any[] }[] = [];
     const mainServicePath = context.manifest?.mainServicePath;
@@ -54,49 +59,60 @@ export function validateUnknownAnnotationPath(
     if (!service) {
       return [];
     }
+    const metadata = service.convertedMetadata;
     let contextPath = getElementAttributeValue(element, "contextPath");
     const entitySet =
       (context.manifest?.customViews || {})[context.customViewId || ""]
         ?.entitySet ?? "";
 
     let isNavSegmentsAllowed = true;
+    let base: ResolvedPathTargetType | undefined;
+    let baseType: EntityType | undefined;
+
+    // resolve context and get annotations for it
     if (typeof contextPath === "string") {
-      //resolve context and get annotations for it
       if (!contextPath.startsWith("/")) {
         return [];
       }
-      const segments = contextPath.split("/");
-      segments.shift();
-      let targetEntity = service.convertedMetadata.entityTypes.find(
-        (entityType) => entityType.name === segments[0]
-      );
-      segments.shift();
-      for (const segment of segments) {
-        if (!targetEntity) {
-          break;
-        }
-        const navProperty = targetEntity.navigationProperties.find(
-          (p) => p.name === segment
-        );
-        targetEntity = navProperty?.targetType;
-      }
-      baseType = targetEntity;
+      ({ target: base, targetStructuredType: baseType } = resolvePathTarget(
+        metadata,
+        contextPath
+      ));
       isNavSegmentsAllowed = false;
     } else {
+      if (!entitySet) {
+        return [
+          {
+            kind: "MissingEntitySet",
+            message:
+              "EntitySet for the current view is missing in application manifest. Attribute value completion and diagnostics are disabled",
+            offsetRange: {
+              start: actualAttributeValueToken.startOffset,
+              end: actualAttributeValueToken.endOffset,
+            },
+            severity: "info",
+          },
+        ];
+      }
       contextPath = `/${entitySet}`;
-      baseType = service.convertedMetadata.entitySets.find(
+      base = service.convertedMetadata.entitySets.find(
         (e) => e.name === entitySet
-      )?.entityType;
+      );
+      baseType = base?.entityType;
     }
     const allowedTerms = getAllowedAnnotationsTermsForControl(control);
 
     if (baseType) {
       annotationList = collectAnnotations(
         baseType,
-        service,
+        metadata,
         allowedTerms,
         isNavSegmentsAllowed
       );
+    }
+
+    if (!base || base._type === "Property") {
+      return [];
     }
 
     const match = (annotationList || []).find((entry) => {
@@ -212,22 +228,13 @@ export function validateUnknownAnnotationPath(
       const termSegment = originalSegments[termSegmentIndex];
       const parts = termSegment.split("@");
       let annos: any[] | undefined;
-      if (parts[0]) {
-        // annotation applied on property
-        annos = collectAnnotationsForType(
-          service.convertedMetadata,
-          targetEntity,
-          allowedTerms,
-          undefined,
-          parts[0]
-        );
-      } else {
-        annos = collectAnnotationsForType(
-          service.convertedMetadata,
-          targetEntity,
-          allowedTerms
-        );
-      }
+      annos = getAnnotationAppliedOnElement(
+        metadata,
+        allowedTerms,
+        segments.length === 0 ? base : targetEntity,
+        parts[0]
+      );
+
       const match = annos.find(
         (anno) => composeAnnotationPath([], anno) === "@" + parts[1]
       );
@@ -236,10 +243,11 @@ export function validateUnknownAnnotationPath(
       } else {
         // check whether the annotation exists on target
         const term: AnnotationTerm = fullyQualifiedNameToTerm(parts[1]);
-        annos = collectAnnotationsForType(
-          service.convertedMetadata,
-          targetEntity,
-          [term]
+        annos = getAnnotationAppliedOnElement(
+          metadata,
+          [term],
+          segments.length === 0 ? base : targetEntity,
+          parts[0]
         );
         const match = annos.find(
           (anno) => composeAnnotationPath([], anno) === "@" + parts[1]
@@ -280,6 +288,37 @@ export function validateUnknownAnnotationPath(
   return [];
 }
 
+export function getAnnotationAppliedOnElement(
+  metadata: ConvertedMetadata,
+  allowedTerms: AnnotationTerm[],
+  target: EntityContainer | EntitySet | EntityType | Singleton,
+  navigationProperty?: string,
+  property?: string
+): any[] {
+  if (target._type === "EntityContainer") {
+    return [];
+  }
+  const result = collectAnnotationsForElement(
+    metadata,
+    allowedTerms,
+    target,
+    property,
+    navigationProperty
+  );
+  if (["EntitySet", "Singleton"].includes(target._type || "")) {
+    result.push(
+      ...collectAnnotationsForElement(
+        metadata,
+        allowedTerms,
+        (target as EntitySet | Singleton).entityType,
+        property,
+        navigationProperty
+      )
+    );
+  }
+  return result;
+}
+
 function composeAnnotationPath(
   navPathSegments: string[],
   annotation: any
@@ -298,15 +337,15 @@ interface AnnotationLookupResultEntry {
 }
 function collectAnnotations(
   baseEntity: EntityType,
-  service: ServiceDetails,
+  metadata: ConvertedMetadata,
   allowedTerms: AnnotationTerm[],
   isCollectAssociations: boolean
 ): AnnotationLookupResultEntry[] {
   const result: AnnotationLookupResultEntry[] = [];
-  const annotations = collectAnnotationsForType(
-    service.convertedMetadata,
-    baseEntity,
-    allowedTerms
+  const annotations = collectAnnotationsForElement(
+    metadata,
+    allowedTerms,
+    baseEntity
   );
   if (annotations.length) {
     result.push({ path: [], annotations });
@@ -315,7 +354,7 @@ function collectAnnotations(
   if (isCollectAssociations) {
     collectAnnotationsFromAssociations(
       baseEntity,
-      service,
+      metadata,
       allowedTerms,
       new Set([baseEntity.fullyQualifiedName]),
       [],
@@ -327,7 +366,7 @@ function collectAnnotations(
 
 function collectAnnotationsFromAssociations(
   entityType: EntityType,
-  service: ServiceDetails,
+  metadata: ConvertedMetadata,
   allowedTerms: AnnotationTerm[],
   milestones: Set<string>,
   path: string[],
@@ -339,10 +378,10 @@ function collectAnnotationsFromAssociations(
     }
     milestones.add(property.targetTypeName);
     const currentPath = [...path, property.name];
-    const annotations = collectAnnotationsForType(
-      service.convertedMetadata,
-      property.targetType,
-      allowedTerms
+    const annotations = collectAnnotationsForElement(
+      metadata,
+      allowedTerms,
+      property.targetType
     );
     if (annotations.length) {
       accumulator.push({ path: currentPath, annotations });
@@ -350,7 +389,7 @@ function collectAnnotationsFromAssociations(
     if (currentPath.length < 3) {
       collectAnnotationsFromAssociations(
         property.targetType,
-        service,
+        metadata,
         allowedTerms,
         milestones,
         currentPath,

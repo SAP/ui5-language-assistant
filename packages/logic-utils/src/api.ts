@@ -40,6 +40,12 @@ export {
   getElementAttributeValue,
   getAllowedAnnotationsTermsForControl,
   fullyQualifiedNameToTerm,
+  collectAnnotationsForElement,
+  getEntityTypeForElement,
+  getRootElements,
+  isPropertyPathAllowed,
+  resolvePathTarget,
+  getNextPossiblePathTargets,
 } from "./utils/annotations";
 
-export type { AnnotationTerm } from "./utils/annotations";
+export type { AnnotationTerm, AllowedTargetType } from "./utils/annotations";

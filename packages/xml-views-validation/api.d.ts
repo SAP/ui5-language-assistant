@@ -35,7 +35,8 @@ export type AnnotationIssue =
   | InvalidAnnotationTermIssue
   | PropertyPathNotAllowedIssue
   | PropertyPathRequiredIssue
-  | UnknownPropertyPathIssue;
+  | UnknownPropertyPathIssue
+  | MissingEntitySetIssue;
 
 export type UI5XMLViewIssue =
   | UnknownEnumValueIssue
@@ -149,6 +150,10 @@ export interface UnknownPropertyPathIssue extends BaseUI5XMLViewIssue {
 
 export interface PropertyPathNotAllowedIssue extends BaseUI5XMLViewIssue {
   kind: "PropertyPathNotAllowed";
+}
+
+export interface MissingEntitySetIssue extends BaseUI5XMLViewIssue {
+  kind: "MissingEntitySet";
 }
 
 type XMLAttributeValidator<T> = (

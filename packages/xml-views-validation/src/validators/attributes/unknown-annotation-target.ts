@@ -3,14 +3,12 @@ import { AppContext } from "@ui5-language-assistant/semantic-model-types";
 import {
   getAllowedAnnotationsTermsForControl,
   getUI5PropertyByXMLAttributeKey,
+  isPropertyPathAllowed,
+  resolvePathTarget,
 } from "@ui5-language-assistant/logic-utils";
 import { AnnotationIssue, UnknownEnumValueIssue } from "../../../api";
 import { isPossibleBindingAttributeValue } from "../../utils/is-binding-attribute-value";
-import {
-  collectAnnotationsForType,
-  getNavigationTargets,
-  isPropertyPathAllowed,
-} from "@ui5-language-assistant/xml-views-completion";
+import { getAnnotationAppliedOnElement } from "./unknown-annotation-path";
 
 export function validateUnknownAnnotationTarget(
   attribute: XMLAttribute,
@@ -45,33 +43,7 @@ export function validateUnknownAnnotationTarget(
     }
 
     const allowedTerms = getAllowedAnnotationsTermsForControl(control);
-    const isCollection: boolean | undefined = getIsCollection();
-
-    // Check by direct option match
-    const targets = (allowedTerms.length
-      ? service.convertedMetadata.entityTypes.filter((entity) => {
-          const annotationList = collectAnnotationsForType(
-            service.convertedMetadata,
-            entity.fullyQualifiedName,
-            allowedTerms
-          );
-          return annotationList.length > 0;
-        })
-      : service.convertedMetadata.entityTypes
-    ).map((target) => `/${target.name}`);
-
-    const allowedTargets = [
-      ...targets,
-      ...getNavigationTargets(service, {
-        allowedTerms,
-        isCollection,
-        isPropertyPath: isPropertyPathAllowed(control),
-      }),
-    ];
-
-    if (allowedTargets.includes(actualAttributeValue)) {
-      return [];
-    }
+    // const isCollection: boolean | undefined = getIsCollection();
 
     // Target is mandatory
     if (!attribute.value) {
@@ -88,7 +60,6 @@ export function validateUnknownAnnotationTarget(
       ];
     }
 
-    // Check by segments
     if (!actualAttributeValue.startsWith("/")) {
       return [
         {
@@ -103,39 +74,18 @@ export function validateUnknownAnnotationTarget(
       ];
     }
 
-    const segments = actualAttributeValue.split("/");
-    segments.shift();
-    const originalSegments = [...segments];
-    let lastValidSegmentIndex = -1;
-    let targetEntity = service.convertedMetadata.entityTypes.find(
-      (entityType) => entityType.name === segments[0]
-    );
-    segments.shift();
-    let isNextSegmentPossible = true;
-    let isPathLeadingToCollection = false;
-    let isPathFound = !!targetEntity;
+    // Check by segments
+    const {
+      target,
+      targetStructuredType: targetEntity,
+      isCardinalityIssue,
+      lastValidSegmentIndex,
+      isCollection,
+    } = resolvePathTarget(service.convertedMetadata, actualAttributeValue);
+    const originalSegments = actualAttributeValue.split("/");
 
-    for (const segment of segments) {
-      if (!targetEntity) {
-        break;
-      }
-      if (!isNextSegmentPossible) {
-        targetEntity = undefined;
-        break;
-      }
-      lastValidSegmentIndex++;
-      const navProperty = targetEntity.navigationProperties.find(
-        (p) => p.name === segment
-      );
-      targetEntity = navProperty?.targetType;
-      isPathFound = !!targetEntity;
-      isPathLeadingToCollection =
-        isPathLeadingToCollection || !!navProperty?.isCollection;
-      isNextSegmentPossible = isPathFound && !isPathLeadingToCollection;
-    }
-
-    if (!targetEntity) {
-      if (!isPathFound) {
+    if (!target || !targetEntity) {
+      if (!isCardinalityIssue) {
         // Path does not exist
         originalSegments.splice(lastValidSegmentIndex + 1);
         const correctPart = originalSegments.length
@@ -144,7 +94,7 @@ export function validateUnknownAnnotationTarget(
         return [
           {
             kind: "UnknownEnumValue",
-            message: `Unknown annotation target: ${actualAttributeValueToken.image}`,
+            message: `Unknown target: ${actualAttributeValueToken.image}`,
             offsetRange: {
               start:
                 actualAttributeValueToken.startOffset + correctPart.length + 1,
@@ -162,7 +112,7 @@ export function validateUnknownAnnotationTarget(
         return [
           {
             kind: "UnknownEnumValue",
-            message: `Any further segments after collection valued segment not allowed`,
+            message: `Multiple 1:many association segments not allowed`,
             offsetRange: {
               start:
                 actualAttributeValueToken.startOffset + correctPart.length + 1,
@@ -172,15 +122,39 @@ export function validateUnknownAnnotationTarget(
           },
         ];
       }
+    } else if (
+      !["EntityType", "EntitySet", "Singleton"].includes(target._type)
+    ) {
+      return [
+        {
+          kind: "UnknownEnumValue",
+          message: `Wrong target: ${actualAttributeValueToken.image}`,
+          offsetRange: {
+            start: actualAttributeValueToken.startOffset,
+            end: actualAttributeValueToken.endOffset,
+          },
+          severity: "warn",
+        },
+      ];
     } else {
-      if (isPropertyPathAllowed(control)) {
+      if (target._type === "Property") {
+        return []; // not supported yet
+      }
+      const annotationList = getAnnotationAppliedOnElement(
+        service.convertedMetadata,
+        allowedTerms,
+        target
+      );
+
+      if (isPropertyPathAllowed(control) || annotationList.length > 0) {
+        // path is correct
         return [];
       }
 
-      // Path itself is correct but doesn't suit current context
+      // Path itself is found but it doesn't suit current context
       const issue = {
         kind: "InvalidAnnotationTarget",
-        message: `Invalid annotation target: ${actualAttributeValueToken.image}`,
+        message: `Invalid target: ${actualAttributeValueToken.image}`,
         offsetRange: {
           start: actualAttributeValueToken.startOffset,
           end: actualAttributeValueToken.endOffset,
@@ -188,21 +162,15 @@ export function validateUnknownAnnotationTarget(
         severity: "warn",
       } as AnnotationIssue;
 
-      if (allowedTargets.length === 0) {
-        issue.message = `${issue.message}. There are no annotations in the project that are suitable for the current element`;
-      } else if (isCollection === false && isPathLeadingToCollection) {
-        issue.message = `${issue.message}. Path should lead to 1-to-1 associated entity. Trigger code completion to choose one of available annotation targets`;
-      } else if (isCollection === true && !isPathLeadingToCollection) {
-        issue.message = `${issue.message}. Path should lead to collection valued target. Trigger code completion to choose one of available annotation targets`;
+      if (isCollection === false && isCollection) {
+        issue.message = `${issue.message}. Path should lead to 1-to-1 associated entity. Trigger code completion to choose one of available targets`;
+      } else if (isCollection === true && !isCollection) {
+        issue.message = `${issue.message}. Path should lead to collection valued target. Trigger code completion to choose one of available targets`;
       } else {
-        issue.message = `${issue.message}. Trigger code completion to choose one of available annotation targets`;
+        issue.message = `${issue.message}. Trigger code completion to choose one of valid targets if some are available`;
       }
       return [issue];
     }
   }
   return [];
-}
-
-function getIsCollection() {
-  return undefined;
 }

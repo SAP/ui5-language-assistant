@@ -19,4 +19,4 @@ export const SERVER_PATH: string = isDevelopmentRun
   ? /* istanbul ignore else - no tests (yet?) on bundled artifacts */
     sourcesPath
   : bundledPath;
-export { getContextForFile, emptyCache } from "./cache";
+// export { getContextForFile, emptyCache } from "./cache";

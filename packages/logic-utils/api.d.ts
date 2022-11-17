@@ -12,7 +12,17 @@ import {
   UI5DeprecatedInfo,
   AppContext,
 } from "@ui5-language-assistant/semantic-model-types";
-import { AnnotationTerm } from "./src/api";
+import { AllowedElementType, AnnotationTerm } from "./src/api";
+import {
+  ConvertedMetadata,
+  EntityContainer,
+  EntityType,
+  EntitySet,
+  Singleton,
+  NavigationProperty,
+  Property,
+} from "@sap-ux/vocabularies-types";
+import { AllowedTargetType } from "../logic-utils/src/utils/annotations";
 
 export interface OffsetRange {
   start: number;
@@ -296,3 +306,69 @@ export function getAllowedAnnotationsTermsForControl(
 export function fullyQualifiedNameToTerm(
   fullyQualifiedName: string
 ): AnnotationTerm;
+
+export function isPropertyPathAllowed(control: string): boolean;
+
+/**
+ * Collects annotations applied on given element
+ * @param metadata - service metadata
+ * @param allowedTerms - allowed annotation terms
+ * @param element - element to inspect
+ * @param property - (optional) property of given element. If provided then annotations are searched on this property
+ * @param navigationProperty
+ */
+export function collectAnnotationsForElement(
+  metadata: ConvertedMetadata,
+  allowedTerms: AnnotationTerm[],
+  element: string | EntityType | EntitySet | Singleton,
+  property?: string,
+  navigationProperty?: string
+): any[];
+
+export function getEntityTypeForElement(
+  element: EntitySet | EntityType | Singleton
+): EntityType | undefined;
+
+export function getRootElements(
+  metadata: ConvertedMetadata,
+  allowedTerms: AnnotationTerm[],
+  allowedElementTypes: AllowedElementType[],
+  isPropertyPath: boolean
+): (EntityContainer | EntitySet | EntityType | Singleton)[];
+
+export function resolvePathTarget(
+  metadata: ConvertedMetadata,
+  path: string,
+  baseEntity?: EntityType
+): {
+  target:
+    | EntityContainer
+    | EntityType
+    | EntitySet
+    | Singleton
+    | Property
+    | undefined;
+  targetStructuredType?: EntityType | undefined;
+  isCollection: boolean | undefined;
+  lastValidSegmentIndex: number;
+  isCardinalityIssue: boolean;
+};
+
+export function getNextPossiblePathTargets(
+  metadata: ConvertedMetadata,
+  resolvedElement: EntitySet | EntityType | Singleton | EntityContainer,
+  isContextPath: boolean,
+  options: {
+    isPropertyPath?: boolean;
+    allowedTerms?: AnnotationTerm[];
+    allowedTargets?: AllowedTargetType[];
+    isCollection?: boolean;
+  },
+  milestones: string[]
+): (EntitySet | Singleton | NavigationProperty | Property)[];
+
+export type {
+  AllowedTargetType,
+  AnnotationTerm,
+  ResolvedPathTargetType,
+} from "../logic-utils/src/utils/annotations";

@@ -3,10 +3,10 @@ import { AppContext } from "@ui5-language-assistant/semantic-model-types";
 import { fileURLToPath } from "url";
 import { join } from "path";
 import { readFile, writeFile } from "fs/promises";
-import {
-  emptyCache,
-  getContextForFile,
-} from "@ui5-language-assistant/language-server";
+// import {
+//   emptyCache,
+//   getContextForFile,
+// } from "@ui5-language-assistant/language-server/lib/src/cache";
 import { DocumentCstNode, parse } from "@xml-tools/parser";
 import { buildAst, XMLDocument } from "@xml-tools/ast";
 import { IToken } from "chevrotain";
@@ -20,7 +20,9 @@ import {
   print,
 } from "./utils";
 
-interface TestUtil {}
+// interface TestUtil {
+
+// }
 
 export enum ProjectName {
   cap = "cap",
@@ -47,7 +49,7 @@ export interface ReadFileResult {
   tokenVector: IToken[];
   offset: number;
 }
-export class TestUtils implements TestUtil {
+export class TestUtils {
   private projectInfo: ProjectInfo;
   private _offset: number;
   constructor(config: Config) {
@@ -178,7 +180,7 @@ export class TestUtils implements TestUtil {
     return URI.file(pathData).toString();
   }
   public getOffset(content: string): number {
-    let offset = 0;
+    const offset = 0;
     if (content.indexOf("⇶") === -1) {
       return offset;
     }
@@ -188,14 +190,14 @@ export class TestUtils implements TestUtil {
     uri: string,
     modelCachePath?: string
   ): Promise<AppContext> {
-    return getContextForFile(uri, modelCachePath);
+    return {} as any; //getContextForFile(uri, modelCachePath);
   }
   /**
    * Will be removed once cache.ts is refactored
    */
   public emptyCache() {
     const root = fileURLToPath(this.getFileUri([]));
-    emptyCache(root);
+    // emptyCache(root);
   }
   public getModelCachePath(): string {
     return join(__dirname, "..", "..", ".model-cache");

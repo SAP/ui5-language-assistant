@@ -3,7 +3,7 @@ import { fileURLToPath } from "url";
 import { sep, normalize, join, parse as pathParser } from "path";
 
 import { Fetcher } from "api";
-import fetch from "node-fetch";
+import fetch from "./fetch";
 import {
   AppContext,
   ManifestDetails,
@@ -15,24 +15,24 @@ import {
 import { getMinUI5VersionForXMLFile } from "./manifest-handling";
 import { createSemanticModelWithFetcher } from "./ui5-model";
 
-import {
-  getCapModelAndServices,
-  loadModuleFromProject,
-} from "@sap-ux/project-access";
-
 import { parse, merge } from "@sap-ux/edmx-parser";
 import { convert } from "@sap-ux/annotation-converter";
-import type { Manifest } from "@sap-ux/project-access";
+// import type { Manifest } from '@sap-ux/project-access/dist/types';
+import { getCapProjectType, Manifest } from "@sap-ux/project-access";
 import { getUI5FrameworkForXMLFile } from "./ui5yaml-handling";
+// import { isCapJavaProject, isCapNodeJsProject, getCapModelAndServices } from '@sap-ux/project-access/dist/project/cap';
 import {
   isCapJavaProject,
   isCapNodeJsProject,
-} from "@sap-ux/project-access/dist/project/cap";
-
+  getCapModelAndServices,
+} from "@sap-ux/project-access";
+// import { loadModuleFromProject } from '@sap-ux/project-access/dist/project';
+import { loadModuleFromProject } from "@sap-ux/project-access";
+// import { findProjectRoot, getAppRootFromWebappPath } from '@sap-ux/project-access/dist/project/findApps';
 import {
   findProjectRoot,
   getAppRootFromWebappPath,
-} from "@sap-ux/project-access/dist/project/findApps";
+} from "@sap-ux/project-access";
 
 import { Configuration, UI5Config } from "@sap-ux/ui5-config";
 import findUp from "find-up";
@@ -156,12 +156,13 @@ async function getProjectTypeAndKind(
   | { type: typeof CAP_PROJECT_TYPE; kind: CAPProjectKind }
   | { type: typeof UI5_PROJECT_TYPE }
 > {
-  if (await isCapJavaProject(projectRoot)) {
+  const projectType = await getCapProjectType(projectRoot);
+  if (projectType === "CAPJava") {
     return {
       type: CAP_PROJECT_TYPE,
       kind: "Java",
     };
-  } else if (await isCapNodeJsProject(projectRoot)) {
+  } else if (projectType === "CAPNodejs") {
     return {
       type: CAP_PROJECT_TYPE,
       kind: "NodeJS",

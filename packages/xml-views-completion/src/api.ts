@@ -104,8 +104,4 @@ export function isUI5NodeXMLViewCompletion(
   }
 }
 
-export {
-  collectAnnotationsForType,
-  getNavigationTargets,
-  isPropertyPathAllowed,
-} from "./providers/utils/annotationUtils";
+export { getNavigationTargets } from "./providers/utils/annotationUtils";
