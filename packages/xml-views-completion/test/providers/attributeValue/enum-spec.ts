@@ -6,16 +6,19 @@ import { generate } from "@ui5-language-assistant/semantic-model";
 import { XMLAttribute, XMLElement } from "@xml-tools/ast";
 import { enumSuggestions } from "../../../src/providers/attributeValue/enum";
 import { UI5XMLViewCompletion } from "../../../api";
-import { testSuggestionsScenario } from "../../utils";
+import { getDefaultContext, testSuggestionsScenario } from "../../utils";
+import { Context as AppContext } from "@ui5-language-assistant/context";
 
 describe("The ui5-language-assistant xml-views-completion", () => {
   let ui5SemanticModel: UI5SemanticModel;
+  let appContext: AppContext;
   before(async function () {
     ui5SemanticModel = await generateModel({
       framework: "SAPUI5",
       version: "1.71.49",
       modelGenerator: generate,
     });
+    appContext = getDefaultContext(ui5SemanticModel);
   });
 
   context("enum values", () => {
@@ -30,7 +33,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           </mvc:View>`;
 
         testSuggestionsScenario({
-          model: ui5SemanticModel,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             attributeValue: [enumSuggestions],
@@ -57,7 +60,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           </mvc:View>`;
 
         testSuggestionsScenario({
-          model: ui5SemanticModel,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             attributeValue: [enumSuggestions],
@@ -80,7 +83,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           </mvc:View>`;
 
         testSuggestionsScenario({
-          model: ui5SemanticModel,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             attributeValue: [enumSuggestions],
@@ -103,7 +106,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           </mvc:View>`;
 
         testSuggestionsScenario({
-          model: ui5SemanticModel,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             attributeValue: [enumSuggestions],
@@ -124,7 +127,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           </mvc:View>`;
 
         testSuggestionsScenario({
-          model: ui5SemanticModel,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             attributeValue: [enumSuggestions],
@@ -145,7 +148,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           </mvc:View>`;
 
         testSuggestionsScenario({
-          model: ui5SemanticModel,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             attributeValue: [enumSuggestions],
@@ -166,7 +169,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           </mvc:View>`;
 
         testSuggestionsScenario({
-          model: ui5SemanticModel,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             attributeValue: [enumSuggestions],
@@ -189,7 +192,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           </mvc:View>`;
 
         testSuggestionsScenario({
-          model: ui5SemanticModel,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             attributeValue: [enumSuggestions],

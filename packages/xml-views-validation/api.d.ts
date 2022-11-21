@@ -2,10 +2,11 @@ import { XMLDocument, XMLElement, XMLAttribute } from "@xml-tools/ast";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { OffsetRange } from "@ui5-language-assistant/logic-utils";
 import { UI5ValidatorsConfig } from "./src/validate-xml-views";
+import { Context } from "@ui5-language-assistant/context";
 
 export function validateXMLView(opts: {
   validators: UI5ValidatorsConfig;
-  model: UI5SemanticModel;
+  context: Context;
   xmlView: XMLDocument;
 }): UI5XMLViewIssue[];
 
@@ -105,15 +106,12 @@ export interface NonStableIDIssue extends BaseUI5XMLViewIssue {
 
 type XMLAttributeValidator<T> = (
   attribute: XMLAttribute,
-  model: UI5SemanticModel
+  context: Context
 ) => T[];
 
 type XMLDocumentValidator<T> = (document: XMLDocument) => T[];
 
-type XMLElementValidator<T> = (
-  XMLElement: XMLElement,
-  model: UI5SemanticModel
-) => T[];
+type XMLElementValidator<T> = (XMLElement: XMLElement, context: Context) => T[];
 
 type Validators = {
   validateUnknownEnumValue: XMLAttributeValidator<UnknownEnumValueIssue>;

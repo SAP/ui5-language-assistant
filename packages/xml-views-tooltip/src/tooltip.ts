@@ -26,6 +26,7 @@ import {
   BaseUI5Node,
 } from "@ui5-language-assistant/semantic-model-types";
 import { findSymbol } from "@ui5-language-assistant/semantic-model";
+import { Context } from "@ui5-language-assistant/context";
 
 export function findUI5HoverNodeAtOffset(
   astPosition:
@@ -33,8 +34,9 @@ export function findUI5HoverNodeAtOffset(
     | XMLElementCloseName
     | XMLAttributeKey
     | XMLAttributeValue,
-  model: UI5SemanticModel
+  context: Context
 ): BaseUI5Node | undefined {
+  const model = context.ui5Model;
   switch (astPosition.kind) {
     case "XMLElementOpenName":
       return findUI5NodeByElement(astPosition.astNode, model, true);

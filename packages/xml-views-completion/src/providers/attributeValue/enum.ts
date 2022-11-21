@@ -15,7 +15,7 @@ export function enumSuggestions(
 ): UI5EnumsInXMLAttributeValueCompletion[] {
   const ui5Property = getUI5PropertyByXMLAttributeKey(
     opts.attribute,
-    opts.context
+    opts.context.ui5Model
   );
   const propType = ui5Property?.type;
   if (propType?.kind !== "UI5Enum") {

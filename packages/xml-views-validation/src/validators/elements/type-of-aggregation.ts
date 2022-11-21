@@ -17,22 +17,23 @@ import {
   buildMessage,
 } from "@ui5-language-assistant/user-facing-text";
 import { InvalidAggregationTypeIssue } from "../../../api";
+import { Context } from "@ui5-language-assistant/context";
 
 const { INVALID_AGGREGATION_TYPE } = validations;
 
 export function validateAggregationType(
   xmlElement: XMLElement,
-  model: UI5SemanticModel
+  context: Context
 ): InvalidAggregationTypeIssue[] {
   // Root element can never be inside aggregation
   if (xmlElement.parent.type === "XMLDocument") {
     return [];
   }
 
-  const ui5class = getUI5ClassByXMLElement(xmlElement, model);
+  const ui5class = getUI5ClassByXMLElement(xmlElement, context.ui5Model);
   const parentAggregation = getAggregationByXMLElement(
     xmlElement.parent,
-    model
+    context.ui5Model
   );
 
   if (ui5class === undefined || parentAggregation === undefined) {

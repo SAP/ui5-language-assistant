@@ -1,0 +1,33 @@
+{
+  "name": "@ui5-language-assistant/test-framework",
+  "version": "3.3.1",
+  "private": true,
+  "description": "Test Framework",
+  "files": [
+    "lib/src",
+    "api.d.ts",
+    "src"
+  ],
+  "main": "lib/src/api.js",
+  "repository": "https://github.com/sap/ui5-language-assistant/",
+  "license": "Apache-2.0",
+  "typings": "./api.d.ts",
+  "dependencies": {
+    "@ui5-language-assistant/context": "3.3.1",
+    "@xml-tools/parser": "1.0.7",
+    "@xml-tools/ast": "5.0.0",
+    "chevrotain": "7.0.1",
+    "vscode-uri": "2.1.2",
+    "fs-extra": "10.1.0"
+  },
+  "devDependencies": {
+    "vscode-languageserver-types": "3.16.0"
+  },
+  "scripts": {
+    "ci": "npm-run-all clean compile lint",
+    "clean": "rimraf ./lib ./coverage ./nyc_output ./.model-cache",
+    "compile": "yarn run clean && tsc -p .",
+    "compile:watch": "tsc -p . --watch",
+    "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore"
+  }
+}

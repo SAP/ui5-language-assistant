@@ -1,0 +1,114 @@
+import { expect } from "chai";
+import { restore, spy } from "sinon";
+import { join } from "path";
+import {
+  getCustomViewId,
+  getMainService,
+  getManifestDetails,
+  getServicePath,
+  getUI5Manifest,
+} from "../src/manifest";
+import {
+  Config,
+  ProjectName,
+  ProjectType,
+  TestFramework,
+} from "@ui5-language-assistant/test-framework";
+import { cache } from "../src/cache";
+import { FileName } from "@sap-ux/project-access";
+
+const getAppRoot = (projectRoot: string) =>
+  join(projectRoot, "app", "manage_travels", "webapp");
+
+describe("manifest", () => {
+  let testUtils: TestFramework;
+  before(function () {
+    const timeout = 5 * 60000 + 8000; // 5 min for initial npm install + 8 sec
+    this.timeout(timeout);
+    const useConfig: Config = {
+      projectInfo: {
+        name: ProjectName.cap,
+        type: ProjectType.cap,
+        npmInstall: true,
+      },
+    };
+    testUtils = new TestFramework(useConfig);
+  });
+  afterEach(() => {
+    restore();
+  });
+  context("getUI5Manifest", () => {
+    it("get undefined", async () => {
+      const manifestRoot = join("/wrong/path", FileName.Manifest);
+      // for consistency remove cache
+      cache.deleteManifest(manifestRoot);
+      const result = await getUI5Manifest(manifestRoot);
+      expect(result).to.be.undefined;
+    });
+    it("get UI5 manifest", async () => {
+      const projectRoot = testUtils.getProjectRoot();
+      const appRoot = getAppRoot(projectRoot);
+      const manifestRoot = join(appRoot, FileName.Manifest);
+      // for consistency remove cache
+      cache.deleteManifest(manifestRoot);
+      const result = await getUI5Manifest(manifestRoot);
+      expect(result).not.to.be.undefined;
+    });
+    it("get UI5 manifest from cache", async () => {
+      const getManifestSpy = spy(cache, "getManifest");
+      const projectRoot = testUtils.getProjectRoot();
+      const appRoot = getAppRoot(projectRoot);
+      const manifestRoot = join(appRoot, FileName.Manifest);
+      const result = await getUI5Manifest(manifestRoot);
+      expect(getManifestSpy).to.have.been.called;
+      expect(result).to.deep.equal(getManifestSpy.returnValues[0]);
+    });
+  });
+  it("getManifestDetails", async () => {
+    const { appRoot } = await testUtils.getProjectData();
+    const docPath = join(appRoot, "ext", "main", "Main.view.xml");
+    const result = await getManifestDetails(docPath);
+    expect(result).to.deep.equal({
+      customViews: {
+        "sap.fe.demo.managetravels.ext.fragment.CustomSection": {
+          entitySet: "Travel",
+        },
+        "sap.fe.demo.managetravels.ext.main.Main": {
+          entitySet: "Travel",
+        },
+      },
+      mainServicePath: "/processor/",
+      flexEnabled: false,
+      minUI5Version: "1.108.0",
+    });
+  });
+  it("getMainService", async () => {
+    const { manifest } = await testUtils.getProjectData();
+    const result = await getMainService(manifest);
+    expect(result).to.equal("mainService");
+  });
+  it("getServicePath", async () => {
+    const { manifest } = await testUtils.getProjectData();
+    const result = await getServicePath(manifest, "mainService");
+    expect(result).to.equal("/processor/");
+  });
+  context("getCustomViewId", () => {
+    it("does not fined app root and return undefined", async () => {
+      const projectRoot = testUtils.getProjectRoot();
+      const result = await getCustomViewId(projectRoot);
+      expect(result).to.be.empty.string;
+    });
+    it("get custom view id", async () => {
+      const { appRoot } = await testUtils.getProjectData();
+      const docPath = join(appRoot, "ext", "main", "Main.view.xml");
+      const result = await getCustomViewId(docPath);
+      expect(result).to.be.equal("sap.fe.demo.managetravels.ext.main.Main");
+    });
+    it("get custom view id for fragment", async () => {
+      const { appRoot } = await testUtils.getProjectData();
+      const docPath = join(appRoot, "ext", "main", "custom.fragment.xml");
+      const result = await getCustomViewId(docPath);
+      expect(result).to.be.equal("sap.fe.demo.managetravels.ext.main.custom");
+    });
+  });
+});

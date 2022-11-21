@@ -5,20 +5,11 @@ import { URI } from "vscode-uri";
 import globby from "globby";
 import { FileChangeType } from "vscode-languageserver";
 import { loadAll } from "js-yaml";
-
-import { getLogger } from "./logger";
+import { DEFAULT_UI5_FRAMEWORK, YamlDetails } from "./types";
 import { UI5Framework } from "@ui5-language-assistant/semantic-model-types";
-
-type AbsolutePath = string;
-type UI5YamlData = Record<
-  AbsolutePath,
-  { framework: UI5Framework; version: string }
->;
-const ui5YamlData: UI5YamlData = Object.create(null);
-
-export function isUI5YamlDoc(uri: string): boolean {
-  return uri.endsWith("ui5.yaml");
-}
+import { FileName } from "@sap-ux/project-access";
+import findUp from "find-up";
+import { cache } from "./cache";
 
 export async function initializeUI5YamlData(
   workspaceFolderPath: string
@@ -30,19 +21,19 @@ export async function initializeUI5YamlData(
   const readUI5YamlPromises = map(ui5YamlDocuments, async (ui5YamlDoc) => {
     const response = await readUI5YamlFile(ui5YamlDoc);
 
-    // Parsing of ui5.yaml failed because the file is invalid
-    if (response !== "INVALID") {
-      ui5YamlData[ui5YamlDoc] = response;
+    if (response) {
+      cache.setYamlDetails(ui5YamlDoc, response);
+      console.info("ui5.yaml data initialized", { ui5YamlDoc });
     }
   });
 
-  getLogger().info("ui5.yaml data initialized", { ui5YamlDocuments });
+  console.info("list of ui5.yaml files", { ui5YamlDocuments });
   return Promise.all(readUI5YamlPromises);
 }
 
 export function getUI5FrameworkForXMLFile(xmlPath: string): UI5Framework {
   const ui5YamlFilesForCurrentFolder = filter(
-    Object.keys(ui5YamlData),
+    cache.getYamlDetailsEntries(),
     (ui5YamlPath) => xmlPath.startsWith(dirname(ui5YamlPath))
   );
 
@@ -50,15 +41,15 @@ export function getUI5FrameworkForXMLFile(xmlPath: string): UI5Framework {
     ui5YamlFilesForCurrentFolder,
     (ui5YamlPath) => ui5YamlPath.length
   );
-
-  return closestUI5YamlPath
-    ? ui5YamlData[closestUI5YamlPath].framework
-    : "SAPUI5";
+  if (closestUI5YamlPath) {
+    return cache.getYamlDetails(closestUI5YamlPath)?.framework ?? "OpenUI5";
+  }
+  return "OpenUI5";
 }
 
 export function getVersionForXMLFile(xmlPath: string): string | undefined {
   const ui5YamlFilesForCurrentFolder = filter(
-    Object.keys(ui5YamlData),
+    cache.getYamlDetailsEntries(),
     (ui5YamlPath) => xmlPath.startsWith(dirname(ui5YamlPath))
   );
 
@@ -70,55 +61,27 @@ export function getVersionForXMLFile(xmlPath: string): string | undefined {
   if (closestUI5YamlPath === undefined) {
     return undefined;
   }
-
-  return ui5YamlData[closestUI5YamlPath].version;
-}
-
-export async function updateUI5YamlData(
-  ui5YamlUri: string,
-  changeType: FileChangeType
-): Promise<void> {
-  getLogger().debug("`updateUI5YamlData` function called", {
-    ui5YamlUri,
-    changeType,
-  });
-  const ui5YamlPath = URI.parse(ui5YamlUri).fsPath;
-  switch (changeType) {
-    case 1: //created
-    case 2: {
-      //changed
-      const response = await readUI5YamlFile(ui5YamlUri);
-      // Parsing of ui5Yaml.json failed because the file is invalid
-      // We want to keep last successfully read state - manifset.json file may be actively edited
-      if (response !== "INVALID") {
-        ui5YamlData[ui5YamlPath] = response;
-      }
-      return;
-    }
-    case 3: //deleted
-      delete ui5YamlData[ui5YamlPath];
-      return;
+  if (closestUI5YamlPath) {
+    return cache.getYamlDetails(closestUI5YamlPath)?.version;
   }
+  return undefined;
 }
 
 async function findAllUI5YamlDocumentsInWorkspace(
   workspaceFolderPath: string
 ): Promise<string[]> {
   return globby(`${workspaceFolderPath}/**/ui5.yaml`).catch((reason) => {
-    getLogger().error(
-      `Failed to find all ui5.yaml files in current workspace!`,
-      {
-        workspaceFolderPath,
-        reason,
-      }
-    );
+    console.error(`Failed to find all ui5.yaml files in current workspace!`, {
+      workspaceFolderPath,
+      reason,
+    });
     return [];
   });
 }
 
-async function readUI5YamlFile(
+export async function readUI5YamlFile(
   ui5YamlUri: string
-): Promise<{ framework: UI5Framework; version: string } | "INVALID"> {
+): Promise<YamlDetails | undefined> {
   const ui5YamlContent = await readFile(URI.parse(ui5YamlUri).fsPath, "utf-8");
 
   // find the first section in the ui5.yaml declaring the framework
@@ -137,7 +100,55 @@ async function readUI5YamlFile(
     const framework = ui5YamlObject?.framework?.name;
     const version = ui5YamlObject?.framework?.version;
     return { framework, version };
-  } else {
-    return "INVALID";
   }
+  return undefined;
+}
+/**
+ * Get path of a yaml file
+ * @param documentPath path to a file i.e absolute/path/webapp/ext/main/Main.view.xml
+ */
+export async function findYamlPath(
+  documentPath: string
+): Promise<string | undefined> {
+  return findUp(FileName.Ui5Yaml, { cwd: documentPath });
+}
+
+/**
+ * Get yaml of an app
+ * @param ui5YamlRoot absolute root to a yaml file of an app i.e /some/other/path/parts/app/manage_travels/webapp/ui5.yaml
+ */
+export async function getUI5Yaml(
+  ui5YamlRoot: string
+): Promise<YamlDetails | undefined> {
+  const cachedYaml = cache.getYamlDetails(ui5YamlRoot);
+  if (cachedYaml) {
+    return cachedYaml;
+  }
+  try {
+    const data = await readUI5YamlFile(ui5YamlRoot);
+    if (data) {
+      cache.setYamlDetails(ui5YamlRoot, data);
+    }
+    return data;
+  } catch {
+    return undefined;
+  }
+}
+
+/**
+ * Get details of a yaml file. By default return UI5 framework
+ * @param documentPath path to a file i.e absolute/path/webapp/ext/main/Main.view.xml
+ */
+export async function getYamlDetails(
+  documentPath: string
+): Promise<YamlDetails> {
+  const yamlPath = await findYamlPath(documentPath);
+  if (!yamlPath) {
+    return { framework: DEFAULT_UI5_FRAMEWORK, version: undefined };
+  }
+  const yamlData = await getUI5Yaml(yamlPath);
+  if (yamlData) {
+    return yamlData;
+  }
+  return { framework: DEFAULT_UI5_FRAMEWORK, version: undefined };
 }

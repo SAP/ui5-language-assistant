@@ -21,10 +21,11 @@ import {
   CUSTOM_DATA_NS,
   CORE_NS,
 } from "../../utils/special-namespaces";
+import { Context } from "@ui5-language-assistant/context";
 
 export function validateUnknownAttributeKey(
   attribute: XMLAttribute,
-  model: UI5SemanticModel
+  context: Context
 ): UnknownAttributeKeyIssue[] {
   if (attribute.syntax.key === undefined || attribute.key === null) {
     // Can't give an error without a position or value
@@ -39,7 +40,7 @@ export function validateUnknownAttributeKey(
   const xmlElement = attribute.parent;
 
   // UI5 Class case
-  const ui5Class = getUI5ClassByXMLElement(xmlElement, model);
+  const ui5Class = getUI5ClassByXMLElement(xmlElement, context.ui5Model);
   if (ui5Class !== undefined) {
     if (isValidUI5ClassAttribute(ui5Class, attribute)) {
       return [];
@@ -58,7 +59,10 @@ export function validateUnknownAttributeKey(
   }
 
   // UI5 Aggregation case
-  const ui5Aggregation = getUI5AggregationByXMLElement(xmlElement, model);
+  const ui5Aggregation = getUI5AggregationByXMLElement(
+    xmlElement,
+    context.ui5Model
+  );
   // Aggregations don't have additional allowed attributes
   if (ui5Aggregation !== undefined) {
     return [

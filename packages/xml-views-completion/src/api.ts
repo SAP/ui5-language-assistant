@@ -20,7 +20,7 @@ export function getXMLViewCompletions(
     cst: opts.cst,
     ast: opts.ast,
     tokenVector: opts.tokenVector,
-    context: opts.model,
+    context: opts.context,
     providers: {
       elementContent: [],
       elementName: elementNameProviders,

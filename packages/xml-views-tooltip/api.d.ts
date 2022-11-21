@@ -8,6 +8,7 @@ import {
   UI5SemanticModel,
   BaseUI5Node,
 } from "@ui5-language-assistant/semantic-model-types";
+import { Context } from "@ui5-language-assistant/context";
 
 export declare function findUI5HoverNodeAtOffset(
   astPosition:
@@ -15,5 +16,5 @@ export declare function findUI5HoverNodeAtOffset(
     | XMLElementCloseName
     | XMLAttributeKey
     | XMLAttributeValue,
-  model: UI5SemanticModel
+  context: Context
 ): BaseUI5Node | undefined;

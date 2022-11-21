@@ -17,13 +17,14 @@ import {
   UI5EnumValue,
 } from "@ui5-language-assistant/semantic-model-types/api";
 import { CodeAssistSettings } from "@ui5-language-assistant/settings";
+import { Context } from "@ui5-language-assistant/context";
 
 export function getXMLViewCompletions(
   opts: GetXMLViewCompletionsOpts
 ): UI5XMLViewCompletion[];
 
 export interface GetXMLViewCompletionsOpts {
-  model: UI5SemanticModel;
+  context: Context;
   offset: number;
   cst: DocumentCstNode;
   ast: XMLDocument;

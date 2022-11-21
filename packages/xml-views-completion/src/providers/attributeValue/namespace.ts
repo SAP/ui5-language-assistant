@@ -29,7 +29,7 @@ export function namespaceValueSuggestions(
     return [];
   }
 
-  const ui5Model = opts.context;
+  const ui5Model = opts.context.ui5Model;
 
   const attributeValue = opts.prefix ?? "";
 

@@ -1,0 +1,227 @@
+import { map } from "lodash";
+import { sep } from "path";
+import { readFile } from "fs-extra";
+import { URI } from "vscode-uri";
+import globby from "globby";
+import { FileChangeType } from "vscode-languageserver";
+import { ManifestDetails } from "./types";
+import { Manifest, FileName } from "@sap-ux/project-access";
+import findUp from "find-up";
+import { findAppRoot } from "./utils";
+import { cache } from "./cache";
+
+export async function readManifestFile(
+  manifestUri: string
+): Promise<Manifest | undefined> {
+  const manifestContent = await readFile(
+    URI.parse(manifestUri).fsPath,
+    "utf-8"
+  );
+
+  try {
+    return JSON.parse(manifestContent);
+  } catch (err) {
+    return undefined;
+  }
+}
+
+export async function initializeManifestData(
+  workspaceFolderPath: string
+): Promise<void[]> {
+  const manifestDocuments = await findAllManifestDocumentsInWorkspace(
+    workspaceFolderPath
+  );
+  const readManifestPromises = map(manifestDocuments, async (manifestDoc) => {
+    const response = await readManifestFile(manifestDoc);
+    if (response) {
+      cache.setManifest(manifestDoc, response);
+      console.info("manifest initialized", { manifestDoc });
+    }
+  });
+  console.info("list of manifest.json files", { manifestDocuments });
+  return Promise.all(readManifestPromises);
+}
+
+async function findAllManifestDocumentsInWorkspace(
+  workspaceFolderPath: string
+): Promise<string[]> {
+  return globby(`${workspaceFolderPath}/**/manifest.json`).catch((reason) => {
+    console.error(
+      `Failed to find all manifest.json files in current workspace!`,
+      {
+        workspaceFolderPath,
+        reason,
+      }
+    );
+    return [];
+  });
+}
+
+/**
+ * Get path of a manifest.json file
+ * @param documentPath path to a file i.e absolute/path/webapp/ext/main/Main.view.xml
+ */
+export async function findManifestPath(
+  documentPath: string
+): Promise<string | undefined> {
+  return findUp(FileName.Manifest, { cwd: documentPath });
+}
+
+/**
+ * Get manifest of an app
+ * @param manifestRoot absolute root to manifest.json file of an app i.e /some/other/path/parts/app/manage_travels/webapp/manifest.json
+ */
+export async function getUI5Manifest(
+  manifestRoot: string
+): Promise<Manifest | undefined> {
+  const cachedManifest = cache.getManifest(manifestRoot);
+  if (cachedManifest) {
+    return cachedManifest;
+  }
+  try {
+    const data = await readManifestFile(manifestRoot);
+    if (data) {
+      cache.setManifest(manifestRoot, data);
+    }
+    return data;
+  } catch {
+    return undefined;
+  }
+}
+
+/**
+ * Get main service defined in manifest under `sap.ui5->models`
+ * @param manifest manifest of an app
+ */
+export function getMainService(manifest: Manifest): string | undefined {
+  const model = manifest["sap.ovp"]?.globalFilterModel ?? "";
+  return manifest["sap.ui5"]?.models?.[model].dataSource;
+}
+/**
+ * Get service path defined under `sap.app->dataSources`
+ * @param manifest manifest of an app
+ * @param serviceName name of data source
+ */
+export function getServicePath(
+  manifest: Manifest,
+  serviceName: string
+): string | undefined {
+  const dataSources = manifest["sap.app"]?.dataSources;
+
+  if (dataSources && serviceName !== undefined) {
+    const defaultModelDataSource = dataSources[serviceName];
+
+    return defaultModelDataSource?.uri;
+  }
+  return undefined;
+}
+
+function getFlexEnabled(manifest: Manifest): boolean {
+  return manifest["sap.ui5"]?.flexEnabled ?? false;
+}
+function getMinUI5Version(manifest: Manifest): string | undefined {
+  return manifest["sap.ui5"]?.dependencies?.minUI5Version;
+}
+
+/**
+ * Extract details information from manifest
+ * @param manifest manifest of an app
+ */
+async function extractManifestDetails(
+  manifest: Manifest
+): Promise<ManifestDetails> {
+  const customViews = {};
+  const targets = manifest["sap.ui5"]?.routing?.targets;
+  if (targets) {
+    for (const name of Object.keys(targets)) {
+      const target = targets[name];
+      if (target) {
+        const settings = (target?.options as any)?.settings;
+        if (settings?.entitySet && settings?.viewName) {
+          customViews[settings.viewName] = {
+            entitySet: settings.entitySet,
+          };
+        }
+        if (settings?.entitySet && settings?.content) {
+          // search for custom section and get its entity set
+          const templateKey =
+            settings?.content?.body?.sections?.CustomSection.template;
+          if (templateKey) {
+            customViews[templateKey] = {
+              entitySet: settings?.entitySet,
+            };
+          }
+        }
+      }
+    }
+  }
+
+  const mainServiceName = getMainService(manifest) ?? "";
+  const mainServicePath = getServicePath(manifest, mainServiceName) ?? "/";
+  const flexEnabled = getFlexEnabled(manifest);
+  const minUI5Version = getMinUI5Version(manifest);
+  return {
+    mainServicePath,
+    customViews,
+    flexEnabled,
+    minUI5Version,
+  };
+}
+
+/**
+ * Get details of manifest defined under `webapp`
+ * @param documentPath path to a file i.e absolute/path/webapp/ext/main/Main.view.xml
+ */
+export async function getManifestDetails(
+  documentPath: string
+): Promise<ManifestDetails> {
+  const manifestPath = await findManifestPath(documentPath);
+  if (!manifestPath) {
+    return {
+      flexEnabled: false,
+      customViews: {},
+      mainServicePath: undefined,
+      minUI5Version: undefined,
+    };
+  }
+  const manifest = await getUI5Manifest(manifestPath);
+  if (!manifest) {
+    return {
+      flexEnabled: false,
+      customViews: {},
+      mainServicePath: undefined,
+      minUI5Version: undefined,
+    };
+  }
+  return extractManifestDetails(manifest);
+}
+
+/**
+ * Get custom view id
+ *
+ * Id of a `.view.xml` or `.fragment.xml` is calculated based on manifest app id and relative file from app root folder
+ */
+export const getCustomViewId = async (
+  documentPath: string
+): Promise<string> => {
+  const appRoot = await findAppRoot(documentPath);
+  if (!appRoot) {
+    return "";
+  }
+  const manifestPath = (await findManifestPath(documentPath)) as string;
+  const manifest = await getUI5Manifest(manifestPath);
+  const appId = manifest?.["sap.app"]?.id ?? "";
+  const relativeFilePart = documentPath.split(appRoot)[1];
+  if (!relativeFilePart) {
+    return "";
+  }
+  const relativeFiletWithoutExt = relativeFilePart.replace(
+    /\.(view|fragment)\.xml$/,
+    ""
+  );
+  const relativeFileId = relativeFiletWithoutExt
+    .split(sep)
+    .filter((item) => item)
+    .join(".");
+  return `${appId}.${relativeFileId}`;
+};

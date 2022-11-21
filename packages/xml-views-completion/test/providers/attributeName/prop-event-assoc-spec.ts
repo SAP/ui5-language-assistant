@@ -10,7 +10,8 @@ import {
 } from "@ui5-language-assistant/test-utils";
 import { propEventAssocSuggestions } from "../../../src/providers/attributeName/prop-event-assoc";
 import { UI5XMLViewCompletion } from "../../../api";
-import { testSuggestionsScenario } from "../../utils";
+import { getDefaultContext, testSuggestionsScenario } from "../../utils";
+import { Context as AppContext } from "@ui5-language-assistant/context";
 
 const uiCoreControlProperties = [
   "blocked",
@@ -58,13 +59,14 @@ const allPropsEventsAssociations = uiCoreControlProperties
 
 describe("The ui5-language-assistant xml-views-completion", () => {
   let ui5SemanticModel: UI5SemanticModel;
-
+  let appContext: AppContext;
   before(async () => {
     ui5SemanticModel = await generateModel({
       framework: "SAPUI5",
       version: "1.71.49",
       modelGenerator: generate,
     });
+    appContext = getDefaultContext(ui5SemanticModel);
   });
 
   context("properties, events and associations", () => {
@@ -78,7 +80,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           </RadioButtonGroup>
         </mvc:View>`;
         testSuggestionsScenario({
-          model: ui5SemanticModel,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             attributeName: [propEventAssocSuggestions],
@@ -104,7 +106,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           </RadioButtonGroup>
         </mvc:View>`;
         testSuggestionsScenario({
-          model: ui5SemanticModel,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             attributeName: [propEventAssocSuggestions],
@@ -128,7 +130,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           </RadioButtonGroup>
         </mvc:View>`;
         testSuggestionsScenario({
-          model: ui5SemanticModel,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             attributeName: [propEventAssocSuggestions],
@@ -156,7 +158,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           </RadioButtonGroup>
         </mvc:View>`;
         testSuggestionsScenario({
-          model: ui5SemanticModel,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             attributeName: [propEventAssocSuggestions],
@@ -184,7 +186,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           </RadioButtonGroup>
         </mvc:View>`;
         testSuggestionsScenario({
-          model: ui5SemanticModel,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             attributeName: [propEventAssocSuggestions],
@@ -212,7 +214,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           </RadioButtonGroup>
         </mvc:View>`;
         testSuggestionsScenario({
-          model: ui5SemanticModel,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             attributeName: [propEventAssocSuggestions],
@@ -240,7 +242,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           </RadioButtonGroup>
         </mvc:View>`;
         testSuggestionsScenario({
-          model: ui5SemanticModel,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             attributeName: [propEventAssocSuggestions],
@@ -269,7 +271,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           </Unknown>
         </mvc:View>`;
         testSuggestionsScenario({
-          model: ui5SemanticModel,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             attributeName: [propEventAssocSuggestions],
@@ -289,7 +291,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           </Element>
         </mvc:View>`;
         testSuggestionsScenario({
-          model: ui5SemanticModel,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             attributeName: [propEventAssocSuggestions],

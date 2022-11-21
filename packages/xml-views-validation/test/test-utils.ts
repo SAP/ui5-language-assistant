@@ -7,13 +7,14 @@ import { OffsetRange } from "@ui5-language-assistant/logic-utils";
 import { UI5ValidatorsConfig } from "../src/validate-xml-views";
 import { UI5XMLViewIssue } from "../api";
 import { validateXMLView } from "../src/api";
+import { Context } from "@ui5-language-assistant/context";
 
 const START_RANGE_MARKER = "🢂";
 const END_RANGE_MARKER = "🢀";
 
 export function testValidationsScenario(opts: {
   xmlText: string;
-  model: UI5SemanticModel;
+  context: Context;
   validators: Partial<UI5ValidatorsConfig>;
   assertion: (issues: UI5XMLViewIssue[]) => void;
 }): void {
@@ -43,7 +44,7 @@ export function testValidationsScenario(opts: {
       ...opts.validators,
     },
     xmlView: ast,
-    model: opts.model,
+    context: opts.context,
   });
   opts.assertion(issues);
 }
@@ -85,12 +86,12 @@ export function computeExpectedRange(markedXMLSnippet: string): OffsetRange {
 }
 
 export function assertNoIssues(
-  model: UI5SemanticModel,
+  context: Context,
   validators: Partial<UI5ValidatorsConfig>,
   xmlSnippet: string
 ): void {
   testValidationsScenario({
-    model: model,
+    context,
     xmlText: xmlSnippet,
     validators: validators,
     assertion: (issues) => {
@@ -100,7 +101,7 @@ export function assertNoIssues(
 }
 
 export function assertSingleIssue(
-  model: UI5SemanticModel,
+  context: Context,
   validators: Partial<UI5ValidatorsConfig>,
   kind: string,
   severity: string,
@@ -108,7 +109,7 @@ export function assertSingleIssue(
   message: string
 ): void {
   testValidationsScenario({
-    model: model,
+    context,
     xmlText: xmlSnippet,
     validators: validators,
     assertion: (issues) => {
@@ -123,3 +124,21 @@ export function assertSingleIssue(
     },
   });
 }
+
+export const getDefaultContext = (ui5Model: UI5SemanticModel): Context => {
+  return {
+    ui5Model,
+    customViewId: "",
+    manifestDetails: {
+      flexEnabled: false,
+      customViews: {},
+      mainServicePath: undefined,
+      minUI5Version: undefined,
+    },
+    services: {},
+    yamlDetails: {
+      framework: "SAPUI5",
+      version: undefined,
+    },
+  };
+};

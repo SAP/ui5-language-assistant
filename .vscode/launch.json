@@ -40,6 +40,17 @@
       "port": 6009,
       "restart": true,
       "outFiles": ["${workspaceRoot}/packages/language-server/lib/src/**/*.js"]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Run Current File",
+      "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+      "args": ["${fileBasenameNoExtension}"],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "disableOptimisticBPs": true,
+      "cwd": "${workspaceFolder}/packages/context"
     }
   ]
 }

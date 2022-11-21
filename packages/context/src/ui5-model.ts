@@ -3,7 +3,6 @@ import { resolve } from "path";
 import { pathExists, lstat, readJson, writeJson, mkdirs } from "fs-extra";
 import semver from "semver";
 import semverMinSatisfying from "semver/ranges/min-satisfying";
-
 import {
   UI5Framework,
   UI5SemanticModel,
@@ -13,15 +12,15 @@ import {
   Json,
   TypeNameFix,
 } from "@ui5-language-assistant/semantic-model";
-import { Fetcher } from "../api";
+import { Fetcher } from "./types";
 import fetch from "./fetch";
-import { getLogger } from "./logger";
 import {
-  DEFAULT_UI5_VERSION,
   getLibraryAPIJsonUrl,
   getVersionInfoUrl,
   getVersionJsonUrl,
-} from "./ui5-helper";
+} from "./utils";
+import { DEFAULT_UI5_VERSION } from "./types";
+import { cache } from "./cache";
 
 export async function getSemanticModel(
   modelCachePath: string | undefined,
@@ -38,11 +37,11 @@ export async function getSemanticModel(
   );
 }
 
-// cache the semantic model creation promise to ensure unique instances per version
-const semanticModelCache: Record<
-  string,
-  Promise<UI5SemanticModel>
-> = Object.create(null);
+const isUi5Model = (
+  model: UI5SemanticModel | undefined
+): model is UI5SemanticModel => {
+  return !!model;
+};
 // This function is exported for testing purposes (using a mock fetcher)
 export async function getSemanticModelWithFetcher(
   fetcher: Fetcher,
@@ -52,15 +51,19 @@ export async function getSemanticModelWithFetcher(
   ignoreCache?: boolean
 ): Promise<UI5SemanticModel> {
   const cacheKey = `${framework || "INVALID"}:${version || "INVALID"}`;
-  if (ignoreCache || semanticModelCache[cacheKey] === undefined) {
-    semanticModelCache[cacheKey] = createSemanticModelWithFetcher(
-      fetcher,
-      modelCachePath,
-      framework,
-      version
-    );
+  const cachedUi5Model = cache.getUI5Model(cacheKey);
+  if (!ignoreCache && isUi5Model(cachedUi5Model)) {
+    return cachedUi5Model;
   }
-  return semanticModelCache[cacheKey];
+
+  const data = await createSemanticModelWithFetcher(
+    fetcher,
+    modelCachePath,
+    framework,
+    version
+  );
+  cache.setUI5Model(cacheKey, data);
+  return data;
 }
 
 // This function is exported for testing purposes (using a mock fetcher)
@@ -74,7 +77,7 @@ async function createSemanticModelWithFetcher(
   version = await negotiateVersion(modelCachePath, framework, version);
 
   // Log the detected framework name/version
-  getLogger().info("The following framework/version has been detected", {
+  console.info("The following framework/version has been detected", {
     framework,
     version,
   });
@@ -85,11 +88,11 @@ async function createSemanticModelWithFetcher(
   let cacheFolder: string | undefined;
   if (modelCachePath !== undefined) {
     cacheFolder = getCacheFolder(modelCachePath, framework, version);
-    getLogger().info("Caching UI5 resources in", { cacheFolder });
+    console.info("Caching UI5 resources in", { cacheFolder });
     try {
       await mkdirs(cacheFolder);
     } catch (err) {
-      getLogger().warn("Failed creating UI5 resources cache folder`", {
+      console.warn("Failed creating UI5 resources cache folder`", {
         cacheFolder,
         msg: err,
       });
@@ -97,7 +100,7 @@ async function createSemanticModelWithFetcher(
     }
   }
 
-  getLogger().info("building UI5 semantic Model for framework/version", {
+  console.info("building UI5 semantic Model for framework/version", {
     framework,
     version,
   });
@@ -112,20 +115,20 @@ async function createSemanticModelWithFetcher(
       let apiJson = await readFromCache(cacheFilePath);
       // If the file doesn't exist in the cache (or we couldn't read it), fetch it from the network
       if (apiJson === undefined) {
-        getLogger().info("No cache found for UI5 lib", { libName });
+        console.info("No cache found for UI5 lib", { libName });
         const url = getLibraryAPIJsonUrl(framework, version as string, libName);
         const response = await fetcher(url);
         if (response.ok) {
           apiJson = await response.json();
           await writeToCache(cacheFilePath, apiJson);
         } else if (response.status === 404) {
-          getLogger().error("Could not find UI5 lib from", { url });
+          console.error("Could not find UI5 lib from", { url });
           await writeToCache(cacheFilePath, {}); // write dummy file! TODO: how to invalidate?
         } else {
-          getLogger().error("Could not read UI5 lib from", { url });
+          console.error("Could not read UI5 lib from", { url });
         }
       } else {
-        getLogger().info("Reading Cache For UI5 Lib", {
+        console.info("Reading Cache For UI5 Lib", {
           libName,
           cacheFilePath,
         });
@@ -152,7 +155,7 @@ async function readFromCache(filePath: string | undefined): Promise<unknown> {
         return await readJson(filePath);
       }
     } catch (err) {
-      getLogger().warn("Could not read cache file for", {
+      console.warn("Could not read cache file for", {
         filePath,
         error: err,
       });
@@ -169,7 +172,7 @@ async function writeToCache(
     try {
       await writeJson(filePath, json);
     } catch (err) {
-      getLogger().warn("Could not write cache file For UI5 lib", {
+      console.warn("Could not write cache file For UI5 lib", {
         filePath,
         error: err,
       });
@@ -249,7 +252,7 @@ async function getVersionInfo(
       versionInfo = await response.json();
       writeToCache(cacheFilePath, versionInfo);
     } else {
-      getLogger().error("Could not read version information", { url });
+      console.error("Could not read version information", { url });
     }
   }
   return versionInfo;
@@ -330,7 +333,7 @@ export async function negotiateVersionWithFetcher(
   // try to negotiate version
   if (!version) {
     // no version defined, using default version
-    getLogger().warn(
+    console.warn(
       "No version defined! Please check the minUI5Version in your manifest.json!"
     );
     version = DEFAULT_UI5_VERSION;
@@ -357,7 +360,7 @@ export async function negotiateVersionWithFetcher(
           { version: string; support: string; lts: boolean }
         >;
       } else {
-        getLogger().error(
+        console.error(
           "Could not read version mapping, fallback to default version",
           { url, DEFAULT_UI5_VERSION }
         );
@@ -404,5 +407,5 @@ export async function negotiateVersionWithFetcher(
       resolvedVersions[requestedVersion] = version;
     }
   }
-  return version;
+  return version ?? DEFAULT_UI5_VERSION;
 }

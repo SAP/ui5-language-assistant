@@ -1,4 +1,3 @@
-import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import {
   AttributeNameCompletion,
   AttributeNameCompletionOptions,
@@ -6,10 +5,11 @@ import {
 import { UI5XMLViewCompletion } from "../../../api";
 import { propEventAssocSuggestions } from "./prop-event-assoc";
 import { namespaceKeysSuggestions } from "./namespace";
+import { Context } from "@ui5-language-assistant/context";
 
 export const attributeNameProviders: AttributeNameCompletion<
   UI5XMLViewCompletion,
-  UI5SemanticModel
+  Context
 >[] = [propEventAssocSuggestions, namespaceKeysSuggestions];
 
-export type UI5AttributeNameCompletionOptions = AttributeNameCompletionOptions<UI5SemanticModel>;
+export type UI5AttributeNameCompletionOptions = AttributeNameCompletionOptions<Context>;

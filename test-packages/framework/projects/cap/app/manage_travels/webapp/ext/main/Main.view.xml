@@ -1,0 +1,13 @@
+<mvc:View xmlns:core="sap.ui.core"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:f="sap.f"
+	xmlns="sap.m"
+	xmlns:l="sap.ui.layout"
+	xmlns:macros="sap.fe.macros"
+	xmlns:html="http://www.w3.org/1999/xhtml" controllerName="sap.fe.demo.managetravels.ext.main.Main">
+	<Page>
+		<content>
+
+		</content>
+	</Page>
+</mvc:View>

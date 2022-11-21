@@ -1,17 +1,20 @@
 import { XMLElement } from "@xml-tools/ast";
-import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { getUI5AggregationByXMLElement } from "@ui5-language-assistant/logic-utils";
 import { UseOfDeprecatedAggregationIssue } from "../../../api";
 import {
   buildDeprecatedIssueMessage,
   DeprecatedUI5Symbol,
 } from "../../utils/deprecated-message-builder";
+import { Context } from "@ui5-language-assistant/context";
 
 export function validateUseOfDeprecatedAggregation(
   xmlElement: XMLElement,
-  model: UI5SemanticModel
+  context: Context
 ): UseOfDeprecatedAggregationIssue[] {
-  const aggregation = getUI5AggregationByXMLElement(xmlElement, model);
+  const aggregation = getUI5AggregationByXMLElement(
+    xmlElement,
+    context.ui5Model
+  );
   if (aggregation === undefined) {
     return [];
   }
@@ -25,7 +28,7 @@ export function validateUseOfDeprecatedAggregation(
       kind: "UseOfDeprecatedAggregation",
       message: buildDeprecatedIssueMessage({
         symbol: aggregation as DeprecatedUI5Symbol,
-        model,
+        model: context.ui5Model,
       }),
       severity: "warn",
       offsetRange: {

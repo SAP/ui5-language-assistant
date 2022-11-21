@@ -10,14 +10,16 @@ import { validators } from "../../../src/api";
 import { NonUniqueIDIssue } from "../../../api";
 import {
   computeExpectedRanges,
+  getDefaultContext,
   testValidationsScenario,
 } from "../../test-utils";
+import { Context as AppContext } from "@ui5-language-assistant/context";
 
 const { NON_UNIQUE_ID } = validations;
 
 describe("the use of non unique id validation", () => {
   let ui5SemanticModel: UI5SemanticModel;
-
+  let appContext: AppContext;
   let testNonUniqueIDScenario: (opts: {
     xmlText: string;
     assertion: (issues: NonUniqueIDIssue[]) => void;
@@ -29,10 +31,10 @@ describe("the use of non unique id validation", () => {
       version: "1.71.49",
       modelGenerator: generate,
     });
-
+    appContext = getDefaultContext(ui5SemanticModel);
     testNonUniqueIDScenario = (opts): void =>
       testValidationsScenario({
-        model: ui5SemanticModel,
+        context: appContext,
         validators: {
           document: [validators.validateNonUniqueID],
         },
