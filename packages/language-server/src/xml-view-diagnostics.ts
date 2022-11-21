@@ -75,6 +75,7 @@ function validationIssuesToLspDiagnostics(
       case "UnknownAnnotationPath":
       case "UnknownPropertyPath":
       case "MissingEntitySet":
+      case "IncompletePath":
         return {
           ...commonDiagnosticPros,
         };

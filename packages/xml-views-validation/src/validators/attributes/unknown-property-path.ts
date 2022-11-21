@@ -5,7 +5,6 @@ import {
   getUI5PropertyByXMLAttributeKey,
   isPropertyPathAllowed,
   resolvePathTarget,
-  getNextPossiblePathTargets,
 } from "@ui5-language-assistant/logic-utils";
 
 import { AnnotationIssue } from "../../../api";
@@ -17,7 +16,6 @@ import {
   EntityType,
   Property,
 } from "@sap-ux/vocabularies-types";
-import { getNavigationTargets } from "@ui5-language-assistant/xml-views-completion";
 
 export function validateUnknownPropertyPath(
   attribute: XMLAttribute,
@@ -99,27 +97,10 @@ export function validateUnknownPropertyPath(
       baseType = base?.entityType;
     }
 
-    // let targetList: string[];
-    // if (baseType && isPropertyPathAllowed(control)) {
-    //   // direct props and ones reachable via navigation
-    //   if (isNavSegmentsAllowed) {
-    //     targetList = getNavigationTargets(service, {
-    //       allowedTerms: [],
-    //       includeProperties: true,
-    //       isPropertyPath: true,
-    //       relativeFor: baseType,
-    //     });
-    //   } else {
-    //     // direct props
-    //     targetList = baseType.entityProperties.map(prop => prop.name);
-    //   }
-    // } else {
-    //   return [];
-    // }
-
-    // if (targetList.includes(attribute.value || '')) {
-    //   return [];
-    // }
+    if (!baseType || !isPropertyPathAllowed(control)) {
+      // the case is handled by annotation path handler
+      return [];
+    }
 
     if (!attribute.value) {
       return [

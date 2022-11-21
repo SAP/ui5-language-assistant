@@ -20,7 +20,6 @@ import {
   EntitySet,
   EntityType,
   Singleton,
-  Property,
   ConvertedMetadata,
 } from "@sap-ux/vocabularies-types";
 
@@ -102,29 +101,10 @@ export function validateUnknownAnnotationPath(
     }
     const allowedTerms = getAllowedAnnotationsTermsForControl(control);
 
-    if (baseType) {
-      annotationList = collectAnnotations(
-        baseType,
-        metadata,
-        allowedTerms,
-        isNavSegmentsAllowed
-      );
-    }
-
     if (!base || base._type === "Property") {
       return [];
     }
 
-    const match = (annotationList || []).find((entry) => {
-      const fullPaths = entry.annotations.map((annotation) =>
-        composeAnnotationPath(entry.path, annotation)
-      );
-      return fullPaths.includes(attribute.value || "");
-    });
-
-    if (match) {
-      return [];
-    }
     if (!attribute.value) {
       return [
         {

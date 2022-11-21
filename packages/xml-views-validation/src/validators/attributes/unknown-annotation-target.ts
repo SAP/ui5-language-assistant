@@ -86,6 +86,20 @@ export function validateUnknownAnnotationTarget(
 
     if (!target || !targetEntity) {
       if (!isCardinalityIssue) {
+        if (target?._type === "EntityContainer") {
+          return [
+            {
+              kind: "IncompletePath",
+              message: `Path is incomplete. Trigger code completion to choose next available path segment`,
+              offsetRange: {
+                start: actualAttributeValueToken.startOffset,
+                end: actualAttributeValueToken.endOffset,
+              },
+              severity: "warn",
+            },
+          ];
+        }
+
         // Path does not exist
         originalSegments.splice(lastValidSegmentIndex + 1);
         const correctPart = originalSegments.length

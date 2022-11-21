@@ -103,5 +103,3 @@ export function isUI5NodeXMLViewCompletion(
     }
   }
 }
-
-export { getNavigationTargets } from "./providers/utils/annotationUtils";

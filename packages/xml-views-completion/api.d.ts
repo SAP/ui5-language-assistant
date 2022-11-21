@@ -194,22 +194,3 @@ export interface AnnotationTargetInXMLAttributeValueCompletion
 export function isUI5NodeXMLViewCompletion(
   suggestion: UI5XMLViewCompletion
 ): suggestion is UI5NodeXMLViewCompletion;
-
-export function getNavigationTargets(
-  service: ServiceDetails,
-  options: {
-    allowedTerms: AnnotationTerm[];
-    isCollection?: boolean;
-    isPropertyPath?: boolean;
-    includeProperties?: boolean;
-    relativeFor?: EntityType;
-  }
-): string[];
-// export function isPropertyPathAllowed(control: string): boolean;
-// export function collectAnnotationsForElement(
-//   metadata: ConvertedMetadata,
-//   allowedTerms: AnnotationTerm[],
-//   element: string | EntityType | EntitySet | Singleton,
-//   property?: string,
-//   navigationProperty?: string
-// ): any[];
