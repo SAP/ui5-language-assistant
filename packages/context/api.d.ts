@@ -14,6 +14,7 @@ export {
   reactOnCdsFileChange,
   reactOnUI5YamlChange,
   reactOnManifestChange,
+  reactOnXmlFileChange,
   cache,
 } from "./src/api";
 

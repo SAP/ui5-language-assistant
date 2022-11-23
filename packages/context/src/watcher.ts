@@ -1,69 +1,31 @@
-import { fileURLToPath } from "url";
-import { findAppRoot, getProjectInfo, getProjectRoot } from "../src/utils";
-import { readManifestFile } from "../src/manifest";
-import { getApp } from "./loader";
+import { findAppRoot, getProjectRoot, getProjectInfo } from "./utils";
+import {
+  findManifestPath,
+  getMainService,
+  getManifestDetails,
+  getUI5Manifest,
+} from "./manifest";
+import { getProject, getApp } from "./loader";
 import { cache } from "./cache";
-import { getManifestDetails, getUI5Manifest } from "./manifest";
-import { FileName } from "@sap-ux/project-access";
-import { join } from "path";
+import { Manifest } from "@sap-ux/project-access";
 import { FileChangeType } from "vscode-languageserver";
 import { URI } from "vscode-uri";
-import { readUI5YamlFile } from "./ui5-yaml";
+import { getYamlDetails } from "./ui5-yaml";
+import { join } from "path";
+import { FileName } from "@sap-ux/project-access";
 
-const handleManifestFileChange = async (
-  manifestPath: string
-): Promise<void> => {
-  const projectRoot = await getProjectRoot(manifestPath);
-  if (!projectRoot) {
-    return;
-  }
-  const appRoot = await findAppRoot(manifestPath);
-  if (!appRoot) {
-    return;
-  }
-  const manifest = await getUI5Manifest(manifestPath);
-  if (!manifest) {
-    return;
-  }
-  const manifestDetails = await getManifestDetails(manifestPath);
-  const projectInfo = await getProjectInfo(projectRoot);
-  // remove cached app
-  cache.deleteApp(appRoot);
-  const app = await getApp(
-    projectRoot,
-    appRoot,
-    manifest,
-    manifestDetails,
-    projectInfo
-  );
-  if (!app) {
-    return;
-  }
-  const cachedCapProject = cache.getProject(projectRoot);
-  if (cachedCapProject) {
-    if (cachedCapProject.type === "CAP") {
-      cachedCapProject.apps.set(appRoot, app);
-    } else {
-      cachedCapProject.app = app;
-    }
-  }
-};
 /**
  * React on manifest.json file change
  *
  * @param uri uri to manifest.json file
  * @description
- * 1. for change or create operation:
+ * a. remove manifest cache
  *
- *    a. fresh manifest entry is added to cache
+ * b. remove app cache
  *
- *    b. cached entry of app is removed and a fresh app entry is added to cache
+ * c. remove project cache
  *
- *    c. fresh app is assigned to respective UI5 or CAP project app(s)
- *
- * 2. for delete operation:
- *
- *     a. cached manifest entry is removed from cache
+ * d. get a fresh project
  */
 export const reactOnManifestChange = async (
   manifestUri: string,
@@ -74,22 +36,31 @@ export const reactOnManifestChange = async (
     changeType,
   });
   const manifestPath = URI.parse(manifestUri).fsPath;
-  switch (changeType) {
-    case 1: //created
-    case 2: {
-      //changed
-      const response = await readManifestFile(manifestUri);
-      // We want to keep last successfully read state - manifest.json file may be actively edited
-      if (response) {
-        cache.setManifest(manifestPath, response);
-      }
-      await handleManifestFileChange(manifestPath);
-      return;
-    }
-    case 3: //deleted
-      cache.deleteManifest(manifestPath);
-      return;
+  const projectRoot = await getProjectRoot(manifestPath);
+  if (!projectRoot) {
+    return;
   }
+  // remove manifest cache
+  cache.deleteManifest(manifestPath);
+  const cachedProject = cache.getProject(projectRoot);
+  if (!cachedProject) {
+    return;
+  }
+  if (cachedProject.type == "CAP") {
+    for (const [, app] of cachedProject.apps) {
+      const appRoot = app.appRoot;
+      // remove cached app
+      cache.deleteApp(appRoot);
+    }
+  }
+  if (cachedProject.type === "UI5") {
+    // remove app cache
+    cache.deleteApp(cachedProject.root);
+  }
+  // remove project cache
+  cache.deleteProject(projectRoot);
+  // get a fresh project
+  await getProject(manifestPath);
 };
 /**
  * React on UI5 yaml file change
@@ -118,11 +89,9 @@ export const reactOnUI5YamlChange = async (
     case 1: //created
     case 2: {
       //changed
-      const response = await readUI5YamlFile(ui5YamlUri);
+      const response = await getYamlDetails(ui5YamlUri);
       // We want to keep last successfully read state - yaml file may be actively edited
-      if (response) {
-        cache.setYamlDetails(ui5YamlPath, response);
-      }
+      cache.setYamlDetails(ui5YamlPath, response);
       return;
     }
     case 3: //deleted
@@ -138,9 +107,9 @@ export const reactOnUI5YamlChange = async (
  * @param changeType change type
  * @description in case of a cds change
  *
- * a. cached entry of cap service is remove and a fresh cap service entry is added to cache when `getApp` is called
+ * a. remove cap service cache and a fresh cap service entry is added to cache when `getApp` is called
  *
- * b. cached entry of app is removed and a fresh app entry is added to cache
+ * b. remove app cache and a fresh app entry is added to cache
  *
  * c. fresh app is assigned to CAP project apps
  * @note in case of not being able to create a fresh app, cached app from project apps is removed
@@ -149,12 +118,16 @@ export const reactOnCdsFileChange = async (
   uri: string,
   changeType: FileChangeType
 ): Promise<void> => {
-  const documentPath = fileURLToPath(uri);
+  console.debug("`reactOnCdsFileChange` function called", {
+    cdsUri: uri,
+    changeType,
+  });
+  const documentPath = URI.parse(uri).fsPath;
   const projectRoot = await getProjectRoot(documentPath);
   if (!projectRoot) {
     return;
   }
-  // remove cached cap services
+  // remove cap services cache
   cache.deleteCapServices(projectRoot);
 
   const cachedProject = cache.getProject(projectRoot);
@@ -171,7 +144,7 @@ export const reactOnCdsFileChange = async (
     if (!manifest) {
       continue;
     }
-    const manifestDetails = await getManifestDetails(documentPath);
+    const manifestDetails = await getManifestDetails(manifestRoot);
     const projectInfo = await getProjectInfo(projectRoot);
     // remove cached app
     cache.deleteApp(appRoot);
@@ -190,4 +163,77 @@ export const reactOnCdsFileChange = async (
     // assign fresh app to CAP project
     cachedProject.apps.set(appRoot, freshApp);
   }
+};
+
+const isAnnotationDocumentChange = (
+  uri: string,
+  manifest: Manifest
+): boolean => {
+  const mainServiceName = getMainService(manifest);
+  const dataSources = manifest["sap.app"]?.dataSources;
+  if (dataSources && mainServiceName !== undefined) {
+    const dataSource = dataSources[mainServiceName];
+    const annotationFilePaths = (dataSource?.settings?.annotations ?? [])
+      .map((name) => dataSources[name]?.settings?.localUri)
+      .filter((path): path is string => !!path);
+    // check metadata
+    const defaultModelDataSource = dataSources[mainServiceName];
+    const metadataLocalUri = defaultModelDataSource?.settings?.localUri;
+    for (const filePath of annotationFilePaths) {
+      if (uri.endsWith(filePath)) {
+        return true;
+      }
+    }
+    if (metadataLocalUri && uri.endsWith(metadataLocalUri)) {
+      return true;
+    }
+  }
+  return false;
+};
+
+/**
+ * React to an xml annotation file change. It reacts to only in manifest.json registered annotation files
+ * @param uri uri to an xml file
+ * @param changeType change type
+ * @description
+ * a. remove app cache
+ *
+ * b. remove project cache
+ *
+ * c. get a fresh project
+ */
+export const reactOnXmlFileChange = async (
+  uri: string,
+  changeType: FileChangeType
+): Promise<void> => {
+  console.debug("`reactOnXmlFileChange` function called", {
+    xmlUri: uri,
+    changeType,
+  });
+  const documentPath = URI.parse(uri).fsPath;
+  const manifestPath = await findManifestPath(documentPath);
+  if (!manifestPath) {
+    return;
+  }
+  const manifest = await getUI5Manifest(manifestPath);
+  if (!manifest) {
+    return;
+  }
+  if (!isAnnotationDocumentChange(uri, manifest)) {
+    return;
+  }
+  const projectRoot = await getProjectRoot(documentPath);
+  if (!projectRoot) {
+    return;
+  }
+  const appRoot = await findAppRoot(documentPath);
+  if (!appRoot) {
+    return;
+  }
+  // remove app cache
+  cache.deleteApp(appRoot);
+  // remove project cache
+  cache.deleteProject(projectRoot);
+  // get a fresh project
+  await getProject(documentPath);
 };

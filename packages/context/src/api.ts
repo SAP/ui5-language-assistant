@@ -22,6 +22,7 @@ export {
   reactOnCdsFileChange,
   reactOnUI5YamlChange,
   reactOnManifestChange,
+  reactOnXmlFileChange,
 } from "./watcher";
 
 /**

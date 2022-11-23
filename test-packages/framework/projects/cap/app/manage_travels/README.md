@@ -1,20 +1,20 @@
 ## Application Details
 
-|                                                                                                  |
-| ------------------------------------------------------------------------------------------------ |
-| **Generation Date and Time**<br>Fri Sep 23 2022 13:05:05 GMT+0200 (Central European Summer Time) |
-| **App Generator**<br>@sap/generator-fiori-elements                                               |
-| **App Generator Version**<br>1.7.6-pre-20220923071625-bbfd1f905.0                                |
-| **Generation Platform**<br>Visual Studio Code                                                    |
-| **Floorplan Used**<br>Flexible Programming Model V4                                              |
-| **Service Type**<br>Local Cap                                                                    |
+|                                                                                                    |
+| -------------------------------------------------------------------------------------------------- |
+| **Generation Date and Time**<br>Tue Nov 22 2022 08:07:58 GMT+0100 (Central European Standard Time) |
+| **App Generator**<br>@sap/generator-fiori-elements                                                 |
+| **App Generator Version**<br>1.8.0                                                                 |
+| **Generation Platform**<br>Visual Studio Code                                                      |
+| **Template Used**<br>Custom Page V4                                                                |
+| **Service Type**<br>Local Cap                                                                      |
 
 |**Service URL**<br>http://localhost:4004/processor/
 |**Module Name**<br>manage_travels|
-|**Application Title**<br>Manage Travels|
+|**Application Title**<br>App Title|
 |**Namespace**<br>sap.fe.demo|
 |**UI5 Theme**<br>sap_horizon|
-|**UI5 Version**<br>1.108.0|
+|**UI5 Version**<br>1.108.1|
 |**Enable Code Assist Libraries**<br>False|
 |**Enable TypeScript**<br>False|
 |**Add Eslint configuration**<br>False|

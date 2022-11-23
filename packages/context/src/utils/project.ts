@@ -24,7 +24,7 @@ import {
  * @param documentPath path to a file i.e absolute/path/webapp/ext/main/Main.view.xml
  */
 export async function getProjectRoot(
-  documentPath
+  documentPath: string
 ): Promise<string | undefined> {
   let projectRoot: string | undefined;
   try {

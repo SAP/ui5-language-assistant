@@ -3,22 +3,20 @@ import { sep } from "path";
 import { readFile } from "fs-extra";
 import { URI } from "vscode-uri";
 import globby from "globby";
-import { FileChangeType } from "vscode-languageserver";
 import { ManifestDetails } from "./types";
 import { Manifest, FileName } from "@sap-ux/project-access";
 import findUp from "find-up";
 import { findAppRoot } from "./utils";
 import { cache } from "./cache";
 
-export async function readManifestFile(
+async function readManifestFile(
   manifestUri: string
 ): Promise<Manifest | undefined> {
-  const manifestContent = await readFile(
-    URI.parse(manifestUri).fsPath,
-    "utf-8"
-  );
-
   try {
+    const manifestContent = await readFile(
+      URI.parse(manifestUri).fsPath,
+      "utf-8"
+    );
     return JSON.parse(manifestContent);
   } catch (err) {
     return undefined;

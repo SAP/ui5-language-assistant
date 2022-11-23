@@ -31,6 +31,7 @@ import {
 } from "./manifest";
 import { parseServiceFiles } from "./parser";
 import { cache } from "./cache";
+import { sep } from "path";
 
 /**
  * Get CAP project
@@ -126,9 +127,6 @@ export async function getProject(
     return;
   }
   const manifestDetails = await getManifestDetails(documentPath);
-  if (!manifestDetails) {
-    return;
-  }
   const projectInfo = await getProjectInfo(projectRoot);
   if (projectInfo.type === CAP_PROJECT_TYPE) {
     const capProject = await getCAPProject(
@@ -155,6 +153,12 @@ export async function getProject(
   return ui5Project;
 }
 
+const trimSeparator = (path: string): string => {
+  return path
+    .split(sep)
+    .filter((item) => item)
+    .join(sep);
+};
 /**
  * Get cap services
  *
@@ -179,11 +183,11 @@ async function getCapServices(
         odataContainment: false,
       });
 
-      services.set(service.urlPath, metadataContent);
+      services.set(trimSeparator(service.urlPath), metadataContent);
     }
   } catch (error) {
     console.log(error);
-    cache.deleteCapServices(projectRoot);
+    return new Map();
   }
   cache.setCapServices(projectRoot, services);
   return services;
@@ -218,12 +222,11 @@ export async function getApp(
     mainServiceName,
     appRoot
   );
-  const path = getServicePath(manifest, mainServiceName) ?? "/";
+  const path = trimSeparator(getServicePath(manifest, mainServiceName) ?? "/");
   let metadataContent;
   if (projectInfo.type === "CAP") {
     const services = await getCapServices(projectRoot);
-    metadataContent =
-      services.get(path) ?? services.get(path.replace(/^\//, ""));
+    metadataContent = services.get(path);
   } else {
     metadataContent = await getLocalMetadataForService(
       manifest,

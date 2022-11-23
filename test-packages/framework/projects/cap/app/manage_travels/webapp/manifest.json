@@ -1,5 +1,5 @@
 {
-  "_version": "1.42.0",
+  "_version": "1.45.0",
   "sap.app": {
     "id": "sap.fe.demo.managetravels",
     "type": "application",
@@ -12,8 +12,8 @@
     "resources": "resources.json",
     "sourceTemplate": {
       "id": "@sap/generator-fiori:fpm",
-      "version": "1.7.6-pre-20220923071625-bbfd1f905.0",
-      "toolsId": "c09da511-404c-46a5-9851-7bfea72144e8"
+      "version": "1.8.0",
+      "toolsId": "3e70c1f0-40bc-4a4d-8bbf-8c96f5a2a7a8"
     },
     "dataSources": {
       "mainService": {
@@ -51,14 +51,14 @@
     }
   },
   "sap.ui5": {
+    "flexEnabled": true,
     "dependencies": {
-      "minUI5Version": "1.108.0",
+      "minUI5Version": "1.108.1",
       "libs": {
         "sap.m": {},
         "sap.ui.core": {},
         "sap.ushell": {},
-        "sap.fe.templates": {},
-        "sap.f": {}
+        "sap.fe.templates": {}
       }
     },
     "contentDensities": {
@@ -91,16 +91,12 @@
       "css": []
     },
     "routing": {
+      "config": {},
       "routes": [
         {
           "name": "TravelMain",
           "pattern": ":?query:",
-          "target": ["TravelMain"]
-        },
-        {
-          "name": "TravelObjectPage",
-          "pattern": "Travel({TravelKey}):?query:",
-          "target": ["TravelMain", "TravelObjectPage"]
+          "target": "TravelMain"
         }
       ],
       "targets": {
@@ -112,66 +108,8 @@
             "settings": {
               "viewName": "sap.fe.demo.managetravels.ext.main.Main",
               "entitySet": "Travel",
-              "navigation": {
-                "Travel": {
-                  "detail": {
-                    "route": "TravelObjectPage"
-                  }
-                }
-              }
+              "navigation": {}
             }
-          },
-          "controlAggregation": "beginColumnPages",
-          "contextPattern": ""
-        },
-        "TravelObjectPage": {
-          "type": "Component",
-          "id": "TravelObjectPage",
-          "name": "sap.fe.templates.ObjectPage",
-          "options": {
-            "settings": {
-              "entitySet": "Travel",
-              "navigation": {},
-              "content": {
-                "body": {
-                  "sections": {
-                    "CustomSection": {
-                      "template": "sap.fe.demo.managetravels.ext.fragment.CustomSection",
-                      "position": {
-                        "placement": "After",
-                        "anchor": "i18nTraveldata"
-                      },
-                      "title": "{i18n>myItinerary}",
-                      "type": "XMLFragment"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "controlAggregation": "midColumnPages",
-          "contextPattern": "/Travel({TravelKey})"
-        }
-      },
-      "config": {
-        "flexibleColumnLayout": {
-          "defaultTwoColumnLayoutType": "TwoColumnsMidExpanded",
-          "defaultThreeColumnLayoutType": "ThreeColumnsMidExpanded"
-        },
-        "routerClass": "sap.f.routing.Router"
-      }
-    },
-    "rootView": {
-      "viewName": "sap.fe.templates.RootContainer.view.Fcl",
-      "type": "XML",
-      "async": true,
-      "id": "appRootView"
-    },
-    "extends": {
-      "extensions": {
-        "sap.ui.controllerExtensions": {
-          "sap.fe.templates.ObjectPage.ObjectPageController#sap.fe.demo.managetravels::TravelObjectPage": {
-            "controllerName": "sap.fe.demo.managetravels.ext.controller.ObjectPageExtension"
           }
         }
       }

@@ -40,11 +40,8 @@ describe("services", () => {
       const { appRoot } = await testFramework.getProjectData();
       const docPath = join(appRoot, "ext", "main", "Main.view.xml");
       const result = await getServices(docPath);
-      expect(result).to.have.all.keys("/processor/");
-      expect(result["/processor/"]).to.have.all.keys(
-        "path",
-        "convertedMetadata"
-      );
+      expect(result).to.have.all.keys("processor");
+      expect(result["processor"]).to.have.all.keys("path", "convertedMetadata");
     });
     it("UI5 services", async () => {
       // stub to avoid another extra UI5 test project
@@ -59,11 +56,8 @@ describe("services", () => {
       const docPath = join(appRoot, "ext", "main", "Main.view.xml");
       const result = await getServices(docPath);
       expect(getProjectInfoStub).to.have.been.called;
-      expect(result).to.have.all.keys("/processor/");
-      expect(result["/processor/"]).to.have.all.keys(
-        "path",
-        "convertedMetadata"
-      );
+      expect(result).to.have.all.keys("processor");
+      expect(result["processor"]).to.have.all.keys("path", "convertedMetadata");
     });
   });
 });

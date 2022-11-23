@@ -34,6 +34,7 @@ import {
   getContext,
   reactOnManifestChange,
   reactOnCdsFileChange,
+  reactOnXmlFileChange,
 } from "@ui5-language-assistant/context";
 import { diagnosticToCodeActionFix } from "./quick-fix";
 import { executeCommand } from "./commands";
@@ -193,7 +194,7 @@ connection.onDidChangeWatchedFiles(async (changeEvent) => {
     } else if (uri.endsWith(".cds")) {
       await reactOnCdsFileChange(uri, change.type);
     } else if (uri.endsWith(".xml")) {
-      // react on xml file
+      await reactOnXmlFileChange(uri, change.type);
     }
   });
 });

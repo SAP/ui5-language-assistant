@@ -79,14 +79,16 @@ async function findAllUI5YamlDocumentsInWorkspace(
   });
 }
 
-export async function readUI5YamlFile(
+async function readUI5YamlFile(
   ui5YamlUri: string
 ): Promise<YamlDetails | undefined> {
-  const ui5YamlContent = await readFile(URI.parse(ui5YamlUri).fsPath, "utf-8");
-
   // find the first section in the ui5.yaml declaring the framework
   let ui5YamlDocs, ui5YamlObject;
   try {
+    const ui5YamlContent = await readFile(
+      URI.parse(ui5YamlUri).fsPath,
+      "utf-8"
+    );
     ui5YamlDocs = loadAll(ui5YamlContent);
     ui5YamlObject = ui5YamlDocs.find((ui5YamlDoc) => {
       return /^(OpenUI5|SAPUI5)$/i.test(ui5YamlDoc?.framework?.name);

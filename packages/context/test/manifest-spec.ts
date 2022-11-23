@@ -70,16 +70,13 @@ describe("manifest", () => {
     const result = await getManifestDetails(docPath);
     expect(result).to.deep.equal({
       customViews: {
-        "sap.fe.demo.managetravels.ext.fragment.CustomSection": {
-          entitySet: "Travel",
-        },
         "sap.fe.demo.managetravels.ext.main.Main": {
           entitySet: "Travel",
         },
       },
       mainServicePath: "/processor/",
-      flexEnabled: false,
-      minUI5Version: "1.108.0",
+      flexEnabled: true,
+      minUI5Version: "1.108.1",
     });
   });
   it("getMainService", async () => {
