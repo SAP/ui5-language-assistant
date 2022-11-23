@@ -1,5 +1,4 @@
 import { XMLDocument, XMLElement, XMLAttribute } from "@xml-tools/ast";
-import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { OffsetRange } from "@ui5-language-assistant/logic-utils";
 import { UI5ValidatorsConfig } from "./src/validate-xml-views";
 import { Context } from "@ui5-language-assistant/context";

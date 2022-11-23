@@ -43,7 +43,7 @@ export class TestFramework implements TestFrameworkAPI {
       this.npmInstall();
     }
   }
-  get offset() {
+  get offset(): number {
     return this._offset;
   }
   set offset(data: number) {
@@ -196,9 +196,8 @@ export class TestFramework implements TestFrameworkAPI {
     return await readFile(filePath, "utf-8");
   }
   public getOffset(content: string): number {
-    let offset = 0;
     if (content.indexOf("⇶") === -1) {
-      return offset;
+      return 0;
     }
     return content.indexOf("⇶");
   }

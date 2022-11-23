@@ -1,10 +1,7 @@
 import { includes, find, filter } from "lodash";
 import { XMLAttribute } from "@xml-tools/ast";
 import { isXMLNamespaceKey } from "@xml-tools/common";
-import {
-  UI5SemanticModel,
-  UI5Class,
-} from "@ui5-language-assistant/semantic-model-types";
+import { UI5Class } from "@ui5-language-assistant/semantic-model-types";
 import {
   getUI5ClassByXMLElement,
   getUI5AggregationByXMLElement,

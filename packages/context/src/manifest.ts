@@ -19,6 +19,7 @@ async function readManifestFile(
     );
     return JSON.parse(manifestContent);
   } catch (err) {
+    console.trace("readManifestFile failed:", err);
     return undefined;
   }
 }
@@ -82,7 +83,8 @@ export async function getUI5Manifest(
       cache.setManifest(manifestRoot, data);
     }
     return data;
-  } catch {
+  } catch (error) {
+    console.trace("getUI5Manifest->readManifestFile failed:", error);
     return undefined;
   }
 }
@@ -106,7 +108,7 @@ export function getServicePath(
 ): string | undefined {
   const dataSources = manifest["sap.app"]?.dataSources;
 
-  if (dataSources && serviceName !== undefined) {
+  if (dataSources) {
     const defaultModelDataSource = dataSources[serviceName];
 
     return defaultModelDataSource?.uri;
@@ -206,7 +208,10 @@ export const getCustomViewId = async (
   if (!appRoot) {
     return "";
   }
-  const manifestPath = (await findManifestPath(documentPath)) as string;
+  const manifestPath = await findManifestPath(documentPath);
+  if (!manifestPath) {
+    return "";
+  }
   const manifest = await getUI5Manifest(manifestPath);
   const appId = manifest?.["sap.app"]?.id ?? "";
   const relativeFilePart = documentPath.split(appRoot)[1];

@@ -237,6 +237,31 @@ describe("loader", () => {
       expect(getUI5ManifestStub).to.have.been.called;
       expect(project).to.be.undefined;
     });
+    it("does not fine manifest and return undefined", async () => {
+      const getProjectRootStub = stub(projectUtils, "getProjectRoot").resolves(
+        "stub-project-root"
+      );
+      const findAppRootStub = stub(projectUtils, "findAppRoot").resolves(
+        "stub-app-root"
+      );
+      const findManifestPathStub = stub(manifest, "findManifestPath").resolves(
+        "stub-manifest-path"
+      );
+      const getUI5ManifestStub = stub(manifest, "getUI5Manifest").resolves(
+        ("stub-get-manifest" as unknown) as Manifest
+      );
+      const getProjectInfoStub = stub(projectUtils, "getProjectInfo").resolves(
+        undefined
+      );
+      const wrongDocPath = __dirname;
+      const project = await loader.getProject(wrongDocPath);
+      expect(getProjectRootStub).to.have.been.called;
+      expect(findAppRootStub).to.have.been.called;
+      expect(findManifestPathStub).to.have.been.called;
+      expect(getUI5ManifestStub).to.have.been.called;
+      expect(getProjectInfoStub).to.have.been.called;
+      expect(project).to.be.undefined;
+    });
     it("return CAP project", async () => {
       const { appRoot } = await testFramework.getProjectData();
       const docPath = join(appRoot, "ext", "main", "Main.view.xml");

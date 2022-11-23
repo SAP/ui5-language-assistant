@@ -3,10 +3,8 @@ import { maxBy, map, filter } from "lodash";
 import { readFile } from "fs-extra";
 import { URI } from "vscode-uri";
 import globby from "globby";
-import { FileChangeType } from "vscode-languageserver";
 import { loadAll } from "js-yaml";
 import { DEFAULT_UI5_FRAMEWORK, YamlDetails } from "./types";
-import { UI5Framework } from "@ui5-language-assistant/semantic-model-types";
 import { FileName } from "@sap-ux/project-access";
 import findUp from "find-up";
 import { cache } from "./cache";
@@ -29,22 +27,6 @@ export async function initializeUI5YamlData(
 
   console.info("list of ui5.yaml files", { ui5YamlDocuments });
   return Promise.all(readUI5YamlPromises);
-}
-
-export function getUI5FrameworkForXMLFile(xmlPath: string): UI5Framework {
-  const ui5YamlFilesForCurrentFolder = filter(
-    cache.getYamlDetailsEntries(),
-    (ui5YamlPath) => xmlPath.startsWith(dirname(ui5YamlPath))
-  );
-
-  const closestUI5YamlPath = maxBy(
-    ui5YamlFilesForCurrentFolder,
-    (ui5YamlPath) => ui5YamlPath.length
-  );
-  if (closestUI5YamlPath) {
-    return cache.getYamlDetails(closestUI5YamlPath)?.framework ?? "OpenUI5";
-  }
-  return "OpenUI5";
 }
 
 export function getVersionForXMLFile(xmlPath: string): string | undefined {
@@ -94,6 +76,7 @@ async function readUI5YamlFile(
       return /^(OpenUI5|SAPUI5)$/i.test(ui5YamlDoc?.framework?.name);
     });
   } catch (err) {
+    console.trace("readUI5YamlFile failed:", err);
     ui5YamlObject = undefined;
   }
 
@@ -132,7 +115,8 @@ export async function getUI5Yaml(
       cache.setYamlDetails(ui5YamlRoot, data);
     }
     return data;
-  } catch {
+  } catch (error) {
+    console.trace("getUI5Yaml->readUI5YamlFile failed:", error);
     return undefined;
   }
 }

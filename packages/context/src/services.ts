@@ -15,7 +15,7 @@ export async function getServices(
     return services;
   }
   if (project.type === "CAP") {
-    for (const [appRoot, app] of project.apps) {
+    for (const [, app] of project.apps) {
       for (const [servicePath, service] of app.localServices) {
         services[servicePath] = {
           path: service.path,

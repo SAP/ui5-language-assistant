@@ -16,7 +16,6 @@ import {
   validateXMLView,
   validators,
 } from "@ui5-language-assistant/xml-views-validation";
-import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { computeQuickFixStableIdInfo } from "@ui5-language-assistant/xml-views-quick-fix";
 import {
   validations,

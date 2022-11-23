@@ -1,5 +1,5 @@
 import { copySync, removeSync, pathExists, pathExistsSync } from "fs-extra";
-import { spawnSync, execSync } from "child_process";
+import { execSync } from "child_process";
 import { print } from ".";
 
 /**

@@ -38,6 +38,7 @@ describe("context", () => {
       expect(getCustomViewIdStub).to.have.been.called;
       expect(getYamlDetailsStub).to.have.been.called;
       expect(getSemanticModelStub).to.have.been.called;
+      expect(getServicesStub).to.have.been.called;
       expect(result).to.have.all.keys(
         "services",
         "manifestDetails",

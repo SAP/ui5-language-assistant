@@ -13,7 +13,6 @@ import {
   UI5Namespace,
   UI5Prop,
   UI5Association,
-  UI5SemanticModel,
   UI5EnumValue,
 } from "@ui5-language-assistant/semantic-model-types/api";
 import { CodeAssistSettings } from "@ui5-language-assistant/settings";

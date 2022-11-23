@@ -32,7 +32,8 @@ export async function getProjectRoot(
     if (!projectRoot) {
       projectRoot = await findProjectRoot(documentPath, false);
     }
-  } catch (e) {
+  } catch (error) {
+    console.trace("getProjectRoot failed:", error);
     projectRoot = undefined;
   }
   return projectRoot;
@@ -44,28 +45,35 @@ export async function getProjectRoot(
  */
 export async function getProjectInfo(
   projectRoot: string
-): Promise<{ type: ProjectType; kind: ProjectKind }> {
-  const jsonContent = await readFile(
-    join(projectRoot, FileName.Package),
-    "utf-8"
-  );
-  const packageJSON = JSON.parse(jsonContent) as Package;
-  if (await isCapNodeJsProject(packageJSON)) {
+): Promise<{ type: ProjectType; kind: ProjectKind } | undefined> {
+  try {
+    const jsonContent = await readFile(
+      join(projectRoot, FileName.Package),
+      "utf-8"
+    );
+    const packageJSON = JSON.parse(jsonContent) as Package;
+
+    if (await isCapNodeJsProject(packageJSON)) {
+      return {
+        type: CAP_PROJECT_TYPE,
+        kind: "NodeJS",
+      };
+    }
+    if (await isCapJavaProject(projectRoot)) {
+      return {
+        type: CAP_PROJECT_TYPE,
+        kind: "Java",
+      };
+    }
+
     return {
-      type: CAP_PROJECT_TYPE,
-      kind: "NodeJS",
+      type: UI5_PROJECT_TYPE,
+      kind: "UI5",
     };
+  } catch (error) {
+    console.trace("getProjectInfo failed:", error);
+    return undefined;
   }
-  if (await isCapJavaProject(projectRoot)) {
-    return {
-      type: CAP_PROJECT_TYPE,
-      kind: "Java",
-    };
-  }
-  return {
-    type: UI5_PROJECT_TYPE,
-    kind: "UI5",
-  };
 }
 /**
  * Get app root based on path being current working directory
@@ -107,7 +115,8 @@ export async function getLocalAnnotationsForService(
             })
           )
         );
-      } catch {
+      } catch (error) {
+        console.trace("getLocalAnnotationsForService failed:", error);
         return [];
       }
     }
@@ -138,7 +147,8 @@ export async function getLocalMetadataForService(
         return await readFile(metadataPath, {
           encoding: "utf8",
         });
-      } catch {
+      } catch (error) {
+        console.trace("getLocalMetadataForService failed:", error);
         return undefined;
       }
     }

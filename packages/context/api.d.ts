@@ -1,5 +1,3 @@
-import type { Context } from "./src/types";
-
 export {
   getContext,
   getCDNBaseUrl,

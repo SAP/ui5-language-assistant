@@ -1,6 +1,5 @@
 import { expect } from "chai";
 import { join } from "path";
-import { restore } from "sinon";
 import {
   findAppRoot,
   getLocalAnnotationsForService,
@@ -29,9 +28,6 @@ describe("project", () => {
     };
     testFramework = new TestFramework(useConfig);
   });
-  afterEach(() => {
-    restore();
-  });
   context("getProjectRoot", () => {
     it("throws exception and return undefined", async () => {
       const result = await getProjectRoot(__dirname);
@@ -45,13 +41,15 @@ describe("project", () => {
     });
   });
   context("getProjectInfo", () => {
+    it("undefined", async () => {
+      const result = await getProjectInfo("/");
+      expect(result).to.be.undefined;
+    });
     it("NodeJS", async () => {
       const { projectRoot } = await testFramework.getProjectData();
       const result = await getProjectInfo(projectRoot);
       expect(result).to.deep.equal({ type: "CAP", kind: "NodeJS" });
     });
-    it("Java", () => {});
-    it("UI5", () => {});
   });
   context("findAppRoot", () => {
     it("return app root", async () => {

@@ -146,6 +146,9 @@ export const reactOnCdsFileChange = async (
     }
     const manifestDetails = await getManifestDetails(manifestRoot);
     const projectInfo = await getProjectInfo(projectRoot);
+    if (!projectInfo) {
+      return;
+    }
     // remove cached app
     cache.deleteApp(appRoot);
     const freshApp = await getApp(

@@ -128,6 +128,9 @@ export async function getProject(
   }
   const manifestDetails = await getManifestDetails(documentPath);
   const projectInfo = await getProjectInfo(projectRoot);
+  if (!projectInfo) {
+    return;
+  }
   if (projectInfo.type === CAP_PROJECT_TYPE) {
     const capProject = await getCAPProject(
       projectRoot,
@@ -186,7 +189,7 @@ async function getCapServices(
       services.set(trimSeparator(service.urlPath), metadataContent);
     }
   } catch (error) {
-    console.log(error);
+    console.trace("getCapServices failed:", error);
     return new Map();
   }
   cache.setCapServices(projectRoot, services);
