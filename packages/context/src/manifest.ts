@@ -8,6 +8,7 @@ import { Manifest, FileName } from "@sap-ux/project-access";
 import findUp from "find-up";
 import { findAppRoot } from "./utils";
 import { cache } from "./cache";
+import { getLogger } from "@ui5-language-assistant/logic-utils";
 
 async function readManifestFile(
   manifestUri: string
@@ -19,7 +20,7 @@ async function readManifestFile(
     );
     return JSON.parse(manifestContent);
   } catch (err) {
-    console.trace("readManifestFile failed:", err);
+    getLogger().debug("readManifestFile failed:", err);
     return undefined;
   }
 }
@@ -34,10 +35,10 @@ export async function initializeManifestData(
     const response = await readManifestFile(manifestDoc);
     if (response) {
       cache.setManifest(manifestDoc, response);
-      console.info("manifest initialized", { manifestDoc });
+      getLogger().info("manifest initialized", { manifestDoc });
     }
   });
-  console.info("list of manifest.json files", { manifestDocuments });
+  getLogger().info("list of manifest.json files", { manifestDocuments });
   return Promise.all(readManifestPromises);
 }
 
@@ -45,7 +46,7 @@ async function findAllManifestDocumentsInWorkspace(
   workspaceFolderPath: string
 ): Promise<string[]> {
   return globby(`${workspaceFolderPath}/**/manifest.json`).catch((reason) => {
-    console.error(
+    getLogger().error(
       `Failed to find all manifest.json files in current workspace!`,
       {
         workspaceFolderPath,
@@ -84,7 +85,7 @@ export async function getUI5Manifest(
     }
     return data;
   } catch (error) {
-    console.trace("getUI5Manifest->readManifestFile failed:", error);
+    getLogger().debug("getUI5Manifest->readManifestFile failed:", error);
     return undefined;
   }
 }

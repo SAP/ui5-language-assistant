@@ -35,3 +35,5 @@ export {
   isSameXMLNS,
   isSameXMLNSFromPrefix,
 } from "./utils/xml-namespaces";
+
+export { ILogger, getLogLevel, getLogger, setLogLevel } from "./utils/logger";

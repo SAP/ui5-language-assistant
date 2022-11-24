@@ -32,6 +32,7 @@ import {
 import { parseServiceFiles } from "./parser";
 import { cache } from "./cache";
 import { sep } from "path";
+import { getLogger } from "@ui5-language-assistant/logic-utils";
 
 /**
  * Get CAP project
@@ -50,7 +51,7 @@ export async function getCAPProject(
   manifestDetails: ManifestDetails
 ): Promise<CAPProject | undefined> {
   if (projectInfo.kind === "Java") {
-    console.log("Java project is not supported yet.");
+    getLogger().info("Java project is not supported yet.");
     return;
   }
   const app = await getApp(
@@ -189,7 +190,7 @@ async function getCapServices(
       services.set(trimSeparator(service.urlPath), metadataContent);
     }
   } catch (error) {
-    console.trace("getCapServices failed:", error);
+    getLogger().debug("getCapServices failed:", error);
     return new Map();
   }
   cache.setCapServices(projectRoot, services);

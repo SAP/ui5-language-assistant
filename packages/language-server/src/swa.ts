@@ -1,6 +1,6 @@
 import { SWATracker } from "@sap/swa-for-sapbas-vsx";
 import { InitializeParams } from "vscode-languageserver";
-import { getLogger } from "./logger";
+import { getLogger } from "@ui5-language-assistant/logic-utils";
 
 export type ISWATracker = Pick<SWATracker, "track">;
 

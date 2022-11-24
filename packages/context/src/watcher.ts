@@ -13,6 +13,7 @@ import { URI } from "vscode-uri";
 import { getYamlDetails } from "./ui5-yaml";
 import { join } from "path";
 import { FileName } from "@sap-ux/project-access";
+import { getLogger } from "@ui5-language-assistant/logic-utils";
 
 /**
  * React on manifest.json file change
@@ -31,7 +32,7 @@ export const reactOnManifestChange = async (
   manifestUri: string,
   changeType: FileChangeType
 ): Promise<void> => {
-  console.debug("`reactOnManifestChange` function called", {
+  getLogger().debug("`reactOnManifestChange` function called", {
     manifestUri,
     changeType,
   });
@@ -80,7 +81,7 @@ export const reactOnUI5YamlChange = async (
   ui5YamlUri: string,
   changeType: FileChangeType
 ): Promise<void> => {
-  console.debug("`updateUI5YamlData` function called", {
+  getLogger().debug("`updateUI5YamlData` function called", {
     ui5YamlUri,
     changeType,
   });
@@ -118,7 +119,7 @@ export const reactOnCdsFileChange = async (
   uri: string,
   changeType: FileChangeType
 ): Promise<void> => {
-  console.debug("`reactOnCdsFileChange` function called", {
+  getLogger().debug("`reactOnCdsFileChange` function called", {
     cdsUri: uri,
     changeType,
   });
@@ -209,7 +210,7 @@ export const reactOnXmlFileChange = async (
   uri: string,
   changeType: FileChangeType
 ): Promise<void> => {
-  console.debug("`reactOnXmlFileChange` function called", {
+  getLogger().debug("`reactOnXmlFileChange` function called", {
     xmlUri: uri,
     changeType,
   });

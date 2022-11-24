@@ -5,10 +5,6 @@ import {
 } from "@vscode-logging/types";
 import { getExtensionLogger } from "@vscode-logging/logger";
 import { validLoggingLevelValues } from "@ui5-language-assistant/settings";
-
-// eslint-disable-next-line @typescript-eslint/no-var-requires -- Using `require` for .json file as this gets bundled with webpack correctly.
-const meta = require("../../package.json");
-
 export type ILogger = Omit<IChildLogger, "getChildLogger">;
 
 let logLevel: LogLevel = "error";
@@ -19,7 +15,7 @@ let logLevel: LogLevel = "error";
  *    - Assuming this LSP server processes was spawned from the VSCode Extension
  */
 const loggerImpl: IVSCodeExtLogger = getExtensionLogger({
-  extName: meta.name,
+  extName: "@ui5-language-assistant/language-server",
   level: logLevel,
   logConsole: true,
 });

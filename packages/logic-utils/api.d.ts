@@ -262,3 +262,5 @@ export function isSameXMLNSFromPrefix(
   prefix2: string | undefined,
   xmlElement2: XMLElement
 ): boolean;
+
+export { ILogger, getLogLevel, getLogger, setLogLevel } from "./src/api";

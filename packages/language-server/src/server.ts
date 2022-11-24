@@ -39,7 +39,7 @@ import {
 import { diagnosticToCodeActionFix } from "./quick-fix";
 import { executeCommand } from "./commands";
 import { initSwa } from "./swa";
-import { getLogger, setLogLevel } from "./logger";
+import { getLogger, setLogLevel } from "@ui5-language-assistant/logic-utils";
 
 const connection = createConnection(ProposedFeatures.all);
 const documents = new TextDocuments(TextDocument);

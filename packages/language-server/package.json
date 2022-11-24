@@ -33,8 +33,6 @@
     "@ui5-language-assistant/xml-views-quick-fix": "3.3.1",
     "@ui5-language-assistant/xml-views-tooltip": "3.3.1",
     "@ui5-language-assistant/xml-views-validation": "3.3.1",
-    "@vscode-logging/logger": "1.2.2",
-    "@vscode-logging/types": "0.1.4",
     "@xml-tools/ast": "5.0.0",
     "@xml-tools/ast-position": "2.0.2",
     "@xml-tools/parser": "1.0.7",

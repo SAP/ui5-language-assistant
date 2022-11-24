@@ -15,6 +15,7 @@
   "license": "Apache-2.0",
   "typings": "./api.d.ts",
   "dependencies": {
+    "@ui5-language-assistant/logic-utils": "3.3.1",
     "@sap-ux/project-access": "1.0.2",
     "lodash": "4.17.21",
     "fs-extra": "10.1.0",
