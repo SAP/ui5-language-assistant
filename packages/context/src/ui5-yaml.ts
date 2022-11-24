@@ -9,6 +9,9 @@ import { FileName } from "@sap-ux/project-access";
 import findUp from "find-up";
 import { cache } from "./cache";
 import { getLogger } from "@ui5-language-assistant/logic-utils";
+import { getPackageName } from "./utils";
+
+const packageName = getPackageName();
 
 export async function initializeUI5YamlData(
   workspaceFolderPath: string
@@ -22,11 +25,11 @@ export async function initializeUI5YamlData(
 
     if (response) {
       cache.setYamlDetails(ui5YamlDoc, response);
-      getLogger().info("ui5.yaml data initialized", { ui5YamlDoc });
+      getLogger(packageName).info("ui5.yaml data initialized", { ui5YamlDoc });
     }
   });
 
-  getLogger().info("list of ui5.yaml files", { ui5YamlDocuments });
+  getLogger(packageName).info("list of ui5.yaml files", { ui5YamlDocuments });
   return Promise.all(readUI5YamlPromises);
 }
 
@@ -54,7 +57,7 @@ async function findAllUI5YamlDocumentsInWorkspace(
   workspaceFolderPath: string
 ): Promise<string[]> {
   return globby(`${workspaceFolderPath}/**/ui5.yaml`).catch((reason) => {
-    getLogger().error(
+    getLogger(packageName).error(
       `Failed to find all ui5.yaml files in current workspace!`,
       {
         workspaceFolderPath,
@@ -80,7 +83,7 @@ async function readUI5YamlFile(
       return /^(OpenUI5|SAPUI5)$/i.test(ui5YamlDoc?.framework?.name);
     });
   } catch (err) {
-    getLogger().debug("readUI5YamlFile failed:", err);
+    getLogger(packageName).debug("readUI5YamlFile failed:", err);
     ui5YamlObject = undefined;
   }
 
@@ -120,7 +123,7 @@ export async function getUI5Yaml(
     }
     return data;
   } catch (error) {
-    getLogger().debug("getUI5Yaml->readUI5YamlFile failed:", error);
+    getLogger(packageName).debug("getUI5Yaml->readUI5YamlFile failed:", error);
     return undefined;
   }
 }

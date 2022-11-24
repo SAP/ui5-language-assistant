@@ -12,3 +12,5 @@ export {
   getProjectInfo,
   getProjectRoot,
 } from "./project";
+
+export { getPackageName } from "./package";

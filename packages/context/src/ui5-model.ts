@@ -16,12 +16,15 @@ import { Fetcher } from "./types";
 import fetch from "./fetch";
 import {
   getLibraryAPIJsonUrl,
+  getPackageName,
   getVersionInfoUrl,
   getVersionJsonUrl,
 } from "./utils";
 import { DEFAULT_UI5_VERSION } from "./types";
 import { cache } from "./cache";
 import { getLogger } from "@ui5-language-assistant/logic-utils";
+
+const packageName = getPackageName();
 
 export async function getSemanticModel(
   modelCachePath: string | undefined,
@@ -76,12 +79,14 @@ async function createSemanticModelWithFetcher(
 ): Promise<UI5SemanticModel> {
   // negotiate the closest available version for the given framework
   version = await negotiateVersion(modelCachePath, framework, version);
-
   // Log the detected framework name/version
-  getLogger().info("The following framework/version has been detected", {
-    framework,
-    version,
-  });
+  getLogger(packageName).info(
+    "The following framework/version has been detected",
+    {
+      framework,
+      version,
+    }
+  );
 
   // Note: all cache handling (reading, writing etc) is optional from the user perspective but
   // impacts performance, therefore if any errors occur when handling the cache we ignore them but output
@@ -89,22 +94,28 @@ async function createSemanticModelWithFetcher(
   let cacheFolder: string | undefined;
   if (modelCachePath !== undefined) {
     cacheFolder = getCacheFolder(modelCachePath, framework, version);
-    getLogger().info("Caching UI5 resources in", { cacheFolder });
+    getLogger(packageName).info("Caching UI5 resources in", { cacheFolder });
     try {
       await mkdirs(cacheFolder);
     } catch (err) {
-      getLogger().warn("Failed creating UI5 resources cache folder`", {
-        cacheFolder,
-        msg: err,
-      });
+      getLogger(packageName).warn(
+        "Failed creating UI5 resources cache folder`",
+        {
+          cacheFolder,
+          msg: err,
+        }
+      );
       cacheFolder = undefined;
     }
   }
 
-  getLogger().info("building UI5 semantic Model for framework/version", {
-    framework,
-    version,
-  });
+  getLogger(packageName).info(
+    "building UI5 semantic Model for framework/version",
+    {
+      framework,
+      version,
+    }
+  );
 
   const jsonMap: Record<string, Json> = {};
 
@@ -116,20 +127,20 @@ async function createSemanticModelWithFetcher(
       let apiJson = await readFromCache(cacheFilePath);
       // If the file doesn't exist in the cache (or we couldn't read it), fetch it from the network
       if (apiJson === undefined) {
-        getLogger().info("No cache found for UI5 lib", { libName });
+        getLogger(packageName).info("No cache found for UI5 lib", { libName });
         const url = getLibraryAPIJsonUrl(framework, version as string, libName);
         const response = await fetcher(url);
         if (response.ok) {
           apiJson = await response.json();
           await writeToCache(cacheFilePath, apiJson);
         } else if (response.status === 404) {
-          getLogger().error("Could not find UI5 lib from", { url });
+          getLogger(packageName).error("Could not find UI5 lib from", { url });
           await writeToCache(cacheFilePath, {}); // write dummy file! TODO: how to invalidate?
         } else {
-          getLogger().error("Could not read UI5 lib from", { url });
+          getLogger(packageName).error("Could not read UI5 lib from", { url });
         }
       } else {
-        getLogger().info("Reading Cache For UI5 Lib", {
+        getLogger(packageName).info("Reading Cache For UI5 Lib", {
           libName,
           cacheFilePath,
         });
@@ -156,7 +167,7 @@ async function readFromCache(filePath: string | undefined): Promise<unknown> {
         return await readJson(filePath);
       }
     } catch (err) {
-      getLogger().warn("Could not read cache file for", {
+      getLogger(packageName).warn("Could not read cache file for", {
         filePath,
         error: err,
       });
@@ -173,7 +184,7 @@ async function writeToCache(
     try {
       await writeJson(filePath, json);
     } catch (err) {
-      getLogger().warn("Could not write cache file For UI5 lib", {
+      getLogger(packageName).warn("Could not write cache file For UI5 lib", {
         filePath,
         error: err,
       });
@@ -253,7 +264,9 @@ async function getVersionInfo(
       versionInfo = await response.json();
       writeToCache(cacheFilePath, versionInfo);
     } else {
-      getLogger().error("Could not read version information", { url });
+      getLogger(packageName).error("Could not read version information", {
+        url,
+      });
     }
   }
   return versionInfo;
@@ -334,7 +347,7 @@ export async function negotiateVersionWithFetcher(
   // try to negotiate version
   if (!version) {
     // no version defined, using default version
-    getLogger().warn(
+    getLogger(packageName).warn(
       "No version defined! Please check the minUI5Version in your manifest.json!"
     );
     version = DEFAULT_UI5_VERSION;
@@ -361,9 +374,12 @@ export async function negotiateVersionWithFetcher(
           { version: string; support: string; lts: boolean }
         >;
       } else {
-        getLogger().error(
+        getLogger(packageName).error(
           "Could not read version mapping, fallback to default version",
-          { url, DEFAULT_UI5_VERSION }
+          {
+            url,
+            DEFAULT_UI5_VERSION,
+          }
         );
         versionMap = {
           latest: {

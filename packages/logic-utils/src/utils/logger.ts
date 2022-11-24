@@ -14,20 +14,26 @@ let logLevel: LogLevel = "error";
  * 2. Supports console logging which would be re-directed to the VSCode extension's output Channel
  *    - Assuming this LSP server processes was spawned from the VSCode Extension
  */
-const loggerImpl: IVSCodeExtLogger = getExtensionLogger({
-  extName: "@ui5-language-assistant/language-server",
-  level: logLevel,
-  logConsole: true,
-});
+const loggerImpl: Map<string, IVSCodeExtLogger> = new Map();
 
-export function getLogger(): ILogger {
-  return loggerImpl;
+export function getLogger(extName: string): ILogger {
+  let logger = loggerImpl.get(extName);
+  if (!logger) {
+    logger = getExtensionLogger({
+      extName: extName,
+      level: logLevel,
+      logConsole: true,
+    });
+    loggerImpl.set(extName, logger);
+  }
+  return logger;
 }
 
-export function setLogLevel(newLevel: LogLevel): void {
-  if (validLoggingLevelValues[newLevel]) {
+export function setLogLevel(extName: string, newLevel: LogLevel): void {
+  const logger = loggerImpl.get(extName);
+  if (validLoggingLevelValues[newLevel] && logger) {
     logLevel = newLevel;
-    loggerImpl.changeLevel(newLevel);
+    logger.changeLevel(newLevel);
   }
 }
 

@@ -6,10 +6,11 @@ import globby from "globby";
 import { ManifestDetails } from "./types";
 import { Manifest, FileName } from "@sap-ux/project-access";
 import findUp from "find-up";
-import { findAppRoot } from "./utils";
+import { findAppRoot, getPackageName } from "./utils";
 import { cache } from "./cache";
 import { getLogger } from "@ui5-language-assistant/logic-utils";
 
+const packageName = getPackageName();
 async function readManifestFile(
   manifestUri: string
 ): Promise<Manifest | undefined> {
@@ -20,7 +21,7 @@ async function readManifestFile(
     );
     return JSON.parse(manifestContent);
   } catch (err) {
-    getLogger().debug("readManifestFile failed:", err);
+    getLogger(packageName).debug("readManifestFile failed:", err);
     return undefined;
   }
 }
@@ -35,10 +36,12 @@ export async function initializeManifestData(
     const response = await readManifestFile(manifestDoc);
     if (response) {
       cache.setManifest(manifestDoc, response);
-      getLogger().info("manifest initialized", { manifestDoc });
+      getLogger(packageName).info("manifest initialized", { manifestDoc });
     }
   });
-  getLogger().info("list of manifest.json files", { manifestDocuments });
+  getLogger(packageName).info("list of manifest.json files", {
+    manifestDocuments,
+  });
   return Promise.all(readManifestPromises);
 }
 
@@ -46,7 +49,7 @@ async function findAllManifestDocumentsInWorkspace(
   workspaceFolderPath: string
 ): Promise<string[]> {
   return globby(`${workspaceFolderPath}/**/manifest.json`).catch((reason) => {
-    getLogger().error(
+    getLogger(packageName).error(
       `Failed to find all manifest.json files in current workspace!`,
       {
         workspaceFolderPath,
@@ -85,7 +88,10 @@ export async function getUI5Manifest(
     }
     return data;
   } catch (error) {
-    getLogger().debug("getUI5Manifest->readManifestFile failed:", error);
+    getLogger(packageName).debug(
+      "getUI5Manifest->readManifestFile failed:",
+      error
+    );
     return undefined;
   }
 }

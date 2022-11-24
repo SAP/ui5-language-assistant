@@ -18,6 +18,9 @@ import {
   UI5_PROJECT_TYPE,
 } from "../types";
 import { getLogger } from "@ui5-language-assistant/logic-utils";
+import { getPackageName } from "./package";
+
+const packageName = getPackageName();
 
 /**
  * Get project root
@@ -34,7 +37,7 @@ export async function getProjectRoot(
       projectRoot = await findProjectRoot(documentPath, false);
     }
   } catch (error) {
-    getLogger().debug("getProjectRoot failed:", error);
+    getLogger(packageName).debug("getProjectRoot failed:", error);
     projectRoot = undefined;
   }
   return projectRoot;
@@ -72,7 +75,7 @@ export async function getProjectInfo(
       kind: "UI5",
     };
   } catch (error) {
-    getLogger().debug("getProjectInfo failed:", error);
+    getLogger(packageName).debug("getProjectInfo failed:", error);
     return undefined;
   }
 }
@@ -117,7 +120,10 @@ export async function getLocalAnnotationsForService(
           )
         );
       } catch (error) {
-        getLogger().debug("getLocalAnnotationsForService failed:", error);
+        getLogger(packageName).debug(
+          "getLocalAnnotationsForService failed:",
+          error
+        );
         return [];
       }
     }
@@ -149,7 +155,10 @@ export async function getLocalMetadataForService(
           encoding: "utf8",
         });
       } catch (error) {
-        getLogger().debug("getLocalMetadataForService failed:", error);
+        getLogger(packageName).debug(
+          "getLocalMetadataForService failed:",
+          error
+        );
         return undefined;
       }
     }

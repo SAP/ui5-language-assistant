@@ -14,6 +14,7 @@ import {
   findAppRoot,
   getLocalAnnotationsForService,
   getLocalMetadataForService,
+  getPackageName,
   getProjectInfo,
   getProjectRoot,
 } from "./utils";
@@ -34,6 +35,7 @@ import { cache } from "./cache";
 import { sep } from "path";
 import { getLogger } from "@ui5-language-assistant/logic-utils";
 
+const packageName = getPackageName();
 /**
  * Get CAP project
  *
@@ -51,7 +53,7 @@ export async function getCAPProject(
   manifestDetails: ManifestDetails
 ): Promise<CAPProject | undefined> {
   if (projectInfo.kind === "Java") {
-    getLogger().info("Java project is not supported yet.");
+    getLogger(packageName).info("Java project is not supported yet.");
     return;
   }
   const app = await getApp(
@@ -190,7 +192,7 @@ async function getCapServices(
       services.set(trimSeparator(service.urlPath), metadataContent);
     }
   } catch (error) {
-    getLogger().debug("getCapServices failed:", error);
+    getLogger(packageName).debug("getCapServices failed:", error);
     return new Map();
   }
   cache.setCapServices(projectRoot, services);
