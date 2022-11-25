@@ -134,23 +134,32 @@ export class TestFramework implements TestFrameworkAPI {
   ): Promise<ReadFileResult> {
     const root = this.getProjectRoot();
     const filePath = join(root, ...pathSegments);
-    if (!fileExits(filePath)) {
+    if (!(await fileExits(filePath))) {
       throw `File ${filePath} is not existing`;
     }
     let content = await readFile(filePath, "utf-8");
     if (range) {
       const contentPart = content.split("\n");
-      const startContent = contentPart[range.start.line].slice(
-        range.start.character
-      );
-      const endContent = contentPart[range.end.line].slice(
-        0,
-        range.end.character
-      );
-      const betweenContent = contentPart
-        .slice(range.start.line + 1, range.end.line)
-        .join("\n");
-      content = [startContent, betweenContent, endContent].join("\n");
+      if (range.start.line === range.end.line) {
+        // on same line
+        const startEndContent = contentPart[range.start.line].slice(
+          range.start.character,
+          range.end.character + 1
+        );
+        content = [startEndContent].join("\n");
+      } else {
+        const startContent = contentPart[range.start.line].slice(
+          range.start.character
+        );
+        const endContent = contentPart[range.end.line].slice(
+          0,
+          range.end.character
+        );
+        const betweenContent = contentPart
+          .slice(range.start.line + 1, range.end.line)
+          .join("\n");
+        content = [startContent, betweenContent, endContent].join("\n");
+      }
     }
     const { cst, tokenVector } = parse(content);
     const docCst = cst as DocumentCstNode;
