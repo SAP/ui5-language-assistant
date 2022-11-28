@@ -23,6 +23,19 @@ import { getPackageName } from "./package";
 const packageName = getPackageName();
 
 /**
+ * Unify service path by adding forward slash to beginning and end of a service path
+ *
+ * @param servicePath path to a service
+ */
+export const unifyServicePath = (servicePath: string): string => {
+  const key = servicePath
+    .split(/\\|\//)
+    .filter((item) => item)
+    .join("/");
+  return `/${key}/`;
+};
+
+/**
  * Get project root
  *
  * @param documentPath path to a file i.e absolute/path/webapp/ext/main/Main.view.xml

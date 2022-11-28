@@ -9,6 +9,7 @@ import findUp from "find-up";
 import { findAppRoot, getPackageName } from "./utils";
 import { cache } from "./cache";
 import { getLogger } from "@ui5-language-assistant/logic-utils";
+import { unifyServicePath } from "./utils/project";
 
 const packageName = getPackageName();
 async function readManifestFile(
@@ -164,7 +165,9 @@ async function extractManifestDetails(
   }
 
   const mainServiceName = getMainService(manifest) ?? "";
-  const mainServicePath = getServicePath(manifest, mainServiceName) ?? "/";
+  const mainServicePath = unifyServicePath(
+    getServicePath(manifest, mainServiceName) ?? "/"
+  );
   const flexEnabled = getFlexEnabled(manifest);
   const minUI5Version = getMinUI5Version(manifest);
   return {

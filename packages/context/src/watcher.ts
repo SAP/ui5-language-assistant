@@ -13,7 +13,7 @@ import {
 import { getProject, getApp } from "./loader";
 import { cache } from "./cache";
 import { Manifest } from "@sap-ux/project-access";
-import { FileChangeType } from "vscode-languageserver";
+import { FileChangeType, FileEvent } from "vscode-languageserver/node";
 import { URI } from "vscode-uri";
 import { getYamlDetails } from "./ui5-yaml";
 import { join } from "path";
@@ -55,9 +55,8 @@ export const reactOnManifestChange = async (
     return;
   }
   if (cachedProject.type == "CAP") {
-    for (const [, app] of cachedProject.apps) {
-      const appRoot = app.appRoot;
-      // remove cached app
+    const appRoot = await findAppRoot(manifestPath);
+    if (appRoot) {
       cache.deleteApp(appRoot);
     }
   }
@@ -121,58 +120,64 @@ export const reactOnUI5YamlChange = async (
  *
  * c. fresh app is assigned to CAP project apps
  * @note in case of not being able to create a fresh app, cached app from project apps is removed
+ * @note all project roots are collected to avoid recompilation and processing
  */
 export const reactOnCdsFileChange = async (
-  uri: string,
-  changeType: FileChangeType
+  fileEvents: FileEvent[]
 ): Promise<void> => {
-  getLogger(packageName).debug("`reactOnCdsFileChange` function called", {
-    cdsUri: uri,
-    changeType,
-  });
-  const documentPath = URI.parse(uri).fsPath;
-  const projectRoot = await getProjectRoot(documentPath);
-  if (!projectRoot) {
-    return;
-  }
-  // remove cap services cache
-  cache.deleteCapServices(projectRoot);
-
-  const cachedProject = cache.getProject(projectRoot);
-  if (!cachedProject) {
-    return;
-  }
-  if (cachedProject.type !== "CAP") {
-    return;
-  }
-  for (const [, app] of cachedProject.apps) {
-    const appRoot = app.appRoot;
-    const manifestRoot = join(appRoot, FileName.Manifest);
-    const manifest = await getUI5Manifest(manifestRoot);
-    if (!manifest) {
+  const projectRoots = new Set<string>();
+  for (const { uri, type } of fileEvents) {
+    getLogger(packageName).debug("`reactOnCdsFileChange` function called", {
+      cdsUri: uri,
+      changeType: type,
+    });
+    const documentPath = URI.parse(uri).fsPath;
+    const projectRoot = await getProjectRoot(documentPath);
+    if (!projectRoot) {
       continue;
     }
-    const manifestDetails = await getManifestDetails(manifestRoot);
-    const projectInfo = await getProjectInfo(projectRoot);
-    if (!projectInfo) {
+    projectRoots.add(projectRoot);
+  }
+  for (const projectRoot of projectRoots) {
+    // remove cap services cache
+    cache.deleteCapServices(projectRoot);
+
+    const cachedProject = cache.getProject(projectRoot);
+    if (!cachedProject) {
       return;
     }
-    // remove cached app
-    cache.deleteApp(appRoot);
-    const freshApp = await getApp(
-      projectRoot,
-      appRoot,
-      manifest,
-      manifestDetails,
-      projectInfo
-    );
-    if (!freshApp) {
-      // remove cached app from project apps
-      cachedProject.apps.delete(appRoot);
-      continue;
+    if (cachedProject.type !== "CAP") {
+      return;
     }
-    // assign fresh app to CAP project
-    cachedProject.apps.set(appRoot, freshApp);
+    for (const [, app] of cachedProject.apps) {
+      const appRoot = app.appRoot;
+      const manifestRoot = join(appRoot, FileName.Manifest);
+      const manifest = await getUI5Manifest(manifestRoot);
+      if (!manifest) {
+        continue;
+      }
+      const manifestDetails = await getManifestDetails(manifestRoot);
+      const projectInfo = await getProjectInfo(projectRoot);
+      if (!projectInfo) {
+        return;
+      }
+      // remove cached app
+      cache.deleteApp(appRoot);
+      const freshApp = await getApp(
+        projectRoot,
+        appRoot,
+        manifest,
+        manifestDetails,
+        projectInfo
+      );
+      if (!freshApp) {
+        // remove cached app from project apps
+        cachedProject.apps.delete(appRoot);
+        continue;
+      }
+      // assign fresh app to CAP project
+      cachedProject.apps.set(appRoot, freshApp);
+    }
   }
 };
 

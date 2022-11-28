@@ -32,8 +32,8 @@ import {
 } from "./manifest";
 import { parseServiceFiles } from "./parser";
 import { cache } from "./cache";
-import { sep } from "path";
 import { getLogger } from "@ui5-language-assistant/logic-utils";
+import { unifyServicePath } from "./utils/project";
 
 const packageName = getPackageName();
 /**
@@ -159,12 +159,6 @@ export async function getProject(
   return ui5Project;
 }
 
-const trimSeparator = (path: string): string => {
-  return path
-    .split(sep)
-    .filter((item) => item)
-    .join(sep);
-};
 /**
  * Get cap services
  *
@@ -189,7 +183,7 @@ async function getCapServices(
         odataContainment: false,
       });
 
-      services.set(trimSeparator(service.urlPath), metadataContent);
+      services.set(unifyServicePath(service.urlPath), metadataContent);
     }
   } catch (error) {
     getLogger(packageName).debug("getCapServices failed:", error);
@@ -228,7 +222,9 @@ export async function getApp(
     mainServiceName,
     appRoot
   );
-  const path = trimSeparator(getServicePath(manifest, mainServiceName) ?? "/");
+  const path = unifyServicePath(
+    getServicePath(manifest, mainServiceName) ?? "/"
+  );
   let metadataContent;
   if (projectInfo.type === "CAP") {
     const services = await getCapServices(projectRoot);

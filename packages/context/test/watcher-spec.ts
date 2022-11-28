@@ -108,41 +108,83 @@ describe("watcher", () => {
       expect(deleteYamlDetailsSpy).to.have.been.calledOnce;
     });
   });
-  it("reactOnCdsFileChange", async () => {
-    // reset cache for consistency
-    cache.reset();
-    // creating file uri and file path to have same key
-    // On windows, `C` drive is convert to lower case when getting file uri
-    const fileUri = testFramework.getFileUri([
-      "app",
-      "manage_travels",
-      "webapp",
-      "ext",
-      "main",
-      "Main.view.xml",
-    ]);
-    const documentPath = URI.parse(fileUri).fsPath;
-    // first create all caches
-    await loader.getProject(documentPath);
-    // spy on cache events and getProject
-    const deleteCapServicesSpy = spy(cache, "deleteCapServices");
-    const setCapServicesSpy = spy(cache, "setCapServices");
-    const deleteAppSpy = spy(cache, "deleteApp");
-    const setAppSpy = spy(cache, "setApp");
-    const cdsUri = testFramework.getFileUri([
-      "app",
-      "manage_travels",
-      "annotations.cds",
-    ]);
-    await reactOnCdsFileChange(cdsUri, 1);
-    const projectRoot = fileURLToPath(testFramework.getFileUri([]));
-    const cachedProject = cache.getProject(projectRoot) as CAPProject;
+  context("reactOnCdsFileChange", async () => {
+    it("single cds file", async () => {
+      // reset cache for consistency
+      cache.reset();
+      // creating file uri and file path to have same key
+      // On windows, `C` drive is convert to lower case when getting file uri
+      const fileUri = testFramework.getFileUri([
+        "app",
+        "manage_travels",
+        "webapp",
+        "ext",
+        "main",
+        "Main.view.xml",
+      ]);
+      const documentPath = URI.parse(fileUri).fsPath;
+      // first create all caches
+      await loader.getProject(documentPath);
+      // spy on cache events and getProject
+      const deleteCapServicesSpy = spy(cache, "deleteCapServices");
+      const setCapServicesSpy = spy(cache, "setCapServices");
+      const deleteAppSpy = spy(cache, "deleteApp");
+      const setAppSpy = spy(cache, "setApp");
+      const cdsUri = testFramework.getFileUri([
+        "app",
+        "manage_travels",
+        "annotations.cds",
+      ]);
+      await reactOnCdsFileChange([{ uri: cdsUri, type: 1 }]);
+      const projectRoot = fileURLToPath(testFramework.getFileUri([]));
+      const cachedProject = cache.getProject(projectRoot) as CAPProject;
 
-    expect(deleteCapServicesSpy).to.have.been.calledOnce;
-    expect(setCapServicesSpy).to.have.been.calledOnce;
-    expect(deleteAppSpy).to.have.been.calledOnce;
-    expect(setAppSpy).to.have.been.calledOnce;
-    expect(cachedProject.apps.size).to.equal(1);
+      expect(deleteCapServicesSpy).to.have.been.calledOnce;
+      expect(setCapServicesSpy).to.have.been.calledOnce;
+      expect(deleteAppSpy).to.have.been.calledOnce;
+      expect(setAppSpy).to.have.been.calledOnce;
+      expect(cachedProject.apps.size).to.equal(1);
+    });
+    it("two or more cds files - only one time recompilation and procession for same project root", async () => {
+      // reset cache for consistency
+      cache.reset();
+      // creating file uri and file path to have same key
+      // On windows, `C` drive is convert to lower case when getting file uri
+      const fileUri = testFramework.getFileUri([
+        "app",
+        "manage_travels",
+        "webapp",
+        "ext",
+        "main",
+        "Main.view.xml",
+      ]);
+      const documentPath = URI.parse(fileUri).fsPath;
+      // first create all caches
+      await loader.getProject(documentPath);
+      // spy on cache events and getProject
+      const deleteCapServicesSpy = spy(cache, "deleteCapServices");
+      const setCapServicesSpy = spy(cache, "setCapServices");
+      const deleteAppSpy = spy(cache, "deleteApp");
+      const setAppSpy = spy(cache, "setApp");
+      const cdsUri01 = testFramework.getFileUri([
+        "app",
+        "manage_travels",
+        "annotations.cds",
+      ]);
+      const cdsUri02 = testFramework.getFileUri(["app", "labels.cds"]);
+      await reactOnCdsFileChange([
+        { uri: cdsUri01, type: 1 },
+        { uri: cdsUri02, type: 1 },
+      ]);
+      const projectRoot = fileURLToPath(testFramework.getFileUri([]));
+      const cachedProject = cache.getProject(projectRoot) as CAPProject;
+
+      expect(deleteCapServicesSpy).to.have.been.calledOnce;
+      expect(setCapServicesSpy).to.have.been.calledOnce;
+      expect(deleteAppSpy).to.have.been.calledOnce;
+      expect(setAppSpy).to.have.been.calledOnce;
+      expect(cachedProject.apps.size).to.equal(1);
+    });
   });
   context("reactOnXmlFileChange", async () => {
     it("test unregistered xml file", async () => {

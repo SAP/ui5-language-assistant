@@ -8,7 +8,6 @@ import {
   npmInstall,
   deleteCopy,
   createCopy,
-  fileExits,
   fileExitsSync,
   print,
 } from "./utils";
@@ -107,10 +106,6 @@ export class TestFramework implements TestFrameworkAPI {
   ): Promise<void> {
     const root = this.getProjectRoot();
     const filePath = join(root, ...pathSegments);
-    const exits = await fileExits(filePath);
-    if (!exits) {
-      throw `File ${filePath} is not existing`;
-    }
     if (position) {
       const existingContent = await readFile(filePath, "utf-8");
       const contentPart = existingContent.split("\n");
@@ -134,9 +129,6 @@ export class TestFramework implements TestFrameworkAPI {
   ): Promise<ReadFileResult> {
     const root = this.getProjectRoot();
     const filePath = join(root, ...pathSegments);
-    if (!(await fileExits(filePath))) {
-      throw `File ${filePath} is not existing`;
-    }
     let content = await readFile(filePath, "utf-8");
     if (range) {
       const contentPart = content.split("\n");

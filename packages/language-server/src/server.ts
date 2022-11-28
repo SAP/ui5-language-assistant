@@ -10,6 +10,7 @@ import {
   InitializeParams,
   Hover,
   DidChangeConfigurationNotification,
+  FileEvent,
 } from "vscode-languageserver/node";
 import { URI } from "vscode-uri";
 import { TextDocument } from "vscode-languageserver-textdocument";
@@ -191,6 +192,7 @@ connection.onDidChangeWatchedFiles(async (changeEvent) => {
   getLogger(packageName).debug("`onDidChangeWatchedFiles` event", {
     changeEvent,
   });
+  const cdsFileEvents: FileEvent[] = [];
   forEach(changeEvent.changes, async (change) => {
     const uri = change.uri;
     if (uri.endsWith("manifest.json")) {
@@ -198,11 +200,12 @@ connection.onDidChangeWatchedFiles(async (changeEvent) => {
     } else if (uri.endsWith("ui5.yaml")) {
       await reactOnUI5YamlChange(uri, change.type);
     } else if (uri.endsWith(".cds")) {
-      await reactOnCdsFileChange(uri, change.type);
+      cdsFileEvents.push(change);
     } else if (uri.endsWith(".xml")) {
       await reactOnXmlFileChange(uri, change.type);
     }
   });
+  await reactOnCdsFileChange(cdsFileEvents);
 });
 
 documents.onDidChangeContent(async (changeEvent) => {

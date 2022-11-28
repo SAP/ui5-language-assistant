@@ -31,18 +31,13 @@ describe("framework", () => {
       testFramework = new TestFramework(useConfig);
     });
     it("test file does not exit", async () => {
-      const root = testFramework.getProjectRoot();
-      const filePath = join(root, "wrong-path-part");
-
       return testFramework
         .updateFile(["wrong-path-part"], "<a></a>")
         .then(() => {
           // this should never happen
           expect(false).to.be.true;
         })
-        .catch((result) =>
-          expect(result).to.equal(`File ${filePath} is not existing`)
-        );
+        .catch((result) => expect(result).to.throws);
     });
     it("test write content with position", async () => {
       const position: Position = {
@@ -90,18 +85,13 @@ describe("framework", () => {
       testFramework = new TestFramework(useConfig);
     });
     it("test file does not exit", async () => {
-      const root = testFramework.getProjectRoot();
-      const filePath = join(root, "wrong-path-part");
-
       return testFramework
         .readFile(["wrong-path-part"])
         .then(() => {
           // this should never happen
           expect(false).to.be.true;
         })
-        .catch((result) =>
-          expect(result).to.equal(`File ${filePath} is not existing`)
-        );
+        .catch((result) => expect(result).to.throws);
     });
     it("test read content with range", async () => {
       const range: Range = {

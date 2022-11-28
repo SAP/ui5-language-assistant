@@ -6,6 +6,7 @@ import {
   getLocalMetadataForService,
   getProjectInfo,
   getProjectRoot,
+  unifyServicePath,
 } from "../../src/utils/project";
 import {
   Config,
@@ -101,6 +102,28 @@ describe("project", () => {
         appRoot
       );
       expect(result).to.be.undefined;
+    });
+  });
+  context("unifyServicePath", () => {
+    it("add forward slash at beginning", () => {
+      const servicePath = "processor/";
+      const result = unifyServicePath(servicePath);
+      expect(result).to.be.equal("/processor/");
+    });
+    it("add forward slash at beginning - multi segments", () => {
+      const servicePath = "processor/one/two/";
+      const result = unifyServicePath(servicePath);
+      expect(result).to.be.equal("/processor/one/two/");
+    });
+    it("add forward slash at end", () => {
+      const servicePath = "/processor";
+      const result = unifyServicePath(servicePath);
+      expect(result).to.be.equal("/processor/");
+    });
+    it("add forward slash at end - multi segments", () => {
+      const servicePath = "/processor/one/two";
+      const result = unifyServicePath(servicePath);
+      expect(result).to.be.equal("/processor/one/two/");
     });
   });
 });
