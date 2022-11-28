@@ -6,7 +6,6 @@ jobs:
     working_directory: ~/repo
     environment:
       HUSKY_SKIP: "true"
-      NODE_OPTIONS: "--openssl-legacy-provider"
     steps:
       - run: sudo apt-get install libxss1
       - checkout
