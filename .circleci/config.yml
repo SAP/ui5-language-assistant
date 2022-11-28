@@ -14,7 +14,7 @@ jobs:
 
   build-node16:
     docker:
-      - image: cimg/node:16.17-browsers
+      - image: cimg/node:16.18.1-browsers
     working_directory: ~/repo
     environment:
       HUSKY_SKIP: "true"
@@ -26,7 +26,7 @@ jobs:
 
   build-node14:
     docker:
-      - image: cimg/node:14.20-browsers
+      - image: cimg/node:14.21.1-browsers
     working_directory: ~/repo
     environment:
       HUSKY_SKIP: "true"
