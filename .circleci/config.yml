@@ -2,7 +2,7 @@ version: 2.1
 jobs:
   build-node18:
     docker:
-      - image: cimg/node:18.7-browsers
+      - image: cimg/node:18.12.1-browsers
     working_directory: ~/repo
     environment:
       HUSKY_SKIP: "true"
