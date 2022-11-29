@@ -147,12 +147,15 @@ async function extractManifestDetails(
         }
         if (settings?.entitySet && settings?.content) {
           // search for custom section and get its entity set
-          const templateKey =
-            settings?.content?.body?.sections?.CustomSection?.template;
-          if (templateKey) {
-            customViews[templateKey] = {
-              entitySet: settings?.entitySet,
-            };
+          const extSettings = settings?.content?.body?.sections ?? {};
+          const keys = Object.keys(extSettings);
+          for (const key of keys) {
+            const template = extSettings[key]?.template;
+            if (template) {
+              customViews[template] = {
+                entitySet: settings?.entitySet,
+              };
+            }
           }
         }
       }
