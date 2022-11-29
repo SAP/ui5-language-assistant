@@ -141,6 +141,37 @@ describe("The ui5-language-assistant xml-views-completion", () => {
               },
             });
           });
+          it("will suggest **all** classes matching the type of the default aggregation from inherited control", () => {
+            const xmlSnippet = `
+            <mvc:View
+              xmlns:mvc="sap.ui.core.mvc"
+              xmlns="sap.m">
+              <VBox>
+                <ToggleButton⇶
+              </VBox>
+            </mvc:View>`;
+
+            testSuggestionsScenario({
+              model: ui5Model,
+              xmlText: xmlSnippet,
+              providers: {
+                elementName: [classesSuggestions],
+              },
+              assertion: (suggestions) => {
+                assertSuggestionProperties(suggestions, "VBox");
+                const suggestionNames = map(suggestions, (_) =>
+                  ui5NodeToFQN(_.ui5Node)
+                );
+                // Can "manually" traverse expected graph of `sap.m.Button` subClasses here:
+                //   - https://ui5.sap.com/1.71.49/#/api/sap.m.Button
+                expect(suggestionNames).to.deep.equalInAnyOrder([
+                  "sap.m.OverflowToolbarToggleButton",
+                  "sap.m.ToggleButton",
+                  "sap.ui.commons.ToggleButton",
+                ]);
+              },
+            });
+          });
         });
 
         context("prefix without xmlns", () => {

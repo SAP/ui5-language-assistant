@@ -24,6 +24,12 @@ describe("The @ui5-language-assistant/logic-utils <flattenAggregations> function
   });
 
   const clazzC = buildUI5Class({ name: "C", extends: clazzA });
+  const propA1Override = buildUI5Property({ name: "propA1" });
+  const classD = buildUI5Class({
+    name: "D",
+    extends: clazzA,
+    properties: [propA1Override, propB1, propB2],
+  });
 
   it("direct properties", () => {
     const actualNames = map(flattenProperties(clazzA), "name");
@@ -37,6 +43,16 @@ describe("The @ui5-language-assistant/logic-utils <flattenAggregations> function
 
   it("direct and borrowed properties", () => {
     const actualNames = map(flattenProperties(clazzB), "name");
+    expectUnsortedEquality(actualNames, [
+      "propA1",
+      "propA2",
+      "propB1",
+      "propB2",
+    ]);
+  });
+
+  it("direct and borrowed properties with overrides", () => {
+    const actualNames = map(flattenProperties(classD), "name");
     expectUnsortedEquality(actualNames, [
       "propA1",
       "propA2",

@@ -131,14 +131,14 @@ describe("the type aggregation validation", () => {
       );
     });
 
-    it("will not detect an issue when the class is under explicit aggregation when the aggregartion type is not a UI5Class or UI5Interface", () => {
+    it("will not detect an issue when the class is under explicit aggregation when the aggregation type is not a UI5Class or UI5Interface", () => {
       const clonedModel = cloneDeep(ui5SemanticModel);
       const viewClass = clonedModel.classes["sap.ui.core.mvc.View"];
       const contentAggregation = find(
         viewClass.aggregations,
         (_) => _.name === "content"
       ) as UI5Aggregation;
-      appContext = getDefaultContext(ui5SemanticModel);
+      appContext = getDefaultContext(clonedModel);
       expect(contentAggregation).to.exist;
       contentAggregation.type = undefined;
       viewClass.aggregations = [contentAggregation];

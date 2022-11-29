@@ -156,7 +156,8 @@ function handleDefaultAggregationScenario({
   parentXMLElement: XMLElement;
   parentUI5Class: UI5Class;
 }): classSuggestionContext | null {
-  const defaultAggregation = parentUI5Class.defaultAggregation;
+  const defaultAggregation = findClosestDefaultAggregation(parentUI5Class);
+
   if (defaultAggregation === undefined) {
     return NOT_FOUND;
   }
@@ -169,6 +170,25 @@ function handleDefaultAggregationScenario({
   } else {
     return NOT_FOUND;
   }
+}
+
+/**
+ * Traverses class inheritance chain and returns the first default aggregation if it exists.
+ * @param parentUI5Class UI5 class from which the search for default aggregation starts.
+ * @returns Instance of the default aggregation if it exists, otherwise undefined.
+ */
+function findClosestDefaultAggregation(
+  parentUI5Class: UI5Class
+): UI5Aggregation | undefined {
+  let currentClass: UI5Class | undefined = parentUI5Class;
+  while (currentClass) {
+    if (currentClass.defaultAggregation === undefined) {
+      currentClass = currentClass.extends;
+    } else {
+      return currentClass.defaultAggregation;
+    }
+  }
+  return undefined;
 }
 
 function getPrefixParts(
