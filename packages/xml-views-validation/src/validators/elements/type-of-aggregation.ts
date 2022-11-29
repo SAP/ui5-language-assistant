@@ -120,7 +120,7 @@ function getValidAggregationTypeForSubNodes(
       return aggregationType as UI5Class;
     case "UI5Interface":
       return aggregationType as UI5Interface;
-    /* istanbul ignore next - we can only recieve aggregation type of 'UI5Class' or 'UI5Interface' */
+    /* istanbul ignore next - we can only receive aggregation type of 'UI5Class' or 'UI5Interface' */
     default:
       return undefined;
   }

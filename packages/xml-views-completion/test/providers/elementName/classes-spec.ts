@@ -152,7 +152,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
             </mvc:View>`;
 
             testSuggestionsScenario({
-              model: ui5Model,
+              context: appContext,
               xmlText: xmlSnippet,
               providers: {
                 elementName: [classesSuggestions],

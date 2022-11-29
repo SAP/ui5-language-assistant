@@ -184,6 +184,7 @@ async function getCapServices(
   const services = new Map<string, string>();
   try {
     const data = await getCapModelAndServices(projectRoot);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const cds = await loadModuleFromProject<any>(projectRoot, "@sap/cds");
     for (const service of data.services) {
       const metadataContent = cds.compile.to.edmx(data.model, {

@@ -43,7 +43,7 @@
     "rimraf": "3.0.2"
   },
   "scripts": {
-    "ci": "npm-run-all clean generate-json-api compile lint coverage",
+    "ci": "npm-run-all clean compile lint coverage",
     "clean": "rimraf ./lib ./coverage ./nyc_output",
     "compile": "yarn run clean && tsc -p .",
     "compile:watch": "tsc -p . --watch",

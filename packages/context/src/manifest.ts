@@ -139,6 +139,7 @@ async function extractManifestDetails(
     for (const name of Object.keys(targets)) {
       const target = targets[name];
       if (target) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const settings = (target?.options as any)?.settings;
         if (settings?.entitySet && settings?.viewName) {
           customViews[settings.viewName] = {
