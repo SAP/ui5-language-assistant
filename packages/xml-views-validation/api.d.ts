@@ -40,7 +40,8 @@ export type UI5XMLViewIssue =
   | UnknownAttributeKeyIssue
   | UnknownTagNameIssue
   | InvalidAggregationCardinalityIssue
-  | InvalidAggregationTypeIssue;
+  | InvalidAggregationTypeIssue
+  | UseOfHardcodedI18nStringIssue;
 
 // A sub-interface per issue type may seem redundant, but this allows
 // a sub-issue type to have additional properties (if needed) in the future.
@@ -103,6 +104,10 @@ export interface NonStableIDIssue extends BaseUI5XMLViewIssue {
   kind: "NonStableIDIssue";
 }
 
+export interface UseOfHardcodedI18nStringIssue extends BaseUI5XMLViewIssue {
+  kind: "UseOfHardcodedI18nString";
+}
+
 type XMLAttributeValidator<T> = (
   attribute: XMLAttribute,
   model: UI5SemanticModel
@@ -121,6 +126,7 @@ type Validators = {
   validateBooleanValue: XMLAttributeValidator<InvalidBooleanValueIssue>;
   validateUseOfDeprecatedAttribute: XMLAttributeValidator<UseOfDeprecatedAttributeIssue>;
   validateUnknownAttributeKey: XMLAttributeValidator<UnknownAttributeKeyIssue>;
+  validateI18nExternalization: XMLAttributeValidator<UseOfHardcodedI18nStringIssue>;
   validateNonUniqueID: XMLDocumentValidator<NonUniqueIDIssue>;
   validateUseOfDeprecatedAggregation: XMLElementValidator<UseOfDeprecatedAggregationIssue>;
   validateUseOfDeprecatedClass: XMLElementValidator<UseOfDeprecatedClassIssue>;

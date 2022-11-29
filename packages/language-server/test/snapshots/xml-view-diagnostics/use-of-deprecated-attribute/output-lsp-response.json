@@ -6,7 +6,7 @@
     },
     "severity": 2,
     "source": "UI5 Language Assistant",
-    "message": "The navButtonText property is deprecated since version 1.20. Deprecated since the MVI theme is removed now. This property only affected the NavButton in that theme.",
+    "message": "The navButtonType property is deprecated since version 1.20. Deprecated since the MVI theme is removed now. This property is only usable with a Button text in that theme.",
     "tags": [2]
   },
   {

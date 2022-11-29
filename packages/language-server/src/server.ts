@@ -35,6 +35,12 @@ import {
   updateManifestData,
 } from "./manifest-handling";
 import {
+  getResourceBundleData,
+  initializeResourceBundleData,
+  isResourceBundleDoc,
+  updateResourceBundleData,
+} from "./resource-bundle-handling";
+import {
   getUI5FrameworkForXMLFile,
   isUI5YamlDoc,
   initializeUI5YamlData,
@@ -50,6 +56,7 @@ const connection = createConnection(ProposedFeatures.all);
 const documents = new TextDocuments(TextDocument);
 let manifestStateInitialized: Promise<void[]> | undefined = undefined;
 let ui5yamlStateInitialized: Promise<void[]> | undefined = undefined;
+let resourceBundletStateInitialized: Promise<void[]> | undefined = undefined;
 let initializationOptions: ServerInitializationOptions | undefined;
 let hasConfigurationCapability = false;
 
@@ -66,6 +73,9 @@ connection.onInitialize((params: InitializeParams) => {
     const workspaceFolderAbsPath = URI.parse(workspaceFolderUri).fsPath;
     manifestStateInitialized = initializeManifestData(workspaceFolderAbsPath);
     ui5yamlStateInitialized = initializeUI5YamlData(workspaceFolderAbsPath);
+    resourceBundletStateInitialized = initializeResourceBundleData(
+      workspaceFolderAbsPath
+    );
   }
 
   // Does the client support the `workspace/configuration` request?
@@ -92,6 +102,7 @@ connection.onInitialize((params: InitializeParams) => {
         commands: [
           commands.QUICK_FIX_STABLE_ID_ERROR.name,
           commands.QUICK_FIX_STABLE_ID_FILE_ERRORS.name,
+          commands.QUICK_FIX_HARDCODED_I18N_STRING_ERROR.name,
         ],
       },
     },
@@ -198,6 +209,8 @@ connection.onDidChangeWatchedFiles(async (changeEvent) => {
       await updateManifestData(uri, change.type);
     } else if (isUI5YamlDoc(uri)) {
       await updateUI5YamlData(uri, change.type);
+    } else if (isResourceBundleDoc(uri)) {
+      await updateResourceBundleData(uri, change.type);
     }
   });
 });
@@ -207,12 +220,17 @@ documents.onDidChangeContent(async (changeEvent) => {
   if (
     manifestStateInitialized === undefined ||
     ui5yamlStateInitialized === undefined ||
+    resourceBundletStateInitialized === undefined ||
     !isXMLView(changeEvent.document.uri)
   ) {
     return;
   }
 
-  await Promise.all([manifestStateInitialized, ui5yamlStateInitialized]);
+  await Promise.all([
+    manifestStateInitialized,
+    ui5yamlStateInitialized,
+    resourceBundletStateInitialized,
+  ]);
   const documentUri = changeEvent.document.uri;
   const document = documents.get(documentUri);
   if (document !== undefined) {
@@ -263,11 +281,13 @@ connection.onCodeAction(async (params) => {
     version: ui5Model.version,
   });
 
+  const resourceBundle = getResourceBundleData(documentPath);
   const diagnostics = params.context.diagnostics;
   const codeActions = diagnosticToCodeActionFix(
     textDocument,
     diagnostics,
-    ui5Model
+    ui5Model,
+    resourceBundle
   );
   getLogger().trace("`computed codeActions", { codeActions });
   return codeActions;

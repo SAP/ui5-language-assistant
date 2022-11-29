@@ -44,6 +44,7 @@ export function initSwa(
 export const TRACK_EVENTS = {
   MANIFEST_STABLE_ID: "manifest stable ID fix",
   XML_UI5_DOC_HOVER: "XML UI5 Doc Hover",
+  MANIFEST_HARDCODED_I18N_STRING: "hardcoded i18n string fix",
 };
 
 Object.freeze(TRACK_EVENTS);

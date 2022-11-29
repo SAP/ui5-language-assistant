@@ -30,11 +30,13 @@ type Validations = {
   UNKNOWN_TAG_NAME_IN_NS: validationText;
   UNKNOWN_TAG_NAME_IN_NS_UNDER_CLASS: validationText;
   UNKNOWN_TAG_NAME_NO_NS: validationText;
+  HARDCODED_I18N_STRING: validationText;
 };
 
 type Commands = {
   QUICK_FIX_STABLE_ID_ERROR: commandText;
   QUICK_FIX_STABLE_ID_FILE_ERRORS: commandText;
+  QUICK_FIX_HARDCODED_I18N_STRING_ERROR: commandText;
 };
 
 /**

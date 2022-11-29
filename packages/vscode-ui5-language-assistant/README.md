@@ -78,6 +78,7 @@ and cannot be configured by the end user.
   - Use of deprecated properties
   - Use of deprecated events
   - Use of deprecated associations
+  - Use of hardcoded UI texts that could be externalized to a resource bundle (i18n.properties) or other model
 
 ### XML View Quick Fix
 
@@ -90,6 +91,7 @@ Quick Fix will be shown for some validations when hovering over a diagnostic or 
 - Missing or empty ID when `flexEnabled` is true (stableID).
   - Will add a generated ID.
   - Supports both fixing a single missing ID or all missing IDs in an entire file.
+- Suggestions to replace a hardcoded UI text by a reference from one or more matches found in resource bundle (i18n.properties).
 
 ### XML View Hover Tooltips
 

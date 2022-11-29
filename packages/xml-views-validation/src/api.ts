@@ -15,6 +15,7 @@ import {
   validateExplicitAggregationCardinality,
   validateAggregationType,
   validateNonStableId,
+  validateI18nExternalization,
 } from "./validators";
 
 export { defaultValidators } from "./validators";
@@ -32,6 +33,7 @@ export const validators: Validators = {
   validateExplicitAggregationCardinality,
   validateAggregationType,
   validateNonStableId,
+  validateI18nExternalization,
 };
 
 export function validateXMLView(opts: {

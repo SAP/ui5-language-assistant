@@ -73,6 +73,11 @@ function validationIssuesToLspDiagnostics(
           ...commonDiagnosticPros,
           code: validations.NON_STABLE_ID.code,
         };
+      case "UseOfHardcodedI18nString":
+        return {
+          ...commonDiagnosticPros,
+          code: validations.HARDCODED_I18N_STRING.code,
+        };
       case "UseOfDeprecatedClass":
       case "UseOfDeprecatedProperty":
       case "UseOfDeprecatedEvent":

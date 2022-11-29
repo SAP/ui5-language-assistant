@@ -1,6 +1,6 @@
-<mvc:View xmlns:m="sap.m" 
+<mvc:View xmlns:m="sap.m"
   xmlns:mvc="sap.ui.core.mvc">
-  <m:Page 🢂navButtonText🢀="dummy-text">
+  <m:Page 🢂navButtonType🢀="Back">
   </m:Page>
   <m:App 🢂orientationChange🢀="dummy-text">
   </m:App>

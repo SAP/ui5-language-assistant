@@ -13,4 +13,8 @@ export const commands: Commands = {
     name: "ui5_lang.quick_fix_file_stable_id",
     title: "Generate IDs for the entire file",
   },
+  QUICK_FIX_HARDCODED_I18N_STRING_ERROR: {
+    name: "ui5_lang.quick_fix_hardcoded_i18n_string",
+    title: "Replace with externalized string",
+  },
 };

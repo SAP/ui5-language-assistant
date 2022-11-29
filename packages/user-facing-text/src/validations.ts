@@ -61,4 +61,8 @@ export const validations: Validations = {
     msg: `The "{0}" class can't have an empty ID attribute when flexEnabled is "true".`,
     code: 1012,
   },
+  HARDCODED_I18N_STRING: {
+    msg: `Consider externalizing UI texts to a resource bundle or other model: "{0}".`,
+    code: 1013,
+  },
 };
