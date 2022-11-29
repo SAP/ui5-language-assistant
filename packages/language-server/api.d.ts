@@ -2,8 +2,8 @@
  * Absolute path to the server's "main" module
  * This is useful when launching the server in a separate process (e.g via spawn).
  */
-import { LogLevel } from "@vscode-logging/types";
 
+import { LogLevel } from "@vscode-logging/types";
 export declare const SERVER_PATH: string;
 
 export type ServerInitializationOptions = {
@@ -25,6 +25,13 @@ export type ServerInitializationOptions = {
   logLevel?: LogLevel;
 };
 
+export function getNodeName(
+  text: string,
+  offsetAt: number,
+  cachePath?: string,
+  framework?: string,
+  ui5Version?: string
+): Promise<string | undefined>;
 export type FetchResponse = {
   ok: boolean;
   status: number;

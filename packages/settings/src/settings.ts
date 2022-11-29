@@ -7,6 +7,7 @@ const defaultSettings: Settings = {
   codeAssist: { deprecated: false, experimental: false },
   trace: { server: "off" },
   logging: { level: "error" },
+  view: { API_Reference: "editor" },
 };
 deepFreezeStrict(defaultSettings);
 

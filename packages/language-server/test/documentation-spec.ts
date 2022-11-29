@@ -5,7 +5,16 @@ import {
 } from "@ui5-language-assistant/test-utils";
 import { generate } from "@ui5-language-assistant/semantic-model";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
-import { getNodeDocumentation } from "../src/documentation";
+import {
+  getNodeDetail,
+  getNodeDocumentation,
+  getUI5NodeName,
+} from "../src/documentation";
+import { dir as tempDir } from "tmp-promise";
+
+import { Position } from "vscode-languageserver";
+import { TextDocument } from "vscode-languageserver-textdocument";
+import { getSemanticModel } from "../src/ui5-model";
 
 describe("The @ui5-language-assistant/language-server <getNodeDocumentation> function", () => {
   let ui5SemanticModel: UI5SemanticModel;
@@ -89,5 +98,83 @@ describe("The @ui5-language-assistant/language-server <getNodeDocumentation> fun
       const result = getNodeDocumentation(ui5Enum, ui5SemanticModel);
       expect(result.value).to.include("Experimental.");
     });
+
+    it("get the UI5 node name with a model", async () => {
+      const xmlSnippet = `<mvc:View displayBlock="true"
+      xmlns="sap.m"
+      xmlns:pwd="openui5.password"
+      xmlns:mvc="sap.ui.core.mvc">
+      <Page>
+        <content>
+          <Input liveChange="onInput" />
+        </content>
+      </Page>
+    </mvc:View>`;
+      const { document, position } = getXmlSnippet(xmlSnippet);
+
+      const result = await getUI5NodeName(
+        document.offsetAt(position),
+        document.getText(),
+        ui5SemanticModel
+      );
+      if (result) {
+        expect(getNodeDetail(result)).to.equal("sap.m.Input");
+      } else {
+        expect(result).to.equal("sap.m.Input");
+      }
+    });
+
+    it("get the UI5 node name without a model", async () => {
+      const xmlSnippet = `<mvc:View displayBlock="true"
+      xmlns="sap.m"
+      xmlns:pwd="openui5.password"
+      xmlns:mvc="sap.ui.core.mvc">
+      <Page>
+        <content>
+          <Input liveChange="onInput" />
+        </content>
+      </Page>
+    </mvc:View>`;
+
+      const cachePath = await tempDir();
+      const ui5Model = await getSemanticModel(
+        cachePath.path,
+        "SAPUI5",
+        undefined,
+        true
+      );
+
+      const { document, position } = getXmlSnippet(xmlSnippet);
+
+      const result = await getUI5NodeName(
+        document.offsetAt(position),
+        document.getText(),
+        undefined,
+        cachePath.path,
+        "SAPUI5",
+        ui5Model.version
+      );
+      if (result) expect(getNodeDetail(result)).to.equal("sap.m.Input");
+      else {
+        expect(result).to.equal("sap.m.Input");
+      }
+    });
   });
+
+  function getXmlSnippet(
+    xmlSnippet: string
+  ): { document: TextDocument; position: Position } {
+    const xmlText = xmlSnippet.replace("⇶", "");
+    const offset = xmlSnippet.indexOf("Input");
+    const document: TextDocument = createTextDocument("xml", xmlText);
+    const position: Position = document.positionAt(offset);
+    return { document, position };
+  }
+
+  function createTextDocument(
+    languageId: string,
+    content: string
+  ): TextDocument {
+    return TextDocument.create("uri", languageId, 0, content);
+  }
 });

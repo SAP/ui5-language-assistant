@@ -94,6 +94,8 @@ connection.onInitialize((params: InitializeParams) => {
           commands.QUICK_FIX_STABLE_ID_FILE_ERRORS.name,
         ],
       },
+      referencesProvider: false,
+      definitionProvider: true,
     },
   };
 });
@@ -128,6 +130,7 @@ connection.onCompletion(
         minUI5Version
       );
       connection.sendNotification("UI5LanguageAssistant/ui5Model", {
+        cachePath: initializationOptions?.modelCachePath,
         url: getCDNBaseUrl(framework, model.version),
         framework,
         version: model.version,
@@ -172,6 +175,7 @@ connection.onHover(
         minUI5Version
       );
       connection.sendNotification("UI5LanguageAssistant/ui5Model", {
+        cachePath: initializationOptions?.modelCachePath,
         url: getCDNBaseUrl(framework, ui5Model.version),
         framework,
         version: ui5Model.version,
@@ -226,6 +230,8 @@ documents.onDidChangeContent(async (changeEvent) => {
       minUI5Version
     );
     connection.sendNotification("UI5LanguageAssistant/ui5Model", {
+      cachePath: initializationOptions?.modelCachePath,
+
       url: getCDNBaseUrl(framework, ui5Model.version),
       framework,
       version: ui5Model.version,
@@ -258,6 +264,8 @@ connection.onCodeAction(async (params) => {
     minUI5Version
   );
   connection.sendNotification("UI5LanguageAssistant/ui5Model", {
+    cachePath: initializationOptions?.modelCachePath,
+
     url: getCDNBaseUrl(framework, ui5Model.version),
     framework,
     version: ui5Model.version,
