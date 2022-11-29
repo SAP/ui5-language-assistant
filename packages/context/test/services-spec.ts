@@ -11,6 +11,7 @@ import {
   TestFramework,
 } from "@ui5-language-assistant/test-framework";
 import { cache } from "../src/cache";
+import { getProjectData } from "./utils";
 
 describe("services", () => {
   let testFramework: TestFramework;
@@ -37,7 +38,7 @@ describe("services", () => {
       expect(result).to.deep.equal({});
     });
     it("CAP services", async () => {
-      const { appRoot } = await testFramework.getProjectData();
+      const { appRoot } = await getProjectData(testFramework.getProjectRoot());
       const docPath = join(appRoot, "ext", "main", "Main.view.xml");
       const result = await getServices(docPath);
       expect(result).to.have.all.keys("/processor/");
@@ -52,7 +53,8 @@ describe("services", () => {
         type: "UI5",
         kind: "UI5",
       });
-      const { appRoot, projectRoot } = await testFramework.getProjectData();
+      const projectRoot = testFramework.getProjectRoot();
+      const { appRoot } = await getProjectData(projectRoot);
       // remove cache for consistency
       cache.deleteProject(projectRoot);
 

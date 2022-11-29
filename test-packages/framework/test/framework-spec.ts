@@ -132,24 +132,6 @@ describe("framework", () => {
       expect(result.tokenVector).not.to.be.empty;
     });
   });
-  it("getProjectData", async () => {
-    const useConfig: Config = {
-      projectInfo: {
-        name: ProjectName.cap,
-        type: ProjectType.cap,
-        npmInstall: false,
-      },
-    };
-    const testFramework = new TestFramework(useConfig);
-    const result = await testFramework.getProjectData();
-    expect(result).to.have.keys(
-      "appRoot",
-      "projectInfo",
-      "manifest",
-      "manifestDetails",
-      "projectRoot"
-    );
-  });
   it("getFileUri", async () => {
     const useConfig: Config = {
       projectInfo: {

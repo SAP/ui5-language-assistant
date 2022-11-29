@@ -2,7 +2,7 @@ import {
   findAppRoot,
   getProjectRoot,
   getProjectInfo,
-  getPackageName,
+  getLogger,
 } from "./utils";
 import {
   findManifestPath,
@@ -18,9 +18,6 @@ import { URI } from "vscode-uri";
 import { getYamlDetails } from "./ui5-yaml";
 import { join } from "path";
 import { FileName } from "@sap-ux/project-access";
-import { getLogger } from "@ui5-language-assistant/logic-utils";
-
-const packageName = getPackageName();
 
 /**
  * React on manifest.json file change
@@ -39,7 +36,7 @@ export const reactOnManifestChange = async (
   manifestUri: string,
   changeType: FileChangeType
 ): Promise<void> => {
-  getLogger(packageName).debug("`reactOnManifestChange` function called", {
+  getLogger().debug("`reactOnManifestChange` function called", {
     manifestUri,
     changeType,
   });
@@ -87,7 +84,7 @@ export const reactOnUI5YamlChange = async (
   ui5YamlUri: string,
   changeType: FileChangeType
 ): Promise<void> => {
-  getLogger(packageName).debug("`updateUI5YamlData` function called", {
+  getLogger().debug("`updateUI5YamlData` function called", {
     ui5YamlUri,
     changeType,
   });
@@ -127,7 +124,7 @@ export const reactOnCdsFileChange = async (
 ): Promise<void> => {
   const projectRoots = new Set<string>();
   for (const { uri, type } of fileEvents) {
-    getLogger(packageName).debug("`reactOnCdsFileChange` function called", {
+    getLogger().debug("`reactOnCdsFileChange` function called", {
       cdsUri: uri,
       changeType: type,
     });
@@ -222,7 +219,7 @@ export const reactOnXmlFileChange = async (
   uri: string,
   changeType: FileChangeType
 ): Promise<void> => {
-  getLogger(packageName).debug("`reactOnXmlFileChange` function called", {
+  getLogger().debug("`reactOnXmlFileChange` function called", {
     xmlUri: uri,
     changeType,
   });
@@ -252,4 +249,49 @@ export const reactOnXmlFileChange = async (
   cache.deleteProject(projectRoot);
   // get a fresh project
   await getProject(documentPath);
+};
+
+/**
+ * React on package.json file. In `package.json` user can define `cds`, `sapux` or similar configurations
+ *
+ * @param uri uri to a package.json file
+ * @param changeType change type
+ * @description
+ * a. remove cap services cache
+ *
+ * b. remove all app cache
+ *
+ * c. remove project cache
+ *
+ * @note do not get fresh project / apps as there can be multiple apps and this can lead to performance bottleneck.
+ * A fresh project is created and cached once user opens an xml views in respective app.
+ */
+export const reactOnPackageJson = async (
+  uri: string,
+  changeType: FileChangeType
+): Promise<void> => {
+  getLogger().debug("`reactOnPackageJson` function called", {
+    packageJsonUri: uri,
+    changeType,
+  });
+  const documentPath = URI.parse(uri).fsPath;
+  const projectRoot = await getProjectRoot(documentPath);
+  if (!projectRoot) {
+    return;
+  }
+  const cachedProject = cache.getProject(projectRoot);
+  if (!cachedProject) {
+    return;
+  }
+  if (cachedProject.type == "CAP") {
+    // remove cap services cache
+    cache.deleteCapServices(projectRoot);
+    for (const [, app] of cachedProject.apps) {
+      const appRoot = app.appRoot;
+      // remove cached app
+      cache.deleteApp(appRoot);
+    }
+    // remove project cache
+    cache.deleteProject(projectRoot);
+  }
 };

@@ -1,11 +1,8 @@
 import { SWATracker } from "@sap/swa-for-sapbas-vsx";
 import { InitializeParams } from "vscode-languageserver";
-import { getLogger } from "@ui5-language-assistant/logic-utils";
-import { getPackageName } from "./package";
+import { getLogger } from "./logger";
 
 export type ISWATracker = Pick<SWATracker, "track">;
-
-const packageName = getPackageName();
 
 const SWA_NOOP: ISWATracker = {
   // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
@@ -32,7 +29,7 @@ export function initSwa(
   if (params?.initializationOptions) {
     const { publisher, name } = params.initializationOptions;
     if (publisher !== undefined && name !== undefined) {
-      getLogger(packageName).info("SWA is being initialized", {
+      getLogger().info("SWA is being initialized", {
         publisher,
         name,
       });
@@ -40,7 +37,7 @@ export function initSwa(
       // when running inside an Language Server process which was initialized from VSCode.
       // It would only run in BAS.
       const swa = new SWATracker(publisher, name, (err) => {
-        getLogger(packageName).error("Failure during SWA tracking", {
+        getLogger().error("Failure during SWA tracking", {
           error: err,
         });
       });
@@ -66,7 +63,7 @@ export function track(
     SWA_IMPL.track(TRACK_EVENTS[eventType], custom_events);
   } catch (e) {
     /* istanbul ignore next -- extremely difficult to test this edge case as `.track()` is never supposed to throw */
-    getLogger(packageName).error("Runtime Exception during swa.trace()", {
+    getLogger().error("Runtime Exception during swa.trace()", {
       error: e,
     });
   }

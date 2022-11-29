@@ -13,7 +13,6 @@
   "license": "Apache-2.0",
   "typings": "./api.d.ts",
   "dependencies": {
-    "@ui5-language-assistant/context": "3.3.1",
     "@xml-tools/parser": "1.0.7",
     "@xml-tools/ast": "5.0.0",
     "chevrotain": "7.0.1",

@@ -14,6 +14,7 @@ import {
   ProjectType,
   TestFramework,
 } from "@ui5-language-assistant/test-framework";
+import { getProjectData } from "../utils";
 
 describe("project", () => {
   let testFramework: TestFramework;
@@ -35,7 +36,8 @@ describe("project", () => {
       expect(result).to.be.undefined;
     });
     it("return project root ", async () => {
-      const { appRoot, projectRoot } = await testFramework.getProjectData();
+      const projectRoot = testFramework.getProjectRoot();
+      const { appRoot } = await getProjectData(projectRoot);
       const docPath = join(appRoot, "ext", "main", "Main.view.xml");
       const result = await getProjectRoot(docPath);
       expect(result).to.equal(projectRoot);
@@ -47,14 +49,14 @@ describe("project", () => {
       expect(result).to.be.undefined;
     });
     it("NodeJS", async () => {
-      const { projectRoot } = await testFramework.getProjectData();
+      const projectRoot = testFramework.getProjectRoot();
       const result = await getProjectInfo(projectRoot);
       expect(result).to.deep.equal({ type: "CAP", kind: "NodeJS" });
     });
   });
   context("findAppRoot", () => {
     it("return app root", async () => {
-      const { appRoot } = await testFramework.getProjectData();
+      const { appRoot } = await getProjectData(testFramework.getProjectRoot());
       const docPath = join(appRoot, "ext", "main", "Main.view.xml");
       const result = await findAppRoot(docPath);
       expect(result).to.equal(appRoot);
@@ -66,7 +68,9 @@ describe("project", () => {
   });
   context("getLocalAnnotationsForService", () => {
     it("get local annotation files", async () => {
-      const { appRoot, manifest } = await testFramework.getProjectData();
+      const { appRoot, manifest } = await getProjectData(
+        testFramework.getProjectRoot()
+      );
       const result = await getLocalAnnotationsForService(
         manifest,
         "mainService",
@@ -75,7 +79,9 @@ describe("project", () => {
       expect(result).to.have.length(1);
     });
     it("return undefined", async () => {
-      const { appRoot, manifest } = await testFramework.getProjectData();
+      const { appRoot, manifest } = await getProjectData(
+        testFramework.getProjectRoot()
+      );
       const result = await getLocalAnnotationsForService(
         manifest,
         "wrongServiceName",
@@ -86,7 +92,9 @@ describe("project", () => {
   });
   context("getLocalMetadataForService", () => {
     it("get local metadata file", async () => {
-      const { appRoot, manifest } = await testFramework.getProjectData();
+      const { appRoot, manifest } = await getProjectData(
+        testFramework.getProjectRoot()
+      );
       const result = await getLocalMetadataForService(
         manifest,
         "mainService",
@@ -95,7 +103,9 @@ describe("project", () => {
       expect(result).to.have.string;
     });
     it("return undefined", async () => {
-      const { appRoot, manifest } = await testFramework.getProjectData();
+      const { appRoot, manifest } = await getProjectData(
+        testFramework.getProjectRoot()
+      );
       const result = await getLocalMetadataForService(
         manifest,
         "wrongServiceName",

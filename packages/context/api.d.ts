@@ -13,6 +13,7 @@ export {
   reactOnUI5YamlChange,
   reactOnManifestChange,
   reactOnXmlFileChange,
+  reactOnPackageJson,
   cache,
 } from "./src/api";
 

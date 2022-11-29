@@ -8,10 +8,7 @@ import { DEFAULT_UI5_FRAMEWORK, YamlDetails } from "./types";
 import { FileName } from "@sap-ux/project-access";
 import findUp from "find-up";
 import { cache } from "./cache";
-import { getLogger } from "@ui5-language-assistant/logic-utils";
-import { getPackageName } from "./utils";
-
-const packageName = getPackageName();
+import { getLogger } from "./utils";
 
 export async function initializeUI5YamlData(
   workspaceFolderPath: string
@@ -25,11 +22,11 @@ export async function initializeUI5YamlData(
 
     if (response) {
       cache.setYamlDetails(ui5YamlDoc, response);
-      getLogger(packageName).info("ui5.yaml data initialized", { ui5YamlDoc });
+      getLogger().info("ui5.yaml data initialized", { ui5YamlDoc });
     }
   });
 
-  getLogger(packageName).info("list of ui5.yaml files", { ui5YamlDocuments });
+  getLogger().info("list of ui5.yaml files", { ui5YamlDocuments });
   return Promise.all(readUI5YamlPromises);
 }
 
@@ -57,7 +54,7 @@ async function findAllUI5YamlDocumentsInWorkspace(
   workspaceFolderPath: string
 ): Promise<string[]> {
   return globby(`${workspaceFolderPath}/**/ui5.yaml`).catch((reason) => {
-    getLogger(packageName).error(
+    getLogger().error(
       `Failed to find all ui5.yaml files in current workspace!`,
       {
         workspaceFolderPath,
@@ -83,7 +80,7 @@ async function readUI5YamlFile(
       return /^(OpenUI5|SAPUI5)$/i.test(ui5YamlDoc?.framework?.name);
     });
   } catch (err) {
-    getLogger(packageName).debug("readUI5YamlFile failed:", err);
+    getLogger().debug("readUI5YamlFile failed:", err);
     ui5YamlObject = undefined;
   }
 
@@ -97,7 +94,7 @@ async function readUI5YamlFile(
 }
 /**
  * Get path of a yaml file
- * @param documentPath path to a file i.e absolute/path/webapp/ext/main/Main.view.xml
+ * @param documentPath path to a file e.g. absolute/path/webapp/ext/main/Main.view.xml
  */
 export async function findYamlPath(
   documentPath: string
@@ -107,7 +104,7 @@ export async function findYamlPath(
 
 /**
  * Get yaml of an app
- * @param ui5YamlRoot absolute root to a yaml file of an app i.e /some/other/path/parts/app/manage_travels/webapp/ui5.yaml
+ * @param ui5YamlRoot absolute root to a yaml file of an app e.g. /some/other/path/parts/app/manage_travels/webapp/ui5.yaml
  */
 export async function getUI5Yaml(
   ui5YamlRoot: string
@@ -123,14 +120,14 @@ export async function getUI5Yaml(
     }
     return data;
   } catch (error) {
-    getLogger(packageName).debug("getUI5Yaml->readUI5YamlFile failed:", error);
+    getLogger().debug("getUI5Yaml->readUI5YamlFile failed:", error);
     return undefined;
   }
 }
 
 /**
  * Get details of a yaml file. By default return UI5 framework
- * @param documentPath path to a file i.e absolute/path/webapp/ext/main/Main.view.xml
+ * @param documentPath path to a file e.g. absolute/path/webapp/ext/main/Main.view.xml
  */
 export async function getYamlDetails(
   documentPath: string

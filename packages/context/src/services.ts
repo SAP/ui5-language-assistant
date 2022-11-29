@@ -4,7 +4,7 @@ import { getProject } from "./loader";
 /**
  * Get services of a UI5 or CAP project
  *
- * @param documentPath path to a file i.e absolute/path/webapp/ext/main/Main.view.xml
+ * @param documentPath path to a file e.g. absolute/path/webapp/ext/main/Main.view.xml
  */
 export async function getServices(
   documentPath: string

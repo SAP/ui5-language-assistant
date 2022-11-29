@@ -7,122 +7,122 @@ type AbsoluteAppRoot = string;
 type AbsoluteProjectRoot = string;
 
 class ProjectCache {
-  private _manifest: Map<AbsoluteAppRoot, Manifest>;
-  private _app: Map<AbsoluteAppRoot, App>;
-  private _project: Map<AbsoluteAppRoot, Project>;
-  private _capServices: Map<AbsoluteProjectRoot, Map<string, string>>;
-  private _ui5YamlDetails: Map<string, YamlDetails>;
-  private _ui5Model: Map<string, UI5SemanticModel>;
+  private manifest: Map<AbsoluteAppRoot, Manifest>;
+  private app: Map<AbsoluteAppRoot, App>;
+  private project: Map<AbsoluteAppRoot, Project>;
+  private capServices: Map<AbsoluteProjectRoot, Map<string, string>>;
+  private ui5YamlDetails: Map<string, YamlDetails>;
+  private ui5Model: Map<string, UI5SemanticModel>;
   constructor() {
-    this._project = new Map();
-    this._manifest = new Map();
-    this._app = new Map();
-    this._capServices = new Map();
-    this._ui5YamlDetails = new Map();
-    this._ui5Model = new Map();
+    this.project = new Map();
+    this.manifest = new Map();
+    this.app = new Map();
+    this.capServices = new Map();
+    this.ui5YamlDetails = new Map();
+    this.ui5Model = new Map();
   }
   reset() {
-    this._project = new Map();
-    this._manifest = new Map();
-    this._app = new Map();
-    this._capServices = new Map();
-    this._ui5YamlDetails = new Map();
-    this._ui5Model = new Map();
+    this.project = new Map();
+    this.manifest = new Map();
+    this.app = new Map();
+    this.capServices = new Map();
+    this.ui5YamlDetails = new Map();
+    this.ui5Model = new Map();
   }
   /**
    * Get entries of cached project
    */
   getProjectEntries(): string[] {
-    return [...this._project.keys()];
+    return [...this.project.keys()];
   }
   getProject(projectRoot: AbsoluteProjectRoot): Project | undefined {
-    return this._project.get(projectRoot);
+    return this.project.get(projectRoot);
   }
   setProject(projectRoot: AbsoluteProjectRoot, data: Project): void {
-    this._project.set(projectRoot, data);
+    this.project.set(projectRoot, data);
   }
   deleteProject(projectRoot: AbsoluteProjectRoot): boolean {
-    return this._project.delete(projectRoot);
+    return this.project.delete(projectRoot);
   }
   /**
    * Get entries of cached manifest
    */
   getManifestEntries(): string[] {
-    return [...this._manifest.keys()];
+    return [...this.manifest.keys()];
   }
   getManifest(manifestRoot: string): Manifest | undefined {
-    return this._manifest.get(manifestRoot);
+    return this.manifest.get(manifestRoot);
   }
   setManifest(manifestRoot: string, data: Manifest): void {
-    this._manifest.set(manifestRoot, data);
+    this.manifest.set(manifestRoot, data);
   }
   deleteManifest(manifestRoot: string): boolean {
-    return this._manifest.delete(manifestRoot);
+    return this.manifest.delete(manifestRoot);
   }
   /**
    * Get entries of cached app
    */
   getAppEntries(): string[] {
-    return [...this._app.keys()];
+    return [...this.app.keys()];
   }
   getApp(appRoot: string): App | undefined {
-    return this._app.get(appRoot);
+    return this.app.get(appRoot);
   }
   setApp(appRoot: string, data: App): void {
-    this._app.set(appRoot, data);
+    this.app.set(appRoot, data);
   }
   deleteApp(appRoot: string): boolean {
-    return this._app.delete(appRoot);
+    return this.app.delete(appRoot);
   }
   /**
    * Get entries of cached cap services
    */
   getCapServiceEntries(): string[] {
-    return [...this._capServices.keys()];
+    return [...this.capServices.keys()];
   }
   getCapServices(
     projectRoot: AbsoluteProjectRoot
   ): Map<string, string> | undefined {
-    return this._capServices.get(projectRoot);
+    return this.capServices.get(projectRoot);
   }
   setCapServices(
     projectRoot: AbsoluteProjectRoot,
     data: Map<string, string>
   ): void {
-    this._capServices.set(projectRoot, data);
+    this.capServices.set(projectRoot, data);
   }
   deleteCapServices(projectRoot: AbsoluteProjectRoot): boolean {
-    return this._capServices.delete(projectRoot);
+    return this.capServices.delete(projectRoot);
   }
   /**
    * Get entries of cached yaml details
    */
   getYamlDetailsEntries(): string[] {
-    return [...this._ui5YamlDetails.keys()];
+    return [...this.ui5YamlDetails.keys()];
   }
   getYamlDetails(documentPath: string): YamlDetails | undefined {
-    return this._ui5YamlDetails.get(documentPath);
+    return this.ui5YamlDetails.get(documentPath);
   }
   setYamlDetails(documentPath: string, data: YamlDetails): void {
-    this._ui5YamlDetails.set(documentPath, data);
+    this.ui5YamlDetails.set(documentPath, data);
   }
   deleteYamlDetails(documentPath: string): boolean {
-    return this._ui5YamlDetails.delete(documentPath);
+    return this.ui5YamlDetails.delete(documentPath);
   }
   /**
    * Get entries of cached UI5 model
    */
   getUI5ModelEntries(): string[] {
-    return [...this._ui5Model.keys()];
+    return [...this.ui5Model.keys()];
   }
   getUI5Model(key: string): UI5SemanticModel | undefined {
-    return this._ui5Model.get(key);
+    return this.ui5Model.get(key);
   }
   setUI5Model(key: string, data: UI5SemanticModel): void {
-    this._ui5Model.set(key, data);
+    this.ui5Model.set(key, data);
   }
   deleteUI5Model(key: string): boolean {
-    return this._ui5Model.delete(key);
+    return this.ui5Model.delete(key);
   }
 }
 

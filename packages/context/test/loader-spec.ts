@@ -14,6 +14,7 @@ import { cache } from "../src/cache";
 import { restore, spy, stub } from "sinon";
 import { Manifest } from "@sap-ux/project-access";
 import { ProjectKind, UI5_PROJECT_TYPE } from "../src/types";
+import { getProjectData } from "./utils";
 
 describe("loader", () => {
   let testFramework: TestFramework;
@@ -34,13 +35,13 @@ describe("loader", () => {
   });
   context("getApp", () => {
     it("get an app", async () => {
+      const projectRoot = testFramework.getProjectRoot();
       const {
         appRoot,
         manifest,
         manifestDetails,
         projectInfo,
-        projectRoot,
-      } = await testFramework.getProjectData();
+      } = await getProjectData(projectRoot);
       // for consistency remove cache
       cache.deleteApp(appRoot);
       const app = await loader.getApp(
@@ -59,13 +60,13 @@ describe("loader", () => {
       );
     });
     it("get cached app", async () => {
+      const projectRoot = testFramework.getProjectRoot();
       const {
         appRoot,
         manifest,
         manifestDetails,
         projectInfo,
-        projectRoot,
-      } = await testFramework.getProjectData();
+      } = await getProjectData(projectRoot);
       const getAppSpy = spy(cache, "getApp");
       const app = await loader.getApp(
         projectRoot,
@@ -78,12 +79,10 @@ describe("loader", () => {
       expect(app).to.deep.equal(getAppSpy.returnValues[0]);
     });
     it("does not fined mainService and returns undefined", async () => {
-      const {
-        appRoot,
-        manifestDetails,
-        projectInfo,
-        projectRoot,
-      } = await testFramework.getProjectData();
+      const projectRoot = testFramework.getProjectRoot();
+      const { appRoot, manifestDetails, projectInfo } = await getProjectData(
+        projectRoot
+      );
       const manifest = {} as Manifest;
       // for consistency remove cache
       cache.deleteApp(appRoot);
@@ -100,13 +99,13 @@ describe("loader", () => {
       const parseServiceFilesStub = stub(parser, "parseServiceFiles").returns(
         undefined
       );
+      const projectRoot = testFramework.getProjectRoot();
       const {
         appRoot,
         manifestDetails,
         manifest,
         projectInfo,
-        projectRoot,
-      } = await testFramework.getProjectData();
+      } = await getProjectData(projectRoot);
       // for consistency remove cache
       cache.deleteApp(appRoot);
       const app = await loader.getApp(
@@ -122,12 +121,10 @@ describe("loader", () => {
   });
   context("getCAPProject", () => {
     it("return undefined for Java project", async () => {
-      const {
-        appRoot,
-        manifest,
-        manifestDetails,
-        projectRoot,
-      } = await testFramework.getProjectData();
+      const projectRoot = testFramework.getProjectRoot();
+      const { appRoot, manifest, manifestDetails } = await getProjectData(
+        projectRoot
+      );
       const projectInfo = { kind: "Java", type: "CAP" } as {
         type: "CAP" | "UI5";
         kind: ProjectKind;
@@ -142,13 +139,13 @@ describe("loader", () => {
       expect(capProject).to.be.undefined;
     });
     it("return cap project for NodeJS", async () => {
+      const projectRoot = testFramework.getProjectRoot();
       const {
         appRoot,
         manifest,
         manifestDetails,
-        projectRoot,
         projectInfo,
-      } = await testFramework.getProjectData();
+      } = await getProjectData(projectRoot);
       const capProject = await loader.getCAPProject(
         projectRoot,
         projectInfo,
@@ -161,12 +158,10 @@ describe("loader", () => {
   });
   context("getUI5Project", () => {
     it("return UI5 project", async () => {
-      const {
-        appRoot,
-        manifest,
-        manifestDetails,
-        projectRoot,
-      } = await testFramework.getProjectData();
+      const projectRoot = testFramework.getProjectRoot();
+      const { appRoot, manifest, manifestDetails } = await getProjectData(
+        projectRoot
+      );
       const ui5Project = await loader.getUI5Project(
         projectRoot,
         appRoot,
@@ -263,14 +258,14 @@ describe("loader", () => {
       expect(project).to.be.undefined;
     });
     it("return CAP project", async () => {
-      const { appRoot } = await testFramework.getProjectData();
+      const { appRoot } = await getProjectData(testFramework.getProjectRoot());
       const docPath = join(appRoot, "ext", "main", "Main.view.xml");
       const project = await loader.getProject(docPath);
       expect(project).to.have.all.keys("type", "kind", "root", "apps");
     });
     it("return cached project", async () => {
       const getProjectSpy = spy(cache, "getProject");
-      const { appRoot } = await testFramework.getProjectData();
+      const { appRoot } = await getProjectData(testFramework.getProjectRoot());
       const docPath = join(appRoot, "ext", "main", "Main.view.xml");
       const project = await loader.getProject(docPath);
       expect(project).to.deep.equal(getProjectSpy.returnValues[0]);
@@ -281,7 +276,8 @@ describe("loader", () => {
         type: UI5_PROJECT_TYPE,
         kind: "UI5",
       });
-      const { appRoot, projectRoot } = await testFramework.getProjectData();
+      const projectRoot = testFramework.getProjectRoot();
+      const { appRoot } = await getProjectData(projectRoot);
       const docPath = join(appRoot, "ext", "main", "Main.view.xml");
       // for consistency remove cache
       cache.deleteProject(projectRoot);

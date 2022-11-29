@@ -14,9 +14,9 @@ import {
   findAppRoot,
   getLocalAnnotationsForService,
   getLocalMetadataForService,
-  getPackageName,
   getProjectInfo,
   getProjectRoot,
+  getLogger,
 } from "./utils";
 import {
   getCapModelAndServices,
@@ -32,10 +32,8 @@ import {
 } from "./manifest";
 import { parseServiceFiles } from "./parser";
 import { cache } from "./cache";
-import { getLogger } from "@ui5-language-assistant/logic-utils";
 import { unifyServicePath } from "./utils/project";
 
-const packageName = getPackageName();
 /**
  * Get CAP project
  *
@@ -53,7 +51,7 @@ export async function getCAPProject(
   manifestDetails: ManifestDetails
 ): Promise<CAPProject | undefined> {
   if (projectInfo.kind === "Java") {
-    getLogger(packageName).info("Java project is not supported yet.");
+    getLogger().info("Java project is not supported yet.");
     return;
   }
   const app = await getApp(
@@ -66,6 +64,13 @@ export async function getCAPProject(
   if (!app) {
     return;
   }
+  const cachedProject = cache.getProject(projectRoot);
+  if (cachedProject && cachedProject.type === "CAP") {
+    // cap project can have multiple apps
+    cachedProject.apps.set(appRoot, app);
+    return cachedProject;
+  }
+
   return {
     type: CAP_PROJECT_TYPE,
     kind: "NodeJS",
@@ -104,7 +109,7 @@ export async function getUI5Project(
 /**
  * Get CAP or UI5 project
  *
- * @param documentPath path to a file i.e absolute/path/webapp/ext/main/Main.view.xml
+ * @param documentPath path to a file e.g. absolute/path/webapp/ext/main/Main.view.xml
  */
 export async function getProject(
   documentPath: string
@@ -113,13 +118,18 @@ export async function getProject(
   if (!projectRoot) {
     return;
   }
-  const cachedProject = cache.getProject(projectRoot);
-  if (cachedProject) {
-    return cachedProject;
-  }
   const appRoot = await findAppRoot(documentPath);
   if (!appRoot) {
     return;
+  }
+  const cachedProject = cache.getProject(projectRoot);
+  if (cachedProject) {
+    if (cachedProject.type === "UI5") {
+      return cachedProject;
+    }
+    if (cachedProject.type === "CAP" && cachedProject.apps.get(appRoot)) {
+      return cachedProject;
+    }
   }
   const manifestPath = await findManifestPath(documentPath);
   if (!manifestPath) {
@@ -186,7 +196,7 @@ async function getCapServices(
       services.set(unifyServicePath(service.urlPath), metadataContent);
     }
   } catch (error) {
-    getLogger(packageName).debug("getCapServices failed:", error);
+    getLogger().debug("getCapServices failed:", error);
     return new Map();
   }
   cache.setCapServices(projectRoot, services);

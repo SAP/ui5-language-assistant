@@ -11,21 +11,8 @@ import {
   fileExitsSync,
   print,
 } from "./utils";
-import {
-  getManifestDetails,
-  ProjectKind,
-  Manifest,
-  getUI5Manifest,
-  Context,
-  getContext,
-} from "@ui5-language-assistant/context";
-import {
-  TestFrameworkAPI,
-  ProjectInfo,
-  Config,
-  ReadFileResult,
-  ProjectData,
-} from "./types";
+
+import { TestFrameworkAPI, ProjectInfo, Config, ReadFileResult } from "./types";
 
 export class TestFramework implements TestFrameworkAPI {
   private projectInfo: ProjectInfo;
@@ -80,24 +67,6 @@ export class TestFramework implements TestFrameworkAPI {
   public getProjectRoot(): string {
     const { name } = this.projectInfo;
     return join(__dirname, "..", "..", "projects-copy", name);
-  }
-  public getContext(
-    documentPath?: string,
-    modelCachePath?: string
-  ): Promise<Context> {
-    const projectRoot = this.getProjectRoot();
-    documentPath =
-      documentPath ??
-      join(
-        projectRoot,
-        "app",
-        "manage_travels",
-        "webapp",
-        "ext",
-        "main",
-        "Main.view.xml"
-      );
-    return getContext(documentPath, modelCachePath);
   }
   public async updateFile(
     pathSegments: string[],
@@ -163,27 +132,6 @@ export class TestFramework implements TestFrameworkAPI {
       tokenVector,
       offset: this.offset,
     };
-  }
-  public async getProjectData(): Promise<ProjectData> {
-    const projectRoot = this.getProjectRoot();
-    const appRoot = join(projectRoot, "app", "manage_travels", "webapp");
-    const manifestRoot = join(appRoot, "manifest.json");
-    const manifest = (await getUI5Manifest(manifestRoot)) as Manifest;
-    const documentPath = join(
-      projectRoot,
-      "app",
-      "manage_travels",
-      "webapp",
-      "ext",
-      "main",
-      "Main.view.xml"
-    );
-    const manifestDetails = await getManifestDetails(documentPath);
-    const projectInfo: { type: "UI5" | "CAP"; kind: ProjectKind } = {
-      type: "CAP",
-      kind: "NodeJS",
-    };
-    return { projectInfo, manifest, manifestDetails, appRoot, projectRoot };
   }
 
   public getFileUri(pathSegments: string[]): string {

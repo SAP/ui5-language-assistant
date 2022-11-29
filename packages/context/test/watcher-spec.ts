@@ -12,6 +12,7 @@ import * as loader from "../src/loader";
 import {
   reactOnCdsFileChange,
   reactOnManifestChange,
+  reactOnPackageJson,
   reactOnUI5YamlChange,
   reactOnXmlFileChange,
 } from "../src/watcher";
@@ -108,7 +109,7 @@ describe("watcher", () => {
       expect(deleteYamlDetailsSpy).to.have.been.calledOnce;
     });
   });
-  context("reactOnCdsFileChange", async () => {
+  context("reactOnCdsFileChange", () => {
     it("single cds file", async () => {
       // reset cache for consistency
       cache.reset();
@@ -186,7 +187,7 @@ describe("watcher", () => {
       expect(cachedProject.apps.size).to.equal(1);
     });
   });
-  context("reactOnXmlFileChange", async () => {
+  context("reactOnXmlFileChange", () => {
     it("test unregistered xml file", async () => {
       // reset cache for consistency
       cache.reset();
@@ -241,5 +242,35 @@ describe("watcher", () => {
       expect(getProjectSpy).to.have.been.calledOnce;
       expect(cachedProject.apps.size).to.equal(1);
     });
+  });
+  it("reactOnPackageJson - CAP", async () => {
+    // reset cache for consistency
+    cache.reset();
+    // creating file uri and file path to have same key
+    // On windows, `C` drive is convert to lower case when getting file uri
+    const fileUri = testFramework.getFileUri([
+      "app",
+      "manage_travels",
+      "webapp",
+      "ext",
+      "main",
+      "Main.view.xml",
+    ]);
+    const documentPath = URI.parse(fileUri).fsPath;
+    // first create all caches
+    await loader.getProject(documentPath);
+    // spy on cache events and getProject
+    const deleteCapServicesSpy = spy(cache, "deleteCapServices");
+    const deleteAppSpy = spy(cache, "deleteApp");
+    const deleteProjectSpy = spy(cache, "deleteProject");
+    const packageJSONUri = testFramework.getFileUri(["package.json"]);
+    await reactOnPackageJson(packageJSONUri, 1);
+    const projectRoot = fileURLToPath(testFramework.getFileUri([]));
+    const cachedProject = cache.getProject(projectRoot) as CAPProject;
+
+    expect(deleteCapServicesSpy).to.have.been.calledOnce;
+    expect(deleteAppSpy).to.have.been.calledOnce;
+    expect(deleteProjectSpy).to.have.been.calledOnce;
+    expect(cachedProject).to.be.undefined;
   });
 });

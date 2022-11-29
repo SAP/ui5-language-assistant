@@ -6,12 +6,10 @@ import globby from "globby";
 import { ManifestDetails } from "./types";
 import { Manifest, FileName } from "@sap-ux/project-access";
 import findUp from "find-up";
-import { findAppRoot, getPackageName } from "./utils";
+import { findAppRoot, getLogger } from "./utils";
 import { cache } from "./cache";
-import { getLogger } from "@ui5-language-assistant/logic-utils";
 import { unifyServicePath } from "./utils/project";
 
-const packageName = getPackageName();
 async function readManifestFile(
   manifestUri: string
 ): Promise<Manifest | undefined> {
@@ -22,7 +20,7 @@ async function readManifestFile(
     );
     return JSON.parse(manifestContent);
   } catch (err) {
-    getLogger(packageName).debug("readManifestFile failed:", err);
+    getLogger().debug("readManifestFile failed:", err);
     return undefined;
   }
 }
@@ -37,10 +35,10 @@ export async function initializeManifestData(
     const response = await readManifestFile(manifestDoc);
     if (response) {
       cache.setManifest(manifestDoc, response);
-      getLogger(packageName).info("manifest initialized", { manifestDoc });
+      getLogger().info("manifest initialized", { manifestDoc });
     }
   });
-  getLogger(packageName).info("list of manifest.json files", {
+  getLogger().info("list of manifest.json files", {
     manifestDocuments,
   });
   return Promise.all(readManifestPromises);
@@ -50,7 +48,7 @@ async function findAllManifestDocumentsInWorkspace(
   workspaceFolderPath: string
 ): Promise<string[]> {
   return globby(`${workspaceFolderPath}/**/manifest.json`).catch((reason) => {
-    getLogger(packageName).error(
+    getLogger().error(
       `Failed to find all manifest.json files in current workspace!`,
       {
         workspaceFolderPath,
@@ -63,7 +61,7 @@ async function findAllManifestDocumentsInWorkspace(
 
 /**
  * Get path of a manifest.json file
- * @param documentPath path to a file i.e absolute/path/webapp/ext/main/Main.view.xml
+ * @param documentPath path to a file e.g. absolute/path/webapp/ext/main/Main.view.xml
  */
 export async function findManifestPath(
   documentPath: string
@@ -73,7 +71,7 @@ export async function findManifestPath(
 
 /**
  * Get manifest of an app
- * @param manifestRoot absolute root to manifest.json file of an app i.e /some/other/path/parts/app/manage_travels/webapp/manifest.json
+ * @param manifestRoot absolute root to manifest.json file of an app e.g. /some/other/path/parts/app/manage_travels/webapp/manifest.json
  */
 export async function getUI5Manifest(
   manifestRoot: string
@@ -89,10 +87,7 @@ export async function getUI5Manifest(
     }
     return data;
   } catch (error) {
-    getLogger(packageName).debug(
-      "getUI5Manifest->readManifestFile failed:",
-      error
-    );
+    getLogger().debug("getUI5Manifest->readManifestFile failed:", error);
     return undefined;
   }
 }
@@ -153,7 +148,7 @@ async function extractManifestDetails(
         if (settings?.entitySet && settings?.content) {
           // search for custom section and get its entity set
           const templateKey =
-            settings?.content?.body?.sections?.CustomSection.template;
+            settings?.content?.body?.sections?.CustomSection?.template;
           if (templateKey) {
             customViews[templateKey] = {
               entitySet: settings?.entitySet,
@@ -180,7 +175,7 @@ async function extractManifestDetails(
 
 /**
  * Get details of manifest defined under `webapp`
- * @param documentPath path to a file i.e absolute/path/webapp/ext/main/Main.view.xml
+ * @param documentPath path to a file e.g. absolute/path/webapp/ext/main/Main.view.xml
  */
 export async function getManifestDetails(
   documentPath: string

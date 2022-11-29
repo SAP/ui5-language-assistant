@@ -5,7 +5,9 @@ import {
 } from "@vscode-logging/types";
 import { getExtensionLogger } from "@vscode-logging/logger";
 import { validLoggingLevelValues } from "@ui5-language-assistant/settings";
+
 export type ILogger = Omit<IChildLogger, "getChildLogger">;
+export { LogLevel } from "@vscode-logging/types";
 
 let logLevel: LogLevel = "error";
 /**

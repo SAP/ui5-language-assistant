@@ -13,4 +13,4 @@ export {
   getProjectRoot,
 } from "./project";
 
-export { getPackageName } from "./package";
+export { getLogger } from "./logger";

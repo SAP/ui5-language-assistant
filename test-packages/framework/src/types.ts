@@ -2,12 +2,6 @@ import { DocumentCstNode } from "@xml-tools/parser";
 import { Position, Range } from "vscode-languageserver-types";
 import { XMLDocument } from "@xml-tools/ast";
 import { IToken } from "chevrotain";
-import {
-  ManifestDetails,
-  ProjectKind,
-  Manifest,
-  Context,
-} from "@ui5-language-assistant/context";
 
 /**
  * Name of project folder
@@ -63,14 +57,6 @@ export interface ReadFileResult {
  * @param projectInfo information about project type and kind
  *
  */
-export interface ProjectData {
-  projectRoot: string;
-  appRoot: string;
-  manifest: Manifest;
-  manifestDetails: ManifestDetails;
-  projectInfo: { type: "UI5" | "CAP"; kind: ProjectKind };
-}
-
 export interface TestFrameworkAPI {
   /**
    * path to a root of a copied project
@@ -96,16 +82,6 @@ export interface TestFrameworkAPI {
    * @param range range information
    */
   readFile(pathSegments: string[], range?: Range): Promise<ReadFileResult>;
-  /**
-   * Get project data
-   */
-  getProjectData(): Promise<ProjectData>;
-  /**
-   * Get context
-   * @param documentPath path to a file i.e absolute/path/webapp/ext/main/Main.view.xml
-   * @param modelCachePath path to a cached ui5 model
-   */
-  getContext(documentPath?: string, modelCachePath?: string): Promise<Context>;
   /**
    * Get a file URI i.e  `file:\\...`
    *

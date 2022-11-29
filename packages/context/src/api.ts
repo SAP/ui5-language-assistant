@@ -23,11 +23,12 @@ export {
   reactOnUI5YamlChange,
   reactOnManifestChange,
   reactOnXmlFileChange,
+  reactOnPackageJson,
 } from "./watcher";
 
 /**
  * Get context for a file
- * @param documentPath path to a file i.e absolute/path/webapp/ext/main/Main.view.xml
+ * @param documentPath path to a file e.g. absolute/path/webapp/ext/main/Main.view.xml
  * @param modelCachePath path to a cached ui5 model
  */
 export async function getContext(

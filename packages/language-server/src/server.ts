@@ -36,12 +36,12 @@ import {
   reactOnManifestChange,
   reactOnCdsFileChange,
   reactOnXmlFileChange,
+  reactOnPackageJson,
 } from "@ui5-language-assistant/context";
 import { diagnosticToCodeActionFix } from "./quick-fix";
 import { executeCommand } from "./commands";
 import { initSwa } from "./swa";
-import { getLogger, setLogLevel } from "@ui5-language-assistant/logic-utils";
-import { getPackageName } from "./package";
+import { getLogger, setLogLevel } from "./logger";
 
 const connection = createConnection(ProposedFeatures.all);
 const documents = new TextDocuments(TextDocument);
@@ -49,12 +49,11 @@ let manifestStateInitialized: Promise<void[]> | undefined = undefined;
 let ui5yamlStateInitialized: Promise<void[]> | undefined = undefined;
 let initializationOptions: ServerInitializationOptions | undefined;
 let hasConfigurationCapability = false;
-const packageName = getPackageName();
 
 connection.onInitialize((params: InitializeParams) => {
-  getLogger(packageName).info("`onInitialize` event", params);
+  getLogger().info("`onInitialize` event", params);
   if (params?.initializationOptions?.logLevel) {
-    setLogLevel(packageName, params?.initializationOptions?.logLevel);
+    setLogLevel(params?.initializationOptions?.logLevel);
   }
   initSwa(params);
 
@@ -97,7 +96,7 @@ connection.onInitialize((params: InitializeParams) => {
 });
 
 connection.onInitialized(async () => {
-  getLogger(packageName).info("`onInitialized` event");
+  getLogger().info("`onInitialized` event");
   if (hasConfigurationCapability) {
     // Register for all configuration changes
     connection.client.register(DidChangeConfigurationNotification.type, {
@@ -110,7 +109,7 @@ connection.onCompletion(
   async (
     textDocumentPosition: TextDocumentPositionParams
   ): Promise<CompletionItem[]> => {
-    getLogger(packageName).debug("`onCompletion` event", {
+    getLogger().debug("`onCompletion` event", {
       textDocumentPosition,
     });
 
@@ -137,7 +136,7 @@ connection.onCompletion(
         document,
         documentSettings,
       });
-      getLogger(packageName).trace("computed completion items", {
+      getLogger().trace("computed completion items", {
         completionItems,
       });
       return completionItems;
@@ -156,7 +155,7 @@ connection.onHover(
   async (
     textDocumentPosition: TextDocumentPositionParams
   ): Promise<Hover | undefined> => {
-    getLogger(packageName).debug("`onHover` event", {
+    getLogger().debug("`onHover` event", {
       textDocumentPosition,
     });
     const documentUri = textDocumentPosition.textDocument.uri;
@@ -179,7 +178,7 @@ connection.onHover(
         textDocumentPosition,
         document
       );
-      getLogger(packageName).trace("computed hoverResponse", {
+      getLogger().trace("computed hoverResponse", {
         hoverResponse,
       });
       return hoverResponse;
@@ -189,7 +188,7 @@ connection.onHover(
 );
 
 connection.onDidChangeWatchedFiles(async (changeEvent) => {
-  getLogger(packageName).debug("`onDidChangeWatchedFiles` event", {
+  getLogger().debug("`onDidChangeWatchedFiles` event", {
     changeEvent,
   });
   const cdsFileEvents: FileEvent[] = [];
@@ -203,13 +202,15 @@ connection.onDidChangeWatchedFiles(async (changeEvent) => {
       cdsFileEvents.push(change);
     } else if (uri.endsWith(".xml")) {
       await reactOnXmlFileChange(uri, change.type);
+    } else if (uri.endsWith("package.json")) {
+      await reactOnPackageJson(uri, change.type);
     }
   });
   await reactOnCdsFileChange(cdsFileEvents);
 });
 
 documents.onDidChangeContent(async (changeEvent) => {
-  getLogger(packageName).trace("`onDidChangeContent` event", { changeEvent });
+  getLogger().trace("`onDidChangeContent` event", { changeEvent });
   if (
     manifestStateInitialized === undefined ||
     ui5yamlStateInitialized === undefined ||
@@ -238,13 +239,13 @@ documents.onDidChangeContent(async (changeEvent) => {
       document,
       context,
     });
-    getLogger(packageName).trace("computed diagnostics", { diagnostics });
+    getLogger().trace("computed diagnostics", { diagnostics });
     connection.sendDiagnostics({ uri: changeEvent.document.uri, diagnostics });
   }
 });
 
 connection.onCodeAction(async (params) => {
-  getLogger(packageName).debug("`onCodeAction` event", { params });
+  getLogger().debug("`onCodeAction` event", { params });
 
   const docUri = params.textDocument.uri;
   const textDocument = documents.get(docUri);
@@ -271,12 +272,12 @@ connection.onCodeAction(async (params) => {
     diagnostics,
     context
   );
-  getLogger(packageName).trace("`computed codeActions", { codeActions });
+  getLogger().trace("`computed codeActions", { codeActions });
   return codeActions;
 });
 
 connection.onExecuteCommand(async (params) => {
-  getLogger(packageName).debug("`onExecuteCommand` event", { params });
+  getLogger().debug("`onExecuteCommand` event", { params });
   executeCommand(connection, params);
 });
 
@@ -298,20 +299,20 @@ function ensureDocumentSettingsUpdated(resource: string): void {
       scopeUri: resource,
       section: "UI5LanguageAssistant",
     });
-    getLogger(packageName).debug("updating settings for document", { result });
+    getLogger().debug("updating settings for document", { result });
     setSettingsForDocument(resource, result);
   }
 }
 
 connection.onDidChangeConfiguration((change) => {
-  getLogger(packageName).debug("`onDidChangeConfiguration` event");
+  getLogger().debug("`onDidChangeConfiguration` event");
   if (hasConfigurationCapability) {
-    getLogger(packageName).trace("Reset all cached document settings");
+    getLogger().trace("Reset all cached document settings");
     clearSettings();
   } else {
     if (change.settings.UI5LanguageAssistant !== undefined) {
       const ui5LangAssistSettings = change.settings.UI5LanguageAssistant;
-      getLogger(packageName).trace("Set global settings", {
+      getLogger().trace("Set global settings", {
         ui5LangAssistSettings,
       });
       setGlobalSettings(ui5LangAssistSettings);
@@ -321,15 +322,12 @@ connection.onDidChangeConfiguration((change) => {
   // re-validate the files related to the `cached document settings`.
 
   // `setLogLevel` will ignore `undefined` values
-  setLogLevel(
-    packageName,
-    change?.settings?.UI5LanguageAssistant?.logging?.level
-  );
+  setLogLevel(change?.settings?.UI5LanguageAssistant?.logging?.level);
 });
 
 // Only keep settings for open documents
 documents.onDidClose((textDocumentChangeEvent) => {
-  getLogger(packageName).debug("`onDidClose` event", {
+  getLogger().debug("`onDidClose` event", {
     textDocumentChangeEvent,
   });
   clearDocumentSettings(textDocumentChangeEvent.document.uri);

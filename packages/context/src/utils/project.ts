@@ -17,10 +17,7 @@ import {
   ProjectType,
   UI5_PROJECT_TYPE,
 } from "../types";
-import { getLogger } from "@ui5-language-assistant/logic-utils";
-import { getPackageName } from "./package";
-
-const packageName = getPackageName();
+import { getLogger } from "./logger";
 
 /**
  * Unify service path by adding forward slash to beginning and end of a service path
@@ -38,7 +35,7 @@ export const unifyServicePath = (servicePath: string): string => {
 /**
  * Get project root
  *
- * @param documentPath path to a file i.e absolute/path/webapp/ext/main/Main.view.xml
+ * @param documentPath path to a file e.g. absolute/path/webapp/ext/main/Main.view.xml
  */
 export async function getProjectRoot(
   documentPath: string
@@ -50,7 +47,7 @@ export async function getProjectRoot(
       projectRoot = await findProjectRoot(documentPath, false);
     }
   } catch (error) {
-    getLogger(packageName).debug("getProjectRoot failed:", error);
+    getLogger().debug("getProjectRoot failed:", error);
     projectRoot = undefined;
   }
   return projectRoot;
@@ -88,7 +85,7 @@ export async function getProjectInfo(
       kind: "UI5",
     };
   } catch (error) {
-    getLogger(packageName).debug("getProjectInfo failed:", error);
+    getLogger().debug("getProjectInfo failed:", error);
     return undefined;
   }
 }
@@ -133,10 +130,7 @@ export async function getLocalAnnotationsForService(
           )
         );
       } catch (error) {
-        getLogger(packageName).debug(
-          "getLocalAnnotationsForService failed:",
-          error
-        );
+        getLogger().debug("getLocalAnnotationsForService failed:", error);
         return [];
       }
     }
@@ -168,10 +162,7 @@ export async function getLocalMetadataForService(
           encoding: "utf8",
         });
       } catch (error) {
-        getLogger(packageName).debug(
-          "getLocalMetadataForService failed:",
-          error
-        );
+        getLogger().debug("getLocalMetadataForService failed:", error);
         return undefined;
       }
     }

@@ -33,7 +33,7 @@ export function validateUnknownXmlnsNamespace(
   // Only check namespaces from libraries.
   // There are valid namespaces like some that start with "http" that should not return an error.
   // Additionally, customers can develop in custom namespaces, even those that start with "sap", and we don't want to give false positives.
-  // But sap library namespaces (i.e. first-level namespaces under "sap") can be considered reserved.
+  // But sap library namespaces (e.g. first-level namespaces under "sap") can be considered reserved.
   /* istanbul ignore next - defensive programming - "sap" namespace should always exist in production scenarios */
   const reservedNamespaceRoots = context.ui5Model.namespaces["sap"]?.namespaces;
   if (
