@@ -1,4 +1,4 @@
-import { ServiceDetails } from "./types";
+import { CAP_PROJECT_TYPE, ServiceDetails, UI5_PROJECT_TYPE } from "./types";
 import { getProject } from "./loader";
 
 /**
@@ -14,7 +14,7 @@ export async function getServices(
   if (!project) {
     return services;
   }
-  if (project.type === "CAP") {
+  if (project.type === CAP_PROJECT_TYPE) {
     for (const [, app] of project.apps) {
       for (const [servicePath, service] of app.localServices) {
         services[servicePath] = {
@@ -25,7 +25,7 @@ export async function getServices(
     }
     return services;
   }
-  if (project.type === "UI5") {
+  if (project.type === UI5_PROJECT_TYPE) {
     for (const [servicePath, service] of project.app.localServices) {
       services[servicePath] = {
         path: service.path,

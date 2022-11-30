@@ -6,18 +6,18 @@ import type { App, Project, YamlDetails } from "./types";
 type AbsoluteAppRoot = string;
 type AbsoluteProjectRoot = string;
 
-class ProjectCache {
+class Cache {
   private manifest: Map<AbsoluteAppRoot, Manifest>;
   private app: Map<AbsoluteAppRoot, App>;
   private project: Map<AbsoluteAppRoot, Project>;
-  private capServices: Map<AbsoluteProjectRoot, Map<string, string>>;
+  private CAPServices: Map<AbsoluteProjectRoot, Map<string, string>>;
   private ui5YamlDetails: Map<string, YamlDetails>;
   private ui5Model: Map<string, UI5SemanticModel>;
   constructor() {
     this.project = new Map();
     this.manifest = new Map();
     this.app = new Map();
-    this.capServices = new Map();
+    this.CAPServices = new Map();
     this.ui5YamlDetails = new Map();
     this.ui5Model = new Map();
   }
@@ -25,7 +25,7 @@ class ProjectCache {
     this.project = new Map();
     this.manifest = new Map();
     this.app = new Map();
-    this.capServices = new Map();
+    this.CAPServices = new Map();
     this.ui5YamlDetails = new Map();
     this.ui5Model = new Map();
   }
@@ -75,24 +75,24 @@ class ProjectCache {
     return this.app.delete(appRoot);
   }
   /**
-   * Get entries of cached cap services
+   * Get entries of cached CAP services
    */
-  getCapServiceEntries(): string[] {
-    return [...this.capServices.keys()];
+  getCAPServiceEntries(): string[] {
+    return [...this.CAPServices.keys()];
   }
-  getCapServices(
+  getCAPServices(
     projectRoot: AbsoluteProjectRoot
   ): Map<string, string> | undefined {
-    return this.capServices.get(projectRoot);
+    return this.CAPServices.get(projectRoot);
   }
-  setCapServices(
+  setCAPServices(
     projectRoot: AbsoluteProjectRoot,
     data: Map<string, string>
   ): void {
-    this.capServices.set(projectRoot, data);
+    this.CAPServices.set(projectRoot, data);
   }
-  deleteCapServices(projectRoot: AbsoluteProjectRoot): boolean {
-    return this.capServices.delete(projectRoot);
+  deleteCAPServices(projectRoot: AbsoluteProjectRoot): boolean {
+    return this.CAPServices.delete(projectRoot);
   }
   /**
    * Get entries of cached yaml details
@@ -127,7 +127,7 @@ class ProjectCache {
 }
 
 /**
- * Create singleton instance of ProjectCache
+ * Create singleton instance of Cache
  */
-const cache = new ProjectCache();
+const cache = new Cache();
 export { cache };

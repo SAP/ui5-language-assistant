@@ -77,7 +77,6 @@ export interface App {
  * @param type type of project
  * @param kind kind of a project
  * @param root root of a project
- * @param ui5Config ui5 config of a project
  * @param apps map of project app
  */
 export interface CAPProject {
@@ -100,7 +99,6 @@ export interface ServiceFiles {
 /**
  * @param type type of project
  * @param root root of a project
- * @param ui5Config ui5 config of a project
  * @param app app of a project
  */
 export interface UI5Project {

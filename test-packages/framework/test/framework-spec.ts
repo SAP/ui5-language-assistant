@@ -8,7 +8,7 @@ describe("framework", () => {
     const useConfig: Config = {
       projectInfo: {
         name: ProjectName.cap,
-        type: ProjectType.cap,
+        type: ProjectType.CAP,
         npmInstall: false,
       },
     };
@@ -24,7 +24,7 @@ describe("framework", () => {
       const useConfig: Config = {
         projectInfo: {
           name: ProjectName.cap,
-          type: ProjectType.cap,
+          type: ProjectType.CAP,
           npmInstall: false,
         },
       };
@@ -78,7 +78,7 @@ describe("framework", () => {
       const useConfig: Config = {
         projectInfo: {
           name: ProjectName.cap,
-          type: ProjectType.cap,
+          type: ProjectType.CAP,
           npmInstall: false,
         },
       };
@@ -136,7 +136,7 @@ describe("framework", () => {
     const useConfig: Config = {
       projectInfo: {
         name: ProjectName.cap,
-        type: ProjectType.cap,
+        type: ProjectType.CAP,
         npmInstall: false,
       },
     };
@@ -148,7 +148,7 @@ describe("framework", () => {
     const useConfig: Config = {
       projectInfo: {
         name: ProjectName.cap,
-        type: ProjectType.cap,
+        type: ProjectType.CAP,
         npmInstall: false,
       },
     };
@@ -169,7 +169,7 @@ describe("framework", () => {
     const useConfig: Config = {
       projectInfo: {
         name: ProjectName.cap,
-        type: ProjectType.cap,
+        type: ProjectType.CAP,
         npmInstall: false,
       },
     };

@@ -38,7 +38,7 @@ export async function getSemanticModel(
   );
 }
 
-const isUi5Model = (
+const isUI5Model = (
   model: UI5SemanticModel | undefined
 ): model is UI5SemanticModel => {
   return !!model;
@@ -53,7 +53,7 @@ export async function getSemanticModelWithFetcher(
 ): Promise<UI5SemanticModel> {
   const cacheKey = `${framework || "INVALID"}:${version || "INVALID"}`;
   const cachedUi5Model = cache.getUI5Model(cacheKey);
-  if (!ignoreCache && isUi5Model(cachedUi5Model)) {
+  if (!ignoreCache && isUI5Model(cachedUi5Model)) {
     return cachedUi5Model;
   }
 

@@ -18,6 +18,7 @@ import { URI } from "vscode-uri";
 import { getYamlDetails } from "./ui5-yaml";
 import { join } from "path";
 import { FileName } from "@sap-ux/project-access";
+import { CAP_PROJECT_TYPE, UI5_PROJECT_TYPE } from "./types";
 
 /**
  * React on manifest.json file change
@@ -51,13 +52,13 @@ export const reactOnManifestChange = async (
   if (!cachedProject) {
     return;
   }
-  if (cachedProject.type == "CAP") {
+  if (cachedProject.type == CAP_PROJECT_TYPE) {
     const appRoot = await findAppRoot(manifestPath);
     if (appRoot) {
       cache.deleteApp(appRoot);
     }
   }
-  if (cachedProject.type === "UI5") {
+  if (cachedProject.type === UI5_PROJECT_TYPE) {
     // remove app cache
     cache.deleteApp(cachedProject.root);
   }
@@ -105,13 +106,13 @@ export const reactOnUI5YamlChange = async (
 };
 
 /**
- * Get fresh app and assign it to cap project CAP
+ * Get fresh app and assign it to CAP project
  *
  * @param uri uri to a cds file
  * @param changeType change type
  * @description in case of a cds change
  *
- * a. remove cap service cache and a fresh cap service entry is added to cache when `getApp` is called
+ * a. remove CAP service cache and a fresh CAP service entry is added to cache when `getApp` is called
  *
  * b. remove app cache and a fresh app entry is added to cache
  *
@@ -136,14 +137,14 @@ export const reactOnCdsFileChange = async (
     projectRoots.add(projectRoot);
   }
   for (const projectRoot of projectRoots) {
-    // remove cap services cache
-    cache.deleteCapServices(projectRoot);
+    // remove CAP services cache
+    cache.deleteCAPServices(projectRoot);
 
     const cachedProject = cache.getProject(projectRoot);
     if (!cachedProject) {
       return;
     }
-    if (cachedProject.type !== "CAP") {
+    if (cachedProject.type !== CAP_PROJECT_TYPE) {
       return;
     }
     for (const [, app] of cachedProject.apps) {
@@ -257,7 +258,7 @@ export const reactOnXmlFileChange = async (
  * @param uri uri to a package.json file
  * @param changeType change type
  * @description
- * a. remove cap services cache
+ * a. remove CAP services cache
  *
  * b. remove all app cache
  *
@@ -283,9 +284,9 @@ export const reactOnPackageJson = async (
   if (!cachedProject) {
     return;
   }
-  if (cachedProject.type == "CAP") {
-    // remove cap services cache
-    cache.deleteCapServices(projectRoot);
+  if (cachedProject.type == CAP_PROJECT_TYPE) {
+    // remove CAP services cache
+    cache.deleteCAPServices(projectRoot);
     for (const [, app] of cachedProject.apps) {
       const appRoot = app.appRoot;
       // remove cached app
