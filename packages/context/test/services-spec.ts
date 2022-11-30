@@ -21,7 +21,7 @@ describe("services", () => {
     const useConfig: Config = {
       projectInfo: {
         name: ProjectName.cap,
-        type: ProjectType.cap,
+        type: ProjectType.CAP,
         npmInstall: true,
       },
     };

@@ -27,7 +27,7 @@ describe("watcher", () => {
     const useConfig: Config = {
       projectInfo: {
         name: ProjectName.cap,
-        type: ProjectType.cap,
+        type: ProjectType.CAP,
         npmInstall: true,
       },
     };
@@ -36,7 +36,7 @@ describe("watcher", () => {
   afterEach(() => {
     restore();
   });
-  it("reactOnManifestChange - cap project", async () => {
+  it("reactOnManifestChange - CAP project", async () => {
     // reset cache for consistency
     cache.reset();
     // creating file uri and file path to have same key
@@ -127,8 +127,8 @@ describe("watcher", () => {
       // first create all caches
       await loader.getProject(documentPath);
       // spy on cache events and getProject
-      const deleteCapServicesSpy = spy(cache, "deleteCapServices");
-      const setCapServicesSpy = spy(cache, "setCapServices");
+      const deleteCapServicesSpy = spy(cache, "deleteCAPServices");
+      const setCapServicesSpy = spy(cache, "setCAPServices");
       const deleteAppSpy = spy(cache, "deleteApp");
       const setAppSpy = spy(cache, "setApp");
       const cdsUri = testFramework.getFileUri([
@@ -163,8 +163,8 @@ describe("watcher", () => {
       // first create all caches
       await loader.getProject(documentPath);
       // spy on cache events and getProject
-      const deleteCapServicesSpy = spy(cache, "deleteCapServices");
-      const setCapServicesSpy = spy(cache, "setCapServices");
+      const deleteCapServicesSpy = spy(cache, "deleteCAPServices");
+      const setCapServicesSpy = spy(cache, "setCAPServices");
       const deleteAppSpy = spy(cache, "deleteApp");
       const setAppSpy = spy(cache, "setApp");
       const cdsUri01 = testFramework.getFileUri([
@@ -260,7 +260,7 @@ describe("watcher", () => {
     // first create all caches
     await loader.getProject(documentPath);
     // spy on cache events and getProject
-    const deleteCapServicesSpy = spy(cache, "deleteCapServices");
+    const deleteCapServicesSpy = spy(cache, "deleteCAPServices");
     const deleteAppSpy = spy(cache, "deleteApp");
     const deleteProjectSpy = spy(cache, "deleteProject");
     const packageJSONUri = testFramework.getFileUri(["package.json"]);

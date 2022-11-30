@@ -24,7 +24,7 @@ describe("loader", () => {
     const useConfig: Config = {
       projectInfo: {
         name: ProjectName.cap,
-        type: ProjectType.cap,
+        type: ProjectType.CAP,
         npmInstall: true,
       },
     };
@@ -126,7 +126,7 @@ describe("loader", () => {
         projectRoot
       );
       const projectInfo = { kind: "Java", type: "CAP" } as {
-        type: "CAP" | "UI5";
+        type: ProjectType;
         kind: ProjectKind;
       };
       const capProject = await loader.getCAPProject(
@@ -138,7 +138,7 @@ describe("loader", () => {
       );
       expect(capProject).to.be.undefined;
     });
-    it("return cap project for NodeJS", async () => {
+    it("return CAP project for NodeJS", async () => {
       const projectRoot = testFramework.getProjectRoot();
       const {
         appRoot,

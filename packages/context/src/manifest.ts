@@ -227,11 +227,11 @@ export const getCustomViewId = async (
   if (!relativeFilePart) {
     return "";
   }
-  const relativeFiletWithoutExt = relativeFilePart.replace(
+  const relativeFileWithoutExt = relativeFilePart.replace(
     /\.(view|fragment)\.xml$/,
     ""
   );
-  const relativeFileId = relativeFiletWithoutExt
+  const relativeFileId = relativeFileWithoutExt
     .split(sep)
     .filter((item) => item)
     .join(".");

@@ -2,7 +2,7 @@
 
 # @ui5-language-assistant/context
 
-A context for an xml file. Other packages in this mono repo can consume this context to implement editor functionality such as content-assist or validations.
+A context for a workspace containing one or more projects. Other packages in this mono repo can consume this context to implement editor functionality such as content-assist or validations.
 
 ## Installation
 

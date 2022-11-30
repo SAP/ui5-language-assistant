@@ -29,7 +29,7 @@ export {
 /**
  * Get context for a file
  * @param documentPath path to a file e.g. absolute/path/webapp/ext/main/Main.view.xml
- * @param modelCachePath path to a cached ui5 model
+ * @param modelCachePath path to a cached UI5 model
  */
 export async function getContext(
   documentPath: string,

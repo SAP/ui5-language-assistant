@@ -16,7 +16,7 @@ import {
 } from "@ui5-language-assistant/test-framework";
 import { getProjectData } from "../utils";
 
-describe("project", () => {
+describe.only("project", () => {
   let testFramework: TestFramework;
   before(function () {
     const timeout = 5 * 60000 + 8000; // 5 min for initial npm install + 8 sec
@@ -24,7 +24,7 @@ describe("project", () => {
     const useConfig: Config = {
       projectInfo: {
         name: ProjectName.cap,
-        type: ProjectType.cap,
+        type: ProjectType.CAP,
         npmInstall: true,
       },
     };

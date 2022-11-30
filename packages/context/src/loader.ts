@@ -65,8 +65,8 @@ export async function getCAPProject(
     return;
   }
   const cachedProject = cache.getProject(projectRoot);
-  if (cachedProject && cachedProject.type === "CAP") {
-    // cap project can have multiple apps
+  if (cachedProject && cachedProject.type === CAP_PROJECT_TYPE) {
+    // CAP project can have multiple apps
     cachedProject.apps.set(appRoot, app);
     return cachedProject;
   }
@@ -124,10 +124,13 @@ export async function getProject(
   }
   const cachedProject = cache.getProject(projectRoot);
   if (cachedProject) {
-    if (cachedProject.type === "UI5") {
+    if (cachedProject.type === UI5_PROJECT_TYPE) {
       return cachedProject;
     }
-    if (cachedProject.type === "CAP" && cachedProject.apps.get(appRoot)) {
+    if (
+      cachedProject.type === CAP_PROJECT_TYPE &&
+      cachedProject.apps.get(appRoot)
+    ) {
       return cachedProject;
     }
   }
@@ -170,14 +173,14 @@ export async function getProject(
 }
 
 /**
- * Get cap services
+ * Get CAP services
  *
  * @param projectRoot path to root of a project
  */
-async function getCapServices(
+async function getCAPServices(
   projectRoot: string
 ): Promise<Map<string, string>> {
-  const cachedCapServices = cache.getCapServices(projectRoot);
+  const cachedCapServices = cache.getCAPServices(projectRoot);
   if (cachedCapServices) {
     return cachedCapServices;
   }
@@ -197,10 +200,10 @@ async function getCapServices(
       services.set(unifyServicePath(service.urlPath), metadataContent);
     }
   } catch (error) {
-    getLogger().debug("getCapServices failed:", error);
+    getLogger().debug("getCAPServices failed:", error);
     return new Map();
   }
-  cache.setCapServices(projectRoot, services);
+  cache.setCAPServices(projectRoot, services);
   return services;
 }
 
@@ -237,8 +240,8 @@ export async function getApp(
     getServicePath(manifest, mainServiceName) ?? "/"
   );
   let metadataContent;
-  if (projectInfo.type === "CAP") {
-    const services = await getCapServices(projectRoot);
+  if (projectInfo.type === CAP_PROJECT_TYPE) {
+    const services = await getCAPServices(projectRoot);
     metadataContent = services.get(path);
   } else {
     metadataContent = await getLocalMetadataForService(

@@ -13,8 +13,8 @@ export enum ProjectName {
  * Type of support project
  */
 export enum ProjectType {
-  ui5 = "ui5",
-  cap = "cap",
+  UI5 = "UI5",
+  CAP = "CAP",
 }
 /**
  * @param name project name
