@@ -2,10 +2,11 @@ version: 2.1
 jobs:
   build-node18:
     docker:
-      - image: cimg/node:18.12.1-browsers
+      - image: cimg/node:18.7-browsers
     working_directory: ~/repo
     environment:
       HUSKY_SKIP: "true"
+      NODE_OPTIONS: "--openssl-legacy-provider"
     steps:
       - run: sudo apt-get install libxss1
       - checkout
@@ -14,7 +15,7 @@ jobs:
 
   build-node16:
     docker:
-      - image: cimg/node:16.18.1-browsers
+      - image: cimg/node:16.17-browsers
     working_directory: ~/repo
     environment:
       HUSKY_SKIP: "true"
@@ -26,7 +27,7 @@ jobs:
 
   build-node14:
     docker:
-      - image: cimg/node:14.21.1-browsers
+      - image: cimg/node:14.20-browsers
     working_directory: ~/repo
     environment:
       HUSKY_SKIP: "true"
