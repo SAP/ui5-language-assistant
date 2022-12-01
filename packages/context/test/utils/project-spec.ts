@@ -19,7 +19,7 @@ import { getProjectData } from "../utils";
 describe.only("project", () => {
   let testFramework: TestFramework;
   before(function () {
-    const timeout = 5 * 60000 + 8000; // 5 min for initial npm install + 8 sec
+    const timeout = 5 * 60000 + 10000; // 5 min for initial npm install + 10 sec
     this.timeout(timeout);
     const useConfig: Config = {
       projectInfo: {

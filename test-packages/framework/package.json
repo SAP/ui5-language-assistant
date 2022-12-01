@@ -20,7 +20,7 @@
     "fs-extra": "10.1.0"
   },
   "devDependencies": {
-    "vscode-languageserver-types": "3.16.0"
+    "vscode-languageserver-types": "3.17.2"
   },
   "scripts": {
     "ci": "npm-run-all clean compile lint",
