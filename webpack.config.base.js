@@ -8,6 +8,7 @@ const config = {
     // by reducing the number of files.
     minimize: false,
   },
+  output: { hashFunction: "xxhash64" },
   target: "node",
   devtool: "source-map",
   resolve: {
