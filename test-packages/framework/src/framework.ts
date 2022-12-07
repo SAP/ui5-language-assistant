@@ -10,6 +10,7 @@ import {
   createCopy,
   fileExitsSync,
   print,
+  removeProjectContent,
 } from "./utils";
 
 import { TestFrameworkAPI, ProjectInfo, Config, ReadFileResult } from "./types";
@@ -20,12 +21,19 @@ export class TestFramework implements TestFrameworkAPI {
   constructor(config: Config) {
     this._offset = 0;
     this.projectInfo = config.projectInfo;
-    if (this.projectInfo.deleteBeforeCopy) {
+    const {
+      deleteBeforeCopy = false,
+      npmInstall = false,
+      deleteProjectContent = true,
+    } = config.projectInfo;
+    if (deleteBeforeCopy) {
       this.deleteProjectsCopy();
+    } else if (deleteProjectContent) {
+      removeProjectContent(this.getProjectRoot());
     }
     this.createProjectsCopy();
 
-    if (this.projectInfo.npmInstall) {
+    if (npmInstall) {
       this.npmInstall();
     }
   }

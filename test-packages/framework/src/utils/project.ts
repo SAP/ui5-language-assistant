@@ -1,5 +1,7 @@
 import { copySync, removeSync, pathExists, pathExistsSync } from "fs-extra";
 import { execSync } from "child_process";
+import { readdirSync } from "fs";
+import { join } from "path";
 import { print } from ".";
 
 /**
@@ -15,6 +17,35 @@ export const deleteCopy = (srcDir: string): void => {
     print(`Deletion finished`);
   } catch (error) {
     print(`Could not delete: ${destDir}`);
+  }
+};
+
+/**
+ * Get all contents of a project except `node_modules` and `package-lock.json`
+ *
+ * @param root root to a project
+ */
+export const getAllFileOrFolderPath = (root: string): string[] => {
+  if (pathExistsSync(root)) {
+    let fileOrFolder = readdirSync(root);
+    fileOrFolder = fileOrFolder.filter((item) => {
+      if (["node_modules", "package-lock.json"].includes(item)) {
+        return false;
+      }
+      return true;
+    });
+    return fileOrFolder.map((item) => join(root, item));
+  }
+  return [];
+};
+
+/**
+ * Remove all contents of a project except `node_modules` and `package-lock.json`
+ */
+export const removeProjectContent = (root: string): void => {
+  const fileOrFolder = getAllFileOrFolderPath(root);
+  for (let i = 0; i < fileOrFolder.length; i++) {
+    removeSync(fileOrFolder[i]);
   }
 };
 

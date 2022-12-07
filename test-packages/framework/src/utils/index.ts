@@ -8,4 +8,5 @@ export {
   npmInstall,
   fileExits,
   fileExitsSync,
+  removeProjectContent,
 } from "./project";

@@ -20,12 +20,14 @@ export enum ProjectType {
  * @param name project name
  * @param type project type
  * @param deleteBeforeCopy deletes project-copy folder before copying project. By default is false
+ * @param deleteProjectContent delete all contents of a project except `node_modules` and `package-lock.json` before copying contents. By default is `true`
  * @param npmInstall perform `npm install` in specified project. By default is false. If `node_modules` exits, npm install is skipped
  */
 export interface ProjectInfo {
   name: ProjectName;
   type: ProjectType;
   deleteBeforeCopy?: boolean;
+  deleteProjectContent?: boolean;
   npmInstall?: boolean;
 }
 
