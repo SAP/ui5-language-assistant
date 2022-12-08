@@ -1,0 +1,57 @@
+{
+  "name": "@ui5-language-assistant/context",
+  "version": "3.3.1",
+  "description": "A context for an xml file",
+  "keywords": [],
+  "files": [
+    ".reuse",
+    "LICENSES",
+    "lib/src",
+    "api.d.ts",
+    "src"
+  ],
+  "main": "lib/src/api.js",
+  "repository": "https://github.com/sap/ui5-language-assistant/",
+  "license": "Apache-2.0",
+  "typings": "./api.d.ts",
+  "dependencies": {
+    "@ui5-language-assistant/logic-utils": "3.3.1",
+    "@sap-ux/project-access": "1.0.2",
+    "lodash": "4.17.21",
+    "fs-extra": "10.1.0",
+    "vscode-uri": "2.1.2",
+    "vscode-languageserver": "8.0.2",
+    "globby": "11.1.0",
+    "js-yaml": "4.1.0",
+    "https-proxy-agent": "5.0.1",
+    "proxy-from-env": "1.1.0",
+    "node-fetch": "3.2.10",
+    "semver": "7.3.7",
+    "@sap-ux/annotation-converter": "0.5.20",
+    "@sap-ux/edmx-parser": "0.5.13"
+  },
+  "devDependencies": {
+    "@sap-ux/vocabularies-types": "0.6.8",
+    "@types/js-yaml": "4.0.5",
+    "@types/lodash": "4.14.166",
+    "@types/node-fetch": "2.5.10",
+    "@types/semver": "7.3.12",
+    "@ui5-language-assistant/semantic-model-types": "3.3.1",
+    "@ui5-language-assistant/test-utils": "3.3.1",
+    "@ui5-language-assistant/test-framework": "3.3.1",
+    "tmp-promise": "3.0.2",
+    "rimraf": "3.0.2"
+  },
+  "scripts": {
+    "ci": "npm-run-all clean compile lint coverage",
+    "clean": "rimraf ./lib ./coverage ./nyc_output",
+    "compile": "yarn run clean && tsc -p .",
+    "compile:watch": "tsc -p . --watch",
+    "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore",
+    "test": "mocha",
+    "coverage": "nyc mocha"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

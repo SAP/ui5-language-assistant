@@ -1,13 +1,13 @@
 import { XMLAttribute } from "@xml-tools/ast";
-import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { getUI5PropertyByXMLAttributeKey } from "@ui5-language-assistant/logic-utils";
 import { find, map } from "lodash";
 import { UnknownEnumValueIssue } from "../../../api";
 import { isPossibleBindingAttributeValue } from "../../utils/is-binding-attribute-value";
+import { Context } from "@ui5-language-assistant/context";
 
 export function validateUnknownEnumValue(
   attribute: XMLAttribute,
-  model: UI5SemanticModel
+  context: Context
 ): UnknownEnumValueIssue[] {
   const actualAttributeValue = attribute.value;
   const actualAttributeValueToken = attribute.syntax.value;
@@ -19,7 +19,10 @@ export function validateUnknownEnumValue(
     return [];
   }
 
-  const ui5Property = getUI5PropertyByXMLAttributeKey(attribute, model);
+  const ui5Property = getUI5PropertyByXMLAttributeKey(
+    attribute,
+    context.ui5Model
+  );
   const propType = ui5Property?.type;
   if (propType?.kind !== "UI5Enum") {
     return [];

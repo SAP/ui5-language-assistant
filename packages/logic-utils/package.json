@@ -17,9 +17,12 @@
   "dependencies": {
     "@ui5-language-assistant/semantic-model-types": "3.3.1",
     "@xml-tools/ast": "5.0.0",
+    "@vscode-logging/logger": "1.2.2",
+    "@ui5-language-assistant/settings": "3.3.1",
     "lodash": "4.17.21"
   },
   "devDependencies": {
+    "@vscode-logging/types": "0.1.4",
     "@ui5-language-assistant/semantic-model": "3.3.1",
     "@ui5-language-assistant/test-utils": "3.3.1",
     "@xml-tools/parser": "1.0.7"

@@ -29,9 +29,10 @@ import { ui5NodeToFQN } from "@ui5-language-assistant/logic-utils";
 import { getNodeDocumentation, getNodeDetail } from "./documentation";
 import { Settings } from "@ui5-language-assistant/settings";
 import { assertNever } from "assert-never";
+import { Context } from "@ui5-language-assistant/context";
 
 export function getCompletionItems(opts: {
-  model: UI5SemanticModel;
+  context: Context;
   textDocumentPosition: TextDocumentPositionParams;
   document: TextDocument;
   documentSettings: Settings;
@@ -40,7 +41,7 @@ export function getCompletionItems(opts: {
   const { cst, tokenVector } = parse(documentText);
   const ast = buildAst(cst as DocumentCstNode, tokenVector);
   const suggestions = getXMLViewCompletions({
-    model: opts.model,
+    context: opts.context,
     offset: opts.document.offsetAt(opts.textDocumentPosition.position),
     cst: cst as DocumentCstNode,
     ast: ast,
@@ -50,7 +51,7 @@ export function getCompletionItems(opts: {
 
   const completionItems = transformToLspSuggestions(
     suggestions,
-    opts.model,
+    opts.context.ui5Model,
     opts.textDocumentPosition
   );
   return completionItems;

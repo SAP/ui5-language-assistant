@@ -14,19 +14,22 @@ import { validators } from "../../../src/api";
 import {
   assertNoIssues as assertNoIssuesBase,
   assertSingleIssue as assertSingleIssueBase,
+  getDefaultContext,
 } from "../../test-utils";
+import { Context as AppContext } from "@ui5-language-assistant/context";
 
 const { INVALID_AGGREGATION_TYPE } = validations;
 
 describe("the type aggregation validation", () => {
   let ui5SemanticModel: UI5SemanticModel;
-
+  let appContext: AppContext;
   before(async () => {
     ui5SemanticModel = await generateModel({
       framework: "SAPUI5",
       version: "1.71.49",
       modelGenerator: generate,
     });
+    appContext = getDefaultContext(ui5SemanticModel);
   });
 
   context("true positive scenarios", () => {
@@ -34,7 +37,7 @@ describe("the type aggregation validation", () => {
     before(() => {
       assertSingleIssue = partial(
         assertSingleIssueBase,
-        ui5SemanticModel,
+        appContext,
         {
           element: [validators.validateAggregationType],
         },
@@ -101,7 +104,7 @@ describe("the type aggregation validation", () => {
   context("negative edge cases", () => {
     let assertNoIssues: (xmlSnippet: string) => void;
     before(() => {
-      assertNoIssues = partial(assertNoIssuesBase, ui5SemanticModel, {
+      assertNoIssues = partial(assertNoIssuesBase, appContext, {
         element: [validators.validateAggregationType],
       });
     });
@@ -128,13 +131,14 @@ describe("the type aggregation validation", () => {
       );
     });
 
-    it("will not detect an issue when the class is under explicit aggregation when the aggregartion type is not a UI5Class or UI5Interface", () => {
+    it("will not detect an issue when the class is under explicit aggregation when the aggregation type is not a UI5Class or UI5Interface", () => {
       const clonedModel = cloneDeep(ui5SemanticModel);
       const viewClass = clonedModel.classes["sap.ui.core.mvc.View"];
       const contentAggregation = find(
         viewClass.aggregations,
         (_) => _.name === "content"
       ) as UI5Aggregation;
+      appContext = getDefaultContext(clonedModel);
       expect(contentAggregation).to.exist;
       contentAggregation.type = undefined;
       viewClass.aggregations = [contentAggregation];
@@ -148,7 +152,7 @@ describe("the type aggregation validation", () => {
       </mvc:View>`;
 
       assertNoIssuesBase(
-        clonedModel,
+        appContext,
         {
           element: [validators.validateAggregationType],
         },

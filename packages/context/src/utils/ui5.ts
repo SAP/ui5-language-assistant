@@ -1,12 +1,5 @@
 import { UI5Framework } from "@ui5-language-assistant/semantic-model-types";
-
-export const DEFAULT_UI5_FRAMEWORK = "SAPUI5";
-export const DEFAULT_UI5_VERSION = "1.71.49";
-
-const UI5_FRAMEWORK_CDN_BASE_URL = {
-  OpenUI5: "https://sdk.openui5.org/",
-  SAPUI5: "https://ui5.sap.com/",
-};
+import { UI5_FRAMEWORK_CDN_BASE_URL } from "../types";
 
 export function getCDNBaseUrl(
   framework: UI5Framework,

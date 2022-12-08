@@ -3,7 +3,6 @@ import { resolve } from "path";
 import { pathExists, lstat, readJson, writeJson, mkdirs } from "fs-extra";
 import semver from "semver";
 import semverMinSatisfying from "semver/ranges/min-satisfying";
-
 import {
   UI5Framework,
   UI5SemanticModel,
@@ -13,15 +12,16 @@ import {
   Json,
   TypeNameFix,
 } from "@ui5-language-assistant/semantic-model";
-import { Fetcher } from "../api";
+import { Fetcher } from "./types";
 import fetch from "./fetch";
-import { getLogger } from "./logger";
 import {
-  DEFAULT_UI5_VERSION,
   getLibraryAPIJsonUrl,
+  getLogger,
   getVersionInfoUrl,
   getVersionJsonUrl,
-} from "./ui5-helper";
+} from "./utils";
+import { DEFAULT_UI5_VERSION } from "./types";
+import { cache } from "./cache";
 
 export async function getSemanticModel(
   modelCachePath: string | undefined,
@@ -38,11 +38,11 @@ export async function getSemanticModel(
   );
 }
 
-// cache the semantic model creation promise to ensure unique instances per version
-const semanticModelCache: Record<
-  string,
-  Promise<UI5SemanticModel>
-> = Object.create(null);
+const isUI5Model = (
+  model: UI5SemanticModel | undefined
+): model is UI5SemanticModel => {
+  return !!model;
+};
 // This function is exported for testing purposes (using a mock fetcher)
 export async function getSemanticModelWithFetcher(
   fetcher: Fetcher,
@@ -52,15 +52,19 @@ export async function getSemanticModelWithFetcher(
   ignoreCache?: boolean
 ): Promise<UI5SemanticModel> {
   const cacheKey = `${framework || "INVALID"}:${version || "INVALID"}`;
-  if (ignoreCache || semanticModelCache[cacheKey] === undefined) {
-    semanticModelCache[cacheKey] = createSemanticModelWithFetcher(
-      fetcher,
-      modelCachePath,
-      framework,
-      version
-    );
+  const cachedUi5Model = cache.getUI5Model(cacheKey);
+  if (!ignoreCache && isUI5Model(cachedUi5Model)) {
+    return cachedUi5Model;
   }
-  return semanticModelCache[cacheKey];
+
+  const data = await createSemanticModelWithFetcher(
+    fetcher,
+    modelCachePath,
+    framework,
+    version
+  );
+  cache.setUI5Model(cacheKey, data);
+  return data;
 }
 
 // This function is exported for testing purposes (using a mock fetcher)
@@ -72,7 +76,6 @@ async function createSemanticModelWithFetcher(
 ): Promise<UI5SemanticModel> {
   // negotiate the closest available version for the given framework
   version = await negotiateVersion(modelCachePath, framework, version);
-
   // Log the detected framework name/version
   getLogger().info("The following framework/version has been detected", {
     framework,
@@ -249,7 +252,9 @@ async function getVersionInfo(
       versionInfo = await response.json();
       writeToCache(cacheFilePath, versionInfo);
     } else {
-      getLogger().error("Could not read version information", { url });
+      getLogger().error("Could not read version information", {
+        url,
+      });
     }
   }
   return versionInfo;
@@ -359,7 +364,10 @@ export async function negotiateVersionWithFetcher(
       } else {
         getLogger().error(
           "Could not read version mapping, fallback to default version",
-          { url, DEFAULT_UI5_VERSION }
+          {
+            url,
+            DEFAULT_UI5_VERSION,
+          }
         );
         versionMap = {
           latest: {
@@ -404,5 +412,5 @@ export async function negotiateVersionWithFetcher(
       resolvedVersions[requestedVersion] = version;
     }
   }
-  return version;
+  return version ?? DEFAULT_UI5_VERSION;
 }

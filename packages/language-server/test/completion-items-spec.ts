@@ -12,7 +12,9 @@ import {
   getTextInRange,
   getTagName,
   getRanges,
+  getDefaultContext,
 } from "./completion-items-utils";
+import { Context as AppContext } from "@ui5-language-assistant/context";
 
 describe("the UI5 language assistant Code Completion Services", () => {
   // Cursor position after selecting the suggestion
@@ -24,12 +26,14 @@ describe("the UI5 language assistant Code Completion Services", () => {
   }
 
   let ui5SemanticModel: UI5SemanticModel;
+  let appContext: AppContext;
   before(async () => {
     ui5SemanticModel = await generateModel({
       framework: "SAPUI5",
       version: "1.71.49",
       modelGenerator: generate,
     });
+    appContext = getDefaultContext(ui5SemanticModel);
   });
 
   it("will get completion values for UI5 property", () => {
@@ -37,7 +41,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns="sap.m"> 
                           <List show⇶`;
-    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
+    const suggestions = getSuggestions(xmlSnippet, appContext);
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
       replacedText: getTextInRange(
@@ -63,7 +67,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns="sap.m"> 
                           <List show⇶Separ`;
-    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
+    const suggestions = getSuggestions(xmlSnippet, appContext);
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
       replacedText: getTextInRange(
@@ -102,7 +106,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns="sap.m"> 
                           <List show⇶Separ="true"`;
-    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
+    const suggestions = getSuggestions(xmlSnippet, appContext);
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
       replacedText: getTextInRange(
@@ -133,7 +137,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns="sap.m"> 
                           <List update⇶`;
-    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
+    const suggestions = getSuggestions(xmlSnippet, appContext);
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
       replacedText: getTextInRange(
@@ -167,7 +171,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns="sap.m"> 
                           <List update⇶Start="onUpdateStart"`;
-    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
+    const suggestions = getSuggestions(xmlSnippet, appContext);
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
       replacedText: getTextInRange(
@@ -201,7 +205,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns="sap.m"> 
                           <List aria⇶`;
-    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
+    const suggestions = getSuggestions(xmlSnippet, appContext);
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
       replacedText: getTextInRange(
@@ -228,7 +232,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns="sap.m"> 
                           <List aria⇶bbbb`;
-    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
+    const suggestions = getSuggestions(xmlSnippet, appContext);
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
       replacedText: getTextInRange(
@@ -256,7 +260,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
                           xmlns="sap.m"> 
                           <List> <te⇶`;
     const suggestions = filter(
-      getSuggestions(xmlSnippet, ui5SemanticModel),
+      getSuggestions(xmlSnippet, appContext),
       (suggestion) => suggestion.kind === CompletionItemKind.Field
     );
     const suggestionsDetails = map(suggestions, (suggestion) => ({
@@ -286,7 +290,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
                           xmlns:m="sap.m"> 
                           <m:List> <te⇶`;
     const suggestions = filter(
-      getSuggestions(xmlSnippet, ui5SemanticModel),
+      getSuggestions(xmlSnippet, appContext),
       (suggestion) => suggestion.kind === CompletionItemKind.Field
     );
     const suggestionsDetails = map(suggestions, (suggestion) => ({
@@ -316,7 +320,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
                           xmlns="sap.m"> 
                           <List> <te⇶Menu`;
     const suggestions = filter(
-      getSuggestions(xmlSnippet, ui5SemanticModel),
+      getSuggestions(xmlSnippet, appContext),
       (suggestion) => suggestion.kind === CompletionItemKind.Field
     );
     const suggestionsDetails = map(suggestions, (suggestion) => ({
@@ -350,7 +354,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
                           xmlns:m="sap.m"> 
                           <m:List> <te⇶Menu`;
     const suggestions = filter(
-      getSuggestions(xmlSnippet, ui5SemanticModel),
+      getSuggestions(xmlSnippet, appContext),
       (suggestion) => suggestion.kind === CompletionItemKind.Field
     );
     const suggestionsDetails = map(suggestions, (suggestion) => ({
@@ -391,7 +395,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
       </List>
     </mvc:View>`;
     const suggestions = filter(
-      getSuggestions(xmlSnippet, ui5SemanticModel),
+      getSuggestions(xmlSnippet, appContext),
       (suggestion) => suggestion.kind === CompletionItemKind.Field
     );
     const suggestionsDetails = map(suggestions, (suggestion) => ({
@@ -458,7 +462,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
       </m:List>
     </mvc:View>`;
     const suggestions = filter(
-      getSuggestions(xmlSnippet, ui5SemanticModel),
+      getSuggestions(xmlSnippet, appContext),
       (suggestion) => suggestion.kind === CompletionItemKind.Field
     );
     const suggestionsDetails = map(suggestions, (suggestion) => ({
@@ -525,7 +529,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
       </List>
     </mvc:View>`;
     const suggestions = filter(
-      getSuggestions(xmlSnippet, ui5SemanticModel),
+      getSuggestions(xmlSnippet, appContext),
       (suggestion) => suggestion.kind === CompletionItemKind.Field
     );
     const suggestionsDetails = map(suggestions, (suggestion) => ({
@@ -577,7 +581,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
       </List>
     </mvc:View>`;
     const suggestions = filter(
-      getSuggestions(xmlSnippet, ui5SemanticModel),
+      getSuggestions(xmlSnippet, appContext),
       (suggestion) => suggestion.kind === CompletionItemKind.Field
     );
     const suggestionsDetails = map(suggestions, (suggestion) => ({
@@ -639,7 +643,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
     const xmlSnippet = `<mvc:View 
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns:u⇶`;
-    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
+    const suggestions = getSuggestions(xmlSnippet, appContext);
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
       replacedText: getTextInRange(
@@ -708,7 +712,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
     const xmlSnippet = `<mvc:View 
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns:ux⇶a`;
-    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
+    const suggestions = getSuggestions(xmlSnippet, appContext);
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
       replacedText: getTextInRange(
@@ -741,7 +745,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
     const xmlSnippet = `<mvc:View 
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns:ux⇶a="sap.m"`;
-    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
+    const suggestions = getSuggestions(xmlSnippet, appContext);
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
       replacedText: getTextInRange(
@@ -766,7 +770,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
     const xmlSnippet = `<mvc:View 
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns:ux3="⇶"`;
-    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
+    const suggestions = getSuggestions(xmlSnippet, appContext);
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
       replacedText: getTextInRange(
@@ -784,7 +788,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
     const xmlSnippet = `<mvc:View 
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns="ux⇶a"`;
-    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
+    const suggestions = getSuggestions(xmlSnippet, appContext);
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
       replacedText: getTextInRange(
@@ -803,7 +807,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
     const xmlSnippet = `<mvc:View 
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns:uxap="sap.u⇶i"`;
-    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
+    const suggestions = getSuggestions(xmlSnippet, appContext);
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
       replacedText: getTextInRange(
@@ -822,7 +826,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns="sap.m"> 
                           <List showSeparators="⇶"`;
-    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
+    const suggestions = getSuggestions(xmlSnippet, appContext);
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
       replacedText: getTextInRange(
@@ -849,7 +853,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns="sap.m"> 
                           <List showSeparators="n⇶ner"`;
-    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
+    const suggestions = getSuggestions(xmlSnippet, appContext);
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
       replacedText: getTextInRange(
@@ -875,7 +879,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns="sap.m"> 
                           <List ⇶`;
-    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
+    const suggestions = getSuggestions(xmlSnippet, appContext);
     const suggestionKinds = uniq(
       map(suggestions, (suggestion) => suggestion.kind)
     );
@@ -898,7 +902,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
     const xmlSnippet = `<mvc:View xmlns:mvc="sap.ui.core.mvc">
       <⇶
     </mvc:View>`;
-    const suggestions = getSuggestions(xmlSnippet, ui5SemanticModel);
+    const suggestions = getSuggestions(xmlSnippet, appContext);
     expect(suggestions).to.not.be.empty;
     forEach(suggestions, (suggestion) => {
       // We're not replacing any text, just adding
@@ -954,7 +958,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
       // Check that it's returned when settings allow experimental
       const suggestionsAllAllowed = getSuggestions(
         xmlSnippet,
-        ui5SemanticModel,
+        appContext,
         ALLOW_ALL_SUGGESTIONS
       );
       const suggestionNamesWithAllAllowed = map(
@@ -968,7 +972,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
       // Check that it's not returned when settings don't allow experimental
       const suggestionsWithSentSettings = getSuggestions(
         xmlSnippet,
-        ui5SemanticModel,
+        appContext,
         settings
       );
       const suggestionNamesWithSentSettings = map(

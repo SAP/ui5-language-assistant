@@ -10,8 +10,13 @@ import {
   generateModel,
 } from "@ui5-language-assistant/test-utils";
 import { namespaceValueSuggestions } from "../../../src/providers/attributeValue/namespace";
-import { createXMLAttribute, testSuggestionsScenario } from "../../utils";
+import {
+  createXMLAttribute,
+  getDefaultContext,
+  testSuggestionsScenario,
+} from "../../utils";
 import { expectUI5Namespace } from "../attributeName/namespace-spec";
+import { Context as AppContext } from "@ui5-language-assistant/context";
 
 const expectNamespaceValuesSuggestions = partial(expectSuggestions, (_) => {
   expect(_.type).to.equal("UI5NamespacesInXMLAttributeValue");
@@ -23,12 +28,14 @@ const expectNamespaceValuesSuggestions = partial(expectSuggestions, (_) => {
 
 describe("The ui5-editor-tools xml-views-completion", () => {
   let ui5SemanticModel: UI5SemanticModel;
+  let appContext: AppContext;
   before(async () => {
     ui5SemanticModel = await generateModel({
       framework: "SAPUI5",
       version: "1.71.49",
       modelGenerator: generate,
     });
+    appContext = getDefaultContext(ui5SemanticModel);
   });
 
   context("namespaces values", () => {
@@ -41,7 +48,7 @@ describe("The ui5-editor-tools xml-views-completion", () => {
           </mvc:View>`;
 
         testSuggestionsScenario({
-          model: ui5SemanticModel,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             attributeValue: [namespaceValueSuggestions],
@@ -65,7 +72,7 @@ describe("The ui5-editor-tools xml-views-completion", () => {
           </mvc:View>`;
 
         testSuggestionsScenario({
-          model: ui5SemanticModel,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             attributeValue: [namespaceValueSuggestions],
@@ -87,7 +94,7 @@ describe("The ui5-editor-tools xml-views-completion", () => {
           </mvc:View>`;
 
         testSuggestionsScenario({
-          model: ui5SemanticModel,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             attributeValue: [namespaceValueSuggestions],
@@ -108,7 +115,7 @@ describe("The ui5-editor-tools xml-views-completion", () => {
           </mvc:View>`;
 
         testSuggestionsScenario({
-          model: ui5SemanticModel,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             attributeValue: [namespaceValueSuggestions],
@@ -132,7 +139,7 @@ describe("The ui5-editor-tools xml-views-completion", () => {
           </mvc:View>`;
 
         testSuggestionsScenario({
-          model: ui5SemanticModel,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             attributeValue: [namespaceValueSuggestions],
@@ -157,7 +164,7 @@ describe("The ui5-editor-tools xml-views-completion", () => {
           </mvc:View>`;
 
         testSuggestionsScenario({
-          model: ui5SemanticModel,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             attributeValue: [namespaceValueSuggestions],
@@ -180,7 +187,7 @@ describe("The ui5-editor-tools xml-views-completion", () => {
           </mvc:View>`;
 
         testSuggestionsScenario({
-          model: ui5SemanticModel,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             attributeValue: [namespaceValueSuggestions],
@@ -204,7 +211,7 @@ describe("The ui5-editor-tools xml-views-completion", () => {
         </mvc:Controller1>`;
 
         testSuggestionsScenario({
-          model: ui5SemanticModel,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             attributeValue: [namespaceValueSuggestions],
@@ -221,7 +228,7 @@ describe("The ui5-editor-tools xml-views-completion", () => {
         const xmlAttribute = createXMLAttribute("dummy", null, null, {});
         const suggestions = namespaceValueSuggestions({
           attribute: xmlAttribute,
-          context: ui5SemanticModel,
+          context: appContext,
           element: xmlAttribute.parent,
           prefix: "",
         });

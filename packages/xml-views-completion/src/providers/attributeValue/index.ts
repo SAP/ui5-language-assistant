@@ -1,4 +1,4 @@
-import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
+import { Context } from "@ui5-language-assistant/context";
 import {
   AttributeValueCompletion,
   AttributeValueCompletionOptions,
@@ -10,7 +10,7 @@ import { booleanSuggestions } from "./boolean-literal";
 
 export const attributeValueProviders: AttributeValueCompletion<
   UI5XMLViewCompletion,
-  UI5SemanticModel
+  Context
 >[] = [enumSuggestions, namespaceValueSuggestions, booleanSuggestions];
 
-export type UI5AttributeValueCompletionOptions = AttributeValueCompletionOptions<UI5SemanticModel>;
+export type UI5AttributeValueCompletionOptions = AttributeValueCompletionOptions<Context>;

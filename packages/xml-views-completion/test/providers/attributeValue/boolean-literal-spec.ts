@@ -9,16 +9,19 @@ import {
   UI5XMLViewCompletion,
   BooleanValueInXMLAttributeValueCompletion,
 } from "../../../api";
-import { testSuggestionsScenario } from "../../utils";
+import { getDefaultContext, testSuggestionsScenario } from "../../utils";
+import { Context as AppContext } from "@ui5-language-assistant/context";
 
 describe("The ui5-language-assistant xml-views-completion", () => {
   let ui5SemanticModel: UI5SemanticModel;
+  let appContext: AppContext;
   before(async () => {
     ui5SemanticModel = await generateModel({
       framework: "SAPUI5",
       version: "1.71.49",
       modelGenerator: generate,
     });
+    appContext = getDefaultContext(ui5SemanticModel);
   });
 
   context("boolean values", () => {
@@ -32,7 +35,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           </mvc:View>`;
 
         testSuggestionsScenario({
-          model: ui5SemanticModel,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             attributeValue: [booleanSuggestions],
@@ -57,7 +60,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
         </mvc:View>`;
 
         testSuggestionsScenario({
-          model: ui5SemanticModel,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             attributeValue: [booleanSuggestions],
@@ -81,7 +84,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
         </mvc:View>`;
 
         testSuggestionsScenario({
-          model: ui5SemanticModel,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             attributeValue: [booleanSuggestions],
@@ -103,7 +106,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           </mvc:View>`;
 
         testSuggestionsScenario({
-          model: ui5SemanticModel,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             attributeValue: [booleanSuggestions],
@@ -124,7 +127,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           </mvc:View>`;
 
         testSuggestionsScenario({
-          model: ui5SemanticModel,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             attributeValue: [booleanSuggestions],
@@ -145,7 +148,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           </mvc:View>`;
 
         testSuggestionsScenario({
-          model: ui5SemanticModel,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             attributeValue: [booleanSuggestions],
@@ -166,7 +169,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           </mvc:View>`;
 
         testSuggestionsScenario({
-          model: ui5SemanticModel,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             attributeValue: [booleanSuggestions],
@@ -189,7 +192,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           </mvc:View>`;
 
         testSuggestionsScenario({
-          model: ui5SemanticModel,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             attributeValue: [booleanSuggestions],

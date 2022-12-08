@@ -15,9 +15,10 @@ import {
 import { findUI5HoverNodeAtOffset } from "@ui5-language-assistant/xml-views-tooltip";
 import { getNodeDocumentation, getNodeDetail } from "./documentation";
 import { track } from "./swa";
+import type { Context } from "@ui5-language-assistant/context";
 
 export function getHoverResponse(
-  model: UI5SemanticModel,
+  context: Context,
   textDocumentPosition: TextDocumentPositionParams,
   document: TextDocument
 ): Hover | undefined {
@@ -27,10 +28,10 @@ export function getHoverResponse(
   const offset = document.offsetAt(textDocumentPosition.position);
   const astPosition = astPositionAtOffset(ast, offset);
   if (astPosition !== undefined) {
-    const ui5Node = findUI5HoverNodeAtOffset(astPosition, model);
+    const ui5Node = findUI5HoverNodeAtOffset(astPosition, context);
     if (ui5Node !== undefined) {
       track("XML_UI5_DOC_HOVER", ui5Node.kind);
-      return transformToLspHover(ui5Node, model);
+      return transformToLspHover(ui5Node, context.ui5Model);
     }
   }
 

@@ -5,18 +5,21 @@ import { generate } from "@ui5-language-assistant/semantic-model";
 import {
   testValidationsScenario,
   computeExpectedRange,
+  getDefaultContext,
 } from "../../test-utils";
 import { validators } from "../../../src/api";
+import { Context as AppContext } from "@ui5-language-assistant/context";
 
 describe("the unknown namespace in xmlns attribute value validation", () => {
   let ui5SemanticModel: UI5SemanticModel;
-
+  let appContext: AppContext;
   before(async () => {
     ui5SemanticModel = await generateModel({
       framework: "SAPUI5",
       version: "1.71.49",
       modelGenerator: generate,
     });
+    appContext = getDefaultContext(ui5SemanticModel);
   });
 
   context("true positive scenarios", () => {
@@ -28,7 +31,7 @@ describe("the unknown namespace in xmlns attribute value validation", () => {
           </mvc:View>`;
 
       testValidationsScenario({
-        model: ui5SemanticModel,
+        context: appContext,
         xmlText: xmlSnippet,
         validators: {
           attribute: [validators.validateUnknownXmlnsNamespace],
@@ -54,7 +57,7 @@ describe("the unknown namespace in xmlns attribute value validation", () => {
           </mvc:View>`;
 
       testValidationsScenario({
-        model: ui5SemanticModel,
+        context: appContext,
         xmlText: xmlSnippet,
         validators: {
           attribute: [validators.validateUnknownXmlnsNamespace],
@@ -82,7 +85,7 @@ describe("the unknown namespace in xmlns attribute value validation", () => {
       </mvc:View>`;
 
       testValidationsScenario({
-        model: ui5SemanticModel,
+        context: appContext,
         xmlText: xmlSnippet,
         validators: {
           attribute: [validators.validateUnknownXmlnsNamespace],
@@ -101,7 +104,7 @@ describe("the unknown namespace in xmlns attribute value validation", () => {
       </mvc:View>`;
 
       testValidationsScenario({
-        model: ui5SemanticModel,
+        context: appContext,
         xmlText: xmlSnippet,
         validators: {
           attribute: [validators.validateUnknownXmlnsNamespace],
@@ -120,7 +123,7 @@ describe("the unknown namespace in xmlns attribute value validation", () => {
       </mvc:View>`;
 
       testValidationsScenario({
-        model: ui5SemanticModel,
+        context: appContext,
         xmlText: xmlSnippet,
         validators: {
           attribute: [validators.validateUnknownXmlnsNamespace],
@@ -139,7 +142,7 @@ describe("the unknown namespace in xmlns attribute value validation", () => {
       </mvc:View>`;
 
       testValidationsScenario({
-        model: ui5SemanticModel,
+        context: appContext,
         xmlText: xmlSnippet,
         validators: {
           attribute: [validators.validateUnknownXmlnsNamespace],
@@ -158,7 +161,7 @@ describe("the unknown namespace in xmlns attribute value validation", () => {
       </mvc:View>`;
 
       testValidationsScenario({
-        model: ui5SemanticModel,
+        context: appContext,
         xmlText: xmlSnippet,
         validators: {
           attribute: [validators.validateUnknownXmlnsNamespace],
@@ -177,7 +180,7 @@ describe("the unknown namespace in xmlns attribute value validation", () => {
       </mvc:View>`;
 
       testValidationsScenario({
-        model: ui5SemanticModel,
+        context: appContext,
         xmlText: xmlSnippet,
         validators: {
           attribute: [validators.validateUnknownXmlnsNamespace],
@@ -196,7 +199,7 @@ describe("the unknown namespace in xmlns attribute value validation", () => {
       </mvc:View>`;
 
       testValidationsScenario({
-        model: ui5SemanticModel,
+        context: appContext,
         xmlText: xmlSnippet,
         validators: {
           attribute: [validators.validateUnknownXmlnsNamespace],
@@ -215,7 +218,7 @@ describe("the unknown namespace in xmlns attribute value validation", () => {
       </mvc:View>`;
 
       testValidationsScenario({
-        model: ui5SemanticModel,
+        context: appContext,
         xmlText: xmlSnippet,
         validators: {
           attribute: [validators.validateUnknownXmlnsNamespace],

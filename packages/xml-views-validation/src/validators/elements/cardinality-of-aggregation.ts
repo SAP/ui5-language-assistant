@@ -1,20 +1,23 @@
 import { filter, sortBy, map, isEmpty, flatMap } from "lodash";
 import { XMLElement, XMLToken, SourcePosition } from "@xml-tools/ast";
-import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { getUI5AggregationByXMLElement } from "@ui5-language-assistant/logic-utils";
 import {
   validations,
   buildMessage,
 } from "@ui5-language-assistant/user-facing-text";
 import { InvalidAggregationCardinalityIssue } from "../../../api";
+import { Context } from "@ui5-language-assistant/context";
 
 const { INVALID_AGGREGATION_CARDINALITY } = validations;
 
 export function validateExplicitAggregationCardinality(
   xmlElement: XMLElement,
-  model: UI5SemanticModel
+  context: Context
 ): InvalidAggregationCardinalityIssue[] {
-  const aggregation = getUI5AggregationByXMLElement(xmlElement, model);
+  const aggregation = getUI5AggregationByXMLElement(
+    xmlElement,
+    context.ui5Model
+  );
   // Is xmlElement an aggregation?
   if (aggregation === undefined || xmlElement.syntax.openName === undefined) {
     return [];

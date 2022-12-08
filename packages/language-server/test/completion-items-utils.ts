@@ -13,6 +13,7 @@ import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { expectExists } from "@ui5-language-assistant/test-utils";
 import { getCompletionItems } from "../src/completion-items";
 import { Settings, getDefaultSettings } from "@ui5-language-assistant/settings";
+import { Context } from "@ui5-language-assistant/context";
 
 /** Return the first part of a tag name suggestion insert text */
 export function getTagName(textEdit: TextEdit | undefined): string | undefined {
@@ -26,7 +27,7 @@ export function getTagName(textEdit: TextEdit | undefined): string | undefined {
 /** Use ⇶ to mark the cursor position */
 export function getSuggestions(
   xmlSnippet: string,
-  ui5SemanticModel: UI5SemanticModel,
+  context: Context,
   settings?: Partial<Settings>
 ): CompletionItem[] {
   const { document, position } = getXmlSnippetDocument(xmlSnippet);
@@ -46,7 +47,7 @@ export function getSuggestions(
   ) as Settings;
 
   const suggestions = getCompletionItems({
-    model: ui5SemanticModel,
+    context,
     textDocumentPosition: textDocPositionParams,
     document,
     documentSettings: allSettings,
@@ -235,3 +236,21 @@ function assertFilterMatches(
     `${description}: ${filterText} does not contain all characters from ${text} in order`
   ).to.be.true;
 }
+
+export const getDefaultContext = (ui5Model: UI5SemanticModel): Context => {
+  return {
+    ui5Model,
+    customViewId: "",
+    manifestDetails: {
+      flexEnabled: false,
+      customViews: {},
+      mainServicePath: undefined,
+      minUI5Version: undefined,
+    },
+    services: {},
+    yamlDetails: {
+      framework: "SAPUI5",
+      version: undefined,
+    },
+  };
+};

@@ -8,6 +8,8 @@ import { generateModel } from "@ui5-language-assistant/test-utils";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { generate } from "@ui5-language-assistant/semantic-model";
 import { getXMLViewDiagnostics } from "../../../src/xml-view-diagnostics";
+import { Context as AppContext } from "@ui5-language-assistant/context";
+import { getDefaultContext } from "../../completion-items-utils";
 
 export const INPUT_FILE_NAME = "input.xml";
 export const OUTPUT_LSP_RESPONSE_FILE_NAME = "output-lsp-response.json";
@@ -98,6 +100,7 @@ const ui5ModelPromise = generateModel({
   modelGenerator: generate,
 });
 let ui5Model: UI5SemanticModel | undefined = undefined;
+let appContext: AppContext;
 
 export async function computeNewDiagnosticLSPResponse(
   testDir: string,
@@ -105,7 +108,15 @@ export async function computeNewDiagnosticLSPResponse(
 ): Promise<Diagnostic[]> {
   // No top level await
   ui5Model = await ui5ModelPromise;
-
+  appContext = {
+    ...getDefaultContext(ui5Model),
+    manifestDetails: {
+      flexEnabled: options ? options.flexEnabled : false,
+      customViews: {},
+      mainServicePath: undefined,
+      minUI5Version: undefined,
+    },
+  };
   const xmlTextSnippet = readInputXMLSnippet(testDir);
   const xmlTextDoc = TextDocument.create(
     `file://${getInputXMLSnippetPath(testDir)}`,
@@ -116,8 +127,7 @@ export async function computeNewDiagnosticLSPResponse(
 
   const actualDiagnostics = getXMLViewDiagnostics({
     document: xmlTextDoc,
-    ui5Model,
-    flexEnabled: options ? options.flexEnabled : false,
+    context: appContext,
   });
 
   const diagnosticsForAssertions = cleanupLSPResponseForAssertions(

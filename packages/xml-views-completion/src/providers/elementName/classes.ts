@@ -29,7 +29,7 @@ export function classesSuggestions(
 ): UI5ClassesInXMLTagNameCompletion[] {
   const classSuggestionContext = computeClassSuggestionContext({
     xmlElement: opts.element,
-    model: opts.context,
+    model: opts.context.ui5Model,
   });
   if (classSuggestionContext === NOT_FOUND) {
     return [];
@@ -46,7 +46,7 @@ export function classesSuggestions(
 
   const classesMatchingType = findClassesMatchingType({
     type: classSuggestionContext.allowedType,
-    model: opts.context,
+    model: opts.context.ui5Model,
   });
 
   const prefixParts = getPrefixParts(opts.prefix, opts.element);

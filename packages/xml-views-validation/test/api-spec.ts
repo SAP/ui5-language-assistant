@@ -8,16 +8,19 @@ import { buildAst } from "@xml-tools/ast";
 import { validateXMLView } from "../src/api";
 import { defaultValidators } from "../src/api";
 import { validateNonStableId } from "../src/validators/elements/non-stable-id";
+import { Context as AppContext } from "@ui5-language-assistant/context";
+import { getDefaultContext } from "./test-utils";
 
 describe("the ui5 xml views validations API", () => {
   let ui5SemanticModel: UI5SemanticModel;
-
+  let appContext: AppContext;
   before(async () => {
     ui5SemanticModel = await generateModel({
       framework: "SAPUI5",
       version: "1.71.49",
       modelGenerator: generate,
     });
+    appContext = getDefaultContext(ui5SemanticModel);
   });
 
   it("will detect semantic UI5 xml view issues (smoke)", () => {
@@ -39,7 +42,7 @@ describe("the ui5 xml views validations API", () => {
 
     const issues = validateXMLView({
       validators: defaultValidators,
-      model: ui5SemanticModel,
+      context: appContext,
       xmlView: ast,
     });
     expect(issues).to.have.lengthOf(2);
@@ -70,7 +73,7 @@ describe("the ui5 xml views validations API", () => {
     actualValidators.element.push(validateNonStableId);
     const issues = validateXMLView({
       validators: actualValidators,
-      model: ui5SemanticModel,
+      context: appContext,
       xmlView: ast,
     });
     expect(issues).to.have.lengthOf(4);

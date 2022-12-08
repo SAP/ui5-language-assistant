@@ -8,17 +8,20 @@ import {
 } from "@ui5-language-assistant/test-utils";
 import { generate } from "@ui5-language-assistant/semantic-model";
 import { aggregationSuggestions } from "../../../src/providers/elementName/aggregation";
-import { testSuggestionsScenario } from "../../utils";
+import { getDefaultContext, testSuggestionsScenario } from "../../utils";
 import { UI5XMLViewCompletion } from "../../../api";
+import { Context as AppContext } from "@ui5-language-assistant/context";
 
 describe("The ui5-language-assistant xml-views-completion", () => {
   let REAL_UI5_MODEL: UI5SemanticModel;
+  let appContext: AppContext;
   before(async () => {
     REAL_UI5_MODEL = await generateModel({
       framework: "SAPUI5",
       version: "1.71.49",
       modelGenerator: generate,
     });
+    appContext = getDefaultContext(REAL_UI5_MODEL);
   });
 
   context("aggregations", () => {
@@ -34,7 +37,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           </mvc:View>`;
 
         testSuggestionsScenario({
-          model: REAL_UI5_MODEL,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             elementName: [aggregationSuggestions],
@@ -65,7 +68,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           </mvc:View>`;
 
         testSuggestionsScenario({
-          model: REAL_UI5_MODEL,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             elementName: [aggregationSuggestions],
@@ -98,7 +101,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           </mvc:View>`;
 
         testSuggestionsScenario({
-          model: REAL_UI5_MODEL,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             elementName: [aggregationSuggestions],
@@ -128,7 +131,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           </mvc:View>`;
 
         testSuggestionsScenario({
-          model: REAL_UI5_MODEL,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             elementName: [aggregationSuggestions],
@@ -152,7 +155,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           </mvc:View>`;
 
         testSuggestionsScenario({
-          model: REAL_UI5_MODEL,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             elementName: [aggregationSuggestions],
@@ -190,7 +193,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           </mvc:View>`;
 
         testSuggestionsScenario({
-          model: REAL_UI5_MODEL,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             elementName: [aggregationSuggestions],
@@ -229,7 +232,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           </mvc:View>`;
 
         testSuggestionsScenario({
-          model: REAL_UI5_MODEL,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             elementName: [aggregationSuggestions],
@@ -268,7 +271,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           </mvc:View>`;
 
         testSuggestionsScenario({
-          model: REAL_UI5_MODEL,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             elementName: [aggregationSuggestions],
@@ -306,7 +309,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           </mvc:View>`;
 
         testSuggestionsScenario({
-          model: REAL_UI5_MODEL,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             elementName: [aggregationSuggestions],
@@ -344,7 +347,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           </mvc:View>`;
 
         testSuggestionsScenario({
-          model: REAL_UI5_MODEL,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             elementName: [aggregationSuggestions],
@@ -379,7 +382,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
         clonedModel.classes["sap.m.Page"].aggregations.push(
           aggregationWithPrefix
         );
-
+        appContext = getDefaultContext(clonedModel);
         const xmlSnippet = `
           <mvc:View
             xmlns:mvc="sap.ui.core.mvc"
@@ -390,7 +393,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           </mvc:View>`;
 
         testSuggestionsScenario({
-          model: clonedModel,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             elementName: [aggregationSuggestions],
@@ -405,7 +408,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
         const xmlSnippet = `<⇶`;
 
         testSuggestionsScenario({
-          model: REAL_UI5_MODEL,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             elementName: [aggregationSuggestions],
@@ -433,7 +436,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           </mvc:View>`;
 
         testSuggestionsScenario({
-          model: clonedModel,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             elementName: [aggregationSuggestions],
@@ -455,7 +458,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           </mvc:View>`;
 
         testSuggestionsScenario({
-          model: REAL_UI5_MODEL,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             elementName: [aggregationSuggestions],
@@ -477,7 +480,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
           </mvc:View>`;
 
         testSuggestionsScenario({
-          model: REAL_UI5_MODEL,
+          context: appContext,
           xmlText: xmlSnippet,
           providers: {
             elementName: [aggregationSuggestions],
