@@ -3,7 +3,7 @@ export const print = (text: string): void => {
 };
 
 export {
-  deleteCopy,
+  deleteProject,
   createCopy,
   npmInstall,
   fileExits,

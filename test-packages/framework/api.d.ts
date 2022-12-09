@@ -6,3 +6,5 @@ export {
   ReadFileResult,
   TestFramework,
 } from "./src/api";
+
+export const CURSOR_ANCHOR;

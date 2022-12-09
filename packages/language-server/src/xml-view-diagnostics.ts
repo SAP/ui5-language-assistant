@@ -19,7 +19,14 @@ import {
   XMLViewIssueSeverity,
   defaultValidators,
   validators,
+  UI5ValidatorsConfig,
+  BaseUI5XMLViewIssue,
 } from "@ui5-language-assistant/xml-views-validation";
+
+import { defaultValidators as externalDefaultValidators } from "@ui5-language-assistant/fe";
+import type { AnnotationIssue } from "@ui5-language-assistant/fe";
+import { isAnnotationIssue } from "@ui5-language-assistant/fe";
+
 import { offsetRangeToLSPRange } from "./range-utils";
 import { Context } from "@ui5-language-assistant/context";
 
@@ -34,18 +41,47 @@ export function getXMLViewDiagnostics(opts: {
   if (opts.context.manifestDetails.flexEnabled) {
     actualValidators.element.push(validators.validateNonStableId);
   }
+  const externalValidators: UI5ValidatorsConfig<AnnotationIssue> = cloneDeep(
+    externalDefaultValidators
+  );
   const issues = validateXMLView({
-    validators: actualValidators,
+    validators: mergeValidators<AnnotationIssue>(
+      actualValidators,
+      externalValidators
+    ),
     xmlView: xmlDocAst,
     context: opts.context,
   });
-  const diagnostics = validationIssuesToLspDiagnostics(issues, opts.document);
+  const diagnostics = validationIssuesToLspDiagnostics(
+    issues,
+    opts.document,
+    isAnnotationIssue
+  );
   return diagnostics;
 }
 
-function validationIssuesToLspDiagnostics(
-  issues: UI5XMLViewIssue[],
-  document: TextDocument
+function mergeValidators<ExternalIssueType>(
+  v1: UI5ValidatorsConfig<UI5XMLViewIssue>,
+  v2: UI5ValidatorsConfig<ExternalIssueType>
+): UI5ValidatorsConfig<UI5XMLViewIssue | ExternalIssueType> {
+  return {
+    attribute: [...v1.attribute, ...v2.attribute],
+    document: [...v1.document, ...v2.document],
+    element: [...v1.element, ...v2.element],
+  };
+}
+
+function validationIssuesToLspDiagnostics<
+  ExternalIssueType extends BaseUI5XMLViewIssue & {
+    code?: string | number;
+    tags?: DiagnosticTag[];
+  }
+>(
+  issues: (UI5XMLViewIssue | ExternalIssueType)[],
+  document: TextDocument,
+  isExternalIssue: (
+    issue: UI5XMLViewIssue | ExternalIssueType
+  ) => issue is ExternalIssueType
 ): Diagnostic[] {
   const diagnostics: Diagnostic[] = map(issues, (currIssue) => {
     const commonDiagnosticPros: Diagnostic = {
@@ -54,6 +90,15 @@ function validationIssuesToLspDiagnostics(
       source: DIAGNOSTIC_SOURCE,
       message: currIssue.message,
     };
+
+    // external issue transformation
+    if (isExternalIssue(currIssue)) {
+      return {
+        ...commonDiagnosticPros,
+        code: currIssue.code,
+        tags: currIssue.tags,
+      };
+    }
 
     const issueKind = currIssue.kind;
     switch (issueKind) {

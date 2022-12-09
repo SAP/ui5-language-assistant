@@ -1,4 +1,6 @@
 import { Position, Range } from "vscode-languageserver-types";
+import { TextDocumentPositionParams } from "vscode-languageserver";
+import { TextDocument } from "vscode-languageserver-textdocument";
 import { join } from "path";
 import { readFile, writeFile } from "fs/promises";
 import { DocumentCstNode, parse } from "@xml-tools/parser";
@@ -6,7 +8,7 @@ import { buildAst } from "@xml-tools/ast";
 import { URI } from "vscode-uri";
 import {
   npmInstall,
-  deleteCopy,
+  deleteProject,
   createCopy,
   fileExitsSync,
   print,
@@ -14,6 +16,9 @@ import {
 } from "./utils";
 
 import { TestFrameworkAPI, ProjectInfo, Config, ReadFileResult } from "./types";
+import { repeat } from "lodash";
+
+export const CURSOR_ANCHOR = "⇶";
 
 export class TestFramework implements TestFrameworkAPI {
   private projectInfo: ProjectInfo;
@@ -51,7 +56,7 @@ export class TestFramework implements TestFrameworkAPI {
   }
   private deleteProjectsCopy(): void {
     const srcDir = `${this.getProjectsSource()}-copy`;
-    deleteCopy(srcDir);
+    deleteProject(srcDir);
   }
   private nodeModulesExits(): boolean {
     const root = this.getProjectRoot();
@@ -97,9 +102,89 @@ export class TestFramework implements TestFrameworkAPI {
     }
     const offset = this.getOffset(content);
     this.offset = offset;
-    content = content.replace(/⇶/, "");
+    content = content.replace(new RegExp(CURSOR_ANCHOR, "g"), "");
     await writeFile(filePath, content);
   }
+
+  /**
+   * Updates file content
+   * @param filePath - path of file to update
+   * @param newText - new text to be written to the file
+   * @param options - describes how the file should be updated
+   *    - insertAfter: if provided the text is inserted after that fragment
+   *    - replaceText: if provided the new text replaces that fragment
+   * If options is omitted then new text is added to the end of file
+   */
+  public async updateFileContent(
+    relativePathSegments: string[],
+    newText: string,
+    options?: {
+      insertBefore?: string;
+      insertAfter?: string;
+      replaceText?: string;
+      doUpdatesAfter?: string;
+    },
+    deleteCursorAnchors = true
+  ): Promise<{ offset: number }> {
+    const root = this.getProjectRoot();
+    const filePath = join(root, ...relativePathSegments);
+
+    const existingContent = await readFile(filePath, "utf-8");
+    let contentToLookup = existingContent;
+    if (options?.doUpdatesAfter) {
+      const index = existingContent.indexOf(options.doUpdatesAfter);
+      if (index > -1) {
+        const startOffset = index + options.doUpdatesAfter.length;
+        contentToLookup =
+          repeat(" ", startOffset) + existingContent.slice(startOffset);
+      } else {
+        throw new Error(
+          `Fragment "${options.doUpdatesAfter}" not found, file not updated: ${filePath}`
+        );
+      }
+    }
+
+    let newContent: string;
+    const token =
+      options?.insertAfter ||
+      options?.insertBefore ||
+      options?.replaceText ||
+      "";
+    const index = contentToLookup.indexOf(token || "");
+    if (token && index >= 0) {
+      if (options?.insertAfter) {
+        const tokenLen = token.length;
+        const offset = index + tokenLen;
+        newContent =
+          existingContent.slice(0, offset) +
+          newText +
+          existingContent.slice(offset);
+      } else if (options?.insertBefore) {
+        newContent =
+          existingContent.slice(0, index) +
+          newText +
+          existingContent.slice(index);
+      } else {
+        const tokenLen = token.length;
+        const offset = index + tokenLen;
+        newContent =
+          existingContent.slice(0, index) +
+          newText +
+          existingContent.slice(offset);
+      }
+    } else {
+      newContent = `${existingContent}\n${newText}`;
+    }
+
+    const offset = newContent.indexOf(CURSOR_ANCHOR);
+
+    if (offset > -1 && deleteCursorAnchors) {
+      newContent = newContent.replace(new RegExp(CURSOR_ANCHOR, "g"), "");
+    }
+    await writeFile(filePath, newContent);
+    return { offset };
+  }
+
   public async readFile(
     pathSegments: string[],
     range?: Range
@@ -153,9 +238,35 @@ export class TestFramework implements TestFrameworkAPI {
     return await readFile(filePath, "utf-8");
   }
   public getOffset(content: string): number {
-    if (content.indexOf("⇶") === -1) {
+    if (content.indexOf(CURSOR_ANCHOR) === -1) {
       return 0;
     }
-    return content.indexOf("⇶");
+    return content.indexOf(CURSOR_ANCHOR);
+  }
+
+  /**
+   * Converts provided text into VSCode text document
+   * @param uri - file uri string
+   * @param content - file content
+   * @param offset - optional offset
+   * @returns - VSCode text document, document position parameters
+   */
+  public toVscodeTextDocument(
+    uri: string,
+    content: string,
+    offset: number
+  ): {
+    document: TextDocument;
+    textDocumentPosition: TextDocumentPositionParams;
+  } {
+    const document: TextDocument = TextDocument.create(uri, "", 1, content);
+    const position = document.positionAt(offset);
+    const textDocumentPosition: TextDocumentPositionParams = {
+      position,
+      textDocument: {
+        uri,
+      },
+    };
+    return { document, textDocumentPosition };
   }
 }

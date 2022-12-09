@@ -25,6 +25,7 @@ import {
   UI5ClassesInXMLTagNameCompletion,
   isUI5NodeXMLViewCompletion,
 } from "@ui5-language-assistant/xml-views-completion";
+import { getCompletionItems as getAnnotationCompletionItems } from "@ui5-language-assistant/fe";
 import { ui5NodeToFQN } from "@ui5-language-assistant/logic-utils";
 import { getNodeDocumentation, getNodeDetail } from "./documentation";
 import { Settings } from "@ui5-language-assistant/settings";
@@ -54,7 +55,15 @@ export function getCompletionItems(opts: {
     opts.context.ui5Model,
     opts.textDocumentPosition
   );
-  return completionItems;
+
+  const externalCompletionItems = getAnnotationCompletionItems({
+    ...opts,
+    ast,
+    cst,
+    tokenVector,
+  });
+
+  return [...completionItems, ...externalCompletionItems];
 }
 
 function transformToLspSuggestions(

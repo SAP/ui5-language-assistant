@@ -80,7 +80,7 @@ connection.onInitialize((params: InitializeParams) => {
         resolveProvider: true,
         // TODO: can the trigger characters be more contextual?
         //       e.g: "<" of open tag only, not else where
-        triggerCharacters: ['"', "'", ":", "<"],
+        triggerCharacters: ['"', "'", ":", "<", "/"],
       },
       hoverProvider: true,
       codeActionProvider: true,

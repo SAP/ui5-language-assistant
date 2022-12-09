@@ -407,6 +407,13 @@ function convertProperty(
       // For most cases the defaultValue is a string or number so the clone won't do anything.
       cloneDeep(jsonProperty.defaultValue)
     : undefined;
+
+  const metadata:
+    | model.FEPropertyMetadata
+    | undefined = (jsonProperty as apiJson.Ui5Property)?.["ui5-metadata"]?.[
+    "sap.fe"
+  ];
+
   const property: model.UI5Prop = {
     kind: "UI5Prop",
     ...meta,
@@ -420,6 +427,7 @@ function convertProperty(
             name: jsonProperty.type,
           },
     default: defaultValue,
+    metadata,
   };
   return property;
 }

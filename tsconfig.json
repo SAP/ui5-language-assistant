@@ -35,6 +35,12 @@
     },
     {
       "path": "./packages/vscode-ui5-language-assistant"
+    },
+    {
+      "path": "./packages/context"
+    },
+    {
+      "path": "./packages/fe"
     }
   ],
   "include": ["src/**/*"]
