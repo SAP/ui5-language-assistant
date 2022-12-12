@@ -5,13 +5,11 @@ import {
 import type { Context } from "@ui5-language-assistant/context";
 
 export {} from "./src/api";
-
 export type {} from "./src/types";
 export type {} from "@sap-ux/project-access";
+export type { AnnotationIssue } from "./src/types/issues";
 
 export declare const defaultValidators: UI5ValidatorsConfig<AnnotationIssue>;
-
-export type { AnnotationIssue } from "./src/types/issues";
 
 export function getCompletionItems(opts: {
   context: Context;
