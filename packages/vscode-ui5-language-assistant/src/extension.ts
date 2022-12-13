@@ -24,7 +24,13 @@ import {
 } from "@ui5-language-assistant/language-server";
 import { COMMAND_OPEN_DEMOKIT, LOGGING_LEVEL_CONFIG_PROP } from "./constants";
 
-type UI5Model = { url: string; framework: string; version: string };
+type UI5Model = {
+  url: string;
+  framework: string;
+  version: string;
+  isFallback: boolean;
+  isIncorrectVersion?: boolean;
+};
 
 let client: LanguageClient;
 let statusBarItem: StatusBarItem;
@@ -117,8 +123,20 @@ function updateCurrentModel(model: UI5Model | undefined) {
   currentModel = model;
   if (statusBarItem) {
     if (currentModel) {
-      statusBarItem.tooltip = `${currentModel.framework} Version (XMLView Editor)`;
-      statusBarItem.text = `$(notebook-mimetype) ${currentModel.version}${
+      let tooltipText = `${currentModel.framework} Version (XMLView Editor)`;
+      let version = currentModel.version;
+      if (currentModel.isFallback) {
+        tooltipText += ` minUI5 version not found in manifest.json. Fallback to UI5 ${currentModel.version}`;
+        version = `Fallback: ${currentModel.version}`;
+      }
+
+      if (currentModel.isIncorrectVersion) {
+        tooltipText += ` minUI5 version found in manifest.json is out of maintenance or not supported by UI5 Language Assistant. Using fallback to UI5 ${currentModel.version}. Please update the minUI5 version`;
+        version = `Fallback: ${currentModel.version}`;
+      }
+
+      statusBarItem.tooltip = tooltipText;
+      statusBarItem.text = `$(notebook-mimetype)  ${version}${
         currentModel.framework === "OpenUI5" ? "'" : ""
       }`;
       statusBarItem.show();

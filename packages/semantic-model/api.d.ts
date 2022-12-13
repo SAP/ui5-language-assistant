@@ -21,6 +21,8 @@ export function generate(opts: {
   typeNameFix: TypeNameFix;
   strict: boolean;
   printValidationErrors?: boolean;
+  isFallback?: boolean;
+  isIncorrectVersion?: boolean;
 }): UI5SemanticModel;
 
 /**
