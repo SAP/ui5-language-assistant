@@ -51,6 +51,28 @@
       "internalConsoleOptions": "neverOpen",
       "disableOptimisticBPs": true,
       "cwd": "${workspaceFolder}/packages/context"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "fe: run current file",
+      "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+      "args": ["${fileBasenameNoExtension}"],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "disableOptimisticBPs": true,
+      "cwd": "${workspaceFolder}/packages/fe"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "semantic-model: run current file",
+      "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+      "args": ["${fileBasenameNoExtension}"],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "disableOptimisticBPs": true,
+      "cwd": "${workspaceFolder}/packages/semantic-model"
     }
   ]
 }

@@ -38,6 +38,10 @@ export function validateUnknownAnnotationTarget(
     attribute,
     context.ui5Model
   );
+  const ui5Property5MetaPath = getUI5PropertyByXMLAttributeKey(
+    { ...attribute, key: "metaPath" },
+    context.ui5Model
+  );
   if (
     ui5Property?.library === SAP_FE_MACROS &&
     ui5Property.name === "contextPath"
@@ -56,50 +60,61 @@ export function validateUnknownAnnotationTarget(
       control,
       ui5Property
     );
+    // it is expected that metaPath property is always defined
+    /* istanbul ignore next */
+    const {
+      expectedAnnotations: expectedAnnotationsMetaPath,
+      expectedTypes: expectedTypesMetaPath,
+    } = ui5Property5MetaPath
+      ? getPathConstraintsForControl(control, ui5Property5MetaPath)
+      : { expectedAnnotations: [], expectedTypes: [] };
+
+    const result: AnnotationIssue[] = [];
+    const pushToResult = (item: AnnotationIssue) => {
+      result.push(item);
+      return result;
+    };
+
+    let isNotRecommended = false;
     if (expectedAnnotations.length + expectedTypes.length === 0) {
-      return [
-        {
-          kind: "ContextPathBindingNotRecommended",
-          issueType: ANNOTATION_ISSUE_TYPE,
-          message: `contextPath for ${control} is usually defined if binding for the object is different than that of the page`,
-          offsetRange: {
-            start: actualAttributeValueToken.startOffset,
-            end: actualAttributeValueToken.endOffset,
-          },
-          severity: "info",
+      isNotRecommended = true;
+      result.push({
+        kind: "ContextPathBindingNotRecommended",
+        issueType: ANNOTATION_ISSUE_TYPE,
+        message: `contextPath for ${control} is usually defined if binding for the object is different than that of the page`,
+        offsetRange: {
+          start: actualAttributeValueToken.startOffset,
+          end: actualAttributeValueToken.endOffset,
         },
-      ];
+        severity: "info",
+      });
     }
 
     // Target is mandatory
     if (!attribute.value) {
-      return [
-        {
-          kind: "AnnotationTargetRequired",
-          issueType: ANNOTATION_ISSUE_TYPE,
-          message: "Annotation target is required",
-          offsetRange: {
-            start: actualAttributeValueToken.startOffset,
-            end: actualAttributeValueToken.endOffset,
-          },
-          severity: "warn",
+      return pushToResult({
+        kind: "AnnotationTargetRequired",
+        issueType: ANNOTATION_ISSUE_TYPE,
+        message: "Annotation target is required",
+        offsetRange: {
+          start: actualAttributeValueToken.startOffset,
+          end: actualAttributeValueToken.endOffset,
         },
-      ];
+        severity: "warn",
+      });
     }
 
     if (!actualAttributeValue.startsWith("/")) {
-      return [
-        {
-          kind: "UnknownEnumValue",
-          issueType: ANNOTATION_ISSUE_TYPE,
-          message: `Unknown annotation target: ${actualAttributeValueToken.image}. Absolute path is expected`,
-          offsetRange: {
-            start: actualAttributeValueToken.startOffset,
-            end: actualAttributeValueToken.endOffset,
-          },
-          severity: "warn",
+      return pushToResult({
+        kind: "UnknownEnumValue",
+        issueType: ANNOTATION_ISSUE_TYPE,
+        message: `Unknown annotation target: ${actualAttributeValueToken.image}. Absolute path is expected`,
+        offsetRange: {
+          start: actualAttributeValueToken.startOffset,
+          end: actualAttributeValueToken.endOffset,
         },
-      ];
+        severity: "warn",
+      });
     }
 
     // Check by segments
@@ -113,33 +128,34 @@ export function validateUnknownAnnotationTarget(
     const originalSegments = actualAttributeValue.split("/");
 
     if (target?._type === "Property") {
-      return [
-        {
-          kind: "UnknownEnumValue",
-          issueType: ANNOTATION_ISSUE_TYPE,
-          message: `Wrong path. It is pointing to entity property but should lead to entity type or entity set`,
-          offsetRange: {
-            start: actualAttributeValueToken.startOffset,
-            end: actualAttributeValueToken.endOffset,
-          },
-          severity: "warn",
+      return pushToResult({
+        kind: "UnknownEnumValue",
+        issueType: ANNOTATION_ISSUE_TYPE,
+        message: `Wrong path. It is pointing to entity property but should lead to entity type or entity set`,
+        offsetRange: {
+          start: actualAttributeValueToken.startOffset,
+          end: actualAttributeValueToken.endOffset,
         },
-      ];
+        severity: "warn",
+      });
     }
 
     if (target?._type === "EntityContainer") {
-      return [
-        {
-          kind: "IncompletePath",
-          issueType: ANNOTATION_ISSUE_TYPE,
-          message: `Path is incomplete. Trigger code completion to choose next available path segment`,
-          offsetRange: {
-            start: actualAttributeValueToken.startOffset,
-            end: actualAttributeValueToken.endOffset,
-          },
-          severity: "warn",
+      const message = `Path is incomplete. ${
+        isNotRecommended
+          ? "It leads to entity container"
+          : "Trigger code completion to choose next available path segment"
+      }`;
+      return pushToResult({
+        kind: "IncompletePath",
+        issueType: ANNOTATION_ISSUE_TYPE,
+        message,
+        offsetRange: {
+          start: actualAttributeValueToken.startOffset,
+          end: actualAttributeValueToken.endOffset,
         },
-      ];
+        severity: "warn",
+      });
     }
 
     if (!target || !targetEntity) {
@@ -149,54 +165,90 @@ export function validateUnknownAnnotationTarget(
         const correctPart = originalSegments.length
           ? "/" + originalSegments.join("/")
           : "";
-        return [
-          {
-            kind: "UnknownEnumValue",
-            issueType: ANNOTATION_ISSUE_TYPE,
-            message: `Unknown target: ${actualAttributeValueToken.image}`,
-            offsetRange: {
-              start:
-                actualAttributeValueToken.startOffset + correctPart.length + 1,
-              end: actualAttributeValueToken.endOffset - 1,
-            },
-            severity: "warn",
+        return pushToResult({
+          kind: "UnknownEnumValue",
+          issueType: ANNOTATION_ISSUE_TYPE,
+          message: `Unknown target: ${actualAttributeValueToken.image}`,
+          offsetRange: {
+            start:
+              actualAttributeValueToken.startOffset + correctPart.length + 1,
+            end: actualAttributeValueToken.endOffset - 1,
           },
-        ];
+          severity: "warn",
+        });
       } else {
         // segment found but preceding path leads to collection
         originalSegments.splice(lastValidSegmentIndex + 1);
         const correctPart = originalSegments.join("/");
-        return [
-          {
-            kind: "UnknownEnumValue",
-            issueType: ANNOTATION_ISSUE_TYPE,
-            message: `Multiple 1:many association segments not allowed`,
-            offsetRange: {
-              start:
-                actualAttributeValueToken.startOffset + correctPart.length + 1,
-              end: actualAttributeValueToken.endOffset - 1,
-            },
-            severity: "warn",
+        return pushToResult({
+          kind: "UnknownEnumValue",
+          issueType: ANNOTATION_ISSUE_TYPE,
+          message: `Multiple 1:many association segments not allowed`,
+          offsetRange: {
+            start:
+              actualAttributeValueToken.startOffset + correctPart.length + 1,
+            end: actualAttributeValueToken.endOffset - 1,
           },
-        ];
+          severity: "warn",
+        });
       }
     } else {
-      const annotationList = getAnnotationAppliedOnElement(
+      if (
+        (!isNotRecommended && !expectedTypes.includes(target._type)) ||
+        (isNotRecommended && !expectedTypesMetaPath.includes(target._type))
+      ) {
+        const expectedTypesList = (isNotRecommended
+          ? expectedTypesMetaPath
+          : expectedTypes
+        ).join(",");
+        return pushToResult({
+          kind: "InvalidAnnotationTarget",
+          issueType: ANNOTATION_ISSUE_TYPE,
+          message: `Invalid target: ${actualAttributeValueToken.image}. The path is leading to ${target._type}, but expected types are: [${expectedTypesList}]`,
+          offsetRange: {
+            start: actualAttributeValueToken.startOffset,
+            end: actualAttributeValueToken.endOffset,
+          },
+          severity: "warn",
+        });
+      }
+
+      if (isPropertyPathAllowed(control)) {
+        return result;
+      }
+
+      let annotationList = getAnnotationAppliedOnElement(
         service.convertedMetadata,
         expectedAnnotations,
         target as EntityContainer | EntityType | EntitySet | Singleton
       );
 
-      if (isPropertyPathAllowed(control) || annotationList.length > 0) {
+      if (annotationList.length > 0) {
         // path is correct
-        return [];
+        return result;
       }
 
+      annotationList = getAnnotationAppliedOnElement(
+        service.convertedMetadata,
+        expectedAnnotationsMetaPath,
+        target as EntityContainer | EntityType | EntitySet | Singleton
+      );
+
+      if (annotationList.length > 0) {
+        // path is correct
+        return result;
+      }
+
+      const message = `Invalid target: ${actualAttributeValueToken.image}. ${
+        isNotRecommended
+          ? "There are no expected annotations found in the project for this target"
+          : "Trigger code completion to choose one of valid targets if some are available"
+      }`;
       // Path itself is found but it doesn't suit current context
       const issue: AnnotationIssue = {
         kind: "InvalidAnnotationTarget",
         issueType: ANNOTATION_ISSUE_TYPE,
-        message: `Invalid target: ${actualAttributeValueToken.image}`,
+        message,
         offsetRange: {
           start: actualAttributeValueToken.startOffset,
           end: actualAttributeValueToken.endOffset,
@@ -205,8 +257,7 @@ export function validateUnknownAnnotationTarget(
       };
 
       // TODO: required and actual cardinality mismatch check
-      issue.message = `${issue.message}. Trigger code completion to choose one of valid targets if some are available`;
-      return [issue];
+      return pushToResult(issue);
     }
   }
   return [];

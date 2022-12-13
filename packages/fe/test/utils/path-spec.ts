@@ -87,7 +87,7 @@ describe("path utils (exotic cases to achieve full code coverage)", () => {
       },
       []
     );
-    expect(result.length).to.eq(0);
+    expect(result.length).to.eq(1);
   });
 
   it("case with entity container and singletone", () => {

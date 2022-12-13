@@ -1,5 +1,5 @@
 import { BaseUI5XMLViewIssue } from "@ui5-language-assistant/xml-views-validation";
-import { DiagnosticTag } from "vscode-languageserver";
+import { DiagnosticTag } from "vscode-languageserver-types";
 
 export type AnnotationIssue =
   | UnknownEnumValueIssue

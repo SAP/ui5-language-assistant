@@ -20,7 +20,7 @@ import type {
   AnnotationPathInXMLAttributeValueCompletion,
   PropertyPathInXMLAttributeValueCompletion,
 } from "../../../types";
-import { Range } from "vscode-languageserver";
+import { Range } from "vscode-languageserver-types";
 import { getAffectedRange } from "../utils";
 
 export interface CompletionItem {

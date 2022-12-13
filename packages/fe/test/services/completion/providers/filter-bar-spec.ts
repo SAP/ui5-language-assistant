@@ -3,7 +3,7 @@ import { join } from "path";
 import { Context, getContext } from "@ui5-language-assistant/context";
 import { CURSOR_ANCHOR } from "@ui5-language-assistant/test-framework";
 import { Settings } from "@ui5-language-assistant/settings";
-import { CompletionItem } from "vscode-languageserver";
+import { CompletionItem } from "vscode-languageserver-types";
 
 import {
   Config,

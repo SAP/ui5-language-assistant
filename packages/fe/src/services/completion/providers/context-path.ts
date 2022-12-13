@@ -75,9 +75,9 @@ export function contextPathSuggestions({
     if (expectedAnnotations.length + expectedTypes.length === 0) {
       return [];
     }
-    if (!isPropertyPath && expectedAnnotations.length === 0) {
-      return [];
-    }
+    // if (!isPropertyPath && expectedAnnotations.length === 0) {
+    //   return [];
+    // }
 
     const isNextSegmentPossible = (
       currentTarget: EntitySet | EntityType | Singleton | EntityContainer,

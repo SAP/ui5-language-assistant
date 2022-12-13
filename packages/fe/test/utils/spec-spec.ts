@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { CompletionItemKind } from "vscode-languageserver";
+import { CompletionItemKind } from "vscode-languageserver-types";
 
 import { UI5XMLViewAnnotationCompletion } from "../../src/types";
 import { computeLSPKind } from "../../src/services/completion/utils";

@@ -1,5 +1,5 @@
 import { AnnotationIssue } from "../../src/api";
-import { CompletionItem } from "vscode-languageserver";
+import { CompletionItem } from "vscode-languageserver-types";
 
 export const completionItemToSnapshot = (item: CompletionItem): string =>
   `label: ${item.label}; text: ${item.insertText}; kind:${

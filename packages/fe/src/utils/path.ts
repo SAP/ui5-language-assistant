@@ -171,8 +171,11 @@ export function getNextPossiblePathTargets(
   const result: (NavigationProperty | Property)[] = [];
 
   const isTargetHasAnnotations = (target: EntityType) => {
+    if (!options.allowedTerms || options.allowedTerms.length === 0) {
+      return true; // empty allowed terms considered as allowing any target
+    }
     const annotationList = collectAnnotationsForElement(
-      options.allowedTerms || [],
+      options.allowedTerms,
       target
     );
     return annotationList.length > 0;

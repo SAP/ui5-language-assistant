@@ -13,7 +13,7 @@ import {
   ProjectType,
   TestFramework,
 } from "@ui5-language-assistant/test-framework";
-import { CompletionItem } from "vscode-languageserver";
+import { CompletionItem } from "vscode-languageserver-types";
 
 import { getCompletionItems } from "../../../../src/api";
 import { completionItemToSnapshot } from "../../utils";

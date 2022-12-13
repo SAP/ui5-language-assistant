@@ -111,7 +111,6 @@ const specs: BuildingBlockSpecification[] = [
       ],
     },
     contextPath: {
-      allowedAnnotations: ["com.sap.vocabularies.UI.v1.Chart"],
       allowedTargets: [
         "EntitySet",
         "EntityType",

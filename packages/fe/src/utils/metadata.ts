@@ -27,7 +27,7 @@ export function getEntityTypeForElement(
 
 export function getRootElements(
   metadata: ConvertedMetadata,
-  allowedTerms: AnnotationTerm[],
+  allowedTerms: AnnotationTerm[] | undefined,
   allowedTargets: AllowedTargetType[],
   isPropertyPath: boolean
 ): (EntityContainer | EntitySet | EntityType | Singleton)[] {
@@ -51,46 +51,48 @@ export function getRootElements(
     ...(allowedTargets.includes("EntityType") ? metadata.entityTypes : [])
   );
 
-  if (allowedTerms.length) {
-    result = result.filter((item) => {
-      if (item._type === "EntityContainer") {
-        return (
-          getNextPossiblePathTargets(
-            metadata,
-            item,
-            false,
-            {
-              allowedTerms,
-              allowedTargets,
-              isPropertyPath: isPropertyPath,
-            },
-            []
-          ).length > 0
-        );
-      }
-      const entityType = getEntityTypeForElement(item);
-      const annotationList = collectAnnotationsForElement(
+  result = result.filter((item) => {
+    if (item._type === "EntityContainer") {
+      return (
+        getNextPossiblePathTargets(
+          metadata,
+          item,
+          false,
+          {
+            allowedTerms,
+            allowedTargets,
+            isPropertyPath: isPropertyPath,
+          },
+          []
+        ).length > 0
+      );
+    }
+    const entityType = getEntityTypeForElement(item);
+    if (!allowedTerms || allowedTerms.length === 0) {
+      return true; // no term restrictions
+    }
+    const annotationList = collectAnnotationsForElement(
+      allowedTerms,
+      entityType
+    );
+    if (annotationList.length > 0) {
+      return true;
+    }
+    const nextPossibleTargets = getNextPossiblePathTargets(
+      metadata,
+      entityType,
+      false,
+      {
         allowedTerms,
-        entityType
-      );
-      if (annotationList.length > 0) {
-        return true;
-      }
-      const nextPossibleTargets = getNextPossiblePathTargets(
-        metadata,
-        entityType,
-        false,
-        {
-          allowedTerms,
-          allowedTargets,
-          isPropertyPath: isPropertyPath,
-        },
-        [entityType.fullyQualifiedName]
-      );
+        allowedTargets,
+        isPropertyPath: isPropertyPath,
+      },
+      [entityType.fullyQualifiedName]
+    );
 
-      return nextPossibleTargets.length > 0;
-    });
-  }
+    return nextPossibleTargets.length > 0;
+  });
+
   return result;
 }
 

@@ -1,4 +1,4 @@
-import { MarkupContent, Range } from "vscode-languageserver";
+import { MarkupContent, Range } from "vscode-languageserver-types";
 
 // export enum CompletionItemKind {
 //   Term = 'Term',

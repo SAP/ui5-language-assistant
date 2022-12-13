@@ -4,14 +4,14 @@ import {
   InsertTextFormat,
   Position,
   Range,
-  TextDocumentPositionParams,
   TextEdit,
-} from "vscode-languageserver";
+} from "vscode-languageserver-types";
+import { TextDocumentPositionParams } from "vscode-languageserver-protocol";
 import { assertNever } from "assert-never";
 import { map } from "lodash";
 import { CstNode, IToken } from "chevrotain";
 import { DocumentCstNode } from "@xml-tools/parser";
-import { buildAst, XMLToken, XMLDocument } from "@xml-tools/ast";
+import { XMLToken, XMLDocument } from "@xml-tools/ast";
 
 import { GetXMLViewCompletionsOpts } from "@ui5-language-assistant/xml-views-completion";
 import { getSuggestions } from "@xml-tools/content-assist";
