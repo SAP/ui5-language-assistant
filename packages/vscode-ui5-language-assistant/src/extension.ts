@@ -131,7 +131,7 @@ function updateCurrentModel(model: UI5Model | undefined) {
       }
 
       if (currentModel.isIncorrectVersion) {
-        tooltipText += ` minUI5 version found in manifest.json is out of maintenance or not supported by UI5 Language Assistant. Using fallback to UI5 ${currentModel.version}. Please update the minUI5 version`;
+        tooltipText += ` minUI5 version found in manifest.json is out of maintenance or not supported by UI5 Language Assistant. Using fallback to UI5 ${currentModel.version}.`;
         version = `Fallback: ${currentModel.version}`;
       }
 
