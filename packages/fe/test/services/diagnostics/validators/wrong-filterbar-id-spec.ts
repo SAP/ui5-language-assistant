@@ -19,7 +19,7 @@ import { issueToSnapshot } from "../../utils";
 let framework: TestFramework;
 
 describe("filterBar attribute value validation", () => {
-  let root: string, uri: string, documentPath: string;
+  let root: string, documentPath: string;
 
   const viewFilePathSegments = [
     "app",
@@ -53,7 +53,6 @@ describe("filterBar attribute value validation", () => {
     framework = new TestFramework(config);
 
     root = framework.getProjectRoot();
-    uri = framework.getFileUri([root, ...viewFilePathSegments]);
     documentPath = join(
       root,
       "app",

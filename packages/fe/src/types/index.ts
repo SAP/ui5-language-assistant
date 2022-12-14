@@ -10,3 +10,8 @@ export {
 } from "./completion";
 
 export const SAP_FE_MACROS = "sap.fe.macros";
+
+export type AnnotationBase = {
+  term: string;
+  qualifier: string;
+};

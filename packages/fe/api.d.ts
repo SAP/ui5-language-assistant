@@ -1,7 +1,4 @@
-import {
-  UI5ValidatorsConfig,
-  BaseUI5XMLViewAnnotationIssue,
-} from "@ui5-language-assistant/xml-views-validation";
+import { UI5ValidatorsConfig } from "@ui5-language-assistant/xml-views-validation";
 import type { Context } from "@ui5-language-assistant/context";
 
 export {} from "./src/api";

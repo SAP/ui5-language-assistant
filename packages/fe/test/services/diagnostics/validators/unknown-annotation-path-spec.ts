@@ -22,7 +22,7 @@ import { validateUnknownAnnotationPath } from "../../../../src/services/diagnost
 let framework: TestFramework;
 
 describe("metaPath attribute value validation (annotation path)", () => {
-  let root: string, uri: string, documentPath: string;
+  let root: string, documentPath: string;
 
   const viewFilePathSegments = [
     "app",
@@ -58,7 +58,6 @@ describe("metaPath attribute value validation (annotation path)", () => {
     framework = new TestFramework(config);
 
     root = framework.getProjectRoot();
-    uri = framework.getFileUri([root, ...viewFilePathSegments]);
     documentPath = join(
       root,
       "app",
@@ -135,10 +134,10 @@ describe("metaPath attribute value validation (annotation path)", () => {
     });
 
     it("service details are missing in manifest", async function () {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const result = await validateView(
         `<macros:Chart metaPath=""></macros:Chart>`,
         this,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (c) => ({ ...c, manifestDetails: undefined } as any)
       );
       expect(result.length).to.eq(0);
@@ -197,7 +196,6 @@ describe("metaPath attribute value validation (annotation path)", () => {
         `<macros:Chart metaPath=""></macros:Chart>`,
         this,
         (c) => {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const newDetails: ManifestDetails = {
             ...c.manifestDetails,
             customViews: { ...c.manifestDetails.customViews },

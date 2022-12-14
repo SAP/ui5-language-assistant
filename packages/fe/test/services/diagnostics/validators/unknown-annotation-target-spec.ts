@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { join } from "path";
-import { createStubInstance, stub } from "sinon";
-import { Context, getContext } from "@ui5-language-assistant/context";
+import { stub } from "sinon";
+import { cache, Context, getContext } from "@ui5-language-assistant/context";
 import { CURSOR_ANCHOR } from "@ui5-language-assistant/test-framework";
 import { DocumentCstNode } from "@xml-tools/parser";
 import { buildAst } from "@xml-tools/ast";
@@ -21,7 +21,7 @@ import * as miscUtils from "../../../../src/utils/misc";
 let framework: TestFramework;
 
 describe("contextPath attribute value validation", () => {
-  let root: string, uri: string, documentPath: string;
+  let root: string, documentPath: string;
 
   const viewFilePathSegments = [
     "app",
@@ -55,7 +55,6 @@ describe("contextPath attribute value validation", () => {
     framework = new TestFramework(config);
 
     root = framework.getProjectRoot();
-    uri = framework.getFileUri([root, ...viewFilePathSegments]);
     documentPath = join(
       root,
       "app",
@@ -110,6 +109,7 @@ describe("contextPath attribute value validation", () => {
 
   context("shows no issues when contextPath is correct", () => {
     it("EntityType", async function () {
+      cache.reset();
       const result = await validateView(
         `<macros:Chart contextPath="/Travel"></macros:Chart>`,
         this
@@ -140,14 +140,6 @@ describe("contextPath attribute value validation", () => {
       );
       expect(result.length).to.eq(0);
     });
-
-    it("property path target", async function () {
-      const result = await validateView(
-        `<macros:Field contextPath="/Booking"></macros:Field>`,
-        this
-      );
-      expect(result.length).to.eq(0);
-    });
   });
 
   context("does not show any warnings when...", () => {
@@ -160,10 +152,10 @@ describe("contextPath attribute value validation", () => {
     });
 
     it("service details are missing in manifest", async function () {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const result = await validateView(
         `<macros:Chart contextPath=""></macros:Chart>`,
         this,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (c) => ({ ...c, manifestDetails: undefined } as any)
       );
       expect(result.length).to.eq(0);
@@ -185,14 +177,24 @@ describe("contextPath attribute value validation", () => {
     });
   });
 
-  it("shows info message when contextPath is not recommended to use", async function () {
+  it("property path target", async function () {
     const result = await validateView(
-      `<macros:Table contextPath="/Travel"></macros:Table>`,
+      `<macros:Field contextPath="/Booking"></macros:Field>`,
       this
     );
     expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
-      "kind: ContextPathBindingNotRecommended; text: contextPath for Table is usually defined if binding for the object is different than that of the page; severity:info; offset:347-355",
-      'kind: InvalidAnnotationTarget; text: Invalid target: "/Travel". There are no expected annotations found in the project for this target; severity:warn; offset:347-355',
+      "kind: ContextPathBindingNotRecommended; text: contextPath for Field is usually defined if binding for the object is different than that of the page; severity:info; offset:347-356",
+    ]);
+  });
+
+  it("shows info message when contextPath is not recommended to use", async function () {
+    const result = await validateView(
+      `<macros:Form contextPath="/Travel"></macros:Form>`,
+      this
+    );
+    expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
+      "kind: ContextPathBindingNotRecommended; text: contextPath for Form is usually defined if binding for the object is different than that of the page; severity:info; offset:346-354",
+      'kind: InvalidAnnotationTarget; text: Invalid target path: "/Travel". It does not lead to any annotations of the expected type; severity:warn; offset:346-354',
     ]);
   });
 
@@ -284,7 +286,7 @@ describe("contextPath attribute value validation", () => {
         this
       );
       expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
-        "kind: UnknownEnumValue; text: Wrong path. It is pointing to entity property but should lead to entity type or entity set; severity:warn; offset:347-366",
+        "kind: UnknownEnumValue; text: Wrong path. It leads to entity property but should lead to entity type or entity set; severity:warn; offset:347-366",
       ]);
     });
 
@@ -294,7 +296,7 @@ describe("contextPath attribute value validation", () => {
         this
       );
       expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
-        'kind: InvalidAnnotationTarget; text: Invalid target: "/Booking". Trigger code completion to choose one of valid targets if some are available; severity:warn; offset:347-356',
+        'kind: InvalidAnnotationTarget; text: Invalid target path: "/Booking". Trigger code completion to choose one of valid targets if some are available; severity:warn; offset:347-356',
       ]);
     });
 
@@ -305,7 +307,7 @@ describe("contextPath attribute value validation", () => {
       );
       expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
         "kind: ContextPathBindingNotRecommended; text: contextPath for Table is usually defined if binding for the object is different than that of the page; severity:info; offset:347-356",
-        'kind: InvalidAnnotationTarget; text: Invalid target: "/Booking". There are no expected annotations found in the project for this target; severity:warn; offset:347-356',
+        'kind: InvalidAnnotationTarget; text: Invalid target path: "/Booking". It does not lead to any annotations of the expected type; severity:warn; offset:347-356',
       ]);
     });
 
@@ -320,7 +322,7 @@ describe("contextPath attribute value validation", () => {
           this
         );
         expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
-          'kind: InvalidAnnotationTarget; text: Invalid target: "/Travel". The path is leading to EntityType, but expected types are: [EntitySet,Singleton]; severity:warn; offset:347-355',
+          'kind: InvalidAnnotationTarget; text: Invalid target: "/Travel". The path leads to Edm.EntityType, but expected types are: Edm.EntitySet, Edm.Singleton; severity:warn; offset:347-355',
         ]);
       } finally {
         st.restore();
@@ -344,7 +346,7 @@ describe("contextPath attribute value validation", () => {
         );
         expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
           "kind: ContextPathBindingNotRecommended; text: contextPath for Table is usually defined if binding for the object is different than that of the page; severity:info; offset:347-355",
-          'kind: InvalidAnnotationTarget; text: Invalid target: "/Travel". The path is leading to EntityType, but expected types are: [EntitySet,Singleton]; severity:warn; offset:347-355',
+          'kind: InvalidAnnotationTarget; text: Invalid target: "/Travel". The path leads to Edm.EntityType, but expected types are: Edm.EntitySet, Edm.Singleton; severity:warn; offset:347-355',
         ]);
       } finally {
         st.restore();
@@ -377,7 +379,7 @@ describe("contextPath attribute value validation", () => {
           this
         );
         expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
-          'kind: InvalidAnnotationTarget; text: Invalid target: "/Travel/to_Booking". Trigger code completion to choose one of valid targets if some are available; severity:warn; offset:347-366',
+          'kind: InvalidAnnotationTarget; text: Invalid target path: "/Travel/to_Booking". Trigger code completion to choose one of valid targets if some are available; severity:warn; offset:347-366',
         ]);
       });
 

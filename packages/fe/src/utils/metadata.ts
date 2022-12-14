@@ -1,4 +1,4 @@
-import type { AnnotationTerm } from "../types";
+import type { AnnotationBase, AnnotationTerm } from "../types";
 import type {
   ConvertedMetadata,
   EntityType,
@@ -101,8 +101,8 @@ export function collectAnnotationsForElement(
   element: EntityType | EntitySet | Singleton | undefined,
   property?: string,
   navigationProperty?: string
-): any[] {
-  const matchedAnnotations: any[] = [];
+): AnnotationBase[] {
+  const matchedAnnotations: AnnotationBase[] = [];
 
   if (!element) {
     return [];
@@ -147,7 +147,7 @@ export function getAnnotationAppliedOnElement(
   target: EntityContainer | EntitySet | EntityType | Singleton,
   navigationProperty?: string,
   property?: string
-): any[] {
+): AnnotationBase[] {
   if (target._type === "EntityContainer") {
     return [];
   }

@@ -33,13 +33,14 @@
     "vscode-languageserver-protocol": "3.17.2"
   },
   "scripts": {
-    "ci": "npm-run-all clean generate-json-api compile lint coverage",
+    "ci": "npm-run-all clean compile lint coverage",
     "clean": "rimraf ./lib ./coverage ./nyc_output",
     "compile": "yarn run clean && tsc -p .",
     "compile:watch": "tsc -p . --watch",
     "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore",
     "test": "mocha",
-    "coverage": "nyc mocha"
+    "coverage": "nyc mocha",
+    "format:fix": "prettier --write \"**/*.@(js|ts|json|md)\" --ignore-path=.gitignore"
   },
   "publishConfig": {
     "access": "public"

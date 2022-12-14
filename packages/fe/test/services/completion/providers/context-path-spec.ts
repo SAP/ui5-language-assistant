@@ -18,10 +18,6 @@ import {
 import { getCompletionItems } from "../../../../src/api";
 import { CompletionItem } from "vscode-languageserver-types";
 import { completionItemToSnapshot } from "../../utils";
-import {
-  FEPropertyMetadata,
-  UI5Prop,
-} from "@ui5-language-assistant/semantic-model-types";
 import * as miscUtils from "../../../../src/utils/misc";
 
 let framework: TestFramework;
@@ -133,44 +129,6 @@ describe("contextPath attribute value completion", () => {
   };
 
   context("contextPath completion", () => {
-    const getContextAdapter = (
-      metadataAdapter?: (
-        m: FEPropertyMetadata | undefined
-      ) => FEPropertyMetadata,
-      propertyAdapter?: (p: UI5Prop) => UI5Prop
-    ) => (c: Context): Context => {
-      const pIdx = c.ui5Model.classes[
-        "sap.fe.macros.Chart"
-      ].properties.findIndex((p) => p.name === "contextPath");
-      if (pIdx < 0) {
-        return c;
-      }
-      const property =
-        c.ui5Model.classes["sap.fe.macros.Chart"].properties[pIdx];
-      const adaptedProperty = propertyAdapter
-        ? { ...propertyAdapter(property) }
-        : property;
-      const meta = adaptedProperty.metadata;
-      const adaptedMeta = metadataAdapter ? { ...metadataAdapter(meta) } : meta;
-      const adaptedProps = [
-        ...c.ui5Model.classes["sap.fe.macros.Chart"].properties,
-      ];
-      adaptedProps[pIdx] = { ...adaptedProperty, metadata: adaptedMeta };
-      return {
-        ...c,
-        ui5Model: {
-          ...c.ui5Model,
-          classes: {
-            ...c.ui5Model.classes,
-            ["sap.fe.macros.Chart"]: {
-              ...c.ui5Model.classes["sap.fe.macros.Chart"],
-              properties: adaptedProps,
-            },
-          },
-        },
-      };
-    };
-
     it("first segment completion", async function () {
       const result = await getCompletionResult(
         `<macros:Chart contextPath="${CURSOR_ANCHOR}"></macros:Chart>`,
@@ -540,10 +498,10 @@ describe("contextPath attribute value completion", () => {
       });
 
       it("service details are missing in manifest", async function () {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const result = await getCompletionResult(
           `<macros:Chart contextPath="${CURSOR_ANCHOR}"></macros:Chart>`,
           this,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (c) => ({ ...c, manifestDetails: undefined } as any)
         );
         expect(result.length).to.eq(0);

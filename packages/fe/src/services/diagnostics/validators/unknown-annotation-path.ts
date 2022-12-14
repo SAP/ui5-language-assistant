@@ -3,6 +3,7 @@ import { Context } from "@ui5-language-assistant/context";
 import { getUI5PropertyByXMLAttributeKey } from "@ui5-language-assistant/logic-utils";
 import { isPossibleBindingAttributeValue } from "@ui5-language-assistant/xml-views-validation";
 import {
+  AnnotationBase,
   AnnotationIssue,
   AnnotationTerm,
   ANNOTATION_ISSUE_TYPE,
@@ -199,7 +200,7 @@ export function validateUnknownAnnotationPath(
     } else {
       const termSegment = originalSegments[termSegmentIndex];
       const parts = termSegment.split("@");
-      let annos: any[] | undefined;
+      let annos: AnnotationBase[] | undefined;
       annos = getAnnotationAppliedOnElement(
         metadata,
         expectedAnnotations,
@@ -268,7 +269,7 @@ export function validateUnknownAnnotationPath(
   return [];
 }
 
-function composeAnnotationPath(annotation: any): string {
+function composeAnnotationPath(annotation: AnnotationBase): string {
   return `@${
     annotation.qualifier
       ? `${annotation.term}#${annotation.qualifier}`

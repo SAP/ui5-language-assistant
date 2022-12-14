@@ -22,7 +22,7 @@ import { validateUnknownPropertyPath } from "../../../../src/services/diagnostic
 let framework: TestFramework;
 
 describe("metaPath attribute value validation (property path)", () => {
-  let root: string, uri: string, documentPath: string;
+  let root: string, documentPath: string;
 
   const viewFilePathSegments = [
     "app",
@@ -58,7 +58,6 @@ describe("metaPath attribute value validation (property path)", () => {
     framework = new TestFramework(config);
 
     root = framework.getProjectRoot();
-    uri = framework.getFileUri([root, ...viewFilePathSegments]);
     documentPath = join(
       root,
       "app",
@@ -185,10 +184,10 @@ describe("metaPath attribute value validation (property path)", () => {
 
   context("does not show any warnings when...", () => {
     it("service details are missing in manifest", async function () {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const result = await validateView(
         `<macros:Field metaPath=""></macros:Field>`,
         this,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (c) => ({ ...c, manifestDetails: undefined } as any)
       );
       expect(result.length).to.eq(0);

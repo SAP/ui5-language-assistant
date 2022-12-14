@@ -19,7 +19,7 @@ import { issueToSnapshot } from "../../utils";
 let framework: TestFramework;
 
 describe("missing entitySet validation", () => {
-  let root: string, uri: string, documentPath: string;
+  let root: string, documentPath: string;
   const viewFilePathSegments = [
     "app",
     "manage_travels",
@@ -43,7 +43,6 @@ describe("missing entitySet validation", () => {
     framework = new TestFramework(config);
 
     root = framework.getProjectRoot();
-    uri = framework.getFileUri([root, ...viewFilePathSegments]);
     documentPath = join(
       root,
       "app",
@@ -110,10 +109,10 @@ describe("missing entitySet validation", () => {
     });
 
     it("service details are missing in manifest", async function () {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const result = await validateView(
         `<macros:Chart metaPath="test"></macros:Chart>`,
         this,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (c) => ({ ...c, manifestDetails: undefined } as any)
       );
       expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([

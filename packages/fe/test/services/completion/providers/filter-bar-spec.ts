@@ -28,13 +28,6 @@ describe("filterBar id attribute value completion", () => {
     "main",
     "Main.view.xml",
   ];
-  const annoFileSegmentsXML = [
-    "app",
-    "manage_travels",
-    "webapp",
-    "annotations",
-    "annotation.xml",
-  ];
   const annoFileSegmentsCDS = ["app", "manage_travels", "annotations.cds"];
   const settings: Settings = {
     codeAssist: {
@@ -55,15 +48,6 @@ describe("filterBar id attribute value completion", () => {
               ChartType: #Bar
           },
       );
-    `;
-  const annotationSnippetXML = `
-      <Annotations Target="TravelService.Travel">
-          <Annotation Term="UI.Chart" >
-              <Record Type="UI.ChartDefinitionType">
-                  <PropertyValue Property="ChartType" EnumMember="UI.ChartType/Area"/>
-              </Record>
-          </Annotation>
-      </Annotations>
     `;
 
   before(async function () {

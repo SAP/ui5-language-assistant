@@ -12,6 +12,7 @@ import {
   isPropertyPathAllowed,
   resolvePathTarget,
   getAnnotationAppliedOnElement,
+  AllowedTargetType,
 } from "../../../utils";
 import {
   EntityContainer,
@@ -19,6 +20,14 @@ import {
   EntityType,
   Singleton,
 } from "@sap-ux/vocabularies-types";
+
+const TypeNameMap: Record<AllowedTargetType, string> = {
+  EntitySet: "Edm.EntitySet",
+  EntityType: "Edm.EntityType",
+  NavigationProperty: "Edm.NavigationProperty",
+  Property: "Edm.Property",
+  Singleton: "Edm.Singleton",
+};
 
 export function validateUnknownAnnotationTarget(
   attribute: XMLAttribute,
@@ -123,7 +132,6 @@ export function validateUnknownAnnotationTarget(
       targetStructuredType: targetEntity,
       isCardinalityIssue,
       lastValidSegmentIndex,
-      isCollection,
     } = resolvePathTarget(service.convertedMetadata, actualAttributeValue);
     const originalSegments = actualAttributeValue.split("/");
 
@@ -131,7 +139,7 @@ export function validateUnknownAnnotationTarget(
       return pushToResult({
         kind: "UnknownEnumValue",
         issueType: ANNOTATION_ISSUE_TYPE,
-        message: `Wrong path. It is pointing to entity property but should lead to entity type or entity set`,
+        message: `Wrong path. It leads to entity property but should lead to entity type or entity set`,
         offsetRange: {
           start: actualAttributeValueToken.startOffset,
           end: actualAttributeValueToken.endOffset,
@@ -200,11 +208,18 @@ export function validateUnknownAnnotationTarget(
         const expectedTypesList = (isNotRecommended
           ? expectedTypesMetaPath
           : expectedTypes
-        ).join(",");
+        )
+          .map((item) => TypeNameMap[item])
+          .join(", ");
+
         return pushToResult({
           kind: "InvalidAnnotationTarget",
           issueType: ANNOTATION_ISSUE_TYPE,
-          message: `Invalid target: ${actualAttributeValueToken.image}. The path is leading to ${target._type}, but expected types are: [${expectedTypesList}]`,
+          message: `Invalid target: ${
+            actualAttributeValueToken.image
+          }. The path leads to ${
+            TypeNameMap[target._type]
+          }, but expected types are: ${expectedTypesList}`,
           offsetRange: {
             start: actualAttributeValueToken.startOffset,
             end: actualAttributeValueToken.endOffset,
@@ -239,9 +254,11 @@ export function validateUnknownAnnotationTarget(
         return result;
       }
 
-      const message = `Invalid target: ${actualAttributeValueToken.image}. ${
+      const message = `Invalid target path: ${
+        actualAttributeValueToken.image
+      }. ${
         isNotRecommended
-          ? "There are no expected annotations found in the project for this target"
+          ? "It does not lead to any annotations of the expected type"
           : "Trigger code completion to choose one of valid targets if some are available"
       }`;
       // Path itself is found but it doesn't suit current context

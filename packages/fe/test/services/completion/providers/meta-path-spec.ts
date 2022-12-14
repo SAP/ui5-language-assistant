@@ -33,13 +33,7 @@ describe("metaPath attribute value completion", () => {
     "main",
     "Main.view.xml",
   ];
-  const annoFileSegmentsXML = [
-    "app",
-    "manage_travels",
-    "webapp",
-    "annotations",
-    "annotation.xml",
-  ];
+
   const annoFileSegmentsCDS = ["app", "manage_travels", "annotations.cds"];
   const settings: Settings = {
     codeAssist: {
@@ -63,16 +57,6 @@ describe("metaPath attribute value completion", () => {
               ChartType: #Bar
           },
       );
-    `;
-
-  const annotationSnippetXML = `
-      <Annotations Target="TravelService.Travel">
-          <Annotation Term="UI.Chart" >
-              <Record Type="UI.ChartDefinitionType">
-                  <PropertyValue Property="ChartType" EnumMember="UI.ChartType/Area"/>
-              </Record>
-          </Annotation>
-      </Annotations>
     `;
 
   before(async function () {
@@ -262,10 +246,10 @@ describe("metaPath attribute value completion", () => {
     });
 
     it("service details are missing in manifest", async function () {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const result = await getCompletionResult(
         `<macros:Chart metaPath="${CURSOR_ANCHOR}"></macros:Chart>`,
         this,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (c) => ({ ...c, manifestDetails: undefined } as any)
       );
       expect(result.length).to.eq(0);
