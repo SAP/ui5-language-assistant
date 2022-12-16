@@ -10,6 +10,7 @@ import {
 import {
   getElementAttributeValue,
   isPropertyPathAllowed,
+  normalizePath,
   resolvePathTarget,
 } from "../../../utils";
 
@@ -68,15 +69,17 @@ export function validateUnknownPropertyPath(
       | Property
       | undefined;
     let baseType: EntityType | undefined;
+    let normalizedContextPath: string;
 
     // resolve context
     if (typeof contextPath === "string") {
       if (!contextPath.startsWith("/")) {
         return [];
       }
+      normalizedContextPath = normalizePath(contextPath);
       ({ target: base, targetStructuredType: baseType } = resolvePathTarget(
         metadata,
-        contextPath
+        normalizedContextPath
       ));
       isNavSegmentsAllowed = false;
     } else {
@@ -84,6 +87,7 @@ export function validateUnknownPropertyPath(
         return [];
       }
       contextPath = `/${entitySet}`;
+      normalizedContextPath = contextPath;
       base = service.convertedMetadata.entitySets.find(
         (e) => e.name === entitySet
       );
@@ -195,7 +199,7 @@ export function validateUnknownPropertyPath(
             kind: "PathDoesNotExist",
             issueType: ANNOTATION_ISSUE_TYPE,
             message: `Path does not exist: "${
-              isAbsolutePath ? "" : contextPath + "/"
+              isAbsolutePath ? "" : normalizedContextPath + "/"
             }${attribute.value}"`,
             offsetRange: {
               start:

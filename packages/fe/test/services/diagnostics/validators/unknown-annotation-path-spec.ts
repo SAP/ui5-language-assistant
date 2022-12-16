@@ -125,6 +125,14 @@ describe("metaPath attribute value validation (annotation path)", () => {
       expect(result.length).to.eq(0);
     });
 
+    it("contextPath has trailing segment", async function () {
+      const result = await validateView(
+        `<macros:Chart contextPath="/Travel/" metaPath="@com.sap.vocabularies.UI.v1.Chart#sample1"></macros:Field>`,
+        this
+      );
+      expect(result.length).to.eq(0);
+    });
+
     it("attribute value is absent", async function () {
       const result = await validateView(
         `<macros:Chart metaPath></macros:Chart>`,
@@ -332,6 +340,16 @@ describe("metaPath attribute value validation (annotation path)", () => {
       );
       expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
         'kind: PathDoesNotExist; text: Path does not exist: "/Travel/@com.sap.vocabularies.UI.v1.Chart"; severity:warn; offset:344-378',
+      ]);
+    });
+
+    it("is pointing to not existing term (with contextPath)", async function () {
+      const result = await validateView(
+        `<macros:Chart contextPath="/Travel/" metaPath="@com.sap.vocabularies.UI.v1.Chart"></macros:Chart>`,
+        this
+      );
+      expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
+        'kind: PathDoesNotExist; text: Path does not exist: "/Travel/@com.sap.vocabularies.UI.v1.Chart"; severity:warn; offset:367-401',
       ]);
     });
 

@@ -16,6 +16,7 @@ import {
   isPropertyPathAllowed,
   ResolvedPathTargetType,
   resolvePathTarget,
+  normalizePath,
 } from "../../../utils";
 import { getAnnotationAppliedOnElement } from "../../../utils";
 
@@ -66,15 +67,17 @@ export function validateUnknownAnnotationPath(
     let isNavSegmentsAllowed = true;
     let base: ResolvedPathTargetType | undefined;
     let baseType: EntityType | undefined;
+    let normalizedContextPath: string;
 
     // resolve context and get annotations for it
     if (typeof contextPath === "string") {
       if (!contextPath.startsWith("/")) {
         return [];
       }
+      normalizedContextPath = normalizePath(contextPath);
       ({ target: base, targetStructuredType: baseType } = resolvePathTarget(
         metadata,
-        contextPath
+        normalizedContextPath
       ));
       isNavSegmentsAllowed = false;
     } else {
@@ -82,6 +85,7 @@ export function validateUnknownAnnotationPath(
         return [];
       }
       contextPath = `/${entitySet}`;
+      normalizedContextPath = contextPath;
       base = service.convertedMetadata.entitySets.find(
         (e) => e.name === entitySet
       );
@@ -110,24 +114,26 @@ export function validateUnknownAnnotationPath(
         },
       ];
     }
+
+    if (isPropertyPathAllowed(control)) {
+      // another validator takes care
+      return [];
+    }
+
     if (!actualAttributeValue.includes("@")) {
-      if (isPropertyPathAllowed(control)) {
-        // The value seem to be a property path, another validator takes care
-        return [];
-      } else {
-        return [
-          {
-            kind: "PropertyPathNotAllowed",
-            issueType: ANNOTATION_ISSUE_TYPE,
-            message: `Property path not allowed. Use code completion to select annotation path`,
-            offsetRange: {
-              start: actualAttributeValueToken.startOffset,
-              end: actualAttributeValueToken.endOffset,
-            },
-            severity: "warn",
+      // The value seem to be a property path
+      return [
+        {
+          kind: "PropertyPathNotAllowed",
+          issueType: ANNOTATION_ISSUE_TYPE,
+          message: `Property path not allowed. Use code completion to select annotation path`,
+          offsetRange: {
+            start: actualAttributeValueToken.startOffset,
+            end: actualAttributeValueToken.endOffset,
           },
-        ];
-      }
+          severity: "warn",
+        },
+      ];
     }
 
     // resolve by segments
@@ -188,7 +194,7 @@ export function validateUnknownAnnotationPath(
         {
           kind: "PathDoesNotExist",
           issueType: ANNOTATION_ISSUE_TYPE,
-          message: `Path does not exist: "${contextPath}/${attribute.value}"`,
+          message: `Path does not exist: "${normalizedContextPath}/${attribute.value}"`,
           offsetRange: {
             start:
               actualAttributeValueToken.startOffset + correctPart.length + 1,
@@ -255,7 +261,7 @@ export function validateUnknownAnnotationPath(
         {
           kind: "PathDoesNotExist",
           issueType: ANNOTATION_ISSUE_TYPE,
-          message: `Path does not exist: "${contextPath}/${attribute.value}"`,
+          message: `Path does not exist: "${normalizedContextPath}/${attribute.value}"`,
           offsetRange: {
             start: actualAttributeValueToken.startOffset,
             end: actualAttributeValueToken.endOffset,

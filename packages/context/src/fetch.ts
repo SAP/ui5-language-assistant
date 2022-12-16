@@ -23,23 +23,27 @@ export default async function fetch(
   }
 
   // call the node-fetch API
-
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  const isBundled = typeof __webpack_require__ === "function";
-  if (isBundled) {
-    const nodeFetch = (await import("node-fetch")).default;
-    return nodeFetch(url, init);
-  } else {
-    const importDynamic = new Function(
-      "modulePath",
-      "return import(modulePath)"
-    );
-    //eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const nodeFetch = async (...args: any[]) => {
-      const module = await importDynamic("node-fetch");
-      return module.default(...args);
-    };
-    return nodeFetch(url, init);
+  let nodeFetchImported = false;
+  let nodeFetch;
+  try {
+    // this should work when bundled
+    nodeFetch = (await import("node-fetch")).default;
+    nodeFetchImported = typeof nodeFetch === "function";
+  } catch (e) {
+    if (!nodeFetchImported) {
+      // trying to load dynamically
+      const importDynamic = new Function(
+        "modulePath",
+        "return import(modulePath)"
+      );
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      nodeFetch = async (...args: any[]) => {
+        const module = await importDynamic("node-fetch");
+        return module.default(...args);
+      };
+    } else {
+      throw e;
+    }
   }
+  return nodeFetch(url, init);
 }

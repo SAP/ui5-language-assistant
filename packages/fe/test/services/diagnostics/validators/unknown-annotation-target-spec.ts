@@ -140,6 +140,14 @@ describe("contextPath attribute value validation", () => {
       );
       expect(result.length).to.eq(0);
     });
+
+    it("Has trailing slash", async function () {
+      const result = await validateView(
+        `<macros:Chart contextPath="/Booking/to_Travel/"></macros:Chart>`,
+        this
+      );
+      expect(result.length).to.eq(0);
+    });
   });
 
   context("does not show any warnings when...", () => {
@@ -177,26 +185,31 @@ describe("contextPath attribute value validation", () => {
     });
   });
 
-  it("property path target", async function () {
-    const result = await validateView(
-      `<macros:Field contextPath="/Booking"></macros:Field>`,
-      this
-    );
-    expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
-      "kind: ContextPathBindingNotRecommended; text: contextPath for Field is usually defined if binding for the object is different than that of the page; severity:info; offset:347-356",
-    ]);
-  });
+  context(
+    "shows info message when contextPath is not recommended to use",
+    () => {
+      it("annotation target", async function () {
+        const result = await validateView(
+          `<macros:Form contextPath="/Travel"></macros:Form>`,
+          this
+        );
+        expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
+          "kind: ContextPathBindingNotRecommended; text: contextPath for Form is usually defined if binding for the object is different than that of the page; severity:info; offset:346-354",
+          'kind: InvalidAnnotationTarget; text: Invalid target path: "/Travel". It does not lead to any annotations of the expected type; severity:warn; offset:346-354',
+        ]);
+      });
 
-  it("shows info message when contextPath is not recommended to use", async function () {
-    const result = await validateView(
-      `<macros:Form contextPath="/Travel"></macros:Form>`,
-      this
-    );
-    expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
-      "kind: ContextPathBindingNotRecommended; text: contextPath for Form is usually defined if binding for the object is different than that of the page; severity:info; offset:346-354",
-      'kind: InvalidAnnotationTarget; text: Invalid target path: "/Travel". It does not lead to any annotations of the expected type; severity:warn; offset:346-354',
-    ]);
-  });
+      it("property path target", async function () {
+        const result = await validateView(
+          `<macros:Field contextPath="/Booking"></macros:Field>`,
+          this
+        );
+        expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
+          "kind: ContextPathBindingNotRecommended; text: contextPath for Field is usually defined if binding for the object is different than that of the page; severity:info; offset:347-356",
+        ]);
+      });
+    }
+  );
 
   context("shows warning when contextPath...", () => {
     it("is empty", async function () {
@@ -205,7 +218,7 @@ describe("contextPath attribute value validation", () => {
         this
       );
       expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
-        "kind: AnnotationTargetRequired; text: Annotation target is required; severity:warn; offset:347-348",
+        "kind: AnnotationTargetRequired; text: contextPath value cannot be empty. Enter value or remove contextPath property; severity:warn; offset:347-348",
       ]);
     });
 
@@ -280,6 +293,16 @@ describe("contextPath attribute value validation", () => {
       ]);
     });
 
+    it("has empty segments", async function () {
+      const result = await validateView(
+        `<macros:Chart contextPath="/Travel//"></macros:Chart>`,
+        this
+      );
+      expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
+        'kind: UnknownEnumValue; text: Unknown target: "/Travel//"; severity:warn; offset:356-356',
+      ]);
+    });
+
     it("is pointing to entity property", async function () {
       const result = await validateView(
         `<macros:Chart contextPath="/Travel/TotalPrice"></macros:Chart>`,
@@ -296,7 +319,7 @@ describe("contextPath attribute value validation", () => {
         this
       );
       expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
-        'kind: InvalidAnnotationTarget; text: Invalid target path: "/Booking". Trigger code completion to choose one of valid targets if some are available; severity:warn; offset:347-356',
+        'kind: InvalidAnnotationTarget; text: Invalid target path: "/Booking". It does not lead to any annotations of the expected type; severity:warn; offset:347-356',
       ]);
     });
 

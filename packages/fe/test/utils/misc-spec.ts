@@ -26,6 +26,14 @@ describe("misc utils", () => {
       expect(result.expectedAnnotations).to.be.empty;
       expect(result.expectedTypes).to.be.empty;
     });
+
+    it("no specification provided for a property", () => {
+      const result = getPathConstraintsForControl("FilterBar", {
+        name: "contextPath",
+      } as UI5Prop);
+      expect(result.expectedAnnotations).to.be.empty;
+      expect(result.expectedTypes).to.be.empty;
+    });
   });
 
   it("isPropertyPathAllowed, control not defined", () => {

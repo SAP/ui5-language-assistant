@@ -13,6 +13,7 @@ import {
   resolvePathTarget,
   getAnnotationAppliedOnElement,
   AllowedTargetType,
+  normalizePath,
 } from "../../../utils";
 import {
   EntityContainer,
@@ -104,7 +105,8 @@ export function validateUnknownAnnotationTarget(
       return pushToResult({
         kind: "AnnotationTargetRequired",
         issueType: ANNOTATION_ISSUE_TYPE,
-        message: "Annotation target is required",
+        message:
+          "contextPath value cannot be empty. Enter value or remove contextPath property",
         offsetRange: {
           start: actualAttributeValueToken.startOffset,
           end: actualAttributeValueToken.endOffset,
@@ -126,13 +128,15 @@ export function validateUnknownAnnotationTarget(
       });
     }
 
+    const normalizedValue = normalizePath(actualAttributeValue);
+
     // Check by segments
     const {
       target,
       targetStructuredType: targetEntity,
       isCardinalityIssue,
       lastValidSegmentIndex,
-    } = resolvePathTarget(service.convertedMetadata, actualAttributeValue);
+    } = resolvePathTarget(service.convertedMetadata, normalizedValue);
     const originalSegments = actualAttributeValue.split("/");
 
     if (target?._type === "Property") {
@@ -257,7 +261,7 @@ export function validateUnknownAnnotationTarget(
       const message = `Invalid target path: ${
         actualAttributeValueToken.image
       }. ${
-        isNotRecommended
+        expectedAnnotations.length === 0
           ? "It does not lead to any annotations of the expected type"
           : "Trigger code completion to choose one of valid targets if some are available"
       }`;

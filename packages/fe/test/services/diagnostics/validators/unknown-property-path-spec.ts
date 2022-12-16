@@ -125,6 +125,14 @@ describe("metaPath attribute value validation (property path)", () => {
       expect(result.length).to.eq(0);
     });
 
+    it("contains valid property path and contextPath with trailing slash", async function () {
+      const result = await validateView(
+        `<macros:Field contextPath="/Booking/" metaPath="BookingID"></macros:Field>`,
+        this
+      );
+      expect(result.length).to.eq(0);
+    });
+
     it("contains valid absolute property path", async function () {
       const result = await validateView(
         `<macros:Field metaPath="/Travel/BeginDate"></macros:Field>`,
@@ -296,6 +304,16 @@ describe("metaPath attribute value validation (property path)", () => {
       );
       expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
         'kind: PathDoesNotExist; text: Path does not exist: "/Travel/testProperty"; severity:warn; offset:345-356',
+      ]);
+    });
+
+    it("is pointing to not existing property (with context path)", async function () {
+      const result = await validateView(
+        `<macros:Field contextPath="/Travel/" metaPath="testProperty"></macros:Field>`,
+        this
+      );
+      expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
+        'kind: PathDoesNotExist; text: Path does not exist: "/Travel/testProperty"; severity:warn; offset:368-379',
       ]);
     });
 
