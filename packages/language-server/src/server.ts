@@ -335,7 +335,7 @@ documents.onDidClose((textDocumentChangeEvent) => {
     // clear diagnostics for a closed file
     connection.sendDiagnostics({ uri, diagnostics: [] });
   }
-  clearDocumentSettings(textDocumentChangeEvent.document.uri);
+  clearDocumentSettings(uri);
 });
 
 documents.listen(connection);
