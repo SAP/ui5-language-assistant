@@ -283,7 +283,7 @@ describe("metaPath attribute value validation (property path)", () => {
         this
       );
       expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
-        "kind: PropertyPathRequired; text: Property path is required; severity:warn; offset:344-345",
+        "kind: PropertyPathRequired; text: metaPath value cannot be empty; severity:warn; offset:344-345",
       ]);
     });
 
@@ -303,7 +303,7 @@ describe("metaPath attribute value validation (property path)", () => {
         this
       );
       expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
-        'kind: PathDoesNotExist; text: Path does not exist: "/Travel/testProperty"; severity:warn; offset:345-356',
+        'kind: UnknownPropertyPath; text: Unknown path: "/Travel/testProperty"; severity:warn; offset:345-356',
       ]);
     });
 
@@ -313,7 +313,7 @@ describe("metaPath attribute value validation (property path)", () => {
         this
       );
       expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
-        'kind: PathDoesNotExist; text: Path does not exist: "/Travel/testProperty"; severity:warn; offset:368-379',
+        'kind: UnknownPropertyPath; text: Unknown path: "/Travel/testProperty"; severity:warn; offset:368-379',
       ]);
     });
 
@@ -323,7 +323,27 @@ describe("metaPath attribute value validation (property path)", () => {
         this
       );
       expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
-        'kind: UnknownPropertyPath; text: Path should lead to property: "/Travel"; severity:warn; offset:344-352',
+        "kind: PropertyPathRequired; text: Invalid path value. The path leads to Edm.EntityType, but expected type is Edm.Property; severity:warn; offset:344-352",
+      ]);
+    });
+
+    it("contains incomplete absolute property path (case 2)", async function () {
+      const result = await validateView(
+        `<macros:Field metaPath="/TravelService.EntityContainer/"></macros:Field>`,
+        this
+      );
+      expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
+        "kind: IncompletePath; text: Invalid path value. The path leads to Edm.EntityContainer, but expected type is Edm.Property; severity:warn; offset:344-376",
+      ]);
+    });
+
+    it("contains incomplete absolute property path (case 3)", async function () {
+      const result = await validateView(
+        `<macros:Field metaPath="/TravelService.EntityContainer/Travel/to_Booking"></macros:Field>`,
+        this
+      );
+      expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
+        "kind: PropertyPathRequired; text: Invalid path value. The path leads to Edm.EntityType, but expected type is Edm.Property; severity:warn; offset:344-393",
       ]);
     });
 
@@ -333,7 +353,7 @@ describe("metaPath attribute value validation (property path)", () => {
         this
       );
       expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
-        'kind: PathDoesNotExist; text: Path does not exist: "/Travel_"; severity:warn; offset:344-353',
+        'kind: UnknownPropertyPath; text: Unknown path: "/Travel_"; severity:warn; offset:345-352',
       ]);
     });
 
@@ -343,7 +363,17 @@ describe("metaPath attribute value validation (property path)", () => {
         this
       );
       expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
-        'kind: PathDoesNotExist; text: Path does not exist: "/Travel/to_Booking_/BookingDate"; severity:warn; offset:352-375',
+        'kind: UnknownPropertyPath; text: Unknown path: "/Travel/to_Booking_/BookingDate"; severity:warn; offset:353-375',
+      ]);
+    });
+
+    it("contains absolute path with invalid cardinality navigation segment", async function () {
+      const result = await validateView(
+        `<macros:Field metaPath="/Travel/to_Booking/to_BookSupplement/BookingSupplementID"></macros:Field>`,
+        this
+      );
+      expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
+        "kind: UnknownPropertyPath; text: Invalid property path value. Multiple 1:many association segments not allowed; severity:warn; offset:363-400",
       ]);
     });
 
@@ -353,7 +383,7 @@ describe("metaPath attribute value validation (property path)", () => {
         this
       );
       expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
-        'kind: PathDoesNotExist; text: Path does not exist: "/Travel/to_Booking/to_Travel1/TravelID"; severity:warn; offset:355-374',
+        'kind: UnknownPropertyPath; text: Unknown path: "/Travel/to_Booking/to_Travel1/TravelID"; severity:warn; offset:356-374',
       ]);
     });
 
@@ -363,7 +393,7 @@ describe("metaPath attribute value validation (property path)", () => {
         this
       );
       expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
-        'kind: UnknownPropertyPath; text: Path should lead to property: "to_Booking"; severity:warn; offset:344-355',
+        "kind: PropertyPathRequired; text: Invalid path value. The path leads to Edm.EntityType, but expected type is Edm.Property; severity:warn; offset:344-355",
       ]);
     });
   });

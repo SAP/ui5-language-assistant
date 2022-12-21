@@ -12,6 +12,7 @@ import {
   isPropertyPathAllowed,
   normalizePath,
   resolvePathTarget,
+  TypeNameMap,
 } from "../../../utils";
 
 import {
@@ -104,7 +105,7 @@ export function validateUnknownPropertyPath(
         {
           kind: "PropertyPathRequired",
           issueType: ANNOTATION_ISSUE_TYPE,
-          message: "Property path is required",
+          message: "metaPath value cannot be empty",
           offsetRange: {
             start: actualAttributeValueToken.startOffset,
             end: actualAttributeValueToken.endOffset,
@@ -132,75 +133,68 @@ export function validateUnknownPropertyPath(
       ];
     }
 
-    let targetEntity: EntityType | undefined = baseType;
-    let targetProperty: Property | undefined;
-    let lastValidSegmentIndex = -1;
-    let isAbsolutePath = false;
-    if (segments.length > 1 && !segments[0]) {
-      // absolute path
-      segments.shift();
-      targetEntity = service.convertedMetadata.entityTypes.find(
-        (entityType) => entityType.name === segments[0]
-      );
-      lastValidSegmentIndex = targetEntity ? 1 : 0;
-      isAbsolutePath = true;
-      segments.shift();
-      if (!segments.length) {
-        return [
-          targetEntity
-            ? {
-                kind: "UnknownPropertyPath",
-                issueType: ANNOTATION_ISSUE_TYPE,
-                message: `Path should lead to property: "${attribute.value}"`,
-                offsetRange: {
-                  start: actualAttributeValueToken.startOffset,
-                  end: actualAttributeValueToken.endOffset,
-                },
-                severity: "warn",
-              }
-            : {
-                kind: "PathDoesNotExist",
-                issueType: ANNOTATION_ISSUE_TYPE,
-                message: `Path does not exist: "${attribute.value}"`,
-                offsetRange: {
-                  start: actualAttributeValueToken.startOffset,
-                  end: actualAttributeValueToken.endOffset,
-                },
-                severity: "warn",
-              },
-        ];
-      }
+    const normalizedValue = normalizePath(actualAttributeValue);
+    const {
+      target,
+      targetStructuredType: targetEntity,
+      isCardinalityIssue,
+      lastValidSegmentIndex,
+    } = resolvePathTarget(service.convertedMetadata, normalizedValue, baseType);
+
+    if (target?._type === "Property") {
+      return [];
     }
 
-    for (const segment of segments) {
-      if (!targetEntity) {
-        break;
-      }
-      const navProperty = targetEntity.navigationProperties.find(
-        (p) => p.name === segment
-      );
-      targetProperty = targetEntity.entityProperties.find(
-        (p) => p.name === segment
-      );
-      targetEntity = navProperty?.targetType;
-      if (targetEntity || targetProperty) {
-        lastValidSegmentIndex++;
-      }
+    if (target?._type === "EntityContainer") {
+      return [
+        {
+          kind: "IncompletePath",
+          issueType: ANNOTATION_ISSUE_TYPE,
+          message: `Invalid path value. The path leads to ${
+            TypeNameMap[target._type]
+          }, but expected type is Edm.Property`,
+          offsetRange: {
+            start: actualAttributeValueToken.startOffset,
+            end: actualAttributeValueToken.endOffset,
+          },
+          severity: "warn",
+        },
+      ];
     }
-    if (!targetEntity) {
-      if (
-        !targetProperty ||
-        lastValidSegmentIndex < originalSegments.length - 1
-      ) {
+
+    if (!target || !targetEntity) {
+      if (!isCardinalityIssue) {
+        // Path does not exist
+        originalSegments.splice(lastValidSegmentIndex + 1);
+        const correctPart = originalSegments.length
+          ? "/" + originalSegments.join("/")
+          : "";
+        return [
+          {
+            kind: "UnknownPropertyPath",
+            issueType: ANNOTATION_ISSUE_TYPE,
+            message: `Unknown path: "${
+              actualAttributeValue.trim().startsWith("/")
+                ? ""
+                : normalizedContextPath + "/"
+            }${attribute.value}"`,
+            offsetRange: {
+              start:
+                actualAttributeValueToken.startOffset + correctPart.length + 1,
+              end: actualAttributeValueToken.endOffset - 1,
+            },
+            severity: "warn",
+          },
+        ];
+      } else {
+        // segment found but preceding path leads to collection
         originalSegments.splice(lastValidSegmentIndex + 1);
         const correctPart = originalSegments.join("/");
         return [
           {
-            kind: "PathDoesNotExist",
+            kind: "UnknownPropertyPath",
             issueType: ANNOTATION_ISSUE_TYPE,
-            message: `Path does not exist: "${
-              isAbsolutePath ? "" : normalizedContextPath + "/"
-            }${attribute.value}"`,
+            message: `Invalid property path value. Multiple 1:many association segments not allowed`,
             offsetRange: {
               start:
                 actualAttributeValueToken.startOffset + correctPart.length + 1,
@@ -211,12 +205,13 @@ export function validateUnknownPropertyPath(
         ];
       }
     } else {
-      // path is incomplete
       return [
         {
-          kind: "UnknownPropertyPath",
+          kind: "PropertyPathRequired",
           issueType: ANNOTATION_ISSUE_TYPE,
-          message: `Path should lead to property: "${attribute.value}"`,
+          message: `Invalid path value. The path leads to ${
+            TypeNameMap[target._type]
+          }, but expected type is Edm.Property`,
           offsetRange: {
             start: actualAttributeValueToken.startOffset,
             end: actualAttributeValueToken.endOffset,

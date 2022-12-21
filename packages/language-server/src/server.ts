@@ -187,6 +187,42 @@ connection.onHover(
   }
 );
 
+const validateOpenDocuments = async (changes: FileEvent[]): Promise<void> => {
+  const supportedDocs = [
+    "manifest.json",
+    "ui5.yaml",
+    ".cds",
+    ".xml",
+    "package.json",
+  ];
+
+  const found = changes.find(
+    (change) =>
+      !change.uri.match(/[\S]+.(view|fragment).xml$/) &&
+      supportedDocs.find((doc) => change.uri.endsWith(doc))
+  );
+  if (!found) {
+    return;
+  }
+
+  const allDocuments = documents.all();
+  for (const document of allDocuments) {
+    const documentPath = URI.parse(document.uri).fsPath;
+    const context = await getContext(
+      documentPath,
+      initializationOptions?.modelCachePath
+    );
+    const diagnostics = getXMLViewDiagnostics({
+      document,
+      context,
+    });
+    getLogger().trace("computed diagnostics", {
+      diagnostics,
+    });
+    connection.sendDiagnostics({ uri: document.uri, diagnostics });
+  }
+};
+
 connection.onDidChangeWatchedFiles(async (changeEvent) => {
   getLogger().debug("`onDidChangeWatchedFiles` event", {
     changeEvent,
@@ -207,6 +243,7 @@ connection.onDidChangeWatchedFiles(async (changeEvent) => {
     }
   });
   await reactOnCdsFileChange(cdsFileEvents);
+  await validateOpenDocuments(changeEvent.changes);
 });
 
 documents.onDidChangeContent(async (changeEvent) => {

@@ -16,8 +16,16 @@ export type AllowedTargetType =
   | "Singleton"
   | "NavigationProperty"
   | "Property";
+type MetadataElementTypes = AllowedTargetType | "EntityContainer";
 
-// export const allowedTargets: AllowedTargetType[] = ['EntitySet', 'EntityType', 'Singleton'];
+export const TypeNameMap: Record<MetadataElementTypes, string> = {
+  EntityContainer: "Edm.EntityContainer",
+  EntitySet: "Edm.EntitySet",
+  EntityType: "Edm.EntityType",
+  NavigationProperty: "Edm.NavigationProperty",
+  Property: "Edm.Property",
+  Singleton: "Edm.Singleton",
+};
 
 export function getEntityTypeForElement(
   element: EntitySet | EntityType | Singleton

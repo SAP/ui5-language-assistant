@@ -194,8 +194,8 @@ describe("contextPath attribute value validation", () => {
           this
         );
         expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
-          "kind: ContextPathBindingNotRecommended; text: contextPath for Form is usually defined if binding for the object is different than that of the page; severity:info; offset:346-354",
-          'kind: InvalidAnnotationTarget; text: Invalid target path: "/Travel". It does not lead to any annotations of the expected type; severity:warn; offset:346-354',
+          "kind: ContextPathBindingNotRecommended; text: Context path for Form is usually defined if binding for the object is different than that of the page; severity:info; offset:346-354",
+          "kind: InvalidAnnotationTarget; text: Invalid contextPath value. It does not lead to any annotations of the expected type; severity:warn; offset:346-354",
         ]);
       });
 
@@ -205,7 +205,7 @@ describe("contextPath attribute value validation", () => {
           this
         );
         expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
-          "kind: ContextPathBindingNotRecommended; text: contextPath for Field is usually defined if binding for the object is different than that of the page; severity:info; offset:347-356",
+          "kind: ContextPathBindingNotRecommended; text: Context path for Field is usually defined if binding for the object is different than that of the page; severity:info; offset:347-356",
         ]);
       });
     }
@@ -228,7 +228,7 @@ describe("contextPath attribute value validation", () => {
         this
       );
       expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
-        'kind: UnknownEnumValue; text: Unknown annotation target: "to_Booking". Absolute path is expected; severity:warn; offset:347-358',
+        'kind: UnknownEnumValue; text: Invalid contextPath value: "to_Booking". Absolute path is expected; severity:warn; offset:347-358',
       ]);
     });
 
@@ -248,7 +248,7 @@ describe("contextPath attribute value validation", () => {
         this
       );
       expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
-        "kind: ContextPathBindingNotRecommended; text: contextPath for Table is usually defined if binding for the object is different than that of the page; severity:info; offset:347-378",
+        "kind: ContextPathBindingNotRecommended; text: Context path for Table is usually defined if binding for the object is different than that of the page; severity:info; offset:347-378",
         "kind: IncompletePath; text: Path is incomplete. It leads to entity container; severity:warn; offset:347-378",
       ]);
     });
@@ -259,7 +259,7 @@ describe("contextPath attribute value validation", () => {
         this
       );
       expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
-        'kind: UnknownEnumValue; text: Unknown target: "/Travel1"; severity:warn; offset:348-355',
+        'kind: UnknownEnumValue; text: Unknown context path: "/Travel1"; severity:warn; offset:348-355',
       ]);
     });
 
@@ -269,7 +269,7 @@ describe("contextPath attribute value validation", () => {
         this
       );
       expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
-        'kind: UnknownEnumValue; text: Unknown target: "/TravelService.EntityContainer/Travel1"; severity:warn; offset:379-385',
+        'kind: UnknownEnumValue; text: Unknown context path: "/TravelService.EntityContainer/Travel1"; severity:warn; offset:379-385',
       ]);
     });
 
@@ -279,7 +279,7 @@ describe("contextPath attribute value validation", () => {
         this
       );
       expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
-        'kind: UnknownEnumValue; text: Unknown target: "/Travel/to_Airport"; severity:warn; offset:356-365',
+        'kind: UnknownEnumValue; text: Unknown context path: "/Travel/to_Airport"; severity:warn; offset:356-365',
       ]);
     });
 
@@ -289,7 +289,7 @@ describe("contextPath attribute value validation", () => {
         this
       );
       expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
-        "kind: UnknownEnumValue; text: Multiple 1:many association segments not allowed; severity:warn; offset:366-393",
+        "kind: UnknownEnumValue; text: Invalid contextPath value. Multiple 1:many association segments not allowed; severity:warn; offset:366-393",
       ]);
     });
 
@@ -299,7 +299,7 @@ describe("contextPath attribute value validation", () => {
         this
       );
       expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
-        'kind: UnknownEnumValue; text: Unknown target: "/Travel//"; severity:warn; offset:356-356',
+        'kind: UnknownEnumValue; text: Unknown context path: "/Travel//"; severity:warn; offset:356-356',
       ]);
     });
 
@@ -309,7 +309,7 @@ describe("contextPath attribute value validation", () => {
         this
       );
       expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
-        "kind: UnknownEnumValue; text: Wrong path. It leads to entity property but should lead to entity type or entity set; severity:warn; offset:347-366",
+        "kind: UnknownEnumValue; text: Invalid contextPath value. It leads to entity property, but expected types are: Edm.EntitySet, Edm.EntityType, Edm.Singleton, Edm.NavigationProperty; severity:warn; offset:347-366",
       ]);
     });
 
@@ -319,7 +319,7 @@ describe("contextPath attribute value validation", () => {
         this
       );
       expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
-        'kind: InvalidAnnotationTarget; text: Invalid target path: "/Booking". It does not lead to any annotations of the expected type; severity:warn; offset:347-356',
+        "kind: InvalidAnnotationTarget; text: Invalid contextPath value. It does not lead to any annotations of the expected type; severity:warn; offset:347-356",
       ]);
     });
 
@@ -329,8 +329,8 @@ describe("contextPath attribute value validation", () => {
         this
       );
       expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
-        "kind: ContextPathBindingNotRecommended; text: contextPath for Table is usually defined if binding for the object is different than that of the page; severity:info; offset:347-356",
-        'kind: InvalidAnnotationTarget; text: Invalid target path: "/Booking". It does not lead to any annotations of the expected type; severity:warn; offset:347-356',
+        "kind: ContextPathBindingNotRecommended; text: Context path for Table is usually defined if binding for the object is different than that of the page; severity:info; offset:347-356",
+        "kind: InvalidAnnotationTarget; text: Invalid contextPath value. It does not lead to any annotations of the expected type; severity:warn; offset:347-356",
       ]);
     });
 
@@ -345,7 +345,7 @@ describe("contextPath attribute value validation", () => {
           this
         );
         expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
-          'kind: InvalidAnnotationTarget; text: Invalid target: "/Travel". The path leads to Edm.EntityType, but expected types are: Edm.EntitySet, Edm.Singleton; severity:warn; offset:347-355',
+          "kind: InvalidAnnotationTarget; text: Invalid contextPath value. The path leads to Edm.EntityType, but expected types are: Edm.EntitySet, Edm.Singleton; severity:warn; offset:347-355",
         ]);
       } finally {
         st.restore();
@@ -368,8 +368,8 @@ describe("contextPath attribute value validation", () => {
           this
         );
         expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
-          "kind: ContextPathBindingNotRecommended; text: contextPath for Table is usually defined if binding for the object is different than that of the page; severity:info; offset:347-355",
-          'kind: InvalidAnnotationTarget; text: Invalid target: "/Travel". The path leads to Edm.EntityType, but expected types are: Edm.EntitySet, Edm.Singleton; severity:warn; offset:347-355',
+          "kind: ContextPathBindingNotRecommended; text: Context path for Table is usually defined if binding for the object is different than that of the page; severity:info; offset:347-355",
+          "kind: InvalidAnnotationTarget; text: Invalid contextPath value. The path leads to Edm.EntityType, but expected types are: Edm.EntitySet, Edm.Singleton; severity:warn; offset:347-355",
         ]);
       } finally {
         st.restore();
@@ -402,7 +402,7 @@ describe("contextPath attribute value validation", () => {
           this
         );
         expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
-          'kind: InvalidAnnotationTarget; text: Invalid target path: "/Travel/to_Booking". Trigger code completion to choose one of valid targets if some are available; severity:warn; offset:347-366',
+          "kind: InvalidAnnotationTarget; text: Invalid contextPath value. Trigger code completion to choose one of valid targets if some are available; severity:warn; offset:347-366",
         ]);
       });
 

@@ -20,6 +20,14 @@ const config = {
           replace: "__non_webpack_require__.resolve",
         },
       },
+      {
+        test: /module-loader\.js$/,
+        loader: "string-replace-loader",
+        options: {
+          search: /__importStar\(require\(modulePath\)\)/,
+          replace: `__non_webpack_require__(modulePath)`,
+        },
+      },
     ],
   },
 };

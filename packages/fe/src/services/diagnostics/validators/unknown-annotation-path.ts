@@ -105,7 +105,7 @@ export function validateUnknownAnnotationPath(
         {
           kind: "AnnotationPathRequired",
           issueType: ANNOTATION_ISSUE_TYPE,
-          message: "Annotation path is required",
+          message: "Annotation path value cannot be empty",
           offsetRange: {
             start: actualAttributeValueToken.startOffset,
             end: actualAttributeValueToken.endOffset,
@@ -126,7 +126,7 @@ export function validateUnknownAnnotationPath(
         {
           kind: "PropertyPathNotAllowed",
           issueType: ANNOTATION_ISSUE_TYPE,
-          message: `Property path not allowed. Use code completion to select annotation path`,
+          message: `Path value must end with annotation term. Use code completion to select annotation path`,
           offsetRange: {
             start: actualAttributeValueToken.startOffset,
             end: actualAttributeValueToken.endOffset,
@@ -194,7 +194,7 @@ export function validateUnknownAnnotationPath(
         {
           kind: "PathDoesNotExist",
           issueType: ANNOTATION_ISSUE_TYPE,
-          message: `Path does not exist: "${normalizedContextPath}/${attribute.value}"`,
+          message: `Unknown annotation path: "${normalizedContextPath}/${attribute.value}"`,
           offsetRange: {
             start:
               actualAttributeValueToken.startOffset + correctPart.length + 1,
@@ -261,7 +261,7 @@ export function validateUnknownAnnotationPath(
         {
           kind: "PathDoesNotExist",
           issueType: ANNOTATION_ISSUE_TYPE,
-          message: `Path does not exist: "${normalizedContextPath}/${attribute.value}"`,
+          message: `Unknown annotation path: "${normalizedContextPath}/${attribute.value}"`,
           offsetRange: {
             start: actualAttributeValueToken.startOffset,
             end: actualAttributeValueToken.endOffset,

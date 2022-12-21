@@ -5,6 +5,7 @@ import {
   getElementAttributeValue,
   getNextPossiblePathTargets,
   resolvePathTarget,
+  normalizePath,
 } from "../../../utils";
 
 import type { UI5AttributeValueCompletionOptions } from "./index";
@@ -90,7 +91,7 @@ export function metaPathSuggestions({
     }
     ({ target: base, targetStructuredType: baseType } = resolvePathTarget(
       metadata,
-      contextPath
+      normalizePath(contextPath)
     ));
     isNavSegmentsAllowed = false;
   } else {
