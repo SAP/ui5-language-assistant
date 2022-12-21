@@ -198,47 +198,6 @@ function createTextEdits(
   };
 }
 
-// export interface CompleteString {
-//   startString: string;
-//   remainingString: string;
-//   position: Position;
-// }
-
-// export function getAffectedRange(commitCharacters, completeString: CompleteString): Range {
-//   let startStringLength = completeString.position.character - completeString.startString.length;
-//   let remainingStringLength = completeString.position.character + completeString.remainingString.length;
-
-//   const commitCharacter = commitCharacters && commitCharacters.length ? commitCharacters[0] : '';
-
-//   // limit to the left with commitCharacter or '/'
-//   const fragmentArray = completeString.startString.split(commitCharacter || '/');
-//   if (fragmentArray.length > 1) {
-//       const newString = fragmentArray.pop();
-//       startStringLength = completeString.position.character - newString!.toString().length;
-//   }
-
-//   // limit to the right only if commitCharacter is present
-//   if (commitCharacter) {
-//       const remainingStringFragment = completeString.remainingString.split(commitCharacter);
-//       if (remainingStringFragment.length > 1) {
-//           const newString = remainingStringFragment.slice(0, 1);
-//           remainingStringLength = completeString.position.character + newString.toString().length;
-//       }
-//   }
-
-//   // Return affected range: Range
-//   return {
-//       start: {
-//           line: completeString.position.line,
-//           character: startStringLength
-//       },
-//       end: {
-//           line: completeString.position.line,
-//           character: remainingStringLength
-//       }
-//   };
-// }
-
 // Calculates completion range based on attribute position information considering that value region includes quotes
 export function getAffectedRange(
   token?: XMLToken,

@@ -1,7 +1,5 @@
 import { expect } from "chai";
-import { stub } from "sinon"; // import * as chai from 'chai';
-// import { jestSnapshotPlugin } from 'mocha-chai-jest-snapshot';
-// chai.use(jestSnapshotPlugin());
+import { stub } from "sinon";
 import { join } from "path";
 import { cache, Context, getContext } from "@ui5-language-assistant/context";
 import { CURSOR_ANCHOR } from "@ui5-language-assistant/test-framework";

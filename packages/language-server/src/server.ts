@@ -198,7 +198,7 @@ const validateOpenDocuments = async (changes: FileEvent[]): Promise<void> => {
 
   const found = changes.find(
     (change) =>
-      !change.uri.match(/[\S]+.(view|fragment).xml$/) &&
+      !isXMLView(change.uri) &&
       supportedDocs.find((doc) => change.uri.endsWith(doc))
   );
   if (!found) {

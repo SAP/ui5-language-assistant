@@ -363,16 +363,6 @@ describe("metaPath attribute value validation (annotation path)", () => {
       ]);
     });
 
-    // it("does not exist", async function () {
-    //   const result = await validateView(
-    //     `<macros:Chart metaPath="to_Booking/to_Travel1/@com.sap.vocabularies.UI.v1.Chart"></macros:Chart>`,
-    //     this
-    //   );
-    //   expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
-    //     'kind: PathDoesNotExist; text: Unknown annotation path: "/Travel/to_Booking/to_Travel1/@com.sap.vocabularies.UI.v1.Chart"; severity:warn; offset:355-399',
-    //   ]);
-    // });
-
     it("itself is correct but pointing to invalid (not suitable for context) target", async function () {
       const result = await validateView(
         `<macros:Chart metaPath="@com.sap.vocabularies.UI.v1.LineItem"></macros:Chart>`,

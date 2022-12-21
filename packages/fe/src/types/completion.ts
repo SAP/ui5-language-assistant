@@ -1,16 +1,5 @@
 import { MarkupContent, Range } from "vscode-languageserver-types";
 
-// export enum CompletionItemKind {
-//   Term = 'Term',
-//   EntityContainer = 'EntityContainer',
-//   EntitySet = 'EntitySet',
-//   EntityType = 'EntityType',
-//   NavigationProperty = 'NavigationProperty',
-//   ComplexType = 'ComplexType',
-//   Property = 'Property',
-//   Unknown = 'Unknown'
-// }
-
 export type CompletionItemKind =
   | "Term"
   | "EntityContainer"
@@ -28,7 +17,6 @@ export interface BaseCompletionItem {
   name: string; // used to eliminate duplicates (in simple cases: the completed string)
   text: string; // text to be applied (via insert or replace)
   affectedRange?: Range; // in replace mode: range to be replaced (if replace or not will be decided centrally)
-  //category?: CompletionItemCategory; // enum member for possible categories; will be mapped to LSP kind centrally
   id?: string; // together with category: provide basis for generation of documentation
   commitCharacters?: string[];
   commitCharacterRequired?: boolean; // item only valid if followed by one of the commit characters
