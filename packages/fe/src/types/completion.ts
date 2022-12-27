@@ -96,22 +96,30 @@ export interface AnnotationPathCompletionDetails {
   commitCharacters: string[];
 }
 
+export const AnnotationPathInXMLAttributeValueTypeName =
+  "AnnotationPathInXMLAttributeValue";
 export interface AnnotationPathInXMLAttributeValueCompletion
   extends BaseXMLViewAnnotationCompletion<AnnotationPathValueCompletionItem> {
-  type: "AnnotationPathInXMLAttributeValue";
+  type: typeof AnnotationPathInXMLAttributeValueTypeName;
 }
 
+export const PropertyPathInXMLAttributeValueTypeName =
+  "PropertyPathInXMLAttributeValue";
 export interface PropertyPathInXMLAttributeValueCompletion
   extends BaseXMLViewAnnotationCompletion<PropertyPathValueCompletionItem> {
-  type: "PropertyPathInXMLAttributeValue";
+  type: typeof PropertyPathInXMLAttributeValueTypeName;
 }
 
+export const AnnotationTargetInXMLAttributeValueTypeName =
+  "AnnotationTargetInXMLAttributeValue";
 export interface AnnotationTargetInXMLAttributeValueCompletion
   extends BaseXMLViewAnnotationCompletion<AnnotationTargetValueCompletionItem> {
-  type: "AnnotationTargetInXMLAttributeValue";
+  type: typeof AnnotationTargetInXMLAttributeValueTypeName;
 }
 
+export const FilterBarIdInXMLAttributeValueTypeName =
+  "FilterBarIdInXMLAttributeValue";
 export interface FilterBarIdInXMLAttributeValueCompletion
   extends BaseXMLViewAnnotationCompletion<FilterBarIdValue> {
-  type: "FilterBarIdInXMLAttributeValue";
+  type: typeof FilterBarIdInXMLAttributeValueTypeName;
 }

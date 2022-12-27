@@ -1,9 +1,8 @@
 import { expect } from "chai";
 import { join } from "path";
-import { Context, getContext } from "@ui5-language-assistant/context";
+import { Context } from "@ui5-language-assistant/context";
 import { CURSOR_ANCHOR } from "@ui5-language-assistant/test-framework";
 import { Settings } from "@ui5-language-assistant/settings";
-import { CompletionItem } from "vscode-languageserver-types";
 
 import {
   Config,
@@ -12,13 +11,17 @@ import {
   TestFramework,
 } from "@ui5-language-assistant/test-framework";
 
-import { getCompletionItems } from "../../../../src/api";
-import { completionItemToSnapshot } from "../../utils";
+import {
+  completionItemToSnapshot,
+  getViewCompletionProvider,
+  ViewCompletionProviderType,
+} from "../../utils";
 
 let framework: TestFramework;
 
 describe("filterBar id attribute value completion", () => {
   let root: string, uri: string, documentPath: string;
+  let getCompletionResult: ViewCompletionProviderType;
 
   const viewFilePathSegments = [
     "app",
@@ -79,50 +82,14 @@ describe("filterBar id attribute value completion", () => {
       annoFileSegmentsCDS,
       annotationSnippetCDS
     );
+    getCompletionResult = getViewCompletionProvider(
+      framework,
+      viewFilePathSegments,
+      documentPath,
+      uri,
+      settings
+    );
   });
-
-  const getCompletionResult = async (
-    snippet: string,
-    that: { timeout: (t: number) => void },
-    contextAdapter?: (context: Context) => Context
-  ): Promise<CompletionItem[]> => {
-    const timeout = 60000;
-    that.timeout(timeout);
-    let result: CompletionItem[] = [];
-    try {
-      const { offset } = await framework.updateFileContent(
-        viewFilePathSegments,
-        snippet,
-        { insertAfter: "<content>" }
-      );
-      const { ast, cst, tokenVector, content } = await framework.readFile(
-        viewFilePathSegments
-      );
-      const { document, textDocumentPosition } = framework.toVscodeTextDocument(
-        uri,
-        content,
-        offset
-      );
-      const context = await getContext(documentPath);
-
-      result = getCompletionItems({
-        ast,
-        context: contextAdapter ? contextAdapter(context) : context,
-        cst,
-        document,
-        documentSettings: settings,
-        textDocumentPosition,
-        tokenVector,
-      });
-    } finally {
-      // reversal update
-      await framework.updateFileContent(viewFilePathSegments, "", {
-        doUpdatesAfter: "<content>",
-        replaceText: snippet.replace(CURSOR_ANCHOR, ""),
-      });
-    }
-    return result;
-  };
 
   context("filterBar attribute completion", () => {
     it("id value completion", async function () {

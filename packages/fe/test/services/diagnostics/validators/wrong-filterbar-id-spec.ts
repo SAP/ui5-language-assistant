@@ -1,9 +1,5 @@
 import { expect } from "chai";
 import { join } from "path";
-import { getContext } from "@ui5-language-assistant/context";
-import { CURSOR_ANCHOR } from "@ui5-language-assistant/test-framework";
-import { DocumentCstNode } from "@xml-tools/parser";
-import { buildAst } from "@xml-tools/ast";
 import {
   Config,
   ProjectName,
@@ -11,15 +7,18 @@ import {
   TestFramework,
 } from "@ui5-language-assistant/test-framework";
 
-import { AnnotationIssue } from "../../../../src/api";
-import { validateXMLView } from "@ui5-language-assistant/xml-views-validation";
 import { validateFilterBarId } from "../../../../src/services/diagnostics/validators/wrong-filter-bar-id";
-import { issueToSnapshot } from "../../utils";
+import {
+  getViewValidator,
+  issueToSnapshot,
+  ViewValidatorType,
+} from "../../utils";
 
 let framework: TestFramework;
 
 describe("filterBar attribute value validation", () => {
   let root: string, documentPath: string;
+  let validateView: ViewValidatorType;
 
   const viewFilePathSegments = [
     "app",
@@ -67,42 +66,13 @@ describe("filterBar attribute value validation", () => {
       annoFileSegmentsCDS,
       annotationSnippetCDS
     );
+    validateView = getViewValidator(
+      framework,
+      viewFilePathSegments,
+      documentPath,
+      validateFilterBarId
+    );
   });
-
-  const validateView = async (
-    snippet: string,
-    that: { timeout: (t: number) => void }
-  ): Promise<AnnotationIssue[]> => {
-    const timeout = 60000;
-    that.timeout(timeout);
-    let result: AnnotationIssue[] = [];
-    try {
-      await framework.updateFileContent(viewFilePathSegments, snippet, {
-        insertAfter: "<content>",
-      });
-      const { cst, tokenVector } = await framework.readFile(
-        viewFilePathSegments
-      );
-      const context = await getContext(documentPath);
-      const xmlView = buildAst(cst as DocumentCstNode, tokenVector);
-      result = validateXMLView({
-        validators: {
-          attribute: [validateFilterBarId],
-          document: [],
-          element: [],
-        },
-        context,
-        xmlView,
-      }) as AnnotationIssue[];
-    } finally {
-      // reversal update
-      await framework.updateFileContent(viewFilePathSegments, "", {
-        doUpdatesAfter: "<content>",
-        replaceText: snippet.replace(CURSOR_ANCHOR, ""),
-      });
-    }
-    return result;
-  };
 
   describe("shows no issues when...", () => {
     it("value is correct", async function () {

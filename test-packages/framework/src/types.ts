@@ -49,7 +49,6 @@ export interface ReadFileResult {
   cst: DocumentCstNode;
   ast: XMLDocument;
   tokenVector: IToken[];
-  offset: number;
 }
 /**
  * @param projectRoot root of a project
@@ -76,7 +75,7 @@ export interface TestFrameworkAPI {
     pathSegments: string[],
     content: string,
     position?: Position
-  ): Promise<void>;
+  ): Promise<{ offset: number }>;
   /**
    * Read a file from project. If `range` is provided, a portion of a file is read
    *
@@ -102,4 +101,33 @@ export interface TestFrameworkAPI {
    * @param content file content. Content may contain `⇶` placeholder
    */
   getOffset(content: string): number;
+
+  /**
+   * Updates file content
+   * @param filePath - path of file to update
+   * @param newText - new text to be written to the file
+   * @param options - describes how the file should be updated
+   *    - insertBefore: if provided, the new text is inserted before that fragment
+   *    - insertAfter: if provided, the new text is inserted after that fragment
+   *    - replaceText: if provided, the new text replaces that fragment
+   *    - doUpdatesAfter: if provided then search for that fragment is done first and
+   *                      if is found, then requested changes are made staring from position after it.
+   *                      If not found, exception is thrown
+   *      If options are omitted then new text is added to the end of file
+   *
+   * @param deleteCursorAnchors - (default = true ) if set to true then cursor anchors are removed from file before saving it
+   *
+   * returns - offset of first cursor anchor in the file content after applying requested changes
+   */
+  updateFileContent(
+    relativePathSegments: string[],
+    newText: string,
+    options?: {
+      insertBefore?: string;
+      insertAfter?: string;
+      replaceText?: string;
+      doUpdatesAfter?: string;
+    },
+    deleteCursorAnchors?: boolean
+  ): Promise<{ offset: number }>;
 }

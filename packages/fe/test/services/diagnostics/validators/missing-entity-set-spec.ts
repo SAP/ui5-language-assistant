@@ -1,9 +1,6 @@
 import { expect } from "chai";
 import { join } from "path";
-import { Context, getContext } from "@ui5-language-assistant/context";
-import { CURSOR_ANCHOR } from "@ui5-language-assistant/test-framework";
-import { DocumentCstNode } from "@xml-tools/parser";
-import { buildAst } from "@xml-tools/ast";
+import { Context } from "@ui5-language-assistant/context";
 import {
   Config,
   ProjectName,
@@ -11,15 +8,19 @@ import {
   TestFramework,
 } from "@ui5-language-assistant/test-framework";
 
-import { AnnotationIssue } from "../../../../src/api";
-import { validateXMLView } from "@ui5-language-assistant/xml-views-validation";
 import { validateMissingViewEntitySet } from "../../../../src/services/diagnostics/validators/missing-entity-set";
-import { issueToSnapshot } from "../../utils";
+import {
+  getViewValidator,
+  issueToSnapshot,
+  ViewValidatorType,
+} from "../../utils";
 
 let framework: TestFramework;
 
 describe("missing entitySet validation", () => {
   let root: string, documentPath: string;
+  let validateView: ViewValidatorType;
+
   const viewFilePathSegments = [
     "app",
     "manage_travels",
@@ -52,43 +53,14 @@ describe("missing entitySet validation", () => {
       "main",
       "Main.view.xml"
     );
-  });
 
-  const validateView = async (
-    snippet: string,
-    that: { timeout: (t: number) => void },
-    contextAdapter?: (context: Context) => Context
-  ): Promise<AnnotationIssue[]> => {
-    const timeout = 60000;
-    that.timeout(timeout);
-    let result: AnnotationIssue[] = [];
-    try {
-      await framework.updateFileContent(viewFilePathSegments, snippet, {
-        insertAfter: "<content>",
-      });
-      const { cst, tokenVector } = await framework.readFile(
-        viewFilePathSegments
-      );
-      const context = await getContext(documentPath);
-      const xmlView = buildAst(cst as DocumentCstNode, tokenVector);
-      result = validateXMLView({
-        validators: {
-          attribute: [validateMissingViewEntitySet],
-          document: [],
-          element: [],
-        },
-        context: contextAdapter ? contextAdapter(context) : context,
-        xmlView,
-      }) as AnnotationIssue[];
-    } finally {
-      // reversal update
-      await framework.updateFileContent(viewFilePathSegments, "", {
-        doUpdatesAfter: "<content>",
-        replaceText: snippet.replace(CURSOR_ANCHOR, ""),
-      });
-    }
-    return result;
-  };
+    validateView = getViewValidator(
+      framework,
+      viewFilePathSegments,
+      documentPath,
+      validateMissingViewEntitySet
+    );
+  });
 
   describe("shows warning when...", () => {
     it("entitySet is absent in manifest", async function () {

@@ -5,7 +5,10 @@ import {
 } from "@ui5-language-assistant/logic-utils";
 import { UI5AttributeValueCompletionOptions } from "./index";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
-import { FilterBarIdInXMLAttributeValueCompletion } from "../../../types/completion";
+import {
+  FilterBarIdInXMLAttributeValueCompletion,
+  FilterBarIdInXMLAttributeValueTypeName,
+} from "../../../types/completion";
 import { SAP_FE_MACROS } from "../../../types";
 import { getAffectedRange } from "../utils";
 
@@ -29,7 +32,7 @@ export function filterBarAttributeSuggestions({
     const root = getRootElement(element);
     const ids = collectFilterBarElements(root, context.ui5Model);
     return ids.map((id) => ({
-      type: "FilterBarIdInXMLAttributeValue",
+      type: FilterBarIdInXMLAttributeValueTypeName,
       node: {
         kind: "FilterBarId",
         name: id,

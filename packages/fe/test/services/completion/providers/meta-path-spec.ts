@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { stub } from "sinon";
 import { join } from "path";
-import { cache, Context, getContext } from "@ui5-language-assistant/context";
+import { cache, Context } from "@ui5-language-assistant/context";
 import { CURSOR_ANCHOR } from "@ui5-language-assistant/test-framework";
 import { Settings } from "@ui5-language-assistant/settings";
 
@@ -13,8 +13,11 @@ import {
 } from "@ui5-language-assistant/test-framework";
 import { CompletionItem } from "vscode-languageserver-types";
 
-import { getCompletionItems } from "../../../../src/api";
-import { completionItemToSnapshot } from "../../utils";
+import {
+  completionItemToSnapshot,
+  getViewCompletionProvider,
+  ViewCompletionProviderType,
+} from "../../utils";
 
 import * as miscUtils from "../../../../src/utils/misc";
 
@@ -22,6 +25,7 @@ let framework: TestFramework;
 
 describe("metaPath attribute value completion", () => {
   let root: string, uri: string, documentPath: string;
+  let getCompletionResult: ViewCompletionProviderType;
 
   const viewFilePathSegments = [
     "app",
@@ -86,50 +90,14 @@ describe("metaPath attribute value completion", () => {
       annoFileSegmentsCDS,
       annotationSnippetCDS
     );
+    getCompletionResult = getViewCompletionProvider(
+      framework,
+      viewFilePathSegments,
+      documentPath,
+      uri,
+      settings
+    );
   });
-
-  const getCompletionResult = async (
-    snippet: string,
-    that: { timeout: (t: number) => void },
-    contextAdapter?: (context: Context) => Context
-  ): Promise<CompletionItem[]> => {
-    const timeout = 60000;
-    that.timeout(timeout);
-    let result: CompletionItem[] = [];
-    try {
-      const { offset } = await framework.updateFileContent(
-        viewFilePathSegments,
-        snippet,
-        { insertAfter: "<content>" }
-      );
-      const { ast, cst, tokenVector, content } = await framework.readFile(
-        viewFilePathSegments
-      );
-      const { document, textDocumentPosition } = framework.toVscodeTextDocument(
-        uri,
-        content,
-        offset
-      );
-      const context = await getContext(documentPath);
-
-      result = getCompletionItems({
-        ast,
-        context: contextAdapter ? contextAdapter(context) : context,
-        cst,
-        document,
-        documentSettings: settings,
-        textDocumentPosition,
-        tokenVector,
-      });
-    } finally {
-      // reversal update
-      await framework.updateFileContent(viewFilePathSegments, "", {
-        doUpdatesAfter: "<content>",
-        replaceText: snippet.replace(CURSOR_ANCHOR, ""),
-      });
-    }
-    return result;
-  };
 
   context("no completion when...", () => {
     it("UI5Property not found", async function () {
@@ -243,16 +211,6 @@ describe("metaPath attribute value completion", () => {
       expect(result.length).to.eq(0);
     });
 
-    it("service details are missing in manifest", async function () {
-      const result = await getCompletionResult(
-        `<macros:Chart metaPath="${CURSOR_ANCHOR}"></macros:Chart>`,
-        this,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        (c) => ({ ...c, manifestDetails: undefined } as any)
-      );
-      expect(result.length).to.eq(0);
-    });
-
     it("service path is not provided in manifest", async function () {
       const result = await getCompletionResult(
         `<macros:Chart metaPath="${CURSOR_ANCHOR}"></macros:Chart>`,
@@ -264,24 +222,6 @@ describe("metaPath attribute value completion", () => {
             mainServicePath: "",
           },
         })
-      );
-      expect(result.length).to.eq(0);
-    });
-
-    it("custom views are missing in manifest", async function () {
-      const result = await getCompletionResult(
-        `<macros:Chart metaPath="${CURSOR_ANCHOR}"></macros:Chart>`,
-        this,
-        (c) => {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          const newDetails: any = { ...c.manifestDetails };
-          delete newDetails["customViews"];
-          const newContext = {
-            ...c,
-            manifestDetails: newDetails,
-          };
-          return newContext;
-        }
       );
       expect(result.length).to.eq(0);
     });

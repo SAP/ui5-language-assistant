@@ -50,7 +50,7 @@ export function validateUnknownAnnotationTarget(
   ) {
     const element = attribute.parent;
     const control = element.name;
-    const mainServicePath = context.manifestDetails?.mainServicePath;
+    const mainServicePath = context.manifestDetails.mainServicePath;
     const service = mainServicePath
       ? context.services[mainServicePath]
       : undefined;
@@ -226,7 +226,6 @@ export function validateUnknownAnnotationTarget(
       }
 
       let annotationList = getAnnotationAppliedOnElement(
-        service.convertedMetadata,
         expectedAnnotations,
         target as EntityContainer | EntityType | EntitySet | Singleton
       );
@@ -237,7 +236,6 @@ export function validateUnknownAnnotationTarget(
       }
 
       annotationList = getAnnotationAppliedOnElement(
-        service.convertedMetadata,
         expectedAnnotationsMetaPath,
         target as EntityContainer | EntityType | EntitySet | Singleton
       );

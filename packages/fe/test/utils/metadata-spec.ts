@@ -145,7 +145,7 @@ describe("metadata edge cases", () => {
   });
 
   it("annotations on entity container", () => {
-    const result = getAnnotationAppliedOnElement(metadata, [], entityContainer);
+    const result = getAnnotationAppliedOnElement([], entityContainer);
     expect(result.length).to.eq(0);
   });
 });

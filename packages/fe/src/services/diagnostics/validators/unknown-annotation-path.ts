@@ -48,10 +48,7 @@ export function validateUnknownAnnotationPath(
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const control = element.name!;
 
-    // let annotationList: AnnotationLookupResultEntry[] | undefined;
-
-    // const annotationListAssoc: { navSegment: string; annotations: any[] }[] = [];
-    const mainServicePath = context.manifestDetails?.mainServicePath;
+    const mainServicePath = context.manifestDetails.mainServicePath;
     const service = mainServicePath
       ? context.services[mainServicePath]
       : undefined;
@@ -61,7 +58,7 @@ export function validateUnknownAnnotationPath(
     const metadata = service.convertedMetadata;
     let contextPath = getElementAttributeValue(element, "contextPath");
     const entitySet =
-      (context.manifestDetails.customViews || {})[context.customViewId || ""]
+      context.manifestDetails.customViews[context.customViewId || ""]
         ?.entitySet ?? "";
 
     let isNavSegmentsAllowed = true;
@@ -208,7 +205,6 @@ export function validateUnknownAnnotationPath(
       const parts = termSegment.split("@");
       let annos: AnnotationBase[] | undefined;
       annos = getAnnotationAppliedOnElement(
-        metadata,
         expectedAnnotations,
         segments.length === 0 ? base : targetEntity,
         parts[0]
@@ -223,7 +219,6 @@ export function validateUnknownAnnotationPath(
         // check whether the provided term exists on target
         const term: AnnotationTerm = fullyQualifiedNameToTerm(parts[1]);
         annos = getAnnotationAppliedOnElement(
-          metadata,
           [term],
           segments.length === 0 ? base : targetEntity,
           parts[0]
@@ -233,11 +228,7 @@ export function validateUnknownAnnotationPath(
         );
         if (match) {
           // determine whether any allowed term exists in the project suitable for the current context
-          annos = getAnnotationAppliedOnElement(
-            metadata,
-            expectedAnnotations,
-            base
-          );
+          annos = getAnnotationAppliedOnElement(expectedAnnotations, base);
           const messageAddOn = annos.length
             ? `Trigger code completion to choose one of allowed annotations`
             : `There are no annotations in the project that are suitable for the current context`;

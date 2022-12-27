@@ -115,7 +115,7 @@ export function collectAnnotationsForElement(
   if (!element) {
     return [];
   }
-  const type: EntityType | undefined = getEntityTypeForElement(element);
+  const type: EntityType = getEntityTypeForElement(element);
   let target:
     | EntityType
     | EntitySet
@@ -150,7 +150,6 @@ export function collectAnnotationsForElement(
 }
 
 export function getAnnotationAppliedOnElement(
-  metadata: ConvertedMetadata,
   allowedTerms: AnnotationTerm[],
   target: EntityContainer | EntitySet | EntityType | Singleton,
   navigationProperty?: string,

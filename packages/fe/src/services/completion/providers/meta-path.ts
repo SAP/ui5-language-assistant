@@ -17,19 +17,23 @@ import type {
   NavigationProperty,
   Property,
 } from "@sap-ux/vocabularies-types";
-import type {
+import {
   AnnotationPathInXMLAttributeValueCompletion,
   PropertyPathInXMLAttributeValueCompletion,
+  SAP_FE_MACROS,
 } from "../../../types";
 import { Range } from "vscode-languageserver-types";
 import { getAffectedRange } from "../utils";
+import {
+  AnnotationPathInXMLAttributeValueTypeName,
+  PropertyPathInXMLAttributeValueTypeName,
+} from "../../../types/completion";
 
 export interface CompletionItem {
   name: string;
   text: string;
   commitCharacters: string[];
   commitCharacterRequired: boolean;
-  // documentation: { kind: MarkupKind.Markdown, value: documentation.join('\n') }
 }
 
 /**
@@ -54,16 +58,12 @@ export function metaPathSuggestions({
   );
 
   if (
-    !(
-      ui5Property?.library === "sap.fe.macros" &&
-      ui5Property.name === "metaPath"
-    )
+    !(ui5Property?.library === SAP_FE_MACROS && ui5Property.name === "metaPath")
   ) {
     return [];
   }
-  // let annotationList: AnnotationLookupResultEntry[] | undefined;
   let contextPath = getElementAttributeValue(element, "contextPath");
-  const mainServicePath = context.manifestDetails?.mainServicePath;
+  const mainServicePath = context.manifestDetails.mainServicePath;
   const service = mainServicePath
     ? context.services[mainServicePath]
     : undefined;
@@ -72,7 +72,7 @@ export function metaPathSuggestions({
   }
 
   const entitySet =
-    (context.manifestDetails.customViews || {})[context.customViewId || ""]
+    context.manifestDetails.customViews[context.customViewId || ""]
       ?.entitySet ?? "";
   const metadata = service.convertedMetadata;
   let baseType: EntityType | undefined;
@@ -184,7 +184,7 @@ export function metaPathSuggestions({
               : annotation.term
           }`;
           return {
-            type: "AnnotationPathInXMLAttributeValue",
+            type: AnnotationPathInXMLAttributeValueTypeName,
             node: {
               kind: "Term",
               name: fullPath,
@@ -247,7 +247,7 @@ function convertTargetsToCompletionItems(
   return applicableTargets.map((t) => {
     if (t._type === "Property") {
       return {
-        type: "PropertyPathInXMLAttributeValue",
+        type: PropertyPathInXMLAttributeValueTypeName,
         node: {
           kind: t._type,
           name: t.name,
@@ -259,8 +259,8 @@ function convertTargetsToCompletionItems(
     } else {
       return {
         type: isPropertyPath
-          ? "PropertyPathInXMLAttributeValue"
-          : "AnnotationPathInXMLAttributeValue",
+          ? PropertyPathInXMLAttributeValueTypeName
+          : AnnotationPathInXMLAttributeValueTypeName,
         node: {
           kind: t._type,
           name: t.name,

@@ -1,28 +1,28 @@
 import { expect } from "chai";
 import { join } from "path";
 import {
-  getContext,
   cache,
   Context,
   ManifestDetails,
 } from "@ui5-language-assistant/context";
-import { CURSOR_ANCHOR } from "@ui5-language-assistant/test-framework";
 import {
   Config,
   ProjectName,
   ProjectType,
   TestFramework,
 } from "@ui5-language-assistant/test-framework";
-
-import { AnnotationIssue } from "../../../../src/api";
-import { validateXMLView } from "@ui5-language-assistant/xml-views-validation";
-import { issueToSnapshot } from "../../utils";
+import {
+  getViewValidator,
+  issueToSnapshot,
+  ViewValidatorType,
+} from "../../utils";
 import { validateUnknownAnnotationPath } from "../../../../src/services/diagnostics/validators/unknown-annotation-path";
 
 let framework: TestFramework;
 
 describe("metaPath attribute value validation (annotation path)", () => {
   let root: string, documentPath: string;
+  let validateView: ViewValidatorType;
 
   const viewFilePathSegments = [
     "app",
@@ -73,40 +73,14 @@ describe("metaPath attribute value validation (annotation path)", () => {
       annotationSnippetCDS
     );
     cache.reset(); // to refresh context
-  });
 
-  const validateView = async (
-    snippet: string,
-    that: { timeout: (t: number) => void },
-    contextAdapter?: (context: Context) => Context
-  ): Promise<AnnotationIssue[]> => {
-    const timeout = 60000;
-    that.timeout(timeout);
-    let result: AnnotationIssue[] = [];
-    try {
-      await framework.updateFileContent(viewFilePathSegments, snippet, {
-        insertAfter: "<content>",
-      });
-      const { ast } = await framework.readFile(viewFilePathSegments);
-      const context = await getContext(documentPath);
-      result = validateXMLView({
-        validators: {
-          attribute: [validateUnknownAnnotationPath],
-          document: [],
-          element: [],
-        },
-        context: contextAdapter ? contextAdapter(context) : context,
-        xmlView: ast,
-      }) as AnnotationIssue[];
-    } finally {
-      // reversal update
-      await framework.updateFileContent(viewFilePathSegments, "", {
-        doUpdatesAfter: "<content>",
-        replaceText: snippet.replace(CURSOR_ANCHOR, ""),
-      });
-    }
-    return result;
-  };
+    validateView = getViewValidator(
+      framework,
+      viewFilePathSegments,
+      documentPath,
+      validateUnknownAnnotationPath
+    );
+  });
 
   context("shows no issues when metaPath...", () => {
     it("contains valid term", async function () {
@@ -141,16 +115,6 @@ describe("metaPath attribute value validation (annotation path)", () => {
       expect(result.length).to.eq(0);
     });
 
-    it("service details are missing in manifest", async function () {
-      const result = await validateView(
-        `<macros:Chart metaPath=""></macros:Chart>`,
-        this,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        (c) => ({ ...c, manifestDetails: undefined } as any)
-      );
-      expect(result.length).to.eq(0);
-    });
-
     it("service path is not provided in manifest", async function () {
       const result = await validateView(
         `<macros:Chart metaPath=""></macros:Chart>`,
@@ -162,24 +126,6 @@ describe("metaPath attribute value validation (annotation path)", () => {
             mainServicePath: "",
           },
         })
-      );
-      expect(result.length).to.eq(0);
-    });
-
-    it("custom views are missing in manifest", async function () {
-      const result = await validateView(
-        `<macros:Chart metaPath=""></macros:Chart>`,
-        this,
-        (c) => {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          const newDetails: any = { ...c.manifestDetails };
-          delete newDetails["customViews"];
-          const newContext = {
-            ...c,
-            manifestDetails: newDetails,
-          };
-          return newContext;
-        }
       );
       expect(result.length).to.eq(0);
     });
@@ -199,7 +145,7 @@ describe("metaPath attribute value validation (annotation path)", () => {
       expect(result.length).to.eq(0);
     });
 
-    it("wrong entitySet specified in manifestt", async function () {
+    it("wrong entitySet specified in manifest", async function () {
       const result = await validateView(
         `<macros:Chart metaPath=""></macros:Chart>`,
         this,

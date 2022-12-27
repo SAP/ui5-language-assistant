@@ -1,10 +1,7 @@
 import { expect } from "chai";
 import { join } from "path";
 import { stub } from "sinon";
-import { cache, Context, getContext } from "@ui5-language-assistant/context";
-import { CURSOR_ANCHOR } from "@ui5-language-assistant/test-framework";
-import { DocumentCstNode } from "@xml-tools/parser";
-import { buildAst } from "@xml-tools/ast";
+import { cache } from "@ui5-language-assistant/context";
 import {
   Config,
   ProjectName,
@@ -12,9 +9,11 @@ import {
   TestFramework,
 } from "@ui5-language-assistant/test-framework";
 
-import { AnnotationIssue } from "../../../../src/api";
-import { validateXMLView } from "@ui5-language-assistant/xml-views-validation";
-import { issueToSnapshot } from "../../utils";
+import {
+  getViewValidator,
+  issueToSnapshot,
+  ViewValidatorType,
+} from "../../utils";
 import { validateUnknownAnnotationTarget } from "../../../../src/services/diagnostics/validators/unknown-annotation-target";
 import * as miscUtils from "../../../../src/utils/misc";
 
@@ -22,6 +21,7 @@ let framework: TestFramework;
 
 describe("contextPath attribute value validation", () => {
   let root: string, documentPath: string;
+  let validateView: ViewValidatorType;
 
   const viewFilePathSegments = [
     "app",
@@ -69,43 +69,14 @@ describe("contextPath attribute value validation", () => {
       annoFileSegmentsCDS,
       annotationSnippetCDS
     );
-  });
 
-  const validateView = async (
-    snippet: string,
-    that: { timeout: (t: number) => void },
-    contextAdapter?: (context: Context) => Context
-  ): Promise<AnnotationIssue[]> => {
-    const timeout = 60000;
-    that.timeout(timeout);
-    let result: AnnotationIssue[] = [];
-    try {
-      await framework.updateFileContent(viewFilePathSegments, snippet, {
-        insertAfter: "<content>",
-      });
-      const { cst, tokenVector } = await framework.readFile(
-        viewFilePathSegments
-      );
-      const context = await getContext(documentPath);
-      const xmlView = buildAst(cst as DocumentCstNode, tokenVector);
-      result = validateXMLView({
-        validators: {
-          attribute: [validateUnknownAnnotationTarget],
-          document: [],
-          element: [],
-        },
-        context: contextAdapter ? contextAdapter(context) : context,
-        xmlView,
-      }) as AnnotationIssue[];
-    } finally {
-      // reversal update
-      await framework.updateFileContent(viewFilePathSegments, "", {
-        doUpdatesAfter: "<content>",
-        replaceText: snippet.replace(CURSOR_ANCHOR, ""),
-      });
-    }
-    return result;
-  };
+    validateView = getViewValidator(
+      framework,
+      viewFilePathSegments,
+      documentPath,
+      validateUnknownAnnotationTarget
+    );
+  });
 
   context("shows no issues when contextPath is correct", () => {
     it("EntityType", async function () {
@@ -155,16 +126,6 @@ describe("contextPath attribute value validation", () => {
       const result = await validateView(
         `<macros:Chart contextPath></macros:Chart>`,
         this
-      );
-      expect(result.length).to.eq(0);
-    });
-
-    it("service details are missing in manifest", async function () {
-      const result = await validateView(
-        `<macros:Chart contextPath=""></macros:Chart>`,
-        this,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        (c) => ({ ...c, manifestDetails: undefined } as any)
       );
       expect(result.length).to.eq(0);
     });

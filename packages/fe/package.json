@@ -15,18 +15,19 @@
   "license": "Apache-2.0",
   "typings": "./api.d.ts",
   "dependencies": {
-    "lodash": "4.17.21"
+    "lodash": "4.17.21",
+    "@ui5-language-assistant/logic-utils": "3.3.1",
+    "@ui5-language-assistant/context": "3.3.1",
+    "@ui5-language-assistant/xml-views-completion": "3.3.1",
+    "@ui5-language-assistant/xml-views-validation": "3.3.1",
+    "deep-freeze-strict": "1.1.1"
   },
   "devDependencies": {
     "@sap-ux/vocabularies-types": "0.6.8",
-    "@types/lodash": "4.14.166",
-    "@ui5-language-assistant/context": "3.3.1",
-    "@ui5-language-assistant/logic-utils": "3.3.1",
+    "@types/lodash": "4.14.168",
     "@ui5-language-assistant/semantic-model-types": "3.3.1",
     "@ui5-language-assistant/test-framework": "3.3.1",
     "@ui5-language-assistant/test-utils": "3.3.1",
-    "@ui5-language-assistant/xml-views-completion": "3.3.1",
-    "@ui5-language-assistant/xml-views-validation": "3.3.1",
     "@xml-tools/ast": "5.0.0",
     "@xml-tools/parser": "1.0.7",
     "vscode-languageserver-types": "3.17.2",

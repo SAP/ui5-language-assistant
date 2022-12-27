@@ -5,7 +5,10 @@ import {
   getRootElements,
   resolvePathTarget,
 } from "../../../utils";
-import { AnnotationTargetInXMLAttributeValueCompletion } from "../../../types";
+import {
+  AnnotationTargetInXMLAttributeValueCompletion,
+  SAP_FE_MACROS,
+} from "../../../types";
 
 import { UI5AttributeValueCompletionOptions } from "./index";
 import {
@@ -16,6 +19,7 @@ import {
   Singleton,
 } from "@sap-ux/vocabularies-types";
 import { getAffectedRange } from "../utils";
+import { AnnotationTargetInXMLAttributeValueTypeName } from "../../../types/completion";
 
 type ApplicableMetadataElement =
   | EntityContainer
@@ -44,10 +48,10 @@ export function contextPathSuggestions({
   );
 
   if (
-    ui5Property?.library === "sap.fe.macros" &&
+    ui5Property?.library === SAP_FE_MACROS &&
     ui5Property.name === "contextPath"
   ) {
-    const mainServicePath = context.manifestDetails?.mainServicePath;
+    const mainServicePath = context.manifestDetails.mainServicePath;
     const service = mainServicePath
       ? context.services[mainServicePath]
       : undefined;
@@ -75,9 +79,6 @@ export function contextPathSuggestions({
     if (expectedAnnotations.length + expectedTypes.length === 0) {
       return [];
     }
-    // if (!isPropertyPath && expectedAnnotations.length === 0) {
-    //   return [];
-    // }
 
     const isNextSegmentPossible = (
       currentTarget: EntitySet | EntityType | Singleton | EntityContainer,
@@ -109,7 +110,6 @@ export function contextPathSuggestions({
         ...roots.map((root) => ({
           element: root,
           isLastSegment: !isNextSegmentPossible(root),
-          completionSegmentIndex,
         }))
       );
     } else {
@@ -144,7 +144,6 @@ export function contextPathSuggestions({
             return {
               element: t,
               isLastSegment: !isNextSegmentPossible(entityType, milestones),
-              completionSegmentIndex,
             };
           })
         );
@@ -159,16 +158,23 @@ export function contextPathSuggestions({
       NavigationProperty: "N",
     };
 
-    return suggestions.map((suggestion) => {
-      const text = `${completionSegmentIndex === 0 ? "/" : ""}${
-        ["EntityContainer", "EntitySet", "Singleton"].includes(
-          suggestion.element._type
-        ) && completionSegmentIndex < 2
+    const getSuggestionText = (suggestion: CompletionSuggestion): string => {
+      const isFullyQualifiedName = [
+        "EntityContainer",
+        "EntitySet",
+        "Singleton",
+      ].includes(suggestion.element._type);
+      return `${completionSegmentIndex === 0 ? "/" : ""}${
+        isFullyQualifiedName && completionSegmentIndex < 2
           ? suggestion.element.fullyQualifiedName
           : suggestion.element.name
       }`;
+    };
+
+    return suggestions.map((suggestion) => {
+      const text = getSuggestionText(suggestion);
       return {
-        type: "AnnotationTargetInXMLAttributeValue",
+        type: AnnotationTargetInXMLAttributeValueTypeName,
         node: {
           kind: suggestion.element._type,
           name: text,

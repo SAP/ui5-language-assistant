@@ -22,9 +22,8 @@ export const CURSOR_ANCHOR = "⇶";
 
 export class TestFramework implements TestFrameworkAPI {
   private projectInfo: ProjectInfo;
-  private _offset: number;
+
   constructor(config: Config) {
-    this._offset = 0;
     this.projectInfo = config.projectInfo;
     const {
       deleteBeforeCopy = false,
@@ -42,22 +41,19 @@ export class TestFramework implements TestFrameworkAPI {
       this.npmInstall();
     }
   }
-  get offset(): number {
-    return this._offset;
-  }
-  set offset(data: number) {
-    this._offset = data;
-  }
+
   /**
    * path to project folder
    */
   private getProjectsSource(): string {
     return join(__dirname, "..", "..", "projects");
   }
+
   private deleteProjectsCopy(): void {
     const srcDir = `${this.getProjectsSource()}-copy`;
     deleteProject(srcDir);
   }
+
   private nodeModulesExits(): boolean {
     const root = this.getProjectRoot();
     const modulePath = join(root, "node_modules");
@@ -66,10 +62,12 @@ export class TestFramework implements TestFrameworkAPI {
     }
     return false;
   }
+
   private createProjectsCopy(): void {
     const srcDir = this.getProjectsSource();
     createCopy(srcDir);
   }
+
   private npmInstall() {
     if (this.nodeModulesExits()) {
       print("Skipping npm install as node_modules exits");
@@ -77,15 +75,17 @@ export class TestFramework implements TestFrameworkAPI {
     }
     npmInstall(this.getProjectRoot());
   }
+
   public getProjectRoot(): string {
     const { name } = this.projectInfo;
     return join(__dirname, "..", "..", "projects-copy", name);
   }
+
   public async updateFile(
     pathSegments: string[],
     content: string,
     position?: Position
-  ): Promise<void> {
+  ): Promise<{ offset: number }> {
     const root = this.getProjectRoot();
     const filePath = join(root, ...pathSegments);
     if (position) {
@@ -100,10 +100,10 @@ export class TestFramework implements TestFrameworkAPI {
       const newContent = [startContent, addedContent, endContent].join("\n");
       content = newContent;
     }
-    const offset = this.getOffset(content);
-    this.offset = offset;
+    const offset = content.indexOf(CURSOR_ANCHOR);
     content = content.replace(new RegExp(CURSOR_ANCHOR, "g"), "");
     await writeFile(filePath, content);
+    return { offset };
   }
 
   /**
@@ -111,9 +111,16 @@ export class TestFramework implements TestFrameworkAPI {
    * @param filePath - path of file to update
    * @param newText - new text to be written to the file
    * @param options - describes how the file should be updated
-   *    - insertAfter: if provided the text is inserted after that fragment
-   *    - replaceText: if provided the new text replaces that fragment
+   *    - insertBefore: if provided, the new text is inserted before that fragment
+   *    - insertAfter: if provided, the new text is inserted after that fragment
+   *    - replaceText: if provided, the new text replaces that fragment
+   *    - doUpdatesAfter: if provided then search for that fragment is done first and
+   *                      if is found, then requested changes are made staring from position after it.
+   *                      If not found, exception is thrown
+   *
    * If options is omitted then new text is added to the end of file
+   *
+   * returns object with offset of cursor anchor position
    */
   public async updateFileContent(
     relativePathSegments: string[],
@@ -223,7 +230,6 @@ export class TestFramework implements TestFrameworkAPI {
       cst: docCst,
       ast,
       tokenVector,
-      offset: this.offset,
     };
   }
 
@@ -232,11 +238,13 @@ export class TestFramework implements TestFrameworkAPI {
     const pathData = join(root, ...pathSegments);
     return URI.file(pathData).toString();
   }
+
   public async getFileContent(pathSegments: string[]): Promise<string> {
     const root = this.getProjectRoot();
     const filePath = join(root, ...pathSegments);
     return await readFile(filePath, "utf-8");
   }
+
   public getOffset(content: string): number {
     if (content.indexOf(CURSOR_ANCHOR) === -1) {
       return 0;

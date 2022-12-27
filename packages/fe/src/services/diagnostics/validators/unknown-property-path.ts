@@ -48,7 +48,7 @@ export function validateUnknownPropertyPath(
     const element = attribute.parent;
     const control = element.name;
 
-    const mainServicePath = context.manifestDetails?.mainServicePath;
+    const mainServicePath = context.manifestDetails.mainServicePath;
     const service = mainServicePath
       ? context.services[mainServicePath]
       : undefined;
@@ -58,7 +58,7 @@ export function validateUnknownPropertyPath(
     const metadata = service.convertedMetadata;
     let contextPath = getElementAttributeValue(element, "contextPath");
     const entitySet =
-      (context.manifestDetails.customViews || {})[context.customViewId || ""]
+      context.manifestDetails.customViews[context.customViewId || ""]
         ?.entitySet ?? "";
 
     let isNavSegmentsAllowed = true;

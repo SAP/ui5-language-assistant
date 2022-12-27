@@ -1,5 +1,5 @@
 import { getProxyForUrl } from "proxy-from-env";
-import { HttpsProxyAgent } from "https-proxy-agent";
+import HttpsProxyAgent from "https-proxy-agent";
 import { RequestInfo, RequestInit, Response } from "node-fetch";
 
 /**
@@ -18,7 +18,7 @@ export default async function fetch(
   // the init opts to add the proxy agent
   if (proxy) {
     init = Object.assign({}, init, {
-      agent: new HttpsProxyAgent(proxy),
+      agent: HttpsProxyAgent(proxy),
     });
   }
 

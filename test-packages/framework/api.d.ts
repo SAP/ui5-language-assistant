@@ -1,10 +1,8 @@
+export type { Config, ProjectInfo, ReadFileResult } from "./src/api";
+
 export {
-  Config,
-  ProjectInfo,
   ProjectName,
   ProjectType,
-  ReadFileResult,
   TestFramework,
+  CURSOR_ANCHOR,
 } from "./src/api";
-
-export const CURSOR_ANCHOR;
