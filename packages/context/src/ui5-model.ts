@@ -434,9 +434,13 @@ export async function negotiateVersionWithFetcher(
     } else {
       // development scenario => use latest version
       version = versionMap["latest"].version;
+      isIncorrectVersion = true;
     }
     // store the resolved version
     if (requestedVersion) {
+      if (requestedVersion !== version) {
+        isIncorrectVersion = true;
+      }
       resolvedVersions[requestedVersion] = version;
     }
   }

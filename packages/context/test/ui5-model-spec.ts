@@ -340,6 +340,8 @@ describe("the UI5 language assistant ui5 model", () => {
         "1.104.0"
       );
       expect(objNegotiatedVersionWithFetcher.version).to.be.equal("1.105.0");
+      expect(objNegotiatedVersionWithFetcher.isFallback).to.be.false;
+      expect(objNegotiatedVersionWithFetcher.isIncorrectVersion).to.be.true;
     });
 
     it("resolve major.minor versions (should be closest)", async () => {
