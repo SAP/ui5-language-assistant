@@ -18,6 +18,7 @@ import {
   ViewValidatorType,
 } from "../../utils";
 import { validateUnknownPropertyPath } from "../../../../src/services/diagnostics/validators/unknown-property-path";
+import { initI18n } from "../../../../src/api";
 
 let framework: TestFramework;
 
@@ -80,6 +81,9 @@ describe("metaPath attribute value validation (property path)", () => {
       documentPath,
       validateUnknownPropertyPath
     );
+
+    const i18n = await framework.initI18n();
+    await initI18n(i18n);
   });
 
   context("shows no issues when metaPath...", () => {
@@ -229,7 +233,7 @@ describe("metaPath attribute value validation (property path)", () => {
         this
       );
       expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
-        "kind: PropertyPathRequired; text: metaPath value cannot be empty; severity:warn; offset:344-345",
+        "kind: PropertyPathRequired; text: Property path value cannot be empty; severity:warn; offset:344-345",
       ]);
     });
 

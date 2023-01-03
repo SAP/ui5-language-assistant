@@ -1,5 +1,6 @@
 import { UI5Prop } from "@ui5-language-assistant/semantic-model-types";
 import { XMLElement } from "@xml-tools/ast";
+import i18next, { TFunction } from "i18next";
 import type { AnnotationTerm } from "../types";
 import { AllowedTargetType } from "./metadata";
 import {
@@ -57,3 +58,11 @@ export function normalizePath(path: string): string {
   }
   return path;
 }
+
+export const adaptTranslatedText = (text: string): string => {
+  return text.replace(/&#x2F;/g, "/");
+};
+export const t: TFunction = (key: string, ...args) => {
+  const result = i18next.t(key, ...args);
+  return adaptTranslatedText(result as string);
+};

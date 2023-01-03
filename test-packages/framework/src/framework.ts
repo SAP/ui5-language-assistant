@@ -17,8 +17,11 @@ import {
 
 import { TestFrameworkAPI, ProjectInfo, Config, ReadFileResult } from "./types";
 import { repeat } from "lodash";
+import i18next, { i18n, ResourceKey } from "i18next";
 
 export const CURSOR_ANCHOR = "⇶";
+
+export const DEFAULT_I18N_NAMESPACE = "translation";
 
 export class TestFramework implements TestFrameworkAPI {
   private projectInfo: ProjectInfo;
@@ -79,6 +82,20 @@ export class TestFramework implements TestFrameworkAPI {
   public getProjectRoot(): string {
     const { name } = this.projectInfo;
     return join(__dirname, "..", "..", "projects-copy", name);
+  }
+
+  public async initI18n(): Promise<i18n> {
+    await i18next.init({
+      resources: {
+        en: {
+          [DEFAULT_I18N_NAMESPACE]: {},
+        },
+      },
+      lng: "en",
+      fallbackLng: "en",
+      joinArrays: "\n\n",
+    });
+    return i18next;
   }
 
   public async updateFile(

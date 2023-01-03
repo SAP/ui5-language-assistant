@@ -12,6 +12,7 @@ import {
   isPropertyPathAllowed,
   normalizePath,
   resolvePathTarget,
+  t,
   TypeNameMap,
 } from "../../../utils";
 
@@ -105,7 +106,7 @@ export function validateUnknownPropertyPath(
         {
           kind: "PropertyPathRequired",
           issueType: ANNOTATION_ISSUE_TYPE,
-          message: "metaPath value cannot be empty",
+          message: t("META_PATH_IS_MANDATORY"),
           offsetRange: {
             start: actualAttributeValueToken.startOffset,
             end: actualAttributeValueToken.endOffset,
@@ -123,7 +124,9 @@ export function validateUnknownPropertyPath(
         {
           kind: "InvalidAnnotationTerm",
           issueType: ANNOTATION_ISSUE_TYPE,
-          message: `Navigation segments not allowed when contextPath is provided`,
+          message: t(
+            "NAVIGATION_SEGMENTS_NOT_ALLOWED_WHEN_CONTEXT_PATH_EXISTS"
+          ),
           offsetRange: {
             start: actualAttributeValueToken.startOffset,
             end: actualAttributeValueToken.endOffset,
@@ -150,9 +153,9 @@ export function validateUnknownPropertyPath(
         {
           kind: "IncompletePath",
           issueType: ANNOTATION_ISSUE_TYPE,
-          message: `Invalid path value. The path leads to ${
-            TypeNameMap[target._type]
-          }, but expected type is Edm.Property`,
+          message: t("PROPERTY_META_PATH_LEADS_TO_WRONG_TARGET", {
+            actualType: TypeNameMap[target._type],
+          }),
           offsetRange: {
             start: actualAttributeValueToken.startOffset,
             end: actualAttributeValueToken.endOffset,
@@ -169,15 +172,16 @@ export function validateUnknownPropertyPath(
         const correctPart = originalSegments.length
           ? "/" + originalSegments.join("/")
           : "";
+        const pathValueForMessage = `${
+          actualAttributeValue.trim().startsWith("/")
+            ? ""
+            : normalizedContextPath + "/"
+        }${attribute.value}`;
         return [
           {
             kind: "UnknownPropertyPath",
             issueType: ANNOTATION_ISSUE_TYPE,
-            message: `Unknown path: "${
-              actualAttributeValue.trim().startsWith("/")
-                ? ""
-                : normalizedContextPath + "/"
-            }${attribute.value}"`,
+            message: t("UNKNOWN_PATH", { value: pathValueForMessage }),
             offsetRange: {
               start:
                 actualAttributeValueToken.startOffset + correctPart.length + 1,
@@ -194,7 +198,7 @@ export function validateUnknownPropertyPath(
           {
             kind: "UnknownPropertyPath",
             issueType: ANNOTATION_ISSUE_TYPE,
-            message: `Invalid property path value. Multiple 1:many association segments not allowed`,
+            message: t("INVALID_PROPERTY_PATH_MULTIPLE_1_TO_MANY"),
             offsetRange: {
               start:
                 actualAttributeValueToken.startOffset + correctPart.length + 1,
@@ -209,9 +213,9 @@ export function validateUnknownPropertyPath(
         {
           kind: "PropertyPathRequired",
           issueType: ANNOTATION_ISSUE_TYPE,
-          message: `Invalid path value. The path leads to ${
-            TypeNameMap[target._type]
-          }, but expected type is Edm.Property`,
+          message: t("PROPERTY_META_PATH_LEADS_TO_WRONG_TARGET", {
+            actualType: TypeNameMap[target._type],
+          }),
           offsetRange: {
             start: actualAttributeValueToken.startOffset,
             end: actualAttributeValueToken.endOffset,

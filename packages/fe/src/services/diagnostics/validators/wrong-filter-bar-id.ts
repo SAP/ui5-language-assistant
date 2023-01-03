@@ -8,6 +8,7 @@ import { Context } from "@ui5-language-assistant/context";
 import { isPossibleBindingAttributeValue } from "@ui5-language-assistant/xml-views-validation";
 import { AnnotationIssue } from "../../../api";
 import { ANNOTATION_ISSUE_TYPE, SAP_FE_MACROS } from "../../../types";
+import { t } from "../../../utils";
 
 /**
  * Checks filterBar attribute value referencing id of existing FilterBar macros element
@@ -43,11 +44,12 @@ export function validateFilterBarId(
           {
             kind: "UnknownEnumValue",
             issueType: ANNOTATION_ISSUE_TYPE,
-            message: `FilterBar with id "${attribute.value}" does not exist.${
+            message: t(
               ids.length
-                ? " Trigger code completion to choose one of existing FilterBar ids"
-                : ""
-            }`,
+                ? "FILTER_BAR_ID_DOES_NOT_EXIST_TRIGGER_CODE_COMPLETION"
+                : "FILTER_BAR_ID_DOES_NOT_EXIST",
+              { value: attribute.value }
+            ),
             offsetRange: {
               start: actualAttributeValueToken.startOffset,
               end: actualAttributeValueToken.endOffset,
@@ -60,7 +62,7 @@ export function validateFilterBarId(
           {
             kind: "UnknownEnumValue",
             issueType: ANNOTATION_ISSUE_TYPE,
-            message: `Trigger code completion to choose one of existing FilterBar ids`,
+            message: t("FILTER_BAR_ID_IS_EMPTY_TRIGGER_CODE_COMPLETION"),
             offsetRange: {
               start: actualAttributeValueToken.startOffset,
               end: actualAttributeValueToken.endOffset,

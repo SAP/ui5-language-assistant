@@ -2,6 +2,7 @@ import { DocumentCstNode } from "@xml-tools/parser";
 import { Position, Range } from "vscode-languageserver-types";
 import { XMLDocument } from "@xml-tools/ast";
 import { IToken } from "chevrotain";
+import { i18n, ResourceKey } from "i18next";
 
 /**
  * Name of project folder
@@ -130,4 +131,9 @@ export interface TestFrameworkAPI {
     },
     deleteCursorAnchors?: boolean
   ): Promise<{ offset: number }>;
+
+  /**
+   * Initializes and returns i18n translation engine
+   */
+  initI18n(): Promise<i18n>;
 }

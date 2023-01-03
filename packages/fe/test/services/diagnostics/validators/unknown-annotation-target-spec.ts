@@ -16,6 +16,7 @@ import {
 } from "../../utils";
 import { validateUnknownAnnotationTarget } from "../../../../src/services/diagnostics/validators/unknown-annotation-target";
 import * as miscUtils from "../../../../src/utils/misc";
+import { initI18n } from "../../../../src/api";
 
 let framework: TestFramework;
 
@@ -76,6 +77,9 @@ describe("contextPath attribute value validation", () => {
       documentPath,
       validateUnknownAnnotationTarget
     );
+
+    const i18n = await framework.initI18n();
+    await initI18n(i18n);
   });
 
   context("shows no issues when contextPath is correct", () => {
@@ -270,7 +274,7 @@ describe("contextPath attribute value validation", () => {
         this
       );
       expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
-        "kind: UnknownEnumValue; text: Invalid contextPath value. It leads to entity property, but expected types are: Edm.EntitySet, Edm.EntityType, Edm.Singleton, Edm.NavigationProperty; severity:warn; offset:347-366",
+        "kind: UnknownEnumValue; text: Invalid contextPath value. The path leads to Edm.Property, but expected types are: Edm.EntitySet, Edm.EntityType, Edm.Singleton, Edm.NavigationProperty; severity:warn; offset:347-366",
       ]);
     });
 

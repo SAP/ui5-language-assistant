@@ -1,0 +1,31 @@
+{
+  "CONTEXT_PATH_IS_USUALLY_DEFINED_FOR_PAGE_DIFFERENT_BINDING": "Context path for {{control}} is usually defined if binding for the object is different than that of the page",
+  "CONTEXT_PATH_IS_MANDATORY": "contextPath value cannot be empty. Enter value or remove contextPath property",
+  "INVALID_CONTEXT_PATH_VALUE": "Invalid contextPath value: \"{{value}}\". Absolute path is expected",
+  "INCOMPLETE_CONTEXT_PATH_LEADS_TO_ENTITY_CONTAINER": "Path is incomplete. It leads to entity container",
+  "INCOMPLETE_CONTEXT_PATH_TRIGGER_CODE_COMPLETION": "Path is incomplete. Trigger code completion to choose next available path segment",
+  "UNKNOWN_CONTEXT_PATH": "Unknown context path: \"{{value}}\"",
+  "INVALID_CONTEXT_PATH_MULTIPLE_1_TO_MANY": "Invalid contextPath value. Multiple 1:many association segments not allowed",
+  "CONTEXT_PATH_LEADS_TO_WRONG_TARGET": "Invalid contextPath value. The path leads to {{actualType}}, but expected types are: {{expectedTypes}}",
+  "CONTEXT_PATH_DOES_NOT_LEAD_TO_ANNOTATIONS": "Invalid contextPath value. It does not lead to any annotations of the expected type",
+  "INVALID_CONTEXT_PATH_TRIGGER_CODE_COMPLETION": "Invalid contextPath value. Trigger code completion to choose one of valid targets if some are available",
+
+  "ANNOTATION_PATH_IS_MANDATORY": "Annotation path value cannot be empty",
+  "PATH_VALUE_MUST_END_WITH_A_TERM": "Path value must end with annotation term. Use code completion to select annotation path",
+  "ABSOLUTE_ANNOTATION_PATH_NOT_ALLOWED": "Absolute annotation paths not allowed in metaPath. Use contextPath attribute to change path context",
+  "NAVIGATION_SEGMENTS_NOT_ALLOWED_WHEN_CONTEXT_PATH_EXISTS": "Navigation segments not allowed when contextPath is provided",
+  "UNKNOWN_ANNOTATION_PATH": "Unknown annotation path: \"{{value}}\"",
+  "INVALID_ANNOTATION_TERM_TRIGGER_CODE_COMPLETION": "Invalid annotation term: \"{{value}}\". Trigger code completion to choose one of allowed annotations",
+  "INVALID_ANNOTATION_TERM_THERE_ARE_NO_SUITABLE_ANNOTATIONS": "Invalid annotation term: \"{{value}}\". There are no annotations in the project that are suitable for the current context",
+  "VIEW_ENTITY_SET_IS_NOT_FOUND": "Entity Set \"{{value}}\" specified in manifest for the current view is not found. Attribute value completion and diagnostics are disabled",
+
+  "META_PATH_IS_MANDATORY": "Property path value cannot be empty",
+  "PROPERTY_META_PATH_LEADS_TO_WRONG_TARGET": "Invalid path value. The path leads to {{actualType}}, but expected type is Edm.Property",
+  "UNKNOWN_PATH": "Unknown path: \"{{value}}\"",
+  "INVALID_PROPERTY_PATH_MULTIPLE_1_TO_MANY": "Invalid property path value. Multiple 1:many association segments not allowed",
+
+  "ENTITY_SET_IS_MISSING_IN_MANIFEST": "EntitySet for the current view is missing in application manifest. Attribute value completion and diagnostics are disabled",
+  "FILTER_BAR_ID_DOES_NOT_EXIST_TRIGGER_CODE_COMPLETION": "FilterBar with id \"{{value}}\" does not exist. Trigger code completion to choose one of existing FilterBar ids",
+  "FILTER_BAR_ID_DOES_NOT_EXIST": "FilterBar with id \"{{value}}\" does not exist",
+  "FILTER_BAR_ID_IS_EMPTY_TRIGGER_CODE_COMPLETION": "Trigger code completion to choose one of existing FilterBar ids"
+}

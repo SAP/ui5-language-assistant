@@ -13,6 +13,7 @@ import {
   issueToSnapshot,
   ViewValidatorType,
 } from "../../utils";
+import { initI18n } from "../../../../src/api";
 
 let framework: TestFramework;
 
@@ -72,6 +73,9 @@ describe("filterBar attribute value validation", () => {
       documentPath,
       validateFilterBarId
     );
+
+    const i18n = await framework.initI18n();
+    await initI18n(i18n);
   });
 
   describe("shows no issues when...", () => {
@@ -109,7 +113,7 @@ describe("filterBar attribute value validation", () => {
       this
     );
     expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
-      'kind: UnknownEnumValue; text: FilterBar with id "test" does not exist.; severity:warn; offset:345-350',
+      'kind: UnknownEnumValue; text: FilterBar with id "test" does not exist; severity:warn; offset:345-350',
     ]);
   });
 

@@ -12,3 +12,4 @@ export function isAnnotationIssue(
 }
 
 export { getCompletionItems } from "./services/completion";
+export { initI18n } from "./i18n";

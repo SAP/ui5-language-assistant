@@ -1,10 +1,6 @@
 import { expect } from "chai";
 import { join } from "path";
-import {
-  cache,
-  Context,
-  ManifestDetails,
-} from "@ui5-language-assistant/context";
+import { cache, Context } from "@ui5-language-assistant/context";
 import {
   Config,
   ProjectName,
@@ -17,6 +13,7 @@ import {
   ViewValidatorType,
 } from "../../utils";
 import { validateUnknownAnnotationPath } from "../../../../src/services/diagnostics/validators/unknown-annotation-path";
+import { initI18n } from "../../../../src/api";
 
 let framework: TestFramework;
 
@@ -80,6 +77,9 @@ describe("metaPath attribute value validation (annotation path)", () => {
       documentPath,
       validateUnknownAnnotationPath
     );
+
+    const i18n = await framework.initI18n();
+    await initI18n(i18n);
   });
 
   context("shows no issues when metaPath...", () => {
@@ -145,31 +145,6 @@ describe("metaPath attribute value validation (annotation path)", () => {
       expect(result.length).to.eq(0);
     });
 
-    it("wrong entitySet specified in manifest", async function () {
-      const result = await validateView(
-        `<macros:Chart metaPath=""></macros:Chart>`,
-        this,
-        (c) => {
-          const newDetails: ManifestDetails = {
-            ...c.manifestDetails,
-            customViews: { ...c.manifestDetails.customViews },
-          };
-          Object.keys(newDetails.customViews).forEach((key) => {
-            newDetails.customViews[key] = {
-              ...newDetails.customViews[key],
-              entitySet: "Travel_",
-            };
-          });
-          const newContext = {
-            ...c,
-            manifestDetails: newDetails,
-          };
-          return newContext;
-        }
-      );
-      expect(result.length).to.eq(0);
-    });
-
     it("custom view id not determined", async function () {
       const result = await validateView(
         `<macros:Chart metaPath=""></macros:Chart>`,
@@ -215,6 +190,36 @@ describe("metaPath attribute value validation (annotation path)", () => {
         this
       );
       expect(result.length).to.eq(0);
+    });
+  });
+
+  context("shows info message when...", () => {
+    it("entity set in manifest can't be resolved", async function () {
+      const result = await validateView(
+        `<macros:Chart metaPath="@com.sap.vocabularies.UI.v1.Chart#sample1"></macros:Chart>`,
+        this,
+        (c) => {
+          const newContext: Context = {
+            ...c,
+            manifestDetails: {
+              ...c.manifestDetails,
+              customViews: {
+                ...c.manifestDetails.customViews,
+              },
+            },
+          };
+          const viewName =
+            Object.keys(newContext.manifestDetails.customViews)[0] || "";
+          newContext.manifestDetails.customViews[viewName] = {
+            ...newContext.manifestDetails.customViews[viewName],
+            entitySet: "Travel_",
+          };
+          return newContext;
+        }
+      );
+      expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
+        'kind: InvalidAnnotationTarget; text: Entity Set "Travel_" specified in manifest for the current view is not found. Attribute value completion and diagnostics are disabled; severity:info; offset:344-386',
+      ]);
     });
   });
 

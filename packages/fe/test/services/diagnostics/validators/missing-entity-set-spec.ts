@@ -14,6 +14,7 @@ import {
   issueToSnapshot,
   ViewValidatorType,
 } from "../../utils";
+import { initI18n } from "../../../../src/api";
 
 let framework: TestFramework;
 
@@ -60,6 +61,9 @@ describe("missing entitySet validation", () => {
       documentPath,
       validateMissingViewEntitySet
     );
+
+    const i18n = await framework.initI18n();
+    await initI18n(i18n);
   });
 
   describe("shows warning when...", () => {

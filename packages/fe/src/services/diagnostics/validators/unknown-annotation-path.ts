@@ -17,6 +17,7 @@ import {
   ResolvedPathTargetType,
   resolvePathTarget,
   normalizePath,
+  t,
 } from "../../../utils";
 import { getAnnotationAppliedOnElement } from "../../../utils";
 
@@ -87,6 +88,20 @@ export function validateUnknownAnnotationPath(
         (e) => e.name === entitySet
       );
       baseType = base?.entityType;
+      if (entitySet && !base) {
+        return [
+          {
+            kind: "InvalidAnnotationTarget",
+            issueType: ANNOTATION_ISSUE_TYPE,
+            message: t("VIEW_ENTITY_SET_IS_NOT_FOUND", { value: entitySet }),
+            offsetRange: {
+              start: actualAttributeValueToken.startOffset,
+              end: actualAttributeValueToken.endOffset,
+            },
+            severity: "info",
+          },
+        ];
+      }
     }
     const { expectedAnnotations } = getPathConstraintsForControl(
       control,
@@ -102,7 +117,7 @@ export function validateUnknownAnnotationPath(
         {
           kind: "AnnotationPathRequired",
           issueType: ANNOTATION_ISSUE_TYPE,
-          message: "Annotation path value cannot be empty",
+          message: t("ANNOTATION_PATH_IS_MANDATORY"),
           offsetRange: {
             start: actualAttributeValueToken.startOffset,
             end: actualAttributeValueToken.endOffset,
@@ -123,7 +138,7 @@ export function validateUnknownAnnotationPath(
         {
           kind: "PropertyPathNotAllowed",
           issueType: ANNOTATION_ISSUE_TYPE,
-          message: `Path value must end with annotation term. Use code completion to select annotation path`,
+          message: t("PATH_VALUE_MUST_END_WITH_A_TERM"),
           offsetRange: {
             start: actualAttributeValueToken.startOffset,
             end: actualAttributeValueToken.endOffset,
@@ -146,7 +161,7 @@ export function validateUnknownAnnotationPath(
         {
           kind: "InvalidAnnotationTerm",
           issueType: ANNOTATION_ISSUE_TYPE,
-          message: `Absolute annotation paths not allowed in metaPath. Use contextPath attribute to change path context`,
+          message: t("ABSOLUTE_ANNOTATION_PATH_NOT_ALLOWED"),
           offsetRange: {
             start: actualAttributeValueToken.startOffset,
             end: actualAttributeValueToken.endOffset,
@@ -159,7 +174,9 @@ export function validateUnknownAnnotationPath(
         {
           kind: "InvalidAnnotationTerm",
           issueType: ANNOTATION_ISSUE_TYPE,
-          message: `Navigation segments not allowed when contextPath is provided`,
+          message: t(
+            "NAVIGATION_SEGMENTS_NOT_ALLOWED_WHEN_CONTEXT_PATH_EXISTS"
+          ),
           offsetRange: {
             start: actualAttributeValueToken.startOffset,
             end: actualAttributeValueToken.endOffset,
@@ -191,7 +208,9 @@ export function validateUnknownAnnotationPath(
         {
           kind: "PathDoesNotExist",
           issueType: ANNOTATION_ISSUE_TYPE,
-          message: `Unknown annotation path: "${normalizedContextPath}/${attribute.value}"`,
+          message: t("UNKNOWN_ANNOTATION_PATH", {
+            value: `${normalizedContextPath}/${attribute.value}`,
+          }),
           offsetRange: {
             start:
               actualAttributeValueToken.startOffset + correctPart.length + 1,
@@ -203,14 +222,14 @@ export function validateUnknownAnnotationPath(
     } else {
       const termSegment = originalSegments[termSegmentIndex];
       const parts = termSegment.split("@");
-      let annos: AnnotationBase[] | undefined;
-      annos = getAnnotationAppliedOnElement(
+      let annotations: AnnotationBase[] | undefined;
+      annotations = getAnnotationAppliedOnElement(
         expectedAnnotations,
         segments.length === 0 ? base : targetEntity,
         parts[0]
       );
 
-      const match = annos.find(
+      const match = annotations.find(
         (anno) => composeAnnotationPath(anno) === "@" + parts[1]
       );
       if (match) {
@@ -218,26 +237,31 @@ export function validateUnknownAnnotationPath(
       } else {
         // check whether the provided term exists on target
         const term: AnnotationTerm = fullyQualifiedNameToTerm(parts[1]);
-        annos = getAnnotationAppliedOnElement(
+        annotations = getAnnotationAppliedOnElement(
           [term],
           segments.length === 0 ? base : targetEntity,
           parts[0]
         );
-        const match = annos.find(
+        const match = annotations.find(
           (anno) => composeAnnotationPath(anno) === "@" + parts[1]
         );
         if (match) {
           // determine whether any allowed term exists in the project suitable for the current context
-          annos = getAnnotationAppliedOnElement(expectedAnnotations, base);
-          const messageAddOn = annos.length
-            ? `Trigger code completion to choose one of allowed annotations`
-            : `There are no annotations in the project that are suitable for the current context`;
+          annotations = getAnnotationAppliedOnElement(
+            expectedAnnotations,
+            base
+          );
 
           return [
             {
               kind: "InvalidAnnotationTerm",
               issueType: ANNOTATION_ISSUE_TYPE,
-              message: `Invalid annotation term: "${attribute.value}". ${messageAddOn}`,
+              message: t(
+                annotations.length
+                  ? "INVALID_ANNOTATION_TERM_TRIGGER_CODE_COMPLETION"
+                  : "INVALID_ANNOTATION_TERM_THERE_ARE_NO_SUITABLE_ANNOTATIONS",
+                { value: attribute.value }
+              ),
               offsetRange: {
                 start: actualAttributeValueToken.startOffset,
                 end: actualAttributeValueToken.endOffset,
@@ -252,7 +276,9 @@ export function validateUnknownAnnotationPath(
         {
           kind: "PathDoesNotExist",
           issueType: ANNOTATION_ISSUE_TYPE,
-          message: `Unknown annotation path: "${normalizedContextPath}/${attribute.value}"`,
+          message: t("UNKNOWN_ANNOTATION_PATH", {
+            value: `${normalizedContextPath}/${attribute.value}`,
+          }),
           offsetRange: {
             start: actualAttributeValueToken.startOffset,
             end: actualAttributeValueToken.endOffset,

@@ -46,3 +46,5 @@ export async function getContext(
   const customViewId = await getCustomViewId(documentPath);
   return { manifestDetails, yamlDetails, ui5Model, services, customViewId };
 }
+
+export const DEFAULT_I18N_NAMESPACE = "translation";

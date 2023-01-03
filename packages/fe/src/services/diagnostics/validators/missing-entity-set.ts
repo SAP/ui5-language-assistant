@@ -7,7 +7,7 @@ import {
   ANNOTATION_ISSUE_TYPE,
   SAP_FE_MACROS,
 } from "../../../types";
-import { getElementAttributeValue } from "../../../utils";
+import { getElementAttributeValue, t } from "../../../utils";
 
 export function validateMissingViewEntitySet(
   attribute: XMLAttribute,
@@ -45,8 +45,7 @@ export function validateMissingViewEntitySet(
           {
             kind: "MissingEntitySet",
             issueType: ANNOTATION_ISSUE_TYPE,
-            message:
-              "EntitySet for the current view is missing in application manifest. Attribute value completion and diagnostics are disabled",
+            message: t("ENTITY_SET_IS_MISSING_IN_MANIFEST"),
             offsetRange: {
               start: actualAttributeValueToken.startOffset,
               end: actualAttributeValueToken.endOffset,

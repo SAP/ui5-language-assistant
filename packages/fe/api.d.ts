@@ -26,6 +26,9 @@ export function getCompletionItems(opts: {
   tokenVector: IToken[];
   ast: XMLDocument;
 }): CompletionItem[];
+
 export function isAnnotationIssue<T extends BaseUI5XMLViewIssue>(
   issue: AnnotationIssue | T
 ): issue is AnnotationIssue;
+
+export function initI18n(i18nInstance: i18n): void;
