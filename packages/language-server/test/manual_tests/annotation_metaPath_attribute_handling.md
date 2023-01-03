@@ -1,0 +1,66 @@
+# Visual Studio Code - FPM: macros elements metaPath completion and diagnostics (annotation path)
+
+Associated user stories:
+[#21639](https://github.wdf.sap.corp/ux-engineering/tools-suite/issues/21639) [AppM] FPM: Enhance ui5-language-assistant with LSP annotation-relevant building blocks
+[#21840](https://github.wdf.sap.corp/ux-engineering/tools-suite/issues/21840) [AppM] FPM: Enhancements for annotation-related features ui5-language-assistant
+
+## **Setup**: Clone test project
+
+In case you haven't done it yet:
+
+1. Clone test CAP project from the [GitHub](https://github.wdf.sap.corp/D035359/teched2022-Prep/tree/app).
+2. Install project dependencies using command `npm install`.
+3. Launch VSCode and open project root folder
+
+### **Step 1**: Code completion for metaPath
+
+1. Open annotations file `app\manage_travels\annotations.cds` and append following snippet to the end of file and save it:
+
+```c++
+annotate service.Travel with @(
+    UI.Chart #sample1: {
+        type: '',
+    },
+    UI.LineItem: []
+);
+```
+
+2. Open custom view template file `app\manage_travels\webapp\Main.view.xml`. Wait a short while until UI5 Language assistant server gets ready.
+3. Find element `<f:content>` in the file, remove its child element and place the following snippet instead:
+
+```XML
+    <macros:Chart metaPath="" id="chart1" />
+```
+
+4. Place cursor in `metaPath` attribute value position and trigger code completion.
+5. Observe the list of suggestions for the first path segment. Make sure there is first applied annotation term listed with qualifier `sample1`, then follow possible navigation segments. Choose term name and press `Enter`. Observe no error messages are shown for the attribute value.
+6. Place cursor at value's first position and trigger code completion. Choose option `to_Booking` and press `/` to confirm. Observe the segment is added, and completion for next segment is triggered. Choose navigation property `to_Travel` and press `/` to confirm. Observe only term is suggested as final path segment and further navigation segment `to_Booking` is not available to avoid cyclic routes. Press `Enter` to insert the term into the document. Observe no error messages are shown for the attribute value.
+7. Remove entire current element and place following snippet instead:
+
+```XML
+    <macros:Chart contextPath="/Travel" metaPath="" id="chart1" />
+```
+
+8. Place cursor in the `metaPath` value and trigger code completion. Observe only term and no other navigation segments are suggested. Press `Enter` to insert the term into the document. Observe no error messages are shown for the attribute value.
+
+### **Step 2**: Validation of metaPath attribute
+
+1. Remove `contextPath` attribute and its value from the current `macros:Chart` element and clear `metaPath` value.
+2. Observe diagnostics warning: `Annotation path value cannot be empty`.
+3. Set the metaPath attribute value as `@com.sap.vocabularies.UI.v1.Chart#sample`. Observe warning message `Unknown annotation path: "/Travel/@com.sap.vocabularies.UI.v1.Chart#sample"`.
+4. Set the metaPath attribute value as `to_Booking`. Observe warning message `Path value must end with annotation term. Use code completion to select annotation path`.
+5. Set the metaPath attribute value as `/Travel/@com.sap.vocabularies.UI.v1.Chart#sample1`. Observe warning message `Absolute annotation paths not allowed in metaPath. Use contextPath attribute to change path context`
+6. Set the metaPath attribute value as `@com.sap.vocabularies.UI.v1.LineItem`. Observe warning message `Invalid annotation term: "@com.sap.vocabularies.UI.v1.LineItem". Trigger code completion to choose one of allowed annotations`.
+7. Go to app manifest file, find `routing\targets\TravelMain` settings entry and rename `entitySet` property in the nested object structure to `entitySet_`. Save the file.
+8. Set the metaPath attribute value as `@com.sap.vocabularies.UI.v1.Chart#sample1`. Observe info message `EntitySet for the current view is missing in application manifest. Attribute value completion and diagnostics are disabled`.
+9. Revert manifest change that is done at previous step 7. Change property `entitySet` value to `Travel_`. Save the file.
+10. Set the metaPath attribute value as `@com.sap.vocabularies.UI.v1.Chart#sample`. Observe info message `Entity Set "Travel_" specified in manifest for the current view is not found. Attribute value completion and diagnostics are disabled`.
+11. Reset property `entitySet` value to `Travel` in app manifest. Save the file.
+12. Replace current macros element with the snippet:
+
+```XML
+    <macros:Chart contextPath="/TravelService.EntityContainer/Travel" metaPath="" id="chart1" />
+```
+
+13. Set the metaPath attribute value as `@com.sap.vocabularies.UI.v1.Chart#sample`. Observe warning message `Unknown annotation path: "/TravelService.EntityContainer/Travel/@com.sap.vocabularies.UI.v1.Chart#sample`.
+14. Set the metaPath attribute value as `to_Booking/@com.sap.vocabularies.UI.v1.Chart#sample`. Observe warning message `Navigation segments not allowed when contextPath is provided`.
