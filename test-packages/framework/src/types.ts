@@ -1,8 +1,10 @@
 import { DocumentCstNode } from "@xml-tools/parser";
 import { Position, Range } from "vscode-languageserver-types";
+import { TextDocumentPositionParams } from "vscode-languageserver";
+import { TextDocument } from "vscode-languageserver-textdocument";
 import { XMLDocument } from "@xml-tools/ast";
 import { IToken } from "chevrotain";
-import { i18n, ResourceKey } from "i18next";
+import { i18n } from "i18next";
 
 /**
  * Name of project folder
@@ -97,7 +99,7 @@ export interface TestFrameworkAPI {
    */
   getFileContent(pathSegments: string[]): Promise<string>;
   /**
-   * Get offset base on `⇶` placeholder
+   * Get offset of `⇶` placeholder
    *
    * @param content file content. Content may contain `⇶` placeholder
    */
@@ -118,7 +120,7 @@ export interface TestFrameworkAPI {
    *
    * @param deleteCursorAnchors - (default = true ) if set to true then cursor anchors are removed from file before saving it
    *
-   * returns - offset of first cursor anchor in the file content after applying requested changes
+   * @returns - offset of first cursor anchor in the file content after applying requested changes
    */
   updateFileContent(
     relativePathSegments: string[],
@@ -136,4 +138,20 @@ export interface TestFrameworkAPI {
    * Initializes and returns i18n translation engine
    */
   initI18n(): Promise<i18n>;
+
+  /**
+   * Converts provided text into VSCode text document
+   * @param uri - file uri string
+   * @param content - file content
+   * @param offset - optional offset
+   * @returns - VSCode text document, document position parameters
+   */
+  toVscodeTextDocument(
+    uri: string,
+    content: string,
+    offset: number
+  ): {
+    document: TextDocument;
+    textDocumentPosition: TextDocumentPositionParams;
+  };
 }

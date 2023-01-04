@@ -296,4 +296,31 @@ describe("framework", () => {
       }
     });
   });
+  it("toVscodeTextDocument", () => {
+    const useConfig: Config = {
+      projectInfo: {
+        name: ProjectName.cap,
+        type: ProjectType.CAP,
+        npmInstall: false,
+      },
+    };
+    const testFramework = new TestFramework(useConfig);
+    const result = testFramework.toVscodeTextDocument(
+      "dummy/uri",
+      "dummy content",
+      1
+    );
+    expect(result.document.getText()).to.eq("dummy content");
+    expect(result.document.languageId).to.eq("");
+    expect(result.document.lineCount).to.eq(1);
+    expect(result.document.languageId).to.eq("");
+    expect(result.document.uri).to.eq("dummy/uri");
+    expect(result.document.version).to.eq(1);
+    expect(result.textDocumentPosition).to.deep.equal({
+      position: { line: 0, character: 1 },
+      textDocument: {
+        uri: "dummy/uri",
+      },
+    });
+  });
 });

@@ -17,7 +17,7 @@ import {
 
 import { TestFrameworkAPI, ProjectInfo, Config, ReadFileResult } from "./types";
 import { repeat } from "lodash";
-import i18next, { i18n, ResourceKey } from "i18next";
+import i18next, { i18n } from "i18next";
 
 export const CURSOR_ANCHOR = "⇶";
 
@@ -123,22 +123,6 @@ export class TestFramework implements TestFrameworkAPI {
     return { offset };
   }
 
-  /**
-   * Updates file content
-   * @param filePath - path of file to update
-   * @param newText - new text to be written to the file
-   * @param options - describes how the file should be updated
-   *    - insertBefore: if provided, the new text is inserted before that fragment
-   *    - insertAfter: if provided, the new text is inserted after that fragment
-   *    - replaceText: if provided, the new text replaces that fragment
-   *    - doUpdatesAfter: if provided then search for that fragment is done first and
-   *                      if is found, then requested changes are made staring from position after it.
-   *                      If not found, exception is thrown
-   *
-   * If options is omitted then new text is added to the end of file
-   *
-   * returns object with offset of cursor anchor position
-   */
   public async updateFileContent(
     relativePathSegments: string[],
     newText: string,
@@ -269,13 +253,6 @@ export class TestFramework implements TestFrameworkAPI {
     return content.indexOf(CURSOR_ANCHOR);
   }
 
-  /**
-   * Converts provided text into VSCode text document
-   * @param uri - file uri string
-   * @param content - file content
-   * @param offset - optional offset
-   * @returns - VSCode text document, document position parameters
-   */
   public toVscodeTextDocument(
     uri: string,
     content: string,
