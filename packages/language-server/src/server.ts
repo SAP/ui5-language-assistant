@@ -128,10 +128,14 @@ connection.onCompletion(
       );
       const version = context.ui5Model.version;
       const framework = context.yamlDetails.framework;
+      const isFallback = context.ui5Model.isFallback;
+      const isIncorrectVersion = context.ui5Model.isIncorrectVersion;
       connection.sendNotification("UI5LanguageAssistant/ui5Model", {
         url: getCDNBaseUrl(framework, version),
         framework,
         version,
+        isFallback,
+        isIncorrectVersion,
       });
       ensureDocumentSettingsUpdated(document.uri);
       const documentSettings = await getSettingsForDocument(document.uri);
@@ -173,10 +177,14 @@ connection.onHover(
       );
       const version = context.ui5Model.version;
       const framework = context.yamlDetails.framework;
+      const isFallback = context.ui5Model.isFallback;
+      const isIncorrectVersion = context.ui5Model.isIncorrectVersion;
       connection.sendNotification("UI5LanguageAssistant/ui5Model", {
         url: getCDNBaseUrl(framework, version),
         framework,
         version,
+        isFallback,
+        isIncorrectVersion,
       });
       const hoverResponse = getHoverResponse(
         context,
@@ -272,10 +280,14 @@ documents.onDidChangeContent(async (changeEvent) => {
     );
     const version = context.ui5Model.version;
     const framework = context.yamlDetails.framework;
+    const isFallback = context.ui5Model.isFallback;
+    const isIncorrectVersion = context.ui5Model.isIncorrectVersion;
     connection.sendNotification("UI5LanguageAssistant/ui5Model", {
       url: getCDNBaseUrl(framework, version),
       framework,
       version,
+      isFallback,
+      isIncorrectVersion,
     });
     const diagnostics = getXMLViewDiagnostics({
       document,
@@ -302,10 +314,14 @@ connection.onCodeAction(async (params) => {
   );
   const version = context.ui5Model.version;
   const framework = context.yamlDetails.framework;
+  const isFallback = context.ui5Model.isFallback;
+  const isIncorrectVersion = context.ui5Model.isIncorrectVersion;
   connection.sendNotification("UI5LanguageAssistant/ui5Model", {
     url: getCDNBaseUrl(framework, version),
     framework,
     version,
+    isFallback,
+    isIncorrectVersion,
   });
 
   const diagnostics = params.context.diagnostics;

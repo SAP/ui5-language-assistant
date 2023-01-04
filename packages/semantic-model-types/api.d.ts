@@ -13,6 +13,9 @@ export interface UI5SemanticModel {
   typedefs: Record<string, UI5Typedef>;
   // Likely Not Relevant for XML.Views
   functions: Record<string, UI5Function>;
+  // to indicate if the minUI5 version is undefined, old or wrong in manifest, fallback to default
+  isFallback?: boolean;
+  isIncorrectVersion?: boolean;
 }
 
 export interface UI5Meta {
