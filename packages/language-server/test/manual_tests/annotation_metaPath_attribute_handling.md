@@ -1,6 +1,7 @@
 # Visual Studio Code - FPM: macros elements metaPath completion and diagnostics (annotation path)
 
 Associated user stories:
+
 [#21639](https://github.wdf.sap.corp/ux-engineering/tools-suite/issues/21639) [AppM] FPM: Enhance ui5-language-assistant with LSP annotation-relevant building blocks
 [#21840](https://github.wdf.sap.corp/ux-engineering/tools-suite/issues/21840) [AppM] FPM: Enhancements for annotation-related features ui5-language-assistant
 
@@ -8,7 +9,7 @@ Associated user stories:
 
 In case you haven't done it yet:
 
-1. Clone test CAP project from the [GitHub](https://github.wdf.sap.corp/D035359/teched2022-Prep/tree/app).
+1. Clone the CAP test project located [here](./project/flight/cap).
 2. Install project dependencies using command `npm install`.
 3. Launch VSCode and open project root folder
 
@@ -16,7 +17,7 @@ In case you haven't done it yet:
 
 1. Open annotations file `app\manage_travels\annotations.cds` and append following snippet to the end of file and save it:
 
-```c++
+```cpp
 annotate service.Travel with @(
     UI.Chart #sample1: {
         type: '',
@@ -26,14 +27,14 @@ annotate service.Travel with @(
 ```
 
 2. Open custom view template file `app\manage_travels\webapp\Main.view.xml`. Wait a short while until UI5 Language assistant server gets ready.
-3. Find element `<f:content>` in the file, remove its child element and place the following snippet instead:
+3. Find element `<f:content>` in the file and place the following snippet as its child element :
 
 ```XML
     <macros:Chart metaPath="" id="chart1" />
 ```
 
-4. Place cursor in `metaPath` attribute value position and trigger code completion.
-5. Observe the list of suggestions for the first path segment. Make sure there chart annotation term with qualifier `sample1` is listed first, then follow possible navigation segments. Choose term name and press `Enter`. Observe no error messages are shown for the attribute value.
+4. Place the cursor at the position of the value of `metaPath` attribute and trigger code completion.
+5. Observe the list of suggestions for the first path segment. Make sure the chart annotation term with qualifier `sample1` is listed first, then follow possible navigation segments. Choose annotation term name and press `Enter`. Observe no error messages are shown for the attribute value.
 6. Place cursor at value's first position and trigger code completion. Choose option `to_Booking` and press `/` to confirm. Observe the segment is added, and completion for next segment is triggered. Choose navigation property `to_Travel` and press `/` to confirm. Observe only term is suggested as final path segment and further navigation segment `to_Booking` is not available to avoid cyclic routes. Press `Enter` to insert the term into the document. Observe no error messages are shown for the attribute value.
 7. Remove entire current element and place following snippet instead:
 
@@ -41,7 +42,7 @@ annotate service.Travel with @(
     <macros:Chart contextPath="/Travel" metaPath="" id="chart1" />
 ```
 
-8. Place cursor in the `metaPath` value and trigger code completion. Observe only term and no other navigation segments are suggested. Press `Enter` to insert the term into the document. Observe no error messages are shown for the attribute value.
+8. Place the cursor at the `metaPath` value and trigger code completion. Observe only term and no other navigation segments are suggested. Press `Enter` to insert the term into the document. Observe no error messages are shown for the attribute value.
 
 ### **Step 2**: Validation of metaPath attribute
 

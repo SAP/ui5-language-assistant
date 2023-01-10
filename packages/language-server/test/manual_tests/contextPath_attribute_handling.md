@@ -8,7 +8,7 @@ Associated user stories:
 
 In case you haven't done it yet:
 
-1. Clone test CAP project from the [GitHub](https://github.wdf.sap.corp/D035359/teched2022-Prep/tree/app).
+1. Clone the CAP test project located [here](./project/flight/cap).
 2. Install project dependencies using command `npm install`.
 3. Launch VSCode and open project root folder
 
@@ -25,21 +25,21 @@ annotate service.Travel with @(
 ```
 
 2. Open custom view template file `app\manage_travels\webapp\Main.view.xml`. Wait a short while until UI5 Language assistant server gets ready.
-3. Find element `<f:content>` in the file, remove its child element and place the following snippet instead:
+3. Find element `<f:content>` in the file and place the following snippet as its child element :
 
 ```XML
     <macros:Chart contextPath="" id="chart1" />
 ```
 
-4. Place cursor in attribute value position and trigger code completion.
-5. Observe the list of suggestions for the first path segment (with all items having leading `­/` symbol). Check there are listed first all entity types with short names, then follow entity sets with container name as prefix, and the last item in the list is entity container itself.
+4. Place the cursor at the position of the value of `contextPath` attribute and trigger code completion.
+5. Observe the list of suggestions for the first absolute path segment (i.e. with all items having leading `­/` symbol). Check that all entity types with short names are listed first, then follow entity set names with container name as prefix, and the last item in the list is entity container itself.
 6. Press `Esc`, then enter value `/` and trigger code completion again.
 7. Observe the same list of options, but without leading slashes `/` in their names.
 8. Choose option `Travel` and press Enter. Observe no diagnostics warnings are shown for the attribute.
 9. Press `/` and observe suggestion list is shown for next path segment. The list should contain all available navigation segments.
 10. Choose option `to_Booking` and press `/` to confirm. Observe the segment is added, and completion for next segment is triggered. Observe navigation property `to_Travel` is not included in the list to avoid cyclic routes.
 11. Change current element name from `macros:Chart` to `macros:Table`. Observe info message is shown for the attribute value `Context path for Table is usually defined if binding for the object is different than that of the page`.
-12. Place cursor at first position of the `contextPath` value and trigger code completion. Observe no suggestions shown, because completion is suppressed where use of contextPath is not recommended.
+12. Place the cursor at the first position of the `contextPath` attribute value and trigger code completion. Observe no suggestions shown, because completion is suppressed where use of contextPath is not recommended.
 
 ### **Step 2**: Validation of contextPath attribute
 

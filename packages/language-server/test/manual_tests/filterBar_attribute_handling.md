@@ -1,6 +1,7 @@
 # Visual Studio Code - FPM: macros:Table element's filterBar attribute value completion and diagnostics
 
 Associated user stories:
+
 [#21639](https://github.wdf.sap.corp/ux-engineering/tools-suite/issues/21639) [AppM] FPM: Enhance ui5-language-assistant with LSP annotation-relevant building blocks
 [#21840](https://github.wdf.sap.corp/ux-engineering/tools-suite/issues/21840) [AppM] FPM: Enhancements for annotation-related features ui5-language-assistant
 
@@ -8,7 +9,7 @@ Associated user stories:
 
 In case you haven't done it yet:
 
-1. Clone test CAP project from the [GitHub](https://github.wdf.sap.corp/D035359/teched2022-Prep/tree/app).
+1. Clone the CAP test project located [here](./project/flight/cap).
 2. Install project dependencies using command `npm install`.
 3. Launch VSCode and open project root folder
 
@@ -27,13 +28,13 @@ In case you haven't done it yet:
     </f:header>
 ```
 
-3. Find element `<f:content>` in the file, remove its child element and place the following snippet instead:
+3. Find element `<f:content>` in the file and place the following snippet as its child element:
 
 ```XML
     <macros:Table filterBar="" />
 ```
 
-4. Place cursor in `filterBar` attribute value position and trigger code completion.
+4. Place the cursor at the position of the `filterBar` attribute value and trigger code completion.
 5. Observe `FilterBar1` is offered. Choose it and press `Enter`. Observe no error messages are shown for the attribute value.
 
 ### **Step 2**: Validation of filterBar attribute
