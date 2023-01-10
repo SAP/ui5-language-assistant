@@ -18,12 +18,16 @@ export function generate({
   typeNameFix,
   strict,
   printValidationErrors = true,
+  isFallback,
+  isIncorrectVersion,
 }: {
   version: string;
   libraries: Record<string, Json>;
   typeNameFix: TypeNameFix;
   strict: boolean;
   printValidationErrors?: boolean;
+  isFallback?: boolean;
+  isIncorrectVersion?: boolean;
 }): UI5SemanticModel {
   const jsonSymbols = newMap<ConcreteSymbol>();
   const model = convertToSemanticModel(
@@ -35,6 +39,8 @@ export function generate({
   generateMissingSymbols(model, strict);
   resolveSemanticProperties(model, jsonSymbols, typeNameFix, strict);
   model.version = version;
+  model.isFallback = isFallback;
+  model.isIncorrectVersion = isIncorrectVersion;
   return deepFreezeStrict(model);
 }
 
