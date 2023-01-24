@@ -43,7 +43,5 @@
     "coverage": "nyc mocha",
     "format:fix": "prettier --write \"**/*.@(js|ts|json|md)\" --ignore-path=.gitignore"
   },
-  "publishConfig": {
-    "access": "public"
-  }
+  "private": true
 }
