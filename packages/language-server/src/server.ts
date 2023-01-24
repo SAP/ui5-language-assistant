@@ -346,7 +346,12 @@ documents.onDidClose((textDocumentChangeEvent) => {
   getLogger().debug("`onDidClose` event", {
     textDocumentChangeEvent,
   });
-  clearDocumentSettings(textDocumentChangeEvent.document.uri);
+  const uri = textDocumentChangeEvent.document.uri;
+  if (isXMLView(uri)) {
+    // clear diagnostics for a closed file
+    connection.sendDiagnostics({ uri, diagnostics: [] });
+  }
+  clearDocumentSettings(uri);
 });
 
 documents.listen(connection);
