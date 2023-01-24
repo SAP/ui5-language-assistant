@@ -36,7 +36,5 @@
     "test": "mocha",
     "coverage": "nyc mocha"
   },
-  "publishConfig": {
-    "access": "public"
-  }
+  "private": true
 }

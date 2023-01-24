@@ -20,7 +20,5 @@
     "test": "echo nothing to test",
     "coverage": "echo nothing to test"
   },
-  "publishConfig": {
-    "access": "public"
-  }
+  "private": true
 }

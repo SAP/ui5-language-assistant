@@ -63,7 +63,5 @@
     "update-snapshots": "node ./scripts/update-diagnostics-snapshots",
     "bundle": "webpack --mode production"
   },
-  "publishConfig": {
-    "access": "public"
-  }
+  "private": true
 }
