@@ -1,6 +1,7 @@
 {
   "name": "@ui5-language-assistant/fe",
   "version": "3.3.1",
+  "private": true,
   "description": "UI5 LSP server extension for annotation relevant building blocks",
   "keywords": [],
   "files": [
@@ -42,6 +43,5 @@
     "test": "mocha",
     "coverage": "nyc mocha",
     "format:fix": "prettier --write \"**/*.@(js|ts|json|md)\" --ignore-path=.gitignore"
-  },
-  "private": true
+  }
 }

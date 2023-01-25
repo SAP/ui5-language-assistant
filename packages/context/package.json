@@ -1,6 +1,7 @@
 {
   "name": "@ui5-language-assistant/context",
   "version": "3.3.1",
+  "private": true,
   "description": "A context for an xml file",
   "keywords": [],
   "files": [
@@ -50,8 +51,5 @@
     "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore",
     "test": "mocha",
     "coverage": "nyc mocha"
-  },
-  "publishConfig": {
-    "access": "public"
   }
 }

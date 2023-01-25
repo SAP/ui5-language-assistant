@@ -1,6 +1,7 @@
 {
   "name": "@ui5-language-assistant/language-server",
   "version": "3.3.1",
+  "private": true,
   "description": "UI5 Language Server",
   "keywords": [
     "LSP",
@@ -64,8 +65,5 @@
     "coverage": "nyc mocha",
     "update-snapshots": "node ./scripts/update-diagnostics-snapshots",
     "bundle": "webpack --mode production"
-  },
-  "publishConfig": {
-    "access": "public"
   }
 }
