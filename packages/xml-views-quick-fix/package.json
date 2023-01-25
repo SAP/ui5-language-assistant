@@ -1,6 +1,7 @@
 {
   "name": "@ui5-language-assistant/xml-views-quick-fix",
   "version": "3.3.1",
+  "private": true,
   "description": "Logic for UI5 XML-Views quick-fixes",
   "keywords": [
     "QuickFix"
@@ -38,8 +39,5 @@
     "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore",
     "test": "mocha",
     "coverage": "nyc mocha"
-  },
-  "publishConfig": {
-    "access": "public"
   }
 }

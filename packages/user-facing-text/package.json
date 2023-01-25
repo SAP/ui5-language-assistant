@@ -1,6 +1,7 @@
 {
   "name": "@ui5-language-assistant/user-facing-text",
   "version": "3.3.1",
+  "private": true,
   "description": "End user strings for UI5 Language Assistant",
   "keywords": [],
   "files": [
@@ -25,8 +26,5 @@
     "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore",
     "test": "mocha",
     "coverage": "nyc mocha"
-  },
-  "publishConfig": {
-    "access": "public"
   }
 }

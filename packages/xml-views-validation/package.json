@@ -1,6 +1,7 @@
 {
   "name": "@ui5-language-assistant/xml-views-validation",
   "version": "3.3.1",
+  "private": true,
   "description": "Validations Logic for UI5 XML-Views",
   "keywords": [
     "xml",
@@ -41,8 +42,5 @@
     "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore",
     "test": "mocha",
     "coverage": "nyc mocha"
-  },
-  "publishConfig": {
-    "access": "public"
   }
 }

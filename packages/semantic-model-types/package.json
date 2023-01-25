@@ -1,6 +1,7 @@
 {
   "name": "@ui5-language-assistant/semantic-model-types",
   "version": "3.3.1",
+  "private": true,
   "description": "UI5 Semantic model type definitions",
   "keywords": [],
   "files": [
@@ -19,8 +20,5 @@
     "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore",
     "test": "echo nothing to test",
     "coverage": "echo nothing to test"
-  },
-  "publishConfig": {
-    "access": "public"
   }
 }
