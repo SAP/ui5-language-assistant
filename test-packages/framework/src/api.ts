@@ -1,4 +1,4 @@
-export { TestFramework } from "./framework";
+export { TestFramework, CURSOR_ANCHOR } from "./framework";
 
 export {
   Config,

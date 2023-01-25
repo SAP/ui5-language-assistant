@@ -94,7 +94,8 @@ export type TestModelVersion =
   | /* OOM */ "1.71.49"
   | "1.84.27"
   | "1.96.11"
-  | "1.105.0";
+  | "1.105.0"
+  | "1.109.1";
 
 /**
  * Return a UI5SemanticModel for the specified version.

@@ -34,13 +34,17 @@ export const validators: Validators = {
   validateNonStableId,
 };
 
-export function validateXMLView(opts: {
-  validators: UI5ValidatorsConfig;
+export function validateXMLView<ExternalXMLViewIssue>(opts: {
+  validators: UI5ValidatorsConfig<UI5XMLViewIssue | ExternalXMLViewIssue>;
   context: Context;
   xmlView: XMLDocument;
-}): UI5XMLViewIssue[] {
+}): (UI5XMLViewIssue | ExternalXMLViewIssue)[] {
   const validatorVisitor = new ValidatorVisitor(opts.context, opts.validators);
   accept(opts.xmlView, validatorVisitor);
   const issues = validatorVisitor.collectedIssues;
   return issues;
 }
+
+export type { UI5ValidatorsConfig } from "./validate-xml-views";
+
+export { isPossibleBindingAttributeValue } from "../src/utils/is-binding-attribute-value";

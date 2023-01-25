@@ -102,7 +102,15 @@ export interface UI5Prop extends BaseUI5Node {
   kind: "UI5Prop";
   type: UI5Type | undefined;
   default: unknown; // This should be of the property's type
+  metadata?: propertyMetadata;
 }
+
+export interface FEPropertyMetadata {
+  expectedAnnotations: string[];
+  expectedTypes: string[];
+}
+
+export type propertyMetadata = FEPropertyMetadata;
 
 export interface UI5Field extends BaseUI5Node {
   kind: "UI5Field";

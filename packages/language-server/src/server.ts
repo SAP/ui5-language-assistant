@@ -11,6 +11,7 @@ import {
   Hover,
   DidChangeConfigurationNotification,
   FileEvent,
+  InitializeResult,
 } from "vscode-languageserver/node";
 import { URI } from "vscode-uri";
 import { TextDocument } from "vscode-languageserver-textdocument";
@@ -42,6 +43,7 @@ import { diagnosticToCodeActionFix } from "./quick-fix";
 import { executeCommand } from "./commands";
 import { initSwa } from "./swa";
 import { getLogger, setLogLevel } from "./logger";
+import { initI18n } from "./i18n";
 
 const connection = createConnection(ProposedFeatures.all);
 const documents = new TextDocuments(TextDocument);
@@ -50,50 +52,53 @@ let ui5yamlStateInitialized: Promise<void[]> | undefined = undefined;
 let initializationOptions: ServerInitializationOptions | undefined;
 let hasConfigurationCapability = false;
 
-connection.onInitialize((params: InitializeParams) => {
-  getLogger().info("`onInitialize` event", params);
-  if (params?.initializationOptions?.logLevel) {
-    setLogLevel(params?.initializationOptions?.logLevel);
-  }
-  initSwa(params);
+connection.onInitialize(
+  async (params: InitializeParams): Promise<InitializeResult> => {
+    getLogger().info("`onInitialize` event", params);
+    if (params?.initializationOptions?.logLevel) {
+      setLogLevel(params?.initializationOptions?.logLevel);
+    }
+    initSwa(params);
+    await initI18n();
 
-  const capabilities = params.capabilities;
-  const workspaceFolderUri = params.rootUri;
-  if (workspaceFolderUri !== null) {
-    const workspaceFolderAbsPath = URI.parse(workspaceFolderUri).fsPath;
-    manifestStateInitialized = initializeManifestData(workspaceFolderAbsPath);
-    ui5yamlStateInitialized = initializeUI5YamlData(workspaceFolderAbsPath);
-  }
+    const capabilities = params.capabilities;
+    const workspaceFolderUri = params.rootUri;
+    if (workspaceFolderUri !== null) {
+      const workspaceFolderAbsPath = URI.parse(workspaceFolderUri).fsPath;
+      manifestStateInitialized = initializeManifestData(workspaceFolderAbsPath);
+      ui5yamlStateInitialized = initializeUI5YamlData(workspaceFolderAbsPath);
+    }
 
-  // Does the client support the `workspace/configuration` request?
-  // If not, we will fall back using global settings
-  hasConfigurationCapability =
-    capabilities.workspace !== undefined &&
-    (capabilities.workspace.configuration ?? false);
+    // Does the client support the `workspace/configuration` request?
+    // If not, we will fall back using global settings
+    hasConfigurationCapability =
+      capabilities.workspace !== undefined &&
+      (capabilities.workspace.configuration ?? false);
 
-  // These options are passed from the client extension in clientOptions.initializationOptions
-  initializationOptions = params.initializationOptions;
-  return {
-    capabilities: {
-      textDocumentSync: TextDocumentSyncKind.Full,
-      completionProvider: {
-        resolveProvider: true,
-        // TODO: can the trigger characters be more contextual?
-        //       e.g: "<" of open tag only, not else where
-        triggerCharacters: ['"', "'", ":", "<"],
+    // These options are passed from the client extension in clientOptions.initializationOptions
+    initializationOptions = params.initializationOptions;
+    return {
+      capabilities: {
+        textDocumentSync: TextDocumentSyncKind.Full,
+        completionProvider: {
+          resolveProvider: true,
+          // TODO: can the trigger characters be more contextual?
+          //       e.g: "<" of open tag only, not else where
+          triggerCharacters: ['"', "'", ":", "<", "/"],
+        },
+        hoverProvider: true,
+        codeActionProvider: true,
+        // Each command executes a different code action scenario
+        executeCommandProvider: {
+          commands: [
+            commands.QUICK_FIX_STABLE_ID_ERROR.name,
+            commands.QUICK_FIX_STABLE_ID_FILE_ERRORS.name,
+          ],
+        },
       },
-      hoverProvider: true,
-      codeActionProvider: true,
-      // Each command executes a different code action scenario
-      executeCommandProvider: {
-        commands: [
-          commands.QUICK_FIX_STABLE_ID_ERROR.name,
-          commands.QUICK_FIX_STABLE_ID_FILE_ERRORS.name,
-        ],
-      },
-    },
-  };
-});
+    };
+  }
+);
 
 connection.onInitialized(async () => {
   getLogger().info("`onInitialized` event");
@@ -195,6 +200,42 @@ connection.onHover(
   }
 );
 
+const validateOpenDocuments = async (changes: FileEvent[]): Promise<void> => {
+  const supportedDocs = [
+    "manifest.json",
+    "ui5.yaml",
+    ".cds",
+    ".xml",
+    "package.json",
+  ];
+
+  const found = changes.find(
+    (change) =>
+      !isXMLView(change.uri) &&
+      supportedDocs.find((doc) => change.uri.endsWith(doc))
+  );
+  if (!found) {
+    return;
+  }
+
+  const allDocuments = documents.all();
+  for (const document of allDocuments) {
+    const documentPath = URI.parse(document.uri).fsPath;
+    const context = await getContext(
+      documentPath,
+      initializationOptions?.modelCachePath
+    );
+    const diagnostics = getXMLViewDiagnostics({
+      document,
+      context,
+    });
+    getLogger().trace("computed diagnostics", {
+      diagnostics,
+    });
+    connection.sendDiagnostics({ uri: document.uri, diagnostics });
+  }
+};
+
 connection.onDidChangeWatchedFiles(async (changeEvent) => {
   getLogger().debug("`onDidChangeWatchedFiles` event", {
     changeEvent,
@@ -215,6 +256,7 @@ connection.onDidChangeWatchedFiles(async (changeEvent) => {
     }
   });
   await reactOnCdsFileChange(cdsFileEvents);
+  await validateOpenDocuments(changeEvent.changes);
 });
 
 documents.onDidChangeContent(async (changeEvent) => {

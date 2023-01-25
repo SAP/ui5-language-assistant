@@ -10,5 +10,25 @@ const config = {
     libraryTarget: "commonjs2",
     devtoolModuleFilenameTemplate: "../[resource-path]",
   },
+  module: {
+    rules: [
+      {
+        test: /module-loader\.js$/,
+        loader: "string-replace-loader",
+        options: {
+          search: "require.resolve",
+          replace: "__non_webpack_require__.resolve",
+        },
+      },
+      {
+        test: /module-loader\.js$/,
+        loader: "string-replace-loader",
+        options: {
+          search: /__importStar\(require\(modulePath\)\)/,
+          replace: `__non_webpack_require__(modulePath)`,
+        },
+      },
+    ],
+  },
 };
 module.exports = config;

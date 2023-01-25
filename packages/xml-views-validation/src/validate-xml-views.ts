@@ -8,25 +8,25 @@ import {
 import { UI5XMLViewIssue } from "../api";
 import { Context } from "@ui5-language-assistant/context";
 
-export interface UI5ValidatorsConfig {
+export interface UI5ValidatorsConfig<IssueType = UI5XMLViewIssue> {
   /**
    * Careful on abusing top level document validators.
    * If such validators need to traverse the whole AST there may
    * be performance implications.
    */
-  document: ((xmlNode: XMLDocument, context: Context) => UI5XMLViewIssue[])[];
+  document: ((xmlNode: XMLDocument, context: Context) => IssueType[])[];
 
-  element: ((xmlNode: XMLElement, context: Context) => UI5XMLViewIssue[])[];
+  element: ((xmlNode: XMLElement, context: Context) => IssueType[])[];
 
-  attribute: ((xmlNode: XMLAttribute, context: Context) => UI5XMLViewIssue[])[];
+  attribute: ((xmlNode: XMLAttribute, context: Context) => IssueType[])[];
 }
 
-export class ValidatorVisitor implements XMLAstVisitor {
-  public collectedIssues: UI5XMLViewIssue[] = [];
+export class ValidatorVisitor<IssueType> implements XMLAstVisitor {
+  public collectedIssues: IssueType[] = [];
 
   constructor(
     private context: Context,
-    private validators: UI5ValidatorsConfig
+    private validators: UI5ValidatorsConfig<IssueType>
   ) {}
 
   visitXMLDocument(node: XMLDocument): void {
