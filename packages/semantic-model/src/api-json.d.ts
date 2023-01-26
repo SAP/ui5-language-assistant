@@ -260,8 +260,8 @@ export interface Ui5Property {
   optional?: boolean;
   static?: boolean;
   allowedFor?: string[];
-  [ui5 - metadata]?: {
-    [sap.fe]?: {
+  "ui5 - metadata"?: {
+    "sap.fe"?: {
       expectedAnnotations: string[];
       expectedTypes: string[];
     };
