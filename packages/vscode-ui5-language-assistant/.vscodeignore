@@ -13,6 +13,9 @@ node_modules
 
 # The VSCode Extension's dev artifacts
 src/**
+lib/**/*.js.map
+dist/**/*.js.map
+
 coverage/**
 .nyc_output/**
 lib/test/**
