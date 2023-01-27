@@ -12,11 +12,16 @@ node_modules
 !**/@ui5-language-assistant/language-server/src/**
 
 # The VSCode Extension's dev artifacts
+src/**
 coverage/**
 .nyc_output/**
 lib/test/**
 test/**
 scripts
+nyc.config.js
+tsconfig.json
+webpack.config.js
+*/**/tsconfig.tsbuildinfo
 
 # Readme gifs (linked via jsdeliver instead of part of vsix).
 resources/readme
