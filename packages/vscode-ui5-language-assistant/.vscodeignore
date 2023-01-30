@@ -3,9 +3,9 @@
 node_modules
 
 # Except a **subset** language-server package which is executed as a separate process
-! **/@ui5-language-assistant/language-server/{*.d.ts,CHANGELOG.md,CONTRIBUTING.md,README.md,package.json}
+! **/@ui5-language-assistant/language-server/{api.d.ts,CHANGELOG.md,CONTRIBUTING.md,README.md,package.json}
 ! **/@ui5-language-assistant/language-server/dist/**/*.js
-! **/@ui5-language-assistant/language-server/lib/src/**/*.{js,d.ts,json}
+! **/@ui5-language-assistant/language-server/lib/src/**/*.{js,json}
 
 # The VSCode Extension's dev artifacts
 # Exclude all
@@ -20,6 +20,6 @@ node_modules
 ! package.json
 
 ! dist/**/*.js
-! lib/src/**/*.{js,d.ts,json}
+! lib/src/**/*.{js,json}
 ! resources/ui5-language-assistant.*
 # Readme gifs (resources/readme) linked via jsdeliver instead of part of vsix
