@@ -3,20 +3,23 @@
 node_modules
 
 # Except a **subset** language-server package which is executed as a separate process
-# Note only one star (*) is expended in these dirs.
-!**/@ui5-language-assistant/language-server/*
-!**/@ui5-language-assistant/language-server/dist/*
-
-# For debugging of bundled language-server in production (source maps)
-!**/@ui5-language-assistant/language-server/lib/src/**
-!**/@ui5-language-assistant/language-server/src/**
+! **/@ui5-language-assistant/language-server/{api.d.ts,CHANGELOG.md,CONTRIBUTING.md,README.md,package.json}
+! **/@ui5-language-assistant/language-server/dist/**/*.js
+! **/@ui5-language-assistant/language-server/lib/src/**/*.{js,json}
 
 # The VSCode Extension's dev artifacts
-coverage/**
-.nyc_output/**
-lib/test/**
-test/**
-scripts
+# Exclude all
+**/*
 
-# Readme gifs (linked via jsdeliver instead of part of vsix).
-resources/readme
+# Except mandatory set which should be included in the vsix
+! CHANGELOG.md
+! CONTRIBUTING.md
+! LICENSE
+! README.md
+! LICENSES/*
+! package.json
+
+! dist/**/*.js
+! lib/src/**/*.{js,json}
+! resources/ui5-language-assistant.*
+# Readme gifs (resources/readme) linked via jsdeliver instead of part of vsix
