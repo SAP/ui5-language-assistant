@@ -47,6 +47,10 @@ The feature is available in the following:
   - Enum values
   - Boolean values
   - Namespaces fully qualified names
+  - metaPath values in macros
+  - contextPath values for Chart macro
+  - filterBar values from the current file in macros
+
 
 ### XML View Validations
 
@@ -78,6 +82,9 @@ and cannot be configured by the end user.
   - Use of deprecated properties
   - Use of deprecated events
   - Use of deprecated associations
+  - References to annotations that cannot be found in current project 
+  - References to filter bars that cannot be found in current file
+  - Use of context paths that do not lead to the annotations of types expected for the given macro
 
 ### XML View Quick Fix
 
