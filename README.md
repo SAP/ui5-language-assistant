@@ -15,7 +15,7 @@ It currently contains:
 - The [UI5 language assistant](./packages/vscode-ui5-language-assistant) VSCode Extension consisting of the following packages:
 
   - [@ui5-language-assistant/language-server](./packages/language-server) UI5 Language Server.
-  - [@ui5-language-assistant/context](./packages/context) Common shared data model container (UI5 API loaded version cache, project information, ODATA services, manifest information, etc.) with data load and parse utilities used in other packages in this mono-repo.
+  - [@ui5-language-assistant/context](./packages/context) Common shared data model container (UI5 API loaded version cache, project information, ODATA services, manifest information, etc.) with utilities to load and parse the data used in other packages in this mono-repo.
   - [@ui5-language-assistant/fe](./packages/context) UI5 Language Server extension to support completion and diagnostics of ODATA annotations related data.
   - [@ui5-language-assistant/logic-utils](./packages/logic-utils) Common shared logic and data structures related utilities used in other packages in this mono-repo.
   - [@ui5-language-assistant/semantic-model](./packages/semantic-model) Data structure and related utils to represent the UI5 metadata.
@@ -32,7 +32,6 @@ It currently contains:
   - [![npm-bas-ext][npm-bas-ext-image]][npm-bas-ext-url] [@ui5-language-assistant/vscode-ui5-language-assistant-bas-ext](./packages/vscode-ui5-language-assistant-bas-ext)
 
 [npm-language-server-image]: https://img.shields.io/npm/v/@ui5-language-assistant/language-server.svg
-[npm-context-image]: https://img.shields.io/npm/v/@ui5-language-assistant/context.svg
 [npm-bas-ext-url]: https://www.npmjs.com/package/@ui5-language-assistant/vscode-ui5-language-assistant-bas-ext
 [npm-bas-ext-image]: https://img.shields.io/npm/v/@ui5-language-assistant/vscode-ui5-language-assistant-bas-ext.svg
 
