@@ -51,7 +51,6 @@ The feature is available in the following:
   - contextPath values for Chart macro
   - filterBar values from the current file in macros
 
-
 ### XML View Validations
 
 ![](https://raw.githubusercontent.com/SAP/ui5-language-assistant/master/packages/vscode-ui5-language-assistant/resources/readme/preview-validations.gif)
@@ -82,7 +81,7 @@ and cannot be configured by the end user.
   - Use of deprecated properties
   - Use of deprecated events
   - Use of deprecated associations
-  - References to annotations that cannot be found in current project 
+  - References to annotations that cannot be found in current project
   - References to filter bars that cannot be found in current file
   - Use of context paths that do not lead to the annotations of types expected for the given macro
 
