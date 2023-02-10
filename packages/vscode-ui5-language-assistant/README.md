@@ -47,6 +47,9 @@ The feature is available in the following:
   - Enum values
   - Boolean values
   - Namespaces fully qualified names
+  - metaPath values in building blocks
+  - contextPath values for Chart building blocks
+  - filterBar values from the current file in building blocks
 
 ### XML View Validations
 
@@ -78,6 +81,9 @@ and cannot be configured by the end user.
   - Use of deprecated properties
   - Use of deprecated events
   - Use of deprecated associations
+  - References to annotations that cannot be found in current project
+  - References to filter bars that cannot be found in current file
+  - Use of context paths that do not lead to the annotations of types expected for the given building block
 
 ### XML View Quick Fix
 
