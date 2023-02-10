@@ -98,7 +98,7 @@ export async function getUI5Manifest(
  */
 export function getMainService(manifest: Manifest): string | undefined {
   const model = manifest["sap.ovp"]?.globalFilterModel ?? "";
-  return manifest["sap.ui5"]?.models?.[model].dataSource;
+  return manifest["sap.ui5"]?.models?.[model]?.dataSource;
 }
 /**
  * Get service path defined under `sap.app->dataSources`
