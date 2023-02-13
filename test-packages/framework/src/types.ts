@@ -11,6 +11,7 @@ import { i18n } from "i18next";
  */
 export enum ProjectName {
   cap = "cap",
+  tsFreeStyle = "ts-free-style",
 }
 /**
  * Type of support project

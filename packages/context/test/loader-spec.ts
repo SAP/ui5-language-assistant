@@ -15,6 +15,7 @@ import { restore, spy, stub } from "sinon";
 import { Manifest } from "@sap-ux/project-access";
 import { ProjectKind, UI5_PROJECT_TYPE } from "../src/types";
 import { getProjectData } from "./utils";
+import { getManifestDetails, getUI5Manifest } from "../src/manifest";
 
 describe("loader", () => {
   let testFramework: TestFramework;
@@ -59,6 +60,48 @@ describe("loader", () => {
         "localServices"
       );
     });
+
+    it("get an app without models", async () => {
+      const framework = new TestFramework({
+        projectInfo: {
+          name: ProjectName.tsFreeStyle,
+          type: ProjectType.UI5,
+          npmInstall: false,
+        },
+      });
+      const projectRoot = framework.getProjectRoot();
+      const appRoot = join(projectRoot, "src");
+      const manifestRoot = join(appRoot, "manifest.json");
+      const manifest = (await getUI5Manifest(manifestRoot)) as Manifest;
+      const documentPath = join(
+        projectRoot,
+
+        "src",
+        "view",
+        "Main.view.xml"
+      );
+      const manifestDetails = await getManifestDetails(documentPath);
+      // for consistency remove cache
+      cache.deleteApp(appRoot);
+      const app = await loader.getApp(
+        projectRoot,
+        appRoot,
+        manifest,
+        manifestDetails,
+        {
+          type: "UI5",
+          kind: "UI5",
+        }
+      );
+      expect(app).to.have.all.keys(
+        "appRoot",
+        "projectRoot",
+        "manifest",
+        "manifestDetails",
+        "localServices"
+      );
+    });
+
     it("get cached app", async () => {
       const projectRoot = testFramework.getProjectRoot();
       const {
