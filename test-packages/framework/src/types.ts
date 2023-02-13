@@ -11,6 +11,7 @@ import { i18n } from "i18next";
  */
 export enum ProjectName {
   cap = "cap",
+  noModels = "no-models",
 }
 /**
  * Type of support project

@@ -228,43 +228,42 @@ export async function getApp(
     return cachedApp;
   }
   const mainServiceName = getMainService(manifest);
-  if (mainServiceName === undefined) {
-    return;
-  }
-  const annotationFiles = await getLocalAnnotationsForService(
-    manifest,
-    mainServiceName,
-    appRoot
-  );
-  const path = unifyServicePath(
-    getServicePath(manifest, mainServiceName) ?? "/"
-  );
-  let metadataContent;
-  if (projectInfo.type === CAP_PROJECT_TYPE) {
-    const services = await getCAPServices(projectRoot);
-    metadataContent = services.get(path);
-  } else {
-    metadataContent = await getLocalMetadataForService(
+  const localServices = new Map<string, ServiceDetails>();
+  if (mainServiceName) {
+    const annotationFiles = await getLocalAnnotationsForService(
       manifest,
       mainServiceName,
       appRoot
     );
-  }
-  const localService = parseServiceFiles({
-    annotationFiles,
-    path,
-    metadataContent,
-  });
-
-  if (!localService) {
-    return;
+    const path = unifyServicePath(
+      getServicePath(manifest, mainServiceName) ?? "/"
+    );
+    let metadataContent;
+    if (projectInfo.type === CAP_PROJECT_TYPE) {
+      const services = await getCAPServices(projectRoot);
+      metadataContent = services.get(path);
+    } else {
+      metadataContent = await getLocalMetadataForService(
+        manifest,
+        mainServiceName,
+        appRoot
+      );
+    }
+    const localService = parseServiceFiles({
+      annotationFiles,
+      path,
+      metadataContent,
+    });
+    if (localService) {
+      localServices.set(path, localService);
+    }
   }
   const app = {
     appRoot,
     projectRoot,
     manifest,
     manifestDetails,
-    localServices: new Map<string, ServiceDetails>([[path, localService]]),
+    localServices,
   };
   cache.setApp(appRoot, app);
   return app;
