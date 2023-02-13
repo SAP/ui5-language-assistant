@@ -80,10 +80,26 @@ describe("manifest", () => {
       minUI5Version: "1.108.1",
     });
   });
-  it("getMainService", async () => {
-    const { manifest } = await getProjectData(testFramework.getProjectRoot());
-    const result = await getMainService(manifest);
-    expect(result).to.equal("mainService");
+  describe("getMainService", () => {
+    it("manifest without model definitions", async () => {
+      const result = getMainService({
+        "sap.ui5": {},
+      } as never);
+      expect(result).to.equal(undefined);
+    });
+    it("manifest without default model", async () => {
+      const result = getMainService({
+        "sap.ui5": {
+          models: {},
+        },
+      } as never);
+      expect(result).to.equal(undefined);
+    });
+    it("complete manifest", async () => {
+      const { manifest } = await getProjectData(testFramework.getProjectRoot());
+      const result = getMainService(manifest);
+      expect(result).to.equal("mainService");
+    });
   });
   it("getServicePath", async () => {
     const { manifest } = await getProjectData(testFramework.getProjectRoot());
