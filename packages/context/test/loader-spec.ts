@@ -64,7 +64,7 @@ describe("loader", () => {
     it("get an app without models", async () => {
       const framework = new TestFramework({
         projectInfo: {
-          name: ProjectName.noModels,
+          name: ProjectName.tsFreeStyle,
           type: ProjectType.UI5,
           npmInstall: false,
         },
