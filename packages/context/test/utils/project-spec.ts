@@ -42,6 +42,19 @@ describe.only("project", () => {
       const result = await getProjectRoot(docPath);
       expect(result).to.equal(projectRoot);
     });
+    it("free style project", async () => {
+      const framework = new TestFramework({
+        projectInfo: {
+          name: ProjectName.tsFreeStyle,
+          type: ProjectType.UI5,
+          npmInstall: false,
+        },
+      });
+      const projectRoot = framework.getProjectRoot();
+      const documentPath = join(projectRoot, "src", "view", "Main.view.xml");
+      const result = await getProjectRoot(documentPath);
+      expect(result).to.equal(projectRoot);
+    });
   });
   context("getProjectInfo", () => {
     it("undefined", async () => {

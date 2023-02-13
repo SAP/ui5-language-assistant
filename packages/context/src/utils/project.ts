@@ -42,10 +42,7 @@ export async function getProjectRoot(
 ): Promise<string | undefined> {
   let projectRoot: string | undefined;
   try {
-    projectRoot = await findProjectRoot(documentPath, true);
-    if (!projectRoot) {
-      projectRoot = await findProjectRoot(documentPath, false);
-    }
+    projectRoot = await findProjectRoot(documentPath, false);
   } catch (error) {
     getLogger().debug("getProjectRoot failed:", error);
     projectRoot = undefined;
