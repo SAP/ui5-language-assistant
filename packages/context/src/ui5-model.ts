@@ -292,11 +292,14 @@ async function getLibs(
 }
 
 // if library is not found, resolve next minor highest patch
-let versionMap: Record<
-  string,
-  { version: string; support: string; lts: boolean }
->; // just an in-memory cache!
-const resolvedVersions: Record<string, string> = Object.create(null);
+const versionMap: Record<
+  UI5Framework,
+  Record<string, { version: string; support: string; lts: boolean }>
+> = Object.create(null); // just an in-memory cache!
+const resolvedVersions: Record<
+  UI5Framework,
+  Record<string, string>
+> = Object.create(null);
 /*
  * VERSION RESOLUTION LOGIC:
  * =========================
@@ -353,6 +356,7 @@ export async function negotiateVersionWithFetcher(
   // try to negotiate version
   let isFallback = false;
   let isIncorrectVersion = false;
+  let versions = versionMap[framework];
   if (!version) {
     // no version defined, using default version
     getLogger().warn(
@@ -360,10 +364,10 @@ export async function negotiateVersionWithFetcher(
     );
     version = DEFAULT_UI5_VERSION;
     isFallback = true;
-  } else if (resolvedVersions[version]) {
+  } else if (resolvedVersions[framework]?.[version]) {
     // version already resolved?
     const versionDefined = version;
-    version = resolvedVersions[version];
+    version = resolvedVersions[framework]?.[version];
     if (versionDefined !== version) {
       isIncorrectVersion = true;
     }
@@ -377,12 +381,12 @@ export async function negotiateVersionWithFetcher(
   ) {
     const requestedVersion = version;
     // no version information found, try to negotiate the version
-    if (!versionMap) {
+    if (!versions) {
       // retrieve the version mapping (only exists for SAPUI5 so far)
-      const url = getVersionJsonUrl();
+      const url = getVersionJsonUrl(framework);
       const response = await versionJsonFetcher(url);
       if (response.ok) {
-        versionMap = (await response.json()) as Record<
+        versionMap[framework] = (await response.json()) as Record<
           string,
           { version: string; support: string; lts: boolean }
         >;
@@ -395,7 +399,7 @@ export async function negotiateVersionWithFetcher(
             DEFAULT_UI5_VERSION,
           }
         );
-        versionMap = {
+        versionMap[framework] = {
           latest: {
             version: DEFAULT_UI5_VERSION,
             support: "Maintenance",
@@ -403,14 +407,15 @@ export async function negotiateVersionWithFetcher(
           },
         };
       }
+      versions = versionMap[framework];
     }
     // coerce the version (check for invalid version, which indicates development scenario)
     const parsedVersion = semver.coerce(version);
     if (parsedVersion) {
-      if (versionMap[`${parsedVersion.major}.${parsedVersion.minor}`]) {
+      if (versions[`${parsedVersion.major}.${parsedVersion.minor}`]) {
         // lookup for a valid major.minor entry
         version =
-          versionMap[`${parsedVersion.major}.${parsedVersion.minor}`].version;
+          versions[`${parsedVersion.major}.${parsedVersion.minor}`].version;
       }
       if (
         !(await getVersionInfo(
@@ -423,17 +428,17 @@ export async function negotiateVersionWithFetcher(
         // find closest supported version
         version =
           semverMinSatisfying(
-            Object.values(versionMap).map((entry) => {
+            Object.values(versions).map((entry) => {
               return entry.version;
             }) as string[],
             `^${version}`
-          ) || versionMap["latest"].version;
+          ) || versions["latest"].version;
 
         isIncorrectVersion = true;
       }
     } else {
       // development scenario => use latest version
-      version = versionMap["latest"].version;
+      version = versions["latest"].version;
       isIncorrectVersion = true;
     }
     // store the resolved version
@@ -441,7 +446,10 @@ export async function negotiateVersionWithFetcher(
       if (requestedVersion !== version) {
         isIncorrectVersion = true;
       }
-      resolvedVersions[requestedVersion] = version;
+      if (!resolvedVersions[framework]) {
+        resolvedVersions[framework] = Object.create(null);
+      }
+      resolvedVersions[framework][requestedVersion] = version;
     }
   }
   return {

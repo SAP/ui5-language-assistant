@@ -12,9 +12,8 @@ export function getCDNBaseUrl(
   return url;
 }
 
-export function getVersionJsonUrl(/* framework: UI5Framework */): string {
-  // version.json is only supported for SAPUI5 right now
-  return `${UI5_FRAMEWORK_CDN_BASE_URL["SAPUI5"]}version.json`;
+export function getVersionJsonUrl(framework: UI5Framework): string {
+  return `${UI5_FRAMEWORK_CDN_BASE_URL[framework]}version.json`;
 }
 
 export function getVersionInfoUrl(

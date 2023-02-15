@@ -99,7 +99,7 @@ async function readUI5YamlFile(
 export async function findYamlPath(
   documentPath: string
 ): Promise<string | undefined> {
-  return findUp(FileName.Ui5Yaml, { cwd: documentPath });
+  return await findUp(FileName.Ui5Yaml, { cwd: documentPath });
 }
 
 /**
@@ -107,10 +107,11 @@ export async function findYamlPath(
  * @param ui5YamlRoot absolute root to a yaml file of an app e.g. /some/other/path/parts/app/manage_travels/webapp/ui5.yaml
  */
 export async function getUI5Yaml(
-  ui5YamlRoot: string
+  ui5YamlRoot: string,
+  ignoreCache?: boolean
 ): Promise<YamlDetails | undefined> {
   const cachedYaml = cache.getYamlDetails(ui5YamlRoot);
-  if (cachedYaml) {
+  if (cachedYaml && !ignoreCache) {
     return cachedYaml;
   }
   try {
@@ -130,13 +131,14 @@ export async function getUI5Yaml(
  * @param documentPath path to a file e.g. absolute/path/webapp/ext/main/Main.view.xml
  */
 export async function getYamlDetails(
-  documentPath: string
+  documentPath: string,
+  ignoreCache?: boolean
 ): Promise<YamlDetails> {
   const yamlPath = await findYamlPath(documentPath);
   if (!yamlPath) {
     return { framework: DEFAULT_UI5_FRAMEWORK, version: undefined };
   }
-  const yamlData = await getUI5Yaml(yamlPath);
+  const yamlData = await getUI5Yaml(yamlPath, ignoreCache);
   if (yamlData) {
     return yamlData;
   }

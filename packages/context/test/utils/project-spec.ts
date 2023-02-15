@@ -16,7 +16,7 @@ import {
 } from "@ui5-language-assistant/test-framework";
 import { getProjectData } from "../utils";
 
-describe.only("project", () => {
+describe("project", () => {
   let testFramework: TestFramework;
   before(function () {
     const timeout = 5 * 60000 + 10000; // 5 min for initial npm install + 10 sec

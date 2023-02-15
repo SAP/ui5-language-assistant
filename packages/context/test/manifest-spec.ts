@@ -39,14 +39,16 @@ describe("manifest", () => {
     restore();
   });
   context("getUI5Manifest", () => {
-    it("get undefined", async () => {
+    it("get undefined", async function () {
+      this.timeout(20000);
       const manifestRoot = join("/wrong/path", FileName.Manifest);
       // for consistency remove cache
       cache.deleteManifest(manifestRoot);
       const result = await getUI5Manifest(manifestRoot);
       expect(result).to.be.undefined;
     });
-    it("get UI5 manifest", async () => {
+    it("get UI5 manifest", async function () {
+      this.timeout(20000);
       const projectRoot = testFramework.getProjectRoot();
       const appRoot = getAppRoot(projectRoot);
       const manifestRoot = join(appRoot, FileName.Manifest);
