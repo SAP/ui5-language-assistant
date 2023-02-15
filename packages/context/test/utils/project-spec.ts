@@ -1,5 +1,6 @@
 import { expect } from "chai";
 import { join } from "path";
+import { homedir } from "os";
 import {
   findAppRoot,
   getLocalAnnotationsForService,
@@ -31,8 +32,8 @@ describe.only("project", () => {
     testFramework = new TestFramework(useConfig);
   });
   context("getProjectRoot", () => {
-    it("throws exception and return undefined", async () => {
-      const result = await getProjectRoot(__dirname);
+    it("return undefined when no package.json is found", async () => {
+      const result = await getProjectRoot(homedir());
       expect(result).to.be.undefined;
     });
     it("return project root ", async () => {
