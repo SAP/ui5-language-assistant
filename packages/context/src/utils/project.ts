@@ -43,9 +43,15 @@ export async function getProjectRoot(
   let projectRoot: string | undefined;
   try {
     projectRoot = await findProjectRoot(documentPath, true);
-    if (!projectRoot) {
-      projectRoot = await findProjectRoot(documentPath, false);
-    }
+  } catch (error) {
+    getLogger().debug("getProjectRoot failed:", error);
+    projectRoot = undefined;
+  }
+  if (projectRoot !== undefined) {
+    return projectRoot;
+  }
+  try {
+    projectRoot = await findProjectRoot(documentPath, false);
   } catch (error) {
     getLogger().debug("getProjectRoot failed:", error);
     projectRoot = undefined;

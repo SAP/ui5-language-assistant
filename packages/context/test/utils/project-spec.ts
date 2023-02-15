@@ -1,5 +1,6 @@
 import { expect } from "chai";
 import { join } from "path";
+import { homedir } from "os";
 import {
   findAppRoot,
   getLocalAnnotationsForService,
@@ -31,8 +32,8 @@ describe("project", () => {
     testFramework = new TestFramework(useConfig);
   });
   context("getProjectRoot", () => {
-    it("throws exception and return undefined", async () => {
-      const result = await getProjectRoot(__dirname);
+    it("return undefined when no package.json is found", async () => {
+      const result = await getProjectRoot(homedir());
       expect(result).to.be.undefined;
     });
     it("return project root ", async () => {
@@ -40,6 +41,19 @@ describe("project", () => {
       const { appRoot } = await getProjectData(projectRoot);
       const docPath = join(appRoot, "ext", "main", "Main.view.xml");
       const result = await getProjectRoot(docPath);
+      expect(result).to.equal(projectRoot);
+    });
+    it("free style project", async () => {
+      const framework = new TestFramework({
+        projectInfo: {
+          name: ProjectName.tsFreeStyle,
+          type: ProjectType.UI5,
+          npmInstall: false,
+        },
+      });
+      const projectRoot = framework.getProjectRoot();
+      const documentPath = join(projectRoot, "src", "view", "Main.view.xml");
+      const result = await getProjectRoot(documentPath);
       expect(result).to.equal(projectRoot);
     });
   });
