@@ -7,7 +7,7 @@ import {
   ProjectType,
   TestFramework,
 } from "@ui5-language-assistant/test-framework";
-import { restore, spy } from "sinon";
+import Sinon, { restore, spy } from "sinon";
 import * as loader from "../src/loader";
 import {
   reactOnCdsFileChange,
@@ -18,6 +18,8 @@ import {
 } from "../src/watcher";
 import { CAPProject } from "../src/types";
 import { URI } from "vscode-uri";
+import pathParse from "path-parse";
+import { before, beforeEach } from "mocha";
 
 describe("watcher", () => {
   let testFramework: TestFramework;
@@ -79,21 +81,91 @@ describe("watcher", () => {
     expect(getProjectSpy).to.have.been.calledOnce;
     expect(cachedProject.apps.size).to.equal(1);
   });
-  context("reactOnUI5YamlChange", () => {
-    it("test create or change operation", async () => {
-      // reset cache for consistency
-      cache.reset();
-      const fileUri = testFramework.getFileUri([
-        "app",
-        "manage_travels",
-        "ui5.yaml",
-      ]);
-      // spy on cache events
-      const setYamlDetailsSpy = spy(cache, "setYamlDetails");
-      await reactOnUI5YamlChange(fileUri, 1);
 
-      expect(setYamlDetailsSpy).to.have.been.calledOnce;
+  context("reactOnUI5YamlChange", () => {
+    context("test create or change operation", () => {
+      let fileUri: string;
+      let yamlPath: string;
+      let directory: string;
+      let setYamlDetailsSpy: Sinon.SinonSpy;
+
+      before(() => {
+        fileUri = testFramework.getFileUri([
+          "app",
+          "manage_travels",
+          "ui5.yaml",
+        ]);
+        yamlPath = URI.parse(fileUri).fsPath;
+        directory = pathParse(yamlPath).dir;
+      });
+
+      beforeEach(() => {
+        // reset cache for consistency
+        cache.reset();
+        setYamlDetailsSpy = spy(cache, "setYamlDetails");
+      });
+
+      afterEach(() => setYamlDetailsSpy.resetHistory());
+      after(() => setYamlDetailsSpy.restore());
+
+      it("read file without framework version", async () => {
+        await reactOnUI5YamlChange(fileUri, 1);
+        expect(setYamlDetailsSpy).to.have.been.calledOnceWith(yamlPath, {
+          framework: "SAPUI5",
+          version: undefined,
+        });
+      });
+
+      it("file with OpenUI5 framework config", async () => {
+        const mock = (await import("mock-fs")).default;
+        try {
+          mock({
+            [directory]: {
+              ["ui5.yaml"]: `
+          framework:
+            name: OpenUI5
+          `,
+            },
+          });
+          await reactOnUI5YamlChange(fileUri, 1);
+          expect(setYamlDetailsSpy).to.have.been.calledTwice;
+          expect(
+            setYamlDetailsSpy.lastCall.calledWith(yamlPath, {
+              framework: "OpenUI5",
+              version: undefined,
+            })
+          );
+        } finally {
+          mock.restore();
+        }
+      });
+
+      it("file with SAPUI5 framework config", async () => {
+        const mock = (await import("mock-fs")).default;
+        try {
+          mock({
+            [directory]: {
+              ["ui5.yaml"]: `
+          framework:
+            name: SAPUI5
+            version: "1.100.0"
+          `,
+            },
+          });
+          await reactOnUI5YamlChange(fileUri, 1);
+          expect(setYamlDetailsSpy).to.have.been.calledTwice;
+          expect(
+            setYamlDetailsSpy.lastCall.calledWith(yamlPath, {
+              framework: "SAPUI5",
+              version: "1.100.0",
+            })
+          );
+        } finally {
+          mock.restore();
+        }
+      });
     });
+
     it("test delete operation", async () => {
       // reset cache for consistency
       cache.reset();
@@ -109,6 +181,7 @@ describe("watcher", () => {
       expect(deleteYamlDetailsSpy).to.have.been.calledOnce;
     });
   });
+
   context("reactOnCdsFileChange", () => {
     it("single cds file", async () => {
       // reset cache for consistency

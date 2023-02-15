@@ -19,6 +19,7 @@ describe("the UI5 language assistant ui5 model", () => {
   // The default timeout is 2000ms and getSemanticModel can take ~3000-5000ms
   const GET_MODEL_TIMEOUT = 10000;
   const FRAMEWORK = "SAPUI5";
+  const OPEN_FRAMEWORK = "OpenUI5";
   const VERSION = "1.71.49";
   const NO_CACHE_FOLDER = undefined;
 
@@ -227,30 +228,49 @@ describe("the UI5 language assistant ui5 model", () => {
     let cachePath: string;
     let cleanup: () => Promise<void>;
     const versionMap = {
-      latest: {
-        version: "1.105.0",
-        support: "Maintenance",
-        lts: true,
+      SAPUI5: {
+        latest: {
+          version: "1.105.0",
+          support: "Maintenance",
+          lts: true,
+        },
+        "1.105": {
+          version: "1.105.0",
+          support: "Maintenance",
+          lts: true,
+        },
+        "1.96": {
+          version: "1.96.11",
+          support: "Maintenance",
+          lts: true,
+        },
+        "1.84": {
+          version: "1.84.27",
+          support: "Maintenance",
+          lts: true,
+        },
+        "1.71": {
+          version: "1.71.50",
+          support: "Maintenance",
+          lts: true,
+        },
       },
-      "1.105": {
-        version: "1.105.0",
-        support: "Maintenance",
-        lts: true,
-      },
-      "1.96": {
-        version: "1.96.11",
-        support: "Maintenance",
-        lts: true,
-      },
-      "1.84": {
-        version: "1.84.27",
-        support: "Maintenance",
-        lts: true,
-      },
-      "1.71": {
-        version: "1.71.50",
-        support: "Maintenance",
-        lts: true,
+      OpenUI5: {
+        latest: {
+          version: "1.106.0",
+          support: "Maintenance",
+          lts: true,
+        },
+        "1.106": {
+          version: "1.106.0",
+          support: "Maintenance",
+          lts: true,
+        },
+        "1.71": {
+          version: "1.71.50",
+          support: "Maintenance",
+          lts: true,
+        },
       },
     };
     const versionInfo = {
@@ -281,7 +301,7 @@ describe("the UI5 language assistant ui5 model", () => {
     it("resolve the default version", async () => {
       const objNegotiatedVersionWithFetcher = await negotiateVersionWithFetcher(
         async (): Promise<FetchResponse> => {
-          return createResponse(true, 200, versionMap);
+          return createResponse(true, 200, versionMap[FRAMEWORK]);
         },
         async (): Promise<FetchResponse> => {
           return createResponse(true, 200, versionInfo);
@@ -293,10 +313,42 @@ describe("the UI5 language assistant ui5 model", () => {
       expect(objNegotiatedVersionWithFetcher.version).to.be.equal(VERSION);
     });
 
+    it("resolve the default version open UI5", async () => {
+      const objNegotiatedVersionWithFetcher = await negotiateVersionWithFetcher(
+        async (): Promise<FetchResponse> => {
+          return createResponse(true, 200, versionMap[OPEN_FRAMEWORK]);
+        },
+        async (): Promise<FetchResponse> => {
+          return createResponse(true, 200, versionInfo);
+        },
+        cachePath,
+        OPEN_FRAMEWORK,
+        VERSION
+      );
+      expect(objNegotiatedVersionWithFetcher.version).to.be.equal(VERSION);
+    });
+
+    it("resolve available concrete version OpenUI5 (1.106.0)", async () => {
+      const objNegotiatedVersionWithFetcher = await negotiateVersionWithFetcher(
+        async (): Promise<FetchResponse> => {
+          return createResponse(true, 200, versionMap[OPEN_FRAMEWORK]);
+        },
+        async (): Promise<FetchResponse> => {
+          return createResponse(true, 200, versionInfo);
+        },
+        cachePath,
+        OPEN_FRAMEWORK,
+        "1.106.0"
+      );
+      expect(objNegotiatedVersionWithFetcher.version).to.be.equal("1.106.0");
+      expect(objNegotiatedVersionWithFetcher.isFallback).to.be.false;
+      expect(objNegotiatedVersionWithFetcher.isIncorrectVersion).to.be.false;
+    });
+
     it("resolve available concrete version (1.105.0)", async () => {
       const objNegotiatedVersionWithFetcher = await negotiateVersionWithFetcher(
         async (): Promise<FetchResponse> => {
-          return createResponse(true, 200, versionMap);
+          return createResponse(true, 200, versionMap[FRAMEWORK]);
         },
         async (): Promise<FetchResponse> => {
           return createResponse(true, 200, versionInfo);
@@ -313,7 +365,7 @@ describe("the UI5 language assistant ui5 model", () => {
     it("resolve available concrete version (1.104.0)", async () => {
       const objNegotiatedVersionWithFetcher = await negotiateVersionWithFetcher(
         async (): Promise<FetchResponse> => {
-          return createResponse(true, 200, versionMap);
+          return createResponse(true, 200, versionMap[FRAMEWORK]);
         },
         async (): Promise<FetchResponse> => {
           return createResponse(true, 200, versionInfo);
@@ -330,7 +382,7 @@ describe("the UI5 language assistant ui5 model", () => {
     it("resolve not available concrete version (should be latest)", async () => {
       const objNegotiatedVersionWithFetcher = await negotiateVersionWithFetcher(
         async (): Promise<FetchResponse> => {
-          return createResponse(true, 200, versionMap);
+          return createResponse(true, 200, versionMap[FRAMEWORK]);
         },
         async (): Promise<FetchResponse> => {
           return createResponse(false, 404);
@@ -344,10 +396,27 @@ describe("the UI5 language assistant ui5 model", () => {
       expect(objNegotiatedVersionWithFetcher.isIncorrectVersion).to.be.true;
     });
 
+    it("resolve not available concrete version OpenUI5 (should be latest)", async () => {
+      const objNegotiatedVersionWithFetcher = await negotiateVersionWithFetcher(
+        async (): Promise<FetchResponse> => {
+          return createResponse(true, 200, versionMap[OPEN_FRAMEWORK]);
+        },
+        async (): Promise<FetchResponse> => {
+          return createResponse(false, 404);
+        },
+        cachePath,
+        OPEN_FRAMEWORK,
+        "1.104.0"
+      );
+      expect(objNegotiatedVersionWithFetcher.version).to.be.equal("1.106.0");
+      expect(objNegotiatedVersionWithFetcher.isFallback).to.be.false;
+      expect(objNegotiatedVersionWithFetcher.isIncorrectVersion).to.be.true;
+    });
+
     it("resolve major.minor versions (should be closest)", async () => {
       let objNegotiatedVersionWithFetcher = await negotiateVersionWithFetcher(
         async (): Promise<FetchResponse> => {
-          return createResponse(true, 200, versionMap);
+          return createResponse(true, 200, versionMap[FRAMEWORK]);
         },
         async (): Promise<FetchResponse> => {
           return createResponse(false, 404);
@@ -361,7 +430,7 @@ describe("the UI5 language assistant ui5 model", () => {
       expect(objNegotiatedVersionWithFetcher.isIncorrectVersion).to.be.true;
       objNegotiatedVersionWithFetcher = await negotiateVersionWithFetcher(
         async (): Promise<FetchResponse> => {
-          return createResponse(true, 200, versionMap);
+          return createResponse(true, 200, versionMap[FRAMEWORK]);
         },
         async (): Promise<FetchResponse> => {
           return createResponse(false, 404);
@@ -375,7 +444,7 @@ describe("the UI5 language assistant ui5 model", () => {
       expect(objNegotiatedVersionWithFetcher.isIncorrectVersion).to.be.true;
       objNegotiatedVersionWithFetcher = await negotiateVersionWithFetcher(
         async (): Promise<FetchResponse> => {
-          return createResponse(true, 200, versionMap);
+          return createResponse(true, 200, versionMap[FRAMEWORK]);
         },
         async (): Promise<FetchResponse> => {
           return createResponse(false, 404);
@@ -389,7 +458,7 @@ describe("the UI5 language assistant ui5 model", () => {
       expect(objNegotiatedVersionWithFetcher.isIncorrectVersion).to.be.true;
       objNegotiatedVersionWithFetcher = await negotiateVersionWithFetcher(
         async (): Promise<FetchResponse> => {
-          return createResponse(true, 200, versionMap);
+          return createResponse(true, 200, versionMap[FRAMEWORK]);
         },
         async (): Promise<FetchResponse> => {
           return createResponse(false, 404);
@@ -403,7 +472,7 @@ describe("the UI5 language assistant ui5 model", () => {
       expect(objNegotiatedVersionWithFetcher.isIncorrectVersion).to.be.true;
       objNegotiatedVersionWithFetcher = await negotiateVersionWithFetcher(
         async (): Promise<FetchResponse> => {
-          return createResponse(true, 200, versionMap);
+          return createResponse(true, 200, versionMap[FRAMEWORK]);
         },
         async (): Promise<FetchResponse> => {
           return createResponse(false, 404);
@@ -420,7 +489,7 @@ describe("the UI5 language assistant ui5 model", () => {
     it("resolve major version (should be closest)", async () => {
       const objNegotiatedVersionWithFetcher = await negotiateVersionWithFetcher(
         async (): Promise<FetchResponse> => {
-          return createResponse(true, 200, versionMap);
+          return createResponse(true, 200, versionMap[FRAMEWORK]);
         },
         async (): Promise<FetchResponse> => {
           return createResponse(false, 404);
@@ -437,7 +506,7 @@ describe("the UI5 language assistant ui5 model", () => {
     it("resolve invalid versions (should be latest)", async () => {
       let objNegotiatedVersionWithFetcher = await negotiateVersionWithFetcher(
         async (): Promise<FetchResponse> => {
-          return createResponse(true, 200, versionMap);
+          return createResponse(true, 200, versionMap[FRAMEWORK]);
         },
         async (): Promise<FetchResponse> => {
           return createResponse(false, 404);
@@ -451,7 +520,7 @@ describe("the UI5 language assistant ui5 model", () => {
       expect(objNegotiatedVersionWithFetcher.isIncorrectVersion).to.be.false;
       objNegotiatedVersionWithFetcher = await negotiateVersionWithFetcher(
         async (): Promise<FetchResponse> => {
-          return createResponse(true, 200, versionMap);
+          return createResponse(true, 200, versionMap[FRAMEWORK]);
         },
         async (): Promise<FetchResponse> => {
           return createResponse(false, 404);
@@ -459,6 +528,23 @@ describe("the UI5 language assistant ui5 model", () => {
         cachePath,
         FRAMEWORK,
         undefined
+      );
+      expect(objNegotiatedVersionWithFetcher.version).to.be.equal("1.71.49");
+      expect(objNegotiatedVersionWithFetcher.isFallback).to.be.true;
+      expect(objNegotiatedVersionWithFetcher.isIncorrectVersion).to.be.false;
+    });
+
+    it("resolve invalid versions OpenUI5 (should be latest)", async () => {
+      const objNegotiatedVersionWithFetcher = await negotiateVersionWithFetcher(
+        async (): Promise<FetchResponse> => {
+          return createResponse(true, 200, versionMap[OPEN_FRAMEWORK]);
+        },
+        async (): Promise<FetchResponse> => {
+          return createResponse(false, 404);
+        },
+        cachePath,
+        OPEN_FRAMEWORK,
+        ""
       );
       expect(objNegotiatedVersionWithFetcher.version).to.be.equal("1.71.49");
       expect(objNegotiatedVersionWithFetcher.isFallback).to.be.true;

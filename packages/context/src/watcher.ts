@@ -94,7 +94,7 @@ export const reactOnUI5YamlChange = async (
     case 1: //created
     case 2: {
       //changed
-      const response = await getYamlDetails(ui5YamlUri);
+      const response = await getYamlDetails(ui5YamlPath, true);
       // We want to keep last successfully read state - yaml file may be actively edited
       cache.setYamlDetails(ui5YamlPath, response);
       return;
