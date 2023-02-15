@@ -139,7 +139,7 @@ describe("loader", () => {
       );
       expect(app?.localServices.size).to.eq(0);
     });
-    it("does not parse service files and returns undefined", async () => {
+    it("does not parse service files and returns empty services", async () => {
       const parseServiceFilesStub = stub(parser, "parseServiceFiles").returns(
         undefined
       );
