@@ -1544,32 +1544,32 @@
   dependencies:
     xml-js "1.6.11"
 
-"@sap-ux/project-access@1.0.2":
-  version "1.0.2"
-  resolved "https://registry.npmjs.org/@sap-ux/project-access/-/project-access-1.0.2.tgz"
-  integrity sha512-SbLNkl6hUjrjM8athuDto3qS4wsMD+NU0fjdQ3S41su6Lzt+Mm5gPFIL68TxKpTa8oYHAg9+Cn9S36AFDpX1hA==
+"@sap-ux/project-access@1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@sap-ux/project-access/-/project-access-1.1.1.tgz#19c8093fa572f54c1909c6231ce25d5803af1e73"
+  integrity sha512-FD4fD2T4CIXiwJfeG0a+5gYbTOodIZD1eOf+BUvN6+jdcBRx7p3mKrKPE9MEH9qZ8SBU21YSMnMAKFjhlrXYxg==
   dependencies:
-    "@sap-ux/ui5-config" "0.16.0"
+    "@sap-ux/ui5-config" "0.16.3"
     findit2 "2.2.3"
     mem-fs "2.1.0"
     mem-fs-editor "9.4.0"
 
-"@sap-ux/ui5-config@0.16.0":
-  version "0.16.0"
-  resolved "https://registry.npmjs.org/@sap-ux/ui5-config/-/ui5-config-0.16.0.tgz"
-  integrity sha512-o2AyK5e48jW15ANh7u3dNwhg1yCiPCvlNy8N2aIQBRZd6k7E+0GNRAatbg9wTrptikDevG5yz8AHEqIIz7xbHA==
+"@sap-ux/ui5-config@0.16.3":
+  version "0.16.3"
+  resolved "https://registry.yarnpkg.com/@sap-ux/ui5-config/-/ui5-config-0.16.3.tgz#d1a6ee443ec747677dee39d18db54211c57772ad"
+  integrity sha512-ANKA7R/wVBiOOeQRTNpdKhHrK8FzlAca+IzoSM9Dmy0nLSotqyDfJxzmji0ZoYcLLHxfr7TxTwBdI2qX/2cHYA==
   dependencies:
-    "@sap-ux/yaml" "0.13.0"
+    "@sap-ux/yaml" "0.13.3"
 
 "@sap-ux/vocabularies-types@0.6.8":
   version "0.6.8"
   resolved "https://registry.npmjs.org/@sap-ux/vocabularies-types/-/vocabularies-types-0.6.8.tgz"
   integrity sha512-58b1/E9hxSsIit9NMQ9oXCYNUaOT7kbQU1OKhAPVp3Pg2BMbkRo5p1SX6BSan4XmONUpao7yRUVZEG0dspR5qg==
 
-"@sap-ux/yaml@0.13.0":
-  version "0.13.0"
-  resolved "https://registry.npmjs.org/@sap-ux/yaml/-/yaml-0.13.0.tgz"
-  integrity sha512-nA/y7QpTncqcRyukB/gCdGerQwIDVwoCk5mFaOzcU+ZfCV3M6tv7PcQX3dUGsLmMWyPNaYdtmjDhsnMBiXtDmg==
+"@sap-ux/yaml@0.13.3":
+  version "0.13.3"
+  resolved "https://registry.yarnpkg.com/@sap-ux/yaml/-/yaml-0.13.3.tgz#47104237809fcf1eb412c598fa18f90bf4d87ba0"
+  integrity sha512-1NXLKnJflCzClPN9BHfSUERyPQmzZHf+r3i8/9ziZWO206kuhkdcNnnFPruWXkzzMZt17OAU/zwuF8A5UMSeWg==
   dependencies:
     lodash "4.17.21"
     yaml "2.0.0-10"
