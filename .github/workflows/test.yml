@@ -45,19 +45,16 @@ jobs:
       #       node-version: ${{ matrix.node-version }}
       # - name: Install pnpm modules
       #   run: pnpm install
-
       - name: Run install
         uses: borales/actions-yarn@v4
         with:
           cmd: install # will run `yarn install` command
          env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }} # if needed
-
       - name: Run build
         uses: borales/actions-yarn@v4
         with:
           cmd: run ci # will run `yarn run ci` command
-
       # - name: Run lint:fix
       #   run: pnpm run lint:fix
       # - name: Commit lint fixes if any
