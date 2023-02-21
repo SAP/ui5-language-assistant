@@ -16,20 +16,20 @@ jobs:
   run-linters:
     strategy:
       matrix:
-          os: [ubuntu-latest]
-          node-version: [14.x]
+        os: [ubuntu-latest]
+        node-version: [14.x]
     runs-on: ${{ matrix.os }}
 
     steps:
       - name: Checkout code repository
         uses: actions/checkout@v3
         with:
-            ref: ${{ github.event.pull_request.head.ref }}            
+          ref: ${{ github.event.pull_request.head.ref }}
       - name: Run install
         uses: borales/actions-yarn@v4
         with:
           cmd: install # will run `yarn install` command
-         env:
+        env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }} # if needed
       - name: Run build
         uses: borales/actions-yarn@v4
