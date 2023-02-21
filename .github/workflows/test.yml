@@ -25,26 +25,6 @@ jobs:
         uses: actions/checkout@v3
         with:
             ref: ${{ github.event.pull_request.head.ref }}            
-      # - name: Setup pnpm
-      #   uses: pnpm/action-setup@v2.2.2
-      #   with:
-      #       version: 7.1.0
-      #       run_install: true
-      # - name: Cache pnpm modules
-      #   uses: actions/cache@v3
-      #   env:
-      #       cache-name: cache-pnpm-modules
-      #   with:
-      #       path: ~/.pnpm-store
-      #       key: ${{ matrix.os }}-build-${{ env.cache-name }}-${{ matrix.node-version }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-      #       restore-keys: |
-      #           ${{ matrix.os }}-build-${{ env.cache-name }}-${{ matrix.node-version }}-
-      # - name: Use Node.js ${{ matrix.node-version }}
-      #   uses: actions/setup-node@v3
-      #   with:
-      #       node-version: ${{ matrix.node-version }}
-      # - name: Install pnpm modules
-      #   run: pnpm install
       - name: Run install
         uses: borales/actions-yarn@v4
         with:
