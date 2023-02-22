@@ -12,7 +12,7 @@ on:
       - master
 
 jobs:
-  run-builds:
+  build:
     strategy:
       matrix:
         os: [ubuntu-latest]
@@ -34,4 +34,48 @@ jobs:
         uses: borales/actions-yarn@v4
         with:
           cmd: run ci # will run `yarn run ci` command
-    
+        #
+      - name: Upload vsix artifact
+        uses: actions/upload-artifact@v3
+        with:
+            name: vscode-extension-file
+            path: ./packages/vscode-ui5-language-assistant/vscode-ui5-language-assistant*.vsix
+            retention-days: 5
+
+ gh-delpoy:
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node-version: [14.x]  # TODO: run for all versions
+    runs-on: ${{ matrix.os }}
+    needs: build
+    steps:
+      - name: Setup Go 1.18
+          uses: actions/setup-go@v3
+          with:
+            go-version: '^1.18'
+        run: go version
+          #- name: Scripts
+          # uses: alinz/script.go@main
+          # with:
+          #   workspace: ${{ github.workspace }} # <- this is important
+          #   paths: .github/workflows/one,.github/workflows/two #<- the path to your go scripts
+
+        run: md ./artifacts
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: vscode-extension-file
+          path: ./artifacts
+        run: ls -la
+
+      - name: "Publish Release on GitHub"
+#${{ secrets.GITHUB_TOKEN }}
+# How to obtain new version?
+#  CIRCLE_PROJECT_REPONAME=ui5-language-assistant
+#   CIRCLE_PROJECT_USERNAME=SAP
+
+        # run: echo 'export GOPATH=~/go' >> $BASH_ENV
+        #       go get github.com/tcnksm/ghr
+        #       VERSION=${CIRCLE_TAG}
+        #       ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -replace ${VERSION} ./artifacts/
