@@ -38,10 +38,9 @@ jobs:
       - name: Upload vsix artifact
         uses: actions/upload-artifact@v3
         with:
-            name: vscode-extension-file
-            path: ./packages/vscode-ui5-language-assistant/vscode-ui5-language-assistant*.vsix
-            retention-days: 5
-
+          name: vscode-extension-file
+          path: ./packages/vscode-ui5-language-assistant/vscode-ui5-language-assistant*.vsix
+          retention-days: 5
  gh-delpoy:
     strategy:
       matrix:
@@ -60,7 +59,6 @@ jobs:
           # with:
           #   workspace: ${{ github.workspace }} # <- this is important
           #   paths: .github/workflows/one,.github/workflows/two #<- the path to your go scripts
-
         run: md ./artifacts
       - name: Download artifact
         uses: actions/download-artifact@v3
@@ -68,13 +66,11 @@ jobs:
           name: vscode-extension-file
           path: ./artifacts
         run: ls -la
-
       - name: "Publish Release on GitHub"
 #${{ secrets.GITHUB_TOKEN }}
 # How to obtain new version?
 #  CIRCLE_PROJECT_REPONAME=ui5-language-assistant
 #   CIRCLE_PROJECT_USERNAME=SAP
-
         # run: echo 'export GOPATH=~/go' >> $BASH_ENV
         #       go get github.com/tcnksm/ghr
         #       VERSION=${CIRCLE_TAG}
