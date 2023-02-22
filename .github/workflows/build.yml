@@ -40,8 +40,7 @@ jobs:
         with:
           name: vscode-extension-file
           path: ./packages/vscode-ui5-language-assistant/vscode-ui5-language-assistant*.vsix
-          retention-days: 5
- gh-delpoy:
+  gh-delpoy:
     strategy:
       matrix:
         os: [ubuntu-latest]
