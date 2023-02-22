@@ -15,6 +15,7 @@ import {
   getUI5AggregationByXMLElement,
   splitQNameByNamespace,
   resolveXMLNSFromPrefix,
+  xmlToFQN,
 } from "@ui5-language-assistant/logic-utils";
 import { UI5ClassesInXMLTagNameCompletion } from "../../../api";
 import { UI5ElementNameCompletionOptions } from "./index";
@@ -99,15 +100,28 @@ function computeClassSuggestionContext({
   model: UI5SemanticModel;
 }): classSuggestionContext | null {
   const parentXMLElement = xmlElement.parent;
+
   // top level class suggestions, it is kind of like an implicit aggregation
   if (parentXMLElement.type === "XMLDocument") {
+    // an xml fragment can contain single control element at a top level
+    // https://sapui5.hana.ondemand.com/#/topic/2c677b574ea2486a8d5f5414d15e21c5
     return {
-      // TODO: in a fragment xml view an element may possibly be at the top level?
       allowedType: model.classes["sap.ui.core.Control"],
       cardinality: "0..1",
     };
   }
 
+  const parentFullyQualifiedName = xmlToFQN(parentXMLElement);
+  if (parentFullyQualifiedName === "sap.ui.core.FragmentDefinition") {
+    // wrapper for multiple fragment elements
+    // sap.ui.core.FragmentDefinition does not exist in api.json,
+    // so we need custom handling here
+    return {
+      allowedType: model.classes["sap.ui.core.Control"],
+      cardinality: "0..n",
+      parentXMLTag: parentXMLElement,
+    };
+  }
   // If the parent tag is a class this is an implicit (default) aggregation
   const parentUI5Class = getUI5ClassByXMLElement(parentXMLElement, model);
   if (parentUI5Class !== undefined) {
