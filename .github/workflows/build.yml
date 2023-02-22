@@ -67,7 +67,7 @@ jobs:
           path: ./artifacts
       - name: 'check artifacts'
         run: ls -la
-      - name: "Publish Release on GitHub"
+      # - name: "Publish Release on GitHub"
 #${{ secrets.GITHUB_TOKEN }}
 # How to obtain new version?
 #  CIRCLE_PROJECT_REPONAME=ui5-language-assistant
