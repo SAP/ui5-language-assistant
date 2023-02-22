@@ -52,6 +52,7 @@ jobs:
         uses: actions/setup-go@v3
         with:
           go-version: '^1.18'
+      - name: 'prepare to deploy'
         run: go version
           #- name: Scripts
           # uses: alinz/script.go@main
@@ -64,6 +65,7 @@ jobs:
         with:
           name: vscode-extension-file
           path: ./artifacts
+      - name: 'check artifacts'
         run: ls -la
       - name: "Publish Release on GitHub"
 #${{ secrets.GITHUB_TOKEN }}
