@@ -59,6 +59,7 @@ jobs:
           # with:
           #   workspace: ${{ github.workspace }} # <- this is important
           #   paths: .github/workflows/one,.github/workflows/two #<- the path to your go scripts
+      - name: 'make folder'
         run: md ./artifacts
       - name: Download artifact
         uses: actions/download-artifact@v3
