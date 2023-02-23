@@ -3,14 +3,14 @@ name: Release workflow
 on:
   # Trigger the workflow only manually
   workflow_dispatch:
-    inputs:
-      version:
-        description: 'Action'
-          required: true
-          type: choice
-          options:
-          - version bump
-          - release
+      # inputs:
+      #   version:
+      #     description: 'Action'
+      #       required: true
+      #       type: choice
+      #       options:
+      #       - version bump
+      #       - release
 jobs:
   build:
     strategy:
