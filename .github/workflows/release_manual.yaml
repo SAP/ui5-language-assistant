@@ -96,6 +96,7 @@ jobs:
           git status
           git commit -m "chore: apply latest changesets" --no-verify || echo "No changesets found"
           git log --pretty=oneline | head -n 10
+          git tag -d "v${{ steps.package-version.outputs.current-version}}" 
           git tag -a "v${{ steps.package-version.outputs.current-version}}" -m "$v{{ steps.package-version.outputs.current-version}} release"
           git log --pretty=oneline | head -n 10
           git push 
