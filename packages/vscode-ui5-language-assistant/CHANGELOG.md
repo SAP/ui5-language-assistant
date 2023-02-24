@@ -1,5 +1,12 @@
 # Change Log
 
+## 4.0.9
+
+### Patch Changes
+
+- a4db98f: comment change 5
+  - @ui5-language-assistant/language-server@4.0.9
+
 ## 4.0.8
 
 ### Patch Changes
