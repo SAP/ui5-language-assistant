@@ -86,6 +86,7 @@ jobs:
 
       - name: Commit and push changes
         if: steps.changesetVersion.outputs.changes == 'true'
+        id: commitChangelogs
         run: | 
             echo ${{ steps.package-version.outputs.current-version}}
             git config user.name github-actions
@@ -95,7 +96,9 @@ jobs:
             git status
             git commit -m "chore: apply latest changesets" --no-verify || echo "No changesets found"
             git log --pretty=oneline | head -n 10
-            git tag -a "v${{ steps.package-version.outputs.current-version}}" -m "$v{{ steps.package-version.outputs.current-version}} release"
+            echo ::set-output name=tag::$(git tag -a "v${{ steps.package-version.outputs.current-version}}" -m "$v{{ steps.package-version.outputs.current-version}} release" 2>&1)
             git push
+      - name: Tag Output
+        run: echo ${{steps.commiChangelogs.outputs.tag}}
 # automatic_release_tag: ${{ steps.package-version.outputs.current-version}}
  
