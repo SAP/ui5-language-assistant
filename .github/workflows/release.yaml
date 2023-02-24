@@ -38,7 +38,7 @@ jobs:
           cmd: build:quick # will run `yarn run ci` command
 
       - name: Upload vsix artifact
-      - uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v3
         with:
           name: vscode-extension-file
           path: ./packages/vscode-ui5-language-assistant/vscode-ui5-language-assistant*.vsix
