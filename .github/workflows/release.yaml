@@ -2,7 +2,7 @@ name: Release workflow
 
 on:
   push:
-    #branches: [feat/switch-to-github-actions]
+    branches: [feat/switch-to-github-actions]
     tags: 
       - 'v[0-9]+.[0-9]+.[0-9]+'
 
@@ -23,6 +23,7 @@ jobs:
 
     steps:
       - run: echo ${{env.BRANCH_NAME}}
+      - run: echo ${{github.ref }}
       - name: Checkout code repository
         uses: actions/checkout@v3
         with:
