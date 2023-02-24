@@ -1,5 +1,12 @@
 # Change Log
 
+## 4.0.7
+
+### Patch Changes
+
+- 5d940c5: comment for change 3
+  - @ui5-language-assistant/language-server@4.0.7
+
 ## 4.0.6
 
 ### Patch Changes
