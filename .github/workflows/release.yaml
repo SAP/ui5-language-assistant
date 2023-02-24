@@ -51,8 +51,8 @@ jobs:
           path: ./packages/vscode-ui5-language-assistant
 
   gh-delpoy:
-    env:
-      GOPATH: ~/go
+    # env:
+    #   GOPATH: ~/go
     strategy:
       matrix:
         os: [ubuntu-latest]
@@ -100,9 +100,7 @@ jobs:
         node-version: [14.x] # TODO: run for all versions
     runs-on: ${{ matrix.os }}
     needs: build
-    env:
-      NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
+  
     steps:
       - name: Prerequisite
         run: sudo apt-get install libxss1
@@ -112,16 +110,13 @@ jobs:
         with:
           fetch-depth: 0 # will fetch all history
 
-      - name: Pure lockfile
-        uses: borales/actions-yarn@v4
-        with:
-          cmd: --pure-lockfile
-
+      # Pure lockfile simply doesn't write the lockfile if it changed.
       - name: Run install
         uses: borales/actions-yarn@v4
         with:
-          cmd: install # will run `yarn install` command
+          cmd: install --pure-lockfile
 
+      # TODO: reuse stored generated vsix
       - name: Run build
         uses: borales/actions-yarn@v4
         with:
@@ -131,14 +126,14 @@ jobs:
         uses: borales/actions-yarn@v4
         with:
           cmd: ci # will run `yarn run ci` command
-          dir: './packages\vscode-ui5-language-assistant-bas-ext'
+          dir: './packages/vscode-ui5-language-assistant-bas-ext'
 
       - name: Check
-        run: ls ./packages\vscode-ui5-language-assistant-bas-ext -la
+        run: ls ./packages/vscode-ui5-language-assistant-bas-ext -la
 
       - name: Prepare .npmrc
         run:
-          echo "//registry.npmjs.org/:_authToken=$NODE_AUTH_TOKEN"
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}"
           #>> ~/.npmrc
 
       # To help debug when lerna detects changes to the working tree and fails the publish
