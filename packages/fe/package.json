@@ -1,6 +1,6 @@
 {
   "name": "@ui5-language-assistant/fe",
-  "version": "4.0.11",
+  "version": "4.0.12",
   "private": true,
   "description": "UI5 LSP server extension for annotation relevant building blocks",
   "keywords": [],
