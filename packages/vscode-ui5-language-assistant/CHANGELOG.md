@@ -1,5 +1,12 @@
 # Change Log
 
+## 4.0.10
+
+### Patch Changes
+
+- 053f381: ccc
+  - @ui5-language-assistant/language-server@4.0.10
+
 ## 4.0.9
 
 ### Patch Changes
