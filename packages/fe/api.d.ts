@@ -32,4 +32,4 @@ export function isAnnotationIssue<T extends BaseUI5XMLViewIssue>(
 ): issue is AnnotationIssue;
 
 export function initI18n(i18nInstance: i18n): void;
-// test change 3
+// test change 4

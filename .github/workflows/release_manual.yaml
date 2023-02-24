@@ -49,9 +49,9 @@ jobs:
     # Run version job only on pushes to the main branch. The job depends on completion of the build job.
     # if: inputs.job_name == 'version' && github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
-    # needs: 
-      # build
-      # complience
+    # needs:
+    # build
+    # complience
     outputs:
       changes: ${{ steps.changesetVersion.outputs.changes }} # map step output to job output
     steps:
@@ -87,18 +87,24 @@ jobs:
       - name: Commit and push changes
         if: steps.changesetVersion.outputs.changes == 'true'
         id: commitChangelogs
-        run: | 
-            echo ${{ steps.package-version.outputs.current-version}}
-            git config user.name github-actions
-            git config user.email github-actions@github.com
-            git status
-            git add -A
-            git status
-            git commit -m "chore: apply latest changesets" --no-verify || echo "No changesets found"
-            git log --pretty=oneline | head -n 10
-            echo ::set-output name=tag::$(git tag -a "v${{ steps.package-version.outputs.current-version}}" -m "$v{{ steps.package-version.outputs.current-version}} release" 2>&1)
-            git push
-      - name: Tag Output
-        run: echo ${{steps.commiChangelogs.outputs.tag}}
+        run: |
+          echo ${{ steps.package-version.outputs.current-version}}
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git status
+          git add -A
+          git status
+          git commit -m "chore: apply latest changesets" --no-verify || echo "No changesets found"
+          git log --pretty=oneline | head -n 10
+          echo ::set-output name=tag::$(git tag -a "v${{ steps.package-version.outputs.current-version}}" -m "$v{{ steps.package-version.outputs.current-version}} release" 2>&1)
+      - uses: rickstaa/action-create-tag@v1
+        with:
+          tag: 'v${{ steps.package-version.outputs.current-version}}'
+          message: '$v{{ steps.package-version.outputs.current-version}} release'
+      - name: Push commit and tag
+        run: git push
+      - name: Output
+        run: git status
 # automatic_release_tag: ${{ steps.package-version.outputs.current-version}}
- 
+
+#  echo ::set-output name=tag::$(git tag -a "v${{ steps.package-version.outputs.current-version}}" -m "$v{{ steps.package-version.outputs.current-version}} release" 2>&1)
