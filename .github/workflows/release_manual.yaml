@@ -1,10 +1,9 @@
 name: Release workflow
 
+# For debugging
 on:
-  # For debugging
- on:
-    push:
-        branches: [feat/switch-to-github-actions]
+  push:
+    branches: [feat/switch-to-github-actions]
 
 jobs:
   build:
