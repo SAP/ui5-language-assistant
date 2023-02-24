@@ -134,12 +134,12 @@ jobs:
         run: ls ./packages\vscode-ui5-language-assistant-bas-ext -la
 
       - name: Prepare .npmrc
-      - run: echo "//registry.npmjs.org/:_authToken=$NODE_AUTH_TOKEN"
+        run: echo "//registry.npmjs.org/:_authToken=$NODE_AUTH_TOKEN"
       #>> ~/.npmrc
 
       # To help debug when lerna detects changes to the working tree and fails the publish
       - name: Status
-      - run: git status
+        run: git status
 
       # - name: Publish
       # # https://github.com/lerna/lerna/issues/2788
