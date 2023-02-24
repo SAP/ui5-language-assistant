@@ -1544,32 +1544,32 @@
   dependencies:
     xml-js "1.6.11"
 
-"@sap-ux/project-access@1.1.1":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@sap-ux/project-access/-/project-access-1.1.1.tgz#19c8093fa572f54c1909c6231ce25d5803af1e73"
-  integrity sha512-FD4fD2T4CIXiwJfeG0a+5gYbTOodIZD1eOf+BUvN6+jdcBRx7p3mKrKPE9MEH9qZ8SBU21YSMnMAKFjhlrXYxg==
+"@sap-ux/project-access@1.1.3":
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/@sap-ux/project-access/-/project-access-1.1.3.tgz#69398e14866f18f91318ef7ac3f1086b7e0d5f93"
+  integrity sha512-xKjk5CkfLkeSfZmIcv+ovFN0c9e8q8X5u/Sac4h60nkaDZLraBc5D605pUShqygDD8yhhCJ1zt4Oyy6UcpxWTg==
   dependencies:
-    "@sap-ux/ui5-config" "0.16.3"
+    "@sap-ux/ui5-config" "0.16.4"
     findit2 "2.2.3"
     mem-fs "2.1.0"
     mem-fs-editor "9.4.0"
 
-"@sap-ux/ui5-config@0.16.3":
-  version "0.16.3"
-  resolved "https://registry.yarnpkg.com/@sap-ux/ui5-config/-/ui5-config-0.16.3.tgz#d1a6ee443ec747677dee39d18db54211c57772ad"
-  integrity sha512-ANKA7R/wVBiOOeQRTNpdKhHrK8FzlAca+IzoSM9Dmy0nLSotqyDfJxzmji0ZoYcLLHxfr7TxTwBdI2qX/2cHYA==
+"@sap-ux/ui5-config@0.16.4":
+  version "0.16.4"
+  resolved "https://registry.yarnpkg.com/@sap-ux/ui5-config/-/ui5-config-0.16.4.tgz#e68334f1a98b333729ff92674d22371c378b37c4"
+  integrity sha512-exAvGDhC3NuxXJKtOruC81tAUyBEOcqqbD/9DZtrHr+MW/vk5F63d6orSd8K0pfj2XMhTm10sCpIr3i7RghYHQ==
   dependencies:
-    "@sap-ux/yaml" "0.13.3"
+    "@sap-ux/yaml" "0.13.4"
 
 "@sap-ux/vocabularies-types@0.6.8":
   version "0.6.8"
   resolved "https://registry.npmjs.org/@sap-ux/vocabularies-types/-/vocabularies-types-0.6.8.tgz"
   integrity sha512-58b1/E9hxSsIit9NMQ9oXCYNUaOT7kbQU1OKhAPVp3Pg2BMbkRo5p1SX6BSan4XmONUpao7yRUVZEG0dspR5qg==
 
-"@sap-ux/yaml@0.13.3":
-  version "0.13.3"
-  resolved "https://registry.yarnpkg.com/@sap-ux/yaml/-/yaml-0.13.3.tgz#47104237809fcf1eb412c598fa18f90bf4d87ba0"
-  integrity sha512-1NXLKnJflCzClPN9BHfSUERyPQmzZHf+r3i8/9ziZWO206kuhkdcNnnFPruWXkzzMZt17OAU/zwuF8A5UMSeWg==
+"@sap-ux/yaml@0.13.4":
+  version "0.13.4"
+  resolved "https://registry.yarnpkg.com/@sap-ux/yaml/-/yaml-0.13.4.tgz#9bded540c8a087a47985e58edf00207d87002a6a"
+  integrity sha512-47VIyiJw7lFQX6GQvKyXTnHTT7f956LIeR5DZBVbQW/RIHVtrfQSH8IO1nOwt8t8aiXMLKdKpHi22JytdoV2Jg==
   dependencies:
     lodash "4.17.21"
     yaml "2.0.0-10"
