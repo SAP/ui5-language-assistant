@@ -40,21 +40,14 @@ export const unifyServicePath = (servicePath: string): string => {
 export async function getProjectRoot(
   documentPath: string
 ): Promise<string | undefined> {
-  let projectRoot: string | undefined;
-  try {
-    projectRoot = await findProjectRoot(documentPath, true);
-  } catch (error) {
-    getLogger().debug("getProjectRoot failed:", error);
-    projectRoot = undefined;
+  let projectRoot = await findProjectRoot(documentPath, true, true);
+
+  if (projectRoot === "") {
+    projectRoot = await findProjectRoot(documentPath, false, true);
   }
-  if (projectRoot !== undefined) {
-    return projectRoot;
-  }
-  try {
-    projectRoot = await findProjectRoot(documentPath, false);
-  } catch (error) {
-    getLogger().debug("getProjectRoot failed:", error);
-    projectRoot = undefined;
+  if (projectRoot === "") {
+    getLogger().debug("getProjectRoot failed for path: ", documentPath);
+    return undefined;
   }
   return projectRoot;
 }
