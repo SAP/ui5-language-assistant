@@ -89,8 +89,8 @@ jobs:
 
       - name: Commit and push changes
         if: steps.changesetVersion.outputs.changes == 'true'
-        run: echo ${{ steps.package-version.outputs.current-version}}
-        run: |
+        run: | 
+            echo ${{ steps.package-version.outputs.current-version}}
             git config user.name github-actions
             git config user.email github-actions@github.com
             git status
