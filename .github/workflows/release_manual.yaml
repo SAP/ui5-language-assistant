@@ -1,17 +1,17 @@
 name: Version bump for release workflow
 
 # on:
-  # Trigger the workflow only manually
-  # workflow_dispatch:
-  #   inputs:
-  #     job_name:
-  #       description: 'Action'
-  #       required: true
-  #       type: choice
-  #       default: 'version'
-  #       options:
-  #         - version
-  #         - release
+# Trigger the workflow only manually
+# workflow_dispatch:
+#   inputs:
+#     job_name:
+#       description: 'Action'
+#       required: true
+#       type: choice
+#       default: 'version'
+#       options:
+#         - version
+#         - release
 
 on:
   push:
@@ -50,7 +50,7 @@ jobs:
       #     path: ./packages/vscode-ui5-language-assistant/vscode-ui5-language-assistant*.vsix
       #     if-no-files-found: error # 'warn' or 'ignore' are also available, defaults to `warn`
 
-  complience:
+  compliance:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -64,7 +64,7 @@ jobs:
     #if: inputs.job_name == 'version'
     # && github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
-    # needs: build
+    # needs: build, compliance
     outputs:
       changes: ${{ steps.changesetVersion.outputs.changes }} # map step output to job output
     steps:
