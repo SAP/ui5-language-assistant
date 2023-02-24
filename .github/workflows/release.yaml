@@ -4,6 +4,7 @@ on:
   push:
     branches: [feat/switch-to-github-actions]
     tags: /^v[0-9]+(\.[0-9]+)*/
+
 env:
   GHR_PROJECT_REPONAME: ui5-language-assistant
   GHR_PROJECT_USERNAME: SAP
@@ -34,8 +35,9 @@ jobs:
         uses: borales/actions-yarn@v4
         with:
           cmd: build:quick # will run `yarn run ci` command
+
       - name: Upload vsix artifact
-        uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v3
         with:
           name: vscode-extension-file
           path: ./packages/vscode-ui5-language-assistant/vscode-ui5-language-assistant*.vsix
@@ -86,6 +88,7 @@ jobs:
       - name: 'Publish Release on GitHub'
         # run: echo 'export GOPATH=~/go' >> $BASH_ENV
         run: go get github.com/tcnksm/ghr
+
       - name: Check
         run: echo ${{ secrets.GITHUB_TOKEN }} -u ${{env.GHR_PROJECT_USERNAME}} -r ${{env.GHR_PROJECT_REPONAME}} -replace ${{ needs.build.outputs.current-version}} ./artifacts/
   #       ghr -t ${{ secrets.GITHUB_TOKEN }} -u ${{env.GHR_PROJECT_USERNAME}} -r ${{env.GHR_PROJECT_REPONAME}} -replace ${{ needs.build.outputs.current-version}} ./artifacts/
@@ -134,12 +137,13 @@ jobs:
         run: ls ./packages\vscode-ui5-language-assistant-bas-ext -la
 
       - name: Prepare .npmrc
-      - run: echo "//registry.npmjs.org/:_authToken=$NODE_AUTH_TOKEN"
-      #>> ~/.npmrc
+        run:
+          echo "//registry.npmjs.org/:_authToken=$NODE_AUTH_TOKEN"
+          #>> ~/.npmrc
 
       # To help debug when lerna detects changes to the working tree and fails the publish
       - name: Status
-      - run: git status
+        run: git status
 
       # - name: Publish
       # # https://github.com/lerna/lerna/issues/2788
