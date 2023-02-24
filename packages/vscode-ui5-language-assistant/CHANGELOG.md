@@ -1,5 +1,12 @@
 # Change Log
 
+## 4.0.12
+
+### Patch Changes
+
+- 213f3c2: ddd
+  - @ui5-language-assistant/language-server@4.0.12
+
 ## 4.0.11
 
 ### Patch Changes
