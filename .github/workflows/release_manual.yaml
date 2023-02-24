@@ -1,0 +1,105 @@
+name: Release workflow
+
+on:
+  # For debugging
+ on:
+    push:
+        branches: [feat/switch-to-github-actions]
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node-version: [14.x] # TODO: run for all versions
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout code repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # will fetch all history
+      - name: Run install
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: install # will run `yarn install` command
+        # env:
+        #   NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }} # if needed
+      - name: Run build
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: run build:quick # will run `yarn run ci` command
+        #
+      - name: Upload vsix artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: vscode-extension-file
+          path: ./packages/vscode-ui5-language-assistant/vscode-ui5-language-assistant*.vsix
+          if-no-files-found: error # 'warn' or 'ignore' are also available, defaults to `warn`
+
+  complience:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: REUSE Compliance Check
+        uses: fsfe/reuse-action@v1
+        with:
+          args: --include-submodules lint
+
+  version:
+    # Run version job only on pushes to the main branch. The job depends on completion of the build job.
+    # if: inputs.job_name == 'version' && github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    # needs: 
+      # build
+      # complience
+    outputs:
+      changes: ${{ steps.changesetVersion.outputs.changes }} # map step output to job output
+    steps:
+      - name: Checkout code repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          # token: ${{ secrets.ACCESS_PAT }} ???? doesn't work in fork
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 14
+      # TODO: cache node modules
+      - name: Run install
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: install # will run `yarn install` command
+
+      - name: Test
+        run: npm run ci:version 2>&1
+
+      - name: Apply changesets
+        id: changesetVersion
+        run: |
+          echo ::set-output name=changes::$(npm run ci:version 2>&1 | grep -q 'No unreleased changesets found' && echo 'false' || echo 'true')
+          git status
+      - name: Changeset output
+        run: echo ${{steps.changesetVersion.outputs.changes}}
+
+      - name: get-npm-version
+        id: package-version
+        uses: martinbeentjes/npm-get-version-action@main
+        with:
+          path: ./packages/vscode-ui5-language-assistant
+
+      - name: Commit and push changes
+        if: steps.changesetVersion.outputs.changes == 'true'
+        run: echo ${{ steps.package-version.outputs.current-version}}
+        run: |
+            git config user.name github-actions
+            git config user.email github-actions@github.com
+            git status
+            git add -A
+            git status
+            git commit -m "chore: apply latest changesets" --no-verify || echo "No changesets found"
+            git log --pretty=oneline | head -n 10
+            git tag -a ${{ steps.package-version.outputs.current-version}} -m "${{ steps.package-version.outputs.current-version}} release"
+            git push
+# automatic_release_tag: ${{ steps.package-version.outputs.current-version}}
+ 
