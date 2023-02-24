@@ -1,5 +1,12 @@
 # Change Log
 
+## 4.0.8
+
+### Patch Changes
+
+- 080ae49: comment for change 4
+  - @ui5-language-assistant/language-server@4.0.8
+
 ## 4.0.7
 
 ### Patch Changes

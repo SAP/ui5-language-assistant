@@ -1,5 +1,12 @@
 # Change Log
 
+## 4.0.8
+
+### Patch Changes
+
+- Updated dependencies [080ae49]
+  - @ui5-language-assistant/fe@4.0.8
+
 ## 4.0.7
 
 ### Patch Changes
