@@ -90,7 +90,7 @@ jobs:
       # Publish on GitHub
       - name: 'Publish Release on GitHub'
         # run: echo 'export GOPATH=~/go' >> $BASH_ENV
-        run: go get github.com/tcnksm/ghr
+        run: go install github.com/tcnksm/ghr@latest
 
       - name: Check
         run: echo ${{ secrets.GITHUB_TOKEN }} -u ${{env.GHR_PROJECT_USERNAME}} -r ${{env.GHR_PROJECT_REPONAME}} -replace ${{ needs.build.outputs.current-version}} ./artifacts/
