@@ -2,7 +2,7 @@ name: Release workflow
 
 on:
   push:
-    branches: [feat/switch-to-github-actions]
+    #branches: [feat/switch-to-github-actions]
     tags: /^v[0-9]+(\.[0-9]+)*/
 env:
   GHR_PROJECT_REPONAME: ui5-language-assistant
@@ -49,8 +49,8 @@ jobs:
           path: ./packages/vscode-ui5-language-assistant
 
   gh-delpoy:
-    env:
-      GOPATH: ~/go
+   # env:
+    #  GOPATH: ~/go
     strategy:
       matrix:
         os: [ubuntu-latest]
