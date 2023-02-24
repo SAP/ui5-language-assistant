@@ -96,13 +96,13 @@ jobs:
           git status
           git commit -m "chore: apply latest changesets" --no-verify || echo "No changesets found"
           git log --pretty=oneline | head -n 10
-          echo ::set-output name=tag::$(git tag -a "v${{ steps.package-version.outputs.current-version}}" -m "$v{{ steps.package-version.outputs.current-version}} release" 2>&1)
+#          echo ::set-output name=tag::$(git tag -a "v${{ steps.package-version.outputs.current-version}}" -m "$v{{ steps.package-version.outputs.current-version}} release" 2>&1)
       - uses: rickstaa/action-create-tag@v1
         with:
           tag: 'v${{ steps.package-version.outputs.current-version}}'
           message: '$v{{ steps.package-version.outputs.current-version}} release'
       - name: Push commit and tag
-        run: git push
+        run: git push --tags
       - name: Output
         run: git status
 # automatic_release_tag: ${{ steps.package-version.outputs.current-version}}
