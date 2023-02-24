@@ -1,5 +1,12 @@
 # Change Log
 
+## 4.0.5
+
+### Patch Changes
+
+- Updated dependencies [14cbab8]
+  - @ui5-language-assistant/fe@4.0.5
+
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
