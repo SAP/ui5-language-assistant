@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.6
+
+### Patch Changes
+
+- 1f216b4: comment for change 2
+
 ## 4.0.5
 
 ### Patch Changes
