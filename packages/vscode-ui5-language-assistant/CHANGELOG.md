@@ -1,5 +1,12 @@
 # Change Log
 
+## 4.0.13
+
+### Patch Changes
+
+- f032e30: test
+  - @ui5-language-assistant/language-server@4.0.13
+
 ## 4.0.12
 
 ### Patch Changes
