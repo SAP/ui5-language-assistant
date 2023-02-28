@@ -1,5 +1,12 @@
 # Change Log
 
+## 4.0.14
+
+### Patch Changes
+
+- ac51852: eeee
+  - @ui5-language-assistant/language-server@4.0.14
+
 ## 4.0.13
 
 ### Patch Changes
