@@ -3,8 +3,8 @@ name: Release workflow
 on:
   push:
     # branches: [feat/switch-to-github-actions]
-    tags: 'v*'
-      # - 'v[0-9]+.[0-9]+.[0-9]+'
+    tags: 
+      - 'v[0-9]+.[0-9]+.[0-9]+'
 
 env:
   GHR_PROJECT_REPONAME: ui5-language-assistant
@@ -12,7 +12,7 @@ env:
 
 jobs:
   build:
-    if: github.repository == 'vadson71/ui5-language-assistant-vk' && github.ref == 'refs/heads/feat/switch-to-github-actions'
+    if: github.repository == 'vadson71/ui5-language-assistant-vk' && contains(github.ref, 'refs/tags/v')
     strategy:
       matrix:
         os: [ubuntu-latest]
