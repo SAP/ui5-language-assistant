@@ -1,5 +1,89 @@
 # Change Log
 
+## 4.0.16
+
+### Patch Changes
+
+- Updated dependencies [4e07d30]
+  - @ui5-language-assistant/fe@4.0.16
+
+## 4.0.15
+
+### Patch Changes
+
+- Updated dependencies [c88d913]
+  - @ui5-language-assistant/fe@4.0.15
+
+## 4.0.14
+
+### Patch Changes
+
+- Updated dependencies [ac51852]
+  - @ui5-language-assistant/fe@4.0.14
+
+## 4.0.13
+
+### Patch Changes
+
+- Updated dependencies [f032e30]
+  - @ui5-language-assistant/fe@4.0.13
+
+## 4.0.12
+
+### Patch Changes
+
+- Updated dependencies [213f3c2]
+  - @ui5-language-assistant/fe@4.0.12
+
+## 4.0.11
+
+### Patch Changes
+
+- Updated dependencies [c43485f]
+  - @ui5-language-assistant/fe@4.0.11
+
+## 4.0.10
+
+### Patch Changes
+
+- Updated dependencies [053f381]
+  - @ui5-language-assistant/fe@4.0.10
+
+## 4.0.9
+
+### Patch Changes
+
+- Updated dependencies [a4db98f]
+  - @ui5-language-assistant/fe@4.0.9
+
+## 4.0.8
+
+### Patch Changes
+
+- Updated dependencies [080ae49]
+  - @ui5-language-assistant/fe@4.0.8
+
+## 4.0.7
+
+### Patch Changes
+
+- Updated dependencies [5d940c5]
+  - @ui5-language-assistant/fe@4.0.7
+
+## 4.0.6
+
+### Patch Changes
+
+- Updated dependencies [1f216b4]
+  - @ui5-language-assistant/fe@4.0.6
+
+## 4.0.5
+
+### Patch Changes
+
+- Updated dependencies [14cbab8]
+  - @ui5-language-assistant/fe@4.0.5
+
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 

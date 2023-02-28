@@ -3,6 +3,7 @@ import { expect } from "chai";
 import { AnnotationIssue, ANNOTATION_ISSUE_TYPE } from "../src/types";
 import { isAnnotationIssue, defaultValidators } from "../src/api";
 
+// comment just for test
 describe("fe api", () => {
   it("is AnnotationIssue", () => {
     const result = isAnnotationIssue({
