@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.5](https://github.com/SAP/ui5-language-assistant/compare/v4.0.4...v4.0.5) (2023-02-28)
+
+### Bug Fixes
+
+- completion in FragmentDefinition ([#567](https://github.com/SAP/ui5-language-assistant/issues/567)) ([44d780b](https://github.com/SAP/ui5-language-assistant/commit/44d780bc0666ea9055ed4ed797da26a119e91d21))
+- crash when ui5.yaml has multiple documents ([#562](https://github.com/SAP/ui5-language-assistant/issues/562)) ([459cf5e](https://github.com/SAP/ui5-language-assistant/commit/459cf5ee1256691dcfade5e7783caef31fb6a467))
+
 ## [4.0.4](https://github.com/SAP/ui5-language-assistant/compare/v4.0.3...v4.0.4) (2023-02-16)
 
 ### Bug Fixes

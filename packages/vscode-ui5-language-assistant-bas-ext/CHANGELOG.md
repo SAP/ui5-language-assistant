@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.5](https://github.com/SAP/ui5-language-assistant/compare/v4.0.4...v4.0.5) (2023-02-28)
+
+**Note:** Version bump only for package @ui5-language-assistant/vscode-ui5-language-assistant-bas-ext
+
 ## [4.0.4](https://github.com/SAP/ui5-language-assistant/compare/v4.0.3...v4.0.4) (2023-02-16)
 
 **Note:** Version bump only for package @ui5-language-assistant/vscode-ui5-language-assistant-bas-ext
