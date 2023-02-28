@@ -68,7 +68,6 @@ jobs:
     outputs:
       changes: ${{ steps.changesetVersion.outputs.changes }} # map step output to job output
     steps:
-      - run: echo ${{ secrets.ACCESS_PAT }}
       - name: Checkout code repository
         uses: actions/checkout@v3
         with:
