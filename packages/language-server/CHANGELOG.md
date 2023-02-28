@@ -1,5 +1,12 @@
 # Change Log
 
+## 4.0.15
+
+### Patch Changes
+
+- Updated dependencies [c88d913]
+  - @ui5-language-assistant/fe@4.0.15
+
 ## 4.0.14
 
 ### Patch Changes
