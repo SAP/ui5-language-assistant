@@ -39,6 +39,12 @@ jobs:
         uses: borales/actions-yarn@v4
         with:
           cmd: run build:quick # TODO will run `yarn run ci` command
+      - name: Run SonarCloud scan
+        if: matrix.os == 'ubuntu-latest' && matrix.node-version == '14.x'
+        uses: sonarsource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACCESS_PAT }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   compliance:
     runs-on: ubuntu-latest
