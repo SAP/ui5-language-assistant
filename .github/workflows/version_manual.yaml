@@ -5,7 +5,7 @@ name: Version bump for release workflow
 # workflow_dispatch:
 #   inputs:
 #     job_name:
-#       description: 'Action'
+#       description: 'Releases new version  '
 #       required: true
 #       type: choice
 #       default: 'version'
@@ -19,12 +19,11 @@ on:
 
 jobs:
   build:
-    # if: inputs.job_name == 'release' && github.ref == 'refs/heads/master'
     if: github.ref == 'refs/heads/master'
     strategy:
       matrix:
         os: [ubuntu-latest]
-        node-version: [14.x] # TODO: run for all versions
+        node-version: [14.x, 16.x, 18.x]
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -36,19 +35,10 @@ jobs:
         uses: borales/actions-yarn@v4
         with:
           cmd: install # will run `yarn install` command
-        # env:
-        #   NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }} # if needed
       - name: Run build
         uses: borales/actions-yarn@v4
         with:
-          cmd: run build:quick # will run `yarn run ci` command
-
-      # - name: Upload vsix artifact
-      #   uses: actions/upload-artifact@v3
-      #   with:
-      #     name: vscode-extension-file
-      #     path: ./packages/vscode-ui5-language-assistant/vscode-ui5-language-assistant*.vsix
-      #     if-no-files-found: error # 'warn' or 'ignore' are also available, defaults to `warn`
+          cmd: run build:quick # TODO will run `yarn run ci` command
 
   compliance:
     runs-on: ubuntu-latest
@@ -61,22 +51,22 @@ jobs:
 
   version:
     # Run version job only on pushes to the main branch. The job depends on completion of the build job.
-    #if: inputs.job_name == 'version'
     # && github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
-    # needs: build, compliance
-    outputs:
-      changes: ${{ steps.changesetVersion.outputs.changes }} # map step output to job output
+    needs: build, compliance
+    # outputs: TODO remove
+    #   changes: ${{ steps.changesetVersion.outputs.changes }} # map step output to job output
     steps:
       - name: Checkout code repository
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-          token: ${{ secrets.ACCESS_PAT }}
+          token: ${{ secrets.ACCESS_PAT }} # needed to auto trigger release job
       - name: Setup node
         uses: actions/setup-node@v3
         with:
           node-version: 14
+
       # TODO: cache node modules
       - name: Run install
         uses: borales/actions-yarn@v4
@@ -88,6 +78,7 @@ jobs:
         run: |
           echo ::set-output name=changes::$(npm run ci:version 2>&1 | grep -q 'No unreleased changesets found' && echo 'false' || echo 'true')
           git status
+
         # TODO: remove
       - name: Changeset output
         run: echo ${{steps.changesetVersion.outputs.changes}}
