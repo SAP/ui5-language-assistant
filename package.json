@@ -31,9 +31,11 @@
     "legal:copy": "lerna exec \"shx cp -r ../../.reuse .reuse && shx cp -r ../../LICENSES LICENSES\"",
     "prepare": "node ./.husky/skip.js || husky install",
     "hooks:pre-commit": "lint-staged",
-    "hooks:commit-msg": "commitlint -e"
+    "hooks:commit-msg": "commitlint -e",
+    "cset": "changeset"
   },
   "devDependencies": {
+    "@changesets/cli": "2.24.1",
     "@commitlint/cli": "11.0.0",
     "@commitlint/config-conventional": "11.0.0",
     "@types/chai": "4.2.14",
