@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.10
+
+### Patch Changes
+
+- f336248: action script fix
+
 ## 4.0.9
 
 ### Patch Changes
