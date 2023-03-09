@@ -32,7 +32,8 @@
     "prepare": "node ./.husky/skip.js || husky install",
     "hooks:pre-commit": "lint-staged",
     "hooks:commit-msg": "commitlint -e",
-    "cset": "changeset"
+    "cset": "changeset",
+    "ci:version": "changeset version"
   },
   "devDependencies": {
     "@changesets/cli": "2.24.1",
