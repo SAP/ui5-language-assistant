@@ -32,7 +32,7 @@ jobs:
       - name: Run build
         uses: borales/actions-yarn@v4
         with:
-          cmd: build:ci # TODO: will run `yarn run ci` command
+          cmd: ci # will run `yarn run ci` command
 
       - name: Upload vsix artifact
         uses: actions/upload-artifact@v3
