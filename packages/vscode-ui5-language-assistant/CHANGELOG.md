@@ -1,5 +1,13 @@
 # Change Log
 
+## 4.0.6
+
+### Patch Changes
+
+- 6c01fbd: final test
+- Updated dependencies [6c01fbd]
+  - @ui5-language-assistant/language-server@4.0.6
+
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
