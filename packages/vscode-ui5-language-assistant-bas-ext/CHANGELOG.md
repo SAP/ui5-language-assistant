@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.7
+
+### Patch Changes
+
+- f2886a0: Script fix
+
 ## 4.0.6
 
 ### Patch Changes
