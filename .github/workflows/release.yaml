@@ -11,7 +11,7 @@ env:
 
 jobs:
   build:
-    if: github.repository == 'vadson71/ui5-language-assistant' && contains(github.ref, 'refs/tags/v')
+    if: github.repository == 'vadson71/ui5-language-assistant-vk' && contains(github.ref, 'refs/tags/v')
     strategy:
       matrix:
         os: [ubuntu-latest]
