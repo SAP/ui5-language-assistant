@@ -61,6 +61,10 @@ export interface UI5EnumValue extends BaseUI5Node {
   kind: "UI5EnumValue";
 }
 
+export interface UI5IconValue extends BaseUI5Node {
+  kind: "UI5IconValue";
+}
+
 export interface UI5Namespace extends BaseUI5Node {
   kind: "UI5Namespace";
   // Likely Not Relevant for XML.Views
