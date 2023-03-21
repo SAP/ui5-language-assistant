@@ -22,7 +22,13 @@ import {
   SERVER_PATH,
   ServerInitializationOptions,
 } from "@ui5-language-assistant/language-server";
-import { COMMAND_OPEN_DEMOKIT, LOGGING_LEVEL_CONFIG_PROP } from "./constants";
+import {
+  COMMAND_OPEN_DEMOKIT,
+  LOGGING_LEVEL_CONFIG_PROP,
+  MANIFEST_SCHEMA,
+} from "./constants";
+import { getManifestSchemaProvider } from "./manifest-schema-provider";
+import { getLocalUrl, tryFetch } from "@ui5-language-assistant/logic-utils";
 
 type UI5Model = {
   url: string;
@@ -45,15 +51,21 @@ export async function activate(context: ExtensionContext): Promise<void> {
 
   // show/hide and update the status bar
   client.start().then(() => {
-    client.onNotification("UI5LanguageAssistant/ui5Model", (model: UI5Model) =>
-      updateCurrentModel(model)
+    client.onNotification(
+      "UI5LanguageAssistant/ui5Model",
+      async (model: UI5Model) => await updateCurrentModel(model)
     );
   });
-  window.onDidChangeActiveTextEditor(() => {
-    updateCurrentModel(undefined);
+  window.onDidChangeActiveTextEditor(async () => {
+    await updateCurrentModel(undefined);
   });
 
   client.start();
+
+  const provider = await getManifestSchemaProvider(context);
+  context.subscriptions.push(
+    workspace.registerTextDocumentContentProvider(MANIFEST_SCHEMA, provider)
+  );
 }
 
 function createLanguageClient(context: ExtensionContext): LanguageClient {
@@ -119,7 +131,7 @@ function createStatusBarItem(context: ExtensionContext): StatusBarItem {
   return statusBarItem;
 }
 
-function updateCurrentModel(model: UI5Model | undefined) {
+async function updateCurrentModel(model: UI5Model | undefined): Promise<void> {
   currentModel = model;
   if (statusBarItem) {
     if (currentModel) {
@@ -134,7 +146,18 @@ function updateCurrentModel(model: UI5Model | undefined) {
         tooltipText += ` minUI5 version found in manifest.json is out of maintenance or not supported by UI5 Language Assistant. Using fallback to UI5 ${currentModel.version}.`;
         version = `Fallback: ${currentModel.version}`;
       }
-
+      const localUrl = getLocalUrl(
+        version,
+        workspace.getConfiguration().get("UI5LanguageAssistant")
+      );
+      if (localUrl) {
+        const respond = await tryFetch(localUrl);
+        if (respond) {
+          version = `${version} (local)`;
+          tooltipText =
+            "Alternative (local) SAP UI5 Web Server is defined in Settings. Using SAP UI5 version fetched from that server.";
+        }
+      }
       statusBarItem.tooltip = tooltipText;
       statusBarItem.text = `$(notebook-mimetype)  ${version}${
         currentModel.framework === "OpenUI5" ? "'" : ""
@@ -146,10 +169,10 @@ function updateCurrentModel(model: UI5Model | undefined) {
   }
 }
 
-export function deactivate(): Thenable<void> | undefined {
+export async function deactivate(): Promise<Thenable<void>> {
   if (!client) {
     return undefined;
   }
-  updateCurrentModel(undefined);
+  await updateCurrentModel(undefined);
   return client.stop();
 }

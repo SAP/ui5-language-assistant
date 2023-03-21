@@ -31,7 +31,7 @@ const nodeFetchCached = new Promise<FetcherType>((done, reject) => {
     return nodeFetch;
   })()
     .then((result) => done(result))
-    .catch((error) => reject(error));
+    .catch(/* istanbul ignore next */ (error) => reject(error));
 });
 
 /**
@@ -40,7 +40,7 @@ const nodeFetchCached = new Promise<FetcherType>((done, reject) => {
  * @param init the init opts
  * @returns a Promise returning the response object
  */
-export default async function fetch(
+export async function fetch(
   url: RequestInfo,
   init?: RequestInit
 ): Promise<Response> {

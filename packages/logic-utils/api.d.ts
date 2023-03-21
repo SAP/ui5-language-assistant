@@ -269,4 +269,9 @@ export {
   getLogger,
   setLogLevel,
   LogLevel,
+  fetch,
+  tryFetch,
+  getLocalUrl,
 } from "./src/api";
+
+export { FetchResponse } from "./src/utils/types";

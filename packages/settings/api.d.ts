@@ -1,5 +1,22 @@
-import Thenable from "vscode-languageserver";
-export type Settings = CodeAssistSettings & TraceSettings & LoggingSettings;
+export {
+  getSettingsForDocument,
+  hasSettingsForDocument,
+  clearSettings,
+  clearDocumentSettings,
+  setGlobalSettings,
+  getDefaultSettings,
+  setSettingsForDocument,
+  setConfigurationSettings,
+  getConfigurationSettings,
+} from "./src/api";
+export type Settings = CodeAssistSettings &
+  TraceSettings &
+  LoggingSettings &
+  WebServerSettings;
+
+export interface WebServerSettings {
+  SAPUI5WebServer?: string;
+}
 
 export interface CodeAssistSettings {
   codeAssist: {
@@ -39,20 +56,3 @@ export interface IValidLoggingLevelValues {
 }
 
 export const validLoggingLevelValues: IValidLoggingLevelValues;
-
-export function getSettingsForDocument(resource: string): Thenable<Settings>;
-
-export function hasSettingsForDocument(resource: string): boolean;
-
-export function setSettingsForDocument(
-  resource: string,
-  settings: Thenable<Settings>
-): void;
-
-export function clearSettings(): void;
-
-export function clearDocumentSettings(resource: string): void;
-
-export function setGlobalSettings(settings: Settings): void;
-
-export function getDefaultSettings(): Settings;

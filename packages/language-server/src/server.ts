@@ -22,6 +22,8 @@ import {
   setSettingsForDocument,
   hasSettingsForDocument,
   getSettingsForDocument,
+  setConfigurationSettings,
+  Settings,
 } from "@ui5-language-assistant/settings";
 import { commands } from "@ui5-language-assistant/user-facing-text";
 import { ServerInitializationOptions } from "../api";
@@ -107,6 +109,11 @@ connection.onInitialized(async () => {
     connection.client.register(DidChangeConfigurationNotification.type, {
       section: "UI5LanguageAssistant",
     });
+    // set config settings
+    const result = (await connection.workspace.getConfiguration({
+      section: "UI5LanguageAssistant",
+    })) as Settings;
+    setConfigurationSettings(result);
   }
 });
 
@@ -130,8 +137,9 @@ connection.onCompletion(
       const framework = context.yamlDetails.framework;
       const isFallback = context.ui5Model.isFallback;
       const isIncorrectVersion = context.ui5Model.isIncorrectVersion;
+      const url = await getCDNBaseUrl(framework, version);
       connection.sendNotification("UI5LanguageAssistant/ui5Model", {
-        url: getCDNBaseUrl(framework, version),
+        url,
         framework,
         version,
         isFallback,
@@ -179,8 +187,9 @@ connection.onHover(
       const framework = context.yamlDetails.framework;
       const isFallback = context.ui5Model.isFallback;
       const isIncorrectVersion = context.ui5Model.isIncorrectVersion;
+      const url = await getCDNBaseUrl(framework, version);
       connection.sendNotification("UI5LanguageAssistant/ui5Model", {
-        url: getCDNBaseUrl(framework, version),
+        url,
         framework,
         version,
         isFallback,
@@ -282,8 +291,9 @@ documents.onDidChangeContent(async (changeEvent) => {
     const framework = context.yamlDetails.framework;
     const isFallback = context.ui5Model.isFallback;
     const isIncorrectVersion = context.ui5Model.isIncorrectVersion;
+    const url = await getCDNBaseUrl(framework, version);
     connection.sendNotification("UI5LanguageAssistant/ui5Model", {
-      url: getCDNBaseUrl(framework, version),
+      url,
       framework,
       version,
       isFallback,
@@ -316,8 +326,9 @@ connection.onCodeAction(async (params) => {
   const framework = context.yamlDetails.framework;
   const isFallback = context.ui5Model.isFallback;
   const isIncorrectVersion = context.ui5Model.isIncorrectVersion;
+  const url = await getCDNBaseUrl(framework, version);
   connection.sendNotification("UI5LanguageAssistant/ui5Model", {
-    url: getCDNBaseUrl(framework, version),
+    url,
     framework,
     version,
     isFallback,
@@ -375,6 +386,13 @@ connection.onDidChangeConfiguration((change) => {
       });
       setGlobalSettings(ui5LangAssistSettings);
     }
+  }
+  if (change.settings.UI5LanguageAssistant !== undefined) {
+    const ui5LangAssistSettings = change.settings.UI5LanguageAssistant;
+    getLogger().trace("Set configuration settings", {
+      ui5LangAssistSettings,
+    });
+    setConfigurationSettings(ui5LangAssistSettings);
   }
   // In the future we might want to
   // re-validate the files related to the `cached document settings`.

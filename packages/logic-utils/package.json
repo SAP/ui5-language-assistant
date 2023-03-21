@@ -20,7 +20,10 @@
     "@ui5-language-assistant/settings": "4.0.5",
     "@vscode-logging/logger": "1.2.2",
     "@xml-tools/ast": "5.0.0",
-    "lodash": "4.17.21"
+    "lodash": "4.17.21",
+    "node-fetch": "3.2.10",
+    "https-proxy-agent": "5.0.1",
+    "proxy-from-env": "1.1.0"
   },
   "devDependencies": {
     "@ui5-language-assistant/semantic-model": "4.0.5",

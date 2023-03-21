@@ -13,7 +13,7 @@ import {
   TypeNameFix,
 } from "@ui5-language-assistant/semantic-model";
 import { Fetcher } from "./types";
-import fetch from "./fetch";
+import { fetch } from "@ui5-language-assistant/logic-utils";
 import {
   getLibraryAPIJsonUrl,
   getLogger,
@@ -124,7 +124,11 @@ async function createSemanticModelWithFetcher(
       // If the file doesn't exist in the cache (or we couldn't read it), fetch it from the network
       if (apiJson === undefined) {
         getLogger().info("No cache found for UI5 lib", { libName });
-        const url = getLibraryAPIJsonUrl(framework, version as string, libName);
+        const url = await getLibraryAPIJsonUrl(
+          framework,
+          version as string,
+          libName
+        );
         const response = await fetcher(url);
         if (response.ok) {
           apiJson = await response.json();
@@ -256,7 +260,7 @@ async function getVersionInfo(
   }
   let versionInfo = await readFromCache(cacheFilePath);
   if (versionInfo === undefined) {
-    const url = getVersionInfoUrl(framework, version);
+    const url = await getVersionInfoUrl(framework, version);
     const response = await fetcher(url);
     if (response.ok) {
       versionInfo = await response.json();
