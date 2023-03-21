@@ -5,5 +5,5 @@
     "outDir": "lib",
     "baseUrl": "."
   },
-  "include": ["src/**/*", "test/**/*", "api.d.ts", "src/manifest/schema.json"]
+  "include": ["src/**/*", "test/**/*", "api.d.ts", "src/manifest/*.json"]
 }
