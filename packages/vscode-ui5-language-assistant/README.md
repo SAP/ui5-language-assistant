@@ -156,9 +156,8 @@ This means that there may be a delay between starting VS Code and having the rel
 
 ### Enabling offline work
 
-You can set up a local web server to host one or more supported versions of SAP UI5 SDK  and register it in the user/workspace setting `"UI5LanguageAssistant.SAPUI5WebServer"`. This overrides the public CDN of SAP UI5 SDK in the extension and enables offline work with the apps having the matching hosted `"minUI5Version"` in `manifest.json`.
+You can set up a local web server to host one or more supported versions of SAP UI5 SDK and register it in the user/workspace setting `"UI5LanguageAssistant.SAPUI5WebServer"`. This overrides the public CDN of SAP UI5 SDK in the extension and enables offline work with the apps having the matching hosted `"minUI5Version"` in `manifest.json`.
 When configuring local web server, make sure it responds to the exact UI5 version defined in manifest.json e.g `<your.local.web.server>/1.111.0`
-
 
 **Note**: Once online, UI5 Language Assistant also caches required resources for offline usage and performance optimization.
 
