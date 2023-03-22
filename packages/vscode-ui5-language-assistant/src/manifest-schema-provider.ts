@@ -36,12 +36,12 @@ const schemaProvider = new ManifestSchemaProvider();
 export const getManifestSchemaProvider = async (
   context: ExtensionContext
 ): Promise<ManifestSchemaProvider> => {
-  const respond = await tryFetch(SCHEMA_URI);
   let content = "";
-  if (respond) {
-    content = await respond.text();
+  const response = await tryFetch(SCHEMA_URI);
+  if (response) {
+    content = await response.text();
   } else {
-    content = getSchemaContent(context);
+    content = await getSchemaContent(context);
   }
   schemaProvider.schemaContent = content;
   return schemaProvider;

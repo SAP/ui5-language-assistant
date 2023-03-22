@@ -16,8 +16,8 @@ export async function getCDNBaseUrl(
 ): Promise<string> {
   const localUrl = getLocalUrl(version);
   if (localUrl) {
-    const respond = await tryFetch(localUrl);
-    if (respond) {
+    const response = await tryFetch(localUrl);
+    if (response) {
       return localUrl;
     }
 

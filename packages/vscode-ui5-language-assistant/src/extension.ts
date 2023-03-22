@@ -55,6 +55,10 @@ export async function activate(context: ExtensionContext): Promise<void> {
       "UI5LanguageAssistant/ui5Model",
       async (model: UI5Model) => await updateCurrentModel(model)
     );
+    client.onNotification(
+      "UI5LanguageAssistant/context-error",
+      async (error: Error) => await handleContextError(error)
+    );
   });
   window.onDidChangeActiveTextEditor(async () => {
     await updateCurrentModel(undefined);
@@ -151,11 +155,11 @@ async function updateCurrentModel(model: UI5Model | undefined): Promise<void> {
         workspace.getConfiguration().get("UI5LanguageAssistant")
       );
       if (localUrl) {
-        const respond = await tryFetch(localUrl);
-        if (respond) {
+        const response = await tryFetch(localUrl);
+        if (response) {
           version = `${version} (local)`;
           tooltipText =
-            "Alternative (local) SAP UI5 Web Server is defined in Settings. Using SAP UI5 version fetched from that server.";
+            "Alternative (local) SAP UI5 web server is defined in user or workspace settings. Using SAP UI5 version fetched from the local server";
         }
       }
       statusBarItem.tooltip = tooltipText;
@@ -166,6 +170,23 @@ async function updateCurrentModel(model: UI5Model | undefined): Promise<void> {
     } else {
       statusBarItem.hide();
     }
+  }
+}
+
+let showedOnce = false;
+function handleContextError(error: Error & { code?: string }) {
+  if (showedOnce) {
+    return;
+  }
+  showedOnce = true;
+  if (error.code) {
+    window.showErrorMessage(
+      "[SAP UI5 SDK](https://tools.hana.ondemand.com/#sapui5) is not accessible. Connect to the internet or setup local web server for offline work."
+    );
+  } else {
+    window.showErrorMessage(
+      "An error has occurred building context. Please open an [issue](https://github.com/SAP/ui5-language-assistant/issues)"
+    );
   }
 }
 

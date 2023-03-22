@@ -33,13 +33,13 @@ describe("fetch-helper", () => {
     });
   });
   context("tryFetch", () => {
-    it("check respond", async () => {
+    it("check response", async () => {
       const fetchStub = stub(fetchUtils, "fetch").resolves({ ok: true } as any);
       const result = await tryFetch("/abc");
       expect(fetchStub).to.be.called;
       expect(result).to.be.deep.equal({ ok: true });
     });
-    it("check undefined [respond ok = false]", async () => {
+    it("check undefined [response ok = false]", async () => {
       const fetchStub = stub(fetchUtils, "fetch").resolves({
         ok: false,
       } as any);
