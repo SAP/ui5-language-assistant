@@ -43,11 +43,10 @@ jobs:
       - name: Status
         run: git status
 
-      # TODO: uncomment for live publishing
-      # - name: Publish
-      # # https://github.com/lerna/lerna/issues/2788
-      #   uses: borales/actions-yarn@v4
-      #   with:
-      #     cmd: run release:publish --no-verify-access
+      - name: Publish
+      # https://github.com/lerna/lerna/issues/2788
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: release:publish --no-verify-access
 
       
