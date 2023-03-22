@@ -154,6 +154,13 @@ For SAPUI5 XML views, this means:`*.view.xml` or `*.fragment.xml` files.
 Note that the extension **lazily** downloads the SAPUI5 metadata needed for its features.
 This means that there may be a delay between starting VS Code and having the relevant features available.
 
+### Enabling offline work
+
+You can set up a local web server to host one or more supported versions of SAP UI5 SDK and register it in the user/workspace setting `"UI5LanguageAssistant.SAPUI5WebServer"`. This overrides the public CDN of SAP UI5 SDK in the extension and enables offline work with the apps having the matching hosted `"minUI5Version"` in `manifest.json`.
+When configuring local web server, make sure it responds to the exact UI5 version defined in manifest.json e.g `<your.local.web.server>/1.111.0`
+
+**Note**: Once online, UI5 Language Assistant also caches required resources for offline usage and performance optimization.
+
 ### Limitations
 
 #### UI5 version and framework
