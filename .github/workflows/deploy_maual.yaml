@@ -1,0 +1,52 @@
+name: Manual latest release deploy to npmjs
+
+on:
+  # Trigger the workflow only manually
+  workflow_dispatch:
+
+jobs:
+  deploy-npm:
+    if: github.repository == 'SAP/ui5-language-assistant' && github.ref == 'refs/heads/master'
+    runs-on: [ubuntu-latest]
+
+    steps:
+      - name: Checkout code repository
+        uses: actions/checkout@v3
+
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 14
+
+      - name: Download latest released artifact
+        uses: robinraju/release-downloader@v1.7
+        with:
+          latest: true
+          token: ${{ secrets.ACCESS_PAT }}
+          fileName: "vscode-ui5-language-assistant-*.vsix"
+          out-file-path: "./packages/vscode-ui5-language-assistant-bas-ext"
+
+      - name: List folder content
+        run: ls ./packages/vscode-ui5-language-assistant-bas-ext -la
+
+      - name: Check file existence
+        uses: andstor/file-existence-action@v2
+        with:
+          files: "./packages/vscode-ui5-language-assistant-bas-ext/*.vsix"
+          fail: true
+
+      - name: Prepare .npmrc
+        run:
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" >> ~/.npmrc
+
+      # To help debug when lerna detects changes to the working tree and fails the publish
+      - name: Status
+        run: git status
+
+      - name: Publish
+      # https://github.com/lerna/lerna/issues/2788
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: release:publish --no-verify-access
+
+      
