@@ -1,7 +1,7 @@
 import { AnnotationIssue, getCompletionItems } from "../../src/api";
 import { CompletionItem } from "vscode-languageserver-types";
 import { TestFramework } from "@ui5-language-assistant/test-framework";
-import { getContext } from "@ui5-language-assistant/context";
+import { getContext, isContext } from "@ui5-language-assistant/context";
 import type { Context } from "@ui5-language-assistant/context";
 import { validateXMLView } from "@ui5-language-assistant/xml-views-validation";
 
@@ -53,17 +53,18 @@ export const getViewCompletionProvider = (
       content,
       offset
     );
-    const context = (await getContext(documentPath)) as Context;
-
-    result = getCompletionItems({
-      ast,
-      context: contextAdapter ? contextAdapter(context) : context,
-      cst,
-      document,
-      documentSettings: settings,
-      textDocumentPosition,
-      tokenVector,
-    });
+    const context = await getContext(documentPath);
+    if (isContext(context)) {
+      result = getCompletionItems({
+        ast,
+        context: contextAdapter ? contextAdapter(context) : context,
+        cst,
+        document,
+        documentSettings: settings,
+        textDocumentPosition,
+        tokenVector,
+      });
+    }
   } finally {
     // reversal update
     await framework.updateFileContent(viewFilePathSegments, "", {
@@ -103,16 +104,18 @@ export const getViewValidator = (
       insertAfter: "<content>",
     });
     const { ast } = await framework.readFile(viewFilePathSegments);
-    const context = (await getContext(documentPath)) as Context;
-    result = validateXMLView({
-      validators: {
-        attribute: [validator],
-        document: [],
-        element: [],
-      },
-      context: contextAdapter ? contextAdapter(context) : context,
-      xmlView: ast,
-    }) as AnnotationIssue[];
+    const context = await getContext(documentPath);
+    if (isContext(context)) {
+      result = validateXMLView({
+        validators: {
+          attribute: [validator],
+          document: [],
+          element: [],
+        },
+        context: contextAdapter ? contextAdapter(context) : context,
+        xmlView: ast,
+      }) as AnnotationIssue[];
+    }
   } finally {
     // reversal update
     await framework.updateFileContent(viewFilePathSegments, "", {
