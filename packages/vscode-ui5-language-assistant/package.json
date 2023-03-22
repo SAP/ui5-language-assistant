@@ -17,6 +17,7 @@
   "license": "Apache-2.0",
   "main": "./lib/src/extension",
   "activationEvents": [
+    "onFileSystem:manifest-schema",
     "*"
   ],
   "contributes": {
@@ -27,13 +28,19 @@
           "src/manifest.json",
           "src/main/webapp/manifest.json"
         ],
-        "url": "https://raw.githubusercontent.com/SAP/ui5-manifest/master/schema.json"
+        "url": "manifest-schema://local"
       }
     ],
     "configuration": {
       "type": "object",
       "title": "UI5 Language Assistant",
       "properties": {
+        "UI5LanguageAssistant.SAPUI5WebServer": {
+          "type": "string",
+          "scope": "window",
+          "default": "",
+          "markdownDescription": "Use an alternative (local) web server to serve [SAP UI5 SDK](https://tools.hana.ondemand.com/#sapui5) for enabling offline work."
+        },
         "UI5LanguageAssistant.logging.level": {
           "type": "string",
           "enum": [
@@ -100,6 +107,7 @@
     "@types/lodash": "4.14.168",
     "@types/vscode": "1.47.0",
     "@ui5-language-assistant/settings": "4.0.5",
+    "@ui5-language-assistant/logic-utils": "4.0.5",
     "@ui5-language-assistant/user-facing-text": "4.0.5",
     "lodash": "4.17.21",
     "proxyquire": "2.1.3",

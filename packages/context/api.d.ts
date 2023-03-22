@@ -1,5 +1,6 @@
 export {
   getContext,
+  isContext,
   getCDNBaseUrl,
   initializeManifestData,
   initializeUI5YamlData,

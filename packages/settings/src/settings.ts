@@ -7,6 +7,7 @@ const defaultSettings: Settings = {
   codeAssist: { deprecated: false, experimental: false },
   trace: { server: "off" },
   logging: { level: "error" },
+  SAPUI5WebServer: "",
 };
 deepFreezeStrict(defaultSettings);
 
@@ -14,6 +15,10 @@ deepFreezeStrict(defaultSettings);
 // Please note that this is not the case when using this server with VSCode or Theia
 // but could happen with other clients.
 let globalSettings: Settings = defaultSettings;
+/**
+ * Configuration settings
+ */
+let configSettings: Settings = defaultSettings;
 
 // Cache the settings of all open documents
 const documentSettings: Map<string, Thenable<Settings>> = new Map();
@@ -57,4 +62,12 @@ export function clearDocumentSettings(resource: string): void {
 export function setGlobalSettings(settings: Settings): void {
   globalSettings = cloneDeep(settings);
   deepFreezeStrict(globalSettings);
+}
+
+export function setConfigurationSettings(settings: Settings): void {
+  configSettings = cloneDeep(settings);
+  deepFreezeStrict(configSettings);
+}
+export function getConfigurationSettings(): Settings {
+  return deepFreezeStrict(configSettings);
 }

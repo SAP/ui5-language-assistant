@@ -6,6 +6,8 @@ export {
   clearSettings,
   clearDocumentSettings,
   getDefaultSettings,
+  setConfigurationSettings,
+  getConfigurationSettings,
 } from "./settings";
 
 export const validTraceServerValues = {

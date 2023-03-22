@@ -6,6 +6,8 @@ import {
   hasSettingsForDocument,
   clearDocumentSettings,
   clearSettings,
+  setConfigurationSettings,
+  getConfigurationSettings,
 } from "../src/api";
 import { resetSettings } from "../src/settings";
 import { expect } from "chai";
@@ -208,6 +210,18 @@ context("settings utilities", () => {
       expect(await getSettingsForDocument("doc1")).to.deep.equal(
         globalSettings
       );
+    });
+  });
+  describe("configuration settings", () => {
+    it("setConfigurationSettings", async () => {
+      const configSettings = {
+        SAPUI5WebServer: "http://localhost:3000/",
+        codeAssist: { deprecated: true, experimental: true },
+        trace: { server: "off" as const },
+        logging: { level: "off" as const },
+      };
+      setConfigurationSettings(configSettings);
+      expect(getConfigurationSettings()).to.deep.equal(configSettings);
     });
   });
 });

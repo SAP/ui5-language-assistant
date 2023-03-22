@@ -1,7 +1,8 @@
 import { AnnotationIssue, getCompletionItems } from "../../src/api";
 import { CompletionItem } from "vscode-languageserver-types";
 import { TestFramework } from "@ui5-language-assistant/test-framework";
-import { getContext, Context } from "@ui5-language-assistant/context";
+import { getContext } from "@ui5-language-assistant/context";
+import type { Context } from "@ui5-language-assistant/context";
 import { validateXMLView } from "@ui5-language-assistant/xml-views-validation";
 
 import { CURSOR_ANCHOR } from "@ui5-language-assistant/test-framework";
@@ -52,7 +53,7 @@ export const getViewCompletionProvider = (
       content,
       offset
     );
-    const context = await getContext(documentPath);
+    const context = (await getContext(documentPath)) as Context;
 
     result = getCompletionItems({
       ast,
@@ -102,7 +103,7 @@ export const getViewValidator = (
       insertAfter: "<content>",
     });
     const { ast } = await framework.readFile(viewFilePathSegments);
-    const context = await getContext(documentPath);
+    const context = (await getContext(documentPath)) as Context;
     result = validateXMLView({
       validators: {
         attribute: [validator],

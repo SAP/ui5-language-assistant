@@ -34,17 +34,33 @@ export {
 export async function getContext(
   documentPath: string,
   modelCachePath?: string
-): Promise<Context> {
-  const manifestDetails = await getManifestDetails(documentPath);
-  const yamlDetails = await getYamlDetails(documentPath);
-  const ui5Model = await getSemanticModel(
-    modelCachePath,
-    yamlDetails.framework,
-    manifestDetails.minUI5Version
-  );
-  const services = await getServices(documentPath);
-  const customViewId = await getCustomViewId(documentPath);
-  return { manifestDetails, yamlDetails, ui5Model, services, customViewId };
+): Promise<Context | Error> {
+  try {
+    const manifestDetails = await getManifestDetails(documentPath);
+    const yamlDetails = await getYamlDetails(documentPath);
+    const ui5Model = await getSemanticModel(
+      modelCachePath,
+      yamlDetails.framework,
+      manifestDetails.minUI5Version
+    );
+    const services = await getServices(documentPath);
+    const customViewId = await getCustomViewId(documentPath);
+    return { manifestDetails, yamlDetails, ui5Model, services, customViewId };
+  } catch (error) {
+    return error as Error;
+  }
 }
+
+/**
+ * Checks if data is context or an error
+ */
+export const isContext = (
+  data: Context | (Error & { code?: string })
+): data is Context => {
+  if ((data as Context).ui5Model) {
+    return true;
+  }
+  return false;
+};
 
 export const DEFAULT_I18N_NAMESPACE = "translation";
