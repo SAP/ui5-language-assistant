@@ -18,7 +18,7 @@ async function builder(options) {
         ".svg": "file",
       },
       platform: "node",
-      target: "node12.22",
+      target: "node14",
     },
     ...options,
   };
