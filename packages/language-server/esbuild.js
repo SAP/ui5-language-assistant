@@ -3,7 +3,7 @@ const { join } = require("path");
 const buildConfig = {
   logLevel: "info",
   outfile: "dist/server.js",
-  entryPoints: [join("src/server.ts")],
+  entryPoints: [join(process.cwd(), "src/server.ts")],
   write: true,
   format: "cjs",
   bundle: true,
