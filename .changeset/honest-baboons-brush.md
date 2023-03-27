@@ -5,3 +5,4 @@
 ---
 
 Switching from webpack to esbuild for bundling the code
+Fix GitHub action build job to run build and tests on pull requests to master
