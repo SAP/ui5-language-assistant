@@ -1,5 +1,12 @@
 # Change Log
 
+## 4.0.7
+
+### Patch Changes
+
+- ce5a814: Switching from webpack to esbuild for bundling the code
+  Fix GitHub action build job to run build and tests on pull requests to master
+
 ## 4.0.6
 
 ### Patch Changes
