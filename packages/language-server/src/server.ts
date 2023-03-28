@@ -292,7 +292,9 @@ connection.onDidChangeWatchedFiles(async (changeEvent) => {
 
 documents.onDidChangeContent(
   async (changeEvent): Promise<void> => {
-    getLogger().trace("`onDidChangeContent` event", { changeEvent });
+    getLogger().trace("`onDidChangeContent` event", {
+      ...changeEvent.document,
+    });
     if (
       manifestStateInitialized === undefined ||
       ui5yamlStateInitialized === undefined ||
