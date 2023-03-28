@@ -12,7 +12,6 @@ env:
 
 jobs:
   build:
-    if: github.ref == 'refs/heads/master' # to filter out tag pushes
     strategy:
       matrix:
         os: [ubuntu-latest]

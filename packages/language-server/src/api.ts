@@ -2,7 +2,12 @@ import { resolve } from "path";
 import { existsSync } from "fs";
 
 // for use in productive flows
-const bundledPath = resolve(__dirname, "..", "..", "dist", "server.js");
+const bundledPath = resolve(
+  __dirname,
+  "..",
+  "node_modules/@ui5-language-assistant/language-server/dist",
+  "server.js"
+);
 
 const sourcesPath = resolve(__dirname, "server.js");
 
