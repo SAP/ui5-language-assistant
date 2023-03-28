@@ -64,6 +64,6 @@
     "test": "mocha",
     "coverage": "nyc mocha",
     "update-snapshots": "node ./scripts/update-diagnostics-snapshots",
-    "bundle": "webpack --mode production"
+    "bundle": "node esbuild.js"
   }
 }
