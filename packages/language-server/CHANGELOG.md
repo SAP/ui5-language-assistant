@@ -1,5 +1,19 @@
 # Change Log
 
+## 4.0.7
+
+### Patch Changes
+
+- 930a813: Offline mode support
+- Updated dependencies [930a813]
+  - @ui5-language-assistant/context@4.0.6
+  - @ui5-language-assistant/settings@4.0.6
+  - @ui5-language-assistant/fe@4.0.6
+  - @ui5-language-assistant/xml-views-completion@4.0.6
+  - @ui5-language-assistant/xml-views-tooltip@4.0.6
+  - @ui5-language-assistant/xml-views-quick-fix@4.0.6
+  - @ui5-language-assistant/xml-views-validation@4.0.6
+
 ## 4.0.6
 
 ### Patch Changes
