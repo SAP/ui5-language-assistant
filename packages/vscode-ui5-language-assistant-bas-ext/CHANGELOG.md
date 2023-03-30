@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.8
+
+### Patch Changes
+
+- 930a813: Offline mode support
+
 ## 4.0.7
 
 ### Patch Changes
