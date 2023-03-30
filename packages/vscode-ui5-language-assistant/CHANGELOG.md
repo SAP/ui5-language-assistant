@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.9
+
+### Patch Changes
+
+- 8353216: npmjs publish fix
+
 ## 4.0.8
 
 ### Patch Changes
