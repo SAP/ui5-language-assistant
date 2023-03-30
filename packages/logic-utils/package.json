@@ -1,6 +1,6 @@
 {
   "name": "@ui5-language-assistant/logic-utils",
-  "version": "4.0.5",
+  "version": "4.0.6",
   "private": true,
   "description": "TBD",
   "keywords": [],
@@ -17,7 +17,7 @@
   "typings": "./api.d.ts",
   "dependencies": {
     "@ui5-language-assistant/semantic-model-types": "4.0.5",
-    "@ui5-language-assistant/settings": "4.0.5",
+    "@ui5-language-assistant/settings": "4.0.6",
     "@vscode-logging/logger": "1.2.2",
     "@xml-tools/ast": "5.0.0",
     "lodash": "4.17.21",

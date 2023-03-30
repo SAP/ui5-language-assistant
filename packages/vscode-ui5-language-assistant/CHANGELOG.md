@@ -1,5 +1,13 @@
 # Change Log
 
+## 4.0.8
+
+### Patch Changes
+
+- 930a813: Offline mode support
+- Updated dependencies [930a813]
+  - @ui5-language-assistant/language-server@4.0.7
+
 ## 4.0.7
 
 ### Patch Changes
