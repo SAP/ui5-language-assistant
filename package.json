@@ -14,7 +14,7 @@
   "scripts": {
     "build:quick": "lerna run compile && lerna run bundle && lerna run package",
     "release:version": "lerna version --force-publish",
-    "release:publish": "lerna publish from-git --yes",
+    "release:publish": "lerna publish from-package --yes",
     "ci": "npm-run-all format:validate ci:subpackages coverage:merge legal:*",
     "compile": "yarn run clean && tsc --build",
     "compile:watch": "yarn run clean && tsc --build --watch",
