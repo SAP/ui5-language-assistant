@@ -1,4 +1,4 @@
-# Setup Local Web Server
+# Setup UI5 Local Web Server
 
 1. Download [sap-ui5-web-server](https://github.com/SAP/ui5-language-assistant/blob/master/resources/sap-ui5-web-server.zip) and unzip `sap-ui5-web-server`
 2. Download [SDK](https://tools.hana.ondemand.com/#sapui5).
