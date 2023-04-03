@@ -122,3 +122,21 @@ export const getViewValidator = (
   }
   return result;
 };
+
+export const prepareContextAdapter: (
+  contextPath: string | undefined
+) => (context: Context) => Context = (contextPath) => (c) => {
+  const customViewKey = Object.keys(c.manifestDetails.customViews)[0];
+  return {
+    ...c,
+    manifestDetails: {
+      ...c.manifestDetails,
+      customViews: {
+        [customViewKey]: {
+          ...c.manifestDetails.customViews[customViewKey],
+          contextPath,
+        },
+      },
+    },
+  };
+};

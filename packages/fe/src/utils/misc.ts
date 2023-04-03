@@ -1,4 +1,5 @@
 import { UI5Prop } from "@ui5-language-assistant/semantic-model-types";
+import { Context } from "@ui5-language-assistant/context";
 import { XMLElement } from "@xml-tools/ast";
 import i18next, { TFunction } from "i18next";
 import type { AnnotationTerm } from "../types";
@@ -62,7 +63,26 @@ export function normalizePath(path: string): string {
 export const adaptTranslatedText = (text: string): string => {
   return text.replace(/&#x2F;/g, "/");
 };
+
 export const t: TFunction = (key: string, ...args) => {
   const result = i18next.t(key, ...args);
   return adaptTranslatedText(result as string);
 };
+
+/**
+ * Returns context path for completion and diagnostics services
+ * @param attributeValue - current element contextPath attribute value
+ * @param context - global context object
+ * @returns - context path
+ */
+export function getContextPath(
+  attributeValue: string | null | undefined,
+  context: Context
+): string | null | undefined {
+  const contextPathInManifest: string | undefined =
+    context.manifestDetails?.customViews?.[context.customViewId || ""]
+      ?.contextPath;
+  return typeof attributeValue !== "undefined"
+    ? attributeValue
+    : contextPathInManifest || undefined;
+}

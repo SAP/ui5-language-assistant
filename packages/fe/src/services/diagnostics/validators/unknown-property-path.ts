@@ -8,6 +8,7 @@ import {
   SAP_FE_MACROS,
 } from "../../../types";
 import {
+  getContextPath,
   getElementAttributeValue,
   isPropertyPathAllowed,
   normalizePath,
@@ -57,7 +58,8 @@ export function validateUnknownPropertyPath(
       return [];
     }
     const metadata = service.convertedMetadata;
-    let contextPath = getElementAttributeValue(element, "contextPath");
+    const contextPathAttr = getElementAttributeValue(element, "contextPath");
+    let contextPath = getContextPath(contextPathAttr, context);
     const entitySet =
       context.manifestDetails.customViews[context.customViewId || ""]
         ?.entitySet ?? "";
@@ -83,7 +85,7 @@ export function validateUnknownPropertyPath(
         metadata,
         normalizedContextPath
       ));
-      isNavSegmentsAllowed = false;
+      isNavSegmentsAllowed = typeof contextPathAttr === "undefined";
     } else {
       if (!entitySet) {
         return [];

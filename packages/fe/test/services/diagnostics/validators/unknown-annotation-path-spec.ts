@@ -10,6 +10,7 @@ import {
 import {
   getViewValidator,
   issueToSnapshot,
+  prepareContextAdapter,
   ViewValidatorType,
 } from "../../utils";
 import { validateUnknownAnnotationPath } from "../../../../src/services/diagnostics/validators/unknown-annotation-path";
@@ -188,6 +189,15 @@ describe("metaPath attribute value validation (annotation path)", () => {
       const result = await validateView(
         `<macros:Field metaPath="BeginDate"></macros:Field>`,
         this
+      );
+      expect(result.length).to.eq(0);
+    });
+
+    it("contains navigation segments when contextPath in manifest is specified", async function () {
+      const result = await validateView(
+        `<macros:Chart metaPath="to_Travel/@com.sap.vocabularies.UI.v1.Chart#sample1"></macros:Chart>`,
+        this,
+        prepareContextAdapter("/Booking")
       );
       expect(result.length).to.eq(0);
     });

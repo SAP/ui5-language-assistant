@@ -49,7 +49,7 @@ export type ManifestDetails = {
   flexEnabled: boolean;
   minUI5Version: string | undefined;
   mainServicePath: string | undefined;
-  customViews: { [name: string]: { entitySet: string } };
+  customViews: { [name: string]: { entitySet?: string; contextPath?: string } };
 };
 /**
  * @param framework UI5 framework

@@ -1,7 +1,9 @@
 import { expect } from "chai";
 import { restore, spy } from "sinon";
+import * as fsExtra from "fs-extra";
 import { join } from "path";
 import {
+  findManifestPath,
   getCustomViewId,
   getMainService,
   getManifestDetails,
@@ -17,6 +19,8 @@ import {
 import { cache } from "../src/cache";
 import { FileName } from "@sap-ux/project-access";
 import { getProjectData } from "./utils";
+import { URI } from "vscode-uri";
+import { dirname } from "path";
 
 const getAppRoot = (projectRoot: string) =>
   join(projectRoot, "app", "manage_travels", "webapp");
@@ -82,6 +86,49 @@ describe("manifest", () => {
       minUI5Version: "1.108.1",
     });
   });
+  it("getManifestDetails with contextPath", async () => {
+    const { appRoot } = await getProjectData(testFramework.getProjectRoot());
+    const docPath = join(appRoot, "ext", "main", "Main.view.xml");
+    const manifestPath = (await findManifestPath(docPath)) || "";
+    cache.deleteManifest(manifestPath);
+
+    // adjust manifest content to mock file read
+    const manifestContent = await fsExtra.readFile(
+      URI.parse(manifestPath).fsPath,
+      "utf-8"
+    );
+    const manifest = JSON.parse(manifestContent);
+    const settings =
+      manifest["sap.ui5"]["routing"]["targets"]["TravelMain"]["options"][
+        "settings"
+      ];
+    settings["contextPath"] = "/Travel";
+
+    const mock = (await import("mock-fs")).default;
+    const manifestDir = dirname(manifestPath);
+    try {
+      mock({
+        [manifestDir]: {
+          ["manifest.json"]: JSON.stringify(manifest),
+        },
+      });
+      const result = await getManifestDetails(docPath);
+      expect(result).to.deep.equal({
+        customViews: {
+          "sap.fe.demo.managetravels.ext.main.Main": {
+            entitySet: "Travel",
+            contextPath: "/Travel",
+          },
+        },
+        mainServicePath: "/processor/",
+        flexEnabled: true,
+        minUI5Version: "1.108.1",
+      });
+    } finally {
+      mock.restore();
+    }
+  });
+
   describe("getMainService", () => {
     it("manifest without model definitions", async () => {
       const result = getMainService({

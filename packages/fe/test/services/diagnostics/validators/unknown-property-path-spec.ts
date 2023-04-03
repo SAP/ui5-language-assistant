@@ -15,6 +15,7 @@ import {
 import {
   getViewValidator,
   issueToSnapshot,
+  prepareContextAdapter,
   ViewValidatorType,
 } from "../../utils";
 import { validateUnknownPropertyPath } from "../../../../src/services/diagnostics/validators/unknown-property-path";
@@ -163,6 +164,15 @@ describe("metaPath attribute value validation (property path)", () => {
       const result = await validateView(
         `<macros:Field metaPath></macros:Field>`,
         this
+      );
+      expect(result.length).to.eq(0);
+    });
+
+    it("contains navigation segments when contextPath is specified in manifest", async function () {
+      const result = await validateView(
+        `<macros:Field  metaPath="to_Travel/TravelID"></macros:Field>`,
+        this,
+        prepareContextAdapter("/Booking")
       );
       expect(result.length).to.eq(0);
     });
