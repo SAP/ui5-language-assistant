@@ -78,6 +78,7 @@ describe("manifest", () => {
       customViews: {
         "sap.fe.demo.managetravels.ext.main.Main": {
           entitySet: "Travel",
+          contextPath: undefined,
         },
       },
       mainServicePath: "/processor/",
