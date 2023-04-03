@@ -3,4 +3,4 @@
 "@ui5-language-assistant/fe": minor
 ---
 
-Avoid type conversion
+Avoid type casting
