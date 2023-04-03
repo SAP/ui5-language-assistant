@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import { join } from "path";
-import { cache, Context, isContext } from "@ui5-language-assistant/context";
+import { cache } from "@ui5-language-assistant/context";
 import {
   Config,
   ProjectName,
@@ -66,7 +66,7 @@ describe("manifest contextPath value validation", () => {
     );
 
     const i18n = await framework.initI18n();
-    await initI18n(i18n);
+    initI18n(i18n);
   });
 
   context("shows no issues when...", () => {
@@ -145,7 +145,6 @@ describe("manifest contextPath value validation", () => {
         }
       );
       expect(result.length).to.eq(0);
-      isContext;
     });
 
     it("contextPath provided via attribute", async function () {
@@ -180,6 +179,15 @@ describe("manifest contextPath value validation", () => {
         `<macros:Chart metaPath=""></macros:Chart>`,
         this,
         prepareContextAdapter("")
+      );
+      expect(result.length).to.eq(0);
+    });
+
+    it("contextPath is correct in manifest", async function () {
+      const result = await validateView(
+        `<macros:Chart metaPath=""></macros:Chart>`,
+        this,
+        contextAdapter
       );
       expect(result.length).to.eq(0);
     });

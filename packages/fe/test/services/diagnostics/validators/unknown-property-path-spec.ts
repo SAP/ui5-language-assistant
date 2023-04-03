@@ -84,7 +84,7 @@ describe("metaPath attribute value validation (property path)", () => {
     );
 
     const i18n = await framework.initI18n();
-    await initI18n(i18n);
+    initI18n(i18n);
   });
 
   context("shows no issues when metaPath...", () => {

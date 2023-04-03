@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { restore, spy } from "sinon";
 import * as fsExtra from "fs-extra";
-import { join } from "path";
+import { join, dirname } from "path";
 import {
   findManifestPath,
   getCustomViewId,
@@ -20,7 +20,6 @@ import { cache } from "../src/cache";
 import { FileName } from "@sap-ux/project-access";
 import { getProjectData } from "./utils";
 import { URI } from "vscode-uri";
-import { dirname } from "path";
 
 const getAppRoot = (projectRoot: string) =>
   join(projectRoot, "app", "manage_travels", "webapp");

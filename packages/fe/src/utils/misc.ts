@@ -10,6 +10,8 @@ import {
   specification,
 } from "./spec";
 
+export type AttributeValueType = string | null | undefined;
+
 export function isPropertyPathAllowed(control: string | null): boolean {
   return ["Field", "FormElement"].includes(control || "");
 }
@@ -46,7 +48,7 @@ export function getPathConstraintsForControl(
 export function getElementAttributeValue(
   element: XMLElement,
   attributeName: string
-): string | null | undefined {
+): AttributeValueType {
   return element.attributes.find((attribute) => attribute.key === attributeName)
     ?.value;
 }
@@ -76,9 +78,9 @@ export const t: TFunction = (key: string, ...args) => {
  * @returns - context path
  */
 export function getContextPath(
-  attributeValue: string | null | undefined,
+  attributeValue: AttributeValueType,
   context: Context
-): string | null | undefined {
+): AttributeValueType {
   const contextPathInManifest: string | undefined =
     context.manifestDetails?.customViews?.[context.customViewId || ""]
       ?.contextPath;
