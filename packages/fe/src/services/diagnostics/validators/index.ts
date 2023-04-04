@@ -6,6 +6,7 @@ import { validateUnknownAnnotationPath } from "./unknown-annotation-path";
 import { validateUnknownPropertyPath } from "./unknown-property-path";
 import { validateFilterBarId } from "./wrong-filter-bar-id";
 import { validateMissingViewEntitySet } from "./missing-entity-set";
+import { validateContextPathInManifest } from "./manifest-context-path";
 
 export const defaultValidators: UI5ValidatorsConfig<AnnotationIssue> = {
   document: [],
@@ -16,6 +17,7 @@ export const defaultValidators: UI5ValidatorsConfig<AnnotationIssue> = {
     validateUnknownPropertyPath,
     validateFilterBarId,
     validateMissingViewEntitySet,
+    validateContextPathInManifest,
   ],
 };
 

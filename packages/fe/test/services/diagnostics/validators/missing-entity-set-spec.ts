@@ -63,7 +63,7 @@ describe("missing entitySet validation", () => {
     );
 
     const i18n = await framework.initI18n();
-    await initI18n(i18n);
+    initI18n(i18n);
   });
 
   describe("shows warning when...", () => {
@@ -80,7 +80,7 @@ describe("missing entitySet validation", () => {
         }
       );
       expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
-        "kind: MissingEntitySet; text: EntitySet for the current view is missing in application manifest. Attribute value completion and diagnostics are disabled; severity:info; offset:344-354",
+        "kind: MissingEntitySet; text: EntitySet or contextPath for the current view are missing in application manifest. Attribute value completion and diagnostics are disabled; severity:info; offset:344-354",
       ]);
     });
 
@@ -92,7 +92,7 @@ describe("missing entitySet validation", () => {
         (c) => ({ ...c, manifestDetails: undefined } as any)
       );
       expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
-        "kind: MissingEntitySet; text: EntitySet for the current view is missing in application manifest. Attribute value completion and diagnostics are disabled; severity:info; offset:344-349",
+        "kind: MissingEntitySet; text: EntitySet or contextPath for the current view are missing in application manifest. Attribute value completion and diagnostics are disabled; severity:info; offset:344-349",
       ]);
     });
 
@@ -109,7 +109,7 @@ describe("missing entitySet validation", () => {
         }
       );
       expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
-        "kind: MissingEntitySet; text: EntitySet for the current view is missing in application manifest. Attribute value completion and diagnostics are disabled; severity:info; offset:344-349",
+        "kind: MissingEntitySet; text: EntitySet or contextPath for the current view are missing in application manifest. Attribute value completion and diagnostics are disabled; severity:info; offset:344-349",
       ]);
     });
   });

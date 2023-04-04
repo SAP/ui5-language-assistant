@@ -16,6 +16,7 @@ import { CompletionItem } from "vscode-languageserver-types";
 import {
   completionItemToSnapshot,
   getViewCompletionProvider,
+  prepareContextAdapter,
   ViewCompletionProviderType,
 } from "../../utils";
 
@@ -294,6 +295,35 @@ describe("metaPath attribute value completion", () => {
         ).to.deep.equal([
           "label: @com.sap.vocabularies.UI.v1.Chart; text: @com.sap.vocabularies.UI.v1.Chart; kind:12; commit:undefined; sort:",
           "label: @com.sap.vocabularies.UI.v1.Chart#sample1; text: @com.sap.vocabularies.UI.v1.Chart#sample1; kind:12; commit:undefined; sort:",
+        ]);
+      });
+    });
+
+    context("metaPath completion with contextPath provided in manifest", () => {
+      it("term segment completion from entity type", async function () {
+        const result = await getCompletionResult(
+          `<macros:Chart metaPath="${CURSOR_ANCHOR}"></macros:Chart>`,
+          this,
+          prepareContextAdapter("/Travel")
+        );
+        expect(
+          result.map((item) => completionItemToSnapshot(item))
+        ).to.deep.equal([
+          "label: @com.sap.vocabularies.UI.v1.Chart; text: @com.sap.vocabularies.UI.v1.Chart; kind:12; commit:undefined; sort:",
+          "label: @com.sap.vocabularies.UI.v1.Chart#sample1; text: @com.sap.vocabularies.UI.v1.Chart#sample1; kind:12; commit:undefined; sort:",
+        ]);
+      });
+      it("segment completion from entity set (nav segments allowed)", async function () {
+        const result = await getCompletionResult(
+          `<macros:Chart  metaPath="${CURSOR_ANCHOR}"></macros:Chart>`,
+          this,
+          prepareContextAdapter("/TravelService.EntityContainer/Booking")
+        );
+        expect(
+          result.map((item) => completionItemToSnapshot(item))
+        ).to.deep.equal([
+          "label: to_BookSupplement; text: to_BookSupplement; kind:18; commit:/; sort:B",
+          "label: to_Travel; text: to_Travel; kind:18; commit:/; sort:B",
         ]);
       });
     });

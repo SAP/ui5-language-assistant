@@ -6,6 +6,7 @@ import {
   getNextPossiblePathTargets,
   resolvePathTarget,
   normalizePath,
+  getContextPath,
 } from "../../../utils";
 
 import type { UI5AttributeValueCompletionOptions } from "./index";
@@ -62,7 +63,9 @@ export function metaPathSuggestions({
   ) {
     return [];
   }
-  let contextPath = getElementAttributeValue(element, "contextPath");
+  const contextPathAttr = getElementAttributeValue(element, "contextPath");
+  let contextPath = getContextPath(contextPathAttr, context);
+
   const mainServicePath = context.manifestDetails.mainServicePath;
   const service = mainServicePath
     ? context.services[mainServicePath]
@@ -74,6 +77,7 @@ export function metaPathSuggestions({
   const entitySet =
     context.manifestDetails.customViews[context.customViewId || ""]
       ?.entitySet ?? "";
+
   const metadata = service.convertedMetadata;
   let baseType: EntityType | undefined;
   let base:
@@ -93,7 +97,7 @@ export function metaPathSuggestions({
       metadata,
       normalizePath(contextPath)
     ));
-    isNavSegmentsAllowed = false;
+    isNavSegmentsAllowed = typeof contextPathAttr === "undefined";
   } else {
     contextPath = `/${entitySet}`;
     base = service.convertedMetadata.entitySets.find(

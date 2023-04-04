@@ -7,7 +7,7 @@ import {
   ANNOTATION_ISSUE_TYPE,
   SAP_FE_MACROS,
 } from "../../../types";
-import { getElementAttributeValue, t } from "../../../utils";
+import { getContextPath, getElementAttributeValue, t } from "../../../utils";
 
 export function validateMissingViewEntitySet(
   attribute: XMLAttribute,
@@ -31,7 +31,8 @@ export function validateMissingViewEntitySet(
       return [];
     }
     const element = attribute.parent;
-    const contextPath = getElementAttributeValue(element, "contextPath");
+    const contextPathAttr = getElementAttributeValue(element, "contextPath");
+    const contextPath = getContextPath(contextPathAttr, context);
     const entitySet =
       (context.manifestDetails?.customViews || {})[context.customViewId || ""]
         ?.entitySet ?? "";
@@ -45,7 +46,7 @@ export function validateMissingViewEntitySet(
           {
             kind: "MissingEntitySet",
             issueType: ANNOTATION_ISSUE_TYPE,
-            message: t("ENTITY_SET_IS_MISSING_IN_MANIFEST"),
+            message: t("ENTITY_SET_OR_CONTEXT_PATH_IS_MISSING_IN_MANIFEST"),
             offsetRange: {
               start: actualAttributeValueToken.startOffset,
               end: actualAttributeValueToken.endOffset,

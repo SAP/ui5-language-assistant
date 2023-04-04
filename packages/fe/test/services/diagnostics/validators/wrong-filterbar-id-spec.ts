@@ -75,7 +75,7 @@ describe("filterBar attribute value validation", () => {
     );
 
     const i18n = await framework.initI18n();
-    await initI18n(i18n);
+    initI18n(i18n);
   });
 
   describe("shows no issues when...", () => {

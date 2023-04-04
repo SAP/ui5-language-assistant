@@ -20,6 +20,6 @@ describe("fe api", () => {
 
   it("validators", () => {
     const validators = defaultValidators;
-    expect(validators.attribute.length).to.equal(5);
+    expect(validators.attribute.length).to.equal(6);
   });
 });
