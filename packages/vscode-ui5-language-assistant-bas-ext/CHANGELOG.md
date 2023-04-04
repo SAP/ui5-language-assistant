@@ -1,5 +1,12 @@
 # Change Log
 
+## 4.0.10
+
+### Patch Changes
+
+- 527f153: SonarQube config added
+- 527f153: Support of contextPath provided in app manifest
+
 ## 4.0.9
 
 ### Patch Changes

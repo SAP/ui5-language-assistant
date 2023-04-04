@@ -1,5 +1,13 @@
 # Change Log
 
+## 4.0.10
+
+### Patch Changes
+
+- 527f153: SonarQube config added
+- 527f153: Support of contextPath provided in app manifest
+  - @ui5-language-assistant/language-server@4.0.8
+
 ## 4.0.9
 
 ### Patch Changes

@@ -1,5 +1,14 @@
 # Change Log
 
+## 4.0.7
+
+### Patch Changes
+
+- 527f153: Support of contextPath provided in app manifest
+- Updated dependencies [527f153]
+  - @ui5-language-assistant/context@4.0.7
+  - @ui5-language-assistant/xml-views-completion@4.0.7
+
 ## 4.0.6
 
 ### Patch Changes

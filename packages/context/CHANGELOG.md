@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.7
+
+### Patch Changes
+
+- 527f153: Support of contextPath provided in app manifest
+
 ## 4.0.6
 
 ### Patch Changes
