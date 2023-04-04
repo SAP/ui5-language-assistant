@@ -3,11 +3,11 @@ import { OffsetRange } from "@ui5-language-assistant/logic-utils";
 import { UI5ValidatorsConfig } from "./src/validate-xml-views";
 import { Context } from "@ui5-language-assistant/context";
 
-export function validateXMLView<ExternalXMLViewIssue>(opts: {
-  validators: UI5ValidatorsConfig<UI5XMLViewIssue | ExternalXMLViewIssue>;
+export function validateXMLView<T = UI5XMLViewIssue>(opts: {
+  validators: UI5ValidatorsConfig<T>;
   context: Context;
   xmlView: XMLDocument;
-}): (UI5XMLViewIssue | ExternalXMLViewIssue)[];
+}): T[];
 
 export declare const defaultValidators: UI5ValidatorsConfig;
 

@@ -34,11 +34,11 @@ export const validators: Validators = {
   validateNonStableId,
 };
 
-export function validateXMLView<ExternalXMLViewIssue>(opts: {
-  validators: UI5ValidatorsConfig<UI5XMLViewIssue | ExternalXMLViewIssue>;
+export function validateXMLView<T = UI5XMLViewIssue>(opts: {
+  validators: UI5ValidatorsConfig<T>;
   context: Context;
   xmlView: XMLDocument;
-}): (UI5XMLViewIssue | ExternalXMLViewIssue)[] {
+}): T[] {
   const validatorVisitor = new ValidatorVisitor(opts.context, opts.validators);
   accept(opts.xmlView, validatorVisitor);
   const issues = validatorVisitor.collectedIssues;
