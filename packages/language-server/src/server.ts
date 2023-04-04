@@ -12,6 +12,10 @@ import {
   DidChangeConfigurationNotification,
   FileEvent,
   InitializeResult,
+  DocumentFormattingParams,
+  DocumentRangeFormattingParams,
+  DocumentFormattingRequest,
+  DocumentRangeFormattingRequest,
 } from "vscode-languageserver/node";
 import { URI } from "vscode-uri";
 import { TextDocument } from "vscode-languageserver-textdocument";
@@ -47,7 +51,7 @@ import { executeCommand } from "./commands";
 import { initSwa } from "./swa";
 import { getLogger, setLogLevel } from "./logger";
 import { initI18n } from "./i18n";
-
+import { formatDocument, formatRange } from "./documentFormatter";
 const connection = createConnection(ProposedFeatures.all);
 const documents = new TextDocuments(TextDocument);
 let manifestStateInitialized: Promise<void[]> | undefined = undefined;
@@ -115,8 +119,37 @@ connection.onInitialized(async () => {
       section: "UI5LanguageAssistant",
     })) as Settings;
     setConfigurationSettings(result);
+
+    // register formatter only for xml documents
+    const registerOptions = {
+      documentSelector: [{ language: "xml" }],
+    };
+    connection.client.register(DocumentFormattingRequest.type, registerOptions);
+    connection.client.register(
+      DocumentRangeFormattingRequest.type,
+      registerOptions
+    );
   }
 });
+connection.onDocumentFormatting((parameters: DocumentFormattingParams) => {
+  const document = documents.get(parameters.textDocument.uri);
+  // if (isXMLView(document)) {
+  if (document) {
+    return formatDocument(document);
+  }
+  return;
+});
+
+connection.onDocumentRangeFormatting(
+  (parameters: DocumentRangeFormattingParams) => {
+    const document = documents.get(parameters.textDocument.uri);
+    if (document) {
+      // if (isXMLView(document)) {
+      return formatRange(document, parameters.range);
+    }
+    return;
+  }
+);
 
 connection.onCompletion(
   async (
