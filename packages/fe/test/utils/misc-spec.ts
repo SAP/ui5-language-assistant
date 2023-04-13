@@ -44,7 +44,7 @@ describe("misc utils", () => {
   });
 
   describe("getContextPath", () => {
-    const context = ({
+    const context = {
       customViewId: "Main.view",
       manifestDetails: {
         customViews: {
@@ -53,7 +53,7 @@ describe("misc utils", () => {
           },
         },
       },
-    } as unknown) as Context;
+    } as unknown as Context;
 
     it("provided via attribute", () => {
       const result = getContextPath("/Travel", context);
@@ -74,24 +74,24 @@ describe("misc utils", () => {
     it("empty in manifest", () => {
       const result = getContextPath(undefined, {
         ...context,
-        manifestDetails: ({
+        manifestDetails: {
           customViews: {
             ["Main.view"]: {
               contextPath: "",
             },
           },
-        } as unknown) as ManifestDetails,
+        } as unknown as ManifestDetails,
       });
       expect(result).to.undefined;
     });
     it("not existing in manifest", () => {
       const result = getContextPath(undefined, {
         ...context,
-        manifestDetails: ({
+        manifestDetails: {
           customViews: {
             ["Main.view"]: {},
           },
-        } as unknown) as ManifestDetails,
+        } as unknown as ManifestDetails,
       });
       expect(result).to.undefined;
     });

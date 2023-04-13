@@ -47,6 +47,7 @@ import { executeCommand } from "./commands";
 import { initSwa } from "./swa";
 import { getLogger, setLogLevel } from "./logger";
 import { initI18n } from "./i18n";
+import { isXMLView } from "@ui5-language-assistant/logic-utils";
 
 const connection = createConnection(ProposedFeatures.all);
 const documents = new TextDocuments(TextDocument);
@@ -170,11 +171,9 @@ connection.onCompletion(
   }
 );
 
-connection.onCompletionResolve(
-  (item: CompletionItem): CompletionItem => {
-    return item;
-  }
-);
+connection.onCompletionResolve((item: CompletionItem): CompletionItem => {
+  return item;
+});
 
 connection.onHover(
   async (
@@ -290,59 +289,57 @@ connection.onDidChangeWatchedFiles(async (changeEvent) => {
   await validateOpenDocuments(changeEvent.changes);
 });
 
-documents.onDidChangeContent(
-  async (changeEvent): Promise<void> => {
-    getLogger().trace("`onDidChangeContent` event", {
-      ...changeEvent.document,
-    });
-    if (
-      manifestStateInitialized === undefined ||
-      ui5yamlStateInitialized === undefined ||
-      !isXMLView(changeEvent.document.uri)
-    ) {
+documents.onDidChangeContent(async (changeEvent): Promise<void> => {
+  getLogger().trace("`onDidChangeContent` event", {
+    ...changeEvent.document,
+  });
+  if (
+    manifestStateInitialized === undefined ||
+    ui5yamlStateInitialized === undefined ||
+    !isXMLView(changeEvent.document.uri)
+  ) {
+    return;
+  }
+
+  await Promise.all([manifestStateInitialized, ui5yamlStateInitialized]);
+  const documentUri = changeEvent.document.uri;
+  const document = documents.get(documentUri);
+  if (document !== undefined) {
+    const documentPath = URI.parse(documentUri).fsPath;
+    const context = await getContext(
+      documentPath,
+      initializationOptions?.modelCachePath
+    );
+    if (!isContext(context)) {
+      connection.sendNotification(
+        "UI5LanguageAssistant/context-error",
+        context
+      );
       return;
     }
-
-    await Promise.all([manifestStateInitialized, ui5yamlStateInitialized]);
-    const documentUri = changeEvent.document.uri;
-    const document = documents.get(documentUri);
-    if (document !== undefined) {
-      const documentPath = URI.parse(documentUri).fsPath;
-      const context = await getContext(
-        documentPath,
-        initializationOptions?.modelCachePath
-      );
-      if (!isContext(context)) {
-        connection.sendNotification(
-          "UI5LanguageAssistant/context-error",
-          context
-        );
-        return;
-      }
-      const version = context.ui5Model.version;
-      const framework = context.yamlDetails.framework;
-      const isFallback = context.ui5Model.isFallback;
-      const isIncorrectVersion = context.ui5Model.isIncorrectVersion;
-      const url = await getCDNBaseUrl(framework, version);
-      connection.sendNotification("UI5LanguageAssistant/ui5Model", {
-        url,
-        framework,
-        version,
-        isFallback,
-        isIncorrectVersion,
-      });
-      const diagnostics = getXMLViewDiagnostics({
-        document,
-        context,
-      });
-      getLogger().trace("computed diagnostics", { diagnostics });
-      connection.sendDiagnostics({
-        uri: changeEvent.document.uri,
-        diagnostics,
-      });
-    }
+    const version = context.ui5Model.version;
+    const framework = context.yamlDetails.framework;
+    const isFallback = context.ui5Model.isFallback;
+    const isIncorrectVersion = context.ui5Model.isIncorrectVersion;
+    const url = await getCDNBaseUrl(framework, version);
+    connection.sendNotification("UI5LanguageAssistant/ui5Model", {
+      url,
+      framework,
+      version,
+      isFallback,
+      isIncorrectVersion,
+    });
+    const diagnostics = getXMLViewDiagnostics({
+      document,
+      context,
+    });
+    getLogger().trace("computed diagnostics", { diagnostics });
+    connection.sendDiagnostics({
+      uri: changeEvent.document.uri,
+      diagnostics,
+    });
   }
-);
+});
 
 connection.onCodeAction(async (params) => {
   getLogger().debug("`onCodeAction` event", { params });
@@ -457,7 +454,3 @@ documents.onDidClose((textDocumentChangeEvent) => {
 documents.listen(connection);
 
 connection.listen();
-
-function isXMLView(uri: string): boolean {
-  return /(view|fragment)\.xml$/.test(uri);
-}

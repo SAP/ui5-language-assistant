@@ -44,8 +44,9 @@ export function getUI5ClassByXMLElementClosingTag(
   if (element.syntax.closeName === undefined) {
     return undefined;
   }
-  const closingTagName = splitQNameByNamespace(element.syntax.closeName.image)
-    .localName;
+  const closingTagName = splitQNameByNamespace(
+    element.syntax.closeName.image
+  ).localName;
   const elementTagFqn = xmlClosingTagToFQN(element);
   const ui5Class = model.classes[elementTagFqn];
   // The class name might not be the same as the element name in case the element name contained a dot
@@ -108,12 +109,8 @@ function findUI5ClassMemberByName(
   ui5Class: UI5Class,
   targetName: string | null
 ): UI5Prop | UI5Event | UI5Association | UI5Aggregation | undefined {
-  const allProps: (
-    | UI5Prop
-    | UI5Event
-    | UI5Association
-    | UI5Aggregation
-  )[] = flattenProperties(ui5Class);
+  const allProps: (UI5Prop | UI5Event | UI5Association | UI5Aggregation)[] =
+    flattenProperties(ui5Class);
   const allEvents = flattenEvents(ui5Class);
   const allAssociations = flattenAssociations(ui5Class);
   const allAggregations = flattenAggregations(ui5Class);

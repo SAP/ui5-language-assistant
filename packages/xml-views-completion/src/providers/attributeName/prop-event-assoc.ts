@@ -50,9 +50,8 @@ export function propEventAssocSuggestions(
   if (!isElementSubClass(elementClass)) {
     return [];
   }
-  const allProps: (UI5Prop | UI5Event | UI5Association)[] = flattenProperties(
-    elementClass
-  );
+  const allProps: (UI5Prop | UI5Event | UI5Association)[] =
+    flattenProperties(elementClass);
   const allEvents = flattenEvents(elementClass);
   const allAssociations = flattenAssociations(elementClass);
   const allPropertiesEventsAssociations = allProps

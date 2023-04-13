@@ -93,13 +93,12 @@ function computeCodeActionsForQuickFixStableId(opts: {
     )
   );
 
-  const quickFixFileStableIdCodeActions = computeCodeActionsForQuickFixFileStableId(
-    {
+  const quickFixFileStableIdCodeActions =
+    computeCodeActionsForQuickFixFileStableId({
       document: opts.document,
       xmlDocument: opts.xmlDocument,
       context: opts.context,
-    }
-  );
+    });
 
   codeActions = codeActions.concat(quickFixFileStableIdCodeActions);
 

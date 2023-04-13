@@ -38,12 +38,8 @@ describe("loader", () => {
   context("getApp", () => {
     it("get an app", async () => {
       const projectRoot = testFramework.getProjectRoot();
-      const {
-        appRoot,
-        manifest,
-        manifestDetails,
-        projectInfo,
-      } = await getProjectData(projectRoot);
+      const { appRoot, manifest, manifestDetails, projectInfo } =
+        await getProjectData(projectRoot);
       // for consistency remove cache
       cache.deleteApp(appRoot);
       const app = await loader.getApp(
@@ -105,12 +101,8 @@ describe("loader", () => {
 
     it("get cached app", async () => {
       const projectRoot = testFramework.getProjectRoot();
-      const {
-        appRoot,
-        manifest,
-        manifestDetails,
-        projectInfo,
-      } = await getProjectData(projectRoot);
+      const { appRoot, manifest, manifestDetails, projectInfo } =
+        await getProjectData(projectRoot);
       const getAppSpy = spy(cache, "getApp");
       const app = await loader.getApp(
         projectRoot,
@@ -144,12 +136,8 @@ describe("loader", () => {
         undefined
       );
       const projectRoot = testFramework.getProjectRoot();
-      const {
-        appRoot,
-        manifestDetails,
-        manifest,
-        projectInfo,
-      } = await getProjectData(projectRoot);
+      const { appRoot, manifestDetails, manifest, projectInfo } =
+        await getProjectData(projectRoot);
       // for consistency remove cache
       cache.deleteApp(appRoot);
       const app = await getApp(
@@ -184,12 +172,8 @@ describe("loader", () => {
     });
     it("return CAP project for NodeJS", async () => {
       const projectRoot = testFramework.getProjectRoot();
-      const {
-        appRoot,
-        manifest,
-        manifestDetails,
-        projectInfo,
-      } = await getProjectData(projectRoot);
+      const { appRoot, manifest, manifestDetails, projectInfo } =
+        await getProjectData(projectRoot);
       const capProject = await loader.getCAPProject(
         projectRoot,
         projectInfo,
@@ -287,7 +271,7 @@ describe("loader", () => {
         "stub-manifest-path"
       );
       const getUI5ManifestStub = stub(manifest, "getUI5Manifest").resolves(
-        ("stub-get-manifest" as unknown) as Manifest
+        "stub-get-manifest" as unknown as Manifest
       );
       const getProjectInfoStub = stub(projectUtils, "getProjectInfo").resolves(
         undefined

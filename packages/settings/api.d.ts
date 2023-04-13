@@ -12,10 +12,14 @@ export {
 export type Settings = CodeAssistSettings &
   TraceSettings &
   LoggingSettings &
-  WebServerSettings;
+  WebServerSettings &
+  FormatterSettings;
 
 export interface WebServerSettings {
   SAPUI5WebServer?: string;
+}
+export interface FormatterSettings {
+  SplitAttributesOnFormat: boolean;
 }
 
 export interface CodeAssistSettings {
