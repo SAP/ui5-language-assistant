@@ -48,11 +48,29 @@ const langServerDir = resolve(
   "@ui5-language-assistant",
   "language-server"
 );
+const pluginXml = resolve(
+  __dirname,
+  "..",
+  "node_modules",
+  "@prettier/plugin-xml"
+);
+const prettier = resolve(__dirname, "..", "node_modules", "prettier");
+const xmlTools = resolve(__dirname, "..", "node_modules", "@xml-tools");
+const chevrotain = resolve(__dirname, "..", "node_modules", "chevrotain");
+const regexpToAst = resolve(__dirname, "..", "node_modules", "regexp-to-ast");
 
 // **Hot-Patching** VSCE using proxyquire.
 const rootExtDir = resolve(__dirname, "..");
 const getDepsStub = {
-  getDependencies: async () => [rootExtDir, langServerDir],
+  getDependencies: async () => [
+    rootExtDir,
+    langServerDir,
+    prettier,
+    pluginXml,
+    xmlTools,
+    chevrotain,
+    regexpToAst,
+  ],
 };
 const { packageCommand } = proxyquire("vsce/out/package", {
   "./npm": getDepsStub,
@@ -71,7 +89,7 @@ expect(pkgJson.main).to.equal("./lib/src/extension");
 pkgJson.main = "./dist/extension";
 writeJsonSync(pkgJsonPath, pkgJson, { spaces: 2, EOF: "\n" });
 
-// Ensure License and copywrite related files are part of the packaged .vsix
+// Ensure License and copyright related files are part of the packaged .vsix
 const rootMonoRepoDir = resolve(__dirname, "..", "..", "..");
 const licenseRootMonoRepoPath = resolve(rootMonoRepoDir, "LICENSE");
 const licenseExtPath = resolve(rootExtDir, "LICENSE");

@@ -10,6 +10,9 @@ import {
   commands,
   env,
   Uri,
+  languages,
+  TextDocument,
+  TextEdit,
 } from "vscode";
 import {
   LanguageClient,
@@ -28,7 +31,12 @@ import {
   MANIFEST_SCHEMA,
 } from "./constants";
 import { getManifestSchemaProvider } from "./manifest-schema-provider";
-import { getLocalUrl, tryFetch } from "@ui5-language-assistant/logic-utils";
+import {
+  getLocalUrl,
+  tryFetch,
+  isXMLView,
+} from "@ui5-language-assistant/logic-utils";
+import { formatDocument, formatRange } from "./formatter";
 
 type UI5Model = {
   url: string;
@@ -64,6 +72,22 @@ export async function activate(context: ExtensionContext): Promise<void> {
     await updateCurrentModel(undefined);
   });
 
+  languages.registerDocumentFormattingEditProvider("xml", {
+    provideDocumentFormattingEdits(document: TextDocument): TextEdit[] {
+      if (isXMLView(document.uri.fsPath)) {
+        return formatDocument(document);
+      }
+      return [];
+    },
+  });
+  languages.registerDocumentRangeFormattingEditProvider("xml", {
+    provideDocumentRangeFormattingEdits(document, range, options): TextEdit[] {
+      if (isXMLView(document.uri.fsPath)) {
+        return formatRange(document, range, options);
+      }
+      return [];
+    },
+  });
   client.start();
 
   const provider = await getManifestSchemaProvider(context);
