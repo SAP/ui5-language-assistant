@@ -1,5 +1,13 @@
 # Change Log
 
+## 4.0.8
+
+### Patch Changes
+
+- 0af5e7d: Upgrade prettier
+- Updated dependencies [0af5e7d]
+  - @ui5-language-assistant/logic-utils@4.0.7
+
 ## 4.0.7
 
 ### Patch Changes
