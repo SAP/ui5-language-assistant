@@ -61,8 +61,9 @@ function collectFilterBarElements(
   for (const child of element.subElements) {
     const ui5Class = getUI5ClassByXMLElement(child, model);
     if (ui5Class?.name === "FilterBar" && ui5Class.library === SAP_FE_MACROS) {
-      const id = child.attributes.find((attribute) => attribute.key === "id")
-        ?.value;
+      const id = child.attributes.find(
+        (attribute) => attribute.key === "id"
+      )?.value;
       if (id) {
         ids.push(id);
       }

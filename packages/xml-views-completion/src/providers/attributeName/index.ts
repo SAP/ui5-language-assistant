@@ -12,4 +12,5 @@ export const attributeNameProviders: AttributeNameCompletion<
   Context
 >[] = [propEventAssocSuggestions, namespaceKeysSuggestions];
 
-export type UI5AttributeNameCompletionOptions = AttributeNameCompletionOptions<Context>;
+export type UI5AttributeNameCompletionOptions =
+  AttributeNameCompletionOptions<Context>;

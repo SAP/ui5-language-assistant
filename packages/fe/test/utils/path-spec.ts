@@ -16,7 +16,7 @@ describe("path utils (exotic cases to achieve full code coverage)", () => {
     fullyQualifiedName: "TravelService.EntityContainer",
     name: "EntityContainer",
   };
-  const bookingEntityType: EntityType = ({
+  const bookingEntityType: EntityType = {
     _type: "EntityType",
     name: "Booking",
     navigationProperties: [],
@@ -26,9 +26,9 @@ describe("path utils (exotic cases to achieve full code coverage)", () => {
         name: "BookingDate",
       } as Property,
     ],
-  } as unknown) as EntityType;
+  } as unknown as EntityType;
 
-  const travelEntityType: EntityType = ({
+  const travelEntityType: EntityType = {
     _type: "EntityType",
     name: "Travel",
     entityProperties: [
@@ -46,22 +46,22 @@ describe("path utils (exotic cases to achieve full code coverage)", () => {
         targetType: bookingEntityType,
       } as NavigationProperty,
     ],
-  } as unknown) as EntityType;
+  } as unknown as EntityType;
 
-  const testSingleton: Singleton = ({
+  const testSingleton: Singleton = {
     _type: "Singleton",
     entityType: travelEntityType,
     entityTypeName: "Travel",
     name: "TravelConfig",
-  } as unknown) as Singleton;
+  } as unknown as Singleton;
 
-  const metadata: ConvertedMetadata = ({
+  const metadata: ConvertedMetadata = {
     entityContainer,
     entitySets: [],
     entityTypes: [travelEntityType, bookingEntityType],
     namespace: "TravelService",
     singletons: [testSingleton],
-  } as unknown) as ConvertedMetadata;
+  } as unknown as ConvertedMetadata;
 
   it("case when no allowed types provided in options", () => {
     const result = getNextPossiblePathTargets(

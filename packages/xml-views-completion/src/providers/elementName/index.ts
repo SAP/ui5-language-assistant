@@ -12,4 +12,5 @@ export const elementNameProviders: ElementNameCompletion<
   Context
 >[] = [aggregationSuggestions, classesSuggestions];
 
-export type UI5ElementNameCompletionOptions = ElementNameCompletionOptions<Context>;
+export type UI5ElementNameCompletionOptions =
+  ElementNameCompletionOptions<Context>;

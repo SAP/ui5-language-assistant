@@ -39,16 +39,11 @@ export function getRootElements(
   allowedTargets: AllowedTargetType[],
   isPropertyPath: boolean
 ): (EntityContainer | EntitySet | EntityType | Singleton)[] {
-  const isEntityContainerAllowed = ([
-    "EntitySet",
-    "Singleton",
-  ] as AllowedTargetType[]).some((type) => allowedTargets.includes(type));
-  let result: (
-    | EntityContainer
-    | EntitySet
-    | EntityType
-    | Singleton
-  )[] = isEntityContainerAllowed ? [metadata.entityContainer] : [];
+  const isEntityContainerAllowed = (
+    ["EntitySet", "Singleton"] as AllowedTargetType[]
+  ).some((type) => allowedTargets.includes(type));
+  let result: (EntityContainer | EntitySet | EntityType | Singleton)[] =
+    isEntityContainerAllowed ? [metadata.entityContainer] : [];
   result.push(
     ...(allowedTargets.includes("EntitySet") ? metadata.entitySets : [])
   );

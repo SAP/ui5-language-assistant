@@ -21,7 +21,8 @@ export function computeQuickFixStableIdInfo(
   xmlDoc: XMLDocument,
   errorOffset: OffsetRange[]
 ): QuickFixStableIdInfo[] {
-  const biggestIdsByElementNameCollector = new BiggestIdsByElementNameCollector();
+  const biggestIdsByElementNameCollector =
+    new BiggestIdsByElementNameCollector();
   accept(xmlDoc, biggestIdsByElementNameCollector);
   const biggestIdsByElementName =
     biggestIdsByElementNameCollector.biggestIdsByElementName;
