@@ -57,15 +57,15 @@ export function formatRange(
     selectedXml = format(selectedXml, options);
   } catch (error) {
     if (opt) {
-      window.showInformationMessage(
+      window.showErrorMessage(
         "Formatting failed: invalid selection range. Selected range must start with opening tag and end with the matching closing tag."
       );
     } else if (isError(error)) {
-      window.showInformationMessage(
+      window.showErrorMessage(
         `Formatting failed: syntax errors. ${error.message}`
       );
     } else {
-      window.showInformationMessage(
+      window.showErrorMessage(
         "Formatting failed. Check extension host logs for more details."
       );
     }
