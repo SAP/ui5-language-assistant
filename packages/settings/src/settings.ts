@@ -8,6 +8,7 @@ const defaultSettings: Settings = {
   trace: { server: "off" },
   logging: { level: "error" },
   SAPUI5WebServer: "",
+  SplitAttributesOnFormat: true,
 };
 deepFreezeStrict(defaultSettings);
 

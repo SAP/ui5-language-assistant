@@ -46,3 +46,4 @@ export {
 
 export { fetch } from "./utils/fetch";
 export { tryFetch, getLocalUrl } from "./utils/fetch-helper";
+export { isXMLView } from "./utils/document";

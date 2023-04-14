@@ -43,6 +43,7 @@ describe("filterBar id attribute value completion", () => {
     trace: {
       server: "off",
     },
+    SplitAttributesOnFormat: true,
   };
 
   const annotationSnippetCDS = `
