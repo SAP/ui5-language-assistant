@@ -1,5 +1,5 @@
 import type { FormattingOptions, TextDocument } from "vscode";
-import { TextEdit, Range, Position, workspace } from "vscode";
+import { TextEdit, Range, Position, workspace, window } from "vscode";
 import { format } from "prettier";
 import { SPLIT_ATTRIBUTE_ON_FORMAT } from "../constants";
 
@@ -40,7 +40,12 @@ const getOptions = (
   };
   return options;
 };
-
+const isError = (error: Error | unknown): error is Error => {
+  if ((error as Error).message) {
+    return true;
+  }
+  return false;
+};
 export function formatRange(
   document: TextDocument,
   range: Range,
@@ -48,7 +53,23 @@ export function formatRange(
 ): TextEdit[] {
   let selectedXml = document.getText(range);
   const options = getOptions(opt);
-  selectedXml = format(selectedXml, options);
+  try {
+    selectedXml = format(selectedXml, options);
+  } catch (error) {
+    if (opt) {
+      window.showInformationMessage(
+        "Formatting failed: invalid selection range. Selected range must start with opening tag and end with the matching closing tag."
+      );
+    } else if (isError(error)) {
+      window.showInformationMessage(
+        `Formatting failed: syntax errors. ${error.message}`
+      );
+    } else {
+      window.showInformationMessage(
+        "Formatting failed. Check extension host logs for more details."
+      );
+    }
+  }
   return [TextEdit.replace(range, selectedXml)];
 }
 
