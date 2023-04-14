@@ -213,7 +213,7 @@ context("The ui5-language-assistant semantic model package API", () => {
                 expect(
                   type.kind,
                   `Unresolved type ${
-                    ((type as unknown) as UnresolvedType).name
+                    (type as unknown as UnresolvedType).name
                   } found in ${params.fqn}`
                 ).to.not.equal("UnresolvedType");
                 if (includes(RECURSIVE_TYPE_KINDS, type.kind)) {

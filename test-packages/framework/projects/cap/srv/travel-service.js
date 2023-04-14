@@ -6,13 +6,8 @@ class TravelService extends cds.ApplicationService {
     /**
      * Reflect definitions from the service's CDS model
      */
-    const {
-      Travel,
-      Booking,
-      BookingSupplement,
-      Flight,
-      Airline,
-    } = this.entities;
+    const { Travel, Booking, BookingSupplement, Flight, Airline } =
+      this.entities;
 
     /**
      * Fill in virtual elements to control status of UI elements.
@@ -61,9 +56,7 @@ class TravelService extends cds.ApplicationService {
      */
     this.before("NEW", "BookingSupplement", async (req) => {
       const { to_Booking_BookingUUID } = req.data;
-      const {
-        maxID,
-      } = await SELECT.one`max(BookingSupplementID) as maxID`
+      const { maxID } = await SELECT.one`max(BookingSupplementID) as maxID`
         .from(BookingSupplement.drafts)
         .where({ to_Booking_BookingUUID });
       req.data.BookingSupplementID = maxID + 1;
@@ -101,9 +94,8 @@ class TravelService extends cds.ApplicationService {
     this.after("PATCH", "Booking", async (_, req) => {
       if ("FlightPrice" in req.data) {
         // We need to fetch the Travel's UUID for the given Booking target
-        const {
-          travel,
-        } = await SELECT.one`to_Travel_TravelUUID as travel`.from(req._target);
+        const { travel } =
+          await SELECT.one`to_Travel_TravelUUID as travel`.from(req._target);
         return this._update_totals4(travel);
       }
     });
@@ -114,13 +106,11 @@ class TravelService extends cds.ApplicationService {
     this.after("PATCH", "BookingSupplement", async (_, req) => {
       if ("Price" in req.data) {
         // We need to fetch the Travel's UUID for the given Supplement target
-        const {
-          travel,
-        } = await SELECT.one`to_Travel_TravelUUID as travel`.from(
-          Booking.drafts
-        ).where`BookingUUID = ${SELECT.one`to_Booking_BookingUUID`
-          .from(BookingSupplement.drafts)
-          .where({ BookSupplUUID: req.data.BookSupplUUID })}`;
+        const { travel } =
+          await SELECT.one`to_Travel_TravelUUID as travel`.from(Booking.drafts)
+            .where`BookingUUID = ${SELECT.one`to_Booking_BookingUUID`
+            .from(BookingSupplement.drafts)
+            .where({ BookSupplUUID: req.data.BookSupplUUID })}`;
         // .where `BookingUUID = ${ SELECT.one `to_Booking_BookingUUID` .from (req._target) }`
         //> REVISIT: req._target not supported for subselects -> see tests
         return this._update_totals4(travel);
@@ -133,9 +123,7 @@ class TravelService extends cds.ApplicationService {
     this.on("CANCEL", BookingSupplement, async (req, next) => {
       // Find out which travel is affected before the delete
       const { DraftAdministrativeData_DraftUUID, BookSupplUUID } = req.data;
-      const {
-        to_Travel_TravelUUID,
-      } = await SELECT.one
+      const { to_Travel_TravelUUID } = await SELECT.one
         .from(BookingSupplement.drafts, ["to_Travel_TravelUUID"])
         .where({ DraftAdministrativeData_DraftUUID, BookSupplUUID });
       // Delete handled by generic handlers
@@ -298,9 +286,10 @@ class TravelService extends cds.ApplicationService {
       `);
       if (!succeeded) {
         //> let's find out why...
-        let travel = await SELECT.one`TravelID as ID, TravelStatus_code as status, BookingFee`.from(
-          req._target
-        );
+        let travel =
+          await SELECT.one`TravelID as ID, TravelStatus_code as status, BookingFee`.from(
+            req._target
+          );
         if (!travel)
           throw req.reject(
             404,
@@ -386,12 +375,11 @@ class TravelService extends cds.ApplicationService {
           BookingTarget = Booking.drafts;
         }
 
-        const {
-          travel,
-        } = await SELECT.one`to_Travel_TravelUUID as travel`.from(
-          BookingTarget,
-          BookingUUID
-        );
+        const { travel } =
+          await SELECT.one`to_Travel_TravelUUID as travel`.from(
+            BookingTarget,
+            BookingUUID
+          );
         const [{ GoGreen }] = await cds.read([
           SELECT.one`GoGreen`.from(TravelTarget).where({ TravelUUID: travel }),
         ]);

@@ -86,8 +86,7 @@ describe("The @ui5-language-assistant/logic-utils <getDeprecationPlainTextSnippe
         deprecatedInfo: {
           isDeprecated: true,
           since: undefined,
-          text:
-            "This text has a {@link the_address link with text} and a {@link link_without_text}",
+          text: "This text has a {@link the_address link with text} and a {@link link_without_text}",
         },
         model,
       })

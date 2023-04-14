@@ -15,9 +15,8 @@ describe("the UI5 language assistant QuickFix Service", () => {
                                     <🢂List🢀$></List>
                                   </mvc:content>
                               </mvc:View>`;
-      const { document, quickFixStableIdTestInfo } = getXmlSnippet(
-        testXmlSnippet
-      );
+      const { document, quickFixStableIdTestInfo } =
+        getXmlSnippet(testXmlSnippet);
       expect(quickFixStableIdTestInfo).to.not.be.empty;
       const testXmlDoc = getXmlDocument(document);
       const quickFixInfo = computeQuickFixStableIdInfo(testXmlDoc, [
@@ -42,9 +41,8 @@ describe("the UI5 language assistant QuickFix Service", () => {
                                     <🢂List🢀$></List>
                                   </mvc:content>
                               </mvc:View>`;
-      const { document, quickFixStableIdTestInfo } = getXmlSnippet(
-        testXmlSnippet
-      );
+      const { document, quickFixStableIdTestInfo } =
+        getXmlSnippet(testXmlSnippet);
       expect(quickFixStableIdTestInfo).to.not.be.empty;
       const testXmlDoc = getXmlDocument(document);
       const quickFixInfo = computeQuickFixStableIdInfo(testXmlDoc, [
@@ -78,9 +76,8 @@ describe("the UI5 language assistant QuickFix Service", () => {
                                   </mvc:content>
                               </mvc:View>`;
       const expectedSuggestion = ' id="_IDGenList1"';
-      const { document, quickFixStableIdTestInfo } = getXmlSnippet(
-        testXmlSnippet
-      );
+      const { document, quickFixStableIdTestInfo } =
+        getXmlSnippet(testXmlSnippet);
       expect(quickFixStableIdTestInfo).to.not.be.empty;
       const testXmlDoc = getXmlDocument(document);
       const quickFixInfo = computeQuickFixStableIdInfo(testXmlDoc, [
@@ -107,9 +104,8 @@ describe("the UI5 language assistant QuickFix Service", () => {
                                   </mvc:content>
                               </mvc:View>`;
       const expectedSuggestion = ' id="_IDGenList3"';
-      const { document, quickFixStableIdTestInfo } = getXmlSnippet(
-        testXmlSnippet
-      );
+      const { document, quickFixStableIdTestInfo } =
+        getXmlSnippet(testXmlSnippet);
       expect(quickFixStableIdTestInfo).to.not.be.empty;
       const testXmlDoc = getXmlDocument(document);
       const quickFixInfo = computeQuickFixStableIdInfo(testXmlDoc, [
@@ -134,9 +130,8 @@ describe("the UI5 language assistant QuickFix Service", () => {
                                 </mvc:content>
                               </mvc:View>`;
       const expectedSuggestion = 'id="_IDGenList1"';
-      const { document, quickFixStableIdTestInfo } = getXmlSnippet(
-        testXmlSnippet
-      );
+      const { document, quickFixStableIdTestInfo } =
+        getXmlSnippet(testXmlSnippet);
       expect(quickFixStableIdTestInfo).to.not.be.empty;
       const testXmlDoc = getXmlDocument(document);
       const quickFixInfo = computeQuickFixStableIdInfo(testXmlDoc, [
@@ -161,9 +156,8 @@ describe("the UI5 language assistant QuickFix Service", () => {
                                 </mvc:content>
                               </mvc:View>`;
       const expectedSuggestion = 'id="_IDGenList1"';
-      const { document, quickFixStableIdTestInfo } = getXmlSnippet(
-        testXmlSnippet
-      );
+      const { document, quickFixStableIdTestInfo } =
+        getXmlSnippet(testXmlSnippet);
       expect(quickFixStableIdTestInfo).to.not.be.empty;
       const testXmlDoc = getXmlDocument(document);
       const quickFixInfo = computeQuickFixStableIdInfo(testXmlDoc, [
@@ -189,9 +183,8 @@ describe("the UI5 language assistant QuickFix Service", () => {
                                     <🢂🢀></List>
                                   </mvc:content>
                               </mvc:View>`;
-      const { document, quickFixStableIdTestInfo } = getXmlSnippet(
-        testXmlSnippet
-      );
+      const { document, quickFixStableIdTestInfo } =
+        getXmlSnippet(testXmlSnippet);
       const testXmlDoc = getXmlDocument(document);
       const quickFixInfo = computeQuickFixStableIdInfo(testXmlDoc, [
         {
@@ -218,9 +211,7 @@ type QuickFixStableIdTestInfo = {
   idStartOffest: number;
 };
 
-function getXmlSnippet(
-  xmlSnippet: string
-): {
+function getXmlSnippet(xmlSnippet: string): {
   document: TextDocument;
   quickFixStableIdTestInfo: QuickFixStableIdTestInfo[];
 } {

@@ -17,4 +17,5 @@ export const attributeValueProviders: AttributeValueCompletion<
   filterBarAttributeSuggestions,
 ];
 
-export type UI5AttributeValueCompletionOptions = AttributeValueCompletionOptions<Context>;
+export type UI5AttributeValueCompletionOptions =
+  AttributeValueCompletionOptions<Context>;

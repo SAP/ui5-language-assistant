@@ -13,4 +13,5 @@ export const attributeValueProviders: AttributeValueCompletion<
   Context
 >[] = [enumSuggestions, namespaceValueSuggestions, booleanSuggestions];
 
-export type UI5AttributeValueCompletionOptions = AttributeValueCompletionOptions<Context>;
+export type UI5AttributeValueCompletionOptions =
+  AttributeValueCompletionOptions<Context>;

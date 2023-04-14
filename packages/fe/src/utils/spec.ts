@@ -142,32 +142,30 @@ const stringTermsToAnnotationTerms = (termNames: string[] | undefined) =>
     return fullyQualifiedNameToTerm(fullyQualifiedName);
   });
 
-export const specification: Record<
-  string,
-  BuildingBlockPathConstraints
-> = specs.reduce(
-  (acc: { [name: string]: BuildingBlockPathConstraints }, spec) => {
-    acc[spec.name] = {
-      name: spec.name,
-      constraints: {
-        metaPath: {
-          allowedTargets: spec.metaPath.allowedTargets,
-          allowedAnnotations: stringTermsToAnnotationTerms(
-            spec.metaPath.allowedAnnotations
-          ),
+export const specification: Record<string, BuildingBlockPathConstraints> =
+  specs.reduce(
+    (acc: { [name: string]: BuildingBlockPathConstraints }, spec) => {
+      acc[spec.name] = {
+        name: spec.name,
+        constraints: {
+          metaPath: {
+            allowedTargets: spec.metaPath.allowedTargets,
+            allowedAnnotations: stringTermsToAnnotationTerms(
+              spec.metaPath.allowedAnnotations
+            ),
+          },
+          contextPath: {
+            allowedTargets: spec.contextPath?.allowedTargets || [],
+            allowedAnnotations: stringTermsToAnnotationTerms(
+              spec.contextPath?.allowedAnnotations
+            ),
+          },
         },
-        contextPath: {
-          allowedTargets: spec.contextPath?.allowedTargets || [],
-          allowedAnnotations: stringTermsToAnnotationTerms(
-            spec.contextPath?.allowedAnnotations
-          ),
-        },
-      },
-    };
-    return acc;
-  },
-  {}
-);
+      };
+      return acc;
+    },
+    {}
+  );
 
 export function fullyQualifiedNameToTerm(
   fullyQualifiedName: string

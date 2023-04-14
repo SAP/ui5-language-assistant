@@ -61,9 +61,10 @@ function createTextDocument(languageId: string, content: string): TextDocument {
   return TextDocument.create("uri", languageId, 0, content);
 }
 
-function getXmlSnippetDocument(
-  xmlSnippet: string
-): { document: TextDocument; position: Position } {
+function getXmlSnippetDocument(xmlSnippet: string): {
+  document: TextDocument;
+  position: Position;
+} {
   const xmlSnippetWithoutRanges = xmlSnippet
     .replace(/⭲/g, "")
     .replace(/⭰/g, "");
