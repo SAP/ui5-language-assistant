@@ -132,15 +132,9 @@ The feature is available in the following:
 
 The tool can format `.view.xml` and `.fragment.xml` files with [prettier](https://github.com/prettier)
 
-#### Relevant commands
-- Format Document
-- Format Document with
-- Format Selection
-- Format Selection with
-
 #### Relevant User/Workspace settings
 
-- `UI5LanguageAssistant.SplitAttributesOnFormat` is set on by default and places each attribute on a new line on Format Document
+- `UI5LanguageAssistant.SplitAttributesOnFormat` is set on by default and places each attribute on a new line on formatting.
 
   
 ### manifest.json Auto-Complete and Validations
