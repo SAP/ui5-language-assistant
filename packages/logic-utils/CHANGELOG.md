@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.7
+
+### Patch Changes
+
+- 0af5e7d: Upgrade prettier
+
 ## 4.0.6
 
 ### Patch Changes

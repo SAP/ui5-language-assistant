@@ -1,5 +1,13 @@
 # Change Log
 
+## 4.0.11
+
+### Patch Changes
+
+- 0af5e7d: Upgrade prettier
+- Updated dependencies [0af5e7d]
+  - @ui5-language-assistant/language-server@4.0.9
+
 ## 4.0.10
 
 ### Patch Changes

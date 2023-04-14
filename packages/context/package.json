@@ -1,6 +1,6 @@
 {
   "name": "@ui5-language-assistant/context",
-  "version": "4.0.7",
+  "version": "4.0.8",
   "private": true,
   "description": "A context for an xml file",
   "keywords": [],
@@ -19,7 +19,7 @@
     "@sap-ux/annotation-converter": "0.5.20",
     "@sap-ux/edmx-parser": "0.5.13",
     "@sap-ux/project-access": "1.1.1",
-    "@ui5-language-assistant/logic-utils": "4.0.6",
+    "@ui5-language-assistant/logic-utils": "4.0.7",
     "@ui5-language-assistant/settings": "4.0.6",
     "fs-extra": "10.1.0",
     "globby": "11.1.0",
@@ -36,8 +36,8 @@
     "@types/node-fetch": "2.5.10",
     "@types/semver": "7.3.12",
     "@ui5-language-assistant/semantic-model-types": "4.0.5",
-    "@ui5-language-assistant/test-framework": "4.0.5",
-    "@ui5-language-assistant/test-utils": "4.0.5",
+    "@ui5-language-assistant/test-framework": "4.0.6",
+    "@ui5-language-assistant/test-utils": "4.0.6",
     "rimraf": "3.0.2",
     "tmp-promise": "3.0.2",
     "proxyquire": "2.1.3"

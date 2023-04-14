@@ -1,5 +1,19 @@
 # Change Log
 
+## 4.0.9
+
+### Patch Changes
+
+- 0af5e7d: Upgrade prettier
+- Updated dependencies [0af5e7d]
+  - @ui5-language-assistant/xml-views-completion@4.0.8
+  - @ui5-language-assistant/xml-views-validation@4.0.7
+  - @ui5-language-assistant/xml-views-quick-fix@4.0.7
+  - @ui5-language-assistant/xml-views-tooltip@4.0.8
+  - @ui5-language-assistant/semantic-model@4.0.6
+  - @ui5-language-assistant/context@4.0.8
+  - @ui5-language-assistant/fe@4.0.8
+
 ## 4.0.8
 
 ### Patch Changes

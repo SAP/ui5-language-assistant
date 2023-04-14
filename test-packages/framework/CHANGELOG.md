@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.6
+
+### Patch Changes
+
+- 0af5e7d: Upgrade prettier
+
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
