@@ -8,7 +8,7 @@ async function main(): Promise<void> {
     const extensionDevelopmentPath = resolve(__dirname, "..", "..");
     const testPkgFolder = resolve(
       extensionDevelopmentPath,
-      "lib",
+      "dist",
       "test",
       "suite"
     );

@@ -7,8 +7,9 @@
       "test-packages/*"
     ],
     "nohoist": [
-      "vscode-ui5-language-assistant/@ui5-language-assistant/language-server",
-      "vscode-ui5-language-assistant/@ui5-language-assistant/language-server/**"
+      "vscode-ui5-language-assistant/prettier",
+      "vscode-ui5-language-assistant/@prettier/plugin-xml",
+      "vscode-ui5-language-assistant/@ui5-language-assistant/language-server"
     ]
   },
   "scripts": {

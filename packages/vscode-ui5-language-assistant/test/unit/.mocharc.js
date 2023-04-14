@@ -1,5 +1,5 @@
 const baseConfig = require("../../../../.mocharc.js");
 module.exports = {
   ...baseConfig,
-  spec: "./lib/test/unit/**/*spec.js",
+  spec: "./dist/test/unit/**/*spec.js",
 };

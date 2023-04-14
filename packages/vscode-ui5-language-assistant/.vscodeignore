@@ -2,24 +2,37 @@
 # We are bundling our extension so no need to include the dependencies separately.
 node_modules
 
+!node_modules/prettier
+# !../../node_modules/prettier
+!node_modules/@prettier/plugin-xml
+!node_modules/@ui5-language-assistant/language-server
+# !../../node_modules/@prettier/plugin-xml
+
 # Except a **subset** language-server package which is executed as a separate process
-! **/@ui5-language-assistant/language-server/{api.d.ts,CHANGELOG.md,CONTRIBUTING.md,README.md,package.json}
-! **/@ui5-language-assistant/language-server/dist/**/*.js
-! **/@ui5-language-assistant/language-server/lib/src/**/*.{js,json}
+# ! **/@ui5-language-assistant/language-server/{api.d.ts,CHANGELOG.md,CONTRIBUTING.md,README.md,package.json}
+# ! **/@ui5-language-assistant/language-server/dist/**/*.js
+# ! **/@ui5-language-assistant/language-server/lib/src/**/*.{js,json}
+
+# Except prttier and its plugsin and thier dependencies
+# ! **/prettier
+# ! **/@prettier/plugin-xml
+# ! **/@xml-tools
+# ! **/chevrotain
+# ! **/regexp-to-ast
 
 # The VSCode Extension's dev artifacts
 # Exclude all
-**/*
+# **/*
 
 # Except mandatory set which should be included in the vsix
-! CHANGELOG.md
-! CONTRIBUTING.md
-! LICENSE
-! README.md
-! LICENSES/*
-! package.json
+# ! CHANGELOG.md
+# ! CONTRIBUTING.md
+# ! LICENSE
+# ! README.md
+# ! LICENSES/*
+# ! package.json
 
-! dist/**/*.js
-! lib/src/**/*.{js,json}
-! resources/ui5-language-assistant.*
+# ! dist/**/*.js
+# ! lib/src/**/*.{js,json}
+# ! resources/ui5-language-assistant.*
 # Readme gifs (resources/readme) linked via jsdeliver instead of part of vsix
