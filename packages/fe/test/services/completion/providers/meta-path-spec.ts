@@ -49,6 +49,7 @@ describe("metaPath attribute value completion", () => {
     trace: {
       server: "off",
     },
+    SplitAttributesOnFormat: true,
   };
 
   const annotationSnippetCDS = `

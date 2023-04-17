@@ -27,6 +27,7 @@
   "dependencies": {
     "@sap/swa-for-sapbas-vsx": "1.1.9",
     "@ui5-language-assistant/context": "4.0.8",
+    "@ui5-language-assistant/logic-utils": "4.0.7",
     "@ui5-language-assistant/fe": "4.0.8",
     "@ui5-language-assistant/semantic-model": "4.0.6",
     "@ui5-language-assistant/settings": "4.0.6",

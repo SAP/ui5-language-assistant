@@ -47,6 +47,7 @@ import { executeCommand } from "./commands";
 import { initSwa } from "./swa";
 import { getLogger, setLogLevel } from "./logger";
 import { initI18n } from "./i18n";
+import { isXMLView } from "@ui5-language-assistant/logic-utils";
 
 const connection = createConnection(ProposedFeatures.all);
 const documents = new TextDocuments(TextDocument);
@@ -453,7 +454,3 @@ documents.onDidClose((textDocumentChangeEvent) => {
 documents.listen(connection);
 
 connection.listen();
-
-function isXMLView(uri: string): boolean {
-  return /(view|fragment)\.xml$/.test(uri);
-}
