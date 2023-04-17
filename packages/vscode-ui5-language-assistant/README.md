@@ -132,7 +132,7 @@ The feature is available in the following:
 
 #### Description
 
-The tool can format `.view.xml` and `.fragment.xml` files with [prettier](https://github.com/prettier)
+The tool can format `*.view.xml` and `*.fragment.xml` files with [prettier](https://github.com/prettier)
 
 #### Relevant User/Workspace settings
 
