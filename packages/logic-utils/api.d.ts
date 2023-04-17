@@ -273,6 +273,7 @@ export {
   fetch,
   tryFetch,
   getLocalUrl,
+  isXMLView,
 } from "./src/api";
 
 export { FetchResponse } from "./src/utils/types";

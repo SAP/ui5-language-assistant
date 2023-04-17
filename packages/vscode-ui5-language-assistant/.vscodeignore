@@ -7,6 +7,13 @@ node_modules
 ! **/@ui5-language-assistant/language-server/dist/**/*.js
 ! **/@ui5-language-assistant/language-server/lib/src/**/*.{js,json}
 
+# Except prttier and its plugsin and thier dependencies
+! **/prettier
+! **/@prettier/plugin-xml
+! **/@xml-tools
+! **/chevrotain
+! **/regexp-to-ast
+
 # The VSCode Extension's dev artifacts
 # Exclude all
 **/*
