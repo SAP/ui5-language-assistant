@@ -126,8 +126,10 @@ The feature is available in the following:
   - Enum values
   - SAPUI5 Namespaces
 
-### XML View Format 
+### XML View Format
+
 ![](https://raw.githubusercontent.com/SAP/ui5-language-assistant/master/packages/vscode-ui5-language-assistant/resources/readme/preview-formatter.gif)
+
 #### Description
 
 The tool can format `.view.xml` and `.fragment.xml` files with [prettier](https://github.com/prettier)
@@ -136,7 +138,6 @@ The tool can format `.view.xml` and `.fragment.xml` files with [prettier](https:
 
 - `UI5LanguageAssistant.SplitAttributesOnFormat` is set on by default and places each attribute on a new line on formatting.
 
-  
 ### manifest.json Auto-Complete and Validations
 
 ![](https://raw.githubusercontent.com/SAP/ui5-language-assistant/master/packages/vscode-ui5-language-assistant/resources/readme/preview-manifest-json.gif)
