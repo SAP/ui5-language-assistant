@@ -1,5 +1,13 @@
 # Change Log
 
+## 4.0.12
+
+### Patch Changes
+
+- dff4ba6: Enable formatting
+- Updated dependencies [dff4ba6]
+  - @ui5-language-assistant/language-server@4.0.10
+
 ## 4.0.11
 
 ### Patch Changes

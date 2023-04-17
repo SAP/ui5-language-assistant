@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.12
+
+### Patch Changes
+
+- dff4ba6: Enable formatting
+
 ## 4.0.11
 
 ### Patch Changes
