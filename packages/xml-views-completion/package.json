@@ -1,6 +1,6 @@
 {
   "name": "@ui5-language-assistant/xml-views-completion",
-  "version": "4.0.8",
+  "version": "4.0.9",
   "private": true,
   "description": "Auto-Complete Logic for UI5 XML-Views",
   "keywords": [
@@ -21,8 +21,8 @@
   "license": "Apache-2.0",
   "typings": "./api.d.ts",
   "dependencies": {
-    "@ui5-language-assistant/context": "4.0.8",
-    "@ui5-language-assistant/logic-utils": "4.0.7",
+    "@ui5-language-assistant/context": "4.0.9",
+    "@ui5-language-assistant/logic-utils": "4.0.8",
     "@xml-tools/ast": "5.0.0",
     "@xml-tools/common": "0.1.2",
     "@xml-tools/content-assist": "3.1.7",
@@ -30,7 +30,7 @@
     "lodash": "4.17.21"
   },
   "devDependencies": {
-    "@ui5-language-assistant/semantic-model": "4.0.6",
+    "@ui5-language-assistant/semantic-model": "4.0.7",
     "@xml-tools/parser": "1.0.7",
     "chevrotain": "7.0.1"
   },
