@@ -3,7 +3,7 @@
   "displayName": "UI5 Language Assistant",
   "private": true,
   "description": "Language Support For SAPUI5",
-  "version": "4.0.12",
+  "version": "4.0.13",
   "publisher": "SAPOSS",
   "icon": "resources/ui5-language-assistant.png",
   "keywords": [

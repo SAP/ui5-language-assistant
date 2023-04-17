@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.13
+
+### Patch Changes
+
+- bf9d891: update readme with formatter feature
+
 ## 4.0.12
 
 ### Patch Changes
