@@ -32,6 +32,7 @@ jobs:
           cmd: ci # will run `yarn run ci` command
 
       - name: Upload vsix artifact
+        if: matrix.os == 'ubuntu-latest' && matrix.node-version == '14.x'
         uses: actions/upload-artifact@v3
         with:
           name: vscode-extension-file
