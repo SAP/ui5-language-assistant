@@ -44,9 +44,8 @@ export function validateAggregationType(
     return [];
   }
 
-  const allowedTypeInAggregation = getValidAggregationTypeForSubNodes(
-    parentAggregation
-  );
+  const allowedTypeInAggregation =
+    getValidAggregationTypeForSubNodes(parentAggregation);
 
   if (allowedTypeInAggregation === undefined) {
     return [];

@@ -25,6 +25,13 @@
   "INVALID_PROPERTY_PATH_MULTIPLE_1_TO_MANY": "Invalid property path value. Multiple 1:many association segments not allowed",
 
   "ENTITY_SET_IS_MISSING_IN_MANIFEST": "EntitySet for the current view is missing in application manifest. Attribute value completion and diagnostics are disabled",
+  "ENTITY_SET_OR_CONTEXT_PATH_IS_MISSING_IN_MANIFEST": "EntitySet or contextPath for the current view are missing in application manifest. Attribute value completion and diagnostics are disabled",
+  "EMPTY_CONTEXT_PATH_IN_MANIFEST": "ContextPath in manifest is empty. Attribute value completion and diagnostics are disabled",
+  "RELATIVE_CONTEXT_PATH_IN_MANIFEST": "ContextPath in manifest \"{{value}}\" must be absolute. Attribute value completion and diagnostics are disabled",
+  "UNKNOWN_CONTEXT_PATH_IN_MANIFEST": "Unknown contextPath in manifest \"{{value}}\". Attribute value completion and diagnostics are disabled",
+  "INCOMPLETE_CONTEXT_PATH_IN_MANIFEST_LEADS_TO_ENTITY_CONTAINER": "ContextPath in manifest is incomplete. It leads to entity container. Attribute value completion and diagnostics are disabled",
+  "INVALID_CONTEXT_PATH_IN_MANIFEST_MULTIPLE_1_TO_MANY": "Invalid contextPath in manifest. Multiple 1:many association segments not allowed. Attribute value completion and diagnostics are disabled",
+
   "FILTER_BAR_ID_DOES_NOT_EXIST_TRIGGER_CODE_COMPLETION": "FilterBar with id \"{{value}}\" does not exist. Trigger code completion to choose one of existing FilterBar ids",
   "FILTER_BAR_ID_DOES_NOT_EXIST": "FilterBar with id \"{{value}}\" does not exist",
   "FILTER_BAR_ID_IS_EMPTY_TRIGGER_CODE_COMPLETION": "Trigger code completion to choose one of existing FilterBar ids"

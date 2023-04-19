@@ -410,11 +410,9 @@ function convertProperty(
 
   // current test framework doesn't allow to load latest versions of metadata containing sap.fe.macros lib
   /* istanbul ignore next */
-  const metadata:
-    | model.FEPropertyMetadata
-    | undefined = (jsonProperty as apiJson.Ui5Property)["ui5-metadata"]?.[
-    "sap.fe"
-  ];
+  const metadata: model.FEPropertyMetadata | undefined = (
+    jsonProperty as apiJson.Ui5Property
+  )["ui5-metadata"]?.["sap.fe"];
 
   const property: model.UI5Prop = {
     kind: "UI5Prop",

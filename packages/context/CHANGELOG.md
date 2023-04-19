@@ -1,5 +1,28 @@
 # Change Log
 
+## 4.0.9
+
+### Patch Changes
+
+- dff4ba6: Enable formatting
+- Updated dependencies [dff4ba6]
+  - @ui5-language-assistant/logic-utils@4.0.8
+  - @ui5-language-assistant/settings@4.0.7
+
+## 4.0.8
+
+### Patch Changes
+
+- 0af5e7d: Upgrade prettier
+- Updated dependencies [0af5e7d]
+  - @ui5-language-assistant/logic-utils@4.0.7
+
+## 4.0.7
+
+### Patch Changes
+
+- 527f153: Support of contextPath provided in app manifest
+
 ## 4.0.6
 
 ### Patch Changes

@@ -1,5 +1,32 @@
 # Change Log
 
+## 4.0.9
+
+### Patch Changes
+
+- dff4ba6: Enable formatting
+- Updated dependencies [dff4ba6]
+  - @ui5-language-assistant/semantic-model@4.0.7
+  - @ui5-language-assistant/logic-utils@4.0.8
+  - @ui5-language-assistant/context@4.0.9
+
+## 4.0.8
+
+### Patch Changes
+
+- 0af5e7d: Upgrade prettier
+- Updated dependencies [0af5e7d]
+  - @ui5-language-assistant/semantic-model@4.0.6
+  - @ui5-language-assistant/logic-utils@4.0.7
+  - @ui5-language-assistant/context@4.0.8
+
+## 4.0.7
+
+### Patch Changes
+
+- Updated dependencies [527f153]
+  - @ui5-language-assistant/context@4.0.7
+
 ## 4.0.6
 
 ### Patch Changes

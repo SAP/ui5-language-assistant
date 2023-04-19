@@ -108,9 +108,8 @@ context(
         });
 
         it("doesn't fail in non-strict mode", () => {
-          const model = assertGenerateDoesntThrowInNonStrictMode(
-            "not an object"
-          );
+          const model =
+            assertGenerateDoesntThrowInNonStrictMode("not an object");
           assertGeneratedModel(model, true);
         });
       });
@@ -252,9 +251,8 @@ context(
             });
 
             it("doesn't fail and adds the symbol in non-strict mode", () => {
-              const model = assertGenerateDoesntThrowInNonStrictMode(
-                fileContent
-              );
+              const model =
+                assertGenerateDoesntThrowInNonStrictMode(fileContent);
               assertGeneratedModel(model, false);
               expect(keys(model.classes), "model.classes").to.contain(
                 "sap.validNS.invalidSymbol"
@@ -289,9 +287,8 @@ context(
             });
 
             it("doesn't fail and adds the symbol in non-strict mode", () => {
-              const model = assertGenerateDoesntThrowInNonStrictMode(
-                fileContent
-              );
+              const model =
+                assertGenerateDoesntThrowInNonStrictMode(fileContent);
               assertGeneratedModel(model, false);
               expect(keys(model.classes), "model.classes").to.contain(
                 "sap.validNS.invalidSymbol"
@@ -324,9 +321,8 @@ context(
             });
 
             it("doesn't fail and adds the symbol in non-strict mode", () => {
-              const model = assertGenerateDoesntThrowInNonStrictMode(
-                fileContent
-              );
+              const model =
+                assertGenerateDoesntThrowInNonStrictMode(fileContent);
               assertGeneratedModel(model, false);
               expect(keys(model.classes), "model.classes").to.contain(
                 "sap.validNS.invalidSymbol"
@@ -361,9 +357,8 @@ context(
             });
 
             it("doesn't fail and adds the symbol in non-strict mode", () => {
-              const model = assertGenerateDoesntThrowInNonStrictMode(
-                fileContent
-              );
+              const model =
+                assertGenerateDoesntThrowInNonStrictMode(fileContent);
               assertGeneratedModel(model, false);
               expect(keys(model.classes), "model.classes").to.contain(
                 "sap.validNS.invalidSymbol"
@@ -398,9 +393,8 @@ context(
             });
 
             it("doesn't fail and adds the symbol in non-strict mode", () => {
-              const model = assertGenerateDoesntThrowInNonStrictMode(
-                fileContent
-              );
+              const model =
+                assertGenerateDoesntThrowInNonStrictMode(fileContent);
               assertGeneratedModel(model, false);
               expect(keys(model.classes), "model.classes").to.contain(
                 "sap.validNS.invalidSymbol"
@@ -437,9 +431,8 @@ context(
             });
 
             it("doesn't fail and adds the symbol in non-strict mode", () => {
-              const model = assertGenerateDoesntThrowInNonStrictMode(
-                fileContent
-              );
+              const model =
+                assertGenerateDoesntThrowInNonStrictMode(fileContent);
               assertGeneratedModel(model, false);
               expect(keys(model.classes), "model.classes").to.contain(
                 "sap.validNS.invalidSymbol"
@@ -474,9 +467,8 @@ context(
             });
 
             it("doesn't fail and adds the symbol in non-strict mode", () => {
-              const model = assertGenerateDoesntThrowInNonStrictMode(
-                fileContent
-              );
+              const model =
+                assertGenerateDoesntThrowInNonStrictMode(fileContent);
               assertGeneratedModel(model, false);
               expect(keys(model.classes), "model.classes").to.contain(
                 "sap.validNS.invalidSymbol"
@@ -511,9 +503,8 @@ context(
             });
 
             it("doesn't fail and adds the symbol in non-strict mode", () => {
-              const model = assertGenerateDoesntThrowInNonStrictMode(
-                fileContent
-              );
+              const model =
+                assertGenerateDoesntThrowInNonStrictMode(fileContent);
               assertGeneratedModel(model, false);
               expect(keys(model.classes), "model.classes").to.contain(
                 "sap.validNS.invalidSymbol"
@@ -546,9 +537,8 @@ context(
             });
 
             it("doesn't fail and adds the symbol in non-strict mode", () => {
-              const model = assertGenerateDoesntThrowInNonStrictMode(
-                fileContent
-              );
+              const model =
+                assertGenerateDoesntThrowInNonStrictMode(fileContent);
               assertGeneratedModel(model, false);
               expect(keys(model.classes), "model.classes").to.contain(
                 "sap.validNS.invalidSymbol"

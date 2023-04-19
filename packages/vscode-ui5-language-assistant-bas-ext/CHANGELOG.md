@@ -1,5 +1,36 @@
 # Change Log
 
+## 4.0.13
+
+### Patch Changes
+
+- bf9d891: update readme with formatter feature
+
+## 4.0.12
+
+### Patch Changes
+
+- dff4ba6: Enable formatting
+
+## 4.0.11
+
+### Patch Changes
+
+- 0af5e7d: Upgrade prettier
+
+## 4.0.10
+
+### Patch Changes
+
+- 527f153: SonarQube config added
+- 527f153: Support of contextPath provided in app manifest
+
+## 4.0.9
+
+### Patch Changes
+
+- 8353216: npmjs publish fix
+
 ## 4.0.8
 
 ### Patch Changes

@@ -1,5 +1,19 @@
 # Change Log
 
+## 4.0.8
+
+### Patch Changes
+
+- dff4ba6: Enable formatting
+- Updated dependencies [dff4ba6]
+  - @ui5-language-assistant/settings@4.0.7
+
+## 4.0.7
+
+### Patch Changes
+
+- 0af5e7d: Upgrade prettier
+
 ## 4.0.6
 
 ### Patch Changes

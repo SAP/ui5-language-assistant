@@ -141,12 +141,19 @@ async function extractManifestDetails(
       if (target) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const settings = (target?.options as any)?.settings;
-        if (settings?.entitySet && settings?.viewName) {
+        if (
+          (settings?.entitySet || settings?.contextPath) &&
+          settings?.viewName
+        ) {
           customViews[settings.viewName] = {
             entitySet: settings.entitySet,
+            contextPath: settings.contextPath,
           };
         }
-        if (settings?.entitySet && settings?.content) {
+        if (
+          (settings?.entitySet || settings?.contextPath) &&
+          settings?.content
+        ) {
           // search for custom section and get its entity set
           const extSettings = settings?.content?.body?.sections ?? {};
           const keys = Object.keys(extSettings);
@@ -155,6 +162,7 @@ async function extractManifestDetails(
             if (template) {
               customViews[template] = {
                 entitySet: settings?.entitySet,
+                contextPath: settings?.contextPath,
               };
             }
           }

@@ -65,10 +65,8 @@ function buildIssuesForSingleID(
 type DuplicatedIDXMLAttribute = XMLAttribute & { syntax: { value: XMLToken } };
 
 class IdsCollectorVisitor implements XMLAstVisitor {
-  public idsToXMLElements: Record<
-    string,
-    DuplicatedIDXMLAttribute[]
-  > = Object.create(null);
+  public idsToXMLElements: Record<string, DuplicatedIDXMLAttribute[]> =
+    Object.create(null);
 
   visitXMLAttribute(attrib: XMLAttribute): void {
     if (

@@ -44,6 +44,8 @@ jobs:
         run: git status
 
       - name: Publish
+        env:
+          HUSKY_SKIP: "true"
       # https://github.com/lerna/lerna/issues/2788
         uses: borales/actions-yarn@v4
         with:

@@ -79,7 +79,7 @@ describe("contextPath attribute value validation", () => {
     );
 
     const i18n = await framework.initI18n();
-    await initI18n(i18n);
+    initI18n(i18n);
   });
 
   context("shows no issues when contextPath is correct", () => {

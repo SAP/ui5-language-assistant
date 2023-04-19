@@ -1,6 +1,6 @@
 {
   "name": "@ui5-language-assistant/xml-views-tooltip",
-  "version": "4.0.6",
+  "version": "4.0.9",
   "private": true,
   "description": "XML Views Tooltip",
   "keywords": [
@@ -22,9 +22,9 @@
     "node": ">=10.0.0"
   },
   "dependencies": {
-    "@ui5-language-assistant/context": "4.0.6",
-    "@ui5-language-assistant/logic-utils": "4.0.6",
-    "@ui5-language-assistant/semantic-model": "4.0.5",
+    "@ui5-language-assistant/context": "4.0.9",
+    "@ui5-language-assistant/logic-utils": "4.0.8",
+    "@ui5-language-assistant/semantic-model": "4.0.7",
     "@ui5-language-assistant/semantic-model-types": "4.0.5",
     "@xml-tools/ast": "5.0.0",
     "@xml-tools/ast-position": "2.0.2",

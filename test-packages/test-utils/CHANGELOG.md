@@ -1,5 +1,17 @@
 # Change Log
 
+## 4.0.7
+
+### Patch Changes
+
+- dff4ba6: Enable formatting
+
+## 4.0.6
+
+### Patch Changes
+
+- 0af5e7d: Upgrade prettier
+
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
