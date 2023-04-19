@@ -3,7 +3,7 @@
   "displayName": "UI5 Language Assistant",
   "private": true,
   "description": "Language Support For SAPUI5",
-  "version": "3.3.1",
+  "version": "4.0.13",
   "publisher": "SAPOSS",
   "icon": "resources/ui5-language-assistant.png",
   "keywords": [
@@ -17,6 +17,7 @@
   "license": "Apache-2.0",
   "main": "./lib/src/extension",
   "activationEvents": [
+    "onFileSystem:manifest-schema",
     "*"
   ],
   "contributes": {
@@ -27,13 +28,25 @@
           "src/manifest.json",
           "src/main/webapp/manifest.json"
         ],
-        "url": "https://raw.githubusercontent.com/SAP/ui5-manifest/master/schema.json"
+        "url": "manifest-schema://local"
       }
     ],
     "configuration": {
       "type": "object",
       "title": "UI5 Language Assistant",
       "properties": {
+        "UI5LanguageAssistant.SplitAttributesOnFormat": {
+          "type": "boolean",
+          "scope": "window",
+          "default": true,
+          "markdownDescription": "Put each attribute on a new line when formatting `*.view.xml` or `*.fragment.xml`."
+        },
+        "UI5LanguageAssistant.SAPUI5WebServer": {
+          "type": "string",
+          "scope": "window",
+          "default": "",
+          "markdownDescription": "Use an alternative (local) web server to serve [SAP UI5 SDK](https://tools.hana.ondemand.com/#sapui5) for enabling offline work."
+        },
         "UI5LanguageAssistant.logging.level": {
           "type": "string",
           "enum": [
@@ -89,18 +102,21 @@
     "test:unit": "mocha --config=./test/unit/.mocharc.js",
     "coverage:integration": "nyc node lib/test/run-integration-tests.js",
     "coverage:unit": "nyc mocha --config=./test/unit/.mocharc.js",
-    "bundle": "webpack --mode production",
+    "bundle": "node esbuild.js",
     "package": "node ./scripts/package-vsix"
   },
   "dependencies": {
-    "@ui5-language-assistant/language-server": "3.3.1",
-    "vscode-languageclient": "8.0.2"
+    "@ui5-language-assistant/language-server": "4.0.10",
+    "vscode-languageclient": "8.0.2",
+    "@prettier/plugin-xml": "2.2.0",
+    "prettier": "2.8.7"
   },
   "devDependencies": {
-    "@types/lodash": "4.14.166",
+    "@types/lodash": "4.14.168",
     "@types/vscode": "1.47.0",
-    "@ui5-language-assistant/settings": "3.3.1",
-    "@ui5-language-assistant/user-facing-text": "3.3.1",
+    "@ui5-language-assistant/settings": "4.0.7",
+    "@ui5-language-assistant/logic-utils": "4.0.8",
+    "@ui5-language-assistant/user-facing-text": "4.0.5",
     "lodash": "4.17.21",
     "proxyquire": "2.1.3",
     "vsce": "1.83.0",

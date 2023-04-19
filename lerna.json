@@ -2,7 +2,7 @@
   "packages": ["packages/*", "test-packages/*"],
   "useWorkspaces": true,
   "npmClient": "yarn",
-  "version": "3.3.1",
+  "version": "4.0.5",
   "command": {
     "publish": {
       "conventionalCommits": true

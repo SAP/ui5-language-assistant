@@ -189,7 +189,10 @@ function isValidUI5ClassAttribute(
 
 function splitAttributeByNamespace(
   attribute: XMLAttribute & { key: string }
-): { ns: string | undefined; name: string } {
+): {
+  ns: string | undefined;
+  name: string;
+} {
   const { prefix, localName } = splitQNameByNamespace(attribute.key);
   if (prefix === undefined) {
     return { ns: prefix, name: localName };

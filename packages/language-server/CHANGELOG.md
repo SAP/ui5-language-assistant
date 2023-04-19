@@ -1,7 +1,107 @@
 # Change Log
 
+## 4.0.10
+
+### Patch Changes
+
+- dff4ba6: Enable formatting
+- Updated dependencies [dff4ba6]
+  - @ui5-language-assistant/xml-views-completion@4.0.9
+  - @ui5-language-assistant/xml-views-validation@4.0.8
+  - @ui5-language-assistant/xml-views-quick-fix@4.0.8
+  - @ui5-language-assistant/xml-views-tooltip@4.0.9
+  - @ui5-language-assistant/semantic-model@4.0.7
+  - @ui5-language-assistant/logic-utils@4.0.8
+  - @ui5-language-assistant/settings@4.0.7
+  - @ui5-language-assistant/context@4.0.9
+  - @ui5-language-assistant/fe@4.0.9
+
+## 4.0.9
+
+### Patch Changes
+
+- 0af5e7d: Upgrade prettier
+- Updated dependencies [0af5e7d]
+  - @ui5-language-assistant/xml-views-completion@4.0.8
+  - @ui5-language-assistant/xml-views-validation@4.0.7
+  - @ui5-language-assistant/xml-views-quick-fix@4.0.7
+  - @ui5-language-assistant/xml-views-tooltip@4.0.8
+  - @ui5-language-assistant/semantic-model@4.0.6
+  - @ui5-language-assistant/context@4.0.8
+  - @ui5-language-assistant/fe@4.0.8
+
+## 4.0.8
+
+### Patch Changes
+
+- Updated dependencies [527f153]
+  - @ui5-language-assistant/context@4.0.7
+  - @ui5-language-assistant/fe@4.0.7
+  - @ui5-language-assistant/xml-views-completion@4.0.7
+  - @ui5-language-assistant/xml-views-tooltip@4.0.7
+
+## 4.0.7
+
+### Patch Changes
+
+- 930a813: Offline mode support
+- Updated dependencies [930a813]
+  - @ui5-language-assistant/context@4.0.6
+  - @ui5-language-assistant/settings@4.0.6
+  - @ui5-language-assistant/fe@4.0.6
+  - @ui5-language-assistant/xml-views-completion@4.0.6
+  - @ui5-language-assistant/xml-views-tooltip@4.0.6
+  - @ui5-language-assistant/xml-views-quick-fix@4.0.6
+  - @ui5-language-assistant/xml-views-validation@4.0.6
+
+## 4.0.6
+
+### Patch Changes
+
+- ce5a814: Switching from webpack to esbuild for bundling the code
+  Fix GitHub action build job to run build and tests on pull requests to master
+
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## [4.0.5](https://github.com/sap/ui5-language-assistant/compare/v4.0.4...v4.0.5) (2023-02-28)
+
+**Note:** Version bump only for package @ui5-language-assistant/language-server
+
+## [4.0.4](https://github.com/sap/ui5-language-assistant/compare/v4.0.3...v4.0.4) (2023-02-16)
+
+**Note:** Version bump only for package @ui5-language-assistant/language-server
+
+## [4.0.3](https://github.com/sap/ui5-language-assistant/compare/v4.0.2...v4.0.3) (2023-01-30)
+
+**Note:** Version bump only for package @ui5-language-assistant/language-server
+
+## [4.0.2](https://github.com/sap/ui5-language-assistant/compare/v4.0.1...v4.0.2) (2023-01-26)
+
+**Note:** Version bump only for package @ui5-language-assistant/language-server
+
+## [4.0.1](https://github.com/sap/ui5-language-assistant/compare/v4.0.0...v4.0.1) (2023-01-26)
+
+**Note:** Version bump only for package @ui5-language-assistant/language-server
+
+# [4.0.0](https://github.com/sap/ui5-language-assistant/compare/v3.3.1...v4.0.0) (2023-01-26)
+
+### Bug Fixes
+
+- clear diagnostics for a closed file ([#539](https://github.com/sap/ui5-language-assistant/issues/539)) ([8060f6c](https://github.com/sap/ui5-language-assistant/commit/8060f6c075fb3d318b2cf584fddf1b1197113098))
+- code completion in default aggregation ([#499](https://github.com/sap/ui5-language-assistant/issues/499)) ([a0f4043](https://github.com/sap/ui5-language-assistant/commit/a0f404339385c0cee63b59cb27dadc2e715e44d7))
+- show ui diagnostics if minUI5 version undefined in manifest.json or unsupported ([#536](https://github.com/sap/ui5-language-assistant/issues/536)) ([06ced88](https://github.com/sap/ui5-language-assistant/commit/06ced889db7ce5da00e5c2957f05a1b1a62441a3))
+
+### Features
+
+- annotation relevant lsp package ([#535](https://github.com/sap/ui5-language-assistant/issues/535)) ([6b35d43](https://github.com/sap/ui5-language-assistant/commit/6b35d43e91753eef6bcd215d894ce69472b77863))
+- introduce context package ([#523](https://github.com/sap/ui5-language-assistant/issues/523)) ([ce59328](https://github.com/sap/ui5-language-assistant/commit/ce59328b229cd55a2b2e606afd50785feffab5a5))
+
+### BREAKING CHANGES
+
+- introduce context by pr #523
+
+Co-authored-by: Klaus Keller <klaus.keller@sap.com>
 
 ## [3.3.1](https://github.com/sap/ui5-language-assistant/compare/v3.3.0...v3.3.1) (2022-09-01)
 

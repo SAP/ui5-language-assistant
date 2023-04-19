@@ -1,7 +1,59 @@
 # Change Log
 
+## 4.0.8
+
+### Patch Changes
+
+- dff4ba6: Enable formatting
+- Updated dependencies [dff4ba6]
+  - @ui5-language-assistant/settings@4.0.7
+
+## 4.0.7
+
+### Patch Changes
+
+- 0af5e7d: Upgrade prettier
+
+## 4.0.6
+
+### Patch Changes
+
+- 930a813: Offline mode support
+- Updated dependencies [930a813]
+  - @ui5-language-assistant/settings@4.0.6
+
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## [4.0.5](https://github.com/sap/ui5-language-assistant/compare/v4.0.4...v4.0.5) (2023-02-28)
+
+**Note:** Version bump only for package @ui5-language-assistant/logic-utils
+
+## [4.0.4](https://github.com/sap/ui5-language-assistant/compare/v4.0.3...v4.0.4) (2023-02-16)
+
+**Note:** Version bump only for package @ui5-language-assistant/logic-utils
+
+## [4.0.3](https://github.com/sap/ui5-language-assistant/compare/v4.0.2...v4.0.3) (2023-01-30)
+
+**Note:** Version bump only for package @ui5-language-assistant/logic-utils
+
+## [4.0.2](https://github.com/sap/ui5-language-assistant/compare/v4.0.1...v4.0.2) (2023-01-26)
+
+**Note:** Version bump only for package @ui5-language-assistant/logic-utils
+
+## [4.0.1](https://github.com/sap/ui5-language-assistant/compare/v4.0.0...v4.0.1) (2023-01-26)
+
+**Note:** Version bump only for package @ui5-language-assistant/logic-utils
+
+# [4.0.0](https://github.com/sap/ui5-language-assistant/compare/v3.3.1...v4.0.0) (2023-01-26)
+
+### Bug Fixes
+
+- duplicate code completion items ([#500](https://github.com/sap/ui5-language-assistant/issues/500)) ([4ad8c80](https://github.com/sap/ui5-language-assistant/commit/4ad8c802566e33bed8c4aa729b06410ec6faed93))
+
+### Features
+
+- introduce context package ([#523](https://github.com/sap/ui5-language-assistant/issues/523)) ([ce59328](https://github.com/sap/ui5-language-assistant/commit/ce59328b229cd55a2b2e606afd50785feffab5a5))
 
 ## [3.3.1](https://github.com/sap/ui5-language-assistant/compare/v3.3.0...v3.3.1) (2022-09-01)
 

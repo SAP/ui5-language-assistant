@@ -104,6 +104,72 @@ describe("The ui5-language-assistant xml-views-completion", () => {
         });
       });
 
+      context("sap.ui.core.FragmentDefinition content", () => {
+        context("no prefix", () => {
+          it("will suggest **all** Controls", () => {
+            const xmlSnippet = `
+            <core:FragmentDefinition xmlns:core="sap.ui.core">
+              <⇶
+            </core:FragmentDefinition>
+            `;
+
+            testSuggestionsScenario({
+              context: appContext,
+              xmlText: xmlSnippet,
+              providers: {
+                elementName: [classesSuggestions],
+              },
+              assertion: (suggestions) => {
+                const baseControl = ui5Model.classes["sap.ui.core.Control"];
+                expect(suggestions).to.have.length.greaterThan(200);
+                forEach(suggestions, (_) => {
+                  expect(_.ui5Node.kind).to.equal("UI5Class");
+                  const superClasses = getSuperClasses(_.ui5Node as UI5Class);
+                  // Chai's `.include` is super slow, we must implement it ourselves...
+                  const doesSuggestionExtendsControl =
+                    find(superClasses, baseControl) !== undefined;
+                  expect(
+                    doesSuggestionExtendsControl || _.ui5Node === baseControl
+                  ).to.be.true;
+                });
+              },
+            });
+          });
+        });
+        context("multiple children", () => {
+          it("will suggest **all** Controls", () => {
+            const xmlSnippet = `
+            <core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m">
+              <Button></Button>
+              <⇶
+            </core:FragmentDefinition>
+            `;
+
+            testSuggestionsScenario({
+              context: appContext,
+              xmlText: xmlSnippet,
+              providers: {
+                elementName: [classesSuggestions],
+              },
+              assertion: (suggestions) => {
+                const baseControl = ui5Model.classes["sap.ui.core.Control"];
+                expect(suggestions).to.have.length.greaterThan(200);
+                forEach(suggestions, (_) => {
+                  expect(_.ui5Node.kind).to.equal("UI5Class");
+                  const superClasses = getSuperClasses(_.ui5Node as UI5Class);
+                  // Chai's `.include` is super slow, we must implement it ourselves...
+                  const doesSuggestionExtendsControl =
+                    find(superClasses, baseControl) !== undefined;
+                  expect(
+                    doesSuggestionExtendsControl || _.ui5Node === baseControl
+                  ).to.be.true;
+                });
+              },
+            });
+          });
+        });
+      });
+
       context("classes under (implicit) default aggregations", () => {
         context("no prefix", () => {
           it("will suggest **all** classes matching the type of the default aggregation", () => {

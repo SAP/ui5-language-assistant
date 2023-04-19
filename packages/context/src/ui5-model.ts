@@ -13,7 +13,7 @@ import {
   TypeNameFix,
 } from "@ui5-language-assistant/semantic-model";
 import { Fetcher } from "./types";
-import fetch from "./fetch";
+import { fetch } from "@ui5-language-assistant/logic-utils";
 import {
   getLibraryAPIJsonUrl,
   getLogger,
@@ -75,7 +75,15 @@ async function createSemanticModelWithFetcher(
   version: string | undefined
 ): Promise<UI5SemanticModel> {
   // negotiate the closest available version for the given framework
-  version = await negotiateVersion(modelCachePath, framework, version);
+  const versionInfo = await negotiateVersion(
+    modelCachePath,
+    framework,
+    version
+  );
+  version = versionInfo.version;
+  const isFallback = versionInfo.isFallback;
+  const isIncorrectVersion = versionInfo.isIncorrectVersion;
+
   // Log the detected framework name/version
   getLogger().info("The following framework/version has been detected", {
     framework,
@@ -116,7 +124,11 @@ async function createSemanticModelWithFetcher(
       // If the file doesn't exist in the cache (or we couldn't read it), fetch it from the network
       if (apiJson === undefined) {
         getLogger().info("No cache found for UI5 lib", { libName });
-        const url = getLibraryAPIJsonUrl(framework, version as string, libName);
+        const url = await getLibraryAPIJsonUrl(
+          framework,
+          version as string,
+          libName
+        );
         const response = await fetcher(url);
         if (response.ok) {
           apiJson = await response.json();
@@ -140,11 +152,13 @@ async function createSemanticModelWithFetcher(
   );
 
   return generate({
-    version: version,
+    version,
     libraries: jsonMap,
     typeNameFix: getTypeNameFix(),
     strict: false,
     printValidationErrors: false,
+    isFallback,
+    isIncorrectVersion,
   });
 }
 
@@ -246,7 +260,7 @@ async function getVersionInfo(
   }
   let versionInfo = await readFromCache(cacheFilePath);
   if (versionInfo === undefined) {
-    const url = getVersionInfoUrl(framework, version);
+    const url = await getVersionInfoUrl(framework, version);
     const response = await fetcher(url);
     if (response.ok) {
       versionInfo = await response.json();
@@ -282,11 +296,14 @@ async function getLibs(
 }
 
 // if library is not found, resolve next minor highest patch
-let versionMap: Record<
-  string,
-  { version: string; support: string; lts: boolean }
->; // just an in-memory cache!
-const resolvedVersions: Record<string, string> = Object.create(null);
+const versionMap: Record<
+  UI5Framework,
+  Record<string, { version: string; support: string; lts: boolean }>
+> = Object.create(null); // just an in-memory cache!
+const resolvedVersions: Record<
+  UI5Framework,
+  Record<string, string>
+> = Object.create(null);
 /*
  * VERSION RESOLUTION LOGIC:
  * =========================
@@ -315,7 +332,11 @@ async function negotiateVersion(
   modelCachePath: string | undefined,
   framework: UI5Framework,
   version: string | undefined
-): Promise<string> {
+): Promise<{
+  version: string;
+  isFallback: boolean;
+  isIncorrectVersion: boolean;
+}> {
   return negotiateVersionWithFetcher(
     fetch,
     fetch,
@@ -331,17 +352,29 @@ export async function negotiateVersionWithFetcher(
   modelCachePath: string | undefined,
   framework: UI5Framework,
   version: string | undefined
-): Promise<string> {
+): Promise<{
+  version: string;
+  isFallback: boolean;
+  isIncorrectVersion: boolean;
+}> {
   // try to negotiate version
+  let isFallback = false;
+  let isIncorrectVersion = false;
+  let versions = versionMap[framework];
   if (!version) {
     // no version defined, using default version
     getLogger().warn(
       "No version defined! Please check the minUI5Version in your manifest.json!"
     );
     version = DEFAULT_UI5_VERSION;
-  } else if (resolvedVersions[version]) {
+    isFallback = true;
+  } else if (resolvedVersions[framework]?.[version]) {
     // version already resolved?
-    version = resolvedVersions[version];
+    const versionDefined = version;
+    version = resolvedVersions[framework]?.[version];
+    if (versionDefined !== version) {
+      isIncorrectVersion = true;
+    }
   } else if (
     !(await getVersionInfo(
       versionInfoJsonFetcher,
@@ -352,16 +385,17 @@ export async function negotiateVersionWithFetcher(
   ) {
     const requestedVersion = version;
     // no version information found, try to negotiate the version
-    if (!versionMap) {
+    if (!versions) {
       // retrieve the version mapping (only exists for SAPUI5 so far)
-      const url = getVersionJsonUrl();
+      const url = getVersionJsonUrl(framework);
       const response = await versionJsonFetcher(url);
       if (response.ok) {
-        versionMap = (await response.json()) as Record<
+        versionMap[framework] = (await response.json()) as Record<
           string,
           { version: string; support: string; lts: boolean }
         >;
       } else {
+        isFallback = true;
         getLogger().error(
           "Could not read version mapping, fallback to default version",
           {
@@ -369,7 +403,7 @@ export async function negotiateVersionWithFetcher(
             DEFAULT_UI5_VERSION,
           }
         );
-        versionMap = {
+        versionMap[framework] = {
           latest: {
             version: DEFAULT_UI5_VERSION,
             support: "Maintenance",
@@ -377,14 +411,15 @@ export async function negotiateVersionWithFetcher(
           },
         };
       }
+      versions = versionMap[framework];
     }
     // coerce the version (check for invalid version, which indicates development scenario)
     const parsedVersion = semver.coerce(version);
     if (parsedVersion) {
-      if (versionMap[`${parsedVersion.major}.${parsedVersion.minor}`]) {
+      if (versions[`${parsedVersion.major}.${parsedVersion.minor}`]) {
         // lookup for a valid major.minor entry
         version =
-          versionMap[`${parsedVersion.major}.${parsedVersion.minor}`].version;
+          versions[`${parsedVersion.major}.${parsedVersion.minor}`].version;
       }
       if (
         !(await getVersionInfo(
@@ -397,20 +432,33 @@ export async function negotiateVersionWithFetcher(
         // find closest supported version
         version =
           semverMinSatisfying(
-            Object.values(versionMap).map((entry) => {
+            Object.values(versions).map((entry) => {
               return entry.version;
             }) as string[],
             `^${version}`
-          ) || versionMap["latest"].version;
+          ) || versions["latest"].version;
+
+        isIncorrectVersion = true;
       }
     } else {
       // development scenario => use latest version
-      version = versionMap["latest"].version;
+      version = versions["latest"].version;
+      isIncorrectVersion = true;
     }
     // store the resolved version
     if (requestedVersion) {
-      resolvedVersions[requestedVersion] = version;
+      if (requestedVersion !== version) {
+        isIncorrectVersion = true;
+      }
+      if (!resolvedVersions[framework]) {
+        resolvedVersions[framework] = Object.create(null);
+      }
+      resolvedVersions[framework][requestedVersion] = version;
     }
   }
-  return version ?? DEFAULT_UI5_VERSION;
+  return {
+    version: version ?? DEFAULT_UI5_VERSION,
+    isFallback,
+    isIncorrectVersion,
+  };
 }

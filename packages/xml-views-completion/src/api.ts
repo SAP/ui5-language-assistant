@@ -11,11 +11,12 @@ import { elementNameProviders } from "./providers/elementName";
 import { attributeNameProviders } from "./providers/attributeName";
 import { attributeValueProviders } from "./providers/attributeValue";
 import { CodeAssistSettings } from "@ui5-language-assistant/settings";
+import { Context } from "@ui5-language-assistant/context";
 
 export function getXMLViewCompletions(
   opts: GetXMLViewCompletionsOpts
 ): UI5XMLViewCompletion[] {
-  const suggestions = getSuggestions({
+  const suggestions = getSuggestions<UI5XMLViewCompletion, Context>({
     offset: opts.offset,
     cst: opts.cst,
     ast: opts.ast,

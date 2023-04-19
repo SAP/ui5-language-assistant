@@ -7,6 +7,8 @@
       "test-packages/*"
     ],
     "nohoist": [
+      "vscode-ui5-language-assistant/prettier",
+      "vscode-ui5-language-assistant/@prettier/plugin-xml",
       "vscode-ui5-language-assistant/@ui5-language-assistant/language-server",
       "vscode-ui5-language-assistant/@ui5-language-assistant/language-server/**"
     ]
@@ -14,7 +16,7 @@
   "scripts": {
     "build:quick": "lerna run compile && lerna run bundle && lerna run package",
     "release:version": "lerna version --force-publish",
-    "release:publish": "lerna publish from-git --yes",
+    "release:publish": "lerna publish from-package --yes",
     "ci": "npm-run-all format:validate ci:subpackages coverage:merge legal:*",
     "compile": "yarn run clean && tsc --build",
     "compile:watch": "yarn run clean && tsc --build --watch",
@@ -31,16 +33,19 @@
     "legal:copy": "lerna exec \"shx cp -r ../../.reuse .reuse && shx cp -r ../../LICENSES LICENSES\"",
     "prepare": "node ./.husky/skip.js || husky install",
     "hooks:pre-commit": "lint-staged",
-    "hooks:commit-msg": "commitlint -e"
+    "hooks:commit-msg": "commitlint -e",
+    "cset": "changeset",
+    "ci:version": "changeset version"
   },
   "devDependencies": {
+    "@changesets/cli": "2.26.0",
     "@commitlint/cli": "11.0.0",
     "@commitlint/config-conventional": "11.0.0",
     "@types/chai": "4.2.14",
     "@types/deep-equal-in-any-order": "1.0.1",
     "@types/fs-extra": "9.0.11",
     "@types/klaw-sync": "6.0.0",
-    "@types/lodash": "4.14.168",
+    "@types/lodash": "4.14.166",
     "@types/mocha": "9.1.1",
     "@types/rimraf": "3.0.0",
     "@types/sinon": "9.0.10",
@@ -58,14 +63,16 @@
     "fs-extra": "10.1.0",
     "glob": "7.1.6",
     "husky": "8.0.1",
+    "i18next": "19.0.2",
     "klaw-sync": "6.0.0",
     "lerna": "6.0.3",
     "lint-staged": "10.5.3",
     "make-dir": "3.1.0",
     "mocha": "10.0.0",
+    "mock-fs": "^5.2.0",
     "npm-run-all": "4.1.5",
     "nyc": "15.1.0",
-    "prettier": "2.2.1",
+    "prettier": "2.8.7",
     "rimraf": "3.0.2",
     "shx": "0.3.3",
     "simple-git": "3.12.0",
@@ -73,8 +80,7 @@
     "sinon-chai": "3.5.0",
     "source-map-support": "0.5.19",
     "typescript": "3.9.7",
-    "webpack": "5.75.0",
-    "webpack-cli": "4.4.0"
+    "esbuild": "0.17.12"
   },
   "lint-staged": {
     "*.{js,ts,md,json}": [

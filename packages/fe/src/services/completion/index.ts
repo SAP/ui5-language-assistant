@@ -1,0 +1,1 @@
+export { getCompletionItems } from "./utils";

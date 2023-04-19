@@ -3,13 +3,15 @@ import { OffsetRange } from "@ui5-language-assistant/logic-utils";
 import { UI5ValidatorsConfig } from "./src/validate-xml-views";
 import { Context } from "@ui5-language-assistant/context";
 
-export function validateXMLView(opts: {
-  validators: UI5ValidatorsConfig;
+export function validateXMLView<ExternalXMLViewIssue>(opts: {
+  validators: UI5ValidatorsConfig<UI5XMLViewIssue | ExternalXMLViewIssue>;
   context: Context;
   xmlView: XMLDocument;
-}): UI5XMLViewIssue[];
+}): (UI5XMLViewIssue | ExternalXMLViewIssue)[];
 
 export declare const defaultValidators: UI5ValidatorsConfig;
+
+export { UI5ValidatorsConfig } from "./src/validate-xml-views";
 
 export type XMLViewIssueSeverity = "hint" | "info" | "warn" | "error";
 
@@ -112,7 +114,7 @@ type XMLDocumentValidator<T> = (document: XMLDocument) => T[];
 
 type XMLElementValidator<T> = (XMLElement: XMLElement, context: Context) => T[];
 
-type Validators = {
+export type Validators = {
   validateUnknownEnumValue: XMLAttributeValidator<UnknownEnumValueIssue>;
   validateUnknownXmlnsNamespace: XMLAttributeValidator<UnknownNamespaceInXmlnsAttributeValueIssue>;
   validateBooleanValue: XMLAttributeValidator<InvalidBooleanValueIssue>;
@@ -128,3 +130,5 @@ type Validators = {
 };
 
 export const validators: Validators;
+
+export function isPossibleBindingAttributeValue(value: string): boolean;

@@ -27,6 +27,9 @@ describe("services", () => {
     };
     testFramework = new TestFramework(useConfig);
   });
+  beforeEach(() => {
+    cache.reset();
+  });
   afterEach(() => {
     restore();
   });

@@ -219,7 +219,10 @@ export function getLink(model: UI5SemanticModel, link: string): string;
  */
 export function splitQNameByNamespace(
   qName: string
-): { prefix: string | undefined; localName: string };
+): {
+  prefix: string | undefined;
+  localName: string;
+};
 
 /**
  * Return the xml namespace defined for the xml element prefix (ns), or undefined if not found
@@ -269,4 +272,10 @@ export {
   getLogger,
   setLogLevel,
   LogLevel,
+  fetch,
+  tryFetch,
+  getLocalUrl,
+  isXMLView,
 } from "./src/api";
+
+export { FetchResponse } from "./src/utils/types";

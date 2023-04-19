@@ -94,3 +94,6 @@ dist
 
 # Cached test resources
 test-packages/test-utils/.model-cache
+
+# MacOS cache
+.DS_Store

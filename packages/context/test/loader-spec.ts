@@ -15,6 +15,8 @@ import { restore, spy, stub } from "sinon";
 import { Manifest } from "@sap-ux/project-access";
 import { ProjectKind, UI5_PROJECT_TYPE } from "../src/types";
 import { getProjectData } from "./utils";
+import { getManifestDetails, getUI5Manifest } from "../src/manifest";
+import { getApp } from "../src/loader";
 
 describe("loader", () => {
   let testFramework: TestFramework;
@@ -59,6 +61,48 @@ describe("loader", () => {
         "localServices"
       );
     });
+
+    it("get an app without models", async () => {
+      const framework = new TestFramework({
+        projectInfo: {
+          name: ProjectName.tsFreeStyle,
+          type: ProjectType.UI5,
+          npmInstall: false,
+        },
+      });
+      const projectRoot = framework.getProjectRoot();
+      const appRoot = join(projectRoot, "src");
+      const manifestRoot = join(appRoot, "manifest.json");
+      const manifest = (await getUI5Manifest(manifestRoot)) as Manifest;
+      const documentPath = join(
+        projectRoot,
+
+        "src",
+        "view",
+        "Main.view.xml"
+      );
+      const manifestDetails = await getManifestDetails(documentPath);
+      // for consistency remove cache
+      cache.deleteApp(appRoot);
+      const app = await loader.getApp(
+        projectRoot,
+        appRoot,
+        manifest,
+        manifestDetails,
+        {
+          type: "UI5",
+          kind: "UI5",
+        }
+      );
+      expect(app).to.have.all.keys(
+        "appRoot",
+        "projectRoot",
+        "manifest",
+        "manifestDetails",
+        "localServices"
+      );
+    });
+
     it("get cached app", async () => {
       const projectRoot = testFramework.getProjectRoot();
       const {
@@ -78,7 +122,7 @@ describe("loader", () => {
       expect(getAppSpy).to.have.been.called;
       expect(app).to.deep.equal(getAppSpy.returnValues[0]);
     });
-    it("does not fined mainService and returns undefined", async () => {
+    it("does not find mainService and returns empty services", async () => {
       const projectRoot = testFramework.getProjectRoot();
       const { appRoot, manifestDetails, projectInfo } = await getProjectData(
         projectRoot
@@ -93,9 +137,9 @@ describe("loader", () => {
         manifestDetails,
         projectInfo
       );
-      expect(app).to.be.undefined;
+      expect(app?.localServices.size).to.eq(0);
     });
-    it("does not parser service files and returns undefined", async () => {
+    it("does not parse service files and returns empty services", async () => {
       const parseServiceFilesStub = stub(parser, "parseServiceFiles").returns(
         undefined
       );
@@ -108,7 +152,7 @@ describe("loader", () => {
       } = await getProjectData(projectRoot);
       // for consistency remove cache
       cache.deleteApp(appRoot);
-      const app = await loader.getApp(
+      const app = await getApp(
         projectRoot,
         appRoot,
         manifest,
@@ -116,7 +160,7 @@ describe("loader", () => {
         projectInfo
       );
       expect(parseServiceFilesStub).to.have.been.called;
-      expect(app).to.be.undefined;
+      expect(app?.localServices.size).to.eq(0);
     });
   });
   context("getCAPProject", () => {

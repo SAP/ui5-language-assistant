@@ -10,6 +10,9 @@ import {
   commands,
   env,
   Uri,
+  languages,
+  TextDocument,
+  TextEdit,
 } from "vscode";
 import {
   LanguageClient,
@@ -22,9 +25,26 @@ import {
   SERVER_PATH,
   ServerInitializationOptions,
 } from "@ui5-language-assistant/language-server";
-import { COMMAND_OPEN_DEMOKIT, LOGGING_LEVEL_CONFIG_PROP } from "./constants";
+import {
+  COMMAND_OPEN_DEMOKIT,
+  LOGGING_LEVEL_CONFIG_PROP,
+  MANIFEST_SCHEMA,
+} from "./constants";
+import { getManifestSchemaProvider } from "./manifest-schema-provider";
+import {
+  getLocalUrl,
+  tryFetch,
+  isXMLView,
+} from "@ui5-language-assistant/logic-utils";
+import { formatDocument, formatRange } from "./formatter";
 
-type UI5Model = { url: string; framework: string; version: string };
+type UI5Model = {
+  url: string;
+  framework: string;
+  version: string;
+  isFallback: boolean;
+  isIncorrectVersion?: boolean;
+};
 
 let client: LanguageClient;
 let statusBarItem: StatusBarItem;
@@ -39,15 +59,41 @@ export async function activate(context: ExtensionContext): Promise<void> {
 
   // show/hide and update the status bar
   client.start().then(() => {
-    client.onNotification("UI5LanguageAssistant/ui5Model", (model: UI5Model) =>
-      updateCurrentModel(model)
+    client.onNotification(
+      "UI5LanguageAssistant/ui5Model",
+      async (model: UI5Model) => await updateCurrentModel(model)
+    );
+    client.onNotification(
+      "UI5LanguageAssistant/context-error",
+      async (error: Error) => await handleContextError(error)
     );
   });
-  window.onDidChangeActiveTextEditor(() => {
-    updateCurrentModel(undefined);
+  window.onDidChangeActiveTextEditor(async () => {
+    await updateCurrentModel(undefined);
   });
 
+  languages.registerDocumentFormattingEditProvider("xml", {
+    provideDocumentFormattingEdits(document: TextDocument): TextEdit[] {
+      if (isXMLView(document.uri.fsPath)) {
+        return formatDocument(document);
+      }
+      return [];
+    },
+  });
+  languages.registerDocumentRangeFormattingEditProvider("xml", {
+    provideDocumentRangeFormattingEdits(document, range, options): TextEdit[] {
+      if (isXMLView(document.uri.fsPath)) {
+        return formatRange(document, range, options);
+      }
+      return [];
+    },
+  });
   client.start();
+
+  const provider = await getManifestSchemaProvider(context);
+  context.subscriptions.push(
+    workspace.registerTextDocumentContentProvider(MANIFEST_SCHEMA, provider)
+  );
 }
 
 function createLanguageClient(context: ExtensionContext): LanguageClient {
@@ -113,12 +159,35 @@ function createStatusBarItem(context: ExtensionContext): StatusBarItem {
   return statusBarItem;
 }
 
-function updateCurrentModel(model: UI5Model | undefined) {
+async function updateCurrentModel(model: UI5Model | undefined): Promise<void> {
   currentModel = model;
   if (statusBarItem) {
     if (currentModel) {
-      statusBarItem.tooltip = `${currentModel.framework} Version (XMLView Editor)`;
-      statusBarItem.text = `$(notebook-mimetype) ${currentModel.version}${
+      let tooltipText = `${currentModel.framework} Version (XMLView Editor)`;
+      let version = currentModel.version;
+      if (currentModel.isFallback) {
+        tooltipText += ` minUI5 version not found in manifest.json. Fallback to UI5 ${currentModel.version}`;
+        version = `Fallback: ${currentModel.version}`;
+      }
+
+      if (currentModel.isIncorrectVersion) {
+        tooltipText += ` minUI5 version found in manifest.json is out of maintenance or not supported by UI5 Language Assistant. Using fallback to UI5 ${currentModel.version}.`;
+        version = `Fallback: ${currentModel.version}`;
+      }
+      const localUrl = getLocalUrl(
+        version,
+        workspace.getConfiguration().get("UI5LanguageAssistant")
+      );
+      if (localUrl) {
+        const response = await tryFetch(localUrl);
+        if (response) {
+          version = `${version} (local)`;
+          tooltipText =
+            "Alternative (local) SAP UI5 web server is defined in user or workspace settings. Using SAP UI5 version fetched from the local server";
+        }
+      }
+      statusBarItem.tooltip = tooltipText;
+      statusBarItem.text = `$(notebook-mimetype)  ${version}${
         currentModel.framework === "OpenUI5" ? "'" : ""
       }`;
       statusBarItem.show();
@@ -128,10 +197,27 @@ function updateCurrentModel(model: UI5Model | undefined) {
   }
 }
 
-export function deactivate(): Thenable<void> | undefined {
+let showedOnce = false;
+function handleContextError(error: Error & { code?: string }) {
+  if (showedOnce) {
+    return;
+  }
+  showedOnce = true;
+  if (error.code) {
+    window.showErrorMessage(
+      "[SAP UI5 SDK](https://tools.hana.ondemand.com/#sapui5) is not accessible. Connect to the internet or setup local web server for offline work."
+    );
+  } else {
+    window.showErrorMessage(
+      "An error has occurred building context. Please open an [issue](https://github.com/SAP/ui5-language-assistant/issues)"
+    );
+  }
+}
+
+export async function deactivate(): Promise<Thenable<void>> {
   if (!client) {
     return undefined;
   }
-  updateCurrentModel(undefined);
+  await updateCurrentModel(undefined);
   return client.stop();
 }

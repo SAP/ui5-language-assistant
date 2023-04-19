@@ -260,6 +260,12 @@ export interface Ui5Property {
   optional?: boolean;
   static?: boolean;
   allowedFor?: string[];
+  "ui5 - metadata"?: {
+    "sap.fe"?: {
+      expectedAnnotations: string[];
+      expectedTypes: string[];
+    };
+  };
 }
 export interface NestedProperties {
   [k: string]: {

@@ -1,7 +1,79 @@
 # Change Log
 
+## 4.0.9
+
+### Patch Changes
+
+- dff4ba6: Enable formatting
+- Updated dependencies [dff4ba6]
+  - @ui5-language-assistant/logic-utils@4.0.8
+  - @ui5-language-assistant/context@4.0.9
+
+## 4.0.8
+
+### Patch Changes
+
+- 0af5e7d: Upgrade prettier
+- Updated dependencies [0af5e7d]
+  - @ui5-language-assistant/logic-utils@4.0.7
+  - @ui5-language-assistant/context@4.0.8
+
+## 4.0.7
+
+### Patch Changes
+
+- Updated dependencies [527f153]
+  - @ui5-language-assistant/context@4.0.7
+
+## 4.0.6
+
+### Patch Changes
+
+- Updated dependencies [930a813]
+  - @ui5-language-assistant/context@4.0.6
+  - @ui5-language-assistant/logic-utils@4.0.6
+
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## [4.0.5](https://github.com/sap/ui5-language-assistant/compare/v4.0.4...v4.0.5) (2023-02-28)
+
+### Bug Fixes
+
+- completion in FragmentDefinition ([#567](https://github.com/sap/ui5-language-assistant/issues/567)) ([44d780b](https://github.com/sap/ui5-language-assistant/commit/44d780bc0666ea9055ed4ed797da26a119e91d21))
+
+## [4.0.4](https://github.com/sap/ui5-language-assistant/compare/v4.0.3...v4.0.4) (2023-02-16)
+
+**Note:** Version bump only for package @ui5-language-assistant/xml-views-completion
+
+## [4.0.3](https://github.com/sap/ui5-language-assistant/compare/v4.0.2...v4.0.3) (2023-01-30)
+
+**Note:** Version bump only for package @ui5-language-assistant/xml-views-completion
+
+## [4.0.2](https://github.com/sap/ui5-language-assistant/compare/v4.0.1...v4.0.2) (2023-01-26)
+
+**Note:** Version bump only for package @ui5-language-assistant/xml-views-completion
+
+## [4.0.1](https://github.com/sap/ui5-language-assistant/compare/v4.0.0...v4.0.1) (2023-01-26)
+
+**Note:** Version bump only for package @ui5-language-assistant/xml-views-completion
+
+# [4.0.0](https://github.com/sap/ui5-language-assistant/compare/v3.3.1...v4.0.0) (2023-01-26)
+
+### Bug Fixes
+
+- code completion in default aggregation ([#499](https://github.com/sap/ui5-language-assistant/issues/499)) ([a0f4043](https://github.com/sap/ui5-language-assistant/commit/a0f404339385c0cee63b59cb27dadc2e715e44d7))
+
+### Features
+
+- annotation relevant lsp package ([#535](https://github.com/sap/ui5-language-assistant/issues/535)) ([6b35d43](https://github.com/sap/ui5-language-assistant/commit/6b35d43e91753eef6bcd215d894ce69472b77863))
+- introduce context package ([#523](https://github.com/sap/ui5-language-assistant/issues/523)) ([ce59328](https://github.com/sap/ui5-language-assistant/commit/ce59328b229cd55a2b2e606afd50785feffab5a5))
+
+### BREAKING CHANGES
+
+- introduce context by pr #523
+
+Co-authored-by: Klaus Keller <klaus.keller@sap.com>
 
 ## [3.3.1](https://github.com/sap/ui5-language-assistant/compare/v3.3.0...v3.3.1) (2022-09-01)
 

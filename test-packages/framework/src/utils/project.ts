@@ -5,12 +5,11 @@ import { join } from "path";
 import { print } from ".";
 
 /**
- * Synchronously delete project-copy folder
+ * Synchronously delete project folder
  *
- * @param srcDir path to source directory
+ * @param destDir path to project directory
  */
-export const deleteCopy = (srcDir: string): void => {
-  const destDir = `${srcDir}-copy`;
+export const deleteProject = (destDir: string): void => {
   try {
     print(`Deleting destination: ${destDir}`);
     removeSync(destDir);
@@ -61,7 +60,7 @@ export const createCopy = (srcDir: string): void => {
     copySync(srcDir, destDir, { overwrite: true, recursive: true });
     print(`Copying finished`);
   } catch (error) {
-    print(`Could not copy to ${destDir}`);
+    print(`Could not copy to ${destDir}. Error: ${error + ""}`);
   }
 };
 

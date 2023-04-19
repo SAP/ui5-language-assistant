@@ -63,7 +63,10 @@ function createTextDocument(languageId: string, content: string): TextDocument {
 
 function getXmlSnippetDocument(
   xmlSnippet: string
-): { document: TextDocument; position: Position } {
+): {
+  document: TextDocument;
+  position: Position;
+} {
   const xmlSnippetWithoutRanges = xmlSnippet
     .replace(/⭲/g, "")
     .replace(/⭰/g, "");

@@ -6,6 +6,8 @@ import {
   hasSettingsForDocument,
   clearDocumentSettings,
   clearSettings,
+  setConfigurationSettings,
+  getConfigurationSettings,
 } from "../src/api";
 import { resetSettings } from "../src/settings";
 import { expect } from "chai";
@@ -41,6 +43,7 @@ context("settings utilities", () => {
         codeAssist: { deprecated: true, experimental: false },
         trace: { server: "off" as const },
         logging: { level: "off" as const },
+        SplitAttributesOnFormat: true,
       };
       setGlobalSettings(globalSettings);
       const docSettings = await getSettingsForDocument("doc1");
@@ -52,6 +55,7 @@ context("settings utilities", () => {
         codeAssist: { deprecated: true, experimental: false },
         trace: { server: "off" as const },
         logging: { level: "off" as const },
+        SplitAttributesOnFormat: true,
       };
       setGlobalSettings(globalSettings);
       const docSettings = await getSettingsForDocument("doc1");
@@ -65,6 +69,7 @@ context("settings utilities", () => {
         codeAssist: { deprecated: true, experimental: true },
         trace: { server: "off" as const },
         logging: { level: "off" as const },
+        SplitAttributesOnFormat: true,
       };
       setSettingsForDocument("doc1", Promise.resolve(docSettings));
       const result = await getSettingsForDocument("doc1");
@@ -80,6 +85,7 @@ context("settings utilities", () => {
           codeAssist: { deprecated: true, experimental: true },
           trace: { server: "off" as const },
           logging: { level: "off" as const },
+          SplitAttributesOnFormat: true,
         })
       );
       expect(hasSettingsForDocument("doc1")).to.be.true;
@@ -95,6 +101,7 @@ context("settings utilities", () => {
           codeAssist: { deprecated: true, experimental: true },
           trace: { server: "off" as const },
           logging: { level: "off" as const },
+          SplitAttributesOnFormat: true,
         })
       );
       expect(hasSettingsForDocument("doc1")).to.be.false;
@@ -107,6 +114,7 @@ context("settings utilities", () => {
         codeAssist: { deprecated: true, experimental: true },
         trace: { server: "off" as const },
         logging: { level: "off" as const },
+        SplitAttributesOnFormat: true,
       };
       setSettingsForDocument("doc1", Promise.resolve(docSettings));
       expect(await getSettingsForDocument("doc1")).to.deep.equal(docSettings);
@@ -117,11 +125,13 @@ context("settings utilities", () => {
         codeAssist: { deprecated: true, experimental: true },
         trace: { server: "off" as const },
         logging: { level: "off" as const },
+        SplitAttributesOnFormat: true,
       };
       const docSettings2 = {
         codeAssist: { deprecated: true, experimental: false },
         trace: { server: "off" as const },
         logging: { level: "off" as const },
+        SplitAttributesOnFormat: true,
       };
       setSettingsForDocument("doc1", Promise.resolve(docSettings1));
       setSettingsForDocument("doc1", Promise.resolve(docSettings2));
@@ -140,11 +150,13 @@ context("settings utilities", () => {
         codeAssist: { deprecated: true, experimental: true },
         trace: { server: "off" as const },
         logging: { level: "off" as const },
+        SplitAttributesOnFormat: true,
       };
       const docSettings2 = {
         codeAssist: { deprecated: true, experimental: false },
         trace: { server: "off" as const },
         logging: { level: "off" as const },
+        SplitAttributesOnFormat: true,
       };
       setSettingsForDocument("doc1", Promise.resolve(docSettings1));
       setSettingsForDocument("doc2", Promise.resolve(docSettings2));
@@ -169,6 +181,7 @@ context("settings utilities", () => {
         codeAssist: { deprecated: true, experimental: true },
         trace: { server: "off" as const },
         logging: { level: "off" as const },
+        SplitAttributesOnFormat: true,
       };
       setSettingsForDocument("doc1", Promise.resolve(docSettings));
 
@@ -183,11 +196,13 @@ context("settings utilities", () => {
         codeAssist: { deprecated: true, experimental: true },
         trace: { server: "off" as const },
         logging: { level: "off" as const },
+        SplitAttributesOnFormat: true,
       };
       const docSettings2 = {
         codeAssist: { deprecated: true, experimental: false },
         trace: { server: "off" as const },
         logging: { level: "off" as const },
+        SplitAttributesOnFormat: true,
       };
       setSettingsForDocument("doc1", Promise.resolve(docSettings1));
       setSettingsForDocument("doc2", Promise.resolve(docSettings2));
@@ -203,11 +218,25 @@ context("settings utilities", () => {
         codeAssist: { deprecated: true, experimental: true },
         trace: { server: "off" as const },
         logging: { level: "off" as const },
+        SplitAttributesOnFormat: true,
       };
       setGlobalSettings(globalSettings);
       expect(await getSettingsForDocument("doc1")).to.deep.equal(
         globalSettings
       );
+    });
+  });
+  describe("configuration settings", () => {
+    it("setConfigurationSettings", async () => {
+      const configSettings = {
+        SAPUI5WebServer: "http://localhost:3000/",
+        codeAssist: { deprecated: true, experimental: true },
+        trace: { server: "off" as const },
+        logging: { level: "off" as const },
+        SplitAttributesOnFormat: true,
+      };
+      setConfigurationSettings(configSettings);
+      expect(getConfigurationSettings()).to.deep.equal(configSettings);
     });
   });
 });

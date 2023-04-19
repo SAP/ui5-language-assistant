@@ -4,6 +4,7 @@ import type {
 } from "@ui5-language-assistant/semantic-model-types";
 import { ConvertedMetadata } from "@sap-ux/vocabularies-types";
 import type { Manifest } from "@sap-ux/project-access";
+import { FetchResponse } from "@ui5-language-assistant/logic-utils";
 
 export const DEFAULT_UI5_FRAMEWORK = "SAPUI5";
 export const DEFAULT_UI5_VERSION = "1.71.49";
@@ -48,7 +49,7 @@ export type ManifestDetails = {
   flexEnabled: boolean;
   minUI5Version: string | undefined;
   mainServicePath: string | undefined;
-  customViews: { [name: string]: { entitySet: string } };
+  customViews: { [name: string]: { entitySet?: string; contextPath?: string } };
 };
 /**
  * @param framework UI5 framework
@@ -111,9 +112,4 @@ export type CAPProjectKind = "Java" | "NodeJS";
 export type ProjectKind = CAPProjectKind | "UI5";
 export type Project = UI5Project | CAPProject;
 export type ProjectType = typeof UI5_PROJECT_TYPE | typeof CAP_PROJECT_TYPE;
-export type FetchResponse = {
-  ok: boolean;
-  status: number;
-  json: () => Promise<unknown>;
-};
 export type Fetcher = (url: string) => Promise<FetchResponse>;

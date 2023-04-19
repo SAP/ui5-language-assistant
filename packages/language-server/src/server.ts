@@ -11,6 +11,7 @@ import {
   Hover,
   DidChangeConfigurationNotification,
   FileEvent,
+  InitializeResult,
 } from "vscode-languageserver/node";
 import { URI } from "vscode-uri";
 import { TextDocument } from "vscode-languageserver-textdocument";
@@ -21,6 +22,8 @@ import {
   setSettingsForDocument,
   hasSettingsForDocument,
   getSettingsForDocument,
+  setConfigurationSettings,
+  Settings,
 } from "@ui5-language-assistant/settings";
 import { commands } from "@ui5-language-assistant/user-facing-text";
 import { ServerInitializationOptions } from "../api";
@@ -37,11 +40,14 @@ import {
   reactOnCdsFileChange,
   reactOnXmlFileChange,
   reactOnPackageJson,
+  isContext,
 } from "@ui5-language-assistant/context";
 import { diagnosticToCodeActionFix } from "./quick-fix";
 import { executeCommand } from "./commands";
 import { initSwa } from "./swa";
 import { getLogger, setLogLevel } from "./logger";
+import { initI18n } from "./i18n";
+import { isXMLView } from "@ui5-language-assistant/logic-utils";
 
 const connection = createConnection(ProposedFeatures.all);
 const documents = new TextDocuments(TextDocument);
@@ -50,50 +56,53 @@ let ui5yamlStateInitialized: Promise<void[]> | undefined = undefined;
 let initializationOptions: ServerInitializationOptions | undefined;
 let hasConfigurationCapability = false;
 
-connection.onInitialize((params: InitializeParams) => {
-  getLogger().info("`onInitialize` event", params);
-  if (params?.initializationOptions?.logLevel) {
-    setLogLevel(params?.initializationOptions?.logLevel);
-  }
-  initSwa(params);
+connection.onInitialize(
+  async (params: InitializeParams): Promise<InitializeResult> => {
+    getLogger().info("`onInitialize` event", params);
+    if (params?.initializationOptions?.logLevel) {
+      setLogLevel(params?.initializationOptions?.logLevel);
+    }
+    initSwa(params);
+    await initI18n();
 
-  const capabilities = params.capabilities;
-  const workspaceFolderUri = params.rootUri;
-  if (workspaceFolderUri !== null) {
-    const workspaceFolderAbsPath = URI.parse(workspaceFolderUri).fsPath;
-    manifestStateInitialized = initializeManifestData(workspaceFolderAbsPath);
-    ui5yamlStateInitialized = initializeUI5YamlData(workspaceFolderAbsPath);
-  }
+    const capabilities = params.capabilities;
+    const workspaceFolderUri = params.rootUri;
+    if (workspaceFolderUri !== null) {
+      const workspaceFolderAbsPath = URI.parse(workspaceFolderUri).fsPath;
+      manifestStateInitialized = initializeManifestData(workspaceFolderAbsPath);
+      ui5yamlStateInitialized = initializeUI5YamlData(workspaceFolderAbsPath);
+    }
 
-  // Does the client support the `workspace/configuration` request?
-  // If not, we will fall back using global settings
-  hasConfigurationCapability =
-    capabilities.workspace !== undefined &&
-    (capabilities.workspace.configuration ?? false);
+    // Does the client support the `workspace/configuration` request?
+    // If not, we will fall back using global settings
+    hasConfigurationCapability =
+      capabilities.workspace !== undefined &&
+      (capabilities.workspace.configuration ?? false);
 
-  // These options are passed from the client extension in clientOptions.initializationOptions
-  initializationOptions = params.initializationOptions;
-  return {
-    capabilities: {
-      textDocumentSync: TextDocumentSyncKind.Full,
-      completionProvider: {
-        resolveProvider: true,
-        // TODO: can the trigger characters be more contextual?
-        //       e.g: "<" of open tag only, not else where
-        triggerCharacters: ['"', "'", ":", "<"],
+    // These options are passed from the client extension in clientOptions.initializationOptions
+    initializationOptions = params.initializationOptions;
+    return {
+      capabilities: {
+        textDocumentSync: TextDocumentSyncKind.Full,
+        completionProvider: {
+          resolveProvider: true,
+          // TODO: can the trigger characters be more contextual?
+          //       e.g: "<" of open tag only, not else where
+          triggerCharacters: ['"', "'", ":", "<", "/"],
+        },
+        hoverProvider: true,
+        codeActionProvider: true,
+        // Each command executes a different code action scenario
+        executeCommandProvider: {
+          commands: [
+            commands.QUICK_FIX_STABLE_ID_ERROR.name,
+            commands.QUICK_FIX_STABLE_ID_FILE_ERRORS.name,
+          ],
+        },
       },
-      hoverProvider: true,
-      codeActionProvider: true,
-      // Each command executes a different code action scenario
-      executeCommandProvider: {
-        commands: [
-          commands.QUICK_FIX_STABLE_ID_ERROR.name,
-          commands.QUICK_FIX_STABLE_ID_FILE_ERRORS.name,
-        ],
-      },
-    },
-  };
-});
+    };
+  }
+);
 
 connection.onInitialized(async () => {
   getLogger().info("`onInitialized` event");
@@ -102,6 +111,11 @@ connection.onInitialized(async () => {
     connection.client.register(DidChangeConfigurationNotification.type, {
       section: "UI5LanguageAssistant",
     });
+    // set config settings
+    const result = (await connection.workspace.getConfiguration({
+      section: "UI5LanguageAssistant",
+    })) as Settings;
+    setConfigurationSettings(result);
   }
 });
 
@@ -121,12 +135,24 @@ connection.onCompletion(
         documentPath,
         initializationOptions?.modelCachePath
       );
+      if (!isContext(context)) {
+        connection.sendNotification(
+          "UI5LanguageAssistant/context-error",
+          context
+        );
+        return [];
+      }
       const version = context.ui5Model.version;
       const framework = context.yamlDetails.framework;
+      const isFallback = context.ui5Model.isFallback;
+      const isIncorrectVersion = context.ui5Model.isIncorrectVersion;
+      const url = await getCDNBaseUrl(framework, version);
       connection.sendNotification("UI5LanguageAssistant/ui5Model", {
-        url: getCDNBaseUrl(framework, version),
+        url,
         framework,
         version,
+        isFallback,
+        isIncorrectVersion,
       });
       ensureDocumentSettingsUpdated(document.uri);
       const documentSettings = await getSettingsForDocument(document.uri);
@@ -166,12 +192,24 @@ connection.onHover(
         documentPath,
         initializationOptions?.modelCachePath
       );
+      if (!isContext(context)) {
+        connection.sendNotification(
+          "UI5LanguageAssistant/context-error",
+          context
+        );
+        return;
+      }
       const version = context.ui5Model.version;
       const framework = context.yamlDetails.framework;
+      const isFallback = context.ui5Model.isFallback;
+      const isIncorrectVersion = context.ui5Model.isIncorrectVersion;
+      const url = await getCDNBaseUrl(framework, version);
       connection.sendNotification("UI5LanguageAssistant/ui5Model", {
-        url: getCDNBaseUrl(framework, version),
+        url,
         framework,
         version,
+        isFallback,
+        isIncorrectVersion,
       });
       const hoverResponse = getHoverResponse(
         context,
@@ -186,6 +224,49 @@ connection.onHover(
     return undefined;
   }
 );
+
+const validateOpenDocuments = async (changes: FileEvent[]): Promise<void> => {
+  const supportedDocs = [
+    "manifest.json",
+    "ui5.yaml",
+    ".cds",
+    ".xml",
+    "package.json",
+  ];
+
+  const found = changes.find(
+    (change) =>
+      !isXMLView(change.uri) &&
+      supportedDocs.find((doc) => change.uri.endsWith(doc))
+  );
+  if (!found) {
+    return;
+  }
+
+  const allDocuments = documents.all();
+  for (const document of allDocuments) {
+    const documentPath = URI.parse(document.uri).fsPath;
+    const context = await getContext(
+      documentPath,
+      initializationOptions?.modelCachePath
+    );
+    if (!isContext(context)) {
+      connection.sendNotification(
+        "UI5LanguageAssistant/context-error",
+        context
+      );
+      return;
+    }
+    const diagnostics = getXMLViewDiagnostics({
+      document,
+      context,
+    });
+    getLogger().trace("computed diagnostics", {
+      diagnostics,
+    });
+    connection.sendDiagnostics({ uri: document.uri, diagnostics });
+  }
+};
 
 connection.onDidChangeWatchedFiles(async (changeEvent) => {
   getLogger().debug("`onDidChangeWatchedFiles` event", {
@@ -207,42 +288,62 @@ connection.onDidChangeWatchedFiles(async (changeEvent) => {
     }
   });
   await reactOnCdsFileChange(cdsFileEvents);
+  await validateOpenDocuments(changeEvent.changes);
 });
 
-documents.onDidChangeContent(async (changeEvent) => {
-  getLogger().trace("`onDidChangeContent` event", { changeEvent });
-  if (
-    manifestStateInitialized === undefined ||
-    ui5yamlStateInitialized === undefined ||
-    !isXMLView(changeEvent.document.uri)
-  ) {
-    return;
-  }
+documents.onDidChangeContent(
+  async (changeEvent): Promise<void> => {
+    getLogger().trace("`onDidChangeContent` event", {
+      ...changeEvent.document,
+    });
+    if (
+      manifestStateInitialized === undefined ||
+      ui5yamlStateInitialized === undefined ||
+      !isXMLView(changeEvent.document.uri)
+    ) {
+      return;
+    }
 
-  await Promise.all([manifestStateInitialized, ui5yamlStateInitialized]);
-  const documentUri = changeEvent.document.uri;
-  const document = documents.get(documentUri);
-  if (document !== undefined) {
-    const documentPath = URI.parse(documentUri).fsPath;
-    const context = await getContext(
-      documentPath,
-      initializationOptions?.modelCachePath
-    );
-    const version = context.ui5Model.version;
-    const framework = context.yamlDetails.framework;
-    connection.sendNotification("UI5LanguageAssistant/ui5Model", {
-      url: getCDNBaseUrl(framework, version),
-      framework,
-      version,
-    });
-    const diagnostics = getXMLViewDiagnostics({
-      document,
-      context,
-    });
-    getLogger().trace("computed diagnostics", { diagnostics });
-    connection.sendDiagnostics({ uri: changeEvent.document.uri, diagnostics });
+    await Promise.all([manifestStateInitialized, ui5yamlStateInitialized]);
+    const documentUri = changeEvent.document.uri;
+    const document = documents.get(documentUri);
+    if (document !== undefined) {
+      const documentPath = URI.parse(documentUri).fsPath;
+      const context = await getContext(
+        documentPath,
+        initializationOptions?.modelCachePath
+      );
+      if (!isContext(context)) {
+        connection.sendNotification(
+          "UI5LanguageAssistant/context-error",
+          context
+        );
+        return;
+      }
+      const version = context.ui5Model.version;
+      const framework = context.yamlDetails.framework;
+      const isFallback = context.ui5Model.isFallback;
+      const isIncorrectVersion = context.ui5Model.isIncorrectVersion;
+      const url = await getCDNBaseUrl(framework, version);
+      connection.sendNotification("UI5LanguageAssistant/ui5Model", {
+        url,
+        framework,
+        version,
+        isFallback,
+        isIncorrectVersion,
+      });
+      const diagnostics = getXMLViewDiagnostics({
+        document,
+        context,
+      });
+      getLogger().trace("computed diagnostics", { diagnostics });
+      connection.sendDiagnostics({
+        uri: changeEvent.document.uri,
+        diagnostics,
+      });
+    }
   }
-});
+);
 
 connection.onCodeAction(async (params) => {
   getLogger().debug("`onCodeAction` event", { params });
@@ -250,7 +351,7 @@ connection.onCodeAction(async (params) => {
   const docUri = params.textDocument.uri;
   const textDocument = documents.get(docUri);
   if (textDocument === undefined) {
-    return undefined;
+    return;
   }
 
   const documentPath = URI.parse(docUri).fsPath;
@@ -258,12 +359,21 @@ connection.onCodeAction(async (params) => {
     documentPath,
     initializationOptions?.modelCachePath
   );
+  if (!isContext(context)) {
+    connection.sendNotification("UI5LanguageAssistant/context-error", context);
+    return;
+  }
   const version = context.ui5Model.version;
   const framework = context.yamlDetails.framework;
+  const isFallback = context.ui5Model.isFallback;
+  const isIncorrectVersion = context.ui5Model.isIncorrectVersion;
+  const url = await getCDNBaseUrl(framework, version);
   connection.sendNotification("UI5LanguageAssistant/ui5Model", {
-    url: getCDNBaseUrl(framework, version),
+    url,
     framework,
     version,
+    isFallback,
+    isIncorrectVersion,
   });
 
   const diagnostics = params.context.diagnostics;
@@ -318,6 +428,13 @@ connection.onDidChangeConfiguration((change) => {
       setGlobalSettings(ui5LangAssistSettings);
     }
   }
+  if (change.settings.UI5LanguageAssistant !== undefined) {
+    const ui5LangAssistSettings = change.settings.UI5LanguageAssistant;
+    getLogger().trace("Set configuration settings", {
+      ui5LangAssistSettings,
+    });
+    setConfigurationSettings(ui5LangAssistSettings);
+  }
   // In the future we might want to
   // re-validate the files related to the `cached document settings`.
 
@@ -330,13 +447,14 @@ documents.onDidClose((textDocumentChangeEvent) => {
   getLogger().debug("`onDidClose` event", {
     textDocumentChangeEvent,
   });
-  clearDocumentSettings(textDocumentChangeEvent.document.uri);
+  const uri = textDocumentChangeEvent.document.uri;
+  if (isXMLView(uri)) {
+    // clear diagnostics for a closed file
+    connection.sendDiagnostics({ uri, diagnostics: [] });
+  }
+  clearDocumentSettings(uri);
 });
 
 documents.listen(connection);
 
 connection.listen();
-
-function isXMLView(uri: string): boolean {
-  return /(view|fragment)\.xml$/.test(uri);
-}

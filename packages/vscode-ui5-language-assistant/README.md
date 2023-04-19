@@ -47,6 +47,9 @@ The feature is available in the following:
   - Enum values
   - Boolean values
   - Namespaces fully qualified names
+  - metaPath values in building blocks
+  - contextPath values for Chart building blocks
+  - filterBar values from the current file in building blocks
 
 ### XML View Validations
 
@@ -78,6 +81,9 @@ and cannot be configured by the end user.
   - Use of deprecated properties
   - Use of deprecated events
   - Use of deprecated associations
+  - References to annotations that cannot be found in current project
+  - References to filter bars that cannot be found in current file
+  - Use of context paths that do not lead to the annotations of types expected for the given building block
 
 ### XML View Quick Fix
 
@@ -120,6 +126,18 @@ The feature is available in the following:
   - Enum values
   - SAPUI5 Namespaces
 
+### XML View Format
+
+![](https://raw.githubusercontent.com/SAP/ui5-language-assistant/master/packages/vscode-ui5-language-assistant/resources/readme/preview-formatter.gif)
+
+#### Description
+
+The tool can format `*.view.xml` and `*.fragment.xml` files with [prettier](https://github.com/prettier)
+
+#### Relevant User/Workspace settings
+
+- `UI5LanguageAssistant.SplitAttributesOnFormat` is set on by default and places each attribute on a new line on formatting.
+
 ### manifest.json Auto-Complete and Validations
 
 ![](https://raw.githubusercontent.com/SAP/ui5-language-assistant/master/packages/vscode-ui5-language-assistant/resources/readme/preview-manifest-json.gif)
@@ -147,6 +165,13 @@ For SAPUI5 XML views, this means:`*.view.xml` or `*.fragment.xml` files.
 
 Note that the extension **lazily** downloads the SAPUI5 metadata needed for its features.
 This means that there may be a delay between starting VS Code and having the relevant features available.
+
+### Enabling offline work
+
+You can set up a local web server to host one or more supported versions of SAP UI5 SDK and register it in the user/workspace setting `"UI5LanguageAssistant.SAPUI5WebServer"`. This overrides the public CDN of SAP UI5 SDK in the extension and enables offline work with the apps having the matching hosted `"minUI5Version"` in `manifest.json`.
+When configuring local web server, make sure it responds to the exact UI5 version defined in manifest.json e.g `<your.local.web.server>/1.111.0`
+
+**Note**: Once online, UI5 Language Assistant also caches required resources for offline usage and performance optimization.
 
 ### Limitations
 

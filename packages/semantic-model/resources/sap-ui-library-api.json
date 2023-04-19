@@ -594,6 +594,32 @@
           "items": {
             "type": "string"
           }
+        },
+        "ui5 - metadata": {
+          "type": "object",
+          "properties": {
+            "sap.fe": {
+              "type": "object",
+              "properties": {
+                "expectedAnnotations": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "expectedTypes": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "additionalProperties": false,
+              "required": ["expectedAnnotations", "expectedTypes"]
+            }
+          },
+          "additionalProperties": false,
+          "required": []
         }
       },
       "additionalProperties": false,

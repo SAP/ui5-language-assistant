@@ -10,6 +10,7 @@ import { defaultValidators } from "../src/api";
 import { validateNonStableId } from "../src/validators/elements/non-stable-id";
 import { Context as AppContext } from "@ui5-language-assistant/context";
 import { getDefaultContext } from "./test-utils";
+import { isPossibleBindingAttributeValue } from "../src/api";
 
 describe("the ui5 xml views validations API", () => {
   let ui5SemanticModel: UI5SemanticModel;
@@ -83,5 +84,10 @@ describe("the ui5 xml views validations API", () => {
       "UnknownEnumValue",
       "UseOfDeprecatedClass",
     ]);
+  });
+
+  it("just to cover exports", () => {
+    const result = isPossibleBindingAttributeValue("test");
+    expect(result).to.be.false;
   });
 });

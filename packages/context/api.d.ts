@@ -1,5 +1,6 @@
 export {
   getContext,
+  isContext,
   getCDNBaseUrl,
   initializeManifestData,
   initializeUI5YamlData,
@@ -15,6 +16,7 @@ export {
   reactOnXmlFileChange,
   reactOnPackageJson,
   cache,
+  DEFAULT_I18N_NAMESPACE,
 } from "./src/api";
 
 export type {

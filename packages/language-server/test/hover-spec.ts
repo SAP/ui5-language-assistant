@@ -231,7 +231,10 @@ export function getHoverItem(
 
 function getXmlSnippet(
   xmlSnippet: string
-): { document: TextDocument; position: Position } {
+): {
+  document: TextDocument;
+  position: Position;
+} {
   const xmlText = xmlSnippet.replace("⇶", "");
   const offset = xmlSnippet.indexOf("⇶");
   const document: TextDocument = createTextDocument("xml", xmlText);
