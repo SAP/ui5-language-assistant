@@ -354,9 +354,7 @@ function getUI5Node(
   return undefined;
 }
 
-function getXmlSnippet(
-  xmlSnippet: string
-): {
+function getXmlSnippet(xmlSnippet: string): {
   document: TextDocument;
   position: Position;
 } {

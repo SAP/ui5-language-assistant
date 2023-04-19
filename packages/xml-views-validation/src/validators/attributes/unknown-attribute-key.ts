@@ -156,9 +156,8 @@ function isValidUI5ClassAttribute(
     return true;
   }
 
-  const allProps: { name: string; visibility: string }[] = flattenProperties(
-    ui5Class
-  );
+  const allProps: { name: string; visibility: string }[] =
+    flattenProperties(ui5Class);
   const allEvents = flattenEvents(ui5Class);
   const allAssociations = flattenAssociations(ui5Class);
   // Aggregations can be used as attributes for binding
@@ -187,9 +186,7 @@ function isValidUI5ClassAttribute(
   return false;
 }
 
-function splitAttributeByNamespace(
-  attribute: XMLAttribute & { key: string }
-): {
+function splitAttributeByNamespace(attribute: XMLAttribute & { key: string }): {
   ns: string | undefined;
   name: string;
 } {

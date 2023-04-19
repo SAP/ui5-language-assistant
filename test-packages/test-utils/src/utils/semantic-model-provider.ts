@@ -10,9 +10,8 @@ import {
 import { generateFunc, TestModelVersion, TypeNameFix, Json } from "../../api";
 import { addUi5Resources } from "./download-ui5-resources";
 
-const MODEL_CACHE: Record<TestModelVersion, UI5SemanticModel> = Object.create(
-  null
-);
+const MODEL_CACHE: Record<TestModelVersion, UI5SemanticModel> =
+  Object.create(null);
 
 const fixes: Record<TestModelVersion, TypeNameFix> = {
   "1.60.44": {

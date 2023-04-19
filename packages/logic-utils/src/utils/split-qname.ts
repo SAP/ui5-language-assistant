@@ -1,8 +1,6 @@
 import { includes } from "lodash";
 
-export function splitQNameByNamespace(
-  qName: string
-): {
+export function splitQNameByNamespace(qName: string): {
   prefix: string | undefined;
   localName: string;
 } {

@@ -25,8 +25,7 @@ sap.ui.define(
                   async function (fnResolve, fnReject) {
                     var mSettings = {
                       id: "myFragment",
-                      name:
-                        "sap.fe.cap.managetravels.ext.fragment.Trees4Tickets",
+                      name: "sap.fe.cap.managetravels.ext.fragment.Trees4Tickets",
                       controller: this.base.getView().getController(),
                       contextPath: "/Travel",
                       initialBindingContext: this.getView().getBindingContext(),

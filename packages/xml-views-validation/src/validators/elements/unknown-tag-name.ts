@@ -148,10 +148,8 @@ function validateTagWithoutNamespace(
 
   // If the default namespace is defined and it's not a known namespace, don't validate
   // (it could be a custom class tag or a special namespace like xhtml or template)
-  const {
-    namespace: ui5Namespace,
-    isXmlnsDefined,
-  } = getUI5NodeFromXMLElementNamespace(xmlElement, model);
+  const { namespace: ui5Namespace, isXmlnsDefined } =
+    getUI5NodeFromXMLElementNamespace(xmlElement, model);
   if (isXmlnsDefined && ui5Namespace === undefined) {
     return [];
   }

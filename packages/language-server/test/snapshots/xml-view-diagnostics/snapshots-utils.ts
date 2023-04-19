@@ -130,9 +130,8 @@ export async function computeNewDiagnosticLSPResponse(
     context: appContext,
   });
 
-  const diagnosticsForAssertions = cleanupLSPResponseForAssertions(
-    actualDiagnostics
-  );
+  const diagnosticsForAssertions =
+    cleanupLSPResponseForAssertions(actualDiagnostics);
   return diagnosticsForAssertions;
 }
 

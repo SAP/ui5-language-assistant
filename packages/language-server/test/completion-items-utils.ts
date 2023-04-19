@@ -61,9 +61,7 @@ function createTextDocument(languageId: string, content: string): TextDocument {
   return TextDocument.create("uri", languageId, 0, content);
 }
 
-function getXmlSnippetDocument(
-  xmlSnippet: string
-): {
+function getXmlSnippetDocument(xmlSnippet: string): {
   document: TextDocument;
   position: Position;
 } {

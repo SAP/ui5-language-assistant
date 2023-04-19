@@ -17,9 +17,10 @@ cds.extend(cds.ApplicationService).with(
         const pds = Object.getOwnPropertyDescriptors(o);
         for (let p in pds) {
           if (p === "constructor" || p === "init") continue;
-          const pragma = /^[^{]+{\s*"@(on|before|after) (\w+)(?: ([\w/]+)(?::(\w+))?)?"/.exec(
-            pds[p].value
-          );
+          const pragma =
+            /^[^{]+{\s*"@(on|before|after) (\w+)(?: ([\w/]+)(?::(\w+))?)?"/.exec(
+              pds[p].value
+            );
           if (!pragma) continue;
           const [, on, event, path, element] = pragma,
             handler = pds[p].value;

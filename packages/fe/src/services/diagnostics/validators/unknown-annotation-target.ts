@@ -126,9 +126,8 @@ export function validateUnknownAnnotationTarget(
     }
 
     const normalizedValue = normalizePath(actualAttributeValue);
-    const expectedTypesList = (isNotRecommended
-      ? expectedTypesMetaPath
-      : expectedTypes
+    const expectedTypesList = (
+      isNotRecommended ? expectedTypesMetaPath : expectedTypes
     )
       .map((item) => TypeNameMap[item])
       .join(", ");

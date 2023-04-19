@@ -217,9 +217,7 @@ export function getLink(model: UI5SemanticModel, link: string): string;
  * If there is no prefix in the qualified name, the returned prefix will be undefined.
  * @param qName
  */
-export function splitQNameByNamespace(
-  qName: string
-): {
+export function splitQNameByNamespace(qName: string): {
   prefix: string | undefined;
   localName: string;
 };

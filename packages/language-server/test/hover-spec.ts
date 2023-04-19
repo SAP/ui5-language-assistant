@@ -229,9 +229,7 @@ export function getHoverItem(
   return hoverItem;
 }
 
-function getXmlSnippet(
-  xmlSnippet: string
-): {
+function getXmlSnippet(xmlSnippet: string): {
   document: TextDocument;
   position: Position;
 } {
