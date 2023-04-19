@@ -1,8 +1,7 @@
 # Visual Studio Code - FPM: macros elements contextPath completion and diagnostics
 
 Associated user stories:
-[#21639](https://github.wdf.sap.corp/ux-engineering/tools-suite/issues/21639) [AppM] FPM: Enhance ui5-language-assistant with LSP annotation-relevant building blocks
-[#21840](https://github.wdf.sap.corp/ux-engineering/tools-suite/issues/21840) [AppM] FPM: Enhancements for annotation-related features ui5-language-assistant
+[#505](https://github.com/SAP/ui5-language-assistant/issues/505) Provide code completion and diagnostics for contentPath and metaPath values
 
 ## **Setup**: Clone test project
 
