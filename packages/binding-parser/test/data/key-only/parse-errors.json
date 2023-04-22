@@ -1,0 +1,19 @@
+[
+  {
+    "token": {
+      "image": "}",
+      "startColumn": 6,
+      "endColumn": 6,
+      "tokenTypeName": "RightCurly"
+    },
+    "message": "Expecting --> : <-- but found --> '}' <--",
+    "name": "MismatchedTokenException",
+    "resyncedTokens": [],
+    "previousToken": {
+      "image": "key",
+      "startColumn": 2,
+      "endColumn": 4,
+      "tokenTypeName": "Key"
+    }
+  }
+]

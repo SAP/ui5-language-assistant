@@ -1,0 +1,66 @@
+{
+  "leftCurly": {
+    "type": "LeftCurly",
+    "text": "{",
+    "range": "[(0,0)..(0,1)]"
+  },
+  "elements": [
+    {
+      "key": {
+        "type": "Key",
+        "text": "key",
+        "range": "[(0,1)..(0,4)]"
+      },
+      "colon": {
+        "type": "Colon",
+        "text": "",
+        "range": "[(0,0)..(0,NaN)]"
+      },
+      "value": {
+        "type": "StringValue",
+        "text": "'value'",
+        "range": "[(0,5)..(0,12)]"
+      },
+      "range": "[(0,1)..(0,12)]"
+    }
+  ],
+  "commas": [],
+  "rightCurly": {
+    "type": "RightCurly",
+    "text": "}",
+    "range": "[(0,12)..(0,13)]"
+  },
+  "range": "[(0,0)..(0,13)]",
+  "errors": {
+    "lexer": [],
+    "parse": [
+      {
+        "type": "ParseError",
+        "range": "[(0,5)..(0,12)]",
+        "text": "'value'",
+        "merged": [
+          {
+            "type": "ParseError",
+            "text": "'value'",
+            "range": "[(0,5)..(0,12)]",
+            "tokenTypeName": "StringValue"
+          }
+        ],
+        "tokenTypeName": "StringValue",
+        "previousToken": {
+          "type": "ParseError",
+          "text": "key",
+          "range": "[(0,1)..(0,4)]",
+          "tokenTypeName": "Key"
+        }
+      }
+    ]
+  },
+  "spaces": [
+    {
+      "type": "WhiteSpace",
+      "text": " ",
+      "range": "[(0,4)..(0,5)]"
+    }
+  ]
+}

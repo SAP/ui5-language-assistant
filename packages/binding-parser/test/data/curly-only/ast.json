@@ -1,0 +1,20 @@
+{
+  "leftCurly": {
+    "type": "LeftCurly",
+    "text": "{",
+    "range": "[(0,0)..(0,1)]"
+  },
+  "elements": [],
+  "commas": [],
+  "rightCurly": {
+    "type": "RightCurly",
+    "text": "}",
+    "range": "[(0,1)..(0,2)]"
+  },
+  "range": "[(0,0)..(0,2)]",
+  "errors": {
+    "lexer": [],
+    "parse": []
+  },
+  "spaces": []
+}

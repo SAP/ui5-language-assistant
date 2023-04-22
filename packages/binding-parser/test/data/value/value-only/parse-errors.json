@@ -1,0 +1,19 @@
+[
+  {
+    "token": {
+      "image": "'valueOnly'",
+      "startColumn": 2,
+      "endColumn": 12,
+      "tokenTypeName": "StringValue"
+    },
+    "message": "Expecting --> } <-- but found --> ''valueOnly'' <--",
+    "name": "MismatchedTokenException",
+    "resyncedTokens": [],
+    "previousToken": {
+      "image": "{",
+      "startColumn": 1,
+      "endColumn": 1,
+      "tokenTypeName": "LeftCurly"
+    }
+  }
+]

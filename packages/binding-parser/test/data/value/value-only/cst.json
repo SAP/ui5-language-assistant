@@ -1,0 +1,36 @@
+{
+  "name": "PropertyBindingInfo",
+  "children": {
+    "Object": [
+      {
+        "name": "Object",
+        "children": {
+          "LeftCurly": [
+            {
+              "image": "{",
+              "startColumn": 1,
+              "endColumn": 1,
+              "tokenTypeName": "LeftCurly"
+            }
+          ],
+          "RightCurly": [
+            {
+              "image": "}",
+              "startColumn": 13,
+              "endColumn": 13,
+              "tokenTypeName": "RightCurly"
+            }
+          ]
+        },
+        "location": {
+          "startColumn": 1,
+          "endColumn": 13
+        }
+      }
+    ]
+  },
+  "location": {
+    "startColumn": 1,
+    "endColumn": 13
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "leftCurly": {
+    "type": "LeftCurly",
+    "text": "",
+    "range": "[(0,0)..(0,NaN)]"
+  },
+  "elements": [
+    {
+      "key": {
+        "type": "Key",
+        "text": "key",
+        "range": "[(0,0)..(0,3)]"
+      },
+      "colon": {
+        "type": "Colon",
+        "text": ":",
+        "range": "[(0,3)..(0,4)]"
+      },
+      "value": {
+        "type": "StringValue",
+        "text": "'value'",
+        "range": "[(0,5)..(0,12)]"
+      },
+      "range": "[(0,0)..(0,12)]"
+    }
+  ],
+  "commas": [],
+  "rightCurly": {
+    "type": "RightCurly",
+    "text": "}",
+    "range": "[(0,12)..(0,13)]"
+  },
+  "range": "[(0,0)..(0,13)]",
+  "errors": {
+    "lexer": [],
+    "parse": [
+      {
+        "type": "ParseError",
+        "range": "[(0,0)..(0,3)]",
+        "text": "key",
+        "merged": [
+          {
+            "type": "ParseError",
+            "text": "key",
+            "range": "[(0,0)..(0,3)]",
+            "tokenTypeName": "Key"
+          }
+        ],
+        "tokenTypeName": "Key",
+        "previousToken": {
+          "type": "ParseError",
+          "text": "",
+          "range": "[(0,0)..(0,NaN)]",
+          "tokenTypeName": "EOF"
+        }
+      }
+    ]
+  },
+  "spaces": [
+    {
+      "type": "WhiteSpace",
+      "text": " ",
+      "range": "[(0,4)..(0,5)]"
+    }
+  ]
+}

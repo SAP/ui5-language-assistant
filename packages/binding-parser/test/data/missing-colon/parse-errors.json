@@ -1,0 +1,19 @@
+[
+  {
+    "token": {
+      "image": "'value'",
+      "startColumn": 6,
+      "endColumn": 12,
+      "tokenTypeName": "StringValue"
+    },
+    "message": "Expecting --> : <-- but found --> ''value'' <--",
+    "name": "MismatchedTokenException",
+    "resyncedTokens": [],
+    "previousToken": {
+      "image": "key",
+      "startColumn": 2,
+      "endColumn": 4,
+      "tokenTypeName": "Key"
+    }
+  }
+]

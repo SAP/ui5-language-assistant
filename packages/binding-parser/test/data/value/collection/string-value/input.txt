@@ -1,0 +1,1 @@
+{ key: ['value-01', 'value-02'] }

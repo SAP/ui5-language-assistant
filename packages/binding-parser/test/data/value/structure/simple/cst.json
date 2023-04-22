@@ -1,0 +1,147 @@
+{
+  "name": "PropertyBindingInfo",
+  "children": {
+    "Object": [
+      {
+        "name": "Object",
+        "children": {
+          "LeftCurly": [
+            {
+              "image": "{",
+              "startColumn": 1,
+              "endColumn": 1,
+              "tokenTypeName": "LeftCurly"
+            }
+          ],
+          "ObjectItem": [
+            {
+              "name": "ObjectItem",
+              "children": {
+                "Key": [
+                  {
+                    "image": "key",
+                    "startColumn": 3,
+                    "endColumn": 5,
+                    "tokenTypeName": "Key"
+                  }
+                ],
+                "Colon": [
+                  {
+                    "image": ":",
+                    "startColumn": 6,
+                    "endColumn": 6,
+                    "tokenTypeName": "Colon"
+                  }
+                ],
+                "Value": [
+                  {
+                    "name": "Value",
+                    "children": {
+                      "Object": [
+                        {
+                          "name": "Object",
+                          "children": {
+                            "LeftCurly": [
+                              {
+                                "image": "{",
+                                "startColumn": 8,
+                                "endColumn": 8,
+                                "tokenTypeName": "LeftCurly"
+                              }
+                            ],
+                            "ObjectItem": [
+                              {
+                                "name": "ObjectItem",
+                                "children": {
+                                  "Key": [
+                                    {
+                                      "image": "anotherKey",
+                                      "startColumn": 9,
+                                      "endColumn": 18,
+                                      "tokenTypeName": "Key"
+                                    }
+                                  ],
+                                  "Colon": [
+                                    {
+                                      "image": ":",
+                                      "startColumn": 19,
+                                      "endColumn": 19,
+                                      "tokenTypeName": "Colon"
+                                    }
+                                  ],
+                                  "Value": [
+                                    {
+                                      "name": "Value",
+                                      "children": {
+                                        "StringValue": [
+                                          {
+                                            "image": "'another value'",
+                                            "startColumn": 21,
+                                            "endColumn": 35,
+                                            "tokenTypeName": "StringValue"
+                                          }
+                                        ]
+                                      },
+                                      "location": {
+                                        "startColumn": 21,
+                                        "endColumn": 35
+                                      }
+                                    }
+                                  ]
+                                },
+                                "location": {
+                                  "startColumn": 9,
+                                  "endColumn": 35
+                                }
+                              }
+                            ],
+                            "RightCurly": [
+                              {
+                                "image": "}",
+                                "startColumn": 36,
+                                "endColumn": 36,
+                                "tokenTypeName": "RightCurly"
+                              }
+                            ]
+                          },
+                          "location": {
+                            "startColumn": 8,
+                            "endColumn": 36
+                          }
+                        }
+                      ]
+                    },
+                    "location": {
+                      "startColumn": 8,
+                      "endColumn": 36
+                    }
+                  }
+                ]
+              },
+              "location": {
+                "startColumn": 3,
+                "endColumn": 36
+              }
+            }
+          ],
+          "RightCurly": [
+            {
+              "image": "}",
+              "startColumn": 38,
+              "endColumn": 38,
+              "tokenTypeName": "RightCurly"
+            }
+          ]
+        },
+        "location": {
+          "startColumn": 1,
+          "endColumn": 38
+        }
+      }
+    ]
+  },
+  "location": {
+    "startColumn": 1,
+    "endColumn": 38
+  }
+}

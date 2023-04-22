@@ -1,0 +1,32 @@
+[
+  {
+    "token": {
+      "image": "key",
+      "startColumn": 1,
+      "endColumn": 3,
+      "tokenTypeName": "Key"
+    },
+    "message": "Expecting --> { <-- but found --> 'key' <--",
+    "name": "MismatchedTokenException",
+    "resyncedTokens": [],
+    "previousToken": {
+      "image": "",
+      "startOffset": null,
+      "endOffset": null,
+      "startLine": null,
+      "endLine": null,
+      "startColumn": null,
+      "endColumn": null,
+      "tokenTypeIdx": 1,
+      "tokenType": {
+        "name": "EOF",
+        "PATTERN": {},
+        "tokenTypeIdx": 1,
+        "CATEGORIES": [],
+        "categoryMatches": [],
+        "categoryMatchesMap": {},
+        "isParent": false
+      }
+    }
+  }
+]

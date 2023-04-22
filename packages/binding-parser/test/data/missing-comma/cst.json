@@ -1,0 +1,82 @@
+{
+  "name": "PropertyBindingInfo",
+  "children": {
+    "Object": [
+      {
+        "name": "Object",
+        "children": {
+          "LeftCurly": [
+            {
+              "image": "{",
+              "startColumn": 1,
+              "endColumn": 1,
+              "tokenTypeName": "LeftCurly"
+            }
+          ],
+          "ObjectItem": [
+            {
+              "name": "ObjectItem",
+              "children": {
+                "Key": [
+                  {
+                    "image": "key01",
+                    "startColumn": 2,
+                    "endColumn": 6,
+                    "tokenTypeName": "Key"
+                  }
+                ],
+                "Colon": [
+                  {
+                    "image": ":",
+                    "startColumn": 7,
+                    "endColumn": 7,
+                    "tokenTypeName": "Colon"
+                  }
+                ],
+                "Value": [
+                  {
+                    "name": "Value",
+                    "children": {
+                      "StringValue": [
+                        {
+                          "image": "'value-01'",
+                          "startColumn": 9,
+                          "endColumn": 18,
+                          "tokenTypeName": "StringValue"
+                        }
+                      ]
+                    },
+                    "location": {
+                      "startColumn": 9,
+                      "endColumn": 18
+                    }
+                  }
+                ]
+              },
+              "location": {
+                "startColumn": 2,
+                "endColumn": 18
+              }
+            }
+          ],
+          "RightCurly": [
+            {
+              "image": "}",
+              "startColumn": 37,
+              "endColumn": 37,
+              "tokenTypeName": "RightCurly"
+            }
+          ]
+        },
+        "location": {
+          "startColumn": 1,
+          "endColumn": 37
+        }
+      }
+    ]
+  },
+  "location": {
+    "startColumn": 1,
+    "endColumn": 37
+  }
+}

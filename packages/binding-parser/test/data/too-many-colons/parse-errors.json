@@ -1,0 +1,38 @@
+[
+  {
+    "token": {
+      "image": ":",
+      "startColumn": 6,
+      "endColumn": 6,
+      "tokenTypeName": "Colon"
+    },
+    "message": "Expecting: one of these possible Token sequences:\n  1. [StringValue]\n  2. [NumberValue]\n  3. [{]\n  4. [[]\n  5. [BooleanValue]\n  6. [NullValue]\nbut found: ':'",
+    "name": "NoViableAltException",
+    "resyncedTokens": [
+      {
+        "image": ":",
+        "startColumn": 7,
+        "endColumn": 7,
+        "tokenTypeName": "Colon"
+      },
+      {
+        "image": ":",
+        "startColumn": 8,
+        "endColumn": 8,
+        "tokenTypeName": "Colon"
+      },
+      {
+        "image": "'value'",
+        "startColumn": 10,
+        "endColumn": 16,
+        "tokenTypeName": "StringValue"
+      }
+    ],
+    "previousToken": {
+      "image": ":",
+      "startColumn": 5,
+      "endColumn": 5,
+      "tokenTypeName": "Colon"
+    }
+  }
+]

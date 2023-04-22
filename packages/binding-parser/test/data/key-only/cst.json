@@ -1,0 +1,56 @@
+{
+  "name": "PropertyBindingInfo",
+  "children": {
+    "Object": [
+      {
+        "name": "Object",
+        "children": {
+          "LeftCurly": [
+            {
+              "image": "{",
+              "startColumn": 1,
+              "endColumn": 1,
+              "tokenTypeName": "LeftCurly"
+            }
+          ],
+          "ObjectItem": [
+            {
+              "name": "ObjectItem",
+              "children": {
+                "Key": [
+                  {
+                    "image": "key",
+                    "startColumn": 2,
+                    "endColumn": 4,
+                    "tokenTypeName": "Key"
+                  }
+                ]
+              },
+              "location": {
+                "startColumn": 2,
+                "endColumn": 4
+              },
+              "recoveredNode": true
+            }
+          ],
+          "RightCurly": [
+            {
+              "image": "}",
+              "startColumn": 6,
+              "endColumn": 6,
+              "tokenTypeName": "RightCurly"
+            }
+          ]
+        },
+        "location": {
+          "startColumn": 1,
+          "endColumn": 6
+        }
+      }
+    ]
+  },
+  "location": {
+    "startColumn": 1,
+    "endColumn": 6
+  }
+}
