@@ -1,0 +1,34 @@
+{
+  "name": "@ui5-language-assistant/binding-parser",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Parser for binding syntax",
+  "keywords": [],
+  "files": [
+    ".reuse",
+    "LICENSES",
+    "lib/src",
+    "api.d.ts",
+    "src"
+  ],
+  "main": "lib/src/api.js",
+  "repository": "https://github.com/sap/ui5-language-assistant/",
+  "license": "Apache-2.0",
+  "typings": "./api.d.ts",
+  "dependencies": {
+    "chevrotain": "10.4.2",
+    "vscode-languageserver-types": "3.17.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "ci": "npm-run-all clean compile lint coverage",
+    "clean": "rimraf ./lib ./coverage ./nyc_output",
+    "compile": "yarn run clean && tsc -p .",
+    "compile:watch": "tsc -p . --watch",
+    "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore",
+    "test": "mocha",
+    "coverage": "nyc mocha",
+    "format:fix": "prettier --write \"**/*.@(js|ts|json|md)\" --ignore-path=.gitignore",
+    "test:update": "node scripts/updateTestData.js"
+  }
+}

@@ -1,0 +1,127 @@
+{
+  "name": "PropertyBindingInfo",
+  "children": {
+    "Object": [
+      {
+        "name": "Object",
+        "children": {
+          "LeftCurly": [
+            {
+              "image": "{",
+              "startColumn": 1,
+              "endColumn": 1,
+              "tokenTypeName": "LeftCurly"
+            }
+          ],
+          "ObjectItem": [
+            {
+              "name": "ObjectItem",
+              "children": {
+                "Key": [
+                  {
+                    "image": "key",
+                    "startColumn": 2,
+                    "endColumn": 4,
+                    "tokenTypeName": "Key"
+                  }
+                ],
+                "Colon": [
+                  {
+                    "image": ":",
+                    "startColumn": 5,
+                    "endColumn": 5,
+                    "tokenTypeName": "Colon"
+                  }
+                ],
+                "Value": [
+                  {
+                    "name": "Value",
+                    "children": {
+                      "StringValue": [
+                        {
+                          "image": "'value'",
+                          "startColumn": 7,
+                          "endColumn": 13,
+                          "tokenTypeName": "StringValue"
+                        }
+                      ]
+                    },
+                    "location": {
+                      "startColumn": 7,
+                      "endColumn": 13
+                    }
+                  }
+                ]
+              },
+              "location": {
+                "startColumn": 2,
+                "endColumn": 13
+              }
+            },
+            {
+              "name": "ObjectItem",
+              "children": {
+                "Key": [
+                  {
+                    "image": "anotherKey",
+                    "startColumn": 16,
+                    "endColumn": 25,
+                    "tokenTypeName": "Key"
+                  }
+                ],
+                "Colon": [
+                  {
+                    "image": ":",
+                    "startColumn": 26,
+                    "endColumn": 26,
+                    "tokenTypeName": "Colon"
+                  }
+                ],
+                "Value": [
+                  {
+                    "name": "Value",
+                    "children": {},
+                    "location": {
+                      "startColumn": -1,
+                      "endColumn": -1
+                    },
+                    "recoveredNode": true
+                  }
+                ]
+              },
+              "location": {
+                "startColumn": 16,
+                "endColumn": 26
+              },
+              "recoveredNode": true
+            }
+          ],
+          "Comma": [
+            {
+              "image": ",",
+              "startColumn": 14,
+              "endColumn": 14,
+              "tokenTypeName": "Comma"
+            }
+          ],
+          "RightCurly": [
+            {
+              "image": "}",
+              "startColumn": 28,
+              "endColumn": 28,
+              "tokenTypeName": "RightCurly"
+            }
+          ]
+        },
+        "location": {
+          "startColumn": 1,
+          "endColumn": 28
+        }
+      }
+    ]
+  },
+  "location": {
+    "startColumn": 1,
+    "endColumn": 28
+  }
+}

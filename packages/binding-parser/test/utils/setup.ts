@@ -1,0 +1,182 @@
+import { promises, readdirSync, stat, statSync } from "fs";
+import { join, dirname } from "path";
+import { platform } from "os";
+import type {
+  IToken,
+  CstNode,
+  CstNodeLocation,
+  CstElement,
+  IRecognitionException,
+} from "chevrotain";
+import { deserialize } from "./deserialize-ast";
+import type { Ast } from "../../src/types/property-binding-info";
+
+const { readFile } = promises;
+
+const hasNaNOrUndefined = (value: undefined | number): boolean => {
+  if (value === undefined) {
+    return true;
+  }
+  return isNaN(value);
+};
+
+export const getBase = () => join(__dirname, "..", "..", "..", "test", "data");
+
+export const getFileContent = async (filePath: string) => {
+  const buffer = await readFile(filePath, "utf8");
+  return buffer.toString();
+};
+
+export const getInput = async (testCasePath: string) => {
+  const path = join(getBase(), testCasePath, "input.txt");
+  return getFileContent(path);
+};
+
+export const getCst = async (testCasePath: string): Promise<CstNode> => {
+  const path = join(getBase(), testCasePath, "cst.json");
+  const content = await getFileContent(path);
+  return deserialize<CstNode>(content);
+};
+export const getLexerErrors = async (testCasePath: string): Promise<any> => {
+  const path = join(getBase(), testCasePath, "lexer-errors.json");
+  const content = await getFileContent(path);
+  return JSON.parse(content);
+};
+export const getParserErrors = async (testCasePath: string): Promise<any> => {
+  const path = join(getBase(), testCasePath, "parse-errors.json");
+  const content = await getFileContent(path);
+  return JSON.parse(content);
+};
+
+export const getAst = async (testCasePath: string): Promise<Ast> => {
+  const path = join(getBase(), testCasePath, "ast.json");
+  const content = await getFileContent(path);
+  return deserialize<Ast>(content);
+};
+
+const isCstNode = (node: CstNode | IToken): node is CstNode => {
+  return (node as CstNode).children !== undefined;
+};
+const reduceLocationInfo = (location?: CstNodeLocation): void => {
+  if (location) {
+    if (hasNaNOrUndefined(location.startColumn)) {
+      location.startColumn = -1;
+    }
+    if (hasNaNOrUndefined(location.endColumn)) {
+      location.endColumn = -1;
+    }
+    //@ts-ignore
+    delete location.startLine;
+    delete location.endLine;
+    // @ts-ignore
+    delete location.startOffset;
+    delete location.endOffset;
+  }
+};
+
+const reduceTokenInfo = (token: IToken): void => {
+  try {
+    if (hasNaNOrUndefined(token.startColumn)) {
+      token.startColumn = -1;
+    }
+
+    if (hasNaNOrUndefined(token.endColumn)) {
+      token.endColumn = -1;
+    }
+
+    /* eslint-disable-next-line  @typescript-eslint/no-explicit-any */
+    (token as any).tokenTypeName =
+      (token as any).tokenTypeName ?? token.tokenType?.name;
+    delete token.startLine;
+    delete token.endLine;
+    //@ts-ignore
+    delete token.startOffset;
+    delete token.endOffset;
+    //@ts-ignore
+    delete token.tokenTypeIdx;
+    //@ts-ignore
+    delete token.tokenType;
+  } catch (error) {}
+};
+export const transformCstForAssertion = (node: CstNode | IToken): void => {
+  if (isCstNode(node)) {
+    reduceLocationInfo(node.location);
+    const allChildren = Object.keys(node.children).reduce(
+      (acc: CstElement[], child) => [...acc, ...(node.children[child] ?? [])],
+      []
+    );
+    for (const child of allChildren) {
+      transformCstForAssertion(child);
+    }
+  } else if (typeof node.image === "string") {
+    reduceTokenInfo(node);
+  } else {
+    throw Error("None Exhaustive Match");
+  }
+};
+type ErrorTransform = Pick<
+  IRecognitionException,
+  "message" | "name" | "resyncedTokens" | "token"
+> & { previousToken?: IToken };
+export const transformParserErrorForAssertion = (
+  nodes: (IRecognitionException & { previousToken?: IToken })[]
+): ErrorTransform[] => {
+  const result: ErrorTransform[] = [];
+  for (const node of nodes) {
+    if (node.token) {
+      transformCstForAssertion(node.token);
+    }
+    if (node.resyncedTokens) {
+      for (const resync of node.resyncedTokens) {
+        transformCstForAssertion(resync);
+      }
+    }
+    if (node.previousToken) {
+      transformCstForAssertion(node.previousToken);
+    }
+    result.push({
+      token: node.token,
+      message: node.message,
+      name: node.name,
+      resyncedTokens: node.resyncedTokens,
+      previousToken: node.previousToken,
+    });
+  }
+  return result;
+};
+
+export const getAllNormalizeFolderPath = (
+  base = getBase(),
+  allFolderPath: string[] = []
+): string[] => {
+  const fileOrFolder = readdirSync(base);
+  fileOrFolder.forEach(function (item: string) {
+    const itemPath = join(base, item);
+    if (statSync(itemPath).isDirectory()) {
+      allFolderPath = getAllNormalizeFolderPath(itemPath, allFolderPath);
+    } else {
+      if (itemPath.endsWith(".txt")) {
+        const dirPath = dirname(itemPath);
+        const relativeLike = dirPath.split(getBase())[1];
+        const normalizedPath = relativeLike.replace(
+          platform() === "win32" ? /\\/g : /\//g,
+          "/"
+        );
+        allFolderPath.push(normalizedPath);
+      }
+    }
+  });
+
+  return allFolderPath;
+};
+
+export const doesExits = (path) => {
+  return new Promise((resolve) => {
+    stat(path, (err) => {
+      if (err) {
+        resolve(false);
+      }
+      resolve(true);
+    });
+  });
+};

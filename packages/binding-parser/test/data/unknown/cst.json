@@ -1,0 +1,75 @@
+{
+  "name": "PropertyBindingInfo",
+  "children": {
+    "Object": [
+      {
+        "name": "Object",
+        "children": {
+          "LeftCurly": [
+            {
+              "image": "{",
+              "startColumn": 1,
+              "endColumn": 1,
+              "tokenTypeName": "LeftCurly"
+            }
+          ],
+          "ObjectItem": [
+            {
+              "name": "ObjectItem",
+              "children": {
+                "Key": [
+                  {
+                    "image": "key",
+                    "startColumn": 2,
+                    "endColumn": 4,
+                    "tokenTypeName": "Key"
+                  }
+                ],
+                "Colon": [
+                  {
+                    "image": ":",
+                    "startColumn": 5,
+                    "endColumn": 5,
+                    "tokenTypeName": "Colon"
+                  }
+                ],
+                "Value": [
+                  {
+                    "name": "Value",
+                    "children": {},
+                    "location": {
+                      "startColumn": -1,
+                      "endColumn": -1
+                    },
+                    "recoveredNode": true
+                  }
+                ]
+              },
+              "location": {
+                "startColumn": 2,
+                "endColumn": 5
+              },
+              "recoveredNode": true
+            }
+          ],
+          "RightCurly": [
+            {
+              "image": "}",
+              "startColumn": 7,
+              "endColumn": 7,
+              "tokenTypeName": "RightCurly"
+            }
+          ]
+        },
+        "location": {
+          "startColumn": 1,
+          "endColumn": 7
+        }
+      }
+    ]
+  },
+  "location": {
+    "startColumn": 1,
+    "endColumn": 7
+  }
+}

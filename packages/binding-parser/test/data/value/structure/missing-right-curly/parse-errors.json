@@ -1,0 +1,19 @@
+[
+  {
+    "token": {
+      "image": "}",
+      "startColumn": 28,
+      "endColumn": 28,
+      "tokenTypeName": "RightCurly"
+    },
+    "message": "Expecting: one of these possible Token sequences:\n  1. [StringValue]\n  2. [NumberValue]\n  3. [{]\n  4. [[]\n  5. [BooleanValue]\n  6. [NullValue]\nbut found: '}'",
+    "name": "NoViableAltException",
+    "resyncedTokens": [],
+    "previousToken": {
+      "image": ":",
+      "startColumn": 26,
+      "endColumn": 26,
+      "tokenTypeName": "Colon"
+    }
+  }
+]

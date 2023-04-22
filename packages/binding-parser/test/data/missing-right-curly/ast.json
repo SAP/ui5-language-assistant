@@ -1,0 +1,62 @@
+{
+  "leftCurly": {
+    "type": "LeftCurly",
+    "text": "{",
+    "range": "[(0,0)..(0,1)]"
+  },
+  "elements": [
+    {
+      "key": {
+        "type": "Key",
+        "text": "key",
+        "range": "[(0,1)..(0,4)]"
+      },
+      "colon": {
+        "type": "Colon",
+        "text": ":",
+        "range": "[(0,4)..(0,5)]"
+      },
+      "value": {
+        "type": "StringValue",
+        "text": "'value'",
+        "range": "[(0,6)..(0,13)]"
+      },
+      "range": "[(0,1)..(0,13)]"
+    }
+  ],
+  "commas": [],
+  "rightCurly": "undefined",
+  "range": "[(0,0)..(0,13)]",
+  "errors": {
+    "lexer": [],
+    "parse": [
+      {
+        "type": "ParseError",
+        "range": "[(0,0)..(0,NaN)]",
+        "text": "",
+        "merged": [
+          {
+            "type": "ParseError",
+            "text": "",
+            "range": "[(0,0)..(0,NaN)]",
+            "tokenTypeName": "EOF"
+          }
+        ],
+        "tokenTypeName": "EOF",
+        "previousToken": {
+          "type": "ParseError",
+          "text": "'value'",
+          "range": "[(0,6)..(0,13)]",
+          "tokenTypeName": "StringValue"
+        }
+      }
+    ]
+  },
+  "spaces": [
+    {
+      "type": "WhiteSpace",
+      "text": " ",
+      "range": "[(0,5)..(0,6)]"
+    }
+  ]
+}
