@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.14
+
+### Patch Changes
+
+- d73f415: GitHub action artifact processing optimization
+
 ## 4.0.13
 
 ### Patch Changes
