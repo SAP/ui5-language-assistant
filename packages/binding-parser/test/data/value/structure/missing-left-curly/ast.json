@@ -72,7 +72,8 @@
           "text": ":",
           "range": "[(0,25)..(0,26)]",
           "tokenTypeName": "Colon"
-        }
+        },
+        "message": "Expecting: one of these possible Token sequences:\n  1. [StringValue]\n  2. [NumberValue]\n  3. [{]\n  4. [[]\n  5. [BooleanValue]\n  6. [NullValue]\nbut found: '}'"
       },
       {
         "type": "ParseError",
@@ -87,7 +88,8 @@
           }
         ],
         "tokenTypeName": "RightCurly",
-        "previousToken": "undefined"
+        "previousToken": "undefined",
+        "message": "Redundant input, expecting EOF but found: }"
       }
     ]
   },

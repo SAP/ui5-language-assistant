@@ -2,22 +2,9 @@
   {
     "token": {
       "image": "",
-      "startOffset": null,
-      "endOffset": null,
-      "startLine": null,
-      "endLine": null,
       "startColumn": null,
       "endColumn": null,
-      "tokenTypeIdx": 1,
-      "tokenType": {
-        "name": "EOF",
-        "PATTERN": {},
-        "tokenTypeIdx": 1,
-        "CATEGORIES": [],
-        "categoryMatches": [],
-        "categoryMatchesMap": {},
-        "isParent": false
-      }
+      "tokenTypeName": "EOF"
     },
     "message": "Expecting --> } <-- but found --> '' <--",
     "name": "MismatchedTokenException",

@@ -23,12 +23,18 @@ import {
   BaseUI5XMLViewIssue,
 } from "@ui5-language-assistant/xml-views-validation";
 
-import { defaultValidators as externalDefaultValidators } from "@ui5-language-assistant/fe";
+import { defaultValidators as feValidators } from "@ui5-language-assistant/fe";
 import type { AnnotationIssue } from "@ui5-language-assistant/fe";
 import { isAnnotationIssue } from "@ui5-language-assistant/fe";
 
 import { offsetRangeToLSPRange } from "./range-utils";
 import { Context } from "@ui5-language-assistant/context";
+import {
+  bindingValidators,
+  isBindingIssue,
+} from "@ui5-language-assistant/binding";
+import type { BindingIssue } from "@ui5-language-assistant/binding";
+import type { IssueType, ExternalIssueType } from "./types";
 
 export function getXMLViewDiagnostics(opts: {
   document: TextDocument;
@@ -41,63 +47,77 @@ export function getXMLViewDiagnostics(opts: {
   if (opts.context.manifestDetails.flexEnabled) {
     actualValidators.element.push(validators.validateNonStableId);
   }
-  const externalValidators: UI5ValidatorsConfig<AnnotationIssue> = cloneDeep(
-    externalDefaultValidators
+  const externalFeValidators: UI5ValidatorsConfig<AnnotationIssue> = cloneDeep(
+    feValidators
+  );
+  const externalBindingValidators: UI5ValidatorsConfig<BindingIssue> = cloneDeep(
+    bindingValidators
   );
   const issues = validateXMLView({
-    validators: mergeValidators<AnnotationIssue>(
+    validators: mergeValidators([
       actualValidators,
-      externalValidators
-    ),
+      externalFeValidators,
+      externalBindingValidators,
+    ]),
     xmlView: xmlDocAst,
     context: opts.context,
   });
-  const diagnostics = validationIssuesToLspDiagnostics(
+  const diagnostics = validationIssuesToLspDiagnostics<IssueType>(
     issues,
     opts.document,
-    isAnnotationIssue
+    [isAnnotationIssue, isBindingIssue]
   );
   return diagnostics;
 }
 
-function mergeValidators<ExternalIssueType>(
-  v1: UI5ValidatorsConfig<UI5XMLViewIssue>,
-  v2: UI5ValidatorsConfig<ExternalIssueType>
-): UI5ValidatorsConfig<UI5XMLViewIssue | ExternalIssueType> {
-  return {
-    attribute: [...v1.attribute, ...v2.attribute],
-    document: [...v1.document, ...v2.document],
-    element: [...v1.element, ...v2.element],
-  };
+function mergeValidators(
+  param: [
+    UI5ValidatorsConfig<UI5XMLViewIssue>,
+    UI5ValidatorsConfig<AnnotationIssue>,
+    UI5ValidatorsConfig<BindingIssue>
+  ]
+): UI5ValidatorsConfig<IssueType> {
+  return param.reduce(
+    (accumulator: UI5ValidatorsConfig<IssueType>, currentValue) => {
+      return {
+        attribute: [...accumulator.attribute, ...currentValue.attribute],
+        document: [...accumulator.document, ...currentValue.document],
+        element: [...accumulator.element, ...currentValue.element],
+      };
+    },
+    {
+      attribute: [],
+      document: [],
+      element: [],
+    }
+  );
 }
 
-function validationIssuesToLspDiagnostics<
-  ExternalIssueType extends BaseUI5XMLViewIssue & {
-    code?: string | number;
-    tags?: DiagnosticTag[];
-  }
->(
-  issues: (UI5XMLViewIssue | ExternalIssueType)[],
+function validationIssuesToLspDiagnostics<T extends ExternalIssueType>(
+  issues: (UI5XMLViewIssue | T)[],
   document: TextDocument,
-  isExternalIssue: (
-    issue: UI5XMLViewIssue | ExternalIssueType
-  ) => issue is ExternalIssueType
+  externalIssues: ((issue: UI5XMLViewIssue | T) => issue is T)[]
 ): Diagnostic[] {
   const diagnostics: Diagnostic[] = map(issues, (currIssue) => {
+    const range = isBindingIssue(currIssue)
+      ? currIssue.range!
+      : offsetRangeToLSPRange(currIssue.offsetRange, document);
     const commonDiagnosticPros: Diagnostic = {
-      range: offsetRangeToLSPRange(currIssue.offsetRange, document),
+      range,
       severity: toLspSeverity(currIssue.severity),
       source: DIAGNOSTIC_SOURCE,
       message: currIssue.message,
     };
 
     // external issue transformation
-    if (isExternalIssue(currIssue)) {
-      return {
-        ...commonDiagnosticPros,
-        code: currIssue.code,
-        tags: currIssue.tags,
-      };
+    for (const isExternalIssue of externalIssues) {
+      if (isExternalIssue(currIssue)) {
+        return {
+          ...commonDiagnosticPros,
+          code: currIssue.code,
+          tags: currIssue.tags,
+        };
+      }
     }
 
     const issueKind = currIssue.kind;
@@ -142,7 +162,7 @@ function validationIssuesToLspDiagnostics<
         };
       /* istanbul ignore next - defensive programming */
       default:
-        assertNever(issueKind);
+        assertNever(issueKind as never);
     }
   });
 

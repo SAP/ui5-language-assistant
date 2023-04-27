@@ -67,7 +67,8 @@
           "text": "[",
           "range": "[(0,6)..(0,7)]",
           "tokenTypeName": "LeftSquare"
-        }
+        },
+        "message": "Expecting --> ] <-- but found --> '}' <--"
       }
     ]
   },

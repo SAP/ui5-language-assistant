@@ -64,7 +64,8 @@
           "text": "'value-02'",
           "range": "[(0,26)..(0,36)]",
           "tokenTypeName": "StringValue"
-        }
+        },
+        "message": "Expecting --> } <-- but found --> 'key02' <--"
       }
     ]
   },

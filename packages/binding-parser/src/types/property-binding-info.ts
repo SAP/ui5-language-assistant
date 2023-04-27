@@ -1,17 +1,29 @@
 import { Range } from "vscode-languageserver-types";
 import {
-  CstNode,
-  CstChildrenDictionary,
-  CstElement,
   IToken,
   CstNodeLocation,
   ILexingError,
   IRecognitionException,
-  MismatchedTokenException,
-  NoViableAltException,
+  CstNode,
 } from "chevrotain";
 import type { Position } from "vscode-languageserver-types";
 import {
+  BOOLEAN_VALUE,
+  COLON,
+  COMMA,
+  KEY,
+  LEFT_CURLY,
+  LEFT_SQUARE,
+  LEXER_ERROR,
+  NULL_VALUE,
+  NUMBER_VALUE,
+  PARSE_ERROR,
+  RIGHT_CURLY,
+  RIGHT_SQUARE,
+  STRING_VALUE,
+  WHITE_SPACE,
+} from "../constant";
+export {
   BOOLEAN_VALUE,
   COLON,
   COMMA,
@@ -100,6 +112,7 @@ export interface ParseErrorBase extends Base {
 export interface ParseError extends ParseErrorBase {
   merged: ParseErrorBase[];
   previousToken?: ParseErrorBase;
+  message: string;
 }
 
 export interface CollectionValue {
@@ -137,7 +150,7 @@ export interface Ast {
 }
 
 export interface ParseResult {
-  cst;
+  cst: CstNode;
   ast: Ast;
   tokens: IToken[];
   lexErrors: ILexingError[];
