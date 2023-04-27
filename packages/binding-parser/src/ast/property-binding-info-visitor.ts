@@ -134,7 +134,11 @@ class PropertyBindingInfoVisitor extends BaseVisitor {
       if (!data.length) {
         return;
       }
-      return this.visit(data as CstNode[], param);
+      const structureData = data as CstNode[];
+      return this.visit(structureData, {
+        ...param,
+        location: structureData[0].location,
+      });
     }
     data = node[ARRAY];
     if (data) {

@@ -52,7 +52,8 @@
           "text": "",
           "range": "[(0,0)..(0,NaN)]",
           "tokenTypeName": "EOF"
-        }
+        },
+        "message": "Expecting --> { <-- but found --> 'key' <--"
       }
     ]
   },

@@ -75,7 +75,7 @@ export const createLexerErrors = (
 };
 
 export const createParseErrors = (
-  node: (
+  nodes: (
     | IRecognitionException
     | MismatchedTokenException
     | NoViableAltException
@@ -84,7 +84,7 @@ export const createParseErrors = (
 ): ParseError[] => {
   const result: ParseError[] = [];
   let tokens: ParseErrorBase[] = [];
-  for (const item of node) {
+  for (const item of nodes) {
     let node = createNode(item.token, PARSE_ERROR, { position });
     tokens.push({ ...node, tokenTypeName: item.token.tokenType.name });
     for (const resync of item.resyncedTokens) {
@@ -113,6 +113,7 @@ export const createParseErrors = (
         merged: tokens,
         tokenTypeName: tokens[0].tokenTypeName,
         previousToken,
+        message: item.message,
       });
       // rest tokens
       tokens = [];
@@ -140,6 +141,7 @@ export const createParseErrors = (
       merged: tokens,
       tokenTypeName,
       previousToken,
+      message: item.message,
     });
     // rest token
     tokens = [];

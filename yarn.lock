@@ -1919,6 +1919,11 @@
   resolved "https://registry.npmjs.org/@sap-ux/vocabularies-types/-/vocabularies-types-0.6.8.tgz"
   integrity sha512-58b1/E9hxSsIit9NMQ9oXCYNUaOT7kbQU1OKhAPVp3Pg2BMbkRo5p1SX6BSan4XmONUpao7yRUVZEG0dspR5qg==
 
+"@sap-ux/vocabularies-types@0.7.4":
+  version "0.7.4"
+  resolved "https://registry.yarnpkg.com/@sap-ux/vocabularies-types/-/vocabularies-types-0.7.4.tgz#66388bc5368be7edee2502a726e019cd8638c5c3"
+  integrity sha512-JC2s7P7EOYvnubxqDIJYdZXA/aNvK78XqvB1sMyI4z+rf/mgTTID7mIf/2J3rSwHw+GjVrDK+UvSX3vJhomKew==
+
 "@sap-ux/yaml@0.13.3":
   version "0.13.3"
   resolved "https://registry.yarnpkg.com/@sap-ux/yaml/-/yaml-0.13.3.tgz#47104237809fcf1eb412c598fa18f90bf4d87ba0"

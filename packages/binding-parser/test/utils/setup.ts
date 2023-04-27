@@ -10,6 +10,7 @@ import type {
 } from "chevrotain";
 import { deserialize } from "./deserialize-ast";
 import type { Ast } from "../../src/types/property-binding-info";
+import { serialize } from "./serialize";
 
 const { readFile } = promises;
 
@@ -85,8 +86,12 @@ const reduceTokenInfo = (token: IToken): void => {
     }
 
     /* eslint-disable-next-line  @typescript-eslint/no-explicit-any */
-    (token as any).tokenTypeName =
-      (token as any).tokenTypeName ?? token.tokenType?.name;
+    const tokenTypeName = (token as any).tokenTypeName;
+    if (tokenTypeName && typeof tokenTypeName === "string") {
+      (token as any).tokenTypeName = tokenTypeName;
+    } else {
+      (token as any).tokenTypeName = token.tokenType?.name;
+    }
     delete token.startLine;
     delete token.endLine;
     //@ts-ignore
@@ -124,23 +129,32 @@ export const transformParserErrorForAssertion = (
   const result: ErrorTransform[] = [];
   for (const node of nodes) {
     if (node.token) {
-      transformCstForAssertion(node.token);
+      const data = deserialize<IToken>(serialize(node.token));
+      transformCstForAssertion(data);
+      node.token = data;
     }
     if (node.resyncedTokens) {
-      for (const resync of node.resyncedTokens) {
+      const data = deserialize<IToken[]>(serialize(node.resyncedTokens));
+      for (const resync of data) {
         transformCstForAssertion(resync);
       }
+      node.resyncedTokens = data;
     }
     if (node.previousToken) {
-      transformCstForAssertion(node.previousToken);
+      const data = deserialize<IToken>(serialize(node.previousToken));
+      transformCstForAssertion(data);
+      node.previousToken = data;
     }
-    result.push({
-      token: node.token,
-      message: node.message,
-      name: node.name,
-      resyncedTokens: node.resyncedTokens,
-      previousToken: node.previousToken,
-    });
+    const data = deserialize<ErrorTransform>(
+      serialize({
+        token: node.token,
+        message: node.message,
+        name: node.name,
+        resyncedTokens: node.resyncedTokens,
+        previousToken: node.previousToken,
+      })
+    );
+    result.push(data);
   }
   return result;
 };

@@ -25,6 +25,7 @@
     "node": ">=10.0.0"
   },
   "dependencies": {
+    "@ui5-language-assistant/binding": "1.0.0",
     "@sap/swa-for-sapbas-vsx": "1.1.9",
     "@ui5-language-assistant/context": "4.0.7",
     "@ui5-language-assistant/fe": "4.0.7",

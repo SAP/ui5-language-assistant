@@ -60,7 +60,7 @@ describe("property binding info parser", () => {
   /**
    * Include folder name e.g '/key-only' to only execute it
    */
-  const only: string[] = ["/missing-left-curly"];
+  const only: string[] = [];
   for (const t of allTests) {
     if (skip.includes(t)) {
       it.skip(`${t}`, () => {
