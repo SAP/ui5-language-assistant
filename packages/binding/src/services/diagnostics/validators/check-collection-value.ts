@@ -1,4 +1,4 @@
-import { BindingIssue, BINDING_ISSUE_TYPE } from "../../../types";
+import { BindingIssue } from "../../../types";
 import {
   isCollectionValue,
   isPrimitiveValue,
@@ -8,7 +8,6 @@ import {
 import { checkAst } from "./issue-collector";
 import { getPrimitiveValueIssues } from "./check-primitive-value";
 import { propertyBindingInfoElements } from "../../../definition/definition";
-import { rangeToOffsetRange, typesToValue, valueTypeMap } from "../../../utils";
 
 /**
  * Check collection value

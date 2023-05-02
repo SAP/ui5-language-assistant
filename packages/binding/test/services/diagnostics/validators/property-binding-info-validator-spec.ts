@@ -144,7 +144,7 @@ describe("property-binding-info-validator", () => {
     const { attr, context } = await getData(snippet);
     const result = validatePropertyBindingInfo(attr, context);
     expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
-      "kind: MissingValue; text: Expect value; severity:info; range:9:18-9:23",
+      "kind: MissingValue; text: Expect ' ' as a value; severity:info; range:9:18-9:23",
     ]);
   });
   it("check wrong value - allowed value are {} or ''", async () => {
@@ -278,7 +278,7 @@ describe("property-binding-info-validator", () => {
     const { attr, context } = await getData(snippet);
     const result = validatePropertyBindingInfo(attr, context);
     expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
-      "kind: MissingValue; text: Expect value; severity:info; range:9:27-9:44",
+      "kind: MissingValue; text: Expect a value; severity:info; range:9:27-9:44",
     ]);
   });
   it("check missing value in structure value inside collection", async () => {
@@ -287,7 +287,7 @@ describe("property-binding-info-validator", () => {
     const { attr, context } = await getData(snippet);
     const result = validatePropertyBindingInfo(attr, context);
     expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
-      "kind: MissingValue; text: Expect value; severity:info; range:9:47-9:61",
+      "kind: MissingValue; text: Expect a value; severity:info; range:9:47-9:61",
     ]);
   });
   it("check missing value in nested structure value", async () => {
@@ -296,7 +296,7 @@ describe("property-binding-info-validator", () => {
     const { attr, context } = await getData(snippet);
     const result = validatePropertyBindingInfo(attr, context);
     expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
-      "kind: MissingValue; text: Expect value; severity:info; range:9:59-9:69",
+      "kind: MissingValue; text: Expect a value; severity:info; range:9:59-9:69",
     ]);
   });
   it("check duplicate element", async () => {

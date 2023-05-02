@@ -1,3 +1,6 @@
+import { Context } from "@ui5-language-assistant/context";
+import { TextDocumentPositionParams } from "vscode-languageserver-protocol";
+
 export type TypeKind = "string" | "boolean" | "object";
 export type BindingInfoName =
   | "path"
@@ -32,4 +35,8 @@ export interface PropertyBindingInfoElement {
     text: string;
     visibility: "Public";
   };
+}
+
+export interface BindContext extends Context {
+  textDocumentPosition: TextDocumentPositionParams;
 }

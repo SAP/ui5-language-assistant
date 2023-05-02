@@ -21,6 +21,7 @@
     "@ui5-language-assistant/logic-utils": "4.0.6",
     "@ui5-language-assistant/xml-views-completion": "4.0.7",
     "@ui5-language-assistant/xml-views-validation": "4.0.6",
+    "@ui5-language-assistant/settings": "4.0.6",
     "deep-freeze-strict": "1.1.1",
     "lodash": "4.17.21"
   },
