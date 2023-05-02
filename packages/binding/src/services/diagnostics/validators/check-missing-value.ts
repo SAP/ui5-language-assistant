@@ -1,6 +1,7 @@
 import { BindingIssue, BINDING_ISSUE_TYPE } from "../../../types";
 import { PropertyBindingInfoTypes as BindingTypes } from "@ui5-language-assistant/binding-parser";
-import { rangeToOffsetRange } from "../../../utils";
+import { rangeToOffsetRange, typesToValue } from "../../../utils";
+import { propertyBindingInfoElements } from "../../../definition/definition";
 
 /**
  * Check missing value
@@ -23,10 +24,18 @@ export const checkMissingValue = (
     return issues;
   }
   if (!element.value) {
+    const bindingElement = propertyBindingInfoElements.find(
+      (el) => el.name === element.key?.text
+    );
+    let message = "Expect a value";
+    if (bindingElement) {
+      const data = typesToValue(bindingElement.type);
+      message = `Expect ${data.join(" or ")} as a value`;
+    }
     issues.push({
       issueType: BINDING_ISSUE_TYPE,
       kind: "MissingValue",
-      message: "Expect value",
+      message,
       offsetRange: rangeToOffsetRange(element.colon.range),
       range: {
         start: element.key.range.start,
