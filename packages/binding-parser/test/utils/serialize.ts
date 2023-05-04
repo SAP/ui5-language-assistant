@@ -21,7 +21,7 @@ const compactAst = (key, value) => {
   return value;
 };
 
-export const serialize = (value) => {
+export const serialize = <T = unknown>(value: T): string => {
   const text = JSON.stringify(value, compactAst, 2) + "\n";
   return text;
 };

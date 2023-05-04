@@ -156,6 +156,15 @@ describe("property-binding-info-validator", () => {
       "kind: MissMatchValue; text: Allowed values are { } or ' '; severity:info; range:9:24-9:26",
     ]);
   });
+  it("check wrong collection value - allowed value are {} or ''", async () => {
+    const snippet = `
+    <Text text="{ type: [] }" id="test-id"></Text>`;
+    const { attr, context } = await getData(snippet);
+    const result = validatePropertyBindingInfo(attr, context);
+    expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
+      "kind: MissMatchValue; text: Allowed values are { } or ' '; severity:info; range:9:18-9:26",
+    ]);
+  });
   it("check wrong value - allowed value is string", async () => {
     const snippet = `
     <Text text="{ path: true }" id="test-id"></Text>`;
@@ -328,11 +337,11 @@ describe("property-binding-info-validator", () => {
   });
   it("check duplicate element - collection", async () => {
     const snippet = `
-    <Text text="{ parts: [{one: '', one: ''}] }" id="test-id"></Text>`;
+    <Text text="{ parts: [{path: '', path: ''}] }" id="test-id"></Text>`;
     const { attr, context } = await getData(snippet);
     const result = validatePropertyBindingInfo(attr, context);
     expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
-      "kind: DuplicateProperty; text: Duplicate property; severity:info; range:9:36-9:39",
+      "kind: DuplicateProperty; text: Duplicate property; severity:info; range:9:37-9:41",
     ]);
   });
   it("check nested duplicate element - collection", async () => {
@@ -351,19 +360,20 @@ describe("property-binding-info-validator", () => {
     const { attr, context } = await getData(snippet);
     const result = validatePropertyBindingInfo(attr, context);
     expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
-      "kind: DuplicateProperty; text: Duplicate property; severity:info; range:14:12-14:15",
+      "kind: UnknownPropertyBindingInfo; text: Unknown property binding info; severity:info; range:11:8-11:11",
+      "kind: UnknownPropertyBindingInfo; text: Unknown property binding info; severity:info; range:17:8-17:11",
       "kind: DuplicateProperty; text: Duplicate property; severity:info; range:17:8-17:11",
     ]);
   });
   it("check only one of elements [path, value or parts] is allowed", async () => {
     const snippet = `
-    <Text text="{ parts: [], path: '', value: '' }" id="test-id"></Text>`;
+    <Text text="{ parts: [''], path: '', value: '' }" id="test-id"></Text>`;
     const { attr, context } = await getData(snippet);
     const result = validatePropertyBindingInfo(attr, context);
     expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
       "kind: NotAllowedProperty; text: One of these elements [parts, path, value] are allowed; severity:info; range:9:18-9:23",
-      "kind: NotAllowedProperty; text: One of these elements [parts, path, value] are allowed; severity:info; range:9:29-9:33",
-      "kind: NotAllowedProperty; text: One of these elements [parts, path, value] are allowed; severity:info; range:9:39-9:44",
+      "kind: NotAllowedProperty; text: One of these elements [parts, path, value] are allowed; severity:info; range:9:31-9:35",
+      "kind: NotAllowedProperty; text: One of these elements [parts, path, value] are allowed; severity:info; range:9:41-9:46",
     ]);
   });
   it("check only one of elements [path, value or parts] is allowed - nested", async () => {
@@ -406,11 +416,13 @@ describe("property-binding-info-validator", () => {
     const { attr, context } = await getData(snippet);
     const result = validatePropertyBindingInfo(attr, context);
     expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
+      "kind: MissingValue; text: Required values { } or ' ' must be provided; severity:info; range:10:22-10:31",
       "kind: RecursiveProperty; text: Recursive composite bindings is not allowed; severity:info; range:10:6-10:11",
     ]);
   });
-  it("check recursive composite bindings - nested", async () => {
-    const snippet = `
+  context("parts", () => {
+    it("check recursive composite bindings - nested", async () => {
+      const snippet = `
     <Text text="{parts: [{
       p: [
         {
@@ -418,11 +430,92 @@ describe("property-binding-info-validator", () => {
         }
       ]
     }]}" id="test-id"></Text>`;
-    const { attr, context } = await getData(snippet);
-    const result = validatePropertyBindingInfo(attr, context);
-    expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
-      "kind: RecursiveProperty; text: Recursive composite bindings is not allowed; severity:info; range:12:12-12:17",
-    ]);
+      const { attr, context } = await getData(snippet);
+      const result = validatePropertyBindingInfo(attr, context);
+      expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
+        "kind: UnknownPropertyBindingInfo; text: Unknown property binding info; severity:info; range:10:6-10:7",
+        "kind: RecursiveProperty; text: Recursive composite bindings is not allowed; severity:info; range:12:12-12:17",
+      ]);
+    });
+    it("check wrong property binding", async () => {
+      const snippet = `
+    <Text text="{ parts: [{ party }] }" id="test-id"></Text>`;
+      const { attr, context } = await getData(snippet);
+      const result = validatePropertyBindingInfo(attr, context);
+      expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
+        "kind: UnknownPropertyBindingInfo; text: Unknown property binding info; severity:info; range:9:28-9:33",
+      ]);
+    });
+    it("check missing colon", async () => {
+      const snippet = `
+    <Text text="{ parts: [{ path }] }" id="test-id"></Text>`;
+      const { attr, context } = await getData(snippet);
+      const result = validatePropertyBindingInfo(attr, context);
+      expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
+        "kind: MissingColon; text: Expect colon; severity:info; range:9:28-9:32",
+      ]);
+    });
+    it("check missing value", async () => {
+      const snippet = `
+    <Text text="{ parts: [{ path: } }" id="test-id"></Text>`;
+      const { attr, context } = await getData(snippet);
+      const result = validatePropertyBindingInfo(attr, context);
+      expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
+        "kind: MissingValue; text: Expect ' ' as a value; severity:info; range:9:28-9:33",
+      ]);
+    });
+    it("check missing comma", async () => {
+      const snippet = `
+    <Text text="{ parts: [{ path: '' event: {} }}" id="test-id"></Text>`;
+      const { attr, context } = await getData(snippet);
+      const result = validatePropertyBindingInfo(attr, context);
+      expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
+        "kind: MissingComma; text: Missing comma; severity:info; range:9:37-9:42",
+      ]);
+    });
+    it("check trailing comma", async () => {
+      const snippet = `
+    <Text text="{ parts: [{ path: ''}, ]}" id="test-id"></Text>`;
+      const { attr, context } = await getData(snippet);
+      const result = validatePropertyBindingInfo(attr, context);
+      expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
+        "kind: TrailingComma; text: Trailing comma; severity:info; range:9:37-9:38",
+      ]);
+    });
+    it("check empty collection", async () => {
+      const snippet = `
+    <Text text="{ parts: []}" id="test-id"></Text>`;
+      const { attr, context } = await getData(snippet);
+      const result = validatePropertyBindingInfo(attr, context);
+      expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
+        "kind: MissingValue; text: Required values { } or ' ' must be provided; severity:info; range:9:18-9:27",
+      ]);
+    });
+    it("check collection with empty object", async () => {
+      const snippet = `
+    <Text text="{ parts: [{}]}" id="test-id"></Text>`;
+      const { attr, context } = await getData(snippet);
+      const result = validatePropertyBindingInfo(attr, context);
+      expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
+        'kind: MissingValue; text: A valid binding property info must be provided for "{}"; severity:info; range:9:26-9:28',
+      ]);
+    });
+    it("check collection with mixed data", async () => {
+      const snippet = `
+    <Text text="{ parts: [{path: ' '}, '']}" id="test-id"></Text>`;
+      const { attr, context } = await getData(snippet);
+      const result = validatePropertyBindingInfo(attr, context);
+      expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([]);
+    });
+    it("check nested collection", async () => {
+      const snippet = `
+    <Text text="{ parts: [[]]}" id="test-id"></Text>`;
+      const { attr, context } = await getData(snippet);
+      const result = validatePropertyBindingInfo(attr, context);
+      expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
+        'kind: MissingValue; text: Nested "[]" are not allowed; severity:info; range:9:26-9:28',
+      ]);
+    });
   });
   it("check missing comma", async () => {
     const snippet = `
@@ -451,9 +544,17 @@ describe("property-binding-info-validator", () => {
       "kind: Syntax; text: Expecting: one of these possible Token sequences:\n  1. [StringValue]\n  2. [NumberValue]\n  3. [{]\n  4. [[]\n  5. [BooleanValue]\n  6. [NullValue]\nbut found: ':'; severity:info; range:9:23-9:30",
     ]);
   });
+  it("check too many object", async () => {
+    const snippet = `
+    <Text text="{{{}}}" id="test-id"></Text>`;
+    const { attr, context } = await getData(snippet);
+    const result = validatePropertyBindingInfo(attr, context);
+    expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
+      "kind: Syntax; text: Expecting --> } <-- but found --> '{' <--; severity:info; range:9:17-9:21",
+    ]);
+  });
 
   // do not check if not property binding info e.g {path/to/a/model/element}
   // do not show error for text area e.g this is a text {path: ''}
   // do not show error for text with escaped \{ {path: ''}
-  //
 });

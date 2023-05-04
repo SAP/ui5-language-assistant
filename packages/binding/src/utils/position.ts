@@ -43,7 +43,10 @@ export function isBefore(
 /**
  * Checks if range1 is positioned before adjacent range2
  */
-export const isBeforeAdjacentRange = (range1?: Range, range2?: Range) => {
+export const isBeforeAdjacentRange = (
+  range1?: Range,
+  range2?: Range
+): boolean => {
   if (!range1 || !range2) {
     return false;
   }
@@ -58,7 +61,10 @@ export const isBeforeAdjacentRange = (range1?: Range, range2?: Range) => {
 /**
  * Checks if range1 is positioned after adjacent range2
  */
-export const isAfterAdjacentRange = (range1?: Range, range2?: Range) => {
+export const isAfterAdjacentRange = (
+  range1?: Range,
+  range2?: Range
+): boolean => {
   if (!range1 || !range2) {
     return false;
   }

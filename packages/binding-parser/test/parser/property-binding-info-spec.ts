@@ -56,7 +56,7 @@ describe("property binding info parser", () => {
    * Include folder name e.g '/key-colon-value' to skip it
    */
   const skip: string[] = [];
-  const todo: string[] = [];
+  // const todo: string[] = [];
   /**
    * Include folder name e.g '/key-only' to only execute it
    */

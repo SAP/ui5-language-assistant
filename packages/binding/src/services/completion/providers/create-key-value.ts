@@ -8,12 +8,9 @@ import { PropertyBindingInfoTypes as BindingTypes } from "@ui5-language-assistan
 import { propertyBindingInfoElements } from "../../../definition/definition";
 import { typesToValue } from "../../../utils";
 import { getDocumentation } from "./documentation";
-import { KeyValueContext, PropertyBindingInfoElement } from "../../../types";
+import { PropertyBindingInfoElement } from "../../../types";
 
-export const createKeyValue = (
-  ast: BindingTypes.Ast,
-  context: KeyValueContext
-): CompletionItem[] => {
+export const createKeyValue = (ast: BindingTypes.Ast): CompletionItem[] => {
   const completionItems: CompletionItem[] = [];
   // exclude duplicate
   const remaining: PropertyBindingInfoElement[] = [];

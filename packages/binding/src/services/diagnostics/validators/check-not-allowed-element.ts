@@ -1,7 +1,6 @@
 import {
   BindingIssue,
   BINDING_ISSUE_TYPE,
-  PropertyType,
   BindingInfoName,
 } from "../../../types";
 import { PropertyBindingInfoTypes as BindingTypes } from "@ui5-language-assistant/binding-parser";

@@ -52,11 +52,11 @@ export const checkPrimitiveValue = (
   if (ignore) {
     return issues;
   }
-  const bindingElement = propertyBindingInfoElements.find(
-    (el) => el.name === element.key?.text
-  );
   const value = element.value;
   if (isPrimitiveValue(value)) {
+    const bindingElement = propertyBindingInfoElements.find(
+      (el) => el.name === element.key?.text
+    );
     issues.push(...getPrimitiveValueIssues(value, bindingElement));
   }
   return issues;

@@ -6,7 +6,7 @@ import { rangeToOffsetRange, typesToValue, valueTypeMap } from "../../../utils";
 import { propertyBindingInfoElements } from "../../../definition/definition";
 import { BindingIssue, BINDING_ISSUE_TYPE } from "../../../types";
 
-export const checkDependents = (ast: BindingTypes.Ast) => {
+export const checkDependents = (ast: BindingTypes.Ast): BindingIssue[] => {
   const issues: BindingIssue[] = [];
   // collect all definition which has dependencies
   const dependentElements = propertyBindingInfoElements.filter((item) =>

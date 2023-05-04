@@ -41,3 +41,7 @@ export const valueTypeMap = new Map([
   [BindingTypes.RIGHT_CURLY, "object"],
   [BindingTypes.LEFT_CURLY, "object"],
 ]);
+
+export const isParts = (element: BindingTypes.AstElement): boolean => {
+  return element.key?.text === "parts";
+};

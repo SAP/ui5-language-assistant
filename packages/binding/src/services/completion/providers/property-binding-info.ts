@@ -15,14 +15,50 @@ import { createKeyProperties } from "./create-key-properties";
 import { createValue } from "./create-value";
 import { createKeyValue } from "./create-key-value";
 
+export const getCompletionItems = (
+  context: BindContext,
+  ast: BindingTypes.Ast,
+  spaces: BindingTypes.WhiteSpaces[],
+  text = "",
+  collection = false
+): CompletionItem[] => {
+  const completionItems: CompletionItem[] = [];
+  const cursorContext = getCursorContext(
+    context.textDocumentPosition,
+    ast,
+    spaces,
+    text,
+    collection
+  );
+  switch (cursorContext.type) {
+    case "initial":
+      return createInitialSnippet();
+    case "empty":
+      return createAllSupportedElements(ast);
+    case "key":
+      return createKeyProperties(cursorContext.element);
+    case "value":
+      return createValue(context, spaces, cursorContext);
+    case "key-value":
+      return createKeyValue(ast);
+    case "colon":
+      if (!cursorContext.element.value) {
+        // create value
+        return createValue(context, spaces, cursorContext);
+      }
+      return completionItems;
+    default:
+      break;
+  }
+  return completionItems;
+};
+
 /**
  * Suggests values for property binding info
  */
 export function propertyBindingInfoSuggestions({
-  element,
   attribute,
   context,
-  prefix,
 }: AttributeValueCompletionOptions<BindContext>): CompletionItem[] {
   const completionItems: CompletionItem[] = [];
   const ui5Property = getUI5PropertyByXMLAttributeKey(
@@ -47,30 +83,6 @@ export function propertyBindingInfoSuggestions({
     line: value?.startLine ? value.startLine - 1 : 0, // zero based index
   };
   const { ast } = parsePropertyBindingInfo(text, position);
-  const cursorContext = getCursorContext(
-    context.textDocumentPosition,
-    ast,
-    text
-  );
-  switch (cursorContext.type) {
-    case "initial":
-      return createInitialSnippet();
-    case "empty":
-      return createAllSupportedElements(ast);
-    case "key":
-      return createKeyProperties(cursorContext.element);
-    case "value":
-      return createValue(cursorContext.element);
-    case "key-value":
-      return createKeyValue(ast, cursorContext);
-    case "colon":
-      if (!cursorContext.element.value) {
-        // create value
-        return createValue(cursorContext.element);
-      }
-      return completionItems;
-    default:
-      break;
-  }
+  completionItems.push(...getCompletionItems(context, ast, ast.spaces, text));
   return completionItems;
 }
