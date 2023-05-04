@@ -18,7 +18,7 @@ const getData = (snippet: string) => {
 };
 const getCursorContextResult = (snippet: string) => {
   const { param, ast, prefix } = getData(snippet);
-  return getCursorContext(param, ast, prefix);
+  return getCursorContext(param, ast, ast.spaces, prefix);
 };
 
 describe("cursor", () => {
@@ -199,5 +199,16 @@ describe("cursor", () => {
       });
       expect(element).not.to.be.undefined;
     });
+  });
+  it("parts", () => {
+    const snippet = `{ parts: [{<CURSOR>}] }`;
+    const { kind, type, element } = getCursorContextResult(
+      snippet
+    ) as ValueContext;
+    expect({ type, kind }).to.deep.equal({
+      type: "value",
+      kind: "value",
+    });
+    expect(element).not.to.be.undefined;
   });
 });

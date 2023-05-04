@@ -229,7 +229,40 @@ describe("index", () => {
           "label: true; text: true; kind:5; commit:undefined; sort:; textEdit: {newText: true, range: 9:35-9:39}",
         ]);
       });
-      it("g. nested for parts only");
+      it("g. for parts only [empty collection]", async function () {
+        const snippet = `
+        <Text text="{parts: [ ${CURSOR_ANCHOR} ]}" id="test-id"></Text>`;
+        const result = await getCompletionResult(snippet, this);
+        expect(
+          result.map((item) => completionItemToSnapshot(item))
+        ).to.deep.equal([
+          "label: { }; text: { }; kind:5; commit:undefined; sort:",
+          "label: ' '; text: ' '; kind:5; commit:undefined; sort:",
+        ]);
+      });
+      it("h. for parts only [all binding info properties except parts itself]", async function () {
+        const snippet = `
+        <Text text="{parts: [{${CURSOR_ANCHOR}}]}" id="test-id"></Text>`;
+        const result = await getCompletionResult(snippet, this);
+        expect(
+          result.map((item) => completionItemToSnapshot(item))
+        ).to.deep.equal([
+          "label: path; text: path: ' '; kind:15; commit:undefined; sort:",
+          "label: value; text: value: ' '; kind:15; commit:undefined; sort:",
+          "label: model; text: model: ' '; kind:15; commit:undefined; sort:",
+          "label: suspended; text: suspended: ${1|true,false|}$0; kind:15; commit:undefined; sort:",
+          "label: formatter; text: formatter: ' '; kind:15; commit:undefined; sort:",
+          "label: useRawValues; text: useRawValues: ${1|true,false|}$0; kind:15; commit:undefined; sort:",
+          "label: useInternalValues; text: useInternalValues: ${1|true,false|}$0; kind:15; commit:undefined; sort:",
+          "label: type; text: type: ${1|{ },' '|}$0; kind:15; commit:undefined; sort:",
+          "label: targetType; text: targetType: ' '; kind:15; commit:undefined; sort:",
+          "label: formatOptions; text: formatOptions: { }; kind:15; commit:undefined; sort:",
+          "label: constraints; text: constraints: { }; kind:15; commit:undefined; sort:",
+          "label: mode; text: mode: { }; kind:15; commit:undefined; sort:",
+          "label: parameters; text: parameters: { }; kind:15; commit:undefined; sort:",
+          "label: events; text: events: { }; kind:15; commit:undefined; sort:",
+        ]);
+      });
     });
     context("provides CC for key value", () => {
       it("a. keyProperty: 'value-for-this-key'  `<CURSOR>` [spaces]", async function () {

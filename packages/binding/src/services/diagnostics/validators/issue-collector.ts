@@ -80,7 +80,7 @@ export const checkMissingComma = (ast: BindingTypes.Ast): BindingIssue[] => {
 /**
  * Check trailing comma.
  *
- * It is considered trailing comma when first merged item is 'RightCurly' and previous token is 'Comma'
+ * It is considered trailing comma when first merged item is 'RightCurly' or 'RightSquare' and previous token is 'Comma'
  */
 export const checkTrailingComma = (ast: BindingTypes.Ast): BindingIssue[] => {
   const issues: BindingIssue[] = [];
@@ -89,7 +89,8 @@ export const checkTrailingComma = (ast: BindingTypes.Ast): BindingIssue[] => {
     const item = parseError.merged[0];
     if (
       parseError.previousToken?.tokenTypeName === BindingTypes.COMMA &&
-      item?.tokenTypeName === BindingTypes.RIGHT_CURLY
+      (item?.tokenTypeName === BindingTypes.RIGHT_CURLY ||
+        item.tokenTypeName === BindingTypes.RIGHT_SQUARE)
     ) {
       // it should have been trailing comma
       issues.push({

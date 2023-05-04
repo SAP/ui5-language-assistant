@@ -1,62 +1,22 @@
 import { PropertyBindingInfoTypes as BindingTypes } from "@ui5-language-assistant/binding-parser";
 import { CursorContext } from "../types";
-import {
-  TextDocumentPositionParams,
-  Range,
-  Position,
-} from "vscode-languageserver-protocol";
+import { TextDocumentPositionParams } from "vscode-languageserver-protocol";
 import {
   isAfterAdjacentRange,
   isBeforeAdjacentRange,
   positionContained,
-  rangeContained,
 } from ".";
-
-const isCommaNotAvailable = (
-  ast: BindingTypes.Ast,
-  position?: Position
-): boolean => {
-  const { commas, spaces } = ast;
-  if (!position) {
-    return false;
-  }
-  if (commas.length === 0) {
-    return true;
-  }
-  // check commas
-  let el = commas.find((item) => positionContained(item.range, position));
-  if (!el) {
-    // check spaces
-    const spaceEl = spaces.find((item) =>
-      positionContained(item.range, position)
-    );
-    if (spaceEl) {
-      // check commas
-      el = commas.find((item) =>
-        positionContained(spaceEl.range, item.range.end)
-      );
-      if (el) {
-        return false;
-      }
-    }
-  }
-  return true;
-};
 
 export const getCursorContext = (
   parm: TextDocumentPositionParams,
   ast: BindingTypes.Ast,
-  text = ""
+  spaces: BindingTypes.WhiteSpaces[],
+  text = "",
+  collection = false
 ): CursorContext => {
-  const {
-    errors: { lexer },
-    spaces,
-    elements,
-    commas,
-    rightCurly,
-  } = ast;
+  const { elements, commas } = ast;
   text = text?.trim();
-  if (!text) {
+  if (!text && !collection) {
     return {
       type: "initial",
       kind: "expression-binding",
@@ -77,13 +37,7 @@ export const getCursorContext = (
       return {
         type: "key",
         kind: "properties-excluding-duplicate",
-        // option: {},
         element: el,
-        // option: {
-        //   kind: "colon",
-        //   generate: el.colon?.text ? false : true,
-        //   position: "after",
-        // },
       };
     }
     // check colon
@@ -100,11 +54,6 @@ export const getCursorContext = (
       return {
         type: "value",
         kind: "value",
-        // option: {
-        //   kind: "value",
-        //   generate: false, // todo for complex value - check if option is really needed??
-        //   // generate: el.value ? false : true, // todo for complex value - check if option is really needed??
-        // },
         element: el,
       };
     }
@@ -123,7 +72,6 @@ export const getCursorContext = (
           type: "colon",
           kind: "colon",
           element: el,
-          // option: {},
         };
       }
       // before adjacent key => new key value
@@ -132,11 +80,6 @@ export const getCursorContext = (
           type: "key-value",
           kind: "properties-with-value-excluding-duplicate",
           element: el,
-          // option: {
-          //   kind: "comma",
-          //   generate: false,
-          //   position: "after",
-          // },
         };
       }
       // after adjacent colon => value
@@ -144,10 +87,6 @@ export const getCursorContext = (
         return {
           type: "value",
           kind: "value",
-          // option: {
-          //   kind: "value",
-          //   generate: false, // todo - check complex
-          // },
           element: el,
         };
       }
@@ -157,11 +96,6 @@ export const getCursorContext = (
           type: "key-value",
           kind: "properties-with-value-excluding-duplicate",
           element: el,
-          // option: {
-          //   kind: "comma",
-          //   generate: false,
-          //   position: "before",
-          // },
         };
       }
     }
@@ -178,10 +112,6 @@ export const getCursorContext = (
       type: "key-value",
       kind: "properties-with-value-excluding-duplicate",
       element: comma,
-      // option: {
-      //   kind: "comma",
-      //   generate: false,
-      // },
     };
   }
   return {

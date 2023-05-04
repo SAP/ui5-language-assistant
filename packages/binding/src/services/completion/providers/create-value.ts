@@ -4,17 +4,24 @@ import {
   InsertTextFormat,
 } from "vscode-languageserver-types";
 import {
+  isCollectionValue,
   isPrimitiveValue,
+  isStructureValue,
   PropertyBindingInfoTypes as BindingTypes,
 } from "@ui5-language-assistant/binding-parser";
 
 import { propertyBindingInfoElements } from "../../../definition/definition";
-import { typesToValue } from "../../../utils";
+import { isParts, typesToValue } from "../../../utils";
+import { getCompletionItems } from "./property-binding-info";
+import { BindContext, ColonContext, ValueContext } from "../../../types";
 
 export const createValue = (
-  element: BindingTypes.AstElement
+  context: BindContext,
+  spaces: BindingTypes.WhiteSpaces[],
+  valueContext: ValueContext | ColonContext
 ): CompletionItem[] => {
   const completionItems: CompletionItem[] = [];
+  const { element } = valueContext;
   if (isPrimitiveValue(element.value)) {
     if (element.value.text === "true" || element.value.text === "false") {
       const range = element.value.range;
@@ -61,6 +68,33 @@ export const createValue = (
           kind: CompletionItemKind.Field,
         });
       });
+    }
+  } else if (isCollectionValue(element.value) && isParts(element)) {
+    for (const collectionEl of element.value.elements) {
+      if (isStructureValue(collectionEl)) {
+        const result = getCompletionItems(
+          context,
+          collectionEl,
+          spaces,
+          "",
+          true
+        ).filter((item) => item.label !== "parts");
+        completionItems.push(...result);
+      }
+    }
+    if (element.value.elements.length === 0) {
+      const bindingElement = propertyBindingInfoElements.find(
+        (el) => el.name === element.key?.text
+      );
+      const data = typesToValue(bindingElement?.type ?? [], true);
+      data.forEach((item) =>
+        completionItems.push({
+          label: item,
+          insertTextFormat: InsertTextFormat.Snippet,
+          insertText: item,
+          kind: CompletionItemKind.Field,
+        })
+      );
     }
   }
   return completionItems;

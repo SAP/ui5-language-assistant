@@ -1,11 +1,7 @@
 export { rangeToOffsetRange } from "./document";
-export {
-  extractBindingExpression,
-  isBindingExpression,
-  isPropertyBindingInfoWitProperties,
-} from "./expression";
+export { isBindingExpression, extractBindingExpression } from "./expression";
 
-export { typesToValue, valueTypeMap } from "./element";
+export { typesToValue, valueTypeMap, isParts } from "./element";
 
 export { getCursorContext } from "./cursor";
 

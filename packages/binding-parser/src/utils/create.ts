@@ -6,7 +6,7 @@ import {
   NoViableAltException,
 } from "chevrotain";
 import { LEXER_ERROR, PARSE_ERROR } from "../constant";
-import type { Position } from "vscode-languageserver-types";
+import type { Position, Range } from "vscode-languageserver-types";
 import type {
   LexerError,
   NodeType,
@@ -20,7 +20,7 @@ export const createNode = <T extends NodeType>(
   token: IToken,
   type: T,
   param?: VisitorParam
-) => {
+): { type: T; text: string; range: Range } => {
   const text = token.image;
   const range = getRange(token, param?.position);
   return {
@@ -91,7 +91,7 @@ export const createParseErrors = (
       node = createNode(resync, PARSE_ERROR, { position });
       tokens.push({ ...node, tokenTypeName: resync.tokenType.name });
     }
-    let itemWithPreviousToken = item as
+    const itemWithPreviousToken = item as
       | MismatchedTokenException
       | NoViableAltException;
     let previousToken: ParseErrorBase | undefined;

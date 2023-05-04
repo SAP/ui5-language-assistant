@@ -21,14 +21,15 @@ const hasNaNOrUndefined = (value: undefined | number): boolean => {
   return isNaN(value);
 };
 
-export const getBase = () => join(__dirname, "..", "..", "..", "test", "data");
+export const getBase = (): string =>
+  join(__dirname, "..", "..", "..", "test", "data");
 
-export const getFileContent = async (filePath: string) => {
+export const getFileContent = async (filePath: string): Promise<string> => {
   const buffer = await readFile(filePath, "utf8");
   return buffer.toString();
 };
 
-export const getInput = async (testCasePath: string) => {
+export const getInput = async (testCasePath: string): Promise<string> => {
   const path = join(getBase(), testCasePath, "input.txt");
   return getFileContent(path);
 };
@@ -38,12 +39,16 @@ export const getCst = async (testCasePath: string): Promise<CstNode> => {
   const content = await getFileContent(path);
   return deserialize<CstNode>(content);
 };
-export const getLexerErrors = async (testCasePath: string): Promise<any> => {
+export const getLexerErrors = async (
+  testCasePath: string
+): Promise<unknown> => {
   const path = join(getBase(), testCasePath, "lexer-errors.json");
   const content = await getFileContent(path);
   return JSON.parse(content);
 };
-export const getParserErrors = async (testCasePath: string): Promise<any> => {
+export const getParserErrors = async (
+  testCasePath: string
+): Promise<unknown> => {
   const path = join(getBase(), testCasePath, "parse-errors.json");
   const content = await getFileContent(path);
   return JSON.parse(content);
@@ -66,10 +71,10 @@ const reduceLocationInfo = (location?: CstNodeLocation): void => {
     if (hasNaNOrUndefined(location.endColumn)) {
       location.endColumn = -1;
     }
-    //@ts-ignore
     delete location.startLine;
     delete location.endLine;
-    // @ts-ignore
+    /*eslint-disable-next-line @typescript-eslint/ban-ts-comment*/
+    //@ts-ignore";
     delete location.startOffset;
     delete location.endOffset;
   }
@@ -88,19 +93,25 @@ const reduceTokenInfo = (token: IToken): void => {
     /* eslint-disable-next-line  @typescript-eslint/no-explicit-any */
     const tokenTypeName = (token as any).tokenTypeName;
     if (tokenTypeName && typeof tokenTypeName === "string") {
+      /* eslint-disable-next-line  @typescript-eslint/no-explicit-any */
       (token as any).tokenTypeName = tokenTypeName;
     } else {
+      /* eslint-disable-next-line  @typescript-eslint/no-explicit-any */
       (token as any).tokenTypeName = token.tokenType?.name;
     }
     delete token.startLine;
     delete token.endLine;
-    //@ts-ignore
+    /*eslint-disable-next-line @typescript-eslint/ban-ts-comment*/
+    // @ts-ignore
     delete token.startOffset;
     delete token.endOffset;
+    /*eslint-disable-next-line @typescript-eslint/ban-ts-comment*/
     //@ts-ignore
     delete token.tokenTypeIdx;
+    /*eslint-disable-next-line @typescript-eslint/ban-ts-comment*/
     //@ts-ignore
     delete token.tokenType;
+    /*eslint-disable-next-line no-empty*/
   } catch (error) {}
 };
 export const transformCstForAssertion = (node: CstNode | IToken): void => {
@@ -184,7 +195,7 @@ export const getAllNormalizeFolderPath = (
   return allFolderPath;
 };
 
-export const doesExits = (path) => {
+export const doesExits = (path: string): Promise<boolean> => {
   return new Promise((resolve) => {
     stat(path, (err) => {
       if (err) {

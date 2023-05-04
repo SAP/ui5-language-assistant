@@ -1,4 +1,4 @@
-import { createToken, Lexer } from "chevrotain";
+import { createToken } from "chevrotain";
 import {
   KEY,
   STRING_VALUE,
