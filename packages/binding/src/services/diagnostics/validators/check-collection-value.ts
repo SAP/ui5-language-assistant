@@ -1,4 +1,4 @@
-import { BindingIssue, BINDING_ISSUE_TYPE } from "../../../types";
+import { BindContext, BindingIssue, BINDING_ISSUE_TYPE } from "../../../types";
 import {
   isCollectionValue,
   isPrimitiveValue,
@@ -17,6 +17,7 @@ import { isParts, rangeToOffsetRange, typesToValue } from "../../../utils";
  * @param ignore flag to ignore checking of key or value
  */
 export const checkCollectionValue = (
+  context: BindContext,
   element: BindingTypes.AstElement,
   ignore = false
 ): BindingIssue[] => {
@@ -36,7 +37,7 @@ export const checkCollectionValue = (
         (item) => item.collection
       );
       if (!collectionItem) {
-        const data = typesToValue(bindingElement.type);
+        const data = typesToValue(bindingElement.type, context);
         const message = `Allowed value${
           data.length > 1 ? "s are" : " is"
         } ${data.join(" or ")}`;
@@ -51,7 +52,7 @@ export const checkCollectionValue = (
         return issues;
       }
       if (value.elements.length === 0) {
-        const data = typesToValue(bindingElement.type, true);
+        const data = typesToValue(bindingElement.type, context, true);
         const message = `Required value${
           data.length > 1 ? "s" : ""
         } ${data.join(" or ")} must be provided`;
@@ -79,7 +80,7 @@ export const checkCollectionValue = (
             severity: "info",
           });
         } else {
-          issues.push(...checkAst(item, !isParts(element)));
+          issues.push(...checkAst(context, item, !isParts(element)));
         }
       }
       if (isCollectionValue(item) && isParts(element)) {
@@ -96,7 +97,9 @@ export const checkCollectionValue = (
         return issues;
       }
       if (isPrimitiveValue(item) && !ignore) {
-        issues.push(...getPrimitiveValueIssues(item, bindingElement, true));
+        issues.push(
+          ...getPrimitiveValueIssues(context, item, bindingElement, true)
+        );
       }
     }
   }

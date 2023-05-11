@@ -1,4 +1,4 @@
-import { BindingIssue, BINDING_ISSUE_TYPE } from "../../../types";
+import { BindContext, BindingIssue, BINDING_ISSUE_TYPE } from "../../../types";
 import {
   isStructureValue,
   PropertyBindingInfoTypes as BindingTypes,
@@ -14,6 +14,7 @@ import { rangeToOffsetRange, typesToValue, valueTypeMap } from "../../../utils";
  * @param ignore a flag to ignore if an element is allowed to have structure value
  */
 export const checkStructureValue = (
+  context: BindContext,
   element: BindingTypes.AstElement,
   ignore = false
 ): BindingIssue[] => {
@@ -33,7 +34,7 @@ export const checkStructureValue = (
         (i) => i.kind === valueTypeMap.get(BindingTypes.LEFT_CURLY)
       );
       if (!elementSpecificType || elementSpecificType.collection) {
-        const data = typesToValue(bindingElement.type);
+        const data = typesToValue(bindingElement.type, context);
         const message = `Allowed value${
           data.length > 1 ? "s are" : " is"
         } ${data.join(" or ")}`;
@@ -50,7 +51,7 @@ export const checkStructureValue = (
     }
 
     // check its content - recursive call
-    issues.push(...checkAst(value, true));
+    issues.push(...checkAst(context, value, true));
   }
   return issues;
 };

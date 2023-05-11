@@ -21,3 +21,9 @@ export type {
   UnknownContext,
   ValueContext,
 } from "./cursor";
+
+export interface ExtractBindingExpression {
+  startIndex: number;
+  endIndex: number;
+  expression: string;
+}

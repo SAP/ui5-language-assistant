@@ -7,6 +7,7 @@ import { PropertyBindingInfoTypes as BindingTypes } from "@ui5-language-assistan
 import { propertyBindingInfoElements } from "../../../definition/definition";
 import { typesToValue } from "../../../utils";
 import { getDocumentation } from "./documentation";
+import { BindContext } from "../../../types";
 
 /**
  *
@@ -14,11 +15,12 @@ import { getDocumentation } from "./documentation";
  * @returns
  */
 export const createAllSupportedElements = (
+  context: BindContext,
   ast: BindingTypes.Ast
 ): CompletionItem[] => {
   const completionItems: CompletionItem[] = [];
   propertyBindingInfoElements.forEach((item) => {
-    const type = typesToValue(item.type);
+    const type = typesToValue(item.type, context);
     let text = "";
     if (type.length === 1) {
       text = `${item.name}: ${type[0]}${ast.rightCurly ? "" : "}"}`;

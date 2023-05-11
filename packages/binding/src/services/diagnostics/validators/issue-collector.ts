@@ -1,4 +1,4 @@
-import { BindingIssue, BINDING_ISSUE_TYPE } from "../../../types";
+import { BindContext, BindingIssue, BINDING_ISSUE_TYPE } from "../../../types";
 import { PropertyBindingInfoTypes as BindingTypes } from "@ui5-language-assistant/binding-parser";
 import { checkKey } from "./check-key";
 import { checkColon } from "./check-colon";
@@ -19,6 +19,7 @@ import { rangeToOffsetRange } from "../../../utils";
  * @param ignore flag to ignore checking of key or value
  */
 export const checkAst = (
+  context: BindContext,
   ast: BindingTypes.Ast,
   ignore = false
 ): BindingIssue[] => {
@@ -36,18 +37,20 @@ export const checkAst = (
       issues.push(...colonIssue);
     }
     if (colonIssue.length === 0) {
-      missingValueIssue.push(...checkMissingValue(element, ast.errors.parse));
+      missingValueIssue.push(
+        ...checkMissingValue(context, element, ast.errors.parse)
+      );
       issues.push(...missingValueIssue);
     }
     if (missingValueIssue.length === 0) {
-      issues.push(...checkPrimitiveValue(element, ignore));
-      issues.push(...checkCollectionValue(element, ignore));
-      issues.push(...checkStructureValue(element, ignore));
+      issues.push(...checkPrimitiveValue(context, element, ignore));
+      issues.push(...checkCollectionValue(context, element, ignore));
+      issues.push(...checkStructureValue(context, element, ignore));
     }
   }
   issues.push(...checkDuplicate(ast));
   issues.push(...checkNotAllowedElement(ast));
-  issues.push(...checkDependents(ast));
+  issues.push(...checkDependents(context, ast));
   issues.push(...checkNestedParts(ast));
   return issues;
 };

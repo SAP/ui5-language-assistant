@@ -65,6 +65,26 @@ describe("index", () => {
     );
   });
   context("getCompletionItems", () => {
+    it("provides CC consider string value as double quote", async function () {
+      const snippet = `
+        <Text text='path: ${CURSOR_ANCHOR}' id="test-id"></Text>`;
+      const result = await getCompletionResult(snippet, this);
+      expect(
+        result.map((item) => completionItemToSnapshot(item))
+      ).to.deep.equal([
+        'label: " "; text: " "; kind:5; commit:undefined; sort:',
+      ]);
+    });
+    it("provides CC consider string value as single quote", async function () {
+      const snippet = `
+        <Text text="path: ${CURSOR_ANCHOR}" id="test-id"></Text>`;
+      const result = await getCompletionResult(snippet, this);
+      expect(
+        result.map((item) => completionItemToSnapshot(item))
+      ).to.deep.equal([
+        "label: ' '; text: ' '; kind:5; commit:undefined; sort:",
+      ]);
+    });
     it("provides CC for initial", async function () {
       const snippet = `
         <Text text="${CURSOR_ANCHOR}" id="test-id"></Text>`;
@@ -72,7 +92,7 @@ describe("index", () => {
       expect(
         result.map((item) => completionItemToSnapshot(item))
       ).to.deep.equal([
-        "label: { }; text: { ${1|path,value,model,suspended,formatter,useRawValues,useInternalValues,type,targetType,formatOptions,constraints,mode,parameters,events,parts|}: ${2|' ',true,false,{ }|}$0 }; kind:15; commit:undefined; sort:",
+        "label: { }; text: { ${1|path,value,model,suspended,formatter,useRawValues,useInternalValues,type,targetType,formatOptions,constraints,mode,parameters,events,parts|}: ${2|' ',{ },[{ }],[''],true,false|}$0 }; kind:15; commit:undefined; sort:",
         "label: {= }; text: {= $0 }; kind:15; commit:undefined; sort:",
         "label: {:= }; text: {:= $0 }; kind:15; commit:undefined; sort:",
       ]);
@@ -98,13 +118,13 @@ describe("index", () => {
         "label: mode; text: mode: { }; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:**Description:** Binding mode to be used for this property binding (e.g. one way) \n\n **Visibility:** Public",
         "label: parameters; text: parameters: { }; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:**Description:** Map of additional parameters for this binding; the names and value ranges of the supported parameters depend on the model implementation, they should be documented with the bindProperty method of the corresponding model class or with the model specific subclass of sap.ui.model.PropertyBinding \n\n **Visibility:** Public",
         "label: events; text: events: { }; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:**Description:** Map of event handler functions keyed by the name of the binding events that they should be attached to \n\n **Visibility:** Public",
-        "label: parts; text: parts: ${1|[{ }],['']|}$0; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:**Description:** Array of binding info objects for the parts of a composite binding; the structure of each binding info is the same as described for the oBindingInfo as a whole.\nIf a part is not specified as a binding info object but as a simple string, a binding info object will be created with that string as path. The string may start with a model name prefix (see property path).\n**Note**: recursive composite bindings are currently not supported. Therefore, a part must not contain a parts property \n\n **Visibility:** Public",
+        "label: parts; text: parts: ${1|[{ }],[' ']|}$0; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:**Description:** Array of binding info objects for the parts of a composite binding; the structure of each binding info is the same as described for the oBindingInfo as a whole.\nIf a part is not specified as a binding info object but as a simple string, a binding info object will be created with that string as path. The string may start with a model name prefix (see property path).\n**Note**: recursive composite bindings are currently not supported. Therefore, a part must not contain a parts property \n\n **Visibility:** Public",
       ]);
     });
     context("provides CC for key", () => {
       it("a. `<CURSOR>`path", async function () {
         const snippet = `
-        <Text text="{${CURSOR_ANCHOR}path}" id="test-id"></Text>`;
+        <Text text="{${CURSOR_ANCHOR}path, events:{}}" id="test-id"></Text>`;
         const result = await getCompletionResult(snippet, this);
         expect(
           result.map((item) => completionItemToSnapshot(item))
@@ -128,7 +148,7 @@ describe("index", () => {
       });
       it("b. keyProperty`<CURSOR>`", async function () {
         const snippet = `
-        <Text text="{ path${CURSOR_ANCHOR} }" id="test-id"></Text>`;
+        <Text text="{ path${CURSOR_ANCHOR}, events: {} }" id="test-id"></Text>`;
         const result = await getCompletionResult(snippet, this);
         expect(
           result.map((item) => completionItemToSnapshot(item))
@@ -152,7 +172,7 @@ describe("index", () => {
       });
       it("c. key`<CURSOR>`Property", async function () {
         const snippet = `
-        <Text text="{ pa${CURSOR_ANCHOR}th }" id="test-id"></Text>`;
+        <Text text="{ pa${CURSOR_ANCHOR}th, events: {} }" id="test-id"></Text>`;
         const result = await getCompletionResult(snippet, this);
         expect(
           result.map((item) => completionItemToSnapshot(item))
@@ -285,7 +305,7 @@ describe("index", () => {
           "label: mode; text: mode: { }}; kind:15; commit:undefined; sort:",
           "label: parameters; text: parameters: { }}; kind:15; commit:undefined; sort:",
           "label: events; text: events: { }}; kind:15; commit:undefined; sort:",
-          "label: parts; text: parts: ${1|[{ }],['']|}$0}; kind:15; commit:undefined; sort:",
+          "label: parts; text: parts: ${1|[{ }],[' ']|}$0}; kind:15; commit:undefined; sort:",
         ]);
       });
       it("b. keyProperty: 'value-for-this-key', `<CURSOR>` [comma]", async function () {
@@ -308,7 +328,7 @@ describe("index", () => {
           "label: mode; text: mode: { }}; kind:15; commit:undefined; sort:",
           "label: parameters; text: parameters: { }}; kind:15; commit:undefined; sort:",
           "label: events; text: events: { }}; kind:15; commit:undefined; sort:",
-          "label: parts; text: parts: ${1|[{ }],['']|}$0}; kind:15; commit:undefined; sort:",
+          "label: parts; text: parts: ${1|[{ }],[' ']|}$0}; kind:15; commit:undefined; sort:",
         ]);
       });
       it("c. `<CURSOR>` keyProperty: 'value-for-this-key'", async function () {
@@ -331,7 +351,7 @@ describe("index", () => {
           "label: mode; text: mode: { }}; kind:15; commit:undefined; sort:",
           "label: parameters; text: parameters: { }}; kind:15; commit:undefined; sort:",
           "label: events; text: events: { }}; kind:15; commit:undefined; sort:",
-          "label: parts; text: parts: ${1|[{ }],['']|}$0}; kind:15; commit:undefined; sort:",
+          "label: parts; text: parts: ${1|[{ }],[' ']|}$0}; kind:15; commit:undefined; sort:",
         ]);
       });
       it("d. keyProperty: 'value-for-this-key',`<CURSOR>`, [between comma]", async function () {
@@ -354,7 +374,7 @@ describe("index", () => {
           "label: mode; text: mode: { }}; kind:15; commit:undefined; sort:",
           "label: parameters; text: parameters: { }}; kind:15; commit:undefined; sort:",
           "label: events; text: events: { }}; kind:15; commit:undefined; sort:",
-          "label: parts; text: parts: ${1|[{ }],['']|}$0}; kind:15; commit:undefined; sort:",
+          "label: parts; text: parts: ${1|[{ }],[' ']|}$0}; kind:15; commit:undefined; sort:",
         ]);
       });
     });
@@ -369,7 +389,7 @@ describe("index", () => {
       });
       it("b. keyProperty `<CURSOR>` [space(s)] [cc for value]", async function () {
         const snippet = `
-        <Text text="{path ${CURSOR_ANCHOR}" id="test-id"></Text>`;
+        <Text text="{path ${CURSOR_ANCHOR}, events:{}" id="test-id"></Text>`;
         const result = await getCompletionResult(snippet, this);
         expect(
           result.map((item) => completionItemToSnapshot(item))

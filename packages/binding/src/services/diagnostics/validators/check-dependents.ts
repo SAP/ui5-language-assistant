@@ -4,9 +4,12 @@ import {
 } from "@ui5-language-assistant/binding-parser";
 import { rangeToOffsetRange, typesToValue, valueTypeMap } from "../../../utils";
 import { propertyBindingInfoElements } from "../../../definition/definition";
-import { BindingIssue, BINDING_ISSUE_TYPE } from "../../../types";
+import { BindContext, BindingIssue, BINDING_ISSUE_TYPE } from "../../../types";
 
-export const checkDependents = (ast: BindingTypes.Ast): BindingIssue[] => {
+export const checkDependents = (
+  context: BindContext,
+  ast: BindingTypes.Ast
+): BindingIssue[] => {
   const issues: BindingIssue[] = [];
   // collect all definition which has dependencies
   const dependentElements = propertyBindingInfoElements.filter((item) =>
@@ -45,7 +48,7 @@ export const checkDependents = (ast: BindingTypes.Ast): BindingIssue[] => {
                       requiredDepApplied.value.type
                     );
                     if (result !== requiredDepType.kind) {
-                      const value = typesToValue([requiredDepType]);
+                      const value = typesToValue([requiredDepType], context);
                       issues.push({
                         issueType: BINDING_ISSUE_TYPE,
                         kind: "RequiredDependency",
@@ -62,7 +65,7 @@ export const checkDependents = (ast: BindingTypes.Ast): BindingIssue[] => {
                       });
                     }
                   } else {
-                    const value = typesToValue([requiredDepType]);
+                    const value = typesToValue([requiredDepType], context);
                     issues.push({
                       issueType: BINDING_ISSUE_TYPE,
                       kind: "RequiredDependency",

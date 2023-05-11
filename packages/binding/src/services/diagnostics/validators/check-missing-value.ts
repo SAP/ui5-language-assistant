@@ -1,4 +1,4 @@
-import { BindingIssue, BINDING_ISSUE_TYPE } from "../../../types";
+import { BindContext, BindingIssue, BINDING_ISSUE_TYPE } from "../../../types";
 import { PropertyBindingInfoTypes as BindingTypes } from "@ui5-language-assistant/binding-parser";
 import { rangeToOffsetRange, typesToValue } from "../../../utils";
 import { propertyBindingInfoElements } from "../../../definition/definition";
@@ -7,6 +7,7 @@ import { propertyBindingInfoElements } from "../../../definition/definition";
  * Check missing value
  */
 export const checkMissingValue = (
+  context: BindContext,
   element: BindingTypes.AstElement,
   parseErrors: BindingTypes.ParseError[]
 ): BindingIssue[] => {
@@ -29,7 +30,7 @@ export const checkMissingValue = (
     );
     let message = "Expect a value";
     if (bindingElement) {
-      const data = typesToValue(bindingElement.type);
+      const data = typesToValue(bindingElement.type, context);
       message = `Expect ${data.join(" or ")} as a value`;
     }
     issues.push({

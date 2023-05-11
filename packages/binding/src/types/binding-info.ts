@@ -38,5 +38,6 @@ export interface PropertyBindingInfoElement {
 }
 
 export interface BindContext extends Context {
-  textDocumentPosition: TextDocumentPositionParams;
+  textDocumentPosition?: TextDocumentPositionParams;
+  doubleQuotes?: boolean;
 }

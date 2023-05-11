@@ -9,7 +9,12 @@ import { getUI5PropertyByXMLAttributeKey } from "@ui5-language-assistant/logic-u
 
 import { BindContext } from "../../../types";
 import { createInitialSnippet } from "./create-initial-snippet";
-import { getCursorContext, isBindingExpression } from "../../../utils";
+import {
+  extractBindingExpression,
+  getCursorContext,
+  isBindingExpression,
+  isPropertyBindingInfo,
+} from "../../../utils";
 import { createAllSupportedElements } from "./create-all-supported-elements";
 import { createKeyProperties } from "./create-key-properties";
 import { createValue } from "./create-value";
@@ -23,6 +28,9 @@ export const getCompletionItems = (
   collection = false
 ): CompletionItem[] => {
   const completionItems: CompletionItem[] = [];
+  if (!context.textDocumentPosition?.position) {
+    return completionItems;
+  }
   const cursorContext = getCursorContext(
     context.textDocumentPosition,
     ast,
@@ -32,15 +40,15 @@ export const getCompletionItems = (
   );
   switch (cursorContext.type) {
     case "initial":
-      return createInitialSnippet();
+      return createInitialSnippet(context);
     case "empty":
-      return createAllSupportedElements(ast);
+      return createAllSupportedElements(context, ast);
     case "key":
       return createKeyProperties(cursorContext.element);
     case "value":
       return createValue(context, spaces, cursorContext);
     case "key-value":
-      return createKeyValue(ast);
+      return createKeyValue(context, ast);
     case "colon":
       if (!cursorContext.element.value) {
         // create value
@@ -65,24 +73,27 @@ export function propertyBindingInfoSuggestions({
     attribute,
     context.ui5Model
   );
-  if (
-    !(
-      ui5Property?.type?.kind === "PrimitiveType" &&
-      ui5Property?.type?.name === "String"
-    )
-  ) {
+  if (!ui5Property) {
     return completionItems;
   }
+  const value = attribute.syntax.value;
+  const startChar = value?.image.charAt(0);
+  context.doubleQuotes = startChar === '"';
   const text = attribute.value ?? "";
-  if (isBindingExpression(text)) {
+  const { expression, startIndex } = extractBindingExpression(text);
+  if (!isPropertyBindingInfo(expression)) {
     return [];
   }
-  const value = attribute.syntax.value;
+  if (isBindingExpression(expression)) {
+    return [];
+  }
   const position: Position = {
-    character: value?.startColumn ?? 0,
+    character: (value?.startColumn ?? 0) + startIndex,
     line: value?.startLine ? value.startLine - 1 : 0, // zero based index
   };
-  const { ast } = parsePropertyBindingInfo(text, position);
-  completionItems.push(...getCompletionItems(context, ast, ast.spaces, text));
+  const { ast } = parsePropertyBindingInfo(expression, position);
+  completionItems.push(
+    ...getCompletionItems(context, ast, ast.spaces, expression)
+  );
   return completionItems;
 }
