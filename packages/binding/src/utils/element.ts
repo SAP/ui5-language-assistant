@@ -1,17 +1,19 @@
-import { PropertyType } from "../types";
+import { BindContext, PropertyType } from "../types";
 import { PropertyBindingInfoTypes as BindingTypes } from "@ui5-language-assistant/binding-parser";
 
 export const typesToValue = (
   types: PropertyType[],
+  context: BindContext,
   collectionValue = false
 ): string[] => {
   const result: string[] = [];
+  const emptyString = context.doubleQuotes ? `' '` : `" "`;
   types.forEach((type) => {
     if (type.kind === "string") {
       if (type.collection && collectionValue === false) {
-        result.push(`['']`);
+        result.push(`[${emptyString}]`);
       } else {
-        result.push(`' '`);
+        result.push(emptyString);
       }
     }
     if (type.kind === "boolean") {

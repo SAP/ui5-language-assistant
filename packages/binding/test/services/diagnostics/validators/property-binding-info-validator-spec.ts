@@ -102,6 +102,27 @@ describe("property-binding-info-validator", () => {
     const context = await fetchContext(documentPath);
     return { context, attr };
   };
+  it("do not check empty string", async () => {
+    const snippet = `
+    <Text text="" id="test-id"></Text>`;
+    const { attr, context } = await getData(snippet);
+    const result = validatePropertyBindingInfo(attr, context);
+    expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([]);
+  });
+  it("do not check {}", async () => {
+    const snippet = `
+    <Text text="{ }" id="test-id"></Text>`;
+    const { attr, context } = await getData(snippet);
+    const result = validatePropertyBindingInfo(attr, context);
+    expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([]);
+  });
+  it("do not check {path} [at least a key with colon must exits]", async () => {
+    const snippet = `
+    <Text text="{path}" id="test-id"></Text>`;
+    const { attr, context } = await getData(snippet);
+    const result = validatePropertyBindingInfo(attr, context);
+    expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([]);
+  });
   it("check unknown char", async () => {
     const snippet = `
     <Text text="{ # path: '' }" id="test-id"></Text>`;
@@ -113,25 +134,25 @@ describe("property-binding-info-validator", () => {
   });
   it("check wrong property binding", async () => {
     const snippet = `
-    <Text text="{ party }" id="test-id"></Text>`;
+    <Text text="{path: ' ', party }" id="test-id"></Text>`;
     const { attr, context } = await getData(snippet);
     const result = validatePropertyBindingInfo(attr, context);
     expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
-      "kind: UnknownPropertyBindingInfo; text: Unknown property binding info; severity:info; range:9:18-9:23",
+      "kind: UnknownPropertyBindingInfo; text: Unknown property binding info; severity:info; range:9:28-9:33",
     ]);
   });
   it("check missing colon", async () => {
     const snippet = `
-    <Text text="{ path }" id="test-id"></Text>`;
+    <Text text="{ events: {}, path }" id="test-id"></Text>`;
     const { attr, context } = await getData(snippet);
     const result = validatePropertyBindingInfo(attr, context);
     expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
-      "kind: MissingColon; text: Expect colon; severity:info; range:9:18-9:22",
+      "kind: MissingColon; text: Expect colon; severity:info; range:9:30-9:34",
     ]);
   });
   it("check missing colon when value exists", async () => {
     const snippet = `
-    <Text text="{ path ''}" id="test-id"></Text>`;
+    <Text text="{ path '', events: {}}" id="test-id"></Text>`;
     const { attr, context } = await getData(snippet);
     const result = validatePropertyBindingInfo(attr, context);
     expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
@@ -198,7 +219,7 @@ describe("property-binding-info-validator", () => {
     const { attr, context } = await getData(snippet);
     const result = validatePropertyBindingInfo(attr, context);
     expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
-      "kind: MissMatchValue; text: Allowed values are [{ }] or ['']; severity:info; range:9:25-9:27",
+      "kind: MissMatchValue; text: Allowed values are [{ }] or [' ']; severity:info; range:9:25-9:27",
     ]);
   });
   it("check wrong value - allowed value is array of object or string [array as value is required]", async () => {
@@ -207,7 +228,7 @@ describe("property-binding-info-validator", () => {
     const { attr, context } = await getData(snippet);
     const result = validatePropertyBindingInfo(attr, context);
     expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
-      "kind: MissMatchValue; text: Allowed values are [{ }] or ['']; severity:info; range:9:25-9:29",
+      "kind: MissMatchValue; text: Allowed values are [{ }] or [' ']; severity:info; range:9:25-9:29",
     ]);
   });
   it("check wrong value - allowed value is array of object or string [array as value with wrong content]", async () => {
@@ -546,15 +567,11 @@ describe("property-binding-info-validator", () => {
   });
   it("check too many object", async () => {
     const snippet = `
-    <Text text="{{{}}}" id="test-id"></Text>`;
+    <Text text="{events: {{}}}" id="test-id"></Text>`;
     const { attr, context } = await getData(snippet);
     const result = validatePropertyBindingInfo(attr, context);
     expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
-      "kind: Syntax; text: Expecting --> } <-- but found --> '{' <--; severity:info; range:9:17-9:21",
+      "kind: Syntax; text: Expecting --> } <-- but found --> '{' <--; severity:info; range:9:26-9:27",
     ]);
   });
-
-  // do not check if not property binding info e.g {path/to/a/model/element}
-  // do not show error for text area e.g this is a text {path: ''}
-  // do not show error for text with escaped \{ {path: ''}
 });

@@ -59,7 +59,7 @@ export const createValue = (
       (el) => el.name === element.key?.text
     );
     if (bindingElement) {
-      const data = typesToValue(bindingElement.type);
+      const data = typesToValue(bindingElement.type, context);
       data.forEach((item) => {
         completionItems.push({
           label: item,
@@ -86,7 +86,7 @@ export const createValue = (
       const bindingElement = propertyBindingInfoElements.find(
         (el) => el.name === element.key?.text
       );
-      const data = typesToValue(bindingElement?.type ?? [], true);
+      const data = typesToValue(bindingElement?.type ?? [], context, true);
       data.forEach((item) =>
         completionItems.push({
           label: item,

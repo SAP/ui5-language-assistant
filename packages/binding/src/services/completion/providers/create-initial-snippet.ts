@@ -1,3 +1,4 @@
+import { BindContext } from "../../../types";
 import {
   CompletionItem,
   CompletionItemKind,
@@ -6,10 +7,18 @@ import {
 
 import { propertyBindingInfoElements } from "../../../definition/definition";
 
-export const createInitialSnippet = (): CompletionItem[] => {
+export const createInitialSnippet = (
+  context: BindContext
+): CompletionItem[] => {
   const completionItems: CompletionItem[] = [];
   const names = propertyBindingInfoElements.map((item) => item.name);
-  let text = "{ ${1|" + names.join(",") + "|}: ${2|' ',true,false,{ }|}$0 }";
+  const emptyString = context.doubleQuotes ? `' '` : `" "`;
+  let text =
+    "{ ${1|" +
+    names.join(",") +
+    "|}: ${2|" +
+    emptyString +
+    ",{ },[{ }],[''],true,false|}$0 }";
   completionItems.push({
     label: "{ }",
     insertTextFormat: InsertTextFormat.Snippet,

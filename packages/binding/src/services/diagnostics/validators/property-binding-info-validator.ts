@@ -6,6 +6,7 @@ import { BINDING_ISSUE_TYPE } from "../../../constant";
 import {
   extractBindingExpression,
   isBindingExpression,
+  isPropertyBindingInfo,
   rangeToOffsetRange,
 } from "../../../utils";
 import { Position } from "vscode-languageserver-types";
@@ -18,7 +19,7 @@ import {
 
 export function validatePropertyBindingInfo(
   attribute: XMLAttribute,
-  context: Context
+  context: Context & { doubleQuotes?: boolean }
 ): BindingIssue[] {
   const issues: BindingIssue[] = [];
   try {
@@ -26,29 +27,30 @@ export function validatePropertyBindingInfo(
       attribute,
       context.ui5Model
     );
-    if (
-      !(
-        ui5Property?.type?.kind === "PrimitiveType" &&
-        ui5Property?.type?.name === "String"
-      )
-    ) {
+    if (!ui5Property) {
       return [];
     }
+
     const value = attribute.syntax.value;
     const text = attribute.value ?? "";
-    const image = extractBindingExpression(text);
-    if (!image.startsWith("{")) {
+    const startChar = value?.image.charAt(0);
+    context.doubleQuotes = startChar === '"';
+    if (text.trim().length === 0) {
       return [];
     }
-    if (isBindingExpression(image)) {
+    const { expression, startIndex } = extractBindingExpression(text);
+    if (!isPropertyBindingInfo(expression)) {
+      return [];
+    }
+    if (isBindingExpression(expression)) {
       return [];
     }
     const position: Position = {
-      character: value?.startColumn ?? 0,
+      character: (value?.startColumn ?? 0) + startIndex,
       line: value?.startLine ? value.startLine - 1 : 0, // zero based index
     };
-    const { ast } = parsePropertyBindingInfo(image, position);
-    issues.push(...checkAst(ast));
+    const { ast } = parsePropertyBindingInfo(expression, position);
+    issues.push(...checkAst(context, ast));
     issues.push(...checkMissingComma(ast));
     issues.push(...checkTrailingComma(ast));
     /**
