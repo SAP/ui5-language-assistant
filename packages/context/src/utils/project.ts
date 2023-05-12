@@ -73,7 +73,7 @@ export async function getProjectInfo(
     );
     const packageJSON = JSON.parse(jsonContent) as Package;
 
-    if (await isCapNodeJsProject(packageJSON)) {
+    if (isCapNodeJsProject(packageJSON)) {
       return {
         type: CAP_PROJECT_TYPE,
         kind: "NodeJS",

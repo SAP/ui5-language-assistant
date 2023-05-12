@@ -14,11 +14,10 @@ const sourcesPath = resolve(__dirname, "server.js");
 // We assume that if the `tsconfig.json` file exists then we are running
 // in development mode, We rely on the fact that the bundled .vsix file of the
 // VSCode extension excludes tsconfig files
-const isDevelopmentRun = existsSync(
-  resolve(__dirname, "..", "..", "tsconfig.json")
-);
+const isDevelopmentRun =
+  existsSync(resolve(__dirname, "..", "..", "tsconfig.json")) ||
+  existsSync(resolve(__dirname, "..", "..", "..", "tsconfig.json"));
 
 export const SERVER_PATH: string = isDevelopmentRun
-  ? /* istanbul ignore else - no tests (yet?) on bundled artifacts */
-    sourcesPath
+  ? /* istanbul ignore else - no tests (yet?) on bundled artifacts */ sourcesPath
   : bundledPath;

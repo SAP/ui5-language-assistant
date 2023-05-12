@@ -2,19 +2,20 @@ import { dirname } from "path";
 import { maxBy, map, filter } from "lodash";
 import { readFile } from "fs-extra";
 import { URI } from "vscode-uri";
-import globby from "globby";
 import { loadAll } from "js-yaml";
 import { DEFAULT_UI5_FRAMEWORK, YamlDetails } from "./types";
 import { FileName } from "@sap-ux/project-access";
 import findUp from "find-up";
 import { cache } from "./cache";
 import { getLogger } from "./utils";
+import { findAllFilesInWorkspace } from "./utils/fileUtils";
 
 export async function initializeUI5YamlData(
   workspaceFolderPath: string
 ): Promise<void[]> {
-  const ui5YamlDocuments = await findAllUI5YamlDocumentsInWorkspace(
-    workspaceFolderPath
+  const ui5YamlDocuments = await findAllFilesInWorkspace(
+    workspaceFolderPath,
+    "ui5.yaml"
   );
 
   const readUI5YamlPromises = map(ui5YamlDocuments, async (ui5YamlDoc) => {
@@ -41,28 +42,10 @@ export function getVersionForXMLFile(xmlPath: string): string | undefined {
     (ui5YamlPath) => ui5YamlPath.length
   );
 
-  if (closestUI5YamlPath === undefined) {
-    return undefined;
-  }
   if (closestUI5YamlPath) {
     return cache.getYamlDetails(closestUI5YamlPath)?.version;
   }
   return undefined;
-}
-
-async function findAllUI5YamlDocumentsInWorkspace(
-  workspaceFolderPath: string
-): Promise<string[]> {
-  return globby(`${workspaceFolderPath}/**/ui5.yaml`).catch((reason) => {
-    getLogger().error(
-      `Failed to find all ui5.yaml files in current workspace!`,
-      {
-        workspaceFolderPath,
-        reason,
-      }
-    );
-    return [];
-  });
 }
 
 async function readUI5YamlFile(
@@ -86,8 +69,8 @@ async function readUI5YamlFile(
 
   // extract the framework and the version from the yaml
   if (ui5YamlObject) {
-    const framework = ui5YamlObject?.framework?.name;
-    const version = ui5YamlObject?.framework?.version;
+    const framework = ui5YamlObject.framework?.name;
+    const version = ui5YamlObject.framework?.version;
     return { framework, version };
   }
   return undefined;
@@ -114,16 +97,11 @@ export async function getUI5Yaml(
   if (cachedYaml && !ignoreCache) {
     return cachedYaml;
   }
-  try {
-    const data = await readUI5YamlFile(ui5YamlRoot);
-    if (data) {
-      cache.setYamlDetails(ui5YamlRoot, data);
-    }
-    return data;
-  } catch (error) {
-    getLogger().debug("getUI5Yaml->readUI5YamlFile failed:", error);
-    return undefined;
+  const data = await readUI5YamlFile(ui5YamlRoot);
+  if (data) {
+    cache.setYamlDetails(ui5YamlRoot, data);
   }
+  return data;
 }
 
 /**

@@ -22,7 +22,7 @@ let globalSettings: Settings = defaultSettings;
 let configSettings: Settings = defaultSettings;
 
 // Cache the settings of all open documents
-const documentSettings: Map<string, Thenable<Settings>> = new Map();
+const documentSettings: Map<string, Promise<Settings>> = new Map();
 
 // Function used for testing purposes
 export function resetSettings(): void {
@@ -33,7 +33,7 @@ export function getDefaultSettings(): Settings {
   return defaultSettings;
 }
 
-export function getSettingsForDocument(resource: string): Thenable<Settings> {
+export function getSettingsForDocument(resource: string): Promise<Settings> {
   const result = documentSettings.get(resource);
   if (result === undefined) {
     return Promise.resolve(globalSettings);
@@ -47,7 +47,7 @@ export function hasSettingsForDocument(resource: string): boolean {
 
 export function setSettingsForDocument(
   resource: string,
-  settings: Thenable<Settings>
+  settings: Promise<Settings>
 ): void {
   documentSettings.set(resource, settings);
 }

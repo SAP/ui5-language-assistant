@@ -1,7 +1,16 @@
 import { zipObject, map, noop, get } from "lodash";
 import { resolve } from "path";
 import { writeFile, mkdirs, pathExists } from "fs-extra";
-const importDynamic = new Function("modulePath", "return import(modulePath)");
+
+const importDynamic = (modulePath: string) => {
+  try {
+    return import(modulePath);
+  } catch (e) {
+    console.log(e);
+  }
+  return Promise.resolve("");
+};
+
 // eslint-disable-next-line  @typescript-eslint/no-explicit-any
 const nodeFetch = async (...args: any[]) => {
   const module = await importDynamic("node-fetch");

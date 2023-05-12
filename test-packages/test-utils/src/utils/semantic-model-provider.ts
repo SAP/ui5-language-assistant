@@ -204,6 +204,7 @@ const fixes: Record<TestModelVersion, TypeNameFix> = {
     "sap.viz.ui5.controls.VizRangeSlider": undefined,
     "QUnit.Assert": undefined,
   },
+  "1.108.2": {},
   "1.109.1": {},
 };
 
@@ -401,6 +402,7 @@ const libraryFixes: Record<TestModelVersion, Record<string, LibraryFix[]>> = {
       },
     ],
   },
+  "1.108.2": {},
   "1.109.1": {},
 };
 

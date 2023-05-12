@@ -13,8 +13,9 @@
     "noImplicitAny": false,
     "noImplicitReturns": true,
     "esModuleInterop": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "types": ["node", "jest", "jest-extended"]
   },
-  "include": ["src/**/*", "api.d.ts"],
-  "exclude": ["node_modules/@types/vscode"]
+  "include": ["src/**/*", "api.d.ts", "global.d.ts"],
+  "exclude": ["node_modules/@types/vscode", "**/*-spec.ts"]
 }
