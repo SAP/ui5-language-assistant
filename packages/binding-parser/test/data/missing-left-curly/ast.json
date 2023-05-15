@@ -2,7 +2,7 @@
   "leftCurly": {
     "type": "LeftCurly",
     "text": "",
-    "range": "[(0,0)..(0,NaN)]"
+    "range": "[(0,0)..(0,0)]"
   },
   "elements": [
     {
@@ -50,7 +50,7 @@
         "previousToken": {
           "type": "ParseError",
           "text": "",
-          "range": "[(0,0)..(0,NaN)]",
+          "range": "[(0,0)..(0,0)]",
           "tokenTypeName": "EOF"
         },
         "message": "Expecting --> { <-- but found --> 'key' <--"
