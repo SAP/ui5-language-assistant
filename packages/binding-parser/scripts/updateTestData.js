@@ -1,4 +1,4 @@
-const { update } = require("../lib/test/utils/update-test-data");
+const { update } = require("../lib/test/helper/update-test-data");
 update()
   .then(() => console.log("Tests updated"))
   .catch(console.error);

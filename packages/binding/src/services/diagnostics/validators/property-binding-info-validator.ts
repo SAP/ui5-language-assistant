@@ -39,9 +39,6 @@ export function validatePropertyBindingInfo(
       return [];
     }
     const { expression, startIndex } = extractBindingExpression(text);
-    if (!isPropertyBindingInfo(expression)) {
-      return [];
-    }
     if (isBindingExpression(expression)) {
       return [];
     }
@@ -50,6 +47,9 @@ export function validatePropertyBindingInfo(
       line: value?.startLine ? value.startLine - 1 : 0, // zero based index
     };
     const { ast } = parsePropertyBindingInfo(expression, position);
+    if (!isPropertyBindingInfo(ast, text)) {
+      return [];
+    }
     issues.push(...checkAst(context, ast));
     issues.push(...checkMissingComma(ast));
     issues.push(...checkTrailingComma(ast));

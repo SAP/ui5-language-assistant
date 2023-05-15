@@ -13,7 +13,7 @@ import {
   transformParserErrorForAssertion,
   deserialize,
   serialize,
-} from "../utils";
+} from "../helper";
 import type { Position } from "vscode-languageserver-types";
 import { join } from "path";
 import { readFileSync } from "fs";

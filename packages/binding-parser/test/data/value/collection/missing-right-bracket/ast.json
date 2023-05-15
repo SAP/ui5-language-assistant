@@ -26,7 +26,7 @@
         "rightSquare": {
           "type": "RightSquare",
           "text": "",
-          "range": "[(0,0)..(0,NaN)]"
+          "range": "[(0,0)..(0,0)]"
         },
         "range": "[(0,1)..(0,7)]",
         "errors": {

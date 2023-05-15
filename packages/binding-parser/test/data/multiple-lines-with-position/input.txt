@@ -1,0 +1,7 @@
+{
+    key01: 'value-01',
+
+	key02: 'value-01',
+
+    key03: 'value-03'
+}

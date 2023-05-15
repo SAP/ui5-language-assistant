@@ -81,9 +81,6 @@ export function propertyBindingInfoSuggestions({
   context.doubleQuotes = startChar === '"';
   const text = attribute.value ?? "";
   const { expression, startIndex } = extractBindingExpression(text);
-  if (!isPropertyBindingInfo(expression)) {
-    return [];
-  }
   if (isBindingExpression(expression)) {
     return [];
   }
@@ -92,6 +89,9 @@ export function propertyBindingInfoSuggestions({
     line: value?.startLine ? value.startLine - 1 : 0, // zero based index
   };
   const { ast } = parsePropertyBindingInfo(expression, position);
+  if (!isPropertyBindingInfo(ast, text)) {
+    return [];
+  }
   completionItems.push(
     ...getCompletionItems(context, ast, ast.spaces, expression)
   );

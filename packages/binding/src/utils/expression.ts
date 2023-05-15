@@ -1,3 +1,4 @@
+import { PropertyBindingInfoTypes as BindingTypes } from "@ui5-language-assistant/binding-parser";
 import { ExtractBindingExpression } from "..//types";
 
 /**
@@ -10,28 +11,38 @@ export const isBindingExpression = (input: string): boolean => {
 };
 
 /**
- * Regular expression to check if an input is property binding syntax
- */
-const propBindingSyntax = /\s*('|"|)[a-zA-Z$_][a-zA-Z0-9$_]*\1\s*:/;
-
-/**
  * An input is considered property binding syntax when
  *
- * a. empty curly bracket e.g  `{}` or `{   }`
+ * a. is empty curly bracket e.g  `{}` or `{   }`
  *
- * b. has key property e.g `anyKey` or `"anyKey"` or `'anyKey'` with colon
+ * b. has starting and closing curly bracket and key property with colon e.g `{anyKey: }` or `{"anyKey":}` or `{'anyKey':}`
  *
  * c. empty string [for initial code completion snippet]
  */
-export const isPropertyBindingInfo = (input: string): boolean => {
+export const isPropertyBindingInfo = (
+  ast: BindingTypes.Ast,
+  input: string
+): boolean => {
+  // check empty string
   if (input.trim().length === 0) {
     return true;
   }
-  // check empty curly bracket
-  if (input.slice(1).trim().length === 1) {
+  // check empty curly brackets
+  if (
+    ast.leftCurly?.text &&
+    ast.elements.length === 0 &&
+    ast.rightCurly?.text
+  ) {
     return true;
   }
-  return propBindingSyntax.test(input);
+  // check it has at least one key with colon
+  const result = ast.elements.find(
+    (item) => item.key?.text && item.colon?.text
+  );
+  if (result && ast.leftCurly?.text && ast.rightCurly?.text) {
+    return true;
+  }
+  return false;
 };
 
 /**
@@ -68,15 +79,27 @@ const extractor = (regExp: RegExp, input: string, checkingStart = true) => {
 };
 
 export const extractBindingExpression = (
-  input: string
-): ExtractBindingExpression => {
+  input: string,
+  initialIndex = 0,
+): ExtractBindingExpression[] => {
+  const result: ExtractBindingExpression[] = [];
   const startExtract = extractor(start, input);
   const endExtract = extractor(end, input, false);
-  const startIndex = startExtract.pop() ?? 0;
-  const endIndex = endExtract.pop() ?? 0;
-  return {
-    startIndex,
-    endIndex,
-    expression: input.slice(startIndex, endIndex + 1),
-  };
+  const [firstEndIndex, ...rest] = endExtract;
+  const startIndex = (startExtract.pop() ?? 0);
+  const expression = input.slice(startIndex, firstEndIndex + 1);
+  result.push({
+    startIndex: startIndex + initialIndex,
+    endIndex: firstEndIndex + initialIndex + 1,
+    expression,
+  });
+  if (rest.length > 0) {
+    // multiple binding syntax
+    const restResult = extractBindingExpression(
+      input.slice(firstEndIndex + 1),
+      firstEndIndex + initialIndex + 1
+    );
+    result.push(...restResult);
+  }
+  return result;
 };
