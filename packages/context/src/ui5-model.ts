@@ -134,10 +134,10 @@ async function createSemanticModelWithFetcher(
           apiJson = await response.json();
           await writeToCache(cacheFilePath, apiJson);
         } else if (response.status === 404) {
-          getLogger().error("Could not find UI5 lib from", { url });
+          // getLogger().error("Could not find UI5 lib from", { url });
           await writeToCache(cacheFilePath, {}); // write dummy file! TODO: how to invalidate?
         } else {
-          getLogger().error("Could not read UI5 lib from", { url });
+          // getLogger().error("Could not read UI5 lib from", { url });
         }
       } else {
         getLogger().info("Reading Cache For UI5 Lib", {
@@ -266,9 +266,9 @@ async function getVersionInfo(
       versionInfo = await response.json();
       writeToCache(cacheFilePath, versionInfo);
     } else {
-      getLogger().error("Could not read version information", {
-        url,
-      });
+      // getLogger().error("Could not read version information", {
+      //   url,
+      // });
     }
   }
   return versionInfo;
