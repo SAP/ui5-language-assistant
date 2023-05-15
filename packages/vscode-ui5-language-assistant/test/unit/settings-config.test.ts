@@ -18,7 +18,7 @@ describe("settings configuration properties", () => {
   });
 
   it("default setting values in package.json have the correct type", () => {
-    forEach(packageJsonSettings, (value, key) => {
+    forEach(packageJsonSettings, (value) => {
       expect(typeof value.default).toEqual(value.type);
     });
   });

@@ -55,7 +55,7 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Context: Run Current Jest File",
+      "name": "Language Server Context: Run Current Jest File",
       "program": "${workspaceFolder}/node_modules/.bin/jest",
       "args": [
         "${fileBasenameNoExtension}",
