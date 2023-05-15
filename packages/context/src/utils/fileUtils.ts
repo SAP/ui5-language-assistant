@@ -18,27 +18,6 @@ export function fileExists(path: string): boolean {
   }
 }
 
-/**
- * Find a file by name in parent folders starting from 'startPath'.
- *
- * @param fileName - file name to look for
- * @param startPath - path for start searching up
- * @returns - path to file name if found, otherwise undefined
- */
-export function findFileUp(
-  fileName: string,
-  startPath: string
-): string | undefined {
-  const filePath = join(startPath, fileName);
-  if (fileExists(filePath)) {
-    return filePath;
-  } else {
-    return dirname(startPath) !== startPath
-      ? findFileUp(fileName, dirname(startPath))
-      : undefined;
-  }
-}
-
 export function toPosixPath(path: string): string {
   return path.split(sep).join(posix.sep);
 }
