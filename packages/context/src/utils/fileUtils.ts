@@ -1,5 +1,5 @@
 import { readFileSync } from "fs";
-import { dirname, join, sep, posix } from "path";
+import { join, sep, posix } from "path";
 import globby from "globby";
 import { getLogger } from ".";
 
