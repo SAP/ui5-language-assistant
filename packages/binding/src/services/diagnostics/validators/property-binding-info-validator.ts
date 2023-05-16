@@ -10,12 +10,16 @@ import {
   rangeToOffsetRange,
 } from "../../../utils";
 import { Position } from "vscode-languageserver-types";
-import { parsePropertyBindingInfo } from "@ui5-language-assistant/binding-parser";
+import {
+  parsePropertyBindingInfo,
+  PropertyBindingInfoTypes as BindingTypes,
+} from "@ui5-language-assistant/binding-parser";
 import {
   checkAst,
   checkMissingComma,
   checkTrailingComma,
 } from "./issue-collector";
+import { filterLexerError, filterParseError } from "../../../utils/expression";
 
 export function validatePropertyBindingInfo(
   attribute: XMLAttribute,
@@ -38,48 +42,57 @@ export function validatePropertyBindingInfo(
     if (text.trim().length === 0) {
       return [];
     }
-    const { expression, startIndex } = extractBindingExpression(text);
-    if (isBindingExpression(expression)) {
-      return [];
+
+    const extractedText = extractBindingExpression(text);
+    for (const bindingSyntax of extractedText) {
+      const { expression, startIndex } = bindingSyntax;
+      if (isBindingExpression(expression)) {
+        return [];
+      }
+      const position: Position = {
+        character: (value?.startColumn ?? 0) + startIndex,
+        line: value?.startLine ? value.startLine - 1 : 0, // zero based index
+      };
+      const { ast } = parsePropertyBindingInfo(expression, position);
+      for (const binding of ast.bindings) {
+        if (!isPropertyBindingInfo(expression, binding)) {
+          continue;
+        }
+        issues.push(...checkAst(context, binding, ast.errors));
+        issues.push(...checkMissingComma(ast));
+        issues.push(...checkTrailingComma(ast));
+      }
+
+      /**
+       * Show all lexer errors
+       */
+      for (const item of filterLexerError(ast)) {
+        issues.push({
+          issueType: BINDING_ISSUE_TYPE,
+          kind: "UnknownChar",
+          message: "Unknown character",
+          range: item.range,
+          severity: "info",
+          offsetRange: rangeToOffsetRange(item.range),
+        });
+      }
+      /**
+       * Show only one syntax error at a time only where there is no other issue
+       */
+      const parseError = filterParseError(ast);
+      if (issues.length === 0 && parseError.length) {
+        const item = parseError[0];
+        issues.push({
+          issueType: BINDING_ISSUE_TYPE,
+          kind: "Syntax",
+          message: item.message,
+          range: item.range,
+          severity: "info",
+          offsetRange: rangeToOffsetRange(item.range),
+        });
+      }
     }
-    const position: Position = {
-      character: (value?.startColumn ?? 0) + startIndex,
-      line: value?.startLine ? value.startLine - 1 : 0, // zero based index
-    };
-    const { ast } = parsePropertyBindingInfo(expression, position);
-    if (!isPropertyBindingInfo(ast, text)) {
-      return [];
-    }
-    issues.push(...checkAst(context, ast));
-    issues.push(...checkMissingComma(ast));
-    issues.push(...checkTrailingComma(ast));
-    /**
-     * Show all lexer errors
-     */
-    for (const item of ast.errors.lexer) {
-      issues.push({
-        issueType: BINDING_ISSUE_TYPE,
-        kind: "UnknownChar",
-        message: "Unknown character",
-        range: item.range,
-        severity: "info",
-        offsetRange: rangeToOffsetRange(item.range),
-      });
-    }
-    /**
-     * Show only one syntax error at a time only where there is no other issue
-     */
-    if (issues.length === 0 && ast.errors.parse.length) {
-      const item = ast.errors.parse[0];
-      issues.push({
-        issueType: BINDING_ISSUE_TYPE,
-        kind: "Syntax",
-        message: item.message,
-        range: item.range,
-        severity: "info",
-        offsetRange: rangeToOffsetRange(item.range),
-      });
-    }
+
     return issues;
   } catch (error) {
     return issues;

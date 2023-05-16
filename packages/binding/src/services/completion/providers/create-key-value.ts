@@ -12,13 +12,13 @@ import { BindContext, PropertyBindingInfoElement } from "../../../types";
 
 export const createKeyValue = (
   context: BindContext,
-  ast: BindingTypes.Ast
+  binding: BindingTypes.Binding
 ): CompletionItem[] => {
   const completionItems: CompletionItem[] = [];
   // exclude duplicate
   const remaining: PropertyBindingInfoElement[] = [];
   propertyBindingInfoElements.forEach((item) => {
-    if (!ast.elements.find((data) => data.key?.text === item.name)) {
+    if (!binding.elements.find((data) => data.key?.text === item.name)) {
       remaining.push(item);
     }
   });
@@ -26,12 +26,12 @@ export const createKeyValue = (
     const type = typesToValue(item.type, context);
     let text = "";
     if (type.length === 1) {
-      text = `${item.name}: ${type[0]}${ast.rightCurly ? "" : "}"}`;
+      text = `${item.name}: ${type[0]}${binding.rightCurly ? "" : "}"}`;
     } else {
       let choice = type.join(",");
       choice = choice.replace(/\$0/g, "");
       choice = "${1|" + choice + "|}$0";
-      text = `${item.name}: ${choice}${ast.rightCurly ? "" : "}"}`;
+      text = `${item.name}: ${choice}${binding.rightCurly ? "" : "}"}`;
     }
     const documentation = getDocumentation(item);
     completionItems.push({

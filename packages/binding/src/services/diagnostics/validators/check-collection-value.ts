@@ -19,6 +19,10 @@ import { isParts, rangeToOffsetRange, typesToValue } from "../../../utils";
 export const checkCollectionValue = (
   context: BindContext,
   element: BindingTypes.AstElement,
+  errors: {
+    parse: BindingTypes.ParseError[];
+    lexer: BindingTypes.LexerError[];
+  },
   ignore = false
 ): BindingIssue[] => {
   const issues: BindingIssue[] = [];
@@ -80,7 +84,7 @@ export const checkCollectionValue = (
             severity: "info",
           });
         } else {
-          issues.push(...checkAst(context, item, !isParts(element)));
+          issues.push(...checkAst(context, item, errors, !isParts(element)));
         }
       }
       if (isCollectionValue(item) && isParts(element)) {

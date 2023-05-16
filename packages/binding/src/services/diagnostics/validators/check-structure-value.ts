@@ -16,6 +16,10 @@ import { rangeToOffsetRange, typesToValue, valueTypeMap } from "../../../utils";
 export const checkStructureValue = (
   context: BindContext,
   element: BindingTypes.AstElement,
+  errors: {
+    parse: BindingTypes.ParseError[];
+    lexer: BindingTypes.LexerError[];
+  },
   ignore = false
 ): BindingIssue[] => {
   const issues: BindingIssue[] = [];
@@ -51,7 +55,7 @@ export const checkStructureValue = (
     }
 
     // check its content - recursive call
-    issues.push(...checkAst(context, value, true));
+    issues.push(...checkAst(context, value, errors, true));
   }
   return issues;
 };

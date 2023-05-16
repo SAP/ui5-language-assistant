@@ -21,7 +21,9 @@ class PropertyBindingInfoParser extends CstParser {
     this.performSelfAnalysis();
   }
   [PROPERTY_BINDING_INFO] = this.RULE(PROPERTY_BINDING_INFO, () => {
-    this.SUBRULE(this[OBJECT]);
+    this.MANY(() => {
+      this.SUBRULE(this[OBJECT]);
+    });
   });
 
   [OBJECT] = this.RULE(OBJECT, () => {

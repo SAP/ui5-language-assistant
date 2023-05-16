@@ -1,89 +1,79 @@
 {
-  "leftCurly": {
-    "type": "LeftCurly",
-    "text": "{",
-    "range": "[(0,0)..(0,1)]"
-  },
-  "elements": [
+  "bindings": [
     {
-      "key": {
-        "type": "Key",
-        "text": "key",
-        "range": "[(0,2)..(0,5)]"
+      "leftCurly": {
+        "type": "LeftCurly",
+        "text": "{",
+        "range": "[(0,0)..(0,1)]"
       },
-      "colon": {
-        "type": "Colon",
-        "text": ":",
-        "range": "[(0,5)..(0,6)]"
+      "elements": [
+        {
+          "key": {
+            "type": "Key",
+            "text": "key",
+            "range": "[(0,2)..(0,5)]"
+          },
+          "colon": {
+            "type": "Colon",
+            "text": ":",
+            "range": "[(0,5)..(0,6)]"
+          },
+          "value": {
+            "leftCurly": {
+              "type": "LeftCurly",
+              "text": "{",
+              "range": "[(0,7)..(0,8)]"
+            },
+            "elements": [
+              {
+                "key": {
+                  "type": "Key",
+                  "text": "anotherKey",
+                  "range": "[(0,8)..(0,18)]"
+                },
+                "colon": {
+                  "type": "Colon",
+                  "text": ":",
+                  "range": "[(0,18)..(0,19)]"
+                },
+                "value": {
+                  "leftCurly": {
+                    "type": "LeftCurly",
+                    "text": "{",
+                    "range": "[(0,20)..(0,21)]"
+                  },
+                  "elements": [],
+                  "commas": [],
+                  "rightCurly": {
+                    "type": "RightCurly",
+                    "text": "}",
+                    "range": "[(0,21)..(0,22)]"
+                  },
+                  "range": "[(0,20)..(0,22)]"
+                },
+                "range": "[(0,8)..(0,22)]"
+              }
+            ],
+            "commas": [],
+            "rightCurly": {
+              "type": "RightCurly",
+              "text": "}",
+              "range": "[(0,22)..(0,23)]"
+            },
+            "range": "[(0,7)..(0,23)]"
+          },
+          "range": "[(0,2)..(0,23)]"
+        }
+      ],
+      "commas": [],
+      "rightCurly": {
+        "type": "RightCurly",
+        "text": "}",
+        "range": "[(0,24)..(0,25)]"
       },
-      "value": {
-        "leftCurly": {
-          "type": "LeftCurly",
-          "text": "{",
-          "range": "[(0,7)..(0,8)]"
-        },
-        "elements": [
-          {
-            "key": {
-              "type": "Key",
-              "text": "anotherKey",
-              "range": "[(0,8)..(0,18)]"
-            },
-            "colon": {
-              "type": "Colon",
-              "text": ":",
-              "range": "[(0,18)..(0,19)]"
-            },
-            "value": {
-              "leftCurly": {
-                "type": "LeftCurly",
-                "text": "{",
-                "range": "[(0,20)..(0,21)]"
-              },
-              "elements": [],
-              "commas": [],
-              "rightCurly": {
-                "type": "RightCurly",
-                "text": "}",
-                "range": "[(0,21)..(0,22)]"
-              },
-              "range": "[(0,20)..(0,22)]",
-              "errors": {
-                "lexer": [],
-                "parse": []
-              },
-              "spaces": []
-            },
-            "range": "[(0,8)..(0,22)]"
-          }
-        ],
-        "commas": [],
-        "rightCurly": {
-          "type": "RightCurly",
-          "text": "}",
-          "range": "[(0,22)..(0,23)]"
-        },
-        "range": "[(0,7)..(0,23)]",
-        "errors": {
-          "lexer": [],
-          "parse": []
-        },
-        "spaces": []
-      },
-      "range": "[(0,2)..(0,23)]"
+      "range": "[(0,0)..(0,25)]"
     }
   ],
-  "commas": [],
-  "rightCurly": {
-    "type": "RightCurly",
-    "text": "}",
-    "range": "[(0,24)..(0,25)]"
-  },
-  "range": "[(0,0)..(0,25)]",
-  "errors": {
-    "lexer": [],
-    "parse": []
-  },
   "spaces": [
     {
       "type": "WhiteSpace",
@@ -105,5 +95,9 @@
       "text": " ",
       "range": "[(0,23)..(0,24)]"
     }
-  ]
+  ],
+  "errors": {
+    "lexer": [],
+    "parse": []
+  }
 }

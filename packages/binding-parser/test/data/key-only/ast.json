@@ -1,28 +1,39 @@
 {
-  "leftCurly": {
-    "type": "LeftCurly",
-    "text": "{",
-    "range": "[(0,0)..(0,1)]"
-  },
-  "elements": [
+  "bindings": [
     {
-      "key": {
-        "type": "Key",
-        "text": "key",
-        "range": "[(0,1)..(0,4)]"
+      "leftCurly": {
+        "type": "LeftCurly",
+        "text": "{",
+        "range": "[(0,0)..(0,1)]"
       },
-      "colon": "undefined",
-      "value": "undefined",
-      "range": "[(0,1)..(0,4)]"
+      "elements": [
+        {
+          "key": {
+            "type": "Key",
+            "text": "key",
+            "range": "[(0,1)..(0,4)]"
+          },
+          "colon": "undefined",
+          "value": "undefined",
+          "range": "[(0,1)..(0,4)]"
+        }
+      ],
+      "commas": [],
+      "rightCurly": {
+        "type": "RightCurly",
+        "text": "}",
+        "range": "[(0,5)..(0,6)]"
+      },
+      "range": "[(0,0)..(0,6)]"
     }
   ],
-  "commas": [],
-  "rightCurly": {
-    "type": "RightCurly",
-    "text": "}",
-    "range": "[(0,5)..(0,6)]"
-  },
-  "range": "[(0,0)..(0,6)]",
+  "spaces": [
+    {
+      "type": "WhiteSpace",
+      "text": " ",
+      "range": "[(0,4)..(0,5)]"
+    }
+  ],
   "errors": {
     "lexer": [],
     "parse": [
@@ -48,12 +59,5 @@
         "message": "Expecting --> : <-- but found --> '}' <--"
       }
     ]
-  },
-  "spaces": [
-    {
-      "type": "WhiteSpace",
-      "text": " ",
-      "range": "[(0,4)..(0,5)]"
-    }
-  ]
+  }
 }

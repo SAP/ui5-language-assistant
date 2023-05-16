@@ -1,32 +1,43 @@
 {
-  "leftCurly": {
-    "type": "LeftCurly",
-    "text": "{",
-    "range": "[(0,0)..(0,1)]"
-  },
-  "elements": [
+  "bindings": [
     {
-      "key": {
-        "type": "Key",
-        "text": "key",
-        "range": "[(0,1)..(0,4)]"
+      "leftCurly": {
+        "type": "LeftCurly",
+        "text": "{",
+        "range": "[(0,0)..(0,1)]"
       },
-      "colon": {
-        "type": "Colon",
-        "text": ":",
-        "range": "[(0,4)..(0,5)]"
+      "elements": [
+        {
+          "key": {
+            "type": "Key",
+            "text": "key",
+            "range": "[(0,1)..(0,4)]"
+          },
+          "colon": {
+            "type": "Colon",
+            "text": ":",
+            "range": "[(0,4)..(0,5)]"
+          },
+          "value": "undefined",
+          "range": "[(0,1)..(0,5)]"
+        }
+      ],
+      "commas": [],
+      "rightCurly": {
+        "type": "RightCurly",
+        "text": "}",
+        "range": "[(0,7)..(0,8)]"
       },
-      "value": "undefined",
-      "range": "[(0,1)..(0,5)]"
+      "range": "[(0,0)..(0,8)]"
     }
   ],
-  "commas": [],
-  "rightCurly": {
-    "type": "RightCurly",
-    "text": "}",
-    "range": "[(0,7)..(0,8)]"
-  },
-  "range": "[(0,0)..(0,8)]",
+  "spaces": [
+    {
+      "type": "WhiteSpace",
+      "text": " ",
+      "range": "[(0,5)..(0,6)]"
+    }
+  ],
   "errors": {
     "lexer": [],
     "parse": [
@@ -52,12 +63,5 @@
         "message": "Expecting: one of these possible Token sequences:\n  1. [StringValue]\n  2. [NumberValue]\n  3. [{]\n  4. [[]\n  5. [BooleanValue]\n  6. [NullValue]\nbut found: ']'"
       }
     ]
-  },
-  "spaces": [
-    {
-      "type": "WhiteSpace",
-      "text": " ",
-      "range": "[(0,5)..(0,6)]"
-    }
-  ]
+  }
 }

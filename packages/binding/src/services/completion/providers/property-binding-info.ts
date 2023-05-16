@@ -22,7 +22,7 @@ import { createKeyValue } from "./create-key-value";
 
 export const getCompletionItems = (
   context: BindContext,
-  ast: BindingTypes.Ast,
+  binding: BindingTypes.Binding,
   spaces: BindingTypes.WhiteSpaces[],
   text = "",
   collection = false
@@ -33,7 +33,7 @@ export const getCompletionItems = (
   }
   const cursorContext = getCursorContext(
     context.textDocumentPosition,
-    ast,
+    binding,
     spaces,
     text,
     collection
@@ -42,13 +42,13 @@ export const getCompletionItems = (
     case "initial":
       return createInitialSnippet(context);
     case "empty":
-      return createAllSupportedElements(context, ast);
+      return createAllSupportedElements(context, binding);
     case "key":
       return createKeyProperties(cursorContext.element);
     case "value":
       return createValue(context, spaces, cursorContext);
     case "key-value":
-      return createKeyValue(context, ast);
+      return createKeyValue(context, binding);
     case "colon":
       if (!cursorContext.element.value) {
         // create value
@@ -80,20 +80,26 @@ export function propertyBindingInfoSuggestions({
   const startChar = value?.image.charAt(0);
   context.doubleQuotes = startChar === '"';
   const text = attribute.value ?? "";
-  const { expression, startIndex } = extractBindingExpression(text);
-  if (isBindingExpression(expression)) {
-    return [];
+  const extractedBindings = extractBindingExpression(text);
+  for (const bindingSyntax of extractedBindings) {
+    const { expression, startIndex } = bindingSyntax;
+    if (isBindingExpression(expression)) {
+      continue;
+    }
+    const position: Position = {
+      character: (value?.startColumn ?? 0) + startIndex,
+      line: value?.startLine ? value.startLine - 1 : 0, // zero based index
+    };
+    const { ast } = parsePropertyBindingInfo(expression, position);
+    for (const binding of ast.bindings) {
+      if (!isPropertyBindingInfo(text, binding)) {
+        continue;
+      }
+      completionItems.push(
+        ...getCompletionItems(context, binding, ast.spaces, expression)
+      );
+    }
   }
-  const position: Position = {
-    character: (value?.startColumn ?? 0) + startIndex,
-    line: value?.startLine ? value.startLine - 1 : 0, // zero based index
-  };
-  const { ast } = parsePropertyBindingInfo(expression, position);
-  if (!isPropertyBindingInfo(ast, text)) {
-    return [];
-  }
-  completionItems.push(
-    ...getCompletionItems(context, ast, ast.spaces, expression)
-  );
+
   return completionItems;
 }

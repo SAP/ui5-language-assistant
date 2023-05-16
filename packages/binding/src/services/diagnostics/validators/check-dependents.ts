@@ -8,7 +8,7 @@ import { BindContext, BindingIssue, BINDING_ISSUE_TYPE } from "../../../types";
 
 export const checkDependents = (
   context: BindContext,
-  ast: BindingTypes.Ast
+  binding: BindingTypes.Binding
 ): BindingIssue[] => {
   const issues: BindingIssue[] = [];
   // collect all definition which has dependencies
@@ -17,14 +17,14 @@ export const checkDependents = (
   );
   for (const dep of dependentElements) {
     // check if an element which has dependency is used
-    const dependentElementApplied = ast.elements.find(
+    const dependentElementApplied = binding.elements.find(
       (item) => item.key?.text === dep.name
     );
     if (dependentElementApplied) {
       // check if its dependency is applied too
       for (const types of dep.type) {
         for (const requiredDep of types.dependents) {
-          const requiredDepApplied = ast.elements.find(
+          const requiredDepApplied = binding.elements.find(
             (item) => item.key?.text === requiredDep.name
           );
           if (!requiredDepApplied) {

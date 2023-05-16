@@ -6,14 +6,27 @@
       "endColumn": 3,
       "tokenTypeName": "Key"
     },
-    "message": "Expecting --> { <-- but found --> 'key' <--",
+    "message": "Expecting token of type --> EOF <-- but found --> 'key' <--",
     "name": "MismatchedTokenException",
-    "resyncedTokens": [],
+    "resyncedTokens": [
+      {
+        "image": ":",
+        "startColumn": 4,
+        "endColumn": 4,
+        "tokenTypeName": "Colon"
+      },
+      {
+        "image": "'value'",
+        "startColumn": 6,
+        "endColumn": 12,
+        "tokenTypeName": "StringValue"
+      }
+    ],
     "previousToken": {
-      "image": "",
-      "startColumn": null,
-      "endColumn": null,
-      "tokenTypeName": "EOF"
+      "image": "}",
+      "startColumn": 13,
+      "endColumn": 13,
+      "tokenTypeName": "RightCurly"
     }
   }
 ]

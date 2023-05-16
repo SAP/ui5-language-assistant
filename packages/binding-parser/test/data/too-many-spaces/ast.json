@@ -1,64 +1,64 @@
 {
-  "leftCurly": {
-    "type": "LeftCurly",
-    "text": "{",
-    "range": "[(0,0)..(0,1)]"
-  },
-  "elements": [
+  "bindings": [
     {
-      "key": {
-        "type": "Key",
-        "text": "key01",
-        "range": "[(0,2)..(0,7)]"
+      "leftCurly": {
+        "type": "LeftCurly",
+        "text": "{",
+        "range": "[(0,0)..(0,1)]"
       },
-      "colon": {
-        "type": "Colon",
-        "text": ":",
-        "range": "[(0,7)..(0,8)]"
+      "elements": [
+        {
+          "key": {
+            "type": "Key",
+            "text": "key01",
+            "range": "[(0,2)..(0,7)]"
+          },
+          "colon": {
+            "type": "Colon",
+            "text": ":",
+            "range": "[(0,7)..(0,8)]"
+          },
+          "value": {
+            "type": "StringValue",
+            "text": "'value-01'",
+            "range": "[(0,10)..(0,20)]"
+          },
+          "range": "[(0,2)..(0,20)]"
+        },
+        {
+          "key": {
+            "type": "Key",
+            "text": "key02",
+            "range": "[(0,29)..(0,34)]"
+          },
+          "colon": {
+            "type": "Colon",
+            "text": ":",
+            "range": "[(0,37)..(0,38)]"
+          },
+          "value": {
+            "type": "StringValue",
+            "text": "'value-02'",
+            "range": "[(0,42)..(0,52)]"
+          },
+          "range": "[(0,29)..(0,52)]"
+        }
+      ],
+      "commas": [
+        {
+          "type": "Comma",
+          "text": ",",
+          "range": "[(0,24)..(0,25)]"
+        }
+      ],
+      "rightCurly": {
+        "type": "RightCurly",
+        "text": "}",
+        "range": "[(0,58)..(0,59)]"
       },
-      "value": {
-        "type": "StringValue",
-        "text": "'value-01'",
-        "range": "[(0,10)..(0,20)]"
-      },
-      "range": "[(0,2)..(0,20)]"
-    },
-    {
-      "key": {
-        "type": "Key",
-        "text": "key02",
-        "range": "[(0,29)..(0,34)]"
-      },
-      "colon": {
-        "type": "Colon",
-        "text": ":",
-        "range": "[(0,37)..(0,38)]"
-      },
-      "value": {
-        "type": "StringValue",
-        "text": "'value-02'",
-        "range": "[(0,42)..(0,52)]"
-      },
-      "range": "[(0,29)..(0,52)]"
+      "range": "[(0,0)..(0,59)]"
     }
   ],
-  "commas": [
-    {
-      "type": "Comma",
-      "text": ",",
-      "range": "[(0,24)..(0,25)]"
-    }
-  ],
-  "rightCurly": {
-    "type": "RightCurly",
-    "text": "}",
-    "range": "[(0,58)..(0,59)]"
-  },
-  "range": "[(0,0)..(0,59)]",
-  "errors": {
-    "lexer": [],
-    "parse": []
-  },
   "spaces": [
     {
       "type": "WhiteSpace",
@@ -95,5 +95,9 @@
       "text": "      ",
       "range": "[(0,52)..(0,58)]"
     }
-  ]
+  ],
+  "errors": {
+    "lexer": [],
+    "parse": []
+  }
 }

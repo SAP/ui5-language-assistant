@@ -1,51 +1,57 @@
 {
-  "leftCurly": {
-    "type": "LeftCurly",
-    "text": "{",
-    "range": "[(0,0)..(0,1)]"
-  },
-  "elements": [
+  "bindings": [
     {
-      "key": {
-        "type": "Key",
-        "text": "key",
-        "range": "[(0,1)..(0,4)]"
+      "leftCurly": {
+        "type": "LeftCurly",
+        "text": "{",
+        "range": "[(0,0)..(0,1)]"
       },
-      "colon": {
-        "type": "Colon",
-        "text": ":",
-        "range": "[(0,4)..(0,5)]"
+      "elements": [
+        {
+          "key": {
+            "type": "Key",
+            "text": "key",
+            "range": "[(0,1)..(0,4)]"
+          },
+          "colon": {
+            "type": "Colon",
+            "text": ":",
+            "range": "[(0,4)..(0,5)]"
+          },
+          "value": {
+            "leftSquare": {
+              "type": "LeftSquare",
+              "text": "[",
+              "range": "[(0,6)..(0,7)]"
+            },
+            "elements": [],
+            "rightSquare": {
+              "type": "RightSquare",
+              "text": "",
+              "range": "[(0,0)..(0,0)]"
+            },
+            "range": "[(0,1)..(0,7)]",
+            "commas": []
+          },
+          "range": "[(0,1)..(0,7)]"
+        }
+      ],
+      "commas": [],
+      "rightCurly": {
+        "type": "RightCurly",
+        "text": "}",
+        "range": "[(0,7)..(0,8)]"
       },
-      "value": {
-        "leftSquare": {
-          "type": "LeftSquare",
-          "text": "[",
-          "range": "[(0,6)..(0,7)]"
-        },
-        "elements": [],
-        "rightSquare": {
-          "type": "RightSquare",
-          "text": "",
-          "range": "[(0,0)..(0,0)]"
-        },
-        "range": "[(0,1)..(0,7)]",
-        "errors": {
-          "lexer": [],
-          "parse": []
-        },
-        "spaces": [],
-        "commas": []
-      },
-      "range": "[(0,1)..(0,7)]"
+      "range": "[(0,0)..(0,8)]"
     }
   ],
-  "commas": [],
-  "rightCurly": {
-    "type": "RightCurly",
-    "text": "}",
-    "range": "[(0,7)..(0,8)]"
-  },
-  "range": "[(0,0)..(0,8)]",
+  "spaces": [
+    {
+      "type": "WhiteSpace",
+      "text": " ",
+      "range": "[(0,5)..(0,6)]"
+    }
+  ],
   "errors": {
     "lexer": [],
     "parse": [
@@ -71,12 +77,5 @@
         "message": "Expecting --> ] <-- but found --> '}' <--"
       }
     ]
-  },
-  "spaces": [
-    {
-      "type": "WhiteSpace",
-      "text": " ",
-      "range": "[(0,5)..(0,6)]"
-    }
-  ]
+  }
 }

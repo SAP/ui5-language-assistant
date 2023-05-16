@@ -6,7 +6,7 @@ import {
   PrimitiveValue,
   CollectionValue,
   StructureValue,
-  Ast,
+  Binding,
 } from "./types/property-binding-info";
 /**
  * A value is considered as primitive if it does not have any elements
@@ -18,7 +18,7 @@ export const isPrimitiveValue = (
     return false;
   }
 
-  if ((value as Ast).elements) {
+  if ((value as Binding).elements) {
     return false;
   }
   return true;
