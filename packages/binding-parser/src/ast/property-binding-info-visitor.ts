@@ -21,6 +21,7 @@ import {
 import { createNode } from "../utils/create";
 import { locationToRange } from "../utils/range";
 import type {
+  Binding,
   Ast,
   AstElement,
   CollectionValue,
@@ -42,15 +43,28 @@ class PropertyBindingInfoVisitor extends BaseVisitor {
     node: CstChildrenDictionary,
     position?: Position
   ): Ast {
-    const data = node[OBJECT] as CstNode[];
-    const param: VisitorParam = {
-      position,
-      location: data?.[0].location,
+    const objects = (node[OBJECT] ?? []) as CstNode[];
+    const errors = {
+      lexer: [],
+      parse: [],
     };
-    const result = this.visit(data, param) as Ast;
-    return result;
+    const spaces = [];
+    const ast: Ast = {
+      bindings: [],
+      spaces,
+      errors,
+    };
+    for (const data of objects) {
+      const param: VisitorParam = {
+        position,
+        location: data.location,
+      };
+      const result = this.visit(data, param) as Binding;
+      ast.bindings.push(result);
+    }
+    return ast;
   }
-  [OBJECT](node: CstChildrenDictionary, param: VisitorParam): Ast {
+  [OBJECT](node: CstChildrenDictionary, param: VisitorParam): Binding {
     const leftCurly = this[LEFT_CURLY](
       (node[LEFT_CURLY] as IToken[]) ?? [],
       param
@@ -78,19 +92,14 @@ class PropertyBindingInfoVisitor extends BaseVisitor {
       }
     }
     const range = locationToRange(param.location, param.position);
-    const errors = {
-      lexer: [],
-      parse: [],
-    };
-    const spaces = [];
     return {
       leftCurly,
       elements,
       commas,
       rightCurly,
       range,
-      errors,
-      spaces,
+      // errors,
+      // spaces,
     };
   }
   [OBJECT_ITEM](node: CstChildrenDictionary, param: VisitorParam): AstElement {
@@ -176,19 +185,12 @@ class PropertyBindingInfoVisitor extends BaseVisitor {
         | StructureValue;
       elements.push(result);
     }
-    const errors = {
-      lexer: [],
-      parse: [],
-    };
-    const spaces = [];
     const range = locationToRange(param.location, param.position);
     return {
       leftSquare,
       elements,
       rightSquare,
       range,
-      errors,
-      spaces,
       commas,
     };
   }

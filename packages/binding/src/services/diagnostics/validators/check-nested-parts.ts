@@ -33,10 +33,12 @@ const getParts = (element: BindingTypes.AstElement) => {
   }
   return issues;
 };
-export const checkNestedParts = (ast: BindingTypes.Ast): BindingIssue[] => {
+export const checkNestedParts = (
+  binding: BindingTypes.Binding
+): BindingIssue[] => {
   const issues: BindingIssue[] = [];
   // check "parts" element is used
-  const parts = ast.elements.find((i) => i.key?.text === "parts");
+  const parts = binding.elements.find((i) => i.key?.text === "parts");
   if (parts) {
     issues.push(...getParts(parts));
   }

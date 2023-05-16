@@ -1,55 +1,50 @@
 {
-  "leftCurly": {
-    "type": "LeftCurly",
-    "text": "{",
-    "range": "[(0,0)..(0,1)]"
-  },
-  "elements": [
+  "bindings": [
     {
-      "key": {
-        "type": "Key",
-        "text": "key",
-        "range": "[(0,2)..(0,5)]"
+      "leftCurly": {
+        "type": "LeftCurly",
+        "text": "{",
+        "range": "[(0,0)..(0,1)]"
       },
-      "colon": {
-        "type": "Colon",
-        "text": ":",
-        "range": "[(0,5)..(0,6)]"
+      "elements": [
+        {
+          "key": {
+            "type": "Key",
+            "text": "key",
+            "range": "[(0,2)..(0,5)]"
+          },
+          "colon": {
+            "type": "Colon",
+            "text": ":",
+            "range": "[(0,5)..(0,6)]"
+          },
+          "value": {
+            "leftSquare": {
+              "type": "LeftSquare",
+              "text": "[",
+              "range": "[(0,7)..(0,8)]"
+            },
+            "elements": [],
+            "rightSquare": {
+              "type": "RightSquare",
+              "text": "]",
+              "range": "[(0,8)..(0,9)]"
+            },
+            "range": "[(0,2)..(0,9)]",
+            "commas": []
+          },
+          "range": "[(0,2)..(0,9)]"
+        }
+      ],
+      "commas": [],
+      "rightCurly": {
+        "type": "RightCurly",
+        "text": "}",
+        "range": "[(0,10)..(0,11)]"
       },
-      "value": {
-        "leftSquare": {
-          "type": "LeftSquare",
-          "text": "[",
-          "range": "[(0,7)..(0,8)]"
-        },
-        "elements": [],
-        "rightSquare": {
-          "type": "RightSquare",
-          "text": "]",
-          "range": "[(0,8)..(0,9)]"
-        },
-        "range": "[(0,2)..(0,9)]",
-        "errors": {
-          "lexer": [],
-          "parse": []
-        },
-        "spaces": [],
-        "commas": []
-      },
-      "range": "[(0,2)..(0,9)]"
+      "range": "[(0,0)..(0,11)]"
     }
   ],
-  "commas": [],
-  "rightCurly": {
-    "type": "RightCurly",
-    "text": "}",
-    "range": "[(0,10)..(0,11)]"
-  },
-  "range": "[(0,0)..(0,11)]",
-  "errors": {
-    "lexer": [],
-    "parse": []
-  },
   "spaces": [
     {
       "type": "WhiteSpace",
@@ -66,5 +61,9 @@
       "text": " ",
       "range": "[(0,9)..(0,10)]"
     }
-  ]
+  ],
+  "errors": {
+    "lexer": [],
+    "parse": []
+  }
 }

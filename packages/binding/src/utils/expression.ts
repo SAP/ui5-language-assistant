@@ -1,5 +1,6 @@
 import { PropertyBindingInfoTypes as BindingTypes } from "@ui5-language-assistant/binding-parser";
 import { ExtractBindingExpression } from "..//types";
+import { rangeContained } from "./position";
 
 /**
  * Syntax of a binding expression can be represented by `{=expression}` or `{:=expression}`
@@ -8,6 +9,57 @@ import { ExtractBindingExpression } from "..//types";
 export const isBindingExpression = (input: string): boolean => {
   input = input.trim();
   return /^{(=|:=)/.test(input);
+};
+
+export const filterLexerError = (
+  ast: BindingTypes.Ast
+): BindingTypes.LexerError[] => {
+  const result: BindingTypes.LexerError[] = [];
+  // check empty binding
+  const { bindings, errors } = ast;
+  if (bindings.length === 0) {
+    return result;
+  }
+  // check binding element
+  for (const binding of bindings) {
+    if (binding.elements.length === 0) {
+      continue;
+    }
+    const lexErr = errors.lexer.filter((item) => {
+      if (binding.range) {
+        return rangeContained(binding.range, item.range);
+      }
+      return false;
+    });
+    result.push(...lexErr);
+  }
+
+  return result;
+};
+export const filterParseError = (
+  ast: BindingTypes.Ast
+): BindingTypes.ParseError[] => {
+  const result: BindingTypes.ParseError[] = [];
+  const { bindings, errors } = ast;
+  // check empty binding
+  if (bindings.length === 0) {
+    return result;
+  }
+  // check binding element
+  for (const binding of bindings) {
+    if (binding.elements.length === 0) {
+      continue;
+    }
+    const parseErr = errors.parse.filter((item) => {
+      if (binding.range) {
+        return rangeContained(binding.range, item.range);
+      }
+      return false;
+    });
+    result.push(...parseErr);
+  }
+
+  return result;
 };
 
 /**
@@ -20,26 +72,31 @@ export const isBindingExpression = (input: string): boolean => {
  * c. empty string [for initial code completion snippet]
  */
 export const isPropertyBindingInfo = (
-  ast: BindingTypes.Ast,
-  input: string
+  input: string,
+  binding?: BindingTypes.Binding
 ): boolean => {
   // check empty string
   if (input.trim().length === 0) {
     return true;
   }
+
+  if (!binding) {
+    return false;
+  }
+
   // check empty curly brackets
   if (
-    ast.leftCurly?.text &&
-    ast.elements.length === 0 &&
-    ast.rightCurly?.text
+    binding.leftCurly?.text &&
+    binding.elements.length === 0 &&
+    binding.rightCurly?.text
   ) {
     return true;
   }
   // check it has at least one key with colon
-  const result = ast.elements.find(
+  const result = binding.elements.find(
     (item) => item.key?.text && item.colon?.text
   );
-  if (result && ast.leftCurly?.text && ast.rightCurly?.text) {
+  if (result && binding.leftCurly?.text && binding.rightCurly?.text) {
     return true;
   }
   return false;
@@ -55,51 +112,54 @@ const start = /(\\[\\\{\}])|(\{)/g;
 // eslint-disable-next-line no-useless-escape
 const end = /(\\[\\\{\}])|(\})/g;
 
-const extractor = (regExp: RegExp, input: string, checkingStart = true) => {
-  let regResult: RegExpExecArray | null;
-  const fragments: number[] = [];
-  // resetting
-  regExp.lastIndex = 0;
-  while ((regResult = regExp.exec(input)) !== null) {
-    // scape special chars
-    if (regResult[1]) {
-      continue;
-    }
-    // all scape char should have been escaped
-    fragments.push(regResult.index);
-    if (checkingStart) {
-      break;
-    }
-  }
-  if (fragments.length === 0 && !checkingStart) {
-    // missing closing curly bracket
-    fragments.push(input.length);
-  }
-  return fragments;
-};
-
 export const extractBindingExpression = (
-  input: string,
-  initialIndex = 0,
+  input: string
 ): ExtractBindingExpression[] => {
   const result: ExtractBindingExpression[] = [];
-  const startExtract = extractor(start, input);
-  const endExtract = extractor(end, input, false);
-  const [firstEndIndex, ...rest] = endExtract;
-  const startIndex = (startExtract.pop() ?? 0);
-  const expression = input.slice(startIndex, firstEndIndex + 1);
-  result.push({
-    startIndex: startIndex + initialIndex,
-    endIndex: firstEndIndex + initialIndex + 1,
-    expression,
-  });
-  if (rest.length > 0) {
-    // multiple binding syntax
-    const restResult = extractBindingExpression(
-      input.slice(firstEndIndex + 1),
-      firstEndIndex + initialIndex + 1
-    );
-    result.push(...restResult);
+  let startRegResult: RegExpExecArray | null;
+  let endRegResult: RegExpExecArray | null;
+  // resetting
+  start.lastIndex = 0;
+  let startIndex = 0;
+  let lastIndex = 0;
+  let endIndex = 0;
+  while ((startRegResult = start.exec(input)) !== null) {
+    // scape special chars
+    if (startRegResult[1]) {
+      continue;
+    }
+    const startInput = input.slice(startRegResult.index);
+    // collect all closing bracket(s)
+    end.lastIndex = 0;
+    while ((endRegResult = end.exec(startInput)) !== null) {
+      // scape special chars
+      if (endRegResult[1]) {
+        break;
+      }
+      lastIndex = endRegResult.index;
+    }
+    if (lastIndex === startRegResult.index) {
+      // missing closing bracket
+      const expression = startInput.slice(0, input.length);
+      result.push({
+        startIndex: startRegResult.index,
+        endIndex: input.length,
+        expression,
+      });
+      input = startInput.slice(input.length);
+    } else {
+      const expression = startInput.slice(0, lastIndex + 1);
+      startIndex = endIndex + startRegResult.index;
+      endIndex = startIndex + lastIndex + 1;
+      result.push({
+        startIndex,
+        endIndex,
+        expression,
+      });
+      input = startInput.slice(lastIndex + 1);
+      // resetting
+      start.lastIndex = 0;
+    }
   }
   return result;
 };

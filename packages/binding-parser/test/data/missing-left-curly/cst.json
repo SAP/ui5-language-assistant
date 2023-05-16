@@ -1,83 +1,8 @@
 {
   "name": "PropertyBindingInfo",
-  "children": {
-    "Object": [
-      {
-        "name": "Object",
-        "children": {
-          "LeftCurly": [
-            {
-              "image": "",
-              "startColumn": -1,
-              "endColumn": -1,
-              "isInsertedInRecovery": true,
-              "tokenTypeName": "LeftCurly"
-            }
-          ],
-          "ObjectItem": [
-            {
-              "name": "ObjectItem",
-              "children": {
-                "Key": [
-                  {
-                    "image": "key",
-                    "startColumn": 1,
-                    "endColumn": 3,
-                    "tokenTypeName": "Key"
-                  }
-                ],
-                "Colon": [
-                  {
-                    "image": ":",
-                    "startColumn": 4,
-                    "endColumn": 4,
-                    "tokenTypeName": "Colon"
-                  }
-                ],
-                "Value": [
-                  {
-                    "name": "Value",
-                    "children": {
-                      "StringValue": [
-                        {
-                          "image": "'value'",
-                          "startColumn": 6,
-                          "endColumn": 12,
-                          "tokenTypeName": "StringValue"
-                        }
-                      ]
-                    },
-                    "location": {
-                      "startColumn": 6,
-                      "endColumn": 12
-                    }
-                  }
-                ]
-              },
-              "location": {
-                "startColumn": 1,
-                "endColumn": 12
-              }
-            }
-          ],
-          "RightCurly": [
-            {
-              "image": "}",
-              "startColumn": 13,
-              "endColumn": 13,
-              "tokenTypeName": "RightCurly"
-            }
-          ]
-        },
-        "location": {
-          "startColumn": 1,
-          "endColumn": 13
-        }
-      }
-    ]
-  },
+  "children": {},
   "location": {
-    "startColumn": 1,
-    "endColumn": 13
+    "startColumn": -1,
+    "endColumn": -1
   }
 }

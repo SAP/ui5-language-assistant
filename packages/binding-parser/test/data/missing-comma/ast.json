@@ -1,36 +1,57 @@
 {
-  "leftCurly": {
-    "type": "LeftCurly",
-    "text": "{",
-    "range": "[(0,0)..(0,1)]"
-  },
-  "elements": [
+  "bindings": [
     {
-      "key": {
-        "type": "Key",
-        "text": "key01",
-        "range": "[(0,1)..(0,6)]"
+      "leftCurly": {
+        "type": "LeftCurly",
+        "text": "{",
+        "range": "[(0,0)..(0,1)]"
       },
-      "colon": {
-        "type": "Colon",
-        "text": ":",
-        "range": "[(0,6)..(0,7)]"
+      "elements": [
+        {
+          "key": {
+            "type": "Key",
+            "text": "key01",
+            "range": "[(0,1)..(0,6)]"
+          },
+          "colon": {
+            "type": "Colon",
+            "text": ":",
+            "range": "[(0,6)..(0,7)]"
+          },
+          "value": {
+            "type": "StringValue",
+            "text": "'value-01'",
+            "range": "[(0,8)..(0,18)]"
+          },
+          "range": "[(0,1)..(0,18)]"
+        }
+      ],
+      "commas": [],
+      "rightCurly": {
+        "type": "RightCurly",
+        "text": "}",
+        "range": "[(0,36)..(0,37)]"
       },
-      "value": {
-        "type": "StringValue",
-        "text": "'value-01'",
-        "range": "[(0,8)..(0,18)]"
-      },
-      "range": "[(0,1)..(0,18)]"
+      "range": "[(0,0)..(0,37)]"
     }
   ],
-  "commas": [],
-  "rightCurly": {
-    "type": "RightCurly",
-    "text": "}",
-    "range": "[(0,36)..(0,37)]"
-  },
-  "range": "[(0,0)..(0,37)]",
+  "spaces": [
+    {
+      "type": "WhiteSpace",
+      "text": " ",
+      "range": "[(0,7)..(0,8)]"
+    },
+    {
+      "type": "WhiteSpace",
+      "text": " ",
+      "range": "[(0,18)..(0,19)]"
+    },
+    {
+      "type": "WhiteSpace",
+      "text": " ",
+      "range": "[(0,25)..(0,26)]"
+    }
+  ],
   "errors": {
     "lexer": [],
     "parse": [
@@ -68,22 +89,5 @@
         "message": "Expecting --> } <-- but found --> 'key02' <--"
       }
     ]
-  },
-  "spaces": [
-    {
-      "type": "WhiteSpace",
-      "text": " ",
-      "range": "[(0,7)..(0,8)]"
-    },
-    {
-      "type": "WhiteSpace",
-      "text": " ",
-      "range": "[(0,18)..(0,19)]"
-    },
-    {
-      "type": "WhiteSpace",
-      "text": " ",
-      "range": "[(0,25)..(0,26)]"
-    }
-  ]
+  }
 }

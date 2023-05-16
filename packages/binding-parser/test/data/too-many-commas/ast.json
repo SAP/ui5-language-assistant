@@ -1,65 +1,86 @@
 {
-  "leftCurly": {
-    "type": "LeftCurly",
-    "text": "{",
-    "range": "[(0,0)..(0,1)]"
-  },
-  "elements": [
+  "bindings": [
     {
-      "key": {
-        "type": "Key",
-        "text": "key01",
-        "range": "[(0,1)..(0,6)]"
+      "leftCurly": {
+        "type": "LeftCurly",
+        "text": "{",
+        "range": "[(0,0)..(0,1)]"
       },
-      "colon": {
-        "type": "Colon",
-        "text": ":",
-        "range": "[(0,6)..(0,7)]"
+      "elements": [
+        {
+          "key": {
+            "type": "Key",
+            "text": "key01",
+            "range": "[(0,1)..(0,6)]"
+          },
+          "colon": {
+            "type": "Colon",
+            "text": ":",
+            "range": "[(0,6)..(0,7)]"
+          },
+          "value": {
+            "type": "StringValue",
+            "text": "'value-01'",
+            "range": "[(0,8)..(0,18)]"
+          },
+          "range": "[(0,1)..(0,18)]"
+        },
+        {
+          "key": {
+            "type": "Key",
+            "text": "key02",
+            "range": "[(0,22)..(0,27)]"
+          },
+          "colon": {
+            "type": "Colon",
+            "text": ":",
+            "range": "[(0,27)..(0,28)]"
+          },
+          "value": {
+            "type": "StringValue",
+            "text": "'value-02'",
+            "range": "[(0,29)..(0,39)]"
+          },
+          "range": "[(0,22)..(0,39)]"
+        }
+      ],
+      "commas": [
+        {
+          "type": "Comma",
+          "text": ",",
+          "range": "[(0,18)..(0,19)]"
+        },
+        {
+          "type": "Comma",
+          "text": ",",
+          "range": "[(0,19)..(0,20)]"
+        }
+      ],
+      "rightCurly": {
+        "type": "RightCurly",
+        "text": "}",
+        "range": "[(0,39)..(0,40)]"
       },
-      "value": {
-        "type": "StringValue",
-        "text": "'value-01'",
-        "range": "[(0,8)..(0,18)]"
-      },
-      "range": "[(0,1)..(0,18)]"
-    },
-    {
-      "key": {
-        "type": "Key",
-        "text": "key02",
-        "range": "[(0,22)..(0,27)]"
-      },
-      "colon": {
-        "type": "Colon",
-        "text": ":",
-        "range": "[(0,27)..(0,28)]"
-      },
-      "value": {
-        "type": "StringValue",
-        "text": "'value-02'",
-        "range": "[(0,29)..(0,39)]"
-      },
-      "range": "[(0,22)..(0,39)]"
+      "range": "[(0,0)..(0,40)]"
     }
   ],
-  "commas": [
+  "spaces": [
     {
-      "type": "Comma",
-      "text": ",",
-      "range": "[(0,18)..(0,19)]"
+      "type": "WhiteSpace",
+      "text": " ",
+      "range": "[(0,7)..(0,8)]"
     },
     {
-      "type": "Comma",
-      "text": ",",
-      "range": "[(0,19)..(0,20)]"
+      "type": "WhiteSpace",
+      "text": " ",
+      "range": "[(0,21)..(0,22)]"
+    },
+    {
+      "type": "WhiteSpace",
+      "text": " ",
+      "range": "[(0,28)..(0,29)]"
     }
   ],
-  "rightCurly": {
-    "type": "RightCurly",
-    "text": "}",
-    "range": "[(0,39)..(0,40)]"
-  },
-  "range": "[(0,0)..(0,40)]",
   "errors": {
     "lexer": [],
     "parse": [
@@ -106,22 +127,5 @@
         "message": "Expecting token of type --> Key <-- but found --> ',' <--"
       }
     ]
-  },
-  "spaces": [
-    {
-      "type": "WhiteSpace",
-      "text": " ",
-      "range": "[(0,7)..(0,8)]"
-    },
-    {
-      "type": "WhiteSpace",
-      "text": " ",
-      "range": "[(0,21)..(0,22)]"
-    },
-    {
-      "type": "WhiteSpace",
-      "text": " ",
-      "range": "[(0,28)..(0,29)]"
-    }
-  ]
+  }
 }

@@ -1,61 +1,56 @@
 {
-  "leftCurly": {
-    "type": "LeftCurly",
-    "text": "{",
-    "range": "[(0,0)..(0,1)]"
-  },
-  "elements": [
+  "bindings": [
     {
-      "key": {
-        "type": "Key",
-        "text": "key",
-        "range": "[(0,2)..(0,5)]"
+      "leftCurly": {
+        "type": "LeftCurly",
+        "text": "{",
+        "range": "[(0,0)..(0,1)]"
       },
-      "colon": {
-        "type": "Colon",
-        "text": ":",
-        "range": "[(0,5)..(0,6)]"
+      "elements": [
+        {
+          "key": {
+            "type": "Key",
+            "text": "key",
+            "range": "[(0,2)..(0,5)]"
+          },
+          "colon": {
+            "type": "Colon",
+            "text": ":",
+            "range": "[(0,5)..(0,6)]"
+          },
+          "value": {
+            "leftSquare": {
+              "type": "LeftSquare",
+              "text": "[",
+              "range": "[(0,7)..(0,8)]"
+            },
+            "elements": [
+              {
+                "type": "BooleanValue",
+                "text": "true",
+                "range": "[(0,8)..(0,12)]"
+              }
+            ],
+            "rightSquare": {
+              "type": "RightSquare",
+              "text": "]",
+              "range": "[(0,12)..(0,13)]"
+            },
+            "range": "[(0,2)..(0,13)]",
+            "commas": []
+          },
+          "range": "[(0,2)..(0,13)]"
+        }
+      ],
+      "commas": [],
+      "rightCurly": {
+        "type": "RightCurly",
+        "text": "}",
+        "range": "[(0,14)..(0,15)]"
       },
-      "value": {
-        "leftSquare": {
-          "type": "LeftSquare",
-          "text": "[",
-          "range": "[(0,7)..(0,8)]"
-        },
-        "elements": [
-          {
-            "type": "BooleanValue",
-            "text": "true",
-            "range": "[(0,8)..(0,12)]"
-          }
-        ],
-        "rightSquare": {
-          "type": "RightSquare",
-          "text": "]",
-          "range": "[(0,12)..(0,13)]"
-        },
-        "range": "[(0,2)..(0,13)]",
-        "errors": {
-          "lexer": [],
-          "parse": []
-        },
-        "spaces": [],
-        "commas": []
-      },
-      "range": "[(0,2)..(0,13)]"
+      "range": "[(0,0)..(0,15)]"
     }
   ],
-  "commas": [],
-  "rightCurly": {
-    "type": "RightCurly",
-    "text": "}",
-    "range": "[(0,14)..(0,15)]"
-  },
-  "range": "[(0,0)..(0,15)]",
-  "errors": {
-    "lexer": [],
-    "parse": []
-  },
   "spaces": [
     {
       "type": "WhiteSpace",
@@ -72,5 +67,9 @@
       "text": " ",
       "range": "[(0,13)..(0,14)]"
     }
-  ]
+  ],
+  "errors": {
+    "lexer": [],
+    "parse": []
+  }
 }

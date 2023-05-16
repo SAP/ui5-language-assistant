@@ -38,11 +38,11 @@ const search = (
   return notAllowedElements;
 };
 export const checkNotAllowedElement = (
-  ast: BindingTypes.Ast
+  binding: BindingTypes.Binding
 ): BindingIssue[] => {
   const issues: BindingIssue[] = [];
   const notAllowed: BindingTypes.AstElement[] = [];
-  const allEl = [...ast.elements];
+  const allEl = [...binding.elements];
   let oneElement: BindingTypes.AstElement[];
   while ((oneElement = allEl.splice(0, 1)) && allEl.length > 0) {
     const searchResult = search(oneElement[0], allEl, notAllowed);

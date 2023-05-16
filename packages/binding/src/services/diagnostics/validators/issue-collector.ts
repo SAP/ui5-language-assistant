@@ -11,6 +11,7 @@ import { checkNotAllowedElement } from "./check-not-allowed-element";
 import { checkDependents } from "./check-dependents";
 import { checkNestedParts } from "./check-nested-parts";
 import { rangeToOffsetRange } from "../../../utils";
+import { filterParseError } from "../../../utils/expression";
 
 /**
  * Check an AST
@@ -20,11 +21,15 @@ import { rangeToOffsetRange } from "../../../utils";
  */
 export const checkAst = (
   context: BindContext,
-  ast: BindingTypes.Ast,
+  binding: BindingTypes.Binding,
+  errors: {
+    parse: BindingTypes.ParseError[];
+    lexer: BindingTypes.LexerError[];
+  },
   ignore = false
 ): BindingIssue[] => {
   const issues: BindingIssue[] = [];
-  for (const element of ast.elements) {
+  for (const element of binding.elements) {
     const keyIssue: BindingIssue[] = [];
     const colonIssue: BindingIssue[] = [];
     const missingValueIssue: BindingIssue[] = [];
@@ -38,20 +43,20 @@ export const checkAst = (
     }
     if (colonIssue.length === 0) {
       missingValueIssue.push(
-        ...checkMissingValue(context, element, ast.errors.parse)
+        ...checkMissingValue(context, element, errors.parse)
       );
       issues.push(...missingValueIssue);
     }
     if (missingValueIssue.length === 0) {
       issues.push(...checkPrimitiveValue(context, element, ignore));
-      issues.push(...checkCollectionValue(context, element, ignore));
-      issues.push(...checkStructureValue(context, element, ignore));
+      issues.push(...checkCollectionValue(context, element, errors, ignore));
+      issues.push(...checkStructureValue(context, element, errors, ignore));
     }
   }
-  issues.push(...checkDuplicate(ast));
-  issues.push(...checkNotAllowedElement(ast));
-  issues.push(...checkDependents(context, ast));
-  issues.push(...checkNestedParts(ast));
+  issues.push(...checkDuplicate(binding));
+  issues.push(...checkNotAllowedElement(binding));
+  issues.push(...checkDependents(context, binding));
+  issues.push(...checkNestedParts(binding));
   return issues;
 };
 
@@ -62,7 +67,7 @@ export const checkAst = (
  */
 export const checkMissingComma = (ast: BindingTypes.Ast): BindingIssue[] => {
   const issues: BindingIssue[] = [];
-  const parseErrors = ast.errors.parse;
+  const parseErrors = filterParseError(ast);
   for (const parseError of parseErrors) {
     const item = parseError.merged[0];
     if (parseError.previousToken && item?.tokenTypeName === BindingTypes.KEY) {
@@ -87,7 +92,7 @@ export const checkMissingComma = (ast: BindingTypes.Ast): BindingIssue[] => {
  */
 export const checkTrailingComma = (ast: BindingTypes.Ast): BindingIssue[] => {
   const issues: BindingIssue[] = [];
-  const parseErrors = ast.errors.parse;
+  const parseErrors = filterParseError(ast);
   for (const parseError of parseErrors) {
     const item = parseError.merged[0];
     if (

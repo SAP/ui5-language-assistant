@@ -99,7 +99,7 @@ export interface PrimitiveValue extends Base {
   type: PrimitiveValueType;
 }
 
-export type StructureValue = Ast;
+export type StructureValue = Binding;
 
 export interface LexerError extends Base {
   type: typeof LEXER_ERROR;
@@ -120,11 +120,11 @@ export interface CollectionValue {
   elements: (PrimitiveValue | StructureValue)[];
   range?: Range; // range which include left bracket, element and right bracket
   rightSquare?: RightSquare;
-  errors: {
-    lexer: LexerError[];
-    parse: ParseError[];
-  };
-  spaces: WhiteSpaces[];
+  // errors: {
+  //   lexer: LexerError[];
+  //   parse: ParseError[];
+  // };
+  // spaces: WhiteSpaces[];
   commas: Comma[];
 }
 export type Value = PrimitiveValue | StructureValue | CollectionValue;
@@ -136,23 +136,27 @@ export interface AstElement {
   comma?: Comma;
   range?: Range; // range of this element which include key, colon value and comma
 }
-export interface Ast {
+
+export interface Binding {
   leftCurly?: LeftCurly;
-  elements: AstElement[]; // in case of collection value can be simple value e.g string
-  range?: Range; // range which include left bracket, element and right bracket
   rightCurly?: RightCurly;
+  elements: AstElement[]; // in case of collection value can be simple value e.g string
+  range?: Range; // range which include left bracket, element and right bracket,
+  commas: Comma[];
+}
+export interface Ast {
+  bindings: Binding[];
   errors: {
     lexer: LexerError[];
     parse: ParseError[];
   };
   spaces: WhiteSpaces[];
-  commas: Comma[];
 }
 
 export interface ParseResult {
   cst: CstNode;
   ast: Ast;
   tokens: IToken[];
-  lexErrors: ILexingError[];
-  parseErrors: IRecognitionException[];
+  lexErrors: ILexingError[]; // todo - repeated. part of ast
+  parseErrors: IRecognitionException[]; // todo - repeated. part of ast
 }

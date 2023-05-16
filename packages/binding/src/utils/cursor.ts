@@ -9,12 +9,12 @@ import {
 
 export const getCursorContext = (
   parm: TextDocumentPositionParams,
-  ast: BindingTypes.Ast,
+  binding: BindingTypes.Binding,
   spaces: BindingTypes.WhiteSpaces[],
   text = "",
   collection = false
 ): CursorContext => {
-  const { elements, commas } = ast;
+  const { elements, commas } = binding;
   text = text?.trim();
   if (!text && !collection) {
     return {
