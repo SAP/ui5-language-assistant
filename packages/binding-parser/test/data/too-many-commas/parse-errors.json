@@ -2,8 +2,8 @@
   {
     "token": {
       "image": ",",
-      "startColumn": 20,
-      "endColumn": 20,
+      "startOffset": 19,
+      "endOffset": 19,
       "tokenTypeName": "Comma"
     },
     "message": "Expecting token of type --> Key <-- but found --> ',' <--",
@@ -11,16 +11,16 @@
     "resyncedTokens": [],
     "previousToken": {
       "image": ",",
-      "startColumn": 19,
-      "endColumn": 19,
+      "startOffset": 18,
+      "endOffset": 18,
       "tokenTypeName": "Comma"
     }
   },
   {
     "token": {
       "image": ",",
-      "startColumn": 21,
-      "endColumn": 21,
+      "startOffset": 20,
+      "endOffset": 20,
       "tokenTypeName": "Comma"
     },
     "message": "Expecting token of type --> Key <-- but found --> ',' <--",
@@ -28,8 +28,8 @@
     "resyncedTokens": [],
     "previousToken": {
       "image": ",",
-      "startColumn": 20,
-      "endColumn": 20,
+      "startOffset": 19,
+      "endOffset": 19,
       "tokenTypeName": "Comma"
     }
   }

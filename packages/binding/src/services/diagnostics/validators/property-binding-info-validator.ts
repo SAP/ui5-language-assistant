@@ -47,7 +47,7 @@ export function validatePropertyBindingInfo(
     for (const bindingSyntax of extractedText) {
       const { expression, startIndex } = bindingSyntax;
       if (isBindingExpression(expression)) {
-        return [];
+        continue;
       }
       const position: Position = {
         character: (value?.startColumn ?? 0) + startIndex,

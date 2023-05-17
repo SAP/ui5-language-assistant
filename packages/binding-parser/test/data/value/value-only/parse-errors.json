@@ -2,8 +2,8 @@
   {
     "token": {
       "image": "'valueOnly'",
-      "startColumn": 2,
-      "endColumn": 12,
+      "startOffset": 1,
+      "endOffset": 11,
       "tokenTypeName": "StringValue"
     },
     "message": "Expecting --> } <-- but found --> ''valueOnly'' <--",
@@ -11,8 +11,8 @@
     "resyncedTokens": [],
     "previousToken": {
       "image": "{",
-      "startColumn": 1,
-      "endColumn": 1,
+      "startOffset": 0,
+      "endOffset": 0,
       "tokenTypeName": "LeftCurly"
     }
   }

@@ -2,8 +2,8 @@
   {
     "token": {
       "image": "}",
-      "startColumn": 28,
-      "endColumn": 28,
+      "startOffset": 27,
+      "endOffset": 27,
       "tokenTypeName": "RightCurly"
     },
     "message": "Expecting: one of these possible Token sequences:\n  1. [StringValue]\n  2. [NumberValue]\n  3. [{]\n  4. [[]\n  5. [BooleanValue]\n  6. [NullValue]\nbut found: '}'",
@@ -11,16 +11,16 @@
     "resyncedTokens": [],
     "previousToken": {
       "image": ":",
-      "startColumn": 26,
-      "endColumn": 26,
+      "startOffset": 25,
+      "endOffset": 25,
       "tokenTypeName": "Colon"
     }
   },
   {
     "token": {
       "image": "}",
-      "startColumn": 29,
-      "endColumn": 29,
+      "startOffset": 28,
+      "endOffset": 28,
       "tokenTypeName": "RightCurly"
     },
     "message": "Redundant input, expecting EOF but found: }",

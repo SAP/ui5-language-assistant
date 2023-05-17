@@ -1,5 +1,4 @@
-{
-    key01: 'value-01',
+{key01: 'value-01',
 
 	key02: 'value-01',
 

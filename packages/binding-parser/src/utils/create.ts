@@ -14,7 +14,7 @@ import type {
   ParseErrorBase,
   VisitorParam,
 } from "../types/property-binding-info";
-import { getRange } from "./range";
+import { getLexerRange, getRange } from "./range";
 
 export const createNode = <T extends NodeType>(
   token: IToken,
@@ -35,38 +35,9 @@ export const createLexerErrors = (
 ): LexerError[] => {
   const result: LexerError[] = [];
   for (const item of node) {
-    if (position) {
-      result.push({
-        range: {
-          start: {
-            line: item.line ? position.line + item.line - 1 : position.line,
-            character: item.column
-              ? position.character + item.column - 1
-              : position.character,
-          },
-          end: {
-            line: item.line ? position.line + item.line - 1 : position.line,
-            character: item.column
-              ? position.character + item.column
-              : position.character,
-          },
-        },
-        text: "",
-        type: LEXER_ERROR,
-      });
-      continue;
-    }
+    const range = getLexerRange(item, position);
     result.push({
-      range: {
-        start: {
-          line: item.line ? item.line - 1 : 0,
-          character: item.column ? item.column - 1 : 0,
-        },
-        end: {
-          line: item.line ? item.line - 1 : 0,
-          character: item.column ?? 0,
-        },
-      },
+      range,
       text: "",
       type: LEXER_ERROR,
     });

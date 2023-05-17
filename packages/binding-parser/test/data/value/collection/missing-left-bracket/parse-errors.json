@@ -2,8 +2,8 @@
   {
     "token": {
       "image": "]",
-      "startColumn": 7,
-      "endColumn": 7,
+      "startOffset": 6,
+      "endOffset": 6,
       "tokenTypeName": "RightSquare"
     },
     "message": "Expecting: one of these possible Token sequences:\n  1. [StringValue]\n  2. [NumberValue]\n  3. [{]\n  4. [[]\n  5. [BooleanValue]\n  6. [NullValue]\nbut found: ']'",
@@ -11,8 +11,8 @@
     "resyncedTokens": [],
     "previousToken": {
       "image": ":",
-      "startColumn": 5,
-      "endColumn": 5,
+      "startOffset": 4,
+      "endOffset": 4,
       "tokenTypeName": "Colon"
     }
   }

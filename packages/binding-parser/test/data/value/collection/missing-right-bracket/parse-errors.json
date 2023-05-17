@@ -2,8 +2,8 @@
   {
     "token": {
       "image": "}",
-      "startColumn": 8,
-      "endColumn": 8,
+      "startOffset": 7,
+      "endOffset": 7,
       "tokenTypeName": "RightCurly"
     },
     "message": "Expecting --> ] <-- but found --> '}' <--",
@@ -11,8 +11,8 @@
     "resyncedTokens": [],
     "previousToken": {
       "image": "[",
-      "startColumn": 7,
-      "endColumn": 7,
+      "startOffset": 6,
+      "endOffset": 6,
       "tokenTypeName": "LeftSquare"
     }
   }

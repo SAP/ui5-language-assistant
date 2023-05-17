@@ -2,8 +2,15 @@ import { Range, Position } from "vscode-languageserver-protocol";
 /**
  * Check if the second range `e.g b` is within the first range `e.g a`
  */
-export function rangeContained(a: Range, b: Range): boolean {
-  return isBefore(a.start, b.start, true) && isBefore(b.end, a.end, true);
+export function rangeContained(
+  a: Range,
+  b: Range,
+  includeEqual = false
+): boolean {
+  return (
+    isBefore(a.start, b.start, includeEqual) &&
+    isBefore(b.end, a.end, includeEqual)
+  );
 }
 /**
  * checks if position is contained in range
