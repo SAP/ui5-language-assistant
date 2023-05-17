@@ -1,0 +1,30 @@
+[
+  {
+    "offset": 1,
+    "line": 1,
+    "column": 2,
+    "length": 4,
+    "message": "unexpected character: ->$<- at offset: 1, skipped 4 characters."
+  },
+  {
+    "offset": 20,
+    "line": 1,
+    "column": 17,
+    "length": 4,
+    "message": "unexpected character: ->#<- at offset: 20, skipped 4 characters."
+  },
+  {
+    "offset": 26,
+    "line": 1,
+    "column": 19,
+    "length": 1,
+    "message": "unexpected character: ->#<- at offset: 26, skipped 1 characters."
+  },
+  {
+    "offset": 36,
+    "line": 1,
+    "column": 28,
+    "length": 4,
+    "message": "unexpected character: ->><- at offset: 36, skipped 4 characters."
+  }
+]

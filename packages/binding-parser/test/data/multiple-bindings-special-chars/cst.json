@@ -8,8 +8,8 @@
           "LeftCurly": [
             {
               "image": "{",
-              "startOffset": 0,
-              "endOffset": 0,
+              "startOffset": 6,
+              "endOffset": 6,
               "tokenTypeName": "LeftCurly"
             }
           ],
@@ -19,61 +19,17 @@
               "children": {
                 "Key": [
                   {
-                    "image": "key01",
-                    "startOffset": 2,
-                    "endOffset": 6,
-                    "tokenTypeName": "Key"
-                  }
-                ],
-                "Colon": [
-                  {
-                    "image": ":",
+                    "image": "path",
                     "startOffset": 7,
-                    "endOffset": 7,
-                    "tokenTypeName": "Colon"
-                  }
-                ],
-                "Value": [
-                  {
-                    "name": "Value",
-                    "children": {
-                      "StringValue": [
-                        {
-                          "image": "'value-01'",
-                          "startOffset": 10,
-                          "endOffset": 19,
-                          "tokenTypeName": "StringValue"
-                        }
-                      ]
-                    },
-                    "location": {
-                      "startOffset": 10,
-                      "endOffset": 19
-                    }
-                  }
-                ]
-              },
-              "location": {
-                "startOffset": 2,
-                "endOffset": 19
-              }
-            },
-            {
-              "name": "ObjectItem",
-              "children": {
-                "Key": [
-                  {
-                    "image": "key02",
-                    "startOffset": 29,
-                    "endOffset": 33,
+                    "endOffset": 10,
                     "tokenTypeName": "Key"
                   }
                 ],
                 "Colon": [
                   {
                     "image": ":",
-                    "startOffset": 37,
-                    "endOffset": 37,
+                    "startOffset": 11,
+                    "endOffset": 11,
                     "tokenTypeName": "Colon"
                   }
                 ],
@@ -83,52 +39,115 @@
                     "children": {
                       "StringValue": [
                         {
-                          "image": "'value-02'",
-                          "startOffset": 42,
-                          "endOffset": 51,
+                          "image": "'###'",
+                          "startOffset": 13,
+                          "endOffset": 17,
                           "tokenTypeName": "StringValue"
                         }
                       ]
                     },
                     "location": {
-                      "startOffset": 42,
-                      "endOffset": 51
+                      "startOffset": 13,
+                      "endOffset": 17
                     }
                   }
                 ]
               },
               "location": {
-                "startOffset": 29,
-                "endOffset": 51
+                "startOffset": 7,
+                "endOffset": 17
               }
-            }
-          ],
-          "Comma": [
-            {
-              "image": ",",
-              "startOffset": 24,
-              "endOffset": 24,
-              "tokenTypeName": "Comma"
             }
           ],
           "RightCurly": [
             {
               "image": "}",
-              "startOffset": 58,
-              "endOffset": 58,
+              "startOffset": 18,
+              "endOffset": 18,
               "tokenTypeName": "RightCurly"
             }
           ]
         },
         "location": {
-          "startOffset": 0,
-          "endOffset": 58
+          "startOffset": 6,
+          "endOffset": 18
+        }
+      },
+      {
+        "name": "Object",
+        "children": {
+          "LeftCurly": [
+            {
+              "image": "{",
+              "startOffset": 25,
+              "endOffset": 25,
+              "tokenTypeName": "LeftCurly"
+            }
+          ],
+          "ObjectItem": [
+            {
+              "name": "ObjectItem",
+              "children": {
+                "Key": [
+                  {
+                    "image": "pat",
+                    "startOffset": 27,
+                    "endOffset": 29,
+                    "tokenTypeName": "Key"
+                  }
+                ],
+                "Colon": [
+                  {
+                    "image": ":",
+                    "startOffset": 30,
+                    "endOffset": 30,
+                    "tokenTypeName": "Colon"
+                  }
+                ],
+                "Value": [
+                  {
+                    "name": "Value",
+                    "children": {
+                      "StringValue": [
+                        {
+                          "image": "' '",
+                          "startOffset": 31,
+                          "endOffset": 33,
+                          "tokenTypeName": "StringValue"
+                        }
+                      ]
+                    },
+                    "location": {
+                      "startOffset": 31,
+                      "endOffset": 33
+                    }
+                  }
+                ]
+              },
+              "location": {
+                "startOffset": 27,
+                "endOffset": 33
+              }
+            }
+          ],
+          "RightCurly": [
+            {
+              "image": "}",
+              "startOffset": 34,
+              "endOffset": 34,
+              "tokenTypeName": "RightCurly"
+            }
+          ]
+        },
+        "location": {
+          "startOffset": 25,
+          "endOffset": 34
         }
       }
     ]
   },
   "location": {
-    "startOffset": 0,
-    "endOffset": 58
+    "startOffset": 6,
+    "endOffset": 34
   }
 }

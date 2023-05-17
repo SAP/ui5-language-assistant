@@ -65,29 +65,29 @@ const isCstNode = (node: CstNode | IToken): node is CstNode => {
 };
 const reduceLocationInfo = (location?: CstNodeLocation): void => {
   if (location) {
-    if (hasNaNOrUndefined(location.startColumn)) {
-      location.startColumn = -1;
+    if (hasNaNOrUndefined(location.startOffset)) {
+      location.startOffset = -1;
     }
-    if (hasNaNOrUndefined(location.endColumn)) {
-      location.endColumn = -1;
+    if (hasNaNOrUndefined(location.endOffset)) {
+      location.startOffset = -1;
     }
     delete location.startLine;
     delete location.endLine;
     /*eslint-disable-next-line @typescript-eslint/ban-ts-comment*/
     //@ts-ignore";
-    delete location.startOffset;
-    delete location.endOffset;
+    delete location.startColumn;
+    delete location.endColumn;
   }
 };
 
 const reduceTokenInfo = (token: IToken): void => {
   try {
-    if (hasNaNOrUndefined(token.startColumn)) {
-      token.startColumn = -1;
+    if (hasNaNOrUndefined(token.startOffset)) {
+      token.startOffset = -1;
     }
 
-    if (hasNaNOrUndefined(token.endColumn)) {
-      token.endColumn = -1;
+    if (hasNaNOrUndefined(token.endOffset)) {
+      token.endOffset = -1;
     }
 
     /* eslint-disable-next-line  @typescript-eslint/no-explicit-any */
@@ -103,8 +103,8 @@ const reduceTokenInfo = (token: IToken): void => {
     delete token.endLine;
     /*eslint-disable-next-line @typescript-eslint/ban-ts-comment*/
     // @ts-ignore
-    delete token.startOffset;
-    delete token.endOffset;
+    delete token.startColumn;
+    delete token.endColumn;
     /*eslint-disable-next-line @typescript-eslint/ban-ts-comment*/
     //@ts-ignore
     delete token.tokenTypeIdx;
@@ -112,7 +112,9 @@ const reduceTokenInfo = (token: IToken): void => {
     //@ts-ignore
     delete token.tokenType;
     /*eslint-disable-next-line no-empty*/
-  } catch (error) {}
+  } catch (error) {
+    console.log("failed to reduce token. Check method 'reduceTokenInfo'");
+  }
 };
 export const transformCstForAssertion = (node: CstNode | IToken): void => {
   if (isCstNode(node)) {

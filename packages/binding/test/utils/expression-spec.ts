@@ -152,7 +152,7 @@ describe("expression", () => {
         },
       ]);
     });
-    it("twp property binding info [missing brackets]", () => {
+    it("two property binding info [missing brackets]", () => {
       const input = `
       {
         events: 
@@ -181,6 +181,17 @@ describe("expression", () => {
         {
           endIndex: 26,
           expression: "{path:'' } , {events: { }}",
+          startIndex: 0,
+        },
+      ]);
+    });
+    it("two property binding info [with special chars]", () => {
+      const input = `??? {parts: [' ']} $$ {path: '###'} >>>`;
+      const result = extractBindingExpression(input);
+      expect(result).to.deep.equal([
+        {
+          endIndex: 26,
+          expression: "{path:'####' } $$ {events: { }}",
           startIndex: 0,
         },
       ]);

@@ -157,6 +157,6 @@ export interface ParseResult {
   cst: CstNode;
   ast: Ast;
   tokens: IToken[];
-  lexErrors: ILexingError[]; // todo - repeated. part of ast
-  parseErrors: IRecognitionException[]; // todo - repeated. part of ast
+  lexErrors: ILexingError[];
+  parseErrors: IRecognitionException[];
 }

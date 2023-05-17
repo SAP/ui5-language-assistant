@@ -26,9 +26,9 @@
       "rightCurly": {
         "type": "RightCurly",
         "text": "}",
-        "range": "[(0,6)..(0,7)]"
+        "range": "[(0,7)..(0,8)]"
       },
-      "range": "[(0,0)..(0,7)]"
+      "range": "[(0,0)..(0,8)]"
     }
   ],
   "spaces": [
@@ -49,13 +49,13 @@
     "parse": [
       {
         "type": "ParseError",
-        "range": "[(0,6)..(0,7)]",
+        "range": "[(0,7)..(0,8)]",
         "text": "}",
         "merged": [
           {
             "type": "ParseError",
             "text": "}",
-            "range": "[(0,6)..(0,7)]",
+            "range": "[(0,7)..(0,8)]",
             "tokenTypeName": "RightCurly"
           }
         ],

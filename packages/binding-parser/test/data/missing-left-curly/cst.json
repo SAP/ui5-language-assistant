@@ -2,7 +2,7 @@
   "name": "PropertyBindingInfo",
   "children": {},
   "location": {
-    "startColumn": -1,
-    "endColumn": -1
+    "startOffset": -1,
+    "endOffset": null
   }
 }

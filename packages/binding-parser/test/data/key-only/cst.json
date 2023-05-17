@@ -8,8 +8,8 @@
           "LeftCurly": [
             {
               "image": "{",
-              "startColumn": 1,
-              "endColumn": 1,
+              "startOffset": 0,
+              "endOffset": 0,
               "tokenTypeName": "LeftCurly"
             }
           ],
@@ -20,15 +20,15 @@
                 "Key": [
                   {
                     "image": "key",
-                    "startColumn": 2,
-                    "endColumn": 4,
+                    "startOffset": 1,
+                    "endOffset": 3,
                     "tokenTypeName": "Key"
                   }
                 ]
               },
               "location": {
-                "startColumn": 2,
-                "endColumn": 4
+                "startOffset": 1,
+                "endOffset": 3
               },
               "recoveredNode": true
             }
@@ -36,21 +36,21 @@
           "RightCurly": [
             {
               "image": "}",
-              "startColumn": 6,
-              "endColumn": 6,
+              "startOffset": 5,
+              "endOffset": 5,
               "tokenTypeName": "RightCurly"
             }
           ]
         },
         "location": {
-          "startColumn": 1,
-          "endColumn": 6
+          "startOffset": 0,
+          "endOffset": 5
         }
       }
     ]
   },
   "location": {
-    "startColumn": 1,
-    "endColumn": 6
+    "startOffset": 0,
+    "endOffset": 5
   }
 }
