@@ -4,11 +4,11 @@
   "private": true,
   "description": "Test Framework",
   "files": [
-    "lib/src",
+    "lib/",
     "api.d.ts",
     "src"
   ],
-  "main": "lib/src/api.js",
+  "main": "lib/api.js",
   "repository": "https://github.com/sap/ui5-language-assistant/",
   "license": "Apache-2.0",
   "typings": "./api.d.ts",
@@ -25,9 +25,9 @@
     "vscode-languageserver-types": "3.17.2"
   },
   "scripts": {
-    "ci": "npm-run-all clean compile lint",
+    "ci": "npm-run-all clean compile lint test",
     "clean": "rimraf ./lib ./coverage ./nyc_output ./.model-cache",
-    "compile": "yarn run clean && tsc -p .",
+    "compile": "yarn run clean && tsc -p tsconfig-build.json",
     "compile:watch": "tsc -p . --watch",
     "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore",
     "test": "jest --ci --forceExit --detectOpenHandles --maxWorkers=1 --coverage=false"

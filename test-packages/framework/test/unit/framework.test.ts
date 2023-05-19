@@ -34,13 +34,9 @@ describe("framework", () => {
       testFramework = new TestFramework(useConfig);
     });
     it("test file does not exit", async () => {
-      return testFramework
-        .updateFile(["wrong-path-part"], "<a></a>")
-        .then(() => {
-          // this should never happen
-          expect(false).toBeTrue();
-        })
-        .catch((result) => expect(result).toThrow());
+      await expect(
+        testFramework.updateFile(["wrong-path-part", "test"], "<a></a>")
+      ).rejects.toThrow();
     });
     it("test write content with position", async () => {
       const position: Position = {
@@ -88,13 +84,9 @@ describe("framework", () => {
       testFramework = new TestFramework(useConfig);
     });
     it("test file does not exit", async () => {
-      return testFramework
-        .readFile(["wrong-path-part"])
-        .then(() => {
-          // this should never happen
-          expect(false).toBeTrue();
-        })
-        .catch((result) => expect(result).toThrow());
+      await expect(
+        testFramework.readFile(["wrong-path-part", "test"])
+      ).rejects.toThrow();
     });
     it("test read content with range", async () => {
       const range: Range = {
@@ -201,15 +193,11 @@ describe("framework", () => {
       testFramework = new TestFramework(useConfig);
     });
     it("test file does not exit", async () => {
-      return testFramework
-        .updateFile(["wrong-path-part"], "<a></a>")
-        .then(() => {
-          // this should never happen
-          expect(false).toBeTrue();
-        })
-        .catch((result) => expect(result).toThrow());
+      await expect(
+        testFramework.updateFile(["wrong-path-part", "test"], "<a></a>")
+      ).rejects.toThrow();
     });
-    it("test write content at the end of file", async () => {
+    it("write content at the end of file", async () => {
       const content = '<Text text=""/>';
       await testFramework.updateFile(filePathParts, content);
       const { offset } = await testFramework.updateFileContent(
