@@ -8,8 +8,8 @@
           "LeftCurly": [
             {
               "image": "{",
-              "startOffset": 0,
-              "endOffset": 0,
+              "startColumn": 1,
+              "endColumn": 1,
               "tokenTypeName": "LeftCurly"
             }
           ],
@@ -20,16 +20,16 @@
                 "Key": [
                   {
                     "image": "key",
-                    "startOffset": 1,
-                    "endOffset": 3,
+                    "startColumn": 2,
+                    "endColumn": 4,
                     "tokenTypeName": "Key"
                   }
                 ],
                 "Colon": [
                   {
                     "image": ":",
-                    "startOffset": 4,
-                    "endOffset": 4,
+                    "startColumn": 5,
+                    "endColumn": 5,
                     "tokenTypeName": "Colon"
                   }
                 ],
@@ -44,59 +44,59 @@
                             "LeftSquare": [
                               {
                                 "image": "[",
-                                "startOffset": 6,
-                                "endOffset": 6,
+                                "startColumn": 7,
+                                "endColumn": 7,
                                 "tokenTypeName": "LeftSquare"
                               }
                             ],
                             "RightSquare": [
                               {
                                 "image": "",
-                                "startOffset": -1,
-                                "endOffset": -1,
+                                "startColumn": -1,
+                                "endColumn": -1,
                                 "isInsertedInRecovery": true,
                                 "tokenTypeName": "RightSquare"
                               }
                             ]
                           },
                           "location": {
-                            "startOffset": 6,
-                            "endOffset": 6
+                            "startColumn": 7,
+                            "endColumn": 7
                           }
                         }
                       ]
                     },
                     "location": {
-                      "startOffset": 6,
-                      "endOffset": 6
+                      "startColumn": 7,
+                      "endColumn": 7
                     }
                   }
                 ]
               },
               "location": {
-                "startOffset": 1,
-                "endOffset": 6
+                "startColumn": 2,
+                "endColumn": 7
               }
             }
           ],
           "RightCurly": [
             {
               "image": "}",
-              "startOffset": 7,
-              "endOffset": 7,
+              "startColumn": 8,
+              "endColumn": 8,
               "tokenTypeName": "RightCurly"
             }
           ]
         },
         "location": {
-          "startOffset": 0,
-          "endOffset": 7
+          "startColumn": 1,
+          "endColumn": 8
         }
       }
     ]
   },
   "location": {
-    "startOffset": 0,
-    "endOffset": 7
+    "startColumn": 1,
+    "endColumn": 8
   }
 }

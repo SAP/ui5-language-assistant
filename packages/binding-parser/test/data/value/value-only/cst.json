@@ -8,29 +8,29 @@
           "LeftCurly": [
             {
               "image": "{",
-              "startOffset": 0,
-              "endOffset": 0,
+              "startColumn": 1,
+              "endColumn": 1,
               "tokenTypeName": "LeftCurly"
             }
           ],
           "RightCurly": [
             {
               "image": "}",
-              "startOffset": 12,
-              "endOffset": 12,
+              "startColumn": 13,
+              "endColumn": 13,
               "tokenTypeName": "RightCurly"
             }
           ]
         },
         "location": {
-          "startOffset": 0,
-          "endOffset": 12
+          "startColumn": 1,
+          "endColumn": 13
         }
       }
     ]
   },
   "location": {
-    "startOffset": 0,
-    "endOffset": 12
+    "startColumn": 1,
+    "endColumn": 13
   }
 }

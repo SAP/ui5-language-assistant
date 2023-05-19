@@ -2,8 +2,8 @@
   {
     "token": {
       "image": ",",
-      "startOffset": 1,
-      "endOffset": 1,
+      "startColumn": 2,
+      "endColumn": 2,
       "tokenTypeName": "Comma"
     },
     "message": "Expecting --> } <-- but found --> ',' <--",
@@ -11,8 +11,8 @@
     "resyncedTokens": [],
     "previousToken": {
       "image": "{",
-      "startOffset": 0,
-      "endOffset": 0,
+      "startColumn": 1,
+      "endColumn": 1,
       "tokenTypeName": "LeftCurly"
     }
   }

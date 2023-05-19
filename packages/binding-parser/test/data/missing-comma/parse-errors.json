@@ -2,8 +2,8 @@
   {
     "token": {
       "image": "key02",
-      "startOffset": 19,
-      "endOffset": 23,
+      "startColumn": 20,
+      "endColumn": 24,
       "tokenTypeName": "Key"
     },
     "message": "Expecting --> } <-- but found --> 'key02' <--",
@@ -11,21 +11,21 @@
     "resyncedTokens": [
       {
         "image": ":",
-        "startOffset": 24,
-        "endOffset": 24,
+        "startColumn": 25,
+        "endColumn": 25,
         "tokenTypeName": "Colon"
       },
       {
         "image": "'value-02'",
-        "startOffset": 26,
-        "endOffset": 35,
+        "startColumn": 27,
+        "endColumn": 36,
         "tokenTypeName": "StringValue"
       }
     ],
     "previousToken": {
       "image": "'value-02'",
-      "startOffset": 26,
-      "endOffset": 35,
+      "startColumn": 27,
+      "endColumn": 36,
       "tokenTypeName": "StringValue"
     }
   }

@@ -2,8 +2,8 @@
   {
     "token": {
       "image": "key",
-      "startOffset": 0,
-      "endOffset": 2,
+      "startColumn": 1,
+      "endColumn": 3,
       "tokenTypeName": "Key"
     },
     "message": "Expecting token of type --> EOF <-- but found --> 'key' <--",
@@ -11,21 +11,21 @@
     "resyncedTokens": [
       {
         "image": ":",
-        "startOffset": 3,
-        "endOffset": 3,
+        "startColumn": 4,
+        "endColumn": 4,
         "tokenTypeName": "Colon"
       },
       {
         "image": "'value'",
-        "startOffset": 5,
-        "endOffset": 11,
+        "startColumn": 6,
+        "endColumn": 12,
         "tokenTypeName": "StringValue"
       }
     ],
     "previousToken": {
       "image": "}",
-      "startOffset": 12,
-      "endOffset": 12,
+      "startColumn": 13,
+      "endColumn": 13,
       "tokenTypeName": "RightCurly"
     }
   }
