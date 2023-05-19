@@ -29,37 +29,37 @@
           "key": {
             "type": "Key",
             "text": "key02",
-            "range": "[(7,22)..(7,27)]"
+            "range": "[(7,1)..(7,6)]"
           },
           "colon": {
             "type": "Colon",
             "text": ":",
-            "range": "[(7,27)..(7,28)]"
+            "range": "[(7,6)..(7,7)]"
           },
           "value": {
             "type": "StringValue",
             "text": "'value-01'",
-            "range": "[(7,29)..(7,39)]"
+            "range": "[(7,8)..(7,18)]"
           },
-          "range": "[(7,22)..(7,39)]"
+          "range": "[(7,1)..(7,18)]"
         },
         {
           "key": {
             "type": "Key",
             "text": "key03",
-            "range": "[(9,46)..(9,51)]"
+            "range": "[(9,4)..(9,9)]"
           },
           "colon": {
             "type": "Colon",
             "text": ":",
-            "range": "[(9,51)..(9,52)]"
+            "range": "[(9,9)..(9,10)]"
           },
           "value": {
             "type": "StringValue",
             "text": "'value-03'",
-            "range": "[(9,53)..(9,63)]"
+            "range": "[(9,11)..(9,21)]"
           },
-          "range": "[(9,46)..(9,63)]"
+          "range": "[(9,4)..(9,21)]"
         }
       ],
       "commas": [
@@ -71,15 +71,15 @@
         {
           "type": "Comma",
           "text": ",",
-          "range": "[(7,39)..(7,40)]"
+          "range": "[(7,18)..(7,19)]"
         }
       ],
       "rightCurly": {
         "type": "RightCurly",
         "text": "}",
-        "range": "[(10,64)..(10,65)]"
+        "range": "[(10,0)..(10,1)]"
       },
-      "range": "[(5,15)..(10,65)]"
+      "range": "[(5,15)..(10,1)]"
     }
   ],
   "spaces": [
@@ -91,27 +91,27 @@
     {
       "type": "WhiteSpace",
       "text": "\n\n\t",
-      "range": "[(5,34)..(7,22)]"
+      "range": "[(5,34)..(7,1)]"
     },
     {
       "type": "WhiteSpace",
       "text": " ",
-      "range": "[(7,28)..(7,29)]"
+      "range": "[(7,7)..(7,8)]"
     },
     {
       "type": "WhiteSpace",
       "text": "\n\n    ",
-      "range": "[(7,40)..(9,46)]"
+      "range": "[(7,19)..(9,4)]"
     },
     {
       "type": "WhiteSpace",
       "text": " ",
-      "range": "[(9,52)..(9,53)]"
+      "range": "[(9,10)..(9,11)]"
     },
     {
       "type": "WhiteSpace",
       "text": "\n",
-      "range": "[(9,63)..(9,64)]"
+      "range": "[(9,21)..(9,22)]"
     }
   ],
   "errors": {

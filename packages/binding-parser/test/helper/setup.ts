@@ -65,29 +65,29 @@ const isCstNode = (node: CstNode | IToken): node is CstNode => {
 };
 const reduceLocationInfo = (location?: CstNodeLocation): void => {
   if (location) {
-    if (hasNaNOrUndefined(location.startOffset)) {
-      location.startOffset = -1;
+    if (hasNaNOrUndefined(location.startColumn)) {
+      location.startColumn = -1;
     }
-    if (hasNaNOrUndefined(location.endOffset)) {
-      location.startOffset = -1;
+    if (hasNaNOrUndefined(location.endColumn)) {
+      location.endColumn = -1;
     }
     delete location.startLine;
     delete location.endLine;
     /*eslint-disable-next-line @typescript-eslint/ban-ts-comment*/
     //@ts-ignore";
-    delete location.startColumn;
-    delete location.endColumn;
+    delete location.startOffset;
+    delete location.endOffset;
   }
 };
 
 const reduceTokenInfo = (token: IToken): void => {
   try {
-    if (hasNaNOrUndefined(token.startOffset)) {
-      token.startOffset = -1;
+    if (hasNaNOrUndefined(token.startColumn)) {
+      token.startColumn = -1;
     }
 
-    if (hasNaNOrUndefined(token.endOffset)) {
-      token.endOffset = -1;
+    if (hasNaNOrUndefined(token.endColumn)) {
+      token.endColumn = -1;
     }
 
     /* eslint-disable-next-line  @typescript-eslint/no-explicit-any */
@@ -103,8 +103,8 @@ const reduceTokenInfo = (token: IToken): void => {
     delete token.endLine;
     /*eslint-disable-next-line @typescript-eslint/ban-ts-comment*/
     // @ts-ignore
-    delete token.startColumn;
-    delete token.endColumn;
+    delete token.startOffset;
+    delete token.endOffset;
     /*eslint-disable-next-line @typescript-eslint/ban-ts-comment*/
     //@ts-ignore
     delete token.tokenTypeIdx;

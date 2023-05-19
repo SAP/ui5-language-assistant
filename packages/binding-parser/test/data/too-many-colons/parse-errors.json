@@ -2,8 +2,8 @@
   {
     "token": {
       "image": ":",
-      "startOffset": 5,
-      "endOffset": 5,
+      "startColumn": 6,
+      "endColumn": 6,
       "tokenTypeName": "Colon"
     },
     "message": "Expecting: one of these possible Token sequences:\n  1. [StringValue]\n  2. [NumberValue]\n  3. [{]\n  4. [[]\n  5. [BooleanValue]\n  6. [NullValue]\nbut found: ':'",
@@ -11,27 +11,27 @@
     "resyncedTokens": [
       {
         "image": ":",
-        "startOffset": 6,
-        "endOffset": 6,
+        "startColumn": 7,
+        "endColumn": 7,
         "tokenTypeName": "Colon"
       },
       {
         "image": ":",
-        "startOffset": 7,
-        "endOffset": 7,
+        "startColumn": 8,
+        "endColumn": 8,
         "tokenTypeName": "Colon"
       },
       {
         "image": "'value'",
-        "startOffset": 9,
-        "endOffset": 15,
+        "startColumn": 10,
+        "endColumn": 16,
         "tokenTypeName": "StringValue"
       }
     ],
     "previousToken": {
       "image": ":",
-      "startOffset": 4,
-      "endOffset": 4,
+      "startColumn": 5,
+      "endColumn": 5,
       "tokenTypeName": "Colon"
     }
   }
