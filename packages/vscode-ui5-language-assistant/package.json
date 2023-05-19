@@ -99,7 +99,6 @@
     "compile:watch": "tsc -p . --watch",
     "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore",
     "test:integration": "node lib/test/run-integration-tests.js",
-    "coverage:integration": "nyc node lib/test/run-integration-tests.js",
     "test:unit": "jest --ci --forceExit --detectOpenHandles --maxWorkers=1 --coverage=false",
     "coverage:unit": "jest --ci --forceExit --detectOpenHandles --maxWorkers=1 --coverage=true",
     "bundle": "node esbuild.js",

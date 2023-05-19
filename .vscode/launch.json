@@ -44,18 +44,7 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "context: run current file",
-      "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
-      "args": ["${fileBasenameNoExtension}"],
-      "console": "integratedTerminal",
-      "internalConsoleOptions": "neverOpen",
-      "disableOptimisticBPs": true,
-      "cwd": "${workspaceFolder}/packages/context"
-    },
-    {
-      "type": "node",
-      "request": "launch",
-      "name": "Language Server Context: Run Current Jest File",
+      "name": "Context: Run Current Jest File",
       "program": "${workspaceFolder}/node_modules/.bin/jest",
       "args": [
         "${fileBasenameNoExtension}",
@@ -70,50 +59,6 @@
         "program": "${workspaceFolder}/node_modules/jest/bin/jest"
       },
       "cwd": "${workspaceFolder}/packages/context"
-    },
-    {
-      "type": "node",
-      "request": "launch",
-      "name": "fe: run current file",
-      "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
-      "args": ["${fileBasenameNoExtension}"],
-      "console": "integratedTerminal",
-      "internalConsoleOptions": "neverOpen",
-      "disableOptimisticBPs": true,
-      "cwd": "${workspaceFolder}/packages/fe"
-    },
-    {
-      "type": "node",
-      "request": "launch",
-      "name": "semantic-model: run current file",
-      "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
-      "args": ["${fileBasenameNoExtension}"],
-      "console": "integratedTerminal",
-      "internalConsoleOptions": "neverOpen",
-      "disableOptimisticBPs": true,
-      "cwd": "${workspaceFolder}/packages/semantic-model"
-    },
-    {
-      "type": "node",
-      "request": "launch",
-      "name": "language-server: run current file",
-      "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
-      "args": ["${fileBasenameNoExtension}"],
-      "console": "integratedTerminal",
-      "internalConsoleOptions": "neverOpen",
-      "disableOptimisticBPs": true,
-      "cwd": "${workspaceFolder}/packages/language-server"
-    },
-    {
-      "type": "node",
-      "request": "launch",
-      "name": "logic utils: run current file",
-      "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
-      "args": ["${fileBasenameNoExtension}"],
-      "console": "integratedTerminal",
-      "internalConsoleOptions": "neverOpen",
-      "disableOptimisticBPs": true,
-      "cwd": "${workspaceFolder}/packages/logic-utils"
     },
     {
       "type": "node",
@@ -137,7 +82,7 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Language Server Extension: Run Current Jest File",
+      "name": "Extension: Run Current Jest File",
       "program": "${workspaceFolder}/node_modules/.bin/jest",
       "args": [
         "${fileBasenameNoExtension}",
@@ -156,7 +101,7 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Language Server XML validation: Run Current Jest File",
+      "name": "XML validation: Run Current Jest File",
       "program": "${workspaceFolder}/node_modules/.bin/jest",
       "args": [
         "${fileBasenameNoExtension}",
@@ -175,7 +120,7 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Language Server Logic Utils: Run Current Jest File",
+      "name": "Logic Utils: Run Current Jest File",
       "program": "${workspaceFolder}/node_modules/.bin/jest",
       "args": [
         "${fileBasenameNoExtension}",
@@ -194,7 +139,7 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Language Server Semantic Model: Run Current Jest File",
+      "name": "Semantic Model: Run Current Jest File",
       "program": "${workspaceFolder}/node_modules/.bin/jest",
       "args": [
         "${fileBasenameNoExtension}",
@@ -213,7 +158,7 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Language Server Annotations Module (FE): Run Current Jest File",
+      "name": "Annotations Module (FE): Run Current Jest File",
       "program": "${workspaceFolder}/node_modules/.bin/jest",
       "args": [
         "${fileBasenameNoExtension}",
