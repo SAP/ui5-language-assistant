@@ -42,13 +42,6 @@ module.exports = {
     "<rootDir>/lib/",
   ],
   transformIgnorePatterns: ["<rootDir>/node_modules/", "/node_modules/"],
-  reporters: [
-    "default",
-    "summary",
-    [
-      "jest-junit",
-      { outputDirectory: "reports/test/unit", outputName: "junit-report.xml" },
-    ],
-  ],
+  reporters: ["default", "summary"],
   setupFilesAfterEnv: ["./jest.setup.js"],
 };
