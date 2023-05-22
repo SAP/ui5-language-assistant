@@ -1,5 +1,13 @@
 # Change Log
 
+## 4.0.15
+
+### Patch Changes
+
+- c73d4fd: Unit test coverage improvement. Migration to Jest test framework
+- Updated dependencies [c73d4fd]
+  - @ui5-language-assistant/language-server@4.0.11
+
 ## 4.0.14
 
 ### Patch Changes

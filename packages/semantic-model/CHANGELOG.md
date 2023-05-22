@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.8
+
+### Patch Changes
+
+- c73d4fd: Unit test coverage improvement. Migration to Jest test framework
+
 ## 4.0.7
 
 ### Patch Changes
