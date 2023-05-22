@@ -1,0 +1,206 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`The @ui5-language-assistant/language-server diagnostics quick fix function Quick fix code actions will get code action 1`] = `
+Array [
+  Object {
+    "command": Object {
+      "arguments": Array [
+        "dummyUri",
+        0,
+        Object {
+          "end": Object {
+            "character": 19,
+            "line": 5,
+          },
+          "start": Object {
+            "character": 19,
+            "line": 5,
+          },
+        },
+        " id=\\"_IDGenButton1\\"",
+      ],
+      "command": "ui5_lang.quick_fix_stable_id",
+      "title": "Generate an ID",
+    },
+    "kind": "quickfix",
+    "title": "Generate an ID",
+  },
+  Object {
+    "command": Object {
+      "arguments": Array [
+        FullTextDocument {
+          "_content": "<mvc:View xmlns:core=\\"sap.ui.core\\" xmlns:uxap=\\"sap.uxap\\" xmlns:m=\\"sap.m\\"
+      xmlns:mvc=\\"sap.ui.core.mvc\\"
+      xmlns=\\"sap.ui.commons\\"
+      xmlns:sap.ui.dt=\\"sap.ui.dt\\">
+          <m:CheckBox id=\\"dummy-id\\"></m:CheckBox>
+          <m:Button>
+              <m:customData>
+                  <core:CustomData></core:CustomData>
+              </m:customData>
+          </m:Button>
+          <m:Panel sap.ui.dt:designtime=\\"not-adaptable\\">
+              <m:Dialog>
+              </m:Dialog>
+          </m:Panel>
+      </mvc:View>",
+          "_languageId": "xml",
+          "_lineOffsets": Array [
+            0,
+            73,
+            107,
+            136,
+            171,
+            221,
+            242,
+            271,
+            325,
+            355,
+            377,
+            434,
+            459,
+            485,
+            506,
+          ],
+          "_uri": "dummyUri",
+          "_version": 0,
+        },
+        "dummyUri",
+        0,
+        Array [
+          Object {
+            "newText": " id=\\"_IDGenButton1\\"",
+            "replaceRange": Object {
+              "end": Object {
+                "character": 19,
+                "line": 5,
+              },
+              "start": Object {
+                "character": 19,
+                "line": 5,
+              },
+            },
+          },
+          Object {
+            "newText": " id=\\"_IDGenDialog1\\"",
+            "replaceRange": Object {
+              "end": Object {
+                "character": 23,
+                "line": 11,
+              },
+              "start": Object {
+                "character": 23,
+                "line": 11,
+              },
+            },
+          },
+        ],
+      ],
+      "command": "ui5_lang.quick_fix_file_stable_id",
+      "title": "Generate IDs for the entire file",
+    },
+    "kind": "quickfix",
+    "title": "Generate IDs for the entire file",
+  },
+  Object {
+    "command": Object {
+      "arguments": Array [
+        "dummyUri",
+        0,
+        Object {
+          "end": Object {
+            "character": 23,
+            "line": 11,
+          },
+          "start": Object {
+            "character": 23,
+            "line": 11,
+          },
+        },
+        " id=\\"_IDGenDialog1\\"",
+      ],
+      "command": "ui5_lang.quick_fix_stable_id",
+      "title": "Generate an ID",
+    },
+    "kind": "quickfix",
+    "title": "Generate an ID",
+  },
+  Object {
+    "command": Object {
+      "arguments": Array [
+        FullTextDocument {
+          "_content": "<mvc:View xmlns:core=\\"sap.ui.core\\" xmlns:uxap=\\"sap.uxap\\" xmlns:m=\\"sap.m\\"
+      xmlns:mvc=\\"sap.ui.core.mvc\\"
+      xmlns=\\"sap.ui.commons\\"
+      xmlns:sap.ui.dt=\\"sap.ui.dt\\">
+          <m:CheckBox id=\\"dummy-id\\"></m:CheckBox>
+          <m:Button>
+              <m:customData>
+                  <core:CustomData></core:CustomData>
+              </m:customData>
+          </m:Button>
+          <m:Panel sap.ui.dt:designtime=\\"not-adaptable\\">
+              <m:Dialog>
+              </m:Dialog>
+          </m:Panel>
+      </mvc:View>",
+          "_languageId": "xml",
+          "_lineOffsets": Array [
+            0,
+            73,
+            107,
+            136,
+            171,
+            221,
+            242,
+            271,
+            325,
+            355,
+            377,
+            434,
+            459,
+            485,
+            506,
+          ],
+          "_uri": "dummyUri",
+          "_version": 0,
+        },
+        "dummyUri",
+        0,
+        Array [
+          Object {
+            "newText": " id=\\"_IDGenButton1\\"",
+            "replaceRange": Object {
+              "end": Object {
+                "character": 19,
+                "line": 5,
+              },
+              "start": Object {
+                "character": 19,
+                "line": 5,
+              },
+            },
+          },
+          Object {
+            "newText": " id=\\"_IDGenDialog1\\"",
+            "replaceRange": Object {
+              "end": Object {
+                "character": 23,
+                "line": 11,
+              },
+              "start": Object {
+                "character": 23,
+                "line": 11,
+              },
+            },
+          },
+        ],
+      ],
+      "command": "ui5_lang.quick_fix_file_stable_id",
+      "title": "Generate IDs for the entire file",
+    },
+    "kind": "quickfix",
+    "title": "Generate IDs for the entire file",
+  },
+]
+`;

@@ -49,7 +49,8 @@ export class TestFramework implements TestFrameworkAPI {
    * path to project folder
    */
   private getProjectsSource(): string {
-    return join(__dirname, "..", "..", "projects");
+    const dirname = __dirname;
+    return join(dirname, "..", "projects");
   }
 
   private deleteProjectsCopy(): void {
@@ -81,7 +82,8 @@ export class TestFramework implements TestFrameworkAPI {
 
   public getProjectRoot(): string {
     const { name } = this.projectInfo;
-    return join(__dirname, "..", "..", "projects-copy", name);
+    const dirname = __dirname;
+    return join(dirname, "..", "projects-copy", name);
   }
 
   public async initI18n(): Promise<i18n> {

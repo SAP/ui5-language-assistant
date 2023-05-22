@@ -6,7 +6,7 @@ import {
 } from "./quick-fix";
 import { track } from "./swa";
 
-type LSPConnection = ReturnType<typeof createConnection>;
+export type LSPConnection = ReturnType<typeof createConnection>;
 
 export function executeCommand(
   connection: LSPConnection,

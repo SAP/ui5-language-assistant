@@ -2,13 +2,13 @@ import { map } from "lodash";
 import { sep } from "path";
 import { readFile } from "fs-extra";
 import { URI } from "vscode-uri";
-import globby from "globby";
 import { ManifestDetails } from "./types";
 import { Manifest, FileName } from "@sap-ux/project-access";
 import findUp from "find-up";
 import { findAppRoot, getLogger } from "./utils";
 import { cache } from "./cache";
 import { unifyServicePath } from "./utils/project";
+import { findAllFilesInWorkspace } from "./utils/fileUtils";
 
 async function readManifestFile(
   manifestUri: string
@@ -28,8 +28,9 @@ async function readManifestFile(
 export async function initializeManifestData(
   workspaceFolderPath: string
 ): Promise<void[]> {
-  const manifestDocuments = await findAllManifestDocumentsInWorkspace(
-    workspaceFolderPath
+  const manifestDocuments = await findAllFilesInWorkspace(
+    workspaceFolderPath,
+    "manifest.json"
   );
   const readManifestPromises = map(manifestDocuments, async (manifestDoc) => {
     const response = await readManifestFile(manifestDoc);
@@ -42,21 +43,6 @@ export async function initializeManifestData(
     manifestDocuments,
   });
   return Promise.all(readManifestPromises);
-}
-
-async function findAllManifestDocumentsInWorkspace(
-  workspaceFolderPath: string
-): Promise<string[]> {
-  return globby(`${workspaceFolderPath}/**/manifest.json`).catch((reason) => {
-    getLogger().error(
-      `Failed to find all manifest.json files in current workspace!`,
-      {
-        workspaceFolderPath,
-        reason,
-      }
-    );
-    return [];
-  });
 }
 
 /**
@@ -140,10 +126,10 @@ async function extractManifestDetails(
       const target = targets[name];
       if (target) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const settings = (target?.options as any)?.settings;
+        const settings = (target.options as any)?.settings;
         if (
           (settings?.entitySet || settings?.contextPath) &&
-          settings?.viewName
+          settings.viewName
         ) {
           customViews[settings.viewName] = {
             entitySet: settings.entitySet,
@@ -152,17 +138,17 @@ async function extractManifestDetails(
         }
         if (
           (settings?.entitySet || settings?.contextPath) &&
-          settings?.content
+          settings.content
         ) {
           // search for custom section and get its entity set
-          const extSettings = settings?.content?.body?.sections ?? {};
+          const extSettings = settings.content.body?.sections ?? {};
           const keys = Object.keys(extSettings);
           for (const key of keys) {
-            const template = extSettings[key]?.template;
+            const template = extSettings[key].template;
             if (template) {
               customViews[template] = {
-                entitySet: settings?.entitySet,
-                contextPath: settings?.contextPath,
+                entitySet: settings.entitySet,
+                contextPath: settings.contextPath,
               };
             }
           }

@@ -7,6 +7,15 @@ export type FetcherType = (
   init?: RequestInit | undefined
 ) => Promise<Response>;
 
+const importDynamic = async (modulePath: string) => {
+  try {
+    return await import(modulePath);
+  } catch (e) {
+    console.log(e);
+  }
+  return Promise.resolve("");
+};
+
 /**
  * Promise which prepares dynamic node fetcher function and holds it within once resolved
  */
@@ -17,11 +26,6 @@ const nodeFetchCached = new Promise<FetcherType>((done, reject) => {
       // this should work when bundled
       nodeFetch = (await import("node-fetch")).default;
     } catch (e) {
-      // trying to load dynamically
-      const importDynamic = new Function(
-        "modulePath",
-        "return import(modulePath)"
-      );
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       nodeFetch = async (...args: any[]) => {
         const module = await importDynamic("node-fetch");
