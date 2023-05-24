@@ -20,6 +20,7 @@ import {
   PARSE_ERROR,
   RIGHT_CURLY,
   RIGHT_SQUARE,
+  SPECIAL_CHARS,
   STRING_VALUE,
   WHITE_SPACE,
 } from "../constant";
@@ -46,6 +47,7 @@ export interface VisitorParam {
 }
 export type NodeType =
   | typeof WHITE_SPACE
+  | typeof SPECIAL_CHARS
   | typeof COLON
   | typeof KEY
   | typeof COLON
@@ -70,6 +72,9 @@ export interface Comma extends Base {
 }
 export interface WhiteSpaces extends Base {
   type: typeof WHITE_SPACE;
+}
+export interface SpecialChars extends Base {
+  type: typeof SPECIAL_CHARS;
 }
 export interface LeftCurly extends Base {
   type: typeof LEFT_CURLY;
@@ -102,7 +107,7 @@ export interface PrimitiveValue extends Base {
 export type StructureValue = Binding;
 
 export interface LexerError extends Base {
-  type: typeof LEXER_ERROR;
+  type: typeof LEXER_ERROR | typeof SPECIAL_CHARS;
 }
 export interface ParseErrorBase extends Base {
   type: typeof PARSE_ERROR;
@@ -120,12 +125,6 @@ export interface CollectionValue {
   elements: (PrimitiveValue | StructureValue)[];
   range?: Range; // range which include left bracket, element and right bracket
   rightSquare?: RightSquare;
-  // errors: {
-  //   lexer: LexerError[];
-  //   parse: ParseError[];
-  // };
-  // spaces: WhiteSpaces[];
-  commas: Comma[];
 }
 export type Value = PrimitiveValue | StructureValue | CollectionValue;
 
@@ -142,7 +141,6 @@ export interface Binding {
   rightCurly?: RightCurly;
   elements: AstElement[]; // in case of collection value can be simple value e.g string
   range?: Range; // range which include left bracket, element and right bracket,
-  commas: Comma[];
 }
 export interface Ast {
   bindings: Binding[];

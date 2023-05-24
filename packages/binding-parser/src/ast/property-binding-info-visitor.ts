@@ -75,11 +75,6 @@ class PropertyBindingInfoVisitor extends BaseVisitor {
     );
     const elements: AstElement[] = [];
     const data = (node[OBJECT_ITEM] as CstNode[]) ?? [];
-    const comma = (node[COMMA] as IToken[]) ?? [];
-    const commas: Comma[] = [];
-    for (const el of comma) {
-      commas.push(createNode(el, COMMA, param));
-    }
     for (let index = 0; index < data.length; index++) {
       const element = data[index];
       const newParam = {
@@ -91,23 +86,21 @@ class PropertyBindingInfoVisitor extends BaseVisitor {
         elements.push(result);
       }
     }
-    const range = locationToRange(param.location, param.position);
+    const range = locationToRange(param.location, param);
     return {
       leftCurly,
       elements,
-      commas,
       rightCurly,
       range,
-      // errors,
-      // spaces,
     };
   }
   [OBJECT_ITEM](node: CstChildrenDictionary, param: VisitorParam): AstElement {
     const key = this[KEY](node[KEY] as IToken[], param);
     const colon = this[COLON](node[COLON] as IToken[], param);
     const value = this.visit(node[VALUE] as CstNode[], param);
-    const range = locationToRange(param.location, param.position);
-    return { key, colon, value, range };
+    const comma = this[COMMA](node[COMMA] as IToken[], param);
+    const range = locationToRange(param.location, param);
+    return { key, colon, value, comma, range };
   }
   [VALUE](node: CstChildrenDictionary, param: VisitorParam): Value | undefined {
     let data = node[STRING_VALUE];
@@ -168,11 +161,6 @@ class PropertyBindingInfoVisitor extends BaseVisitor {
       param
     );
     const elements: (PrimitiveValue | StructureValue)[] = [];
-    const comma = (node[COMMA] as IToken[]) ?? [];
-    const commas: Comma[] = [];
-    for (const el of comma) {
-      commas.push(createNode(el, COMMA, param));
-    }
     const data = (node[VALUE] as CstNode[]) ?? [];
     for (let index = 0; index < data.length; index++) {
       const element = data[index];
@@ -185,13 +173,12 @@ class PropertyBindingInfoVisitor extends BaseVisitor {
         | StructureValue;
       elements.push(result);
     }
-    const range = locationToRange(param.location, param.position);
+    const range = locationToRange(param.location, param);
     return {
       leftSquare,
       elements,
       rightSquare,
       range,
-      commas,
     };
   }
   [LEFT_CURLY](node: IToken[], param: VisitorParam) {
@@ -240,6 +227,9 @@ class PropertyBindingInfoVisitor extends BaseVisitor {
     return createNode(node[0], COLON, param);
   }
   [COMMA](node: IToken[], param: VisitorParam) {
+    if (!node) {
+      return;
+    }
     if (node.length === 0) {
       return;
     }

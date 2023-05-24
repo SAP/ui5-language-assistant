@@ -29,7 +29,8 @@ export const checkAst = (
   ignore = false
 ): BindingIssue[] => {
   const issues: BindingIssue[] = [];
-  for (const element of binding.elements) {
+  for (let index = 0; binding.elements.length > index; index++) {
+    const element = binding.elements[index];
     const keyIssue: BindingIssue[] = [];
     const colonIssue: BindingIssue[] = [];
     const missingValueIssue: BindingIssue[] = [];
@@ -52,36 +53,39 @@ export const checkAst = (
       issues.push(...checkCollectionValue(context, element, errors, ignore));
       issues.push(...checkStructureValue(context, element, errors, ignore));
     }
+    // checking missing comma
+    if (!element.comma && binding.elements[index + 1]) {
+      const range =
+        binding.elements[index + 1].key?.range ??
+        binding.elements[index + 1].range;
+      issues.push({
+        issueType: BINDING_ISSUE_TYPE,
+        kind: "MissingComma",
+        message: "Missing comma",
+        offsetRange: rangeToOffsetRange(range),
+        range: range!,
+        severity: "info",
+      });
+    } else if (
+      // checking trailing comma
+      element.comma?.text === "," &&
+      binding.elements[index + 1] === undefined
+    ) {
+      const range = element.comma.range ?? element.range;
+      issues.push({
+        issueType: BINDING_ISSUE_TYPE,
+        kind: "TrailingComma",
+        message: "Trailing comma",
+        offsetRange: rangeToOffsetRange(range),
+        range: range,
+        severity: "info",
+      });
+    }
   }
   issues.push(...checkDuplicate(binding));
   issues.push(...checkNotAllowedElement(binding));
   issues.push(...checkDependents(context, binding));
   issues.push(...checkNestedParts(binding));
-  return issues;
-};
-
-/**
- * Check missing comma.
- *
- * It is considered missing comma, when first merged token is key and there is a previous token
- */
-export const checkMissingComma = (ast: BindingTypes.Ast): BindingIssue[] => {
-  const issues: BindingIssue[] = [];
-  const parseErrors = filterParseError(ast);
-  for (const parseError of parseErrors) {
-    const item = parseError.merged[0];
-    if (parseError.previousToken && item?.tokenTypeName === BindingTypes.KEY) {
-      // it should have been missing comma
-      issues.push({
-        issueType: BINDING_ISSUE_TYPE,
-        kind: "MissingComma",
-        message: "Missing comma",
-        offsetRange: rangeToOffsetRange(item.range),
-        range: item.range!,
-        severity: "info",
-      });
-    }
-  }
   return issues;
 };
 

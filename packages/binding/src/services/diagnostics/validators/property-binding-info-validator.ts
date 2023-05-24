@@ -14,11 +14,7 @@ import {
   parsePropertyBindingInfo,
   PropertyBindingInfoTypes as BindingTypes,
 } from "@ui5-language-assistant/binding-parser";
-import {
-  checkAst,
-  checkMissingComma,
-  checkTrailingComma,
-} from "./issue-collector";
+import { checkAst, checkTrailingComma } from "./issue-collector";
 import { filterLexerError, filterParseError } from "../../../utils/expression";
 
 export function validatePropertyBindingInfo(
@@ -59,7 +55,6 @@ export function validatePropertyBindingInfo(
           continue;
         }
         issues.push(...checkAst(context, binding, ast.errors));
-        issues.push(...checkMissingComma(ast));
         issues.push(...checkTrailingComma(ast));
       }
 

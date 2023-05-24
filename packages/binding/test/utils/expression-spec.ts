@@ -22,6 +22,17 @@ describe("expression", () => {
     });
   });
   context("extractBindingExpression", () => {
+    it("empty text", () => {
+      const input = " ";
+      const result = extractBindingExpression(input);
+      expect(result).to.deep.equal([
+        {
+          startIndex: 0,
+          endIndex: 0,
+          expression: " ",
+        },
+      ]);
+    });
     it("text and binding syntax", () => {
       const input = 'some text here {path: "some/path"} some text here too';
       const result = extractBindingExpression(input);
@@ -190,9 +201,9 @@ describe("expression", () => {
       const result = extractBindingExpression(input);
       expect(result).to.deep.equal([
         {
-          endIndex: 26,
-          expression: "{path:'####' } $$ {events: { }}",
-          startIndex: 0,
+          endIndex: 35,
+          expression: "{parts: [' ']} $$ {path: '###'}",
+          startIndex: 4,
         },
       ]);
     });

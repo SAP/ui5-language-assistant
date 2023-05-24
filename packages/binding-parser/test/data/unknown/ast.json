@@ -19,16 +19,16 @@
             "range": "[(0,4)..(0,5)]"
           },
           "value": "undefined",
+          "comma": "undefined",
           "range": "[(0,1)..(0,5)]"
         }
       ],
-      "commas": [],
       "rightCurly": {
         "type": "RightCurly",
         "text": "}",
-        "range": "[(0,6)..(0,7)]"
+        "range": "[(0,7)..(0,8)]"
       },
-      "range": "[(0,0)..(0,7)]"
+      "range": "[(0,0)..(0,8)]"
     }
   ],
   "spaces": [
@@ -41,21 +41,21 @@
   "errors": {
     "lexer": [
       {
-        "range": "[(0,6)..(0,7)]",
-        "text": "",
-        "type": "LexerError"
+        "type": "SpecialChars",
+        "text": "#",
+        "range": "[(0,6)..(0,7)]"
       }
     ],
     "parse": [
       {
         "type": "ParseError",
-        "range": "[(0,6)..(0,7)]",
+        "range": "[(0,7)..(0,8)]",
         "text": "}",
         "merged": [
           {
             "type": "ParseError",
             "text": "}",
-            "range": "[(0,6)..(0,7)]",
+            "range": "[(0,7)..(0,8)]",
             "tokenTypeName": "RightCurly"
           }
         ],

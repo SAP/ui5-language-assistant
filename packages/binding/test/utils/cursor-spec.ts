@@ -18,18 +18,10 @@ const getData = (snippet: string) => {
 };
 const getCursorContextResult = (snippet: string) => {
   const { param, ast, prefix } = getData(snippet);
-  return getCursorContext(param, ast, ast.spaces, prefix);
+  return getCursorContext(param, ast.bindings[0], ast.spaces, prefix);
 };
 
 describe("cursor", () => {
-  it("get initial context", () => {
-    const snippet = `<CURSOR>`;
-    const result = getCursorContextResult(snippet);
-    expect(result).to.deep.equal({
-      type: "initial",
-      kind: "expression-binding",
-    });
-  });
   it("get empty context", () => {
     const snippet = `{ <CURSOR> }`;
     const result = getCursorContextResult(snippet);
@@ -166,6 +158,17 @@ describe("cursor", () => {
     });
     it("d. `keyProperty: 'value-for-this-key',`<CURSOR>`, [between comma]", () => {
       const snippet = `{keyProperty: 'value-for-this-key',<CURSOR>, }`;
+      const { type, kind, element } = getCursorContextResult(
+        snippet
+      ) as KeyValueContext;
+      expect({ type, kind }).to.deep.equal({
+        type: "key-value",
+        kind: "properties-with-value-excluding-duplicate",
+      });
+      expect(element).not.to.be.undefined;
+    });
+    it("e. `keyProperty: 'value-for-this-key',`<CURSOR>`, [between comma - spaces]", () => {
+      const snippet = `{keyProperty: 'value-for-this-key', <CURSOR>, }`;
       const { type, kind, element } = getCursorContextResult(
         snippet
       ) as KeyValueContext;

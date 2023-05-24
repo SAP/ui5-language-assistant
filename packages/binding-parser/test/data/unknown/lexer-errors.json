@@ -1,9 +1,1 @@
-[
-  {
-    "offset": 6,
-    "line": 1,
-    "column": 7,
-    "length": 1,
-    "message": "unexpected character: ->#<- at offset: 6, skipped 1 characters."
-  }
-]
+[]

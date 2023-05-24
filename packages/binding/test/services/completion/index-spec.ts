@@ -67,7 +67,7 @@ describe("index", () => {
   context("getCompletionItems", () => {
     it("provides CC consider string value as double quote", async function () {
       const snippet = `
-        <Text text='path: ${CURSOR_ANCHOR}' id="test-id"></Text>`;
+        <Text text='{path: ${CURSOR_ANCHOR}}' id="test-id"></Text>`;
       const result = await getCompletionResult(snippet, this);
       expect(
         result.map((item) => completionItemToSnapshot(item))
@@ -77,7 +77,7 @@ describe("index", () => {
     });
     it("provides CC consider string value as single quote", async function () {
       const snippet = `
-        <Text text="path: ${CURSOR_ANCHOR}" id="test-id"></Text>`;
+        <Text text="{path: ${CURSOR_ANCHOR}}" id="test-id"></Text>`;
       const result = await getCompletionResult(snippet, this);
       expect(
         result.map((item) => completionItemToSnapshot(item))
@@ -287,94 +287,94 @@ describe("index", () => {
     context("provides CC for key value", () => {
       it("a. keyProperty: 'value-for-this-key'  `<CURSOR>` [spaces]", async function () {
         const snippet = `
-        <Text text="{path: 'value-for-this-key' ${CURSOR_ANCHOR}" id="test-id"></Text>`;
+        <Text text="{path: 'value-for-this-key' ${CURSOR_ANCHOR}}" id="test-id"></Text>`;
         const result = await getCompletionResult(snippet, this);
         expect(
           result.map((item) => completionItemToSnapshot(item))
         ).to.deep.equal([
-          "label: value; text: value: ' '}; kind:15; commit:undefined; sort:",
-          "label: model; text: model: ' '}; kind:15; commit:undefined; sort:",
-          "label: suspended; text: suspended: ${1|true,false|}$0}; kind:15; commit:undefined; sort:",
-          "label: formatter; text: formatter: ' '}; kind:15; commit:undefined; sort:",
-          "label: useRawValues; text: useRawValues: ${1|true,false|}$0}; kind:15; commit:undefined; sort:",
-          "label: useInternalValues; text: useInternalValues: ${1|true,false|}$0}; kind:15; commit:undefined; sort:",
-          "label: type; text: type: ${1|{ },' '|}$0}; kind:15; commit:undefined; sort:",
-          "label: targetType; text: targetType: ' '}; kind:15; commit:undefined; sort:",
-          "label: formatOptions; text: formatOptions: { }}; kind:15; commit:undefined; sort:",
-          "label: constraints; text: constraints: { }}; kind:15; commit:undefined; sort:",
-          "label: mode; text: mode: { }}; kind:15; commit:undefined; sort:",
-          "label: parameters; text: parameters: { }}; kind:15; commit:undefined; sort:",
-          "label: events; text: events: { }}; kind:15; commit:undefined; sort:",
-          "label: parts; text: parts: ${1|[{ }],[' ']|}$0}; kind:15; commit:undefined; sort:",
+          "label: value; text: value: ' '; kind:15; commit:undefined; sort:",
+          "label: model; text: model: ' '; kind:15; commit:undefined; sort:",
+          "label: suspended; text: suspended: ${1|true,false|}$0; kind:15; commit:undefined; sort:",
+          "label: formatter; text: formatter: ' '; kind:15; commit:undefined; sort:",
+          "label: useRawValues; text: useRawValues: ${1|true,false|}$0; kind:15; commit:undefined; sort:",
+          "label: useInternalValues; text: useInternalValues: ${1|true,false|}$0; kind:15; commit:undefined; sort:",
+          "label: type; text: type: ${1|{ },' '|}$0; kind:15; commit:undefined; sort:",
+          "label: targetType; text: targetType: ' '; kind:15; commit:undefined; sort:",
+          "label: formatOptions; text: formatOptions: { }; kind:15; commit:undefined; sort:",
+          "label: constraints; text: constraints: { }; kind:15; commit:undefined; sort:",
+          "label: mode; text: mode: { }; kind:15; commit:undefined; sort:",
+          "label: parameters; text: parameters: { }; kind:15; commit:undefined; sort:",
+          "label: events; text: events: { }; kind:15; commit:undefined; sort:",
+          "label: parts; text: parts: ${1|[{ }],[' ']|}$0; kind:15; commit:undefined; sort:",
         ]);
       });
       it("b. keyProperty: 'value-for-this-key', `<CURSOR>` [comma]", async function () {
         const snippet = `
-        <Text text="{path: 'value-for-this-key', ${CURSOR_ANCHOR}" id="test-id"></Text>`;
+        <Text text="{path: 'value-for-this-key', ${CURSOR_ANCHOR}}" id="test-id"></Text>`;
         const result = await getCompletionResult(snippet, this);
         expect(
           result.map((item) => completionItemToSnapshot(item))
         ).to.deep.equal([
-          "label: value; text: value: ' '}; kind:15; commit:undefined; sort:",
-          "label: model; text: model: ' '}; kind:15; commit:undefined; sort:",
-          "label: suspended; text: suspended: ${1|true,false|}$0}; kind:15; commit:undefined; sort:",
-          "label: formatter; text: formatter: ' '}; kind:15; commit:undefined; sort:",
-          "label: useRawValues; text: useRawValues: ${1|true,false|}$0}; kind:15; commit:undefined; sort:",
-          "label: useInternalValues; text: useInternalValues: ${1|true,false|}$0}; kind:15; commit:undefined; sort:",
-          "label: type; text: type: ${1|{ },' '|}$0}; kind:15; commit:undefined; sort:",
-          "label: targetType; text: targetType: ' '}; kind:15; commit:undefined; sort:",
-          "label: formatOptions; text: formatOptions: { }}; kind:15; commit:undefined; sort:",
-          "label: constraints; text: constraints: { }}; kind:15; commit:undefined; sort:",
-          "label: mode; text: mode: { }}; kind:15; commit:undefined; sort:",
-          "label: parameters; text: parameters: { }}; kind:15; commit:undefined; sort:",
-          "label: events; text: events: { }}; kind:15; commit:undefined; sort:",
-          "label: parts; text: parts: ${1|[{ }],[' ']|}$0}; kind:15; commit:undefined; sort:",
+          "label: value; text: value: ' '; kind:15; commit:undefined; sort:",
+          "label: model; text: model: ' '; kind:15; commit:undefined; sort:",
+          "label: suspended; text: suspended: ${1|true,false|}$0; kind:15; commit:undefined; sort:",
+          "label: formatter; text: formatter: ' '; kind:15; commit:undefined; sort:",
+          "label: useRawValues; text: useRawValues: ${1|true,false|}$0; kind:15; commit:undefined; sort:",
+          "label: useInternalValues; text: useInternalValues: ${1|true,false|}$0; kind:15; commit:undefined; sort:",
+          "label: type; text: type: ${1|{ },' '|}$0; kind:15; commit:undefined; sort:",
+          "label: targetType; text: targetType: ' '; kind:15; commit:undefined; sort:",
+          "label: formatOptions; text: formatOptions: { }; kind:15; commit:undefined; sort:",
+          "label: constraints; text: constraints: { }; kind:15; commit:undefined; sort:",
+          "label: mode; text: mode: { }; kind:15; commit:undefined; sort:",
+          "label: parameters; text: parameters: { }; kind:15; commit:undefined; sort:",
+          "label: events; text: events: { }; kind:15; commit:undefined; sort:",
+          "label: parts; text: parts: ${1|[{ }],[' ']|}$0; kind:15; commit:undefined; sort:",
         ]);
       });
       it("c. `<CURSOR>` keyProperty: 'value-for-this-key'", async function () {
         const snippet = `
-        <Text text="{${CURSOR_ANCHOR} path: 'value-for-this-key'" id="test-id"></Text>`;
+        <Text text="{${CURSOR_ANCHOR} path: 'value-for-this-key'}" id="test-id"></Text>`;
         const result = await getCompletionResult(snippet, this);
         expect(
           result.map((item) => completionItemToSnapshot(item))
         ).to.deep.equal([
-          "label: value; text: value: ' '}; kind:15; commit:undefined; sort:",
-          "label: model; text: model: ' '}; kind:15; commit:undefined; sort:",
-          "label: suspended; text: suspended: ${1|true,false|}$0}; kind:15; commit:undefined; sort:",
-          "label: formatter; text: formatter: ' '}; kind:15; commit:undefined; sort:",
-          "label: useRawValues; text: useRawValues: ${1|true,false|}$0}; kind:15; commit:undefined; sort:",
-          "label: useInternalValues; text: useInternalValues: ${1|true,false|}$0}; kind:15; commit:undefined; sort:",
-          "label: type; text: type: ${1|{ },' '|}$0}; kind:15; commit:undefined; sort:",
-          "label: targetType; text: targetType: ' '}; kind:15; commit:undefined; sort:",
-          "label: formatOptions; text: formatOptions: { }}; kind:15; commit:undefined; sort:",
-          "label: constraints; text: constraints: { }}; kind:15; commit:undefined; sort:",
-          "label: mode; text: mode: { }}; kind:15; commit:undefined; sort:",
-          "label: parameters; text: parameters: { }}; kind:15; commit:undefined; sort:",
-          "label: events; text: events: { }}; kind:15; commit:undefined; sort:",
-          "label: parts; text: parts: ${1|[{ }],[' ']|}$0}; kind:15; commit:undefined; sort:",
+          "label: value; text: value: ' '; kind:15; commit:undefined; sort:",
+          "label: model; text: model: ' '; kind:15; commit:undefined; sort:",
+          "label: suspended; text: suspended: ${1|true,false|}$0; kind:15; commit:undefined; sort:",
+          "label: formatter; text: formatter: ' '; kind:15; commit:undefined; sort:",
+          "label: useRawValues; text: useRawValues: ${1|true,false|}$0; kind:15; commit:undefined; sort:",
+          "label: useInternalValues; text: useInternalValues: ${1|true,false|}$0; kind:15; commit:undefined; sort:",
+          "label: type; text: type: ${1|{ },' '|}$0; kind:15; commit:undefined; sort:",
+          "label: targetType; text: targetType: ' '; kind:15; commit:undefined; sort:",
+          "label: formatOptions; text: formatOptions: { }; kind:15; commit:undefined; sort:",
+          "label: constraints; text: constraints: { }; kind:15; commit:undefined; sort:",
+          "label: mode; text: mode: { }; kind:15; commit:undefined; sort:",
+          "label: parameters; text: parameters: { }; kind:15; commit:undefined; sort:",
+          "label: events; text: events: { }; kind:15; commit:undefined; sort:",
+          "label: parts; text: parts: ${1|[{ }],[' ']|}$0; kind:15; commit:undefined; sort:",
         ]);
       });
       it("d. keyProperty: 'value-for-this-key',`<CURSOR>`, [between comma]", async function () {
         const snippet = `
-        <Text text="{path: 'value-for-this-key', ${CURSOR_ANCHOR} ," id="test-id"></Text>`;
+        <Text text="{path: 'value-for-this-key', ${CURSOR_ANCHOR} ,}" id="test-id"></Text>`;
         const result = await getCompletionResult(snippet, this);
         expect(
           result.map((item) => completionItemToSnapshot(item))
         ).to.deep.equal([
-          "label: value; text: value: ' '}; kind:15; commit:undefined; sort:",
-          "label: model; text: model: ' '}; kind:15; commit:undefined; sort:",
-          "label: suspended; text: suspended: ${1|true,false|}$0}; kind:15; commit:undefined; sort:",
-          "label: formatter; text: formatter: ' '}; kind:15; commit:undefined; sort:",
-          "label: useRawValues; text: useRawValues: ${1|true,false|}$0}; kind:15; commit:undefined; sort:",
-          "label: useInternalValues; text: useInternalValues: ${1|true,false|}$0}; kind:15; commit:undefined; sort:",
-          "label: type; text: type: ${1|{ },' '|}$0}; kind:15; commit:undefined; sort:",
-          "label: targetType; text: targetType: ' '}; kind:15; commit:undefined; sort:",
-          "label: formatOptions; text: formatOptions: { }}; kind:15; commit:undefined; sort:",
-          "label: constraints; text: constraints: { }}; kind:15; commit:undefined; sort:",
-          "label: mode; text: mode: { }}; kind:15; commit:undefined; sort:",
-          "label: parameters; text: parameters: { }}; kind:15; commit:undefined; sort:",
-          "label: events; text: events: { }}; kind:15; commit:undefined; sort:",
-          "label: parts; text: parts: ${1|[{ }],[' ']|}$0}; kind:15; commit:undefined; sort:",
+          "label: value; text: value: ' '; kind:15; commit:undefined; sort:",
+          "label: model; text: model: ' '; kind:15; commit:undefined; sort:",
+          "label: suspended; text: suspended: ${1|true,false|}$0; kind:15; commit:undefined; sort:",
+          "label: formatter; text: formatter: ' '; kind:15; commit:undefined; sort:",
+          "label: useRawValues; text: useRawValues: ${1|true,false|}$0; kind:15; commit:undefined; sort:",
+          "label: useInternalValues; text: useInternalValues: ${1|true,false|}$0; kind:15; commit:undefined; sort:",
+          "label: type; text: type: ${1|{ },' '|}$0; kind:15; commit:undefined; sort:",
+          "label: targetType; text: targetType: ' '; kind:15; commit:undefined; sort:",
+          "label: formatOptions; text: formatOptions: { }; kind:15; commit:undefined; sort:",
+          "label: constraints; text: constraints: { }; kind:15; commit:undefined; sort:",
+          "label: mode; text: mode: { }; kind:15; commit:undefined; sort:",
+          "label: parameters; text: parameters: { }; kind:15; commit:undefined; sort:",
+          "label: events; text: events: { }; kind:15; commit:undefined; sort:",
+          "label: parts; text: parts: ${1|[{ }],[' ']|}$0; kind:15; commit:undefined; sort:",
         ]);
       });
     });
@@ -389,7 +389,7 @@ describe("index", () => {
       });
       it("b. keyProperty `<CURSOR>` [space(s)] [cc for value]", async function () {
         const snippet = `
-        <Text text="{path ${CURSOR_ANCHOR}, events:{}" id="test-id"></Text>`;
+        <Text text="{path ${CURSOR_ANCHOR}, events:{}}" id="test-id"></Text>`;
         const result = await getCompletionResult(snippet, this);
         expect(
           result.map((item) => completionItemToSnapshot(item))

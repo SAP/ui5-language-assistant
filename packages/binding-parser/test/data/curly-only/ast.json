@@ -7,7 +7,6 @@
         "range": "[(0,0)..(0,1)]"
       },
       "elements": [],
-      "commas": [],
       "rightCurly": {
         "type": "RightCurly",
         "text": "}",

@@ -1,6 +1,6 @@
 import { PropertyBindingInfoTypes as BindingTypes } from "@ui5-language-assistant/binding-parser";
 import { ExtractBindingExpression } from "..//types";
-import { rangeContained } from "./position";
+import { rangeContained } from "@ui5-language-assistant/binding-parser";
 
 /**
  * Syntax of a binding expression can be represented by `{=expression}` or `{:=expression}`
@@ -123,6 +123,10 @@ export const extractBindingExpression = (
   let startIndex = 0;
   let lastIndex = 0;
   let endIndex = 0;
+  const text = input;
+  if (text.trim() === "") {
+    return [{ startIndex, endIndex, expression: input }];
+  }
   while ((startRegResult = start.exec(input)) !== null) {
     // scape special chars
     if (startRegResult[1]) {

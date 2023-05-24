@@ -76,8 +76,7 @@ export const createValue = (
           context,
           collectionEl,
           spaces,
-          "",
-          true
+          ""
         ).filter((item) => item.label !== "parts");
         completionItems.push(...result);
       }

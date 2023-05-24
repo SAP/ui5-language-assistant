@@ -6,30 +6,20 @@
       "endColumn": 20,
       "tokenTypeName": "Comma"
     },
-    "message": "Expecting token of type --> Key <-- but found --> ',' <--",
+    "message": "Expecting --> } <-- but found --> ',' <--",
     "name": "MismatchedTokenException",
-    "resyncedTokens": [],
+    "resyncedTokens": [
+      {
+        "image": ",",
+        "startColumn": 21,
+        "endColumn": 21,
+        "tokenTypeName": "Comma"
+      }
+    ],
     "previousToken": {
-      "image": ",",
-      "startColumn": 19,
-      "endColumn": 19,
-      "tokenTypeName": "Comma"
-    }
-  },
-  {
-    "token": {
       "image": ",",
       "startColumn": 21,
       "endColumn": 21,
-      "tokenTypeName": "Comma"
-    },
-    "message": "Expecting token of type --> Key <-- but found --> ',' <--",
-    "name": "MismatchedTokenException",
-    "resyncedTokens": [],
-    "previousToken": {
-      "image": ",",
-      "startColumn": 20,
-      "endColumn": 20,
       "tokenTypeName": "Comma"
     }
   }

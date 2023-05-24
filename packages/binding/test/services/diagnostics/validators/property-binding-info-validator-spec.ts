@@ -437,7 +437,7 @@ describe("property-binding-info-validator", () => {
     const { attr, context } = await getData(snippet);
     const result = validatePropertyBindingInfo(attr, context);
     expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
-      "kind: MissingValue; text: Required values { } or ' ' must be provided; severity:info; range:10:22-10:31",
+      "kind: MissingValue; text: Required values { } or ' ' must be provided; severity:info; range:10:6-10:15",
       "kind: RecursiveProperty; text: Recursive composite bindings is not allowed; severity:info; range:10:6-10:11",
     ]);
   });
@@ -487,11 +487,11 @@ describe("property-binding-info-validator", () => {
     });
     it("check missing comma", async () => {
       const snippet = `
-    <Text text="{ parts: [{ path: '' event: {} }}" id="test-id"></Text>`;
+    <Text text="{ parts: [{ path: '' events: {} }}" id="test-id"></Text>`;
       const { attr, context } = await getData(snippet);
       const result = validatePropertyBindingInfo(attr, context);
       expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
-        "kind: MissingComma; text: Missing comma; severity:info; range:9:37-9:42",
+        "kind: MissingComma; text: Missing comma; severity:info; range:9:37-9:43",
       ]);
     });
     it("check trailing comma", async () => {
@@ -540,7 +540,7 @@ describe("property-binding-info-validator", () => {
   });
   it("check missing comma", async () => {
     const snippet = `
-    <Text text="{ path: '' events }" id="test-id"></Text>`;
+    <Text text="{ path: '' events:{} }" id="test-id"></Text>`;
     const { attr, context } = await getData(snippet);
     const result = validatePropertyBindingInfo(attr, context);
     expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([

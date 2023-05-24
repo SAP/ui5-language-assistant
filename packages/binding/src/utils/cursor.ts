@@ -1,27 +1,20 @@
-import { PropertyBindingInfoTypes as BindingTypes } from "@ui5-language-assistant/binding-parser";
-import { CursorContext } from "../types";
-import { TextDocumentPositionParams } from "vscode-languageserver-protocol";
 import {
+  PropertyBindingInfoTypes as BindingTypes,
+  positionContained,
   isAfterAdjacentRange,
   isBeforeAdjacentRange,
-  positionContained,
-} from ".";
+} from "@ui5-language-assistant/binding-parser";
+import { CursorContext } from "../types";
+import { TextDocumentPositionParams } from "vscode-languageserver-protocol";
 
 export const getCursorContext = (
   parm: TextDocumentPositionParams,
   binding: BindingTypes.Binding,
   spaces: BindingTypes.WhiteSpaces[],
-  text = "",
-  collection = false
+  text = ""
 ): CursorContext => {
-  const { elements, commas } = binding;
+  const { elements } = binding;
   text = text?.trim();
-  if (!text && !collection) {
-    return {
-      type: "initial",
-      kind: "expression-binding",
-    };
-  }
   if (elements.length === 0) {
     return {
       type: "empty",
@@ -46,7 +39,6 @@ export const getCursorContext = (
         type: "colon",
         kind: "colon",
         element: el,
-        // option: {}
       };
     }
     // check value
@@ -54,6 +46,14 @@ export const getCursorContext = (
       return {
         type: "value",
         kind: "value",
+        element: el,
+      };
+    }
+    // check comma
+    if (positionContained(el.comma?.range, position)) {
+      return {
+        type: "key-value",
+        kind: "properties-with-value-excluding-duplicate",
         element: el,
       };
     }
@@ -98,21 +98,15 @@ export const getCursorContext = (
           element: el,
         };
       }
+      // after adjacent comma => new key value
+      if (isAfterAdjacentRange(spaceEl.range, el.comma?.range)) {
+        return {
+          type: "key-value",
+          kind: "properties-with-value-excluding-duplicate",
+          element: el,
+        };
+      }
     }
-  }
-  // check comma
-  let comma = commas.find((item) =>
-    isAfterAdjacentRange(spaceEl?.range, item.range)
-  );
-  if (!comma) {
-    comma = commas.find((item) => positionContained(item.range, position));
-  }
-  if (comma) {
-    return {
-      type: "key-value",
-      kind: "properties-with-value-excluding-duplicate",
-      element: comma,
-    };
   }
   return {
     type: "unknown",

@@ -25,7 +25,6 @@
               "range": "[(0,7)..(0,8)]"
             },
             "elements": [],
-            "commas": [],
             "rightCurly": {
               "type": "RightCurly",
               "text": "}",
@@ -33,10 +32,10 @@
             },
             "range": "[(0,7)..(0,9)]"
           },
+          "comma": "undefined",
           "range": "[(0,2)..(0,9)]"
         }
       ],
-      "commas": [],
       "rightCurly": {
         "type": "RightCurly",
         "text": "}",

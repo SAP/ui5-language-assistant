@@ -13,6 +13,7 @@ import {
   RIGHT_SQUARE,
   RIGHT_CURLY,
   WHITE_SPACE,
+  SPECIAL_CHARS,
 } from "../constant";
 
 const whiteSpace = createToken({
@@ -20,6 +21,10 @@ const whiteSpace = createToken({
   pattern: /\s+/,
   // group: Lexer.SKIPPED,
   line_breaks: true,
+});
+const specialChars = createToken({
+  name: SPECIAL_CHARS,
+  pattern: /(#|!|"|\$|%|&|'|\(|\)|\*|\+|-|\.|\/|;|<|=|>|\?|@|\\|\^|_|`|~|\||)+/,
 });
 
 const leftCurly = createToken({
@@ -88,6 +93,7 @@ export const propertyBindingTokenMap = {
   stringValue,
   nullValue,
   key,
+  specialChars,
 };
 export const lexerDefinition = {
   modes: {
@@ -104,6 +110,7 @@ export const lexerDefinition = {
       stringValue,
       nullValue,
       key,
+      specialChars,
     ],
   },
   defaultMode: PROPERTY_BINDING_INFO,

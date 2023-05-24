@@ -37,8 +37,7 @@
                   "text": "]",
                   "range": "[(0,9)..(0,10)]"
                 },
-                "range": "[(0,8)..(0,10)]",
-                "commas": []
+                "range": "[(0,8)..(0,10)]"
               }
             ],
             "rightSquare": {
@@ -46,13 +45,12 @@
               "text": "]",
               "range": "[(0,10)..(0,11)]"
             },
-            "range": "[(0,2)..(0,11)]",
-            "commas": []
+            "range": "[(0,2)..(0,11)]"
           },
+          "comma": "undefined",
           "range": "[(0,2)..(0,11)]"
         }
       ],
-      "commas": [],
       "rightCurly": {
         "type": "RightCurly",
         "text": "}",
