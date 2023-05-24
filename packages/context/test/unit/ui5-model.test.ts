@@ -499,8 +499,8 @@ describe("the UI5 language assistant ui5 model", () => {
         "1.18"
       );
       expect(objNegotiatedVersionWithFetcher.version).toEqual("1.71.49");
-      expect(objNegotiatedVersionWithFetcher.isFallback).toBeTrue();
-      expect(objNegotiatedVersionWithFetcher.isIncorrectVersion).toBeFalse();
+      expect(objNegotiatedVersionWithFetcher.isFallback).toBeFalse();
+      expect(objNegotiatedVersionWithFetcher.isIncorrectVersion).toBeTrue();
     });
 
     it("resolve major version (should be closest)", async () => {
@@ -581,11 +581,11 @@ describe("the UI5 language assistant ui5 model", () => {
         "1.38"
       );
       expect(objNegotiatedVersionWithFetcher.version).toEqual("1.71.49");
-      expect(objNegotiatedVersionWithFetcher.isFallback).toBeTrue();
-      expect(objNegotiatedVersionWithFetcher.isIncorrectVersion).toBeFalse();
+      expect(objNegotiatedVersionWithFetcher.isFallback).toBeFalse();
+      expect(objNegotiatedVersionWithFetcher.isIncorrectVersion).toBeTrue();
     });
 
-    it("resolve wrong versions (should be fallback)", async () => {
+    it("resolve wrong versions (should be incorrect)", async () => {
       const objNegotiatedVersionWithFetcher = await negotiateVersionWithFetcher(
         async (): Promise<FetchResponse> => {
           return createResponse(true, 200, versionMap[OPEN_FRAMEWORK]);
@@ -598,8 +598,8 @@ describe("the UI5 language assistant ui5 model", () => {
         "a.b"
       );
       expect(objNegotiatedVersionWithFetcher.version).toEqual("1.71.49");
-      expect(objNegotiatedVersionWithFetcher.isFallback).toBeTrue();
-      expect(objNegotiatedVersionWithFetcher.isIncorrectVersion).toBeFalse();
+      expect(objNegotiatedVersionWithFetcher.isFallback).toBeFalse();
+      expect(objNegotiatedVersionWithFetcher.isIncorrectVersion).toBeTrue();
     });
   });
 });

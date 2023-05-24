@@ -374,7 +374,7 @@ export async function negotiateVersionWithFetcher(
       `The version specified as minUI5Version in your manifest.json is not supported by Language Assistant, the fallback version ${DEFAULT_UI5_VERSION} is used instead`
     );
     version = DEFAULT_UI5_VERSION;
-    isFallback = true;
+    isIncorrectVersion = true;
   } else if (resolvedVersions[framework]?.[version]) {
     // version already resolved?
     const versionDefined = version;
