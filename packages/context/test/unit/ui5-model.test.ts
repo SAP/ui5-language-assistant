@@ -498,9 +498,9 @@ describe("the UI5 language assistant ui5 model", () => {
         FRAMEWORK,
         "1.18"
       );
-      expect(objNegotiatedVersionWithFetcher.version).toEqual("1.71.50");
-      expect(objNegotiatedVersionWithFetcher.isFallback).toBeFalse();
-      expect(objNegotiatedVersionWithFetcher.isIncorrectVersion).toBeTrue();
+      expect(objNegotiatedVersionWithFetcher.version).toEqual("1.71.49");
+      expect(objNegotiatedVersionWithFetcher.isFallback).toBeTrue();
+      expect(objNegotiatedVersionWithFetcher.isIncorrectVersion).toBeFalse();
     });
 
     it("resolve major version (should be closest)", async () => {
@@ -562,6 +562,40 @@ describe("the UI5 language assistant ui5 model", () => {
         cachePath,
         OPEN_FRAMEWORK,
         ""
+      );
+      expect(objNegotiatedVersionWithFetcher.version).toEqual("1.71.49");
+      expect(objNegotiatedVersionWithFetcher.isFallback).toBeTrue();
+      expect(objNegotiatedVersionWithFetcher.isIncorrectVersion).toBeFalse();
+    });
+
+    it("resolve unsupported versions (should be fallback)", async () => {
+      const objNegotiatedVersionWithFetcher = await negotiateVersionWithFetcher(
+        async (): Promise<FetchResponse> => {
+          return createResponse(true, 200, versionMap[OPEN_FRAMEWORK]);
+        },
+        async (): Promise<FetchResponse> => {
+          return createResponse(false, 404);
+        },
+        cachePath,
+        FRAMEWORK,
+        "1.38"
+      );
+      expect(objNegotiatedVersionWithFetcher.version).toEqual("1.71.49");
+      expect(objNegotiatedVersionWithFetcher.isFallback).toBeTrue();
+      expect(objNegotiatedVersionWithFetcher.isIncorrectVersion).toBeFalse();
+    });
+
+    it("resolve wrong versions (should be fallback)", async () => {
+      const objNegotiatedVersionWithFetcher = await negotiateVersionWithFetcher(
+        async (): Promise<FetchResponse> => {
+          return createResponse(true, 200, versionMap[OPEN_FRAMEWORK]);
+        },
+        async (): Promise<FetchResponse> => {
+          return createResponse(false, 404);
+        },
+        cachePath,
+        FRAMEWORK,
+        "a.b"
       );
       expect(objNegotiatedVersionWithFetcher.version).toEqual("1.71.49");
       expect(objNegotiatedVersionWithFetcher.isFallback).toBeTrue();

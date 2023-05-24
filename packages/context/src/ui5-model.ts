@@ -368,6 +368,13 @@ export async function negotiateVersionWithFetcher(
     );
     version = DEFAULT_UI5_VERSION;
     isFallback = true;
+  } else if (!isVersionSupported(version)) {
+    // version is out of support in LA, using default version
+    getLogger().warn(
+      `The version specified as minUI5Version in your manifest.json is not supported by Language Assistant, the fallback version ${DEFAULT_UI5_VERSION} is used instead`
+    );
+    version = DEFAULT_UI5_VERSION;
+    isFallback = true;
   } else if (resolvedVersions[framework]?.[version]) {
     // version already resolved?
     const versionDefined = version;
@@ -461,4 +468,18 @@ export async function negotiateVersionWithFetcher(
     isFallback,
     isIncorrectVersion,
   };
+}
+
+// Versions 1.38 and older are not supported because of missing features in the API, while the LA relies on that API for validation.
+// See https://github.com/SAP/ui5-language-assistant/issues/538 for details
+function isVersionSupported(version: string): boolean {
+  const versionDetails = semver.coerce(version);
+  if (!versionDetails) {
+    return false;
+  }
+  return !(
+    versionDetails.major === 1 &&
+    versionDetails.minor &&
+    versionDetails.minor <= 38
+  );
 }
