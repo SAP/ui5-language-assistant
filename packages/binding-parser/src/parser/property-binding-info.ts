@@ -28,11 +28,8 @@ class PropertyBindingInfoParser extends CstParser {
 
   [OBJECT] = this.RULE(OBJECT, () => {
     this.CONSUME(tokenMap.leftCurly);
-    this.MANY_SEP({
-      SEP: tokenMap.comma,
-      DEF: () => {
-        this.SUBRULE(this[OBJECT_ITEM]);
-      },
+    this.MANY(() => {
+      this.SUBRULE(this[OBJECT_ITEM]);
     });
     this.CONSUME(tokenMap.rightCurly);
   });
@@ -41,6 +38,7 @@ class PropertyBindingInfoParser extends CstParser {
     this.CONSUME(tokenMap.key);
     this.CONSUME(tokenMap.colon);
     this.SUBRULE(this[VALUE]);
+    this.OPTION(() => this.CONSUME(tokenMap.comma));
   });
   [VALUE] = this.RULE(VALUE, () => {
     this.OR([

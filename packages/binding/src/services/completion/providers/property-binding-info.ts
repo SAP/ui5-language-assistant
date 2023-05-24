@@ -24,8 +24,7 @@ export const getCompletionItems = (
   context: BindContext,
   binding: BindingTypes.Binding,
   spaces: BindingTypes.WhiteSpaces[],
-  text = "",
-  collection = false
+  text = ""
 ): CompletionItem[] => {
   const completionItems: CompletionItem[] = [];
   if (!context.textDocumentPosition?.position) {
@@ -35,12 +34,9 @@ export const getCompletionItems = (
     context.textDocumentPosition,
     binding,
     spaces,
-    text,
-    collection
+    text
   );
   switch (cursorContext.type) {
-    case "initial":
-      return createInitialSnippet(context);
     case "empty":
       return createAllSupportedElements(context, binding);
     case "key":
@@ -90,7 +86,12 @@ export function propertyBindingInfoSuggestions({
       character: (value?.startColumn ?? 0) + startIndex,
       line: value?.startLine ? value.startLine - 1 : 0, // zero based index
     };
-    const { ast } = parsePropertyBindingInfo(expression, position);
+    const { ast } = parsePropertyBindingInfo(text, position);
+    const input = expression;
+    if (input.trim() === "") {
+      completionItems.push(...createInitialSnippet(context));
+      continue;
+    }
     for (const binding of ast.bindings) {
       if (!isPropertyBindingInfo(text, binding)) {
         continue;

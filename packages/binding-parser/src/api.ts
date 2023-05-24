@@ -1,6 +1,14 @@
 export { parsePropertyBindingInfo } from "./parser/index";
 export { PropertyBindingInfoTypes } from "./types";
 
+export {
+  isAfterAdjacentRange,
+  isBefore,
+  isBeforeAdjacentRange,
+  positionContained,
+  rangeContained,
+} from "./utils/position";
+
 import {
   Value,
   PrimitiveValue,

@@ -22,7 +22,7 @@ export const createNode = <T extends NodeType>(
   param?: VisitorParam
 ): { type: T; text: string; range: Range } => {
   const text = token.image;
-  const range = getRange(token, param?.position);
+  const range = getRange(token, param);
   return {
     type,
     text,

@@ -4,158 +4,134 @@
       "leftCurly": {
         "type": "LeftCurly",
         "text": "{",
-        "range": "[(0,5)..(0,6)]",
-        "offset": "[5..6]"
+        "range": "[(0,5)..(0,6)]"
       },
       "elements": [
         {
           "key": {
             "type": "Key",
             "text": "path",
-            "range": "[(0,6)..(0,10)]",
-            "offset": "[6..10]"
+            "range": "[(0,6)..(0,10)]"
           },
           "colon": {
             "type": "Colon",
             "text": ":",
-            "range": "[(0,10)..(0,11)]",
-            "offset": "[10..11]"
+            "range": "[(0,10)..(0,11)]"
           },
           "value": {
             "type": "StringValue",
             "text": "'###'",
-            "range": "[(0,12)..(0,17)]",
-            "offset": "[12..17]"
+            "range": "[(0,12)..(0,17)]"
           },
+          "comma": "undefined",
           "range": "[(0,6)..(0,17)]"
         }
       ],
-      "commas": [],
       "rightCurly": {
         "type": "RightCurly",
         "text": "}",
-        "range": "[(0,17)..(0,18)]",
-        "offset": "[17..18]"
+        "range": "[(0,17)..(0,18)]"
       },
-      "range": "[(0,5)..(0,18)]",
-      "offset": "[5..18]"
+      "range": "[(0,5)..(0,18)]"
     },
     {
       "leftCurly": {
         "type": "LeftCurly",
         "text": "{",
-        "range": "[(2,3)..(2,4)]",
-        "offset": "[26..27]"
+        "range": "[(2,3)..(2,4)]"
       },
       "elements": [
         {
           "key": {
             "type": "Key",
             "text": "pat",
-            "range": "[(2,5)..(2,8)]",
-            "offset": "[28..31]"
+            "range": "[(2,5)..(2,8)]"
           },
           "colon": {
             "type": "Colon",
             "text": ":",
-            "range": "[(2,8)..(2,9)]",
-            "offset": "[31..32]"
+            "range": "[(2,8)..(2,9)]"
           },
           "value": {
             "type": "StringValue",
             "text": "' '",
-            "range": "[(2,9)..(2,12)]",
-            "offset": "[32..35]"
+            "range": "[(2,9)..(2,12)]"
           },
+          "comma": "undefined",
           "range": "[(2,5)..(2,12)]"
         }
       ],
-      "commas": [],
       "rightCurly": {
         "type": "RightCurly",
         "text": "}",
-        "range": "[(2,12)..(2,13)]",
-        "offset": "[35..36]"
+        "range": "[(2,12)..(2,13)]"
       },
-      "range": "[(2,3)..(2,13)]",
-      "offset": "[26..36]"
+      "range": "[(2,3)..(2,13)]"
     }
   ],
   "spaces": [
     {
       "type": "WhiteSpace",
       "text": " ",
-      "range": "[(0,4)..(0,5)]",
-      "offset": "[4..5]"
+      "range": "[(0,4)..(0,5)]"
     },
     {
       "type": "WhiteSpace",
       "text": " ",
-      "range": "[(0,11)..(0,12)]",
-      "offset": "[11..12]"
+      "range": "[(0,11)..(0,12)]"
     },
     {
       "type": "WhiteSpace",
       "text": " ",
-      "range": "[(0,18)..(0,19)]",
-      "offset": "[18..19]"
+      "range": "[(0,18)..(0,19)]"
     },
     {
       "type": "WhiteSpace",
       "text": "\n\n",
-      "range": "[(0,21)..(1,1)]",
-      "offset": "[21..23]"
+      "range": "[(0,21)..(1,1)]"
     },
     {
       "type": "WhiteSpace",
       "text": " ",
-      "range": "[(2,2)..(2,3)]",
-      "offset": "[25..26]"
+      "range": "[(2,2)..(2,3)]"
     },
     {
       "type": "WhiteSpace",
       "text": " ",
-      "range": "[(2,13)..(2,14)]",
-      "offset": "[36..37]"
+      "range": "[(2,13)..(2,14)]"
     },
     {
       "type": "WhiteSpace",
       "text": "\n",
-      "range": "[(2,18)..(2,19)]",
-      "offset": "[41..42]"
+      "range": "[(2,18)..(2,19)]"
     }
   ],
   "errors": {
     "lexer": [
       {
-        "range": "[(0,0)..(0,4)]",
-        "offset": "[0..4]",
-        "text": "unexpected character: ->$<- at offset: 0, skipped 4 characters.",
-        "type": "LexerError"
+        "type": "SpecialChars",
+        "text": "$$$$",
+        "range": "[(0,0)..(0,4)]"
       },
       {
-        "range": "[(0,15)..(0,17)]",
-        "offset": "[19..21]",
-        "text": "unexpected character: ->#<- at offset: 19, skipped 2 characters.",
-        "type": "LexerError"
+        "type": "SpecialChars",
+        "text": "##",
+        "range": "[(0,19)..(0,21)]"
       },
       {
-        "range": "[(2,0)..(2,2)]",
-        "offset": "[23..25]",
-        "text": "unexpected character: ->#<- at offset: 23, skipped 2 characters.",
-        "type": "LexerError"
+        "type": "SpecialChars",
+        "text": "##",
+        "range": "[(2,0)..(2,2)]"
       },
       {
-        "range": "[(2,2)..(2,3)]",
-        "offset": "[27..28]",
-        "text": "unexpected character: ->#<- at offset: 27, skipped 1 characters.",
-        "type": "LexerError"
+        "type": "SpecialChars",
+        "text": "#",
+        "range": "[(2,4)..(2,5)]"
       },
       {
-        "range": "[(2,11)..(2,15)]",
-        "offset": "[37..41]",
-        "text": "unexpected character: ->><- at offset: 37, skipped 4 characters.",
-        "type": "LexerError"
+        "type": "SpecialChars",
+        "text": ">>>>",
+        "range": "[(2,14)..(2,18)]"
       }
     ],
     "parse": []

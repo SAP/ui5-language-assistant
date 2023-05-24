@@ -15,10 +15,10 @@
           },
           "colon": "undefined",
           "value": "undefined",
+          "comma": "undefined",
           "range": "[(0,1)..(0,4)]"
         }
       ],
-      "commas": [],
       "rightCurly": {
         "type": "RightCurly",
         "text": "}",

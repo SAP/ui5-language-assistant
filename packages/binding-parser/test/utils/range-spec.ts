@@ -10,9 +10,9 @@ interface CreateParam {
   endColumn: number;
 }
 const createToken = <T>(param: CreateParam): T => {
-  return {
+  return ({
     ...param,
-  } as T;
+  } as unknown) as T;
 };
 
 describe("range", () => {
@@ -47,7 +47,7 @@ describe("range", () => {
         line: 9,
         character: 19,
       };
-      const range = getRange(token, position);
+      const range = getRange(token, { position });
       expect(range).to.deep.equal({
         start: {
           line: 10,
@@ -91,7 +91,7 @@ describe("range", () => {
         line: 9,
         character: 19,
       };
-      const range = locationToRange(token, position);
+      const range = locationToRange(token, { position });
       expect(range).to.deep.equal({
         start: {
           line: 10,

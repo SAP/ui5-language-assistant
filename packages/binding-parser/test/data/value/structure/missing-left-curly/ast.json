@@ -23,7 +23,12 @@
             "text": "'value'",
             "range": "[(0,6)..(0,13)]"
           },
-          "range": "[(0,1)..(0,13)]"
+          "comma": {
+            "type": "Comma",
+            "text": ",",
+            "range": "[(0,13)..(0,14)]"
+          },
+          "range": "[(0,1)..(0,14)]"
         },
         {
           "key": {
@@ -37,14 +42,8 @@
             "range": "[(0,25)..(0,26)]"
           },
           "value": "undefined",
+          "comma": "undefined",
           "range": "[(0,15)..(0,26)]"
-        }
-      ],
-      "commas": [
-        {
-          "type": "Comma",
-          "text": ",",
-          "range": "[(0,13)..(0,14)]"
         }
       ],
       "rightCurly": {

@@ -1,4 +1,5 @@
 export const WHITE_SPACE = "WhiteSpace";
+export const SPECIAL_CHARS = "SpecialChars";
 export const RIGHT_CURLY = "RightCurly";
 export const LEFT_CURLY = "LeftCurly";
 export const LEFT_SQUARE = "LeftSquare";

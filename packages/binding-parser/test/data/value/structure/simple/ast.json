@@ -41,10 +41,10 @@
                   "text": "'another value'",
                   "range": "[(0,20)..(0,35)]"
                 },
+                "comma": "undefined",
                 "range": "[(0,8)..(0,35)]"
               }
             ],
-            "commas": [],
             "rightCurly": {
               "type": "RightCurly",
               "text": "}",
@@ -52,10 +52,10 @@
             },
             "range": "[(0,7)..(0,36)]"
           },
+          "comma": "undefined",
           "range": "[(0,2)..(0,36)]"
         }
       ],
-      "commas": [],
       "rightCurly": {
         "type": "RightCurly",
         "text": "}",

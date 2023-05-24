@@ -19,10 +19,10 @@
             "range": "[(0,4)..(0,5)]"
           },
           "value": "undefined",
+          "comma": "undefined",
           "range": "[(0,1)..(0,5)]"
         }
       ],
-      "commas": [],
       "rightCurly": {
         "type": "RightCurly",
         "text": "}",

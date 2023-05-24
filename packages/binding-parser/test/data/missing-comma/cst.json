@@ -57,6 +57,50 @@
                 "startColumn": 2,
                 "endColumn": 18
               }
+            },
+            {
+              "name": "ObjectItem",
+              "children": {
+                "Key": [
+                  {
+                    "image": "key02",
+                    "startColumn": 20,
+                    "endColumn": 24,
+                    "tokenTypeName": "Key"
+                  }
+                ],
+                "Colon": [
+                  {
+                    "image": ":",
+                    "startColumn": 25,
+                    "endColumn": 25,
+                    "tokenTypeName": "Colon"
+                  }
+                ],
+                "Value": [
+                  {
+                    "name": "Value",
+                    "children": {
+                      "StringValue": [
+                        {
+                          "image": "'value-02'",
+                          "startColumn": 27,
+                          "endColumn": 36,
+                          "tokenTypeName": "StringValue"
+                        }
+                      ]
+                    },
+                    "location": {
+                      "startColumn": 27,
+                      "endColumn": 36
+                    }
+                  }
+                ]
+              },
+              "location": {
+                "startColumn": 20,
+                "endColumn": 36
+              }
             }
           ],
           "RightCurly": [

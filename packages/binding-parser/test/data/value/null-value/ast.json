@@ -23,10 +23,10 @@
             "text": "null",
             "range": "[(0,7)..(0,11)]"
           },
+          "comma": "undefined",
           "range": "[(0,2)..(0,11)]"
         }
       ],
-      "commas": [],
       "rightCurly": {
         "type": "RightCurly",
         "text": "}",

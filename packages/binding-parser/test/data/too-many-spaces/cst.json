@@ -51,11 +51,19 @@
                       "endColumn": 20
                     }
                   }
+                ],
+                "Comma": [
+                  {
+                    "image": ",",
+                    "startColumn": 25,
+                    "endColumn": 25,
+                    "tokenTypeName": "Comma"
+                  }
                 ]
               },
               "location": {
                 "startColumn": 3,
-                "endColumn": 20
+                "endColumn": 25
               }
             },
             {
@@ -101,14 +109,6 @@
                 "startColumn": 30,
                 "endColumn": 52
               }
-            }
-          ],
-          "Comma": [
-            {
-              "image": ",",
-              "startColumn": 25,
-              "endColumn": 25,
-              "tokenTypeName": "Comma"
             }
           ],
           "RightCurly": [

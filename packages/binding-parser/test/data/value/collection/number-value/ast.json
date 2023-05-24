@@ -36,13 +36,12 @@
               "text": "]",
               "range": "[(0,11)..(0,12)]"
             },
-            "range": "[(0,2)..(0,12)]",
-            "commas": []
+            "range": "[(0,2)..(0,12)]"
           },
+          "comma": "undefined",
           "range": "[(0,2)..(0,12)]"
         }
       ],
-      "commas": [],
       "rightCurly": {
         "type": "RightCurly",
         "text": "}",

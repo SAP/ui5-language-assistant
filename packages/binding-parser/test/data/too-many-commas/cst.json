@@ -51,21 +51,20 @@
                       "endColumn": 18
                     }
                   }
+                ],
+                "Comma": [
+                  {
+                    "image": ",",
+                    "startColumn": 19,
+                    "endColumn": 19,
+                    "tokenTypeName": "Comma"
+                  }
                 ]
               },
               "location": {
                 "startColumn": 2,
-                "endColumn": 18
+                "endColumn": 19
               }
-            },
-            {
-              "name": "ObjectItem",
-              "children": {},
-              "location": {
-                "startColumn": -1,
-                "endColumn": -1
-              },
-              "recoveredNode": true
             },
             {
               "name": "ObjectItem",
@@ -110,20 +109,6 @@
                 "startColumn": 23,
                 "endColumn": 39
               }
-            }
-          ],
-          "Comma": [
-            {
-              "image": ",",
-              "startColumn": 19,
-              "endColumn": 19,
-              "tokenTypeName": "Comma"
-            },
-            {
-              "image": ",",
-              "startColumn": 20,
-              "endColumn": 20,
-              "tokenTypeName": "Comma"
             }
           ],
           "RightCurly": [

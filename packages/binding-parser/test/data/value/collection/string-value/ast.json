@@ -41,19 +41,12 @@
               "text": "]",
               "range": "[(0,30)..(0,31)]"
             },
-            "range": "[(0,2)..(0,31)]",
-            "commas": [
-              {
-                "type": "Comma",
-                "text": ",",
-                "range": "[(0,18)..(0,19)]"
-              }
-            ]
+            "range": "[(0,2)..(0,31)]"
           },
+          "comma": "undefined",
           "range": "[(0,2)..(0,31)]"
         }
       ],
-      "commas": [],
       "rightCurly": {
         "type": "RightCurly",
         "text": "}",
