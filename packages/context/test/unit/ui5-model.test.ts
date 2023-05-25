@@ -520,7 +520,7 @@ describe("the UI5 language assistant ui5 model", () => {
       expect(objNegotiatedVersionWithFetcher.isIncorrectVersion).toBeTrue();
     });
 
-    it("resolve invalid versions (should be latest)", async () => {
+    it("resolve invalid versions (should be fallback)", async () => {
       let objNegotiatedVersionWithFetcher = await negotiateVersionWithFetcher(
         async (): Promise<FetchResponse> => {
           return createResponse(true, 200, versionMap[FRAMEWORK]);
@@ -551,7 +551,7 @@ describe("the UI5 language assistant ui5 model", () => {
       expect(objNegotiatedVersionWithFetcher.isIncorrectVersion).toBeFalse();
     });
 
-    it("resolve invalid versions OpenUI5 (should be latest)", async () => {
+    it("resolve invalid versions OpenUI5 (should be fallback)", async () => {
       const objNegotiatedVersionWithFetcher = await negotiateVersionWithFetcher(
         async (): Promise<FetchResponse> => {
           return createResponse(true, 200, versionMap[OPEN_FRAMEWORK]);
@@ -566,6 +566,40 @@ describe("the UI5 language assistant ui5 model", () => {
       expect(objNegotiatedVersionWithFetcher.version).toEqual("1.71.49");
       expect(objNegotiatedVersionWithFetcher.isFallback).toBeTrue();
       expect(objNegotiatedVersionWithFetcher.isIncorrectVersion).toBeFalse();
+    });
+
+    it("resolve unsupported versions (should be latest)", async () => {
+      const objNegotiatedVersionWithFetcher = await negotiateVersionWithFetcher(
+        async (): Promise<FetchResponse> => {
+          return createResponse(true, 200, versionMap[OPEN_FRAMEWORK]);
+        },
+        async (): Promise<FetchResponse> => {
+          return createResponse(false, 404);
+        },
+        cachePath,
+        FRAMEWORK,
+        "1.38"
+      );
+      expect(objNegotiatedVersionWithFetcher.version).toEqual("1.71.50");
+      expect(objNegotiatedVersionWithFetcher.isFallback).toBeFalse();
+      expect(objNegotiatedVersionWithFetcher.isIncorrectVersion).toBeTrue();
+    });
+
+    it("resolve wrong versions (should be latest)", async () => {
+      const objNegotiatedVersionWithFetcher = await negotiateVersionWithFetcher(
+        async (): Promise<FetchResponse> => {
+          return createResponse(true, 200, versionMap[OPEN_FRAMEWORK]);
+        },
+        async (): Promise<FetchResponse> => {
+          return createResponse(false, 404);
+        },
+        cachePath,
+        FRAMEWORK,
+        "a.b"
+      );
+      expect(objNegotiatedVersionWithFetcher.version).toEqual("1.71.50");
+      expect(objNegotiatedVersionWithFetcher.isFallback).toBeFalse();
+      expect(objNegotiatedVersionWithFetcher.isIncorrectVersion).toBeTrue();
     });
   });
 });

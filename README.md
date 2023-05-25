@@ -35,6 +35,18 @@ It currently contains:
 [npm-bas-ext-url]: https://www.npmjs.com/package/@ui5-language-assistant/vscode-ui5-language-assistant-bas-ext
 [npm-bas-ext-image]: https://img.shields.io/npm/v/@ui5-language-assistant/vscode-ui5-language-assistant-bas-ext.svg
 
+## Limitations
+
+### UI5 version and framework.
+
+This extension derives the UI5 version in the following sequence:
+
+1. The `minUI5Version` from the manifest.json file (see note)
+2. Lookup in CDN for UI5 version and negotiate to the closest LTS version (see note).
+3. If it is not found or the version is 1.38 or older, then default back to 1.71 (latest patch level). The framework (SAPUI5/OpenUI5) is derived from the ui5.yaml file. This defaults to SAPUI5.
+
+Note: If `minUI5Version` not found in the manifest.json or lookup in CDN fails, then fall back to default 1.71.49 version
+
 ## Support
 
 Please open [issues](https://github.com/SAP/ui5-language-assistant/issues) on github.
