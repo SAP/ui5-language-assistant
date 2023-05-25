@@ -175,7 +175,7 @@ When configuring local web server, make sure it responds to the exact UI5 versio
 
 ### Limitations
 
-#### UI5 version and framework:
+#### UI5 version and framework
 
 This extension derives the UI5 version in the following sequence:
 
@@ -187,7 +187,7 @@ Note: If `minUI5Version` not found in the manifest.json or lookup in CDN fails, 
 
 The framework(SAPUI5/OpenUI5) is derived from the ui5.yaml file. This defaults to SAPUI5.
 
-#### Custom controls:
+#### Custom controls
 
 This extension does not currently support custom controls, some features, such as validations,
 may use heuristics to guess that a tag is a custom control. However, no auto-complete is currently offered
