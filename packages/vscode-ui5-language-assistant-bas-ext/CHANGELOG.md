@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.16
+
+### Patch Changes
+
+- 0bbfb2c: Fixed incorrect update of README file in repo root
+
 ## 4.0.15
 
 ### Patch Changes
