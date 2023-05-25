@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.15
+
+### Patch Changes
+
+- 2a3d618: Issue 538 fix, for UI5 versions 1.38 and below the fallback 1.71.49 is used
+
 ## 4.0.14
 
 ### Patch Changes

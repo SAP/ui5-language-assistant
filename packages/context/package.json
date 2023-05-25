@@ -1,6 +1,6 @@
 {
   "name": "@ui5-language-assistant/context",
-  "version": "4.0.10",
+  "version": "4.0.11",
   "private": true,
   "description": "A context for an xml file",
   "keywords": [],
