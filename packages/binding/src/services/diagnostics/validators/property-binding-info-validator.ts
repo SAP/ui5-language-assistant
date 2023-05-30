@@ -10,10 +10,7 @@ import {
   rangeToOffsetRange,
 } from "../../../utils";
 import { Position } from "vscode-languageserver-types";
-import {
-  parsePropertyBindingInfo,
-  PropertyBindingInfoTypes as BindingTypes,
-} from "@ui5-language-assistant/binding-parser";
+import { parsePropertyBindingInfo } from "@ui5-language-assistant/binding-parser";
 import { checkAst, checkTrailingComma } from "./issue-collector";
 import { filterLexerError, filterParseError } from "../../../utils/expression";
 
@@ -56,35 +53,35 @@ export function validatePropertyBindingInfo(
         }
         issues.push(...checkAst(context, binding, ast.errors));
         issues.push(...checkTrailingComma(ast));
-      }
 
-      /**
-       * Show all lexer errors
-       */
-      for (const item of filterLexerError(ast)) {
-        issues.push({
-          issueType: BINDING_ISSUE_TYPE,
-          kind: "UnknownChar",
-          message: "Unknown character",
-          range: item.range,
-          severity: "info",
-          offsetRange: rangeToOffsetRange(item.range),
-        });
-      }
-      /**
-       * Show only one syntax error at a time only where there is no other issue
-       */
-      const parseError = filterParseError(ast);
-      if (issues.length === 0 && parseError.length) {
-        const item = parseError[0];
-        issues.push({
-          issueType: BINDING_ISSUE_TYPE,
-          kind: "Syntax",
-          message: item.message,
-          range: item.range,
-          severity: "info",
-          offsetRange: rangeToOffsetRange(item.range),
-        });
+        /**
+         * Show all lexer errors
+         */
+        for (const item of filterLexerError(binding, ast.errors)) {
+          issues.push({
+            issueType: BINDING_ISSUE_TYPE,
+            kind: "UnknownChar",
+            message: "Unknown character",
+            range: item.range,
+            severity: "info",
+            offsetRange: rangeToOffsetRange(item.range),
+          });
+        }
+        /**
+         * Show only one syntax error at a time only where there is no other issue
+         */
+        const parseError = filterParseError(binding, ast.errors);
+        if (issues.length === 0 && parseError.length) {
+          const item = parseError[0];
+          issues.push({
+            issueType: BINDING_ISSUE_TYPE,
+            kind: "Syntax",
+            message: item.message,
+            range: item.range,
+            severity: "info",
+            offsetRange: rangeToOffsetRange(item.range),
+          });
+        }
       }
     }
 

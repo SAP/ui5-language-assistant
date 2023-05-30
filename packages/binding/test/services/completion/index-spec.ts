@@ -121,6 +121,58 @@ describe("index", () => {
         "label: parts; text: parts: ${1|[{ }],[' ']|}$0; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:**Description:** Array of binding info objects for the parts of a composite binding; the structure of each binding info is the same as described for the oBindingInfo as a whole.\nIf a part is not specified as a binding info object but as a simple string, a binding info object will be created with that string as path. The string may start with a model name prefix (see property path).\n**Note**: recursive composite bindings are currently not supported. Therefore, a part must not contain a parts property \n\n **Visibility:** Public",
       ]);
     });
+    it("provides no CC for metadata binding", async function () {
+      const snippet = `
+        <Input maxLength="{/#Company${CURSOR_ANCHOR}/ZipCode/@maxLength}"/>`;
+      const result = await getCompletionResult(snippet, this);
+      expect(
+        result.map((item) => completionItemToSnapshot(item, true))
+      ).to.deep.equal([]);
+    });
+    it("provides no CC for simple binding", async function () {
+      const snippet = `
+        <Input value="{/first${CURSOR_ANCHOR}/Name}"/>`;
+      const result = await getCompletionResult(snippet, this);
+      expect(
+        result.map((item) => completionItemToSnapshot(item, true))
+      ).to.deep.equal([]);
+    });
+    it("provides no CC for aggregation property", async function () {
+      const snippet = `
+        <List items="{inv${CURSOR_ANCHOR}oice>/Invoices}"> </List>`;
+      const result = await getCompletionResult(snippet, this);
+      expect(
+        result.map((item) => completionItemToSnapshot(item, true))
+      ).to.deep.equal([]);
+    });
+    it("provides no CC for source model", async function () {
+      const snippet = `
+       <Label text="{i18${CURSOR_ANCHOR}n>address}:"/>`;
+      const result = await getCompletionResult(snippet, this);
+      expect(
+        result.map((item) => completionItemToSnapshot(item, true))
+      ).to.deep.equal([]);
+    });
+    it("provide context sensitive CC for string value [single quote]", async function () {
+      const snippet = `
+       <Label text="{path: ${CURSOR_ANCHOR}}:"/>`;
+      const result = await getCompletionResult(snippet, this);
+      expect(
+        result.map((item) => completionItemToSnapshot(item, true))
+      ).to.deep.equal([
+        "label: ' '; text: ' '; kind:5; commit:undefined; sort:; documentation: ",
+      ]);
+    });
+    it("provide context sensitive CC for string value [double quote]", async function () {
+      const snippet = `
+       <Label text='{path: ${CURSOR_ANCHOR}}:'/>`;
+      const result = await getCompletionResult(snippet, this);
+      expect(
+        result.map((item) => completionItemToSnapshot(item, true))
+      ).to.deep.equal([
+        'label: " "; text: " "; kind:5; commit:undefined; sort:; documentation: ',
+      ]);
+    });
     context("provides CC for key", () => {
       it("a. `<CURSOR>`path", async function () {
         const snippet = `
@@ -395,6 +447,88 @@ describe("index", () => {
           result.map((item) => completionItemToSnapshot(item))
         ).to.deep.equal([
           "label: ' '; text: ' '; kind:5; commit:undefined; sort:",
+        ]);
+      });
+    });
+    context("multiple binding", () => {
+      it("no double CC items for two or more empty binding", async function () {
+        const snippet = `
+        <Text text="some text {} and some here {${CURSOR_ANCHOR}}" id="test-id"></Text>`;
+        const result = await getCompletionResult(snippet, this);
+        expect(
+          result.map((item) => completionItemToSnapshot(item))
+        ).to.deep.equal([
+          "label: path; text: path: ' '; kind:15; commit:undefined; sort:",
+          "label: value; text: value: ' '; kind:15; commit:undefined; sort:",
+          "label: model; text: model: ' '; kind:15; commit:undefined; sort:",
+          "label: suspended; text: suspended: ${1|true,false|}$0; kind:15; commit:undefined; sort:",
+          "label: formatter; text: formatter: ' '; kind:15; commit:undefined; sort:",
+          "label: useRawValues; text: useRawValues: ${1|true,false|}$0; kind:15; commit:undefined; sort:",
+          "label: useInternalValues; text: useInternalValues: ${1|true,false|}$0; kind:15; commit:undefined; sort:",
+          "label: type; text: type: ${1|{ },' '|}$0; kind:15; commit:undefined; sort:",
+          "label: targetType; text: targetType: ' '; kind:15; commit:undefined; sort:",
+          "label: formatOptions; text: formatOptions: { }; kind:15; commit:undefined; sort:",
+          "label: constraints; text: constraints: { }; kind:15; commit:undefined; sort:",
+          "label: mode; text: mode: { }; kind:15; commit:undefined; sort:",
+          "label: parameters; text: parameters: { }; kind:15; commit:undefined; sort:",
+          "label: events; text: events: { }; kind:15; commit:undefined; sort:",
+          "label: parts; text: parts: ${1|[{ }],[' ']|}$0; kind:15; commit:undefined; sort:",
+        ]);
+      });
+      it("provides no CC for wrong context", async function () {
+        const snippet = `
+       <Label text="Hello Mr. {${CURSOR_ANCHOR}/employees/0/lastName}, {path:'/employees/0/firstName', formatter:'.myFormatter'}"/>`;
+        const result = await getCompletionResult(snippet, this);
+        expect(
+          result.map((item) => completionItemToSnapshot(item))
+        ).to.deep.equal([]);
+      });
+      it("provides CC for binding property context", async function () {
+        const snippet = `
+       <Label text="Hello Mr. {/employees/0/lastName}, {pa${CURSOR_ANCHOR}th:'/employees/0/firstName', formatter:'.myFormatter'}"/>`;
+        const result = await getCompletionResult(snippet, this);
+        expect(
+          result.map((item) => completionItemToSnapshot(item))
+        ).to.deep.equal([
+          "label: path; text: path; kind:5; commit:undefined; sort:; textEdit: {newText: path, range: 9:56-9:60}",
+          "label: value; text: value; kind:5; commit:undefined; sort:; textEdit: {newText: value, range: 9:56-9:60}",
+          "label: model; text: model; kind:5; commit:undefined; sort:; textEdit: {newText: model, range: 9:56-9:60}",
+          "label: suspended; text: suspended; kind:5; commit:undefined; sort:; textEdit: {newText: suspended, range: 9:56-9:60}",
+          "label: formatter; text: formatter; kind:5; commit:undefined; sort:; textEdit: {newText: formatter, range: 9:56-9:60}",
+          "label: useRawValues; text: useRawValues; kind:5; commit:undefined; sort:; textEdit: {newText: useRawValues, range: 9:56-9:60}",
+          "label: useInternalValues; text: useInternalValues; kind:5; commit:undefined; sort:; textEdit: {newText: useInternalValues, range: 9:56-9:60}",
+          "label: type; text: type; kind:5; commit:undefined; sort:; textEdit: {newText: type, range: 9:56-9:60}",
+          "label: targetType; text: targetType; kind:5; commit:undefined; sort:; textEdit: {newText: targetType, range: 9:56-9:60}",
+          "label: formatOptions; text: formatOptions; kind:5; commit:undefined; sort:; textEdit: {newText: formatOptions, range: 9:56-9:60}",
+          "label: constraints; text: constraints; kind:5; commit:undefined; sort:; textEdit: {newText: constraints, range: 9:56-9:60}",
+          "label: mode; text: mode; kind:5; commit:undefined; sort:; textEdit: {newText: mode, range: 9:56-9:60}",
+          "label: parameters; text: parameters; kind:5; commit:undefined; sort:; textEdit: {newText: parameters, range: 9:56-9:60}",
+          "label: events; text: events; kind:5; commit:undefined; sort:; textEdit: {newText: events, range: 9:56-9:60}",
+          "label: parts; text: parts; kind:5; commit:undefined; sort:; textEdit: {newText: parts, range: 9:56-9:60}",
+        ]);
+      });
+      it("provides CC for binding property context with text, escaped and special chars", async function () {
+        const snippet = `
+        <Input value="abc \{ { path: ''} ###### { parts: [{pa${CURSOR_ANCHOR}th: ''}]}"/>
+        `;
+        const result = await getCompletionResult(snippet, this);
+        expect(
+          result.map((item) => completionItemToSnapshot(item))
+        ).to.deep.equal([
+          "label: path; text: path; kind:5; commit:undefined; sort:; textEdit: {newText: path, range: 9:58-9:62}",
+          "label: value; text: value; kind:5; commit:undefined; sort:; textEdit: {newText: value, range: 9:58-9:62}",
+          "label: model; text: model; kind:5; commit:undefined; sort:; textEdit: {newText: model, range: 9:58-9:62}",
+          "label: suspended; text: suspended; kind:5; commit:undefined; sort:; textEdit: {newText: suspended, range: 9:58-9:62}",
+          "label: formatter; text: formatter; kind:5; commit:undefined; sort:; textEdit: {newText: formatter, range: 9:58-9:62}",
+          "label: useRawValues; text: useRawValues; kind:5; commit:undefined; sort:; textEdit: {newText: useRawValues, range: 9:58-9:62}",
+          "label: useInternalValues; text: useInternalValues; kind:5; commit:undefined; sort:; textEdit: {newText: useInternalValues, range: 9:58-9:62}",
+          "label: type; text: type; kind:5; commit:undefined; sort:; textEdit: {newText: type, range: 9:58-9:62}",
+          "label: targetType; text: targetType; kind:5; commit:undefined; sort:; textEdit: {newText: targetType, range: 9:58-9:62}",
+          "label: formatOptions; text: formatOptions; kind:5; commit:undefined; sort:; textEdit: {newText: formatOptions, range: 9:58-9:62}",
+          "label: constraints; text: constraints; kind:5; commit:undefined; sort:; textEdit: {newText: constraints, range: 9:58-9:62}",
+          "label: mode; text: mode; kind:5; commit:undefined; sort:; textEdit: {newText: mode, range: 9:58-9:62}",
+          "label: parameters; text: parameters; kind:5; commit:undefined; sort:; textEdit: {newText: parameters, range: 9:58-9:62}",
+          "label: events; text: events; kind:5; commit:undefined; sort:; textEdit: {newText: events, range: 9:58-9:62}",
         ]);
       });
     });

@@ -123,6 +123,34 @@ describe("property-binding-info-validator", () => {
     const result = validatePropertyBindingInfo(attr, context);
     expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([]);
   });
+  it("do not check metadata binding", async () => {
+    const snippet = `
+    <Input maxLength="{/#Company/ZipCode/@maxLength}"/>`;
+    const { attr, context } = await getData(snippet, "Input", "maxLength");
+    const result = validatePropertyBindingInfo(attr, context);
+    expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([]);
+  });
+  it("do not check simple binding", async () => {
+    const snippet = `
+   <Input value="{/firstName}"/>`;
+    const { attr, context } = await getData(snippet, "Input", "value");
+    const result = validatePropertyBindingInfo(attr, context);
+    expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([]);
+  });
+  it("do not check aggregation property", async () => {
+    const snippet = `
+   <List items="{invoice>/Invoices}"> </List>`;
+    const { attr, context } = await getData(snippet, "List", "items");
+    const result = validatePropertyBindingInfo(attr, context);
+    expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([]);
+  });
+  it("do not check source model", async () => {
+    const snippet = `
+   <Label labelFor="address" text="{i18n>address}:"/>`;
+    const { attr, context } = await getData(snippet, "Label", "text");
+    const result = validatePropertyBindingInfo(attr, context);
+    expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([]);
+  });
   it("check unknown char", async () => {
     const snippet = `
     <Text text="{ # path: '' }" id="test-id"></Text>`;
@@ -537,6 +565,15 @@ describe("property-binding-info-validator", () => {
         'kind: MissingValue; text: Nested "[]" are not allowed; severity:info; range:9:26-9:28',
       ]);
     });
+    it("check wrong value", async () => {
+      const snippet = `
+    <Text text="{ parts: '' }" id="test-id"></Text>`;
+      const { attr, context } = await getData(snippet);
+      const result = validatePropertyBindingInfo(attr, context);
+      expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
+        "kind: MissMatchValue; text: Allowed values are [{ }] or [' ']; severity:info; range:9:25-9:27",
+      ]);
+    });
   });
   it("check missing comma", async () => {
     const snippet = `
@@ -573,5 +610,45 @@ describe("property-binding-info-validator", () => {
     expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
       "kind: Syntax; text: Expecting --> } <-- but found --> '{' <--; severity:info; range:9:26-9:27",
     ]);
+  });
+  context("multiple binding", () => {
+    it("check no unwanted error with text", async () => {
+      const snippet = `
+     <Label text="Hello Mr. {path: '/employees/0/lastName'}, {path: '/employees/0/firstName', formatter:'.myFormatter'}"/>`;
+      const { attr, context } = await getData(snippet, "Label", "text");
+      const result = validatePropertyBindingInfo(attr, context);
+      expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([]);
+    });
+    it("check no unwanted error with special chars", async () => {
+      const snippet = `
+     <Label text="### {path: '/employees/0/lastName'} / {path: '/employees/0/firstName', formatter:'.myFormatter'}"/> $$$`;
+      const { attr, context } = await getData(snippet, "Label", "text");
+      const result = validatePropertyBindingInfo(attr, context);
+      expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([]);
+    });
+    it("check no unwanted error with escaped chars", async () => {
+      const snippet = `
+     <Label text="\{ \[ {path: 'test-value-01'} \{ {path: 'test-value-02' }"/> \] \}`;
+      const { attr, context } = await getData(snippet, "Label", "text");
+      const result = validatePropertyBindingInfo(attr, context);
+      expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([]);
+    });
+    it("check no unwanted error with text, escaped and special chars", async () => {
+      const snippet = `
+     <Input value="abc \{ { path: ''} ###### { parts: [{path: ''}]}"/>`;
+      const { attr, context } = await getData(snippet, "Input", "value");
+      const result = validatePropertyBindingInfo(attr, context);
+      expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([]);
+    });
+    it("check correct range for diagnostics with text, escaped and special chars", async () => {
+      const snippet = `
+     <Input value="abc \{ { path: } ###### { parts: [{path ''}]}"/>`;
+      const { attr, context } = await getData(snippet, "Input", "value");
+      const result = validatePropertyBindingInfo(attr, context);
+      expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
+        "kind: MissingValue; text: Expect ' ' as a value; severity:info; range:9:27-9:32",
+        "kind: MissingColon; text: Expect colon; severity:info; range:9:53-9:57",
+      ]);
+    });
   });
 });

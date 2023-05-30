@@ -36,8 +36,8 @@ export const checkAst = (
     const missingValueIssue: BindingIssue[] = [];
     if (!ignore) {
       keyIssue.push(...checkKey(element));
+      issues.push(...keyIssue);
     }
-    issues.push(...keyIssue);
     if (keyIssue.length === 0) {
       colonIssue.push(...checkColon(element));
       issues.push(...colonIssue);
@@ -96,23 +96,25 @@ export const checkAst = (
  */
 export const checkTrailingComma = (ast: BindingTypes.Ast): BindingIssue[] => {
   const issues: BindingIssue[] = [];
-  const parseErrors = filterParseError(ast);
-  for (const parseError of parseErrors) {
-    const item = parseError.merged[0];
-    if (
-      parseError.previousToken?.tokenTypeName === BindingTypes.COMMA &&
-      (item?.tokenTypeName === BindingTypes.RIGHT_CURLY ||
-        item.tokenTypeName === BindingTypes.RIGHT_SQUARE)
-    ) {
-      // it should have been trailing comma
-      issues.push({
-        issueType: BINDING_ISSUE_TYPE,
-        kind: "TrailingComma",
-        message: "Trailing comma",
-        offsetRange: rangeToOffsetRange(parseError.previousToken.range),
-        range: parseError.previousToken.range,
-        severity: "info",
-      });
+  for (const binding of ast.bindings) {
+    const parseErrors = filterParseError(binding, ast.errors);
+    for (const parseError of parseErrors) {
+      const item = parseError.merged[0];
+      if (
+        parseError.previousToken?.tokenTypeName === BindingTypes.COMMA &&
+        (item?.tokenTypeName === BindingTypes.RIGHT_CURLY ||
+          item.tokenTypeName === BindingTypes.RIGHT_SQUARE)
+      ) {
+        // it should have been trailing comma
+        issues.push({
+          issueType: BINDING_ISSUE_TYPE,
+          kind: "TrailingComma",
+          message: "Trailing comma",
+          offsetRange: rangeToOffsetRange(parseError.previousToken.range),
+          range: parseError.previousToken.range,
+          severity: "info",
+        });
+      }
     }
   }
   return issues;
