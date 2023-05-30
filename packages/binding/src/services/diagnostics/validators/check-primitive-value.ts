@@ -11,6 +11,14 @@ import {
 import { rangeToOffsetRange, typesToValue, valueTypeMap } from "../../../utils";
 import { propertyBindingInfoElements } from "../../../definition/definition";
 
+/**
+ * Get issue for primitive value
+ *
+ * @param context binding context
+ * @param item binding type item
+ * @param bindingElement property binding info element
+ * @param collectionValue flag which is set as true when inside collection e.g [...<CURSOR>...]
+ */
 export const getPrimitiveValueIssues = (
   context: BindContext,
   item: BindingTypes.PrimitiveValue,
@@ -26,6 +34,26 @@ export const getPrimitiveValueIssues = (
   );
   if (!elementSpecificType) {
     const data = typesToValue(bindingElement.type, context, collectionValue);
+    const message = `Allowed value${
+      data.length > 1 ? "s are" : " is"
+    } ${data.join(" or ")}`;
+    issues.push({
+      issueType: BINDING_ISSUE_TYPE,
+      kind: "MissMatchValue",
+      message,
+      offsetRange: rangeToOffsetRange(item.range),
+      range: item.range,
+      severity: "info",
+    });
+  }
+
+  if (
+    !collectionValue &&
+    elementSpecificType &&
+    elementSpecificType.collection
+  ) {
+    // for a value which is not inside square bracket e.g []. primitive value is used for collection element e.g parts: ''
+    const data = typesToValue(bindingElement.type, context, false);
     const message = `Allowed value${
       data.length > 1 ? "s are" : " is"
     } ${data.join(" or ")}`;

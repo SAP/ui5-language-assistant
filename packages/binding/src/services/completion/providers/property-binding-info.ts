@@ -86,7 +86,7 @@ export function propertyBindingInfoSuggestions({
       character: (value?.startColumn ?? 0) + startIndex,
       line: value?.startLine ? value.startLine - 1 : 0, // zero based index
     };
-    const { ast } = parsePropertyBindingInfo(text, position);
+    const { ast } = parsePropertyBindingInfo(expression, position);
     const input = expression;
     if (input.trim() === "") {
       completionItems.push(...createInitialSnippet(context));
@@ -101,6 +101,14 @@ export function propertyBindingInfoSuggestions({
       );
     }
   }
-
-  return completionItems;
+  const nonDuplicateItems = completionItems.reduce(
+    (previous: CompletionItem[], current: CompletionItem) => {
+      if (previous.findIndex((item) => item.label === current.label) === -1) {
+        previous.push(current);
+      }
+      return previous;
+    },
+    []
+  );
+  return nonDuplicateItems;
 }

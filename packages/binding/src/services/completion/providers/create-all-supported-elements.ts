@@ -10,9 +10,7 @@ import { getDocumentation } from "./documentation";
 import { BindContext } from "../../../types";
 
 /**
- *
- * @param ast
- * @returns
+ * Create all supported elements
  */
 export const createAllSupportedElements = (
   context: BindContext,
@@ -23,12 +21,12 @@ export const createAllSupportedElements = (
     const type = typesToValue(item.type, context);
     let text = "";
     if (type.length === 1) {
-      text = `${item.name}: ${type[0]}${binding.rightCurly ? "" : "}"}`;
+      text = `${item.name}: ${type[0]}`;
     } else {
       let choice = type.join(",");
       choice = choice.replace(/\$0/g, "");
       choice = "${1|" + choice + "|}$0";
-      text = `${item.name}: ${choice}${binding.rightCurly ? "" : "}"}`;
+      text = `${item.name}: ${choice}`;
     }
     const documentation = getDocumentation(item);
     completionItems.push({

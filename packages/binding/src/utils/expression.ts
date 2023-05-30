@@ -12,52 +12,46 @@ export const isBindingExpression = (input: string): boolean => {
 };
 
 export const filterLexerError = (
-  ast: BindingTypes.Ast
+  binding: BindingTypes.Binding,
+  errors: {
+    lexer: BindingTypes.LexerError[];
+    parse: BindingTypes.ParseError[];
+  }
 ): BindingTypes.LexerError[] => {
   const result: BindingTypes.LexerError[] = [];
-  // check empty binding
-  const { bindings, errors } = ast;
-  if (bindings.length === 0) {
+  // check binding element
+  if (binding.elements.length === 0) {
     return result;
   }
-  // check binding element
-  for (const binding of bindings) {
-    if (binding.elements.length === 0) {
-      continue;
+  const lexErr = errors.lexer.filter((item) => {
+    if (binding.range) {
+      return rangeContained(binding.range, item.range);
     }
-    const lexErr = errors.lexer.filter((item) => {
-      if (binding.range) {
-        return rangeContained(binding.range, item.range);
-      }
-      return false;
-    });
-    result.push(...lexErr);
-  }
+    return false;
+  });
+  result.push(...lexErr);
 
   return result;
 };
 export const filterParseError = (
-  ast: BindingTypes.Ast
+  binding: BindingTypes.Binding,
+  errors: {
+    lexer: BindingTypes.LexerError[];
+    parse: BindingTypes.ParseError[];
+  }
 ): BindingTypes.ParseError[] => {
   const result: BindingTypes.ParseError[] = [];
-  const { bindings, errors } = ast;
-  // check empty binding
-  if (bindings.length === 0) {
+  // check binding element
+  if (binding.elements.length === 0) {
     return result;
   }
-  // check binding element
-  for (const binding of bindings) {
-    if (binding.elements.length === 0) {
-      continue;
+  const parseErr = errors.parse.filter((item) => {
+    if (binding.range) {
+      return rangeContained(binding.range, item.range);
     }
-    const parseErr = errors.parse.filter((item) => {
-      if (binding.range) {
-        return rangeContained(binding.range, item.range);
-      }
-      return false;
-    });
-    result.push(...parseErr);
-  }
+    return false;
+  });
+  result.push(...parseErr);
 
   return result;
 };
