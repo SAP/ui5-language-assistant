@@ -23,7 +23,7 @@ describe("property-binding-info-validator", () => {
     "Main.view.xml",
   ];
   const getElementByName = (
-    elements: XMLElement[],
+    elements: XMLElement[] = [],
     name: string
   ): XMLElement | undefined => {
     for (const item of elements) {
@@ -91,7 +91,7 @@ describe("property-binding-info-validator", () => {
       insertAfter: "<content>",
     });
     const { ast } = await framework.readFile(viewFilePathSegments);
-    const element = getElementByName(ast.rootElement!.subElements, elementName);
+    const element = getElementByName(ast.rootElement?.subElements, elementName);
     const attr = getElementAttributeName(
       element?.attributes,
       attrName
@@ -623,6 +623,7 @@ describe("property-binding-info-validator", () => {
       const result = validatePropertyBindingInfo(attr, context);
       expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([]);
     });
+    /* eslint-disable no-useless-escape */
     it("check no unwanted error with escaped chars", async () => {
       const snippet = `
      <Label text="\{ \[ {path: 'test-value-01'} \{ {path: 'test-value-02' }"/> \] \}`;
@@ -647,5 +648,6 @@ describe("property-binding-info-validator", () => {
         "kind: MissingColon; text: Expect colon; severity:info; range:9:53-9:57",
       ]);
     });
+    /* eslint-enable no-useless-escape */
   });
 });

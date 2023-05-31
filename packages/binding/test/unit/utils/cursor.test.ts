@@ -16,8 +16,8 @@ const getData = (snippet: string) => {
   return { param, ast, prefix: snippet };
 };
 const getCursorContextResult = (snippet: string) => {
-  const { param, ast, prefix } = getData(snippet);
-  return getCursorContext(param, ast.bindings[0], ast.spaces, prefix);
+  const { param, ast } = getData(snippet);
+  return getCursorContext(param, ast.bindings[0], ast.spaces);
 };
 
 describe("cursor", () => {

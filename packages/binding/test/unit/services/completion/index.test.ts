@@ -506,9 +506,11 @@ describe("index", () => {
         ]);
       });
       it("provides CC for binding property context with text, escaped and special chars", async function () {
+        /* eslint-disable no-useless-escape */
         const snippet = `
         <Input value="abc \{ { path: ''} ###### { parts: [{pa${CURSOR_ANCHOR}th: ''}]}"/>
         `;
+        /* eslint-enable no-useless-escape */
         const result = await getCompletionResult(snippet);
         expect(
           result.map((item) => completionItemToSnapshot(item))

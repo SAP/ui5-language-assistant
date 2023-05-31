@@ -3,7 +3,6 @@ import {
   CompletionItemKind,
   InsertTextFormat,
 } from "vscode-languageserver-types";
-import { PropertyBindingInfoTypes as BindingTypes } from "@ui5-language-assistant/binding-parser";
 import { propertyBindingInfoElements } from "../../../definition/definition";
 import { typesToValue } from "../../../utils";
 import { getDocumentation } from "./documentation";
@@ -13,8 +12,7 @@ import { BindContext } from "../../../types";
  * Create all supported elements
  */
 export const createAllSupportedElements = (
-  context: BindContext,
-  binding: BindingTypes.Binding
+  context: BindContext
 ): CompletionItem[] => {
   const completionItems: CompletionItem[] = [];
   propertyBindingInfoElements.forEach((item) => {

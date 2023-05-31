@@ -10,11 +10,9 @@ import { TextDocumentPositionParams } from "vscode-languageserver-protocol";
 export const getCursorContext = (
   parm: TextDocumentPositionParams,
   binding: BindingTypes.Binding,
-  spaces: BindingTypes.WhiteSpaces[],
-  text = ""
+  spaces: BindingTypes.WhiteSpaces[]
 ): CursorContext => {
   const { elements } = binding;
-  text = text?.trim();
   if (elements.length === 0) {
     return {
       type: "empty",

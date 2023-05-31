@@ -25,7 +25,6 @@ import type {
   Ast,
   AstElement,
   CollectionValue,
-  Comma,
   PrimitiveValue,
   StructureValue,
   Value,

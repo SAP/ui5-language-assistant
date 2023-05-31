@@ -72,12 +72,9 @@ export const createValue = (
   } else if (isCollectionValue(element.value) && isParts(element)) {
     for (const collectionEl of element.value.elements) {
       if (isStructureValue(collectionEl)) {
-        const result = getCompletionItems(
-          context,
-          collectionEl,
-          spaces,
-          ""
-        ).filter((item) => item.label !== "parts");
+        const result = getCompletionItems(context, collectionEl, spaces).filter(
+          (item) => item.label !== "parts"
+        );
         completionItems.push(...result);
       }
     }

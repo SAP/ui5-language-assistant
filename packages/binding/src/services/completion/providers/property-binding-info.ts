@@ -23,8 +23,7 @@ import { createKeyValue } from "./create-key-value";
 export const getCompletionItems = (
   context: BindContext,
   binding: BindingTypes.Binding,
-  spaces: BindingTypes.WhiteSpaces[],
-  text = ""
+  spaces: BindingTypes.WhiteSpaces[]
 ): CompletionItem[] => {
   const completionItems: CompletionItem[] = [];
   if (!context.textDocumentPosition?.position) {
@@ -33,12 +32,11 @@ export const getCompletionItems = (
   const cursorContext = getCursorContext(
     context.textDocumentPosition,
     binding,
-    spaces,
-    text
+    spaces
   );
   switch (cursorContext.type) {
     case "empty":
-      return createAllSupportedElements(context, binding);
+      return createAllSupportedElements(context);
     case "key":
       return createKeyProperties(cursorContext.element);
     case "value":
@@ -96,9 +94,7 @@ export function propertyBindingInfoSuggestions({
       if (!isPropertyBindingInfo(text, binding)) {
         continue;
       }
-      completionItems.push(
-        ...getCompletionItems(context, binding, ast.spaces, expression)
-      );
+      completionItems.push(...getCompletionItems(context, binding, ast.spaces));
     }
   }
   const nonDuplicateItems = completionItems.reduce(
