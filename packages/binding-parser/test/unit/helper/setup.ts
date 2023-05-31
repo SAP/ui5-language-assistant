@@ -22,7 +22,7 @@ const hasNaNOrUndefined = (value: undefined | number): boolean => {
 };
 
 export const getBase = (): string =>
-  join(__dirname, "..", "..", "..", "test", "unit", "data");
+  join(__dirname, "..", "..", "..", "..", "test", "unit", "data");
 
 export const getFileContent = async (filePath: string): Promise<string> => {
   const buffer = await readFile(filePath, "utf8");

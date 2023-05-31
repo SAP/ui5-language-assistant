@@ -29,6 +29,6 @@
     "test": "jest --ci --forceExit --detectOpenHandles --maxWorkers=1 --coverage=false",
     "coverage": "jest --ci --forceExit --detectOpenHandles --maxWorkers=1 --coverage=true",
     "format:fix": "prettier --write \"**/*.@(js|ts|json|md)\" --ignore-path=.gitignore",
-    "test:update": "node scripts/updateTestData.js"
+    "test:update": "yarn compile && node scripts/updateTestData.js"
   }
 }

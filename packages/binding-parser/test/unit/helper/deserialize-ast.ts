@@ -28,7 +28,7 @@ function expandRange(value: string): Range {
   return Range.create(start, end);
 }
 
-const rangePropertyPattern = /[a-z]*ranges?/i;
+const rangePropertyPattern = /ranges?/i;
 
 /**
  * Parses JSON text which has short hand notation for ranges
