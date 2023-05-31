@@ -47,7 +47,6 @@ describe("property-binding-info-validator", () => {
     }
     return;
   };
-  const timeout = 5 * 60000 + 8000; // 5 min for initial npm install + 8 sec
   beforeAll(async function () {
     const config: Config = {
       projectInfo: {
@@ -61,7 +60,7 @@ describe("property-binding-info-validator", () => {
 
     root = framework.getProjectRoot();
     documentPath = join(root, ...viewFilePathSegments);
-  }, timeout);
+  });
   afterEach(async function () {
     await framework.updateFileContent(viewFilePathSegments, "", {
       doUpdatesAfter: "<content>",

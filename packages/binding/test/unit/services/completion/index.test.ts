@@ -40,7 +40,6 @@ describe("index", () => {
     SplitAttributesOnFormat: true,
   };
 
-  const timeout = 5 * 60000 + 8000; // 5 min for initial npm install + 8 sec
   beforeAll(async function () {
     const config: Config = {
       projectInfo: {
@@ -62,7 +61,7 @@ describe("index", () => {
       uri,
       settings
     );
-  }, timeout);
+  });
   describe("getCompletionItems", () => {
     it("provides CC consider string value as double quote", async function () {
       const snippet = `

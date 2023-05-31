@@ -1,5 +1,9 @@
-import { IToken, CstNodeLocation } from "chevrotain";
-import { getRange, locationToRange } from "../../../src/utils/range";
+import { IToken, CstNodeLocation, ILexingError } from "chevrotain";
+import {
+  getRange,
+  locationToRange,
+  getLexerRange,
+} from "../../../src/utils/range";
 import type { Position } from "vscode-languageserver-types";
 
 interface CreateParam {
@@ -8,7 +12,7 @@ interface CreateParam {
   endLine: number;
   endColumn: number;
 }
-const createToken = <T>(param: CreateParam): T => {
+const createToken = <T, U = CreateParam>(param: U): T => {
   return {
     ...param,
   } as unknown as T;
@@ -99,6 +103,54 @@ describe("range", () => {
         end: {
           line: 10,
           character: 9,
+        },
+      });
+    });
+  });
+  describe("getLexerRange", () => {
+    it("without position param", () => {
+      const create: ILexingError = {
+        line: 5,
+        column: 4,
+        length: 9,
+        message: "",
+        offset: 50,
+      };
+      const token = createToken<ILexingError, ILexingError>(create);
+      const range = getLexerRange(token);
+      expect(range).toStrictEqual({
+        start: {
+          line: 4,
+          character: 3,
+        },
+        end: {
+          line: 4,
+          character: 12,
+        },
+      });
+    });
+    it("with position param", () => {
+      const create: ILexingError = {
+        line: 5,
+        column: 4,
+        length: 9,
+        message: "",
+        offset: 50,
+      };
+      const token = createToken<ILexingError, ILexingError>(create);
+      const position: Position = {
+        line: 9,
+        character: 19,
+      };
+      const range = getLexerRange(token, position);
+      expect(range).toStrictEqual({
+        start: {
+          line: 13,
+          character: 3,
+        },
+        end: {
+          line: 13,
+          character: 12,
         },
       });
     });
