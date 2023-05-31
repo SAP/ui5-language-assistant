@@ -1,6 +1,6 @@
 import { writeFile } from "fs/promises";
 import { join, dirname } from "path";
-import { parsePropertyBindingInfo } from "../../src/parser";
+import { parsePropertyBindingInfo } from "../../../src/parser";
 import {
   getAllNormalizeFolderPath,
   doesExits,

@@ -1,5 +1,4 @@
-import { expect } from "chai";
-import { parsePropertyBindingInfo } from "../../src/parser";
+import { parsePropertyBindingInfo } from "../../../src/parser";
 import {
   getInput,
   getCst,
@@ -38,17 +37,17 @@ const testParser = async (testCasePath: string): Promise<void> => {
     startPosition
   );
   const lexerSavedContent = await getLexerErrors(testCasePath);
-  expect(lexErrors).to.deep.equal(lexerSavedContent);
+  expect(lexErrors).toStrictEqual(lexerSavedContent);
 
   const errorTransform = transformParserErrorForAssertion(parseErrors);
   const parseSavedContent = await getParserErrors(testCasePath);
-  expect(errorTransform).to.deep.equal(parseSavedContent);
+  expect(errorTransform).toStrictEqual(parseSavedContent);
 
   transformCstForAssertion(cst);
   const cstSavedContent = await getCst(testCasePath);
-  expect(deserialize(serialize(cst))).to.deep.equal(cstSavedContent);
+  expect(deserialize(serialize(cst))).toStrictEqual(cstSavedContent);
   const astSavedContent = await getAst(testCasePath);
-  expect(deserialize(serialize(ast))).to.deep.equal(astSavedContent);
+  expect(deserialize(serialize(ast))).toStrictEqual(astSavedContent);
 };
 describe("property binding info parser", () => {
   const allTests = getAllNormalizeFolderPath();
@@ -56,7 +55,7 @@ describe("property binding info parser", () => {
    * Include folder name e.g '/key-colon-value' to skip it
    */
   const skip: string[] = [];
-  // const todo: string[] = [];
+  const todo: string[] = [];
   /**
    * Include folder name e.g '/key-only' to only execute it
    */
@@ -64,14 +63,14 @@ describe("property binding info parser", () => {
   for (const t of allTests) {
     if (skip.includes(t)) {
       it.skip(`${t}`, () => {
-        expect(false).to.be.true;
+        expect(false).toBeTrue();
       });
       continue;
     }
-    // if (todo.includes(t)) {
-    //     it.todo(`${t}`);
-    //     continue;
-    // }
+    if (todo.includes(t)) {
+      it.todo(`${t}`);
+      continue;
+    }
     if (only.includes(t)) {
       it.only(`${t}`, async () => {
         await testParser(t);

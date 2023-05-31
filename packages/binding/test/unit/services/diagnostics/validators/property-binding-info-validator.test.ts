@@ -1,4 +1,3 @@
-import { expect } from "chai";
 import { join } from "path";
 import { XMLAttribute, XMLElement } from "@xml-tools/ast";
 import { Context, getContext } from "@ui5-language-assistant/context";
@@ -9,7 +8,7 @@ import {
   TestFramework,
 } from "@ui5-language-assistant/test-framework";
 
-import { validatePropertyBindingInfo } from "../../../../src/services/diagnostics/validators/property-binding-info-validator";
+import { validatePropertyBindingInfo } from "../../../../../src/services/diagnostics/validators/property-binding-info-validator";
 import { issueToSnapshot } from "../../../helper";
 
 describe("property-binding-info-validator", () => {
@@ -48,9 +47,8 @@ describe("property-binding-info-validator", () => {
     }
     return;
   };
-  before(async function () {
-    const timeout = 5 * 60000 + 8000; // 5 min for initial npm install + 8 sec
-    this.timeout(timeout);
+  const timeout = 5 * 60000 + 8000; // 5 min for initial npm install + 8 sec
+  beforeAll(async function () {
     const config: Config = {
       projectInfo: {
         name: ProjectName.cap,
@@ -63,7 +61,7 @@ describe("property-binding-info-validator", () => {
 
     root = framework.getProjectRoot();
     documentPath = join(root, ...viewFilePathSegments);
-  });
+  }, timeout);
   afterEach(async function () {
     await framework.updateFileContent(viewFilePathSegments, "", {
       doUpdatesAfter: "<content>",
@@ -107,56 +105,56 @@ describe("property-binding-info-validator", () => {
     <Text text="" id="test-id"></Text>`;
     const { attr, context } = await getData(snippet);
     const result = validatePropertyBindingInfo(attr, context);
-    expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([]);
+    expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([]);
   });
   it("do not check {}", async () => {
     const snippet = `
     <Text text="{ }" id="test-id"></Text>`;
     const { attr, context } = await getData(snippet);
     const result = validatePropertyBindingInfo(attr, context);
-    expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([]);
+    expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([]);
   });
   it("do not check {path} [at least a key with colon must exits]", async () => {
     const snippet = `
     <Text text="{path}" id="test-id"></Text>`;
     const { attr, context } = await getData(snippet);
     const result = validatePropertyBindingInfo(attr, context);
-    expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([]);
+    expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([]);
   });
   it("do not check metadata binding", async () => {
     const snippet = `
     <Input maxLength="{/#Company/ZipCode/@maxLength}"/>`;
     const { attr, context } = await getData(snippet, "Input", "maxLength");
     const result = validatePropertyBindingInfo(attr, context);
-    expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([]);
+    expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([]);
   });
   it("do not check simple binding", async () => {
     const snippet = `
    <Input value="{/firstName}"/>`;
     const { attr, context } = await getData(snippet, "Input", "value");
     const result = validatePropertyBindingInfo(attr, context);
-    expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([]);
+    expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([]);
   });
   it("do not check aggregation property", async () => {
     const snippet = `
    <List items="{invoice>/Invoices}"> </List>`;
     const { attr, context } = await getData(snippet, "List", "items");
     const result = validatePropertyBindingInfo(attr, context);
-    expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([]);
+    expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([]);
   });
   it("do not check source model", async () => {
     const snippet = `
    <Label labelFor="address" text="{i18n>address}:"/>`;
     const { attr, context } = await getData(snippet, "Label", "text");
     const result = validatePropertyBindingInfo(attr, context);
-    expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([]);
+    expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([]);
   });
   it("check unknown char", async () => {
     const snippet = `
     <Text text="{ # path: '' }" id="test-id"></Text>`;
     const { attr, context } = await getData(snippet);
     const result = validatePropertyBindingInfo(attr, context);
-    expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
+    expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       "kind: UnknownChar; text: Unknown character; severity:info; range:9:18-9:19",
     ]);
   });
@@ -165,7 +163,7 @@ describe("property-binding-info-validator", () => {
     <Text text="{path: ' ', party }" id="test-id"></Text>`;
     const { attr, context } = await getData(snippet);
     const result = validatePropertyBindingInfo(attr, context);
-    expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
+    expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       "kind: UnknownPropertyBindingInfo; text: Unknown property binding info; severity:info; range:9:28-9:33",
     ]);
   });
@@ -174,7 +172,7 @@ describe("property-binding-info-validator", () => {
     <Text text="{ events: {}, path }" id="test-id"></Text>`;
     const { attr, context } = await getData(snippet);
     const result = validatePropertyBindingInfo(attr, context);
-    expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
+    expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       "kind: MissingColon; text: Expect colon; severity:info; range:9:30-9:34",
     ]);
   });
@@ -183,7 +181,7 @@ describe("property-binding-info-validator", () => {
     <Text text="{ path '', events: {}}" id="test-id"></Text>`;
     const { attr, context } = await getData(snippet);
     const result = validatePropertyBindingInfo(attr, context);
-    expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
+    expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       "kind: MissingColon; text: Expect colon; severity:info; range:9:18-9:22",
     ]);
   });
@@ -192,7 +190,7 @@ describe("property-binding-info-validator", () => {
     <Text text="{ path: }" id="test-id"></Text>`;
     const { attr, context } = await getData(snippet);
     const result = validatePropertyBindingInfo(attr, context);
-    expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
+    expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       "kind: MissingValue; text: Expect ' ' as a value; severity:info; range:9:18-9:23",
     ]);
   });
@@ -201,7 +199,7 @@ describe("property-binding-info-validator", () => {
     <Text text="{ type: 25 }" id="test-id"></Text>`;
     const { attr, context } = await getData(snippet);
     const result = validatePropertyBindingInfo(attr, context);
-    expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
+    expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       "kind: MissMatchValue; text: Allowed values are { } or ' '; severity:info; range:9:24-9:26",
     ]);
   });
@@ -210,7 +208,7 @@ describe("property-binding-info-validator", () => {
     <Text text="{ type: [] }" id="test-id"></Text>`;
     const { attr, context } = await getData(snippet);
     const result = validatePropertyBindingInfo(attr, context);
-    expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
+    expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       "kind: MissMatchValue; text: Allowed values are { } or ' '; severity:info; range:9:18-9:26",
     ]);
   });
@@ -219,7 +217,7 @@ describe("property-binding-info-validator", () => {
     <Text text="{ path: true }" id="test-id"></Text>`;
     const { attr, context } = await getData(snippet);
     const result = validatePropertyBindingInfo(attr, context);
-    expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
+    expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       "kind: MissMatchValue; text: Allowed value is ' '; severity:info; range:9:24-9:28",
     ]);
   });
@@ -228,7 +226,7 @@ describe("property-binding-info-validator", () => {
     <Text text="{ suspended: '' }" id="test-id"></Text>`;
     const { attr, context } = await getData(snippet);
     const result = validatePropertyBindingInfo(attr, context);
-    expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
+    expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       "kind: MissMatchValue; text: Allowed values are true or false; severity:info; range:9:29-9:31",
     ]);
   });
@@ -237,7 +235,7 @@ describe("property-binding-info-validator", () => {
     <Text text="{ events: true }" id="test-id"></Text>`;
     const { attr, context } = await getData(snippet);
     const result = validatePropertyBindingInfo(attr, context);
-    expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
+    expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       "kind: MissMatchValue; text: Allowed value is { }; severity:info; range:9:26-9:30",
     ]);
   });
@@ -246,7 +244,7 @@ describe("property-binding-info-validator", () => {
     <Text text="{ parts: {} }" id="test-id"></Text>`;
     const { attr, context } = await getData(snippet);
     const result = validatePropertyBindingInfo(attr, context);
-    expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
+    expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       "kind: MissMatchValue; text: Allowed values are [{ }] or [' ']; severity:info; range:9:25-9:27",
     ]);
   });
@@ -255,7 +253,7 @@ describe("property-binding-info-validator", () => {
     <Text text="{ parts: true }" id="test-id"></Text>`;
     const { attr, context } = await getData(snippet);
     const result = validatePropertyBindingInfo(attr, context);
-    expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
+    expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       "kind: MissMatchValue; text: Allowed values are [{ }] or [' ']; severity:info; range:9:25-9:29",
     ]);
   });
@@ -264,7 +262,7 @@ describe("property-binding-info-validator", () => {
     <Text text="{ parts: [true] }" id="test-id"></Text>`;
     const { attr, context } = await getData(snippet);
     const result = validatePropertyBindingInfo(attr, context);
-    expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
+    expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       "kind: MissMatchValue; text: Allowed values are { } or ' '; severity:info; range:9:26-9:30",
     ]);
   });
@@ -273,42 +271,42 @@ describe("property-binding-info-validator", () => {
     <Text text="{ events: {anyKeyNotChecked: 'anyValue'} }" id="test-id"></Text>`;
     const { attr, context } = await getData(snippet);
     const result = validatePropertyBindingInfo(attr, context);
-    expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([]);
+    expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([]);
   });
   it("do not check structure value inside collection - key and its value", async () => {
     const snippet = `
     <Text text="{ events: {anyKeyNotChecked: [ {collectionAnyKey: 'anyValue'} ] } }" id="test-id"></Text>`;
     const { attr, context } = await getData(snippet);
     const result = validatePropertyBindingInfo(attr, context);
-    expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([]);
+    expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([]);
   });
   it("do not check structure value - nested key and its value", async () => {
     const snippet = `
     <Text text="{ events: {anyKeyNotChecked: {anotherKey: {nestedKey: [] } } } }" id="test-id"></Text>`;
     const { attr, context } = await getData(snippet);
     const result = validatePropertyBindingInfo(attr, context);
-    expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([]);
+    expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([]);
   });
   it("do not check structure value inside collection - nested key and its value", async () => {
     const snippet = `
     <Text text="{ events: {anyKeyNotChecked: [{anotherKey: [{nestedKey: [] }] }] } }" id="test-id"></Text>`;
     const { attr, context } = await getData(snippet);
     const result = validatePropertyBindingInfo(attr, context);
-    expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([]);
+    expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([]);
   });
   it("do not check structure value inside collection - primitive value", async () => {
     const snippet = `
     <Text text="{ events: {anyKeyNotChecked: [true] } }" id="test-id"></Text>`;
     const { attr, context } = await getData(snippet);
     const result = validatePropertyBindingInfo(attr, context);
-    expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([]);
+    expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([]);
   });
   it("check missing colon in structure value", async () => {
     const snippet = `
     <Text text="{ events: {anyKeyNotChecked} }" id="test-id"></Text>`;
     const { attr, context } = await getData(snippet);
     const result = validatePropertyBindingInfo(attr, context);
-    expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
+    expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       "kind: MissingColon; text: Expect colon; severity:info; range:9:27-9:43",
     ]);
   });
@@ -317,7 +315,7 @@ describe("property-binding-info-validator", () => {
     <Text text="{ events: {anyKeyNotChecked: [{collectionKey}]} }" id="test-id"></Text>`;
     const { attr, context } = await getData(snippet);
     const result = validatePropertyBindingInfo(attr, context);
-    expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
+    expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       "kind: MissingColon; text: Expect colon; severity:info; range:9:47-9:60",
     ]);
   });
@@ -326,7 +324,7 @@ describe("property-binding-info-validator", () => {
     <Text text="{ events: {anyKeyNotChecked: {anotherKey: {nestedKey } } } }" id="test-id"></Text>`;
     const { attr, context } = await getData(snippet);
     const result = validatePropertyBindingInfo(attr, context);
-    expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
+    expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       "kind: MissingColon; text: Expect colon; severity:info; range:9:59-9:68",
     ]);
   });
@@ -335,7 +333,7 @@ describe("property-binding-info-validator", () => {
     <Text text="{ events: {anyKeyNotChecked: } }" id="test-id"></Text>`;
     const { attr, context } = await getData(snippet);
     const result = validatePropertyBindingInfo(attr, context);
-    expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
+    expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       "kind: MissingValue; text: Expect a value; severity:info; range:9:27-9:44",
     ]);
   });
@@ -344,7 +342,7 @@ describe("property-binding-info-validator", () => {
     <Text text="{ events: {anyKeyNotChecked: [{collectionKey:}]} }" id="test-id"></Text>`;
     const { attr, context } = await getData(snippet);
     const result = validatePropertyBindingInfo(attr, context);
-    expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
+    expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       "kind: MissingValue; text: Expect a value; severity:info; range:9:47-9:61",
     ]);
   });
@@ -353,7 +351,7 @@ describe("property-binding-info-validator", () => {
     <Text text="{ events: {anyKeyNotChecked: {anotherKey: {nestedKey: } } } }" id="test-id"></Text>`;
     const { attr, context } = await getData(snippet);
     const result = validatePropertyBindingInfo(attr, context);
-    expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
+    expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       "kind: MissingValue; text: Expect a value; severity:info; range:9:59-9:69",
     ]);
   });
@@ -362,7 +360,7 @@ describe("property-binding-info-validator", () => {
     <Text text="{ path: '', path: '' }" id="test-id"></Text>`;
     const { attr, context } = await getData(snippet);
     const result = validatePropertyBindingInfo(attr, context);
-    expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
+    expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       "kind: DuplicateProperty; text: Duplicate property; severity:info; range:9:28-9:32",
     ]);
   });
@@ -379,7 +377,7 @@ describe("property-binding-info-validator", () => {
     }}" id="test-id"></Text>`;
     const { attr, context } = await getData(snippet);
     const result = validatePropertyBindingInfo(attr, context);
-    expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
+    expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       "kind: DuplicateProperty; text: Duplicate property; severity:info; range:14:10-14:12",
       "kind: DuplicateProperty; text: Duplicate property; severity:info; range:12:8-12:11",
     ]);
@@ -389,7 +387,7 @@ describe("property-binding-info-validator", () => {
     <Text text="{ parts: [{path: '', path: ''}] }" id="test-id"></Text>`;
     const { attr, context } = await getData(snippet);
     const result = validatePropertyBindingInfo(attr, context);
-    expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
+    expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       "kind: DuplicateProperty; text: Duplicate property; severity:info; range:9:37-9:41",
     ]);
   });
@@ -408,7 +406,7 @@ describe("property-binding-info-validator", () => {
     ]}" id="test-id"></Text>`;
     const { attr, context } = await getData(snippet);
     const result = validatePropertyBindingInfo(attr, context);
-    expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
+    expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       "kind: UnknownPropertyBindingInfo; text: Unknown property binding info; severity:info; range:11:8-11:11",
       "kind: UnknownPropertyBindingInfo; text: Unknown property binding info; severity:info; range:17:8-17:11",
       "kind: DuplicateProperty; text: Duplicate property; severity:info; range:17:8-17:11",
@@ -419,7 +417,7 @@ describe("property-binding-info-validator", () => {
     <Text text="{ parts: [''], path: '', value: '' }" id="test-id"></Text>`;
     const { attr, context } = await getData(snippet);
     const result = validatePropertyBindingInfo(attr, context);
-    expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
+    expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       "kind: NotAllowedProperty; text: One of these elements [parts, path, value] are allowed; severity:info; range:9:18-9:23",
       "kind: NotAllowedProperty; text: One of these elements [parts, path, value] are allowed; severity:info; range:9:31-9:35",
       "kind: NotAllowedProperty; text: One of these elements [parts, path, value] are allowed; severity:info; range:9:41-9:46",
@@ -434,7 +432,7 @@ describe("property-binding-info-validator", () => {
     ]}" id="test-id"></Text>`;
     const { attr, context } = await getData(snippet);
     const result = validatePropertyBindingInfo(attr, context);
-    expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
+    expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       "kind: NotAllowedProperty; text: One of these elements [path, value] are allowed; severity:info; range:11:8-11:12",
       "kind: NotAllowedProperty; text: One of these elements [path, value] are allowed; severity:info; range:11:18-11:23",
     ]);
@@ -444,7 +442,7 @@ describe("property-binding-info-validator", () => {
     <Text text="{formatOptions: {}}" id="test-id"></Text>`;
     const { attr, context } = await getData(snippet);
     const result = validatePropertyBindingInfo(attr, context);
-    expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
+    expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       'kind: RequiredDependency; text: Required dependency "type" MUST be defined; severity:info; range:9:17-9:30',
     ]);
   });
@@ -453,7 +451,7 @@ describe("property-binding-info-validator", () => {
     <Text text="{formatOptions: {}, type: {}}" id="test-id"></Text>`;
     const { attr, context } = await getData(snippet);
     const result = validatePropertyBindingInfo(attr, context);
-    expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
+    expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       'kind: RequiredDependency; text: "formatOptions" is allowed with "type" when "type" is defined as \' \'; severity:info; range:9:17-9:30',
     ]);
   });
@@ -464,12 +462,12 @@ describe("property-binding-info-validator", () => {
     }]}" id="test-id"></Text>`;
     const { attr, context } = await getData(snippet);
     const result = validatePropertyBindingInfo(attr, context);
-    expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
+    expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       "kind: MissingValue; text: Required values { } or ' ' must be provided; severity:info; range:10:6-10:15",
       "kind: RecursiveProperty; text: Recursive composite bindings is not allowed; severity:info; range:10:6-10:11",
     ]);
   });
-  context("parts", () => {
+  describe("parts", () => {
     it("check recursive composite bindings - nested", async () => {
       const snippet = `
     <Text text="{parts: [{
@@ -481,7 +479,7 @@ describe("property-binding-info-validator", () => {
     }]}" id="test-id"></Text>`;
       const { attr, context } = await getData(snippet);
       const result = validatePropertyBindingInfo(attr, context);
-      expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
+      expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
         "kind: UnknownPropertyBindingInfo; text: Unknown property binding info; severity:info; range:10:6-10:7",
         "kind: RecursiveProperty; text: Recursive composite bindings is not allowed; severity:info; range:12:12-12:17",
       ]);
@@ -491,7 +489,7 @@ describe("property-binding-info-validator", () => {
     <Text text="{ parts: [{ party }] }" id="test-id"></Text>`;
       const { attr, context } = await getData(snippet);
       const result = validatePropertyBindingInfo(attr, context);
-      expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
+      expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
         "kind: UnknownPropertyBindingInfo; text: Unknown property binding info; severity:info; range:9:28-9:33",
       ]);
     });
@@ -500,7 +498,7 @@ describe("property-binding-info-validator", () => {
     <Text text="{ parts: [{ path }] }" id="test-id"></Text>`;
       const { attr, context } = await getData(snippet);
       const result = validatePropertyBindingInfo(attr, context);
-      expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
+      expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
         "kind: MissingColon; text: Expect colon; severity:info; range:9:28-9:32",
       ]);
     });
@@ -509,7 +507,7 @@ describe("property-binding-info-validator", () => {
     <Text text="{ parts: [{ path: } }" id="test-id"></Text>`;
       const { attr, context } = await getData(snippet);
       const result = validatePropertyBindingInfo(attr, context);
-      expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
+      expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
         "kind: MissingValue; text: Expect ' ' as a value; severity:info; range:9:28-9:33",
       ]);
     });
@@ -518,7 +516,7 @@ describe("property-binding-info-validator", () => {
     <Text text="{ parts: [{ path: '' events: {} }}" id="test-id"></Text>`;
       const { attr, context } = await getData(snippet);
       const result = validatePropertyBindingInfo(attr, context);
-      expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
+      expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
         "kind: MissingComma; text: Missing comma; severity:info; range:9:37-9:43",
       ]);
     });
@@ -527,7 +525,7 @@ describe("property-binding-info-validator", () => {
     <Text text="{ parts: [{ path: ''}, ]}" id="test-id"></Text>`;
       const { attr, context } = await getData(snippet);
       const result = validatePropertyBindingInfo(attr, context);
-      expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
+      expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
         "kind: TrailingComma; text: Trailing comma; severity:info; range:9:37-9:38",
       ]);
     });
@@ -536,7 +534,7 @@ describe("property-binding-info-validator", () => {
     <Text text="{ parts: []}" id="test-id"></Text>`;
       const { attr, context } = await getData(snippet);
       const result = validatePropertyBindingInfo(attr, context);
-      expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
+      expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
         "kind: MissingValue; text: Required values { } or ' ' must be provided; severity:info; range:9:18-9:27",
       ]);
     });
@@ -545,7 +543,7 @@ describe("property-binding-info-validator", () => {
     <Text text="{ parts: [{}]}" id="test-id"></Text>`;
       const { attr, context } = await getData(snippet);
       const result = validatePropertyBindingInfo(attr, context);
-      expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
+      expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
         'kind: MissingValue; text: A valid binding property info must be provided for "{}"; severity:info; range:9:26-9:28',
       ]);
     });
@@ -554,14 +552,14 @@ describe("property-binding-info-validator", () => {
     <Text text="{ parts: [{path: ' '}, '']}" id="test-id"></Text>`;
       const { attr, context } = await getData(snippet);
       const result = validatePropertyBindingInfo(attr, context);
-      expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([]);
+      expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([]);
     });
     it("check nested collection", async () => {
       const snippet = `
     <Text text="{ parts: [[]]}" id="test-id"></Text>`;
       const { attr, context } = await getData(snippet);
       const result = validatePropertyBindingInfo(attr, context);
-      expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
+      expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
         'kind: MissingValue; text: Nested "[]" are not allowed; severity:info; range:9:26-9:28',
       ]);
     });
@@ -570,7 +568,7 @@ describe("property-binding-info-validator", () => {
     <Text text="{ parts: '' }" id="test-id"></Text>`;
       const { attr, context } = await getData(snippet);
       const result = validatePropertyBindingInfo(attr, context);
-      expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
+      expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
         "kind: MissMatchValue; text: Allowed values are [{ }] or [' ']; severity:info; range:9:25-9:27",
       ]);
     });
@@ -580,7 +578,7 @@ describe("property-binding-info-validator", () => {
     <Text text="{ path: '' events:{} }" id="test-id"></Text>`;
     const { attr, context } = await getData(snippet);
     const result = validatePropertyBindingInfo(attr, context);
-    expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
+    expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       "kind: MissingComma; text: Missing comma; severity:info; range:9:27-9:33",
     ]);
   });
@@ -589,7 +587,7 @@ describe("property-binding-info-validator", () => {
     <Text text="{ path: '', events:{}, }" id="test-id"></Text>`;
     const { attr, context } = await getData(snippet);
     const result = validatePropertyBindingInfo(attr, context);
-    expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
+    expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       "kind: TrailingComma; text: Trailing comma; severity:info; range:9:37-9:38",
     ]);
   });
@@ -598,7 +596,7 @@ describe("property-binding-info-validator", () => {
     <Text text="{ path::::: '', events:{} }" id="test-id"></Text>`;
     const { attr, context } = await getData(snippet);
     const result = validatePropertyBindingInfo(attr, context);
-    expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
+    expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       "kind: Syntax; text: Expecting: one of these possible Token sequences:\n  1. [StringValue]\n  2. [NumberValue]\n  3. [{]\n  4. [[]\n  5. [BooleanValue]\n  6. [NullValue]\nbut found: ':'; severity:info; range:9:23-9:30",
     ]);
   });
@@ -607,45 +605,45 @@ describe("property-binding-info-validator", () => {
     <Text text="{events: {{}}}" id="test-id"></Text>`;
     const { attr, context } = await getData(snippet);
     const result = validatePropertyBindingInfo(attr, context);
-    expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
+    expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       "kind: Syntax; text: Expecting --> } <-- but found --> '{' <--; severity:info; range:9:26-9:27",
     ]);
   });
-  context("multiple binding", () => {
+  describe("multiple binding", () => {
     it("check no unwanted error with text", async () => {
       const snippet = `
      <Label text="Hello Mr. {path: '/employees/0/lastName'}, {path: '/employees/0/firstName', formatter:'.myFormatter'}"/>`;
       const { attr, context } = await getData(snippet, "Label", "text");
       const result = validatePropertyBindingInfo(attr, context);
-      expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([]);
+      expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([]);
     });
     it("check no unwanted error with special chars", async () => {
       const snippet = `
      <Label text="### {path: '/employees/0/lastName'} / {path: '/employees/0/firstName', formatter:'.myFormatter'}"/> $$$`;
       const { attr, context } = await getData(snippet, "Label", "text");
       const result = validatePropertyBindingInfo(attr, context);
-      expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([]);
+      expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([]);
     });
     it("check no unwanted error with escaped chars", async () => {
       const snippet = `
      <Label text="\{ \[ {path: 'test-value-01'} \{ {path: 'test-value-02' }"/> \] \}`;
       const { attr, context } = await getData(snippet, "Label", "text");
       const result = validatePropertyBindingInfo(attr, context);
-      expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([]);
+      expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([]);
     });
     it("check no unwanted error with text, escaped and special chars", async () => {
       const snippet = `
      <Input value="abc \{ { path: ''} ###### { parts: [{path: ''}]}"/>`;
       const { attr, context } = await getData(snippet, "Input", "value");
       const result = validatePropertyBindingInfo(attr, context);
-      expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([]);
+      expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([]);
     });
     it("check correct range for diagnostics with text, escaped and special chars", async () => {
       const snippet = `
      <Input value="abc \{ { path: } ###### { parts: [{path ''}]}"/>`;
       const { attr, context } = await getData(snippet, "Input", "value");
       const result = validatePropertyBindingInfo(attr, context);
-      expect(result.map((item) => issueToSnapshot(item))).to.deep.equal([
+      expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
         "kind: MissingValue; text: Expect ' ' as a value; severity:info; range:9:27-9:32",
         "kind: MissingColon; text: Expect colon; severity:info; range:9:53-9:57",
       ]);

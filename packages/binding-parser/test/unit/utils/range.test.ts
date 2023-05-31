@@ -1,6 +1,5 @@
-import { expect } from "chai";
 import { IToken, CstNodeLocation } from "chevrotain";
-import { getRange, locationToRange } from "../../src/utils/range";
+import { getRange, locationToRange } from "../../../src/utils/range";
 import type { Position } from "vscode-languageserver-types";
 
 interface CreateParam {
@@ -10,13 +9,13 @@ interface CreateParam {
   endColumn: number;
 }
 const createToken = <T>(param: CreateParam): T => {
-  return ({
+  return {
     ...param,
-  } as unknown) as T;
+  } as unknown as T;
 };
 
 describe("range", () => {
-  context("getRange", () => {
+  describe("getRange", () => {
     it("without position param", () => {
       const token = createToken<IToken>({
         startColumn: 10,
@@ -25,7 +24,7 @@ describe("range", () => {
         endLine: 7,
       });
       const range = getRange(token);
-      expect(range).to.deep.equal({
+      expect(range).toStrictEqual({
         start: {
           line: 4,
           character: 9,
@@ -48,7 +47,7 @@ describe("range", () => {
         character: 19,
       };
       const range = getRange(token, { position });
-      expect(range).to.deep.equal({
+      expect(range).toStrictEqual({
         start: {
           line: 10,
           character: 5,
@@ -60,7 +59,7 @@ describe("range", () => {
       });
     });
   });
-  context("locationToRange", () => {
+  describe("locationToRange", () => {
     it("without position param", () => {
       const token = createToken<CstNodeLocation>({
         startColumn: 10,
@@ -69,7 +68,7 @@ describe("range", () => {
         endLine: 7,
       });
       const range = locationToRange(token);
-      expect(range).to.deep.equal({
+      expect(range).toStrictEqual({
         start: {
           line: 4,
           character: 9,
@@ -92,7 +91,7 @@ describe("range", () => {
         character: 19,
       };
       const range = locationToRange(token, { position });
-      expect(range).to.deep.equal({
+      expect(range).toStrictEqual({
         start: {
           line: 10,
           character: 5,

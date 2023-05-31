@@ -9,7 +9,7 @@ import type {
   IRecognitionException,
 } from "chevrotain";
 import { deserialize } from "./deserialize-ast";
-import type { Ast } from "../../src/types/property-binding-info";
+import type { Ast } from "../../../src/types/property-binding-info";
 import { serialize } from "./serialize";
 
 const { readFile } = promises;
@@ -22,7 +22,7 @@ const hasNaNOrUndefined = (value: undefined | number): boolean => {
 };
 
 export const getBase = (): string =>
-  join(__dirname, "..", "..", "..", "test", "data");
+  join(__dirname, "..", "..", "..", "test", "unit", "data");
 
 export const getFileContent = async (filePath: string): Promise<string> => {
   const buffer = await readFile(filePath, "utf8");

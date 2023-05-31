@@ -2274,6 +2274,11 @@
   resolved "https://registry.yarnpkg.com/@sap-ux/vocabularies-types/-/vocabularies-types-0.6.8.tgz#abcdebfd986c249f7131d5e9085b6ff4bffb4876"
   integrity sha512-58b1/E9hxSsIit9NMQ9oXCYNUaOT7kbQU1OKhAPVp3Pg2BMbkRo5p1SX6BSan4XmONUpao7yRUVZEG0dspR5qg==
 
+"@sap-ux/vocabularies-types@0.7.4":
+  version "0.7.4"
+  resolved "https://registry.yarnpkg.com/@sap-ux/vocabularies-types/-/vocabularies-types-0.7.4.tgz#66388bc5368be7edee2502a726e019cd8638c5c3"
+  integrity sha512-JC2s7P7EOYvnubxqDIJYdZXA/aNvK78XqvB1sMyI4z+rf/mgTTID7mIf/2J3rSwHw+GjVrDK+UvSX3vJhomKew==
+
 "@sap-ux/yaml@0.13.5":
   version "0.13.5"
   resolved "https://registry.yarnpkg.com/@sap-ux/yaml/-/yaml-0.13.5.tgz#d0d06587daafaca8b4f9c5ba6492dad2f2a34406"
