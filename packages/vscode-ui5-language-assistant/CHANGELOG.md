@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.18
+
+### Patch Changes
+
+- 1c9a0c5: VSCode and BAS extension versions sync
+
 ## 4.0.17
 
 ### Patch Changes
