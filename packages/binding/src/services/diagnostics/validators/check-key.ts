@@ -11,7 +11,7 @@ export const checkKey = (element: BindingTypes.AstElement): BindingIssue[] => {
     return issues;
   }
   const bindingElement = propertyBindingInfoElements.find(
-    (el) => el.name === element.key?.text
+    (el) => el.name === (element.key && element.key.text)
   );
   if (!bindingElement) {
     issues.push({

@@ -599,6 +599,15 @@ describe("property-binding-info-validator", () => {
       "kind: TrailingComma; text: Trailing comma; severity:info; range:9:37-9:38",
     ]);
   });
+  it("check too many commas", async () => {
+    const snippet = `
+    <Text text="{ path: '',,,, events:{} }" id="test-id"></Text>`;
+    const { attr, context } = await getData(snippet);
+    const result = validatePropertyBindingInfo(attr, context);
+    expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
+      "kind: TooManyCommas; text: Too many commas; severity:info; range:9:27-9:30",
+    ]);
+  });
   it("check too many colon", async () => {
     const snippet = `
     <Text text="{ path::::: '', events:{} }" id="test-id"></Text>`;

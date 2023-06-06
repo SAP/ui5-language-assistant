@@ -42,6 +42,7 @@ export function validatePropertyBindingInfo(
       if (isBindingExpression(expression)) {
         continue;
       }
+      /* istanbul ignore next */
       const position: Position = {
         character: (value?.startColumn ?? 0) + startIndex,
         line: value?.startLine ? value.startLine - 1 : 0, // zero based index

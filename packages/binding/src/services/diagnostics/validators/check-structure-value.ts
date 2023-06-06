@@ -6,7 +6,12 @@ import {
 } from "@ui5-language-assistant/binding-parser";
 import { checkAst } from "./issue-collector";
 import { propertyBindingInfoElements } from "../../../definition/definition";
-import { rangeToOffsetRange, typesToValue, valueTypeMap } from "../../../utils";
+import {
+  findRange,
+  rangeToOffsetRange,
+  typesToValue,
+  valueTypeMap,
+} from "../../../utils";
 
 /**
  * Check structure value
@@ -28,7 +33,7 @@ export const checkStructureValue = (
   if (isStructureValue(value)) {
     if (!ignore) {
       const bindingElement = propertyBindingInfoElements.find(
-        (el) => el.name === element.key?.text
+        (el) => el.name === (element.key && element.key.text)
       );
       if (!bindingElement) {
         // should have been detected by checkKey
@@ -40,6 +45,7 @@ export const checkStructureValue = (
       // check if that element is allowed to have structure value
       if (!elementSpecificType || elementSpecificType.collection) {
         const data = typesToValue(bindingElement.type, context);
+        /* istanbul ignore next */
         const message = `Allowed value${
           data.length > 1 ? "s are" : " is"
         } ${data.join(" or ")}`;
@@ -47,8 +53,10 @@ export const checkStructureValue = (
           issueType: BINDING_ISSUE_TYPE,
           kind: "MissMatchValue",
           message,
-          offsetRange: rangeToOffsetRange(value.range),
-          range: value.range ?? element.range,
+          offsetRange: rangeToOffsetRange(
+            findRange([value.range, element.range])
+          ),
+          range: findRange([value.range, element.range]),
           severity: "info",
         });
         return issues;

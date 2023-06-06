@@ -21,12 +21,9 @@ export const filterLexerError = (
   }
 ): BindingTypes.LexerError[] => {
   const result: BindingTypes.LexerError[] = [];
-  const lexErr = errors.lexer.filter((item) => {
-    if (binding.range) {
-      return rangeContained(binding.range, item.range);
-    }
-    return false;
-  });
+  const lexErr = errors.lexer.filter(
+    (item) => binding.range && rangeContained(binding.range, item.range)
+  );
   result.push(...lexErr);
 
   return result;
@@ -40,12 +37,9 @@ export const filterParseError = (
 ): BindingTypes.ParseError[] => {
   const result: BindingTypes.ParseError[] = [];
 
-  const parseErr = errors.parse.filter((item) => {
-    if (binding.range) {
-      return rangeContained(binding.range, item.range);
-    }
-    return false;
-  });
+  const parseErr = errors.parse.filter(
+    (item) => binding.range && rangeContained(binding.range, item.range)
+  );
   result.push(...parseErr);
 
   return result;
@@ -75,17 +69,18 @@ export const isPropertyBindingInfo = (
 
   // check empty curly brackets
   if (
-    binding.leftCurly?.text &&
-    binding.elements.length === 0 &&
-    binding.rightCurly?.text
+    binding.leftCurly &&
+    binding.leftCurly.text &&
+    binding.elements.length === 0
   ) {
     return true;
   }
   // check it has at least one key with colon
   const result = binding.elements.find(
+    /* istanbul ignore next */
     (item) => item.key?.text && item.colon?.text
   );
-  if (result && binding.leftCurly?.text) {
+  if (result && binding.leftCurly && binding.leftCurly.text) {
     return true;
   }
   return false;

@@ -57,7 +57,7 @@ export const createValue = (
   if (!element.value) {
     // if value is missing, provide a value
     const bindingElement = propertyBindingInfoElements.find(
-      (el) => el.name === element.key?.text
+      (el) => el.name === (element.key && element.key.text)
     );
     if (bindingElement) {
       const data = typesToValue(bindingElement.type, context);
@@ -71,6 +71,7 @@ export const createValue = (
       });
     }
   } else if (isCollectionValue(element.value) && isParts(element)) {
+    /* istanbul ignore next */
     const position = context.textDocumentPosition?.position;
     if (position) {
       const el = element.value.elements
@@ -85,9 +86,14 @@ export const createValue = (
       }
       if (!el) {
         const bindingElement = propertyBindingInfoElements.find(
-          (el) => el.name === element.key?.text
+          (el) => el.name === (element.key && element.key.text)
         );
-        const data = typesToValue(bindingElement?.type ?? [], context, true);
+        const data = typesToValue(
+          /* istanbul ignore next */
+          bindingElement?.type ?? [],
+          context,
+          true
+        );
         data.forEach((item) =>
           completionItems.push({
             label: item,

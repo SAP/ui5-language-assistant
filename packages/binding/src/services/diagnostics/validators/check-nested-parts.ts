@@ -4,7 +4,7 @@ import {
   isStructureValue,
   PropertyBindingInfoTypes as BindingTypes,
 } from "@ui5-language-assistant/binding-parser";
-import { rangeToOffsetRange } from "../../../utils";
+import { findRange, rangeToOffsetRange } from "../../../utils";
 
 /**
  * Check parts element MUST not contain another parts element
@@ -20,8 +20,10 @@ const getParts = (element: BindingTypes.AstElement) => {
               issueType: BINDING_ISSUE_TYPE,
               kind: "RecursiveProperty",
               message: `Recursive composite bindings is not allowed`,
-              offsetRange: rangeToOffsetRange(el.range),
-              range: el.key?.range ?? el.range,
+              offsetRange: rangeToOffsetRange(
+                findRange([el.key?.range, el.range])
+              ),
+              range: findRange([el.key?.range, el.range]),
               severity: "info",
             });
           } else {

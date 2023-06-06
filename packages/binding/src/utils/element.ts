@@ -8,6 +8,7 @@ import {
   RIGHT_SQUARE,
   STRING_VALUE,
 } from "@ui5-language-assistant/binding-parser";
+import { Range } from "vscode-languageserver-types";
 
 export const typesToValue = (
   types: PropertyType[],
@@ -53,5 +54,9 @@ export const valueTypeMap = new Map([
 ]);
 
 export const isParts = (element: BindingTypes.AstElement): boolean => {
-  return element.key?.text === "parts";
+  return (element.key && element.key.text) === "parts";
+};
+
+export const findRange = (args: (Range | undefined)[]): Range | undefined => {
+  return args.find((i) => !!i);
 };

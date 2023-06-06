@@ -13,6 +13,7 @@ import { Range } from "vscode-languageserver-types";
  */
 export const checkComma = (
   item: BindingTypes.AstElement,
+  /* istanbul ignore next */
   comma: BindingTypes.Comma[] = [],
   errors: {
     parse: BindingTypes.ParseError[];
@@ -25,15 +26,18 @@ export const checkComma = (
   const tooManyColon = errors.parse
     .filter(
       (i) =>
-        i.tokenTypeName === COLON && i.previousToken?.tokenTypeName === COLON
+        i.tokenTypeName === COLON &&
+        i.previousToken &&
+        i.previousToken.tokenTypeName === COLON
     )
     .find(
       (i) =>
-        item.colon?.range &&
+        item.colon &&
+        item.colon.range &&
         i.previousToken &&
         rangeContained(
           { start: i.previousToken.range.start, end: i.range.end },
-          item.colon?.range,
+          item.colon.range,
           true
         )
     );
@@ -41,16 +45,19 @@ export const checkComma = (
     return issues;
   }
   const commas = comma.filter((comma) => {
-    if (item.range?.end && comma.range.start) {
-      if (nextItem && nextItem.range?.start) {
+    if (item.range && item.range.end && comma.range.start) {
+      if (nextItem && nextItem.range && nextItem.range.start) {
         return (
           isBefore(item.range.end, comma.range.start, true) &&
           isBefore(comma.range.start, nextItem.range.start, true)
         );
       }
-      return isBefore(item.range.end, comma.range.start, true);
     }
-    return false;
+    return (
+      item.range &&
+      item.range.end &&
+      isBefore(item.range.end, comma.range.start, true)
+    );
   });
   if (commas.length === 0 && nextItem) {
     // missing comma

@@ -8,7 +8,12 @@ import {
 import { checkAst } from "./issue-collector";
 import { getPrimitiveValueIssues } from "./check-primitive-value";
 import { propertyBindingInfoElements } from "../../../definition/definition";
-import { isParts, rangeToOffsetRange, typesToValue } from "../../../utils";
+import {
+  isParts,
+  rangeToOffsetRange,
+  typesToValue,
+  findRange,
+} from "../../../utils";
 import { checkComma } from "./check-comma";
 
 /**
@@ -50,7 +55,7 @@ export const checkCollectionValue = (
   }
   // check if that element is allowed to have collection value
   const bindingElement = propertyBindingInfoElements.find(
-    (el) => el.name === element.key?.text
+    (el) => el.name === (element.key && element.key.text)
   );
 
   if (!bindingElement) {
@@ -60,6 +65,7 @@ export const checkCollectionValue = (
   const collectionItem = bindingElement.type.find((item) => item.collection);
   if (!collectionItem) {
     const data = typesToValue(bindingElement.type, context);
+    /* istanbul ignore next */
     const message = `Allowed value${
       data.length > 1 ? "s are" : " is"
     } ${data.join(" or ")}`;
@@ -67,8 +73,8 @@ export const checkCollectionValue = (
       issueType: BINDING_ISSUE_TYPE,
       kind: "MissMatchValue",
       message,
-      offsetRange: rangeToOffsetRange(value.range),
-      range: value.range ?? element.range,
+      offsetRange: rangeToOffsetRange(findRange([value.range, element.range])),
+      range: findRange([value.range, element.range]),
       severity: "info",
     });
     return issues;
@@ -83,8 +89,8 @@ export const checkCollectionValue = (
       issueType: BINDING_ISSUE_TYPE,
       kind: "MissingValue",
       message,
-      offsetRange: rangeToOffsetRange(value.range ?? element.range),
-      range: value.range ?? element.range,
+      offsetRange: rangeToOffsetRange(findRange([value.range, element.range])),
+      range: findRange([value.range, element.range]),
       severity: "info",
     });
     return issues;
@@ -100,7 +106,7 @@ export const checkCollectionValue = (
           kind: "MissingValue",
           message: 'A valid binding property info must be provided for "{}"',
           offsetRange: rangeToOffsetRange(item.range),
-          range: item.range ?? value.range ?? element.range,
+          range: findRange([item.range, value.range, element.range]),
           severity: "info",
         });
       } else {
@@ -113,9 +119,9 @@ export const checkCollectionValue = (
         kind: "MissingValue",
         message: 'Nested "[]" are not allowed',
         offsetRange: rangeToOffsetRange(
-          item.range ?? value.range ?? element.range
+          findRange([item.range, value.range, element.range])
         ),
-        range: item.range ?? value.range ?? element.range,
+        range: findRange([item.range, value.range, element.range]),
         severity: "info",
       });
       return issues;

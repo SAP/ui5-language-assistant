@@ -2,7 +2,12 @@ import {
   isPrimitiveValue,
   PropertyBindingInfoTypes as BindingTypes,
 } from "@ui5-language-assistant/binding-parser";
-import { rangeToOffsetRange, typesToValue, valueTypeMap } from "../../../utils";
+import {
+  findRange,
+  rangeToOffsetRange,
+  typesToValue,
+  valueTypeMap,
+} from "../../../utils";
 import { propertyBindingInfoElements } from "../../../definition/definition";
 import { BindContext, BindingIssue, BINDING_ISSUE_TYPE } from "../../../types";
 
@@ -18,24 +23,32 @@ export const checkDependents = (
   for (const dep of dependentElements) {
     // check if an element which has dependency is used
     const dependentElementApplied = binding.elements.find(
-      (item) => item.key?.text === dep.name
+      (item) => (item.key && item.key.text) === dep.name
     );
     if (dependentElementApplied) {
       // check if its dependency is applied too
       for (const types of dep.type) {
         for (const requiredDep of types.dependents) {
           const requiredDepApplied = binding.elements.find(
-            (item) => item.key?.text === requiredDep.name
+            (item) => (item.key && item.key.text) === requiredDep.name
           );
           if (!requiredDepApplied) {
             issues.push({
               issueType: BINDING_ISSUE_TYPE,
               kind: "RequiredDependency",
               message: `Required dependency "${requiredDep.name}" MUST be defined`,
-              offsetRange: rangeToOffsetRange(dependentElementApplied.range),
-              range:
-                dependentElementApplied.key?.range ??
+              offsetRange: rangeToOffsetRange(
+                findRange([
+                  /* istanbul ignore next */
+                  dependentElementApplied.key?.range,
+                  dependentElementApplied.range,
+                ])
+              ),
+              range: findRange([
+                /* istanbul ignore next */
+                dependentElementApplied.key?.range,
                 dependentElementApplied.range,
+              ]),
               severity: "info",
             });
           } else {
@@ -71,11 +84,18 @@ export const checkDependents = (
                       kind: "RequiredDependency",
                       message: `"${dep.name}" is allowed with "${requiredDep.name}" when "${requiredDep.name}" is defined as ${value[0]}`,
                       offsetRange: rangeToOffsetRange(
-                        dependentElementApplied.range
+                        findRange([
+                          /* istanbul ignore next */
+                          dependentElementApplied.key?.range,
+                          dependentElementApplied.range,
+                        ])
                       ),
-                      range:
-                        dependentElementApplied.key?.range ??
+                      range: findRange([
+                        /* istanbul ignore next */
+                        dependentElementApplied.key?.range,
                         dependentElementApplied.range,
+                      ]),
+
                       severity: "info",
                     });
                   }

@@ -13,6 +13,12 @@ import {
   getViewCompletionProvider,
   ViewCompletionProviderType,
 } from "../../helper";
+import { getCompletionItems } from "../../../../src/api";
+import { TextDocumentPositionParams } from "vscode-languageserver-protocol";
+import { CstNode, IToken } from "chevrotain";
+import { XMLDocument } from "@xml-tools/ast";
+import { Context } from "@ui5-language-assistant/context";
+import { TextDocument } from "vscode-languageserver-textdocument";
 
 describe("index", () => {
   let getCompletionResult: ViewCompletionProviderType;
@@ -63,6 +69,18 @@ describe("index", () => {
     );
   });
   describe("getCompletionItems", () => {
+    it("throws exception - empty result", () => {
+      const result = getCompletionItems({
+        context: {} as Context,
+        textDocumentPosition: {} as TextDocumentPositionParams,
+        document: {} as TextDocument,
+        documentSettings: {} as Settings,
+        cst: {} as CstNode,
+        tokenVector: [] as IToken[],
+        ast: {} as XMLDocument,
+      });
+      expect(result).toStrictEqual([]);
+    });
     it("provides CC consider string value as double quote", async function () {
       const snippet = `
         <Text text='{path: ${CURSOR_ANCHOR}}' id="test-id"></Text>`;
@@ -83,7 +101,19 @@ describe("index", () => {
         "label: ' '; text: ' '; kind:5; commit:undefined; sort:",
       ]);
     });
-    it("provides CC for initial", async function () {
+    it("provides CC for initial [single quote]", async function () {
+      const snippet = `
+        <Text text='${CURSOR_ANCHOR}' id="test-id"></Text>`;
+      const result = await getCompletionResult(snippet);
+      expect(
+        result.map((item) => completionItemToSnapshot(item))
+      ).toStrictEqual([
+        "label: { }; text: { ${1|path,value,model,suspended,formatter,useRawValues,useInternalValues,type,targetType,formatOptions,constraints,mode,parameters,events,parts|}: ${2|\" \",{ },[{ }],[''],true,false|}$0 }; kind:15; commit:undefined; sort:",
+        "label: {= }; text: {= $0 }; kind:15; commit:undefined; sort:",
+        "label: {:= }; text: {:= $0 }; kind:15; commit:undefined; sort:",
+      ]);
+    });
+    it("provides CC for initial [double quotes]", async function () {
       const snippet = `
         <Text text="${CURSOR_ANCHOR}" id="test-id"></Text>`;
       const result = await getCompletionResult(snippet);
@@ -118,6 +148,14 @@ describe("index", () => {
         "label: events; text: events: { }; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:**Description:** Map of event handler functions keyed by the name of the binding events that they should be attached to \n\n **Visibility:** Public",
         "label: parts; text: parts: ${1|[{ }],[' ']|}$0; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:**Description:** Array of binding info objects for the parts of a composite binding; the structure of each binding info is the same as described for the oBindingInfo as a whole.\nIf a part is not specified as a binding info object but as a simple string, a binding info object will be created with that string as path. The string may start with a model name prefix (see property path).\n**Note**: recursive composite bindings are currently not supported. Therefore, a part must not contain a parts property \n\n **Visibility:** Public",
       ]);
+    });
+    it("provides no CC for expressing binding", async function () {
+      const snippet = `
+        <Input maxLength="{=\${/company${CURSOR_ANCHOR}/ipz}}"/>`;
+      const result = await getCompletionResult(snippet);
+      expect(
+        result.map((item) => completionItemToSnapshot(item, true))
+      ).toStrictEqual([]);
     });
     it("provides no CC for metadata binding", async function () {
       const snippet = `
@@ -528,29 +566,27 @@ describe("index", () => {
         ]);
       });
       it("provides CC for binding property context with text, escaped and special chars", async function () {
-        /* eslint-disable no-useless-escape */
         const snippet = `
-        <Input value="abc \{ { path: ''} ###### { parts: [{pa${CURSOR_ANCHOR}th: ''}]}"/>
+        <Input value="abc \\{ { path: ''} ###### { parts: [{pa${CURSOR_ANCHOR}th: ''}]}"/>
         `;
-        /* eslint-enable no-useless-escape */
         const result = await getCompletionResult(snippet);
         expect(
           result.map((item) => completionItemToSnapshot(item))
         ).toStrictEqual([
-          "label: path; text: path; kind:5; commit:undefined; sort:; textEdit: {newText: path, range: 9:58-9:62}",
-          "label: value; text: value; kind:5; commit:undefined; sort:; textEdit: {newText: value, range: 9:58-9:62}",
-          "label: model; text: model; kind:5; commit:undefined; sort:; textEdit: {newText: model, range: 9:58-9:62}",
-          "label: suspended; text: suspended; kind:5; commit:undefined; sort:; textEdit: {newText: suspended, range: 9:58-9:62}",
-          "label: formatter; text: formatter; kind:5; commit:undefined; sort:; textEdit: {newText: formatter, range: 9:58-9:62}",
-          "label: useRawValues; text: useRawValues; kind:5; commit:undefined; sort:; textEdit: {newText: useRawValues, range: 9:58-9:62}",
-          "label: useInternalValues; text: useInternalValues; kind:5; commit:undefined; sort:; textEdit: {newText: useInternalValues, range: 9:58-9:62}",
-          "label: type; text: type; kind:5; commit:undefined; sort:; textEdit: {newText: type, range: 9:58-9:62}",
-          "label: targetType; text: targetType; kind:5; commit:undefined; sort:; textEdit: {newText: targetType, range: 9:58-9:62}",
-          "label: formatOptions; text: formatOptions; kind:5; commit:undefined; sort:; textEdit: {newText: formatOptions, range: 9:58-9:62}",
-          "label: constraints; text: constraints; kind:5; commit:undefined; sort:; textEdit: {newText: constraints, range: 9:58-9:62}",
-          "label: mode; text: mode; kind:5; commit:undefined; sort:; textEdit: {newText: mode, range: 9:58-9:62}",
-          "label: parameters; text: parameters; kind:5; commit:undefined; sort:; textEdit: {newText: parameters, range: 9:58-9:62}",
-          "label: events; text: events; kind:5; commit:undefined; sort:; textEdit: {newText: events, range: 9:58-9:62}",
+          "label: path; text: path; kind:5; commit:undefined; sort:; textEdit: {newText: path, range: 9:59-9:63}",
+          "label: value; text: value; kind:5; commit:undefined; sort:; textEdit: {newText: value, range: 9:59-9:63}",
+          "label: model; text: model; kind:5; commit:undefined; sort:; textEdit: {newText: model, range: 9:59-9:63}",
+          "label: suspended; text: suspended; kind:5; commit:undefined; sort:; textEdit: {newText: suspended, range: 9:59-9:63}",
+          "label: formatter; text: formatter; kind:5; commit:undefined; sort:; textEdit: {newText: formatter, range: 9:59-9:63}",
+          "label: useRawValues; text: useRawValues; kind:5; commit:undefined; sort:; textEdit: {newText: useRawValues, range: 9:59-9:63}",
+          "label: useInternalValues; text: useInternalValues; kind:5; commit:undefined; sort:; textEdit: {newText: useInternalValues, range: 9:59-9:63}",
+          "label: type; text: type; kind:5; commit:undefined; sort:; textEdit: {newText: type, range: 9:59-9:63}",
+          "label: targetType; text: targetType; kind:5; commit:undefined; sort:; textEdit: {newText: targetType, range: 9:59-9:63}",
+          "label: formatOptions; text: formatOptions; kind:5; commit:undefined; sort:; textEdit: {newText: formatOptions, range: 9:59-9:63}",
+          "label: constraints; text: constraints; kind:5; commit:undefined; sort:; textEdit: {newText: constraints, range: 9:59-9:63}",
+          "label: mode; text: mode; kind:5; commit:undefined; sort:; textEdit: {newText: mode, range: 9:59-9:63}",
+          "label: parameters; text: parameters; kind:5; commit:undefined; sort:; textEdit: {newText: parameters, range: 9:59-9:63}",
+          "label: events; text: events; kind:5; commit:undefined; sort:; textEdit: {newText: events, range: 9:59-9:63}",
         ]);
       });
     });

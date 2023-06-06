@@ -14,7 +14,6 @@ export const createKeyProperties = (
   const completionItems: CompletionItem[] = [];
   propertyBindingInfoElements.forEach((item) => {
     const documentation = getDocumentation(item);
-    const range = element.key?.range;
     const data: CompletionItem = {
       label: item.name,
       insertTextFormat: InsertTextFormat.Snippet,
@@ -22,9 +21,9 @@ export const createKeyProperties = (
       kind: CompletionItemKind.Field,
       documentation,
     };
-    if (range) {
+    if (element.key && element.key.range) {
       data.textEdit = {
-        range,
+        range: element.key.range,
         newText: item.name,
       };
     }

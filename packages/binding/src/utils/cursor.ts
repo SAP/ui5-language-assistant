@@ -12,7 +12,8 @@ export const getCursorContext = (
   binding: BindingTypes.Binding,
   spaces: BindingTypes.WhiteSpaces[]
 ): CursorContext => {
-  const { elements, commas } = binding;
+  /* istanbul ignore next */
+  const { elements, commas = [] } = binding;
   if (elements.length === 0) {
     return {
       type: "empty",
@@ -24,23 +25,15 @@ export const getCursorContext = (
   const el = elements.find((item) => positionContained(item.range, position));
   if (el) {
     // check key
-    if (positionContained(el.key?.range, position)) {
+    if (positionContained(el.key && el.key.range, position)) {
       return {
         type: "key",
         kind: "properties-excluding-duplicate",
         element: el,
       };
     }
-    // check colon
-    if (positionContained(el.colon?.range, position)) {
-      return {
-        type: "colon",
-        kind: "colon",
-        element: el,
-      };
-    }
     // check value
-    if (positionContained(el.value?.range, position)) {
+    if (positionContained(el.value && el.value.range, position)) {
       return {
         type: "value",
         kind: "value",
@@ -49,7 +42,7 @@ export const getCursorContext = (
     }
   }
   // check comma
-  const comma = commas?.find((co) => positionContained(co.range, position));
+  const comma = commas.find((co) => positionContained(co.range, position));
   if (comma) {
     const el = elements.find((item) =>
       positionContained(item.range, comma.range.start)
@@ -70,7 +63,7 @@ export const getCursorContext = (
     // further check parts of adjacent element
     for (const el of elements) {
       // after adjacent key => colon
-      if (isAfterAdjacentRange(spaceEl.range, el.key?.range)) {
+      if (isAfterAdjacentRange(spaceEl.range, el.key && el.key.range)) {
         // this happen when colon is missing
         return {
           type: "colon",
@@ -79,7 +72,7 @@ export const getCursorContext = (
         };
       }
       // before adjacent key => new key value
-      if (isBeforeAdjacentRange(spaceEl.range, el.key?.range)) {
+      if (isBeforeAdjacentRange(spaceEl.range, el.key && el.key.range)) {
         return {
           type: "key-value",
           kind: "properties-with-value-excluding-duplicate",
@@ -87,7 +80,7 @@ export const getCursorContext = (
         };
       }
       // after adjacent colon => value
-      if (isAfterAdjacentRange(spaceEl.range, el.colon?.range)) {
+      if (isAfterAdjacentRange(spaceEl.range, el.colon && el.colon.range)) {
         return {
           type: "value",
           kind: "value",
@@ -95,7 +88,7 @@ export const getCursorContext = (
         };
       }
       // after adjacent value => new key value
-      if (isAfterAdjacentRange(spaceEl.range, el.value?.range)) {
+      if (isAfterAdjacentRange(spaceEl.range, el.value && el.value.range)) {
         return {
           type: "key-value",
           kind: "properties-with-value-excluding-duplicate",
@@ -103,7 +96,7 @@ export const getCursorContext = (
         };
       }
       // after adjacent comma => new key value
-      const comma = commas?.find((co) =>
+      const comma = commas.find((co) =>
         isAfterAdjacentRange(spaceEl.range, co.range)
       );
       if (comma) {

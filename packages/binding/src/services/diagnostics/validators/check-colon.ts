@@ -22,15 +22,18 @@ export const checkColon = (
   const tooManyColon = errors.parse
     .filter(
       (i) =>
-        i.tokenTypeName === COLON && i.previousToken?.tokenTypeName === COLON
+        i.tokenTypeName === COLON &&
+        i.previousToken &&
+        i.previousToken.tokenTypeName === COLON
     )
     .filter(
       (i) =>
-        element.colon?.range &&
+        element.colon &&
+        element.colon.range &&
         i.previousToken &&
         rangeContained(
           { start: i.previousToken.range.start, end: i.range.end },
-          element.colon?.range,
+          element.colon.range,
           true
         )
     );
@@ -44,7 +47,7 @@ export const checkColon = (
       severity: "info",
     });
   }
-  if (!element.colon || element.colon?.text === "") {
+  if (!element.colon || (element.colon && element.colon.text === "")) {
     issues.push({
       issueType: BINDING_ISSUE_TYPE,
       kind: "MissingColon",

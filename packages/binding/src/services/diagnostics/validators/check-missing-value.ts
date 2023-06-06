@@ -1,8 +1,5 @@
 import { BindContext, BindingIssue, BINDING_ISSUE_TYPE } from "../../../types";
-import {
-  COLON,
-  PropertyBindingInfoTypes as BindingTypes,
-} from "@ui5-language-assistant/binding-parser";
+import { PropertyBindingInfoTypes as BindingTypes } from "@ui5-language-assistant/binding-parser";
 import { rangeToOffsetRange, typesToValue } from "../../../utils";
 import { propertyBindingInfoElements } from "../../../definition/definition";
 
@@ -11,8 +8,7 @@ import { propertyBindingInfoElements } from "../../../definition/definition";
  */
 export const checkMissingValue = (
   context: BindContext,
-  element: BindingTypes.AstElement,
-  parseErrors: BindingTypes.ParseError[]
+  element: BindingTypes.AstElement
 ): BindingIssue[] => {
   const issues: BindingIssue[] = [];
   if (!element.key) {
@@ -21,15 +17,9 @@ export const checkMissingValue = (
   if (!element.colon) {
     return issues;
   }
-  const extraColonIssue = parseErrors.find(
-    (item) => item.merged[0]?.tokenTypeName === COLON
-  );
-  if (extraColonIssue) {
-    return issues;
-  }
   if (!element.value) {
     const bindingElement = propertyBindingInfoElements.find(
-      (el) => el.name === element.key?.text
+      (el) => el.name === (element.key && element.key.text)
     );
     let message = "Expect a value";
     if (bindingElement) {

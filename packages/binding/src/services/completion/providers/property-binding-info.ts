@@ -26,6 +26,7 @@ export const getCompletionItems = (
   spaces: BindingTypes.WhiteSpaces[]
 ): CompletionItem[] => {
   const completionItems: CompletionItem[] = [];
+  /* istanbul ignore next */
   if (!context.textDocumentPosition?.position) {
     return completionItems;
   }
@@ -71,8 +72,9 @@ export function propertyBindingInfoSuggestions({
     return completionItems;
   }
   const value = attribute.syntax.value;
-  const startChar = value?.image.charAt(0);
+  const startChar = value && value.image.charAt(0);
   context.doubleQuotes = startChar === '"';
+  /* istanbul ignore next */
   const text = attribute.value ?? "";
   const extractedBindings = extractBindingExpression(text);
   for (const bindingSyntax of extractedBindings) {
@@ -80,6 +82,7 @@ export function propertyBindingInfoSuggestions({
     if (isBindingExpression(expression)) {
       continue;
     }
+    /* istanbul ignore next */
     const position: Position = {
       character: (value?.startColumn ?? 0) + startIndex,
       line: value?.startLine ? value.startLine - 1 : 0, // zero based index

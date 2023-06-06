@@ -18,7 +18,9 @@ export const createKeyValue = (
   // exclude duplicate
   const remaining: PropertyBindingInfoElement[] = [];
   propertyBindingInfoElements.forEach((item) => {
-    if (!binding.elements.find((data) => data.key?.text === item.name)) {
+    if (
+      !binding.elements.find((data) => data.key && data.key.text === item.name)
+    ) {
       remaining.push(item);
     }
   });

@@ -42,9 +42,7 @@ export const checkAst = (
       issues.push(...colonIssue);
     }
     if (colonIssue.length === 0) {
-      missingValueIssue.push(
-        ...checkMissingValue(context, element, errors.parse)
-      );
+      missingValueIssue.push(...checkMissingValue(context, element));
       issues.push(...missingValueIssue);
     }
     if (missingValueIssue.length === 0) {
