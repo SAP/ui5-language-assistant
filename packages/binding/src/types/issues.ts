@@ -5,6 +5,7 @@ import { BINDING_ISSUE_TYPE } from "../constant";
 export type BindingIssue =
   | MissingKey
   | MissingColon
+  | TooManyColons
   | MissingValue
   | MissingComma
   | TooManyCommas
@@ -29,6 +30,9 @@ export interface MissingKey extends BaseUI5XMLViewBindingIssue {
 }
 export interface MissingColon extends BaseUI5XMLViewBindingIssue {
   kind: "MissingColon";
+}
+export interface TooManyColons extends BaseUI5XMLViewBindingIssue {
+  kind: "TooManyColons";
 }
 export interface MissingValue extends BaseUI5XMLViewBindingIssue {
   kind: "MissingValue";

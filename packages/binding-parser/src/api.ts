@@ -1,6 +1,6 @@
 export { parsePropertyBindingInfo } from "./parser/index";
 export { PropertyBindingInfoTypes } from "./types";
-
+export * from "./constant";
 export {
   isAfterAdjacentRange,
   isBefore,

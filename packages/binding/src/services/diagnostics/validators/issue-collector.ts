@@ -38,7 +38,7 @@ export const checkAst = (
       issues.push(...keyIssue);
     }
     if (keyIssue.length === 0) {
-      colonIssue.push(...checkColon(element));
+      colonIssue.push(...checkColon(element, errors));
       issues.push(...colonIssue);
     }
     if (colonIssue.length === 0) {
@@ -53,7 +53,12 @@ export const checkAst = (
       issues.push(...checkStructureValue(context, element, errors, ignore));
     }
     issues.push(
-      ...checkComma(element, binding.commas, binding.elements[index + 1])
+      ...checkComma(
+        element,
+        binding.commas,
+        errors,
+        binding.elements[index + 1]
+      )
     );
   }
   issues.push(...checkDuplicate(binding));

@@ -1,19 +1,46 @@
 import { BindingIssue, BINDING_ISSUE_TYPE } from "../../../types";
 import {
   isBefore,
+  positionContained,
   PropertyBindingInfoTypes as BindingTypes,
+  rangeContained,
+  COLON,
 } from "@ui5-language-assistant/binding-parser";
 import { rangeToOffsetRange } from "../../../utils/document";
 import { Range } from "vscode-languageserver-types";
+
 /**
  * Check comma
  */
 export const checkComma = (
   item: BindingTypes.AstElement,
   comma: BindingTypes.Comma[] = [],
+  errors: {
+    parse: BindingTypes.ParseError[];
+    lexer: BindingTypes.LexerError[];
+  },
   nextItem?: BindingTypes.AstElement
 ): BindingIssue[] => {
   const issues: BindingIssue[] = [];
+  // check too many colon - no comma issue in case of too many colon
+  const tooManyColon = errors.parse
+    .filter(
+      (i) =>
+        i.tokenTypeName === COLON && i.previousToken?.tokenTypeName === COLON
+    )
+    .find(
+      (i) =>
+        item.colon?.range &&
+        i.previousToken &&
+        rangeContained(
+          { start: i.previousToken.range.start, end: i.range.end },
+          item.colon?.range,
+          true
+        )
+    );
+  if (tooManyColon) {
+    return issues;
+  }
   const commas = comma.filter((comma) => {
     if (item.range?.end && comma.range.start) {
       if (nextItem && nextItem.range?.start) {

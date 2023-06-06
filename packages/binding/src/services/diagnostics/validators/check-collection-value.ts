@@ -44,7 +44,7 @@ export const checkCollectionValue = (
       if (isPrimitiveValue(item)) {
         issues.push(...getPrimitiveValueIssues(context, item, undefined, true));
       }
-      issues.push(...checkComma(item, value.commas, nextItem));
+      issues.push(...checkComma(item, value.commas, errors, nextItem));
     }
     return issues;
   }
@@ -125,7 +125,7 @@ export const checkCollectionValue = (
         ...getPrimitiveValueIssues(context, item, bindingElement, true)
       );
     }
-    issues.push(...checkComma(item, value.commas, nextItem));
+    issues.push(...checkComma(item, value.commas, errors, nextItem));
   }
   return issues;
 };
