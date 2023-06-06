@@ -11,7 +11,7 @@ import {
 } from "../../../utils";
 import { Position } from "vscode-languageserver-types";
 import { parsePropertyBindingInfo } from "@ui5-language-assistant/binding-parser";
-import { checkAst, checkTrailingComma } from "./issue-collector";
+import { checkAst } from "./issue-collector";
 import { filterLexerError, filterParseError } from "../../../utils/expression";
 
 export function validatePropertyBindingInfo(
@@ -52,7 +52,6 @@ export function validatePropertyBindingInfo(
           continue;
         }
         issues.push(...checkAst(context, binding, ast.errors));
-        issues.push(...checkTrailingComma(ast));
 
         /**
          * Show all lexer errors
@@ -68,7 +67,7 @@ export function validatePropertyBindingInfo(
           });
         }
         /**
-         * Show only one syntax error at a time only where there is no other issue
+         * Show only one syntax error at a time only when there is no other issue
          */
         const parseError = filterParseError(binding, ast.errors);
         if (issues.length === 0 && parseError.length) {

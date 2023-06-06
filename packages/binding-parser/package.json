@@ -19,7 +19,9 @@
     "chevrotain": "10.4.2",
     "vscode-languageserver-types": "3.17.2"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "cross-env": "7.0.3"
+  },
   "scripts": {
     "ci": "npm-run-all clean compile lint coverage",
     "clean": "rimraf ./lib ./coverage ./nyc_output",
@@ -29,6 +31,7 @@
     "test": "jest --ci --forceExit --detectOpenHandles --maxWorkers=1 --coverage=false",
     "coverage": "jest --ci --forceExit --detectOpenHandles --maxWorkers=1 --coverage=true",
     "format:fix": "prettier --write \"**/*.@(js|ts|json|md)\" --ignore-path=.gitignore",
-    "test:update": "yarn compile && node scripts/updateTestData.js"
+    "test:update": "cross-env TEST_UPDATE=true  npm-run-all compile test:update-data",
+    "test:update-data": "node scripts/updateTestData.js"
   }
 }

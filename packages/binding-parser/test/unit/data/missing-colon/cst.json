@@ -24,39 +24,11 @@
                     "endColumn": 4,
                     "tokenTypeName": "Key"
                   }
-                ],
-                "Colon": [
-                  {
-                    "image": "",
-                    "startColumn": -1,
-                    "endColumn": -1,
-                    "isInsertedInRecovery": true,
-                    "tokenTypeName": "Colon"
-                  }
-                ],
-                "Value": [
-                  {
-                    "name": "Value",
-                    "children": {
-                      "StringValue": [
-                        {
-                          "image": "'value'",
-                          "startColumn": 6,
-                          "endColumn": 12,
-                          "tokenTypeName": "StringValue"
-                        }
-                      ]
-                    },
-                    "location": {
-                      "startColumn": 6,
-                      "endColumn": 12
-                    }
-                  }
                 ]
               },
               "location": {
                 "startColumn": 2,
-                "endColumn": 12
+                "endColumn": 4
               }
             }
           ],

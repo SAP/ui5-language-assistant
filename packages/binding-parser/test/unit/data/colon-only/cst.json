@@ -13,6 +13,37 @@
               "tokenTypeName": "LeftCurly"
             }
           ],
+          "ObjectItem": [
+            {
+              "name": "ObjectItem",
+              "children": {
+                "Colon": [
+                  {
+                    "image": ":",
+                    "startColumn": 2,
+                    "endColumn": 2,
+                    "tokenTypeName": "Colon"
+                  }
+                ],
+                "Value": [
+                  {
+                    "name": "Value",
+                    "children": {},
+                    "location": {
+                      "startColumn": -1,
+                      "endColumn": -1
+                    },
+                    "recoveredNode": true
+                  }
+                ]
+              },
+              "location": {
+                "startColumn": 2,
+                "endColumn": 2
+              },
+              "recoveredNode": true
+            }
+          ],
           "RightCurly": [
             {
               "image": "}",

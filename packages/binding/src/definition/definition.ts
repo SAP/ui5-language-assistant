@@ -38,8 +38,7 @@ export const propertyBindingInfoElements: PropertyBindingInfoElement[] = [
       },
     ],
     description: {
-      text:
-        "Name of the model to bind against; when undefined or omitted, the default model is used",
+      text: "Name of the model to bind against; when undefined or omitted, the default model is used",
       visibility: "Public",
     },
   },
@@ -222,8 +221,7 @@ export const propertyBindingInfoElements: PropertyBindingInfoElement[] = [
       },
     ],
     description: {
-      text:
-        "Map of event handler functions keyed by the name of the binding events that they should be attached to",
+      text: "Map of event handler functions keyed by the name of the binding events that they should be attached to",
       visibility: "Public",
     },
   },

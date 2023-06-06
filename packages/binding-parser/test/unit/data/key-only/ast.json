@@ -15,7 +15,6 @@
           },
           "colon": "undefined",
           "value": "undefined",
-          "comma": "undefined",
           "range": "[(0,1)..(0,4)]"
         }
       ],
@@ -24,7 +23,8 @@
         "text": "}",
         "range": "[(0,5)..(0,6)]"
       },
-      "range": "[(0,0)..(0,6)]"
+      "range": "[(0,0)..(0,6)]",
+      "commas": []
     }
   ],
   "spaces": [
@@ -36,28 +36,6 @@
   ],
   "errors": {
     "lexer": [],
-    "parse": [
-      {
-        "type": "ParseError",
-        "range": "[(0,5)..(0,6)]",
-        "text": "}",
-        "merged": [
-          {
-            "type": "ParseError",
-            "text": "}",
-            "range": "[(0,5)..(0,6)]",
-            "tokenTypeName": "RightCurly"
-          }
-        ],
-        "tokenTypeName": "RightCurly",
-        "previousToken": {
-          "type": "ParseError",
-          "text": "key",
-          "range": "[(0,1)..(0,4)]",
-          "tokenTypeName": "Key"
-        },
-        "message": "Expecting --> : <-- but found --> '}' <--"
-      }
-    ]
+    "parse": []
   }
 }

@@ -1,6 +1,8 @@
-import { PropertyBindingInfoTypes as BindingTypes } from "@ui5-language-assistant/binding-parser";
+import {
+  rangeContained,
+  PropertyBindingInfoTypes as BindingTypes,
+} from "@ui5-language-assistant/binding-parser";
 import { ExtractBindingExpression } from "..//types";
-import { rangeContained } from "@ui5-language-assistant/binding-parser";
 
 /**
  * Syntax of a binding expression can be represented by `{=expression}` or `{:=expression}`
@@ -19,10 +21,6 @@ export const filterLexerError = (
   }
 ): BindingTypes.LexerError[] => {
   const result: BindingTypes.LexerError[] = [];
-  // check binding element
-  if (binding.elements.length === 0) {
-    return result;
-  }
   const lexErr = errors.lexer.filter((item) => {
     if (binding.range) {
       return rangeContained(binding.range, item.range);
@@ -41,10 +39,7 @@ export const filterParseError = (
   }
 ): BindingTypes.ParseError[] => {
   const result: BindingTypes.ParseError[] = [];
-  // check binding element
-  if (binding.elements.length === 0) {
-    return result;
-  }
+
   const parseErr = errors.parse.filter((item) => {
     if (binding.range) {
       return rangeContained(binding.range, item.range);
@@ -90,7 +85,7 @@ export const isPropertyBindingInfo = (
   const result = binding.elements.find(
     (item) => item.key?.text && item.colon?.text
   );
-  if (result && binding.leftCurly?.text && binding.rightCurly?.text) {
+  if (result && binding.leftCurly?.text) {
     return true;
   }
   return false;

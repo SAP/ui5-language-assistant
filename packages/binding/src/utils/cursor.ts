@@ -12,7 +12,7 @@ export const getCursorContext = (
   binding: BindingTypes.Binding,
   spaces: BindingTypes.WhiteSpaces[]
 ): CursorContext => {
-  const { elements } = binding;
+  const { elements, commas } = binding;
   if (elements.length === 0) {
     return {
       type: "empty",
@@ -47,8 +47,14 @@ export const getCursorContext = (
         element: el,
       };
     }
-    // check comma
-    if (positionContained(el.comma?.range, position)) {
+  }
+  // check comma
+  const comma = commas?.find((co) => positionContained(co.range, position));
+  if (comma) {
+    const el = elements.find((item) =>
+      positionContained(item.range, comma.range.start)
+    );
+    if (el) {
       return {
         type: "key-value",
         kind: "properties-with-value-excluding-duplicate",
@@ -97,7 +103,10 @@ export const getCursorContext = (
         };
       }
       // after adjacent comma => new key value
-      if (isAfterAdjacentRange(spaceEl.range, el.comma?.range)) {
+      const comma = commas?.find((co) =>
+        isAfterAdjacentRange(spaceEl.range, co.range)
+      );
+      if (comma) {
         return {
           type: "key-value",
           kind: "properties-with-value-excluding-duplicate",

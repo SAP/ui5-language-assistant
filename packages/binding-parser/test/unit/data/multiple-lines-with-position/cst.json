@@ -51,19 +51,11 @@
                       "endColumn": 18
                     }
                   }
-                ],
-                "Comma": [
-                  {
-                    "image": ",",
-                    "startColumn": 19,
-                    "endColumn": 19,
-                    "tokenTypeName": "Comma"
-                  }
                 ]
               },
               "location": {
                 "startColumn": 2,
-                "endColumn": 19
+                "endColumn": 18
               }
             },
             {
@@ -103,19 +95,11 @@
                       "endColumn": 18
                     }
                   }
-                ],
-                "Comma": [
-                  {
-                    "image": ",",
-                    "startColumn": 19,
-                    "endColumn": 19,
-                    "tokenTypeName": "Comma"
-                  }
                 ]
               },
               "location": {
                 "startColumn": 2,
-                "endColumn": 19
+                "endColumn": 18
               }
             },
             {
@@ -161,6 +145,20 @@
                 "startColumn": 5,
                 "endColumn": 21
               }
+            }
+          ],
+          "Comma": [
+            {
+              "image": ",",
+              "startColumn": 19,
+              "endColumn": 19,
+              "tokenTypeName": "Comma"
+            },
+            {
+              "image": ",",
+              "startColumn": 19,
+              "endColumn": 19,
+              "tokenTypeName": "Comma"
             }
           ],
           "RightCurly": [

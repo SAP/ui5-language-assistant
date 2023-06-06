@@ -1,1 +1,1 @@
-{ key: [null]] }
+{ key: [null] }

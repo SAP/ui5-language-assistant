@@ -310,7 +310,29 @@ describe("index", () => {
           "label: ' '; text: ' '; kind:5; commit:undefined; sort:",
         ]);
       });
-      it("h. for parts only [all binding info properties except parts itself]", async function () {
+      it("h. for parts only [existing element]", async function () {
+        const snippet = `
+        <Text text="{parts: [{}, ${CURSOR_ANCHOR} ]}" id="test-id"></Text>`;
+        const result = await getCompletionResult(snippet);
+        expect(
+          result.map((item) => completionItemToSnapshot(item))
+        ).toStrictEqual([
+          "label: { }; text: { }; kind:5; commit:undefined; sort:",
+          "label: ' '; text: ' '; kind:5; commit:undefined; sort:",
+        ]);
+      });
+      it("h. for parts only [existing element(s) without comma]", async function () {
+        const snippet = `
+        <Text text="{parts: [{} ${CURSOR_ANCHOR} ]}" id="test-id"></Text>`;
+        const result = await getCompletionResult(snippet);
+        expect(
+          result.map((item) => completionItemToSnapshot(item))
+        ).toStrictEqual([
+          "label: { }; text: { }; kind:5; commit:undefined; sort:",
+          "label: ' '; text: ' '; kind:5; commit:undefined; sort:",
+        ]);
+      });
+      it("i. for parts only [all binding info properties except parts itself]", async function () {
         const snippet = `
         <Text text="{parts: [{${CURSOR_ANCHOR}}]}" id="test-id"></Text>`;
         const result = await getCompletionResult(snippet);

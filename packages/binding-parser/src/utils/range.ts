@@ -8,6 +8,14 @@ const hasNaNOrUndefined = (value: undefined | number): boolean => {
   }
   return isNaN(value);
 };
+const isNumber = (value: undefined | number): value is number => {
+  const result = hasNaNOrUndefined(value);
+  if (result) {
+    return false;
+  }
+  return true;
+};
+
 const adjustPosition = (position: Position, offset: Position): Position =>
   Position.create(
     position.line + offset.line,
@@ -20,11 +28,11 @@ export const getLexerRange = (
   node: ILexingError,
   startPosition?: Position
 ): Range => {
-  const startLine = hasNaNOrUndefined(node.line) ? 0 : node.line! - 1;
-  const startChar = hasNaNOrUndefined(node.column) ? 0 : node.column! - 1;
+  const startLine = isNumber(node.line) ? node.line - 1 : 0;
+  const startChar = isNumber(node.column) ? node.column - 1 : 0;
   const start = Position.create(startLine, startChar);
 
-  const endLine = hasNaNOrUndefined(node.line) ? 0 : node.line! - 1;
+  const endLine = isNumber(node.line) ? node.line - 1 : 0;
   const endChar = startChar + node.length;
   const end = Position.create(endLine, endChar);
   if (startPosition) {
@@ -41,12 +49,12 @@ export const getRange = (token: IToken, param?: VisitorParam): Range => {
   const startPosition = param?.position;
 
   const start = Position.create(
-    hasNaNOrUndefined(token.startLine) ? 0 : token.startLine! - 1,
-    hasNaNOrUndefined(token.startColumn) ? 0 : token.startColumn! - 1
+    isNumber(token.startLine) ? token.startLine - 1 : 0,
+    isNumber(token.startColumn) ? token.startColumn - 1 : 0
   );
-  const line = hasNaNOrUndefined(token.endLine) ? 0 : token.endLine! - 1;
+  const line = isNumber(token.endLine) ? token.endLine - 1 : 0;
 
-  const char = hasNaNOrUndefined(token.endColumn) ? 0 : token.endColumn!;
+  const char = isNumber(token.endColumn) ? token.endColumn : 0;
 
   const end = Position.create(line, char);
   if (startPosition) {
@@ -68,10 +76,10 @@ export const locationToRange = (
   }
   const startPosition = param?.position;
   let range = Range.create(
-    hasNaNOrUndefined(location.startLine) ? 0 : location.startLine! - 1,
-    hasNaNOrUndefined(location.startColumn) ? 0 : location.startColumn! - 1,
-    hasNaNOrUndefined(location.endLine) ? 0 : location.endLine! - 1,
-    hasNaNOrUndefined(location.endColumn) ? 0 : location.endColumn!
+    isNumber(location.startLine) ? location.startLine - 1 : 0,
+    isNumber(location.startColumn) ? location.startColumn - 1 : 0,
+    isNumber(location.endLine) ? location.endLine - 1 : 0,
+    isNumber(location.endColumn) ? location.endColumn : 0
   );
   if (startPosition) {
     range = Range.create(

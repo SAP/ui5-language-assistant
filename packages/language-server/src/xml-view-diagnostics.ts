@@ -47,12 +47,10 @@ export function getXMLViewDiagnostics(opts: {
   if (opts.context.manifestDetails.flexEnabled) {
     actualValidators.element.push(validators.validateNonStableId);
   }
-  const externalFeValidators: UI5ValidatorsConfig<AnnotationIssue> = cloneDeep(
-    feValidators
-  );
-  const externalBindingValidators: UI5ValidatorsConfig<BindingIssue> = cloneDeep(
-    bindingValidators
-  );
+  const externalFeValidators: UI5ValidatorsConfig<AnnotationIssue> =
+    cloneDeep(feValidators);
+  const externalBindingValidators: UI5ValidatorsConfig<BindingIssue> =
+    cloneDeep(bindingValidators);
   const issues = validateXMLView({
     validators: mergeValidators([
       actualValidators,

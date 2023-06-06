@@ -6,7 +6,7 @@
       "endColumn": 12,
       "tokenTypeName": "StringValue"
     },
-    "message": "Expecting --> : <-- but found --> ''value'' <--",
+    "message": "Expecting --> } <-- but found --> ''value'' <--",
     "name": "MismatchedTokenException",
     "resyncedTokens": [],
     "previousToken": {

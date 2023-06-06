@@ -6,13 +6,25 @@
         "text": "{",
         "range": "[(0,0)..(0,1)]"
       },
-      "elements": [],
+      "elements": [
+        {
+          "key": "undefined",
+          "colon": {
+            "type": "Colon",
+            "text": ":",
+            "range": "[(0,1)..(0,2)]"
+          },
+          "value": "undefined",
+          "range": "[(0,1)..(0,2)]"
+        }
+      ],
       "rightCurly": {
         "type": "RightCurly",
         "text": "}",
         "range": "[(0,2)..(0,3)]"
       },
-      "range": "[(0,0)..(0,3)]"
+      "range": "[(0,0)..(0,3)]",
+      "commas": []
     }
   ],
   "spaces": [],
@@ -21,24 +33,24 @@
     "parse": [
       {
         "type": "ParseError",
-        "range": "[(0,1)..(0,2)]",
-        "text": ":",
+        "range": "[(0,2)..(0,3)]",
+        "text": "}",
         "merged": [
           {
             "type": "ParseError",
-            "text": ":",
-            "range": "[(0,1)..(0,2)]",
-            "tokenTypeName": "Colon"
+            "text": "}",
+            "range": "[(0,2)..(0,3)]",
+            "tokenTypeName": "RightCurly"
           }
         ],
-        "tokenTypeName": "Colon",
+        "tokenTypeName": "RightCurly",
         "previousToken": {
           "type": "ParseError",
-          "text": "{",
-          "range": "[(0,0)..(0,1)]",
-          "tokenTypeName": "LeftCurly"
+          "text": ":",
+          "range": "[(0,1)..(0,2)]",
+          "tokenTypeName": "Colon"
         },
-        "message": "Expecting --> } <-- but found --> ':' <--"
+        "message": "Expecting: one of these possible Token sequences:\n  1. [StringValue]\n  2. [NumberValue]\n  3. [{]\n  4. [[]\n  5. [BooleanValue]\n  6. [NullValue]\nbut found: '}'"
       }
     ]
   }

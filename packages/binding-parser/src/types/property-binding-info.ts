@@ -125,6 +125,7 @@ export interface CollectionValue {
   elements: (PrimitiveValue | StructureValue)[];
   range?: Range; // range which include left bracket, element and right bracket
   rightSquare?: RightSquare;
+  commas?: Comma[];
 }
 export type Value = PrimitiveValue | StructureValue | CollectionValue;
 
@@ -132,7 +133,6 @@ export interface AstElement {
   key?: Key;
   colon?: Colon;
   value?: Value;
-  comma?: Comma;
   range?: Range; // range of this element which include key, colon value and comma
 }
 
@@ -141,6 +141,7 @@ export interface Binding {
   rightCurly?: RightCurly;
   elements: AstElement[]; // in case of collection value can be simple value e.g string
   range?: Range; // range which include left bracket, element and right bracket,
+  commas?: Comma[];
 }
 export interface Ast {
   bindings: Binding[];
@@ -157,4 +158,10 @@ export interface ParseResult {
   tokens: IToken[];
   lexErrors: ILexingError[];
   parseErrors: IRecognitionException[];
+}
+
+export interface CreateNode<T> {
+  type: T;
+  text: string;
+  range: Range;
 }

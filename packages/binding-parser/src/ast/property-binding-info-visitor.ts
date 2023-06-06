@@ -29,6 +29,7 @@ import type {
   StructureValue,
   Value,
   VisitorParam,
+  CreateNode,
 } from "../types/property-binding-info";
 import { propertyBindingInfoParser } from "../parser/property-binding-info";
 
@@ -86,20 +87,21 @@ class PropertyBindingInfoVisitor extends BaseVisitor {
       }
     }
     const range = locationToRange(param.location, param);
+    const commas = this.getCommas(node[COMMA] as IToken[], param);
     return {
       leftCurly,
       elements,
       rightCurly,
       range,
+      commas,
     };
   }
   [OBJECT_ITEM](node: CstChildrenDictionary, param: VisitorParam): AstElement {
     const key = this[KEY](node[KEY] as IToken[], param);
     const colon = this[COLON](node[COLON] as IToken[], param);
     const value = this.visit(node[VALUE] as CstNode[], param);
-    const comma = this[COMMA](node[COMMA] as IToken[], param);
     const range = locationToRange(param.location, param);
-    return { key, colon, value, comma, range };
+    return { key, colon, value, range };
   }
   [VALUE](node: CstChildrenDictionary, param: VisitorParam): Value | undefined {
     let data = node[STRING_VALUE];
@@ -159,6 +161,7 @@ class PropertyBindingInfoVisitor extends BaseVisitor {
       (node[RIGHT_SQUARE] as IToken[]) ?? [],
       param
     );
+    const commas = this.getCommas(node[COMMA] as IToken[], param);
     const elements: (PrimitiveValue | StructureValue)[] = [];
     const data = (node[VALUE] as CstNode[]) ?? [];
     for (let index = 0; index < data.length; index++) {
@@ -178,6 +181,7 @@ class PropertyBindingInfoVisitor extends BaseVisitor {
       elements,
       rightSquare,
       range,
+      commas,
     };
   }
   [LEFT_CURLY](node: IToken[], param: VisitorParam) {
@@ -233,6 +237,19 @@ class PropertyBindingInfoVisitor extends BaseVisitor {
       return;
     }
     return createNode(node[0], COMMA, param);
+  }
+  getCommas(
+    nodes: IToken[] = [],
+    param: VisitorParam
+  ): CreateNode<typeof COMMA>[] {
+    const commas: CreateNode<typeof COMMA>[] = [];
+    for (const comma of nodes) {
+      const commaNode = this[COMMA]([comma], param);
+      if (commaNode) {
+        commas.push(commaNode);
+      }
+    }
+    return commas;
   }
 }
 

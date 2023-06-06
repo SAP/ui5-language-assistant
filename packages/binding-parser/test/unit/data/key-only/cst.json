@@ -29,8 +29,7 @@
               "location": {
                 "startColumn": 2,
                 "endColumn": 4
-              },
-              "recoveredNode": true
+              }
             }
           ],
           "RightCurly": [

@@ -7,6 +7,7 @@ import {
   isCollectionValue,
   isPrimitiveValue,
   isStructureValue,
+  positionContained,
   PropertyBindingInfoTypes as BindingTypes,
 } from "@ui5-language-assistant/binding-parser";
 
@@ -70,27 +71,32 @@ export const createValue = (
       });
     }
   } else if (isCollectionValue(element.value) && isParts(element)) {
-    for (const collectionEl of element.value.elements) {
-      if (isStructureValue(collectionEl)) {
-        const result = getCompletionItems(context, collectionEl, spaces).filter(
+    const position = context.textDocumentPosition?.position;
+    if (position) {
+      const el = element.value.elements
+        .filter((item) => !!item)
+        .find((item) => positionContained(item.range, position));
+
+      if (isStructureValue(el)) {
+        const result = getCompletionItems(context, el, spaces).filter(
           (item) => item.label !== "parts"
         );
         completionItems.push(...result);
       }
-    }
-    if (element.value.elements.length === 0) {
-      const bindingElement = propertyBindingInfoElements.find(
-        (el) => el.name === element.key?.text
-      );
-      const data = typesToValue(bindingElement?.type ?? [], context, true);
-      data.forEach((item) =>
-        completionItems.push({
-          label: item,
-          insertTextFormat: InsertTextFormat.Snippet,
-          insertText: item,
-          kind: CompletionItemKind.Field,
-        })
-      );
+      if (!el) {
+        const bindingElement = propertyBindingInfoElements.find(
+          (el) => el.name === element.key?.text
+        );
+        const data = typesToValue(bindingElement?.type ?? [], context, true);
+        data.forEach((item) =>
+          completionItems.push({
+            label: item,
+            insertTextFormat: InsertTextFormat.Snippet,
+            insertText: item,
+            kind: CompletionItemKind.Field,
+          })
+        );
+      }
     }
   }
   return completionItems;

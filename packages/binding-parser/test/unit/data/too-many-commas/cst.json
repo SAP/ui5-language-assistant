@@ -51,19 +51,11 @@
                       "endColumn": 18
                     }
                   }
-                ],
-                "Comma": [
-                  {
-                    "image": ",",
-                    "startColumn": 19,
-                    "endColumn": 19,
-                    "tokenTypeName": "Comma"
-                  }
                 ]
               },
               "location": {
                 "startColumn": 2,
-                "endColumn": 19
+                "endColumn": 18
               }
             },
             {
@@ -109,6 +101,26 @@
                 "startColumn": 23,
                 "endColumn": 39
               }
+            }
+          ],
+          "Comma": [
+            {
+              "image": ",",
+              "startColumn": 19,
+              "endColumn": 19,
+              "tokenTypeName": "Comma"
+            },
+            {
+              "image": ",",
+              "startColumn": 20,
+              "endColumn": 20,
+              "tokenTypeName": "Comma"
+            },
+            {
+              "image": ",",
+              "startColumn": 21,
+              "endColumn": 21,
+              "tokenTypeName": "Comma"
             }
           ],
           "RightCurly": [

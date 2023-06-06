@@ -1,4 +1,4 @@
-const rangePropertyPattern = /[a-z]*ranges?/i;
+const rangePropertyPattern = /ranges?/i;
 const compactPosition = (position) =>
   `(${position.line},${position.character})`;
 const compactRange = (range) =>

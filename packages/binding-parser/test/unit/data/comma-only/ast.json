@@ -12,34 +12,19 @@
         "text": "}",
         "range": "[(0,2)..(0,3)]"
       },
-      "range": "[(0,0)..(0,3)]"
+      "range": "[(0,0)..(0,3)]",
+      "commas": [
+        {
+          "type": "Comma",
+          "text": ",",
+          "range": "[(0,1)..(0,2)]"
+        }
+      ]
     }
   ],
   "spaces": [],
   "errors": {
     "lexer": [],
-    "parse": [
-      {
-        "type": "ParseError",
-        "range": "[(0,1)..(0,2)]",
-        "text": ",",
-        "merged": [
-          {
-            "type": "ParseError",
-            "text": ",",
-            "range": "[(0,1)..(0,2)]",
-            "tokenTypeName": "Comma"
-          }
-        ],
-        "tokenTypeName": "Comma",
-        "previousToken": {
-          "type": "ParseError",
-          "text": "{",
-          "range": "[(0,0)..(0,1)]",
-          "tokenTypeName": "LeftCurly"
-        },
-        "message": "Expecting --> } <-- but found --> ',' <--"
-      }
-    ]
+    "parse": []
   }
 }

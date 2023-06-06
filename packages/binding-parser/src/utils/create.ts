@@ -6,8 +6,9 @@ import {
   NoViableAltException,
 } from "chevrotain";
 import { LEXER_ERROR, PARSE_ERROR } from "../constant";
-import type { Position, Range } from "vscode-languageserver-types";
+import type { Position } from "vscode-languageserver-types";
 import type {
+  CreateNode,
   LexerError,
   NodeType,
   ParseError,
@@ -20,7 +21,7 @@ export const createNode = <T extends NodeType>(
   token: IToken,
   type: T,
   param?: VisitorParam
-): { type: T; text: string; range: Range } => {
+): CreateNode<T> => {
   const text = token.image;
   const range = getRange(token, param);
   return {

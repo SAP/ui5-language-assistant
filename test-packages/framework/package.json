@@ -26,7 +26,7 @@
   },
   "scripts": {
     "ci": "npm-run-all clean compile lint test",
-    "clean": "rimraf ./lib ./coverage ./nyc_output ./.model-cache",
+    "clean": "rimraf ./lib ./coverage ./nyc_output ./.model-cache tsconfig-build.tsbuildinfo",
     "compile": "yarn run clean && tsc -p tsconfig-build.json",
     "compile:watch": "tsc -p . --watch",
     "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore",

@@ -100,21 +100,21 @@
           "RightCurly": [
             {
               "image": "}",
-              "startColumn": 16,
-              "endColumn": 16,
+              "startColumn": 15,
+              "endColumn": 15,
               "tokenTypeName": "RightCurly"
             }
           ]
         },
         "location": {
           "startColumn": 1,
-          "endColumn": 16
+          "endColumn": 15
         }
       }
     ]
   },
   "location": {
     "startColumn": 1,
-    "endColumn": 16
+    "endColumn": 15
   }
 }

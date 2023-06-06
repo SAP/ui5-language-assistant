@@ -13,6 +13,14 @@
               "tokenTypeName": "LeftCurly"
             }
           ],
+          "Comma": [
+            {
+              "image": ",",
+              "startColumn": 2,
+              "endColumn": 2,
+              "tokenTypeName": "Comma"
+            }
+          ],
           "RightCurly": [
             {
               "image": "}",

@@ -7,6 +7,7 @@ export type BindingIssue =
   | MissingColon
   | MissingValue
   | MissingComma
+  | TooManyCommas
   | Syntax
   | TrailingComma
   | UnknownChar
@@ -34,6 +35,9 @@ export interface MissingValue extends BaseUI5XMLViewBindingIssue {
 }
 export interface MissingComma extends BaseUI5XMLViewBindingIssue {
   kind: "MissingComma";
+}
+export interface TooManyCommas extends BaseUI5XMLViewBindingIssue {
+  kind: "TooManyCommas";
 }
 export interface TrailingComma extends BaseUI5XMLViewBindingIssue {
   kind: "TrailingComma";

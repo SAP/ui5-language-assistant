@@ -1,4 +1,5 @@
 import { CstParser } from "chevrotain";
+import type { CstNode, TokenType, IToken } from "chevrotain";
 import {
   ARRAY,
   OBJECT,
@@ -28,17 +29,32 @@ class PropertyBindingInfoParser extends CstParser {
 
   [OBJECT] = this.RULE(OBJECT, () => {
     this.CONSUME(tokenMap.leftCurly);
-    this.MANY(() => {
-      this.SUBRULE(this[OBJECT_ITEM]);
+    this.OPTION(() => {
+      this.CUSTOM_MANY(tokenMap.rightCurly, this[OBJECT_ITEM]);
     });
     this.CONSUME(tokenMap.rightCurly);
   });
 
   [OBJECT_ITEM] = this.RULE(OBJECT_ITEM, () => {
-    this.CONSUME(tokenMap.key);
-    this.CONSUME(tokenMap.colon);
-    this.SUBRULE(this[VALUE]);
-    this.OPTION(() => this.CONSUME(tokenMap.comma));
+    this.OR([
+      {
+        GATE: (): boolean => this.LA(1).tokenType === tokenMap.colon,
+        ALT: (): void => {
+          // key is missing, but there is colon
+          this.CONSUME(tokenMap.colon);
+          this.SUBRULE(this[VALUE]);
+        },
+      },
+      {
+        ALT: (): void => {
+          this.CONSUME1(tokenMap.key);
+          this.OPTION1(() => {
+            this.CONSUME2(tokenMap.colon);
+            this.SUBRULE2(this[VALUE]);
+          });
+        },
+      },
+    ]);
   });
   [VALUE] = this.RULE(VALUE, () => {
     this.OR([
@@ -53,14 +69,41 @@ class PropertyBindingInfoParser extends CstParser {
 
   [ARRAY] = this.RULE(ARRAY, () => {
     this.CONSUME(tokenMap.leftBracket);
-    this.MANY_SEP({
-      SEP: tokenMap.comma,
-      DEF: () => {
-        this.SUBRULE(this[VALUE]);
-      },
+    this.OPTION(() => {
+      this.CUSTOM_MANY(tokenMap.rightBracket, this[VALUE]);
     });
     this.CONSUME(tokenMap.rightBracket);
   });
+
+  CUSTOM_MANY(
+    endToken: TokenType,
+    repetitionRule: <T>(idxInCallingRule?: number, ...args: T[]) => CstNode
+  ): void {
+    this.MANY(() => {
+      // workaround for https://github.com/SAP/chevrotain/issues/1200 once it is fixed we can use empty alternative
+      this.OR([
+        {
+          GATE: (): boolean =>
+            this.LA(1).tokenType === tokenMap.comma &&
+            (this.LA(2).tokenType === endToken ||
+              this.LA(2).tokenType === tokenMap.comma),
+          ALT: (): IToken => this.CONSUME2(tokenMap.comma),
+        },
+        {
+          GATE: (): boolean =>
+            this.LA(1).tokenType === tokenMap.comma &&
+            this.LA(2).tokenType !== endToken,
+          ALT: (): void => {
+            this.CONSUME3(tokenMap.comma);
+            this.SUBRULE(repetitionRule);
+          },
+        },
+        {
+          ALT: (): CstNode => this.SUBRULE1(repetitionRule),
+        },
+      ]);
+    });
+  }
 }
 
 export const propertyBindingInfoParser = new PropertyBindingInfoParser();

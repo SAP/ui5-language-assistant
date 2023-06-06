@@ -21,8 +21,12 @@ const hasNaNOrUndefined = (value: undefined | number): boolean => {
   return isNaN(value);
 };
 
-export const getBase = (): string =>
-  join(__dirname, "..", "..", "..", "..", "test", "unit", "data");
+export const getBase = (): string => {
+  if (process.env.TEST_UPDATE) {
+    return join(__dirname, "..", "..", "..", "..", "test", "unit", "data");
+  }
+  return join(__dirname, "..", "..", "..", "test", "unit", "data");
+};
 
 export const getFileContent = async (filePath: string): Promise<string> => {
   const buffer = await readFile(filePath, "utf8");

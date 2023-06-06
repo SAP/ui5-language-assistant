@@ -23,12 +23,12 @@
             "text": "'value'",
             "range": "[(0,6)..(0,13)]"
           },
-          "comma": "undefined",
           "range": "[(0,1)..(0,13)]"
         }
       ],
       "rightCurly": "undefined",
-      "range": "[(0,0)..(0,13)]"
+      "range": "[(0,0)..(0,13)]",
+      "commas": []
     }
   ],
   "spaces": [

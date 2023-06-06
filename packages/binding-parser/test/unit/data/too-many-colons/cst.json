@@ -50,6 +50,100 @@
                 "endColumn": 5
               },
               "recoveredNode": true
+            },
+            {
+              "name": "ObjectItem",
+              "children": {
+                "Colon": [
+                  {
+                    "image": ":",
+                    "startColumn": 6,
+                    "endColumn": 6,
+                    "tokenTypeName": "Colon"
+                  }
+                ],
+                "Value": [
+                  {
+                    "name": "Value",
+                    "children": {},
+                    "location": {
+                      "startColumn": -1,
+                      "endColumn": -1
+                    },
+                    "recoveredNode": true
+                  }
+                ]
+              },
+              "location": {
+                "startColumn": 6,
+                "endColumn": 6
+              },
+              "recoveredNode": true
+            },
+            {
+              "name": "ObjectItem",
+              "children": {
+                "Colon": [
+                  {
+                    "image": ":",
+                    "startColumn": 7,
+                    "endColumn": 7,
+                    "tokenTypeName": "Colon"
+                  }
+                ],
+                "Value": [
+                  {
+                    "name": "Value",
+                    "children": {},
+                    "location": {
+                      "startColumn": -1,
+                      "endColumn": -1
+                    },
+                    "recoveredNode": true
+                  }
+                ]
+              },
+              "location": {
+                "startColumn": 7,
+                "endColumn": 7
+              },
+              "recoveredNode": true
+            },
+            {
+              "name": "ObjectItem",
+              "children": {
+                "Colon": [
+                  {
+                    "image": ":",
+                    "startColumn": 8,
+                    "endColumn": 8,
+                    "tokenTypeName": "Colon"
+                  }
+                ],
+                "Value": [
+                  {
+                    "name": "Value",
+                    "children": {
+                      "StringValue": [
+                        {
+                          "image": "'value'",
+                          "startColumn": 10,
+                          "endColumn": 16,
+                          "tokenTypeName": "StringValue"
+                        }
+                      ]
+                    },
+                    "location": {
+                      "startColumn": 10,
+                      "endColumn": 16
+                    }
+                  }
+                ]
+              },
+              "location": {
+                "startColumn": 8,
+                "endColumn": 16
+              }
             }
           ],
           "RightCurly": [
