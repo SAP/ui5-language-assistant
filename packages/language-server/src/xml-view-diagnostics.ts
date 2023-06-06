@@ -20,7 +20,6 @@ import {
   defaultValidators,
   validators,
   UI5ValidatorsConfig,
-  BaseUI5XMLViewIssue,
 } from "@ui5-language-assistant/xml-views-validation";
 
 import { defaultValidators as feValidators } from "@ui5-language-assistant/fe";

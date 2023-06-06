@@ -34,7 +34,6 @@ export type NodeType =
   | typeof SPECIAL_CHARS
   | typeof COLON
   | typeof KEY
-  | typeof COLON
   | typeof LEFT_CURLY
   | typeof RIGHT_CURLY
   | typeof LEFT_SQUARE

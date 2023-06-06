@@ -44,7 +44,7 @@ export const update = async (): Promise<void | Error> => {
         serialize(errorTransform)
       );
     } catch (error) {
-      throw { error, testFolderPath: test };
+      throw Error(`Failed to update: ${test}`);
     }
   }
 };

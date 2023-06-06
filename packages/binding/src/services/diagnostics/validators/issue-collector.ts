@@ -53,8 +53,8 @@ export const checkAst = (
     issues.push(
       ...checkComma(
         element,
-        binding.commas,
         errors,
+        binding.commas,
         binding.elements[index + 1]
       )
     );

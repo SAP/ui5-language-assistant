@@ -76,8 +76,7 @@ class PropertyBindingInfoVisitor extends BaseVisitor {
     );
     const elements: AstElement[] = [];
     const data = (node[OBJECT_ITEM] as CstNode[]) ?? [];
-    for (let index = 0; index < data.length; index++) {
-      const element = data[index];
+    for (const element of data) {
       const newParam = {
         ...param,
         location: element.location,
@@ -88,7 +87,7 @@ class PropertyBindingInfoVisitor extends BaseVisitor {
       }
     }
     const range = locationToRange(param.location, param);
-    const commas = this.getCommas(node[COMMA] as IToken[], param);
+    const commas = this.getCommas(param, node[COMMA] as IToken[]);
     return {
       leftCurly,
       elements,
@@ -105,6 +104,37 @@ class PropertyBindingInfoVisitor extends BaseVisitor {
     return { key, colon, value, range };
   }
   [VALUE](node: CstChildrenDictionary, param: VisitorParam): Value | undefined {
+    const primitiveVal = this.primitiveValue(node, param);
+    if (primitiveVal) {
+      return primitiveVal;
+    }
+
+    let data = node[OBJECT];
+    if (data) {
+      /* istanbul ignore next */
+      if (!data.length) {
+        return;
+      }
+      const structureData = data as CstNode[];
+      return this.visit(structureData, {
+        ...param,
+        location: structureData[0].location,
+      });
+    }
+    data = node[ARRAY];
+    if (data) {
+      if (!data.length) {
+        /* istanbul ignore next */
+        return;
+      }
+      return this.visit(data as CstNode[], param);
+    }
+    return;
+  }
+  primitiveValue(
+    node: CstChildrenDictionary,
+    param: VisitorParam
+  ): Value | undefined {
     let data = node[STRING_VALUE];
     if (data) {
       /* istanbul ignore next */
@@ -137,26 +167,6 @@ class PropertyBindingInfoVisitor extends BaseVisitor {
       }
       return createNode(data[0] as IToken, BOOLEAN_VALUE, param);
     }
-    data = node[OBJECT];
-    if (data) {
-      /* istanbul ignore next */
-      if (!data.length) {
-        return;
-      }
-      const structureData = data as CstNode[];
-      return this.visit(structureData, {
-        ...param,
-        location: structureData[0].location,
-      });
-    }
-    data = node[ARRAY];
-    if (data) {
-      if (!data.length) {
-        /* istanbul ignore next */
-        return;
-      }
-      return this.visit(data as CstNode[], param);
-    }
     return;
   }
   [ARRAY](node: CstChildrenDictionary, param: VisitorParam): CollectionValue {
@@ -170,11 +180,10 @@ class PropertyBindingInfoVisitor extends BaseVisitor {
         /* istanbul ignore next: array init */ [],
       param
     );
-    const commas = this.getCommas(node[COMMA] as IToken[], param);
+    const commas = this.getCommas(param, node[COMMA] as IToken[]);
     const elements: (PrimitiveValue | StructureValue)[] = [];
     const data = (node[VALUE] as CstNode[]) ?? [];
-    for (let index = 0; index < data.length; index++) {
-      const element = data[index];
+    for (const element of data) {
       const newParam = {
         ...param,
         location: element.location,
@@ -259,8 +268,8 @@ class PropertyBindingInfoVisitor extends BaseVisitor {
     return createNode(node[0], COMMA, param);
   }
   getCommas(
-    nodes: IToken[] = [],
-    param: VisitorParam
+    param: VisitorParam,
+    nodes: IToken[] = []
   ): CreateNode<typeof COMMA>[] {
     const commas: CreateNode<typeof COMMA>[] = [];
     for (const comma of nodes) {

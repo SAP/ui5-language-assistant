@@ -159,7 +159,7 @@ describe("position", () => {
       expect(result).toBeFalse();
     });
     it("false [range2 undefined]", () => {
-      const result = isBeforeAdjacentRange({} as Range, undefined);
+      const result = isBeforeAdjacentRange({} as Range);
       expect(result).toBeFalse();
     });
     it("true [range1.end.line === range2.start.line && range1.end.character === range2.start.character]", () => {

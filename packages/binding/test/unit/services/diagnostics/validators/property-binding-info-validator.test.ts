@@ -23,15 +23,15 @@ describe("property-binding-info-validator", () => {
     "Main.view.xml",
   ];
   const getElementByName = (
-    elements: XMLElement[] = [],
-    name: string
+    name: string,
+    elements: XMLElement[] = []
   ): XMLElement | undefined => {
     for (const item of elements) {
       if (item.name === name) {
         return item;
       }
       if (item.subElements.length) {
-        return getElementByName(item.subElements, name);
+        return getElementByName(name, item.subElements);
       }
     }
     return;
@@ -75,7 +75,7 @@ describe("property-binding-info-validator", () => {
   const fetchContext = async (documentPath: string): Promise<Context> => {
     const context = await getContext(documentPath);
     if (!isContext(context)) {
-      throw "getContext throws an error. Check 'getContext'";
+      throw new Error("getContext throws an error. Check 'getContext'");
     }
     return context;
   };
@@ -91,7 +91,7 @@ describe("property-binding-info-validator", () => {
       insertAfter: "<content>",
     });
     const { ast } = await framework.readFile(viewFilePathSegments);
-    const element = getElementByName(ast.rootElement?.subElements, elementName);
+    const element = getElementByName(elementName, ast.rootElement?.subElements);
     const attr = getElementAttributeName(
       element?.attributes,
       attrName

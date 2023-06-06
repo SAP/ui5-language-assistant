@@ -13,12 +13,12 @@ import { Range } from "vscode-languageserver-types";
  */
 export const checkComma = (
   item: BindingTypes.AstElement,
-  /* istanbul ignore next */
-  comma: BindingTypes.Comma[] = [],
   errors: {
     parse: BindingTypes.ParseError[];
     lexer: BindingTypes.LexerError[];
   },
+  /* istanbul ignore next */
+  comma: BindingTypes.Comma[] = [],
   nextItem?: BindingTypes.AstElement
 ): BindingIssue[] => {
   const issues: BindingIssue[] = [];
