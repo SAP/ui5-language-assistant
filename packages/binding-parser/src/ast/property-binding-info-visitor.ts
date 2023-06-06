@@ -66,7 +66,8 @@ class PropertyBindingInfoVisitor extends BaseVisitor {
   }
   [OBJECT](node: CstChildrenDictionary, param: VisitorParam): Binding {
     const leftCurly = this[LEFT_CURLY](
-      (node[LEFT_CURLY] as IToken[]) ?? [],
+      (node[LEFT_CURLY] as IToken[]) ??
+        /* istanbul ignore next: array init */ [],
       param
     );
     const rightCurly = this[RIGHT_CURLY](
@@ -106,6 +107,7 @@ class PropertyBindingInfoVisitor extends BaseVisitor {
   [VALUE](node: CstChildrenDictionary, param: VisitorParam): Value | undefined {
     let data = node[STRING_VALUE];
     if (data) {
+      /* istanbul ignore next */
       if (!data.length) {
         return;
       }
@@ -113,6 +115,7 @@ class PropertyBindingInfoVisitor extends BaseVisitor {
     }
     data = node[NUMBER_VALUE];
     if (data) {
+      /* istanbul ignore next */
       if (!data.length) {
         return;
       }
@@ -120,6 +123,7 @@ class PropertyBindingInfoVisitor extends BaseVisitor {
     }
     data = node[NULL_VALUE];
     if (data) {
+      /* istanbul ignore next */
       if (!data.length) {
         return;
       }
@@ -127,6 +131,7 @@ class PropertyBindingInfoVisitor extends BaseVisitor {
     }
     data = node[BOOLEAN_VALUE];
     if (data) {
+      /* istanbul ignore next */
       if (!data.length) {
         return;
       }
@@ -134,6 +139,7 @@ class PropertyBindingInfoVisitor extends BaseVisitor {
     }
     data = node[OBJECT];
     if (data) {
+      /* istanbul ignore next */
       if (!data.length) {
         return;
       }
@@ -146,6 +152,7 @@ class PropertyBindingInfoVisitor extends BaseVisitor {
     data = node[ARRAY];
     if (data) {
       if (!data.length) {
+        /* istanbul ignore next */
         return;
       }
       return this.visit(data as CstNode[], param);
@@ -154,11 +161,13 @@ class PropertyBindingInfoVisitor extends BaseVisitor {
   }
   [ARRAY](node: CstChildrenDictionary, param: VisitorParam): CollectionValue {
     const leftSquare = this[LEFT_SQUARE](
-      (node[LEFT_SQUARE] as IToken[]) ?? [],
+      (node[LEFT_SQUARE] as IToken[]) ??
+        /* istanbul ignore next: array init */ [],
       param
     );
     const rightSquare = this[RIGHT_SQUARE](
-      (node[RIGHT_SQUARE] as IToken[]) ?? [],
+      (node[RIGHT_SQUARE] as IToken[]) ??
+        /* istanbul ignore next: array init */ [],
       param
     );
     const commas = this.getCommas(node[COMMA] as IToken[], param);
@@ -185,54 +194,65 @@ class PropertyBindingInfoVisitor extends BaseVisitor {
     };
   }
   [LEFT_CURLY](node: IToken[], param: VisitorParam) {
+    /* istanbul ignore next */
     if (node.length === 0) {
       return;
     }
     return createNode(node[0], LEFT_CURLY, param);
   }
   [RIGHT_CURLY](node: IToken[] | undefined, param: VisitorParam) {
+    /* istanbul ignore next */
     if (!node) {
       return;
     }
+    /* istanbul ignore next */
     if (node.length === 0) {
       return;
     }
     return createNode(node[0], RIGHT_CURLY, param);
   }
   [LEFT_SQUARE](node: IToken[], param: VisitorParam) {
+    /* istanbul ignore next */
     if (node.length === 0) {
       return;
     }
     return createNode(node[0], LEFT_SQUARE, param);
   }
   [RIGHT_SQUARE](node: IToken[], param: VisitorParam) {
+    /* istanbul ignore next */
     if (node.length === 0) {
       return;
     }
     return createNode(node[0], RIGHT_SQUARE, param);
   }
   [KEY](node: IToken[] | undefined, param: VisitorParam) {
+    /* istanbul ignore next */
     if (!node) {
       return;
     }
+    /* istanbul ignore next */
     if (node.length === 0) {
       return;
     }
     return createNode(node[0], KEY, param);
   }
   [COLON](node: IToken[] | undefined, param: VisitorParam) {
+    /* istanbul ignore next */
     if (!node) {
       return;
     }
+    /* istanbul ignore next */
     if (node.length === 0) {
       return;
     }
     return createNode(node[0], COLON, param);
   }
   [COMMA](node: IToken[], param: VisitorParam) {
+    /* istanbul ignore next */
     if (!node) {
       return;
     }
+    /* istanbul ignore next */
     if (node.length === 0) {
       return;
     }

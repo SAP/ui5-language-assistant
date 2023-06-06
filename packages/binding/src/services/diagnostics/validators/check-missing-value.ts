@@ -1,5 +1,8 @@
 import { BindContext, BindingIssue, BINDING_ISSUE_TYPE } from "../../../types";
-import { PropertyBindingInfoTypes as BindingTypes } from "@ui5-language-assistant/binding-parser";
+import {
+  COLON,
+  PropertyBindingInfoTypes as BindingTypes,
+} from "@ui5-language-assistant/binding-parser";
 import { rangeToOffsetRange, typesToValue } from "../../../utils";
 import { propertyBindingInfoElements } from "../../../definition/definition";
 
@@ -19,7 +22,7 @@ export const checkMissingValue = (
     return issues;
   }
   const extraColonIssue = parseErrors.find(
-    (item) => item.merged[0]?.tokenTypeName === BindingTypes.COLON
+    (item) => item.merged[0]?.tokenTypeName === COLON
   );
   if (extraColonIssue) {
     return issues;

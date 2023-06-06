@@ -24,22 +24,6 @@ import {
   STRING_VALUE,
   WHITE_SPACE,
 } from "../constant";
-export {
-  BOOLEAN_VALUE,
-  COLON,
-  COMMA,
-  KEY,
-  LEFT_CURLY,
-  LEFT_SQUARE,
-  LEXER_ERROR,
-  NULL_VALUE,
-  NUMBER_VALUE,
-  PARSE_ERROR,
-  RIGHT_CURLY,
-  RIGHT_SQUARE,
-  STRING_VALUE,
-  WHITE_SPACE,
-} from "../constant";
 
 export interface VisitorParam {
   position?: Position;

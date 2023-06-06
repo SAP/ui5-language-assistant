@@ -64,6 +64,10 @@ describe("range", () => {
     });
   });
   describe("locationToRange", () => {
+    it("missing location", () => {
+      const range = locationToRange();
+      expect(range).toBeUndefined();
+    });
     it("without position param", () => {
       const token = createToken<CstNodeLocation>({
         startColumn: 10,
@@ -103,6 +107,25 @@ describe("range", () => {
         end: {
           line: 10,
           character: 9,
+        },
+      });
+    });
+    it("with NaN", () => {
+      const token = createToken<CstNodeLocation>({
+        startColumn: NaN,
+        startLine: NaN,
+        endColumn: NaN,
+        endLine: NaN,
+      });
+      const range = locationToRange(token);
+      expect(range).toStrictEqual({
+        start: {
+          line: 0,
+          character: 0,
+        },
+        end: {
+          line: 0,
+          character: 0,
         },
       });
     });
@@ -151,6 +174,27 @@ describe("range", () => {
         end: {
           line: 13,
           character: 12,
+        },
+      });
+    });
+    it("with NaN", () => {
+      const create: ILexingError = {
+        line: NaN,
+        column: NaN,
+        length: 0,
+        message: "",
+        offset: NaN,
+      };
+      const token = createToken<ILexingError, ILexingError>(create);
+      const range = getLexerRange(token);
+      expect(range).toStrictEqual({
+        start: {
+          line: 0,
+          character: 0,
+        },
+        end: {
+          line: 0,
+          character: 0,
         },
       });
     });

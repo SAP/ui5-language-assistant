@@ -4,7 +4,7 @@ import {
   isAfterAdjacentRange,
   positionContained,
   rangeContained,
-} from "../../../src/utils/position";
+} from "../../../src/api";
 import { Range, Position } from "vscode-languageserver-protocol";
 describe("position", () => {
   describe("rangeContained", () => {

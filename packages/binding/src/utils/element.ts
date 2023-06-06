@@ -1,5 +1,13 @@
 import { BindContext, PropertyType } from "../types";
-import { PropertyBindingInfoTypes as BindingTypes } from "@ui5-language-assistant/binding-parser";
+import {
+  BOOLEAN_VALUE,
+  LEFT_CURLY,
+  LEFT_SQUARE,
+  PropertyBindingInfoTypes as BindingTypes,
+  RIGHT_CURLY,
+  RIGHT_SQUARE,
+  STRING_VALUE,
+} from "@ui5-language-assistant/binding-parser";
 
 export const typesToValue = (
   types: PropertyType[],
@@ -36,12 +44,12 @@ export const typesToValue = (
 };
 
 export const valueTypeMap = new Map([
-  [BindingTypes.STRING_VALUE, "string"],
-  [BindingTypes.BOOLEAN_VALUE, "boolean"],
-  [BindingTypes.LEFT_SQUARE, "array"],
-  [BindingTypes.RIGHT_SQUARE, "array"],
-  [BindingTypes.RIGHT_CURLY, "object"],
-  [BindingTypes.LEFT_CURLY, "object"],
+  [STRING_VALUE, "string"],
+  [BOOLEAN_VALUE, "boolean"],
+  [LEFT_SQUARE, "array"],
+  [RIGHT_SQUARE, "array"],
+  [RIGHT_CURLY, "object"],
+  [LEFT_CURLY, "object"],
 ]);
 
 export const isParts = (element: BindingTypes.AstElement): boolean => {

@@ -1,4 +1,4 @@
-import { parsePropertyBindingInfo } from "../../../src/parser";
+import { parsePropertyBindingInfo } from "../../../src/api";
 import {
   getInput,
   getCst,
