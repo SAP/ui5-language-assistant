@@ -21,7 +21,7 @@ const getParts = (element: BindingTypes.AstElement) => {
               kind: "RecursiveProperty",
               message: `Recursive composite bindings is not allowed`,
               offsetRange: rangeToOffsetRange(el.range),
-              range: el.key?.range ?? el.range!,
+              range: el.key?.range ?? el.range,
               severity: "info",
             });
           } else {

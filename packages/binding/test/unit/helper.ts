@@ -23,8 +23,11 @@ const doc = (doc: MarkupContent | string | undefined): string => {
   }
   return `kind:${doc.kind},value:${doc.value}`;
 };
-const createRange = (range: Range): string => {
-  return `${range.start.line}:${range.start.character}-${range.end.line}:${range.end.character}`;
+const createRange = (range: Range | undefined): string => {
+  if (range) {
+    return `${range.start.line}:${range.start.character}-${range.end.line}:${range.end.character}`;
+  }
+  return "0:0-0:0";
 };
 
 export const completionItemToSnapshot = (

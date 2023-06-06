@@ -59,7 +59,7 @@ export const checkNotAllowedElement = (
       kind: "NotAllowedProperty",
       message: `One of these elements [${keys.join(", ")}] are allowed`,
       offsetRange: rangeToOffsetRange(item.range),
-      range: item.key?.range ?? item.range!,
+      range: item.key?.range ?? item.range,
       severity: "info",
     })
   );

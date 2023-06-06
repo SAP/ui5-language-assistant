@@ -26,7 +26,6 @@ export const checkStructureValue = (
   const value = element.value;
   if (isStructureValue(value)) {
     if (!ignore) {
-      // check if that element is allowed to have structure value
       const bindingElement = propertyBindingInfoElements.find(
         (el) => el.name === element.key?.text
       );
@@ -37,6 +36,7 @@ export const checkStructureValue = (
       const elementSpecificType = bindingElement.type.find(
         (i) => i.kind === valueTypeMap.get(BindingTypes.LEFT_CURLY)
       );
+      // check if that element is allowed to have structure value
       if (!elementSpecificType || elementSpecificType.collection) {
         const data = typesToValue(bindingElement.type, context);
         const message = `Allowed value${
@@ -47,7 +47,7 @@ export const checkStructureValue = (
           kind: "MissMatchValue",
           message,
           offsetRange: rangeToOffsetRange(value.range),
-          range: value.range ?? element.range!,
+          range: value.range ?? element.range,
           severity: "info",
         });
         return issues;

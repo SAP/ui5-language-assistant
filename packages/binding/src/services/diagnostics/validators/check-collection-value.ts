@@ -68,7 +68,7 @@ export const checkCollectionValue = (
       kind: "MissMatchValue",
       message,
       offsetRange: rangeToOffsetRange(value.range),
-      range: value.range ?? element.range!,
+      range: value.range ?? element.range,
       severity: "info",
     });
     return issues;
@@ -84,7 +84,7 @@ export const checkCollectionValue = (
       kind: "MissingValue",
       message,
       offsetRange: rangeToOffsetRange(value.range ?? element.range),
-      range: value.range ?? element.range!,
+      range: value.range ?? element.range,
       severity: "info",
     });
     return issues;
@@ -100,7 +100,7 @@ export const checkCollectionValue = (
           kind: "MissingValue",
           message: 'A valid binding property info must be provided for "{}"',
           offsetRange: rangeToOffsetRange(item.range),
-          range: item.range ?? value.range ?? element.range!,
+          range: item.range ?? value.range ?? element.range,
           severity: "info",
         });
       } else {
@@ -115,7 +115,7 @@ export const checkCollectionValue = (
         offsetRange: rangeToOffsetRange(
           item.range ?? value.range ?? element.range
         ),
-        range: item.range ?? value.range ?? element.range!,
+        range: item.range ?? value.range ?? element.range,
         severity: "info",
       });
       return issues;

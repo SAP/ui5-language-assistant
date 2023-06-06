@@ -1,7 +1,6 @@
 import { BindingIssue, BINDING_ISSUE_TYPE } from "../../../types";
 import {
   isBefore,
-  positionContained,
   PropertyBindingInfoTypes as BindingTypes,
   rangeContained,
   COLON,
@@ -61,7 +60,7 @@ export const checkComma = (
       kind: "MissingComma",
       message: "Missing comma",
       offsetRange: rangeToOffsetRange(range),
-      range: range!,
+      range: range,
       severity: "info",
     });
   }

@@ -29,7 +29,7 @@ export const checkDuplicate = (
       kind: "DuplicateProperty",
       message: "Duplicate property",
       offsetRange: rangeToOffsetRange(item.range),
-      range: item.key?.range ?? item.range!,
+      range: item.key?.range ?? item.range,
       severity: "info",
     })
   );

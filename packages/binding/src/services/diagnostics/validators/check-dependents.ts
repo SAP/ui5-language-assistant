@@ -35,7 +35,7 @@ export const checkDependents = (
               offsetRange: rangeToOffsetRange(dependentElementApplied.range),
               range:
                 dependentElementApplied.key?.range ??
-                dependentElementApplied.range!,
+                dependentElementApplied.range,
               severity: "info",
             });
           } else {
@@ -60,7 +60,7 @@ export const checkDependents = (
                         ),
                         range:
                           requiredDepApplied.key?.range ??
-                          requiredDepApplied.range!,
+                          requiredDepApplied.range,
                         severity: "info",
                       });
                     }
@@ -75,7 +75,7 @@ export const checkDependents = (
                       ),
                       range:
                         dependentElementApplied.key?.range ??
-                        dependentElementApplied.range!,
+                        dependentElementApplied.range,
                       severity: "info",
                     });
                   }
