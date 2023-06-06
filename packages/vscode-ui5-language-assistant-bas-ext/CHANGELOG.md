@@ -1,16 +1,28 @@
 # Change Log
 
-## 4.0.16
+## 4.0.18
+
+### Patch Changes
+
+- 1c9a0c5: VSCode and BAS extension versions sync
+
+## 4.0.17
 
 ### Patch Changes
 
 - 0bbfb2c: Fixed incorrect update of README file in repo root
 
-## 4.0.15
+## 4.0.16
 
 ### Patch Changes
 
 - 2a3d618: Issue 538 fix, for UI5 versions 1.38 and below the fallback 1.71.49 is used
+
+## 4.0.15
+
+### Patch Changes
+
+- c73d4fd: Unit test coverage improvement. Migration to Jest test framework
 
 ## 4.0.14
 
