@@ -116,6 +116,22 @@ describe("manifest", () => {
                     body: {
                       sections: {
                         section1: { template: "template1" },
+                        section2: {},
+                      },
+                    },
+                    header: {
+                      facets: {
+                        section1: { template: "template2" },
+                        section2: {},
+                      },
+                    },
+                  },
+                  controlConfiguration: {
+                    control1: {
+                      columns: {
+                        column1: { template: "template3" },
+                        column2: { template: "template3" },
+                        column3: {},
                       },
                     },
                   },
@@ -132,6 +148,14 @@ describe("manifest", () => {
         Object {
           "customViews": Object {
             "template1": Object {
+              "contextPath": "/Incidents/to_Customer",
+              "entitySet": "Incidents",
+            },
+            "template2": Object {
+              "contextPath": "/Incidents/to_Customer",
+              "entitySet": "Incidents",
+            },
+            "template3": Object {
               "contextPath": "/Incidents/to_Customer",
               "entitySet": "Incidents",
             },

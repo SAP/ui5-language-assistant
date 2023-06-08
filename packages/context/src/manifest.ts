@@ -1,4 +1,4 @@
-import { map } from "lodash";
+import { map, values } from "lodash";
 import { sep } from "path";
 import { readFile } from "fs-extra";
 import { URI } from "vscode-uri";
@@ -9,6 +9,41 @@ import { findAppRoot, getLogger } from "./utils";
 import { cache } from "./cache";
 import { unifyServicePath } from "./utils/project";
 import { findAllFilesInWorkspace } from "./utils/fileUtils";
+
+interface ManifestTargetOptionsSettings {
+  entitySet?: string;
+  contextPath?: string;
+  viewName?: string;
+  controlConfiguration?: {
+    [name: string]: {
+      columns?: {
+        [columnName: string]: {
+          template?: string;
+        };
+      };
+    };
+  };
+  content?: {
+    header?: {
+      facets?: {
+        [name: string]: {
+          template?: string;
+        };
+      };
+    };
+    body?: {
+      sections?: {
+        [name: string]: {
+          template?: string;
+        };
+      };
+    };
+  };
+}
+
+interface ManifestTargetOptions {
+  settings?: ManifestTargetOptionsSettings;
+}
 
 async function readManifestFile(
   manifestUri: string
@@ -108,8 +143,37 @@ export function getServicePath(
 function getFlexEnabled(manifest: Manifest): boolean {
   return manifest["sap.ui5"]?.flexEnabled ?? false;
 }
+
 function getMinUI5Version(manifest: Manifest): string | undefined {
   return manifest["sap.ui5"]?.dependencies?.minUI5Version;
+}
+
+function collectControlCustomTemplates(
+  settings: ManifestTargetOptionsSettings
+): string[] {
+  if (!settings.controlConfiguration) {
+    return [];
+  }
+  const templates = values(settings.controlConfiguration).flatMap((config) =>
+    values(config.columns || {}).map((column) => column.template)
+  );
+  return templates.filter((item) => !!item) as string[];
+}
+
+function collectContentCustomTemplates(
+  settings: ManifestTargetOptionsSettings
+): string[] {
+  if (!settings.content) {
+    return [];
+  }
+  const content = {
+    header: settings.content.header?.facets ?? {},
+    body: settings.content.body?.sections ?? {},
+  };
+  const templates = values(content).flatMap((division) =>
+    values(division).map((part) => part.template)
+  );
+  return templates.filter((item) => !!item) as string[];
 }
 
 /**
@@ -120,40 +184,25 @@ async function extractManifestDetails(
   manifest: Manifest
 ): Promise<ManifestDetails> {
   const customViews = {};
-  const targets = manifest["sap.ui5"]?.routing?.targets;
-  if (targets) {
-    for (const name of Object.keys(targets)) {
-      const target = targets[name];
-      if (target) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const settings = (target.options as any)?.settings;
-        if (
-          (settings?.entitySet || settings?.contextPath) &&
-          settings.viewName
-        ) {
-          customViews[settings.viewName] = {
-            entitySet: settings.entitySet,
-            contextPath: settings.contextPath,
-          };
-        }
-        if (
-          (settings?.entitySet || settings?.contextPath) &&
-          settings.content
-        ) {
-          // search for custom section and get its entity set
-          const extSettings = settings.content.body?.sections ?? {};
-          const keys = Object.keys(extSettings);
-          for (const key of keys) {
-            const template = extSettings[key].template;
-            if (template) {
-              customViews[template] = {
-                entitySet: settings.entitySet,
-                contextPath: settings.contextPath,
-              };
-            }
-          }
-        }
+  const targets = manifest["sap.ui5"]?.routing?.targets || {};
+  for (const name in targets) {
+    const settings = (targets[name].options as ManifestTargetOptions)?.settings;
+    if (settings?.entitySet || settings?.contextPath) {
+      if (settings.viewName) {
+        customViews[settings.viewName] = {
+          entitySet: settings.entitySet,
+          contextPath: settings.contextPath,
+        };
       }
+      // search for custom fragments
+      const controlTemplates = collectControlCustomTemplates(settings);
+      const contentTemplates = collectContentCustomTemplates(settings);
+      [...controlTemplates, ...contentTemplates].forEach((template) => {
+        customViews[template] = {
+          entitySet: settings.entitySet,
+          contextPath: settings.contextPath,
+        };
+      });
     }
   }
 
