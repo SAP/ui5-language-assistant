@@ -46,6 +46,21 @@ class PropertyBindingInfoParser extends CstParser {
         },
       },
       {
+        GATE: (): boolean =>
+          this.LA(1).tokenType === tokenMap.key &&
+          (this.LA(2).tokenType === tokenMap.stringValue ||
+            this.LA(2).tokenType === tokenMap.numberValue ||
+            this.LA(2).tokenType === tokenMap.leftCurly ||
+            this.LA(2).tokenType === tokenMap.leftBracket ||
+            this.LA(2).tokenType === tokenMap.booleanValue ||
+            this.LA(2).tokenType === tokenMap.nullValue),
+        ALT: (): void => {
+          // colon is missing, but there is key and value
+          this.CONSUME(tokenMap.key);
+          this.SUBRULE(this[VALUE]);
+        },
+      },
+      {
         ALT: (): void => {
           this.CONSUME1(tokenMap.key);
           this.OPTION1(() => {

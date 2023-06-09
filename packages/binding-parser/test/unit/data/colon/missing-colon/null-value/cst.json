@@ -24,32 +24,51 @@
                     "endColumn": 4,
                     "tokenTypeName": "Key"
                   }
+                ],
+                "Value": [
+                  {
+                    "name": "Value",
+                    "children": {
+                      "NullValue": [
+                        {
+                          "image": "null",
+                          "startColumn": 6,
+                          "endColumn": 9,
+                          "tokenTypeName": "NullValue"
+                        }
+                      ]
+                    },
+                    "location": {
+                      "startColumn": 6,
+                      "endColumn": 9
+                    }
+                  }
                 ]
               },
               "location": {
                 "startColumn": 2,
-                "endColumn": 4
+                "endColumn": 9
               }
             }
           ],
           "RightCurly": [
             {
               "image": "}",
-              "startColumn": 13,
-              "endColumn": 13,
+              "startColumn": 10,
+              "endColumn": 10,
               "tokenTypeName": "RightCurly"
             }
           ]
         },
         "location": {
           "startColumn": 1,
-          "endColumn": 13
+          "endColumn": 10
         }
       }
     ]
   },
   "location": {
     "startColumn": 1,
-    "endColumn": 13
+    "endColumn": 10
   }
 }

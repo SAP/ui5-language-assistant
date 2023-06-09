@@ -318,6 +318,15 @@ describe("property-binding-info-validator", () => {
       "kind: MissingColon; text: Expect colon; severity:info; range:9:47-9:60",
     ]);
   });
+  it("check missing colon for collection", async () => {
+    const snippet = `
+    <Text text="{ events: {}, parts ['one'] }" id="test-id"></Text>`;
+    const { attr, context } = await getData(snippet);
+    const result = validatePropertyBindingInfo(attr, context);
+    expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
+      "kind: MissingColon; text: Expect colon; severity:info; range:9:30-9:35",
+    ]);
+  });
   it("check missing colon in nested structure value", async () => {
     const snippet = `
     <Text text="{ events: {anyKeyNotChecked: {anotherKey: {nestedKey } } } }" id="test-id"></Text>`;
@@ -660,11 +669,13 @@ describe("property-binding-info-validator", () => {
      <Input value="abc \\{ { path: } ###### { parts: [{path ''}]}"/>`;
       const { attr, context } = await getData(snippet, "Input", "value");
       const result = validatePropertyBindingInfo(attr, context);
-      expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-        "kind: MissingValue; text: Expect ' ' as a value; severity:info; range:9:28-9:33",
-        "kind: MissingColon; text: Expect colon; severity:info; range:9:54-9:58",
-        "kind: MissingComma; text: Missing comma; severity:info; range:9:59-9:61",
-      ]);
+      expect(result.map((item) => issueToSnapshot(item)))
+        .toMatchInlineSnapshot(`
+        Array [
+          "kind: MissingValue; text: Expect ' ' as a value; severity:info; range:9:28-9:33",
+          "kind: MissingColon; text: Expect colon; severity:info; range:9:54-9:58",
+        ]
+      `);
     });
   });
 });
