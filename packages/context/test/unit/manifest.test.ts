@@ -116,7 +116,11 @@ describe("manifest", () => {
                     body: {
                       sections: {
                         section1: { template: "template1" },
-                        section2: {},
+                        section2: {
+                          subSections: {
+                            section1: { template: "template1_1" },
+                          },
+                        },
                       },
                     },
                     header: {
@@ -127,11 +131,36 @@ describe("manifest", () => {
                     },
                   },
                   controlConfiguration: {
-                    control1: {
+                    tableControl1: {
                       columns: {
                         column1: { template: "template3" },
                         column2: { template: "template3" },
                         column3: {},
+                      },
+                    },
+                    facetControl: {
+                      sections: {
+                        section1: {
+                          template: "template4",
+                          subSections: {
+                            section1: { template: "template4_1" },
+                          },
+                        },
+                      },
+                    },
+                    headerFacetControl: {
+                      facets: {
+                        section1: { template: "template2" },
+                      },
+                    },
+                    formControl: {
+                      fields: {
+                        field1: { template: "template5" },
+                      },
+                    },
+                    filterControl: {
+                      filterFields: {
+                        field1: { template: "template6" },
                       },
                     },
                   },
@@ -151,11 +180,31 @@ describe("manifest", () => {
               "contextPath": "/Incidents/to_Customer",
               "entitySet": "Incidents",
             },
+            "template1_1": Object {
+              "contextPath": "/Incidents/to_Customer",
+              "entitySet": "Incidents",
+            },
             "template2": Object {
               "contextPath": "/Incidents/to_Customer",
               "entitySet": "Incidents",
             },
             "template3": Object {
+              "contextPath": "/Incidents/to_Customer",
+              "entitySet": "Incidents",
+            },
+            "template4": Object {
+              "contextPath": "/Incidents/to_Customer",
+              "entitySet": "Incidents",
+            },
+            "template4_1": Object {
+              "contextPath": "/Incidents/to_Customer",
+              "entitySet": "Incidents",
+            },
+            "template5": Object {
+              "contextPath": "/Incidents/to_Customer",
+              "entitySet": "Incidents",
+            },
+            "template6": Object {
               "contextPath": "/Incidents/to_Customer",
               "entitySet": "Incidents",
             },

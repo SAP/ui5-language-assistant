@@ -9,41 +9,17 @@ import { findAppRoot, getLogger } from "./utils";
 import { cache } from "./cache";
 import { unifyServicePath } from "./utils/project";
 import { findAllFilesInWorkspace } from "./utils/fileUtils";
-
-interface ManifestTargetOptionsSettings {
-  entitySet?: string;
-  contextPath?: string;
-  viewName?: string;
-  controlConfiguration?: {
-    [name: string]: {
-      columns?: {
-        [columnName: string]: {
-          template?: string;
-        };
-      };
-    };
-  };
-  content?: {
-    header?: {
-      facets?: {
-        [name: string]: {
-          template?: string;
-        };
-      };
-    };
-    body?: {
-      sections?: {
-        [name: string]: {
-          template?: string;
-        };
-      };
-    };
-  };
-}
-
-interface ManifestTargetOptions {
-  settings?: ManifestTargetOptionsSettings;
-}
+import {
+  ManifestTargetOptionsSettings,
+  ManifestTargetOptions,
+  ControlManifestConfiguration,
+  TableManifestConfiguration,
+  FacetsControlConfiguration,
+  ManifestSection,
+  HeaderFacetsControlConfiguration,
+  FormManifestConfiguration,
+  FilterManifestConfiguration,
+} from "./types/manifestTypes";
 
 async function readManifestFile(
   manifestUri: string
@@ -148,32 +124,94 @@ function getMinUI5Version(manifest: Manifest): string | undefined {
   return manifest["sap.ui5"]?.dependencies?.minUI5Version;
 }
 
+function getMembersTemplates<T extends { template?: string }>(
+  object: Record<string, T>
+): (string | undefined)[] {
+  return values(object).map((prop) => prop.template);
+}
+
+function collectTableControlCustomTemplates(
+  config: ControlManifestConfiguration
+): (string | undefined)[] {
+  const columns = (config as TableManifestConfiguration).columns || {};
+  return getMembersTemplates(columns);
+}
+
+function collectSectionCustomTemplates(
+  section: ManifestSection
+): (string | undefined)[] {
+  const subSections = section.subSections || {};
+  return [
+    section.template,
+    ...values(subSections).flatMap((subSection) => [
+      subSection.template,
+      subSection.sideContent?.template,
+    ]),
+  ];
+}
+
+function collectFacetControlCustomTemplates(
+  config: ControlManifestConfiguration
+): (string | undefined)[] {
+  const sections = (config as FacetsControlConfiguration).sections || {};
+  return values(sections).flatMap((section) =>
+    collectSectionCustomTemplates(section)
+  );
+}
+
+function collectHeaderFacetControlCustomTemplates(
+  config: ControlManifestConfiguration
+): (string | undefined)[] {
+  const facets = (config as HeaderFacetsControlConfiguration).facets || {};
+  return getMembersTemplates(facets);
+}
+
+function collectFormControlCustomTemplates(
+  config: ControlManifestConfiguration
+): (string | undefined)[] {
+  const fields = (config as FormManifestConfiguration).fields || {};
+  return getMembersTemplates(fields);
+}
+
+function collectFilterControlCustomTemplates(
+  config: ControlManifestConfiguration
+): (string | undefined)[] {
+  const fields = (config as FilterManifestConfiguration).filterFields || {};
+  return getMembersTemplates(fields);
+}
+
 function collectControlCustomTemplates(
   settings: ManifestTargetOptionsSettings
-): string[] {
-  if (!settings.controlConfiguration) {
-    return [];
-  }
-  const templates = values(settings.controlConfiguration).flatMap((config) =>
-    values(config.columns || {}).map((column) => column.template)
-  );
-  return templates.filter((item) => !!item) as string[];
+): (string | undefined)[] {
+  const configs = settings.controlConfiguration || {};
+  return values(configs).flatMap((config) => {
+    return [
+      ...collectTableControlCustomTemplates(config),
+      ...collectFacetControlCustomTemplates(config),
+      ...collectHeaderFacetControlCustomTemplates(config),
+      ...collectFilterControlCustomTemplates(config),
+      ...collectFormControlCustomTemplates(config),
+    ];
+  });
 }
 
 function collectContentCustomTemplates(
   settings: ManifestTargetOptionsSettings
-): string[] {
-  if (!settings.content) {
-    return [];
-  }
-  const content = {
-    header: settings.content.header?.facets ?? {},
-    body: settings.content.body?.sections ?? {},
-  };
-  const templates = values(content).flatMap((division) =>
-    values(division).map((part) => part.template)
-  );
-  return templates.filter((item) => !!item) as string[];
+): (string | undefined)[] {
+  return [
+    ...values(settings.content?.header?.facets || {}).map(
+      (facet) => facet.template
+    ),
+    ...values(settings.content?.body?.sections || {}).flatMap((section) =>
+      collectSectionCustomTemplates(section)
+    ),
+  ];
+}
+
+function collectViewsCustomTemplates(
+  settings: ManifestTargetOptionsSettings
+): (string | undefined)[] {
+  return settings.views?.paths.map((p) => p.template) || [];
 }
 
 /**
@@ -197,12 +235,15 @@ async function extractManifestDetails(
       // search for custom fragments
       const controlTemplates = collectControlCustomTemplates(settings);
       const contentTemplates = collectContentCustomTemplates(settings);
-      [...controlTemplates, ...contentTemplates].forEach((template) => {
-        customViews[template] = {
-          entitySet: settings.entitySet,
-          contextPath: settings.contextPath,
-        };
-      });
+      const viewTemplates = collectViewsCustomTemplates(settings);
+      [...controlTemplates, ...contentTemplates, ...viewTemplates]
+        .filter((item) => !!item)
+        .forEach((template) => {
+          customViews[template as string] = {
+            entitySet: settings.entitySet,
+            contextPath: settings.contextPath,
+          };
+        });
     }
   }
 
