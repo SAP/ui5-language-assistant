@@ -31,8 +31,15 @@ jobs:
         with:
           cmd: ci # will run `yarn run ci` command
 
-      - name: Upload vsix artifact
+      - name: Run SonarCloud scan
         if: matrix.os == 'ubuntu-latest' && matrix.node-version == '14.x'
+        uses: sonarsource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACCESS_PAT }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}  
+
+      - name: Upload vsix artifact
+        if: matrix.os == 'ubuntu-latest' && matrix.node-version == '14.x' && github.event_name == 'push'
         uses: actions/upload-artifact@v3
         with:
           name: vscode-extension-file

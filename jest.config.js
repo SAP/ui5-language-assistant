@@ -7,12 +7,11 @@ module.exports = {
   errorOnDeprecated: true,
   notify: false,
   notifyMode: "failure",
-  verbose: false,
+  verbose: true,
   testMatch: ["**/unit/**/?(*.)+(test).ts"],
   transform: {
     "^.+\\.ts?$": "ts-jest",
   },
-  testResultsProcessor: "jest-sonar-reporter",
   collectCoverage: true,
   snapshotFormat: {
     escapeString: true,
@@ -42,6 +41,15 @@ module.exports = {
     "<rootDir>/lib/",
   ],
   transformIgnorePatterns: ["<rootDir>/node_modules/", "/node_modules/"],
-  reporters: ["default", "summary"],
+  reporters: [
+    "default",
+    [
+      "jest-sonar",
+      {
+        reportedFilePath: "relative",
+        relativeRootDir: "<rootDir>/../../../",
+      },
+    ],
+  ],
   setupFilesAfterEnv: ["./jest.setup.js"],
 };

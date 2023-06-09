@@ -187,7 +187,7 @@ describe("metaPath attribute value validation (annotation path)", () => {
     });
   });
 
-  describe("shows info message when...", () => {
+  describe("shows info message when...   ", () => {
     it("entity set in manifest can't be resolved", async function () {
       const result = await validateView(
         `<macros:Chart metaPath="@com.sap.vocabularies.UI.v1.Chart#sample1"></macros:Chart>`,
