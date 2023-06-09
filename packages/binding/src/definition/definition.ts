@@ -187,7 +187,7 @@ export const propertyBindingInfoElements: PropertyBindingInfoElement[] = [
     name: "mode",
     type: [
       {
-        kind: "object",
+        kind: "string",
         dependents: [],
         notAllowedElements: [],
       },

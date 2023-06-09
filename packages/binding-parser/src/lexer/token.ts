@@ -51,7 +51,7 @@ const rightBracket = createToken({
 });
 const key = createToken({
   name: KEY,
-  pattern: /\w+/,
+  pattern: /[a-zA-Z$_][a-zA-Z0-9$_]*/,
 });
 const colon = createToken({
   name: COLON,

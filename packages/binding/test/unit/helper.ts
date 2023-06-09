@@ -5,12 +5,14 @@ import {
   Range,
   TextEdit,
 } from "vscode-languageserver-types";
-import { TestFramework } from "@ui5-language-assistant/test-framework";
+import {
+  TestFramework,
+  CURSOR_ANCHOR,
+} from "@ui5-language-assistant/test-framework";
 import { getContext } from "@ui5-language-assistant/context";
 import type { Context } from "@ui5-language-assistant/context";
 import { validateXMLView } from "@ui5-language-assistant/xml-views-validation";
 
-import { CURSOR_ANCHOR } from "@ui5-language-assistant/test-framework";
 import { XMLAttribute } from "@xml-tools/ast";
 import { Settings } from "@ui5-language-assistant/settings";
 

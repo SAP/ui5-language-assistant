@@ -110,7 +110,7 @@
     "lexer": [
       {
         "type": "SpecialChars",
-        "text": "$$$$",
+        "text": "????",
         "range": "[(0,0)..(0,4)]"
       },
       {

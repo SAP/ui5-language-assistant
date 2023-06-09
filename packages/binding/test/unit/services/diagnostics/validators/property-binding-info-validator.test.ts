@@ -37,8 +37,8 @@ describe("property-binding-info-validator", () => {
     return;
   };
   const getElementAttributeName = (
-    elements: XMLAttribute[] = [],
-    attrName: string
+    attrName: string,
+    elements: XMLAttribute[] = []
   ): XMLAttribute | undefined => {
     for (const item of elements) {
       if (item.key === attrName) {
@@ -93,8 +93,8 @@ describe("property-binding-info-validator", () => {
     const { ast } = await framework.readFile(viewFilePathSegments);
     const element = getElementByName(elementName, ast.rootElement?.subElements);
     const attr = getElementAttributeName(
-      element?.attributes,
-      attrName
+      attrName,
+      element?.attributes
     ) as XMLAttribute;
     const context = await fetchContext(documentPath);
     return { context, attr };
@@ -141,7 +141,7 @@ describe("property-binding-info-validator", () => {
     const result = validatePropertyBindingInfo(attr, context);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([]);
   });
-  it("do not check source model", async () => {
+  it("do not check resource model", async () => {
     const snippet = `
    <Label labelFor="address" text="{i18n>address}:"/>`;
     const { attr, context } = await getData(snippet, "Label", "text");
