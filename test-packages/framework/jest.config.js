@@ -21,7 +21,6 @@ module.exports = {
       },
     },
   },
-  testResultsProcessor: "jest-sonar-reporter",
   collectCoverage: true,
   snapshotFormat: {
     escapeString: true,
@@ -54,10 +53,12 @@ module.exports = {
   transformIgnorePatterns: ["<rootDir>/node_modules/", "/node_modules/"],
   reporters: [
     "default",
-    "summary",
     [
-      "jest-junit",
-      { outputDirectory: "reports/test/unit", outputName: "junit-report.xml" },
+      "jest-sonar",
+      {
+        reportedFilePath: "relative",
+        relativeRootDir: "<rootDir>/../../../",
+      },
     ],
   ],
   setupFilesAfterEnv: ["./jest.setup.js"],
