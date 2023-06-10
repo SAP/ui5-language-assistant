@@ -23,7 +23,8 @@
             "text": "null",
             "range": "[(0,7)..(0,11)]"
           },
-          "range": "[(0,2)..(0,11)]"
+          "range": "[(0,2)..(0,11)]",
+          "type": "structure-element"
         }
       ],
       "rightCurly": {
@@ -32,7 +33,8 @@
         "range": "[(0,12)..(0,13)]"
       },
       "range": "[(0,0)..(0,13)]",
-      "commas": []
+      "commas": [],
+      "type": "structure-value"
     }
   ],
   "spaces": [
@@ -52,8 +54,5 @@
       "range": "[(0,11)..(0,12)]"
     }
   ],
-  "errors": {
-    "lexer": [],
-    "parse": []
-  }
+  "type": "template"
 }

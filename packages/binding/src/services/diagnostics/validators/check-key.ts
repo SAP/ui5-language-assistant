@@ -3,9 +3,11 @@ import { BindingIssue, BINDING_ISSUE_TYPE } from "../../../types";
 import { PropertyBindingInfoTypes as BindingTypes } from "@ui5-language-assistant/binding-parser";
 import { rangeToOffsetRange } from "../../../utils";
 /**
- * Check if key is a one of suppored property binding info
+ * Check if key is a one of supported property binding info
  */
-export const checkKey = (element: BindingTypes.AstElement): BindingIssue[] => {
+export const checkKey = (
+  element: BindingTypes.StructureElement
+): BindingIssue[] => {
   const issues: BindingIssue[] = [];
   if (!element.key) {
     return issues;

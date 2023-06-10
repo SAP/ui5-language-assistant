@@ -9,7 +9,6 @@ export {
   transformCstForAssertion,
   doesExits,
   getFileContent,
-  transformParserErrorForAssertion,
 } from "./setup";
 
 export { serialize } from "./serialize";

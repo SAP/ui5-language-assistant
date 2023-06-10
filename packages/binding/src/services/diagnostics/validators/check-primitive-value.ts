@@ -76,7 +76,7 @@ export const getPrimitiveValueIssues = (
  */
 export const checkPrimitiveValue = (
   context: BindContext,
-  element: BindingTypes.AstElement,
+  element: BindingTypes.StructureElement,
   ignore = false
 ): BindingIssue[] => {
   const issues: BindingIssue[] = [];

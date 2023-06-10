@@ -8,20 +8,20 @@ import {
 import { LEXER_ERROR, PARSE_ERROR } from "../constant";
 import type { Position } from "vscode-languageserver-types";
 import type {
-  CreateNode,
+  CreateToken,
   LexerError,
-  NodeType,
+  TokenType,
   ParseError,
   ParseErrorBase,
   VisitorParam,
 } from "../types/property-binding-info";
 import { getLexerRange, getRange } from "./range";
 
-export const createNode = <T extends NodeType>(
+export const createToken = <T extends TokenType>(
   token: IToken,
   type: T,
   param?: VisitorParam
-): CreateNode<T> => {
+): CreateToken<T> => {
   const text = token.image;
   const range = getRange(token, param);
   return {
@@ -30,6 +30,7 @@ export const createNode = <T extends NodeType>(
     range,
   };
 };
+
 export const createLexerErrors = (
   node: ILexingError[],
   position?: Position
@@ -57,10 +58,10 @@ export const createParseErrors = (
   const result: ParseError[] = [];
   let tokens: ParseErrorBase[] = [];
   for (const item of nodes) {
-    let node = createNode(item.token, PARSE_ERROR, { position });
+    let node = createToken(item.token, PARSE_ERROR, { position });
     tokens.push({ ...node, tokenTypeName: item.token.tokenType.name });
     for (const resync of item.resyncedTokens) {
-      node = createNode(resync, PARSE_ERROR, { position });
+      node = createToken(resync, PARSE_ERROR, { position });
       tokens.push({ ...node, tokenTypeName: resync.tokenType.name });
     }
     const itemWithPreviousToken = item as
@@ -68,7 +69,7 @@ export const createParseErrors = (
       | NoViableAltException;
     let previousToken: ParseErrorBase | undefined;
     if (itemWithPreviousToken.previousToken) {
-      node = createNode(itemWithPreviousToken.previousToken, PARSE_ERROR, {
+      node = createToken(itemWithPreviousToken.previousToken, PARSE_ERROR, {
         position,
       });
       previousToken = {

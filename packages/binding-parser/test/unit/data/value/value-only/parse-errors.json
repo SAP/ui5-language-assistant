@@ -1,19 +1,23 @@
 [
   {
-    "token": {
-      "image": "'valueOnly'",
-      "startColumn": 2,
-      "endColumn": 12,
-      "tokenTypeName": "StringValue"
-    },
-    "message": "Expecting --> } <-- but found --> ''valueOnly'' <--",
-    "name": "MismatchedTokenException",
-    "resyncedTokens": [],
+    "type": "ParseError",
+    "range": "[(0,1)..(0,12)]",
+    "text": "'valueOnly'",
+    "merged": [
+      {
+        "type": "ParseError",
+        "text": "'valueOnly'",
+        "range": "[(0,1)..(0,12)]",
+        "tokenTypeName": "StringValue"
+      }
+    ],
+    "tokenTypeName": "StringValue",
     "previousToken": {
-      "image": "{",
-      "startColumn": 1,
-      "endColumn": 1,
+      "type": "ParseError",
+      "text": "{",
+      "range": "[(0,0)..(0,1)]",
       "tokenTypeName": "LeftCurly"
-    }
+    },
+    "message": "Expecting --> } <-- but found --> ''valueOnly'' <--"
   }
 ]

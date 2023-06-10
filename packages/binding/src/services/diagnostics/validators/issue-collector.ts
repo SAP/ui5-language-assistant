@@ -20,7 +20,7 @@ import { checkComma } from "./check-comma";
  */
 export const checkAst = (
   context: BindContext,
-  binding: BindingTypes.Binding,
+  binding: BindingTypes.StructureValue,
   errors: {
     parse: BindingTypes.ParseError[];
     lexer: BindingTypes.LexerError[];

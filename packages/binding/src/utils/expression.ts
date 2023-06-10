@@ -14,7 +14,7 @@ export const isBindingExpression = (input: string): boolean => {
 };
 
 export const filterLexerError = (
-  binding: BindingTypes.Binding,
+  binding: BindingTypes.StructureValue,
   errors: {
     lexer: BindingTypes.LexerError[];
     parse: BindingTypes.ParseError[];
@@ -29,7 +29,7 @@ export const filterLexerError = (
   return result;
 };
 export const filterParseError = (
-  binding: BindingTypes.Binding,
+  binding: BindingTypes.StructureValue,
   errors: {
     lexer: BindingTypes.LexerError[];
     parse: BindingTypes.ParseError[];
@@ -56,7 +56,7 @@ export const filterParseError = (
  */
 export const isPropertyBindingInfo = (
   input: string,
-  binding?: BindingTypes.Binding
+  binding?: BindingTypes.StructureValue
 ): boolean => {
   // check empty string
   if (input.trim().length === 0) {

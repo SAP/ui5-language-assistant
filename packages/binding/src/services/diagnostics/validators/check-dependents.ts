@@ -13,7 +13,7 @@ import { BindContext, BindingIssue, BINDING_ISSUE_TYPE } from "../../../types";
 
 export const checkDependents = (
   context: BindContext,
-  binding: BindingTypes.Binding
+  binding: BindingTypes.StructureValue
 ): BindingIssue[] => {
   const issues: BindingIssue[] = [];
   // collect all definition which has dependencies
@@ -67,10 +67,18 @@ export const checkDependents = (
                       message: `Required dependency "${
                         requiredDep.name
                       }" MUST be defined as ${value.join(", ")}`,
-                      offsetRange: rangeToOffsetRange(requiredDepApplied.range),
-                      range:
-                        requiredDepApplied.key?.range ??
+                      offsetRange: rangeToOffsetRange(
+                        findRange([
+                          /* istanbul ignore next */
+                          requiredDepApplied.key?.range,
+                          requiredDepApplied.range,
+                        ])
+                      ),
+                      range: findRange([
+                        /* istanbul ignore next */
+                        requiredDepApplied.key?.range,
                         requiredDepApplied.range,
+                      ]),
                       severity: "info",
                     });
                   }

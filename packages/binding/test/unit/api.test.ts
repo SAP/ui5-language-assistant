@@ -1,5 +1,6 @@
 import { BINDING_ISSUE_TYPE } from "../../src/constant";
 import { BindingIssue, bindingValidators, isBindingIssue } from "../../src/api";
+import { defaultRange } from "../../src/utils";
 
 describe("api", () => {
   test("bindingValidators", () => {
@@ -14,6 +15,7 @@ describe("api", () => {
       message: "",
       offsetRange: { start: 0, end: 1 },
       severity: "info",
+      range: defaultRange(),
     };
     expect(isBindingIssue(issue)).toBeTrue();
   });

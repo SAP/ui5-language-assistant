@@ -2,46 +2,35 @@ import { BindingIssue, BINDING_ISSUE_TYPE } from "../../../types";
 import {
   isBefore,
   PropertyBindingInfoTypes as BindingTypes,
-  rangeContained,
-  COLON,
 } from "@ui5-language-assistant/binding-parser";
 import { rangeToOffsetRange } from "../../../utils/document";
 import { Range } from "vscode-languageserver-types";
+import { findRange } from "../../../utils";
+import { filterTooManyColon } from "./check-colon";
 
 /**
  * Check comma
  */
 export const checkComma = (
-  item: BindingTypes.AstElement,
+  item:
+    | BindingTypes.StructureElement
+    | BindingTypes.PrimitiveValue
+    | BindingTypes.StructureValue,
   errors: {
     parse: BindingTypes.ParseError[];
     lexer: BindingTypes.LexerError[];
   },
   /* istanbul ignore next */
   comma: BindingTypes.Comma[] = [],
-  nextItem?: BindingTypes.AstElement
+  nextItem?:
+    | BindingTypes.StructureElement
+    | BindingTypes.PrimitiveValue
+    | BindingTypes.StructureValue
 ): BindingIssue[] => {
   const issues: BindingIssue[] = [];
   // check too many colon - no comma issue in case of too many colon
-  const tooManyColon = errors.parse
-    .filter(
-      (i) =>
-        i.tokenTypeName === COLON &&
-        i.previousToken &&
-        i.previousToken.tokenTypeName === COLON
-    )
-    .find(
-      (i) =>
-        item.colon &&
-        item.colon.range &&
-        i.previousToken &&
-        rangeContained(
-          { start: i.previousToken.range.start, end: i.range.end },
-          item.colon.range,
-          true
-        )
-    );
-  if (tooManyColon) {
+  const tooManyColon = filterTooManyColon(item, errors);
+  if (tooManyColon.length > 0) {
     return issues;
   }
   const commas = comma.filter((comma) => {
@@ -66,8 +55,8 @@ export const checkComma = (
       issueType: BINDING_ISSUE_TYPE,
       kind: "MissingComma",
       message: "Missing comma",
-      offsetRange: rangeToOffsetRange(range),
-      range: range,
+      offsetRange: rangeToOffsetRange(findRange([range])),
+      range: findRange([range]),
       severity: "info",
     });
   }

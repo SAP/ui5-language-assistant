@@ -12,7 +12,7 @@ import { BindContext, PropertyBindingInfoElement } from "../../../types";
 
 export const createKeyValue = (
   context: BindContext,
-  binding: BindingTypes.Binding
+  binding: BindingTypes.StructureValue
 ): CompletionItem[] => {
   const completionItems: CompletionItem[] = [];
   // exclude duplicate

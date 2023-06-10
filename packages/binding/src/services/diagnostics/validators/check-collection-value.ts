@@ -24,7 +24,7 @@ import { checkComma } from "./check-comma";
  */
 export const checkCollectionValue = (
   context: BindContext,
-  element: BindingTypes.AstElement,
+  element: BindingTypes.StructureElement,
   errors: {
     parse: BindingTypes.ParseError[];
     lexer: BindingTypes.LexerError[];
@@ -114,14 +114,15 @@ export const checkCollectionValue = (
       }
     }
     if (isCollectionValue(item) && isParts(element)) {
+      const nestedColItem = item as BindingTypes.CollectionValue;
       issues.push({
         issueType: BINDING_ISSUE_TYPE,
         kind: "MissingValue",
         message: 'Nested "[]" are not allowed',
         offsetRange: rangeToOffsetRange(
-          findRange([item.range, value.range, element.range])
+          findRange([nestedColItem.range, value.range, element.range])
         ),
-        range: findRange([item.range, value.range, element.range]),
+        range: findRange([nestedColItem.range, value.range, element.range]),
         severity: "info",
       });
       return issues;

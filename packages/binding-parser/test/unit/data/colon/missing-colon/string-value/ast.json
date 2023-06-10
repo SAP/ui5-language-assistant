@@ -19,7 +19,8 @@
             "text": "'value'",
             "range": "[(0,5)..(0,12)]"
           },
-          "range": "[(0,1)..(0,12)]"
+          "range": "[(0,1)..(0,12)]",
+          "type": "structure-element"
         }
       ],
       "rightCurly": {
@@ -28,7 +29,8 @@
         "range": "[(0,12)..(0,13)]"
       },
       "range": "[(0,0)..(0,13)]",
-      "commas": []
+      "commas": [],
+      "type": "structure-value"
     }
   ],
   "spaces": [
@@ -38,8 +40,5 @@
       "range": "[(0,4)..(0,5)]"
     }
   ],
-  "errors": {
-    "lexer": [],
-    "parse": []
-  }
+  "type": "template"
 }

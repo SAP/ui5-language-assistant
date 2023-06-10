@@ -75,7 +75,7 @@ describe("range", () => {
         endColumn: 22,
         endLine: 7,
       });
-      const range = locationToRange(token);
+      const range = locationToRange({ location: token });
       expect(range).toStrictEqual({
         start: {
           line: 4,
@@ -98,7 +98,7 @@ describe("range", () => {
         line: 9,
         character: 19,
       };
-      const range = locationToRange(token, { position });
+      const range = locationToRange({ location: token, position });
       expect(range).toStrictEqual({
         start: {
           line: 10,
@@ -117,7 +117,7 @@ describe("range", () => {
         endColumn: NaN,
         endLine: NaN,
       });
-      const range = locationToRange(token);
+      const range = locationToRange({ location: token });
       expect(range).toStrictEqual({
         start: {
           line: 0,

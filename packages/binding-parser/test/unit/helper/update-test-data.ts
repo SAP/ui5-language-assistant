@@ -8,7 +8,6 @@ import {
   serialize,
   getBase,
   getFileContent,
-  transformParserErrorForAssertion,
 } from ".";
 
 const BASE = getBase();
@@ -30,19 +29,15 @@ export const update = async (): Promise<void | Error> => {
           startPosition = JSON.parse(position);
         }
       }
-      const { cst, ast, lexErrors, parseErrors } = parsePropertyBindingInfo(
+      const { cst, ast, errors } = parsePropertyBindingInfo(
         text,
         startPosition
       );
       transformCstForAssertion(cst);
-      const errorTransform = transformParserErrorForAssertion(parseErrors);
       await writeFile(join(ROOT, "cst.json"), serialize(cst));
       await writeFile(join(ROOT, "ast.json"), serialize(ast));
-      await writeFile(join(ROOT, "lexer-errors.json"), serialize(lexErrors));
-      await writeFile(
-        join(ROOT, "parse-errors.json"),
-        serialize(errorTransform)
-      );
+      await writeFile(join(ROOT, "lexer-errors.json"), serialize(errors.lexer));
+      await writeFile(join(ROOT, "parse-errors.json"), serialize(errors.parse));
     } catch (error) {
       throw Error(`Failed to update: ${test}`);
     }

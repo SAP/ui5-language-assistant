@@ -47,17 +47,17 @@ export function validatePropertyBindingInfo(
         character: (value?.startColumn ?? 0) + startIndex,
         line: value?.startLine ? value.startLine - 1 : 0, // zero based index
       };
-      const { ast } = parsePropertyBindingInfo(expression, position);
+      const { ast, errors } = parsePropertyBindingInfo(expression, position);
       for (const binding of ast.bindings) {
         if (!isPropertyBindingInfo(expression, binding)) {
           continue;
         }
-        issues.push(...checkAst(context, binding, ast.errors));
+        issues.push(...checkAst(context, binding, errors));
 
         /**
          * Show all lexer errors
          */
-        for (const item of filterLexerError(binding, ast.errors)) {
+        for (const item of filterLexerError(binding, errors)) {
           issues.push({
             issueType: BINDING_ISSUE_TYPE,
             kind: "UnknownChar",
@@ -70,7 +70,7 @@ export function validatePropertyBindingInfo(
         /**
          * Show only one syntax error at a time only when there is no other issue
          */
-        const parseError = filterParseError(binding, ast.errors);
+        const parseError = filterParseError(binding, errors);
         if (issues.length === 0 && parseError.length) {
           const item = parseError[0];
           issues.push({

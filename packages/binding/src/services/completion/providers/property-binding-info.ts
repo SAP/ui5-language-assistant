@@ -22,7 +22,7 @@ import { createKeyValue } from "./create-key-value";
 
 export const getCompletionItems = (
   context: BindContext,
-  binding: BindingTypes.Binding,
+  binding: BindingTypes.StructureValue,
   spaces: BindingTypes.WhiteSpaces[]
 ): CompletionItem[] => {
   const completionItems: CompletionItem[] = [];

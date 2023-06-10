@@ -2,9 +2,11 @@ import { BindingIssue, BINDING_ISSUE_TYPE } from "../../../types";
 import { PropertyBindingInfoTypes as BindingTypes } from "@ui5-language-assistant/binding-parser";
 import { findRange, rangeToOffsetRange } from "../../../utils";
 
-const getDuplicate = (ast: BindingTypes.Binding): BindingTypes.AstElement[] => {
+const getDuplicate = (
+  ast: BindingTypes.StructureValue
+): BindingTypes.StructureElement[] => {
   const visited = {};
-  const duplicate: BindingTypes.AstElement[] = [];
+  const duplicate: BindingTypes.StructureElement[] = [];
   for (const element of ast.elements) {
     const key = element.key?.text;
     if (!key) {
@@ -19,7 +21,7 @@ const getDuplicate = (ast: BindingTypes.Binding): BindingTypes.AstElement[] => {
   return duplicate;
 };
 export const checkDuplicate = (
-  binding: BindingTypes.Binding
+  binding: BindingTypes.StructureValue
 ): BindingIssue[] => {
   const issues: BindingIssue[] = [];
   const duplicate = getDuplicate(binding);

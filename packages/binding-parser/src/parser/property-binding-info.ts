@@ -1,12 +1,6 @@
 import { CstParser } from "chevrotain";
 import type { CstNode, TokenType, IToken } from "chevrotain";
-import {
-  ARRAY,
-  OBJECT,
-  OBJECT_ITEM,
-  PROPERTY_BINDING_INFO,
-  VALUE,
-} from "../constant";
+import { ARRAY, OBJECT, OBJECT_ITEM, TEMPLATE, VALUE } from "../constant";
 import { propertyBindingTokenMap as tokenMap } from "../lexer";
 
 class PropertyBindingInfoParser extends CstParser {
@@ -21,7 +15,7 @@ class PropertyBindingInfoParser extends CstParser {
     });
     this.performSelfAnalysis();
   }
-  [PROPERTY_BINDING_INFO] = this.RULE(PROPERTY_BINDING_INFO, () => {
+  [TEMPLATE] = this.RULE(TEMPLATE, () => {
     this.MANY(() => {
       this.SUBRULE(this[OBJECT]);
     });

@@ -9,7 +9,6 @@ import {
   transformCstForAssertion,
   doesExits,
   getBase,
-  transformParserErrorForAssertion,
   deserialize,
   serialize,
 } from "../helper";
@@ -32,16 +31,12 @@ const testParser = async (testCasePath: string): Promise<void> => {
       startPosition = JSON.parse(position);
     }
   }
-  const { cst, lexErrors, parseErrors, ast } = parsePropertyBindingInfo(
-    text,
-    startPosition
-  );
+  const { cst, ast, errors } = parsePropertyBindingInfo(text, startPosition);
   const lexerSavedContent = await getLexerErrors(testCasePath);
-  expect(lexErrors).toStrictEqual(lexerSavedContent);
+  expect(deserialize(serialize(errors.lexer))).toStrictEqual(lexerSavedContent);
 
-  const errorTransform = transformParserErrorForAssertion(parseErrors);
   const parseSavedContent = await getParserErrors(testCasePath);
-  expect(errorTransform).toStrictEqual(parseSavedContent);
+  expect(deserialize(serialize(errors.parse))).toStrictEqual(parseSavedContent);
 
   transformCstForAssertion(cst);
   const cstSavedContent = await getCst(testCasePath);

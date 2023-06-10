@@ -9,7 +9,7 @@ import { findRange, rangeToOffsetRange } from "../../../utils";
 /**
  * Check parts element MUST not contain another parts element
  */
-const getParts = (element: BindingTypes.AstElement) => {
+const getParts = (element: BindingTypes.StructureElement) => {
   const issues: BindingIssue[] = [];
   if (isCollectionValue(element.value)) {
     for (const item of element.value.elements) {
@@ -21,9 +21,17 @@ const getParts = (element: BindingTypes.AstElement) => {
               kind: "RecursiveProperty",
               message: `Recursive composite bindings is not allowed`,
               offsetRange: rangeToOffsetRange(
-                findRange([el.key?.range, el.range])
+                findRange([
+                  /* istanbul ignore next */
+                  el.key?.range,
+                  el.range,
+                ])
               ),
-              range: findRange([el.key?.range, el.range]),
+              range: findRange([
+                /* istanbul ignore next */
+                el.key?.range,
+                el.range,
+              ]),
               severity: "info",
             });
           } else {
@@ -36,7 +44,7 @@ const getParts = (element: BindingTypes.AstElement) => {
   return issues;
 };
 export const checkNestedParts = (
-  binding: BindingTypes.Binding
+  binding: BindingTypes.StructureValue
 ): BindingIssue[] => {
   const issues: BindingIssue[] = [];
   // check "parts" element is used

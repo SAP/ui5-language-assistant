@@ -15,7 +15,8 @@
           },
           "colon": "undefined",
           "value": "undefined",
-          "range": "[(0,1)..(0,4)]"
+          "range": "[(0,1)..(0,4)]",
+          "type": "structure-element"
         }
       ],
       "rightCurly": {
@@ -24,7 +25,8 @@
         "range": "[(0,5)..(0,6)]"
       },
       "range": "[(0,0)..(0,6)]",
-      "commas": []
+      "commas": [],
+      "type": "structure-value"
     }
   ],
   "spaces": [
@@ -34,8 +36,5 @@
       "range": "[(0,4)..(0,5)]"
     }
   ],
-  "errors": {
-    "lexer": [],
-    "parse": []
-  }
+  "type": "template"
 }

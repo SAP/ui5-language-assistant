@@ -1,13 +1,8 @@
 import { Range } from "vscode-languageserver-types";
-import {
-  IToken,
-  CstNodeLocation,
-  ILexingError,
-  IRecognitionException,
-  CstNode,
-} from "chevrotain";
+import { IToken, CstNodeLocation, CstNode } from "chevrotain";
 import type { Position } from "vscode-languageserver-types";
 import {
+  ARRAY,
   BOOLEAN_VALUE,
   COLON,
   COMMA,
@@ -17,11 +12,15 @@ import {
   LEXER_ERROR,
   NULL_VALUE,
   NUMBER_VALUE,
+  OBJECT,
+  OBJECT_ITEM,
   PARSE_ERROR,
   RIGHT_CURLY,
   RIGHT_SQUARE,
   SPECIAL_CHARS,
   STRING_VALUE,
+  TEMPLATE,
+  VALUE,
   WHITE_SPACE,
 } from "../constant";
 
@@ -29,7 +28,7 @@ export interface VisitorParam {
   position?: Position;
   location?: CstNodeLocation;
 }
-export type NodeType =
+export type TokenType =
   | typeof WHITE_SPACE
   | typeof SPECIAL_CHARS
   | typeof COLON
@@ -87,8 +86,6 @@ export interface PrimitiveValue extends Base {
   type: PrimitiveValueType;
 }
 
-export type StructureValue = Binding;
-
 export interface LexerError extends Base {
   type: typeof LEXER_ERROR | typeof SPECIAL_CHARS;
 }
@@ -109,42 +106,100 @@ export interface CollectionValue {
   range?: Range; // range which include left bracket, element and right bracket
   rightSquare?: RightSquare;
   commas?: Comma[];
+  type: "collection-value";
 }
 export type Value = PrimitiveValue | StructureValue | CollectionValue;
 
-export interface AstElement {
+export interface StructureElement {
   key?: Key;
   colon?: Colon;
   value?: Value;
-  range?: Range; // range of this element which include key, colon value and comma
+  range?: Range; // range of this element which include key, colon and value
+  type: "structure-element";
 }
 
-export interface Binding {
+export interface StructureValue {
   leftCurly?: LeftCurly;
   rightCurly?: RightCurly;
-  elements: AstElement[]; // in case of collection value can be simple value e.g string
+  elements: StructureElement[];
   range?: Range; // range which include left bracket, element and right bracket,
   commas?: Comma[];
+  type: "structure-value";
 }
-export interface Ast {
-  bindings: Binding[];
-  errors: {
-    lexer: LexerError[];
-    parse: ParseError[];
-  };
+export interface Template {
+  bindings: StructureValue[];
+  type: "template";
   spaces: WhiteSpaces[];
 }
 
 export interface ParseResult {
   cst: CstNode;
-  ast: Ast;
+  ast: Template;
   tokens: IToken[];
-  lexErrors: ILexingError[];
-  parseErrors: IRecognitionException[];
+  errors: {
+    lexer: LexerError[];
+    parse: ParseError[];
+  };
 }
 
-export interface CreateNode<T> {
+export interface CreateToken<T = TokenType> {
   type: T;
   text: string;
   range: Range;
 }
+
+export type TemplateChildren = {
+  [OBJECT]?: ObjectCstNode[];
+};
+export interface TemplateCstNode extends CstNode {
+  name: typeof TEMPLATE;
+  children: TemplateChildren;
+}
+
+export type ObjectChildren = {
+  [LEFT_CURLY]?: IToken[];
+  [RIGHT_CURLY]?: IToken[];
+  [OBJECT_ITEM]?: ObjectItemCstNode[];
+  [COMMA]?: IToken[];
+};
+
+export interface ObjectCstNode extends CstNode {
+  name: typeof OBJECT;
+  children: ObjectChildren;
+}
+
+export type ArrayChildren = {
+  [LEFT_SQUARE]?: IToken[];
+  [RIGHT_SQUARE]?: IToken[];
+  [VALUE]?: ValueCstNode[];
+  [COMMA]?: IToken[];
+};
+export interface ArrayCstNode extends CstNode {
+  name: typeof ARRAY;
+  children: ArrayChildren;
+}
+
+export type ObjectItemChildren = {
+  [KEY]?: IToken[];
+  [COLON]?: IToken[];
+  [VALUE]?: ValueCstNode[];
+};
+export interface ObjectItemCstNode extends CstNode {
+  name: typeof OBJECT_ITEM;
+  children: ObjectItemChildren;
+}
+
+export type ValueChildren = {
+  [STRING_VALUE]?: IToken[];
+  [NUMBER_VALUE]?: IToken[];
+  [OBJECT]?: ObjectCstNode[];
+  [ARRAY]?: ArrayCstNode[];
+  [BOOLEAN_VALUE]?: IToken[];
+  [NULL_VALUE]?: IToken[];
+};
+export interface ValueCstNode extends CstNode {
+  name: typeof VALUE;
+  children: ValueChildren;
+}
+
+export type BindingNode = Template | StructureElement | Value | CollectionValue;

@@ -8,7 +8,7 @@ import { propertyBindingInfoElements } from "../../../definition/definition";
  */
 export const checkMissingValue = (
   context: BindContext,
-  element: BindingTypes.AstElement
+  element: BindingTypes.StructureElement
 ): BindingIssue[] => {
   const issues: BindingIssue[] = [];
   if (!element.key) {

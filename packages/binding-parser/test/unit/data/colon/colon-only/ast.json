@@ -15,7 +15,8 @@
             "range": "[(0,1)..(0,2)]"
           },
           "value": "undefined",
-          "range": "[(0,1)..(0,2)]"
+          "range": "[(0,1)..(0,2)]",
+          "type": "structure-element"
         }
       ],
       "rightCurly": {
@@ -24,34 +25,10 @@
         "range": "[(0,2)..(0,3)]"
       },
       "range": "[(0,0)..(0,3)]",
-      "commas": []
+      "commas": [],
+      "type": "structure-value"
     }
   ],
   "spaces": [],
-  "errors": {
-    "lexer": [],
-    "parse": [
-      {
-        "type": "ParseError",
-        "range": "[(0,2)..(0,3)]",
-        "text": "}",
-        "merged": [
-          {
-            "type": "ParseError",
-            "text": "}",
-            "range": "[(0,2)..(0,3)]",
-            "tokenTypeName": "RightCurly"
-          }
-        ],
-        "tokenTypeName": "RightCurly",
-        "previousToken": {
-          "type": "ParseError",
-          "text": ":",
-          "range": "[(0,1)..(0,2)]",
-          "tokenTypeName": "Colon"
-        },
-        "message": "Expecting: one of these possible Token sequences:\n  1. [StringValue]\n  2. [NumberValue]\n  3. [{]\n  4. [[]\n  5. [BooleanValue]\n  6. [NullValue]\nbut found: '}'"
-      }
-    ]
-  }
+  "type": "template"
 }

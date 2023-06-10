@@ -30,10 +30,12 @@
               "text": "",
               "range": "[(0,0)..(0,0)]"
             },
-            "range": "[(0,1)..(0,7)]",
-            "commas": []
+            "range": "[(0,6)..(0,7)]",
+            "commas": [],
+            "type": "collection-value"
           },
-          "range": "[(0,1)..(0,7)]"
+          "range": "[(0,1)..(0,7)]",
+          "type": "structure-element"
         }
       ],
       "rightCurly": {
@@ -42,7 +44,8 @@
         "range": "[(0,7)..(0,8)]"
       },
       "range": "[(0,0)..(0,8)]",
-      "commas": []
+      "commas": [],
+      "type": "structure-value"
     }
   ],
   "spaces": [
@@ -52,30 +55,5 @@
       "range": "[(0,5)..(0,6)]"
     }
   ],
-  "errors": {
-    "lexer": [],
-    "parse": [
-      {
-        "type": "ParseError",
-        "range": "[(0,7)..(0,8)]",
-        "text": "}",
-        "merged": [
-          {
-            "type": "ParseError",
-            "text": "}",
-            "range": "[(0,7)..(0,8)]",
-            "tokenTypeName": "RightCurly"
-          }
-        ],
-        "tokenTypeName": "RightCurly",
-        "previousToken": {
-          "type": "ParseError",
-          "text": "[",
-          "range": "[(0,6)..(0,7)]",
-          "tokenTypeName": "LeftSquare"
-        },
-        "message": "Expecting --> ] <-- but found --> '}' <--"
-      }
-    ]
-  }
+  "type": "template"
 }

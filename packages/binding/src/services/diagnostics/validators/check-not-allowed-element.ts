@@ -8,11 +8,11 @@ import { findRange, rangeToOffsetRange } from "../../../utils";
 import { propertyBindingInfoElements } from "../../../definition/definition";
 
 const search = (
-  element: BindingTypes.AstElement,
-  elements: BindingTypes.AstElement[],
-  collectedElements: BindingTypes.AstElement[]
-): BindingTypes.AstElement[] => {
-  const notAllowedElements: BindingTypes.AstElement[] = [];
+  element: BindingTypes.StructureElement,
+  elements: BindingTypes.StructureElement[],
+  collectedElements: BindingTypes.StructureElement[]
+): BindingTypes.StructureElement[] => {
+  const notAllowedElements: BindingTypes.StructureElement[] = [];
   const key = element.key?.text;
   const alreadyCollected = collectedElements.find(
     (item) => item.key?.text === key
@@ -38,12 +38,12 @@ const search = (
   return notAllowedElements;
 };
 export const checkNotAllowedElement = (
-  binding: BindingTypes.Binding
+  binding: BindingTypes.StructureValue
 ): BindingIssue[] => {
   const issues: BindingIssue[] = [];
-  const notAllowed: BindingTypes.AstElement[] = [];
+  const notAllowed: BindingTypes.StructureElement[] = [];
   const allEl = [...binding.elements];
-  let oneElement: BindingTypes.AstElement[];
+  let oneElement: BindingTypes.StructureElement[];
   while ((oneElement = allEl.splice(0, 1)) && allEl.length > 0) {
     const searchResult = search(oneElement[0], allEl, notAllowed);
     if (searchResult.length > 0) {
@@ -58,8 +58,18 @@ export const checkNotAllowedElement = (
       issueType: BINDING_ISSUE_TYPE,
       kind: "NotAllowedProperty",
       message: `One of these elements [${keys.join(", ")}] are allowed`,
-      offsetRange: rangeToOffsetRange(findRange([item.key?.range, item.range])),
-      range: findRange([item.key?.range, item.range]),
+      offsetRange: rangeToOffsetRange(
+        findRange([
+          /* istanbul ignore next */
+          item.key?.range,
+          item.range,
+        ])
+      ),
+      range: findRange([
+        /* istanbul ignore next */
+        item.key?.range,
+        item.range,
+      ]),
       severity: "info",
     })
   );

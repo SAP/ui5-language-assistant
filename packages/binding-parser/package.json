@@ -14,7 +14,6 @@
   "main": "lib/src/api.js",
   "repository": "https://github.com/sap/ui5-language-assistant/",
   "license": "Apache-2.0",
-  "typings": "./api.d.ts",
   "dependencies": {
     "chevrotain": "10.4.2",
     "vscode-languageserver-types": "3.17.2"

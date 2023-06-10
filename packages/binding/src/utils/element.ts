@@ -53,10 +53,17 @@ export const valueTypeMap = new Map([
   [LEFT_CURLY, "object"],
 ]);
 
-export const isParts = (element: BindingTypes.AstElement): boolean => {
+export const isParts = (element: BindingTypes.StructureElement): boolean => {
   return (element.key && element.key.text) === "parts";
 };
 
-export const findRange = (args: (Range | undefined)[]): Range | undefined => {
-  return args.find((i) => !!i);
+export const defaultRange = (): Range => {
+  return Range.create({ line: 0, character: 0 }, { line: 0, character: 0 });
+};
+export const findRange = (args: (Range | undefined)[]): Range => {
+  const range = args.find((i) => !!i);
+  if (range) {
+    return range;
+  }
+  return defaultRange();
 };

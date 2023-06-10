@@ -1,19 +1,23 @@
 [
   {
-    "token": {
-      "image": "}",
-      "startColumn": 8,
-      "endColumn": 8,
-      "tokenTypeName": "RightCurly"
-    },
-    "message": "Expecting --> ] <-- but found --> '}' <--",
-    "name": "MismatchedTokenException",
-    "resyncedTokens": [],
+    "type": "ParseError",
+    "range": "[(0,7)..(0,8)]",
+    "text": "}",
+    "merged": [
+      {
+        "type": "ParseError",
+        "text": "}",
+        "range": "[(0,7)..(0,8)]",
+        "tokenTypeName": "RightCurly"
+      }
+    ],
+    "tokenTypeName": "RightCurly",
     "previousToken": {
-      "image": "[",
-      "startColumn": 7,
-      "endColumn": 7,
+      "type": "ParseError",
+      "text": "[",
+      "range": "[(0,6)..(0,7)]",
       "tokenTypeName": "LeftSquare"
-    }
+    },
+    "message": "Expecting --> ] <-- but found --> '}' <--"
   }
 ]

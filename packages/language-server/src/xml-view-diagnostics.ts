@@ -97,7 +97,7 @@ function validationIssuesToLspDiagnostics<T extends ExternalIssueType>(
 ): Diagnostic[] {
   const diagnostics: Diagnostic[] = map(issues, (currIssue) => {
     const range = isBindingIssue(currIssue)
-      ? currIssue.range!
+      ? currIssue.range
       : offsetRangeToLSPRange(currIssue.offsetRange, document);
     const commonDiagnosticPros: Diagnostic = {
       range,

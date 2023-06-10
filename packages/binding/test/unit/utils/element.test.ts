@@ -1,4 +1,4 @@
-import { typesToValue } from "../../../src/utils";
+import { findRange, typesToValue } from "../../../src/utils";
 import { propertyBindingInfoElements } from "../../../src/definition/definition";
 import { PropertyBindingInfoElement, BindContext } from "../../../src/types";
 
@@ -73,6 +73,24 @@ describe("element", () => {
         } as BindContext);
         expect(result).toStrictEqual(["{ }"]);
       });
+    });
+  });
+  describe("findRange", () => {
+    it("finds ranges", () => {
+      const range = {
+        start: { line: 5, character: 10 },
+        end: { line: 5, character: 15 },
+      };
+      const result = findRange([range]);
+      expect(result).toStrictEqual(range);
+    });
+    it("default ranges", () => {
+      const range = {
+        start: { line: 0, character: 0 },
+        end: { line: 0, character: 0 },
+      };
+      const result = findRange([range]);
+      expect(result).toStrictEqual(range);
     });
   });
 });

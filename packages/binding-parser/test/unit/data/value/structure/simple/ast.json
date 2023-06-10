@@ -41,7 +41,8 @@
                   "text": "'another value'",
                   "range": "[(0,20)..(0,35)]"
                 },
-                "range": "[(0,8)..(0,35)]"
+                "range": "[(0,8)..(0,35)]",
+                "type": "structure-element"
               }
             ],
             "rightCurly": {
@@ -50,9 +51,11 @@
               "range": "[(0,35)..(0,36)]"
             },
             "range": "[(0,7)..(0,36)]",
-            "commas": []
+            "commas": [],
+            "type": "structure-value"
           },
-          "range": "[(0,2)..(0,36)]"
+          "range": "[(0,2)..(0,36)]",
+          "type": "structure-element"
         }
       ],
       "rightCurly": {
@@ -61,7 +64,8 @@
         "range": "[(0,37)..(0,38)]"
       },
       "range": "[(0,0)..(0,38)]",
-      "commas": []
+      "commas": [],
+      "type": "structure-value"
     }
   ],
   "spaces": [
@@ -86,8 +90,5 @@
       "range": "[(0,36)..(0,37)]"
     }
   ],
-  "errors": {
-    "lexer": [],
-    "parse": []
-  }
+  "type": "template"
 }

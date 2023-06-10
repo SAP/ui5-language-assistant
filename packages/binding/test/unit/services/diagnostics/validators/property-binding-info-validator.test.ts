@@ -208,7 +208,7 @@ describe("property-binding-info-validator", () => {
     const { attr, context } = await getData(snippet);
     const result = validatePropertyBindingInfo(attr, context);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-      "kind: MissMatchValue; text: Allowed values are { } or ' '; severity:info; range:9:18-9:26",
+      "kind: MissMatchValue; text: Allowed values are { } or ' '; severity:info; range:9:24-9:26",
     ]);
   });
   it("check wrong value - allowed value is string", async () => {
@@ -471,7 +471,7 @@ describe("property-binding-info-validator", () => {
     const { attr, context } = await getData(snippet);
     const result = validatePropertyBindingInfo(attr, context);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-      "kind: MissingValue; text: Required values { } or ' ' must be provided; severity:info; range:10:6-10:15",
+      "kind: MissingValue; text: Required values { } or ' ' must be provided; severity:info; range:10:13-10:15",
       "kind: RecursiveProperty; text: Recursive composite bindings is not allowed; severity:info; range:10:6-10:11",
     ]);
   });
@@ -552,7 +552,7 @@ describe("property-binding-info-validator", () => {
       const { attr, context } = await getData(snippet);
       const result = validatePropertyBindingInfo(attr, context);
       expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-        "kind: MissingValue; text: Required values { } or ' ' must be provided; severity:info; range:9:18-9:27",
+        "kind: MissingValue; text: Required values { } or ' ' must be provided; severity:info; range:9:25-9:27",
       ]);
     });
     it("check collection with empty object", async () => {

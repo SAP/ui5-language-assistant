@@ -1,53 +1,65 @@
 [
   {
-    "token": {
-      "image": ":",
-      "startColumn": 6,
-      "endColumn": 6,
+    "type": "ParseError",
+    "range": "[(0,5)..(0,6)]",
+    "text": ":",
+    "merged": [
+      {
+        "type": "ParseError",
+        "text": ":",
+        "range": "[(0,5)..(0,6)]",
+        "tokenTypeName": "Colon"
+      }
+    ],
+    "tokenTypeName": "Colon",
+    "previousToken": {
+      "type": "ParseError",
+      "text": ":",
+      "range": "[(0,4)..(0,5)]",
       "tokenTypeName": "Colon"
     },
-    "message": "Expecting: one of these possible Token sequences:\n  1. [StringValue]\n  2. [NumberValue]\n  3. [{]\n  4. [[]\n  5. [BooleanValue]\n  6. [NullValue]\nbut found: ':'",
-    "name": "NoViableAltException",
-    "resyncedTokens": [],
-    "previousToken": {
-      "image": ":",
-      "startColumn": 5,
-      "endColumn": 5,
-      "tokenTypeName": "Colon"
-    }
+    "message": "Expecting: one of these possible Token sequences:\n  1. [StringValue]\n  2. [NumberValue]\n  3. [{]\n  4. [[]\n  5. [BooleanValue]\n  6. [NullValue]\nbut found: ':'"
   },
   {
-    "token": {
-      "image": ":",
-      "startColumn": 7,
-      "endColumn": 7,
+    "type": "ParseError",
+    "range": "[(0,6)..(0,7)]",
+    "text": ":",
+    "merged": [
+      {
+        "type": "ParseError",
+        "text": ":",
+        "range": "[(0,6)..(0,7)]",
+        "tokenTypeName": "Colon"
+      }
+    ],
+    "tokenTypeName": "Colon",
+    "previousToken": {
+      "type": "ParseError",
+      "text": ":",
+      "range": "[(0,5)..(0,6)]",
       "tokenTypeName": "Colon"
     },
-    "message": "Expecting: one of these possible Token sequences:\n  1. [StringValue]\n  2. [NumberValue]\n  3. [{]\n  4. [[]\n  5. [BooleanValue]\n  6. [NullValue]\nbut found: ':'",
-    "name": "NoViableAltException",
-    "resyncedTokens": [],
-    "previousToken": {
-      "image": ":",
-      "startColumn": 6,
-      "endColumn": 6,
-      "tokenTypeName": "Colon"
-    }
+    "message": "Expecting: one of these possible Token sequences:\n  1. [StringValue]\n  2. [NumberValue]\n  3. [{]\n  4. [[]\n  5. [BooleanValue]\n  6. [NullValue]\nbut found: ':'"
   },
   {
-    "token": {
-      "image": ":",
-      "startColumn": 8,
-      "endColumn": 8,
+    "type": "ParseError",
+    "range": "[(0,7)..(0,8)]",
+    "text": ":",
+    "merged": [
+      {
+        "type": "ParseError",
+        "text": ":",
+        "range": "[(0,7)..(0,8)]",
+        "tokenTypeName": "Colon"
+      }
+    ],
+    "tokenTypeName": "Colon",
+    "previousToken": {
+      "type": "ParseError",
+      "text": ":",
+      "range": "[(0,6)..(0,7)]",
       "tokenTypeName": "Colon"
     },
-    "message": "Expecting: one of these possible Token sequences:\n  1. [StringValue]\n  2. [NumberValue]\n  3. [{]\n  4. [[]\n  5. [BooleanValue]\n  6. [NullValue]\nbut found: ':'",
-    "name": "NoViableAltException",
-    "resyncedTokens": [],
-    "previousToken": {
-      "image": ":",
-      "startColumn": 7,
-      "endColumn": 7,
-      "tokenTypeName": "Colon"
-    }
+    "message": "Expecting: one of these possible Token sequences:\n  1. [StringValue]\n  2. [NumberValue]\n  3. [{]\n  4. [[]\n  5. [BooleanValue]\n  6. [NullValue]\nbut found: ':'"
   }
 ]

@@ -1,6 +1,6 @@
 import { PropertyBindingInfoTypes as BindingTypes } from "@ui5-language-assistant/binding-parser";
 export interface BaseContext {
-  element: BindingTypes.AstElement;
+  element: BindingTypes.StructureElement;
 }
 /**
  * Initial scenario

@@ -13,6 +13,7 @@ export const NULL_VALUE = "NullValue";
 export const COMMA = "Comma";
 
 export const PROPERTY_BINDING_INFO = "PropertyBindingInfo";
+export const TEMPLATE = "Template";
 export const OBJECT = "Object";
 export const ARRAY = "Array";
 export const OBJECT_ITEM = "ObjectItem";

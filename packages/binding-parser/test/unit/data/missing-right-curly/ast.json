@@ -23,12 +23,14 @@
             "text": "'value'",
             "range": "[(0,6)..(0,13)]"
           },
-          "range": "[(0,1)..(0,13)]"
+          "range": "[(0,1)..(0,13)]",
+          "type": "structure-element"
         }
       ],
       "rightCurly": "undefined",
       "range": "[(0,0)..(0,13)]",
-      "commas": []
+      "commas": [],
+      "type": "structure-value"
     }
   ],
   "spaces": [
@@ -38,30 +40,5 @@
       "range": "[(0,5)..(0,6)]"
     }
   ],
-  "errors": {
-    "lexer": [],
-    "parse": [
-      {
-        "type": "ParseError",
-        "range": "[(0,0)..(0,0)]",
-        "text": "",
-        "merged": [
-          {
-            "type": "ParseError",
-            "text": "",
-            "range": "[(0,0)..(0,0)]",
-            "tokenTypeName": "EOF"
-          }
-        ],
-        "tokenTypeName": "EOF",
-        "previousToken": {
-          "type": "ParseError",
-          "text": "'value'",
-          "range": "[(0,6)..(0,13)]",
-          "tokenTypeName": "StringValue"
-        },
-        "message": "Expecting --> } <-- but found --> '' <--"
-      }
-    ]
-  }
+  "type": "template"
 }

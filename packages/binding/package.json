@@ -14,7 +14,6 @@
   "main": "lib/src/api.js",
   "repository": "https://github.com/sap/ui5-language-assistant/",
   "license": "Apache-2.0",
-  "typings": "./api.d.ts",
   "dependencies": {
     "@ui5-language-assistant/binding-parser": "1.0.0",
     "@ui5-language-assistant/context": "4.0.11",

@@ -1,16 +1,9 @@
 import { promises, readdirSync, stat, statSync } from "fs";
 import { join, dirname } from "path";
 import { platform } from "os";
-import type {
-  IToken,
-  CstNode,
-  CstNodeLocation,
-  CstElement,
-  IRecognitionException,
-} from "chevrotain";
+import type { IToken, CstNode, CstNodeLocation, CstElement } from "chevrotain";
 import { deserialize } from "./deserialize-ast";
-import type { Ast } from "../../../src/types/property-binding-info";
-import { serialize } from "./serialize";
+import type { Template } from "../../../src/types/property-binding-info";
 
 const { readFile } = promises;
 
@@ -48,20 +41,20 @@ export const getLexerErrors = async (
 ): Promise<unknown> => {
   const path = join(getBase(), testCasePath, "lexer-errors.json");
   const content = await getFileContent(path);
-  return JSON.parse(content);
+  return deserialize(content);
 };
 export const getParserErrors = async (
   testCasePath: string
 ): Promise<unknown> => {
   const path = join(getBase(), testCasePath, "parse-errors.json");
   const content = await getFileContent(path);
-  return JSON.parse(content);
+  return deserialize(content);
 };
 
-export const getAst = async (testCasePath: string): Promise<Ast> => {
+export const getAst = async (testCasePath: string): Promise<Template> => {
   const path = join(getBase(), testCasePath, "ast.json");
   const content = await getFileContent(path);
-  return deserialize<Ast>(content);
+  return deserialize<Template>(content);
 };
 
 const isCstNode = (node: CstNode | IToken): node is CstNode => {
@@ -135,45 +128,6 @@ export const transformCstForAssertion = (node: CstNode | IToken): void => {
   } else {
     throw Error("None Exhaustive Match");
   }
-};
-type ErrorTransform = Pick<
-  IRecognitionException,
-  "message" | "name" | "resyncedTokens" | "token"
-> & { previousToken?: IToken };
-export const transformParserErrorForAssertion = (
-  nodes: (IRecognitionException & { previousToken?: IToken })[]
-): ErrorTransform[] => {
-  const result: ErrorTransform[] = [];
-  for (const node of nodes) {
-    if (node.token) {
-      const data = deserialize<IToken>(serialize(node.token));
-      transformCstForAssertion(data);
-      node.token = data;
-    }
-    if (node.resyncedTokens) {
-      const data = deserialize<IToken[]>(serialize(node.resyncedTokens));
-      for (const resync of data) {
-        transformCstForAssertion(resync);
-      }
-      node.resyncedTokens = data;
-    }
-    if (node.previousToken) {
-      const data = deserialize<IToken>(serialize(node.previousToken));
-      transformCstForAssertion(data);
-      node.previousToken = data;
-    }
-    const data = deserialize<ErrorTransform>(
-      serialize({
-        token: node.token,
-        message: node.message,
-        name: node.name,
-        resyncedTokens: node.resyncedTokens,
-        previousToken: node.previousToken,
-      })
-    );
-    result.push(data);
-  }
-  return result;
 };
 
 export const getAllNormalizeFolderPath = (

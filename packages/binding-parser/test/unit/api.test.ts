@@ -2,7 +2,7 @@ import {
   isPrimitiveValue,
   isCollectionValue,
   isStructureValue,
-  PropertyBindingInfoTypes,
+  parsePropertyBindingInfo,
 } from "../../src/api";
 
 describe("api", () => {
@@ -11,15 +11,21 @@ describe("api", () => {
       const result = isPrimitiveValue(undefined);
       expect(result).toBeFalse();
     });
-    it("false [has elements]", () => {
-      const value = {
-        elements: [{}],
-      } as PropertyBindingInfoTypes.Value;
+    it("false [isCollectionValue(value)]", () => {
+      const { ast } = parsePropertyBindingInfo("{key: []}");
+      const value = ast.bindings[0].elements[0].value;
+      const result = isPrimitiveValue(value);
+      expect(result).toBeFalse();
+    });
+    it("false [isStructureValue(value)]", () => {
+      const { ast } = parsePropertyBindingInfo("{key: {} }");
+      const value = ast.bindings[0].elements[0].value;
       const result = isPrimitiveValue(value);
       expect(result).toBeFalse();
     });
     it("true", () => {
-      const value = {} as PropertyBindingInfoTypes.Value;
+      const { ast } = parsePropertyBindingInfo("{key: 123 }");
+      const value = ast.bindings[0].elements[0].value;
       const result = isPrimitiveValue(value);
       expect(result).toBeTrue();
     });
@@ -29,18 +35,15 @@ describe("api", () => {
       const result = isCollectionValue(undefined);
       expect(result).toBeFalse();
     });
-    it("false [does not have left square or right square]", () => {
-      const value = {} as PropertyBindingInfoTypes.Value;
+    it("false [type !== collection-value]", () => {
+      const { ast } = parsePropertyBindingInfo("{key: {} }");
+      const value = ast.bindings[0].elements[0].value;
       const result = isCollectionValue(value);
       expect(result).toBeFalse();
     });
-    it("true [left square]", () => {
-      const value = { leftSquare: {} } as PropertyBindingInfoTypes.Value;
-      const result = isCollectionValue(value);
-      expect(result).toBeTrue();
-    });
-    it("true [right square]", () => {
-      const value = { rightSquare: {} } as PropertyBindingInfoTypes.Value;
+    it("true [type === collection-value]", () => {
+      const { ast } = parsePropertyBindingInfo("{key: [] }");
+      const value = ast.bindings[0].elements[0].value;
       const result = isCollectionValue(value);
       expect(result).toBeTrue();
     });
@@ -50,18 +53,15 @@ describe("api", () => {
       const result = isStructureValue(undefined);
       expect(result).toBeFalse();
     });
-    it("false [does not have left curly or right curly]", () => {
-      const value = {} as PropertyBindingInfoTypes.Value;
+    it("false [type !== structure-value]", () => {
+      const { ast } = parsePropertyBindingInfo("{key: [] }");
+      const value = ast.bindings[0].elements[0].value;
       const result = isStructureValue(value);
       expect(result).toBeFalse();
     });
-    it("true [left curly]", () => {
-      const value = { leftCurly: {} } as PropertyBindingInfoTypes.Value;
-      const result = isStructureValue(value);
-      expect(result).toBeTrue();
-    });
-    it("true [right curly]", () => {
-      const value = { rightCurly: {} } as PropertyBindingInfoTypes.Value;
+    it("true [type === structure-value]", () => {
+      const { ast } = parsePropertyBindingInfo("{key: {} }");
+      const value = ast.bindings[0].elements[0].value;
       const result = isStructureValue(value);
       expect(result).toBeTrue();
     });

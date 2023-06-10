@@ -48,7 +48,8 @@
                       "text": "'inside collection value'",
                       "range": "[(0,30)..(0,55)]"
                     },
-                    "range": "[(0,9)..(0,55)]"
+                    "range": "[(0,9)..(0,55)]",
+                    "type": "structure-element"
                   }
                 ],
                 "rightCurly": {
@@ -57,7 +58,8 @@
                   "range": "[(0,55)..(0,56)]"
                 },
                 "range": "[(0,8)..(0,56)]",
-                "commas": []
+                "commas": [],
+                "type": "structure-value"
               }
             ],
             "rightSquare": {
@@ -65,10 +67,12 @@
               "text": "]",
               "range": "[(0,56)..(0,57)]"
             },
-            "range": "[(0,2)..(0,57)]",
-            "commas": []
+            "range": "[(0,7)..(0,57)]",
+            "commas": [],
+            "type": "collection-value"
           },
-          "range": "[(0,2)..(0,57)]"
+          "range": "[(0,2)..(0,57)]",
+          "type": "structure-element"
         }
       ],
       "rightCurly": {
@@ -77,7 +81,8 @@
         "range": "[(0,58)..(0,59)]"
       },
       "range": "[(0,0)..(0,59)]",
-      "commas": []
+      "commas": [],
+      "type": "structure-value"
     }
   ],
   "spaces": [
@@ -102,8 +107,5 @@
       "range": "[(0,57)..(0,58)]"
     }
   ],
-  "errors": {
-    "lexer": [],
-    "parse": []
-  }
+  "type": "template"
 }

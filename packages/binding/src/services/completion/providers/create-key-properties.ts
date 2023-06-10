@@ -9,7 +9,7 @@ import { propertyBindingInfoElements } from "../../../definition/definition";
 import { getDocumentation } from "./documentation";
 
 export const createKeyProperties = (
-  element: BindingTypes.AstElement
+  element: BindingTypes.StructureElement
 ): CompletionItem[] => {
   const completionItems: CompletionItem[] = [];
   propertyBindingInfoElements.forEach((item) => {

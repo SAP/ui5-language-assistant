@@ -5,6 +5,12 @@ export {
   isPropertyBindingInfo,
 } from "./expression";
 
-export { typesToValue, valueTypeMap, isParts, findRange } from "./element";
+export {
+  typesToValue,
+  valueTypeMap,
+  isParts,
+  findRange,
+  defaultRange,
+} from "./element";
 
 export { getCursorContext } from "./cursor";

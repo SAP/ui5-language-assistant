@@ -1,4 +1,4 @@
-import { IToken, CstNodeLocation, ILexingError } from "chevrotain";
+import { IToken, ILexingError } from "chevrotain";
 import { VisitorParam } from "../types/property-binding-info";
 import { Position, Range } from "vscode-languageserver-types";
 
@@ -67,10 +67,8 @@ export const getRange = (token: IToken, param?: VisitorParam): Range => {
   return Range.create(start, end);
 };
 
-export const locationToRange = (
-  location?: CstNodeLocation,
-  param?: VisitorParam
-): Range | undefined => {
+export const locationToRange = (param?: VisitorParam): Range | undefined => {
+  const location = param?.location;
   if (!location) {
     return;
   }

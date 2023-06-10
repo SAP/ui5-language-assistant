@@ -1,5 +1,5 @@
 import type {
-  Ast,
+  Template,
   ParseResult,
   SpecialChars,
   WhiteSpaces,
@@ -10,7 +10,7 @@ import { lexer } from "../lexer";
 import { SPECIAL_CHARS, WHITE_SPACE } from "../constant";
 import {
   createLexerErrors,
-  createNode,
+  createToken,
   createParseErrors,
 } from "../utils/create";
 import { propertyBindingInfoVisitor } from "../ast";
@@ -23,17 +23,15 @@ export const parsePropertyBindingInfo = (
   const spaceTokens = tokens.filter((t) => t.tokenType.name === WHITE_SPACE);
   const spaces: WhiteSpaces[] = [];
   for (const space of spaceTokens) {
-    spaces.push(createNode(space, WHITE_SPACE, { position }));
+    spaces.push(createToken(space, WHITE_SPACE, { position }));
   }
   const knownTokens = tokens
     .filter((t) => t.tokenType.name !== WHITE_SPACE)
     .filter((t) => t.tokenType.name !== SPECIAL_CHARS);
   propertyBindingInfoParser.input = knownTokens;
-  const cst = propertyBindingInfoParser.PropertyBindingInfo();
+  const cst = propertyBindingInfoParser.Template();
   const parseErrors = propertyBindingInfoParser.errors;
-  const ast = propertyBindingInfoVisitor.visit(cst, position) as Ast;
-  ast.errors.lexer.push(...createLexerErrors(lexErrors, position));
-  ast.errors.parse.push(...createParseErrors(parseErrors, position));
+  const ast = propertyBindingInfoVisitor(position).visit(cst) as Template;
   ast.spaces.push(...spaces);
   /**
    * Special chars are added to token so that chevrotain recognize them and provide correct location information.
@@ -47,14 +45,15 @@ export const parsePropertyBindingInfo = (
   );
   const specialChars: SpecialChars[] = [];
   for (const specialChar of specialCharsToken) {
-    specialChars.push(createNode(specialChar, SPECIAL_CHARS, { position }));
+    specialChars.push(createToken(specialChar, SPECIAL_CHARS, { position }));
   }
-  ast.errors.lexer.push(...specialChars);
   return {
     cst,
     ast,
     tokens,
-    lexErrors,
-    parseErrors,
+    errors: {
+      lexer: [...createLexerErrors(lexErrors, position), ...specialChars],
+      parse: createParseErrors(parseErrors, position),
+    },
   };
 };

@@ -1,4 +1,4 @@
-import { CstNode, CstChildrenDictionary, IToken } from "chevrotain";
+import { CstNode, IToken } from "chevrotain";
 import type { Position } from "vscode-languageserver-types";
 import {
   ARRAY,
@@ -12,274 +12,190 @@ import {
   NUMBER_VALUE,
   OBJECT,
   OBJECT_ITEM,
-  PROPERTY_BINDING_INFO,
   RIGHT_SQUARE,
   RIGHT_CURLY,
   STRING_VALUE,
   VALUE,
+  TEMPLATE,
 } from "../constant";
-import { createNode } from "../utils/create";
+import { createToken } from "../utils/create";
 import { locationToRange } from "../utils/range";
 import type {
-  Binding,
-  Ast,
-  AstElement,
+  StructureElement,
   CollectionValue,
   PrimitiveValue,
   StructureValue,
   Value,
   VisitorParam,
-  CreateNode,
+  CreateToken,
+  ObjectChildren,
+  Template,
+  BindingNode,
+  TemplateChildren,
+  TokenType,
+  ObjectItemChildren,
+  ValueChildren,
+  ArrayChildren,
 } from "../types/property-binding-info";
 import { propertyBindingInfoParser } from "../parser/property-binding-info";
 
 const BaseVisitor = propertyBindingInfoParser.getBaseCstVisitorConstructor();
 class PropertyBindingInfoVisitor extends BaseVisitor {
-  constructor() {
+  startPosition?: Position;
+  constructor(startPosition?: Position) {
     super();
+    this.startPosition = startPosition;
     this.validateVisitor();
   }
-  [PROPERTY_BINDING_INFO](
-    node: CstChildrenDictionary,
-    position?: Position
-  ): Ast {
-    const objects = (node[OBJECT] ?? []) as CstNode[];
-    const errors = {
-      lexer: [],
-      parse: [],
-    };
+  visit(cstNode: CstNode): BindingNode {
+    return super.visit(cstNode, { location: cstNode.location } as VisitorParam);
+  }
+  [TEMPLATE](node: TemplateChildren): Template {
+    const objects = node[OBJECT] ?? [];
     const spaces = [];
-    const ast: Ast = {
+    const ast: Template = {
       bindings: [],
       spaces,
-      errors,
+      type: "template",
     };
     for (const data of objects) {
-      const param: VisitorParam = {
-        position,
-        location: data.location,
-      };
-      const result = this.visit(data, param) as Binding;
+      const result = this.visit(data) as StructureValue;
       ast.bindings.push(result);
     }
     return ast;
   }
-  [OBJECT](node: CstChildrenDictionary, param: VisitorParam): Binding {
-    const leftCurly = this[LEFT_CURLY](
-      (node[LEFT_CURLY] as IToken[]) ??
-        /* istanbul ignore next: array init */ [],
-      param
-    );
-    const rightCurly = this[RIGHT_CURLY](
-      (node[RIGHT_CURLY] as IToken[]) ?? [],
-      param
-    );
-    const elements: AstElement[] = [];
-    const data = (node[OBJECT_ITEM] as CstNode[]) ?? [];
+  [OBJECT](node: ObjectChildren, param: VisitorParam): StructureValue {
+    const leftCurly = this.createToken(LEFT_CURLY, param, node[LEFT_CURLY]);
+    const rightCurly = this.createToken(RIGHT_CURLY, param, node[RIGHT_CURLY]);
+    const elements: StructureElement[] = [];
+    const data = node[OBJECT_ITEM] ?? [];
     for (const element of data) {
-      const newParam = {
-        ...param,
-        location: element.location,
-      };
-      const result = this.visit(element, newParam);
+      const result = this.visit(element) as StructureElement;
       if (result.key || result.colon || result.value) {
         elements.push(result);
       }
     }
-    const range = locationToRange(param.location, param);
-    const commas = this.getCommas(param, node[COMMA] as IToken[]);
+    const range = locationToRange({ ...param, position: this.startPosition });
+    const commas = this.getCommas(param, node[COMMA]);
     return {
       leftCurly,
       elements,
       rightCurly,
       range,
       commas,
+      type: "structure-value",
     };
   }
-  [OBJECT_ITEM](node: CstChildrenDictionary, param: VisitorParam): AstElement {
-    const key = this[KEY](node[KEY] as IToken[], param);
-    const colon = this[COLON](node[COLON] as IToken[], param);
-    const value = this.visit(node[VALUE] as CstNode[], param);
-    const range = locationToRange(param.location, param);
-    return { key, colon, value, range };
+  [OBJECT_ITEM](
+    node: ObjectItemChildren,
+    param: VisitorParam
+  ): StructureElement {
+    const key = this.createToken(KEY, param, node[KEY]);
+    const colon = this.createToken(COLON, param, node[COLON]);
+    const value = this.isDefined(node[VALUE])
+      ? (this.visit(node[VALUE][0]) as Value)
+      : undefined;
+    const range = locationToRange({ ...param, position: this.startPosition });
+    return { key, colon, value, range, type: "structure-element" };
   }
-  [VALUE](node: CstChildrenDictionary, param: VisitorParam): Value | undefined {
+  [VALUE](node: ValueChildren, param: VisitorParam): Value | undefined {
     const primitiveVal = this.primitiveValue(node, param);
     if (primitiveVal) {
       return primitiveVal;
     }
 
-    let data = node[OBJECT];
-    if (data) {
+    const structure = node[OBJECT];
+    if (structure) {
       /* istanbul ignore next */
-      if (!data.length) {
+      if (!structure.length) {
         return;
       }
-      const structureData = data as CstNode[];
-      return this.visit(structureData, {
-        ...param,
-        location: structureData[0].location,
-      });
+      return this.visit(structure[0]) as Value;
     }
-    data = node[ARRAY];
+    const data = node[ARRAY];
     if (data) {
       if (!data.length) {
         /* istanbul ignore next */
         return;
       }
-      return this.visit(data as CstNode[], param);
+      return this.visit(data[0]) as Value;
     }
     return;
   }
-  primitiveValue(
-    node: CstChildrenDictionary,
-    param: VisitorParam
-  ): Value | undefined {
+  primitiveValue(node: ValueChildren, param: VisitorParam): Value | undefined {
     let data = node[STRING_VALUE];
     if (data) {
-      /* istanbul ignore next */
-      if (!data.length) {
-        return;
-      }
-      return createNode(data[0] as IToken, STRING_VALUE, param);
+      return this.createToken(STRING_VALUE, param, data);
     }
     data = node[NUMBER_VALUE];
     if (data) {
-      /* istanbul ignore next */
-      if (!data.length) {
-        return;
-      }
-      return createNode(data[0] as IToken, NUMBER_VALUE, param);
+      return this.createToken(NUMBER_VALUE, param, data);
     }
     data = node[NULL_VALUE];
     if (data) {
-      /* istanbul ignore next */
-      if (!data.length) {
-        return;
-      }
-      return createNode(data[0] as IToken, NULL_VALUE, param);
+      return this.createToken(NULL_VALUE, param, data);
     }
     data = node[BOOLEAN_VALUE];
-    if (data) {
-      /* istanbul ignore next */
-      if (!data.length) {
-        return;
-      }
-      return createNode(data[0] as IToken, BOOLEAN_VALUE, param);
-    }
-    return;
+    return this.createToken(BOOLEAN_VALUE, param, data);
   }
-  [ARRAY](node: CstChildrenDictionary, param: VisitorParam): CollectionValue {
-    const leftSquare = this[LEFT_SQUARE](
-      (node[LEFT_SQUARE] as IToken[]) ??
-        /* istanbul ignore next: array init */ [],
-      param
+  [ARRAY](node: ArrayChildren, param: VisitorParam): CollectionValue {
+    const leftSquare = this.createToken(LEFT_SQUARE, param, node[LEFT_SQUARE]);
+    const rightSquare = this.createToken(
+      RIGHT_SQUARE,
+      param,
+      node[RIGHT_SQUARE]
     );
-    const rightSquare = this[RIGHT_SQUARE](
-      (node[RIGHT_SQUARE] as IToken[]) ??
-        /* istanbul ignore next: array init */ [],
-      param
-    );
-    const commas = this.getCommas(param, node[COMMA] as IToken[]);
+    const commas = this.getCommas(param, node[COMMA]);
     const elements: (PrimitiveValue | StructureValue)[] = [];
-    const data = (node[VALUE] as CstNode[]) ?? [];
+    const data = node[VALUE] ?? [];
     for (const element of data) {
-      const newParam = {
-        ...param,
-        location: element.location,
-      };
-      const result = this.visit(element, newParam) as
-        | PrimitiveValue
-        | StructureValue;
+      const result = this.visit(element) as PrimitiveValue | StructureValue;
       elements.push(result);
     }
-    const range = locationToRange(param.location, param);
+    const range = locationToRange({ ...param, position: this.startPosition });
     return {
       leftSquare,
       elements,
       rightSquare,
       range,
       commas,
+      type: "collection-value",
     };
   }
-  [LEFT_CURLY](node: IToken[], param: VisitorParam) {
-    /* istanbul ignore next */
-    if (node.length === 0) {
+  createToken<T extends TokenType>(
+    type: T,
+    param: VisitorParam,
+    node: IToken[] | undefined
+  ): CreateToken<T> | undefined {
+    if (!this.isDefined(node)) {
       return;
     }
-    return createNode(node[0], LEFT_CURLY, param);
-  }
-  [RIGHT_CURLY](node: IToken[] | undefined, param: VisitorParam) {
-    /* istanbul ignore next */
-    if (!node) {
-      return;
-    }
-    /* istanbul ignore next */
-    if (node.length === 0) {
-      return;
-    }
-    return createNode(node[0], RIGHT_CURLY, param);
-  }
-  [LEFT_SQUARE](node: IToken[], param: VisitorParam) {
-    /* istanbul ignore next */
-    if (node.length === 0) {
-      return;
-    }
-    return createNode(node[0], LEFT_SQUARE, param);
-  }
-  [RIGHT_SQUARE](node: IToken[], param: VisitorParam) {
-    /* istanbul ignore next */
-    if (node.length === 0) {
-      return;
-    }
-    return createNode(node[0], RIGHT_SQUARE, param);
-  }
-  [KEY](node: IToken[] | undefined, param: VisitorParam) {
-    /* istanbul ignore next */
-    if (!node) {
-      return;
-    }
-    /* istanbul ignore next */
-    if (node.length === 0) {
-      return;
-    }
-    return createNode(node[0], KEY, param);
-  }
-  [COLON](node: IToken[] | undefined, param: VisitorParam) {
-    /* istanbul ignore next */
-    if (!node) {
-      return;
-    }
-    /* istanbul ignore next */
-    if (node.length === 0) {
-      return;
-    }
-    return createNode(node[0], COLON, param);
-  }
-  [COMMA](node: IToken[], param: VisitorParam) {
-    /* istanbul ignore next */
-    if (!node) {
-      return;
-    }
-    /* istanbul ignore next */
-    if (node.length === 0) {
-      return;
-    }
-    return createNode(node[0], COMMA, param);
+    return createToken(node[0], type, {
+      ...param,
+      position: this.startPosition,
+    });
   }
   getCommas(
     param: VisitorParam,
     nodes: IToken[] = []
-  ): CreateNode<typeof COMMA>[] {
-    const commas: CreateNode<typeof COMMA>[] = [];
+  ): CreateToken<typeof COMMA>[] {
+    const commas: CreateToken<typeof COMMA>[] = [];
     for (const comma of nodes) {
-      const commaNode = this[COMMA]([comma], param);
-      if (commaNode) {
-        commas.push(commaNode);
+      const commaToken = this.createToken(COMMA, param, [comma]);
+      if (commaToken) {
+        commas.push(commaToken);
       }
     }
     return commas;
   }
+  isDefined<T>(node: T[] | undefined): node is T[] {
+    if (!node || node.length === 0) {
+      return false;
+    }
+    return true;
+  }
 }
 
-export const propertyBindingInfoVisitor = new PropertyBindingInfoVisitor();
+export const propertyBindingInfoVisitor = (
+  startPosition?: Position
+): PropertyBindingInfoVisitor => new PropertyBindingInfoVisitor(startPosition);

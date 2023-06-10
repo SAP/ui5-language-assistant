@@ -31,9 +31,11 @@
               "range": "[(0,8)..(0,9)]"
             },
             "range": "[(0,7)..(0,9)]",
-            "commas": []
+            "commas": [],
+            "type": "structure-value"
           },
-          "range": "[(0,2)..(0,9)]"
+          "range": "[(0,2)..(0,9)]",
+          "type": "structure-element"
         }
       ],
       "rightCurly": {
@@ -42,7 +44,8 @@
         "range": "[(0,10)..(0,11)]"
       },
       "range": "[(0,0)..(0,11)]",
-      "commas": []
+      "commas": [],
+      "type": "structure-value"
     }
   ],
   "spaces": [
@@ -62,8 +65,5 @@
       "range": "[(0,9)..(0,10)]"
     }
   ],
-  "errors": {
-    "lexer": [],
-    "parse": []
-  }
+  "type": "template"
 }

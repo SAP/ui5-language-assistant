@@ -1,31 +1,39 @@
 [
   {
-    "token": {
-      "image": "}",
-      "startColumn": 28,
-      "endColumn": 28,
-      "tokenTypeName": "RightCurly"
-    },
-    "message": "Expecting: one of these possible Token sequences:\n  1. [StringValue]\n  2. [NumberValue]\n  3. [{]\n  4. [[]\n  5. [BooleanValue]\n  6. [NullValue]\nbut found: '}'",
-    "name": "NoViableAltException",
-    "resyncedTokens": [],
+    "type": "ParseError",
+    "range": "[(0,27)..(0,28)]",
+    "text": "}",
+    "merged": [
+      {
+        "type": "ParseError",
+        "text": "}",
+        "range": "[(0,27)..(0,28)]",
+        "tokenTypeName": "RightCurly"
+      }
+    ],
+    "tokenTypeName": "RightCurly",
     "previousToken": {
-      "image": ":",
-      "startColumn": 26,
-      "endColumn": 26,
+      "type": "ParseError",
+      "text": ":",
+      "range": "[(0,25)..(0,26)]",
       "tokenTypeName": "Colon"
-    }
+    },
+    "message": "Expecting: one of these possible Token sequences:\n  1. [StringValue]\n  2. [NumberValue]\n  3. [{]\n  4. [[]\n  5. [BooleanValue]\n  6. [NullValue]\nbut found: '}'"
   },
   {
-    "token": {
-      "image": "}",
-      "startColumn": 29,
-      "endColumn": 29,
-      "tokenTypeName": "RightCurly"
-    },
-    "message": "Redundant input, expecting EOF but found: }",
-    "name": "NotAllInputParsedException",
-    "resyncedTokens": [],
-    "previousToken": "undefined"
+    "type": "ParseError",
+    "range": "[(0,28)..(0,29)]",
+    "text": "}",
+    "merged": [
+      {
+        "type": "ParseError",
+        "text": "}",
+        "range": "[(0,28)..(0,29)]",
+        "tokenTypeName": "RightCurly"
+      }
+    ],
+    "tokenTypeName": "RightCurly",
+    "previousToken": "undefined",
+    "message": "Redundant input, expecting EOF but found: }"
   }
 ]

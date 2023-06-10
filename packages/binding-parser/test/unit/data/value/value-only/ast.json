@@ -13,34 +13,10 @@
         "range": "[(0,12)..(0,13)]"
       },
       "range": "[(0,0)..(0,13)]",
-      "commas": []
+      "commas": [],
+      "type": "structure-value"
     }
   ],
   "spaces": [],
-  "errors": {
-    "lexer": [],
-    "parse": [
-      {
-        "type": "ParseError",
-        "range": "[(0,1)..(0,12)]",
-        "text": "'valueOnly'",
-        "merged": [
-          {
-            "type": "ParseError",
-            "text": "'valueOnly'",
-            "range": "[(0,1)..(0,12)]",
-            "tokenTypeName": "StringValue"
-          }
-        ],
-        "tokenTypeName": "StringValue",
-        "previousToken": {
-          "type": "ParseError",
-          "text": "{",
-          "range": "[(0,0)..(0,1)]",
-          "tokenTypeName": "LeftCurly"
-        },
-        "message": "Expecting --> } <-- but found --> ''valueOnly'' <--"
-      }
-    ]
-  }
+  "type": "template"
 }

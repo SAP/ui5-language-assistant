@@ -9,7 +9,7 @@ import { TextDocumentPositionParams } from "vscode-languageserver-protocol";
 
 export const getCursorContext = (
   parm: TextDocumentPositionParams,
-  binding: BindingTypes.Binding,
+  binding: BindingTypes.StructureValue,
   spaces: BindingTypes.WhiteSpaces[]
 ): CursorContext => {
   /* istanbul ignore next */

@@ -23,7 +23,8 @@
             "text": "'value'",
             "range": "[(0,6)..(0,13)]"
           },
-          "range": "[(0,1)..(0,13)]"
+          "range": "[(0,1)..(0,13)]",
+          "type": "structure-element"
         },
         {
           "key": {
@@ -37,7 +38,8 @@
             "range": "[(0,25)..(0,26)]"
           },
           "value": "undefined",
-          "range": "[(0,15)..(0,26)]"
+          "range": "[(0,15)..(0,26)]",
+          "type": "structure-element"
         }
       ],
       "rightCurly": {
@@ -52,7 +54,8 @@
           "text": ",",
           "range": "[(0,13)..(0,14)]"
         }
-      ]
+      ],
+      "type": "structure-value"
     }
   ],
   "spaces": [
@@ -72,46 +75,5 @@
       "range": "[(0,26)..(0,27)]"
     }
   ],
-  "errors": {
-    "lexer": [],
-    "parse": [
-      {
-        "type": "ParseError",
-        "range": "[(0,27)..(0,28)]",
-        "text": "}",
-        "merged": [
-          {
-            "type": "ParseError",
-            "text": "}",
-            "range": "[(0,27)..(0,28)]",
-            "tokenTypeName": "RightCurly"
-          }
-        ],
-        "tokenTypeName": "RightCurly",
-        "previousToken": {
-          "type": "ParseError",
-          "text": ":",
-          "range": "[(0,25)..(0,26)]",
-          "tokenTypeName": "Colon"
-        },
-        "message": "Expecting: one of these possible Token sequences:\n  1. [StringValue]\n  2. [NumberValue]\n  3. [{]\n  4. [[]\n  5. [BooleanValue]\n  6. [NullValue]\nbut found: '}'"
-      },
-      {
-        "type": "ParseError",
-        "range": "[(0,28)..(0,29)]",
-        "text": "}",
-        "merged": [
-          {
-            "type": "ParseError",
-            "text": "}",
-            "range": "[(0,28)..(0,29)]",
-            "tokenTypeName": "RightCurly"
-          }
-        ],
-        "tokenTypeName": "RightCurly",
-        "previousToken": "undefined",
-        "message": "Redundant input, expecting EOF but found: }"
-      }
-    ]
-  }
+  "type": "template"
 }

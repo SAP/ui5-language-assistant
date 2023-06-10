@@ -41,16 +41,18 @@
               "text": "]",
               "range": "[(0,30)..(0,31)]"
             },
-            "range": "[(0,2)..(0,31)]",
+            "range": "[(0,7)..(0,31)]",
             "commas": [
               {
                 "type": "Comma",
                 "text": ",",
                 "range": "[(0,18)..(0,19)]"
               }
-            ]
+            ],
+            "type": "collection-value"
           },
-          "range": "[(0,2)..(0,31)]"
+          "range": "[(0,2)..(0,31)]",
+          "type": "structure-element"
         }
       ],
       "rightCurly": {
@@ -59,7 +61,8 @@
         "range": "[(0,32)..(0,33)]"
       },
       "range": "[(0,0)..(0,33)]",
-      "commas": []
+      "commas": [],
+      "type": "structure-value"
     }
   ],
   "spaces": [
@@ -84,8 +87,5 @@
       "range": "[(0,31)..(0,32)]"
     }
   ],
-  "errors": {
-    "lexer": [],
-    "parse": []
-  }
+  "type": "template"
 }

@@ -21,7 +21,7 @@ import {
  */
 export const checkStructureValue = (
   context: BindContext,
-  element: BindingTypes.AstElement,
+  element: BindingTypes.StructureElement,
   errors: {
     parse: BindingTypes.ParseError[];
     lexer: BindingTypes.LexerError[];

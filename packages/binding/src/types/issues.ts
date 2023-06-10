@@ -22,7 +22,7 @@ export type BindingIssue =
 
 interface BaseUI5XMLViewBindingIssue extends BaseUI5XMLViewIssue {
   issueType: typeof BINDING_ISSUE_TYPE;
-  range?: Range;
+  range: Range;
 }
 
 export interface MissingKey extends BaseUI5XMLViewBindingIssue {

@@ -23,7 +23,8 @@
             "text": "'value-01'",
             "range": "[(0,10)..(0,20)]"
           },
-          "range": "[(0,2)..(0,20)]"
+          "range": "[(0,2)..(0,20)]",
+          "type": "structure-element"
         },
         {
           "key": {
@@ -41,7 +42,8 @@
             "text": "'value-02'",
             "range": "[(0,42)..(0,52)]"
           },
-          "range": "[(0,29)..(0,52)]"
+          "range": "[(0,29)..(0,52)]",
+          "type": "structure-element"
         }
       ],
       "rightCurly": {
@@ -56,7 +58,8 @@
           "text": ",",
           "range": "[(0,24)..(0,25)]"
         }
-      ]
+      ],
+      "type": "structure-value"
     }
   ],
   "spaces": [
@@ -96,8 +99,5 @@
       "range": "[(0,52)..(0,58)]"
     }
   ],
-  "errors": {
-    "lexer": [],
-    "parse": []
-  }
+  "type": "template"
 }

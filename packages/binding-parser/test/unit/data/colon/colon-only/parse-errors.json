@@ -1,19 +1,23 @@
 [
   {
-    "token": {
-      "image": "}",
-      "startColumn": 3,
-      "endColumn": 3,
-      "tokenTypeName": "RightCurly"
-    },
-    "message": "Expecting: one of these possible Token sequences:\n  1. [StringValue]\n  2. [NumberValue]\n  3. [{]\n  4. [[]\n  5. [BooleanValue]\n  6. [NullValue]\nbut found: '}'",
-    "name": "NoViableAltException",
-    "resyncedTokens": [],
+    "type": "ParseError",
+    "range": "[(0,2)..(0,3)]",
+    "text": "}",
+    "merged": [
+      {
+        "type": "ParseError",
+        "text": "}",
+        "range": "[(0,2)..(0,3)]",
+        "tokenTypeName": "RightCurly"
+      }
+    ],
+    "tokenTypeName": "RightCurly",
     "previousToken": {
-      "image": ":",
-      "startColumn": 2,
-      "endColumn": 2,
+      "type": "ParseError",
+      "text": ":",
+      "range": "[(0,1)..(0,2)]",
       "tokenTypeName": "Colon"
-    }
+    },
+    "message": "Expecting: one of these possible Token sequences:\n  1. [StringValue]\n  2. [NumberValue]\n  3. [{]\n  4. [[]\n  5. [BooleanValue]\n  6. [NullValue]\nbut found: '}'"
   }
 ]

@@ -23,7 +23,8 @@
             "text": "'first'",
             "range": "[(0,13)..(0,20)]"
           },
-          "range": "[(0,1)..(0,20)]"
+          "range": "[(0,1)..(0,20)]",
+          "type": "structure-element"
         }
       ],
       "rightCurly": {
@@ -32,7 +33,8 @@
         "range": "[(0,20)..(0,21)]"
       },
       "range": "[(0,0)..(0,21)]",
-      "commas": []
+      "commas": [],
+      "type": "structure-value"
     },
     {
       "leftCurly": {
@@ -75,7 +77,8 @@
                   "text": "'second-01'",
                   "range": "[(0,42)..(0,53)]"
                 },
-                "range": "[(0,37)..(0,53)]"
+                "range": "[(0,37)..(0,53)]",
+                "type": "structure-element"
               }
             ],
             "rightCurly": {
@@ -84,9 +87,11 @@
               "range": "[(0,53)..(0,54)]"
             },
             "range": "[(0,36)..(0,54)]",
-            "commas": []
+            "commas": [],
+            "type": "structure-value"
           },
-          "range": "[(0,23)..(0,54)]"
+          "range": "[(0,23)..(0,54)]",
+          "type": "structure-element"
         }
       ],
       "rightCurly": {
@@ -95,7 +100,8 @@
         "range": "[(0,54)..(0,55)]"
       },
       "range": "[(0,22)..(0,55)]",
-      "commas": []
+      "commas": [],
+      "type": "structure-value"
     },
     {
       "leftCurly": {
@@ -120,7 +126,8 @@
             "text": "'third'",
             "range": "[(0,67)..(0,74)]"
           },
-          "range": "[(0,57)..(0,74)]"
+          "range": "[(0,57)..(0,74)]",
+          "type": "structure-element"
         }
       ],
       "rightCurly": {
@@ -129,7 +136,8 @@
         "range": "[(0,74)..(0,75)]"
       },
       "range": "[(0,56)..(0,75)]",
-      "commas": []
+      "commas": [],
+      "type": "structure-value"
     }
   ],
   "spaces": [
@@ -164,8 +172,5 @@
       "range": "[(0,66)..(0,67)]"
     }
   ],
-  "errors": {
-    "lexer": [],
-    "parse": []
-  }
+  "type": "template"
 }
