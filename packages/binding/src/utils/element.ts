@@ -1,4 +1,5 @@
 import { BindContext, PropertyType } from "../types";
+import { propertyBindingInfoElements } from "../definition/definition";
 import {
   BOOLEAN_VALUE,
   LEFT_CURLY,
@@ -52,10 +53,33 @@ export const valueTypeMap = new Map([
   [RIGHT_CURLY, "object"],
   [LEFT_CURLY, "object"],
 ]);
+export const possibleKeyMap = new Map();
+export const possibleValueMap = new Map();
 
 export const isParts = (element: BindingTypes.StructureElement): boolean => {
-  return (element.key && element.key.text) === "parts";
+  const text = element.key && element.key.text;
+  return text === "parts" || possibleKeyMap.get("parts")?.has(text);
 };
+
+/**
+ * Possible key combination. With single quote or double quote and their respective HTML equivalent
+ * @param key name of key
+ */
+const possibleKeyCombination = (key: string): Set<string> =>
+  new Set([
+    `${key}`,
+    `'${key}'`,
+    `"${key}"`,
+    `&apos;${key}&apos;`,
+    `&quot;${key}&quot;`,
+  ]);
+
+propertyBindingInfoElements.forEach((item) => {
+  if (item.type.find((t) => t.kind === "string")) {
+    possibleValueMap.set(item.name, possibleKeyCombination(item.name));
+  }
+  possibleKeyMap.set(item.name, possibleKeyCombination(item.name));
+});
 
 export const defaultRange = (): Range => {
   return Range.create({ line: 0, character: 0 }, { line: 0, character: 0 });

@@ -55,11 +55,37 @@ class BindingParser extends CstParser {
         },
       },
       {
+        GATE: (): boolean =>
+          this.LA(1).tokenType === tokenMap.stringValue &&
+          (this.LA(2).tokenType === tokenMap.stringValue ||
+            this.LA(2).tokenType === tokenMap.numberValue ||
+            this.LA(2).tokenType === tokenMap.leftCurly ||
+            this.LA(2).tokenType === tokenMap.leftBracket ||
+            this.LA(2).tokenType === tokenMap.booleanValue ||
+            this.LA(2).tokenType === tokenMap.nullValue),
         ALT: (): void => {
-          this.CONSUME1(tokenMap.key);
+          // colon is missing, but there is key with quotes and value
+          this.CONSUME(tokenMap.stringValue);
+          this.SUBRULE(this[VALUE]);
+        },
+      },
+      {
+        GATE: (): boolean => this.LA(1).tokenType === tokenMap.stringValue,
+        ALT: (): void => {
+          // key with quotes
+          this.CONSUME(tokenMap.stringValue);
           this.OPTION1(() => {
-            this.CONSUME2(tokenMap.colon);
-            this.SUBRULE2(this[VALUE]);
+            this.CONSUME(tokenMap.colon);
+            this.SUBRULE(this[VALUE]);
+          });
+        },
+      },
+      {
+        ALT: (): void => {
+          this.CONSUME(tokenMap.key);
+          this.OPTION1(() => {
+            this.CONSUME(tokenMap.colon);
+            this.SUBRULE(this[VALUE]);
           });
         },
       },

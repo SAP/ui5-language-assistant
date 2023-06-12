@@ -6,7 +6,19 @@
         "text": "{",
         "range": "[(0,0)..(0,1)]"
       },
-      "elements": [],
+      "elements": [
+        {
+          "key": {
+            "type": "key",
+            "text": "'valueOnly'",
+            "range": "[(0,1)..(0,12)]"
+          },
+          "colon": "undefined",
+          "value": "undefined",
+          "range": "[(0,1)..(0,12)]",
+          "type": "structure-element"
+        }
+      ],
       "rightCurly": {
         "type": "right-curly",
         "text": "}",

@@ -1,0 +1,75 @@
+{
+  "name": "template",
+  "children": {
+    "object": [
+      {
+        "name": "object",
+        "children": {
+          "left-curly": [
+            {
+              "image": "{",
+              "startColumn": 1,
+              "endColumn": 1,
+              "tokenTypeName": "left-curly"
+            }
+          ],
+          "object-item": [
+            {
+              "name": "object-item",
+              "children": {
+                "string-value": [
+                  {
+                    "image": "&quot;KeyHer&quot;",
+                    "startColumn": 2,
+                    "endColumn": 19,
+                    "tokenTypeName": "string-value"
+                  }
+                ],
+                "colon": [
+                  {
+                    "image": ":",
+                    "startColumn": 20,
+                    "endColumn": 20,
+                    "tokenTypeName": "colon"
+                  }
+                ],
+                "value": [
+                  {
+                    "name": "value",
+                    "children": {},
+                    "location": {
+                      "startColumn": -1,
+                      "endColumn": -1
+                    },
+                    "recoveredNode": true
+                  }
+                ]
+              },
+              "location": {
+                "startColumn": 2,
+                "endColumn": 20
+              },
+              "recoveredNode": true
+            }
+          ],
+          "right-curly": [
+            {
+              "image": "}",
+              "startColumn": 21,
+              "endColumn": 21,
+              "tokenTypeName": "right-curly"
+            }
+          ]
+        },
+        "location": {
+          "startColumn": 1,
+          "endColumn": 21
+        }
+      }
+    ]
+  },
+  "location": {
+    "startColumn": 1,
+    "endColumn": 21
+  }
+}

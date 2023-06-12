@@ -13,6 +13,25 @@
               "tokenTypeName": "left-curly"
             }
           ],
+          "object-item": [
+            {
+              "name": "object-item",
+              "children": {
+                "string-value": [
+                  {
+                    "image": "'valueOnly'",
+                    "startColumn": 2,
+                    "endColumn": 12,
+                    "tokenTypeName": "string-value"
+                  }
+                ]
+              },
+              "location": {
+                "startColumn": 2,
+                "endColumn": 12
+              }
+            }
+          ],
           "right-curly": [
             {
               "image": "}",

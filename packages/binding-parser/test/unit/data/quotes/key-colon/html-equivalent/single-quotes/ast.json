@@ -1,0 +1,38 @@
+{
+  "bindings": [
+    {
+      "leftCurly": {
+        "type": "left-curly",
+        "text": "{",
+        "range": "[(0,0)..(0,1)]"
+      },
+      "elements": [
+        {
+          "key": {
+            "type": "key",
+            "text": "&apos;KeyHere&apos;",
+            "range": "[(0,1)..(0,20)]"
+          },
+          "colon": {
+            "type": "colon",
+            "text": ":",
+            "range": "[(0,20)..(0,21)]"
+          },
+          "value": "undefined",
+          "range": "[(0,1)..(0,21)]",
+          "type": "structure-element"
+        }
+      ],
+      "rightCurly": {
+        "type": "right-curly",
+        "text": "}",
+        "range": "[(0,21)..(0,22)]"
+      },
+      "range": "[(0,0)..(0,22)]",
+      "commas": [],
+      "type": "structure-value"
+    }
+  ],
+  "spaces": [],
+  "type": "template"
+}

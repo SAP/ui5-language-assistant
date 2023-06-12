@@ -90,7 +90,7 @@ class BindingParserVisitor extends BaseVisitor {
     node: ObjectItemChildren,
     param: VisitorParam
   ): StructureElement {
-    const key = this.createToken(KEY, param, node[KEY]);
+    const key = this.createToken(KEY, param, node[KEY] ?? node[STRING_VALUE]);
     const colon = this.createToken(COLON, param, node[COLON]);
     const value = this.isDefined(node[VALUE])
       ? (this.visit(node[VALUE][0]) as Value)
