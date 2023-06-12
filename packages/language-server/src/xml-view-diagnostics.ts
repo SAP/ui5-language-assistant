@@ -93,7 +93,7 @@ function mergeValidators(
 function validationIssuesToLspDiagnostics<T extends ExternalIssueType>(
   issues: (UI5XMLViewIssue | T)[],
   document: TextDocument,
-  externalIssues: ((issue: UI5XMLViewIssue | T) => issue is T)[]
+  externalIssueProviders: ((issue: UI5XMLViewIssue | T) => issue is T)[]
 ): Diagnostic[] {
   const diagnostics: Diagnostic[] = map(issues, (currIssue) => {
     const range = isBindingIssue(currIssue)
@@ -107,7 +107,7 @@ function validationIssuesToLspDiagnostics<T extends ExternalIssueType>(
     };
 
     // external issue transformation
-    for (const isExternalIssue of externalIssues) {
+    for (const isExternalIssue of externalIssueProviders) {
       if (isExternalIssue(currIssue)) {
         return {
           ...commonDiagnosticPros,

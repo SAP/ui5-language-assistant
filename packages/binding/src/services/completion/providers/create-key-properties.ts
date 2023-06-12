@@ -11,8 +11,7 @@ import { getDocumentation } from "./documentation";
 export const createKeyProperties = (
   element: BindingTypes.StructureElement
 ): CompletionItem[] => {
-  const completionItems: CompletionItem[] = [];
-  propertyBindingInfoElements.forEach((item) => {
+  return propertyBindingInfoElements.map((item) => {
     const documentation = getDocumentation(item);
     const data: CompletionItem = {
       label: item.name,
@@ -27,7 +26,6 @@ export const createKeyProperties = (
         newText: item.name,
       };
     }
-    completionItems.push(data);
+    return data;
   });
-  return completionItems;
 };

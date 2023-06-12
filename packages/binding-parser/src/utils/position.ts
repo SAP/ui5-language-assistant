@@ -1,4 +1,4 @@
-import { Range, Position } from "vscode-languageserver-protocol";
+import { Range, Position } from "vscode-languageserver-types";
 /**
  * Check if the second range `e.g b` is within the first range `e.g a`
  */

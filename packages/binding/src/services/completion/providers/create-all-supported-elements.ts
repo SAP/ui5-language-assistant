@@ -14,8 +14,7 @@ import { BindContext } from "../../../types";
 export const createAllSupportedElements = (
   context: BindContext
 ): CompletionItem[] => {
-  const completionItems: CompletionItem[] = [];
-  propertyBindingInfoElements.forEach((item) => {
+  return propertyBindingInfoElements.map((item) => {
     const type = typesToValue(item.type, context);
     let text = "";
     if (type.length === 1) {
@@ -27,13 +26,12 @@ export const createAllSupportedElements = (
       text = `${item.name}: ${choice}`;
     }
     const documentation = getDocumentation(item);
-    completionItems.push({
+    return {
       label: item.name,
       insertTextFormat: InsertTextFormat.Snippet,
       insertText: text,
       kind: CompletionItemKind.Snippet,
       documentation,
-    });
+    };
   });
-  return completionItems;
 };

@@ -1,15 +1,15 @@
-import { IToken, ILexingError } from "chevrotain";
+import { IToken, ILexingError, CstNodeLocation } from "chevrotain";
 import { VisitorParam } from "../types/binding-parser";
 import { Position, Range } from "vscode-languageserver-types";
 
-const hasNaNOrUndefined = (value: undefined | number): boolean => {
+const isNaNOrUndefined = (value: undefined | number): boolean => {
   if (value === undefined) {
     return true;
   }
   return isNaN(value);
 };
 const isNumber = (value: undefined | number): value is number => {
-  const result = hasNaNOrUndefined(value);
+  const result = isNaNOrUndefined(value);
   if (result) {
     return false;
   }
@@ -45,18 +45,17 @@ export const getLexerRange = (
   return Range.create(start, end);
 };
 
+const createRange = (item: CstNodeLocation | IToken) =>
+  Range.create(
+    isNumber(item.startLine) ? item.startLine - 1 : 0,
+    isNumber(item.startColumn) ? item.startColumn - 1 : 0,
+    isNumber(item.endLine) ? item.endLine - 1 : 0,
+    isNumber(item.endColumn) ? item.endColumn : 0
+  );
+
 export const getRange = (token: IToken, param?: VisitorParam): Range => {
   const startPosition = param?.position;
-
-  const start = Position.create(
-    isNumber(token.startLine) ? token.startLine - 1 : 0,
-    isNumber(token.startColumn) ? token.startColumn - 1 : 0
-  );
-  const line = isNumber(token.endLine) ? token.endLine - 1 : 0;
-
-  const char = isNumber(token.endColumn) ? token.endColumn : 0;
-
-  const end = Position.create(line, char);
+  const { start, end } = createRange(token);
   if (startPosition) {
     return Range.create(
       adjustPosition(start, startPosition),
@@ -64,7 +63,7 @@ export const getRange = (token: IToken, param?: VisitorParam): Range => {
     );
   }
 
-  return Range.create(start, end);
+  return { start, end };
 };
 
 export const locationToRange = (param?: VisitorParam): Range | undefined => {
@@ -73,17 +72,12 @@ export const locationToRange = (param?: VisitorParam): Range | undefined => {
     return;
   }
   const startPosition = param?.position;
-  let range = Range.create(
-    isNumber(location.startLine) ? location.startLine - 1 : 0,
-    isNumber(location.startColumn) ? location.startColumn - 1 : 0,
-    isNumber(location.endLine) ? location.endLine - 1 : 0,
-    isNumber(location.endColumn) ? location.endColumn : 0
-  );
+  const { start, end } = createRange(location);
   if (startPosition) {
-    range = Range.create(
-      adjustPosition(range.start, startPosition),
-      adjustPosition(range.end, startPosition)
+    return Range.create(
+      adjustPosition(start, startPosition),
+      adjustPosition(end, startPosition)
     );
   }
-  return range;
+  return { start, end };
 };
