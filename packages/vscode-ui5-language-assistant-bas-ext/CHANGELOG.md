@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.19
+
+### Patch Changes
+
+- e3a6a0b: Template definition lookup logic enhanced in manifest details reader
+
 ## 4.0.18
 
 ### Patch Changes
