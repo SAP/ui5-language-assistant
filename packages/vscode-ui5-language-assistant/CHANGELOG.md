@@ -1,5 +1,18 @@
 # Change Log
 
+## 4.0.19
+
+### Patch Changes
+
+- e3a6a0b: Template definition lookup logic enhanced in manifest details reader
+  - @ui5-language-assistant/language-server@4.0.13
+
+## 4.0.18
+
+### Patch Changes
+
+- 1c9a0c5: VSCode and BAS extension versions sync
+
 ## 4.0.17
 
 ### Patch Changes
