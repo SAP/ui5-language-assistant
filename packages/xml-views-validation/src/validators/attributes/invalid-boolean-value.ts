@@ -30,6 +30,7 @@ export function validateBooleanValue(
   if (actualAttributeValue !== "true" && actualAttributeValue !== "false") {
     return [
       {
+        issueType: "base",
         kind: "InvalidBooleanValue",
         message: `Invalid boolean value: ${actualAttributeValueToken.image}, expecting "true" or "false".`,
         offsetRange: {

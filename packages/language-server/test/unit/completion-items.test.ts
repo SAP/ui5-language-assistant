@@ -830,7 +830,9 @@ describe("the UI5 language assistant Code Completion Services", () => {
                           xmlns:mvc="sap.ui.core.mvc" 
                           xmlns="sap.m"> 
                           <List showSeparators="⇶"`;
-    const suggestions = getSuggestions(xmlSnippet, appContext);
+    const suggestions = getSuggestions(xmlSnippet, appContext).filter(
+      (i) => i.kind !== CompletionItemKind.Snippet
+    );
     const suggestionsDetails = map(suggestions, (suggestion) => ({
       label: suggestion.label,
       replacedText: getTextInRange(

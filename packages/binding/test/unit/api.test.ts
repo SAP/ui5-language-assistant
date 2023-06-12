@@ -13,7 +13,6 @@ describe("api", () => {
       issueType: BINDING_ISSUE_TYPE,
       kind: "Syntax",
       message: "",
-      offsetRange: { start: 0, end: 1 },
       severity: "info",
       range: defaultRange(),
     };

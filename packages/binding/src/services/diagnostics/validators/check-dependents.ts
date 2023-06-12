@@ -2,12 +2,7 @@ import {
   isPrimitiveValue,
   BindingParserTypes as BindingTypes,
 } from "@ui5-language-assistant/binding-parser";
-import {
-  findRange,
-  rangeToOffsetRange,
-  typesToValue,
-  valueTypeMap,
-} from "../../../utils";
+import { findRange, typesToValue, valueTypeMap } from "../../../utils";
 import { propertyBindingInfoElements } from "../../../definition/definition";
 import { BindContext, BindingIssue, BINDING_ISSUE_TYPE } from "../../../types";
 
@@ -37,13 +32,6 @@ export const checkDependents = (
               issueType: BINDING_ISSUE_TYPE,
               kind: "RequiredDependency",
               message: `Required dependency "${requiredDep.name}" MUST be defined`,
-              offsetRange: rangeToOffsetRange(
-                findRange([
-                  /* istanbul ignore next */
-                  dependentElementApplied.key?.range,
-                  dependentElementApplied.range,
-                ])
-              ),
               range: findRange([
                 /* istanbul ignore next */
                 dependentElementApplied.key?.range,
@@ -67,13 +55,6 @@ export const checkDependents = (
                       message: `Required dependency "${
                         requiredDep.name
                       }" MUST be defined as ${value.join(", ")}`,
-                      offsetRange: rangeToOffsetRange(
-                        findRange([
-                          /* istanbul ignore next */
-                          requiredDepApplied.key?.range,
-                          requiredDepApplied.range,
-                        ])
-                      ),
                       range: findRange([
                         /* istanbul ignore next */
                         requiredDepApplied.key?.range,
@@ -88,13 +69,6 @@ export const checkDependents = (
                     issueType: BINDING_ISSUE_TYPE,
                     kind: "Unnecessary",
                     message: `"${dep.name}" is only taken into account with "${requiredDep.name}" when "${requiredDep.name}" is defined as ${value[0]}`,
-                    offsetRange: rangeToOffsetRange(
-                      findRange([
-                        /* istanbul ignore next */
-                        dependentElementApplied.key?.range,
-                        dependentElementApplied.range,
-                      ])
-                    ),
                     range: findRange([
                       /* istanbul ignore next */
                       dependentElementApplied.key?.range,

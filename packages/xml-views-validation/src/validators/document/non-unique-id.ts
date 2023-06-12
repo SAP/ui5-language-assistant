@@ -44,9 +44,10 @@ function buildIssuesForSingleID(
       );
 
       return {
-        kind: "NonUniqueIDIssue" as const,
+        issueType: "base",
+        kind: "NonUniqueIDIssue",
         message: buildMessage(NON_UNIQUE_ID.msg, id),
-        severity: "error" as const,
+        severity: "error",
         offsetRange: {
           start: currDupIdValToken.startOffset,
           end: currDupIdValToken.endOffset,
@@ -55,7 +56,7 @@ function buildIssuesForSingleID(
           start: _.syntax.value.startOffset,
           end: _.syntax.value.endOffset,
         })),
-      };
+      } as NonUniqueIDIssue;
     }
   );
 

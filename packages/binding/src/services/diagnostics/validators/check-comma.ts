@@ -3,7 +3,6 @@ import {
   isBefore,
   BindingParserTypes as BindingTypes,
 } from "@ui5-language-assistant/binding-parser";
-import { rangeToOffsetRange } from "../../../utils/document";
 import { Range } from "vscode-languageserver-types";
 import { findRange } from "../../../utils";
 import { filterTooManyColon } from "./check-colon";
@@ -55,7 +54,6 @@ export const checkComma = (
       issueType: BINDING_ISSUE_TYPE,
       kind: "MissingComma",
       message: "Missing comma",
-      offsetRange: rangeToOffsetRange(findRange([range])),
       range: findRange([range]),
       severity: "info",
     });
@@ -70,7 +68,6 @@ export const checkComma = (
       issueType: BINDING_ISSUE_TYPE,
       kind: "TooManyCommas",
       message: "Too many commas",
-      offsetRange: rangeToOffsetRange(range),
       range: range,
       severity: "info",
     });
@@ -84,7 +81,6 @@ export const checkComma = (
       issueType: BINDING_ISSUE_TYPE,
       kind: "TrailingComma",
       message: "Trailing comma",
-      offsetRange: rangeToOffsetRange(range),
       range: range,
       severity: "info",
     });

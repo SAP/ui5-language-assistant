@@ -38,6 +38,7 @@ describe("the unknown namespace in xmlns attribute value validation", () => {
         assertion: (issues) => {
           expect(issues).toStrictEqual([
             {
+              issueType: "base",
               kind: "UnknownNamespaceInXmlnsAttributeValue",
               message: 'Unknown namespace: "sap.m.unknown"',
               offsetRange: computeExpectedRange(xmlSnippet),
@@ -64,6 +65,7 @@ describe("the unknown namespace in xmlns attribute value validation", () => {
         assertion: (issues) => {
           expect(issues).toStrictEqual([
             {
+              issueType: "base",
               kind: "UnknownNamespaceInXmlnsAttributeValue",
               message: 'Unknown namespace: "sap.m.unknown"',
               offsetRange: computeExpectedRange(xmlSnippet),

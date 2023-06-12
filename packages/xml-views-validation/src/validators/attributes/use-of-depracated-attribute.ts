@@ -36,6 +36,7 @@ export function validateUseOfDeprecatedAttribute(
   }
 
   const deprecatedIssue: UseOfDeprecatedAttributeIssue = {
+    issueType: "base",
     kind: getDeprecatedAttributeIssueKind(ui5Node),
     message: buildDeprecatedIssueMessage({
       symbol: ui5Node as DeprecatedUI5Symbol,

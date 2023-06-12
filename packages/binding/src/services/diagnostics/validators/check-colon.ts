@@ -4,7 +4,6 @@ import {
   BindingParserTypes as BindingTypes,
   rangeContained,
 } from "@ui5-language-assistant/binding-parser";
-import { rangeToOffsetRange } from "../../../utils/document";
 
 export const filterTooManyColon = (
   element:
@@ -67,7 +66,6 @@ export const checkColon = (
       issueType: BINDING_ISSUE_TYPE,
       kind: "TooManyColons",
       message: "Too many colon",
-      offsetRange: rangeToOffsetRange(tooManyColon[0].range),
       range: tooManyColon[0].range,
       severity: "info",
     });
@@ -77,7 +75,6 @@ export const checkColon = (
       issueType: BINDING_ISSUE_TYPE,
       kind: "MissingColon",
       message: "Expect colon",
-      offsetRange: rangeToOffsetRange(element.key.range),
       range: element.key.range,
       severity: "info",
     });

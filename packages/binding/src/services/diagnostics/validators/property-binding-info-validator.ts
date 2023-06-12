@@ -7,7 +7,6 @@ import {
   extractBindingExpression,
   isBindingExpression,
   isPropertyBindingInfo,
-  rangeToOffsetRange,
 } from "../../../utils";
 import { Position } from "vscode-languageserver-types";
 import { parseBinding } from "@ui5-language-assistant/binding-parser";
@@ -64,7 +63,6 @@ export function validatePropertyBindingInfo(
             message: "Unknown character",
             range: item.range,
             severity: "info",
-            offsetRange: rangeToOffsetRange(item.range),
           });
         }
         /**
@@ -79,7 +77,6 @@ export function validatePropertyBindingInfo(
             message: item.message,
             range: item.range,
             severity: "info",
-            offsetRange: rangeToOffsetRange(item.range),
           });
         }
       }

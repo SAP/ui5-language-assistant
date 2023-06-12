@@ -49,6 +49,7 @@ export function validateUnknownXmlnsNamespace(
   if (findSymbol(context.ui5Model, attributeValue) === undefined) {
     return [
       {
+        issueType: "base",
         kind: "UnknownNamespaceInXmlnsAttributeValue",
         message: `Unknown namespace: ${attributeValueToken.image}`,
         offsetRange: {

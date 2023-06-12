@@ -8,6 +8,7 @@ import {
   CompletionItem,
   TextEdit,
   Range,
+  CompletionItemKind,
 } from "vscode-languageserver";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { expectExists } from "@ui5-language-assistant/test-utils";
@@ -117,7 +118,10 @@ function assertSuggestionsAreValid(
   xmlSnippet: string
 ): void {
   const { document, position } = getXmlSnippetDocument(xmlSnippet);
-  forEach(suggestions, (suggestion) => {
+  const filteredSuggestions = suggestions.filter(
+    (i) => i.kind !== CompletionItemKind.Snippet
+  );
+  forEach(filteredSuggestions, (suggestion) => {
     expectExists(suggestion.textEdit, "suggestion contains a textEdit");
     const textEdit = suggestion.textEdit as TextEdit;
     assertRangeContains(textEdit.range, position, suggestion.label);

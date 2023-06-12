@@ -48,6 +48,7 @@ export function validateNonStableId(
   }
 
   const nonStableIDIssue: NonStableIDIssue = {
+    issueType: "base",
     kind: "NonStableIDIssue",
     message: buildMessage(NON_STABLE_ID.msg, xmlElement.name),
     severity: "error",

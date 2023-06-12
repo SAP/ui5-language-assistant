@@ -6,12 +6,7 @@ import {
 } from "@ui5-language-assistant/binding-parser";
 import { checkAst } from "./issue-collector";
 import { propertyBindingInfoElements } from "../../../definition/definition";
-import {
-  findRange,
-  rangeToOffsetRange,
-  typesToValue,
-  valueTypeMap,
-} from "../../../utils";
+import { findRange, typesToValue, valueTypeMap } from "../../../utils";
 
 /**
  * Check structure value
@@ -53,9 +48,6 @@ export const checkStructureValue = (
           issueType: BINDING_ISSUE_TYPE,
           kind: "MissMatchValue",
           message,
-          offsetRange: rangeToOffsetRange(
-            findRange([value.range, element.range])
-          ),
           range: findRange([value.range, element.range]),
           severity: "info",
         });

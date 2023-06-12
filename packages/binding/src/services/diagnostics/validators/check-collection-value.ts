@@ -8,12 +8,7 @@ import {
 import { checkAst } from "./issue-collector";
 import { getPrimitiveValueIssues } from "./check-primitive-value";
 import { propertyBindingInfoElements } from "../../../definition/definition";
-import {
-  isParts,
-  rangeToOffsetRange,
-  typesToValue,
-  findRange,
-} from "../../../utils";
+import { isParts, typesToValue, findRange } from "../../../utils";
 import { checkComma } from "./check-comma";
 
 /**
@@ -73,7 +68,6 @@ export const checkCollectionValue = (
       issueType: BINDING_ISSUE_TYPE,
       kind: "MissMatchValue",
       message,
-      offsetRange: rangeToOffsetRange(findRange([value.range, element.range])),
       range: findRange([value.range, element.range]),
       severity: "info",
     });
@@ -89,7 +83,6 @@ export const checkCollectionValue = (
       issueType: BINDING_ISSUE_TYPE,
       kind: "MissingValue",
       message,
-      offsetRange: rangeToOffsetRange(findRange([value.range, element.range])),
       range: findRange([value.range, element.range]),
       severity: "info",
     });
@@ -105,7 +98,6 @@ export const checkCollectionValue = (
           issueType: BINDING_ISSUE_TYPE,
           kind: "MissingValue",
           message: 'A valid binding property info must be provided for "{}"',
-          offsetRange: rangeToOffsetRange(item.range),
           range: findRange([item.range, value.range, element.range]),
           severity: "info",
         });
@@ -119,9 +111,6 @@ export const checkCollectionValue = (
         issueType: BINDING_ISSUE_TYPE,
         kind: "MissingValue",
         message: 'Nested "[]" are not allowed',
-        offsetRange: rangeToOffsetRange(
-          findRange([nestedColItem.range, value.range, element.range])
-        ),
         range: findRange([nestedColItem.range, value.range, element.range]),
         severity: "info",
       });

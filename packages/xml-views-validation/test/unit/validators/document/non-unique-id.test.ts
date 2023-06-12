@@ -64,6 +64,7 @@ describe("the use of non unique id validation", () => {
 
           expect(issues).toIncludeAllMembers([
             {
+              issueType: "base",
               kind: "NonUniqueIDIssue",
               message: buildMessage(NON_UNIQUE_ID.msg, "DUPLICATE"),
               severity: "error",
@@ -71,6 +72,7 @@ describe("the use of non unique id validation", () => {
               identicalIDsRanges: [expectedRanges[1]],
             },
             {
+              issueType: "base",
               kind: "NonUniqueIDIssue",
               message: buildMessage(NON_UNIQUE_ID.msg, "DUPLICATE"),
               severity: "error",
@@ -102,6 +104,7 @@ describe("the use of non unique id validation", () => {
 
           expect(issues).toIncludeAllMembers([
             {
+              issueType: "base",
               kind: "NonUniqueIDIssue",
               message: buildMessage(NON_UNIQUE_ID.msg, "DUPLICATE"),
               severity: "error",
@@ -109,6 +112,7 @@ describe("the use of non unique id validation", () => {
               identicalIDsRanges: [expectedRanges[1]],
             },
             {
+              issueType: "base",
               kind: "NonUniqueIDIssue",
               message: buildMessage(NON_UNIQUE_ID.msg, "DUPLICATE"),
               severity: "error",
@@ -142,6 +146,7 @@ describe("the use of non unique id validation", () => {
 
           expect(issues).toIncludeAllMembers([
             {
+              issueType: "base",
               kind: "NonUniqueIDIssue",
               message: buildMessage(NON_UNIQUE_ID.msg, "TRIPLICATE"),
               severity: "error",
@@ -149,6 +154,7 @@ describe("the use of non unique id validation", () => {
               identicalIDsRanges: [expectedRanges[1], expectedRanges[2]],
             },
             {
+              issueType: "base",
               kind: "NonUniqueIDIssue",
               message: buildMessage(NON_UNIQUE_ID.msg, "TRIPLICATE"),
               severity: "error",
@@ -156,6 +162,7 @@ describe("the use of non unique id validation", () => {
               identicalIDsRanges: [expectedRanges[0], expectedRanges[2]],
             },
             {
+              issueType: "base",
               kind: "NonUniqueIDIssue",
               message: buildMessage(NON_UNIQUE_ID.msg, "TRIPLICATE"),
               severity: "error",

@@ -4,7 +4,7 @@ import {
   BindingInfoName,
 } from "../../../types";
 import { BindingParserTypes as BindingTypes } from "@ui5-language-assistant/binding-parser";
-import { findRange, rangeToOffsetRange } from "../../../utils";
+import { findRange } from "../../../utils";
 import { propertyBindingInfoElements } from "../../../definition/definition";
 
 const search = (
@@ -58,13 +58,6 @@ export const checkNotAllowedElement = (
       issueType: BINDING_ISSUE_TYPE,
       kind: "NotAllowedProperty",
       message: `One of these elements [${keys.join(", ")}] are allowed`,
-      offsetRange: rangeToOffsetRange(
-        findRange([
-          /* istanbul ignore next */
-          item.key?.range,
-          item.range,
-        ])
-      ),
       range: findRange([
         /* istanbul ignore next */
         item.key?.range,

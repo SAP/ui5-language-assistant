@@ -8,7 +8,7 @@ import {
   isPrimitiveValue,
   BindingParserTypes as BindingTypes,
 } from "@ui5-language-assistant/binding-parser";
-import { rangeToOffsetRange, typesToValue, valueTypeMap } from "../../../utils";
+import { typesToValue, valueTypeMap } from "../../../utils";
 import { propertyBindingInfoElements } from "../../../definition/definition";
 
 /**
@@ -41,7 +41,6 @@ export const getPrimitiveValueIssues = (
       issueType: BINDING_ISSUE_TYPE,
       kind: "MissMatchValue",
       message,
-      offsetRange: rangeToOffsetRange(item.range),
       range: item.range,
       severity: "info",
     });
@@ -61,7 +60,6 @@ export const getPrimitiveValueIssues = (
       issueType: BINDING_ISSUE_TYPE,
       kind: "MissMatchValue",
       message,
-      offsetRange: rangeToOffsetRange(item.range),
       range: item.range,
       severity: "info",
     });

@@ -1,4 +1,4 @@
-import { BaseUI5XMLViewIssue } from "@ui5-language-assistant/xml-views-validation";
+import { XMLViewIssueSeverity } from "@ui5-language-assistant/xml-views-validation";
 import { Range } from "vscode-languageserver-types";
 import { BINDING_ISSUE_TYPE } from "../constant";
 
@@ -21,9 +21,12 @@ export type BindingIssue =
   | Unnecessary
   | MissingLeftCurly;
 
-interface BaseUI5XMLViewBindingIssue extends BaseUI5XMLViewIssue {
+interface BaseUI5XMLViewBindingIssue {
   issueType: typeof BINDING_ISSUE_TYPE;
   range: Range;
+  kind: string;
+  message: string;
+  severity: XMLViewIssueSeverity;
 }
 
 export interface MissingKey extends BaseUI5XMLViewBindingIssue {

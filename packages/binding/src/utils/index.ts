@@ -1,4 +1,3 @@
-export { rangeToOffsetRange } from "./document";
 export {
   isBindingExpression,
   extractBindingExpression,

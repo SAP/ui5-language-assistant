@@ -1,6 +1,6 @@
 import { BindingIssue, BINDING_ISSUE_TYPE } from "../../../types";
 import { BindingParserTypes as BindingTypes } from "@ui5-language-assistant/binding-parser";
-import { findRange, rangeToOffsetRange } from "../../../utils";
+import { findRange } from "../../../utils";
 
 const getDuplicate = (
   ast: BindingTypes.StructureValue
@@ -30,7 +30,6 @@ export const checkDuplicate = (
       issueType: BINDING_ISSUE_TYPE,
       kind: "DuplicateProperty",
       message: "Duplicate property",
-      offsetRange: rangeToOffsetRange(findRange([item.key?.range, item.range])),
       range: findRange([item.key?.range, item.range]),
       severity: "info",
     })

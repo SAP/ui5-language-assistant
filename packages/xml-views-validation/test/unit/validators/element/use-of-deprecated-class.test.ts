@@ -42,6 +42,7 @@ describe("the use of deprecated class validation", () => {
 
           expect(issues).toIncludeAllMembers([
             {
+              issueType: "base",
               kind: "UseOfDeprecatedClass",
               message:
                 "The sap.ui.commons.Button class is deprecated since version 1.38. replaced by sap.m.Button",
@@ -71,6 +72,7 @@ describe("the use of deprecated class validation", () => {
           expect(issues).toHaveLength(1);
           expect(issues).toIncludeAllMembers([
             {
+              issueType: "base",
               kind: "UseOfDeprecatedClass",
               message:
                 "The sap.ui.commons.Button class is deprecated since version 1.38. replaced by sap.m.Button",
@@ -101,6 +103,7 @@ describe("the use of deprecated class validation", () => {
 
           expect(issues).toIncludeAllMembers([
             {
+              issueType: "base",
               kind: "UseOfDeprecatedClass",
               message:
                 "The sap.ui.commons.Button class is deprecated since version 1.38. replaced by sap.m.Button",

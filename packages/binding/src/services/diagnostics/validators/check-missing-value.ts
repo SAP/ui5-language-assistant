@@ -1,6 +1,6 @@
 import { BindContext, BindingIssue, BINDING_ISSUE_TYPE } from "../../../types";
 import { BindingParserTypes as BindingTypes } from "@ui5-language-assistant/binding-parser";
-import { rangeToOffsetRange, typesToValue } from "../../../utils";
+import { typesToValue } from "../../../utils";
 import { propertyBindingInfoElements } from "../../../definition/definition";
 
 /**
@@ -30,7 +30,6 @@ export const checkMissingValue = (
       issueType: BINDING_ISSUE_TYPE,
       kind: "MissingValue",
       message,
-      offsetRange: rangeToOffsetRange(element.colon.range),
       range: {
         start: element.key.range.start,
         end: element.colon.range.end,

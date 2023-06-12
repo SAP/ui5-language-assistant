@@ -39,6 +39,7 @@ describe("the invalid boolean value validation", () => {
         assertion: (issues) => {
           expect(issues).toStrictEqual([
             {
+              issueType: "base",
               kind: "InvalidBooleanValue",
               message:
                 'Invalid boolean value: "untrue", expecting "true" or "false".',
