@@ -62,7 +62,7 @@ export function validatePropertyBindingInfo(
             kind: "UnknownChar",
             message: "Unknown character",
             range: item.range,
-            severity: "info",
+            severity: "error",
           });
         }
         /**
@@ -76,7 +76,7 @@ export function validatePropertyBindingInfo(
             kind: "Syntax",
             message: item.message,
             range: item.range,
-            severity: "info",
+            severity: "error",
           });
         }
       }

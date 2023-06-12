@@ -20,7 +20,7 @@ export const checkKey = (
       kind: "UnknownPropertyBindingInfo",
       message: "Unknown property binding info",
       range: element.key.range,
-      severity: "info",
+      severity: "error",
     });
     return issues;
   }

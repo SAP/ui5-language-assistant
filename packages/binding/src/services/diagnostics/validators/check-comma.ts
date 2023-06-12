@@ -55,7 +55,7 @@ export const checkComma = (
       kind: "MissingComma",
       message: "Missing comma",
       range: findRange([range]),
-      severity: "info",
+      severity: "error",
     });
   }
   if (commas.length > 1 && nextItem) {
@@ -69,7 +69,7 @@ export const checkComma = (
       kind: "TooManyCommas",
       message: "Too many commas",
       range: range,
-      severity: "info",
+      severity: "error",
     });
   }
   if (commas.length >= 1 && nextItem === undefined) {
@@ -82,7 +82,7 @@ export const checkComma = (
       kind: "TrailingComma",
       message: "Trailing comma",
       range: range,
-      severity: "info",
+      severity: "error",
     });
   }
   return issues;

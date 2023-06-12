@@ -42,7 +42,7 @@ export const getPrimitiveValueIssues = (
       kind: "MissMatchValue",
       message,
       range: item.range,
-      severity: "info",
+      severity: "error",
     });
   }
 
@@ -61,7 +61,7 @@ export const getPrimitiveValueIssues = (
       kind: "MissMatchValue",
       message,
       range: item.range,
-      severity: "info",
+      severity: "error",
     });
   }
   return issues;

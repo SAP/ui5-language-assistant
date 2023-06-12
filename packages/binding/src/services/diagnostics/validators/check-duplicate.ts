@@ -31,7 +31,7 @@ export const checkDuplicate = (
       kind: "DuplicateProperty",
       message: "Duplicate property",
       range: findRange([item.key?.range, item.range]),
-      severity: "info",
+      severity: "error",
     })
   );
   return issues;

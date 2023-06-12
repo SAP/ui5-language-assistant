@@ -69,7 +69,7 @@ export const checkCollectionValue = (
       kind: "MissMatchValue",
       message,
       range: findRange([value.range, element.range]),
-      severity: "info",
+      severity: "error",
     });
     return issues;
   }
@@ -84,7 +84,7 @@ export const checkCollectionValue = (
       kind: "MissingValue",
       message,
       range: findRange([value.range, element.range]),
-      severity: "info",
+      severity: "error",
     });
     return issues;
   }
@@ -99,7 +99,7 @@ export const checkCollectionValue = (
           kind: "MissingValue",
           message: 'A valid binding property info must be provided for "{}"',
           range: findRange([item.range, value.range, element.range]),
-          severity: "info",
+          severity: "error",
         });
       } else {
         issues.push(...checkAst(context, item, errors, !isParts(element)));
@@ -112,7 +112,7 @@ export const checkCollectionValue = (
         kind: "MissingValue",
         message: 'Nested "[]" are not allowed',
         range: findRange([nestedColItem.range, value.range, element.range]),
-        severity: "info",
+        severity: "error",
       });
       return issues;
     }

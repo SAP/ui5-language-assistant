@@ -49,7 +49,7 @@ export const checkStructureValue = (
           kind: "MissMatchValue",
           message,
           range: findRange([value.range, element.range]),
-          severity: "info",
+          severity: "error",
         });
         return issues;
       }

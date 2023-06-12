@@ -31,7 +31,7 @@ export const checkDependents = (
             issues.push({
               issueType: BINDING_ISSUE_TYPE,
               kind: "RequiredDependency",
-              message: `Required dependency "${requiredDep.name}" MUST be defined`,
+              message: `Required dependency "${requiredDep.name}" should be defined`,
               range: findRange([
                 /* istanbul ignore next */
                 dependentElementApplied.key?.range,
@@ -54,7 +54,7 @@ export const checkDependents = (
                       kind: "RequiredDependency",
                       message: `Required dependency "${
                         requiredDep.name
-                      }" MUST be defined as ${value.join(", ")}`,
+                      }" should be defined as ${value.join(", ")}`,
                       range: findRange([
                         /* istanbul ignore next */
                         requiredDepApplied.key?.range,

@@ -25,7 +25,7 @@ const getParts = (element: BindingTypes.StructureElement) => {
                 el.key?.range,
                 el.range,
               ]),
-              severity: "info",
+              severity: "error",
             });
           } else {
             issues.push(...getParts(el));

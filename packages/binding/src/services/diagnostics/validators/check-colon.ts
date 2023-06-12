@@ -67,7 +67,7 @@ export const checkColon = (
       kind: "TooManyColons",
       message: "Too many colon",
       range: tooManyColon[0].range,
-      severity: "info",
+      severity: "error",
     });
   }
   if (!element.colon || (element.colon && element.colon.text === "")) {
@@ -76,7 +76,7 @@ export const checkColon = (
       kind: "MissingColon",
       message: "Expect colon",
       range: element.key.range,
-      severity: "info",
+      severity: "error",
     });
   }
   return issues;

@@ -34,7 +34,7 @@ export const checkMissingValue = (
         start: element.key.range.start,
         end: element.colon.range.end,
       },
-      severity: "info",
+      severity: "error",
     });
   }
   return issues;
