@@ -1,4 +1,4 @@
-import { map } from "lodash";
+import { map, values } from "lodash";
 import { sep } from "path";
 import { readFile } from "fs-extra";
 import { URI } from "vscode-uri";
@@ -9,6 +9,17 @@ import { findAppRoot, getLogger } from "./utils";
 import { cache } from "./cache";
 import { unifyServicePath } from "./utils/project";
 import { findAllFilesInWorkspace } from "./utils/fileUtils";
+import {
+  ManifestTargetOptionsSettings,
+  ManifestTargetOptions,
+  ControlManifestConfiguration,
+  TableManifestConfiguration,
+  FacetsControlConfiguration,
+  ManifestSection,
+  HeaderFacetsControlConfiguration,
+  FormManifestConfiguration,
+  FilterManifestConfiguration,
+} from "./types/manifestTypes";
 
 async function readManifestFile(
   manifestUri: string
@@ -108,8 +119,99 @@ export function getServicePath(
 function getFlexEnabled(manifest: Manifest): boolean {
   return manifest["sap.ui5"]?.flexEnabled ?? false;
 }
+
 function getMinUI5Version(manifest: Manifest): string | undefined {
   return manifest["sap.ui5"]?.dependencies?.minUI5Version;
+}
+
+function getMembersTemplates<T extends { template?: string }>(
+  object: Record<string, T>
+): (string | undefined)[] {
+  return values(object).map((prop) => prop.template);
+}
+
+function collectTableControlCustomTemplates(
+  config: ControlManifestConfiguration
+): (string | undefined)[] {
+  const columns = (config as TableManifestConfiguration).columns || {};
+  return getMembersTemplates(columns);
+}
+
+function collectSectionCustomTemplates(
+  section: ManifestSection
+): (string | undefined)[] {
+  const subSections = section.subSections || {};
+  return [
+    section.template,
+    ...values(subSections).flatMap((subSection) => [
+      subSection.template,
+      subSection.sideContent?.template,
+    ]),
+  ];
+}
+
+function collectFacetControlCustomTemplates(
+  config: ControlManifestConfiguration
+): (string | undefined)[] {
+  const sections = (config as FacetsControlConfiguration).sections || {};
+  return values(sections).flatMap((section) =>
+    collectSectionCustomTemplates(section)
+  );
+}
+
+function collectHeaderFacetControlCustomTemplates(
+  config: ControlManifestConfiguration
+): (string | undefined)[] {
+  const facets = (config as HeaderFacetsControlConfiguration).facets || {};
+  return getMembersTemplates(facets);
+}
+
+function collectFormControlCustomTemplates(
+  config: ControlManifestConfiguration
+): (string | undefined)[] {
+  const fields = (config as FormManifestConfiguration).fields || {};
+  return getMembersTemplates(fields);
+}
+
+function collectFilterControlCustomTemplates(
+  config: ControlManifestConfiguration
+): (string | undefined)[] {
+  const fields = (config as FilterManifestConfiguration).filterFields || {};
+  return getMembersTemplates(fields);
+}
+
+function collectControlCustomTemplates(
+  settings: ManifestTargetOptionsSettings
+): (string | undefined)[] {
+  const configs = settings.controlConfiguration || {};
+  return values(configs).flatMap((config) => {
+    return [
+      ...collectTableControlCustomTemplates(config),
+      ...collectFacetControlCustomTemplates(config),
+      ...collectHeaderFacetControlCustomTemplates(config),
+      ...collectFilterControlCustomTemplates(config),
+      ...collectFormControlCustomTemplates(config),
+    ];
+  });
+}
+
+function collectContentCustomTemplates(
+  settings: ManifestTargetOptionsSettings
+): (string | undefined)[] {
+  return [
+    ...values(settings.content?.header?.facets || {}).map(
+      (facet) => facet.template
+    ),
+    ...values(settings.content?.body?.sections || {}).flatMap((section) =>
+      collectSectionCustomTemplates(section)
+    ),
+  ];
+}
+
+function collectViewsCustomTemplates(
+  settings: ManifestTargetOptionsSettings
+): (string | undefined)[] {
+  return settings.views?.paths.map((p) => p.template) || [];
 }
 
 /**
@@ -120,40 +222,28 @@ async function extractManifestDetails(
   manifest: Manifest
 ): Promise<ManifestDetails> {
   const customViews = {};
-  const targets = manifest["sap.ui5"]?.routing?.targets;
-  if (targets) {
-    for (const name of Object.keys(targets)) {
-      const target = targets[name];
-      if (target) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const settings = (target.options as any)?.settings;
-        if (
-          (settings?.entitySet || settings?.contextPath) &&
-          settings.viewName
-        ) {
-          customViews[settings.viewName] = {
+  const targets = manifest["sap.ui5"]?.routing?.targets || {};
+  for (const name in targets) {
+    const settings = (targets[name].options as ManifestTargetOptions)?.settings;
+    if (settings?.entitySet || settings?.contextPath) {
+      if (settings.viewName) {
+        customViews[settings.viewName] = {
+          entitySet: settings.entitySet,
+          contextPath: settings.contextPath,
+        };
+      }
+      // search for custom fragments
+      const controlTemplates = collectControlCustomTemplates(settings);
+      const contentTemplates = collectContentCustomTemplates(settings);
+      const viewTemplates = collectViewsCustomTemplates(settings);
+      [...controlTemplates, ...contentTemplates, ...viewTemplates]
+        .filter((item) => !!item)
+        .forEach((template) => {
+          customViews[template as string] = {
             entitySet: settings.entitySet,
             contextPath: settings.contextPath,
           };
-        }
-        if (
-          (settings?.entitySet || settings?.contextPath) &&
-          settings.content
-        ) {
-          // search for custom section and get its entity set
-          const extSettings = settings.content.body?.sections ?? {};
-          const keys = Object.keys(extSettings);
-          for (const key of keys) {
-            const template = extSettings[key].template;
-            if (template) {
-              customViews[template] = {
-                entitySet: settings.entitySet,
-                contextPath: settings.contextPath,
-              };
-            }
-          }
-        }
-      }
+        });
     }
   }
 
