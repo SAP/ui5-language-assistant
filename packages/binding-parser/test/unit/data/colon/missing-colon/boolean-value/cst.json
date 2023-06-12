@@ -1,40 +1,40 @@
 {
-  "name": "Template",
+  "name": "template",
   "children": {
-    "Object": [
+    "object": [
       {
-        "name": "Object",
+        "name": "object",
         "children": {
-          "LeftCurly": [
+          "left-curly": [
             {
               "image": "{",
               "startColumn": 1,
               "endColumn": 1,
-              "tokenTypeName": "LeftCurly"
+              "tokenTypeName": "left-curly"
             }
           ],
-          "ObjectItem": [
+          "object-item": [
             {
-              "name": "ObjectItem",
+              "name": "object-item",
               "children": {
-                "Key": [
+                "key": [
                   {
                     "image": "key",
                     "startColumn": 2,
                     "endColumn": 4,
-                    "tokenTypeName": "Key"
+                    "tokenTypeName": "key"
                   }
                 ],
-                "Value": [
+                "value": [
                   {
-                    "name": "Value",
+                    "name": "value",
                     "children": {
-                      "BooleanValue": [
+                      "boolean-value": [
                         {
                           "image": "true",
                           "startColumn": 6,
                           "endColumn": 9,
-                          "tokenTypeName": "BooleanValue"
+                          "tokenTypeName": "boolean-value"
                         }
                       ]
                     },
@@ -51,12 +51,12 @@
               }
             }
           ],
-          "RightCurly": [
+          "right-curly": [
             {
               "image": "}",
               "startColumn": 10,
               "endColumn": 10,
-              "tokenTypeName": "RightCurly"
+              "tokenTypeName": "right-curly"
             }
           ]
         },

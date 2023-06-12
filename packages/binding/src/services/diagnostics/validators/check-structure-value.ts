@@ -2,7 +2,7 @@ import { BindContext, BindingIssue, BINDING_ISSUE_TYPE } from "../../../types";
 import {
   isStructureValue,
   LEFT_CURLY,
-  PropertyBindingInfoTypes as BindingTypes,
+  BindingParserTypes as BindingTypes,
 } from "@ui5-language-assistant/binding-parser";
 import { checkAst } from "./issue-collector";
 import { propertyBindingInfoElements } from "../../../definition/definition";

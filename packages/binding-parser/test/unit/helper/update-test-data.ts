@@ -1,6 +1,6 @@
 import { writeFile } from "fs/promises";
 import { join, dirname } from "path";
-import { parsePropertyBindingInfo } from "../../../src/api";
+import { parseBinding } from "../../../src/api";
 import {
   getAllNormalizeFolderPath,
   doesExits,
@@ -29,10 +29,7 @@ export const update = async (): Promise<void | Error> => {
           startPosition = JSON.parse(position);
         }
       }
-      const { cst, ast, errors } = parsePropertyBindingInfo(
-        text,
-        startPosition
-      );
+      const { cst, ast, errors } = parseBinding(text, startPosition);
       transformCstForAssertion(cst);
       await writeFile(join(ROOT, "cst.json"), serialize(cst));
       await writeFile(join(ROOT, "ast.json"), serialize(ast));

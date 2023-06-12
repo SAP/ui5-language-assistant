@@ -1,5 +1,5 @@
 import { BindContext, BindingIssue, BINDING_ISSUE_TYPE } from "../../../types";
-import { PropertyBindingInfoTypes as BindingTypes } from "@ui5-language-assistant/binding-parser";
+import { BindingParserTypes as BindingTypes } from "@ui5-language-assistant/binding-parser";
 import { rangeToOffsetRange, typesToValue } from "../../../utils";
 import { propertyBindingInfoElements } from "../../../definition/definition";
 

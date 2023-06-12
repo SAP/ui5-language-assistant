@@ -1,7 +1,7 @@
 import { BindingIssue, BINDING_ISSUE_TYPE } from "../../../types";
 import {
   COLON,
-  PropertyBindingInfoTypes as BindingTypes,
+  BindingParserTypes as BindingTypes,
   rangeContained,
 } from "@ui5-language-assistant/binding-parser";
 import { rangeToOffsetRange } from "../../../utils/document";

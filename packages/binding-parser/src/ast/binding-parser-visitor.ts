@@ -36,11 +36,11 @@ import type {
   ObjectItemChildren,
   ValueChildren,
   ArrayChildren,
-} from "../types/property-binding-info";
-import { propertyBindingInfoParser } from "../parser/property-binding-info";
+} from "../types/binding-parser";
+import { bindingParser } from "../parser/binding-parser";
 
-const BaseVisitor = propertyBindingInfoParser.getBaseCstVisitorConstructor();
-class PropertyBindingInfoVisitor extends BaseVisitor {
+const BaseVisitor = bindingParser.getBaseCstVisitorConstructor();
+class BindingParserVisitor extends BaseVisitor {
   startPosition?: Position;
   constructor(startPosition?: Position) {
     super();
@@ -196,6 +196,6 @@ class PropertyBindingInfoVisitor extends BaseVisitor {
   }
 }
 
-export const propertyBindingInfoVisitor = (
+export const bindingParserVisitor = (
   startPosition?: Position
-): PropertyBindingInfoVisitor => new PropertyBindingInfoVisitor(startPosition);
+): BindingParserVisitor => new BindingParserVisitor(startPosition);

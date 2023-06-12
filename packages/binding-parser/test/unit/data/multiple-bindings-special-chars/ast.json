@@ -2,24 +2,24 @@
   "bindings": [
     {
       "leftCurly": {
-        "type": "LeftCurly",
+        "type": "left-curly",
         "text": "{",
         "range": "[(0,5)..(0,6)]"
       },
       "elements": [
         {
           "key": {
-            "type": "Key",
+            "type": "key",
             "text": "path",
             "range": "[(0,6)..(0,10)]"
           },
           "colon": {
-            "type": "Colon",
+            "type": "colon",
             "text": ":",
             "range": "[(0,10)..(0,11)]"
           },
           "value": {
-            "type": "StringValue",
+            "type": "string-value",
             "text": "'###'",
             "range": "[(0,12)..(0,17)]"
           },
@@ -28,7 +28,7 @@
         }
       ],
       "rightCurly": {
-        "type": "RightCurly",
+        "type": "right-curly",
         "text": "}",
         "range": "[(0,17)..(0,18)]"
       },
@@ -38,24 +38,24 @@
     },
     {
       "leftCurly": {
-        "type": "LeftCurly",
+        "type": "left-curly",
         "text": "{",
         "range": "[(2,3)..(2,4)]"
       },
       "elements": [
         {
           "key": {
-            "type": "Key",
+            "type": "key",
             "text": "pat",
             "range": "[(2,5)..(2,8)]"
           },
           "colon": {
-            "type": "Colon",
+            "type": "colon",
             "text": ":",
             "range": "[(2,8)..(2,9)]"
           },
           "value": {
-            "type": "StringValue",
+            "type": "string-value",
             "text": "' '",
             "range": "[(2,9)..(2,12)]"
           },
@@ -64,7 +64,7 @@
         }
       ],
       "rightCurly": {
-        "type": "RightCurly",
+        "type": "right-curly",
         "text": "}",
         "range": "[(2,12)..(2,13)]"
       },
@@ -75,37 +75,37 @@
   ],
   "spaces": [
     {
-      "type": "WhiteSpace",
+      "type": "white-space",
       "text": " ",
       "range": "[(0,4)..(0,5)]"
     },
     {
-      "type": "WhiteSpace",
+      "type": "white-space",
       "text": " ",
       "range": "[(0,11)..(0,12)]"
     },
     {
-      "type": "WhiteSpace",
+      "type": "white-space",
       "text": " ",
       "range": "[(0,18)..(0,19)]"
     },
     {
-      "type": "WhiteSpace",
+      "type": "white-space",
       "text": "\n\n",
       "range": "[(0,21)..(1,1)]"
     },
     {
-      "type": "WhiteSpace",
+      "type": "white-space",
       "text": " ",
       "range": "[(2,2)..(2,3)]"
     },
     {
-      "type": "WhiteSpace",
+      "type": "white-space",
       "text": " ",
       "range": "[(2,13)..(2,14)]"
     },
     {
-      "type": "WhiteSpace",
+      "type": "white-space",
       "text": "\n",
       "range": "[(2,18)..(2,19)]"
     }

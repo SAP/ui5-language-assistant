@@ -1,34 +1,34 @@
 [
   {
-    "type": "ParseError",
+    "type": "parse-error",
     "range": "[(0,0)..(0,12)]",
     "text": "key:'value'",
     "merged": [
       {
-        "type": "ParseError",
+        "type": "parse-error",
         "text": "key",
         "range": "[(0,0)..(0,3)]",
-        "tokenTypeName": "Key"
+        "tokenTypeName": "key"
       },
       {
-        "type": "ParseError",
+        "type": "parse-error",
         "text": ":",
         "range": "[(0,3)..(0,4)]",
-        "tokenTypeName": "Colon"
+        "tokenTypeName": "colon"
       },
       {
-        "type": "ParseError",
+        "type": "parse-error",
         "text": "'value'",
         "range": "[(0,5)..(0,12)]",
-        "tokenTypeName": "StringValue"
+        "tokenTypeName": "string-value"
       }
     ],
-    "tokenTypeName": "Key|Colon|StringValue",
+    "tokenTypeName": "key|colon|string-value",
     "previousToken": {
-      "type": "ParseError",
+      "type": "parse-error",
       "text": "}",
       "range": "[(0,12)..(0,13)]",
-      "tokenTypeName": "RightCurly"
+      "tokenTypeName": "right-curly"
     },
     "message": "Expecting token of type --> EOF <-- but found --> 'key' <--"
   }

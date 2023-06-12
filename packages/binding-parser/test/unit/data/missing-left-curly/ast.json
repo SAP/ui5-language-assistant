@@ -2,7 +2,7 @@
   "bindings": [],
   "spaces": [
     {
-      "type": "WhiteSpace",
+      "type": "white-space",
       "text": " ",
       "range": "[(0,4)..(0,5)]"
     }

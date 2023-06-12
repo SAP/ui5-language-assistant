@@ -3,7 +3,7 @@ import {
   isCollectionValue,
   isPrimitiveValue,
   isStructureValue,
-  PropertyBindingInfoTypes as BindingTypes,
+  BindingParserTypes as BindingTypes,
 } from "@ui5-language-assistant/binding-parser";
 import { checkAst } from "./issue-collector";
 import { getPrimitiveValueIssues } from "./check-primitive-value";

@@ -2,42 +2,42 @@
   "bindings": [
     {
       "leftCurly": {
-        "type": "LeftCurly",
+        "type": "left-curly",
         "text": "{",
         "range": "[(0,0)..(0,1)]"
       },
       "elements": [
         {
           "key": {
-            "type": "Key",
+            "type": "key",
             "text": "key",
             "range": "[(0,2)..(0,5)]"
           },
           "colon": {
-            "type": "Colon",
+            "type": "colon",
             "text": ":",
             "range": "[(0,5)..(0,6)]"
           },
           "value": {
             "leftCurly": {
-              "type": "LeftCurly",
+              "type": "left-curly",
               "text": "{",
               "range": "[(0,7)..(0,8)]"
             },
             "elements": [
               {
                 "key": {
-                  "type": "Key",
+                  "type": "key",
                   "text": "anotherKey",
                   "range": "[(0,8)..(0,18)]"
                 },
                 "colon": {
-                  "type": "Colon",
+                  "type": "colon",
                   "text": ":",
                   "range": "[(0,18)..(0,19)]"
                 },
                 "value": {
-                  "type": "StringValue",
+                  "type": "string-value",
                   "text": "'another value'",
                   "range": "[(0,20)..(0,35)]"
                 },
@@ -46,7 +46,7 @@
               }
             ],
             "rightCurly": {
-              "type": "RightCurly",
+              "type": "right-curly",
               "text": "}",
               "range": "[(0,35)..(0,36)]"
             },
@@ -59,7 +59,7 @@
         }
       ],
       "rightCurly": {
-        "type": "RightCurly",
+        "type": "right-curly",
         "text": "}",
         "range": "[(0,37)..(0,38)]"
       },
@@ -70,22 +70,22 @@
   ],
   "spaces": [
     {
-      "type": "WhiteSpace",
+      "type": "white-space",
       "text": " ",
       "range": "[(0,1)..(0,2)]"
     },
     {
-      "type": "WhiteSpace",
+      "type": "white-space",
       "text": " ",
       "range": "[(0,6)..(0,7)]"
     },
     {
-      "type": "WhiteSpace",
+      "type": "white-space",
       "text": " ",
       "range": "[(0,19)..(0,20)]"
     },
     {
-      "type": "WhiteSpace",
+      "type": "white-space",
       "text": " ",
       "range": "[(0,36)..(0,37)]"
     }

@@ -1,60 +1,60 @@
 {
-  "name": "Template",
+  "name": "template",
   "children": {
-    "Object": [
+    "object": [
       {
-        "name": "Object",
+        "name": "object",
         "children": {
-          "LeftCurly": [
+          "left-curly": [
             {
               "image": "{",
               "startColumn": 1,
               "endColumn": 1,
-              "tokenTypeName": "LeftCurly"
+              "tokenTypeName": "left-curly"
             }
           ],
-          "ObjectItem": [
+          "object-item": [
             {
-              "name": "ObjectItem",
+              "name": "object-item",
               "children": {
-                "Key": [
+                "key": [
                   {
                     "image": "key",
                     "startColumn": 3,
                     "endColumn": 5,
-                    "tokenTypeName": "Key"
+                    "tokenTypeName": "key"
                   }
                 ],
-                "Colon": [
+                "colon": [
                   {
                     "image": ":",
                     "startColumn": 6,
                     "endColumn": 6,
-                    "tokenTypeName": "Colon"
+                    "tokenTypeName": "colon"
                   }
                 ],
-                "Value": [
+                "value": [
                   {
-                    "name": "Value",
+                    "name": "value",
                     "children": {
-                      "Array": [
+                      "array": [
                         {
-                          "name": "Array",
+                          "name": "array",
                           "children": {
-                            "LeftSquare": [
+                            "left-square": [
                               {
                                 "image": "[",
                                 "startColumn": 8,
                                 "endColumn": 8,
-                                "tokenTypeName": "LeftSquare"
+                                "tokenTypeName": "left-square"
                               }
                             ],
-                            "RightSquare": [
+                            "right-square": [
                               {
                                 "image": "]",
                                 "startColumn": 9,
                                 "endColumn": 9,
-                                "tokenTypeName": "RightSquare"
+                                "tokenTypeName": "right-square"
                               }
                             ]
                           },
@@ -78,12 +78,12 @@
               }
             }
           ],
-          "RightCurly": [
+          "right-curly": [
             {
               "image": "}",
               "startColumn": 11,
               "endColumn": 11,
-              "tokenTypeName": "RightCurly"
+              "tokenTypeName": "right-curly"
             }
           ]
         },

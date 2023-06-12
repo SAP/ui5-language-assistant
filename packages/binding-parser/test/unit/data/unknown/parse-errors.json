@@ -1,23 +1,23 @@
 [
   {
-    "type": "ParseError",
+    "type": "parse-error",
     "range": "[(0,7)..(0,8)]",
     "text": "}",
     "merged": [
       {
-        "type": "ParseError",
+        "type": "parse-error",
         "text": "}",
         "range": "[(0,7)..(0,8)]",
-        "tokenTypeName": "RightCurly"
+        "tokenTypeName": "right-curly"
       }
     ],
-    "tokenTypeName": "RightCurly",
+    "tokenTypeName": "right-curly",
     "previousToken": {
-      "type": "ParseError",
+      "type": "parse-error",
       "text": ":",
       "range": "[(0,4)..(0,5)]",
-      "tokenTypeName": "Colon"
+      "tokenTypeName": "colon"
     },
-    "message": "Expecting: one of these possible Token sequences:\n  1. [StringValue]\n  2. [NumberValue]\n  3. [{]\n  4. [[]\n  5. [BooleanValue]\n  6. [NullValue]\nbut found: '}'"
+    "message": "Expecting: one of these possible Token sequences:\n  1. [string-value]\n  2. [number-value]\n  3. [{]\n  4. [[]\n  5. [boolean-value]\n  6. [null-value]\nbut found: '}'"
   }
 ]

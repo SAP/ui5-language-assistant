@@ -3,7 +3,7 @@ import {
   BINDING_ISSUE_TYPE,
   BindingInfoName,
 } from "../../../types";
-import { PropertyBindingInfoTypes as BindingTypes } from "@ui5-language-assistant/binding-parser";
+import { BindingParserTypes as BindingTypes } from "@ui5-language-assistant/binding-parser";
 import { findRange, rangeToOffsetRange } from "../../../utils";
 import { propertyBindingInfoElements } from "../../../definition/definition";
 

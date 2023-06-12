@@ -1,5 +1,5 @@
 import { BindContext, BindingIssue } from "../../../types";
-import { PropertyBindingInfoTypes as BindingTypes } from "@ui5-language-assistant/binding-parser";
+import { BindingParserTypes as BindingTypes } from "@ui5-language-assistant/binding-parser";
 import { checkKey } from "./check-key";
 import { checkColon } from "./check-colon";
 import { checkMissingValue } from "./check-missing-value";

@@ -1,5 +1,5 @@
 import { BindingIssue, BINDING_ISSUE_TYPE } from "../../../types";
-import { PropertyBindingInfoTypes as BindingTypes } from "@ui5-language-assistant/binding-parser";
+import { BindingParserTypes as BindingTypes } from "@ui5-language-assistant/binding-parser";
 import { findRange, rangeToOffsetRange } from "../../../utils";
 
 const getDuplicate = (

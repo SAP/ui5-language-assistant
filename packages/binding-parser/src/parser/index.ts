@@ -3,9 +3,9 @@ import type {
   ParseResult,
   SpecialChars,
   WhiteSpaces,
-} from "../types/property-binding-info";
+} from "../types/binding-parser";
 import type { Position } from "vscode-languageserver-types";
-import { propertyBindingInfoParser } from "./property-binding-info";
+import { bindingParser } from "./binding-parser";
 import { lexer } from "../lexer";
 import { SPECIAL_CHARS, WHITE_SPACE } from "../constant";
 import {
@@ -13,9 +13,9 @@ import {
   createToken,
   createParseErrors,
 } from "../utils/create";
-import { propertyBindingInfoVisitor } from "../ast";
+import { bindingParserVisitor } from "../ast";
 
-export const parsePropertyBindingInfo = (
+export const parseBinding = (
   text: string,
   position?: Position
 ): ParseResult => {
@@ -28,10 +28,10 @@ export const parsePropertyBindingInfo = (
   const knownTokens = tokens
     .filter((t) => t.tokenType.name !== WHITE_SPACE)
     .filter((t) => t.tokenType.name !== SPECIAL_CHARS);
-  propertyBindingInfoParser.input = knownTokens;
-  const cst = propertyBindingInfoParser.Template();
-  const parseErrors = propertyBindingInfoParser.errors;
-  const ast = propertyBindingInfoVisitor(position).visit(cst) as Template;
+  bindingParser.input = knownTokens;
+  const cst = bindingParser.template();
+  const parseErrors = bindingParser.errors;
+  const ast = bindingParserVisitor(position).visit(cst) as Template;
   ast.spaces.push(...spaces);
   /**
    * Special chars are added to token so that chevrotain recognize them and provide correct location information.

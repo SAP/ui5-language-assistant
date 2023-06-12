@@ -3,7 +3,7 @@ import {
   BOOLEAN_VALUE,
   LEFT_CURLY,
   LEFT_SQUARE,
-  PropertyBindingInfoTypes as BindingTypes,
+  BindingParserTypes as BindingTypes,
   RIGHT_CURLY,
   RIGHT_SQUARE,
   STRING_VALUE,

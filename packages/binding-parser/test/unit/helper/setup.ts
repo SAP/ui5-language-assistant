@@ -3,7 +3,7 @@ import { join, dirname } from "path";
 import { platform } from "os";
 import type { IToken, CstNode, CstNodeLocation, CstElement } from "chevrotain";
 import { deserialize } from "./deserialize-ast";
-import type { Template } from "../../../src/types/property-binding-info";
+import type { Template } from "../../../src/types/binding-parser";
 
 const { readFile } = promises;
 

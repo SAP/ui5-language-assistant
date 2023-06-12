@@ -14,7 +14,7 @@ import type {
   ParseError,
   ParseErrorBase,
   VisitorParam,
-} from "../types/property-binding-info";
+} from "../types/binding-parser";
 import { getLexerRange, getRange } from "./range";
 
 export const createToken = <T extends TokenType>(

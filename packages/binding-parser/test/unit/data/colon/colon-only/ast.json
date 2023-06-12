@@ -2,7 +2,7 @@
   "bindings": [
     {
       "leftCurly": {
-        "type": "LeftCurly",
+        "type": "left-curly",
         "text": "{",
         "range": "[(0,0)..(0,1)]"
       },
@@ -10,7 +10,7 @@
         {
           "key": "undefined",
           "colon": {
-            "type": "Colon",
+            "type": "colon",
             "text": ":",
             "range": "[(0,1)..(0,2)]"
           },
@@ -20,7 +20,7 @@
         }
       ],
       "rightCurly": {
-        "type": "RightCurly",
+        "type": "right-curly",
         "text": "}",
         "range": "[(0,2)..(0,3)]"
       },

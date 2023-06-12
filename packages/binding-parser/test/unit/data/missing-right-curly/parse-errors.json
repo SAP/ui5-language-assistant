@@ -1,11 +1,11 @@
 [
   {
-    "type": "ParseError",
+    "type": "parse-error",
     "range": "[(0,0)..(0,0)]",
     "text": "",
     "merged": [
       {
-        "type": "ParseError",
+        "type": "parse-error",
         "text": "",
         "range": "[(0,0)..(0,0)]",
         "tokenTypeName": "EOF"
@@ -13,10 +13,10 @@
     ],
     "tokenTypeName": "EOF",
     "previousToken": {
-      "type": "ParseError",
+      "type": "parse-error",
       "text": "'value'",
       "range": "[(0,6)..(0,13)]",
-      "tokenTypeName": "StringValue"
+      "tokenTypeName": "string-value"
     },
     "message": "Expecting --> } <-- but found --> '' <--"
   }

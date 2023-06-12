@@ -5,7 +5,6 @@ import {
   BOOLEAN_VALUE,
   COLON,
   COMMA,
-  PROPERTY_BINDING_INFO,
   LEFT_SQUARE,
   LEFT_CURLY,
   NULL_VALUE,
@@ -14,6 +13,7 @@ import {
   RIGHT_CURLY,
   WHITE_SPACE,
   SPECIAL_CHARS,
+  TEMPLATE,
 } from "../constant";
 
 const whiteSpace = createToken({
@@ -80,7 +80,7 @@ const comma = createToken({
   label: ",",
 });
 
-export const propertyBindingTokenMap = {
+export const bindingParserTokenMap = {
   whiteSpace,
   numberValue,
   leftCurly,
@@ -97,7 +97,7 @@ export const propertyBindingTokenMap = {
 };
 export const lexerDefinition = {
   modes: {
-    [PROPERTY_BINDING_INFO]: [
+    [TEMPLATE]: [
       whiteSpace,
       numberValue,
       leftCurly,
@@ -113,5 +113,5 @@ export const lexerDefinition = {
       specialChars,
     ],
   },
-  defaultMode: PROPERTY_BINDING_INFO,
+  defaultMode: TEMPLATE,
 };

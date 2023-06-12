@@ -8,7 +8,7 @@ import {
   isPrimitiveValue,
   isStructureValue,
   positionContained,
-  PropertyBindingInfoTypes as BindingTypes,
+  BindingParserTypes as BindingTypes,
 } from "@ui5-language-assistant/binding-parser";
 
 import { propertyBindingInfoElements } from "../../../definition/definition";

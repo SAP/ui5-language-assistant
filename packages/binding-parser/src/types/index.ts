@@ -1,1 +1,1 @@
-export * as PropertyBindingInfoTypes from "./property-binding-info";
+export * as BindingParserTypes from "./binding-parser";

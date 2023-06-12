@@ -1,48 +1,48 @@
 {
-  "name": "Template",
+  "name": "template",
   "children": {
-    "Object": [
+    "object": [
       {
-        "name": "Object",
+        "name": "object",
         "children": {
-          "LeftCurly": [
+          "left-curly": [
             {
               "image": "{",
               "startColumn": 1,
               "endColumn": 1,
-              "tokenTypeName": "LeftCurly"
+              "tokenTypeName": "left-curly"
             }
           ],
-          "ObjectItem": [
+          "object-item": [
             {
-              "name": "ObjectItem",
+              "name": "object-item",
               "children": {
-                "Key": [
+                "key": [
                   {
                     "image": "key01",
                     "startColumn": 3,
                     "endColumn": 7,
-                    "tokenTypeName": "Key"
+                    "tokenTypeName": "key"
                   }
                 ],
-                "Colon": [
+                "colon": [
                   {
                     "image": ":",
                     "startColumn": 8,
                     "endColumn": 8,
-                    "tokenTypeName": "Colon"
+                    "tokenTypeName": "colon"
                   }
                 ],
-                "Value": [
+                "value": [
                   {
-                    "name": "Value",
+                    "name": "value",
                     "children": {
-                      "StringValue": [
+                      "string-value": [
                         {
                           "image": "'value-01'",
                           "startColumn": 11,
                           "endColumn": 20,
-                          "tokenTypeName": "StringValue"
+                          "tokenTypeName": "string-value"
                         }
                       ]
                     },
@@ -59,34 +59,34 @@
               }
             },
             {
-              "name": "ObjectItem",
+              "name": "object-item",
               "children": {
-                "Key": [
+                "key": [
                   {
                     "image": "key02",
                     "startColumn": 30,
                     "endColumn": 34,
-                    "tokenTypeName": "Key"
+                    "tokenTypeName": "key"
                   }
                 ],
-                "Colon": [
+                "colon": [
                   {
                     "image": ":",
                     "startColumn": 38,
                     "endColumn": 38,
-                    "tokenTypeName": "Colon"
+                    "tokenTypeName": "colon"
                   }
                 ],
-                "Value": [
+                "value": [
                   {
-                    "name": "Value",
+                    "name": "value",
                     "children": {
-                      "StringValue": [
+                      "string-value": [
                         {
                           "image": "'value-02'",
                           "startColumn": 43,
                           "endColumn": 52,
-                          "tokenTypeName": "StringValue"
+                          "tokenTypeName": "string-value"
                         }
                       ]
                     },
@@ -103,20 +103,20 @@
               }
             }
           ],
-          "Comma": [
+          "comma": [
             {
               "image": ",",
               "startColumn": 25,
               "endColumn": 25,
-              "tokenTypeName": "Comma"
+              "tokenTypeName": "comma"
             }
           ],
-          "RightCurly": [
+          "right-curly": [
             {
               "image": "}",
               "startColumn": 59,
               "endColumn": 59,
-              "tokenTypeName": "RightCurly"
+              "tokenTypeName": "right-curly"
             }
           ]
         },

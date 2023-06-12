@@ -1,22 +1,22 @@
 [
   {
-    "type": "ParseError",
+    "type": "parse-error",
     "range": "[(0,7)..(0,8)]",
     "text": "}",
     "merged": [
       {
-        "type": "ParseError",
+        "type": "parse-error",
         "text": "}",
         "range": "[(0,7)..(0,8)]",
-        "tokenTypeName": "RightCurly"
+        "tokenTypeName": "right-curly"
       }
     ],
-    "tokenTypeName": "RightCurly",
+    "tokenTypeName": "right-curly",
     "previousToken": {
-      "type": "ParseError",
+      "type": "parse-error",
       "text": "[",
       "range": "[(0,6)..(0,7)]",
-      "tokenTypeName": "LeftSquare"
+      "tokenTypeName": "left-square"
     },
     "message": "Expecting --> ] <-- but found --> '}' <--"
   }

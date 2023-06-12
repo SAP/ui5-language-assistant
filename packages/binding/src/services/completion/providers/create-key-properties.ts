@@ -3,7 +3,7 @@ import {
   CompletionItemKind,
   InsertTextFormat,
 } from "vscode-languageserver-types";
-import { PropertyBindingInfoTypes as BindingTypes } from "@ui5-language-assistant/binding-parser";
+import { BindingParserTypes as BindingTypes } from "@ui5-language-assistant/binding-parser";
 
 import { propertyBindingInfoElements } from "../../../definition/definition";
 import { getDocumentation } from "./documentation";

@@ -1,5 +1,5 @@
 import { IToken, ILexingError } from "chevrotain";
-import { VisitorParam } from "../types/property-binding-info";
+import { VisitorParam } from "../types/binding-parser";
 import { Position, Range } from "vscode-languageserver-types";
 
 const hasNaNOrUndefined = (value: undefined | number): boolean => {

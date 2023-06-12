@@ -2,45 +2,45 @@
   "bindings": [
     {
       "leftCurly": {
-        "type": "LeftCurly",
+        "type": "left-curly",
         "text": "{",
         "range": "[(0,0)..(0,1)]"
       },
       "elements": [
         {
           "key": {
-            "type": "Key",
+            "type": "key",
             "text": "parts",
             "range": "[(0,2)..(0,7)]"
           },
           "colon": "undefined",
           "value": {
             "leftSquare": {
-              "type": "LeftSquare",
+              "type": "left-square",
               "text": "[",
               "range": "[(0,8)..(0,9)]"
             },
             "elements": [
               {
                 "leftCurly": {
-                  "type": "LeftCurly",
+                  "type": "left-curly",
                   "text": "{",
                   "range": "[(0,9)..(0,10)]"
                 },
                 "elements": [
                   {
                     "key": {
-                      "type": "Key",
+                      "type": "key",
                       "text": "path",
                       "range": "[(0,10)..(0,14)]"
                     },
                     "colon": {
-                      "type": "Colon",
+                      "type": "colon",
                       "text": ":",
                       "range": "[(0,14)..(0,15)]"
                     },
                     "value": {
-                      "type": "StringValue",
+                      "type": "string-value",
                       "text": "''",
                       "range": "[(0,16)..(0,18)]"
                     },
@@ -49,7 +49,7 @@
                   }
                 ],
                 "rightCurly": {
-                  "type": "RightCurly",
+                  "type": "right-curly",
                   "text": "}",
                   "range": "[(0,18)..(0,19)]"
                 },
@@ -59,7 +59,7 @@
               }
             ],
             "rightSquare": {
-              "type": "RightSquare",
+              "type": "right-square",
               "text": "]",
               "range": "[(0,19)..(0,20)]"
             },
@@ -72,7 +72,7 @@
         }
       ],
       "rightCurly": {
-        "type": "RightCurly",
+        "type": "right-curly",
         "text": "}",
         "range": "[(0,21)..(0,22)]"
       },
@@ -83,22 +83,22 @@
   ],
   "spaces": [
     {
-      "type": "WhiteSpace",
+      "type": "white-space",
       "text": " ",
       "range": "[(0,1)..(0,2)]"
     },
     {
-      "type": "WhiteSpace",
+      "type": "white-space",
       "text": " ",
       "range": "[(0,7)..(0,8)]"
     },
     {
-      "type": "WhiteSpace",
+      "type": "white-space",
       "text": " ",
       "range": "[(0,15)..(0,16)]"
     },
     {
-      "type": "WhiteSpace",
+      "type": "white-space",
       "text": " ",
       "range": "[(0,20)..(0,21)]"
     }

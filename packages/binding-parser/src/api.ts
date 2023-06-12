@@ -1,5 +1,5 @@
-export { parsePropertyBindingInfo } from "./parser/index";
-export { PropertyBindingInfoTypes } from "./types";
+export { parseBinding } from "./parser/index";
+export { BindingParserTypes } from "./types";
 export * from "./constant";
 export {
   isAfterAdjacentRange,
@@ -14,7 +14,7 @@ import {
   PrimitiveValue,
   CollectionValue,
   StructureValue,
-} from "./types/property-binding-info";
+} from "./types/binding-parser";
 
 export const isCollectionValue = (
   value: Value | undefined

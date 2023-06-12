@@ -1,5 +1,5 @@
 import {
-  PropertyBindingInfoTypes as BindingTypes,
+  BindingParserTypes as BindingTypes,
   positionContained,
   isAfterAdjacentRange,
   isBeforeAdjacentRange,

@@ -1,4 +1,4 @@
-import { PropertyBindingInfoTypes as BindingTypes } from "@ui5-language-assistant/binding-parser";
+import { BindingParserTypes as BindingTypes } from "@ui5-language-assistant/binding-parser";
 export interface BaseContext {
   element: BindingTypes.StructureElement;
 }

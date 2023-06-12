@@ -1,4 +1,4 @@
-import { parsePropertyBindingInfo } from "../../../src/api";
+import { parseBinding } from "../../../src/api";
 import {
   getInput,
   getCst,
@@ -31,7 +31,7 @@ const testParser = async (testCasePath: string): Promise<void> => {
       startPosition = JSON.parse(position);
     }
   }
-  const { cst, ast, errors } = parsePropertyBindingInfo(text, startPosition);
+  const { cst, ast, errors } = parseBinding(text, startPosition);
   const lexerSavedContent = await getLexerErrors(testCasePath);
   expect(deserialize(serialize(errors.lexer))).toStrictEqual(lexerSavedContent);
 
@@ -44,7 +44,7 @@ const testParser = async (testCasePath: string): Promise<void> => {
   const astSavedContent = await getAst(testCasePath);
   expect(deserialize(serialize(ast))).toStrictEqual(astSavedContent);
 };
-describe("property binding info parser", () => {
+describe("binding parser", () => {
   const allTests = getAllNormalizeFolderPath();
   /**
    * Include folder name e.g '/key-colon-value' to skip it

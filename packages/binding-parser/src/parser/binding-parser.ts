@@ -1,9 +1,9 @@
 import { CstParser } from "chevrotain";
 import type { CstNode, TokenType, IToken } from "chevrotain";
 import { ARRAY, OBJECT, OBJECT_ITEM, TEMPLATE, VALUE } from "../constant";
-import { propertyBindingTokenMap as tokenMap } from "../lexer";
+import { bindingParserTokenMap as tokenMap } from "../lexer";
 
-class PropertyBindingInfoParser extends CstParser {
+class BindingParser extends CstParser {
   constructor() {
     super(tokenMap, {
       maxLookahead: 1,
@@ -115,4 +115,4 @@ class PropertyBindingInfoParser extends CstParser {
   }
 }
 
-export const propertyBindingInfoParser = new PropertyBindingInfoParser();
+export const bindingParser = new BindingParser();

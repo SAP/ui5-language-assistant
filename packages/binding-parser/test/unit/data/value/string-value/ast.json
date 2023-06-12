@@ -2,24 +2,24 @@
   "bindings": [
     {
       "leftCurly": {
-        "type": "LeftCurly",
+        "type": "left-curly",
         "text": "{",
         "range": "[(0,0)..(0,1)]"
       },
       "elements": [
         {
           "key": {
-            "type": "Key",
+            "type": "key",
             "text": "key",
             "range": "[(0,2)..(0,5)]"
           },
           "colon": {
-            "type": "Colon",
+            "type": "colon",
             "text": ":",
             "range": "[(0,5)..(0,6)]"
           },
           "value": {
-            "type": "StringValue",
+            "type": "string-value",
             "text": "'value-02'",
             "range": "[(0,7)..(0,17)]"
           },
@@ -28,7 +28,7 @@
         }
       ],
       "rightCurly": {
-        "type": "RightCurly",
+        "type": "right-curly",
         "text": "}",
         "range": "[(0,18)..(0,19)]"
       },
@@ -39,17 +39,17 @@
   ],
   "spaces": [
     {
-      "type": "WhiteSpace",
+      "type": "white-space",
       "text": " ",
       "range": "[(0,1)..(0,2)]"
     },
     {
-      "type": "WhiteSpace",
+      "type": "white-space",
       "text": " ",
       "range": "[(0,6)..(0,7)]"
     },
     {
-      "type": "WhiteSpace",
+      "type": "white-space",
       "text": " ",
       "range": "[(0,17)..(0,18)]"
     }

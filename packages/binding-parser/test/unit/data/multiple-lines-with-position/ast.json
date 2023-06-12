@@ -2,24 +2,24 @@
   "bindings": [
     {
       "leftCurly": {
-        "type": "LeftCurly",
+        "type": "left-curly",
         "text": "{",
         "range": "[(5,15)..(5,16)]"
       },
       "elements": [
         {
           "key": {
-            "type": "Key",
+            "type": "key",
             "text": "key01",
             "range": "[(5,16)..(5,21)]"
           },
           "colon": {
-            "type": "Colon",
+            "type": "colon",
             "text": ":",
             "range": "[(5,21)..(5,22)]"
           },
           "value": {
-            "type": "StringValue",
+            "type": "string-value",
             "text": "'value-01'",
             "range": "[(5,23)..(5,33)]"
           },
@@ -28,17 +28,17 @@
         },
         {
           "key": {
-            "type": "Key",
+            "type": "key",
             "text": "key02",
             "range": "[(7,1)..(7,6)]"
           },
           "colon": {
-            "type": "Colon",
+            "type": "colon",
             "text": ":",
             "range": "[(7,6)..(7,7)]"
           },
           "value": {
-            "type": "StringValue",
+            "type": "string-value",
             "text": "'value-01'",
             "range": "[(7,8)..(7,18)]"
           },
@@ -47,17 +47,17 @@
         },
         {
           "key": {
-            "type": "Key",
+            "type": "key",
             "text": "key03",
             "range": "[(9,4)..(9,9)]"
           },
           "colon": {
-            "type": "Colon",
+            "type": "colon",
             "text": ":",
             "range": "[(9,9)..(9,10)]"
           },
           "value": {
-            "type": "StringValue",
+            "type": "string-value",
             "text": "'value-03'",
             "range": "[(9,11)..(9,21)]"
           },
@@ -66,19 +66,19 @@
         }
       ],
       "rightCurly": {
-        "type": "RightCurly",
+        "type": "right-curly",
         "text": "}",
         "range": "[(10,0)..(10,1)]"
       },
       "range": "[(5,15)..(10,1)]",
       "commas": [
         {
-          "type": "Comma",
+          "type": "comma",
           "text": ",",
           "range": "[(5,33)..(5,34)]"
         },
         {
-          "type": "Comma",
+          "type": "comma",
           "text": ",",
           "range": "[(7,18)..(7,19)]"
         }
@@ -88,32 +88,32 @@
   ],
   "spaces": [
     {
-      "type": "WhiteSpace",
+      "type": "white-space",
       "text": " ",
       "range": "[(5,22)..(5,23)]"
     },
     {
-      "type": "WhiteSpace",
+      "type": "white-space",
       "text": "\n\n\t",
       "range": "[(5,34)..(7,1)]"
     },
     {
-      "type": "WhiteSpace",
+      "type": "white-space",
       "text": " ",
       "range": "[(7,7)..(7,8)]"
     },
     {
-      "type": "WhiteSpace",
+      "type": "white-space",
       "text": "\n\n    ",
       "range": "[(7,19)..(9,4)]"
     },
     {
-      "type": "WhiteSpace",
+      "type": "white-space",
       "text": " ",
       "range": "[(9,10)..(9,11)]"
     },
     {
-      "type": "WhiteSpace",
+      "type": "white-space",
       "text": "\n",
       "range": "[(9,21)..(9,22)]"
     }

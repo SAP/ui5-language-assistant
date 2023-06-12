@@ -10,7 +10,7 @@ import {
   rangeToOffsetRange,
 } from "../../../utils";
 import { Position } from "vscode-languageserver-types";
-import { parsePropertyBindingInfo } from "@ui5-language-assistant/binding-parser";
+import { parseBinding } from "@ui5-language-assistant/binding-parser";
 import { checkAst } from "./issue-collector";
 import { filterLexerError, filterParseError } from "../../../utils/expression";
 
@@ -47,7 +47,7 @@ export function validatePropertyBindingInfo(
         character: (value?.startColumn ?? 0) + startIndex,
         line: value?.startLine ? value.startLine - 1 : 0, // zero based index
       };
-      const { ast, errors } = parsePropertyBindingInfo(expression, position);
+      const { ast, errors } = parseBinding(expression, position);
       for (const binding of ast.bindings) {
         if (!isPropertyBindingInfo(expression, binding)) {
           continue;

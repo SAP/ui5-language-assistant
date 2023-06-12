@@ -1,1 +1,1 @@
-export { propertyBindingInfoVisitor } from "./property-binding-info-visitor";
+export { bindingParserVisitor } from "./binding-parser-visitor";

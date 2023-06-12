@@ -1,7 +1,7 @@
 import { BindingIssue, BINDING_ISSUE_TYPE } from "../../../types";
 import {
   isBefore,
-  PropertyBindingInfoTypes as BindingTypes,
+  BindingParserTypes as BindingTypes,
 } from "@ui5-language-assistant/binding-parser";
 import { rangeToOffsetRange } from "../../../utils/document";
 import { Range } from "vscode-languageserver-types";

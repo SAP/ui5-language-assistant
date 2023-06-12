@@ -1,65 +1,65 @@
 [
   {
-    "type": "ParseError",
+    "type": "parse-error",
     "range": "[(0,5)..(0,6)]",
     "text": ":",
     "merged": [
       {
-        "type": "ParseError",
+        "type": "parse-error",
         "text": ":",
         "range": "[(0,5)..(0,6)]",
-        "tokenTypeName": "Colon"
+        "tokenTypeName": "colon"
       }
     ],
-    "tokenTypeName": "Colon",
+    "tokenTypeName": "colon",
     "previousToken": {
-      "type": "ParseError",
+      "type": "parse-error",
       "text": ":",
       "range": "[(0,4)..(0,5)]",
-      "tokenTypeName": "Colon"
+      "tokenTypeName": "colon"
     },
-    "message": "Expecting: one of these possible Token sequences:\n  1. [StringValue]\n  2. [NumberValue]\n  3. [{]\n  4. [[]\n  5. [BooleanValue]\n  6. [NullValue]\nbut found: ':'"
+    "message": "Expecting: one of these possible Token sequences:\n  1. [string-value]\n  2. [number-value]\n  3. [{]\n  4. [[]\n  5. [boolean-value]\n  6. [null-value]\nbut found: ':'"
   },
   {
-    "type": "ParseError",
+    "type": "parse-error",
     "range": "[(0,6)..(0,7)]",
     "text": ":",
     "merged": [
       {
-        "type": "ParseError",
+        "type": "parse-error",
         "text": ":",
         "range": "[(0,6)..(0,7)]",
-        "tokenTypeName": "Colon"
+        "tokenTypeName": "colon"
       }
     ],
-    "tokenTypeName": "Colon",
+    "tokenTypeName": "colon",
     "previousToken": {
-      "type": "ParseError",
+      "type": "parse-error",
       "text": ":",
       "range": "[(0,5)..(0,6)]",
-      "tokenTypeName": "Colon"
+      "tokenTypeName": "colon"
     },
-    "message": "Expecting: one of these possible Token sequences:\n  1. [StringValue]\n  2. [NumberValue]\n  3. [{]\n  4. [[]\n  5. [BooleanValue]\n  6. [NullValue]\nbut found: ':'"
+    "message": "Expecting: one of these possible Token sequences:\n  1. [string-value]\n  2. [number-value]\n  3. [{]\n  4. [[]\n  5. [boolean-value]\n  6. [null-value]\nbut found: ':'"
   },
   {
-    "type": "ParseError",
+    "type": "parse-error",
     "range": "[(0,7)..(0,8)]",
     "text": ":",
     "merged": [
       {
-        "type": "ParseError",
+        "type": "parse-error",
         "text": ":",
         "range": "[(0,7)..(0,8)]",
-        "tokenTypeName": "Colon"
+        "tokenTypeName": "colon"
       }
     ],
-    "tokenTypeName": "Colon",
+    "tokenTypeName": "colon",
     "previousToken": {
-      "type": "ParseError",
+      "type": "parse-error",
       "text": ":",
       "range": "[(0,6)..(0,7)]",
-      "tokenTypeName": "Colon"
+      "tokenTypeName": "colon"
     },
-    "message": "Expecting: one of these possible Token sequences:\n  1. [StringValue]\n  2. [NumberValue]\n  3. [{]\n  4. [[]\n  5. [BooleanValue]\n  6. [NullValue]\nbut found: ':'"
+    "message": "Expecting: one of these possible Token sequences:\n  1. [string-value]\n  2. [number-value]\n  3. [{]\n  4. [[]\n  5. [boolean-value]\n  6. [null-value]\nbut found: ':'"
   }
 ]

@@ -1,6 +1,6 @@
 [
   {
-    "type": "SpecialChars",
+    "type": "special-chars",
     "text": "#",
     "range": "[(0,6)..(0,7)]"
   }

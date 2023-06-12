@@ -6,7 +6,7 @@ import {
 } from "../../../types";
 import {
   isPrimitiveValue,
-  PropertyBindingInfoTypes as BindingTypes,
+  BindingParserTypes as BindingTypes,
 } from "@ui5-language-assistant/binding-parser";
 import { rangeToOffsetRange, typesToValue, valueTypeMap } from "../../../utils";
 import { propertyBindingInfoElements } from "../../../definition/definition";

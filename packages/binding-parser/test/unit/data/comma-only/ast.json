@@ -2,20 +2,20 @@
   "bindings": [
     {
       "leftCurly": {
-        "type": "LeftCurly",
+        "type": "left-curly",
         "text": "{",
         "range": "[(0,0)..(0,1)]"
       },
       "elements": [],
       "rightCurly": {
-        "type": "RightCurly",
+        "type": "right-curly",
         "text": "}",
         "range": "[(0,2)..(0,3)]"
       },
       "range": "[(0,0)..(0,3)]",
       "commas": [
         {
-          "type": "Comma",
+          "type": "comma",
           "text": ",",
           "range": "[(0,1)..(0,2)]"
         }

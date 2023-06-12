@@ -1,4 +1,4 @@
-import { parsePropertyBindingInfo } from "@ui5-language-assistant/binding-parser";
+import { parseBinding } from "@ui5-language-assistant/binding-parser";
 import {
   ColonContext,
   KeyContext,
@@ -12,7 +12,7 @@ const getData = (snippet: string) => {
     textDocument: { uri: "" },
   };
   snippet = snippet.replace("<CURSOR>", "");
-  const { ast } = parsePropertyBindingInfo(snippet);
+  const { ast } = parseBinding(snippet);
   return { param, ast, prefix: snippet };
 };
 const getCursorContextResult = (snippet: string) => {

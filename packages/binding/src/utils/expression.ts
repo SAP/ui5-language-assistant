@@ -1,6 +1,6 @@
 import {
   rangeContained,
-  PropertyBindingInfoTypes as BindingTypes,
+  BindingParserTypes as BindingTypes,
 } from "@ui5-language-assistant/binding-parser";
 import { ExtractBindingExpression } from "..//types";
 

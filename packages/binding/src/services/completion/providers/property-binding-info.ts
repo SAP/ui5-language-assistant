@@ -1,6 +1,6 @@
 import {
-  parsePropertyBindingInfo,
-  PropertyBindingInfoTypes as BindingTypes,
+  parseBinding,
+  BindingParserTypes as BindingTypes,
 } from "@ui5-language-assistant/binding-parser";
 import type { Position } from "vscode-languageserver-types";
 import { AttributeValueCompletionOptions } from "@xml-tools/content-assist";
@@ -87,7 +87,7 @@ export function propertyBindingInfoSuggestions({
       character: (value?.startColumn ?? 0) + startIndex,
       line: value?.startLine ? value.startLine - 1 : 0, // zero based index
     };
-    const { ast } = parsePropertyBindingInfo(expression, position);
+    const { ast } = parseBinding(expression, position);
     const input = expression;
     if (input.trim() === "") {
       completionItems.push(...createInitialSnippet(context));

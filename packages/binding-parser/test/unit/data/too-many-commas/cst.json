@@ -1,48 +1,48 @@
 {
-  "name": "Template",
+  "name": "template",
   "children": {
-    "Object": [
+    "object": [
       {
-        "name": "Object",
+        "name": "object",
         "children": {
-          "LeftCurly": [
+          "left-curly": [
             {
               "image": "{",
               "startColumn": 1,
               "endColumn": 1,
-              "tokenTypeName": "LeftCurly"
+              "tokenTypeName": "left-curly"
             }
           ],
-          "ObjectItem": [
+          "object-item": [
             {
-              "name": "ObjectItem",
+              "name": "object-item",
               "children": {
-                "Key": [
+                "key": [
                   {
                     "image": "key01",
                     "startColumn": 2,
                     "endColumn": 6,
-                    "tokenTypeName": "Key"
+                    "tokenTypeName": "key"
                   }
                 ],
-                "Colon": [
+                "colon": [
                   {
                     "image": ":",
                     "startColumn": 7,
                     "endColumn": 7,
-                    "tokenTypeName": "Colon"
+                    "tokenTypeName": "colon"
                   }
                 ],
-                "Value": [
+                "value": [
                   {
-                    "name": "Value",
+                    "name": "value",
                     "children": {
-                      "StringValue": [
+                      "string-value": [
                         {
                           "image": "'value-01'",
                           "startColumn": 9,
                           "endColumn": 18,
-                          "tokenTypeName": "StringValue"
+                          "tokenTypeName": "string-value"
                         }
                       ]
                     },
@@ -59,34 +59,34 @@
               }
             },
             {
-              "name": "ObjectItem",
+              "name": "object-item",
               "children": {
-                "Key": [
+                "key": [
                   {
                     "image": "key02",
                     "startColumn": 23,
                     "endColumn": 27,
-                    "tokenTypeName": "Key"
+                    "tokenTypeName": "key"
                   }
                 ],
-                "Colon": [
+                "colon": [
                   {
                     "image": ":",
                     "startColumn": 28,
                     "endColumn": 28,
-                    "tokenTypeName": "Colon"
+                    "tokenTypeName": "colon"
                   }
                 ],
-                "Value": [
+                "value": [
                   {
-                    "name": "Value",
+                    "name": "value",
                     "children": {
-                      "StringValue": [
+                      "string-value": [
                         {
                           "image": "'value-02'",
                           "startColumn": 30,
                           "endColumn": 39,
-                          "tokenTypeName": "StringValue"
+                          "tokenTypeName": "string-value"
                         }
                       ]
                     },
@@ -103,32 +103,32 @@
               }
             }
           ],
-          "Comma": [
+          "comma": [
             {
               "image": ",",
               "startColumn": 19,
               "endColumn": 19,
-              "tokenTypeName": "Comma"
+              "tokenTypeName": "comma"
             },
             {
               "image": ",",
               "startColumn": 20,
               "endColumn": 20,
-              "tokenTypeName": "Comma"
+              "tokenTypeName": "comma"
             },
             {
               "image": ",",
               "startColumn": 21,
               "endColumn": 21,
-              "tokenTypeName": "Comma"
+              "tokenTypeName": "comma"
             }
           ],
-          "RightCurly": [
+          "right-curly": [
             {
               "image": "}",
               "startColumn": 40,
               "endColumn": 40,
-              "tokenTypeName": "RightCurly"
+              "tokenTypeName": "right-curly"
             }
           ]
         },
