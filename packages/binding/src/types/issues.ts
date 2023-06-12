@@ -18,6 +18,7 @@ export type BindingIssue =
   | DuplicateProperty
   | RequiredDependency
   | RecursiveProperty
+  | Unnecessary
   | MissingLeftCurly;
 
 interface BaseUI5XMLViewBindingIssue extends BaseUI5XMLViewIssue {
@@ -76,6 +77,9 @@ export interface DuplicateProperty extends BaseUI5XMLViewBindingIssue {
 }
 export interface RequiredDependency extends BaseUI5XMLViewBindingIssue {
   kind: "RequiredDependency";
+}
+export interface Unnecessary extends BaseUI5XMLViewBindingIssue {
+  kind: "Unnecessary";
 }
 export interface RecursiveProperty extends BaseUI5XMLViewBindingIssue {
   kind: "RecursiveProperty";

@@ -460,7 +460,7 @@ describe("property-binding-info-validator", () => {
     const { attr, context } = await getData(snippet);
     const result = validatePropertyBindingInfo(attr, context);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-      'kind: RequiredDependency; text: "formatOptions" is allowed with "type" when "type" is defined as \' \'; severity:info; range:9:17-9:30',
+      'kind: Unnecessary; text: "formatOptions" is only taken into account with "type" when "type" is defined as \' \'; severity:info; range:9:17-9:30',
     ]);
   });
   it("check recursive composite bindings", async () => {

@@ -86,8 +86,8 @@ export const checkDependents = (
                   const value = typesToValue([requiredDepType], context);
                   issues.push({
                     issueType: BINDING_ISSUE_TYPE,
-                    kind: "RequiredDependency",
-                    message: `"${dep.name}" is allowed with "${requiredDep.name}" when "${requiredDep.name}" is defined as ${value[0]}`,
+                    kind: "Unnecessary",
+                    message: `"${dep.name}" is only taken into account with "${requiredDep.name}" when "${requiredDep.name}" is defined as ${value[0]}`,
                     offsetRange: rangeToOffsetRange(
                       findRange([
                         /* istanbul ignore next */
