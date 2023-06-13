@@ -23,8 +23,11 @@ export function classIsOfType(
 ): boolean {
   const clazzAndSuperClasses = getSuperClasses(clazz).concat([clazz]);
   const superInterfaces = flatMap(clazzAndSuperClasses, (_) => _.implements);
+  const superReturnTypes = flatMap(clazzAndSuperClasses, (_) => _.returnTypes);
 
   return (
-    includes(clazzAndSuperClasses, type) || includes(superInterfaces, type)
+    includes(clazzAndSuperClasses, type) ||
+    includes(superInterfaces, type) ||
+    includes(superReturnTypes, type)
   );
 }

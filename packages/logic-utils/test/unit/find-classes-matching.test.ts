@@ -1,4 +1,4 @@
-import { map, forEach } from "lodash";
+import { map, forEach, cloneDeep } from "lodash";
 
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { generateModel } from "@ui5-language-assistant/test-utils";
@@ -71,12 +71,14 @@ describe("The @ui5-language-assistant/logic-utils <findClassesMatchingType> func
 
 describe("The @ui5-language-assistant/logic-utils <classIsOfType> function", () => {
   let ui5Model: UI5SemanticModel;
+  const beforeAllPromise = generateModel({
+    framework: "SAPUI5",
+    version: "1.71.49",
+    modelGenerator: generate,
+  });
+
   beforeAll(async () => {
-    ui5Model = await generateModel({
-      framework: "SAPUI5",
-      version: "1.71.49",
-      modelGenerator: generate,
-    });
+    ui5Model = await beforeAllPromise;
   });
 
   it("can tell if the class matching a UI5Interface type", () => {
@@ -95,5 +97,22 @@ describe("The @ui5-language-assistant/logic-utils <classIsOfType> function", () 
     const targetInterface = ui5Model.interfaces["sap.m.IBar"];
     const ui5Class = ui5Model.classes["sap.m.IconTabFilter"];
     expect(classIsOfType(ui5Class, targetInterface)).toBeFalse();
+  });
+
+  describe("classes with returnTypes specified in metadata", () => {
+    let adaptedUI5Model: UI5SemanticModel;
+    beforeAll(async () => {
+      adaptedUI5Model = cloneDeep(await beforeAllPromise);
+      adaptedUI5Model.classes["sap.ui.layout.BlockLayout"].returnTypes = [
+        adaptedUI5Model.classes["sap.ui.layout.form.FormElement"],
+      ];
+    });
+
+    it("can tell if the class matching a UI5Class type", () => {
+      const targetClassType =
+        adaptedUI5Model.classes["sap.ui.layout.form.FormElement"];
+      const ui5Class = adaptedUI5Model.classes["sap.ui.layout.BlockLayout"];
+      expect(classIsOfType(ui5Class, targetClassType)).toBeTrue();
+    });
   });
 });
