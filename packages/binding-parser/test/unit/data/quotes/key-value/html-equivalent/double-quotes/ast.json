@@ -10,8 +10,9 @@
         {
           "key": {
             "type": "key",
-            "text": "&quot;KeyHer&quot;",
-            "range": "[(0,1)..(0,19)]"
+            "text": "KeyHer",
+            "range": "[(0,1)..(0,19)]",
+            "originalText": "&quot;KeyHer&quot;"
           },
           "colon": "undefined",
           "value": {

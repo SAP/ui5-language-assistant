@@ -35,7 +35,7 @@ function buildIssuesForSingleID(
 ): NonUniqueIDIssue[] {
   const issuesForID = map(
     duplicatedAttributes,
-    (currDupAttrib, currAttribIdx) => {
+    (currDupAttrib, currAttribIdx): NonUniqueIDIssue => {
       const currDupIdValToken = currDupAttrib.syntax.value;
       // Related issues must not include the "main" issue attribute
       const relatedOtherDupIDAttribs = reject(
@@ -56,7 +56,7 @@ function buildIssuesForSingleID(
           start: _.syntax.value.startOffset,
           end: _.syntax.value.endOffset,
         })),
-      } as NonUniqueIDIssue;
+      };
     }
   );
 

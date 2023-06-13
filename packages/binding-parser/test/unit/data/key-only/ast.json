@@ -11,7 +11,8 @@
           "key": {
             "type": "key",
             "text": "key",
-            "range": "[(0,1)..(0,4)]"
+            "range": "[(0,1)..(0,4)]",
+            "originalText": "key"
           },
           "colon": "undefined",
           "value": "undefined",

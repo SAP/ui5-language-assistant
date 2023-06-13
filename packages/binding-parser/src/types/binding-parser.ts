@@ -72,6 +72,7 @@ export interface RightSquare extends Base {
 }
 export interface Key extends Base {
   type: typeof KEY;
+  originalText: string;
 }
 export interface Colon extends Base {
   type: typeof COLON;

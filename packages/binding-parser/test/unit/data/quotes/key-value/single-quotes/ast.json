@@ -10,8 +10,9 @@
         {
           "key": {
             "type": "key",
-            "text": "'abc'",
-            "range": "[(0,1)..(0,6)]"
+            "text": "abc",
+            "range": "[(0,1)..(0,6)]",
+            "originalText": "'abc'"
           },
           "colon": "undefined",
           "value": {

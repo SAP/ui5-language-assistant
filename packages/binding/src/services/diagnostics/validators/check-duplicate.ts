@@ -1,6 +1,6 @@
 import { BindingIssue, BINDING_ISSUE_TYPE } from "../../../types";
 import { BindingParserTypes as BindingTypes } from "@ui5-language-assistant/binding-parser";
-import { clearKey, findRange } from "../../../utils";
+import { findRange } from "../../../utils";
 
 const getDuplicate = (
   ast: BindingTypes.StructureValue
@@ -8,7 +8,7 @@ const getDuplicate = (
   const visited = {};
   const duplicate: BindingTypes.StructureElement[] = [];
   for (const element of ast.elements) {
-    const key = clearKey(element.key?.text);
+    const key = element.key?.text;
     if (!key) {
       continue;
     }

@@ -121,3 +121,15 @@ export const createParseErrors = (
   }
   return result;
 };
+
+/**
+ * Change key from
+ * a. 'key'
+ * b. "key"
+ * c. &apos;key&apos;
+ * d. &quot;key&quot;
+ * to key without any quotes
+ */
+export const clearKey = (key = ""): string => {
+  return key.split(/'|"|&apos;|&quot;/).filter((i) => !!i)[0] ?? "";
+};

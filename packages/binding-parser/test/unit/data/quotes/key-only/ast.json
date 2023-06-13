@@ -10,8 +10,9 @@
         {
           "key": {
             "type": "key",
-            "text": "'valueOnly'",
-            "range": "[(0,1)..(0,12)]"
+            "text": "valueOnly",
+            "range": "[(0,1)..(0,12)]",
+            "originalText": "'valueOnly'"
           },
           "colon": "undefined",
           "value": "undefined",

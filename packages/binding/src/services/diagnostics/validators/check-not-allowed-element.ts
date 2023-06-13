@@ -4,7 +4,7 @@ import {
   BindingInfoName,
 } from "../../../types";
 import { BindingParserTypes as BindingTypes } from "@ui5-language-assistant/binding-parser";
-import { findRange, clearKey } from "../../../utils";
+import { findRange } from "../../../utils";
 import { propertyBindingInfoElements } from "../../../definition/definition";
 
 const search = (
@@ -13,9 +13,9 @@ const search = (
   collectedElements: BindingTypes.StructureElement[]
 ): BindingTypes.StructureElement[] => {
   const notAllowedElements: BindingTypes.StructureElement[] = [];
-  const key = clearKey(element.key?.text);
+  const key = element.key?.text;
   const alreadyCollected = collectedElements.find(
-    (item) => clearKey(item.key?.text) === key
+    (item) => item.key?.text === key
   );
   if (alreadyCollected) {
     return [];
@@ -27,7 +27,7 @@ const search = (
     return [];
   }
   for (const item of elements) {
-    const bindingName = clearKey(item.key?.text) as BindingInfoName;
+    const bindingName = item.key?.text as BindingInfoName;
     const notAllowed = propInfoElement.type.find((t) =>
       t.notAllowedElements.includes(bindingName)
     );
@@ -52,7 +52,7 @@ export const checkNotAllowedElement = (
     }
     notAllowed.push(...searchResult);
   }
-  const keys = notAllowed.map((item) => item.key?.text);
+  const keys = notAllowed.map((item) => item.key?.originalText);
   notAllowed.forEach((item) =>
     issues.push({
       issueType: BINDING_ISSUE_TYPE,

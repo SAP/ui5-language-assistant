@@ -10,7 +10,6 @@ export {
   isParts,
   findRange,
   defaultRange,
-  clearKey,
 } from "./element";
 
 export { getCursorContext } from "./cursor";

@@ -18,7 +18,7 @@ import {
   VALUE,
   TEMPLATE,
 } from "../constant";
-import { createToken } from "../utils/create";
+import { createToken, clearKey } from "../utils/create";
 import { locationToRange } from "../utils/range";
 import type {
   StructureElement,
@@ -36,6 +36,7 @@ import type {
   ObjectItemChildren,
   ValueChildren,
   ArrayChildren,
+  Key,
 } from "../types/binding-parser";
 import { bindingParser } from "../parser/binding-parser";
 
@@ -90,7 +91,16 @@ class BindingParserVisitor extends BaseVisitor {
     node: ObjectItemChildren,
     param: VisitorParam
   ): StructureElement {
-    const key = this.createToken(KEY, param, node[KEY] ?? node[STRING_VALUE]);
+    const keyToken = this.createToken(
+      KEY,
+      param,
+      node[KEY] ?? node[STRING_VALUE]
+    );
+    let key;
+    if (keyToken) {
+      const text = keyToken?.text;
+      key = { ...keyToken, text: clearKey(text), originalText: text } as Key;
+    }
     const colon = this.createToken(COLON, param, node[COLON]);
     const value = this.isDefined(node[VALUE])
       ? (this.visit(node[VALUE][0]) as Value)

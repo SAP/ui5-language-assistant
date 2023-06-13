@@ -10,8 +10,9 @@
         {
           "key": {
             "type": "key",
-            "text": "&apos;KeyHere&apos;",
-            "range": "[(0,1)..(0,20)]"
+            "text": "KeyHere",
+            "range": "[(0,1)..(0,20)]",
+            "originalText": "&apos;KeyHere&apos;"
           },
           "colon": {
             "type": "colon",

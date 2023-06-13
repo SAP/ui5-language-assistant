@@ -8,7 +8,7 @@ import {
 import { checkAst } from "./issue-collector";
 import { getPrimitiveValueIssues } from "./check-primitive-value";
 import { propertyBindingInfoElements } from "../../../definition/definition";
-import { isParts, typesToValue, findRange, clearKey } from "../../../utils";
+import { isParts, typesToValue, findRange } from "../../../utils";
 import { checkComma } from "./check-comma";
 
 /**
@@ -49,7 +49,7 @@ export const checkCollectionValue = (
     return issues;
   }
   // check if that element is allowed to have collection value
-  const text = clearKey(element.key && element.key.text);
+  const text = element.key && element.key.text;
   const bindingElement = propertyBindingInfoElements.find(
     (el) => el.name === text
   );

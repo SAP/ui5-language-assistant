@@ -11,7 +11,8 @@
           "key": {
             "type": "key",
             "text": "keyFirst01",
-            "range": "[(0,1)..(0,11)]"
+            "range": "[(0,1)..(0,11)]",
+            "originalText": "keyFirst01"
           },
           "colon": {
             "type": "colon",
@@ -47,7 +48,8 @@
           "key": {
             "type": "key",
             "text": "keySecond01",
-            "range": "[(0,23)..(0,34)]"
+            "range": "[(0,23)..(0,34)]",
+            "originalText": "keySecond01"
           },
           "colon": {
             "type": "colon",
@@ -65,7 +67,8 @@
                 "key": {
                   "type": "key",
                   "text": "key",
-                  "range": "[(0,37)..(0,40)]"
+                  "range": "[(0,37)..(0,40)]",
+                  "originalText": "key"
                 },
                 "colon": {
                   "type": "colon",
@@ -114,7 +117,8 @@
           "key": {
             "type": "key",
             "text": "keyThird",
-            "range": "[(0,57)..(0,65)]"
+            "range": "[(0,57)..(0,65)]",
+            "originalText": "keyThird"
           },
           "colon": {
             "type": "colon",

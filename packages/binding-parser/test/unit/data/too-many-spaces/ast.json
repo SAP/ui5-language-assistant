@@ -11,7 +11,8 @@
           "key": {
             "type": "key",
             "text": "key01",
-            "range": "[(0,2)..(0,7)]"
+            "range": "[(0,2)..(0,7)]",
+            "originalText": "key01"
           },
           "colon": {
             "type": "colon",
@@ -30,7 +31,8 @@
           "key": {
             "type": "key",
             "text": "key02",
-            "range": "[(0,29)..(0,34)]"
+            "range": "[(0,29)..(0,34)]",
+            "originalText": "key02"
           },
           "colon": {
             "type": "colon",

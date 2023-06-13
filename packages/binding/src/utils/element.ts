@@ -52,20 +52,9 @@ export const valueTypeMap = new Map([
   [RIGHT_CURLY, "object"],
   [LEFT_CURLY, "object"],
 ]);
-/**
- * Change key from
- * a. 'key'
- * b. "key"
- * c. &apos;key&apos;
- * d. &quot;key&quot;
- * to key without any quotes
- */
-export const clearKey = (key = ""): string => {
-  return (key = key.split(/'|"|&apos;|&quot;/).filter((i) => !!i)[0] ?? "");
-};
 
 export const isParts = (element: BindingTypes.StructureElement): boolean => {
-  const text = clearKey(element.key && element.key.text);
+  const text = element.key && element.key.text;
   return text === "parts";
 };
 

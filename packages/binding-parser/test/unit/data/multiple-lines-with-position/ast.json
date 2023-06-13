@@ -11,7 +11,8 @@
           "key": {
             "type": "key",
             "text": "key01",
-            "range": "[(5,16)..(5,21)]"
+            "range": "[(5,16)..(5,21)]",
+            "originalText": "key01"
           },
           "colon": {
             "type": "colon",
@@ -30,7 +31,8 @@
           "key": {
             "type": "key",
             "text": "key02",
-            "range": "[(7,1)..(7,6)]"
+            "range": "[(7,1)..(7,6)]",
+            "originalText": "key02"
           },
           "colon": {
             "type": "colon",
@@ -49,7 +51,8 @@
           "key": {
             "type": "key",
             "text": "key03",
-            "range": "[(9,4)..(9,9)]"
+            "range": "[(9,4)..(9,9)]",
+            "originalText": "key03"
           },
           "colon": {
             "type": "colon",

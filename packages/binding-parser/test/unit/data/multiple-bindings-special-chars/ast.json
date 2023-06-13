@@ -11,7 +11,8 @@
           "key": {
             "type": "key",
             "text": "path",
-            "range": "[(0,6)..(0,10)]"
+            "range": "[(0,6)..(0,10)]",
+            "originalText": "path"
           },
           "colon": {
             "type": "colon",
@@ -47,7 +48,8 @@
           "key": {
             "type": "key",
             "text": "pat",
-            "range": "[(2,5)..(2,8)]"
+            "range": "[(2,5)..(2,8)]",
+            "originalText": "pat"
           },
           "colon": {
             "type": "colon",
