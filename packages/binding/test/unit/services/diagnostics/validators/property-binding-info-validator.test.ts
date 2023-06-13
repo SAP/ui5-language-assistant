@@ -1,6 +1,4 @@
 import { join } from "path";
-import { XMLAttribute, XMLElement } from "@xml-tools/ast";
-import { Context, getContext } from "@ui5-language-assistant/context";
 import {
   Config,
   ProjectName,
@@ -9,7 +7,11 @@ import {
 } from "@ui5-language-assistant/test-framework";
 
 import { validatePropertyBindingInfo } from "../../../../../src/services/diagnostics/validators/property-binding-info-validator";
-import { issueToSnapshot } from "../../../helper";
+import {
+  issueToSnapshot,
+  ViewValidatorType,
+  getViewValidator,
+} from "../../../helper";
 
 describe("property-binding-info-validator", () => {
   let framework: TestFramework;
@@ -22,31 +24,7 @@ describe("property-binding-info-validator", () => {
     "main",
     "Main.view.xml",
   ];
-  const getElementByName = (
-    name: string,
-    elements: XMLElement[] = []
-  ): XMLElement | undefined => {
-    for (const item of elements) {
-      if (item.name === name) {
-        return item;
-      }
-      if (item.subElements.length) {
-        return getElementByName(name, item.subElements);
-      }
-    }
-    return;
-  };
-  const getElementAttributeName = (
-    attrName: string,
-    elements: XMLAttribute[] = []
-  ): XMLAttribute | undefined => {
-    for (const item of elements) {
-      if (item.key === attrName) {
-        return item;
-      }
-    }
-    return;
-  };
+  let validateView: ViewValidatorType;
   beforeAll(async function () {
     const config: Config = {
       projectInfo: {
@@ -60,99 +38,59 @@ describe("property-binding-info-validator", () => {
 
     root = framework.getProjectRoot();
     documentPath = join(root, ...viewFilePathSegments);
+    validateView = getViewValidator(
+      framework,
+      viewFilePathSegments,
+      documentPath,
+      validatePropertyBindingInfo
+    );
   });
-  afterEach(async function () {
-    await framework.updateFileContent(viewFilePathSegments, "", {
-      doUpdatesAfter: "<content>",
-    });
-  });
-  /**
-   * It is considered as context if `customViewId` is not undefined
-   */
-  const isContext = (input: Context | Error): input is Context => {
-    return !!(input as Context).customViewId;
-  };
-  const fetchContext = async (documentPath: string): Promise<Context> => {
-    const context = await getContext(documentPath);
-    if (!isContext(context)) {
-      throw new Error("getContext throws an error. Check 'getContext'");
-    }
-    return context;
-  };
-  const getData = async (
-    snippet: string,
-    elementName = "Text",
-    attrName = "text"
-  ): Promise<{
-    context: Context;
-    attr: XMLAttribute;
-  }> => {
-    await framework.updateFileContent(viewFilePathSegments, snippet, {
-      insertAfter: "<content>",
-    });
-    const { ast } = await framework.readFile(viewFilePathSegments);
-    const element = getElementByName(elementName, ast.rootElement?.subElements);
-    const attr = getElementAttributeName(
-      attrName,
-      element?.attributes
-    ) as XMLAttribute;
-    const context = await fetchContext(documentPath);
-    return { context, attr };
-  };
   it("do not check empty string", async () => {
     const snippet = `
     <Text text="" id="test-id"></Text>`;
-    const { attr, context } = await getData(snippet);
-    const result = validatePropertyBindingInfo(attr, context);
+    const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([]);
   });
   it("do not check {}", async () => {
     const snippet = `
     <Text text="{ }" id="test-id"></Text>`;
-    const { attr, context } = await getData(snippet);
-    const result = validatePropertyBindingInfo(attr, context);
+    const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([]);
   });
   it("do not check {path} [at least a key with colon must exits]", async () => {
     const snippet = `
     <Text text="{path}" id="test-id"></Text>`;
-    const { attr, context } = await getData(snippet);
-    const result = validatePropertyBindingInfo(attr, context);
+    const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([]);
   });
   it("do not check metadata binding", async () => {
     const snippet = `
     <Input maxLength="{/#Company/ZipCode/@maxLength}"/>`;
-    const { attr, context } = await getData(snippet, "Input", "maxLength");
-    const result = validatePropertyBindingInfo(attr, context);
+    const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([]);
   });
   it("do not check simple binding", async () => {
     const snippet = `
    <Input value="{/firstName}"/>`;
-    const { attr, context } = await getData(snippet, "Input", "value");
-    const result = validatePropertyBindingInfo(attr, context);
+    const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([]);
   });
   it("do not check aggregation property", async () => {
     const snippet = `
    <List items="{invoice>/Invoices}"> </List>`;
-    const { attr, context } = await getData(snippet, "List", "items");
-    const result = validatePropertyBindingInfo(attr, context);
+    const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([]);
   });
   it("do not check resource model", async () => {
     const snippet = `
    <Label labelFor="address" text="{i18n>address}:"/>`;
-    const { attr, context } = await getData(snippet, "Label", "text");
-    const result = validatePropertyBindingInfo(attr, context);
+    const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([]);
   });
   it("check unknown char", async () => {
     const snippet = `
     <Text text="{ # path: '' }" id="test-id"></Text>`;
-    const { attr, context } = await getData(snippet);
-    const result = validatePropertyBindingInfo(attr, context);
+    const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       "kind: UnknownChar; text: Unknown character; severity:error; range:9:18-9:19",
     ]);
@@ -160,8 +98,7 @@ describe("property-binding-info-validator", () => {
   it("check wrong property binding", async () => {
     const snippet = `
     <Text text="{path: ' ', party }" id="test-id"></Text>`;
-    const { attr, context } = await getData(snippet);
-    const result = validatePropertyBindingInfo(attr, context);
+    const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       "kind: UnknownPropertyBindingInfo; text: Unknown property binding info; severity:error; range:9:28-9:33",
     ]);
@@ -169,8 +106,7 @@ describe("property-binding-info-validator", () => {
   it("check missing colon", async () => {
     const snippet = `
     <Text text="{ events: {}, path }" id="test-id"></Text>`;
-    const { attr, context } = await getData(snippet);
-    const result = validatePropertyBindingInfo(attr, context);
+    const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       "kind: MissingColon; text: Expect colon; severity:error; range:9:30-9:34",
     ]);
@@ -178,8 +114,7 @@ describe("property-binding-info-validator", () => {
   it("check missing colon when value exists", async () => {
     const snippet = `
     <Text text="{ path '', events: {}}" id="test-id"></Text>`;
-    const { attr, context } = await getData(snippet);
-    const result = validatePropertyBindingInfo(attr, context);
+    const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       "kind: MissingColon; text: Expect colon; severity:error; range:9:18-9:22",
     ]);
@@ -187,8 +122,7 @@ describe("property-binding-info-validator", () => {
   it("check missing value", async () => {
     const snippet = `
     <Text text="{ path: }" id="test-id"></Text>`;
-    const { attr, context } = await getData(snippet);
-    const result = validatePropertyBindingInfo(attr, context);
+    const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       "kind: MissingValue; text: Expect ' ' as a value; severity:error; range:9:18-9:23",
     ]);
@@ -196,8 +130,7 @@ describe("property-binding-info-validator", () => {
   it("check wrong value - allowed value are {} or ''", async () => {
     const snippet = `
     <Text text="{ type: 25 }" id="test-id"></Text>`;
-    const { attr, context } = await getData(snippet);
-    const result = validatePropertyBindingInfo(attr, context);
+    const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       "kind: MissMatchValue; text: Allowed values are { } or ' '; severity:error; range:9:24-9:26",
     ]);
@@ -205,8 +138,7 @@ describe("property-binding-info-validator", () => {
   it("check wrong collection value - allowed value are {} or ''", async () => {
     const snippet = `
     <Text text="{ type: [] }" id="test-id"></Text>`;
-    const { attr, context } = await getData(snippet);
-    const result = validatePropertyBindingInfo(attr, context);
+    const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       "kind: MissMatchValue; text: Allowed values are { } or ' '; severity:error; range:9:24-9:26",
     ]);
@@ -214,8 +146,7 @@ describe("property-binding-info-validator", () => {
   it("check wrong value - allowed value is string", async () => {
     const snippet = `
     <Text text="{ path: true }" id="test-id"></Text>`;
-    const { attr, context } = await getData(snippet);
-    const result = validatePropertyBindingInfo(attr, context);
+    const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       "kind: MissMatchValue; text: Allowed value is ' '; severity:error; range:9:24-9:28",
     ]);
@@ -223,8 +154,7 @@ describe("property-binding-info-validator", () => {
   it("check wrong value - allowed value is boolean", async () => {
     const snippet = `
     <Text text="{ suspended: '' }" id="test-id"></Text>`;
-    const { attr, context } = await getData(snippet);
-    const result = validatePropertyBindingInfo(attr, context);
+    const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       "kind: MissMatchValue; text: Allowed values are true or false; severity:error; range:9:29-9:31",
     ]);
@@ -232,8 +162,7 @@ describe("property-binding-info-validator", () => {
   it("check wrong value - allowed value is object", async () => {
     const snippet = `
     <Text text="{ events: true }" id="test-id"></Text>`;
-    const { attr, context } = await getData(snippet);
-    const result = validatePropertyBindingInfo(attr, context);
+    const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       "kind: MissMatchValue; text: Allowed value is { }; severity:error; range:9:26-9:30",
     ]);
@@ -241,8 +170,7 @@ describe("property-binding-info-validator", () => {
   it("check wrong value - allowed value is array", async () => {
     const snippet = `
     <Text text="{ parts: {} }" id="test-id"></Text>`;
-    const { attr, context } = await getData(snippet);
-    const result = validatePropertyBindingInfo(attr, context);
+    const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       "kind: MissMatchValue; text: Allowed values are [{ }] or [' ']; severity:error; range:9:25-9:27",
     ]);
@@ -250,8 +178,7 @@ describe("property-binding-info-validator", () => {
   it("check wrong value - allowed value is array of object or string [array as value is required]", async () => {
     const snippet = `
     <Text text="{ parts: true }" id="test-id"></Text>`;
-    const { attr, context } = await getData(snippet);
-    const result = validatePropertyBindingInfo(attr, context);
+    const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       "kind: MissMatchValue; text: Allowed values are [{ }] or [' ']; severity:error; range:9:25-9:29",
     ]);
@@ -259,8 +186,7 @@ describe("property-binding-info-validator", () => {
   it("check wrong value - allowed value is array of object or string [array as value with wrong content]", async () => {
     const snippet = `
     <Text text="{ parts: [true] }" id="test-id"></Text>`;
-    const { attr, context } = await getData(snippet);
-    const result = validatePropertyBindingInfo(attr, context);
+    const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       "kind: MissMatchValue; text: Allowed values are { } or ' '; severity:error; range:9:26-9:30",
     ]);
@@ -268,43 +194,37 @@ describe("property-binding-info-validator", () => {
   it("do not check structure value - key and its value", async () => {
     const snippet = `
     <Text text="{ events: {anyKeyNotChecked: 'anyValue'} }" id="test-id"></Text>`;
-    const { attr, context } = await getData(snippet);
-    const result = validatePropertyBindingInfo(attr, context);
+    const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([]);
   });
   it("do not check structure value inside collection - key and its value", async () => {
     const snippet = `
     <Text text="{ events: {anyKeyNotChecked: [ {collectionAnyKey: 'anyValue'} ] } }" id="test-id"></Text>`;
-    const { attr, context } = await getData(snippet);
-    const result = validatePropertyBindingInfo(attr, context);
+    const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([]);
   });
   it("do not check structure value - nested key and its value", async () => {
     const snippet = `
     <Text text="{ events: {anyKeyNotChecked: {anotherKey: {nestedKey: [] } } } }" id="test-id"></Text>`;
-    const { attr, context } = await getData(snippet);
-    const result = validatePropertyBindingInfo(attr, context);
+    const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([]);
   });
   it("do not check structure value inside collection - nested key and its value", async () => {
     const snippet = `
     <Text text="{ events: {anyKeyNotChecked: [{anotherKey: [{nestedKey: [] }] }] } }" id="test-id"></Text>`;
-    const { attr, context } = await getData(snippet);
-    const result = validatePropertyBindingInfo(attr, context);
+    const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([]);
   });
   it("do not check structure value inside collection - primitive value", async () => {
     const snippet = `
     <Text text="{ events: {anyKeyNotChecked: [true] } }" id="test-id"></Text>`;
-    const { attr, context } = await getData(snippet);
-    const result = validatePropertyBindingInfo(attr, context);
+    const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([]);
   });
   it("check missing colon in structure value", async () => {
     const snippet = `
     <Text text="{ events: {anyKeyNotChecked} }" id="test-id"></Text>`;
-    const { attr, context } = await getData(snippet);
-    const result = validatePropertyBindingInfo(attr, context);
+    const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       "kind: MissingColon; text: Expect colon; severity:error; range:9:27-9:43",
     ]);
@@ -312,8 +232,7 @@ describe("property-binding-info-validator", () => {
   it("check missing colon in structure value inside collection", async () => {
     const snippet = `
     <Text text="{ events: {anyKeyNotChecked: [{collectionKey}]} }" id="test-id"></Text>`;
-    const { attr, context } = await getData(snippet);
-    const result = validatePropertyBindingInfo(attr, context);
+    const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       "kind: MissingColon; text: Expect colon; severity:error; range:9:47-9:60",
     ]);
@@ -321,8 +240,7 @@ describe("property-binding-info-validator", () => {
   it("check missing colon for collection", async () => {
     const snippet = `
     <Text text="{ events: {}, parts ['one'] }" id="test-id"></Text>`;
-    const { attr, context } = await getData(snippet);
-    const result = validatePropertyBindingInfo(attr, context);
+    const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       "kind: MissingColon; text: Expect colon; severity:error; range:9:30-9:35",
     ]);
@@ -330,8 +248,7 @@ describe("property-binding-info-validator", () => {
   it("check missing colon in nested structure value", async () => {
     const snippet = `
     <Text text="{ events: {anyKeyNotChecked: {anotherKey: {nestedKey } } } }" id="test-id"></Text>`;
-    const { attr, context } = await getData(snippet);
-    const result = validatePropertyBindingInfo(attr, context);
+    const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       "kind: MissingColon; text: Expect colon; severity:error; range:9:59-9:68",
     ]);
@@ -339,8 +256,7 @@ describe("property-binding-info-validator", () => {
   it("check missing value in structure value", async () => {
     const snippet = `
     <Text text="{ events: {anyKeyNotChecked: } }" id="test-id"></Text>`;
-    const { attr, context } = await getData(snippet);
-    const result = validatePropertyBindingInfo(attr, context);
+    const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       "kind: MissingValue; text: Expect a value; severity:error; range:9:27-9:44",
     ]);
@@ -348,8 +264,7 @@ describe("property-binding-info-validator", () => {
   it("check missing value in structure value inside collection", async () => {
     const snippet = `
     <Text text="{ events: {anyKeyNotChecked: [{collectionKey:}]} }" id="test-id"></Text>`;
-    const { attr, context } = await getData(snippet);
-    const result = validatePropertyBindingInfo(attr, context);
+    const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       "kind: MissingValue; text: Expect a value; severity:error; range:9:47-9:61",
     ]);
@@ -357,8 +272,7 @@ describe("property-binding-info-validator", () => {
   it("check missing value in nested structure value", async () => {
     const snippet = `
     <Text text="{ events: {anyKeyNotChecked: {anotherKey: {nestedKey: } } } }" id="test-id"></Text>`;
-    const { attr, context } = await getData(snippet);
-    const result = validatePropertyBindingInfo(attr, context);
+    const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       "kind: MissingValue; text: Expect a value; severity:error; range:9:59-9:69",
     ]);
@@ -366,8 +280,7 @@ describe("property-binding-info-validator", () => {
   it("check duplicate element", async () => {
     const snippet = `
     <Text text="{ path: '', path: '' }" id="test-id"></Text>`;
-    const { attr, context } = await getData(snippet);
-    const result = validatePropertyBindingInfo(attr, context);
+    const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       "kind: DuplicateProperty; text: Duplicate property; severity:error; range:9:28-9:32",
     ]);
@@ -383,8 +296,7 @@ describe("property-binding-info-validator", () => {
         }
       }
     }}" id="test-id"></Text>`;
-    const { attr, context } = await getData(snippet);
-    const result = validatePropertyBindingInfo(attr, context);
+    const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       "kind: DuplicateProperty; text: Duplicate property; severity:error; range:14:10-14:12",
       "kind: DuplicateProperty; text: Duplicate property; severity:error; range:12:8-12:11",
@@ -393,8 +305,7 @@ describe("property-binding-info-validator", () => {
   it("check duplicate element - collection", async () => {
     const snippet = `
     <Text text="{ parts: [{path: '', path: ''}] }" id="test-id"></Text>`;
-    const { attr, context } = await getData(snippet);
-    const result = validatePropertyBindingInfo(attr, context);
+    const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       "kind: DuplicateProperty; text: Duplicate property; severity:error; range:9:37-9:41",
     ]);
@@ -412,8 +323,7 @@ describe("property-binding-info-validator", () => {
         one: {}
       }
     ]}" id="test-id"></Text>`;
-    const { attr, context } = await getData(snippet);
-    const result = validatePropertyBindingInfo(attr, context);
+    const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       "kind: UnknownPropertyBindingInfo; text: Unknown property binding info; severity:error; range:11:8-11:11",
       "kind: UnknownPropertyBindingInfo; text: Unknown property binding info; severity:error; range:17:8-17:11",
@@ -423,8 +333,7 @@ describe("property-binding-info-validator", () => {
   it("check only one of elements [path, value or parts] is allowed", async () => {
     const snippet = `
     <Text text="{ parts: [''], path: '', value: '' }" id="test-id"></Text>`;
-    const { attr, context } = await getData(snippet);
-    const result = validatePropertyBindingInfo(attr, context);
+    const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       "kind: NotAllowedProperty; text: One of these elements [parts, path, value] are allowed; severity:info; range:9:18-9:23",
       "kind: NotAllowedProperty; text: One of these elements [parts, path, value] are allowed; severity:info; range:9:31-9:35",
@@ -438,8 +347,7 @@ describe("property-binding-info-validator", () => {
         path: '', value: ''
       }
     ]}" id="test-id"></Text>`;
-    const { attr, context } = await getData(snippet);
-    const result = validatePropertyBindingInfo(attr, context);
+    const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       "kind: NotAllowedProperty; text: One of these elements [path, value] are allowed; severity:info; range:11:8-11:12",
       "kind: NotAllowedProperty; text: One of these elements [path, value] are allowed; severity:info; range:11:18-11:23",
@@ -448,8 +356,7 @@ describe("property-binding-info-validator", () => {
   it("check dependent element", async () => {
     const snippet = `
     <Text text="{formatOptions: {}}" id="test-id"></Text>`;
-    const { attr, context } = await getData(snippet);
-    const result = validatePropertyBindingInfo(attr, context);
+    const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       'kind: RequiredDependency; text: Required dependency "type" should be defined; severity:info; range:9:17-9:30',
     ]);
@@ -457,8 +364,7 @@ describe("property-binding-info-validator", () => {
   it("check required element has correct value", async () => {
     const snippet = `
     <Text text="{formatOptions: {}, type: {}}" id="test-id"></Text>`;
-    const { attr, context } = await getData(snippet);
-    const result = validatePropertyBindingInfo(attr, context);
+    const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       'kind: Unnecessary; text: "formatOptions" is only taken into account with "type" when "type" is defined as \' \'; severity:info; range:9:17-9:30',
     ]);
@@ -468,8 +374,7 @@ describe("property-binding-info-validator", () => {
     <Text text="{parts: [{
       parts: []
     }]}" id="test-id"></Text>`;
-    const { attr, context } = await getData(snippet);
-    const result = validatePropertyBindingInfo(attr, context);
+    const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       "kind: MissingValue; text: Required values { } or ' ' must be provided; severity:error; range:10:13-10:15",
       "kind: RecursiveProperty; text: Recursive composite bindings is not allowed; severity:error; range:10:6-10:11",
@@ -485,8 +390,7 @@ describe("property-binding-info-validator", () => {
         }
       ]
     }]}" id="test-id"></Text>`;
-      const { attr, context } = await getData(snippet);
-      const result = validatePropertyBindingInfo(attr, context);
+      const result = await validateView(snippet);
       expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
         "kind: UnknownPropertyBindingInfo; text: Unknown property binding info; severity:error; range:10:6-10:7",
         "kind: RecursiveProperty; text: Recursive composite bindings is not allowed; severity:error; range:12:12-12:17",
@@ -495,8 +399,7 @@ describe("property-binding-info-validator", () => {
     it("check wrong property binding", async () => {
       const snippet = `
     <Text text="{ parts: [{ party }] }" id="test-id"></Text>`;
-      const { attr, context } = await getData(snippet);
-      const result = validatePropertyBindingInfo(attr, context);
+      const result = await validateView(snippet);
       expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
         "kind: UnknownPropertyBindingInfo; text: Unknown property binding info; severity:error; range:9:28-9:33",
       ]);
@@ -504,8 +407,7 @@ describe("property-binding-info-validator", () => {
     it("check missing colon", async () => {
       const snippet = `
     <Text text="{ parts: [{ path }] }" id="test-id"></Text>`;
-      const { attr, context } = await getData(snippet);
-      const result = validatePropertyBindingInfo(attr, context);
+      const result = await validateView(snippet);
       expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
         "kind: MissingColon; text: Expect colon; severity:error; range:9:28-9:32",
       ]);
@@ -513,8 +415,7 @@ describe("property-binding-info-validator", () => {
     it("check missing value", async () => {
       const snippet = `
     <Text text="{ parts: [{ path: } }" id="test-id"></Text>`;
-      const { attr, context } = await getData(snippet);
-      const result = validatePropertyBindingInfo(attr, context);
+      const result = await validateView(snippet);
       expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
         "kind: MissingValue; text: Expect ' ' as a value; severity:error; range:9:28-9:33",
       ]);
@@ -522,8 +423,7 @@ describe("property-binding-info-validator", () => {
     it("check missing comma [parts]", async () => {
       const snippet = `
     <Text text="{ parts: [{ path: '' events: {} }}" id="test-id"></Text>`;
-      const { attr, context } = await getData(snippet);
-      const result = validatePropertyBindingInfo(attr, context);
+      const result = await validateView(snippet);
       expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
         "kind: MissingComma; text: Missing comma; severity:error; range:9:37-9:47",
       ]);
@@ -531,8 +431,7 @@ describe("property-binding-info-validator", () => {
     it("check missing comma for elements [parts]", async () => {
       const snippet = `
     <Text text="{ parts: [{ path: '01'} {path: '02'}]}" id="test-id"></Text>`;
-      const { attr, context } = await getData(snippet);
-      const result = validatePropertyBindingInfo(attr, context);
+      const result = await validateView(snippet);
       expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
         "kind: MissingComma; text: Missing comma; severity:error; range:9:40-9:52",
       ]);
@@ -540,8 +439,7 @@ describe("property-binding-info-validator", () => {
     it("check trailing comma [parts]", async () => {
       const snippet = `
     <Text text="{ parts: [{ path: ''}, ]}" id="test-id"></Text>`;
-      const { attr, context } = await getData(snippet);
-      const result = validatePropertyBindingInfo(attr, context);
+      const result = await validateView(snippet);
       expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
         "kind: TrailingComma; text: Trailing comma; severity:error; range:9:37-9:38",
       ]);
@@ -549,8 +447,7 @@ describe("property-binding-info-validator", () => {
     it("check empty collection", async () => {
       const snippet = `
     <Text text="{ parts: []}" id="test-id"></Text>`;
-      const { attr, context } = await getData(snippet);
-      const result = validatePropertyBindingInfo(attr, context);
+      const result = await validateView(snippet);
       expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
         "kind: MissingValue; text: Required values { } or ' ' must be provided; severity:error; range:9:25-9:27",
       ]);
@@ -558,8 +455,7 @@ describe("property-binding-info-validator", () => {
     it("check collection with empty object", async () => {
       const snippet = `
     <Text text="{ parts: [{}]}" id="test-id"></Text>`;
-      const { attr, context } = await getData(snippet);
-      const result = validatePropertyBindingInfo(attr, context);
+      const result = await validateView(snippet);
       expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
         'kind: MissingValue; text: A valid binding property info must be provided for "{}"; severity:error; range:9:26-9:28',
       ]);
@@ -567,15 +463,13 @@ describe("property-binding-info-validator", () => {
     it("check collection with mixed data", async () => {
       const snippet = `
     <Text text="{ parts: [{path: ' '}, '']}" id="test-id"></Text>`;
-      const { attr, context } = await getData(snippet);
-      const result = validatePropertyBindingInfo(attr, context);
+      const result = await validateView(snippet);
       expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([]);
     });
     it("check nested collection", async () => {
       const snippet = `
     <Text text="{ parts: [[]]}" id="test-id"></Text>`;
-      const { attr, context } = await getData(snippet);
-      const result = validatePropertyBindingInfo(attr, context);
+      const result = await validateView(snippet);
       expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
         'kind: MissingValue; text: Nested "[]" are not allowed; severity:error; range:9:26-9:28',
       ]);
@@ -583,8 +477,7 @@ describe("property-binding-info-validator", () => {
     it("check wrong value", async () => {
       const snippet = `
     <Text text="{ parts: '' }" id="test-id"></Text>`;
-      const { attr, context } = await getData(snippet);
-      const result = validatePropertyBindingInfo(attr, context);
+      const result = await validateView(snippet);
       expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
         "kind: MissMatchValue; text: Allowed values are [{ }] or [' ']; severity:error; range:9:25-9:27",
       ]);
@@ -593,8 +486,7 @@ describe("property-binding-info-validator", () => {
   it("check missing comma", async () => {
     const snippet = `
     <Text text="{ path: '' events:{} }" id="test-id"></Text>`;
-    const { attr, context } = await getData(snippet);
-    const result = validatePropertyBindingInfo(attr, context);
+    const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       "kind: MissingComma; text: Missing comma; severity:error; range:9:27-9:36",
     ]);
@@ -602,8 +494,7 @@ describe("property-binding-info-validator", () => {
   it("check trailing comma", async () => {
     const snippet = `
     <Text text="{ path: '', events:{}, }" id="test-id"></Text>`;
-    const { attr, context } = await getData(snippet);
-    const result = validatePropertyBindingInfo(attr, context);
+    const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       "kind: TrailingComma; text: Trailing comma; severity:error; range:9:37-9:38",
     ]);
@@ -611,8 +502,7 @@ describe("property-binding-info-validator", () => {
   it("check too many commas", async () => {
     const snippet = `
     <Text text="{ path: '',,,, events:{} }" id="test-id"></Text>`;
-    const { attr, context } = await getData(snippet);
-    const result = validatePropertyBindingInfo(attr, context);
+    const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       "kind: TooManyCommas; text: Too many commas; severity:error; range:9:27-9:30",
     ]);
@@ -620,8 +510,7 @@ describe("property-binding-info-validator", () => {
   it("check too many colon", async () => {
     const snippet = `
     <Text text="{ path::::: '', events:{} }" id="test-id"></Text>`;
-    const { attr, context } = await getData(snippet);
-    const result = validatePropertyBindingInfo(attr, context);
+    const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       "kind: TooManyColons; text: Too many colon; severity:error; range:9:23-9:24",
     ]);
@@ -629,8 +518,7 @@ describe("property-binding-info-validator", () => {
   it("check too many object", async () => {
     const snippet = `
     <Text text="{events: {{}}}" id="test-id"></Text>`;
-    const { attr, context } = await getData(snippet);
-    const result = validatePropertyBindingInfo(attr, context);
+    const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       "kind: Syntax; text: Expecting --> } <-- but found --> '{' <--; severity:error; range:9:26-9:27",
     ]);
@@ -639,36 +527,31 @@ describe("property-binding-info-validator", () => {
     it("check no unwanted error with text", async () => {
       const snippet = `
      <Label text="Hello Mr. {path: '/employees/0/lastName'}, {path: '/employees/0/firstName', formatter:'.myFormatter'}"/>`;
-      const { attr, context } = await getData(snippet, "Label", "text");
-      const result = validatePropertyBindingInfo(attr, context);
+      const result = await validateView(snippet);
       expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([]);
     });
     it("check no unwanted error with special chars", async () => {
       const snippet = `
      <Label text="### {path: '/employees/0/lastName'} / {path: '/employees/0/firstName', formatter:'.myFormatter'}"/> $$$`;
-      const { attr, context } = await getData(snippet, "Label", "text");
-      const result = validatePropertyBindingInfo(attr, context);
+      const result = await validateView(snippet);
       expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([]);
     });
     it("check no unwanted error with escaped chars", async () => {
       const snippet = `
      <Label text="\\{ \\[ {path: 'test-value-01'} \\{ {path: 'test-value-02' }\\] \\}"/>`;
-      const { attr, context } = await getData(snippet, "Label", "text");
-      const result = validatePropertyBindingInfo(attr, context);
+      const result = await validateView(snippet);
       expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([]);
     });
     it("check no unwanted error with text, escaped and special chars", async () => {
       const snippet = `
      <Input value="abc \\{ { path: ''} ###### { parts: [{path: ''}]}"/>`;
-      const { attr, context } = await getData(snippet, "Input", "value");
-      const result = validatePropertyBindingInfo(attr, context);
+      const result = await validateView(snippet);
       expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([]);
     });
     it("check correct range for diagnostics with text, escaped and special chars", async () => {
       const snippet = `
      <Input value="abc \\{ { path: } ###### { parts: [{path ''}]}"/>`;
-      const { attr, context } = await getData(snippet, "Input", "value");
-      const result = validatePropertyBindingInfo(attr, context);
+      const result = await validateView(snippet);
       expect(result.map((item) => issueToSnapshot(item)))
         .toMatchInlineSnapshot(`
         Array [
@@ -682,15 +565,13 @@ describe("property-binding-info-validator", () => {
     it("no wrong diagnostic for quotes", async () => {
       const snippet = `
     <Text text="{'path': &quot;SomeTestValue&quot;}" id="test-id"></Text>`;
-      const { attr, context } = await getData(snippet);
-      const result = validatePropertyBindingInfo(attr, context);
+      const result = await validateView(snippet);
       expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([]);
     });
     it("check wrong property binding", async () => {
       const snippet = `
     <Text text="{path: ' ', &quot;party&quot; }" id="test-id"></Text>`;
-      const { attr, context } = await getData(snippet);
-      const result = validatePropertyBindingInfo(attr, context);
+      const result = await validateView(snippet);
       expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
         "kind: UnknownPropertyBindingInfo; text: Unknown property binding info; severity:error; range:9:28-9:45",
       ]);
@@ -698,8 +579,7 @@ describe("property-binding-info-validator", () => {
     it("check missing colon", async () => {
       const snippet = `
     <Text text="{ events: {}, 'path' }" id="test-id"></Text>`;
-      const { attr, context } = await getData(snippet);
-      const result = validatePropertyBindingInfo(attr, context);
+      const result = await validateView(snippet);
       expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
         "kind: MissingColon; text: Expect colon; severity:error; range:9:30-9:36",
       ]);
@@ -707,8 +587,7 @@ describe("property-binding-info-validator", () => {
     it("check missing colon when value exists", async () => {
       const snippet = `
     <Text text="{ 'path' '', events: {}}" id="test-id"></Text>`;
-      const { attr, context } = await getData(snippet);
-      const result = validatePropertyBindingInfo(attr, context);
+      const result = await validateView(snippet);
       expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
         "kind: MissingColon; text: Expect colon; severity:error; range:9:18-9:24",
       ]);
@@ -716,8 +595,7 @@ describe("property-binding-info-validator", () => {
     it("check missing value", async () => {
       const snippet = `
     <Text text="{ 'path': }" id="test-id"></Text>`;
-      const { attr, context } = await getData(snippet);
-      const result = validatePropertyBindingInfo(attr, context);
+      const result = await validateView(snippet);
       expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
         "kind: MissingValue; text: Expect ' ' as a value; severity:error; range:9:18-9:25",
       ]);
@@ -725,8 +603,7 @@ describe("property-binding-info-validator", () => {
     it("check wrong value - allowed value are {} or ''", async () => {
       const snippet = `
     <Text text="{ 'type': 25 }" id="test-id"></Text>`;
-      const { attr, context } = await getData(snippet);
-      const result = validatePropertyBindingInfo(attr, context);
+      const result = await validateView(snippet);
       expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
         "kind: MissMatchValue; text: Allowed values are { } or ' '; severity:error; range:9:26-9:28",
       ]);
@@ -734,8 +611,7 @@ describe("property-binding-info-validator", () => {
     it("check only one of elements [path, value or parts] is allowed", async () => {
       const snippet = `
     <Text text="{ parts: [''], 'path': '', &quot;value&quot;: '' }" id="test-id"></Text>`;
-      const { attr, context } = await getData(snippet);
-      const result = validatePropertyBindingInfo(attr, context);
+      const result = await validateView(snippet);
       expect(result.map((item) => issueToSnapshot(item)))
         .toMatchInlineSnapshot(`
         Array [
@@ -757,8 +633,7 @@ describe("property-binding-info-validator", () => {
         }
       }
     }}" id="test-id"></Text>`;
-        const { attr, context } = await getData(snippet);
-        const result = validatePropertyBindingInfo(attr, context);
+        const result = await validateView(snippet);
         expect(result.map((item) => issueToSnapshot(item)))
           .toMatchInlineSnapshot(`
           Array [
@@ -770,8 +645,7 @@ describe("property-binding-info-validator", () => {
       it("check missing value in nested structure value", async () => {
         const snippet = `
     <Text text="{ events: {'anyKeyNotChecked': {'anotherKey': {'nestedKey': } } } }" id="test-id"></Text>`;
-        const { attr, context } = await getData(snippet);
-        const result = validatePropertyBindingInfo(attr, context);
+        const result = await validateView(snippet);
         expect(result.map((item) => issueToSnapshot(item)))
           .toMatchInlineSnapshot(`
           Array [
@@ -782,8 +656,7 @@ describe("property-binding-info-validator", () => {
       it("check missing colon in nested structure value", async () => {
         const snippet = `
     <Text text="{ events: {'anyKeyNotChecked': {'anotherKey': {'nestedKey' } } } }" id="test-id"></Text>`;
-        const { attr, context } = await getData(snippet);
-        const result = validatePropertyBindingInfo(attr, context);
+        const result = await validateView(snippet);
         expect(result.map((item) => issueToSnapshot(item)))
           .toMatchInlineSnapshot(`
           Array [
@@ -796,8 +669,7 @@ describe("property-binding-info-validator", () => {
       it("check wrong property binding", async () => {
         const snippet = `
     <Text text="{ 'parts': [{ 'party' }] }" id="test-id"></Text>`;
-        const { attr, context } = await getData(snippet);
-        const result = validatePropertyBindingInfo(attr, context);
+        const result = await validateView(snippet);
         expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
           "kind: UnknownPropertyBindingInfo; text: Unknown property binding info; severity:error; range:9:30-9:37",
         ]);
@@ -805,8 +677,7 @@ describe("property-binding-info-validator", () => {
       it("check missing colon", async () => {
         const snippet = `
     <Text text="{ 'parts': [{ 'path' }] }" id="test-id"></Text>`;
-        const { attr, context } = await getData(snippet);
-        const result = validatePropertyBindingInfo(attr, context);
+        const result = await validateView(snippet);
         expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
           "kind: MissingColon; text: Expect colon; severity:error; range:9:30-9:36",
         ]);
@@ -814,8 +685,7 @@ describe("property-binding-info-validator", () => {
       it("check missing value", async () => {
         const snippet = `
     <Text text="{ 'parts': [{ 'path': } }" id="test-id"></Text>`;
-        const { attr, context } = await getData(snippet);
-        const result = validatePropertyBindingInfo(attr, context);
+        const result = await validateView(snippet);
         expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
           "kind: MissingValue; text: Expect ' ' as a value; severity:error; range:9:30-9:37",
         ]);
@@ -823,8 +693,7 @@ describe("property-binding-info-validator", () => {
       it("check empty collection", async () => {
         const snippet = `
     <Text text="{ 'parts': []}" id="test-id"></Text>`;
-        const { attr, context } = await getData(snippet);
-        const result = validatePropertyBindingInfo(attr, context);
+        const result = await validateView(snippet);
         expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
           "kind: MissingValue; text: Required values { } or ' ' must be provided; severity:error; range:9:27-9:29",
         ]);
@@ -832,8 +701,7 @@ describe("property-binding-info-validator", () => {
       it("check collection with empty object", async () => {
         const snippet = `
     <Text text="{ 'parts': [{}]}" id="test-id"></Text>`;
-        const { attr, context } = await getData(snippet);
-        const result = validatePropertyBindingInfo(attr, context);
+        const result = await validateView(snippet);
         expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
           'kind: MissingValue; text: A valid binding property info must be provided for "{}"; severity:error; range:9:28-9:30',
         ]);

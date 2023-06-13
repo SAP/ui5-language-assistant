@@ -5,10 +5,7 @@ import {
   Range,
   TextEdit,
 } from "vscode-languageserver-types";
-import {
-  TestFramework,
-  CURSOR_ANCHOR,
-} from "@ui5-language-assistant/test-framework";
+import { TestFramework } from "@ui5-language-assistant/test-framework";
 import { getContext } from "@ui5-language-assistant/context";
 import type { Context } from "@ui5-language-assistant/context";
 import { validateXMLView } from "@ui5-language-assistant/xml-views-validation";
@@ -60,6 +57,21 @@ export type ViewCompletionProviderType = (
   contextAdapter?: (context: Context) => Context
 ) => Promise<CompletionItem[]>;
 
+const getContent = (snippet: string): string => {
+  return `<mvc:View xmlns:core="sap.ui.core"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:f="sap.f"
+    xmlns="sap.m"
+    xmlns:l="sap.ui.layout"
+    xmlns:macros="sap.fe.macros"
+    xmlns:html="http://www.w3.org/1999/xhtml" controllerName="sap.fe.demo.managetravels.ext.main.Main">
+    <Page id="Main" title="Main">
+        <content>${snippet}
+        </content>
+    </Page>
+</mvc:View>
+    `;
+};
 export const getViewCompletionProvider =
   (
     framework: TestFramework,
@@ -72,40 +84,29 @@ export const getViewCompletionProvider =
     snippet: string,
     contextAdapter?: (context: Context) => Context
   ): Promise<CompletionItem[]> => {
-    let result: CompletionItem[] = [];
-    try {
-      const { offset } = await framework.updateFileContent(
-        viewFilePathSegments,
-        snippet,
-        { insertAfter: "<content>" }
-      );
-      const { ast, cst, tokenVector, content } = await framework.readFile(
-        viewFilePathSegments
-      );
-      const { document, textDocumentPosition } = framework.toVscodeTextDocument(
-        uri,
-        content,
-        offset
-      );
-      const context = (await getContext(documentPath)) as Context;
+    const { offset } = await framework.updateFile(
+      viewFilePathSegments,
+      getContent(snippet)
+    );
+    const { ast, cst, tokenVector, content } = await framework.readFile(
+      viewFilePathSegments
+    );
+    const { document, textDocumentPosition } = framework.toVscodeTextDocument(
+      uri,
+      content,
+      offset
+    );
+    const context = (await getContext(documentPath)) as Context;
 
-      result = getCompletionItems({
-        ast,
-        context: contextAdapter ? contextAdapter(context) : context,
-        cst,
-        document,
-        documentSettings: settings,
-        textDocumentPosition,
-        tokenVector,
-      });
-    } finally {
-      // reversal update
-      await framework.updateFileContent(viewFilePathSegments, "", {
-        doUpdatesAfter: "<content>",
-        replaceText: snippet.replace(CURSOR_ANCHOR, ""),
-      });
-    }
-    return result;
+    return await getCompletionItems({
+      ast,
+      context: contextAdapter ? contextAdapter(context) : context,
+      cst,
+      document,
+      documentSettings: settings,
+      textDocumentPosition,
+      tokenVector,
+    });
   };
 
 type AttributeValidator = (
@@ -115,7 +116,6 @@ type AttributeValidator = (
 
 export type ViewValidatorType = (
   snippet: string,
-  that: { timeout: (t: number) => void },
   contextAdapter?: (context: Context) => Context
 ) => Promise<BindingIssue[]>;
 
@@ -128,35 +128,20 @@ export const getViewValidator =
   ): ViewValidatorType =>
   async (
     snippet: string,
-    that: { timeout: (t: number) => void },
     contextAdapter?: (context: Context) => Context
   ): Promise<BindingIssue[]> => {
-    const timeout = 60000;
-    that.timeout(timeout);
-    let result: BindingIssue[] = [];
-    try {
-      await framework.updateFileContent(viewFilePathSegments, snippet, {
-        insertAfter: "<content>",
-      });
-      const { ast } = await framework.readFile(viewFilePathSegments);
-      const context = (await getContext(documentPath)) as Context;
-      result = validateXMLView({
-        validators: {
-          attribute: [validator],
-          document: [],
-          element: [],
-        },
-        context: contextAdapter ? contextAdapter(context) : context,
-        xmlView: ast,
-      }) as BindingIssue[];
-    } finally {
-      // reversal update
-      await framework.updateFileContent(viewFilePathSegments, "", {
-        doUpdatesAfter: "<content>",
-        replaceText: snippet.replace(CURSOR_ANCHOR, ""),
-      });
-    }
-    return result;
+    await framework.updateFile(viewFilePathSegments, getContent(snippet));
+    const { ast } = await framework.readFile(viewFilePathSegments);
+    const context = (await getContext(documentPath)) as Context;
+    return validateXMLView({
+      validators: {
+        attribute: [validator],
+        document: [],
+        element: [],
+      },
+      context: contextAdapter ? contextAdapter(context) : context,
+      xmlView: ast,
+    }) as BindingIssue[];
   };
 
 export const prepareContextAdapter: (
