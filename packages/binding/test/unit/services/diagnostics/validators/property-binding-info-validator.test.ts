@@ -731,6 +731,67 @@ describe("property-binding-info-validator", () => {
         "kind: MissMatchValue; text: Allowed values are { } or ' '; severity:error; range:9:26-9:28",
       ]);
     });
+    it("check only one of elements [path, value or parts] is allowed", async () => {
+      const snippet = `
+    <Text text="{ parts: [''], 'path': '', &quot;value&quot;: '' }" id="test-id"></Text>`;
+      const { attr, context } = await getData(snippet);
+      const result = validatePropertyBindingInfo(attr, context);
+      expect(result.map((item) => issueToSnapshot(item)))
+        .toMatchInlineSnapshot(`
+        Array [
+          "kind: NotAllowedProperty; text: One of these elements [parts, 'path', &quot;value&quot;] are allowed; severity:info; range:9:18-9:23",
+          "kind: NotAllowedProperty; text: One of these elements [parts, 'path', &quot;value&quot;] are allowed; severity:info; range:9:31-9:37",
+          "kind: NotAllowedProperty; text: One of these elements [parts, 'path', &quot;value&quot;] are allowed; severity:info; range:9:43-9:60",
+        ]
+      `);
+    });
+    describe("nested", () => {
+      it("check duplicate element", async () => {
+        const snippet = `
+    <Text text="{ 'events': {
+      one: {
+        'abc': '',
+        'abc': {
+          &quot;xy&quot;: true,
+          'xy': true
+        }
+      }
+    }}" id="test-id"></Text>`;
+        const { attr, context } = await getData(snippet);
+        const result = validatePropertyBindingInfo(attr, context);
+        expect(result.map((item) => issueToSnapshot(item)))
+          .toMatchInlineSnapshot(`
+          Array [
+            "kind: DuplicateProperty; text: Duplicate property; severity:error; range:14:10-14:14",
+            "kind: DuplicateProperty; text: Duplicate property; severity:error; range:12:8-12:13",
+          ]
+        `);
+      });
+      it("check missing value in nested structure value", async () => {
+        const snippet = `
+    <Text text="{ events: {'anyKeyNotChecked': {'anotherKey': {'nestedKey': } } } }" id="test-id"></Text>`;
+        const { attr, context } = await getData(snippet);
+        const result = validatePropertyBindingInfo(attr, context);
+        expect(result.map((item) => issueToSnapshot(item)))
+          .toMatchInlineSnapshot(`
+          Array [
+            "kind: MissingValue; text: Expect a value; severity:error; range:9:63-9:75",
+          ]
+        `);
+      });
+      it("check missing colon in nested structure value", async () => {
+        const snippet = `
+    <Text text="{ events: {'anyKeyNotChecked': {'anotherKey': {'nestedKey' } } } }" id="test-id"></Text>`;
+        const { attr, context } = await getData(snippet);
+        const result = validatePropertyBindingInfo(attr, context);
+        expect(result.map((item) => issueToSnapshot(item)))
+          .toMatchInlineSnapshot(`
+          Array [
+            "kind: MissingColon; text: Expect colon; severity:error; range:9:63-9:74",
+          ]
+        `);
+      });
+    });
     describe("parts", () => {
       it("check wrong property binding", async () => {
         const snippet = `

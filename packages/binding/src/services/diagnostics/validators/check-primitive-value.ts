@@ -8,7 +8,7 @@ import {
   isPrimitiveValue,
   BindingParserTypes as BindingTypes,
 } from "@ui5-language-assistant/binding-parser";
-import { possibleKeyMap, typesToValue, valueTypeMap } from "../../../utils";
+import { clearKey, typesToValue, valueTypeMap } from "../../../utils";
 import { propertyBindingInfoElements } from "../../../definition/definition";
 
 /**
@@ -83,9 +83,9 @@ export const checkPrimitiveValue = (
   }
   const value = element.value;
   if (isPrimitiveValue(value)) {
-    const text = element.key && element.key.text;
+    const text = clearKey(element.key && element.key.text);
     const bindingElement = propertyBindingInfoElements.find(
-      (el) => el.name === text || possibleKeyMap.get(el.name)?.has(text)
+      (el) => el.name === text
     );
     issues.push(...getPrimitiveValueIssues(context, value, bindingElement));
   }

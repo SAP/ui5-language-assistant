@@ -1,7 +1,7 @@
 import { propertyBindingInfoElements } from "../../../definition/definition";
 import { BindingIssue, BINDING_ISSUE_TYPE } from "../../../types";
 import { BindingParserTypes as BindingTypes } from "@ui5-language-assistant/binding-parser";
-import { possibleKeyMap } from "../../..//utils";
+import { clearKey } from "../../..//utils";
 /**
  * Check if key is a one of supported property binding info
  */
@@ -12,9 +12,9 @@ export const checkKey = (
   if (!element.key) {
     return issues;
   }
-  const text = element.key && element.key.text;
+  const text = clearKey(element.key && element.key.text);
   const bindingElement = propertyBindingInfoElements.find(
-    (el) => el.name === text || possibleKeyMap.get(el.name)?.has(text)
+    (el) => el.name === text
   );
   if (!bindingElement) {
     issues.push({

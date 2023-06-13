@@ -6,7 +6,12 @@ import {
 } from "@ui5-language-assistant/binding-parser";
 import { checkAst } from "./issue-collector";
 import { propertyBindingInfoElements } from "../../../definition/definition";
-import { findRange, typesToValue, valueTypeMap } from "../../../utils";
+import {
+  clearKey,
+  findRange,
+  typesToValue,
+  valueTypeMap,
+} from "../../../utils";
 
 /**
  * Check structure value
@@ -27,8 +32,9 @@ export const checkStructureValue = (
   const value = element.value;
   if (isStructureValue(value)) {
     if (!ignore) {
+      const text = clearKey(element.key && element.key.text);
       const bindingElement = propertyBindingInfoElements.find(
-        (el) => el.name === (element.key && element.key.text)
+        (el) => el.name === text
       );
       if (!bindingElement) {
         // should have been detected by checkKey

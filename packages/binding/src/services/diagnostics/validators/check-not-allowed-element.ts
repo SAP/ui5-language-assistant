@@ -4,7 +4,7 @@ import {
   BindingInfoName,
 } from "../../../types";
 import { BindingParserTypes as BindingTypes } from "@ui5-language-assistant/binding-parser";
-import { findRange } from "../../../utils";
+import { findRange, clearKey } from "../../../utils";
 import { propertyBindingInfoElements } from "../../../definition/definition";
 
 const search = (
@@ -13,9 +13,9 @@ const search = (
   collectedElements: BindingTypes.StructureElement[]
 ): BindingTypes.StructureElement[] => {
   const notAllowedElements: BindingTypes.StructureElement[] = [];
-  const key = element.key?.text;
+  const key = clearKey(element.key?.text);
   const alreadyCollected = collectedElements.find(
-    (item) => item.key?.text === key
+    (item) => clearKey(item.key?.text) === key
   );
   if (alreadyCollected) {
     return [];
@@ -27,7 +27,7 @@ const search = (
     return [];
   }
   for (const item of elements) {
-    const bindingName = item.key?.text as BindingInfoName;
+    const bindingName = clearKey(item.key?.text) as BindingInfoName;
     const notAllowed = propInfoElement.type.find((t) =>
       t.notAllowedElements.includes(bindingName)
     );

@@ -12,7 +12,7 @@ import {
 } from "@ui5-language-assistant/binding-parser";
 
 import { propertyBindingInfoElements } from "../../../definition/definition";
-import { isParts, possibleValueMap, typesToValue } from "../../../utils";
+import { clearKey, isParts, typesToValue } from "../../../utils";
 import { getCompletionItems } from "./property-binding-info";
 import { BindContext, ColonContext, ValueContext } from "../../../types";
 
@@ -56,9 +56,9 @@ export const createValue = (
   }
   if (!element.value) {
     // if value is missing, provide a value
-    const text = element.key && element.key.text;
+    const text = clearKey(element.key && element.key.text);
     const bindingElement = propertyBindingInfoElements.find(
-      (el) => el.name === text || possibleValueMap.get(el.name)?.has(text)
+      (el) => el.name === text
     );
     if (bindingElement) {
       const data = typesToValue(bindingElement.type, context);
