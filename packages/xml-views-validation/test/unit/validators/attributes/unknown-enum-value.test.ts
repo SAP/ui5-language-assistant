@@ -40,6 +40,7 @@ describe("the unknown enum value validation", () => {
         assertion: (issues) => {
           expect(issues).toStrictEqual([
             {
+              issueType: "base",
               kind: "UnknownEnumValue",
               message:
                 'Unknown enum value: "TYPO💩", expecting one of: ["All", "Inner", "None"].',

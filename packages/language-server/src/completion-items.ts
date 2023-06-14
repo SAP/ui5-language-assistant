@@ -26,6 +26,7 @@ import {
   isUI5NodeXMLViewCompletion,
 } from "@ui5-language-assistant/xml-views-completion";
 import { getCompletionItems as getAnnotationCompletionItems } from "@ui5-language-assistant/fe";
+import { getCompletionItems as getBindingCompletionItems } from "@ui5-language-assistant/binding";
 import { ui5NodeToFQN } from "@ui5-language-assistant/logic-utils";
 import { getNodeDocumentation, getNodeDetail } from "./documentation";
 import { Settings } from "@ui5-language-assistant/settings";
@@ -56,14 +57,23 @@ export function getCompletionItems(opts: {
     opts.textDocumentPosition
   );
 
-  const externalCompletionItems = getAnnotationCompletionItems({
+  const annotationCompletionItems = getAnnotationCompletionItems({
     ...opts,
     ast,
     cst,
     tokenVector,
   });
-
-  return [...completionItems, ...externalCompletionItems];
+  const bindingCompletionItems = getBindingCompletionItems({
+    ...opts,
+    ast,
+    cst,
+    tokenVector,
+  });
+  return [
+    ...completionItems,
+    ...annotationCompletionItems,
+    ...bindingCompletionItems,
+  ];
 }
 
 function transformToLspSuggestions(

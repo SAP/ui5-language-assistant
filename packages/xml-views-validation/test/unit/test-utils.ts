@@ -114,6 +114,7 @@ export function assertSingleIssue(
     assertion: (issues) => {
       expect(issues).toStrictEqual([
         {
+          issueType: "base",
           kind: kind,
           message: message,
           offsetRange: computeExpectedRange(xmlSnippet),

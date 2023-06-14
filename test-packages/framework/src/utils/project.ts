@@ -1,8 +1,9 @@
 import { copySync, removeSync, pathExists, pathExistsSync } from "fs-extra";
 import { execSync } from "child_process";
 import { readdirSync } from "fs";
-import { join } from "path";
+import { join, sep } from "path";
 import { print } from ".";
+import { ProjectInfo } from "../api";
 
 /**
  * Synchronously delete project folder
@@ -38,6 +39,12 @@ export const getAllFileOrFolderPath = (root: string): string[] => {
   return [];
 };
 
+export const getPackageName = (): string => {
+  const currentProcess = process.cwd();
+  const packageName = currentProcess.split(sep).pop();
+  return packageName ?? "unknown";
+};
+
 /**
  * Remove all contents of a project except `node_modules` and `package-lock.json`
  */
@@ -53,8 +60,14 @@ export const removeProjectContent = (root: string): void => {
  *
  * @param srcDir path to source directory
  */
-export const createCopy = (srcDir: string): void => {
-  const destDir = `${srcDir}-copy`;
+export const createCopy = (srcDir: string, projectInfo: ProjectInfo): void => {
+  const rootDir = join(srcDir, "..", "..");
+  const destDir = join(
+    rootDir,
+    "projects-copy",
+    getPackageName(),
+    projectInfo.name
+  );
   try {
     print(`Copying to destination: ${destDir}`);
     copySync(srcDir, destDir, { overwrite: true, recursive: true });

@@ -1,0 +1,145 @@
+{
+  "name": "template",
+  "children": {
+    "object": [
+      {
+        "name": "object",
+        "children": {
+          "left-curly": [
+            {
+              "image": "{",
+              "startColumn": 1,
+              "endColumn": 1,
+              "tokenTypeName": "left-curly"
+            }
+          ],
+          "object-item": [
+            {
+              "name": "object-item",
+              "children": {
+                "key": [
+                  {
+                    "image": "key",
+                    "startColumn": 3,
+                    "endColumn": 5,
+                    "tokenTypeName": "key"
+                  }
+                ],
+                "colon": [
+                  {
+                    "image": ":",
+                    "startColumn": 6,
+                    "endColumn": 6,
+                    "tokenTypeName": "colon"
+                  }
+                ],
+                "value": [
+                  {
+                    "name": "value",
+                    "children": {
+                      "array": [
+                        {
+                          "name": "array",
+                          "children": {
+                            "left-square": [
+                              {
+                                "image": "[",
+                                "startColumn": 8,
+                                "endColumn": 8,
+                                "tokenTypeName": "left-square"
+                              }
+                            ],
+                            "value": [
+                              {
+                                "name": "value",
+                                "children": {
+                                  "string-value": [
+                                    {
+                                      "image": "'value-01'",
+                                      "startColumn": 9,
+                                      "endColumn": 18,
+                                      "tokenTypeName": "string-value"
+                                    }
+                                  ]
+                                },
+                                "location": {
+                                  "startColumn": 9,
+                                  "endColumn": 18
+                                }
+                              },
+                              {
+                                "name": "value",
+                                "children": {
+                                  "string-value": [
+                                    {
+                                      "image": "'value-02'",
+                                      "startColumn": 21,
+                                      "endColumn": 30,
+                                      "tokenTypeName": "string-value"
+                                    }
+                                  ]
+                                },
+                                "location": {
+                                  "startColumn": 21,
+                                  "endColumn": 30
+                                }
+                              }
+                            ],
+                            "comma": [
+                              {
+                                "image": ",",
+                                "startColumn": 19,
+                                "endColumn": 19,
+                                "tokenTypeName": "comma"
+                              }
+                            ],
+                            "right-square": [
+                              {
+                                "image": "]",
+                                "startColumn": 31,
+                                "endColumn": 31,
+                                "tokenTypeName": "right-square"
+                              }
+                            ]
+                          },
+                          "location": {
+                            "startColumn": 8,
+                            "endColumn": 31
+                          }
+                        }
+                      ]
+                    },
+                    "location": {
+                      "startColumn": 8,
+                      "endColumn": 31
+                    }
+                  }
+                ]
+              },
+              "location": {
+                "startColumn": 3,
+                "endColumn": 31
+              }
+            }
+          ],
+          "right-curly": [
+            {
+              "image": "}",
+              "startColumn": 33,
+              "endColumn": 33,
+              "tokenTypeName": "right-curly"
+            }
+          ]
+        },
+        "location": {
+          "startColumn": 1,
+          "endColumn": 33
+        }
+      }
+    ]
+  },
+  "location": {
+    "startColumn": 1,
+    "endColumn": 33
+  }
+}

@@ -77,7 +77,7 @@ describe("manifest", () => {
     expect(entries.length).toBe(1);
     expect(
       toPosixPath(entries[0]).endsWith(
-        "ui5-language-assistant/test-packages/framework/projects-copy/cap/app/manage_travels/webapp/manifest.json"
+        "/test-packages/framework/projects-copy/context/cap/app/manage_travels/webapp/manifest.json"
       )
     ).toBeTrue();
     const data = cache.getManifest(entries[0]);

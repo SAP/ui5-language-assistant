@@ -1,0 +1,113 @@
+{
+  "bindings": [
+    {
+      "leftCurly": {
+        "type": "left-curly",
+        "text": "{",
+        "range": "[(0,0)..(0,1)]"
+      },
+      "elements": [
+        {
+          "key": {
+            "type": "key",
+            "text": "key",
+            "range": "[(0,2)..(0,5)]",
+            "originalText": "key"
+          },
+          "colon": {
+            "type": "colon",
+            "text": ":",
+            "range": "[(0,5)..(0,6)]"
+          },
+          "value": {
+            "leftSquare": {
+              "type": "left-square",
+              "text": "[",
+              "range": "[(0,7)..(0,8)]"
+            },
+            "elements": [
+              {
+                "leftCurly": {
+                  "type": "left-curly",
+                  "text": "{",
+                  "range": "[(0,8)..(0,9)]"
+                },
+                "elements": [
+                  {
+                    "key": {
+                      "type": "key",
+                      "text": "insideCollectionKey",
+                      "range": "[(0,9)..(0,28)]",
+                      "originalText": "insideCollectionKey"
+                    },
+                    "colon": {
+                      "type": "colon",
+                      "text": ":",
+                      "range": "[(0,28)..(0,29)]"
+                    },
+                    "value": {
+                      "type": "string-value",
+                      "text": "'inside collection value'",
+                      "range": "[(0,30)..(0,55)]"
+                    },
+                    "range": "[(0,9)..(0,55)]",
+                    "type": "structure-element"
+                  }
+                ],
+                "rightCurly": {
+                  "type": "right-curly",
+                  "text": "}",
+                  "range": "[(0,55)..(0,56)]"
+                },
+                "range": "[(0,8)..(0,56)]",
+                "commas": [],
+                "type": "structure-value"
+              }
+            ],
+            "rightSquare": {
+              "type": "right-square",
+              "text": "]",
+              "range": "[(0,56)..(0,57)]"
+            },
+            "range": "[(0,7)..(0,57)]",
+            "commas": [],
+            "type": "collection-value"
+          },
+          "range": "[(0,2)..(0,57)]",
+          "type": "structure-element"
+        }
+      ],
+      "rightCurly": {
+        "type": "right-curly",
+        "text": "}",
+        "range": "[(0,58)..(0,59)]"
+      },
+      "range": "[(0,0)..(0,59)]",
+      "commas": [],
+      "type": "structure-value"
+    }
+  ],
+  "spaces": [
+    {
+      "type": "white-space",
+      "text": " ",
+      "range": "[(0,1)..(0,2)]"
+    },
+    {
+      "type": "white-space",
+      "text": " ",
+      "range": "[(0,6)..(0,7)]"
+    },
+    {
+      "type": "white-space",
+      "text": " ",
+      "range": "[(0,29)..(0,30)]"
+    },
+    {
+      "type": "white-space",
+      "text": " ",
+      "range": "[(0,57)..(0,58)]"
+    }
+  ],
+  "type": "template"
+}

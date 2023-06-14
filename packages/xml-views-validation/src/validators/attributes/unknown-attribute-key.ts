@@ -44,6 +44,7 @@ export function validateUnknownAttributeKey(
     }
     return [
       {
+        issueType: "base",
         kind: "UnknownAttributeKey",
         message: `Unknown attribute key: ${attribute.key}`,
         offsetRange: {
@@ -64,6 +65,7 @@ export function validateUnknownAttributeKey(
   if (ui5Aggregation !== undefined) {
     return [
       {
+        issueType: "base",
         kind: "UnknownAttributeKey",
         message: `Unknown attribute key: ${attribute.key}`,
         offsetRange: {

@@ -1,0 +1,23 @@
+[
+  {
+    "type": "parse-error",
+    "range": "[(0,6)..(0,7)]",
+    "text": "]",
+    "merged": [
+      {
+        "type": "parse-error",
+        "text": "]",
+        "range": "[(0,6)..(0,7)]",
+        "tokenTypeName": "right-square"
+      }
+    ],
+    "tokenTypeName": "right-square",
+    "previousToken": {
+      "type": "parse-error",
+      "text": ":",
+      "range": "[(0,4)..(0,5)]",
+      "tokenTypeName": "colon"
+    },
+    "message": "Expecting: one of these possible Token sequences:\n  1. [string-value]\n  2. [number-value]\n  3. [{]\n  4. [[]\n  5. [boolean-value]\n  6. [null-value]\nbut found: ']'"
+  }
+]

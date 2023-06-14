@@ -1,0 +1,60 @@
+{
+  "bindings": [
+    {
+      "leftCurly": {
+        "type": "left-curly",
+        "text": "{",
+        "range": "[(0,0)..(0,1)]"
+      },
+      "elements": [
+        {
+          "key": {
+            "type": "key",
+            "text": "key",
+            "range": "[(0,1)..(0,4)]",
+            "originalText": "key"
+          },
+          "colon": {
+            "type": "colon",
+            "text": ":",
+            "range": "[(0,4)..(0,5)]"
+          },
+          "value": {
+            "leftSquare": {
+              "type": "left-square",
+              "text": "[",
+              "range": "[(0,6)..(0,7)]"
+            },
+            "elements": [],
+            "rightSquare": {
+              "type": "right-square",
+              "text": "",
+              "range": "[(0,0)..(0,0)]"
+            },
+            "range": "[(0,6)..(0,7)]",
+            "commas": [],
+            "type": "collection-value"
+          },
+          "range": "[(0,1)..(0,7)]",
+          "type": "structure-element"
+        }
+      ],
+      "rightCurly": {
+        "type": "right-curly",
+        "text": "}",
+        "range": "[(0,7)..(0,8)]"
+      },
+      "range": "[(0,0)..(0,8)]",
+      "commas": [],
+      "type": "structure-value"
+    }
+  ],
+  "spaces": [
+    {
+      "type": "white-space",
+      "text": " ",
+      "range": "[(0,5)..(0,6)]"
+    }
+  ],
+  "type": "template"
+}

@@ -17,8 +17,8 @@ export type AnnotationIssue =
   | ContextPathBindingIssue;
 
 export const ANNOTATION_ISSUE_TYPE = "annotation-issue";
-interface BaseUI5XMLViewAnnotationIssue extends BaseUI5XMLViewIssue {
-  issueType: typeof ANNOTATION_ISSUE_TYPE;
+interface BaseUI5XMLViewAnnotationIssue
+  extends BaseUI5XMLViewIssue<typeof ANNOTATION_ISSUE_TYPE> {
   code?: string | number;
   tags?: DiagnosticTag[];
 }

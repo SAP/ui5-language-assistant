@@ -1,0 +1,49 @@
+{
+  "bindings": [
+    {
+      "leftCurly": {
+        "type": "left-curly",
+        "text": "{",
+        "range": "[(0,0)..(0,1)]"
+      },
+      "elements": [
+        {
+          "key": {
+            "type": "key",
+            "text": "abc",
+            "range": "[(0,1)..(0,6)]",
+            "originalText": "\"abc\""
+          },
+          "colon": {
+            "type": "colon",
+            "text": ":",
+            "range": "[(0,6)..(0,7)]"
+          },
+          "value": {
+            "type": "string-value",
+            "text": "\"xyz\"",
+            "range": "[(0,8)..(0,13)]"
+          },
+          "range": "[(0,1)..(0,13)]",
+          "type": "structure-element"
+        }
+      ],
+      "rightCurly": {
+        "type": "right-curly",
+        "text": "}",
+        "range": "[(0,13)..(0,14)]"
+      },
+      "range": "[(0,0)..(0,14)]",
+      "commas": [],
+      "type": "structure-value"
+    }
+  ],
+  "spaces": [
+    {
+      "type": "white-space",
+      "text": " ",
+      "range": "[(0,7)..(0,8)]"
+    }
+  ],
+  "type": "template"
+}

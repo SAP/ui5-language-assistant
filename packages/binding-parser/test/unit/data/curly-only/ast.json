@@ -1,0 +1,22 @@
+{
+  "bindings": [
+    {
+      "leftCurly": {
+        "type": "left-curly",
+        "text": "{",
+        "range": "[(0,0)..(0,1)]"
+      },
+      "elements": [],
+      "rightCurly": {
+        "type": "right-curly",
+        "text": "}",
+        "range": "[(0,1)..(0,2)]"
+      },
+      "range": "[(0,0)..(0,2)]",
+      "commas": [],
+      "type": "structure-value"
+    }
+  ],
+  "spaces": [],
+  "type": "template"
+}

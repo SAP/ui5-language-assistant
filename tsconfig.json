@@ -40,6 +40,15 @@
       "path": "./packages/context"
     },
     {
+      "path": "./packages/binding-parser"
+    },
+    {
+      "path": "./packages/binding"
+    },
+    {
+      "path": "./test-packages/framework"
+    },
+    {
       "path": "./packages/fe"
     }
   ],

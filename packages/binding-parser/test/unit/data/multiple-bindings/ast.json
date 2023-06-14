@@ -1,0 +1,180 @@
+{
+  "bindings": [
+    {
+      "leftCurly": {
+        "type": "left-curly",
+        "text": "{",
+        "range": "[(0,0)..(0,1)]"
+      },
+      "elements": [
+        {
+          "key": {
+            "type": "key",
+            "text": "keyFirst01",
+            "range": "[(0,1)..(0,11)]",
+            "originalText": "keyFirst01"
+          },
+          "colon": {
+            "type": "colon",
+            "text": ":",
+            "range": "[(0,11)..(0,12)]"
+          },
+          "value": {
+            "type": "string-value",
+            "text": "'first'",
+            "range": "[(0,13)..(0,20)]"
+          },
+          "range": "[(0,1)..(0,20)]",
+          "type": "structure-element"
+        }
+      ],
+      "rightCurly": {
+        "type": "right-curly",
+        "text": "}",
+        "range": "[(0,20)..(0,21)]"
+      },
+      "range": "[(0,0)..(0,21)]",
+      "commas": [],
+      "type": "structure-value"
+    },
+    {
+      "leftCurly": {
+        "type": "left-curly",
+        "text": "{",
+        "range": "[(0,22)..(0,23)]"
+      },
+      "elements": [
+        {
+          "key": {
+            "type": "key",
+            "text": "keySecond01",
+            "range": "[(0,23)..(0,34)]",
+            "originalText": "keySecond01"
+          },
+          "colon": {
+            "type": "colon",
+            "text": ":",
+            "range": "[(0,34)..(0,35)]"
+          },
+          "value": {
+            "leftCurly": {
+              "type": "left-curly",
+              "text": "{",
+              "range": "[(0,36)..(0,37)]"
+            },
+            "elements": [
+              {
+                "key": {
+                  "type": "key",
+                  "text": "key",
+                  "range": "[(0,37)..(0,40)]",
+                  "originalText": "key"
+                },
+                "colon": {
+                  "type": "colon",
+                  "text": ":",
+                  "range": "[(0,40)..(0,41)]"
+                },
+                "value": {
+                  "type": "string-value",
+                  "text": "'second-01'",
+                  "range": "[(0,42)..(0,53)]"
+                },
+                "range": "[(0,37)..(0,53)]",
+                "type": "structure-element"
+              }
+            ],
+            "rightCurly": {
+              "type": "right-curly",
+              "text": "}",
+              "range": "[(0,53)..(0,54)]"
+            },
+            "range": "[(0,36)..(0,54)]",
+            "commas": [],
+            "type": "structure-value"
+          },
+          "range": "[(0,23)..(0,54)]",
+          "type": "structure-element"
+        }
+      ],
+      "rightCurly": {
+        "type": "right-curly",
+        "text": "}",
+        "range": "[(0,54)..(0,55)]"
+      },
+      "range": "[(0,22)..(0,55)]",
+      "commas": [],
+      "type": "structure-value"
+    },
+    {
+      "leftCurly": {
+        "type": "left-curly",
+        "text": "{",
+        "range": "[(0,56)..(0,57)]"
+      },
+      "elements": [
+        {
+          "key": {
+            "type": "key",
+            "text": "keyThird",
+            "range": "[(0,57)..(0,65)]",
+            "originalText": "keyThird"
+          },
+          "colon": {
+            "type": "colon",
+            "text": ":",
+            "range": "[(0,65)..(0,66)]"
+          },
+          "value": {
+            "type": "string-value",
+            "text": "'third'",
+            "range": "[(0,67)..(0,74)]"
+          },
+          "range": "[(0,57)..(0,74)]",
+          "type": "structure-element"
+        }
+      ],
+      "rightCurly": {
+        "type": "right-curly",
+        "text": "}",
+        "range": "[(0,74)..(0,75)]"
+      },
+      "range": "[(0,56)..(0,75)]",
+      "commas": [],
+      "type": "structure-value"
+    }
+  ],
+  "spaces": [
+    {
+      "type": "white-space",
+      "text": " ",
+      "range": "[(0,12)..(0,13)]"
+    },
+    {
+      "type": "white-space",
+      "text": " ",
+      "range": "[(0,21)..(0,22)]"
+    },
+    {
+      "type": "white-space",
+      "text": " ",
+      "range": "[(0,35)..(0,36)]"
+    },
+    {
+      "type": "white-space",
+      "text": " ",
+      "range": "[(0,41)..(0,42)]"
+    },
+    {
+      "type": "white-space",
+      "text": " ",
+      "range": "[(0,55)..(0,56)]"
+    },
+    {
+      "type": "white-space",
+      "text": " ",
+      "range": "[(0,66)..(0,67)]"
+    }
+  ],
+  "type": "template"
+}

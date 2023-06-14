@@ -35,6 +35,7 @@ export function validateUnknownEnumValue(
     const possibleValuesWithQuotes = map(possibleEnumValues, (_) => `"${_}"`);
     return [
       {
+        issueType: "base",
         kind: "UnknownEnumValue",
         message: `Unknown enum value: ${
           actualAttributeValueToken.image

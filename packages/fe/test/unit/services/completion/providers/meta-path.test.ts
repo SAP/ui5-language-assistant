@@ -73,7 +73,7 @@ describe("metaPath attribute value completion", () => {
     framework = new TestFramework(config);
 
     root = framework.getProjectRoot();
-    uri = framework.getFileUri([root, ...viewFilePathSegments]);
+    uri = framework.getFileUri(viewFilePathSegments);
     documentPath = join(
       root,
       "app",

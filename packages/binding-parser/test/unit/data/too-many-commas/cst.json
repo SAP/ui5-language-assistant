@@ -1,0 +1,146 @@
+{
+  "name": "template",
+  "children": {
+    "object": [
+      {
+        "name": "object",
+        "children": {
+          "left-curly": [
+            {
+              "image": "{",
+              "startColumn": 1,
+              "endColumn": 1,
+              "tokenTypeName": "left-curly"
+            }
+          ],
+          "object-item": [
+            {
+              "name": "object-item",
+              "children": {
+                "key": [
+                  {
+                    "image": "key01",
+                    "startColumn": 2,
+                    "endColumn": 6,
+                    "tokenTypeName": "key"
+                  }
+                ],
+                "colon": [
+                  {
+                    "image": ":",
+                    "startColumn": 7,
+                    "endColumn": 7,
+                    "tokenTypeName": "colon"
+                  }
+                ],
+                "value": [
+                  {
+                    "name": "value",
+                    "children": {
+                      "string-value": [
+                        {
+                          "image": "'value-01'",
+                          "startColumn": 9,
+                          "endColumn": 18,
+                          "tokenTypeName": "string-value"
+                        }
+                      ]
+                    },
+                    "location": {
+                      "startColumn": 9,
+                      "endColumn": 18
+                    }
+                  }
+                ]
+              },
+              "location": {
+                "startColumn": 2,
+                "endColumn": 18
+              }
+            },
+            {
+              "name": "object-item",
+              "children": {
+                "key": [
+                  {
+                    "image": "key02",
+                    "startColumn": 23,
+                    "endColumn": 27,
+                    "tokenTypeName": "key"
+                  }
+                ],
+                "colon": [
+                  {
+                    "image": ":",
+                    "startColumn": 28,
+                    "endColumn": 28,
+                    "tokenTypeName": "colon"
+                  }
+                ],
+                "value": [
+                  {
+                    "name": "value",
+                    "children": {
+                      "string-value": [
+                        {
+                          "image": "'value-02'",
+                          "startColumn": 30,
+                          "endColumn": 39,
+                          "tokenTypeName": "string-value"
+                        }
+                      ]
+                    },
+                    "location": {
+                      "startColumn": 30,
+                      "endColumn": 39
+                    }
+                  }
+                ]
+              },
+              "location": {
+                "startColumn": 23,
+                "endColumn": 39
+              }
+            }
+          ],
+          "comma": [
+            {
+              "image": ",",
+              "startColumn": 19,
+              "endColumn": 19,
+              "tokenTypeName": "comma"
+            },
+            {
+              "image": ",",
+              "startColumn": 20,
+              "endColumn": 20,
+              "tokenTypeName": "comma"
+            },
+            {
+              "image": ",",
+              "startColumn": 21,
+              "endColumn": 21,
+              "tokenTypeName": "comma"
+            }
+          ],
+          "right-curly": [
+            {
+              "image": "}",
+              "startColumn": 40,
+              "endColumn": 40,
+              "tokenTypeName": "right-curly"
+            }
+          ]
+        },
+        "location": {
+          "startColumn": 1,
+          "endColumn": 40
+        }
+      }
+    ]
+  },
+  "location": {
+    "startColumn": 1,
+    "endColumn": 40
+  }
+}
