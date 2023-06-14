@@ -46,7 +46,7 @@ describe("index", () => {
     SplitAttributesOnFormat: true,
   };
 
-  beforeAll(async function () {
+  beforeAll(function () {
     const config: Config = {
       projectInfo: {
         name: ProjectName.cap,
@@ -59,7 +59,7 @@ describe("index", () => {
 
     root = framework.getProjectRoot();
     documentPath = join(root, ...viewFilePathSegments);
-    const uri = framework.getFileUri([root, ...viewFilePathSegments]);
+    const uri = framework.getFileUri(viewFilePathSegments);
     getCompletionResult = getViewCompletionProvider(
       framework,
       viewFilePathSegments,

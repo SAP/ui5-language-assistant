@@ -9,4 +9,5 @@ export {
   fileExits,
   fileExitsSync,
   removeProjectContent,
+  getPackageName,
 } from "./project";
