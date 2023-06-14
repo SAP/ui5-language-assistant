@@ -1,6 +1,6 @@
 {
   "name": "@ui5-language-assistant/semantic-model",
-  "version": "4.0.9",
+  "version": "4.0.10",
   "private": true,
   "description": "Semantic model provider for UI5",
   "keywords": [],
@@ -17,7 +17,7 @@
   "license": "Apache-2.0",
   "typings": "./api.d.ts",
   "dependencies": {
-    "@ui5-language-assistant/semantic-model-types": "4.0.6",
+    "@ui5-language-assistant/semantic-model-types": "4.0.7",
     "ajv": "6.12.3",
     "deep-freeze-strict": "1.1.1",
     "fs-extra": "10.1.0",

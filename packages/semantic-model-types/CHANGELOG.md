@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.7
+
+### Patch Changes
+
+- f670b06: Semantic model is adapted to support returnTypes defined in element metadata in api.json
+
 ## 4.0.6
 
 ### Patch Changes

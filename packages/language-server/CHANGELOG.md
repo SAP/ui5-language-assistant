@@ -1,5 +1,20 @@
 # Change Log
 
+## 4.0.15
+
+### Patch Changes
+
+- Updated dependencies [f670b06]
+  - @ui5-language-assistant/logic-utils@4.0.11
+  - @ui5-language-assistant/semantic-model@4.0.10
+  - @ui5-language-assistant/binding@1.0.2
+  - @ui5-language-assistant/context@4.0.14
+  - @ui5-language-assistant/fe@4.0.14
+  - @ui5-language-assistant/xml-views-completion@4.0.14
+  - @ui5-language-assistant/xml-views-quick-fix@4.0.11
+  - @ui5-language-assistant/xml-views-tooltip@4.0.14
+  - @ui5-language-assistant/xml-views-validation@4.0.11
+
 ## 4.0.14
 
 ### Patch Changes

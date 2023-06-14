@@ -1,5 +1,13 @@
 # Change Log
 
+## 4.0.11
+
+### Patch Changes
+
+- Updated dependencies [f670b06]
+  - @ui5-language-assistant/logic-utils@4.0.11
+  - @ui5-language-assistant/semantic-model-types@4.0.7
+
 ## 4.0.10
 
 ### Patch Changes

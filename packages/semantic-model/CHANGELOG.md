@@ -1,5 +1,13 @@
 # Change Log
 
+## 4.0.10
+
+### Patch Changes
+
+- f670b06: Semantic model is adapted to support returnTypes defined in element metadata in api.json
+- Updated dependencies [f670b06]
+  - @ui5-language-assistant/semantic-model-types@4.0.7
+
 ## 4.0.9
 
 ### Patch Changes
