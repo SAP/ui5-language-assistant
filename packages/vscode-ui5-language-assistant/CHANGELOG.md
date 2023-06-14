@@ -1,5 +1,13 @@
 # Change Log
 
+## 4.0.20
+
+### Patch Changes
+
+- d8b77af: Provide a minimal code completion and syntax check for property binding info
+- Updated dependencies [d8b77af]
+  - @ui5-language-assistant/language-server@4.0.14
+
 ## 4.0.19
 
 ### Patch Changes
