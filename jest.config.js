@@ -43,5 +43,5 @@ module.exports = {
   ],
   transformIgnorePatterns: ["<rootDir>/node_modules/", "/node_modules/"],
   reporters: ["default", "summary"],
-  setupFilesAfterEnv: ["./jest.setup.js"],
+  setupFilesAfterEnv: ["../../jest.setup.js"],
 };

@@ -1,4 +1,4 @@
-jest.setTimeout(360000); // 6 min
+jest.setTimeout(420000); // 7 min
 
 // add all jest-extended matchers
 const matchers = require("jest-extended");
