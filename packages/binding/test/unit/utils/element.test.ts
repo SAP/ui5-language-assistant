@@ -106,7 +106,7 @@ describe("element", () => {
         );
         expect(result).toStrictEqual(["[{ }]"]);
       });
-      it("{ } [wit tab stop]", () => {
+      it("{ } [with tab stop]", () => {
         const el = propertyBindingInfoElements.find(
           (i) => i.name === "formatOptions"
         ) as PropertyBindingInfoElement;
