@@ -12,9 +12,10 @@ describe("element", () => {
         const result = typesToValue(
           el.type,
           { doubleQuotes: false } as BindContext,
+          0,
           false
         );
-        expect(result).toStrictEqual(["[{ }]", '[" "]']);
+        expect(result).toStrictEqual(["[{$0}]", '["$0"]']);
       });
       it("empty string", () => {
         const el = propertyBindingInfoElements.find(
@@ -23,7 +24,7 @@ describe("element", () => {
         const result = typesToValue(el.type, {
           doubleQuotes: false,
         } as BindContext);
-        expect(result).toStrictEqual(['" "']);
+        expect(result).toStrictEqual(['"$0"']);
       });
     });
     describe('type.kind === "boolean"', () => {
@@ -36,6 +37,7 @@ describe("element", () => {
         const result = typesToValue(
           el.type,
           { doubleQuotes: false } as BindContext,
+          0,
           false
         );
         expect(result).toStrictEqual(["[true, false]"]);
@@ -60,9 +62,10 @@ describe("element", () => {
         const result = typesToValue(
           el.type,
           { doubleQuotes: false } as BindContext,
+          0,
           false
         );
-        expect(result).toStrictEqual(["[{ }]"]);
+        expect(result).toStrictEqual(["[{$0}]"]);
       });
       it("{ }", () => {
         const el = propertyBindingInfoElements.find(
@@ -71,7 +74,7 @@ describe("element", () => {
         const result = typesToValue(el.type, {
           doubleQuotes: false,
         } as BindContext);
-        expect(result).toStrictEqual(["{ }"]);
+        expect(result).toStrictEqual(["{$0}"]);
       });
     });
   });

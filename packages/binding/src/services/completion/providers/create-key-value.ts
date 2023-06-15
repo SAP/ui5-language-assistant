@@ -27,13 +27,14 @@ export const createKeyValue = (
       return false;
     })
     .map((item) => {
-      const type = typesToValue(item.type, context);
+      const type = typesToValue(item.type, context, 0);
       let text = "";
       if (type.length === 1) {
         text = `${item.name}: ${type[0]}`;
       } else {
         let choice = type.join(",");
-        choice = choice.replace(/\$0/g, "");
+        // choice does not support tab stop
+        choice = choice.replace(/\$\d+/g, "");
         choice = "${1|" + choice + "|}$0";
         text = `${item.name}: ${choice}`;
       }

@@ -12,7 +12,7 @@ export const createInitialSnippet = (
 ): CompletionItem[] => {
   const completionItems: CompletionItem[] = [];
   const names = propertyBindingInfoElements.map((item) => item.name);
-  const emptyString = context.doubleQuotes ? `' '` : `" "`;
+  const emptyString = context.doubleQuotes ? `''` : `""`;
   let text =
     "{ ${1|" +
     names.join(",") +
