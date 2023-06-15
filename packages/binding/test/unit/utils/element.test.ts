@@ -5,7 +5,19 @@ import { PropertyBindingInfoElement, BindContext } from "../../../src/types";
 describe("element", () => {
   describe("typesToValue", () => {
     describe('type.kind === "string"', () => {
-      it("type.collection && collectionValue === false)", () => {
+      it("type.collection && collectionValue === false) [without tab stop]", () => {
+        const el = propertyBindingInfoElements.find(
+          (i) => i.name === "parts"
+        ) as PropertyBindingInfoElement;
+        const result = typesToValue(
+          el.type,
+          { doubleQuotes: false } as BindContext,
+          undefined,
+          false
+        );
+        expect(result).toStrictEqual(["[{ }]", '[""]']);
+      });
+      it("type.collection && collectionValue === false) [with tab stop]", () => {
         const el = propertyBindingInfoElements.find(
           (i) => i.name === "parts"
         ) as PropertyBindingInfoElement;
@@ -17,14 +29,27 @@ describe("element", () => {
         );
         expect(result).toStrictEqual(["[{$0}]", '["$0"]']);
       });
-      it("empty string", () => {
+      it("empty string [with tab stop]", () => {
+        const el = propertyBindingInfoElements.find(
+          (i) => i.name === "path"
+        ) as PropertyBindingInfoElement;
+        const result = typesToValue(
+          el.type,
+          {
+            doubleQuotes: false,
+          } as BindContext,
+          0
+        );
+        expect(result).toStrictEqual(['"$0"']);
+      });
+      it("empty string [without tab stop]", () => {
         const el = propertyBindingInfoElements.find(
           (i) => i.name === "path"
         ) as PropertyBindingInfoElement;
         const result = typesToValue(el.type, {
           doubleQuotes: false,
         } as BindContext);
-        expect(result).toStrictEqual(['"$0"']);
+        expect(result).toStrictEqual(['""']);
       });
     });
     describe('type.kind === "boolean"', () => {
@@ -53,7 +78,7 @@ describe("element", () => {
       });
     });
     describe('type.kind === "object")', () => {
-      it("type.collection && collectionValue === false", () => {
+      it("type.collection && collectionValue === false [with tab stop]", () => {
         let el = propertyBindingInfoElements.find(
           (i) => i.name === "formatOptions"
         ) as PropertyBindingInfoElement;
@@ -67,14 +92,41 @@ describe("element", () => {
         );
         expect(result).toStrictEqual(["[{$0}]"]);
       });
-      it("{ }", () => {
+      it("type.collection && collectionValue === false [without tab stop]", () => {
+        let el = propertyBindingInfoElements.find(
+          (i) => i.name === "formatOptions"
+        ) as PropertyBindingInfoElement;
+        // for test - set collection as true
+        el = { ...el, type: [{ ...el.type[0], collection: true }] };
+        const result = typesToValue(
+          el.type,
+          { doubleQuotes: false } as BindContext,
+          undefined,
+          false
+        );
+        expect(result).toStrictEqual(["[{ }]"]);
+      });
+      it("{ } [wit tab stop]", () => {
+        const el = propertyBindingInfoElements.find(
+          (i) => i.name === "formatOptions"
+        ) as PropertyBindingInfoElement;
+        const result = typesToValue(
+          el.type,
+          {
+            doubleQuotes: false,
+          } as BindContext,
+          0
+        );
+        expect(result).toStrictEqual(["{$0}"]);
+      });
+      it("{ } [without tab stop]", () => {
         const el = propertyBindingInfoElements.find(
           (i) => i.name === "formatOptions"
         ) as PropertyBindingInfoElement;
         const result = typesToValue(el.type, {
           doubleQuotes: false,
         } as BindContext);
-        expect(result).toStrictEqual(["{$0}"]);
+        expect(result).toStrictEqual(["{ }"]);
       });
     });
   });
