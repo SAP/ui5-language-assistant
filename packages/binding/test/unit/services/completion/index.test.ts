@@ -108,7 +108,7 @@ describe("index", () => {
       expect(
         result.map((item) => completionItemToSnapshot(item))
       ).toStrictEqual([
-        "label: { }; text: { ${1|path,value,model,suspended,formatter,useRawValues,useInternalValues,type,targetType,formatOptions,constraints,mode,parameters,events,parts|}: ${2|\"\",{ },[{ }],[''],true,false|}$0 }; kind:15; commit:undefined; sort:",
+        "label: { }; text: { ${1|path,value,model,suspended,formatter,useRawValues,useInternalValues,type,targetType,formatOptions,constraints,mode,parameters,events,parts|}: $0 }; kind:15; commit:undefined; sort:",
         "label: {= }; text: {= $0 }; kind:15; commit:undefined; sort:",
         "label: {:= }; text: {:= $0 }; kind:15; commit:undefined; sort:",
       ]);
@@ -120,7 +120,7 @@ describe("index", () => {
       expect(
         result.map((item) => completionItemToSnapshot(item))
       ).toStrictEqual([
-        "label: { }; text: { ${1|path,value,model,suspended,formatter,useRawValues,useInternalValues,type,targetType,formatOptions,constraints,mode,parameters,events,parts|}: ${2|'',{ },[{ }],[''],true,false|}$0 }; kind:15; commit:undefined; sort:",
+        "label: { }; text: { ${1|path,value,model,suspended,formatter,useRawValues,useInternalValues,type,targetType,formatOptions,constraints,mode,parameters,events,parts|}: $0 }; kind:15; commit:undefined; sort:",
         "label: {= }; text: {= $0 }; kind:15; commit:undefined; sort:",
         "label: {:= }; text: {:= $0 }; kind:15; commit:undefined; sort:",
       ]);

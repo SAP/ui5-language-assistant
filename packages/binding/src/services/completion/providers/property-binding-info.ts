@@ -90,7 +90,7 @@ export function propertyBindingInfoSuggestions({
     const { ast } = parseBinding(expression, position);
     const input = expression;
     if (input.trim() === "") {
-      completionItems.push(...createInitialSnippet(context));
+      completionItems.push(...createInitialSnippet());
       continue;
     }
     for (const binding of ast.bindings) {
