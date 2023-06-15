@@ -1,5 +1,21 @@
 # Change Log
 
+## 4.0.14
+
+### Patch Changes
+
+- Updated dependencies [f670b06]
+  - @ui5-language-assistant/logic-utils@4.0.11
+
+## 4.0.13
+
+### Patch Changes
+
+- d8b77af: Provide a minimal code completion and syntax check for property binding info
+- Updated dependencies [d8b77af]
+  - @ui5-language-assistant/logic-utils@4.0.10
+  - @ui5-language-assistant/settings@4.0.9
+
 ## 4.0.12
 
 ### Patch Changes

@@ -1,5 +1,20 @@
 # Change Log
 
+## 4.0.21
+
+### Patch Changes
+
+- f670b06: Semantic model is adapted to support returnTypes defined in element metadata in api.json
+  - @ui5-language-assistant/language-server@4.0.15
+
+## 4.0.20
+
+### Patch Changes
+
+- d8b77af: Provide a minimal code completion and syntax check for property binding info
+- Updated dependencies [d8b77af]
+  - @ui5-language-assistant/language-server@4.0.14
+
 ## 4.0.19
 
 ### Patch Changes

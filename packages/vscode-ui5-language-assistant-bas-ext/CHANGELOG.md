@@ -1,5 +1,17 @@
 # Change Log
 
+## 4.0.21
+
+### Patch Changes
+
+- f670b06: Semantic model is adapted to support returnTypes defined in element metadata in api.json
+
+## 4.0.20
+
+### Patch Changes
+
+- d8b77af: Provide a minimal code completion and syntax check for property binding info
+
 ## 4.0.19
 
 ### Patch Changes

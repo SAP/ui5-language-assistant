@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.9
+
+### Patch Changes
+
+- d8b77af: Provide a minimal code completion and syntax check for property binding info
+
 ## 4.0.8
 
 ### Patch Changes
