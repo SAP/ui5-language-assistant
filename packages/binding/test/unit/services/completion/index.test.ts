@@ -360,7 +360,7 @@ describe("index", () => {
           "label: ' '; text: ' '; kind:5; commit:undefined; sort:",
         ]);
       });
-      it("h. for parts only [existing element(s) without comma]", async function () {
+      it("j. for parts only [existing element(s) without comma]", async function () {
         const snippet = `
         <Text text="{parts: [{} ${CURSOR_ANCHOR} ]}" id="test-id"></Text>`;
         const result = await getCompletionResult(snippet);
@@ -371,7 +371,7 @@ describe("index", () => {
           "label: ' '; text: ' '; kind:5; commit:undefined; sort:",
         ]);
       });
-      it("i. for parts only [all binding info properties except parts itself]", async function () {
+      it("j. for parts only [all binding info properties except parts itself]", async function () {
         const snippet = `
         <Text text="{parts: [{${CURSOR_ANCHOR}}]}" id="test-id"></Text>`;
         const result = await getCompletionResult(snippet);
@@ -392,6 +392,66 @@ describe("index", () => {
           "label: mode; text: mode: ' '; kind:15; commit:undefined; sort:",
           "label: parameters; text: parameters: { }; kind:15; commit:undefined; sort:",
           "label: events; text: events: { }; kind:15; commit:undefined; sort:",
+        ]);
+      });
+      it("k. for parts no completion items [collection exist - outside - case 01]", async function () {
+        const snippet = `
+        <Text text="{parts: ['']${CURSOR_ANCHOR}}" id="test-id"></Text>`;
+        const result = await getCompletionResult(snippet);
+        expect(
+          result.map((item) => completionItemToSnapshot(item))
+        ).toStrictEqual([]);
+      });
+      it("l. for parts no completion items [collection exist - outside - case 02]", async function () {
+        const snippet = `
+        <Text text="{parts: ${CURSOR_ANCHOR}['']}" id="test-id"></Text>`;
+        const result = await getCompletionResult(snippet);
+        expect(
+          result.map((item) => completionItemToSnapshot(item))
+        ).toStrictEqual([]);
+      });
+      it("m. for parts only [outside existing structure element(s) - case 01]", async function () {
+        const snippet = `
+        <Text text="{parts: [{}${CURSOR_ANCHOR} ]}" id="test-id"></Text>`;
+        const result = await getCompletionResult(snippet);
+        expect(
+          result.map((item) => completionItemToSnapshot(item))
+        ).toStrictEqual([
+          "label: { }; text: { }; kind:5; commit:undefined; sort:",
+          "label: ' '; text: ' '; kind:5; commit:undefined; sort:",
+        ]);
+      });
+      it("n. for parts only [outside existing structure element(s) - case 02]", async function () {
+        const snippet = `
+        <Text text="{parts: [${CURSOR_ANCHOR}{} ]}" id="test-id"></Text>`;
+        const result = await getCompletionResult(snippet);
+        expect(
+          result.map((item) => completionItemToSnapshot(item))
+        ).toStrictEqual([
+          "label: { }; text: { }; kind:5; commit:undefined; sort:",
+          "label: ' '; text: ' '; kind:5; commit:undefined; sort:",
+        ]);
+      });
+      it("o. for parts only [outside existing primitive element(s) - case 01]", async function () {
+        const snippet = `
+        <Text text="{parts: [''${CURSOR_ANCHOR} ]}" id="test-id"></Text>`;
+        const result = await getCompletionResult(snippet);
+        expect(
+          result.map((item) => completionItemToSnapshot(item))
+        ).toStrictEqual([
+          "label: { }; text: { }; kind:5; commit:undefined; sort:",
+          "label: ' '; text: ' '; kind:5; commit:undefined; sort:",
+        ]);
+      });
+      it("p. for parts only [outside existing primitive element(s) - case 02]", async function () {
+        const snippet = `
+        <Text text="{parts: [${CURSOR_ANCHOR}'' ]}" id="test-id"></Text>`;
+        const result = await getCompletionResult(snippet);
+        expect(
+          result.map((item) => completionItemToSnapshot(item))
+        ).toStrictEqual([
+          "label: { }; text: { }; kind:5; commit:undefined; sort:",
+          "label: ' '; text: ' '; kind:5; commit:undefined; sort:",
         ]);
       });
     });
