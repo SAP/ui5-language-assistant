@@ -34,7 +34,7 @@ describe("UI5 yaml data handling", () => {
     expect(entries).toHaveLength(1);
     expect(
       toPosixPath(entries[0]).endsWith(
-        `ui5-language-assistant/test-packages/framework/projects-copy/ts-free-style/ui5.yaml`
+        `/test-packages/framework/projects-copy/context/ts-free-style/ui5.yaml`
       )
     ).toBeTrue();
 

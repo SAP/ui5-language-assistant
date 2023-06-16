@@ -1,0 +1,27 @@
+[
+  {
+    "type": "special-chars",
+    "text": "????",
+    "range": "[(0,0)..(0,4)]"
+  },
+  {
+    "type": "special-chars",
+    "text": "##",
+    "range": "[(0,19)..(0,21)]"
+  },
+  {
+    "type": "special-chars",
+    "text": "##",
+    "range": "[(2,0)..(2,2)]"
+  },
+  {
+    "type": "special-chars",
+    "text": "#",
+    "range": "[(2,4)..(2,5)]"
+  },
+  {
+    "type": "special-chars",
+    "text": ">>>>",
+    "range": "[(2,14)..(2,18)]"
+  }
+]

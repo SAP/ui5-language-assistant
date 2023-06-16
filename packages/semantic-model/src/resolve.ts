@@ -12,6 +12,8 @@ import {
 import {
   BaseUI5Node,
   PrimitiveTypeName,
+  UI5Class,
+  UI5Interface,
   UI5SemanticModel,
   UI5Type,
 } from "@ui5-language-assistant/semantic-model-types";
@@ -127,6 +129,16 @@ export function resolveSemanticProperties(
     forEach(classs.associations, (_) => {
       _.type = resolveTypePartial(_.type);
     });
+
+    const returnTypeNames = jsonSymbol["ui5-metadata"]?.["sap.fe"]?.returnTypes;
+    if (returnTypeNames?.length) {
+      const convertedTypes: (UI5Class | UI5Interface)[] = returnTypeNames
+        .map(
+          (typeName) => model.classes[typeName] || model.interfaces[typeName]
+        )
+        .filter((item) => !!item);
+      classs.returnTypes = convertedTypes;
+    }
   }
 
   for (const key in model.enums) {

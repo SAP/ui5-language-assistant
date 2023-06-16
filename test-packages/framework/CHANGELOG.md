@@ -1,5 +1,17 @@
 # Change Log
 
+## 4.0.10
+
+### Patch Changes
+
+- d8b77af: Provide a minimal code completion and syntax check for property binding info
+
+## 4.0.9
+
+### Patch Changes
+
+- e3a6a0b: Template definition lookup logic enhanced in manifest details reader
+
 ## 4.0.8
 
 ### Patch Changes

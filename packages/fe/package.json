@@ -1,6 +1,6 @@
 {
   "name": "@ui5-language-assistant/fe",
-  "version": "4.0.11",
+  "version": "4.0.14",
   "private": true,
   "description": "UI5 LSP server extension for annotation relevant building blocks",
   "keywords": [],
@@ -16,18 +16,18 @@
   "license": "Apache-2.0",
   "typings": "./api.d.ts",
   "dependencies": {
-    "@ui5-language-assistant/context": "4.0.11",
-    "@ui5-language-assistant/logic-utils": "4.0.9",
-    "@ui5-language-assistant/xml-views-completion": "4.0.11",
-    "@ui5-language-assistant/xml-views-validation": "4.0.9",
+    "@ui5-language-assistant/context": "4.0.14",
+    "@ui5-language-assistant/logic-utils": "4.0.11",
+    "@ui5-language-assistant/xml-views-completion": "4.0.14",
+    "@ui5-language-assistant/xml-views-validation": "4.0.11",
     "deep-freeze-strict": "1.1.1",
     "lodash": "4.17.21"
   },
   "devDependencies": {
     "@sap-ux/vocabularies-types": "0.6.8",
     "@types/lodash": "4.14.168",
-    "@ui5-language-assistant/semantic-model-types": "4.0.5",
-    "@ui5-language-assistant/test-framework": "4.0.8",
+    "@ui5-language-assistant/semantic-model-types": "4.0.7",
+    "@ui5-language-assistant/test-framework": "4.0.10",
     "@ui5-language-assistant/test-utils": "4.0.8",
     "@xml-tools/ast": "5.0.0",
     "@xml-tools/parser": "1.0.7",

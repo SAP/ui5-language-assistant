@@ -15,11 +15,14 @@ export { UI5ValidatorsConfig } from "./src/validate-xml-views";
 
 export type XMLViewIssueSeverity = "hint" | "info" | "warn" | "error";
 
-export interface BaseUI5XMLViewIssue {
+export interface BaseUI5XMLViewIssue<T extends string = "base"> {
+  issueType: T;
   kind: string;
   message: string;
   severity: XMLViewIssueSeverity;
   offsetRange: OffsetRange;
+  code?: string | number;
+  tags?: DiagnosticTag[];
 }
 
 export type UseOfDeprecatedAttributeIssue =

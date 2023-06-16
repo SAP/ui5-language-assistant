@@ -1,7 +1,4 @@
-import type {
-  BaseUI5XMLViewIssue,
-  UI5ValidatorsConfig,
-} from "@ui5-language-assistant/xml-views-validation";
+import type { UI5ValidatorsConfig } from "@ui5-language-assistant/xml-views-validation";
 import type { Context } from "@ui5-language-assistant/context";
 import type {
   TextDocumentPositionParams,
@@ -27,7 +24,7 @@ export function getCompletionItems(opts: {
   ast: XMLDocument;
 }): CompletionItem[];
 
-export function isAnnotationIssue<T extends BaseUI5XMLViewIssue>(
+export function isAnnotationIssue<T extends { issueType: string }>(
   issue: AnnotationIssue | T
 ): issue is AnnotationIssue;
 

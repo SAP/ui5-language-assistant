@@ -19,7 +19,9 @@ describe("framework", () => {
     };
     const testFramework = new TestFramework(useConfig);
     const result = testFramework.getProjectRoot();
-    expect(result).toEqual(join(__dirname, "..", "..", "projects-copy", "cap"));
+    expect(result).toEqual(
+      join(__dirname, "..", "..", "projects-copy", "framework", "cap")
+    );
   });
   describe("updateFile", () => {
     let testFramework: TestFramework;

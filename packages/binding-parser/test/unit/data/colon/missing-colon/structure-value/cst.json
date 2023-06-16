@@ -1,0 +1,93 @@
+{
+  "name": "template",
+  "children": {
+    "object": [
+      {
+        "name": "object",
+        "children": {
+          "left-curly": [
+            {
+              "image": "{",
+              "startColumn": 1,
+              "endColumn": 1,
+              "tokenTypeName": "left-curly"
+            }
+          ],
+          "object-item": [
+            {
+              "name": "object-item",
+              "children": {
+                "key": [
+                  {
+                    "image": "key",
+                    "startColumn": 3,
+                    "endColumn": 5,
+                    "tokenTypeName": "key"
+                  }
+                ],
+                "value": [
+                  {
+                    "name": "value",
+                    "children": {
+                      "object": [
+                        {
+                          "name": "object",
+                          "children": {
+                            "left-curly": [
+                              {
+                                "image": "{",
+                                "startColumn": 7,
+                                "endColumn": 7,
+                                "tokenTypeName": "left-curly"
+                              }
+                            ],
+                            "right-curly": [
+                              {
+                                "image": "}",
+                                "startColumn": 8,
+                                "endColumn": 8,
+                                "tokenTypeName": "right-curly"
+                              }
+                            ]
+                          },
+                          "location": {
+                            "startColumn": 7,
+                            "endColumn": 8
+                          }
+                        }
+                      ]
+                    },
+                    "location": {
+                      "startColumn": 7,
+                      "endColumn": 8
+                    }
+                  }
+                ]
+              },
+              "location": {
+                "startColumn": 3,
+                "endColumn": 8
+              }
+            }
+          ],
+          "right-curly": [
+            {
+              "image": "}",
+              "startColumn": 10,
+              "endColumn": 10,
+              "tokenTypeName": "right-curly"
+            }
+          ]
+        },
+        "location": {
+          "startColumn": 1,
+          "endColumn": 10
+        }
+      }
+    ]
+  },
+  "location": {
+    "startColumn": 1,
+    "endColumn": 10
+  }
+}

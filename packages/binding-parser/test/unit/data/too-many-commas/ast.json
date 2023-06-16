@@ -1,0 +1,95 @@
+{
+  "bindings": [
+    {
+      "leftCurly": {
+        "type": "left-curly",
+        "text": "{",
+        "range": "[(0,0)..(0,1)]"
+      },
+      "elements": [
+        {
+          "key": {
+            "type": "key",
+            "text": "key01",
+            "range": "[(0,1)..(0,6)]",
+            "originalText": "key01"
+          },
+          "colon": {
+            "type": "colon",
+            "text": ":",
+            "range": "[(0,6)..(0,7)]"
+          },
+          "value": {
+            "type": "string-value",
+            "text": "'value-01'",
+            "range": "[(0,8)..(0,18)]"
+          },
+          "range": "[(0,1)..(0,18)]",
+          "type": "structure-element"
+        },
+        {
+          "key": {
+            "type": "key",
+            "text": "key02",
+            "range": "[(0,22)..(0,27)]",
+            "originalText": "key02"
+          },
+          "colon": {
+            "type": "colon",
+            "text": ":",
+            "range": "[(0,27)..(0,28)]"
+          },
+          "value": {
+            "type": "string-value",
+            "text": "'value-02'",
+            "range": "[(0,29)..(0,39)]"
+          },
+          "range": "[(0,22)..(0,39)]",
+          "type": "structure-element"
+        }
+      ],
+      "rightCurly": {
+        "type": "right-curly",
+        "text": "}",
+        "range": "[(0,39)..(0,40)]"
+      },
+      "range": "[(0,0)..(0,40)]",
+      "commas": [
+        {
+          "type": "comma",
+          "text": ",",
+          "range": "[(0,18)..(0,19)]"
+        },
+        {
+          "type": "comma",
+          "text": ",",
+          "range": "[(0,19)..(0,20)]"
+        },
+        {
+          "type": "comma",
+          "text": ",",
+          "range": "[(0,20)..(0,21)]"
+        }
+      ],
+      "type": "structure-value"
+    }
+  ],
+  "spaces": [
+    {
+      "type": "white-space",
+      "text": " ",
+      "range": "[(0,7)..(0,8)]"
+    },
+    {
+      "type": "white-space",
+      "text": " ",
+      "range": "[(0,21)..(0,22)]"
+    },
+    {
+      "type": "white-space",
+      "text": " ",
+      "range": "[(0,28)..(0,29)]"
+    }
+  ],
+  "type": "template"
+}

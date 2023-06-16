@@ -1,0 +1,23 @@
+[
+  {
+    "type": "parse-error",
+    "range": "[(0,0)..(0,0)]",
+    "text": "",
+    "merged": [
+      {
+        "type": "parse-error",
+        "text": "",
+        "range": "[(0,0)..(0,0)]",
+        "tokenTypeName": "EOF"
+      }
+    ],
+    "tokenTypeName": "EOF",
+    "previousToken": {
+      "type": "parse-error",
+      "text": "'value'",
+      "range": "[(0,6)..(0,13)]",
+      "tokenTypeName": "string-value"
+    },
+    "message": "Expecting --> } <-- but found --> '' <--"
+  }
+]

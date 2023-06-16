@@ -25,6 +25,7 @@ export function validateUseOfDeprecatedAggregation(
     xmlElement.syntax.openName !== undefined
   ) {
     const deprecatedIssue: UseOfDeprecatedAggregationIssue = {
+      issueType: "base",
       kind: "UseOfDeprecatedAggregation",
       message: buildDeprecatedIssueMessage({
         symbol: aggregation as DeprecatedUI5Symbol,

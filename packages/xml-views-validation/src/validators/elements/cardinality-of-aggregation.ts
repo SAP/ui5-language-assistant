@@ -43,6 +43,7 @@ export function validateExplicitAggregationCardinality(
   const invalidAggregationCardinalityIssues = map(
     redundantAggregationSubElements,
     (_): InvalidAggregationCardinalityIssue => ({
+      issueType: "base",
       kind: "InvalidAggregationCardinality",
       message: buildMessage(
         INVALID_AGGREGATION_CARDINALITY.msg,

@@ -948,6 +948,18 @@
         },
         "metadataClass": {
           "type": "string"
+        },
+        "sap.fe": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "returnTypes": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
         }
       },
       "additionalProperties": false,

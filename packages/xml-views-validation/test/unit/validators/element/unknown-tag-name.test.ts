@@ -176,6 +176,7 @@ describe("the unknown tag name validation", () => {
           assertion: (issues) => {
             expect(issues).toIncludeSameMembers([
               {
+                issueType: "base",
                 kind: "UnknownTagName",
                 message: buildMessage(
                   UNKNOWN_CLASS_IN_NS.msg,
@@ -186,6 +187,7 @@ describe("the unknown tag name validation", () => {
                 severity: "error",
               },
               {
+                issueType: "base",
                 kind: "UnknownTagName",
                 message: buildMessage(
                   UNKNOWN_TAG_NAME_IN_NS.msg,
@@ -290,6 +292,7 @@ describe("the unknown tag name validation", () => {
             assertion: (issues) => {
               expect(issues).toIncludeSameMembers([
                 {
+                  issueType: "base",
                   kind: "UnknownTagName",
                   message: buildMessage(
                     UNKNOWN_TAG_NAME_IN_NS_UNDER_CLASS.msg,
@@ -301,6 +304,7 @@ describe("the unknown tag name validation", () => {
                   severity: "error",
                 },
                 {
+                  issueType: "base",
                   kind: "UnknownTagName",
                   message: buildMessage(
                     UNKNOWN_TAG_NAME_IN_NS.msg,

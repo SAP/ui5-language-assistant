@@ -13,6 +13,7 @@ import {
   fileExitsSync,
   print,
   removeProjectContent,
+  getPackageName,
 } from "./utils";
 
 import { TestFrameworkAPI, ProjectInfo, Config, ReadFileResult } from "./types";
@@ -69,7 +70,7 @@ export class TestFramework implements TestFrameworkAPI {
 
   private createProjectsCopy(): void {
     const srcDir = this.getProjectsSource();
-    createCopy(srcDir);
+    createCopy(join(srcDir, this.projectInfo.name), this.projectInfo);
   }
 
   private npmInstall() {
@@ -83,7 +84,7 @@ export class TestFramework implements TestFrameworkAPI {
   public getProjectRoot(): string {
     const { name } = this.projectInfo;
     const dirname = __dirname;
-    return join(dirname, "..", "projects-copy", name);
+    return join(dirname, "..", "projects-copy", getPackageName(), name);
   }
 
   public async initI18n(): Promise<i18n> {

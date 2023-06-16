@@ -1,0 +1,65 @@
+[
+  {
+    "type": "parse-error",
+    "range": "[(0,5)..(0,6)]",
+    "text": ":",
+    "merged": [
+      {
+        "type": "parse-error",
+        "text": ":",
+        "range": "[(0,5)..(0,6)]",
+        "tokenTypeName": "colon"
+      }
+    ],
+    "tokenTypeName": "colon",
+    "previousToken": {
+      "type": "parse-error",
+      "text": ":",
+      "range": "[(0,4)..(0,5)]",
+      "tokenTypeName": "colon"
+    },
+    "message": "Expecting: one of these possible Token sequences:\n  1. [string-value]\n  2. [number-value]\n  3. [{]\n  4. [[]\n  5. [boolean-value]\n  6. [null-value]\nbut found: ':'"
+  },
+  {
+    "type": "parse-error",
+    "range": "[(0,6)..(0,7)]",
+    "text": ":",
+    "merged": [
+      {
+        "type": "parse-error",
+        "text": ":",
+        "range": "[(0,6)..(0,7)]",
+        "tokenTypeName": "colon"
+      }
+    ],
+    "tokenTypeName": "colon",
+    "previousToken": {
+      "type": "parse-error",
+      "text": ":",
+      "range": "[(0,5)..(0,6)]",
+      "tokenTypeName": "colon"
+    },
+    "message": "Expecting: one of these possible Token sequences:\n  1. [string-value]\n  2. [number-value]\n  3. [{]\n  4. [[]\n  5. [boolean-value]\n  6. [null-value]\nbut found: ':'"
+  },
+  {
+    "type": "parse-error",
+    "range": "[(0,7)..(0,8)]",
+    "text": ":",
+    "merged": [
+      {
+        "type": "parse-error",
+        "text": ":",
+        "range": "[(0,7)..(0,8)]",
+        "tokenTypeName": "colon"
+      }
+    ],
+    "tokenTypeName": "colon",
+    "previousToken": {
+      "type": "parse-error",
+      "text": ":",
+      "range": "[(0,6)..(0,7)]",
+      "tokenTypeName": "colon"
+    },
+    "message": "Expecting: one of these possible Token sequences:\n  1. [string-value]\n  2. [number-value]\n  3. [{]\n  4. [[]\n  5. [boolean-value]\n  6. [null-value]\nbut found: ':'"
+  }
+]

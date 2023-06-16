@@ -1,0 +1,153 @@
+{
+  "name": "template",
+  "children": {
+    "object": [
+      {
+        "name": "object",
+        "children": {
+          "left-curly": [
+            {
+              "image": "{",
+              "startColumn": 6,
+              "endColumn": 6,
+              "tokenTypeName": "left-curly"
+            }
+          ],
+          "object-item": [
+            {
+              "name": "object-item",
+              "children": {
+                "key": [
+                  {
+                    "image": "path",
+                    "startColumn": 7,
+                    "endColumn": 10,
+                    "tokenTypeName": "key"
+                  }
+                ],
+                "colon": [
+                  {
+                    "image": ":",
+                    "startColumn": 11,
+                    "endColumn": 11,
+                    "tokenTypeName": "colon"
+                  }
+                ],
+                "value": [
+                  {
+                    "name": "value",
+                    "children": {
+                      "string-value": [
+                        {
+                          "image": "'###'",
+                          "startColumn": 13,
+                          "endColumn": 17,
+                          "tokenTypeName": "string-value"
+                        }
+                      ]
+                    },
+                    "location": {
+                      "startColumn": 13,
+                      "endColumn": 17
+                    }
+                  }
+                ]
+              },
+              "location": {
+                "startColumn": 7,
+                "endColumn": 17
+              }
+            }
+          ],
+          "right-curly": [
+            {
+              "image": "}",
+              "startColumn": 18,
+              "endColumn": 18,
+              "tokenTypeName": "right-curly"
+            }
+          ]
+        },
+        "location": {
+          "startColumn": 6,
+          "endColumn": 18
+        }
+      },
+      {
+        "name": "object",
+        "children": {
+          "left-curly": [
+            {
+              "image": "{",
+              "startColumn": 4,
+              "endColumn": 4,
+              "tokenTypeName": "left-curly"
+            }
+          ],
+          "object-item": [
+            {
+              "name": "object-item",
+              "children": {
+                "key": [
+                  {
+                    "image": "pat",
+                    "startColumn": 6,
+                    "endColumn": 8,
+                    "tokenTypeName": "key"
+                  }
+                ],
+                "colon": [
+                  {
+                    "image": ":",
+                    "startColumn": 9,
+                    "endColumn": 9,
+                    "tokenTypeName": "colon"
+                  }
+                ],
+                "value": [
+                  {
+                    "name": "value",
+                    "children": {
+                      "string-value": [
+                        {
+                          "image": "' '",
+                          "startColumn": 10,
+                          "endColumn": 12,
+                          "tokenTypeName": "string-value"
+                        }
+                      ]
+                    },
+                    "location": {
+                      "startColumn": 10,
+                      "endColumn": 12
+                    }
+                  }
+                ]
+              },
+              "location": {
+                "startColumn": 6,
+                "endColumn": 12
+              }
+            }
+          ],
+          "right-curly": [
+            {
+              "image": "}",
+              "startColumn": 13,
+              "endColumn": 13,
+              "tokenTypeName": "right-curly"
+            }
+          ]
+        },
+        "location": {
+          "startColumn": 4,
+          "endColumn": 13
+        }
+      }
+    ]
+  },
+  "location": {
+    "startColumn": 6,
+    "endColumn": 13
+  }
+}

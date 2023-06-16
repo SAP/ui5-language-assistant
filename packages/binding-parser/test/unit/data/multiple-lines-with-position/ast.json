@@ -1,0 +1,125 @@
+{
+  "bindings": [
+    {
+      "leftCurly": {
+        "type": "left-curly",
+        "text": "{",
+        "range": "[(5,15)..(5,16)]"
+      },
+      "elements": [
+        {
+          "key": {
+            "type": "key",
+            "text": "key01",
+            "range": "[(5,16)..(5,21)]",
+            "originalText": "key01"
+          },
+          "colon": {
+            "type": "colon",
+            "text": ":",
+            "range": "[(5,21)..(5,22)]"
+          },
+          "value": {
+            "type": "string-value",
+            "text": "'value-01'",
+            "range": "[(5,23)..(5,33)]"
+          },
+          "range": "[(5,16)..(5,33)]",
+          "type": "structure-element"
+        },
+        {
+          "key": {
+            "type": "key",
+            "text": "key02",
+            "range": "[(7,1)..(7,6)]",
+            "originalText": "key02"
+          },
+          "colon": {
+            "type": "colon",
+            "text": ":",
+            "range": "[(7,6)..(7,7)]"
+          },
+          "value": {
+            "type": "string-value",
+            "text": "'value-01'",
+            "range": "[(7,8)..(7,18)]"
+          },
+          "range": "[(7,1)..(7,18)]",
+          "type": "structure-element"
+        },
+        {
+          "key": {
+            "type": "key",
+            "text": "key03",
+            "range": "[(9,4)..(9,9)]",
+            "originalText": "key03"
+          },
+          "colon": {
+            "type": "colon",
+            "text": ":",
+            "range": "[(9,9)..(9,10)]"
+          },
+          "value": {
+            "type": "string-value",
+            "text": "'value-03'",
+            "range": "[(9,11)..(9,21)]"
+          },
+          "range": "[(9,4)..(9,21)]",
+          "type": "structure-element"
+        }
+      ],
+      "rightCurly": {
+        "type": "right-curly",
+        "text": "}",
+        "range": "[(10,0)..(10,1)]"
+      },
+      "range": "[(5,15)..(10,1)]",
+      "commas": [
+        {
+          "type": "comma",
+          "text": ",",
+          "range": "[(5,33)..(5,34)]"
+        },
+        {
+          "type": "comma",
+          "text": ",",
+          "range": "[(7,18)..(7,19)]"
+        }
+      ],
+      "type": "structure-value"
+    }
+  ],
+  "spaces": [
+    {
+      "type": "white-space",
+      "text": " ",
+      "range": "[(5,22)..(5,23)]"
+    },
+    {
+      "type": "white-space",
+      "text": "\n\n\t",
+      "range": "[(5,34)..(7,1)]"
+    },
+    {
+      "type": "white-space",
+      "text": " ",
+      "range": "[(7,7)..(7,8)]"
+    },
+    {
+      "type": "white-space",
+      "text": "\n\n    ",
+      "range": "[(7,19)..(9,4)]"
+    },
+    {
+      "type": "white-space",
+      "text": " ",
+      "range": "[(9,10)..(9,11)]"
+    },
+    {
+      "type": "white-space",
+      "text": "\n",
+      "range": "[(9,21)..(9,22)]"
+    }
+  ],
+  "type": "template"
+}

@@ -115,6 +115,7 @@ function validateTagWithNamespace(
     return [
       {
         ...issueDefaults,
+        issueType: "base",
         message: getUnknownTagNameMessage(
           xmlElement.name,
           ui5Namespace,
@@ -128,6 +129,7 @@ function validateTagWithNamespace(
   return [
     {
       ...issueDefaults,
+      issueType: "base",
       message: getUnknownClassMessage(xmlElement.name, ui5Namespace),
     },
   ];
@@ -138,6 +140,7 @@ function validateTagWithoutNamespace(
   model: UI5SemanticModel
 ): UnknownTagNameIssue[] {
   const issueDefaults = {
+    issueType: "base",
     kind: "UnknownTagName" as const,
     offsetRange: {
       start: xmlElement.syntax.openName.startOffset,
@@ -171,6 +174,7 @@ function validateTagWithoutNamespace(
     return [
       {
         ...issueDefaults,
+        issueType: "base",
         message: getUnknownClassMessage(xmlElement.name, ui5Namespace),
       },
     ];
@@ -184,6 +188,7 @@ function validateTagWithoutNamespace(
       return [
         {
           ...issueDefaults,
+          issueType: "base",
           message: getUnknownAggregationMessage(
             xmlElement.name,
             xmlElement.ns,
@@ -197,6 +202,7 @@ function validateTagWithoutNamespace(
       return [
         {
           ...issueDefaults,
+          issueType: "base",
           message: getUnknownTagNameMessage(
             xmlElement.name,
             ui5Namespace,
@@ -217,6 +223,7 @@ function validateTagWithoutNamespace(
     return [
       {
         ...issueDefaults,
+        issueType: "base",
         message: getUnknownClassMessage(xmlElement.name, ui5Namespace),
       },
     ];
@@ -229,6 +236,7 @@ function validateTagWithoutNamespace(
   return [
     {
       ...issueDefaults,
+      issueType: "base",
       message: getUnknownTagNameMessage(
         xmlElement.name,
         ui5Namespace,
