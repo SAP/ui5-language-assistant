@@ -1,6 +1,7 @@
 import {
   parseBinding,
   BindingParserTypes as BindingTypes,
+  positionContained,
 } from "@ui5-language-assistant/binding-parser";
 import type { Position } from "vscode-languageserver-types";
 import { AttributeValueCompletionOptions } from "@xml-tools/content-assist";
@@ -93,21 +94,18 @@ export function propertyBindingInfoSuggestions({
       completionItems.push(...createInitialSnippet(context));
       continue;
     }
-    for (const binding of ast.bindings) {
-      if (!isPropertyBindingInfo(text, binding)) {
-        continue;
-      }
-      completionItems.push(...getCompletionItems(context, binding, ast.spaces));
+    const cursorPos =
+      context.textDocumentPosition && context.textDocumentPosition.position;
+    const binding = ast.bindings.find(
+      (b) => cursorPos && positionContained(b.range, cursorPos)
+    );
+    if (!binding) {
+      continue;
     }
+    if (!isPropertyBindingInfo(text, binding)) {
+      continue;
+    }
+    completionItems.push(...getCompletionItems(context, binding, ast.spaces));
   }
-  const nonDuplicateItems = completionItems.reduce(
-    (previous: CompletionItem[], current: CompletionItem) => {
-      if (previous.findIndex((item) => item.label === current.label) === -1) {
-        previous.push(current);
-      }
-      return previous;
-    },
-    []
-  );
-  return nonDuplicateItems;
+  return completionItems;
 }

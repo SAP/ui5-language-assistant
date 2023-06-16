@@ -57,6 +57,12 @@ describe("property-binding-info-validator", () => {
     const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([]);
   });
+  it("do not check {} with unknown char", async () => {
+    const snippet = `
+    <Text text="{!}" id="test-id"></Text>`;
+    const result = await validateView(snippet);
+    expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([]);
+  });
   it("do not check {path} [at least a key with colon must exits]", async () => {
     const snippet = `
     <Text text="{path}" id="test-id"></Text>`;

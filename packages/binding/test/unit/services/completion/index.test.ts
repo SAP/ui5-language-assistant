@@ -534,6 +534,29 @@ describe("index", () => {
           "label: parts; text: parts: ${1|[{ }],[' ']|}$0; kind:15; commit:undefined; sort:",
         ]);
       });
+      it("no double CC items for two or more empty binding [consider consumed properties]", async function () {
+        const snippet = `
+        <Text text="some text {} and some here {path: '', ${CURSOR_ANCHOR}}" id="test-id"></Text>`;
+        const result = await getCompletionResult(snippet);
+        expect(
+          result.map((item) => completionItemToSnapshot(item))
+        ).toStrictEqual([
+          "label: value; text: value: ' '; kind:15; commit:undefined; sort:",
+          "label: model; text: model: ' '; kind:15; commit:undefined; sort:",
+          "label: suspended; text: suspended: ${1|true,false|}$0; kind:15; commit:undefined; sort:",
+          "label: formatter; text: formatter: ' '; kind:15; commit:undefined; sort:",
+          "label: useRawValues; text: useRawValues: ${1|true,false|}$0; kind:15; commit:undefined; sort:",
+          "label: useInternalValues; text: useInternalValues: ${1|true,false|}$0; kind:15; commit:undefined; sort:",
+          "label: type; text: type: ${1|{ },' '|}$0; kind:15; commit:undefined; sort:",
+          "label: targetType; text: targetType: ' '; kind:15; commit:undefined; sort:",
+          "label: formatOptions; text: formatOptions: { }; kind:15; commit:undefined; sort:",
+          "label: constraints; text: constraints: { }; kind:15; commit:undefined; sort:",
+          "label: mode; text: mode: ' '; kind:15; commit:undefined; sort:",
+          "label: parameters; text: parameters: { }; kind:15; commit:undefined; sort:",
+          "label: events; text: events: { }; kind:15; commit:undefined; sort:",
+          "label: parts; text: parts: ${1|[{ }],[' ']|}$0; kind:15; commit:undefined; sort:",
+        ]);
+      });
       it("provides no CC for wrong context", async function () {
         const snippet = `
        <Label text="Hello Mr. {${CURSOR_ANCHOR}/employees/0/lastName}, {path:'/employees/0/firstName', formatter:'.myFormatter'}"/>`;
@@ -588,6 +611,18 @@ describe("index", () => {
           "label: mode; text: mode; kind:5; commit:undefined; sort:; textEdit: {newText: mode, range: 9:59-9:63}",
           "label: parameters; text: parameters; kind:5; commit:undefined; sort:; textEdit: {newText: parameters, range: 9:59-9:63}",
           "label: events; text: events; kind:5; commit:undefined; sort:; textEdit: {newText: events, range: 9:59-9:63}",
+        ]);
+      });
+      it("no wrong completion items inside collection", async function () {
+        const snippet = `
+        <Text text="some text and {} some here {parts: [${CURSOR_ANCHOR}]}" id="test-id"></Text>"/>
+        `;
+        const result = await getCompletionResult(snippet);
+        expect(
+          result.map((item) => completionItemToSnapshot(item))
+        ).toStrictEqual([
+          "label: { }; text: { }; kind:5; commit:undefined; sort:",
+          "label: ' '; text: ' '; kind:5; commit:undefined; sort:",
         ]);
       });
     });
