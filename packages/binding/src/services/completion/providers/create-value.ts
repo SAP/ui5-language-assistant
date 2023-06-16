@@ -14,12 +14,12 @@ import {
 import { propertyBindingInfoElements } from "../../../definition/definition";
 import { isParts, typesToValue } from "../../../utils";
 import { getCompletionItems } from "./property-binding-info";
-import { BindContext, ColonContext, ValueContext } from "../../../types";
+import { BindContext, ValueContext } from "../../../types";
 
 export const createValue = (
   context: BindContext,
   spaces: BindingTypes.WhiteSpaces[],
-  valueContext: ValueContext | ColonContext
+  valueContext: ValueContext
 ): CompletionItem[] => {
   const completionItems: CompletionItem[] = [];
   const { element } = valueContext;
