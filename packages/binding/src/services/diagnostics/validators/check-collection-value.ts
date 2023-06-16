@@ -10,6 +10,7 @@ import { getPrimitiveValueIssues } from "./check-primitive-value";
 import { propertyBindingInfoElements } from "../../../definition/definition";
 import { isParts, typesToValue, findRange } from "../../../utils";
 import { checkComma } from "./check-comma";
+import { checkBrackets } from "./check-brackets";
 
 /**
  * Check collection value
@@ -31,6 +32,7 @@ export const checkCollectionValue = (
   if (!isCollectionValue(value)) {
     return issues;
   }
+  issues.push(...checkBrackets(value));
   // filter undefined
   const elements = value.elements.filter((item) => !!item);
   if (ignore) {
