@@ -226,23 +226,6 @@ describe("metaPath attribute value validation (annotation path)", () => {
       ]);
     });
 
-    it("to test duplicates", async function () {
-      const result = await validateView(
-        `<macros:Chart metaPath=""></macros:Chart>`
-      );
-      expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-        "kind: AnnotationPathRequired; text: Annotation path value cannot be empty; severity:warn; offset:344-345",
-      ]);
-    });
-
-    it("to test duplicates 2", async function () {
-      const result = await validateView(
-        `<macros:Chart metaPath=""></macros:Chart>`
-      );
-      expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-        "kind: AnnotationPathRequired; text: Annotation path value cannot be empty; severity:warn; offset:344-345",
-      ]);
-    });
     it("contains wrong segments", async function () {
       const result = await validateView(
         `<macros:Chart metaPath="to_Booking_/to_Travel/@com.sap.vocabularies.UI.v1.Chart#sample1"></macros:Chart>`
