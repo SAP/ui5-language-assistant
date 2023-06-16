@@ -207,7 +207,7 @@ function cleanupLSPResponseForAssertions(
     // Platform / Machine indepednet "formatting" for the related information uri.
     // e.g: avoid `/` vs `\` or absolute paths of specific users file system structure.
     forEach(_.relatedInformation, (info) => {
-      const uriSuffixMatch = /.+(snapshots.*)/.exec(info.location.uri);
+      const uriSuffixMatch = /.+(snapshots.*)$/.exec(info.location.uri);
       if (uriSuffixMatch === null) {
         throw Error(
           "Failure computing a relatedInformation URI for snapshots!"
