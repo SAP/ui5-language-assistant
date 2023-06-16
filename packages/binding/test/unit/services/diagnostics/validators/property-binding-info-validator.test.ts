@@ -119,6 +119,14 @@ describe("property-binding-info-validator", () => {
       "kind: MissingColon; text: Expect colon; severity:error; range:9:18-9:22",
     ]);
   });
+  it("check missing key", async () => {
+    const snippet = `
+    <Text text="{ : {}, type: {}}" id="test-id"></Text>`;
+    const result = await validateView(snippet);
+    expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
+      "kind: MissingKey; text: Expect key; severity:error; range:9:18-9:19",
+    ]);
+  });
   it("check missing value", async () => {
     const snippet = `
     <Text text="{ path: }" id="test-id"></Text>`;
@@ -513,6 +521,10 @@ describe("property-binding-info-validator", () => {
     const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       "kind: TooManyColons; text: Too many colon; severity:error; range:9:23-9:24",
+      "kind: MissingKey; text: Expect key; severity:error; range:9:23-9:24",
+      "kind: MissingKey; text: Expect key; severity:error; range:9:24-9:25",
+      "kind: MissingKey; text: Expect key; severity:error; range:9:25-9:26",
+      "kind: MissingKey; text: Expect key; severity:error; range:9:26-9:27",
     ]);
   });
   it("check too many object", async () => {

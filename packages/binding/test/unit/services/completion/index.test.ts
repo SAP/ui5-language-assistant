@@ -282,6 +282,7 @@ describe("index", () => {
           "label: parts; text: parts; kind:5; commit:undefined; sort:; textEdit: {newText: parts, range: 9:22-9:26}",
         ]);
       });
+      it.todo("d.`<CURSOR>`: {} [missing key]");
     });
     describe("provides CC for value", () => {
       it("a. keyProperty: `<CURSOR>`", async function () {
