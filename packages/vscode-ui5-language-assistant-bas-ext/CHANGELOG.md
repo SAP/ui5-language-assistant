@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.22
+
+### Patch Changes
+
+- fad2b51: Sonar Cloud analysis improvement, switch from automatic to CI sonar scan
+
 ## 4.0.21
 
 ### Patch Changes
