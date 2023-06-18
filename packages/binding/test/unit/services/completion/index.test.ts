@@ -88,7 +88,7 @@ describe("index", () => {
       expect(
         result.map((item) => completionItemToSnapshot(item))
       ).toStrictEqual([
-        'label: " "; text: " "; kind:5; commit:undefined; sort:',
+        'label: ""; text: "$0"; kind:5; commit:undefined; sort:',
       ]);
     });
     it("provides CC consider string value as single quote", async function () {
@@ -98,7 +98,7 @@ describe("index", () => {
       expect(
         result.map((item) => completionItemToSnapshot(item))
       ).toStrictEqual([
-        "label: ' '; text: ' '; kind:5; commit:undefined; sort:",
+        "label: ''; text: '$0'; kind:5; commit:undefined; sort:",
       ]);
     });
     it("provides CC for initial [single quote]", async function () {
@@ -108,7 +108,7 @@ describe("index", () => {
       expect(
         result.map((item) => completionItemToSnapshot(item))
       ).toStrictEqual([
-        "label: { }; text: { ${1|path,value,model,suspended,formatter,useRawValues,useInternalValues,type,targetType,formatOptions,constraints,mode,parameters,events,parts|}: ${2|\" \",{ },[{ }],[''],true,false|}$0 }; kind:15; commit:undefined; sort:",
+        "label: { }; text: { ${1|path,value,model,suspended,formatter,useRawValues,useInternalValues,type,targetType,formatOptions,constraints,mode,parameters,events,parts|}: $0 }; kind:15; commit:undefined; sort:",
         "label: {= }; text: {= $0 }; kind:15; commit:undefined; sort:",
         "label: {:= }; text: {:= $0 }; kind:15; commit:undefined; sort:",
       ]);
@@ -120,7 +120,7 @@ describe("index", () => {
       expect(
         result.map((item) => completionItemToSnapshot(item))
       ).toStrictEqual([
-        "label: { }; text: { ${1|path,value,model,suspended,formatter,useRawValues,useInternalValues,type,targetType,formatOptions,constraints,mode,parameters,events,parts|}: ${2|' ',{ },[{ }],[''],true,false|}$0 }; kind:15; commit:undefined; sort:",
+        "label: { }; text: { ${1|path,value,model,suspended,formatter,useRawValues,useInternalValues,type,targetType,formatOptions,constraints,mode,parameters,events,parts|}: $0 }; kind:15; commit:undefined; sort:",
         "label: {= }; text: {= $0 }; kind:15; commit:undefined; sort:",
         "label: {:= }; text: {:= $0 }; kind:15; commit:undefined; sort:",
       ]);
@@ -131,23 +131,7 @@ describe("index", () => {
       const result = await getCompletionResult(snippet);
       expect(
         result.map((item) => completionItemToSnapshot(item, true))
-      ).toStrictEqual([
-        "label: path; text: path: ' '; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:**Description:** Path in the model to bind to, either an absolute path or relative to the binding context for the corresponding model; when the path contains a '>' sign, the string preceding it will override the model property and the remainder after the '>' will be used as binding path \n\n **Visibility:** Public",
-        "label: value; text: value: ' '; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:**Description:** Since 1.61, defines a static binding with the given value \n\n **Visibility:** Public",
-        "label: model; text: model: ' '; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:**Description:** Name of the model to bind against; when undefined or omitted, the default model is used \n\n **Visibility:** Public",
-        "label: suspended; text: suspended: ${1|true,false|}$0; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:**Description:** Whether the binding should be suspended initially \n\n **Visibility:** Public",
-        "label: formatter; text: formatter: ' '; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:**Description:** Function to convert model data into a property value \n\n **Visibility:** Public",
-        "label: useRawValues; text: useRawValues: ${1|true,false|}$0; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:**Description:** Whether the parameters to the formatter function should be passed as raw values. In this case the specified types for the binding parts are not used and the values are not formatted.\n**Note**: use this flag only when using multiple bindings. If you use only one binding and want raw values then simply don't specify a type for that binding \n\n **Visibility:** Public",
-        "label: useInternalValues; text: useInternalValues: ${1|true,false|}$0; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:**Description:** Whether the parameters to the formatter function should be passed as the related JavaScript primitive values. In this case the values of the model are parsed by the model format of the specified types from the binding parts.\n**Note**: use this flag only when using multiple bindings. \n\n **Visibility:** Public",
-        'label: type; text: type: ${1|{ },\' \'|}$0; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:**Description:** A type object or the name of a type class to create such a type object; the type will be used for converting model data to a property value (aka "formatting") and vice versa (in binding mode TwoWay, aka "parsing") \n\n **Visibility:** Public',
-        'label: targetType; text: targetType: \' \'; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:**Description:** Target type to be used by the type when formatting model data, for example "boolean" or "string" or "any"; defaults to the property\'s type \n\n **Visibility:** Public',
-        "label: formatOptions; text: formatOptions: { }; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:**Description:** Format options to be used for the type; only taken into account when the type is specified by its name - a given type object won't be modified \n\n **Visibility:** Public",
-        "label: constraints; text: constraints: { }; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:**Description:** Additional constraints to be used when constructing a type object from a type name, ignored when a type object is given \n\n **Visibility:** Public",
-        "label: mode; text: mode: ' '; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:**Description:** Binding mode to be used for this property binding (e.g. one way) \n\n **Visibility:** Public",
-        "label: parameters; text: parameters: { }; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:**Description:** Map of additional parameters for this binding; the names and value ranges of the supported parameters depend on the model implementation, they should be documented with the bindProperty method of the corresponding model class or with the model specific subclass of sap.ui.model.PropertyBinding \n\n **Visibility:** Public",
-        "label: events; text: events: { }; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:**Description:** Map of event handler functions keyed by the name of the binding events that they should be attached to \n\n **Visibility:** Public",
-        "label: parts; text: parts: ${1|[{ }],[' ']|}$0; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:**Description:** Array of binding info objects for the parts of a composite binding; the structure of each binding info is the same as described for the oBindingInfo as a whole.\nIf a part is not specified as a binding info object but as a simple string, a binding info object will be created with that string as path. The string may start with a model name prefix (see property path).\n**Note**: recursive composite bindings are currently not supported. Therefore, a part must not contain a parts property \n\n **Visibility:** Public",
-      ]);
+      ).toMatchSnapshot();
     });
     it("provides no CC for expressing binding", async function () {
       const snippet = `
@@ -196,7 +180,7 @@ describe("index", () => {
       expect(
         result.map((item) => completionItemToSnapshot(item, true))
       ).toStrictEqual([
-        "label: ' '; text: ' '; kind:5; commit:undefined; sort:; documentation: ",
+        "label: ''; text: '$0'; kind:5; commit:undefined; sort:; documentation: ",
       ]);
     });
     it("provide context sensitive CC for string value [double quote]", async function () {
@@ -206,7 +190,7 @@ describe("index", () => {
       expect(
         result.map((item) => completionItemToSnapshot(item, true))
       ).toStrictEqual([
-        'label: " "; text: " "; kind:5; commit:undefined; sort:; documentation: ',
+        'label: ""; text: "$0"; kind:5; commit:undefined; sort:; documentation: ',
       ]);
     });
     describe("provides CC for key", () => {
@@ -291,7 +275,7 @@ describe("index", () => {
         expect(
           result.map((item) => completionItemToSnapshot(item))
         ).toStrictEqual([
-          "label: ' '; text: ' '; kind:5; commit:undefined; sort:",
+          "label: ''; text: '$0'; kind:5; commit:undefined; sort:",
         ]);
       });
       it("b. keyProperty: `<CURSOR>`'value-for-this-key'", async function () {
@@ -344,8 +328,8 @@ describe("index", () => {
         expect(
           result.map((item) => completionItemToSnapshot(item))
         ).toStrictEqual([
-          "label: { }; text: { }; kind:5; commit:undefined; sort:",
-          "label: ' '; text: ' '; kind:5; commit:undefined; sort:",
+          "label: {}; text: {$0}; kind:5; commit:undefined; sort:",
+          "label: ''; text: '$0'; kind:5; commit:undefined; sort:",
         ]);
       });
       it("h. for parts only [existing element]", async function () {
@@ -355,8 +339,8 @@ describe("index", () => {
         expect(
           result.map((item) => completionItemToSnapshot(item))
         ).toStrictEqual([
-          "label: { }; text: { }; kind:5; commit:undefined; sort:",
-          "label: ' '; text: ' '; kind:5; commit:undefined; sort:",
+          "label: {}; text: {$0}; kind:5; commit:undefined; sort:",
+          "label: ''; text: '$0'; kind:5; commit:undefined; sort:",
         ]);
       });
       it("h. for parts only [existing element(s) without comma]", async function () {
@@ -366,8 +350,8 @@ describe("index", () => {
         expect(
           result.map((item) => completionItemToSnapshot(item))
         ).toStrictEqual([
-          "label: { }; text: { }; kind:5; commit:undefined; sort:",
-          "label: ' '; text: ' '; kind:5; commit:undefined; sort:",
+          "label: {}; text: {$0}; kind:5; commit:undefined; sort:",
+          "label: ''; text: '$0'; kind:5; commit:undefined; sort:",
         ]);
       });
       it("i. for parts only [all binding info properties except parts itself]", async function () {
@@ -377,20 +361,20 @@ describe("index", () => {
         expect(
           result.map((item) => completionItemToSnapshot(item))
         ).toStrictEqual([
-          "label: path; text: path: ' '; kind:15; commit:undefined; sort:",
-          "label: value; text: value: ' '; kind:15; commit:undefined; sort:",
-          "label: model; text: model: ' '; kind:15; commit:undefined; sort:",
+          "label: path; text: path: '$0'; kind:15; commit:undefined; sort:",
+          "label: value; text: value: '$0'; kind:15; commit:undefined; sort:",
+          "label: model; text: model: '$0'; kind:15; commit:undefined; sort:",
           "label: suspended; text: suspended: ${1|true,false|}$0; kind:15; commit:undefined; sort:",
-          "label: formatter; text: formatter: ' '; kind:15; commit:undefined; sort:",
+          "label: formatter; text: formatter: '$0'; kind:15; commit:undefined; sort:",
           "label: useRawValues; text: useRawValues: ${1|true,false|}$0; kind:15; commit:undefined; sort:",
           "label: useInternalValues; text: useInternalValues: ${1|true,false|}$0; kind:15; commit:undefined; sort:",
-          "label: type; text: type: ${1|{ },' '|}$0; kind:15; commit:undefined; sort:",
-          "label: targetType; text: targetType: ' '; kind:15; commit:undefined; sort:",
-          "label: formatOptions; text: formatOptions: { }; kind:15; commit:undefined; sort:",
-          "label: constraints; text: constraints: { }; kind:15; commit:undefined; sort:",
-          "label: mode; text: mode: ' '; kind:15; commit:undefined; sort:",
-          "label: parameters; text: parameters: { }; kind:15; commit:undefined; sort:",
-          "label: events; text: events: { }; kind:15; commit:undefined; sort:",
+          "label: type; text: type: ${1|{},''|}$0; kind:15; commit:undefined; sort:",
+          "label: targetType; text: targetType: '$0'; kind:15; commit:undefined; sort:",
+          "label: formatOptions; text: formatOptions: {$0}; kind:15; commit:undefined; sort:",
+          "label: constraints; text: constraints: {$0}; kind:15; commit:undefined; sort:",
+          "label: mode; text: mode: '$0'; kind:15; commit:undefined; sort:",
+          "label: parameters; text: parameters: {$0}; kind:15; commit:undefined; sort:",
+          "label: events; text: events: {$0}; kind:15; commit:undefined; sort:",
         ]);
       });
     });
@@ -402,20 +386,20 @@ describe("index", () => {
         expect(
           result.map((item) => completionItemToSnapshot(item))
         ).toStrictEqual([
-          "label: value; text: value: ' '; kind:15; commit:undefined; sort:",
-          "label: model; text: model: ' '; kind:15; commit:undefined; sort:",
+          "label: value; text: value: '$0'; kind:15; commit:undefined; sort:",
+          "label: model; text: model: '$0'; kind:15; commit:undefined; sort:",
           "label: suspended; text: suspended: ${1|true,false|}$0; kind:15; commit:undefined; sort:",
-          "label: formatter; text: formatter: ' '; kind:15; commit:undefined; sort:",
+          "label: formatter; text: formatter: '$0'; kind:15; commit:undefined; sort:",
           "label: useRawValues; text: useRawValues: ${1|true,false|}$0; kind:15; commit:undefined; sort:",
           "label: useInternalValues; text: useInternalValues: ${1|true,false|}$0; kind:15; commit:undefined; sort:",
-          "label: type; text: type: ${1|{ },' '|}$0; kind:15; commit:undefined; sort:",
-          "label: targetType; text: targetType: ' '; kind:15; commit:undefined; sort:",
-          "label: formatOptions; text: formatOptions: { }; kind:15; commit:undefined; sort:",
-          "label: constraints; text: constraints: { }; kind:15; commit:undefined; sort:",
-          "label: mode; text: mode: ' '; kind:15; commit:undefined; sort:",
-          "label: parameters; text: parameters: { }; kind:15; commit:undefined; sort:",
-          "label: events; text: events: { }; kind:15; commit:undefined; sort:",
-          "label: parts; text: parts: ${1|[{ }],[' ']|}$0; kind:15; commit:undefined; sort:",
+          "label: type; text: type: ${1|{},''|}$0; kind:15; commit:undefined; sort:",
+          "label: targetType; text: targetType: '$0'; kind:15; commit:undefined; sort:",
+          "label: formatOptions; text: formatOptions: {$0}; kind:15; commit:undefined; sort:",
+          "label: constraints; text: constraints: {$0}; kind:15; commit:undefined; sort:",
+          "label: mode; text: mode: '$0'; kind:15; commit:undefined; sort:",
+          "label: parameters; text: parameters: {$0}; kind:15; commit:undefined; sort:",
+          "label: events; text: events: {$0}; kind:15; commit:undefined; sort:",
+          "label: parts; text: parts: ${1|[{}],['']|}$0; kind:15; commit:undefined; sort:",
         ]);
       });
       it("b. keyProperty: 'value-for-this-key', `<CURSOR>` [comma]", async function () {
@@ -425,20 +409,20 @@ describe("index", () => {
         expect(
           result.map((item) => completionItemToSnapshot(item))
         ).toStrictEqual([
-          "label: value; text: value: ' '; kind:15; commit:undefined; sort:",
-          "label: model; text: model: ' '; kind:15; commit:undefined; sort:",
+          "label: value; text: value: '$0'; kind:15; commit:undefined; sort:",
+          "label: model; text: model: '$0'; kind:15; commit:undefined; sort:",
           "label: suspended; text: suspended: ${1|true,false|}$0; kind:15; commit:undefined; sort:",
-          "label: formatter; text: formatter: ' '; kind:15; commit:undefined; sort:",
+          "label: formatter; text: formatter: '$0'; kind:15; commit:undefined; sort:",
           "label: useRawValues; text: useRawValues: ${1|true,false|}$0; kind:15; commit:undefined; sort:",
           "label: useInternalValues; text: useInternalValues: ${1|true,false|}$0; kind:15; commit:undefined; sort:",
-          "label: type; text: type: ${1|{ },' '|}$0; kind:15; commit:undefined; sort:",
-          "label: targetType; text: targetType: ' '; kind:15; commit:undefined; sort:",
-          "label: formatOptions; text: formatOptions: { }; kind:15; commit:undefined; sort:",
-          "label: constraints; text: constraints: { }; kind:15; commit:undefined; sort:",
-          "label: mode; text: mode: ' '; kind:15; commit:undefined; sort:",
-          "label: parameters; text: parameters: { }; kind:15; commit:undefined; sort:",
-          "label: events; text: events: { }; kind:15; commit:undefined; sort:",
-          "label: parts; text: parts: ${1|[{ }],[' ']|}$0; kind:15; commit:undefined; sort:",
+          "label: type; text: type: ${1|{},''|}$0; kind:15; commit:undefined; sort:",
+          "label: targetType; text: targetType: '$0'; kind:15; commit:undefined; sort:",
+          "label: formatOptions; text: formatOptions: {$0}; kind:15; commit:undefined; sort:",
+          "label: constraints; text: constraints: {$0}; kind:15; commit:undefined; sort:",
+          "label: mode; text: mode: '$0'; kind:15; commit:undefined; sort:",
+          "label: parameters; text: parameters: {$0}; kind:15; commit:undefined; sort:",
+          "label: events; text: events: {$0}; kind:15; commit:undefined; sort:",
+          "label: parts; text: parts: ${1|[{}],['']|}$0; kind:15; commit:undefined; sort:",
         ]);
       });
       it("c. `<CURSOR>` keyProperty: 'value-for-this-key'", async function () {
@@ -448,20 +432,20 @@ describe("index", () => {
         expect(
           result.map((item) => completionItemToSnapshot(item))
         ).toStrictEqual([
-          "label: value; text: value: ' '; kind:15; commit:undefined; sort:",
-          "label: model; text: model: ' '; kind:15; commit:undefined; sort:",
+          "label: value; text: value: '$0'; kind:15; commit:undefined; sort:",
+          "label: model; text: model: '$0'; kind:15; commit:undefined; sort:",
           "label: suspended; text: suspended: ${1|true,false|}$0; kind:15; commit:undefined; sort:",
-          "label: formatter; text: formatter: ' '; kind:15; commit:undefined; sort:",
+          "label: formatter; text: formatter: '$0'; kind:15; commit:undefined; sort:",
           "label: useRawValues; text: useRawValues: ${1|true,false|}$0; kind:15; commit:undefined; sort:",
           "label: useInternalValues; text: useInternalValues: ${1|true,false|}$0; kind:15; commit:undefined; sort:",
-          "label: type; text: type: ${1|{ },' '|}$0; kind:15; commit:undefined; sort:",
-          "label: targetType; text: targetType: ' '; kind:15; commit:undefined; sort:",
-          "label: formatOptions; text: formatOptions: { }; kind:15; commit:undefined; sort:",
-          "label: constraints; text: constraints: { }; kind:15; commit:undefined; sort:",
-          "label: mode; text: mode: ' '; kind:15; commit:undefined; sort:",
-          "label: parameters; text: parameters: { }; kind:15; commit:undefined; sort:",
-          "label: events; text: events: { }; kind:15; commit:undefined; sort:",
-          "label: parts; text: parts: ${1|[{ }],[' ']|}$0; kind:15; commit:undefined; sort:",
+          "label: type; text: type: ${1|{},''|}$0; kind:15; commit:undefined; sort:",
+          "label: targetType; text: targetType: '$0'; kind:15; commit:undefined; sort:",
+          "label: formatOptions; text: formatOptions: {$0}; kind:15; commit:undefined; sort:",
+          "label: constraints; text: constraints: {$0}; kind:15; commit:undefined; sort:",
+          "label: mode; text: mode: '$0'; kind:15; commit:undefined; sort:",
+          "label: parameters; text: parameters: {$0}; kind:15; commit:undefined; sort:",
+          "label: events; text: events: {$0}; kind:15; commit:undefined; sort:",
+          "label: parts; text: parts: ${1|[{}],['']|}$0; kind:15; commit:undefined; sort:",
         ]);
       });
       it("d. keyProperty: 'value-for-this-key',`<CURSOR>`, [between comma]", async function () {
@@ -471,20 +455,20 @@ describe("index", () => {
         expect(
           result.map((item) => completionItemToSnapshot(item))
         ).toStrictEqual([
-          "label: value; text: value: ' '; kind:15; commit:undefined; sort:",
-          "label: model; text: model: ' '; kind:15; commit:undefined; sort:",
+          "label: value; text: value: '$0'; kind:15; commit:undefined; sort:",
+          "label: model; text: model: '$0'; kind:15; commit:undefined; sort:",
           "label: suspended; text: suspended: ${1|true,false|}$0; kind:15; commit:undefined; sort:",
-          "label: formatter; text: formatter: ' '; kind:15; commit:undefined; sort:",
+          "label: formatter; text: formatter: '$0'; kind:15; commit:undefined; sort:",
           "label: useRawValues; text: useRawValues: ${1|true,false|}$0; kind:15; commit:undefined; sort:",
           "label: useInternalValues; text: useInternalValues: ${1|true,false|}$0; kind:15; commit:undefined; sort:",
-          "label: type; text: type: ${1|{ },' '|}$0; kind:15; commit:undefined; sort:",
-          "label: targetType; text: targetType: ' '; kind:15; commit:undefined; sort:",
-          "label: formatOptions; text: formatOptions: { }; kind:15; commit:undefined; sort:",
-          "label: constraints; text: constraints: { }; kind:15; commit:undefined; sort:",
-          "label: mode; text: mode: ' '; kind:15; commit:undefined; sort:",
-          "label: parameters; text: parameters: { }; kind:15; commit:undefined; sort:",
-          "label: events; text: events: { }; kind:15; commit:undefined; sort:",
-          "label: parts; text: parts: ${1|[{ }],[' ']|}$0; kind:15; commit:undefined; sort:",
+          "label: type; text: type: ${1|{},''|}$0; kind:15; commit:undefined; sort:",
+          "label: targetType; text: targetType: '$0'; kind:15; commit:undefined; sort:",
+          "label: formatOptions; text: formatOptions: {$0}; kind:15; commit:undefined; sort:",
+          "label: constraints; text: constraints: {$0}; kind:15; commit:undefined; sort:",
+          "label: mode; text: mode: '$0'; kind:15; commit:undefined; sort:",
+          "label: parameters; text: parameters: {$0}; kind:15; commit:undefined; sort:",
+          "label: events; text: events: {$0}; kind:15; commit:undefined; sort:",
+          "label: parts; text: parts: ${1|[{}],['']|}$0; kind:15; commit:undefined; sort:",
         ]);
       });
     });
@@ -504,7 +488,7 @@ describe("index", () => {
         expect(
           result.map((item) => completionItemToSnapshot(item))
         ).toStrictEqual([
-          "label: ' '; text: ' '; kind:5; commit:undefined; sort:",
+          "label: ''; text: '$0'; kind:5; commit:undefined; sort:",
         ]);
       });
     });
@@ -516,21 +500,21 @@ describe("index", () => {
         expect(
           result.map((item) => completionItemToSnapshot(item))
         ).toStrictEqual([
-          "label: path; text: path: ' '; kind:15; commit:undefined; sort:",
-          "label: value; text: value: ' '; kind:15; commit:undefined; sort:",
-          "label: model; text: model: ' '; kind:15; commit:undefined; sort:",
+          "label: path; text: path: '$0'; kind:15; commit:undefined; sort:",
+          "label: value; text: value: '$0'; kind:15; commit:undefined; sort:",
+          "label: model; text: model: '$0'; kind:15; commit:undefined; sort:",
           "label: suspended; text: suspended: ${1|true,false|}$0; kind:15; commit:undefined; sort:",
-          "label: formatter; text: formatter: ' '; kind:15; commit:undefined; sort:",
+          "label: formatter; text: formatter: '$0'; kind:15; commit:undefined; sort:",
           "label: useRawValues; text: useRawValues: ${1|true,false|}$0; kind:15; commit:undefined; sort:",
           "label: useInternalValues; text: useInternalValues: ${1|true,false|}$0; kind:15; commit:undefined; sort:",
-          "label: type; text: type: ${1|{ },' '|}$0; kind:15; commit:undefined; sort:",
-          "label: targetType; text: targetType: ' '; kind:15; commit:undefined; sort:",
-          "label: formatOptions; text: formatOptions: { }; kind:15; commit:undefined; sort:",
-          "label: constraints; text: constraints: { }; kind:15; commit:undefined; sort:",
-          "label: mode; text: mode: ' '; kind:15; commit:undefined; sort:",
-          "label: parameters; text: parameters: { }; kind:15; commit:undefined; sort:",
-          "label: events; text: events: { }; kind:15; commit:undefined; sort:",
-          "label: parts; text: parts: ${1|[{ }],[' ']|}$0; kind:15; commit:undefined; sort:",
+          "label: type; text: type: ${1|{},''|}$0; kind:15; commit:undefined; sort:",
+          "label: targetType; text: targetType: '$0'; kind:15; commit:undefined; sort:",
+          "label: formatOptions; text: formatOptions: {$0}; kind:15; commit:undefined; sort:",
+          "label: constraints; text: constraints: {$0}; kind:15; commit:undefined; sort:",
+          "label: mode; text: mode: '$0'; kind:15; commit:undefined; sort:",
+          "label: parameters; text: parameters: {$0}; kind:15; commit:undefined; sort:",
+          "label: events; text: events: {$0}; kind:15; commit:undefined; sort:",
+          "label: parts; text: parts: ${1|[{}],['']|}$0; kind:15; commit:undefined; sort:",
         ]);
       });
       it("provides no CC for wrong context", async function () {

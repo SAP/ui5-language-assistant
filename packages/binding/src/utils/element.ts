@@ -9,20 +9,31 @@ import {
   STRING_VALUE,
 } from "@ui5-language-assistant/binding-parser";
 import { Range } from "vscode-languageserver-types";
-
+const isNumber = (input: number | undefined): input is number => {
+  return input !== undefined;
+};
+const emptyString = (context: BindContext, tabStop: number | undefined) => {
+  let emptyString = context.doubleQuotes ? `''` : `""`;
+  if (isNumber(tabStop)) {
+    emptyString = context.doubleQuotes
+      ? `'${"$" + tabStop}'`
+      : `"${"$" + tabStop}"`;
+  }
+  return emptyString;
+};
 export const typesToValue = (
   types: PropertyType[],
   context: BindContext,
+  tabStop?: number | undefined,
   collectionValue = false
 ): string[] => {
   const result: string[] = [];
-  const emptyString = context.doubleQuotes ? `' '` : `" "`;
   types.forEach((type) => {
     if (type.kind === "string") {
       if (type.collection && collectionValue === false) {
-        result.push(`[${emptyString}]`);
+        result.push(`[${emptyString(context, tabStop)}]`);
       } else {
-        result.push(emptyString);
+        result.push(emptyString(context, tabStop));
       }
     }
     if (type.kind === "boolean") {
@@ -35,9 +46,9 @@ export const typesToValue = (
     }
     if (type.kind === "object") {
       if (type.collection && collectionValue === false) {
-        result.push("[{ }]");
+        result.push(isNumber(tabStop) ? `[{${"$" + tabStop}}]` : "[{ }]");
       } else {
-        result.push("{ }");
+        result.push(isNumber(tabStop) ? `{${"$" + tabStop}}` : "{ }");
       }
     }
   });
