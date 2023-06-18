@@ -1,5 +1,12 @@
 # Change Log
 
+## 4.0.23
+
+### Patch Changes
+
+- b130f9f: Fix tab stop
+  - @ui5-language-assistant/language-server@4.0.17
+
 ## 4.0.22
 
 ### Patch Changes
