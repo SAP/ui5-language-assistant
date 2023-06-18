@@ -107,11 +107,11 @@ export const createValue = (
       .find((item) => positionContained(item.range, position));
 
     if (isStructureValue(el)) {
-      // check if position is outside {}
       if (
         (el.leftCurly && isBefore(position, el.leftCurly.range.start, true)) ||
         (el.rightCurly && isBefore(el.rightCurly.range.end, position, true))
       ) {
+        // position is outside {}
         return getCollectionCompletionItem(context, element);
       }
       const result = getCompletionItems(context, el, spaces).filter(
@@ -119,12 +119,12 @@ export const createValue = (
       );
       return result;
     }
-    // check if position is outside []
     if (
       element.value.range &&
       (isBefore(position, element.value.range.start, true) ||
         isBefore(element.value.range.end, position, true))
     ) {
+      // position is outside []
       return completionItems;
     }
 

@@ -137,6 +137,17 @@ describe("cursor", () => {
       });
       expect(element).toBeDefined();
     });
+    it("i. keyProperty:`<CURSOR>` [no spaces]", () => {
+      const snippet = `{keyProperty:<CURSOR>}`;
+      const { kind, type, element } = getCursorContextResult(
+        snippet
+      ) as ValueContext;
+      expect({ type, kind }).toStrictEqual({
+        type: "value",
+        kind: "value",
+      });
+      expect(element).toBeDefined();
+    });
   });
   describe("get key value context", () => {
     it("a. keyProperty: 'value-for-this-key'  `<CURSOR>` [spaces]", () => {

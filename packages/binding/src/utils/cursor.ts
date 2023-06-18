@@ -31,6 +31,14 @@ export const getCursorContext = (
         element: el,
       };
     }
+    // check colon => value
+    if (positionContained(el.colon && el.colon.range, position)) {
+      return {
+        type: "value",
+        kind: "value",
+        element: el,
+      };
+    }
     // check value
     if (positionContained(el.value && el.value.range, position)) {
       return {
