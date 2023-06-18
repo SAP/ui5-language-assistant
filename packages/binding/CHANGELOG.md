@@ -1,5 +1,11 @@
 # @ui5-language-assistant/binding
 
+## 1.0.3
+
+### Patch Changes
+
+- b130f9f: Fix tab stop
+
 ## 1.0.2
 
 ### Patch Changes

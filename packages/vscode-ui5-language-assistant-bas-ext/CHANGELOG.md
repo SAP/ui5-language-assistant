@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.23
+
+### Patch Changes
+
+- b130f9f: Fix tab stop
+
 ## 4.0.22
 
 ### Patch Changes
