@@ -1,0 +1,55 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`index getCompletionItems provides CC for empty 1`] = `
+Array [
+  "label: path; text: path: '$0'; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:**Description:** Path in the model to bind to, either an absolute path or relative to the binding context for the corresponding model; when the path contains a '>' sign, the string preceding it will override the model property and the remainder after the '>' will be used as binding path 
+
+ **Visibility:** Public",
+  "label: value; text: value: '$0'; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:**Description:** Since 1.61, defines a static binding with the given value 
+
+ **Visibility:** Public",
+  "label: model; text: model: '$0'; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:**Description:** Name of the model to bind against; when undefined or omitted, the default model is used 
+
+ **Visibility:** Public",
+  "label: suspended; text: suspended: \${1|true,false|}$0; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:**Description:** Whether the binding should be suspended initially 
+
+ **Visibility:** Public",
+  "label: formatter; text: formatter: '$0'; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:**Description:** Function to convert model data into a property value 
+
+ **Visibility:** Public",
+  "label: useRawValues; text: useRawValues: \${1|true,false|}$0; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:**Description:** Whether the parameters to the formatter function should be passed as raw values. In this case the specified types for the binding parts are not used and the values are not formatted.
+**Note**: use this flag only when using multiple bindings. If you use only one binding and want raw values then simply don't specify a type for that binding 
+
+ **Visibility:** Public",
+  "label: useInternalValues; text: useInternalValues: \${1|true,false|}$0; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:**Description:** Whether the parameters to the formatter function should be passed as the related JavaScript primitive values. In this case the values of the model are parsed by the model format of the specified types from the binding parts.
+**Note**: use this flag only when using multiple bindings. 
+
+ **Visibility:** Public",
+  "label: type; text: type: \${1|{},''|}$0; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:**Description:** A type object or the name of a type class to create such a type object; the type will be used for converting model data to a property value (aka \\"formatting\\") and vice versa (in binding mode TwoWay, aka \\"parsing\\") 
+
+ **Visibility:** Public",
+  "label: targetType; text: targetType: '$0'; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:**Description:** Target type to be used by the type when formatting model data, for example \\"boolean\\" or \\"string\\" or \\"any\\"; defaults to the property's type 
+
+ **Visibility:** Public",
+  "label: formatOptions; text: formatOptions: {$0}; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:**Description:** Format options to be used for the type; only taken into account when the type is specified by its name - a given type object won't be modified 
+
+ **Visibility:** Public",
+  "label: constraints; text: constraints: {$0}; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:**Description:** Additional constraints to be used when constructing a type object from a type name, ignored when a type object is given 
+
+ **Visibility:** Public",
+  "label: mode; text: mode: '$0'; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:**Description:** Binding mode to be used for this property binding (e.g. one way) 
+
+ **Visibility:** Public",
+  "label: parameters; text: parameters: {$0}; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:**Description:** Map of additional parameters for this binding; the names and value ranges of the supported parameters depend on the model implementation, they should be documented with the bindProperty method of the corresponding model class or with the model specific subclass of sap.ui.model.PropertyBinding 
+
+ **Visibility:** Public",
+  "label: events; text: events: {$0}; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:**Description:** Map of event handler functions keyed by the name of the binding events that they should be attached to 
+
+ **Visibility:** Public",
+  "label: parts; text: parts: \${1|[{}],['']|}$0; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:**Description:** Array of binding info objects for the parts of a composite binding; the structure of each binding info is the same as described for the oBindingInfo as a whole.
+If a part is not specified as a binding info object but as a simple string, a binding info object will be created with that string as path. The string may start with a model name prefix (see property path).
+**Note**: recursive composite bindings are currently not supported. Therefore, a part must not contain a parts property 
+
+ **Visibility:** Public",
+]
+`;

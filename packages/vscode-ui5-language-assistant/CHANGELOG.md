@@ -1,5 +1,13 @@
 # Change Log
 
+## 4.0.22
+
+### Patch Changes
+
+- fad2b51: Sonar Cloud analysis improvement, switch from automatic to CI sonar scan
+- Updated dependencies [fad2b51]
+  - @ui5-language-assistant/language-server@4.0.16
+
 ## 4.0.21
 
 ### Patch Changes

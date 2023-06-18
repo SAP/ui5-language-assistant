@@ -33,7 +33,12 @@ export const getPrimitiveValueIssues = (
     (i) => i.kind === valueTypeMap.get(item.type)
   );
   if (!elementSpecificType) {
-    const data = typesToValue(bindingElement.type, context, collectionValue);
+    const data = typesToValue(
+      bindingElement.type,
+      context,
+      undefined,
+      collectionValue
+    );
     const message = `Allowed value${
       data.length > 1 ? "s are" : " is"
     } ${data.join(" or ")}`;
@@ -52,7 +57,7 @@ export const getPrimitiveValueIssues = (
     elementSpecificType.collection
   ) {
     // for a value which is not inside square bracket e.g []. primitive value is used for collection element e.g parts: ''
-    const data = typesToValue(bindingElement.type, context, false);
+    const data = typesToValue(bindingElement.type, context, undefined, false);
     const message = `Allowed value${
       data.length > 1 ? "s are" : " is"
     } ${data.join(" or ")}`;

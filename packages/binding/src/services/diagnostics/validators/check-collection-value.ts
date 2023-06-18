@@ -62,7 +62,7 @@ export const checkCollectionValue = (
   }
   const collectionItem = bindingElement.type.find((item) => item.collection);
   if (!collectionItem) {
-    const data = typesToValue(bindingElement.type, context);
+    const data = typesToValue(bindingElement.type, context, undefined);
     /* istanbul ignore next */
     const message = `Allowed value${
       data.length > 1 ? "s are" : " is"
@@ -78,7 +78,7 @@ export const checkCollectionValue = (
   }
 
   if (elements.length === 0) {
-    const data = typesToValue(bindingElement.type, context, true);
+    const data = typesToValue(bindingElement.type, context, undefined, true);
     const message = `Required value${data.length > 1 ? "s" : ""} ${data.join(
       " or "
     )} must be provided`;

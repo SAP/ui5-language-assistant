@@ -28,10 +28,11 @@ const getCollectionCompletionItem = (
     /* istanbul ignore next */
     bindingElement?.type ?? [],
     context,
+    0,
     true
   );
   return data.map((item) => ({
-    label: item,
+    label: item.replace(/\$\d+/g, ""),
     insertTextFormat: InsertTextFormat.Snippet,
     insertText: item,
     kind: CompletionItemKind.Field,
@@ -84,10 +85,10 @@ export const createValue = (
       (el) => el.name === text
     );
     if (bindingElement) {
-      const data = typesToValue(bindingElement.type, context);
+      const data = typesToValue(bindingElement.type, context, 0);
       data.forEach((item) => {
         completionItems.push({
-          label: item,
+          label: item.replace(/\$\d+/g, ""),
           insertTextFormat: InsertTextFormat.Snippet,
           insertText: item,
           kind: CompletionItemKind.Field,
