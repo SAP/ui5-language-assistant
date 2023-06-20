@@ -88,8 +88,7 @@ export function propertyBindingInfoSuggestions({
       completionItems.push(...createInitialSnippet());
       continue;
     }
-    const cursorPos =
-      context.textDocumentPosition && context.textDocumentPosition.position;
+    const cursorPos = context.textDocumentPosition?.position;
     const binding = ast.bindings.find(
       (b) => cursorPos && positionContained(b.range, cursorPos)
     );

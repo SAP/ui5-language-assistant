@@ -24,7 +24,7 @@ export const getCursorContext = (
   const el = elements.find((item) => positionContained(item.range, position));
   if (el) {
     // check key
-    if (positionContained(el.key && el.key.range, position)) {
+    if (positionContained(el.key?.range, position)) {
       return {
         type: "key",
         kind: "properties-excluding-duplicate",
@@ -32,7 +32,7 @@ export const getCursorContext = (
       };
     }
     // check colon => value
-    if (positionContained(el.colon && el.colon.range, position)) {
+    if (positionContained(el.colon?.range, position)) {
       return {
         type: "value",
         kind: "value",
@@ -40,7 +40,7 @@ export const getCursorContext = (
       };
     }
     // check value
-    if (positionContained(el.value && el.value.range, position)) {
+    if (positionContained(el.value?.range, position)) {
       return {
         type: "value",
         kind: "value",
@@ -56,7 +56,7 @@ export const getCursorContext = (
     // further check parts of adjacent element
     for (const el of elements) {
       // after adjacent key => value
-      if (isAfterAdjacentRange(spaceEl.range, el.key && el.key.range)) {
+      if (isAfterAdjacentRange(spaceEl.range, el.key?.range)) {
         // this happen when colon is missing
         return {
           type: "value",
@@ -65,7 +65,7 @@ export const getCursorContext = (
         };
       }
       // after adjacent colon => value
-      if (isAfterAdjacentRange(spaceEl.range, el.colon && el.colon.range)) {
+      if (isAfterAdjacentRange(spaceEl.range, el.colon?.range)) {
         return {
           type: "value",
           kind: "value",
