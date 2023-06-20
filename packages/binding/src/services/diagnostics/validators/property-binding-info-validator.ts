@@ -57,6 +57,9 @@ export function validatePropertyBindingInfo(
          * Show all lexer errors
          */
         for (const item of filterLexerError(binding, errors)) {
+          if (binding.elements.length === 0) {
+            return issues;
+          }
           issues.push({
             issueType: BINDING_ISSUE_TYPE,
             kind: "UnknownChar",

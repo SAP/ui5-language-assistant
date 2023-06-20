@@ -57,6 +57,12 @@ describe("property-binding-info-validator", () => {
     const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([]);
   });
+  it("do not check {} with unknown char", async () => {
+    const snippet = `
+    <Text text="{!}" id="test-id"></Text>`;
+    const result = await validateView(snippet);
+    expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([]);
+  });
   it("do not check {path} [at least a key with colon must exits]", async () => {
     const snippet = `
     <Text text="{path}" id="test-id"></Text>`;
@@ -117,6 +123,14 @@ describe("property-binding-info-validator", () => {
     const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       "kind: MissingColon; text: Expect colon; severity:error; range:9:18-9:22",
+    ]);
+  });
+  it("check missing key", async () => {
+    const snippet = `
+    <Text text="{ : {}, type: {}}" id="test-id"></Text>`;
+    const result = await validateView(snippet);
+    expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
+      "kind: MissingKey; text: Expect key; severity:error; range:9:18-9:19",
     ]);
   });
   it("check missing value", async () => {
@@ -414,7 +428,7 @@ describe("property-binding-info-validator", () => {
     });
     it("check missing value", async () => {
       const snippet = `
-    <Text text="{ parts: [{ path: } }" id="test-id"></Text>`;
+    <Text text="{ parts: [{ path: }] }" id="test-id"></Text>`;
       const result = await validateView(snippet);
       expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
         "kind: MissingValue; text: Expect '' as a value; severity:error; range:9:28-9:33",
@@ -422,7 +436,7 @@ describe("property-binding-info-validator", () => {
     });
     it("check missing comma [parts]", async () => {
       const snippet = `
-    <Text text="{ parts: [{ path: '' events: {} }}" id="test-id"></Text>`;
+    <Text text="{ parts: [{ path: '' events: {} }]}" id="test-id"></Text>`;
       const result = await validateView(snippet);
       expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
         "kind: MissingComma; text: Missing comma; severity:error; range:9:37-9:47",
@@ -513,6 +527,10 @@ describe("property-binding-info-validator", () => {
     const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       "kind: TooManyColons; text: Too many colon; severity:error; range:9:23-9:24",
+      "kind: MissingKey; text: Expect key; severity:error; range:9:23-9:24",
+      "kind: MissingKey; text: Expect key; severity:error; range:9:24-9:25",
+      "kind: MissingKey; text: Expect key; severity:error; range:9:25-9:26",
+      "kind: MissingKey; text: Expect key; severity:error; range:9:26-9:27",
     ]);
   });
   it("check too many object", async () => {
@@ -684,7 +702,7 @@ describe("property-binding-info-validator", () => {
       });
       it("check missing value", async () => {
         const snippet = `
-    <Text text="{ 'parts': [{ 'path': } }" id="test-id"></Text>`;
+    <Text text="{ 'parts': [{ 'path': }] }" id="test-id"></Text>`;
         const result = await validateView(snippet);
         expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
           "kind: MissingValue; text: Expect '' as a value; severity:error; range:9:30-9:37",
@@ -704,6 +722,52 @@ describe("property-binding-info-validator", () => {
         const result = await validateView(snippet);
         expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
           'kind: MissingValue; text: A valid binding property info must be provided for "{}"; severity:error; range:9:28-9:30',
+        ]);
+      });
+    });
+  });
+  describe("brackets", () => {
+    describe("missing right curly bracket [brace]", () => {
+      it("case 01 [no diagnostic]", async () => {
+        const snippet = `
+        <Text text="{" id="test-id"></Text>`;
+        const result = await validateView(snippet);
+        expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
+          "kind: MissingBracket; text: Expect closing brace; severity:error; range:9:20-9:21",
+        ]);
+      });
+      it("case 02 [diagnostic [at least key with colon]", async () => {
+        const snippet = `
+        <Text text="{path: '' " id="test-id"></Text>`;
+        const result = await validateView(snippet);
+        expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
+          "kind: MissingBracket; text: Expect closing brace; severity:error; range:9:20-9:29",
+        ]);
+      });
+      it("case 03 [inside collection]", async () => {
+        const snippet = `
+        <Text text="{ parts: [{path: '' ] }" id="test-id"></Text>`;
+        const result = await validateView(snippet);
+        expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
+          "kind: MissingBracket; text: Expect closing brace; severity:error; range:9:30-9:39",
+        ]);
+      });
+    });
+    describe("missing right square bracket [bracket]", () => {
+      it("case 01", async () => {
+        const snippet = `
+        <Text text="{parts: ['' }" id="test-id"></Text>`;
+        const result = await validateView(snippet);
+        expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
+          "kind: MissingBracket; text: Expect closing bracket; severity:error; range:9:28-9:31",
+        ]);
+      });
+      it("case 02", async () => {
+        const snippet = `
+        <Text text="{parts: [{path: ''} }" id="test-id"></Text>`;
+        const result = await validateView(snippet);
+        expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
+          "kind: MissingBracket; text: Expect closing bracket; severity:error; range:9:28-9:39",
         ]);
       });
     });

@@ -14,11 +14,9 @@ export type {
   CursorContext,
   KeyValueContext,
   BaseContext,
-  ColonContext,
   EmptyContext,
   InitialContext,
   KeyContext,
-  UnknownContext,
   ValueContext,
 } from "./cursor";
 

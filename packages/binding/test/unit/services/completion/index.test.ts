@@ -266,6 +266,7 @@ describe("index", () => {
           "label: parts; text: parts; kind:5; commit:undefined; sort:; textEdit: {newText: parts, range: 9:22-9:26}",
         ]);
       });
+      it.todo("d.`<CURSOR>`: {} [missing key]");
     });
     describe("provides CC for value", () => {
       it("a. keyProperty: `<CURSOR>`", async function () {
@@ -343,7 +344,7 @@ describe("index", () => {
           "label: ''; text: '$0'; kind:5; commit:undefined; sort:",
         ]);
       });
-      it("h. for parts only [existing element(s) without comma]", async function () {
+      it("j. for parts only [existing element(s) without comma]", async function () {
         const snippet = `
         <Text text="{parts: [{} ${CURSOR_ANCHOR} ]}" id="test-id"></Text>`;
         const result = await getCompletionResult(snippet);
@@ -354,7 +355,7 @@ describe("index", () => {
           "label: ''; text: '$0'; kind:5; commit:undefined; sort:",
         ]);
       });
-      it("i. for parts only [all binding info properties except parts itself]", async function () {
+      it("j. for parts only [all binding info properties except parts itself]", async function () {
         const snippet = `
         <Text text="{parts: [{${CURSOR_ANCHOR}}]}" id="test-id"></Text>`;
         const result = await getCompletionResult(snippet);
@@ -376,6 +377,74 @@ describe("index", () => {
           "label: parameters; text: parameters: {$0}; kind:15; commit:undefined; sort:",
           "label: events; text: events: {$0}; kind:15; commit:undefined; sort:",
         ]);
+      });
+      it("k. for parts no completion items [collection exist - outside - case 01]", async function () {
+        const snippet = `
+        <Text text="{parts: ['']${CURSOR_ANCHOR}}" id="test-id"></Text>`;
+        const result = await getCompletionResult(snippet);
+        expect(
+          result.map((item) => completionItemToSnapshot(item))
+        ).toStrictEqual([]);
+      });
+      it("l. for parts no completion items [collection exist - outside - case 02]", async function () {
+        const snippet = `
+        <Text text="{parts: ${CURSOR_ANCHOR}['']}" id="test-id"></Text>`;
+        const result = await getCompletionResult(snippet);
+        expect(
+          result.map((item) => completionItemToSnapshot(item))
+        ).toStrictEqual([]);
+      });
+      it("m. for parts only [outside existing structure element(s) - case 01]", async function () {
+        const snippet = `
+        <Text text="{parts: [{}${CURSOR_ANCHOR} ]}" id="test-id"></Text>`;
+        const result = await getCompletionResult(snippet);
+        expect(
+          result.map((item) => completionItemToSnapshot(item))
+        ).toStrictEqual([
+          "label: {}; text: {$0}; kind:5; commit:undefined; sort:",
+          "label: ''; text: '$0'; kind:5; commit:undefined; sort:",
+        ]);
+      });
+      it("n. for parts only [outside existing structure element(s) - case 02]", async function () {
+        const snippet = `
+        <Text text="{parts: [${CURSOR_ANCHOR}{} ]}" id="test-id"></Text>`;
+        const result = await getCompletionResult(snippet);
+        expect(
+          result.map((item) => completionItemToSnapshot(item))
+        ).toStrictEqual([
+          "label: {}; text: {$0}; kind:5; commit:undefined; sort:",
+          "label: ''; text: '$0'; kind:5; commit:undefined; sort:",
+        ]);
+      });
+      it("o. for parts only [outside existing primitive element(s) - case 01]", async function () {
+        const snippet = `
+        <Text text="{parts: [''${CURSOR_ANCHOR} ]}" id="test-id"></Text>`;
+        const result = await getCompletionResult(snippet);
+        expect(
+          result.map((item) => completionItemToSnapshot(item))
+        ).toStrictEqual([
+          "label: {}; text: {$0}; kind:5; commit:undefined; sort:",
+          "label: ''; text: '$0'; kind:5; commit:undefined; sort:",
+        ]);
+      });
+      it("p. for parts only [outside existing primitive element(s) - case 02]", async function () {
+        const snippet = `
+        <Text text="{parts: [${CURSOR_ANCHOR}'' ]}" id="test-id"></Text>`;
+        const result = await getCompletionResult(snippet);
+        expect(
+          result.map((item) => completionItemToSnapshot(item))
+        ).toStrictEqual([
+          "label: {}; text: {$0}; kind:5; commit:undefined; sort:",
+          "label: ''; text: '$0'; kind:5; commit:undefined; sort:",
+        ]);
+      });
+      it("q. for parts only [on existing primitive element(s) - no completion item]", async function () {
+        const snippet = `
+        <Text text="{parts: ['${CURSOR_ANCHOR}' ]}" id="test-id"></Text>`;
+        const result = await getCompletionResult(snippet);
+        expect(
+          result.map((item) => completionItemToSnapshot(item))
+        ).toStrictEqual([]);
       });
     });
     describe("provides CC for key value", () => {
@@ -517,6 +586,29 @@ describe("index", () => {
           "label: parts; text: parts: ${1|[{}],['']|}$0; kind:15; commit:undefined; sort:",
         ]);
       });
+      it("no double CC items for two or more empty binding [consider consumed properties]", async function () {
+        const snippet = `
+        <Text text="some text {} and some here {path: '', ${CURSOR_ANCHOR}}" id="test-id"></Text>`;
+        const result = await getCompletionResult(snippet);
+        expect(
+          result.map((item) => completionItemToSnapshot(item))
+        ).toStrictEqual([
+          "label: value; text: value: '$0'; kind:15; commit:undefined; sort:",
+          "label: model; text: model: '$0'; kind:15; commit:undefined; sort:",
+          "label: suspended; text: suspended: ${1|true,false|}$0; kind:15; commit:undefined; sort:",
+          "label: formatter; text: formatter: '$0'; kind:15; commit:undefined; sort:",
+          "label: useRawValues; text: useRawValues: ${1|true,false|}$0; kind:15; commit:undefined; sort:",
+          "label: useInternalValues; text: useInternalValues: ${1|true,false|}$0; kind:15; commit:undefined; sort:",
+          "label: type; text: type: ${1|{},''|}$0; kind:15; commit:undefined; sort:",
+          "label: targetType; text: targetType: '$0'; kind:15; commit:undefined; sort:",
+          "label: formatOptions; text: formatOptions: {$0}; kind:15; commit:undefined; sort:",
+          "label: constraints; text: constraints: {$0}; kind:15; commit:undefined; sort:",
+          "label: mode; text: mode: '$0'; kind:15; commit:undefined; sort:",
+          "label: parameters; text: parameters: {$0}; kind:15; commit:undefined; sort:",
+          "label: events; text: events: {$0}; kind:15; commit:undefined; sort:",
+          "label: parts; text: parts: ${1|[{}],['']|}$0; kind:15; commit:undefined; sort:",
+        ]);
+      });
       it("provides no CC for wrong context", async function () {
         const snippet = `
        <Label text="Hello Mr. {${CURSOR_ANCHOR}/employees/0/lastName}, {path:'/employees/0/firstName', formatter:'.myFormatter'}"/>`;
@@ -571,6 +663,18 @@ describe("index", () => {
           "label: mode; text: mode; kind:5; commit:undefined; sort:; textEdit: {newText: mode, range: 9:59-9:63}",
           "label: parameters; text: parameters; kind:5; commit:undefined; sort:; textEdit: {newText: parameters, range: 9:59-9:63}",
           "label: events; text: events; kind:5; commit:undefined; sort:; textEdit: {newText: events, range: 9:59-9:63}",
+        ]);
+      });
+      it("no wrong completion items inside collection", async function () {
+        const snippet = `
+        <Text text="some text and {} some here {parts: [${CURSOR_ANCHOR}]}" id="test-id"></Text>"/>
+        `;
+        const result = await getCompletionResult(snippet);
+        expect(
+          result.map((item) => completionItemToSnapshot(item))
+        ).toStrictEqual([
+          "label: {}; text: {$0}; kind:5; commit:undefined; sort:",
+          "label: ''; text: '$0'; kind:5; commit:undefined; sort:",
         ]);
       });
     });

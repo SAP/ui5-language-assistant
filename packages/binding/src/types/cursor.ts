@@ -45,6 +45,9 @@ export interface KeyContext extends BaseContext {
  *
  * e. keyProperty: 'value-for-this-key'`<CURSOR>`
  *
+ * g. keyProperty `<CURSOR>` 'value-for-this-key' [missing colon]
+ *
+ * h. keyProperty `<CURSOR>` [space(s)] [missing colon]
  */
 export interface ValueContext extends BaseContext {
   type: "value";
@@ -61,35 +64,13 @@ export interface ValueContext extends BaseContext {
  *
  * d. keyProperty: 'value-for-this-key',`<CURSOR>`, [between comma]
  */
-export interface KeyValueContext extends BaseContext {
+export interface KeyValueContext {
   type: "key-value";
   kind: "properties-with-value-excluding-duplicate";
 }
-
-/**
- * Colon context scenario
- *
- * a. keyProperty `<CURSOR>` 'value-for-this-key'
- *
- * b. keyProperty `<CURSOR>` [space(s)]
- */
-export interface ColonContext extends BaseContext {
-  type: "colon";
-  kind: "colon";
-}
-/**
- * Unknown context. Any context except above is unknown and not code completion is provided
- */
-export interface UnknownContext {
-  type: "unknown";
-  kind: "unknown";
-}
-
 export type CursorContext =
   | InitialContext
   | EmptyContext
   | KeyContext
   | ValueContext
-  | KeyValueContext
-  | ColonContext
-  | UnknownContext;
+  | KeyValueContext;

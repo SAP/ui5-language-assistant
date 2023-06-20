@@ -11,6 +11,7 @@ import { checkNotAllowedElement } from "./check-not-allowed-element";
 import { checkDependents } from "./check-dependents";
 import { checkNestedParts } from "./check-nested-parts";
 import { checkComma } from "./check-comma";
+import { checkBrackets } from "./check-brackets";
 
 /**
  * Check an AST
@@ -63,5 +64,6 @@ export const checkAst = (
   issues.push(...checkNotAllowedElement(binding));
   issues.push(...checkDependents(context, binding));
   issues.push(...checkNestedParts(binding));
+  issues.push(...checkBrackets(binding));
   return issues;
 };

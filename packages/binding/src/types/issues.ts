@@ -19,7 +19,7 @@ export type BindingIssue =
   | RequiredDependency
   | RecursiveProperty
   | Unnecessary
-  | MissingLeftCurly;
+  | MissingBracket;
 
 interface BaseUI5XMLViewBindingIssue {
   issueType: typeof BINDING_ISSUE_TYPE;
@@ -50,8 +50,8 @@ export interface TooManyCommas extends BaseUI5XMLViewBindingIssue {
 export interface TrailingComma extends BaseUI5XMLViewBindingIssue {
   kind: "TrailingComma";
 }
-export interface MissingLeftCurly extends BaseUI5XMLViewBindingIssue {
-  kind: "MissingLeftCurly";
+export interface MissingBracket extends BaseUI5XMLViewBindingIssue {
+  kind: "MissingBracket";
 }
 /**
  * All parser error
