@@ -438,6 +438,14 @@ describe("index", () => {
           "label: ''; text: '$0'; kind:5; commit:undefined; sort:",
         ]);
       });
+      it("q. for parts only [on existing primitive element(s) - no completion item]", async function () {
+        const snippet = `
+        <Text text="{parts: ['${CURSOR_ANCHOR}' ]}" id="test-id"></Text>`;
+        const result = await getCompletionResult(snippet);
+        expect(
+          result.map((item) => completionItemToSnapshot(item))
+        ).toStrictEqual([]);
+      });
     });
     describe("provides CC for key value", () => {
       it("a. keyProperty: 'value-for-this-key'  `<CURSOR>` [spaces]", async function () {

@@ -10,6 +10,7 @@ import {
   positionContained,
   isBefore,
   BindingParserTypes as BindingTypes,
+  rangeContained,
 } from "@ui5-language-assistant/binding-parser";
 
 import { propertyBindingInfoElements } from "../../../definition/definition";
@@ -128,7 +129,10 @@ export const createValue = (
       // position is outside []
       return completionItems;
     }
-
+    if (el && rangeContained(el.range, { start: position, end: position })) {
+      // on primitive value e.g '|'
+      return completionItems;
+    }
     return getCollectionCompletionItem(context, element);
   }
   return completionItems;
