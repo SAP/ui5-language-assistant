@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.24
+
+### Patch Changes
+
+- 4dcd0c0: Address some issues
+
 ## 4.0.23
 
 ### Patch Changes

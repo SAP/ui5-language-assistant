@@ -1,5 +1,11 @@
 # @ui5-language-assistant/binding
 
+## 1.0.4
+
+### Patch Changes
+
+- 4dcd0c0: Address some issues
+
 ## 1.0.3
 
 ### Patch Changes
