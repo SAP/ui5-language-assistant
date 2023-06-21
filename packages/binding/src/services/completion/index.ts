@@ -10,6 +10,7 @@ import { TextDocument } from "vscode-languageserver-textdocument";
 
 import { attributeValueProviders } from "./providers";
 import { BindContext } from "../../types";
+import { getLogger } from "../../utils";
 
 export function getCompletionItems(opts: {
   context: Context;
@@ -38,8 +39,12 @@ export function getCompletionItems(opts: {
         attributeValue: attributeValueProviders,
       },
     });
+    getLogger().trace("computed completion items", {
+      suggestions,
+    });
     return suggestions;
   } catch (error) {
+    getLogger().debug("getCompletionItems failed:", error);
     return [];
   }
 }

@@ -5,6 +5,7 @@ import { BindingIssue } from "../../../types";
 import { BINDING_ISSUE_TYPE } from "../../../constant";
 import {
   extractBindingExpression,
+  getLogger,
   isBindingExpression,
   isPropertyBindingInfo,
 } from "../../../utils";
@@ -84,9 +85,10 @@ export function validatePropertyBindingInfo(
         }
       }
     }
-
+    getLogger().trace("computed diagnostics", { diagnostics: issues });
     return issues;
   } catch (error) {
+    getLogger().debug("validatePropertyBindingInfo failed:", error);
     return issues;
   }
 }
