@@ -141,6 +141,14 @@ describe("index", () => {
         result.map((item) => completionItemToSnapshot(item, true))
       ).toStrictEqual([]);
     });
+    it("provides no CC on wrong position", async function () {
+      const snippet = `
+        <Input maxLength="${CURSOR_ANCHOR}{path: ''}"/>`;
+      const result = await getCompletionResult(snippet);
+      expect(
+        result.map((item) => completionItemToSnapshot(item, true))
+      ).toStrictEqual([]);
+    });
     it("provides no CC for metadata binding", async function () {
       const snippet = `
         <Input maxLength="{/#Company${CURSOR_ANCHOR}/ZipCode/@maxLength}"/>`;

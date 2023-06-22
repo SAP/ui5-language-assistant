@@ -1,7 +1,7 @@
 import {
   parseBinding,
   BindingParserTypes as BindingTypes,
-  positionContained,
+  rangeContained,
 } from "@ui5-language-assistant/binding-parser";
 import type { Position } from "vscode-languageserver-types";
 import { AttributeValueCompletionOptions } from "@xml-tools/content-assist";
@@ -90,7 +90,10 @@ export function propertyBindingInfoSuggestions({
     }
     const cursorPos = context.textDocumentPosition?.position;
     const binding = ast.bindings.find(
-      (b) => cursorPos && positionContained(b.range, cursorPos)
+      (b) =>
+        cursorPos &&
+        b.range &&
+        rangeContained(b.range, { start: cursorPos, end: cursorPos })
     );
     if (!binding) {
       continue;
