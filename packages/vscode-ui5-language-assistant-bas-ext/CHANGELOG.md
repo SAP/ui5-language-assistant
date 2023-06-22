@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.25
+
+### Patch Changes
+
+- 255c0e5: fix: remove choice from completion items
+
 ## 4.0.24
 
 ### Patch Changes

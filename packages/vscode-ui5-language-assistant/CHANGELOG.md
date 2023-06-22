@@ -1,5 +1,12 @@
 # Change Log
 
+## 4.0.25
+
+### Patch Changes
+
+- 255c0e5: fix: remove choice from completion items
+  - @ui5-language-assistant/language-server@4.0.19
+
 ## 4.0.24
 
 ### Patch Changes

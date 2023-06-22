@@ -1,5 +1,11 @@
 # @ui5-language-assistant/binding
 
+## 1.0.5
+
+### Patch Changes
+
+- 255c0e5: fix: remove choice from completion items
+
 ## 1.0.4
 
 ### Patch Changes
