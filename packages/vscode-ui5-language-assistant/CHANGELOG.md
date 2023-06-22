@@ -1,5 +1,13 @@
 # Change Log
 
+## 4.0.26
+
+### Patch Changes
+
+- 62251ca: Manual test cases added for annotation related LSP
+- 05d9f69: No code completion for wrong position
+  - @ui5-language-assistant/language-server@4.0.20
+
 ## 4.0.25
 
 ### Patch Changes
