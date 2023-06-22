@@ -11,21 +11,21 @@ Array [
   "label: model; text: model: '$0'; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:**Description:** Name of the model to bind against; when undefined or omitted, the default model is used 
 
  **Visibility:** Public",
-  "label: suspended; text: suspended: \${1|true,false|}$0; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:**Description:** Whether the binding should be suspended initially 
+  "label: suspended; text: suspended: $0; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:**Description:** Whether the binding should be suspended initially 
 
  **Visibility:** Public",
   "label: formatter; text: formatter: '$0'; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:**Description:** Function to convert model data into a property value 
 
  **Visibility:** Public",
-  "label: useRawValues; text: useRawValues: \${1|true,false|}$0; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:**Description:** Whether the parameters to the formatter function should be passed as raw values. In this case the specified types for the binding parts are not used and the values are not formatted.
+  "label: useRawValues; text: useRawValues: $0; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:**Description:** Whether the parameters to the formatter function should be passed as raw values. In this case the specified types for the binding parts are not used and the values are not formatted.
 **Note**: use this flag only when using multiple bindings. If you use only one binding and want raw values then simply don't specify a type for that binding 
 
  **Visibility:** Public",
-  "label: useInternalValues; text: useInternalValues: \${1|true,false|}$0; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:**Description:** Whether the parameters to the formatter function should be passed as the related JavaScript primitive values. In this case the values of the model are parsed by the model format of the specified types from the binding parts.
+  "label: useInternalValues; text: useInternalValues: $0; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:**Description:** Whether the parameters to the formatter function should be passed as the related JavaScript primitive values. In this case the values of the model are parsed by the model format of the specified types from the binding parts.
 **Note**: use this flag only when using multiple bindings. 
 
  **Visibility:** Public",
-  "label: type; text: type: \${1|{},''|}$0; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:**Description:** A type object or the name of a type class to create such a type object; the type will be used for converting model data to a property value (aka \\"formatting\\") and vice versa (in binding mode TwoWay, aka \\"parsing\\") 
+  "label: type; text: type: $0; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:**Description:** A type object or the name of a type class to create such a type object; the type will be used for converting model data to a property value (aka \\"formatting\\") and vice versa (in binding mode TwoWay, aka \\"parsing\\") 
 
  **Visibility:** Public",
   "label: targetType; text: targetType: '$0'; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:**Description:** Target type to be used by the type when formatting model data, for example \\"boolean\\" or \\"string\\" or \\"any\\"; defaults to the property's type 
@@ -46,7 +46,7 @@ Array [
   "label: events; text: events: {$0}; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:**Description:** Map of event handler functions keyed by the name of the binding events that they should be attached to 
 
  **Visibility:** Public",
-  "label: parts; text: parts: \${1|[{}],['']|}$0; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:**Description:** Array of binding info objects for the parts of a composite binding; the structure of each binding info is the same as described for the oBindingInfo as a whole.
+  "label: parts; text: parts: $0; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:**Description:** Array of binding info objects for the parts of a composite binding; the structure of each binding info is the same as described for the oBindingInfo as a whole.
 If a part is not specified as a binding info object but as a simple string, a binding info object will be created with that string as path. The string may start with a model name prefix (see property path).
 **Note**: recursive composite bindings are currently not supported. Therefore, a part must not contain a parts property 
 

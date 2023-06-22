@@ -4,12 +4,9 @@ import {
   InsertTextFormat,
 } from "vscode-languageserver-types";
 
-import { propertyBindingInfoElements } from "../../../definition/definition";
-
 export const createInitialSnippet = (): CompletionItem[] => {
   const completionItems: CompletionItem[] = [];
-  const names = propertyBindingInfoElements.map((item) => item.name);
-  let text = "{ ${1|" + names.join(",") + "|}: $0 }";
+  let text = "{ $0 }";
   completionItems.push({
     label: "{ }",
     insertTextFormat: InsertTextFormat.Snippet,

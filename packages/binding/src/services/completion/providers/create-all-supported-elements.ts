@@ -16,16 +16,7 @@ export const createAllSupportedElements = (
 ): CompletionItem[] => {
   return propertyBindingInfoElements.map((item) => {
     const type = typesToValue(item.type, context, 0);
-    let text = "";
-    if (type.length === 1) {
-      text = `${item.name}: ${type[0]}`;
-    } else {
-      let choice = type.join(",");
-      // choice does not support tab stop
-      choice = choice.replace(/\$\d+/g, "");
-      choice = "${1|" + choice + "|}$0";
-      text = `${item.name}: ${choice}`;
-    }
+    const text = `${item.name}: ${type.length === 1 ? type[0] : "$0"}`;
     const documentation = getDocumentation(item);
     return {
       label: item.name,
