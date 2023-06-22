@@ -25,7 +25,7 @@
 ```cpp
 annotate service.Travel with @(
     UI.Chart #sample1: {
-        type: '',
+        ChartType: #Bar,
     },
     UI.LineItem: []
 );

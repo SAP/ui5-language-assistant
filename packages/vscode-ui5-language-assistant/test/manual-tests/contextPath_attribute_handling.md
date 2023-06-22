@@ -24,7 +24,7 @@ Associated user stories:
 ```c++
 annotate service.Travel with @(
     UI.Chart #sample1: {
-        type: '',
+        ChartType: #Bar,
     }
 );
 ```
