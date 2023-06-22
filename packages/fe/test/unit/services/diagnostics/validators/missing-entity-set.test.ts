@@ -76,7 +76,7 @@ describe("missing entitySet validation", () => {
         }
       );
       expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-        "kind: MissingEntitySet; text: EntitySet or contextPath for the current view are missing in application manifest. Attribute value completion and diagnostics are disabled; severity:info; offset:344-354",
+        "kind: MissingEntitySet; text: EntitySet or contextPath for the current view are not defined in application manifest. Attribute value completion and diagnostics is not possible if EntitySet or contextPath are not defined or defined dynamically in controllers; severity:info; offset:344-354",
       ]);
     });
 
@@ -87,7 +87,7 @@ describe("missing entitySet validation", () => {
         (c) => ({ ...c, manifestDetails: undefined } as any)
       );
       expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-        "kind: MissingEntitySet; text: EntitySet or contextPath for the current view are missing in application manifest. Attribute value completion and diagnostics are disabled; severity:info; offset:344-349",
+        "kind: MissingEntitySet; text: EntitySet or contextPath for the current view are not defined in application manifest. Attribute value completion and diagnostics is not possible if EntitySet or contextPath are not defined or defined dynamically in controllers; severity:info; offset:344-349",
       ]);
     });
 
@@ -103,7 +103,7 @@ describe("missing entitySet validation", () => {
         }
       );
       expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-        "kind: MissingEntitySet; text: EntitySet or contextPath for the current view are missing in application manifest. Attribute value completion and diagnostics are disabled; severity:info; offset:344-349",
+        "kind: MissingEntitySet; text: EntitySet or contextPath for the current view are not defined in application manifest. Attribute value completion and diagnostics is not possible if EntitySet or contextPath are not defined or defined dynamically in controllers; severity:info; offset:344-349",
       ]);
     });
   });
