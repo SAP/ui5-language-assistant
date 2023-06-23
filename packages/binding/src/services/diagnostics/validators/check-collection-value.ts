@@ -7,7 +7,7 @@ import {
 } from "@ui5-language-assistant/binding-parser";
 import { checkAst } from "./issue-collector";
 import { getPrimitiveValueIssues } from "./check-primitive-value";
-import { propertyBindingInfoElements } from "../../../definition/definition";
+import { getPropertyBindingInfoElements } from "../../../definition/definition";
 import { isParts, typesToValue, findRange } from "../../../utils";
 import { checkComma } from "./check-comma";
 import { checkBrackets } from "./check-brackets";
@@ -52,7 +52,7 @@ export const checkCollectionValue = (
   }
   // check if that element is allowed to have collection value
   const text = element.key && element.key.text;
-  const bindingElement = propertyBindingInfoElements.find(
+  const bindingElement = getPropertyBindingInfoElements(context).find(
     (el) => el.name === text
   );
 

@@ -35,7 +35,7 @@ export const checkAst = (
     const colonIssue: BindingIssue[] = [];
     const missingValueIssue: BindingIssue[] = [];
     if (!ignore) {
-      keyIssue.push(...checkKey(element));
+      keyIssue.push(...checkKey(context, element));
       issues.push(...keyIssue);
     }
     if (keyIssue.length === 0) {
@@ -61,7 +61,7 @@ export const checkAst = (
     );
   }
   issues.push(...checkDuplicate(binding));
-  issues.push(...checkNotAllowedElement(binding));
+  issues.push(...checkNotAllowedElement(context, binding));
   issues.push(...checkDependents(context, binding));
   issues.push(...checkNestedParts(binding));
   issues.push(...checkBrackets(binding));

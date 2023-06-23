@@ -77,7 +77,7 @@ export interface UI5Namespace extends BaseUI5Node {
 // Likely Not Relevant for XML.Views
 export interface UI5Typedef extends BaseUI5Node {
   kind: "UI5Typedef";
-  // TODO: TBD: Ignoring this type's content at this time.
+  properties: UI5TypedefProp[];
 }
 
 // Likely Not Relevant for XML.Views
@@ -104,6 +104,14 @@ export interface UI5Prop extends BaseUI5Node {
   type: UI5Type | undefined;
   default: unknown; // This should be of the property's type
   metadata?: propertyMetadata;
+}
+export interface UI5TypedefProp {
+  kind: "UI5TypedefProp";
+  name: string;
+  type: string;
+  optional?: boolean;
+  visibility: string;
+  description: string;
 }
 
 export interface FEPropertyMetadata {

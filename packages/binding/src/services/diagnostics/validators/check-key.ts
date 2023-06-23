@@ -1,11 +1,12 @@
-import { propertyBindingInfoElements } from "../../../definition/definition";
-import { BindingIssue, BINDING_ISSUE_TYPE } from "../../../types";
+import { getPropertyBindingInfoElements } from "../../../definition/definition";
+import { BindingIssue, BINDING_ISSUE_TYPE, BindContext } from "../../../types";
 import { BindingParserTypes as BindingTypes } from "@ui5-language-assistant/binding-parser";
 import { findRange } from "../../../utils";
 /**
  * Check if key is a one of supported property binding info
  */
 export const checkKey = (
+  context: BindContext,
   element: BindingTypes.StructureElement
 ): BindingIssue[] => {
   const issues: BindingIssue[] = [];
@@ -20,7 +21,7 @@ export const checkKey = (
     return issues;
   }
   const text = element.key && element.key.text;
-  const bindingElement = propertyBindingInfoElements.find(
+  const bindingElement = getPropertyBindingInfoElements(context).find(
     (el) => el.name === text
   );
   if (!bindingElement) {

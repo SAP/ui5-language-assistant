@@ -1,4 +1,4 @@
-import { BindContext, PropertyType } from "../types";
+import { BindContext, PropertyType, TypeKind } from "../types";
 import {
   BOOLEAN_VALUE,
   LEFT_CURLY,
@@ -29,14 +29,14 @@ export const typesToValue = (
 ): string[] => {
   const result: string[] = [];
   types.forEach((type) => {
-    if (type.kind === "string") {
+    if (type.kind === TypeKind.string) {
       if (type.collection && collectionValue === false) {
         result.push(`[${emptyString(context, tabStop)}]`);
       } else {
         result.push(emptyString(context, tabStop));
       }
     }
-    if (type.kind === "boolean") {
+    if (type.kind === TypeKind.boolean) {
       if (type.collection && collectionValue === false) {
         result.push("[true, false]");
       } else {
@@ -44,7 +44,7 @@ export const typesToValue = (
         result.push("false");
       }
     }
-    if (type.kind === "object") {
+    if (type.kind === TypeKind.object) {
       if (type.collection && collectionValue === false) {
         result.push(isNumber(tabStop) ? `[{${"$" + tabStop}}]` : "[{ }]");
       } else {

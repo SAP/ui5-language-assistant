@@ -7,7 +7,7 @@ export const getDocumentation = (
   kind: MarkupKind;
   value: string;
 } => {
-  const value = `**Description:** ${prop.description.text} \n\n **Visibility:** ${prop.description.visibility}`;
+  const value = `**Type:** ${prop.documentation.type} \n\n **Description:** ${prop.documentation.description} \n\n **Visibility:** ${prop.documentation.visibility} \n\n **Optional:** ${prop.documentation.optional}`;
   return {
     kind: MarkupKind.Markdown,
     value,

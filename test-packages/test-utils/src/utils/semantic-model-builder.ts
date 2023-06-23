@@ -158,6 +158,7 @@ export function buildUI5Typedef<T extends PartialWithName<UI5Typedef>>(
   return {
     ...baseUI5NodeDefaults,
     kind: "UI5Typedef",
+    properties: [],
     ...opts,
   };
 }

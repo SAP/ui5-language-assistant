@@ -127,7 +127,7 @@ describe("property-binding-info-validator", () => {
   });
   it("check missing key", async () => {
     const snippet = `
-    <Text text="{ : {}, type: {}}" id="test-id"></Text>`;
+    <Text text="{ : {}, type: ''}" id="test-id"></Text>`;
     const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       "kind: MissingKey; text: Expect key; severity:error; range:9:18-9:19",
@@ -141,20 +141,20 @@ describe("property-binding-info-validator", () => {
       "kind: MissingValue; text: Expect '' as a value; severity:error; range:9:18-9:23",
     ]);
   });
-  it("check wrong value - allowed value are {} or ''", async () => {
+  it("check wrong value - allowed value is ''", async () => {
     const snippet = `
     <Text text="{ type: 25 }" id="test-id"></Text>`;
     const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-      "kind: MissMatchValue; text: Allowed values are { } or ''; severity:error; range:9:24-9:26",
+      "kind: MissMatchValue; text: Allowed value is ''; severity:error; range:9:24-9:26",
     ]);
   });
-  it("check wrong collection value - allowed value are {} or ''", async () => {
+  it("check wrong collection value - allowed value is ''", async () => {
     const snippet = `
     <Text text="{ type: [] }" id="test-id"></Text>`;
     const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-      "kind: MissMatchValue; text: Allowed values are { } or ''; severity:error; range:9:24-9:26",
+      "kind: MissMatchValue; text: Allowed value is ''; severity:error; range:9:24-9:26",
     ]);
   });
   it("check wrong value - allowed value is string", async () => {
@@ -373,14 +373,6 @@ describe("property-binding-info-validator", () => {
     const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       'kind: RequiredDependency; text: Required dependency "type" should be defined; severity:info; range:9:17-9:30',
-    ]);
-  });
-  it("check required element has correct value", async () => {
-    const snippet = `
-    <Text text="{formatOptions: {}, type: {}}" id="test-id"></Text>`;
-    const result = await validateView(snippet);
-    expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-      'kind: Unnecessary; text: "formatOptions" is only taken into account with "type" when "type" is defined as \'\'; severity:info; range:9:17-9:30',
     ]);
   });
   it("check recursive composite bindings", async () => {
@@ -618,12 +610,12 @@ describe("property-binding-info-validator", () => {
         "kind: MissingValue; text: Expect '' as a value; severity:error; range:9:18-9:25",
       ]);
     });
-    it("check wrong value - allowed value are {} or ''", async () => {
+    it("check wrong value - allowed value is ''", async () => {
       const snippet = `
     <Text text="{ 'type': 25 }" id="test-id"></Text>`;
       const result = await validateView(snippet);
       expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-        "kind: MissMatchValue; text: Allowed values are { } or ''; severity:error; range:9:26-9:28",
+        "kind: MissMatchValue; text: Allowed value is ''; severity:error; range:9:26-9:28",
       ]);
     });
     it("check only one of elements [path, value or parts] is allowed", async () => {

@@ -286,6 +286,9 @@ function convertTypedef(
   const typedef: model.UI5Typedef = {
     ...base,
     kind: "UI5Typedef",
+    properties: (symbol.properties ?? []).map((prop) =>
+      convertTypeDefProperty(prop)
+    ),
   };
   return typedef;
 }
@@ -430,6 +433,27 @@ function convertProperty(
     metadata,
   };
   return property;
+}
+
+function convertTypeDefProperty(
+  prop: model.UI5TypedefProp
+): model.UI5TypedefProp {
+  const {
+    description,
+    name,
+    optional,
+    type,
+    visibility,
+    kind = "UI5TypedefProp",
+  } = prop;
+  return {
+    description,
+    kind,
+    name,
+    optional,
+    type,
+    visibility,
+  };
 }
 
 function convertEnumValue(

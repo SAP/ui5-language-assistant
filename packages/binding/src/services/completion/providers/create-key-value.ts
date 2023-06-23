@@ -5,7 +5,7 @@ import {
 } from "vscode-languageserver-types";
 import { BindingParserTypes as BindingTypes } from "@ui5-language-assistant/binding-parser";
 
-import { propertyBindingInfoElements } from "../../../definition/definition";
+import { getPropertyBindingInfoElements } from "../../../definition/definition";
 import { typesToValue } from "../../../utils";
 import { getDocumentation } from "./documentation";
 import { BindContext } from "../../../types";
@@ -15,7 +15,7 @@ export const createKeyValue = (
   binding: BindingTypes.StructureValue
 ): CompletionItem[] => {
   // exclude duplicate
-  return propertyBindingInfoElements
+  return getPropertyBindingInfoElements(context)
     .filter((item) => {
       if (
         !binding.elements.find(
