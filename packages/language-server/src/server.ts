@@ -440,7 +440,7 @@ connection.onDidChangeConfiguration((change) => {
 
 // Only keep settings for open documents
 documents.onDidClose((textDocumentChangeEvent) => {
-  getLogger().trace("`onDidClose` event", {
+  getLogger().debug("`onDidClose` event", {
     document: textDocumentChangeEvent.document,
   });
   const uri = textDocumentChangeEvent.document.uri;
