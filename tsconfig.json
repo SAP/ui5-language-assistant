@@ -1,7 +1,7 @@
 {
   "references": [
     {
-      "path": "./packages/language-server"
+      "path": "./test-packages/framework"
     },
     {
       "path": "./packages/logic-utils"
@@ -34,9 +34,6 @@
       "path": "./test-packages/test-utils"
     },
     {
-      "path": "./packages/vscode-ui5-language-assistant"
-    },
-    {
       "path": "./packages/context"
     },
     {
@@ -46,10 +43,13 @@
       "path": "./packages/binding"
     },
     {
-      "path": "./test-packages/framework"
+      "path": "./packages/fe"
     },
     {
-      "path": "./packages/fe"
+      "path": "./packages/language-server"
+    },
+    {
+      "path": "./packages/vscode-ui5-language-assistant"
     }
   ],
   "include": ["src/**/*"]
