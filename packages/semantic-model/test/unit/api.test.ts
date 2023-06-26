@@ -9,6 +9,7 @@ import {
 import {
   UI5Framework,
   UI5SemanticModel,
+  UI5Typedef,
 } from "@ui5-language-assistant/semantic-model-types";
 import { forEachSymbol } from "../../src/utils";
 import { generate } from "../../src/api";
@@ -141,6 +142,16 @@ describe("The ui5-language-assistant semantic model package API", () => {
     );
   }
 
+  function assertTypedefProperty(data: UI5Typedef) {
+    data.properties.forEach((prper) => {
+      expect(prper.description).toBeDefined();
+      expect(prper.kind).toStrictEqual("UI5TypedefProp");
+      expect(prper.name).toBeDefined();
+      expect(prper.type).toBeDefined();
+      expect(prper.visibility).toBeDefined();
+    });
+  }
+
   type Params = {
     value: unknown;
     fqn: string;
@@ -174,10 +185,12 @@ describe("The ui5-language-assistant semantic model package API", () => {
       }
     } else if (isObject(value)) {
       if ("kind" in value && typeof value.kind === "string") {
-        action({
-          ...params,
-          value: value as ObjectWithKind,
-        });
+        if (value.kind !== "UI5TypedefProp") {
+          action({
+            ...params,
+            value: value as ObjectWithKind,
+          });
+        }
       } else {
         // Map
         forEach(value, (mapValue, mapKey) => {
@@ -280,6 +293,11 @@ describe("The ui5-language-assistant semantic model package API", () => {
 
         it(`has only resolved types`, async () => {
           assertTypesAreResolved(model);
+        });
+        it(`has typedef property [PropertyBindingInfo]`, async () => {
+          assertTypedefProperty(
+            model.typedefs["sap.ui.rta.service.Property.PropertyObject"]
+          );
         });
         // TODO: assert no cyclic references in extends or implements or parent - maybe not in a test
       });

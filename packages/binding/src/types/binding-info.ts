@@ -29,7 +29,6 @@ export interface Dependents {
 }
 export interface PropertyType {
   kind: string;
-  // kind: TypeKind;
   default?: {
     values: (string | boolean)[];
     fixed: boolean;
