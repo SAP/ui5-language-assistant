@@ -1,6 +1,6 @@
 {
   "name": "@ui5-language-assistant/xml-views-tooltip",
-  "version": "4.0.9",
+  "version": "4.0.14",
   "private": true,
   "description": "XML Views Tooltip",
   "keywords": [
@@ -22,10 +22,10 @@
     "node": ">=10.0.0"
   },
   "dependencies": {
-    "@ui5-language-assistant/context": "4.0.9",
-    "@ui5-language-assistant/logic-utils": "4.0.8",
-    "@ui5-language-assistant/semantic-model": "4.0.7",
-    "@ui5-language-assistant/semantic-model-types": "4.0.5",
+    "@ui5-language-assistant/context": "4.0.14",
+    "@ui5-language-assistant/logic-utils": "4.0.11",
+    "@ui5-language-assistant/semantic-model": "4.0.10",
+    "@ui5-language-assistant/semantic-model-types": "4.0.7",
     "@xml-tools/ast": "5.0.0",
     "@xml-tools/ast-position": "2.0.2",
     "@xml-tools/common": "0.1.2",
@@ -40,7 +40,7 @@
     "compile": "yarn run clean && tsc -p .",
     "compile:watch": "tsc -p . --watch",
     "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore",
-    "test": "mocha",
-    "coverage": "nyc mocha"
+    "test": "jest --ci --forceExit --detectOpenHandles --maxWorkers=1 --coverage=false",
+    "coverage": "jest --ci --forceExit --detectOpenHandles --maxWorkers=1 --coverage=true"
   }
 }

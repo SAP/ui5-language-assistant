@@ -365,6 +365,9 @@ export interface Ui5Metadata {
   }[];
   designtime?: boolean | string;
   metadataClass?: string;
+  "sap.fe"?: {
+    returnTypes?: string[];
+  };
 }
 export interface Ui5SpecialSetting {
   name: Ui5SettingName;

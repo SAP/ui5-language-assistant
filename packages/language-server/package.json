@@ -1,6 +1,6 @@
 {
   "name": "@ui5-language-assistant/language-server",
-  "version": "4.0.10",
+  "version": "4.0.20",
   "private": true,
   "description": "UI5 Language Server",
   "keywords": [
@@ -25,17 +25,18 @@
     "node": ">=10.0.0"
   },
   "dependencies": {
+    "@ui5-language-assistant/binding": "1.0.6",
     "@sap/swa-for-sapbas-vsx": "1.1.9",
-    "@ui5-language-assistant/context": "4.0.9",
-    "@ui5-language-assistant/logic-utils": "4.0.8",
-    "@ui5-language-assistant/fe": "4.0.9",
-    "@ui5-language-assistant/semantic-model": "4.0.7",
-    "@ui5-language-assistant/settings": "4.0.7",
-    "@ui5-language-assistant/user-facing-text": "4.0.5",
-    "@ui5-language-assistant/xml-views-completion": "4.0.9",
-    "@ui5-language-assistant/xml-views-quick-fix": "4.0.8",
-    "@ui5-language-assistant/xml-views-tooltip": "4.0.9",
-    "@ui5-language-assistant/xml-views-validation": "4.0.8",
+    "@ui5-language-assistant/context": "4.0.14",
+    "@ui5-language-assistant/logic-utils": "4.0.11",
+    "@ui5-language-assistant/fe": "4.0.14",
+    "@ui5-language-assistant/semantic-model": "4.0.10",
+    "@ui5-language-assistant/settings": "4.0.9",
+    "@ui5-language-assistant/user-facing-text": "4.0.7",
+    "@ui5-language-assistant/xml-views-completion": "4.0.14",
+    "@ui5-language-assistant/xml-views-quick-fix": "4.0.11",
+    "@ui5-language-assistant/xml-views-tooltip": "4.0.14",
+    "@ui5-language-assistant/xml-views-validation": "4.0.11",
     "@xml-tools/ast": "5.0.0",
     "@xml-tools/ast-position": "2.0.2",
     "@xml-tools/parser": "1.0.7",
@@ -51,8 +52,8 @@
     "@types/node-fetch": "2.5.10",
     "@types/semver": "7.3.12",
     "@types/tmp": "0.2.0",
-    "@ui5-language-assistant/semantic-model-types": "4.0.5",
-    "@ui5-language-assistant/test-utils": "4.0.7",
+    "@ui5-language-assistant/semantic-model-types": "4.0.7",
+    "@ui5-language-assistant/test-utils": "4.0.8",
     "string-replace-loader": "3.1.0",
     "vscode-languageserver-types": "3.17.2"
   },
@@ -62,8 +63,8 @@
     "compile": "yarn run clean && tsc -p .",
     "compile:watch": "tsc -p . --watch",
     "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore",
-    "test": "mocha",
-    "coverage": "nyc mocha",
+    "test": "jest --ci --forceExit --detectOpenHandles --maxWorkers=1 --coverage=false",
+    "coverage": "jest --ci --forceExit --detectOpenHandles --maxWorkers=1 --coverage=true",
     "update-snapshots": "node ./scripts/update-diagnostics-snapshots",
     "bundle": "node esbuild.js"
   }

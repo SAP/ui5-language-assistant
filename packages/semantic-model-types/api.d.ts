@@ -50,6 +50,7 @@ export interface UI5Class extends BaseUI5Node {
   associations: UI5Association[];
   events: UI5Event[];
   defaultAggregation: UI5Aggregation | undefined;
+  returnTypes?: (UI5Class | UI5Interface)[];
 }
 
 export interface UI5Enum extends BaseUI5Node {

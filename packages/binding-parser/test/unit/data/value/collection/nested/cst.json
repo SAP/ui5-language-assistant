@@ -1,0 +1,139 @@
+{
+  "name": "template",
+  "children": {
+    "object": [
+      {
+        "name": "object",
+        "children": {
+          "left-curly": [
+            {
+              "image": "{",
+              "startColumn": 1,
+              "endColumn": 1,
+              "tokenTypeName": "left-curly"
+            }
+          ],
+          "object-item": [
+            {
+              "name": "object-item",
+              "children": {
+                "key": [
+                  {
+                    "image": "key",
+                    "startColumn": 3,
+                    "endColumn": 5,
+                    "tokenTypeName": "key"
+                  }
+                ],
+                "colon": [
+                  {
+                    "image": ":",
+                    "startColumn": 6,
+                    "endColumn": 6,
+                    "tokenTypeName": "colon"
+                  }
+                ],
+                "value": [
+                  {
+                    "name": "value",
+                    "children": {
+                      "array": [
+                        {
+                          "name": "array",
+                          "children": {
+                            "left-square": [
+                              {
+                                "image": "[",
+                                "startColumn": 8,
+                                "endColumn": 8,
+                                "tokenTypeName": "left-square"
+                              }
+                            ],
+                            "value": [
+                              {
+                                "name": "value",
+                                "children": {
+                                  "array": [
+                                    {
+                                      "name": "array",
+                                      "children": {
+                                        "left-square": [
+                                          {
+                                            "image": "[",
+                                            "startColumn": 9,
+                                            "endColumn": 9,
+                                            "tokenTypeName": "left-square"
+                                          }
+                                        ],
+                                        "right-square": [
+                                          {
+                                            "image": "]",
+                                            "startColumn": 10,
+                                            "endColumn": 10,
+                                            "tokenTypeName": "right-square"
+                                          }
+                                        ]
+                                      },
+                                      "location": {
+                                        "startColumn": 9,
+                                        "endColumn": 10
+                                      }
+                                    }
+                                  ]
+                                },
+                                "location": {
+                                  "startColumn": 9,
+                                  "endColumn": 10
+                                }
+                              }
+                            ],
+                            "right-square": [
+                              {
+                                "image": "]",
+                                "startColumn": 11,
+                                "endColumn": 11,
+                                "tokenTypeName": "right-square"
+                              }
+                            ]
+                          },
+                          "location": {
+                            "startColumn": 8,
+                            "endColumn": 11
+                          }
+                        }
+                      ]
+                    },
+                    "location": {
+                      "startColumn": 8,
+                      "endColumn": 11
+                    }
+                  }
+                ]
+              },
+              "location": {
+                "startColumn": 3,
+                "endColumn": 11
+              }
+            }
+          ],
+          "right-curly": [
+            {
+              "image": "}",
+              "startColumn": 13,
+              "endColumn": 13,
+              "tokenTypeName": "right-curly"
+            }
+          ]
+        },
+        "location": {
+          "startColumn": 1,
+          "endColumn": 13
+        }
+      }
+    ]
+  },
+  "location": {
+    "startColumn": 1,
+    "endColumn": 13
+  }
+}

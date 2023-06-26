@@ -12,15 +12,20 @@ process.chdir(resolve(__dirname, ".."));
 rimraf.sync(".nyc_output");
 makeDir.sync(".nyc_output");
 
+console.log("Merging coverage from packages...");
+
 // Merge coverage data from each package so we can generate a complete reports
-glob.sync("packages/*/.nyc_output").forEach((nycOutput) => {
-  const cwd = dirname(nycOutput);
+glob.sync("packages/*/reports/test/unit/coverage").forEach((jestOutput) => {
+  const cwd = dirname(jestOutput);
+  const packageName = cwd.split("/")[1];
+  console.log(packageName);
+
   const { status, stderr } = spawnSync(
     resolve("node_modules", ".bin", "nyc"),
     [
       "merge",
-      ".nyc_output",
-      join(__dirname, "..", ".nyc_output", basename(cwd) + ".json"),
+      "coverage",
+      join(__dirname, "..", ".nyc_output", packageName + ".json"),
     ],
     {
       encoding: "utf8",

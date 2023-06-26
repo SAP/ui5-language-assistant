@@ -1,5 +1,17 @@
 # Change Log
 
+## 4.0.7
+
+### Patch Changes
+
+- d8b77af: Provide a minimal code completion and syntax check for property binding info
+
+## 4.0.6
+
+### Patch Changes
+
+- c73d4fd: Unit test coverage improvement. Migration to Jest test framework
+
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 

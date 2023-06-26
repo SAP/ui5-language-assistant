@@ -44,35 +44,135 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "context: run current file",
-      "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
-      "args": ["${fileBasenameNoExtension}"],
+      "name": "Context: Run Current Jest File",
+      "program": "${workspaceFolder}/node_modules/.bin/jest",
+      "args": [
+        "${fileBasenameNoExtension}",
+        "--coverage=false",
+        "--config",
+        "jest.config.js"
+      ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
       "disableOptimisticBPs": true,
+      "windows": {
+        "program": "${workspaceFolder}/node_modules/jest/bin/jest"
+      },
       "cwd": "${workspaceFolder}/packages/context"
     },
     {
       "type": "node",
       "request": "launch",
-      "name": "fe: run current file",
-      "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
-      "args": ["${fileBasenameNoExtension}"],
+      "name": "Language Server: Run Current Jest File",
+      "program": "${workspaceFolder}/node_modules/.bin/jest",
+      "args": [
+        "${fileBasenameNoExtension}",
+        "--coverage=false",
+        "--config",
+        "jest.config.js"
+      ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
       "disableOptimisticBPs": true,
-      "cwd": "${workspaceFolder}/packages/fe"
+      "windows": {
+        "program": "${workspaceFolder}/node_modules/jest/bin/jest"
+      },
+      "cwd": "${workspaceFolder}/packages/language-server"
     },
     {
       "type": "node",
       "request": "launch",
-      "name": "semantic-model: run current file",
-      "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
-      "args": ["${fileBasenameNoExtension}"],
+      "name": "Extension: Run Current Jest File",
+      "program": "${workspaceFolder}/node_modules/.bin/jest",
+      "args": [
+        "${fileBasenameNoExtension}",
+        "--coverage=false",
+        "--config",
+        "jest.config.js"
+      ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
       "disableOptimisticBPs": true,
+      "windows": {
+        "program": "${workspaceFolder}/node_modules/jest/bin/jest"
+      },
+      "cwd": "${workspaceFolder}/packages/vscode-ui5-language-assistant"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "XML validation: Run Current Jest File",
+      "program": "${workspaceFolder}/node_modules/.bin/jest",
+      "args": [
+        "${fileBasenameNoExtension}",
+        "--coverage=false",
+        "--config",
+        "jest.config.js"
+      ],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "disableOptimisticBPs": true,
+      "windows": {
+        "program": "${workspaceFolder}/node_modules/jest/bin/jest"
+      },
+      "cwd": "${workspaceFolder}/packages/xml-views-validation"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Logic Utils: Run Current Jest File",
+      "program": "${workspaceFolder}/node_modules/.bin/jest",
+      "args": [
+        "${fileBasenameNoExtension}",
+        "--coverage=false",
+        "--config",
+        "jest.config.js"
+      ],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "disableOptimisticBPs": true,
+      "windows": {
+        "program": "${workspaceFolder}/node_modules/jest/bin/jest"
+      },
+      "cwd": "${workspaceFolder}/packages/logic-utils"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Semantic Model: Run Current Jest File",
+      "program": "${workspaceFolder}/node_modules/.bin/jest",
+      "args": [
+        "${fileBasenameNoExtension}",
+        "--coverage=false",
+        "--config",
+        "jest.config.js"
+      ],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "disableOptimisticBPs": true,
+      "windows": {
+        "program": "${workspaceFolder}/node_modules/jest/bin/jest"
+      },
       "cwd": "${workspaceFolder}/packages/semantic-model"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Annotations Module (FE): Run Current Jest File",
+      "program": "${workspaceFolder}/node_modules/.bin/jest",
+      "args": [
+        "${fileBasenameNoExtension}",
+        "--coverage=false",
+        "--config",
+        "jest.config.js"
+      ],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "disableOptimisticBPs": true,
+      "windows": {
+        "program": "${workspaceFolder}/node_modules/jest/bin/jest"
+      },
+      "cwd": "${workspaceFolder}/packages/fe"
     }
   ]
 }

@@ -1,0 +1,87 @@
+{
+  "bindings": [
+    {
+      "leftCurly": {
+        "type": "left-curly",
+        "text": "{",
+        "range": "[(0,0)..(0,1)]"
+      },
+      "elements": [
+        {
+          "key": {
+            "type": "key",
+            "text": "key",
+            "range": "[(0,2)..(0,5)]",
+            "originalText": "key"
+          },
+          "colon": {
+            "type": "colon",
+            "text": ":",
+            "range": "[(0,5)..(0,6)]"
+          },
+          "value": {
+            "leftSquare": {
+              "type": "left-square",
+              "text": "[",
+              "range": "[(0,7)..(0,8)]"
+            },
+            "elements": [
+              {
+                "leftSquare": {
+                  "type": "left-square",
+                  "text": "[",
+                  "range": "[(0,8)..(0,9)]"
+                },
+                "elements": [],
+                "rightSquare": {
+                  "type": "right-square",
+                  "text": "]",
+                  "range": "[(0,9)..(0,10)]"
+                },
+                "range": "[(0,8)..(0,10)]",
+                "commas": [],
+                "type": "collection-value"
+              }
+            ],
+            "rightSquare": {
+              "type": "right-square",
+              "text": "]",
+              "range": "[(0,10)..(0,11)]"
+            },
+            "range": "[(0,7)..(0,11)]",
+            "commas": [],
+            "type": "collection-value"
+          },
+          "range": "[(0,2)..(0,11)]",
+          "type": "structure-element"
+        }
+      ],
+      "rightCurly": {
+        "type": "right-curly",
+        "text": "}",
+        "range": "[(0,12)..(0,13)]"
+      },
+      "range": "[(0,0)..(0,13)]",
+      "commas": [],
+      "type": "structure-value"
+    }
+  ],
+  "spaces": [
+    {
+      "type": "white-space",
+      "text": " ",
+      "range": "[(0,1)..(0,2)]"
+    },
+    {
+      "type": "white-space",
+      "text": " ",
+      "range": "[(0,6)..(0,7)]"
+    },
+    {
+      "type": "white-space",
+      "text": " ",
+      "range": "[(0,11)..(0,12)]"
+    }
+  ],
+  "type": "template"
+}

@@ -1,5 +1,27 @@
 # Change Log
 
+## 4.0.10
+
+### Patch Changes
+
+- f670b06: Semantic model is adapted to support returnTypes defined in element metadata in api.json
+- Updated dependencies [f670b06]
+  - @ui5-language-assistant/semantic-model-types@4.0.7
+
+## 4.0.9
+
+### Patch Changes
+
+- d8b77af: Provide a minimal code completion and syntax check for property binding info
+- Updated dependencies [d8b77af]
+  - @ui5-language-assistant/semantic-model-types@4.0.6
+
+## 4.0.8
+
+### Patch Changes
+
+- c73d4fd: Unit test coverage improvement. Migration to Jest test framework
+
 ## 4.0.7
 
 ### Patch Changes

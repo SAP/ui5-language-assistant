@@ -1,5 +1,109 @@
 # Change Log
 
+## 4.0.20
+
+### Patch Changes
+
+- Updated dependencies [05d9f69]
+  - @ui5-language-assistant/binding@1.0.6
+
+## 4.0.19
+
+### Patch Changes
+
+- Updated dependencies [255c0e5]
+  - @ui5-language-assistant/binding@1.0.5
+
+## 4.0.18
+
+### Patch Changes
+
+- Updated dependencies [4dcd0c0]
+  - @ui5-language-assistant/binding@1.0.4
+
+## 4.0.17
+
+### Patch Changes
+
+- Updated dependencies [b130f9f]
+  - @ui5-language-assistant/binding@1.0.3
+
+## 4.0.16
+
+### Patch Changes
+
+- fad2b51: Sonar Cloud analysis improvement, switch from automatic to CI sonar scan
+
+## 4.0.15
+
+### Patch Changes
+
+- Updated dependencies [f670b06]
+  - @ui5-language-assistant/logic-utils@4.0.11
+  - @ui5-language-assistant/semantic-model@4.0.10
+  - @ui5-language-assistant/binding@1.0.2
+  - @ui5-language-assistant/context@4.0.14
+  - @ui5-language-assistant/fe@4.0.14
+  - @ui5-language-assistant/xml-views-completion@4.0.14
+  - @ui5-language-assistant/xml-views-quick-fix@4.0.11
+  - @ui5-language-assistant/xml-views-tooltip@4.0.14
+  - @ui5-language-assistant/xml-views-validation@4.0.11
+
+## 4.0.14
+
+### Patch Changes
+
+- d8b77af: Provide a minimal code completion and syntax check for property binding info
+- Updated dependencies [d8b77af]
+  - @ui5-language-assistant/xml-views-completion@4.0.13
+  - @ui5-language-assistant/xml-views-validation@4.0.10
+  - @ui5-language-assistant/xml-views-quick-fix@4.0.10
+  - @ui5-language-assistant/xml-views-tooltip@4.0.13
+  - @ui5-language-assistant/user-facing-text@4.0.7
+  - @ui5-language-assistant/semantic-model@4.0.9
+  - @ui5-language-assistant/logic-utils@4.0.10
+  - @ui5-language-assistant/settings@4.0.9
+  - @ui5-language-assistant/binding@1.0.1
+  - @ui5-language-assistant/context@4.0.13
+  - @ui5-language-assistant/fe@4.0.13
+
+## 4.0.13
+
+### Patch Changes
+
+- Updated dependencies [e3a6a0b]
+  - @ui5-language-assistant/context@4.0.12
+  - @ui5-language-assistant/fe@4.0.12
+  - @ui5-language-assistant/xml-views-completion@4.0.12
+  - @ui5-language-assistant/xml-views-tooltip@4.0.12
+
+## 4.0.12
+
+### Patch Changes
+
+- Updated dependencies [2a3d618]
+  - @ui5-language-assistant/context@4.0.11
+  - @ui5-language-assistant/fe@4.0.11
+  - @ui5-language-assistant/xml-views-completion@4.0.11
+  - @ui5-language-assistant/xml-views-tooltip@4.0.11
+
+## 4.0.11
+
+### Patch Changes
+
+- c73d4fd: Unit test coverage improvement. Migration to Jest test framework
+- Updated dependencies [c73d4fd]
+  - @ui5-language-assistant/xml-views-completion@4.0.10
+  - @ui5-language-assistant/xml-views-validation@4.0.9
+  - @ui5-language-assistant/xml-views-quick-fix@4.0.9
+  - @ui5-language-assistant/xml-views-tooltip@4.0.10
+  - @ui5-language-assistant/user-facing-text@4.0.6
+  - @ui5-language-assistant/semantic-model@4.0.8
+  - @ui5-language-assistant/logic-utils@4.0.9
+  - @ui5-language-assistant/settings@4.0.8
+  - @ui5-language-assistant/context@4.0.10
+  - @ui5-language-assistant/fe@4.0.10
+
 ## 4.0.10
 
 ### Patch Changes

@@ -1,5 +1,84 @@
 # Change Log
 
+## 4.0.26
+
+### Patch Changes
+
+- 62251ca: Manual test cases added for annotation related LSP
+- 05d9f69: No code completion for wrong position
+
+## 4.0.25
+
+### Patch Changes
+
+- 255c0e5: fix: remove choice from completion items
+
+## 4.0.24
+
+### Patch Changes
+
+- 4dcd0c0: Address some issues
+
+## 4.0.23
+
+### Patch Changes
+
+- b130f9f: Fix tab stop
+
+## 4.0.22
+
+### Patch Changes
+
+- fad2b51: Sonar Cloud analysis improvement, switch from automatic to CI sonar scan
+
+## 4.0.21
+
+### Patch Changes
+
+- f670b06: Semantic model is adapted to support returnTypes defined in element metadata in api.json
+
+## 4.0.20
+
+### Patch Changes
+
+- d8b77af: Provide a minimal code completion and syntax check for property binding info
+
+## 4.0.19
+
+### Patch Changes
+
+- e3a6a0b: Template definition lookup logic enhanced in manifest details reader
+
+## 4.0.18
+
+### Patch Changes
+
+- 1c9a0c5: VSCode and BAS extension versions sync
+
+## 4.0.17
+
+### Patch Changes
+
+- 0bbfb2c: Fixed incorrect update of README file in repo root
+
+## 4.0.16
+
+### Patch Changes
+
+- 2a3d618: Issue 538 fix, for UI5 versions 1.38 and below the fallback 1.71.49 is used
+
+## 4.0.15
+
+### Patch Changes
+
+- c73d4fd: Unit test coverage improvement. Migration to Jest test framework
+
+## 4.0.14
+
+### Patch Changes
+
+- d73f415: GitHub action artifact processing optimization
+
 ## 4.0.13
 
 ### Patch Changes

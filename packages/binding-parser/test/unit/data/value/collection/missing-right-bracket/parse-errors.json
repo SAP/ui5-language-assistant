@@ -1,0 +1,23 @@
+[
+  {
+    "type": "parse-error",
+    "range": "[(0,7)..(0,8)]",
+    "text": "}",
+    "merged": [
+      {
+        "type": "parse-error",
+        "text": "}",
+        "range": "[(0,7)..(0,8)]",
+        "tokenTypeName": "right-curly"
+      }
+    ],
+    "tokenTypeName": "right-curly",
+    "previousToken": {
+      "type": "parse-error",
+      "text": "[",
+      "range": "[(0,6)..(0,7)]",
+      "tokenTypeName": "left-square"
+    },
+    "message": "Expecting --> ] <-- but found --> '}' <--"
+  }
+]

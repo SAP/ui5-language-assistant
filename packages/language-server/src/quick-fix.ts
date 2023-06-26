@@ -24,7 +24,7 @@ import {
 import { LSPRangeToOffsetRange, offsetRangeToLSPRange } from "./range-utils";
 import { Context } from "@ui5-language-assistant/context";
 
-type QuickFixStableIdLSPInfo = {
+export type QuickFixStableIdLSPInfo = {
   newText: string;
   replaceRange: Range;
 };

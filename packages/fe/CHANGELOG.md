@@ -1,5 +1,53 @@
 # Change Log
 
+## 4.0.14
+
+### Patch Changes
+
+- Updated dependencies [f670b06]
+  - @ui5-language-assistant/logic-utils@4.0.11
+  - @ui5-language-assistant/context@4.0.14
+  - @ui5-language-assistant/xml-views-completion@4.0.14
+  - @ui5-language-assistant/xml-views-validation@4.0.11
+
+## 4.0.13
+
+### Patch Changes
+
+- d8b77af: Provide a minimal code completion and syntax check for property binding info
+- Updated dependencies [d8b77af]
+  - @ui5-language-assistant/xml-views-completion@4.0.13
+  - @ui5-language-assistant/xml-views-validation@4.0.10
+  - @ui5-language-assistant/logic-utils@4.0.10
+  - @ui5-language-assistant/context@4.0.13
+
+## 4.0.12
+
+### Patch Changes
+
+- Updated dependencies [e3a6a0b]
+  - @ui5-language-assistant/context@4.0.12
+  - @ui5-language-assistant/xml-views-completion@4.0.12
+
+## 4.0.11
+
+### Patch Changes
+
+- Updated dependencies [2a3d618]
+  - @ui5-language-assistant/context@4.0.11
+  - @ui5-language-assistant/xml-views-completion@4.0.11
+
+## 4.0.10
+
+### Patch Changes
+
+- c73d4fd: Unit test coverage improvement. Migration to Jest test framework
+- Updated dependencies [c73d4fd]
+  - @ui5-language-assistant/xml-views-completion@4.0.10
+  - @ui5-language-assistant/xml-views-validation@4.0.9
+  - @ui5-language-assistant/logic-utils@4.0.9
+  - @ui5-language-assistant/context@4.0.10
+
 ## 4.0.9
 
 ### Patch Changes

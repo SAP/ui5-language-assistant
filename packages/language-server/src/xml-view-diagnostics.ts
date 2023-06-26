@@ -20,15 +20,19 @@ import {
   defaultValidators,
   validators,
   UI5ValidatorsConfig,
-  BaseUI5XMLViewIssue,
 } from "@ui5-language-assistant/xml-views-validation";
 
-import { defaultValidators as externalDefaultValidators } from "@ui5-language-assistant/fe";
+import { defaultValidators as feValidators } from "@ui5-language-assistant/fe";
 import type { AnnotationIssue } from "@ui5-language-assistant/fe";
-import { isAnnotationIssue } from "@ui5-language-assistant/fe";
 
 import { offsetRangeToLSPRange } from "./range-utils";
 import { Context } from "@ui5-language-assistant/context";
+import {
+  bindingValidators,
+  isBindingIssue,
+} from "@ui5-language-assistant/binding";
+import type { BindingIssue } from "@ui5-language-assistant/binding";
+import type { IssueType } from "./types";
 
 export function getXMLViewDiagnostics(opts: {
   document: TextDocument;
@@ -41,109 +45,123 @@ export function getXMLViewDiagnostics(opts: {
   if (opts.context.manifestDetails.flexEnabled) {
     actualValidators.element.push(validators.validateNonStableId);
   }
-  const externalValidators: UI5ValidatorsConfig<AnnotationIssue> = cloneDeep(
-    externalDefaultValidators
-  );
+  const externalFeValidators: UI5ValidatorsConfig<AnnotationIssue> =
+    cloneDeep(feValidators);
+  const externalBindingValidators: UI5ValidatorsConfig<BindingIssue> =
+    cloneDeep(bindingValidators);
   const issues = validateXMLView({
-    validators: mergeValidators<AnnotationIssue>(
+    validators: mergeValidators([
       actualValidators,
-      externalValidators
-    ),
+      externalFeValidators,
+      externalBindingValidators,
+    ]),
     xmlView: xmlDocAst,
     context: opts.context,
   });
-  const diagnostics = validationIssuesToLspDiagnostics(
-    issues,
-    opts.document,
-    isAnnotationIssue
-  );
+  const diagnostics = validationIssuesToLspDiagnostics(issues, opts.document);
   return diagnostics;
 }
 
-function mergeValidators<ExternalIssueType>(
-  v1: UI5ValidatorsConfig<UI5XMLViewIssue>,
-  v2: UI5ValidatorsConfig<ExternalIssueType>
-): UI5ValidatorsConfig<UI5XMLViewIssue | ExternalIssueType> {
-  return {
-    attribute: [...v1.attribute, ...v2.attribute],
-    document: [...v1.document, ...v2.document],
-    element: [...v1.element, ...v2.element],
-  };
+function mergeValidators(
+  param: [
+    UI5ValidatorsConfig<UI5XMLViewIssue>,
+    UI5ValidatorsConfig<AnnotationIssue>,
+    UI5ValidatorsConfig<BindingIssue>
+  ]
+): UI5ValidatorsConfig<IssueType> {
+  return param.reduce(
+    (accumulator: UI5ValidatorsConfig<IssueType>, currentValue) => {
+      return {
+        attribute: [...accumulator.attribute, ...currentValue.attribute],
+        document: [...accumulator.document, ...currentValue.document],
+        element: [...accumulator.element, ...currentValue.element],
+      };
+    },
+    {
+      attribute: [],
+      document: [],
+      element: [],
+    }
+  );
 }
 
-function validationIssuesToLspDiagnostics<
-  ExternalIssueType extends BaseUI5XMLViewIssue & {
-    code?: string | number;
-    tags?: DiagnosticTag[];
-  }
->(
-  issues: (UI5XMLViewIssue | ExternalIssueType)[],
+function baseDiagnostic(
   document: TextDocument,
-  isExternalIssue: (
-    issue: UI5XMLViewIssue | ExternalIssueType
-  ) => issue is ExternalIssueType
+  currIssue: UI5XMLViewIssue,
+  commonDiagnosticPros: Diagnostic
+): Diagnostic {
+  const issueKind = currIssue.kind;
+  switch (issueKind) {
+    case "InvalidBooleanValue":
+    case "UnknownEnumValue":
+    case "UnknownNamespaceInXmlnsAttributeValue":
+    case "UnknownAttributeKey":
+    case "UnknownTagName":
+    case "InvalidAggregationCardinality":
+    case "InvalidAggregationType":
+      return {
+        ...commonDiagnosticPros,
+      };
+    case "NonStableIDIssue":
+      return {
+        ...commonDiagnosticPros,
+        code: validations.NON_STABLE_ID.code,
+      };
+    case "UseOfDeprecatedClass":
+    case "UseOfDeprecatedProperty":
+    case "UseOfDeprecatedEvent":
+    case "UseOfDeprecatedAssociation":
+    case "UseOfDeprecatedAggregation":
+      return {
+        ...commonDiagnosticPros,
+        tags: [DiagnosticTag.Deprecated],
+      };
+    case "NonUniqueIDIssue":
+      return {
+        ...commonDiagnosticPros,
+        relatedInformation: map(
+          (currIssue as NonUniqueIDIssue).identicalIDsRanges,
+          (_) => ({
+            message: validations.NON_UNIQUE_ID_RELATED_INFO.msg,
+            location: {
+              uri: document.uri,
+              range: offsetRangeToLSPRange(_, document),
+            },
+          })
+        ),
+      };
+    /* istanbul ignore next - defensive programming */
+    default:
+      assertNever(issueKind);
+  }
+}
+
+function validationIssuesToLspDiagnostics(
+  issues: IssueType[],
+  document: TextDocument
 ): Diagnostic[] {
   const diagnostics: Diagnostic[] = map(issues, (currIssue) => {
+    const range = isBindingIssue(currIssue)
+      ? currIssue.range
+      : offsetRangeToLSPRange(currIssue.offsetRange, document);
     const commonDiagnosticPros: Diagnostic = {
-      range: offsetRangeToLSPRange(currIssue.offsetRange, document),
+      range,
       severity: toLspSeverity(currIssue.severity),
       source: DIAGNOSTIC_SOURCE,
       message: currIssue.message,
     };
-
-    // external issue transformation
-    if (isExternalIssue(currIssue)) {
+    if (currIssue.issueType === "base") {
+      return baseDiagnostic(document, currIssue, commonDiagnosticPros);
+    }
+    if (currIssue.issueType === "annotation-issue") {
       return {
         ...commonDiagnosticPros,
         code: currIssue.code,
         tags: currIssue.tags,
       };
     }
-
-    const issueKind = currIssue.kind;
-    switch (issueKind) {
-      case "InvalidBooleanValue":
-      case "UnknownEnumValue":
-      case "UnknownNamespaceInXmlnsAttributeValue":
-      case "UnknownAttributeKey":
-      case "UnknownTagName":
-      case "InvalidAggregationCardinality":
-      case "InvalidAggregationType":
-        return {
-          ...commonDiagnosticPros,
-        };
-      case "NonStableIDIssue":
-        return {
-          ...commonDiagnosticPros,
-          code: validations.NON_STABLE_ID.code,
-        };
-      case "UseOfDeprecatedClass":
-      case "UseOfDeprecatedProperty":
-      case "UseOfDeprecatedEvent":
-      case "UseOfDeprecatedAssociation":
-      case "UseOfDeprecatedAggregation":
-        return {
-          ...commonDiagnosticPros,
-          tags: [DiagnosticTag.Deprecated],
-        };
-      case "NonUniqueIDIssue":
-        return {
-          ...commonDiagnosticPros,
-          relatedInformation: map(
-            (currIssue as NonUniqueIDIssue).identicalIDsRanges,
-            (_) => ({
-              message: validations.NON_UNIQUE_ID_RELATED_INFO.msg,
-              location: {
-                uri: document.uri,
-                range: offsetRangeToLSPRange(_, document),
-              },
-            })
-          ),
-        };
-      /* istanbul ignore next - defensive programming */
-      default:
-        assertNever(issueKind);
-    }
+    // it should be binding issue
+    return commonDiagnosticPros;
   });
 
   return diagnostics;

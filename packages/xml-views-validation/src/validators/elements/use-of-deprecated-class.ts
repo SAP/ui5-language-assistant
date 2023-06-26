@@ -22,6 +22,7 @@ export function validateUseOfDeprecatedClass(
     xmlElement.syntax.openName !== undefined
   ) {
     const deprecatedIssue: UseOfDeprecatedClassIssue = {
+      issueType: "base",
       kind: "UseOfDeprecatedClass",
       message: buildDeprecatedIssueMessage({
         symbol: ui5Class as DeprecatedUI5Symbol,

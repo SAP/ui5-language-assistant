@@ -361,18 +361,29 @@ export async function negotiateVersionWithFetcher(
   let isFallback = false;
   let isIncorrectVersion = false;
   let versions = versionMap[framework];
+
+  let adjustedVersion: string = version || DEFAULT_UI5_VERSION;
+
+  if (version && !isVersionSupported(version)) {
+    // version is out of support in LA, using default version
+    getLogger().warn(
+      `The version specified as minUI5Version in your manifest.json is not supported by Language Assistant, the fallback version ${DEFAULT_UI5_VERSION} is used instead`
+    );
+    adjustedVersion = "1.71";
+    isIncorrectVersion = true;
+  }
+
   if (!version) {
     // no version defined, using default version
     getLogger().warn(
       "No version defined! Please check the minUI5Version in your manifest.json!"
     );
-    version = DEFAULT_UI5_VERSION;
     isFallback = true;
-  } else if (resolvedVersions[framework]?.[version]) {
+  } else if (resolvedVersions[framework]?.[adjustedVersion]) {
     // version already resolved?
-    const versionDefined = version;
-    version = resolvedVersions[framework]?.[version];
-    if (versionDefined !== version) {
+    const versionDefined = adjustedVersion;
+    adjustedVersion = resolvedVersions[framework]?.[adjustedVersion];
+    if (versionDefined !== adjustedVersion) {
       isIncorrectVersion = true;
     }
   } else if (
@@ -380,10 +391,10 @@ export async function negotiateVersionWithFetcher(
       versionInfoJsonFetcher,
       modelCachePath,
       framework,
-      version
+      adjustedVersion
     ))
   ) {
-    const requestedVersion = version;
+    const requestedVersion = adjustedVersion;
     // no version information found, try to negotiate the version
     if (!versions) {
       // retrieve the version mapping (only exists for SAPUI5 so far)
@@ -414,11 +425,11 @@ export async function negotiateVersionWithFetcher(
       versions = versionMap[framework];
     }
     // coerce the version (check for invalid version, which indicates development scenario)
-    const parsedVersion = semver.coerce(version);
+    const parsedVersion = semver.coerce(adjustedVersion);
     if (parsedVersion) {
       if (versions[`${parsedVersion.major}.${parsedVersion.minor}`]) {
         // lookup for a valid major.minor entry
-        version =
+        adjustedVersion =
           versions[`${parsedVersion.major}.${parsedVersion.minor}`].version;
       }
       if (
@@ -426,39 +437,53 @@ export async function negotiateVersionWithFetcher(
           versionInfoJsonFetcher,
           modelCachePath,
           framework,
-          version
+          adjustedVersion
         ))
       ) {
         // find closest supported version
-        version =
+        adjustedVersion =
           semverMinSatisfying(
             Object.values(versions).map((entry) => {
               return entry.version;
             }) as string[],
-            `^${version}`
+            `^${adjustedVersion}`
           ) || versions["latest"].version;
 
         isIncorrectVersion = true;
       }
     } else {
       // development scenario => use latest version
-      version = versions["latest"].version;
+      adjustedVersion = versions["latest"].version;
       isIncorrectVersion = true;
     }
     // store the resolved version
     if (requestedVersion) {
-      if (requestedVersion !== version) {
+      if (requestedVersion !== adjustedVersion) {
         isIncorrectVersion = true;
       }
       if (!resolvedVersions[framework]) {
         resolvedVersions[framework] = Object.create(null);
       }
-      resolvedVersions[framework][requestedVersion] = version;
+      resolvedVersions[framework][requestedVersion] = adjustedVersion;
     }
   }
   return {
-    version: version ?? DEFAULT_UI5_VERSION,
+    version: adjustedVersion,
     isFallback,
     isIncorrectVersion,
   };
+}
+
+// Versions 1.38 and older are not supported because of missing features in the API, while the LA relies on that API for validation.
+// See https://github.com/SAP/ui5-language-assistant/issues/538 for details
+function isVersionSupported(version: string | undefined): boolean {
+  const versionDetails = semver.coerce(version);
+  if (!versionDetails) {
+    return false;
+  }
+  return !(
+    versionDetails.major === 1 &&
+    versionDetails.minor &&
+    versionDetails.minor <= 38
+  );
 }

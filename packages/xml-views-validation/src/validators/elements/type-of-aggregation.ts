@@ -87,6 +87,7 @@ function getInvalidAggregationTypeIssue({
   const isTypeOf = classIsOfType(ui5Class, aggregationType);
   if (!isTypeOf && xmlElement.syntax.openName !== undefined) {
     const invalidAggregationTypeIssue: InvalidAggregationTypeIssue = {
+      issueType: "base",
       kind: "InvalidAggregationType",
       message: buildMessage(
         INVALID_AGGREGATION_TYPE.msg,

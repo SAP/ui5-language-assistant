@@ -50,6 +50,7 @@ The feature is available in the following:
   - metaPath values in building blocks
   - contextPath values for Chart building blocks
   - filterBar values from the current file in building blocks
+  - property binding info when possible
 
 ### XML View Validations
 
@@ -73,6 +74,14 @@ and cannot be configured by the end user.
   - Wrong cardinality of aggregation
   - Wrong type of tags inside aggregations
   - Missing or empty ID when `flexEnabled` is true (stableID)
+  - property binding info
+    - missing key
+    - missing or extra colon(s)
+    - missing or wrong value
+    - missing or extra comma(s)
+    - duplicate keys
+    - unknown key or char(s)
+    - recursive composite bindings
 
 - Warnings:
 
@@ -179,9 +188,11 @@ When configuring local web server, make sure it responds to the exact UI5 versio
 
 This extension derives the UI5 version in the following sequence:
 
-1. the minUI5Version from the manifest.json file
-2. Lookup in CDN for UI5 version and negotiates to the closest LTS version, if not found
-3. Default back to 1.71 (latest patch level)
+1. The `minUI5Version` from the manifest.json file (see note)
+2. Lookup in CDN for UI5 version and negotiate to the closest LTS version (see note).
+3. If it is not found or the version is 1.38 or older, then default back to 1.71 (latest patch level).
+
+Note: If `minUI5Version` not found in the manifest.json or lookup in CDN fails, then fall back to default 1.71.49 version
 
 The framework(SAPUI5/OpenUI5) is derived from the ui5.yaml file. This defaults to SAPUI5.
 

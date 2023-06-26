@@ -57,15 +57,13 @@ use the top level scripts to avoid forgetting to (re-)compile a sub-package's de
 
 ### Testing
 
-[Mocha][mocha] is used for unit-testing and [Istanbul/Nyc][istanbul] for coverage reports.
-Jest was avoided due to increased total tests execution time due to running the tests in multiple processes,
-as the Parser initialization (which happens once per process) can take 10-20ms.
+[Jest][jest] is used for unit-testing and coverage reports and [Istanbul/Nyc][istanbul] is used to collect integrated coverage report.
 
-[mocha]: https://mochajs.org/
+[jest]: https://jestjs.io/
 [istanbul]: https://istanbul.js.org/
 
 - To run the tests run `yarn test` in either the top level package or a specific subpackage.
-- To run the tests with a coverage report run `yarn coverage:run` in either the top level package or a specific subpackage.
+- To run the tests with a coverage report run `yarn coverage` in either the top level package or a specific subpackage.
 
 #### Debugging
 
@@ -75,7 +73,7 @@ Open the `package.json` file of the package and debug the `test` script. It will
 
 **In VS Code:**
 
-To debug tests in VS Code, in the root [`launch.json`](./.vscode/launch.json) file, add a `Node.js: Mocha Tests` configuration by using code assist.
+To debug tests in VS Code, in the root [`launch.json`](./.vscode/launch.json) file, add a `Node.js: Jest Tests` configuration by using code assist.
 Change the following in the added configuration:
 
 - Change `tdd` to `bdd` under the `args` property
@@ -88,8 +86,8 @@ The result should look similar to this:
 {
   "type": "node",
   "request": "launch",
-  "name": "language-server Mocha Tests",
-  "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+  "name": "language-server Jest Tests",
+  "program": "${workspaceFolder}/node_modules/.bin/jest",
   "args": [
     "-u",
     "bdd",
@@ -108,7 +106,7 @@ When running this launch configuration in VS Code, it will stop on breakpoints y
 
 ### Test Coverage
 
-100%\* Test Coverage is enforced for all productive code in this mono repo.
+At least 90%\* Test Coverage is enforced for all productive code in this mono repo.
 
 - Specific statements/functions may be [excluded][ignore_coverage] from the report but the reason for that must
   specified in the source code.

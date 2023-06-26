@@ -1,0 +1,76 @@
+{
+  "name": "template",
+  "children": {
+    "object": [
+      {
+        "name": "object",
+        "children": {
+          "left-curly": [
+            {
+              "image": "{",
+              "startColumn": 1,
+              "endColumn": 1,
+              "tokenTypeName": "left-curly"
+            }
+          ],
+          "object-item": [
+            {
+              "name": "object-item",
+              "children": {
+                "key": [
+                  {
+                    "image": "key",
+                    "startColumn": 2,
+                    "endColumn": 4,
+                    "tokenTypeName": "key"
+                  }
+                ],
+                "colon": [
+                  {
+                    "image": ":",
+                    "startColumn": 5,
+                    "endColumn": 5,
+                    "tokenTypeName": "colon"
+                  }
+                ],
+                "value": [
+                  {
+                    "name": "value",
+                    "children": {
+                      "string-value": [
+                        {
+                          "image": "'value'",
+                          "startColumn": 7,
+                          "endColumn": 13,
+                          "tokenTypeName": "string-value"
+                        }
+                      ]
+                    },
+                    "location": {
+                      "startColumn": 7,
+                      "endColumn": 13
+                    }
+                  }
+                ]
+              },
+              "location": {
+                "startColumn": 2,
+                "endColumn": 13
+              }
+            }
+          ]
+        },
+        "location": {
+          "startColumn": 1,
+          "endColumn": 13
+        },
+        "recoveredNode": true
+      }
+    ]
+  },
+  "location": {
+    "startColumn": 1,
+    "endColumn": 13
+  },
+  "recoveredNode": true
+}

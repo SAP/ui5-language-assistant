@@ -1,0 +1,107 @@
+{
+  "bindings": [
+    {
+      "leftCurly": {
+        "type": "left-curly",
+        "text": "{",
+        "range": "[(0,0)..(0,1)]"
+      },
+      "elements": [
+        {
+          "key": {
+            "type": "key",
+            "text": "key",
+            "range": "[(0,2)..(0,5)]",
+            "originalText": "key"
+          },
+          "colon": {
+            "type": "colon",
+            "text": ":",
+            "range": "[(0,5)..(0,6)]"
+          },
+          "value": {
+            "leftCurly": {
+              "type": "left-curly",
+              "text": "{",
+              "range": "[(0,7)..(0,8)]"
+            },
+            "elements": [
+              {
+                "key": {
+                  "type": "key",
+                  "text": "anotherKey",
+                  "range": "[(0,8)..(0,18)]",
+                  "originalText": "anotherKey"
+                },
+                "colon": {
+                  "type": "colon",
+                  "text": ":",
+                  "range": "[(0,18)..(0,19)]"
+                },
+                "value": {
+                  "leftCurly": {
+                    "type": "left-curly",
+                    "text": "{",
+                    "range": "[(0,20)..(0,21)]"
+                  },
+                  "elements": [],
+                  "rightCurly": {
+                    "type": "right-curly",
+                    "text": "}",
+                    "range": "[(0,21)..(0,22)]"
+                  },
+                  "range": "[(0,20)..(0,22)]",
+                  "commas": [],
+                  "type": "structure-value"
+                },
+                "range": "[(0,8)..(0,22)]",
+                "type": "structure-element"
+              }
+            ],
+            "rightCurly": {
+              "type": "right-curly",
+              "text": "}",
+              "range": "[(0,22)..(0,23)]"
+            },
+            "range": "[(0,7)..(0,23)]",
+            "commas": [],
+            "type": "structure-value"
+          },
+          "range": "[(0,2)..(0,23)]",
+          "type": "structure-element"
+        }
+      ],
+      "rightCurly": {
+        "type": "right-curly",
+        "text": "}",
+        "range": "[(0,24)..(0,25)]"
+      },
+      "range": "[(0,0)..(0,25)]",
+      "commas": [],
+      "type": "structure-value"
+    }
+  ],
+  "spaces": [
+    {
+      "type": "white-space",
+      "text": " ",
+      "range": "[(0,1)..(0,2)]"
+    },
+    {
+      "type": "white-space",
+      "text": " ",
+      "range": "[(0,6)..(0,7)]"
+    },
+    {
+      "type": "white-space",
+      "text": " ",
+      "range": "[(0,19)..(0,20)]"
+    },
+    {
+      "type": "white-space",
+      "text": " ",
+      "range": "[(0,23)..(0,24)]"
+    }
+  ],
+  "type": "template"
+}

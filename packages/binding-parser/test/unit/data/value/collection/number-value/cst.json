@@ -1,0 +1,120 @@
+{
+  "name": "template",
+  "children": {
+    "object": [
+      {
+        "name": "object",
+        "children": {
+          "left-curly": [
+            {
+              "image": "{",
+              "startColumn": 1,
+              "endColumn": 1,
+              "tokenTypeName": "left-curly"
+            }
+          ],
+          "object-item": [
+            {
+              "name": "object-item",
+              "children": {
+                "key": [
+                  {
+                    "image": "key",
+                    "startColumn": 3,
+                    "endColumn": 5,
+                    "tokenTypeName": "key"
+                  }
+                ],
+                "colon": [
+                  {
+                    "image": ":",
+                    "startColumn": 6,
+                    "endColumn": 6,
+                    "tokenTypeName": "colon"
+                  }
+                ],
+                "value": [
+                  {
+                    "name": "value",
+                    "children": {
+                      "array": [
+                        {
+                          "name": "array",
+                          "children": {
+                            "left-square": [
+                              {
+                                "image": "[",
+                                "startColumn": 8,
+                                "endColumn": 8,
+                                "tokenTypeName": "left-square"
+                              }
+                            ],
+                            "value": [
+                              {
+                                "name": "value",
+                                "children": {
+                                  "number-value": [
+                                    {
+                                      "image": "123",
+                                      "startColumn": 9,
+                                      "endColumn": 11,
+                                      "tokenTypeName": "number-value"
+                                    }
+                                  ]
+                                },
+                                "location": {
+                                  "startColumn": 9,
+                                  "endColumn": 11
+                                }
+                              }
+                            ],
+                            "right-square": [
+                              {
+                                "image": "]",
+                                "startColumn": 12,
+                                "endColumn": 12,
+                                "tokenTypeName": "right-square"
+                              }
+                            ]
+                          },
+                          "location": {
+                            "startColumn": 8,
+                            "endColumn": 12
+                          }
+                        }
+                      ]
+                    },
+                    "location": {
+                      "startColumn": 8,
+                      "endColumn": 12
+                    }
+                  }
+                ]
+              },
+              "location": {
+                "startColumn": 3,
+                "endColumn": 12
+              }
+            }
+          ],
+          "right-curly": [
+            {
+              "image": "}",
+              "startColumn": 14,
+              "endColumn": 14,
+              "tokenTypeName": "right-curly"
+            }
+          ]
+        },
+        "location": {
+          "startColumn": 1,
+          "endColumn": 14
+        }
+      }
+    ]
+  },
+  "location": {
+    "startColumn": 1,
+    "endColumn": 14
+  }
+}
