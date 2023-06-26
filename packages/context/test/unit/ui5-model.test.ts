@@ -1,3 +1,23 @@
+jest.mock("@ui5-language-assistant/logic-utils", () => {
+  const actual = jest.requireActual("@ui5-language-assistant/logic-utils");
+
+  return {
+    ...actual,
+    getLogger: (name: string) => {
+      const logger = actual.getLogger(name);
+      return {
+        ...logger,
+        warn: (m, ...args: any[]) =>
+          console.log(`Warning: ${m}, ${JSON.stringify(args)}`),
+        error: (m, ...args: any[]) =>
+          console.log(`Error: ${m}, ${JSON.stringify(args)}`),
+        info: (m, ...args: any[]) =>
+          console.log(`Info: ${m}, ${JSON.stringify(args)}}`),
+      };
+    },
+  };
+});
+
 import { dir as tempDir, file as tempFile } from "tmp-promise";
 import { readdir, mkdirs, writeFile } from "fs-extra";
 import { sync as rimrafSync } from "rimraf";
