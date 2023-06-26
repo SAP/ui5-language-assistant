@@ -10,6 +10,7 @@ export {
   isParts,
   findRange,
   defaultRange,
+  getPropertyTypeWithDefaultValue,
 } from "./element";
 
 export { getCursorContext } from "./cursor";

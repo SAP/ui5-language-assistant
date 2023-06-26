@@ -311,16 +311,53 @@ describe("index", () => {
           result.map((item) => completionItemToSnapshot(item))
         ).toStrictEqual([]);
       });
-      it("f. for boolean value", async function () {
-        const snippet = `
-        <Text text="{useRawValues: true${CURSOR_ANCHOR}}" id="test-id"></Text>`;
-        const result = await getCompletionResult(snippet);
-        expect(
-          result.map((item) => completionItemToSnapshot(item))
-        ).toStrictEqual([
-          "label: false; text: false; kind:5; commit:undefined; sort:; textEdit: {newText: false, range: 9:35-9:39}",
-          "label: true; text: true; kind:5; commit:undefined; sort:; textEdit: {newText: true, range: 9:35-9:39}",
-        ]);
+      describe("f. for default value", function () {
+        it("a. boolean", async function () {
+          const snippet = `
+            <Text text="{useRawValues: true${CURSOR_ANCHOR}}" id="test-id"></Text>`;
+          const result = await getCompletionResult(snippet);
+          expect(
+            result.map((item) => completionItemToSnapshot(item))
+          ).toStrictEqual([
+            "label: true; text: true; kind:5; commit:undefined; sort:; textEdit: {newText: true, range: 9:39-9:43}",
+            "label: false; text: false; kind:5; commit:undefined; sort:; textEdit: {newText: false, range: 9:39-9:43}",
+          ]);
+        });
+        it("b. type", async function () {
+          const snippet = `
+            <Text text="{type: '${CURSOR_ANCHOR}'}" id="test-id"></Text>`;
+          const result = await getCompletionResult(snippet);
+          expect(
+            result.map((item) => completionItemToSnapshot(item))
+          ).toStrictEqual([
+            "label: 'sap.ui.model.type.Boolean'; text: 'sap.ui.model.type.Boolean$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.model.type.Boolean$0', range: 9:31-9:33}",
+            "label: 'sap.ui.model.type.Currency'; text: 'sap.ui.model.type.Currency$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.model.type.Currency$0', range: 9:31-9:33}",
+            "label: 'sap.ui.model.type.Date'; text: 'sap.ui.model.type.Date$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.model.type.Date$0', range: 9:31-9:33}",
+            "label: 'sap.ui.model.type.DateInterval'; text: 'sap.ui.model.type.DateInterval$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.model.type.DateInterval$0', range: 9:31-9:33}",
+            "label: 'sap.ui.model.type.DateTime'; text: 'sap.ui.model.type.DateTime$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.model.type.DateTime$0', range: 9:31-9:33}",
+            "label: 'sap.ui.model.type.DateTimeInterval'; text: 'sap.ui.model.type.DateTimeInterval$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.model.type.DateTimeInterval$0', range: 9:31-9:33}",
+            "label: 'sap.ui.model.type.FileSize'; text: 'sap.ui.model.type.FileSize$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.model.type.FileSize$0', range: 9:31-9:33}",
+            "label: 'sap.ui.model.type.Float'; text: 'sap.ui.model.type.Float$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.model.type.Float$0', range: 9:31-9:33}",
+            "label: 'sap.ui.model.type.Integer'; text: 'sap.ui.model.type.Integer$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.model.type.Integer$0', range: 9:31-9:33}",
+            "label: 'sap.ui.model.type.String'; text: 'sap.ui.model.type.String$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.model.type.String$0', range: 9:31-9:33}",
+            "label: 'sap.ui.model.type.Time'; text: 'sap.ui.model.type.Time$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.model.type.Time$0', range: 9:31-9:33}",
+            "label: 'sap.ui.model.type.TimeInterval'; text: 'sap.ui.model.type.TimeInterval$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.model.type.TimeInterval$0', range: 9:31-9:33}",
+            "label: 'sap.ui.model.type.Unit'; text: 'sap.ui.model.type.Unit$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.model.type.Unit$0', range: 9:31-9:33}",
+          ]);
+        });
+        it("c. mode", async function () {
+          const snippet = `
+            <Text text="{mode: '${CURSOR_ANCHOR}'}" id="test-id"></Text>`;
+          const result = await getCompletionResult(snippet);
+          expect(
+            result.map((item) => completionItemToSnapshot(item))
+          ).toStrictEqual([
+            "label: 'sap.ui.model.BindingMode.Default'; text: 'sap.ui.model.BindingMode.Default$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.model.BindingMode.Default$0', range: 9:31-9:33}",
+            "label: 'sap.ui.model.BindingMode.OneTime'; text: 'sap.ui.model.BindingMode.OneTime$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.model.BindingMode.OneTime$0', range: 9:31-9:33}",
+            "label: 'sap.ui.model.BindingMode.OneWay'; text: 'sap.ui.model.BindingMode.OneWay$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.model.BindingMode.OneWay$0', range: 9:31-9:33}",
+            "label: 'sap.ui.model.BindingMode.TwoWay'; text: 'sap.ui.model.BindingMode.TwoWay$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.model.BindingMode.TwoWay$0', range: 9:31-9:33}",
+          ]);
+        });
       });
       it("g. for parts only [empty collection]", async function () {
         const snippet = `

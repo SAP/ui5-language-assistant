@@ -12,6 +12,7 @@ import { checkDependents } from "./check-dependents";
 import { checkNestedParts } from "./check-nested-parts";
 import { checkComma } from "./check-comma";
 import { checkBrackets } from "./check-brackets";
+import { checkDefaultValue } from "./checkDefaultValue";
 
 /**
  * Check an AST
@@ -50,6 +51,7 @@ export const checkAst = (
       issues.push(...checkPrimitiveValue(context, element, ignore));
       issues.push(...checkCollectionValue(context, element, errors, ignore));
       issues.push(...checkStructureValue(context, element, errors, ignore));
+      issues.push(...checkDefaultValue(context, element));
     }
     issues.push(
       ...checkComma(

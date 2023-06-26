@@ -1,4 +1,9 @@
-import { BindContext, PropertyType, TypeKind } from "../types";
+import {
+  BindContext,
+  PropertyBindingInfoElement,
+  PropertyType,
+  TypeKind,
+} from "../types";
 import {
   BOOLEAN_VALUE,
   LEFT_CURLY,
@@ -7,6 +12,7 @@ import {
   RIGHT_CURLY,
   RIGHT_SQUARE,
   STRING_VALUE,
+  isPrimitiveValue,
 } from "@ui5-language-assistant/binding-parser";
 import { Range } from "vscode-languageserver-types";
 const isNumber = (input: number | undefined): input is number => {
@@ -78,4 +84,26 @@ export const findRange = (args: (Range | undefined)[]): Range => {
     return range;
   }
   return defaultRange();
+};
+
+/**
+ * Get property binding info type which has default value
+ */
+export const getPropertyTypeWithDefaultValue = (
+  element: BindingTypes.StructureElement,
+  bindingInfo?: PropertyBindingInfoElement
+): PropertyType | undefined => {
+  if (!bindingInfo) {
+    return undefined;
+  }
+  // currently only primitive value has default value as per definition
+  if (isPrimitiveValue(element.value)) {
+    return bindingInfo.type.find(
+      (i) =>
+        i.kind === valueTypeMap.get(element.value?.type ?? "") &&
+        i.default !== undefined
+    );
+  }
+
+  return undefined;
 };

@@ -205,6 +205,38 @@ describe("property-binding-info-validator", () => {
       "kind: MissMatchValue; text: Allowed values are { } or ''; severity:error; range:9:26-9:30",
     ]);
   });
+  describe("check default value", () => {
+    describe("mode", () => {
+      it("no error", async () => {
+        const snippet = `
+          <Text text="{ mode: 'sap.ui.model.BindingMode.TwoWay' }" id="test-id"></Text>`;
+        const result = await validateView(snippet);
+        expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([]);
+      });
+      it("error", async () => {
+        const snippet = `
+          <Text text="{ mode: 'sap.ui.model.BindingMode.TwoWay.wrong' }" id="test-id"></Text>`;
+        const result = await validateView(snippet);
+        expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
+          'kind: MissMatchValue; text: Allowed values are "sap.ui.model.BindingMode.Default, sap.ui.model.BindingMode.OneTime, sap.ui.model.BindingMode.OneWay, sap.ui.model.BindingMode.TwoWay"; severity:error; range:9:30-9:69',
+        ]);
+      });
+      it("error [double quotes]", async () => {
+        const snippet = `
+          <Text text='{ mode: "sap.ui.model.BindingMode.TwoWay.wrong" }' id="test-id"></Text>`;
+        const result = await validateView(snippet);
+        expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
+          'kind: MissMatchValue; text: Allowed values are "sap.ui.model.BindingMode.Default, sap.ui.model.BindingMode.OneTime, sap.ui.model.BindingMode.OneWay, sap.ui.model.BindingMode.TwoWay"; severity:error; range:9:30-9:69',
+        ]);
+      });
+    });
+    it("type [no error => fixed: false]", async () => {
+      const snippet = `
+          <Text text="{  type: 'sap.ui.model.type.Float.Custom' }" id="test-id"></Text>`;
+      const result = await validateView(snippet);
+      expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([]);
+    });
+  });
   it("do not check structure value - key and its value", async () => {
     const snippet = `
     <Text text="{ events: {anyKeyNotChecked: 'anyValue'} }" id="test-id"></Text>`;

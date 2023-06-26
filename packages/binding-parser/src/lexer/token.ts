@@ -60,7 +60,7 @@ const colon = createToken({
 });
 const stringValue = createToken({
   name: STRING_VALUE,
-  pattern: /('|"|&apos;|&quot;)(.*?)('|"|&apos;|&quot;)/,
+  pattern: /(?:'|"|&apos;|&quot;)(?:.*?)(?:'|"|&apos;|&quot;)/,
 });
 
 const booleanValue = createToken({

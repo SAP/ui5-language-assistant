@@ -5,7 +5,6 @@ import {
 } from "vscode-languageserver-types";
 import {
   isCollectionValue,
-  isPrimitiveValue,
   isStructureValue,
   positionContained,
   isBefore,
@@ -17,6 +16,7 @@ import { getPropertyBindingInfoElements } from "../../../definition/definition";
 import { isParts, typesToValue } from "../../../utils";
 import { getCompletionItems } from "./property-binding-info";
 import { BindContext, ValueContext } from "../../../types";
+import { createDefaultValue } from "./create-default-value";
 
 const getCollectionCompletionItem = (
   context: BindContext,
@@ -47,44 +47,12 @@ export const createValue = (
 ): CompletionItem[] => {
   const completionItems: CompletionItem[] = [];
   const { element } = valueContext;
-  if (isPrimitiveValue(element.value)) {
-    if (element.value.text === "true" || element.value.text === "false") {
-      const range = element.value.range;
-      let data: CompletionItem = {
-        label: "false",
-        insertTextFormat: InsertTextFormat.Snippet,
-        insertText: "false",
-        kind: CompletionItemKind.Field,
-      };
-      if (range) {
-        data.textEdit = {
-          range,
-          newText: "false",
-        };
-      }
-      completionItems.push(data);
-      data = {
-        label: "true",
-        insertTextFormat: InsertTextFormat.Snippet,
-        insertText: "true",
-        kind: CompletionItemKind.Field,
-      };
-      if (range) {
-        data.textEdit = {
-          range,
-          newText: "true",
-        };
-      }
-      completionItems.push(data);
-    }
-    return completionItems;
-  }
+  const text = element.key && element.key.text;
+  const bindingElement = getPropertyBindingInfoElements(context).find(
+    (el) => el.name === text
+  );
   if (!element.value) {
     // if value is missing, provide a value
-    const text = element.key && element.key.text;
-    const bindingElement = getPropertyBindingInfoElements(context).find(
-      (el) => el.name === text
-    );
     if (bindingElement) {
       const data = typesToValue(bindingElement.type, context, 0);
       data.forEach((item) => {
@@ -98,6 +66,8 @@ export const createValue = (
     }
     return completionItems;
   }
+
+  completionItems.push(...createDefaultValue(context, valueContext));
   if (isCollectionValue(element.value) && isParts(element)) {
     /* istanbul ignore next */
     const position = context.textDocumentPosition?.position;
