@@ -1,5 +1,12 @@
 # Change Log
 
+## 4.0.20
+
+### Patch Changes
+
+- Updated dependencies [05d9f69]
+  - @ui5-language-assistant/binding@1.0.6
+
 ## 4.0.19
 
 ### Patch Changes

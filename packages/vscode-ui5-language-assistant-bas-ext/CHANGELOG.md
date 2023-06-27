@@ -1,5 +1,18 @@
 # Change Log
 
+## 4.0.27
+
+### Patch Changes
+
+- 42362d8: Lerna version bump to fix deployment to npm repo
+
+## 4.0.26
+
+### Patch Changes
+
+- 62251ca: Manual test cases added for annotation related LSP
+- 05d9f69: No code completion for wrong position
+
 ## 4.0.25
 
 ### Patch Changes

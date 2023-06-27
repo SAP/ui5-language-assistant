@@ -1,5 +1,11 @@
 # @ui5-language-assistant/binding
 
+## 1.0.6
+
+### Patch Changes
+
+- 05d9f69: No code completion for wrong position
+
 ## 1.0.5
 
 ### Patch Changes
