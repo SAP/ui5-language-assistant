@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.27
+
+### Patch Changes
+
+- 42362d8: Lerna version bump to fix deployment to npm repo
+
 ## 4.0.26
 
 ### Patch Changes
