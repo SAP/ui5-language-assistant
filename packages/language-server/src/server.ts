@@ -441,7 +441,7 @@ connection.onDidChangeConfiguration((change) => {
 // Only keep settings for open documents
 documents.onDidClose((textDocumentChangeEvent) => {
   getLogger().debug("`onDidClose` event", {
-    textDocumentChangeEvent,
+    document: textDocumentChangeEvent.document,
   });
   const uri = textDocumentChangeEvent.document.uri;
   if (isXMLView(uri)) {
