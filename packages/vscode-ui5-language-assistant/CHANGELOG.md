@@ -1,5 +1,13 @@
 # Change Log
 
+## 4.0.28
+
+### Patch Changes
+
+- 38b9004: Fix: Cannot assign to read only property 'document' of object
+- Updated dependencies [38b9004]
+  - @ui5-language-assistant/language-server@4.0.21
+
 ## 4.0.27
 
 ### Patch Changes
