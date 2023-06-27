@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.28
+
+### Patch Changes
+
+- 38b9004: Fix: Cannot assign to read only property 'document' of object
+
 ## 4.0.27
 
 ### Patch Changes
