@@ -1,3 +1,25 @@
+jest.mock("@ui5-language-assistant/logic-utils", () => {
+  const actual = jest.requireActual("@ui5-language-assistant/logic-utils");
+
+  return {
+    ...actual,
+    getLogger: (name: string) => {
+      const logger = actual.getLogger(name);
+      return {
+        ...logger,
+        fatal: (m, ...args: unknown[]) =>
+          console.log(`Fatal: ${m}, ${JSON.stringify(args)}`),
+        error: (m, ...args: unknown[]) =>
+          console.log(`Error: ${m}, ${JSON.stringify(args)}`),
+        warn: (m, ...args: unknown[]) =>
+          console.log(`Warning: ${m}, ${JSON.stringify(args)}`),
+        info: (m, ...args: unknown[]) =>
+          console.log(`Info: ${m}, ${JSON.stringify(args)}}`),
+      };
+    },
+  };
+});
+
 import { dir as tempDir, file as tempFile } from "tmp-promise";
 import { readdir, mkdirs, writeFile } from "fs-extra";
 import { sync as rimrafSync } from "rimraf";
@@ -16,7 +38,7 @@ import { FetchResponse } from "@ui5-language-assistant/language-server";
 
 describe("the UI5 language assistant ui5 model", () => {
   // The default timeout is 2000ms and getSemanticModel can take ~3000-5000ms
-  const GET_MODEL_TIMEOUT = 20000;
+  const GET_MODEL_TIMEOUT = 30000;
   const FRAMEWORK = "SAPUI5";
   const OPEN_FRAMEWORK = "OpenUI5";
   const VERSION = "1.71.49";
