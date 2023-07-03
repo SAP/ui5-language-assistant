@@ -17,7 +17,11 @@
 
 **Example**
 
-Lets assume that `minUI5Version` in `manifest.json` is ` 1.111.1` and you have downloaded `sapui5-sdk-1.111.1.zip` and unzip it as `sapui5-sdk-1.111.1` under `sdks` folder. `sdks` folder looks like `sdks/sapui5-sdk-1.111.1`
+Lets assume that `minUI5Version` in `manifest.json` is ` 1.111.1` and you have downloaded `sapui5-sdk-1.111.1.zip` and unzip it as `sapui5-sdk-1.111.1` under `sdks` folder.
+
+`sdks` folder looks like
+
+`sdks/sapui5-sdk-1.111.1`
 
 Replacing `<version>` and `<downloaded-sdk-folder>` looks like
 
