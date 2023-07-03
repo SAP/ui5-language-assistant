@@ -5,19 +5,19 @@
 
    **Note:** Check `minUI5Version` specified in `manifest.json` file of your project and download that **SDK** version
 
-   **Note:** Please pay attention that there are two options **Runtime** and **SDK** for download. **SDK** _MUST_ be downloaded
+   **Note:** Make sure you download the **SDK** version, not **Runtime**
 
 3. Unzip the downloaded version to `sdks` folder of `sap-ui5-web-server`
-4. Open `src/server.js` from `sap-ui5-web-server` in editor of your choice e.g. VSCode
-5. Replace `<version>` with downloaded version and `<downloaded-sdk-folder>` with folder name unzip in `sdks`
-6. Open a terminal and navigate to `sap-ui5-web-server`. Run `npm install`
-7. After installation finished, type `npm run start`
+4. Open `src/server.js` from `sap-ui5-web-server` in editor of your choice, for example Microsoft Visual Studio Code
+5. Replace `<version>` with downloaded version and `<downloaded-sdk-folder>` with name of folder that is unziped in `step 3`
+6. Open a terminal and navigate to `sap-ui5-web-server`. Execute `npm install`
+7. When the installation process is completed, execute `npm run start`
 
-   **Note:** Check in terminal a message "http://localhost:3000 is up and running" appears
+   **Note:** To make sure it is up and running, check in terminal a message "Web server is up and running: http://localhost:3000" appears
 
 **Example**
 
-Lets assume that `minUI5Version` in `manifest.json` is ` 1.111.1` and you have downloaded `sapui5-sdk-1.111.1.zip` and unzip it as `sapui5-sdk-1.111.1` under `sdks` folder.
+Lets assume that `minUI5Version` in `manifest.json` is ` 1.111.1` and you have downloaded `sapui5-sdk-1.111.1.zip` and unzipped it as `sapui5-sdk-1.111.1` under `sdks` folder.
 
 `sdks` folder looks like
 
