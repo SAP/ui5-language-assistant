@@ -25,7 +25,7 @@
     "globby": "11.1.0",
     "js-yaml": "4.1.0",
     "lodash": "4.17.21",
-    "semver": "7.3.7",
+    "semver": "7.5.3",
     "vscode-languageserver": "8.0.2",
     "vscode-uri": "2.1.2"
   },
@@ -34,7 +34,7 @@
     "@types/js-yaml": "4.0.5",
     "@types/lodash": "4.14.168",
     "@types/node-fetch": "2.5.10",
-    "@types/semver": "7.3.12",
+    "@types/semver": "7.5.0",
     "@ui5-language-assistant/semantic-model-types": "4.0.7",
     "@ui5-language-assistant/test-framework": "4.0.10",
     "@ui5-language-assistant/test-utils": "4.0.8",
