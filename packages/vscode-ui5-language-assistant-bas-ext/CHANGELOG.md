@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.29
+
+### Patch Changes
+
+- e1f4344: chore: add local web server guide
+
 ## 4.0.28
 
 ### Patch Changes
