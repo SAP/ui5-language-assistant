@@ -127,9 +127,9 @@ const buildType = (
       });
       break;
     case "UI5Typedef":
-      if (type.name === "PropertyBindingInfo") {
+      if (TypeKind[type.name]) {
         propertyType.push({
-          kind: TypeKind.object,
+          kind: TypeKind[type.name],
           dependents: getFromMap(dependents, name),
           notAllowedElements: getFromMap(notAllowedElements, name),
           collection,

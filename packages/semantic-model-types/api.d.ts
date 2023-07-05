@@ -78,7 +78,7 @@ export interface UI5Namespace extends BaseUI5Node {
 export interface UI5Typedef extends BaseUI5Node {
   kind: "UI5Typedef";
   properties: UI5TypedefProp[];
-  symbolProperties: unknown[];
+  symbolProperties: (Ui5Property | ObjProperty)[];
 }
 
 // Likely Not Relevant for XML.Views

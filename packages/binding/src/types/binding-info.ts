@@ -13,6 +13,7 @@ export enum TypeKind {
   "Boolean" = "boolean",
   "object" = "object",
   "Object" = "object",
+  "PropertyBindingInfo" = "object",
 }
 export enum BindingInfoName {
   "path" = "path",

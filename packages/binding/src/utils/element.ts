@@ -6,13 +6,11 @@ import {
 } from "../types";
 import {
   BOOLEAN_VALUE,
-  LEFT_CURLY,
-  LEFT_SQUARE,
   BindingParserTypes as BindingTypes,
-  RIGHT_CURLY,
-  RIGHT_SQUARE,
   STRING_VALUE,
   isPrimitiveValue,
+  COLLECTION_VALUE,
+  STRUCTURE_VALUE,
 } from "@ui5-language-assistant/binding-parser";
 import { Range } from "vscode-languageserver-types";
 const isNumber = (input: number | undefined): input is number => {
@@ -64,10 +62,8 @@ export const typesToValue = (
 export const valueTypeMap = new Map([
   [STRING_VALUE, "string"],
   [BOOLEAN_VALUE, "boolean"],
-  [LEFT_SQUARE, "array"],
-  [RIGHT_SQUARE, "array"],
-  [RIGHT_CURLY, "object"],
-  [LEFT_CURLY, "object"],
+  [COLLECTION_VALUE, "array"],
+  [STRUCTURE_VALUE, "object"],
 ]);
 
 export const isParts = (element: BindingTypes.StructureElement): boolean => {
