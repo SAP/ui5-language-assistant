@@ -1,0 +1,1103 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`definition getPropertyBindingInfoElements get binding elements [cache] 1`] = `
+Array [
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+**Type:** String
+
+**Description:** Path in the model to bind to, either an absolute path or relative to the binding context for the corresponding model; when the path contains a '&gt;' sign, the string preceding it will override the <code>model</code> property and the remainder after the '&gt;' will be used as binding path
+
+**Visibility:** public
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+    },
+    "name": "path",
+    "type": Array [
+      Object {
+        "collection": false,
+        "default": Object {
+          "fixed": false,
+          "values": Array [],
+        },
+        "dependents": Array [],
+        "kind": "string",
+        "notAllowedElements": Array [
+          "parts",
+          "value",
+        ],
+      },
+    ],
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+**Type:** String
+
+**Description:** Since 1.61, defines a static binding with the given value.
+
+**Visibility:** public
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+    },
+    "name": "value",
+    "type": Array [
+      Object {
+        "collection": false,
+        "default": Object {
+          "fixed": false,
+          "values": Array [],
+        },
+        "dependents": Array [],
+        "kind": "string",
+        "notAllowedElements": Array [
+          "parts",
+          "path",
+        ],
+      },
+    ],
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+**Type:** String
+
+**Description:** Name of the model to bind against; when <code>undefined</code> or omitted, the default model is used
+
+**Visibility:** public
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+    },
+    "name": "model",
+    "type": Array [
+      Object {
+        "collection": false,
+        "default": Object {
+          "fixed": false,
+          "values": Array [],
+        },
+        "dependents": Array [],
+        "kind": "string",
+        "notAllowedElements": Array [],
+      },
+    ],
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+**Type:** Boolean
+
+**Description:** Whether the binding should be suspended initially
+
+**Visibility:** public
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+    },
+    "name": "suspended",
+    "type": Array [
+      Object {
+        "collection": false,
+        "default": Object {
+          "fixed": true,
+          "values": Array [
+            true,
+            false,
+          ],
+        },
+        "dependents": Array [],
+        "kind": "boolean",
+        "notAllowedElements": Array [],
+      },
+    ],
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+**Type:** Function
+
+**Description:** Function to convert model data into a property value
+
+**Visibility:** public
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+    },
+    "name": "formatter",
+    "type": Array [
+      Object {
+        "collection": false,
+        "default": Object {
+          "fixed": false,
+          "values": Array [],
+        },
+        "dependents": Array [],
+        "kind": "string",
+        "notAllowedElements": Array [],
+      },
+    ],
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+**Type:** Boolean
+
+**Description:** Whether the parameters to the formatter function should be passed as raw values. In this case the specified types for the binding parts are not used and the values are not formatted.
+
+<b>Note</b>: use this flag only when using multiple bindings. If you use only one binding and want raw values then simply don't specify a type for that binding.
+
+**Visibility:** public
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+    },
+    "name": "useRawValues",
+    "type": Array [
+      Object {
+        "collection": false,
+        "default": Object {
+          "fixed": true,
+          "values": Array [
+            true,
+            false,
+          ],
+        },
+        "dependents": Array [],
+        "kind": "boolean",
+        "notAllowedElements": Array [],
+      },
+    ],
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+**Type:** Boolean
+
+**Description:** Whether the parameters to the formatter function should be passed as the related JavaScript primitive values. In this case the values of the model are parsed by the {@link sap.ui.model.SimpleType#getModelFormat model format} of the specified types from the binding parts.
+
+<b>Note</b>: use this flag only when using multiple bindings.
+
+**Visibility:** public
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+    },
+    "name": "useInternalValues",
+    "type": Array [
+      Object {
+        "collection": false,
+        "default": Object {
+          "fixed": true,
+          "values": Array [
+            true,
+            false,
+          ],
+        },
+        "dependents": Array [],
+        "kind": "boolean",
+        "notAllowedElements": Array [],
+      },
+    ],
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+**Type:** sap.ui.model.Type | String
+
+**Description:** A type object or the name of a type class to create such a type object; the type will be used for converting model data to a property value (aka \\"formatting\\") and vice versa (in binding mode <code>TwoWay</code>, aka \\"parsing\\")
+
+**Visibility:** public
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+    },
+    "name": "type",
+    "type": Array [
+      Object {
+        "collection": false,
+        "default": Object {
+          "fixed": false,
+          "values": Array [
+            "sap.ca.ui.model.type.Date",
+            "sap.ca.ui.model.type.DateTime",
+            "sap.ca.ui.model.type.FileSize",
+            "sap.ca.ui.model.type.Number",
+            "sap.ca.ui.model.type.Time",
+            "sap.m.DynamicDate",
+            "sap.ui.model.CompositeType",
+            "sap.ui.model.odata.type.Boolean",
+            "sap.ui.model.odata.type.Byte",
+            "sap.ui.model.odata.type.Currency",
+            "sap.ui.model.odata.type.Date",
+            "sap.ui.model.odata.type.DateTime",
+            "sap.ui.model.odata.type.DateTimeBase",
+            "sap.ui.model.odata.type.DateTimeOffset",
+            "sap.ui.model.odata.type.DateTimeWithTimezone",
+            "sap.ui.model.odata.type.Decimal",
+            "sap.ui.model.odata.type.Double",
+            "sap.ui.model.odata.type.Guid",
+            "sap.ui.model.odata.type.Int",
+            "sap.ui.model.odata.type.Int16",
+            "sap.ui.model.odata.type.Int32",
+            "sap.ui.model.odata.type.Int64",
+            "sap.ui.model.odata.type.ODataType",
+            "sap.ui.model.odata.type.Raw",
+            "sap.ui.model.odata.type.SByte",
+            "sap.ui.model.odata.type.Single",
+            "sap.ui.model.odata.type.Stream",
+            "sap.ui.model.odata.type.String",
+            "sap.ui.model.odata.type.Time",
+            "sap.ui.model.odata.type.TimeOfDay",
+            "sap.ui.model.odata.type.Unit",
+            "sap.ui.model.SimpleType",
+            "sap.ui.model.type.Boolean",
+            "sap.ui.model.type.Currency",
+            "sap.ui.model.type.Date",
+            "sap.ui.model.type.DateInterval",
+            "sap.ui.model.type.DateTime",
+            "sap.ui.model.type.DateTimeInterval",
+            "sap.ui.model.type.FileSize",
+            "sap.ui.model.type.Float",
+            "sap.ui.model.type.Integer",
+            "sap.ui.model.type.String",
+            "sap.ui.model.type.Time",
+            "sap.ui.model.type.TimeInterval",
+            "sap.ui.model.type.Unit",
+            "sap.ui.mdc.field.ConditionsType",
+            "sap.ui.mdc.field.ConditionType",
+            "sap.ui.mdc.field.DynamicDateRangeConditionsType",
+          ],
+        },
+        "dependents": Array [],
+        "kind": "string",
+        "notAllowedElements": Array [],
+      },
+    ],
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+**Type:** String
+
+**Description:** Target type to be used by the type when formatting model data, for example \\"boolean\\" or \\"string\\" or \\"any\\"; defaults to the property's type
+
+**Visibility:** public
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+    },
+    "name": "targetType",
+    "type": Array [
+      Object {
+        "collection": false,
+        "default": Object {
+          "fixed": false,
+          "values": Array [],
+        },
+        "dependents": Array [],
+        "kind": "string",
+        "notAllowedElements": Array [],
+      },
+    ],
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+**Type:** Object
+
+**Description:** Format options to be used for the type; only taken into account when the type is specified by its name - a given type object won't be modified
+
+**Visibility:** public
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+    },
+    "name": "formatOptions",
+    "type": Array [
+      Object {
+        "collection": false,
+        "default": Object {
+          "fixed": false,
+          "values": Array [],
+        },
+        "dependents": Array [
+          Object {
+            "name": "type",
+            "type": Array [
+              Object {
+                "dependents": Array [],
+                "kind": "string",
+                "notAllowedElements": Array [],
+              },
+            ],
+          },
+        ],
+        "kind": "object",
+        "notAllowedElements": Array [],
+      },
+    ],
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+**Type:** Object
+
+**Description:** Additional constraints to be used when constructing a type object from a type name, ignored when a type object is given
+
+**Visibility:** public
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+    },
+    "name": "constraints",
+    "type": Array [
+      Object {
+        "collection": false,
+        "default": Object {
+          "fixed": false,
+          "values": Array [],
+        },
+        "dependents": Array [
+          Object {
+            "name": "type",
+            "type": Array [
+              Object {
+                "dependents": Array [],
+                "kind": "string",
+                "notAllowedElements": Array [],
+              },
+            ],
+          },
+        ],
+        "kind": "object",
+        "notAllowedElements": Array [],
+      },
+    ],
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+**Type:** sap.ui.model.BindingMode
+
+**Description:** Binding mode to be used for this property binding (e.g. one way)
+
+**Visibility:** public
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+    },
+    "name": "mode",
+    "type": Array [
+      Object {
+        "collection": false,
+        "default": Object {
+          "fixed": true,
+          "values": Array [
+            "sap.ui.model.BindingMode.Default",
+            "sap.ui.model.BindingMode.OneTime",
+            "sap.ui.model.BindingMode.OneWay",
+            "sap.ui.model.BindingMode.TwoWay",
+          ],
+        },
+        "dependents": Array [],
+        "kind": "string",
+        "notAllowedElements": Array [],
+      },
+    ],
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+**Type:** Object
+
+**Description:** Map of additional parameters for this binding; the names and value ranges of the supported parameters depend on the model implementation, they should be documented with the <code>bindProperty</code> method of the corresponding model class or with the model specific subclass of <code>sap.ui.model.PropertyBinding</code>
+
+**Visibility:** public
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+    },
+    "name": "parameters",
+    "type": Array [
+      Object {
+        "collection": false,
+        "default": Object {
+          "fixed": false,
+          "values": Array [],
+        },
+        "dependents": Array [],
+        "kind": "object",
+        "notAllowedElements": Array [],
+      },
+    ],
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+**Type:** Object
+
+**Description:** Map of event handler functions keyed by the name of the binding events that they should be attached to
+
+**Visibility:** public
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+    },
+    "name": "events",
+    "type": Array [
+      Object {
+        "collection": false,
+        "default": Object {
+          "fixed": false,
+          "values": Array [],
+        },
+        "dependents": Array [],
+        "kind": "object",
+        "notAllowedElements": Array [],
+      },
+    ],
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+**Type:** Array<(String | sap.ui.base.ManagedObject.PropertyBindingInfo>)
+
+**Description:** Array of binding info objects for the parts of a composite binding; the structure of each binding info is the same as described for the <code>oBindingInfo</code> as a whole.
+
+If a part is not specified as a binding info object but as a simple string, a binding info object will be created with that string as <code>path</code>. The string may start with a model name prefix (see property <code>path</code>).
+
+<b>Note</b>: recursive composite bindings are currently not supported. Therefore, a part must not contain a <code>parts</code> property.
+
+**Visibility:** public
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+    },
+    "name": "parts",
+    "type": Array [
+      Object {
+        "collection": true,
+        "default": Object {
+          "fixed": false,
+          "values": Array [],
+        },
+        "dependents": Array [],
+        "kind": "string",
+        "notAllowedElements": Array [
+          "value",
+          "path",
+        ],
+      },
+      Object {
+        "collection": true,
+        "dependents": Array [],
+        "kind": "object",
+        "notAllowedElements": Array [
+          "value",
+          "path",
+        ],
+      },
+    ],
+  },
+]
+`;
+
+exports[`definition getPropertyBindingInfoElements get binding elements 1`] = `
+Array [
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+**Type:** String
+
+**Description:** Path in the model to bind to, either an absolute path or relative to the binding context for the corresponding model; when the path contains a '&gt;' sign, the string preceding it will override the <code>model</code> property and the remainder after the '&gt;' will be used as binding path
+
+**Visibility:** public
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+    },
+    "name": "path",
+    "type": Array [
+      Object {
+        "collection": false,
+        "default": Object {
+          "fixed": false,
+          "values": Array [],
+        },
+        "dependents": Array [],
+        "kind": "string",
+        "notAllowedElements": Array [
+          "parts",
+          "value",
+        ],
+      },
+    ],
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+**Type:** String
+
+**Description:** Since 1.61, defines a static binding with the given value.
+
+**Visibility:** public
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+    },
+    "name": "value",
+    "type": Array [
+      Object {
+        "collection": false,
+        "default": Object {
+          "fixed": false,
+          "values": Array [],
+        },
+        "dependents": Array [],
+        "kind": "string",
+        "notAllowedElements": Array [
+          "parts",
+          "path",
+        ],
+      },
+    ],
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+**Type:** String
+
+**Description:** Name of the model to bind against; when <code>undefined</code> or omitted, the default model is used
+
+**Visibility:** public
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+    },
+    "name": "model",
+    "type": Array [
+      Object {
+        "collection": false,
+        "default": Object {
+          "fixed": false,
+          "values": Array [],
+        },
+        "dependents": Array [],
+        "kind": "string",
+        "notAllowedElements": Array [],
+      },
+    ],
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+**Type:** Boolean
+
+**Description:** Whether the binding should be suspended initially
+
+**Visibility:** public
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+    },
+    "name": "suspended",
+    "type": Array [
+      Object {
+        "collection": false,
+        "default": Object {
+          "fixed": true,
+          "values": Array [
+            true,
+            false,
+          ],
+        },
+        "dependents": Array [],
+        "kind": "boolean",
+        "notAllowedElements": Array [],
+      },
+    ],
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+**Type:** Function
+
+**Description:** Function to convert model data into a property value
+
+**Visibility:** public
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+    },
+    "name": "formatter",
+    "type": Array [
+      Object {
+        "collection": false,
+        "default": Object {
+          "fixed": false,
+          "values": Array [],
+        },
+        "dependents": Array [],
+        "kind": "string",
+        "notAllowedElements": Array [],
+      },
+    ],
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+**Type:** Boolean
+
+**Description:** Whether the parameters to the formatter function should be passed as raw values. In this case the specified types for the binding parts are not used and the values are not formatted.
+
+<b>Note</b>: use this flag only when using multiple bindings. If you use only one binding and want raw values then simply don't specify a type for that binding.
+
+**Visibility:** public
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+    },
+    "name": "useRawValues",
+    "type": Array [
+      Object {
+        "collection": false,
+        "default": Object {
+          "fixed": true,
+          "values": Array [
+            true,
+            false,
+          ],
+        },
+        "dependents": Array [],
+        "kind": "boolean",
+        "notAllowedElements": Array [],
+      },
+    ],
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+**Type:** Boolean
+
+**Description:** Whether the parameters to the formatter function should be passed as the related JavaScript primitive values. In this case the values of the model are parsed by the {@link sap.ui.model.SimpleType#getModelFormat model format} of the specified types from the binding parts.
+
+<b>Note</b>: use this flag only when using multiple bindings.
+
+**Visibility:** public
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+    },
+    "name": "useInternalValues",
+    "type": Array [
+      Object {
+        "collection": false,
+        "default": Object {
+          "fixed": true,
+          "values": Array [
+            true,
+            false,
+          ],
+        },
+        "dependents": Array [],
+        "kind": "boolean",
+        "notAllowedElements": Array [],
+      },
+    ],
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+**Type:** sap.ui.model.Type | String
+
+**Description:** A type object or the name of a type class to create such a type object; the type will be used for converting model data to a property value (aka \\"formatting\\") and vice versa (in binding mode <code>TwoWay</code>, aka \\"parsing\\")
+
+**Visibility:** public
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+    },
+    "name": "type",
+    "type": Array [
+      Object {
+        "collection": false,
+        "default": Object {
+          "fixed": false,
+          "values": Array [
+            "sap.ca.ui.model.type.Date",
+            "sap.ca.ui.model.type.DateTime",
+            "sap.ca.ui.model.type.FileSize",
+            "sap.ca.ui.model.type.Number",
+            "sap.ca.ui.model.type.Time",
+            "sap.m.DynamicDate",
+            "sap.ui.model.CompositeType",
+            "sap.ui.model.odata.type.Boolean",
+            "sap.ui.model.odata.type.Byte",
+            "sap.ui.model.odata.type.Currency",
+            "sap.ui.model.odata.type.Date",
+            "sap.ui.model.odata.type.DateTime",
+            "sap.ui.model.odata.type.DateTimeBase",
+            "sap.ui.model.odata.type.DateTimeOffset",
+            "sap.ui.model.odata.type.DateTimeWithTimezone",
+            "sap.ui.model.odata.type.Decimal",
+            "sap.ui.model.odata.type.Double",
+            "sap.ui.model.odata.type.Guid",
+            "sap.ui.model.odata.type.Int",
+            "sap.ui.model.odata.type.Int16",
+            "sap.ui.model.odata.type.Int32",
+            "sap.ui.model.odata.type.Int64",
+            "sap.ui.model.odata.type.ODataType",
+            "sap.ui.model.odata.type.Raw",
+            "sap.ui.model.odata.type.SByte",
+            "sap.ui.model.odata.type.Single",
+            "sap.ui.model.odata.type.Stream",
+            "sap.ui.model.odata.type.String",
+            "sap.ui.model.odata.type.Time",
+            "sap.ui.model.odata.type.TimeOfDay",
+            "sap.ui.model.odata.type.Unit",
+            "sap.ui.model.SimpleType",
+            "sap.ui.model.type.Boolean",
+            "sap.ui.model.type.Currency",
+            "sap.ui.model.type.Date",
+            "sap.ui.model.type.DateInterval",
+            "sap.ui.model.type.DateTime",
+            "sap.ui.model.type.DateTimeInterval",
+            "sap.ui.model.type.FileSize",
+            "sap.ui.model.type.Float",
+            "sap.ui.model.type.Integer",
+            "sap.ui.model.type.String",
+            "sap.ui.model.type.Time",
+            "sap.ui.model.type.TimeInterval",
+            "sap.ui.model.type.Unit",
+            "sap.ui.mdc.field.ConditionsType",
+            "sap.ui.mdc.field.ConditionType",
+            "sap.ui.mdc.field.DynamicDateRangeConditionsType",
+          ],
+        },
+        "dependents": Array [],
+        "kind": "string",
+        "notAllowedElements": Array [],
+      },
+    ],
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+**Type:** String
+
+**Description:** Target type to be used by the type when formatting model data, for example \\"boolean\\" or \\"string\\" or \\"any\\"; defaults to the property's type
+
+**Visibility:** public
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+    },
+    "name": "targetType",
+    "type": Array [
+      Object {
+        "collection": false,
+        "default": Object {
+          "fixed": false,
+          "values": Array [],
+        },
+        "dependents": Array [],
+        "kind": "string",
+        "notAllowedElements": Array [],
+      },
+    ],
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+**Type:** Object
+
+**Description:** Format options to be used for the type; only taken into account when the type is specified by its name - a given type object won't be modified
+
+**Visibility:** public
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+    },
+    "name": "formatOptions",
+    "type": Array [
+      Object {
+        "collection": false,
+        "default": Object {
+          "fixed": false,
+          "values": Array [],
+        },
+        "dependents": Array [
+          Object {
+            "name": "type",
+            "type": Array [
+              Object {
+                "dependents": Array [],
+                "kind": "string",
+                "notAllowedElements": Array [],
+              },
+            ],
+          },
+        ],
+        "kind": "object",
+        "notAllowedElements": Array [],
+      },
+    ],
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+**Type:** Object
+
+**Description:** Additional constraints to be used when constructing a type object from a type name, ignored when a type object is given
+
+**Visibility:** public
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+    },
+    "name": "constraints",
+    "type": Array [
+      Object {
+        "collection": false,
+        "default": Object {
+          "fixed": false,
+          "values": Array [],
+        },
+        "dependents": Array [
+          Object {
+            "name": "type",
+            "type": Array [
+              Object {
+                "dependents": Array [],
+                "kind": "string",
+                "notAllowedElements": Array [],
+              },
+            ],
+          },
+        ],
+        "kind": "object",
+        "notAllowedElements": Array [],
+      },
+    ],
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+**Type:** sap.ui.model.BindingMode
+
+**Description:** Binding mode to be used for this property binding (e.g. one way)
+
+**Visibility:** public
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+    },
+    "name": "mode",
+    "type": Array [
+      Object {
+        "collection": false,
+        "default": Object {
+          "fixed": true,
+          "values": Array [
+            "sap.ui.model.BindingMode.Default",
+            "sap.ui.model.BindingMode.OneTime",
+            "sap.ui.model.BindingMode.OneWay",
+            "sap.ui.model.BindingMode.TwoWay",
+          ],
+        },
+        "dependents": Array [],
+        "kind": "string",
+        "notAllowedElements": Array [],
+      },
+    ],
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+**Type:** Object
+
+**Description:** Map of additional parameters for this binding; the names and value ranges of the supported parameters depend on the model implementation, they should be documented with the <code>bindProperty</code> method of the corresponding model class or with the model specific subclass of <code>sap.ui.model.PropertyBinding</code>
+
+**Visibility:** public
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+    },
+    "name": "parameters",
+    "type": Array [
+      Object {
+        "collection": false,
+        "default": Object {
+          "fixed": false,
+          "values": Array [],
+        },
+        "dependents": Array [],
+        "kind": "object",
+        "notAllowedElements": Array [],
+      },
+    ],
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+**Type:** Object
+
+**Description:** Map of event handler functions keyed by the name of the binding events that they should be attached to
+
+**Visibility:** public
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+    },
+    "name": "events",
+    "type": Array [
+      Object {
+        "collection": false,
+        "default": Object {
+          "fixed": false,
+          "values": Array [],
+        },
+        "dependents": Array [],
+        "kind": "object",
+        "notAllowedElements": Array [],
+      },
+    ],
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+**Type:** Array<(String | sap.ui.base.ManagedObject.PropertyBindingInfo>)
+
+**Description:** Array of binding info objects for the parts of a composite binding; the structure of each binding info is the same as described for the <code>oBindingInfo</code> as a whole.
+
+If a part is not specified as a binding info object but as a simple string, a binding info object will be created with that string as <code>path</code>. The string may start with a model name prefix (see property <code>path</code>).
+
+<b>Note</b>: recursive composite bindings are currently not supported. Therefore, a part must not contain a <code>parts</code> property.
+
+**Visibility:** public
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+    },
+    "name": "parts",
+    "type": Array [
+      Object {
+        "collection": true,
+        "default": Object {
+          "fixed": false,
+          "values": Array [],
+        },
+        "dependents": Array [],
+        "kind": "string",
+        "notAllowedElements": Array [
+          "value",
+          "path",
+        ],
+      },
+      Object {
+        "collection": true,
+        "dependents": Array [],
+        "kind": "object",
+        "notAllowedElements": Array [
+          "value",
+          "path",
+        ],
+      },
+    ],
+  },
+]
+`;

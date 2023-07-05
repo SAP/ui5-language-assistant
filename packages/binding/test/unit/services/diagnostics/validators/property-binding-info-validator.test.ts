@@ -186,7 +186,7 @@ describe("property-binding-info-validator", () => {
     <Text text="{ parts: {} }" id="test-id"></Text>`;
     const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-      "kind: MissMatchValue; text: Allowed values are [{ }] or ['']; severity:error; range:9:25-9:27",
+      "kind: MissMatchValue; text: Allowed values are [''] or [{ }]; severity:error; range:9:25-9:27",
     ]);
   });
   it("check wrong value - allowed value is array of object or string [array as value is required]", async () => {
@@ -194,7 +194,7 @@ describe("property-binding-info-validator", () => {
     <Text text="{ parts: true }" id="test-id"></Text>`;
     const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-      "kind: MissMatchValue; text: Allowed values are [{ }] or ['']; severity:error; range:9:25-9:29",
+      "kind: MissMatchValue; text: Allowed values are [''] or [{ }]; severity:error; range:9:25-9:29",
     ]);
   });
   it("check wrong value - allowed value is array of object or string [array as value with wrong content]", async () => {
@@ -202,7 +202,7 @@ describe("property-binding-info-validator", () => {
     <Text text="{ parts: [true] }" id="test-id"></Text>`;
     const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-      "kind: MissMatchValue; text: Allowed values are { } or ''; severity:error; range:9:26-9:30",
+      "kind: MissMatchValue; text: Allowed values are '' or { }; severity:error; range:9:26-9:30",
     ]);
   });
   describe("check default value", () => {
@@ -414,7 +414,7 @@ describe("property-binding-info-validator", () => {
     }]}" id="test-id"></Text>`;
     const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-      "kind: MissingValue; text: Required values { } or '' must be provided; severity:error; range:10:13-10:15",
+      "kind: MissingValue; text: Required values '' or { } must be provided; severity:error; range:10:13-10:15",
       "kind: RecursiveProperty; text: Recursive composite bindings is not allowed; severity:error; range:10:6-10:11",
     ]);
   });
@@ -487,7 +487,7 @@ describe("property-binding-info-validator", () => {
     <Text text="{ parts: []}" id="test-id"></Text>`;
       const result = await validateView(snippet);
       expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-        "kind: MissingValue; text: Required values { } or '' must be provided; severity:error; range:9:25-9:27",
+        "kind: MissingValue; text: Required values '' or { } must be provided; severity:error; range:9:25-9:27",
       ]);
     });
     it("check collection with empty object", async () => {
@@ -517,7 +517,7 @@ describe("property-binding-info-validator", () => {
     <Text text="{ parts: '' }" id="test-id"></Text>`;
       const result = await validateView(snippet);
       expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-        "kind: MissMatchValue; text: Allowed values are [{ }] or ['']; severity:error; range:9:25-9:27",
+        "kind: MissMatchValue; text: Allowed values are [''] or [{ }]; severity:error; range:9:25-9:27",
       ]);
     });
   });
@@ -737,7 +737,7 @@ describe("property-binding-info-validator", () => {
     <Text text="{ 'parts': []}" id="test-id"></Text>`;
         const result = await validateView(snippet);
         expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-          "kind: MissingValue; text: Required values { } or '' must be provided; severity:error; range:9:27-9:29",
+          "kind: MissingValue; text: Required values '' or { } must be provided; severity:error; range:9:27-9:29",
         ]);
       });
       it("check collection with empty object", async () => {

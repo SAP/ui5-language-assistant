@@ -78,6 +78,7 @@ export interface UI5Namespace extends BaseUI5Node {
 export interface UI5Typedef extends BaseUI5Node {
   kind: "UI5Typedef";
   properties: UI5TypedefProp[];
+  symbolProperties: unknown[];
 }
 
 // Likely Not Relevant for XML.Views
@@ -108,10 +109,10 @@ export interface UI5Prop extends BaseUI5Node {
 export interface UI5TypedefProp {
   kind: "UI5TypedefProp";
   name: string;
-  type: string;
+  type: UI5Type;
   optional?: boolean;
-  visibility: string;
-  description: string;
+  visibility?: string;
+  description?: string;
 }
 
 export interface FEPropertyMetadata {
@@ -176,6 +177,11 @@ export interface ArrayType {
   kind: "ArrayType";
   type: UI5Type | undefined;
 }
+export interface UnionType {
+  kind: "UnionType";
+  types: UI5Type[];
+  collection?: boolean;
+}
 
 export interface PrimitiveType {
   kind: "PrimitiveType";
@@ -195,6 +201,7 @@ export type UI5Type =
   | UI5Typedef
   | ArrayType
   | PrimitiveType
+  | UnionType
   | UnresolvedType;
 
 // TODO Should we keep int and float in addition to number? Should we keep both object and map?

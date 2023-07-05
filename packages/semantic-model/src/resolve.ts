@@ -18,7 +18,7 @@ import {
   UI5Type,
 } from "@ui5-language-assistant/semantic-model-types";
 import { TypeNameFix } from "../api";
-import { SymbolBase, ClassSymbol } from "./api-json";
+import { SymbolBase, ClassSymbol, Ui5Property } from "./api-json";
 import { error, getParentFqn, findValueInMaps, findSymbol } from "./utils";
 
 // Exported for testing purpose
@@ -297,4 +297,89 @@ const typesToIgnore: Record<string, undefined> = {
 };
 function ignoreType(typeName: string): boolean {
   return has(typesToIgnore, typeName);
+}
+
+export function resolveTypeDefPropertyType(
+  model: UI5SemanticModel,
+  prop: Ui5Property
+): UI5Type {
+  const { type = "" } = prop;
+  const primitiveTypeName = getPrimitiveTypeName(type);
+  if (primitiveTypeName !== undefined) {
+    return {
+      kind: "PrimitiveType",
+      name: primitiveTypeName,
+    };
+  }
+  if (type.startsWith("Object<")) {
+    return {
+      kind: "PrimitiveType",
+      name: "Object",
+    };
+  }
+  if (type.startsWith("Array<(")) {
+    const t = type.slice(type.indexOf("(") + 1, type.indexOf(")"));
+    if (t.indexOf("|") !== -1) {
+      const types = t.split("|").map((i) => {
+        return resolveTypeDefPropertyType(model, { ...prop, type: i.trim() });
+      });
+      return {
+        kind: "UnionType",
+        collection: true,
+        types,
+      };
+    }
+
+    return resolveTypeDefPropertyType(model, { ...prop, type: t });
+  }
+  if (type.endsWith("[]")) {
+    const t = type.slice(0, type.indexOf("[", -1));
+    if (t.indexOf("|") !== -1) {
+      const types = t.split("|").map((i) => {
+        return resolveTypeDefPropertyType(model, { ...prop, type: i.trim() });
+      });
+      return {
+        kind: "UnionType",
+        collection: true,
+        types,
+      };
+    }
+
+    return resolveTypeDefPropertyType(model, { ...prop, type: t });
+  }
+  if (type.indexOf("|") !== -1) {
+    const types = type.split("|").map((i) => {
+      return resolveTypeDefPropertyType(model, { ...prop, type: i.trim() });
+    });
+    return {
+      kind: "UnionType",
+      collection: false,
+      types,
+    };
+  }
+  // check class
+  if (model.classes[type]) {
+    return {
+      ...model.classes[type],
+      kind: "UI5Class",
+    };
+  }
+  // check enum
+  if (model.enums[type]) {
+    return {
+      ...model.enums[type],
+      kind: "UI5Enum",
+    };
+  }
+  // check typdefs
+  if (model.typedefs[type]) {
+    return {
+      ...model.typedefs[type],
+      kind: "UI5Typedef",
+    };
+  }
+  return {
+    kind: "UnresolvedType",
+    name: `${type}`,
+  };
 }

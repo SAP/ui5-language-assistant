@@ -125,7 +125,7 @@ describe("index", () => {
         "label: {:= }; text: {:= $0 }; kind:15; commit:undefined; sort:",
       ]);
     });
-    it("provides CC for empty", async function () {
+    it("provides CC for empty [with documentation]", async function () {
       const snippet = `
         <Text text="{${CURSOR_ANCHOR}}" id="test-id"></Text>`;
       const result = await getCompletionResult(snippet);
@@ -337,21 +337,7 @@ describe("index", () => {
           const result = await getCompletionResult(snippet);
           expect(
             result.map((item) => completionItemToSnapshot(item))
-          ).toStrictEqual([
-            "label: 'sap.ui.model.type.Boolean'; text: 'sap.ui.model.type.Boolean$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.model.type.Boolean$0', range: 9:31-9:33}",
-            "label: 'sap.ui.model.type.Currency'; text: 'sap.ui.model.type.Currency$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.model.type.Currency$0', range: 9:31-9:33}",
-            "label: 'sap.ui.model.type.Date'; text: 'sap.ui.model.type.Date$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.model.type.Date$0', range: 9:31-9:33}",
-            "label: 'sap.ui.model.type.DateInterval'; text: 'sap.ui.model.type.DateInterval$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.model.type.DateInterval$0', range: 9:31-9:33}",
-            "label: 'sap.ui.model.type.DateTime'; text: 'sap.ui.model.type.DateTime$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.model.type.DateTime$0', range: 9:31-9:33}",
-            "label: 'sap.ui.model.type.DateTimeInterval'; text: 'sap.ui.model.type.DateTimeInterval$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.model.type.DateTimeInterval$0', range: 9:31-9:33}",
-            "label: 'sap.ui.model.type.FileSize'; text: 'sap.ui.model.type.FileSize$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.model.type.FileSize$0', range: 9:31-9:33}",
-            "label: 'sap.ui.model.type.Float'; text: 'sap.ui.model.type.Float$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.model.type.Float$0', range: 9:31-9:33}",
-            "label: 'sap.ui.model.type.Integer'; text: 'sap.ui.model.type.Integer$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.model.type.Integer$0', range: 9:31-9:33}",
-            "label: 'sap.ui.model.type.String'; text: 'sap.ui.model.type.String$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.model.type.String$0', range: 9:31-9:33}",
-            "label: 'sap.ui.model.type.Time'; text: 'sap.ui.model.type.Time$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.model.type.Time$0', range: 9:31-9:33}",
-            "label: 'sap.ui.model.type.TimeInterval'; text: 'sap.ui.model.type.TimeInterval$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.model.type.TimeInterval$0', range: 9:31-9:33}",
-            "label: 'sap.ui.model.type.Unit'; text: 'sap.ui.model.type.Unit$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.model.type.Unit$0', range: 9:31-9:33}",
-          ]);
+          ).toMatchSnapshot();
         });
         it("c. mode", async function () {
           const snippet = `
@@ -374,8 +360,8 @@ describe("index", () => {
         expect(
           result.map((item) => completionItemToSnapshot(item))
         ).toStrictEqual([
-          "label: {}; text: {$0}; kind:5; commit:undefined; sort:",
           "label: ''; text: '$0'; kind:5; commit:undefined; sort:",
+          "label: {}; text: {$0}; kind:5; commit:undefined; sort:",
         ]);
       });
       it("h. for parts only [existing element]", async function () {
@@ -385,8 +371,8 @@ describe("index", () => {
         expect(
           result.map((item) => completionItemToSnapshot(item))
         ).toStrictEqual([
-          "label: {}; text: {$0}; kind:5; commit:undefined; sort:",
           "label: ''; text: '$0'; kind:5; commit:undefined; sort:",
+          "label: {}; text: {$0}; kind:5; commit:undefined; sort:",
         ]);
       });
       it("j. for parts only [existing element(s) without comma]", async function () {
@@ -396,8 +382,8 @@ describe("index", () => {
         expect(
           result.map((item) => completionItemToSnapshot(item))
         ).toStrictEqual([
-          "label: {}; text: {$0}; kind:5; commit:undefined; sort:",
           "label: ''; text: '$0'; kind:5; commit:undefined; sort:",
+          "label: {}; text: {$0}; kind:5; commit:undefined; sort:",
         ]);
       });
       it("j. for parts only [all binding info properties except parts itself]", async function () {
@@ -446,8 +432,8 @@ describe("index", () => {
         expect(
           result.map((item) => completionItemToSnapshot(item))
         ).toStrictEqual([
-          "label: {}; text: {$0}; kind:5; commit:undefined; sort:",
           "label: ''; text: '$0'; kind:5; commit:undefined; sort:",
+          "label: {}; text: {$0}; kind:5; commit:undefined; sort:",
         ]);
       });
       it("n. for parts only [outside existing structure element(s) - case 02]", async function () {
@@ -457,8 +443,8 @@ describe("index", () => {
         expect(
           result.map((item) => completionItemToSnapshot(item))
         ).toStrictEqual([
-          "label: {}; text: {$0}; kind:5; commit:undefined; sort:",
           "label: ''; text: '$0'; kind:5; commit:undefined; sort:",
+          "label: {}; text: {$0}; kind:5; commit:undefined; sort:",
         ]);
       });
       it("o. for parts only [outside existing primitive element(s) - case 01]", async function () {
@@ -468,8 +454,8 @@ describe("index", () => {
         expect(
           result.map((item) => completionItemToSnapshot(item))
         ).toStrictEqual([
-          "label: {}; text: {$0}; kind:5; commit:undefined; sort:",
           "label: ''; text: '$0'; kind:5; commit:undefined; sort:",
+          "label: {}; text: {$0}; kind:5; commit:undefined; sort:",
         ]);
       });
       it("p. for parts only [outside existing primitive element(s) - case 02]", async function () {
@@ -479,8 +465,8 @@ describe("index", () => {
         expect(
           result.map((item) => completionItemToSnapshot(item))
         ).toStrictEqual([
-          "label: {}; text: {$0}; kind:5; commit:undefined; sort:",
           "label: ''; text: '$0'; kind:5; commit:undefined; sort:",
+          "label: {}; text: {$0}; kind:5; commit:undefined; sort:",
         ]);
       });
       it("q. for parts only [on existing primitive element(s) - no completion item]", async function () {
@@ -718,8 +704,8 @@ describe("index", () => {
         expect(
           result.map((item) => completionItemToSnapshot(item))
         ).toStrictEqual([
-          "label: {}; text: {$0}; kind:5; commit:undefined; sort:",
           "label: ''; text: '$0'; kind:5; commit:undefined; sort:",
+          "label: {}; text: {$0}; kind:5; commit:undefined; sort:",
         ]);
       });
     });

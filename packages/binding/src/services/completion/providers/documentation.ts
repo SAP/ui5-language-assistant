@@ -1,15 +1,54 @@
-import { PropertyBindingInfoElement } from "../../../types";
+import {
+  UI5Type,
+  UI5TypedefProp,
+} from "@ui5-language-assistant/semantic-model-types";
+import { BindContext } from "../../../types";
 import { MarkupKind } from "vscode-languageserver-types";
+import { ui5NodeToFQN, getLink } from "@ui5-language-assistant/logic-utils";
+import { PROPERTY_BINDING_INFO } from "../../../constant";
+
+const getType = (type: UI5Type): string[] => {
+  const result: string[] = [];
+  const unionType: string[] = [];
+  switch (type.kind) {
+    case "PrimitiveType":
+      result.push(type.name);
+      break;
+    case "UI5Typedef":
+    case "UI5Class":
+    case "UI5Enum":
+      result.push(ui5NodeToFQN(type));
+      break;
+    case "UnionType":
+      type.types.forEach((i) => unionType.push(...getType(i)));
+      if (type.collection) {
+        result.push(`Array<(${unionType.join(" | ")}>)`);
+      } else {
+        result.push(unionType.join(" | "));
+      }
+      break;
+  }
+  return result;
+};
 
 export const getDocumentation = (
-  prop: PropertyBindingInfoElement
+  context: BindContext,
+  prop: UI5TypedefProp
 ): {
   kind: MarkupKind;
   value: string;
 } => {
-  const value = `**Type:** ${prop.documentation.type} \n\n **Description:** ${prop.documentation.description} \n\n **Visibility:** ${prop.documentation.visibility} \n\n **Optional:** ${prop.documentation.optional}`;
+  const link = getLink(context.ui5Model, PROPERTY_BINDING_INFO);
+  const values: string[] = [
+    `\`typedef ${PROPERTY_BINDING_INFO}\``,
+    `**Type:** ${getType(prop.type)}`,
+    `**Description:** ${prop.description}`,
+    `**Visibility:** ${prop.visibility}`,
+    `**Optional:** ${prop.optional}`,
+    `[More information](${link})`,
+  ];
   return {
     kind: MarkupKind.Markdown,
-    value,
+    value: values.join("\n\n"),
   };
 };

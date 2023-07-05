@@ -1,10 +1,18 @@
 import { Context } from "@ui5-language-assistant/context";
-import { TextDocumentPositionParams } from "vscode-languageserver-protocol";
+import {
+  MarkupKind,
+  TextDocumentPositionParams,
+} from "vscode-languageserver-protocol";
 
 export enum TypeKind {
   "string" = "string",
+  "String" = "string",
+  "function" = "string",
+  "Function" = "string",
   "boolean" = "boolean",
+  "Boolean" = "boolean",
   "object" = "object",
+  "Object" = "object",
 }
 export enum BindingInfoName {
   "path" = "path",
@@ -41,10 +49,8 @@ export interface PropertyBindingInfoElement {
   name: BindingInfoName;
   type: PropertyType[];
   documentation: {
-    type: string;
-    optional?: boolean;
-    visibility: string;
-    description: string;
+    kind: MarkupKind;
+    value: string;
   };
 }
 

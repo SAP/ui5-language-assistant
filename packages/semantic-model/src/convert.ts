@@ -8,6 +8,7 @@ import {
   cloneDeep,
   isArray,
   isFunction,
+  forOwn,
 } from "lodash";
 import * as model from "@ui5-language-assistant/semantic-model-types";
 import { Json } from "../api";
@@ -15,6 +16,7 @@ import * as apiJson from "./api-json";
 import { isLibraryFile } from "./validate";
 import { fixLibrary } from "./fix-api-json";
 import { error, hasProperty, newMap } from "./utils";
+import { resolveTypeDefPropertyType } from "./resolve";
 
 export function convertToSemanticModel(
   libraries: Record<string, Json>,
@@ -71,6 +73,15 @@ function addLibraryToModel(
   model: model.UI5SemanticModel
 ): void {
   merge(model, library);
+}
+export function addTypedefType(model: model.UI5SemanticModel): void {
+  forOwn(model.typedefs, (value, key) => {
+    const properties: model.UI5TypedefProp[] = [];
+    for (const prop of value.symbolProperties ?? []) {
+      properties.push(convertTypeDefProperty(model, prop));
+    }
+    model.typedefs[key].properties = properties;
+  });
 }
 
 function convertLibraryToSemanticModel(
@@ -286,9 +297,8 @@ function convertTypedef(
   const typedef: model.UI5Typedef = {
     ...base,
     kind: "UI5Typedef",
-    properties: (symbol.properties ?? []).map((prop) =>
-      convertTypeDefProperty(prop)
-    ),
+    properties: [],
+    symbolProperties: symbol.properties ?? [], // collect for later consumption
   };
   return typedef;
 }
@@ -436,22 +446,16 @@ function convertProperty(
 }
 
 function convertTypeDefProperty(
-  prop: model.UI5TypedefProp
+  model: model.UI5SemanticModel,
+  prop: apiJson.Ui5Property
 ): model.UI5TypedefProp {
-  const {
-    description,
-    name,
-    optional,
-    type,
-    visibility,
-    kind = "UI5TypedefProp",
-  } = prop;
+  const { description, name, optional, visibility } = prop;
   return {
+    kind: "UI5TypedefProp",
     description,
-    kind,
     name,
     optional,
-    type,
+    type: resolveTypeDefPropertyType(model, prop),
     visibility,
   };
 }

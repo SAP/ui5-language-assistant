@@ -22,6 +22,9 @@ import {
   TEMPLATE,
   VALUE,
   WHITE_SPACE,
+  STRUCTURE_ELEMENT,
+  STRUCTURE_VALUE,
+  COLLECTION_VALUE,
 } from "../constant";
 
 export interface VisitorParam {
@@ -107,7 +110,7 @@ export interface CollectionValue {
   range?: Range; // range which include left bracket, element and right bracket
   rightSquare?: RightSquare;
   commas?: Comma[];
-  type: "collection-value";
+  type: typeof COLLECTION_VALUE;
 }
 export type Value = PrimitiveValue | StructureValue | CollectionValue;
 
@@ -116,7 +119,7 @@ export interface StructureElement {
   colon?: Colon;
   value?: Value;
   range?: Range; // range of this element which include key, colon and value
-  type: "structure-element";
+  type: typeof STRUCTURE_ELEMENT;
 }
 
 export interface StructureValue {
@@ -125,11 +128,11 @@ export interface StructureValue {
   elements: StructureElement[];
   range?: Range; // range which include left bracket, element and right bracket,
   commas?: Comma[];
-  type: "structure-value";
+  type: typeof STRUCTURE_VALUE;
 }
 export interface Template {
   bindings: StructureValue[];
-  type: "template";
+  type: typeof TEMPLATE;
   spaces: WhiteSpaces[];
 }
 

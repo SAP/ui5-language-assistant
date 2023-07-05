@@ -7,7 +7,6 @@ import { BindingParserTypes as BindingTypes } from "@ui5-language-assistant/bind
 
 import { getPropertyBindingInfoElements } from "../../../definition/definition";
 import { typesToValue } from "../../../utils";
-import { getDocumentation } from "./documentation";
 import { BindContext } from "../../../types";
 
 export const createKeyValue = (
@@ -29,13 +28,12 @@ export const createKeyValue = (
     .map((item) => {
       const type = typesToValue(item.type, context, 0);
       const text = `${item.name}: ${type.length === 1 ? type[0] : "$0"}`;
-      const documentation = getDocumentation(item);
       return {
         label: item.name,
         insertTextFormat: InsertTextFormat.Snippet,
         insertText: text,
         kind: CompletionItemKind.Snippet,
-        documentation,
+        documentation: item.documentation,
       };
     });
 };

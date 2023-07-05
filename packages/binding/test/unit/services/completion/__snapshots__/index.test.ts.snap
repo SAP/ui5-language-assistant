@@ -1,119 +1,232 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`index getCompletionItems provides CC for empty 1`] = `
+exports[`index getCompletionItems provides CC for empty [with documentation] 1`] = `
 Array [
-  "label: path; text: path: '$0'; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:**Type:** string 
+  "label: path; text: path: '$0'; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
 
- **Description:** Path in the model to bind to, either an absolute path or relative to the binding context for the corresponding model; when the path contains a '&gt;' sign, the string preceding it will override the <code>model</code> property and the remainder after the '&gt;' will be used as binding path 
+**Type:** String
 
- **Visibility:** public 
+**Description:** Path in the model to bind to, either an absolute path or relative to the binding context for the corresponding model; when the path contains a '&gt;' sign, the string preceding it will override the <code>model</code> property and the remainder after the '&gt;' will be used as binding path
 
- **Optional:** true",
-  "label: value; text: value: '$0'; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:**Type:** string 
+**Visibility:** public
 
- **Description:** Since 1.61, defines a static binding with the given value. 
+**Optional:** true
 
- **Visibility:** public 
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+  "label: value; text: value: '$0'; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
 
- **Optional:** true",
-  "label: model; text: model: '$0'; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:**Type:** string 
+**Type:** String
 
- **Description:** Name of the model to bind against; when <code>undefined</code> or omitted, the default model is used 
+**Description:** Since 1.61, defines a static binding with the given value.
 
- **Visibility:** public 
+**Visibility:** public
 
- **Optional:** true",
-  "label: suspended; text: suspended: $0; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:**Type:** boolean 
+**Optional:** true
 
- **Description:** Whether the binding should be suspended initially 
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+  "label: model; text: model: '$0'; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
 
- **Visibility:** public 
+**Type:** String
 
- **Optional:** true",
-  "label: formatter; text: formatter: '$0'; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:**Type:** function 
+**Description:** Name of the model to bind against; when <code>undefined</code> or omitted, the default model is used
 
- **Description:** Function to convert model data into a property value 
+**Visibility:** public
 
- **Visibility:** public 
+**Optional:** true
 
- **Optional:** true",
-  "label: useRawValues; text: useRawValues: $0; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:**Type:** boolean 
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+  "label: suspended; text: suspended: $0; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
 
- **Description:** Whether the parameters to the formatter function should be passed as raw values. In this case the specified types for the binding parts are not used and the values are not formatted.
+**Type:** Boolean
 
-<b>Note</b>: use this flag only when using multiple bindings. If you use only one binding and want raw values then simply don't specify a type for that binding. 
+**Description:** Whether the binding should be suspended initially
 
- **Visibility:** public 
+**Visibility:** public
 
- **Optional:** true",
-  "label: useInternalValues; text: useInternalValues: $0; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:**Type:** boolean 
+**Optional:** true
 
- **Description:** Whether the parameters to the formatter function should be passed as the related JavaScript primitive values. In this case the values of the model are parsed by the {@link sap.ui.model.SimpleType#getModelFormat model format} of the specified types from the binding parts.
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+  "label: formatter; text: formatter: '$0'; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
 
-<b>Note</b>: use this flag only when using multiple bindings. 
+**Type:** Function
 
- **Visibility:** public 
+**Description:** Function to convert model data into a property value
 
- **Optional:** true",
-  "label: type; text: type: '$0'; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:**Type:** sap.ui.model.Type|string 
+**Visibility:** public
 
- **Description:** A type object or the name of a type class to create such a type object; the type will be used for converting model data to a property value (aka \\"formatting\\") and vice versa (in binding mode <code>TwoWay</code>, aka \\"parsing\\") 
+**Optional:** true
 
- **Visibility:** public 
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+  "label: useRawValues; text: useRawValues: $0; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
 
- **Optional:** true",
-  "label: targetType; text: targetType: '$0'; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:**Type:** string 
+**Type:** Boolean
 
- **Description:** Target type to be used by the type when formatting model data, for example \\"boolean\\" or \\"string\\" or \\"any\\"; defaults to the property's type 
+**Description:** Whether the parameters to the formatter function should be passed as raw values. In this case the specified types for the binding parts are not used and the values are not formatted.
 
- **Visibility:** public 
+<b>Note</b>: use this flag only when using multiple bindings. If you use only one binding and want raw values then simply don't specify a type for that binding.
 
- **Optional:** true",
-  "label: formatOptions; text: formatOptions: {$0}; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:**Type:** object 
+**Visibility:** public
 
- **Description:** Format options to be used for the type; only taken into account when the type is specified by its name - a given type object won't be modified 
+**Optional:** true
 
- **Visibility:** public 
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+  "label: useInternalValues; text: useInternalValues: $0; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
 
- **Optional:** true",
-  "label: constraints; text: constraints: {$0}; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:**Type:** object 
+**Type:** Boolean
 
- **Description:** Additional constraints to be used when constructing a type object from a type name, ignored when a type object is given 
+**Description:** Whether the parameters to the formatter function should be passed as the related JavaScript primitive values. In this case the values of the model are parsed by the {@link sap.ui.model.SimpleType#getModelFormat model format} of the specified types from the binding parts.
 
- **Visibility:** public 
+<b>Note</b>: use this flag only when using multiple bindings.
 
- **Optional:** true",
-  "label: mode; text: mode: '$0'; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:**Type:** sap.ui.model.BindingMode 
+**Visibility:** public
 
- **Description:** Binding mode to be used for this property binding (e.g. one way) 
+**Optional:** true
 
- **Visibility:** public 
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+  "label: type; text: type: '$0'; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
 
- **Optional:** true",
-  "label: parameters; text: parameters: {$0}; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:**Type:** object 
+**Type:** sap.ui.model.Type | String
 
- **Description:** Map of additional parameters for this binding; the names and value ranges of the supported parameters depend on the model implementation, they should be documented with the <code>bindProperty</code> method of the corresponding model class or with the model specific subclass of <code>sap.ui.model.PropertyBinding</code> 
+**Description:** A type object or the name of a type class to create such a type object; the type will be used for converting model data to a property value (aka \\"formatting\\") and vice versa (in binding mode <code>TwoWay</code>, aka \\"parsing\\")
 
- **Visibility:** public 
+**Visibility:** public
 
- **Optional:** true",
-  "label: events; text: events: {$0}; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:**Type:** object 
+**Optional:** true
 
- **Description:** Map of event handler functions keyed by the name of the binding events that they should be attached to 
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+  "label: targetType; text: targetType: '$0'; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
 
- **Visibility:** public 
+**Type:** String
 
- **Optional:** true",
-  "label: parts; text: parts: $0; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:**Type:** Array<(string|sap.ui.base.ManagedObject.PropertyBindingInfo)> 
+**Description:** Target type to be used by the type when formatting model data, for example \\"boolean\\" or \\"string\\" or \\"any\\"; defaults to the property's type
 
- **Description:** Array of binding info objects for the parts of a composite binding; the structure of each binding info is the same as described for the <code>oBindingInfo</code> as a whole.
+**Visibility:** public
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+  "label: formatOptions; text: formatOptions: {$0}; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+**Type:** Object
+
+**Description:** Format options to be used for the type; only taken into account when the type is specified by its name - a given type object won't be modified
+
+**Visibility:** public
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+  "label: constraints; text: constraints: {$0}; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+**Type:** Object
+
+**Description:** Additional constraints to be used when constructing a type object from a type name, ignored when a type object is given
+
+**Visibility:** public
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+  "label: mode; text: mode: '$0'; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+**Type:** sap.ui.model.BindingMode
+
+**Description:** Binding mode to be used for this property binding (e.g. one way)
+
+**Visibility:** public
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+  "label: parameters; text: parameters: {$0}; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+**Type:** Object
+
+**Description:** Map of additional parameters for this binding; the names and value ranges of the supported parameters depend on the model implementation, they should be documented with the <code>bindProperty</code> method of the corresponding model class or with the model specific subclass of <code>sap.ui.model.PropertyBinding</code>
+
+**Visibility:** public
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+  "label: events; text: events: {$0}; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+**Type:** Object
+
+**Description:** Map of event handler functions keyed by the name of the binding events that they should be attached to
+
+**Visibility:** public
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+  "label: parts; text: parts: $0; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+**Type:** Array<(String | sap.ui.base.ManagedObject.PropertyBindingInfo>)
+
+**Description:** Array of binding info objects for the parts of a composite binding; the structure of each binding info is the same as described for the <code>oBindingInfo</code> as a whole.
 
 If a part is not specified as a binding info object but as a simple string, a binding info object will be created with that string as <code>path</code>. The string may start with a model name prefix (see property <code>path</code>).
 
-<b>Note</b>: recursive composite bindings are currently not supported. Therefore, a part must not contain a <code>parts</code> property. 
+<b>Note</b>: recursive composite bindings are currently not supported. Therefore, a part must not contain a <code>parts</code> property.
 
- **Visibility:** public 
+**Visibility:** public
 
- **Optional:** true",
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+]
+`;
+
+exports[`index getCompletionItems provides CC for value f. for default value b. type 1`] = `
+Array [
+  "label: 'sap.ca.ui.model.type.Date'; text: 'sap.ca.ui.model.type.Date$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ca.ui.model.type.Date$0', range: 9:31-9:33}",
+  "label: 'sap.ca.ui.model.type.DateTime'; text: 'sap.ca.ui.model.type.DateTime$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ca.ui.model.type.DateTime$0', range: 9:31-9:33}",
+  "label: 'sap.ca.ui.model.type.FileSize'; text: 'sap.ca.ui.model.type.FileSize$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ca.ui.model.type.FileSize$0', range: 9:31-9:33}",
+  "label: 'sap.ca.ui.model.type.Number'; text: 'sap.ca.ui.model.type.Number$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ca.ui.model.type.Number$0', range: 9:31-9:33}",
+  "label: 'sap.ca.ui.model.type.Time'; text: 'sap.ca.ui.model.type.Time$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ca.ui.model.type.Time$0', range: 9:31-9:33}",
+  "label: 'sap.m.DynamicDate'; text: 'sap.m.DynamicDate$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.m.DynamicDate$0', range: 9:31-9:33}",
+  "label: 'sap.ui.model.CompositeType'; text: 'sap.ui.model.CompositeType$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.model.CompositeType$0', range: 9:31-9:33}",
+  "label: 'sap.ui.model.odata.type.Boolean'; text: 'sap.ui.model.odata.type.Boolean$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.model.odata.type.Boolean$0', range: 9:31-9:33}",
+  "label: 'sap.ui.model.odata.type.Byte'; text: 'sap.ui.model.odata.type.Byte$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.model.odata.type.Byte$0', range: 9:31-9:33}",
+  "label: 'sap.ui.model.odata.type.Currency'; text: 'sap.ui.model.odata.type.Currency$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.model.odata.type.Currency$0', range: 9:31-9:33}",
+  "label: 'sap.ui.model.odata.type.Date'; text: 'sap.ui.model.odata.type.Date$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.model.odata.type.Date$0', range: 9:31-9:33}",
+  "label: 'sap.ui.model.odata.type.DateTime'; text: 'sap.ui.model.odata.type.DateTime$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.model.odata.type.DateTime$0', range: 9:31-9:33}",
+  "label: 'sap.ui.model.odata.type.DateTimeBase'; text: 'sap.ui.model.odata.type.DateTimeBase$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.model.odata.type.DateTimeBase$0', range: 9:31-9:33}",
+  "label: 'sap.ui.model.odata.type.DateTimeOffset'; text: 'sap.ui.model.odata.type.DateTimeOffset$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.model.odata.type.DateTimeOffset$0', range: 9:31-9:33}",
+  "label: 'sap.ui.model.odata.type.DateTimeWithTimezone'; text: 'sap.ui.model.odata.type.DateTimeWithTimezone$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.model.odata.type.DateTimeWithTimezone$0', range: 9:31-9:33}",
+  "label: 'sap.ui.model.odata.type.Decimal'; text: 'sap.ui.model.odata.type.Decimal$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.model.odata.type.Decimal$0', range: 9:31-9:33}",
+  "label: 'sap.ui.model.odata.type.Double'; text: 'sap.ui.model.odata.type.Double$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.model.odata.type.Double$0', range: 9:31-9:33}",
+  "label: 'sap.ui.model.odata.type.Guid'; text: 'sap.ui.model.odata.type.Guid$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.model.odata.type.Guid$0', range: 9:31-9:33}",
+  "label: 'sap.ui.model.odata.type.Int'; text: 'sap.ui.model.odata.type.Int$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.model.odata.type.Int$0', range: 9:31-9:33}",
+  "label: 'sap.ui.model.odata.type.Int16'; text: 'sap.ui.model.odata.type.Int16$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.model.odata.type.Int16$0', range: 9:31-9:33}",
+  "label: 'sap.ui.model.odata.type.Int32'; text: 'sap.ui.model.odata.type.Int32$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.model.odata.type.Int32$0', range: 9:31-9:33}",
+  "label: 'sap.ui.model.odata.type.Int64'; text: 'sap.ui.model.odata.type.Int64$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.model.odata.type.Int64$0', range: 9:31-9:33}",
+  "label: 'sap.ui.model.odata.type.ODataType'; text: 'sap.ui.model.odata.type.ODataType$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.model.odata.type.ODataType$0', range: 9:31-9:33}",
+  "label: 'sap.ui.model.odata.type.Raw'; text: 'sap.ui.model.odata.type.Raw$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.model.odata.type.Raw$0', range: 9:31-9:33}",
+  "label: 'sap.ui.model.odata.type.SByte'; text: 'sap.ui.model.odata.type.SByte$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.model.odata.type.SByte$0', range: 9:31-9:33}",
+  "label: 'sap.ui.model.odata.type.Single'; text: 'sap.ui.model.odata.type.Single$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.model.odata.type.Single$0', range: 9:31-9:33}",
+  "label: 'sap.ui.model.odata.type.Stream'; text: 'sap.ui.model.odata.type.Stream$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.model.odata.type.Stream$0', range: 9:31-9:33}",
+  "label: 'sap.ui.model.odata.type.String'; text: 'sap.ui.model.odata.type.String$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.model.odata.type.String$0', range: 9:31-9:33}",
+  "label: 'sap.ui.model.odata.type.Time'; text: 'sap.ui.model.odata.type.Time$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.model.odata.type.Time$0', range: 9:31-9:33}",
+  "label: 'sap.ui.model.odata.type.TimeOfDay'; text: 'sap.ui.model.odata.type.TimeOfDay$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.model.odata.type.TimeOfDay$0', range: 9:31-9:33}",
+  "label: 'sap.ui.model.odata.type.Unit'; text: 'sap.ui.model.odata.type.Unit$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.model.odata.type.Unit$0', range: 9:31-9:33}",
+  "label: 'sap.ui.model.SimpleType'; text: 'sap.ui.model.SimpleType$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.model.SimpleType$0', range: 9:31-9:33}",
+  "label: 'sap.ui.model.type.Boolean'; text: 'sap.ui.model.type.Boolean$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.model.type.Boolean$0', range: 9:31-9:33}",
+  "label: 'sap.ui.model.type.Currency'; text: 'sap.ui.model.type.Currency$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.model.type.Currency$0', range: 9:31-9:33}",
+  "label: 'sap.ui.model.type.Date'; text: 'sap.ui.model.type.Date$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.model.type.Date$0', range: 9:31-9:33}",
+  "label: 'sap.ui.model.type.DateInterval'; text: 'sap.ui.model.type.DateInterval$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.model.type.DateInterval$0', range: 9:31-9:33}",
+  "label: 'sap.ui.model.type.DateTime'; text: 'sap.ui.model.type.DateTime$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.model.type.DateTime$0', range: 9:31-9:33}",
+  "label: 'sap.ui.model.type.DateTimeInterval'; text: 'sap.ui.model.type.DateTimeInterval$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.model.type.DateTimeInterval$0', range: 9:31-9:33}",
+  "label: 'sap.ui.model.type.FileSize'; text: 'sap.ui.model.type.FileSize$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.model.type.FileSize$0', range: 9:31-9:33}",
+  "label: 'sap.ui.model.type.Float'; text: 'sap.ui.model.type.Float$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.model.type.Float$0', range: 9:31-9:33}",
+  "label: 'sap.ui.model.type.Integer'; text: 'sap.ui.model.type.Integer$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.model.type.Integer$0', range: 9:31-9:33}",
+  "label: 'sap.ui.model.type.String'; text: 'sap.ui.model.type.String$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.model.type.String$0', range: 9:31-9:33}",
+  "label: 'sap.ui.model.type.Time'; text: 'sap.ui.model.type.Time$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.model.type.Time$0', range: 9:31-9:33}",
+  "label: 'sap.ui.model.type.TimeInterval'; text: 'sap.ui.model.type.TimeInterval$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.model.type.TimeInterval$0', range: 9:31-9:33}",
+  "label: 'sap.ui.model.type.Unit'; text: 'sap.ui.model.type.Unit$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.model.type.Unit$0', range: 9:31-9:33}",
+  "label: 'sap.ui.mdc.field.ConditionsType'; text: 'sap.ui.mdc.field.ConditionsType$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.mdc.field.ConditionsType$0', range: 9:31-9:33}",
+  "label: 'sap.ui.mdc.field.ConditionType'; text: 'sap.ui.mdc.field.ConditionType$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.mdc.field.ConditionType$0', range: 9:31-9:33}",
+  "label: 'sap.ui.mdc.field.DynamicDateRangeConditionsType'; text: 'sap.ui.mdc.field.DynamicDateRangeConditionsType$0'; kind:5; commit:undefined; sort:; textEdit: {newText: 'sap.ui.mdc.field.DynamicDateRangeConditionsType$0', range: 9:31-9:33}",
 ]
 `;

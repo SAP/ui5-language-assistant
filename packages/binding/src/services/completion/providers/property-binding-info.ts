@@ -45,8 +45,6 @@ export const getCompletionItems = (
       return createValue(context, spaces, cursorContext);
     case "key-value":
       return createKeyValue(context, binding);
-    default:
-      break;
   }
   return completionItems;
 };

@@ -46,7 +46,7 @@ describe("element", () => {
           undefined,
           false
         );
-        expect(result).toStrictEqual(["[{ }]", '[""]']);
+        expect(result).toStrictEqual(['[""]', "[{ }]"]);
       });
       it("type.collection && collectionValue === false) [with tab stop]", () => {
         const el = getPropertyBindingInfoElements(context).find(
@@ -58,7 +58,7 @@ describe("element", () => {
           0,
           false
         );
-        expect(result).toStrictEqual(["[{$0}]", '["$0"]']);
+        expect(result).toStrictEqual(['["$0"]', "[{$0}]"]);
       });
       it("empty string [with tab stop]", () => {
         const el = getPropertyBindingInfoElements(context).find(

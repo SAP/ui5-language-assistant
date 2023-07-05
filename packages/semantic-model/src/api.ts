@@ -1,7 +1,7 @@
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { TypeNameFix, Json } from "../api";
 import { ConcreteSymbol } from "./api-json";
-import { convertToSemanticModel } from "./convert";
+import { convertToSemanticModel, addTypedefType } from "./convert";
 import { resolveSemanticProperties } from "./resolve";
 import { generateMissingSymbols } from "./enhance";
 import { newMap } from "./utils";
@@ -41,6 +41,7 @@ export function generate({
   model.version = version;
   model.isFallback = isFallback;
   model.isIncorrectVersion = isIncorrectVersion;
+  addTypedefType(model);
   return deepFreezeStrict(model);
 }
 

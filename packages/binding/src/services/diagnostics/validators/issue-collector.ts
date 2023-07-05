@@ -12,7 +12,7 @@ import { checkDependents } from "./check-dependents";
 import { checkNestedParts } from "./check-nested-parts";
 import { checkComma } from "./check-comma";
 import { checkBrackets } from "./check-brackets";
-import { checkDefaultValue } from "./checkDefaultValue";
+import { checkDefaultValue } from "./check-default-value";
 
 /**
  * Check an AST
