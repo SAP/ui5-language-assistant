@@ -8,7 +8,6 @@ import {
   cloneDeep,
   isArray,
   isFunction,
-  forOwn,
 } from "lodash";
 import * as model from "@ui5-language-assistant/semantic-model-types";
 import { Json } from "../api";
