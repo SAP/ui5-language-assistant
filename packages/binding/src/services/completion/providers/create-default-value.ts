@@ -1,6 +1,6 @@
 import { getPropertyBindingInfoElements } from "../../../definition/definition";
 import { BindContext, ValueContext } from "../../../types";
-import { getPropertyTypeWithDefaultValue } from "../../../utils";
+import { getPropertyTypeWithPossibleValue } from "../../../utils";
 import {
   CompletionItem,
   CompletionItemKind,
@@ -31,10 +31,10 @@ export const createDefaultValue = (
   const bindingElement = getPropertyBindingInfoElements(context).find(
     (el) => el.name === text
   );
-  const bindingType = getPropertyTypeWithDefaultValue(element, bindingElement);
+  const bindingType = getPropertyTypeWithPossibleValue(element, bindingElement);
   if (bindingType) {
     const range = element.value?.range;
-    bindingType.default?.values.forEach((i) => {
+    bindingType.possibleValue?.values.forEach((i) => {
       const label = getText(context, i, false);
       const newText = getText(context, i);
       const data: CompletionItem = {

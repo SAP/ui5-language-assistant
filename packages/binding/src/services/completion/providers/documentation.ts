@@ -7,8 +7,12 @@ import { MarkupKind } from "vscode-languageserver-types";
 import { ui5NodeToFQN, getLink } from "@ui5-language-assistant/logic-utils";
 import { PROPERTY_BINDING_INFO } from "../../../constant";
 
-const getType = (type: UI5Type): string[] => {
+const getType = (type: UI5Type | undefined): string[] => {
   const result: string[] = [];
+  if (!type) {
+    return result;
+  }
+
   const unionType: string[] = [];
   switch (type.kind) {
     case "PrimitiveType":

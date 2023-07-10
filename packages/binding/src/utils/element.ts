@@ -85,19 +85,19 @@ export const findRange = (args: (Range | undefined)[]): Range => {
 /**
  * Get property binding info type which has default value
  */
-export const getPropertyTypeWithDefaultValue = (
+export const getPropertyTypeWithPossibleValue = (
   element: BindingTypes.StructureElement,
   bindingInfo?: PropertyBindingInfoElement
 ): PropertyType | undefined => {
   if (!bindingInfo) {
     return undefined;
   }
-  // currently only primitive value has default value as per definition
+  // currently only primitive value has possible value as per definition
   if (isPrimitiveValue(element.value)) {
     return bindingInfo.type.find(
       (i) =>
         i.kind === valueTypeMap.get(element.value?.type ?? "") &&
-        i.default !== undefined
+        i.possibleValue !== undefined
     );
   }
 

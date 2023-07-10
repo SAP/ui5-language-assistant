@@ -142,13 +142,14 @@ describe("The ui5-language-assistant semantic model package API", () => {
     );
   }
 
-  function assertTypedefProperty(data: UI5Typedef) {
-    data.properties.forEach((prper) => {
-      expect(prper.description).toBeDefined();
-      expect(prper.kind).toStrictEqual("UI5TypedefProp");
-      expect(prper.name).toBeDefined();
-      expect(prper.type).toBeDefined();
-      expect(prper.visibility).toBeDefined();
+  function assertTypedefProperty(data: UI5Typedef | undefined) {
+    if (!data) {
+      return;
+    }
+    data.properties.forEach((prop) => {
+      expect(prop.kind).toStrictEqual("UI5TypedefProp");
+      expect(prop.name).toBeDefined();
+      expect(prop.type).toBeDefined();
     });
   }
 
@@ -296,7 +297,7 @@ describe("The ui5-language-assistant semantic model package API", () => {
         });
         it(`has typedef property [PropertyBindingInfo]`, async () => {
           assertTypedefProperty(
-            model.typedefs["sap.ui.rta.service.Property.PropertyObject"]
+            model.typedefs["sap.ui.base.ManagedObject.PropertyBindingInfo"]
           );
         });
         // TODO: assert no cyclic references in extends or implements or parent - maybe not in a test

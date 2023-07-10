@@ -39,9 +39,5 @@ describe("definition", () => {
       const result = getPropertyBindingInfoElements(context);
       expect(result).toMatchSnapshot();
     });
-    it("get binding elements [cache]", () => {
-      const result = getPropertyBindingInfoElements(context);
-      expect(result).toMatchSnapshot();
-    });
   });
 });

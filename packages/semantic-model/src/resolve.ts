@@ -18,7 +18,7 @@ import {
   UI5Type,
 } from "@ui5-language-assistant/semantic-model-types";
 import { TypeNameFix } from "../api";
-import { SymbolBase, ClassSymbol, Ui5Property } from "./api-json";
+import { SymbolBase, ClassSymbol } from "./api-json";
 import { error, getParentFqn, findValueInMaps, findSymbol } from "./utils";
 
 // Exported for testing purpose
@@ -50,9 +50,10 @@ export function resolveSemanticProperties(
   strict: boolean
 ): void {
   const resolveTypePartial = (
-    type: Parameters<typeof resolveType>[0]["type"]
+    type: Parameters<typeof resolveType>[0]["type"],
+    typedef?: boolean
   ): ReturnType<typeof resolveType> =>
-    resolveType({ model, type, typeNameFix, strict });
+    resolveType({ model, type, typeNameFix, strict, typedef });
 
   for (const key in model.classes) {
     const classs = model.classes[key];
@@ -124,7 +125,7 @@ export function resolveSemanticProperties(
     });
     forEach(classs.aggregations, (_) => {
       _.type = resolveTypePartial(_.type);
-      _.altTypes = compact(map(_.altTypes, resolveTypePartial));
+      _.altTypes = compact(map(_.altTypes, (item) => resolveTypePartial(item)));
     });
     forEach(classs.associations, (_) => {
       _.type = resolveTypePartial(_.type);
@@ -162,6 +163,9 @@ export function resolveSemanticProperties(
   for (const key in model.typedefs) {
     const typedef = model.typedefs[key];
     setParent(model, key, typedef);
+    forEach(typedef.properties, (_) => {
+      (_.kind = "UI5TypedefProp"), (_.type = resolveTypePartial(_.type, true));
+    });
   }
 
   for (const key in model.functions) {
@@ -192,6 +196,42 @@ function fixTypeName(
   }
   return fqn;
 }
+const noUndefined = <T extends UI5Type>(type: T | undefined): type is T =>
+  type !== undefined;
+
+const collectUnionType = ({
+  model,
+  type,
+  typeNameFix,
+  strict,
+  collection,
+  typedef,
+}: {
+  model: UI5SemanticModel;
+  type: string;
+  typeNameFix: TypeNameFix;
+  strict: boolean;
+  collection: boolean;
+  typedef?: boolean;
+}): UI5Type => {
+  const innerType = type
+    .split("|")
+    .map((i) =>
+      resolveType({
+        model,
+        type: i,
+        typeNameFix,
+        strict,
+        typedef,
+      })
+    )
+    .filter(noUndefined);
+  return {
+    kind: "UnionType",
+    collection,
+    types: innerType,
+  };
+};
 
 // Exported for testing purpose
 export function resolveType({
@@ -199,14 +239,19 @@ export function resolveType({
   type,
   typeNameFix,
   strict,
+  typedef,
 }: {
   model: UI5SemanticModel;
   type: UI5Type | string | undefined;
   typeNameFix: TypeNameFix;
   strict: boolean;
+  typedef?: boolean;
 }): UI5Type | undefined {
   // String types are unresolved
   if (typeof type === "string") {
+    if (type.startsWith("Object<")) {
+      type = "Object";
+    }
     type = {
       kind: "UnresolvedType",
       name: type,
@@ -247,24 +292,70 @@ export function resolveType({
       name: primitiveTypeName,
     };
   }
-  if (typeName.endsWith("[]")) {
-    const innerTypeName = typeName.substring(0, typeName.length - "[]".length);
+  if (typeName.startsWith("Array<(")) {
+    const innerTypeName = typeName.slice(
+      typeName.indexOf("(") + 1,
+      typeName.indexOf(")")
+    );
+    if (innerTypeName.indexOf("|") !== -1) {
+      return collectUnionType({
+        model,
+        type: innerTypeName,
+        typeNameFix,
+        strict,
+        collection: true,
+        typedef,
+      });
+    }
     const innerType = resolveType({
       model,
       type: innerTypeName,
       typeNameFix,
       strict,
+      typedef,
     });
     return {
       kind: "ArrayType",
       type: innerType,
     };
+  } else if (typeName.endsWith("[]")) {
+    const innerTypeName = typeName.substring(0, typeName.length - "[]".length);
+    if (innerTypeName.indexOf("|") !== -1) {
+      return collectUnionType({
+        model,
+        type: innerTypeName,
+        typeNameFix,
+        strict,
+        collection: true,
+        typedef,
+      });
+    }
+    const innerType = resolveType({
+      model,
+      type: innerTypeName,
+      typeNameFix,
+      strict,
+      typedef,
+    });
+    return {
+      kind: "ArrayType",
+      type: innerType,
+    };
+  } else if (typeName.indexOf("|") !== -1) {
+    return collectUnionType({
+      model,
+      type: typeName,
+      typeNameFix,
+      strict,
+      collection: false,
+      typedef,
+    });
   } else {
     error(
       `Unknown type: ${typeName} [${model.framework || "SAPUI5"}:${
         model.version
       }]`,
-      strict
+      strict && !typedef
     );
     return {
       kind: "UnresolvedType",
@@ -297,89 +388,4 @@ const typesToIgnore: Record<string, undefined> = {
 };
 function ignoreType(typeName: string): boolean {
   return has(typesToIgnore, typeName);
-}
-
-export function resolveTypeDefPropertyType(
-  model: UI5SemanticModel,
-  prop: Ui5Property
-): UI5Type {
-  const { type = "" } = prop;
-  const primitiveTypeName = getPrimitiveTypeName(type);
-  if (primitiveTypeName !== undefined) {
-    return {
-      kind: "PrimitiveType",
-      name: primitiveTypeName,
-    };
-  }
-  if (type.startsWith("Object<")) {
-    return {
-      kind: "PrimitiveType",
-      name: "Object",
-    };
-  }
-  if (type.startsWith("Array<(")) {
-    const t = type.slice(type.indexOf("(") + 1, type.indexOf(")"));
-    if (t.indexOf("|") !== -1) {
-      const types = t.split("|").map((i) => {
-        return resolveTypeDefPropertyType(model, { ...prop, type: i.trim() });
-      });
-      return {
-        kind: "UnionType",
-        collection: true,
-        types,
-      };
-    }
-
-    return resolveTypeDefPropertyType(model, { ...prop, type: t });
-  }
-  if (type.endsWith("[]")) {
-    const t = type.slice(0, type.indexOf("[", -1));
-    if (t.indexOf("|") !== -1) {
-      const types = t.split("|").map((i) => {
-        return resolveTypeDefPropertyType(model, { ...prop, type: i.trim() });
-      });
-      return {
-        kind: "UnionType",
-        collection: true,
-        types,
-      };
-    }
-
-    return resolveTypeDefPropertyType(model, { ...prop, type: t });
-  }
-  if (type.indexOf("|") !== -1) {
-    const types = type.split("|").map((i) => {
-      return resolveTypeDefPropertyType(model, { ...prop, type: i.trim() });
-    });
-    return {
-      kind: "UnionType",
-      collection: false,
-      types,
-    };
-  }
-  // check class
-  if (model.classes[type]) {
-    return {
-      ...model.classes[type],
-      kind: "UI5Class",
-    };
-  }
-  // check enum
-  if (model.enums[type]) {
-    return {
-      ...model.enums[type],
-      kind: "UI5Enum",
-    };
-  }
-  // check typdefs
-  if (model.typedefs[type]) {
-    return {
-      ...model.typedefs[type],
-      kind: "UI5Typedef",
-    };
-  }
-  return {
-    kind: "UnresolvedType",
-    name: `${type}`,
-  };
 }

@@ -14,6 +14,7 @@ import {
 import { ui5NodeToFQN } from "@ui5-language-assistant/logic-utils";
 import { forOwn } from "lodash";
 import { getDocumentation } from "../services/completion/providers/documentation";
+import { fallBackElements } from "./fall-back-definition";
 
 const isBindingInfoName = (name: string): name is BindingInfoName => {
   return !!BindingInfoName[name];
@@ -95,7 +96,7 @@ const buildType = (
         kind: TypeKind[type.name],
         dependents: getFromMap(dependents, name),
         notAllowedElements: getFromMap(notAllowedElements, name),
-        default: {
+        possibleValue: {
           fixed: !!defaultBoolean.get(type.name),
           values: getFromMap(defaultBoolean, type.name),
         },
@@ -107,7 +108,7 @@ const buildType = (
         kind: TypeKind.string,
         dependents: getFromMap(dependents, name),
         notAllowedElements: getFromMap(notAllowedElements, name),
-        default: {
+        possibleValue: {
           fixed: true,
           values: type.fields.map((field) => ui5NodeToFQN(field)),
         },
@@ -119,7 +120,7 @@ const buildType = (
         kind: TypeKind.string,
         dependents: getFromMap(dependents, name),
         notAllowedElements: getFromMap(notAllowedElements, name),
-        default: {
+        possibleValue: {
           fixed: false,
           values: getPossibleValuesForClass(context, type),
         },
@@ -147,19 +148,19 @@ const buildType = (
   return propertyType;
 };
 
-const elements: PropertyBindingInfoElement[] = [];
 export const getPropertyBindingInfoElements = (
   context: BindContext
 ): PropertyBindingInfoElement[] => {
+  const elements: PropertyBindingInfoElement[] = [];
   const propBinding = context.ui5Model.typedefs[PROPERTY_BINDING_INFO];
-  /* istanbul ignore next */
-  const properties = propBinding?.properties ?? [];
-  if (elements.length > 0) {
-    return elements;
+  if (!propBinding) {
+    return fallBackElements;
   }
+  /* istanbul ignore next */
+  const properties = propBinding.properties ?? [];
   for (const property of properties) {
     const { name, type } = property;
-    if (!isBindingInfoName(name)) {
+    if (!isBindingInfoName(name) || !type) {
       /* istanbul ignore next */
       continue;
     }
@@ -168,12 +169,12 @@ export const getPropertyBindingInfoElements = (
         const index = previous.findIndex((i) => i.kind === current.kind);
         if (index !== -1) {
           // there is duplicate
-          if (current.default?.values.length !== 0) {
-            // has default, remove previous - keep current
+          if (current.possibleValue?.values.length !== 0) {
+            // has possible value, remove previous - keep current
             return [...previous.slice(index), current];
           }
-          if (previous[index].default?.values.length !== 0) {
-            // has default values - keep it
+          if (previous[index].possibleValue?.values.length !== 0) {
+            // has possible value - keep it
             return previous;
           }
         }

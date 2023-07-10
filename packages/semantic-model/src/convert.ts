@@ -16,7 +16,6 @@ import * as apiJson from "./api-json";
 import { isLibraryFile } from "./validate";
 import { fixLibrary } from "./fix-api-json";
 import { error, hasProperty, newMap } from "./utils";
-import { resolveTypeDefPropertyType } from "./resolve";
 
 export function convertToSemanticModel(
   libraries: Record<string, Json>,
@@ -73,15 +72,6 @@ function addLibraryToModel(
   model: model.UI5SemanticModel
 ): void {
   merge(model, library);
-}
-export function addTypedefType(model: model.UI5SemanticModel): void {
-  forOwn(model.typedefs, (value, key) => {
-    const properties: model.UI5TypedefProp[] = [];
-    for (const prop of value.symbolProperties ?? []) {
-      properties.push(convertTypeDefProperty(model, prop));
-    }
-    model.typedefs[key].properties = properties;
-  });
 }
 
 function convertLibraryToSemanticModel(
@@ -297,8 +287,7 @@ function convertTypedef(
   const typedef: model.UI5Typedef = {
     ...base,
     kind: "UI5Typedef",
-    properties: [],
-    symbolProperties: symbol.properties ?? [], // collect for later consumption
+    properties: symbol.properties ?? [],
   };
   return typedef;
 }
@@ -443,21 +432,6 @@ function convertProperty(
     metadata,
   };
   return property;
-}
-
-function convertTypeDefProperty(
-  model: model.UI5SemanticModel,
-  prop: apiJson.Ui5Property
-): model.UI5TypedefProp {
-  const { description, name, optional, visibility } = prop;
-  return {
-    kind: "UI5TypedefProp",
-    description,
-    name,
-    optional,
-    type: resolveTypeDefPropertyType(model, prop),
-    visibility,
-  };
 }
 
 function convertEnumValue(

@@ -6,7 +6,7 @@ import {
 import { getPropertyBindingInfoElements } from "../../../definition/definition";
 import {
   findRange,
-  getPropertyTypeWithDefaultValue,
+  getPropertyTypeWithPossibleValue,
   valueTypeMap,
 } from "../../../utils";
 
@@ -20,7 +20,7 @@ export const checkDefaultValue = (
 ): BindingIssue[] => {
   const issues: BindingIssue[] = [];
   if (!isPrimitiveValue(element.value)) {
-    // currently only primitive value has default value as per definition
+    // currently only primitive value has possible value as per definition
     return issues;
   }
   if (valueTypeMap.get(element.value.type) === "boolean") {
@@ -31,9 +31,9 @@ export const checkDefaultValue = (
   const bindingElement = getPropertyBindingInfoElements(context).find(
     (el) => el.name === text
   );
-  const bindingType = getPropertyTypeWithDefaultValue(element, bindingElement);
-  if (bindingType && bindingType.default?.fixed) {
-    const values = bindingType.default.values;
+  const bindingType = getPropertyTypeWithPossibleValue(element, bindingElement);
+  if (bindingType && bindingType.possibleValue?.fixed) {
+    const values = bindingType.possibleValue.values;
     if (!values.includes(cleanText(context, element.value.text))) {
       const message = `Allowed value${values.length > 1 ? "s" : ""} ${
         values.length > 1 ? "are" : "is"
