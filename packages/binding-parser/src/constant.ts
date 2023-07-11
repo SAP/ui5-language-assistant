@@ -10,6 +10,9 @@ export const STRING_VALUE = "string-value";
 export const BOOLEAN_VALUE = "boolean-value";
 export const NUMBER_VALUE = "number-value";
 export const NULL_VALUE = "null-value";
+export const COLLECTION_VALUE = "collection-value";
+export const STRUCTURE_VALUE = "structure-value";
+export const STRUCTURE_ELEMENT = "structure-element";
 export const COMMA = "comma";
 
 export const TEMPLATE = "template";

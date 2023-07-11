@@ -5,20 +5,20 @@ import {
 } from "vscode-languageserver-types";
 import { BindingParserTypes as BindingTypes } from "@ui5-language-assistant/binding-parser";
 
-import { propertyBindingInfoElements } from "../../../definition/definition";
-import { getDocumentation } from "./documentation";
+import { getPropertyBindingInfoElements } from "../../../definition/definition";
+import { BindContext } from "../../../types";
 
 export const createKeyProperties = (
+  context: BindContext,
   element: BindingTypes.StructureElement
 ): CompletionItem[] => {
-  return propertyBindingInfoElements.map((item) => {
-    const documentation = getDocumentation(item);
+  return getPropertyBindingInfoElements(context).map((item) => {
     const data: CompletionItem = {
       label: item.name,
       insertTextFormat: InsertTextFormat.Snippet,
       insertText: item.name,
       kind: CompletionItemKind.Field,
-      documentation,
+      documentation: item.documentation,
     };
     if (element.key && element.key.range) {
       data.textEdit = {

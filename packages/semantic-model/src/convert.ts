@@ -286,6 +286,7 @@ function convertTypedef(
   const typedef: model.UI5Typedef = {
     ...base,
     kind: "UI5Typedef",
+    properties: symbol.properties ?? [],
   };
   return typedef;
 }

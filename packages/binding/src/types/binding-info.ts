@@ -1,29 +1,47 @@
 import { Context } from "@ui5-language-assistant/context";
-import { TextDocumentPositionParams } from "vscode-languageserver-protocol";
+import {
+  MarkupKind,
+  TextDocumentPositionParams,
+} from "vscode-languageserver-protocol";
 
-export type TypeKind = "string" | "boolean" | "object";
-export type BindingInfoName =
-  | "path"
-  | "value"
-  | "model"
-  | "suspended"
-  | "formatter"
-  | "useRawValues"
-  | "useInternalValues"
-  | "type"
-  | "targetType"
-  | "constraints"
-  | "mode"
-  | "parameters"
-  | "events"
-  | "parts"
-  | "formatOptions";
+export enum TypeKind {
+  "string" = "string",
+  "String" = "string",
+  "function" = "string",
+  "Function" = "string",
+  "boolean" = "boolean",
+  "Boolean" = "boolean",
+  "object" = "object",
+  "Object" = "object",
+  "PropertyBindingInfo" = "object",
+}
+export enum BindingInfoName {
+  "path" = "path",
+  "value" = "value",
+  "model" = "model",
+  "suspended" = "suspended",
+  "formatter" = "formatter",
+  "useRawValues" = "useRawValues",
+  "useInternalValues" = "useInternalValues",
+  "type" = "type",
+  "targetType" = "targetType",
+  "constraints" = "constraints",
+  "mode" = "mode",
+  "parameters" = "parameters",
+  "events" = "events",
+  "parts" = "parts",
+  "formatOptions" = "formatOptions",
+}
 export interface Dependents {
   name: BindingInfoName;
   type: PropertyType[];
 }
 export interface PropertyType {
   kind: TypeKind;
+  possibleValue?: {
+    values: (string | boolean)[];
+    fixed: boolean;
+  };
   dependents: Dependents[];
   notAllowedElements: BindingInfoName[];
   collection?: boolean;
@@ -31,9 +49,9 @@ export interface PropertyType {
 export interface PropertyBindingInfoElement {
   name: BindingInfoName;
   type: PropertyType[];
-  description: {
-    text: string;
-    visibility: "Public";
+  documentation: {
+    kind: MarkupKind;
+    value: string;
   };
 }
 
