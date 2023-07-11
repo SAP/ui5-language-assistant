@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.12
+
+### Patch Changes
+
+- @ui5-language-assistant/logic-utils@4.0.12
+
 ## 4.0.11
 
 ### Patch Changes

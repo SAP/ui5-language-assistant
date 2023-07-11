@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.8
+
+### Patch Changes
+
+- 9df89eb: Use json api
+
 ## 4.0.7
 
 ### Patch Changes
