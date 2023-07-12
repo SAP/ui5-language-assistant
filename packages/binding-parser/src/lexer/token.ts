@@ -24,7 +24,8 @@ const whiteSpace = createToken({
 });
 const specialChars = createToken({
   name: SPECIAL_CHARS,
-  pattern: /(#|!|"|\$|%|&|'|\(|\)|\*|\+|-|\.|\/|;|<|=|>|\?|@|\\|\^|_|`|~|\||)+/,
+  pattern:
+    /(?:#|!|"|\$|%|&|'|\(|\)|\*|\+|-|\.|\/|;|<|=|>|\?|@|\\|\^|_|`|~|\||)+/,
 });
 
 const leftCurly = createToken({
@@ -60,7 +61,7 @@ const colon = createToken({
 });
 const stringValue = createToken({
   name: STRING_VALUE,
-  pattern: /('|"|&apos;|&quot;)(.*?)('|"|&apos;|&quot;)/,
+  pattern: /(?:'|"|&apos;|&quot;)(?:.*?)(?:'|"|&apos;|&quot;)/,
 });
 
 const booleanValue = createToken({
@@ -69,7 +70,7 @@ const booleanValue = createToken({
 });
 const numberValue = createToken({
   name: NUMBER_VALUE,
-  pattern: /-?(0|[1-9]\d*)(\.\d+)?([eE][+-]?\d+)?/,
+  pattern: /-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?/,
 });
 
 const nullValue = createToken({ name: NULL_VALUE, pattern: /null/ });

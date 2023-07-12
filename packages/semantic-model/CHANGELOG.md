@@ -1,5 +1,13 @@
 # Change Log
 
+## 4.0.11
+
+### Patch Changes
+
+- 9df89eb: Use json api
+- Updated dependencies [9df89eb]
+  - @ui5-language-assistant/semantic-model-types@4.0.8
+
 ## 4.0.10
 
 ### Patch Changes

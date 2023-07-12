@@ -40,13 +40,11 @@ export const getCompletionItems = (
     case "empty":
       return createAllSupportedElements(context);
     case "key":
-      return createKeyProperties(cursorContext.element);
+      return createKeyProperties(context, cursorContext.element);
     case "value":
       return createValue(context, spaces, cursorContext);
     case "key-value":
       return createKeyValue(context, binding);
-    default:
-      break;
   }
   return completionItems;
 };

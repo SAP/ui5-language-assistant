@@ -12,6 +12,7 @@ import { checkDependents } from "./check-dependents";
 import { checkNestedParts } from "./check-nested-parts";
 import { checkComma } from "./check-comma";
 import { checkBrackets } from "./check-brackets";
+import { checkDefaultValue } from "./check-default-value";
 
 /**
  * Check an AST
@@ -35,7 +36,7 @@ export const checkAst = (
     const colonIssue: BindingIssue[] = [];
     const missingValueIssue: BindingIssue[] = [];
     if (!ignore) {
-      keyIssue.push(...checkKey(element));
+      keyIssue.push(...checkKey(context, element));
       issues.push(...keyIssue);
     }
     if (keyIssue.length === 0) {
@@ -50,6 +51,7 @@ export const checkAst = (
       issues.push(...checkPrimitiveValue(context, element, ignore));
       issues.push(...checkCollectionValue(context, element, errors, ignore));
       issues.push(...checkStructureValue(context, element, errors, ignore));
+      issues.push(...checkDefaultValue(context, element));
     }
     issues.push(
       ...checkComma(
@@ -61,7 +63,7 @@ export const checkAst = (
     );
   }
   issues.push(...checkDuplicate(binding));
-  issues.push(...checkNotAllowedElement(binding));
+  issues.push(...checkNotAllowedElement(context, binding));
   issues.push(...checkDependents(context, binding));
   issues.push(...checkNestedParts(binding));
   issues.push(...checkBrackets(binding));

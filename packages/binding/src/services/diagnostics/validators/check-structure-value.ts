@@ -1,11 +1,10 @@
 import { BindContext, BindingIssue, BINDING_ISSUE_TYPE } from "../../../types";
 import {
   isStructureValue,
-  LEFT_CURLY,
   BindingParserTypes as BindingTypes,
 } from "@ui5-language-assistant/binding-parser";
 import { checkAst } from "./issue-collector";
-import { propertyBindingInfoElements } from "../../../definition/definition";
+import { getPropertyBindingInfoElements } from "../../../definition/definition";
 import { findRange, typesToValue, valueTypeMap } from "../../../utils";
 
 /**
@@ -28,7 +27,7 @@ export const checkStructureValue = (
   if (isStructureValue(value)) {
     if (!ignore) {
       const text = element.key && element.key.text;
-      const bindingElement = propertyBindingInfoElements.find(
+      const bindingElement = getPropertyBindingInfoElements(context).find(
         (el) => el.name === text
       );
       if (!bindingElement) {
@@ -36,7 +35,7 @@ export const checkStructureValue = (
         return issues;
       }
       const elementSpecificType = bindingElement.type.find(
-        (i) => i.kind === valueTypeMap.get(LEFT_CURLY)
+        (i) => i.kind === valueTypeMap.get(value.type)
       );
       // check if that element is allowed to have structure value
       if (!elementSpecificType || elementSpecificType.collection) {

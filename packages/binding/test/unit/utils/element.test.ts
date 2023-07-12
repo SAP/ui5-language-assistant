@@ -1,12 +1,43 @@
 import { findRange, typesToValue } from "../../../src/utils";
-import { propertyBindingInfoElements } from "../../../src/definition/definition";
+import { getPropertyBindingInfoElements } from "../../../src/definition/definition";
 import { PropertyBindingInfoElement, BindContext } from "../../../src/types";
+import { getContext } from "@ui5-language-assistant/context";
+import {
+  Config,
+  ProjectName,
+  ProjectType,
+  TestFramework,
+} from "@ui5-language-assistant/test-framework";
+import { join } from "path";
 
+let context: BindContext;
 describe("element", () => {
   describe("typesToValue", () => {
+    beforeAll(async () => {
+      const config: Config = {
+        projectInfo: {
+          name: ProjectName.cap,
+          type: ProjectType.CAP,
+          npmInstall: true,
+          deleteBeforeCopy: false,
+        },
+      };
+      const framework = new TestFramework(config);
+      const viewFilePathSegments = [
+        "app",
+        "manage_travels",
+        "webapp",
+        "ext",
+        "main",
+        "Main.view.xml",
+      ];
+      const root = framework.getProjectRoot();
+      const documentPath = join(root, ...viewFilePathSegments);
+      context = (await getContext(documentPath)) as BindContext;
+    });
     describe('type.kind === "string"', () => {
       it("type.collection && collectionValue === false) [without tab stop]", () => {
-        const el = propertyBindingInfoElements.find(
+        const el = getPropertyBindingInfoElements(context).find(
           (i) => i.name === "parts"
         ) as PropertyBindingInfoElement;
         const result = typesToValue(
@@ -15,10 +46,10 @@ describe("element", () => {
           undefined,
           false
         );
-        expect(result).toStrictEqual(["[{ }]", '[""]']);
+        expect(result).toStrictEqual(['[""]', "[{ }]"]);
       });
       it("type.collection && collectionValue === false) [with tab stop]", () => {
-        const el = propertyBindingInfoElements.find(
+        const el = getPropertyBindingInfoElements(context).find(
           (i) => i.name === "parts"
         ) as PropertyBindingInfoElement;
         const result = typesToValue(
@@ -27,10 +58,10 @@ describe("element", () => {
           0,
           false
         );
-        expect(result).toStrictEqual(["[{$0}]", '["$0"]']);
+        expect(result).toStrictEqual(['["$0"]', "[{$0}]"]);
       });
       it("empty string [with tab stop]", () => {
-        const el = propertyBindingInfoElements.find(
+        const el = getPropertyBindingInfoElements(context).find(
           (i) => i.name === "path"
         ) as PropertyBindingInfoElement;
         const result = typesToValue(
@@ -43,7 +74,7 @@ describe("element", () => {
         expect(result).toStrictEqual(['"$0"']);
       });
       it("empty string [without tab stop]", () => {
-        const el = propertyBindingInfoElements.find(
+        const el = getPropertyBindingInfoElements(context).find(
           (i) => i.name === "path"
         ) as PropertyBindingInfoElement;
         const result = typesToValue(el.type, {
@@ -54,7 +85,7 @@ describe("element", () => {
     });
     describe('type.kind === "boolean"', () => {
       it("type.collection && collectionValue === false", () => {
-        let el = propertyBindingInfoElements.find(
+        let el = getPropertyBindingInfoElements(context).find(
           (i) => i.name === "suspended"
         ) as PropertyBindingInfoElement;
         // for test - set collection as true
@@ -68,7 +99,7 @@ describe("element", () => {
         expect(result).toStrictEqual(["[true, false]"]);
       });
       it("true false", () => {
-        const el = propertyBindingInfoElements.find(
+        const el = getPropertyBindingInfoElements(context).find(
           (i) => i.name === "suspended"
         ) as PropertyBindingInfoElement;
         const result = typesToValue(el.type, {
@@ -79,7 +110,7 @@ describe("element", () => {
     });
     describe('type.kind === "object")', () => {
       it("type.collection && collectionValue === false [with tab stop]", () => {
-        let el = propertyBindingInfoElements.find(
+        let el = getPropertyBindingInfoElements(context).find(
           (i) => i.name === "formatOptions"
         ) as PropertyBindingInfoElement;
         // for test - set collection as true
@@ -93,7 +124,7 @@ describe("element", () => {
         expect(result).toStrictEqual(["[{$0}]"]);
       });
       it("type.collection && collectionValue === false [without tab stop]", () => {
-        let el = propertyBindingInfoElements.find(
+        let el = getPropertyBindingInfoElements(context).find(
           (i) => i.name === "formatOptions"
         ) as PropertyBindingInfoElement;
         // for test - set collection as true
@@ -107,7 +138,7 @@ describe("element", () => {
         expect(result).toStrictEqual(["[{ }]"]);
       });
       it("{ } [with tab stop]", () => {
-        const el = propertyBindingInfoElements.find(
+        const el = getPropertyBindingInfoElements(context).find(
           (i) => i.name === "formatOptions"
         ) as PropertyBindingInfoElement;
         const result = typesToValue(
@@ -120,7 +151,7 @@ describe("element", () => {
         expect(result).toStrictEqual(["{$0}"]);
       });
       it("{ } [without tab stop]", () => {
-        const el = propertyBindingInfoElements.find(
+        const el = getPropertyBindingInfoElements(context).find(
           (i) => i.name === "formatOptions"
         ) as PropertyBindingInfoElement;
         const result = typesToValue(el.type, {

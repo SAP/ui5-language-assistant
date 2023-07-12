@@ -1,5 +1,12 @@
 # Change Log
 
+## 4.0.30
+
+### Patch Changes
+
+- 9df89eb: Use json api
+  - @ui5-language-assistant/language-server@4.0.22
+
 ## 4.0.29
 
 ### Patch Changes

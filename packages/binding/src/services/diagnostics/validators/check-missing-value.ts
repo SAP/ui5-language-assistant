@@ -1,7 +1,7 @@
 import { BindContext, BindingIssue, BINDING_ISSUE_TYPE } from "../../../types";
 import { BindingParserTypes as BindingTypes } from "@ui5-language-assistant/binding-parser";
 import { typesToValue } from "../../../utils";
-import { propertyBindingInfoElements } from "../../../definition/definition";
+import { getPropertyBindingInfoElements } from "../../../definition/definition";
 
 /**
  * Check missing value
@@ -19,7 +19,7 @@ export const checkMissingValue = (
   }
   if (!element.value) {
     const text = element.key && element.key.text;
-    const bindingElement = propertyBindingInfoElements.find(
+    const bindingElement = getPropertyBindingInfoElements(context).find(
       (el) => el.name === text
     );
     let message = "Expect a value";

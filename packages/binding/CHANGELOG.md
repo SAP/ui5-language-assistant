@@ -1,5 +1,17 @@
 # @ui5-language-assistant/binding
 
+## 1.0.7
+
+### Patch Changes
+
+- 9df89eb: Use json api
+- Updated dependencies [9df89eb]
+  - @ui5-language-assistant/binding-parser@1.0.2
+  - @ui5-language-assistant/context@4.0.15
+  - @ui5-language-assistant/logic-utils@4.0.12
+  - @ui5-language-assistant/xml-views-validation@4.0.12
+  - @ui5-language-assistant/xml-views-completion@4.0.15
+
 ## 1.0.6
 
 ### Patch Changes
