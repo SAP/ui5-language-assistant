@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.31
+
+### Patch Changes
+
+- 42ad255: No completion items for empty file
+
 ## 4.0.30
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # Change Log
 
+## 4.0.31
+
+### Patch Changes
+
+- 42ad255: No completion items for empty file
+- Updated dependencies [42ad255]
+  - @ui5-language-assistant/language-server@4.0.23
+
 ## 4.0.30
 
 ### Patch Changes
