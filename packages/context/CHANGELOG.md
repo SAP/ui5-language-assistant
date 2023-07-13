@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.16
+
+### Patch Changes
+
+- 1a96f91: update package.json files
+
 ## 4.0.15
 
 ### Patch Changes

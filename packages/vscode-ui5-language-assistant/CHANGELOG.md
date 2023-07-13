@@ -1,5 +1,12 @@
 # Change Log
 
+## 4.0.32
+
+### Patch Changes
+
+- 1a96f91: update package.json files
+  - @ui5-language-assistant/language-server@4.0.24
+
 ## 4.0.31
 
 ### Patch Changes
