@@ -42,6 +42,9 @@ export function getCompletionItems(opts: {
   const documentText = opts.document.getText();
   const { cst, tokenVector } = parse(documentText);
   const ast = buildAst(cst as DocumentCstNode, tokenVector);
+  if (!ast.rootElement) {
+    return [];
+  }
   const suggestions = getXMLViewCompletions({
     context: opts.context,
     offset: opts.document.offsetAt(opts.textDocumentPosition.position),

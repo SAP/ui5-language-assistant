@@ -36,6 +36,12 @@ describe("the UI5 language assistant Code Completion Services", () => {
     appContext = getDefaultContext(ui5SemanticModel);
   });
 
+  it("no completion items for empty file - no error", () => {
+    const xmlSnippet = `⇶`;
+    const suggestions = getSuggestions(xmlSnippet, appContext);
+    expect(suggestions).toStrictEqual([]);
+  });
+
   it("will get completion values for UI5 property", () => {
     const xmlSnippet = `<mvc:View 
                           xmlns:mvc="sap.ui.core.mvc" 
