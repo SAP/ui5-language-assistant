@@ -1,25 +1,6 @@
-import {
-  extractBindingExpression,
-  isBindingExpression,
-  isPropertyBindingInfo,
-} from "../../../src/utils";
-import { parseBinding } from "@ui5-language-assistant/binding-parser";
+import { extractBindingExpression } from "../../../src/utils";
 
 describe("expression", () => {
-  describe("isBindingExpression", () => {
-    it("check binding expression {=", () => {
-      const result = isBindingExpression("{=");
-      expect(result).toBeTrue();
-    });
-    it("check  binding expression {:=", () => {
-      const result = isBindingExpression("{:=");
-      expect(result).toBeTrue();
-    });
-    it("check other false cases", () => {
-      const result = isBindingExpression("{");
-      expect(result).toBeFalse();
-    });
-  });
   describe("extractBindingExpression", () => {
     it("empty text", () => {
       const input = " ";
@@ -205,56 +186,6 @@ describe("expression", () => {
           startIndex: 4,
         },
       ]);
-    });
-  });
-  describe("isPropertyBindingInfo", () => {
-    it("empty string", () => {
-      const input = "  ";
-      const { ast } = parseBinding(input);
-      const result = isPropertyBindingInfo(input, ast.bindings[0]);
-      expect(result).toBeTrue();
-    });
-    it("string value", () => {
-      const input = "40";
-      const { ast } = parseBinding(input);
-      const result = isPropertyBindingInfo(input, ast.bindings[0]);
-      expect(result).toBeFalse();
-    });
-    it("empty curly bracket without space", () => {
-      const input = "{}";
-      const { ast } = parseBinding(input);
-      const result = isPropertyBindingInfo(input, ast.bindings[0]);
-      expect(result).toBeTrue();
-    });
-    it("empty curly bracket with space", () => {
-      const input = "{   }";
-      const { ast } = parseBinding(input);
-      const result = isPropertyBindingInfo(input, ast.bindings[0]);
-      expect(result).toBeTrue();
-    });
-    it("key with colone [true]", () => {
-      const input = ' {path: "some/path"}';
-      const { ast } = parseBinding(input);
-      const result = isPropertyBindingInfo(input, ast.bindings[0]);
-      expect(result).toBeTrue();
-    });
-    it("key with colone any where [true]", () => {
-      const input = ' {path "some/path", thisKey: {}}';
-      const { ast } = parseBinding(input);
-      const result = isPropertyBindingInfo(input, ast.bindings[0]);
-      expect(result).toBeTrue();
-    });
-    it("missing colon [false]", () => {
-      const input = '{path "some/path"}';
-      const { ast } = parseBinding(input);
-      const result = isPropertyBindingInfo(input, ast.bindings[0]);
-      expect(result).toBeFalse();
-    });
-    it("contains > [false]", () => {
-      const input = "{i18n>myTestModel}";
-      const { ast } = parseBinding(input);
-      const result = isPropertyBindingInfo(input, ast.bindings[0]);
-      expect(result).toBeFalse();
     });
   });
 });
