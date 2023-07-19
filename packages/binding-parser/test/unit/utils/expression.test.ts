@@ -96,6 +96,11 @@ describe("expression", () => {
       const { ast, errors } = parseBinding(input);
       expect(isModel(ast.bindings[0], errors)).toBe(true);
     });
+    it("return true if model sign as HTML equivalent appears after first key", () => {
+      const input = "{oData&gt;/path/to/a/value}";
+      const { ast, errors } = parseBinding(input);
+      expect(isModel(ast.bindings[0], errors)).toBe(true);
+    });
 
     it("return false if model sign does not appear after first key", () => {
       const input = "{i18n >}"; // space is not allowed
@@ -149,6 +154,17 @@ describe("expression", () => {
 
     it("return true if the metadata separator is after adjacent first key", () => {
       const input = "{path/to/a/value}";
+      const { ast, errors } = parseBinding(input);
+      expect(isMetadataPath(ast.bindings[0], errors)).toBe(true);
+    });
+    it("return true if the metadata separator as HTML equivalent is before adjacent first key", () => {
+      const input = "{&#47;path/to/a/value}";
+      const { ast, errors } = parseBinding(input);
+      expect(isMetadataPath(ast.bindings[0], errors)).toBe(true);
+    });
+
+    it("return true if the metadata separator as HTML equivalent is after adjacent first key", () => {
+      const input = "{path&#x2F;to/a/value}";
       const { ast, errors } = parseBinding(input);
       expect(isMetadataPath(ast.bindings[0], errors)).toBe(true);
     });

@@ -16,7 +16,7 @@ export const isBindingExpression = (input: string): boolean => {
 /**
  * Check model
  *
- * It is considered as model when it starts with `>` after first key without any quotes e.g oData> or oData>/...
+ * It is considered as model when it starts with `>` or its HTML equivalent after first key without any quotes e.g oData> or oData>/...
  */
 export const isModel = (
   binding: StructureValue,
@@ -26,7 +26,9 @@ export const isModel = (
     return false;
   }
   const modelSign = errors.lexer.find(
-    (i) => i.type === "special-chars" && i.text.startsWith(">")
+    (i) =>
+      i.type === "special-chars" &&
+      (i.text.startsWith(">") || i.text.startsWith("&gt;"))
   );
   if (!modelSign) {
     return false;
@@ -44,7 +46,7 @@ export const isModel = (
 /**
  * Check metadata path
  *
- * It is considered metadata path when it is `/` as separator and
+ * It is considered metadata path when it is `/` or its HTML equivalent as separator and
  *
  * a. is before first key e.g /key
  *
@@ -58,7 +60,11 @@ export const isMetadataPath = (
     return false;
   }
   const metadataSeparator = errors.lexer.find(
-    (i) => i.type === "special-chars" && i.text.startsWith("/")
+    (i) =>
+      i.type === "special-chars" &&
+      (i.text.startsWith("/") ||
+        i.text.startsWith("&#47;") ||
+        i.text.startsWith("&#x2F;"))
   );
   if (!metadataSeparator) {
     return false;
