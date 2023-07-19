@@ -1,8 +1,4 @@
-export {
-  isBindingExpression,
-  extractBindingExpression,
-  isPropertyBindingInfo,
-} from "./expression";
+export { extractBindingExpression } from "./expression";
 
 export {
   typesToValue,

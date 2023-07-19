@@ -136,14 +136,15 @@ export interface Template {
   spaces: WhiteSpaces[];
 }
 
+export interface ParseResultErrors {
+  lexer: LexerError[];
+  parse: ParseError[];
+}
 export interface ParseResult {
   cst: CstNode;
   ast: Template;
   tokens: IToken[];
-  errors: {
-    lexer: LexerError[];
-    parse: ParseError[];
-  };
+  errors: ParseResultErrors;
 }
 
 export interface CreateToken<T = TokenType> {

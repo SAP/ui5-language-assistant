@@ -7,7 +7,11 @@ export {
   isBeforeAdjacentRange,
   positionContained,
   rangeContained,
-} from "./utils/position";
+  isBindingExpression,
+  isMetadataPath,
+  isModel,
+  isPropertyBindingInfo,
+} from "./utils";
 
 import {
   Value,

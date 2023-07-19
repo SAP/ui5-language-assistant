@@ -4,15 +4,6 @@ import {
 } from "@ui5-language-assistant/binding-parser";
 import { ExtractBindingExpression } from "..//types";
 
-/**
- * Syntax of a binding expression can be represented by `{=expression}` or `{:=expression}`
- * If an input text starts with either `{=` or `{:=`, input text is considered as binding expression
- */
-export const isBindingExpression = (input: string): boolean => {
-  input = input.trim();
-  return /^{(=|:=)/.test(input);
-};
-
 export const filterLexerError = (
   binding: BindingTypes.StructureValue,
   errors: {
@@ -43,47 +34,6 @@ export const filterParseError = (
   result.push(...parseErr);
 
   return result;
-};
-
-/**
- * An input is considered property binding syntax when
- *
- * a. is empty curly bracket e.g  `{}` or `{   }`
- *
- * b. has starting and closing curly bracket and key property with colon e.g `{anyKey: }` or `{"anyKey":}` or `{'anyKey':}`
- *
- * c. empty string [for initial code completion snippet]
- */
-export const isPropertyBindingInfo = (
-  input: string,
-  binding?: BindingTypes.StructureValue
-): boolean => {
-  // check empty string
-  if (input.trim().length === 0) {
-    return true;
-  }
-
-  if (!binding) {
-    return false;
-  }
-
-  // check empty curly brackets
-  if (
-    binding.leftCurly &&
-    binding.leftCurly.text &&
-    binding.elements.length === 0
-  ) {
-    return true;
-  }
-  // check it has at least one key with colon
-  const result = binding.elements.find(
-    /* istanbul ignore next */
-    (item) => item.key?.text && item.colon?.text
-  );
-  if (result && binding.leftCurly && binding.leftCurly.text) {
-    return true;
-  }
-  return false;
 };
 
 /**

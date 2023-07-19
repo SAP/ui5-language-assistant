@@ -2,6 +2,8 @@ import {
   parseBinding,
   BindingParserTypes as BindingTypes,
   rangeContained,
+  isPropertyBindingInfo,
+  isBindingExpression,
 } from "@ui5-language-assistant/binding-parser";
 import type { Position } from "vscode-languageserver-types";
 import { AttributeValueCompletionOptions } from "@xml-tools/content-assist";
@@ -10,12 +12,7 @@ import { getUI5PropertyByXMLAttributeKey } from "@ui5-language-assistant/logic-u
 
 import { BindContext } from "../../../types";
 import { createInitialSnippet } from "./create-initial-snippet";
-import {
-  extractBindingExpression,
-  getCursorContext,
-  isBindingExpression,
-  isPropertyBindingInfo,
-} from "../../../utils";
+import { extractBindingExpression, getCursorContext } from "../../../utils";
 import { createAllSupportedElements } from "./create-all-supported-elements";
 import { createKeyProperties } from "./create-key-properties";
 import { createValue } from "./create-value";
@@ -80,7 +77,7 @@ export function propertyBindingInfoSuggestions({
       character: (value?.startColumn ?? 0) + startIndex,
       line: value?.startLine ? value.startLine - 1 : 0, // zero based index
     };
-    const { ast } = parseBinding(expression, position);
+    const { ast, errors } = parseBinding(expression, position);
     const input = expression;
     if (input.trim() === "") {
       completionItems.push(...createInitialSnippet());
@@ -96,7 +93,7 @@ export function propertyBindingInfoSuggestions({
     if (!binding) {
       continue;
     }
-    if (!isPropertyBindingInfo(text, binding)) {
+    if (!isPropertyBindingInfo(text, binding, errors)) {
       continue;
     }
     completionItems.push(...getCompletionItems(context, binding, ast.spaces));
