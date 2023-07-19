@@ -1,5 +1,12 @@
 # Change Log
 
+## 4.0.33
+
+### Patch Changes
+
+- 92e60aa: fix unjustified errors for property binding info
+  - @ui5-language-assistant/language-server@4.0.25
+
 ## 4.0.32
 
 ### Patch Changes
