@@ -16,7 +16,7 @@ export const isBindingExpression = (input: string): boolean => {
 /**
  * Check model
  *
- * It is considered as model when it contains `>` or `>/` after first key e.g oData> or oData>/...
+ * It is considered as model when it starts with `>` after first key without any quotes e.g oData> or oData>/...
  */
 export const isModel = (
   binding: StructureValue,
@@ -26,13 +26,16 @@ export const isModel = (
     return false;
   }
   const modelSign = errors.lexer.find(
-    (i) => i.type === "special-chars" && [">", ">/"].includes(i.text)
+    (i) => i.type === "special-chars" && i.text.startsWith(">")
   );
   if (!modelSign) {
     return false;
   }
-  // check model should appears after first key
-  if (isBeforeAdjacentRange(binding.elements[0]?.key?.range, modelSign.range)) {
+  // check model should appears after first key without quotes
+  if (
+    binding.elements[0]?.key?.originalText === binding.elements[0]?.key?.text &&
+    isBeforeAdjacentRange(binding.elements[0]?.key?.range, modelSign.range)
+  ) {
     return true;
   }
   return false;

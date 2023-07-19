@@ -108,6 +108,26 @@ describe("expression", () => {
       const { ast, errors } = parseBinding(input);
       expect(isModel(ast.bindings[0], errors)).toBe(false);
     });
+    it("return false if key is with single quote", () => {
+      const input = "{'path'>: ''}";
+      const { ast, errors } = parseBinding(input);
+      expect(isModel(ast.bindings[0], errors)).toBe(false);
+    });
+    it("return false if key is with double quotes", () => {
+      const input = '{"path">: ""}';
+      const { ast, errors } = parseBinding(input);
+      expect(isModel(ast.bindings[0], errors)).toBe(false);
+    });
+    it("return false if key is with single quote [HTML equivalent]", () => {
+      const input = "{&apos;path&apos;>: ''}";
+      const { ast, errors } = parseBinding(input);
+      expect(isModel(ast.bindings[0], errors)).toBe(false);
+    });
+    it("return false if key is with double quotes [HTML equivalent]", () => {
+      const input = "{&quot;path&quot;>: ''}";
+      const { ast, errors } = parseBinding(input);
+      expect(isModel(ast.bindings[0], errors)).toBe(false);
+    });
   });
   describe("isMetadataPath", () => {
     it("return false if errors is undefined", () => {
