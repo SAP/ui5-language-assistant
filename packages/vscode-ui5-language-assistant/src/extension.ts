@@ -37,6 +37,10 @@ import {
   isXMLView,
 } from "@ui5-language-assistant/logic-utils";
 import { formatDocument, formatRange } from "./formatter";
+import {
+  bindingLegend,
+  bindingSemanticTokensProvider,
+} from "./binding-semantic-token-provider";
 
 type UI5Model = {
   url: string;
@@ -53,6 +57,15 @@ let currentModel: UI5Model | undefined;
 export async function activate(context: ExtensionContext): Promise<void> {
   // create the LanguageClient (+Server)
   client = createLanguageClient(context);
+
+  // register semantic token provider
+  context.subscriptions.push(
+    languages.registerDocumentSemanticTokensProvider(
+      { language: "xml" },
+      bindingSemanticTokensProvider,
+      bindingLegend
+    )
+  );
 
   // create the StatusBarItem which displays the used UI5 version
   statusBarItem = createStatusBarItem(context);

@@ -3,14 +3,14 @@ import { Context } from "@ui5-language-assistant/context";
 import { getUI5PropertyByXMLAttributeKey } from "@ui5-language-assistant/logic-utils";
 import { BindingIssue } from "../../../types";
 import { BINDING_ISSUE_TYPE } from "../../../constant";
-import {
-  extractBindingExpression,
-  getLogger,
-  isBindingExpression,
-  isPropertyBindingInfo,
-} from "../../../utils";
+import { getLogger } from "../../../utils";
 import { Position } from "vscode-languageserver-types";
-import { parseBinding } from "@ui5-language-assistant/binding-parser";
+import {
+  parseBinding,
+  isBindingExpression,
+  extractBindingExpression,
+  isPropertyBindingInfo,
+} from "@ui5-language-assistant/binding-parser";
 import { checkAst } from "./issue-collector";
 import { filterLexerError, filterParseError } from "../../../utils/expression";
 

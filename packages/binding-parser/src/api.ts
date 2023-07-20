@@ -8,6 +8,11 @@ export {
   positionContained,
   rangeContained,
 } from "./utils/position";
+export {
+  extractBindingExpression,
+  isBindingExpression,
+  isPropertyBindingInfo,
+} from "./utils/expression";
 
 import {
   Value,

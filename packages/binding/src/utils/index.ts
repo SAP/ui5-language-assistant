@@ -1,10 +1,4 @@
 export {
-  isBindingExpression,
-  extractBindingExpression,
-  isPropertyBindingInfo,
-} from "./expression";
-
-export {
   typesToValue,
   valueTypeMap,
   isParts,

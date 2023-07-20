@@ -1,0 +1,3 @@
+{
+    $filter : "TravelStatus_code eq \"O\" and IsActiveEntity eq false or SiblingEntity/IsActiveEntity eq null"
+}

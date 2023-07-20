@@ -2,6 +2,9 @@ import {
   parseBinding,
   BindingParserTypes as BindingTypes,
   rangeContained,
+  isBindingExpression,
+  extractBindingExpression,
+  isPropertyBindingInfo,
 } from "@ui5-language-assistant/binding-parser";
 import type { Position } from "vscode-languageserver-types";
 import { AttributeValueCompletionOptions } from "@xml-tools/content-assist";
@@ -10,12 +13,7 @@ import { getUI5PropertyByXMLAttributeKey } from "@ui5-language-assistant/logic-u
 
 import { BindContext } from "../../../types";
 import { createInitialSnippet } from "./create-initial-snippet";
-import {
-  extractBindingExpression,
-  getCursorContext,
-  isBindingExpression,
-  isPropertyBindingInfo,
-} from "../../../utils";
+import { getCursorContext } from "../../../utils";
 import { createAllSupportedElements } from "./create-all-supported-elements";
 import { createKeyProperties } from "./create-key-properties";
 import { createValue } from "./create-value";
