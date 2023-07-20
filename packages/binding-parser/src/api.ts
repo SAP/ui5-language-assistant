@@ -7,12 +7,12 @@ export {
   isBeforeAdjacentRange,
   positionContained,
   rangeContained,
-} from "./utils/position";
-export {
-  extractBindingExpression,
   isBindingExpression,
+  isMetadataPath,
+  isModel,
   isPropertyBindingInfo,
-} from "./utils/expression";
+  extractBindingExpression,
+} from "./utils";
 
 import {
   Value,

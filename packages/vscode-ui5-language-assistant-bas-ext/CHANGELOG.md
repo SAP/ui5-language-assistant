@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.33
+
+### Patch Changes
+
+- 92e60aa: fix unjustified errors for property binding info
+
 ## 4.0.32
 
 ### Patch Changes

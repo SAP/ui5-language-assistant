@@ -7,9 +7,9 @@ import { getLogger } from "../../../utils";
 import { Position } from "vscode-languageserver-types";
 import {
   parseBinding,
+  isPropertyBindingInfo,
   isBindingExpression,
   extractBindingExpression,
-  isPropertyBindingInfo,
 } from "@ui5-language-assistant/binding-parser";
 import { checkAst } from "./issue-collector";
 import { filterLexerError, filterParseError } from "../../../utils/expression";
@@ -49,9 +49,10 @@ export function validatePropertyBindingInfo(
       };
       const { ast, errors } = parseBinding(expression, position);
       for (const binding of ast.bindings) {
-        if (!isPropertyBindingInfo(expression, binding)) {
+        if (!isPropertyBindingInfo(expression, binding, errors)) {
           continue;
         }
+
         issues.push(...checkAst(context, binding, errors));
 
         /**

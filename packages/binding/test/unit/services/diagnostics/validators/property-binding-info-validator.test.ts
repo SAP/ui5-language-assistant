@@ -75,6 +75,12 @@ describe("property-binding-info-validator", () => {
     const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([]);
   });
+  it("do not check metadata binding with contains colon", async () => {
+    const snippet = `
+     <Label text="{/SomeValue/#@sap:label}" id="some_label" />`;
+    const result = await validateView(snippet);
+    expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([]);
+  });
   it("do not check simple binding", async () => {
     const snippet = `
    <Input value="{/firstName}"/>`;
@@ -93,6 +99,12 @@ describe("property-binding-info-validator", () => {
     const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([]);
   });
+  it("do not check model which contains colon", async () => {
+    const snippet = `
+    <Label text="{oData>/SomeValue/#@sap:label}" id="some_label" />`;
+    const result = await validateView(snippet);
+    expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([]);
+  });
   it("check unknown char", async () => {
     const snippet = `
     <Text text="{ # path: '' }" id="test-id"></Text>`;
@@ -101,6 +113,23 @@ describe("property-binding-info-validator", () => {
       "kind: UnknownChar; text: Unknown character; severity:error; range:9:18-9:19",
     ]);
   });
+  it("check unknown char [> or >/]", async () => {
+    const snippet = `
+    <Text text="{ path: '' > }" id="test-id"></Text>`;
+    const result = await validateView(snippet);
+    expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
+      "kind: UnknownChar; text: Unknown character; severity:error; range:9:27-9:28",
+    ]);
+  });
+  it("check unknown char [/]", async () => {
+    const snippet = `
+    <Text text="{ path: '' / }" id="test-id"></Text>`;
+    const result = await validateView(snippet);
+    expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
+      "kind: UnknownChar; text: Unknown character; severity:error; range:9:27-9:28",
+    ]);
+  });
+
   it("check wrong property binding", async () => {
     const snippet = `
     <Text text="{path: ' ', party }" id="test-id"></Text>`;

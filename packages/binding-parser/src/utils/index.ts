@@ -1,0 +1,15 @@
+export {
+  isAfterAdjacentRange,
+  isBefore,
+  isBeforeAdjacentRange,
+  positionContained,
+  rangeContained,
+} from "./position";
+
+export {
+  isBindingExpression,
+  isMetadataPath,
+  isModel,
+  isPropertyBindingInfo,
+  extractBindingExpression,
+} from "./expression";

@@ -1,6 +1,6 @@
 {
   "name": "@ui5-language-assistant/binding-parser",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "private": true,
   "description": "Parser for binding syntax",
   "keywords": [],

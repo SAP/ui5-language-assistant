@@ -2,9 +2,9 @@ import {
   parseBinding,
   BindingParserTypes as BindingTypes,
   rangeContained,
+  isPropertyBindingInfo,
   isBindingExpression,
   extractBindingExpression,
-  isPropertyBindingInfo,
 } from "@ui5-language-assistant/binding-parser";
 import type { Position } from "vscode-languageserver-types";
 import { AttributeValueCompletionOptions } from "@xml-tools/content-assist";
@@ -78,7 +78,7 @@ export function propertyBindingInfoSuggestions({
       character: (value?.startColumn ?? 0) + startIndex,
       line: value?.startLine ? value.startLine - 1 : 0, // zero based index
     };
-    const { ast } = parseBinding(expression, position);
+    const { ast, errors } = parseBinding(expression, position);
     const input = expression;
     if (input.trim() === "") {
       completionItems.push(...createInitialSnippet());
@@ -94,7 +94,7 @@ export function propertyBindingInfoSuggestions({
     if (!binding) {
       continue;
     }
-    if (!isPropertyBindingInfo(text, binding)) {
+    if (!isPropertyBindingInfo(text, binding, errors)) {
       continue;
     }
     completionItems.push(...getCompletionItems(context, binding, ast.spaces));

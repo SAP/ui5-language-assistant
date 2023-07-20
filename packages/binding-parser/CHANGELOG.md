@@ -1,5 +1,11 @@
 # @ui5-language-assistant/binding-parser
 
+## 1.0.3
+
+### Patch Changes
+
+- 92e60aa: fix unjustified errors for property binding info
+
 ## 1.0.2
 
 ### Patch Changes
