@@ -1,4 +1,4 @@
-import { ExtractBindingExpression } from "../types";
+import { ExtractBindingSyntax } from "../types";
 import type {
   ParseResultErrors,
   StructureValue,
@@ -93,7 +93,7 @@ export const isMetadataPath = (
 };
 
 /**
- * An input is considered property binding syntax when
+ * An input is considered as an allowed binding when
  *
  * a. is empty curly bracket e.g  `{}` or `{   }`
  *
@@ -105,7 +105,7 @@ export const isMetadataPath = (
  *
  * e. is not OData path e.g {/path/to/...} or {path/to/...}
  */
-export const isPropertyBindingInfo = (
+export const isBindingAllowed = (
   input: string,
   binding?: StructureValue,
   errors?: ParseResultErrors
@@ -158,10 +158,8 @@ const start = /(\\[\\\{\}])|(\{)/g;
 // eslint-disable-next-line no-useless-escape
 const end = /(\\[\\\{\}])|(\})/g;
 
-export const extractBindingExpression = (
-  input: string
-): ExtractBindingExpression[] => {
-  const result: ExtractBindingExpression[] = [];
+export const extractBindingSyntax = (input: string): ExtractBindingSyntax[] => {
+  const result: ExtractBindingSyntax[] = [];
   let startRegResult: RegExpExecArray | null;
   let endRegResult: RegExpExecArray | null;
   // resetting

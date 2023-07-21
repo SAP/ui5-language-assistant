@@ -21,6 +21,55 @@
     "*"
   ],
   "contributes": {
+    "semanticTokenScopes": [
+      {
+        "language": "xml",
+        "scopes": {
+          "property": [
+            "entity.other.attribute-name.localname.xml",
+            "meta.tag.xml",
+            "text.xml"
+          ],
+          "string": [
+            "string.quoted.double.xml",
+            "meta.tag.xml",
+            "text.xml"
+          ],
+          "number": [
+            "constant.numeric.decimal.js",
+            "meta.object.member.js",
+            "meta.objectliteral.js",
+            "meta.var.expr.js",
+            "source.js"
+          ],
+          "boolean": [
+            "constant.language.boolean.true.js",
+            "meta.object.member.js",
+            "meta.objectliteral.js",
+            "meta.var.expr.js",
+            "source.js"
+          ],
+          "null": [
+            "constant.language.null.js",
+            "meta.object.member.js",
+            "meta.objectliteral.js",
+            "meta.var.expr.js",
+            "source.js"
+          ],
+          "operator": [
+            "punctuation.separator.namespace.xml",
+            "entity.name.tag.xml",
+            "meta.tag.xml",
+            "text.xml"
+          ],
+          "bracket": [
+            "punctuation.definition.tag.xml",
+            "meta.tag.xml",
+            "text.xml"
+          ]
+        }
+      }
+    ],
     "jsonValidation": [
       {
         "fileMatch": [

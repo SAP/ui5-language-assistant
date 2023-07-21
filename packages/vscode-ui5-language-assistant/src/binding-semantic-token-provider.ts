@@ -8,42 +8,24 @@ import {
 import { URI } from "vscode-uri";
 import { CancellationToken } from "vscode-languageclient/node";
 import {
-  extractBindingExpression,
+  extractBindingSyntax,
   isBindingExpression,
-  isPropertyBindingInfo,
+  isBindingAllowed,
   parseBinding,
   BindingParserTypes as bindingTypes,
 } from "@ui5-language-assistant/binding-parser";
 import { parse, DocumentCstNode } from "@xml-tools/parser";
-import type { Position } from "vscode-languageserver-types";
+import { Position, SemanticTokenTypes } from "vscode-languageserver-types";
 
+import { buildAst, XMLAttribute, XMLElement } from "@xml-tools/ast";
 import {
-  buildAst,
-  DEFAULT_NS,
-  SourcePosition,
-  XMLAttribute,
-  XMLElement,
-  XMLDocument,
-} from "@xml-tools/ast";
-import {
-  initializeManifestData,
-  initializeUI5YamlData,
-  reactOnUI5YamlChange,
-  getCDNBaseUrl,
   getContext,
-  reactOnManifestChange,
-  reactOnCdsFileChange,
-  reactOnXmlFileChange,
-  reactOnPackageJson,
   isContext,
   Context,
 } from "@ui5-language-assistant/context";
-import {
-  getUI5PropertyByXMLAttributeKey,
-  getUI5AggregationByXMLElement,
-  getUI5NodeByXMLAttribute,
-} from "@ui5-language-assistant/logic-utils";
+import { getUI5NodeByXMLAttribute } from "@ui5-language-assistant/logic-utils";
 
+type BindingSemanticToken = SemanticTokenTypes | CustomSemanticToken;
 interface SemanticToken {
   line: number;
   char: number;
@@ -51,81 +33,50 @@ interface SemanticToken {
   tokenType: number;
   tokenModifiers?: number;
 }
-let semanticTokens: SemanticToken[] = [];
-const tokenTypes = new Map<string, number>();
-const tokenModifiers = new Map<string, number>();
+const tokenTypes = new Map<BindingSemanticToken, number>();
+enum CustomSemanticToken {
+  null = "null",
+  boolean = "boolean",
+  bracket = "bracket",
+}
 
-// const tokenTypesLegend = [
-//   "decorator",
-//   "keyword",
-//   "label",
-//   "property",
-//   "macro",
-//   "string",
-// ];
-const tokenTypesLegend = [
-  "comment",
-  "string",
-  "keyword",
-  "number",
-  "regexp",
-  "operator",
-  "namespace",
-  "type",
-  "struct",
-  "class",
-  "interface",
-  "enum",
-  "typeParameter",
-  "function",
-  "method",
-  "decorator",
-  "macro",
-  "variable",
-  "parameter",
-  "property",
-  "label",
+const tokenTypesLegend: BindingSemanticToken[] = [
+  SemanticTokenTypes.property,
+  SemanticTokenTypes.string,
+  SemanticTokenTypes.number,
+  SemanticTokenTypes.operator,
+  CustomSemanticToken.boolean,
+  CustomSemanticToken.bracket,
+  CustomSemanticToken.null,
 ];
 
 tokenTypesLegend.forEach((tokenType, index) =>
   tokenTypes.set(tokenType, index)
 );
 
-const tokenModifiersLegend = [
-  "declaration",
-  "documentation",
-  "readonly",
-  "static",
-  "abstract",
-  "deprecated",
-  "modification",
-  "async",
-];
-// const tokenModifiersLegend = ["static", "private", "async"];
-tokenModifiersLegend.forEach((tokenModifier, index) =>
-  tokenModifiers.set(tokenModifier, index + 1)
-);
-
+const tokenModifiersLegend = [];
 export const bindingLegend = new SemanticTokensLegend(
   tokenTypesLegend,
   tokenModifiersLegend
 );
+const getTokenType = (type: BindingSemanticToken): number =>
+  tokenTypes.get(type) ?? 0;
 
 const addSemanticToken = (
   binding:
     | bindingTypes.Value
     | bindingTypes.StructureElement
     | bindingTypes.PrimitiveValue
-    | bindingTypes.Comma
+    | bindingTypes.Comma,
+  semanticTokens: SemanticToken[] = []
 ) => {
   if (binding.type === "structure-element") {
     if (binding.key) {
       semanticTokens.push({
         line: binding.key.range.start.line,
         char: binding.key.range.start.character,
-        length: binding.key.text.length,
-        tokenType: tokenTypes.get("property") ?? 0,
-        tokenModifiers: tokenModifiers.get("declaration"),
+        length: binding.key.originalText.length,
+        tokenType: getTokenType(SemanticTokenTypes.property),
       });
     }
     if (binding.colon) {
@@ -135,12 +86,11 @@ const addSemanticToken = (
         length:
           binding.colon.range.end.character -
           binding.colon.range.start.character,
-        tokenType: tokenTypes.get("decorator") ?? 0,
-        tokenModifiers: tokenModifiers.get("readonly"),
+        tokenType: getTokenType(SemanticTokenTypes.operator),
       });
     }
     if (binding.value) {
-      addSemanticToken(binding.value);
+      addSemanticToken(binding.value, semanticTokens);
     }
   }
   if (binding.type === "structure-value") {
@@ -151,12 +101,14 @@ const addSemanticToken = (
         length:
           binding.leftCurly.range.end.character -
           binding.leftCurly.range.start.character,
-        tokenType: tokenTypes.get("decorator") ?? 0,
+        tokenType: getTokenType(CustomSemanticToken.bracket),
       });
     }
 
-    binding.elements.forEach((element) => addSemanticToken(element));
-    binding.commas?.forEach((comma) => addSemanticToken(comma));
+    binding.elements.forEach((element) =>
+      addSemanticToken(element, semanticTokens)
+    );
+    binding.commas?.forEach((comma) => addSemanticToken(comma, semanticTokens));
     if (binding.rightCurly) {
       semanticTokens.push({
         line: binding.rightCurly.range.start.line,
@@ -164,7 +116,7 @@ const addSemanticToken = (
         length:
           binding.rightCurly.range.end.character -
           binding.rightCurly.range.start.character,
-        tokenType: tokenTypes.get("decorator") ?? 0,
+        tokenType: getTokenType(CustomSemanticToken.bracket),
       });
     }
   }
@@ -176,13 +128,14 @@ const addSemanticToken = (
         length:
           binding.leftSquare.range.end.character -
           binding.leftSquare.range.start.character,
-        tokenType: tokenTypes.get("decorator") ?? 0,
-        tokenModifiers: tokenModifiers.get("static"),
+        tokenType: getTokenType(CustomSemanticToken.bracket),
       });
     }
 
-    binding.elements.forEach((element) => addSemanticToken(element));
-    binding.commas?.forEach((comma) => addSemanticToken(comma));
+    binding.elements.forEach((element) =>
+      addSemanticToken(element, semanticTokens)
+    );
+    binding.commas?.forEach((comma) => addSemanticToken(comma, semanticTokens));
     if (binding.rightSquare) {
       semanticTokens.push({
         line: binding.rightSquare.range.start.line,
@@ -190,8 +143,7 @@ const addSemanticToken = (
         length:
           binding.rightSquare.range.end.character -
           binding.rightSquare.range.start.character,
-        tokenType: tokenTypes.get("decorator") ?? 0,
-        tokenModifiers: tokenModifiers.get("static"),
+        tokenType: getTokenType(CustomSemanticToken.bracket),
       });
     }
   }
@@ -200,8 +152,7 @@ const addSemanticToken = (
       line: binding.range.start.line,
       char: binding.range.start.character,
       length: binding.range.end.character - binding.range.start.character,
-      tokenType: tokenTypes.get("string") ?? 0,
-      tokenModifiers: tokenModifiers.get("static"),
+      tokenType: getTokenType(SemanticTokenTypes.string),
     });
   }
   if (binding.type === "comma") {
@@ -209,26 +160,40 @@ const addSemanticToken = (
       line: binding.range.start.line,
       char: binding.range.start.character,
       length: binding.range.end.character - binding.range.start.character,
-      tokenType: tokenTypes.get("decorator") ?? 0,
-      tokenModifiers: tokenModifiers.get("readonly"),
+      tokenType: getTokenType(SemanticTokenTypes.operator),
     });
   }
-  if (
-    binding.type === "boolean-value" ||
-    binding.type === "null-value" ||
-    binding.type === "number-value"
-  ) {
+  if (binding.type === "number-value") {
     semanticTokens.push({
       line: binding.range.start.line,
       char: binding.range.start.character,
       length: binding.range.end.character - binding.range.start.character,
-      tokenType: tokenTypes.get("macro") ?? 0,
-      tokenModifiers: tokenModifiers.get("static"),
+      tokenType: getTokenType(SemanticTokenTypes.number),
+    });
+  }
+  if (binding.type === "boolean-value") {
+    semanticTokens.push({
+      line: binding.range.start.line,
+      char: binding.range.start.character,
+      length: binding.range.end.character - binding.range.start.character,
+      tokenType: getTokenType(CustomSemanticToken.boolean),
+    });
+  }
+  if (binding.type === "null-value") {
+    semanticTokens.push({
+      line: binding.range.start.line,
+      char: binding.range.start.character,
+      length: binding.range.end.character - binding.range.start.character,
+      tokenType: getTokenType(CustomSemanticToken.null),
     });
   }
 };
 
-const walkAttributes = (context: Context, attributes: XMLAttribute[]) => {
+const walkAttributes = (
+  context: Context,
+  attributes: XMLAttribute[],
+  semanticTokens: SemanticToken[] = []
+) => {
   for (const attr of attributes) {
     const ui5Node = getUI5NodeByXMLAttribute(attr, context.ui5Model);
     if (!ui5Node) {
@@ -236,7 +201,7 @@ const walkAttributes = (context: Context, attributes: XMLAttribute[]) => {
     }
     const value = attr.syntax.value;
     const text = attr.value ?? "";
-    const extractedText = extractBindingExpression(text);
+    const extractedText = extractBindingSyntax(text);
     for (const bindingSyntax of extractedText) {
       const { expression, startIndex } = bindingSyntax;
       if (isBindingExpression(expression)) {
@@ -246,39 +211,35 @@ const walkAttributes = (context: Context, attributes: XMLAttribute[]) => {
         character: (value?.startColumn ?? 0) + startIndex,
         line: value?.startLine ? value.startLine - 1 : 0, // zero based index
       };
-      const { ast } = parseBinding(expression, position);
+      const { ast, errors } = parseBinding(expression, position);
       for (const binding of ast.bindings) {
-        if (!isPropertyBindingInfo(expression, binding)) {
+        if (!isBindingAllowed(expression, binding, errors)) {
           continue;
         }
-        addSemanticToken(binding);
+        addSemanticToken(binding, semanticTokens);
       }
     }
   }
 };
 
-const walkElements = (context: Context, elements: XMLElement[]) => {
+const walkElements = (
+  context: Context,
+  elements: XMLElement[],
+  semanticTokens: SemanticToken[] = []
+) => {
   for (const element of elements) {
-    walkAttributes(context, element.attributes);
-    const ui5Aggregation = getUI5AggregationByXMLElement(
-      element,
-      context.ui5Model
-    );
-    if (ui5Aggregation) {
-      console.log(ui5Aggregation);
-    }
+    walkAttributes(context, element.attributes, semanticTokens);
     if (element.subElements) {
-      walkElements(context, element.subElements);
+      walkElements(context, element.subElements, semanticTokens);
     }
   }
 };
 
 class BindingSemanticTokensProvider implements DocumentSemanticTokensProvider {
   async provideDocumentSemanticTokens(
-    document: TextDocument,
-    token: CancellationToken
+    document: TextDocument
   ): Promise<SemanticTokens> {
-    semanticTokens = [];
+    const semanticTokens: SemanticToken[] = [];
     const builder = new SemanticTokensBuilder();
     const documentUri = document.uri.toString();
     const documentPath = URI.parse(documentUri).fsPath;
@@ -292,7 +253,7 @@ class BindingSemanticTokensProvider implements DocumentSemanticTokensProvider {
     if (!ast.rootElement) {
       return builder.build();
     }
-    walkElements(context, ast.rootElement.subElements);
+    walkElements(context, ast.rootElement.subElements, semanticTokens);
     semanticTokens.forEach((item) =>
       builder.push(
         item.line,

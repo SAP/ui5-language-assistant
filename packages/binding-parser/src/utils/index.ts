@@ -10,6 +10,6 @@ export {
   isBindingExpression,
   isMetadataPath,
   isModel,
-  isPropertyBindingInfo,
-  extractBindingExpression,
+  isBindingAllowed,
+  extractBindingSyntax,
 } from "./expression";

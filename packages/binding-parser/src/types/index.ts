@@ -1,6 +1,6 @@
 export * as BindingParserTypes from "./binding-parser";
 
-export interface ExtractBindingExpression {
+export interface ExtractBindingSyntax {
   startIndex: number;
   endIndex: number;
   expression: string;

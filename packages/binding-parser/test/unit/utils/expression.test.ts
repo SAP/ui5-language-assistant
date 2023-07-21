@@ -3,15 +3,15 @@ import {
   isBindingExpression,
   isMetadataPath,
   isModel,
-  isPropertyBindingInfo,
-  extractBindingExpression,
+  isBindingAllowed,
+  extractBindingSyntax,
 } from "../../../src/utils";
 
 describe("expression", () => {
-  describe("extractBindingExpression", () => {
+  describe("extractBindingSyntax", () => {
     it("empty text", () => {
       const input = " ";
-      const result = extractBindingExpression(input);
+      const result = extractBindingSyntax(input);
       expect(result).toStrictEqual([
         {
           startIndex: 0,
@@ -22,7 +22,7 @@ describe("expression", () => {
     });
     it("text and binding syntax", () => {
       const input = 'some text here {path: "some/path"} some text here too';
-      const result = extractBindingExpression(input);
+      const result = extractBindingSyntax(input);
       expect(result).toStrictEqual([
         {
           startIndex: 15,
@@ -33,7 +33,7 @@ describe("expression", () => {
     });
     it("escape char and binding syntax", () => {
       const input = "{path: ''} Euro \\{ ok? ";
-      const result = extractBindingExpression(input);
+      const result = extractBindingSyntax(input);
       expect(result).toStrictEqual([
         {
           startIndex: 0,
@@ -45,7 +45,7 @@ describe("expression", () => {
     it("text with escaped brackets and binding syntax", () => {
       const input =
         'some text \\{ and \\[ some \\} text \\] here too and here too {path: "some/path"} some text \\{ and \\[ some \\} text \\] here too';
-      const result = extractBindingExpression(input);
+      const result = extractBindingSyntax(input);
       expect(result).toStrictEqual([
         {
           startIndex: 58,
@@ -56,7 +56,7 @@ describe("expression", () => {
     });
     it("binding syntax only [missing closing curly bracket]", () => {
       const input = '{path: "test-value", ,   ';
-      const result = extractBindingExpression(input);
+      const result = extractBindingSyntax(input);
       expect(result).toStrictEqual([
         {
           startIndex: 0,
@@ -68,7 +68,7 @@ describe("expression", () => {
     it("binding syntax with multiple opening and closing brackets", () => {
       const input =
         "some text \\{ and \\[ {events: {a: {}}, b {}} some \\] text \\}";
-      const result = extractBindingExpression(input);
+      const result = extractBindingSyntax(input);
       expect(result).toStrictEqual([
         {
           startIndex: 20,
@@ -85,7 +85,7 @@ describe("expression", () => {
             $orderby : 'TotalPrice desc'
         }
 			}`;
-      const result = extractBindingExpression(input);
+      const result = extractBindingSyntax(input);
       expect(result).toStrictEqual([
         {
           startIndex: 0,
@@ -104,7 +104,7 @@ describe("expression", () => {
       might be here 
       \\{ \\[ some \\} text \\]
         `;
-      const result = extractBindingExpression(input);
+      const result = extractBindingSyntax(input);
       expect(result).toStrictEqual([
         {
           endIndex: 88,
@@ -140,7 +140,7 @@ describe("expression", () => {
         path: 'some/value',
       }
       `;
-      const result = extractBindingExpression(input);
+      const result = extractBindingSyntax(input);
       expect(result).toStrictEqual([
         {
           endIndex: 109,
@@ -162,7 +162,7 @@ describe("expression", () => {
         events: {
       }
       `;
-      const result = extractBindingExpression(input);
+      const result = extractBindingSyntax(input);
       expect(result).toStrictEqual([
         {
           endIndex: 116,
@@ -174,7 +174,7 @@ describe("expression", () => {
     });
     it("two property binding info", () => {
       const input = `{path:'' } , {events: { }}`;
-      const result = extractBindingExpression(input);
+      const result = extractBindingSyntax(input);
       expect(result).toStrictEqual([
         {
           endIndex: 26,
@@ -185,7 +185,7 @@ describe("expression", () => {
     });
     it("two property binding info [with special chars]", () => {
       const input = `??? {parts: [' ']} $$ {path: '###'} >>>`;
-      const result = extractBindingExpression(input);
+      const result = extractBindingSyntax(input);
       expect(result).toStrictEqual([
         {
           endIndex: 35,
@@ -209,65 +209,65 @@ describe("expression", () => {
       expect(result).toBeFalse();
     });
   });
-  describe("isPropertyBindingInfo", () => {
+  describe("isBindingAllowed", () => {
     it("empty string", () => {
       const input = "  ";
       const { ast, errors } = parseBinding(input);
-      const result = isPropertyBindingInfo(input, ast.bindings[0], errors);
+      const result = isBindingAllowed(input, ast.bindings[0], errors);
       expect(result).toBeTrue();
     });
     it("string value", () => {
       const input = "40";
       const { ast, errors } = parseBinding(input);
-      const result = isPropertyBindingInfo(input, ast.bindings[0], errors);
+      const result = isBindingAllowed(input, ast.bindings[0], errors);
       expect(result).toBeFalse();
     });
     it("empty curly bracket without space", () => {
       const input = "{}";
       const { ast, errors } = parseBinding(input);
-      const result = isPropertyBindingInfo(input, ast.bindings[0], errors);
+      const result = isBindingAllowed(input, ast.bindings[0], errors);
       expect(result).toBeTrue();
     });
     it("empty curly bracket with space", () => {
       const input = "{   }";
       const { ast, errors } = parseBinding(input);
-      const result = isPropertyBindingInfo(input, ast.bindings[0], errors);
+      const result = isBindingAllowed(input, ast.bindings[0], errors);
       expect(result).toBeTrue();
     });
     it("key with colone [true]", () => {
       const input = ' {path: "some/path"}';
       const { ast, errors } = parseBinding(input);
-      const result = isPropertyBindingInfo(input, ast.bindings[0], errors);
+      const result = isBindingAllowed(input, ast.bindings[0], errors);
       expect(result).toBeTrue();
     });
     it("key with colone any where [true]", () => {
       const input = ' {path "some/path", thisKey: {}}';
       const { ast, errors } = parseBinding(input);
-      const result = isPropertyBindingInfo(input, ast.bindings[0], errors);
+      const result = isBindingAllowed(input, ast.bindings[0], errors);
       expect(result).toBeTrue();
     });
     it("missing colon [false]", () => {
       const input = '{path "some/path"}';
       const { ast, errors } = parseBinding(input);
-      const result = isPropertyBindingInfo(input, ast.bindings[0], errors);
+      const result = isBindingAllowed(input, ast.bindings[0], errors);
       expect(result).toBeFalse();
     });
     it("contains > after first key [false]", () => {
       const input = "{i18n>myTestModel}";
       const { ast, errors } = parseBinding(input);
-      const result = isPropertyBindingInfo(input, ast.bindings[0], errors);
+      const result = isBindingAllowed(input, ast.bindings[0], errors);
       expect(result).toBeFalse();
     });
     it("contains / before first key [false]", () => {
       const input = "{/oData/path/to/some/dynamic/value}";
       const { ast, errors } = parseBinding(input);
-      const result = isPropertyBindingInfo(input, ast.bindings[0], errors);
+      const result = isBindingAllowed(input, ast.bindings[0], errors);
       expect(result).toBeFalse();
     });
     it("contains / after first key [false]", () => {
       const input = "{/oData/path/to/some/dynamic/value}";
       const { ast, errors } = parseBinding(input);
-      const result = isPropertyBindingInfo(input, ast.bindings[0], errors);
+      const result = isBindingAllowed(input, ast.bindings[0], errors);
       expect(result).toBeFalse();
     });
   });
