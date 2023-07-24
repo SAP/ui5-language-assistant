@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`package.json contributes check semanticTokenScopes 1`] = `
+Array [
+  Object {
+    "language": "xml",
+    "scopes": Object {
+      "boolean": Array [
+        "constant.language.boolean.true.js",
+        "meta.object.member.js",
+        "meta.objectliteral.js",
+        "meta.var.expr.js",
+        "source.js",
+      ],
+      "bracket": Array [
+        "string.quoted.double.xml",
+        "meta.tag.xml",
+        "text.xml",
+      ],
+      "null": Array [
+        "constant.language.null.js",
+        "meta.object.member.js",
+        "meta.objectliteral.js",
+        "meta.var.expr.js",
+        "source.js",
+      ],
+      "number": Array [
+        "constant.numeric.decimal.js",
+        "meta.object.member.js",
+        "meta.objectliteral.js",
+        "meta.var.expr.js",
+        "source.js",
+      ],
+      "operator": Array [
+        "punctuation.separator.namespace.xml",
+        "entity.name.tag.xml",
+        "meta.tag.xml",
+        "text.xml",
+      ],
+      "property": Array [
+        "entity.other.attribute-name.localname.xml",
+        "meta.tag.xml",
+        "text.xml",
+      ],
+      "string": Array [
+        "string.quoted.double.xml",
+        "meta.tag.xml",
+        "text.xml",
+      ],
+    },
+  },
+]
+`;
