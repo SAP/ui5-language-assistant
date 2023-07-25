@@ -1,0 +1,70 @@
+{
+  "bindings": [
+    {
+      "leftCurly": {
+        "type": "left-curly",
+        "text": "{",
+        "range": "[(0,0)..(0,1)]"
+      },
+      "elements": [
+        {
+          "key": {
+            "type": "key",
+            "text": "$filter",
+            "range": "[(1,4)..(1,11)]",
+            "originalText": "$filter"
+          },
+          "colon": {
+            "type": "colon",
+            "text": ":",
+            "range": "[(1,12)..(1,13)]"
+          },
+          "value": {
+            "type": "string-value",
+            "text": "'TravelStatus_code eq \\'O\\' and IsActiveEntity eq false or SiblingEntity/IsActiveEntity eq null'",
+            "range": "[(1,14)..(1,110)]"
+          },
+          "range": "[(1,4)..(1,110)]",
+          "type": "structure-element"
+        }
+      ],
+      "rightCurly": {
+        "type": "right-curly",
+        "text": "}",
+        "range": "[(2,0)..(2,1)]"
+      },
+      "range": "[(0,0)..(2,1)]",
+      "commas": [
+        {
+          "type": "comma",
+          "text": ",",
+          "range": "[(1,110)..(1,111)]"
+        }
+      ],
+      "type": "structure-value"
+    }
+  ],
+  "spaces": [
+    {
+      "type": "white-space",
+      "text": "\n    ",
+      "range": "[(0,1)..(1,4)]"
+    },
+    {
+      "type": "white-space",
+      "text": " ",
+      "range": "[(1,11)..(1,12)]"
+    },
+    {
+      "type": "white-space",
+      "text": " ",
+      "range": "[(1,13)..(1,14)]"
+    },
+    {
+      "type": "white-space",
+      "text": "\n",
+      "range": "[(1,111)..(1,112)]"
+    }
+  ],
+  "type": "template"
+}

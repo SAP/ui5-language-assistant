@@ -3,12 +3,13 @@ import { Context } from "@ui5-language-assistant/context";
 import { getUI5PropertyByXMLAttributeKey } from "@ui5-language-assistant/logic-utils";
 import { BindingIssue } from "../../../types";
 import { BINDING_ISSUE_TYPE } from "../../../constant";
-import { extractBindingExpression, getLogger } from "../../../utils";
+import { getLogger } from "../../../utils";
 import { Position } from "vscode-languageserver-types";
 import {
   parseBinding,
-  isPropertyBindingInfo,
+  isBindingAllowed,
   isBindingExpression,
+  extractBindingSyntax,
 } from "@ui5-language-assistant/binding-parser";
 import { checkAst } from "./issue-collector";
 import { filterLexerError, filterParseError } from "../../../utils/expression";
@@ -35,7 +36,7 @@ export function validatePropertyBindingInfo(
       return [];
     }
 
-    const extractedText = extractBindingExpression(text);
+    const extractedText = extractBindingSyntax(text);
     for (const bindingSyntax of extractedText) {
       const { expression, startIndex } = bindingSyntax;
       if (isBindingExpression(expression)) {
@@ -48,7 +49,7 @@ export function validatePropertyBindingInfo(
       };
       const { ast, errors } = parseBinding(expression, position);
       for (const binding of ast.bindings) {
-        if (!isPropertyBindingInfo(expression, binding, errors)) {
+        if (!isBindingAllowed(expression, binding, errors)) {
           continue;
         }
 

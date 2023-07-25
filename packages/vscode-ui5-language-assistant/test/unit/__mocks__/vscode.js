@@ -41,6 +41,27 @@ const FormattingOptions = {
   insertSpaces: true,
 };
 
+class SemanticTokens {
+  constructor() {}
+}
+class SemanticTokensBuilder {
+  constructor() {}
+  tokens = [];
+  push(line, char, length, tokenType, tokenModifiers) {
+    // dummy implementation for test only
+    this.tokens.push({ line, char, length, tokenType, tokenModifiers });
+  }
+  build() {
+    // dummy implementation for test only
+    return this.tokens;
+  }
+}
+class DocumentSemanticTokensProvider {
+  provideDocumentSemanticTokens() {
+    return Promise.resolve(() => []);
+  }
+}
+class SemanticTokensLegend {}
 class TextDocument {
   constructor() {
     this.text = "";
@@ -109,4 +130,8 @@ module.exports = {
   Range,
   workspace,
   window,
+  SemanticTokens,
+  SemanticTokensBuilder,
+  DocumentSemanticTokensProvider,
+  SemanticTokensLegend,
 };

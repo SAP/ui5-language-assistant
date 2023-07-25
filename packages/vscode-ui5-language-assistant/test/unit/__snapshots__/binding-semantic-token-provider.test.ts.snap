@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`binding-semantic-token-provider test provideDocumentSemanticTokens 1`] = `
+Array [
+  Object {
+    "char": 31,
+    "length": 1,
+    "line": 4,
+    "tokenModifiers": undefined,
+    "tokenType": 5,
+  },
+  Object {
+    "char": 32,
+    "length": 4,
+    "line": 4,
+    "tokenModifiers": undefined,
+    "tokenType": 0,
+  },
+  Object {
+    "char": 36,
+    "length": 1,
+    "line": 4,
+    "tokenModifiers": undefined,
+    "tokenType": 3,
+  },
+  Object {
+    "char": 38,
+    "length": 12,
+    "line": 4,
+    "tokenModifiers": undefined,
+    "tokenType": 1,
+  },
+  Object {
+    "char": 50,
+    "length": 1,
+    "line": 4,
+    "tokenModifiers": undefined,
+    "tokenType": 5,
+  },
+]
+`;

@@ -14,3 +14,10 @@ export const getSchemaContent = (
   );
   return readFile(filePath, "utf8");
 };
+
+export {
+  getSemanticTokens,
+  tokenTypesLegend,
+  CustomSemanticToken,
+  getTokenType,
+} from "./binding-semantic-token-creator";

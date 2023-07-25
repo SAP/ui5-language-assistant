@@ -10,7 +10,8 @@ export {
   isBindingExpression,
   isMetadataPath,
   isModel,
-  isPropertyBindingInfo,
+  isBindingAllowed,
+  extractBindingSyntax,
 } from "./utils";
 
 import {

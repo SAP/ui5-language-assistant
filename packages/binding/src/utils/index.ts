@@ -1,5 +1,3 @@
-export { extractBindingExpression } from "./expression";
-
 export {
   typesToValue,
   valueTypeMap,

@@ -1,0 +1,90 @@
+{
+  "name": "template",
+  "children": {
+    "object": [
+      {
+        "name": "object",
+        "children": {
+          "left-curly": [
+            {
+              "image": "{",
+              "startColumn": 1,
+              "endColumn": 1,
+              "tokenTypeName": "left-curly"
+            }
+          ],
+          "object-item": [
+            {
+              "name": "object-item",
+              "children": {
+                "key": [
+                  {
+                    "image": "$filter",
+                    "startColumn": 5,
+                    "endColumn": 11,
+                    "tokenTypeName": "key"
+                  }
+                ],
+                "colon": [
+                  {
+                    "image": ":",
+                    "startColumn": 13,
+                    "endColumn": 13,
+                    "tokenTypeName": "colon"
+                  }
+                ],
+                "value": [
+                  {
+                    "name": "value",
+                    "children": {
+                      "string-value": [
+                        {
+                          "image": "'TravelStatus_code eq \\'O\\' and IsActiveEntity eq false or SiblingEntity/IsActiveEntity eq null'",
+                          "startColumn": 15,
+                          "endColumn": 110,
+                          "tokenTypeName": "string-value"
+                        }
+                      ]
+                    },
+                    "location": {
+                      "startColumn": 15,
+                      "endColumn": 110
+                    }
+                  }
+                ]
+              },
+              "location": {
+                "startColumn": 5,
+                "endColumn": 110
+              }
+            }
+          ],
+          "comma": [
+            {
+              "image": ",",
+              "startColumn": 111,
+              "endColumn": 111,
+              "tokenTypeName": "comma"
+            }
+          ],
+          "right-curly": [
+            {
+              "image": "}",
+              "startColumn": 1,
+              "endColumn": 1,
+              "tokenTypeName": "right-curly"
+            }
+          ]
+        },
+        "location": {
+          "startColumn": 1,
+          "endColumn": 1
+        }
+      }
+    ]
+  },
+  "location": {
+    "startColumn": 1,
+    "endColumn": 1
+  }
+}

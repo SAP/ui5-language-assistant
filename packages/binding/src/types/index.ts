@@ -18,9 +18,3 @@ export type {
   KeyContext,
   ValueContext,
 } from "./cursor";
-
-export interface ExtractBindingExpression {
-  startIndex: number;
-  endIndex: number;
-  expression: string;
-}

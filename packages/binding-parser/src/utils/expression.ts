@@ -1,3 +1,4 @@
+import { ExtractBindingSyntax } from "../types";
 import type {
   ParseResultErrors,
   StructureValue,
@@ -92,7 +93,7 @@ export const isMetadataPath = (
 };
 
 /**
- * An input is considered property binding syntax when
+ * An input is considered as an allowed binding when
  *
  * a. is empty curly bracket e.g  `{}` or `{   }`
  *
@@ -104,7 +105,7 @@ export const isMetadataPath = (
  *
  * e. is not OData path e.g {/path/to/...} or {path/to/...}
  */
-export const isPropertyBindingInfo = (
+export const isBindingAllowed = (
   input: string,
   binding?: StructureValue,
   errors?: ParseResultErrors
@@ -145,4 +146,68 @@ export const isPropertyBindingInfo = (
     return true;
   }
   return false;
+};
+
+/**
+ * Regular expression to extract binding syntax.
+ *
+ * Also handles escaping of '{' and '}'.
+ */
+// eslint-disable-next-line no-useless-escape
+const start = /(\\[\\\{\}])|(\{)/g;
+// eslint-disable-next-line no-useless-escape
+const end = /(\\[\\\{\}])|(\})/g;
+
+export const extractBindingSyntax = (input: string): ExtractBindingSyntax[] => {
+  const result: ExtractBindingSyntax[] = [];
+  let startRegResult: RegExpExecArray | null;
+  let endRegResult: RegExpExecArray | null;
+  // resetting
+  start.lastIndex = 0;
+  let startIndex = 0;
+  let lastIndex = 0;
+  let endIndex = 0;
+  const text = input;
+  if (text.trim() === "") {
+    return [{ startIndex, endIndex, expression: input }];
+  }
+  while ((startRegResult = start.exec(input)) !== null) {
+    // scape special chars
+    if (startRegResult[1]) {
+      continue;
+    }
+    const startInput = input.slice(startRegResult.index);
+    // collect all closing bracket(s)
+    end.lastIndex = 0;
+    while ((endRegResult = end.exec(startInput)) !== null) {
+      // scape special chars
+      if (endRegResult[1]) {
+        break;
+      }
+      lastIndex = endRegResult.index;
+    }
+    if (lastIndex === startRegResult.index) {
+      // missing closing bracket
+      const expression = startInput.slice(0, input.length);
+      result.push({
+        startIndex: startRegResult.index,
+        endIndex: input.length,
+        expression,
+      });
+      input = startInput.slice(input.length);
+    } else {
+      const expression = startInput.slice(0, lastIndex + 1);
+      startIndex = endIndex + startRegResult.index;
+      endIndex = startIndex + lastIndex + 1;
+      result.push({
+        startIndex,
+        endIndex,
+        expression,
+      });
+      input = startInput.slice(lastIndex + 1);
+      // resetting
+      start.lastIndex = 0;
+    }
+  }
+  return result;
 };
