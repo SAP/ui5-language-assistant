@@ -47,6 +47,7 @@ tokenTypesLegend.forEach((tokenType, index) =>
 );
 
 export const getTokenType = (type: BindingSemanticToken): number =>
+  /* istanbul ignore next */
   tokenTypes.get(type) ?? 0;
 
 const getSemanticToken = (
@@ -95,6 +96,7 @@ const getSemanticToken = (
     binding.elements.forEach((element) =>
       semanticTokens.push(...getSemanticToken(element))
     );
+    /* istanbul ignore next */
     binding.commas?.forEach((comma) =>
       semanticTokens.push(...getSemanticToken(comma))
     );
@@ -124,6 +126,7 @@ const getSemanticToken = (
     binding.elements.forEach((element) =>
       semanticTokens.push(...getSemanticToken(element))
     );
+    /* istanbul ignore next */
     binding.commas?.forEach((comma) =>
       semanticTokens.push(...getSemanticToken(comma))
     );
@@ -192,6 +195,7 @@ const walkAttributes = (
       continue;
     }
     const value = attr.syntax.value;
+    /* istanbul ignore next */
     const text = attr.value ?? "";
     const extractedText = extractBindingSyntax(text);
     for (const bindingSyntax of extractedText) {
@@ -199,6 +203,7 @@ const walkAttributes = (
       if (isBindingExpression(expression)) {
         continue;
       }
+      /* istanbul ignore next */
       const position: Position = {
         character: (value?.startColumn ?? 0) + startIndex,
         line: value?.startLine ? value.startLine - 1 : 0, // zero based index

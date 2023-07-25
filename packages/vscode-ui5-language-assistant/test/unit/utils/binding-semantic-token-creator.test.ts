@@ -141,5 +141,38 @@ describe("binding-semantic-token-creator", () => {
       expect(result.length).toEqual(17);
       expect(result).toMatchSnapshot();
     });
+    describe("no semantic token", () => {
+      it("undefined root element [!ast.rootElement]", async () => {
+        const result = await getSemanticTokens({
+          documentUri,
+          content: "<ab></ab>",
+        });
+        expect(result.length).toEqual(0);
+      });
+      it("not ui5 node", async () => {
+        const content = `
+<mvc:View
+      xmlns="sap.m"
+      xmlns:mvc="sap.ui.core.mvc">
+      <Text id="test-id" ABC="{path: 'some-value'}"/>
+</mvc:View>
+  `;
+        const result = await getSemanticTokens({
+          documentUri,
+          content,
+        });
+        expect(result.length).toEqual(0);
+      });
+      it("binding expression", async () => {
+        const content = getContent("{:= some-binding-expression }");
+        const result = await getSemanticTokens({ documentUri, content });
+        expect(result.length).toEqual(0);
+      });
+      it("not allowed binding", async () => {
+        const content = getContent("{path}");
+        const result = await getSemanticTokens({ documentUri, content });
+        expect(result.length).toEqual(0);
+      });
+    });
   });
 });
