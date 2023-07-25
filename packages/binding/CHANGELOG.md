@@ -1,5 +1,13 @@
 # @ui5-language-assistant/binding
 
+## 1.0.10
+
+### Patch Changes
+
+- 2c71dfa: add semantic highlighting support
+- Updated dependencies [2c71dfa]
+  - @ui5-language-assistant/binding-parser@1.0.4
+
 ## 1.0.9
 
 ### Patch Changes

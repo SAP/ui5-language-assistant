@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.34
+
+### Patch Changes
+
+- 2c71dfa: add semantic highlighting support
+
 ## 4.0.33
 
 ### Patch Changes

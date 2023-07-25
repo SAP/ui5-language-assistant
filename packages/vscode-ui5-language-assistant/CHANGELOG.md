@@ -1,5 +1,12 @@
 # Change Log
 
+## 4.0.34
+
+### Patch Changes
+
+- 2c71dfa: add semantic highlighting support
+  - @ui5-language-assistant/language-server@4.0.26
+
 ## 4.0.33
 
 ### Patch Changes
