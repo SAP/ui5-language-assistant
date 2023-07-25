@@ -10,7 +10,7 @@ describe("binding-semantic-token-provider", () => {
       <Text id="test-id" text="{path: 'some-value'}"/>
 </mvc:View>`;
     const documents = {
-      uri: "dummy-uri",
+      uri: "dummy-uri.view.xml",
       getText: () => text,
     } as unknown as TextDocument;
     const result =

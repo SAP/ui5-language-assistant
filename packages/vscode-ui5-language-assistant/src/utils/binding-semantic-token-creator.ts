@@ -12,7 +12,10 @@ import {
   BindingParserTypes as bindingTypes,
 } from "@ui5-language-assistant/binding-parser";
 import { parse, DocumentCstNode } from "@xml-tools/parser";
-import { getUI5NodeByXMLAttribute } from "@ui5-language-assistant/logic-utils";
+import {
+  getUI5NodeByXMLAttribute,
+  isXMLView,
+} from "@ui5-language-assistant/logic-utils";
 import { buildAst, XMLAttribute, XMLElement } from "@xml-tools/ast";
 import { Position, SemanticTokenTypes } from "vscode-languageserver-types";
 
@@ -239,6 +242,9 @@ export const getSemanticTokens = async (param: {
 }): Promise<SemanticToken[]> => {
   const semanticTokens: SemanticToken[] = [];
   const { documentUri, content } = param;
+  if (!isXMLView(documentUri)) {
+    return semanticTokens;
+  }
   const documentPath = URI.parse(documentUri).fsPath;
   const context = await getContext(documentPath);
   if (!isContext(context)) {

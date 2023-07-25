@@ -173,6 +173,14 @@ describe("binding-semantic-token-creator", () => {
         const result = await getSemanticTokens({ documentUri, content });
         expect(result.length).toEqual(0);
       });
+      it("not xml view", async () => {
+        const content = getContent("{path: 'someValue'}");
+        const result = await getSemanticTokens({
+          documentUri: "not-a-view-file",
+          content,
+        });
+        expect(result.length).toEqual(0);
+      });
     });
   });
 });
