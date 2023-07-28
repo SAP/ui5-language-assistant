@@ -18,16 +18,29 @@ import {
   BaseUI5Node,
   UI5Event,
   UI5Association,
+  UI5Enum,
+  UI5Typedef,
+  UI5Function,
 } from "@ui5-language-assistant/semantic-model-types";
 import { find } from "lodash";
 import { findSymbol } from "@ui5-language-assistant/semantic-model";
+
+export function getUI5KindByXMLElement<
+  T = UI5Class | UI5Enum | UI5Typedef | UI5Function | UI5Enum | undefined
+>(
+  element: XMLElement,
+  model: UI5SemanticModel,
+  kind: "classes" | "enums" | "typedefs" | "functions" | "enums"
+): T {
+  const fqn = xmlToFQN(element);
+  return model[kind][fqn] as T;
+}
 
 export function getUI5ClassByXMLElement(
   element: XMLElement,
   model: UI5SemanticModel
 ): UI5Class | undefined {
-  const elementTagFqn = xmlToFQN(element);
-  const ui5Class = model.classes[elementTagFqn];
+  const ui5Class = getUI5KindByXMLElement<UI5Class>(element, model, "classes");
   // The class name might not be the same as the element name in case the element name contained a dot
   // (example: using core:mvc.View instead of mvc:View), which is not allowed.
   if (ui5Class === undefined || ui5Class.name !== element.name) {

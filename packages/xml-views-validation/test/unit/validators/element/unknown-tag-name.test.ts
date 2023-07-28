@@ -1,7 +1,5 @@
+import { join } from "path";
 import { partial } from "lodash";
-import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
-import { generateModel } from "@ui5-language-assistant/test-utils";
-import { generate } from "@ui5-language-assistant/semantic-model";
 import {
   validations,
   buildMessage,
@@ -12,9 +10,17 @@ import {
   assertSingleIssue as assertSingleIssueBase,
   testValidationsScenario,
   computeExpectedRanges,
-  getDefaultContext,
 } from "../../test-utils";
-import { Context as AppContext } from "@ui5-language-assistant/context";
+import {
+  Context as AppContext,
+  getContext,
+} from "@ui5-language-assistant/context";
+import {
+  Config,
+  ProjectName,
+  ProjectType,
+  TestFramework,
+} from "@ui5-language-assistant/test-framework";
 
 const {
   UNKNOWN_CLASS_IN_NS,
@@ -28,15 +34,29 @@ const {
 } = validations;
 
 describe("the unknown tag name validation", () => {
-  let ui5SemanticModel: UI5SemanticModel;
   let appContext: AppContext;
+  let framework: TestFramework;
+  const viewFilePathSegments = [
+    "app",
+    "manage_travels",
+    "webapp",
+    "ext",
+    "main",
+    "Main.view.xml",
+  ];
   beforeAll(async () => {
-    ui5SemanticModel = await generateModel({
-      framework: "SAPUI5",
-      version: "1.71.49",
-      modelGenerator: generate,
-    });
-    appContext = getDefaultContext(ui5SemanticModel);
+    const config: Config = {
+      projectInfo: {
+        name: ProjectName.cap,
+        type: ProjectType.CAP,
+        npmInstall: false,
+        deleteBeforeCopy: false,
+      },
+    };
+    framework = new TestFramework(config);
+    appContext = (await getContext(
+      join(framework.getProjectRoot(), ...viewFilePathSegments)
+    )) as AppContext;
   });
 
   describe("true positive scenarios", () => {
@@ -563,6 +583,18 @@ describe("the unknown tag name validation", () => {
           );
         });
 
+        it("will not detect an issue for typedefs as element [macrosTable:Action]", async () => {
+          assertNoIssues(
+            `<mvc:View
+                xmlns:macrosTable="sap.fe.macros.table"
+              >
+              <macrosTable:Action
+                  key="customAction"
+                  text="My Custom Action"
+              />
+            </mvc:View>`
+          );
+        });
         it("will detect an issue for sap.ui.core.ExtensionPoint in the root tag", () => {
           assertSingleIssue(
             `<🢂ExtensionPoint🢀 name="extension1"></ExtensionPoint>`,
