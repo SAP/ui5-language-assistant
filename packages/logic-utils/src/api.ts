@@ -16,6 +16,7 @@ export { isRootSymbol, getRootSymbolParent } from "./utils/root-symbols";
 export { typeToString } from "./utils/type-to-string";
 export {
   getUI5ClassByXMLElement,
+  getUI5KindByXMLElement,
   getUI5ClassByXMLElementClosingTag,
   getUI5AggregationByXMLElement,
   getUI5PropertyByXMLAttributeKey,
