@@ -12,6 +12,7 @@ import {
   getUI5AggregationByXMLElement,
   isSameXMLNS,
   resolveXMLNS,
+  getUI5KindByXMLElement,
 } from "@ui5-language-assistant/logic-utils";
 import {
   validations,
@@ -91,10 +92,11 @@ function validateTagWithNamespace(
     return [];
   }
 
-  // Check if it's a known class or aggregaion, or an element that should be ignored
+  // Check if it's a known class, typedefs or aggregation, or an element that should be ignored
   if (
     shouldIgnoreElement(xmlElement) ||
     getUI5ClassByXMLElement(xmlElement, model) !== undefined ||
+    getUI5KindByXMLElement(xmlElement, model, "typedefs") !== undefined ||
     getUI5AggregationByXMLElement(xmlElement, model) !== undefined
   ) {
     return [];

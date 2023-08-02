@@ -274,6 +274,7 @@ export {
   tryFetch,
   getLocalUrl,
   isXMLView,
+  getUI5KindByXMLElement,
 } from "./src/api";
 
 export { FetchResponse } from "./src/utils/types";
