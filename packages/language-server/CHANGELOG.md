@@ -1,5 +1,19 @@
 # Change Log
 
+## 4.0.27
+
+### Patch Changes
+
+- Updated dependencies [8fff87d]
+  - @ui5-language-assistant/xml-views-validation@4.0.13
+  - @ui5-language-assistant/logic-utils@4.0.13
+  - @ui5-language-assistant/binding@1.0.11
+  - @ui5-language-assistant/fe@4.0.17
+  - @ui5-language-assistant/context@4.0.17
+  - @ui5-language-assistant/xml-views-completion@4.0.17
+  - @ui5-language-assistant/xml-views-quick-fix@4.0.13
+  - @ui5-language-assistant/xml-views-tooltip@4.0.17
+
 ## 4.0.26
 
 ### Patch Changes

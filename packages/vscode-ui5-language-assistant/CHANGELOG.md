@@ -1,5 +1,12 @@
 # Change Log
 
+## 4.0.35
+
+### Patch Changes
+
+- 8fff87d: releax typedefs validation
+  - @ui5-language-assistant/language-server@4.0.27
+
 ## 4.0.34
 
 ### Patch Changes

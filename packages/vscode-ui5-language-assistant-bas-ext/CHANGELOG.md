@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.35
+
+### Patch Changes
+
+- 8fff87d: releax typedefs validation
+
 ## 4.0.34
 
 ### Patch Changes
