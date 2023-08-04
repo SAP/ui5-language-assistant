@@ -3,6 +3,7 @@ import { BINDING_ISSUE_TYPE } from "./types";
 
 export { getCompletionItems } from "./services/completion";
 export { bindingValidators } from "./services/diagnostics";
+export { getHover } from "./services/hover";
 export type { BindingIssue } from "./types";
 
 export function isBindingIssue<T extends { issueType: string }>(

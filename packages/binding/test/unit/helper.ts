@@ -1,6 +1,7 @@
-import { BindingIssue, getCompletionItems } from "../../src/api";
+import { BindingIssue, getCompletionItems, getHover } from "../../src/api";
 import {
   CompletionItem,
+  Hover,
   MarkupContent,
   Range,
   TextEdit,
@@ -9,7 +10,7 @@ import { TestFramework } from "@ui5-language-assistant/test-framework";
 import { getContext } from "@ui5-language-assistant/context";
 import type { Context } from "@ui5-language-assistant/context";
 import { validateXMLView } from "@ui5-language-assistant/xml-views-validation";
-
+import { astPositionAtOffset } from "@xml-tools/ast-position";
 import { XMLAttribute } from "@xml-tools/ast";
 import { Settings } from "@ui5-language-assistant/settings";
 
@@ -161,3 +162,62 @@ export const prepareContextAdapter: (
     },
   };
 };
+
+export type HoverService = (
+  snippet: string,
+  removePropertyBindingInfo?: boolean,
+  emptyContext?: boolean
+) => Promise<Hover | undefined>;
+export const getHoverService =
+  (
+    framework: TestFramework,
+    viewFilePathSegments: string[],
+    documentPath: string,
+    uri: string
+  ): HoverService =>
+  async (
+    snippet: string,
+    removePropertyBindingInfo = false,
+    emptyContext = false
+  ): Promise<Hover | undefined> => {
+    const { offset } = await framework.updateFile(
+      viewFilePathSegments,
+      getContent(snippet)
+    );
+    const { ast, content } = await framework.readFile(viewFilePathSegments);
+    const { textDocumentPosition } = framework.toVscodeTextDocument(
+      uri,
+      content,
+      offset
+    );
+    let hoverContext;
+    if (emptyContext) {
+      hoverContext = {};
+    } else {
+      const context = (await getContext(documentPath)) as Context;
+      hoverContext = { ...context, textDocumentPosition };
+      if (removePropertyBindingInfo) {
+        hoverContext = {
+          ...context,
+          textDocumentPosition,
+          ui5Model: {
+            ...context.ui5Model,
+            typedefs: {
+              ...context.ui5Model.typedefs,
+              "sap.ui.base.ManagedObject.PropertyBindingInfo":
+                undefined as unknown,
+            },
+          },
+        };
+      }
+    }
+
+    const astPosition = astPositionAtOffset(ast, offset);
+    if (!astPosition) {
+      return;
+    }
+    if (astPosition.kind !== "XMLAttributeValue") {
+      return;
+    }
+    return getHover(hoverContext, astPosition.astNode);
+  };

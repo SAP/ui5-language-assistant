@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`hover/index hover result on key 1`] = `
+Object {
+  "contents": Object {
+    "kind": "markdown",
+    "value": "\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+**Type:** Array<(String | sap.ui.base.ManagedObject.PropertyBindingInfo>)
+
+**Description:** Array of binding info objects for the parts of a composite binding; the structure of each binding info is the same as described for the <code>oBindingInfo</code> as a whole.
+
+If a part is not specified as a binding info object but as a simple string, a binding info object will be created with that string as <code>path</code>. The string may start with a model name prefix (see property <code>path</code>).
+
+<b>Note</b>: recursive composite bindings are currently not supported. Therefore, a part must not contain a <code>parts</code> property.
+
+**Visibility:** public
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+  },
+}
+`;
+
+exports[`hover/index hover result on key inside collection 1`] = `
+Object {
+  "contents": Object {
+    "kind": "markdown",
+    "value": "\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+**Type:** String
+
+**Description:** Path in the model to bind to, either an absolute path or relative to the binding context for the corresponding model; when the path contains a '&gt;' sign, the string preceding it will override the <code>model</code> property and the remainder after the '&gt;' will be used as binding path
+
+**Visibility:** public
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+  },
+}
+`;
