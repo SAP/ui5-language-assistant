@@ -6,6 +6,8 @@ Object {
     "kind": "markdown",
     "value": "\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
 
+---
+
 **Type:** Array<(String | sap.ui.base.ManagedObject.PropertyBindingInfo>)
 
 **Description:** Array of binding info objects for the parts of a composite binding; the structure of each binding info is the same as described for the <code>oBindingInfo</code> as a whole.
@@ -13,8 +15,6 @@ Object {
 If a part is not specified as a binding info object but as a simple string, a binding info object will be created with that string as <code>path</code>. The string may start with a model name prefix (see property <code>path</code>).
 
 <b>Note</b>: recursive composite bindings are currently not supported. Therefore, a part must not contain a <code>parts</code> property.
-
-**Visibility:** public
 
 **Optional:** true
 
@@ -29,11 +29,11 @@ Object {
     "kind": "markdown",
     "value": "\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
 
+---
+
 **Type:** String
 
 **Description:** Path in the model to bind to, either an absolute path or relative to the binding context for the corresponding model; when the path contains a '&gt;' sign, the string preceding it will override the <code>model</code> property and the remainder after the '&gt;' will be used as binding path
-
-**Visibility:** public
 
 **Optional:** true
 

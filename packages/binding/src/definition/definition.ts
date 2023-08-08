@@ -13,7 +13,7 @@ import {
 } from "../types";
 import { ui5NodeToFQN } from "@ui5-language-assistant/logic-utils";
 import { forOwn } from "lodash";
-import { getDocumentation } from "../services/completion/providers/documentation";
+import { getDocumentation } from "../utils";
 import { fallBackElements } from "./fall-back-definition";
 
 const isBindingInfoName = (name: string): name is BindingInfoName => {

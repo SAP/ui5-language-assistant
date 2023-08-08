@@ -13,7 +13,7 @@ import {
 import { Position } from "vscode-languageserver-types";
 import { BindContext } from "../../types";
 import { PROPERTY_BINDING_INFO } from "../../constant";
-import { getDocumentation } from "../completion/providers/documentation";
+import { getDocumentation } from "../../utils";
 import { UI5Typedef } from "@ui5-language-assistant/semantic-model-types";
 
 const getHoverFromBinding = (
@@ -46,7 +46,7 @@ const getHoverFromBinding = (
           (prop) => prop.name === element.key?.originalText
         );
         if (property) {
-          return { contents: getDocumentation(context, property) };
+          return { contents: getDocumentation(context, property, true) };
         }
       }
 
