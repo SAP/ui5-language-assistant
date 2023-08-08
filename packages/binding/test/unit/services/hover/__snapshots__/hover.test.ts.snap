@@ -4,7 +4,7 @@ exports[`hover/index hover result on key 1`] = `
 Object {
   "contents": Object {
     "kind": "markdown",
-    "value": "\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+    "value": "\`(typedef) sap.ui.base.ManagedObject.PropertyBindingInfo\`
 
 ---
 
@@ -27,7 +27,7 @@ exports[`hover/index hover result on key inside collection 1`] = `
 Object {
   "contents": Object {
     "kind": "markdown",
-    "value": "\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+    "value": "\`(typedef) sap.ui.base.ManagedObject.PropertyBindingInfo\`
 
 ---
 

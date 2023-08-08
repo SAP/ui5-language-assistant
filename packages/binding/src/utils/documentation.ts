@@ -45,15 +45,13 @@ export const getDocumentation = (
 } => {
   const link = getLink(context.ui5Model, PROPERTY_BINDING_INFO);
   const values: string[] = [
-    `\`typedef ${PROPERTY_BINDING_INFO}\``,
+    `\`(typedef) ${PROPERTY_BINDING_INFO}\``,
+    forHover ? `---` : "",
     `**Type:** ${getType(prop.type)}`,
     `**Description:** ${prop.description}`,
     `**Optional:** ${prop.optional}`,
     `[More information](${link})`,
   ];
-  if (forHover) {
-    values.splice(1, 0, `---`);
-  }
   return {
     kind: MarkupKind.Markdown,
     value: values.join("\n\n"),

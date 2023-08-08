@@ -5,7 +5,9 @@ Array [
   Object {
     "documentation": Object {
       "kind": "markdown",
-      "value": "\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+      "value": "\`(typedef) sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+
 
 **Type:** String
 
@@ -35,7 +37,9 @@ Array [
   Object {
     "documentation": Object {
       "kind": "markdown",
-      "value": "\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+      "value": "\`(typedef) sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+
 
 **Type:** String
 
@@ -65,7 +69,9 @@ Array [
   Object {
     "documentation": Object {
       "kind": "markdown",
-      "value": "\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+      "value": "\`(typedef) sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+
 
 **Type:** String
 
@@ -92,7 +98,9 @@ Array [
   Object {
     "documentation": Object {
       "kind": "markdown",
-      "value": "\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+      "value": "\`(typedef) sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+
 
 **Type:** Boolean
 
@@ -122,7 +130,9 @@ Array [
   Object {
     "documentation": Object {
       "kind": "markdown",
-      "value": "\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+      "value": "\`(typedef) sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+
 
 **Type:** Function
 
@@ -149,7 +159,9 @@ Array [
   Object {
     "documentation": Object {
       "kind": "markdown",
-      "value": "\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+      "value": "\`(typedef) sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+
 
 **Type:** Boolean
 
@@ -181,7 +193,9 @@ Array [
   Object {
     "documentation": Object {
       "kind": "markdown",
-      "value": "\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+      "value": "\`(typedef) sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+
 
 **Type:** Boolean
 
@@ -213,7 +227,9 @@ Array [
   Object {
     "documentation": Object {
       "kind": "markdown",
-      "value": "\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+      "value": "\`(typedef) sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+
 
 **Type:** sap.ui.model.Type | String
 
@@ -289,7 +305,9 @@ Array [
   Object {
     "documentation": Object {
       "kind": "markdown",
-      "value": "\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+      "value": "\`(typedef) sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+
 
 **Type:** String
 
@@ -316,7 +334,9 @@ Array [
   Object {
     "documentation": Object {
       "kind": "markdown",
-      "value": "\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+      "value": "\`(typedef) sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+
 
 **Type:** Object
 
@@ -354,7 +374,9 @@ Array [
   Object {
     "documentation": Object {
       "kind": "markdown",
-      "value": "\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+      "value": "\`(typedef) sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+
 
 **Type:** Object
 
@@ -392,7 +414,9 @@ Array [
   Object {
     "documentation": Object {
       "kind": "markdown",
-      "value": "\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+      "value": "\`(typedef) sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+
 
 **Type:** sap.ui.model.BindingMode
 
@@ -424,7 +448,9 @@ Array [
   Object {
     "documentation": Object {
       "kind": "markdown",
-      "value": "\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+      "value": "\`(typedef) sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+
 
 **Type:** Object
 
@@ -451,7 +477,9 @@ Array [
   Object {
     "documentation": Object {
       "kind": "markdown",
-      "value": "\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+      "value": "\`(typedef) sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+
 
 **Type:** Object
 
@@ -478,7 +506,9 @@ Array [
   Object {
     "documentation": Object {
       "kind": "markdown",
-      "value": "\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+      "value": "\`(typedef) sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+
 
 **Type:** Array<(String | sap.ui.base.ManagedObject.PropertyBindingInfo>)
 

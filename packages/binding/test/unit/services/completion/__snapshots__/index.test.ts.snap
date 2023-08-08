@@ -2,7 +2,9 @@
 
 exports[`index getCompletionItems provides CC for empty [with documentation] 1`] = `
 Array [
-  "label: path; text: path: '$0'; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+  "label: path; text: path: '$0'; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`(typedef) sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+
 
 **Type:** String
 
@@ -11,7 +13,9 @@ Array [
 **Optional:** true
 
 [More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
-  "label: value; text: value: '$0'; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+  "label: value; text: value: '$0'; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`(typedef) sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+
 
 **Type:** String
 
@@ -20,7 +24,9 @@ Array [
 **Optional:** true
 
 [More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
-  "label: model; text: model: '$0'; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+  "label: model; text: model: '$0'; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`(typedef) sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+
 
 **Type:** String
 
@@ -29,7 +35,9 @@ Array [
 **Optional:** true
 
 [More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
-  "label: suspended; text: suspended: $0; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+  "label: suspended; text: suspended: $0; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`(typedef) sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+
 
 **Type:** Boolean
 
@@ -38,7 +46,9 @@ Array [
 **Optional:** true
 
 [More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
-  "label: formatter; text: formatter: '$0'; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+  "label: formatter; text: formatter: '$0'; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`(typedef) sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+
 
 **Type:** Function
 
@@ -47,7 +57,9 @@ Array [
 **Optional:** true
 
 [More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
-  "label: useRawValues; text: useRawValues: $0; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+  "label: useRawValues; text: useRawValues: $0; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`(typedef) sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+
 
 **Type:** Boolean
 
@@ -58,7 +70,9 @@ Array [
 **Optional:** true
 
 [More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
-  "label: useInternalValues; text: useInternalValues: $0; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+  "label: useInternalValues; text: useInternalValues: $0; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`(typedef) sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+
 
 **Type:** Boolean
 
@@ -69,7 +83,9 @@ Array [
 **Optional:** true
 
 [More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
-  "label: type; text: type: '$0'; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+  "label: type; text: type: '$0'; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`(typedef) sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+
 
 **Type:** sap.ui.model.Type | String
 
@@ -78,7 +94,9 @@ Array [
 **Optional:** true
 
 [More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
-  "label: targetType; text: targetType: '$0'; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+  "label: targetType; text: targetType: '$0'; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`(typedef) sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+
 
 **Type:** String
 
@@ -87,7 +105,9 @@ Array [
 **Optional:** true
 
 [More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
-  "label: formatOptions; text: formatOptions: {$0}; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+  "label: formatOptions; text: formatOptions: {$0}; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`(typedef) sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+
 
 **Type:** Object
 
@@ -96,7 +116,9 @@ Array [
 **Optional:** true
 
 [More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
-  "label: constraints; text: constraints: {$0}; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+  "label: constraints; text: constraints: {$0}; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`(typedef) sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+
 
 **Type:** Object
 
@@ -105,7 +127,9 @@ Array [
 **Optional:** true
 
 [More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
-  "label: mode; text: mode: '$0'; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+  "label: mode; text: mode: '$0'; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`(typedef) sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+
 
 **Type:** sap.ui.model.BindingMode
 
@@ -114,7 +138,9 @@ Array [
 **Optional:** true
 
 [More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
-  "label: parameters; text: parameters: {$0}; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+  "label: parameters; text: parameters: {$0}; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`(typedef) sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+
 
 **Type:** Object
 
@@ -123,7 +149,9 @@ Array [
 **Optional:** true
 
 [More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
-  "label: events; text: events: {$0}; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+  "label: events; text: events: {$0}; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`(typedef) sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+
 
 **Type:** Object
 
@@ -132,7 +160,9 @@ Array [
 **Optional:** true
 
 [More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
-  "label: parts; text: parts: $0; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+  "label: parts; text: parts: $0; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`(typedef) sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+
 
 **Type:** Array<(String | sap.ui.base.ManagedObject.PropertyBindingInfo>)
 
