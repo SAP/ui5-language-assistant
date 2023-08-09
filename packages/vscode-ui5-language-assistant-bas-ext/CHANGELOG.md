@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.36
+
+### Patch Changes
+
+- de2cccc: add hover support for proeprty binding
+
 ## 4.0.35
 
 ### Patch Changes

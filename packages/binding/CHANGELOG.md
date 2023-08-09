@@ -1,5 +1,11 @@
 # @ui5-language-assistant/binding
 
+## 1.0.12
+
+### Patch Changes
+
+- de2cccc: add hover support for proeprty binding
+
 ## 1.0.11
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # Change Log
 
+## 4.0.36
+
+### Patch Changes
+
+- de2cccc: add hover support for proeprty binding
+- Updated dependencies [de2cccc]
+  - @ui5-language-assistant/language-server@4.0.28
+
 ## 4.0.35
 
 ### Patch Changes
