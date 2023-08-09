@@ -50,7 +50,7 @@
   "devDependencies": {
     "@types/js-yaml": "4.0.5",
     "@types/node-fetch": "2.5.10",
-    "@types/semver": "7.3.12",
+    "@types/semver": "7.5.0",
     "@types/tmp": "0.2.0",
     "@ui5-language-assistant/semantic-model-types": "4.0.8",
     "@ui5-language-assistant/test-utils": "4.0.9",
