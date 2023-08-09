@@ -2,62 +2,64 @@
 
 exports[`index getCompletionItems provides CC for empty [with documentation] 1`] = `
 Array [
-  "label: path; text: path: '$0'; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+  "label: path; text: path: '$0'; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`(typedef) sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+
 
 **Type:** String
 
 **Description:** Path in the model to bind to, either an absolute path or relative to the binding context for the corresponding model; when the path contains a '&gt;' sign, the string preceding it will override the <code>model</code> property and the remainder after the '&gt;' will be used as binding path
 
-**Visibility:** public
-
 **Optional:** true
 
 [More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
-  "label: value; text: value: '$0'; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+  "label: value; text: value: '$0'; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`(typedef) sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+
 
 **Type:** String
 
 **Description:** Since 1.61, defines a static binding with the given value.
 
-**Visibility:** public
-
 **Optional:** true
 
 [More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
-  "label: model; text: model: '$0'; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+  "label: model; text: model: '$0'; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`(typedef) sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+
 
 **Type:** String
 
 **Description:** Name of the model to bind against; when <code>undefined</code> or omitted, the default model is used
 
-**Visibility:** public
-
 **Optional:** true
 
 [More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
-  "label: suspended; text: suspended: $0; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+  "label: suspended; text: suspended: $0; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`(typedef) sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+
 
 **Type:** Boolean
 
 **Description:** Whether the binding should be suspended initially
 
-**Visibility:** public
-
 **Optional:** true
 
 [More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
-  "label: formatter; text: formatter: '$0'; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+  "label: formatter; text: formatter: '$0'; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`(typedef) sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+
 
 **Type:** Function
 
 **Description:** Function to convert model data into a property value
 
-**Visibility:** public
-
 **Optional:** true
 
 [More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
-  "label: useRawValues; text: useRawValues: $0; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+  "label: useRawValues; text: useRawValues: $0; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`(typedef) sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+
 
 **Type:** Boolean
 
@@ -65,12 +67,12 @@ Array [
 
 <b>Note</b>: use this flag only when using multiple bindings. If you use only one binding and want raw values then simply don't specify a type for that binding.
 
-**Visibility:** public
-
 **Optional:** true
 
 [More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
-  "label: useInternalValues; text: useInternalValues: $0; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+  "label: useInternalValues; text: useInternalValues: $0; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`(typedef) sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+
 
 **Type:** Boolean
 
@@ -78,89 +80,89 @@ Array [
 
 <b>Note</b>: use this flag only when using multiple bindings.
 
-**Visibility:** public
-
 **Optional:** true
 
 [More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
-  "label: type; text: type: '$0'; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+  "label: type; text: type: '$0'; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`(typedef) sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+
 
 **Type:** sap.ui.model.Type | String
 
 **Description:** A type object or the name of a type class to create such a type object; the type will be used for converting model data to a property value (aka \\"formatting\\") and vice versa (in binding mode <code>TwoWay</code>, aka \\"parsing\\")
 
-**Visibility:** public
-
 **Optional:** true
 
 [More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
-  "label: targetType; text: targetType: '$0'; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+  "label: targetType; text: targetType: '$0'; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`(typedef) sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+
 
 **Type:** String
 
 **Description:** Target type to be used by the type when formatting model data, for example \\"boolean\\" or \\"string\\" or \\"any\\"; defaults to the property's type
 
-**Visibility:** public
-
 **Optional:** true
 
 [More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
-  "label: formatOptions; text: formatOptions: {$0}; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+  "label: formatOptions; text: formatOptions: {$0}; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`(typedef) sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+
 
 **Type:** Object
 
 **Description:** Format options to be used for the type; only taken into account when the type is specified by its name - a given type object won't be modified
 
-**Visibility:** public
-
 **Optional:** true
 
 [More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
-  "label: constraints; text: constraints: {$0}; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+  "label: constraints; text: constraints: {$0}; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`(typedef) sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+
 
 **Type:** Object
 
 **Description:** Additional constraints to be used when constructing a type object from a type name, ignored when a type object is given
 
-**Visibility:** public
-
 **Optional:** true
 
 [More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
-  "label: mode; text: mode: '$0'; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+  "label: mode; text: mode: '$0'; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`(typedef) sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+
 
 **Type:** sap.ui.model.BindingMode
 
 **Description:** Binding mode to be used for this property binding (e.g. one way)
 
-**Visibility:** public
-
 **Optional:** true
 
 [More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
-  "label: parameters; text: parameters: {$0}; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+  "label: parameters; text: parameters: {$0}; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`(typedef) sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+
 
 **Type:** Object
 
 **Description:** Map of additional parameters for this binding; the names and value ranges of the supported parameters depend on the model implementation, they should be documented with the <code>bindProperty</code> method of the corresponding model class or with the model specific subclass of <code>sap.ui.model.PropertyBinding</code>
 
-**Visibility:** public
-
 **Optional:** true
 
 [More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
-  "label: events; text: events: {$0}; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+  "label: events; text: events: {$0}; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`(typedef) sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+
 
 **Type:** Object
 
 **Description:** Map of event handler functions keyed by the name of the binding events that they should be attached to
 
-**Visibility:** public
-
 **Optional:** true
 
 [More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
-  "label: parts; text: parts: $0; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`typedef sap.ui.base.ManagedObject.PropertyBindingInfo\`
+  "label: parts; text: parts: $0; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`(typedef) sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+
 
 **Type:** Array<(String | sap.ui.base.ManagedObject.PropertyBindingInfo>)
 
@@ -169,8 +171,6 @@ Array [
 If a part is not specified as a binding info object but as a simple string, a binding info object will be created with that string as <code>path</code>. The string may start with a model name prefix (see property <code>path</code>).
 
 <b>Note</b>: recursive composite bindings are currently not supported. Therefore, a part must not contain a <code>parts</code> property.
-
-**Visibility:** public
 
 **Optional:** true
 

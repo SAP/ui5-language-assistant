@@ -16,6 +16,7 @@ import { findUI5HoverNodeAtOffset } from "@ui5-language-assistant/xml-views-tool
 import { getNodeDocumentation, getNodeDetail } from "./documentation";
 import { track } from "./swa";
 import type { Context } from "@ui5-language-assistant/context";
+import { getHover } from "@ui5-language-assistant/binding";
 
 export function getHoverResponse(
   context: Context,
@@ -32,6 +33,12 @@ export function getHoverResponse(
     if (ui5Node !== undefined) {
       track("XML_UI5_DOC_HOVER", ui5Node.kind);
       return transformToLspHover(ui5Node, context.ui5Model);
+    }
+    if (astPosition.kind === "XMLAttributeValue") {
+      return getHover(
+        { ...context, textDocumentPosition },
+        astPosition.astNode
+      );
     }
   }
 

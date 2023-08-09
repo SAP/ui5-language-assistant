@@ -2,10 +2,10 @@ import {
   UI5Type,
   UI5TypedefProp,
 } from "@ui5-language-assistant/semantic-model-types";
-import { BindContext } from "../../../types";
+import { BindContext } from "../types";
 import { MarkupKind } from "vscode-languageserver-types";
 import { ui5NodeToFQN, getLink } from "@ui5-language-assistant/logic-utils";
-import { PROPERTY_BINDING_INFO } from "../../../constant";
+import { PROPERTY_BINDING_INFO } from "../constant";
 
 const getType = (type: UI5Type | undefined): string[] => {
   const result: string[] = [];
@@ -37,17 +37,18 @@ const getType = (type: UI5Type | undefined): string[] => {
 
 export const getDocumentation = (
   context: BindContext,
-  prop: UI5TypedefProp
+  prop: UI5TypedefProp,
+  forHover = false
 ): {
   kind: MarkupKind;
   value: string;
 } => {
   const link = getLink(context.ui5Model, PROPERTY_BINDING_INFO);
   const values: string[] = [
-    `\`typedef ${PROPERTY_BINDING_INFO}\``,
+    `\`(typedef) ${PROPERTY_BINDING_INFO}\``,
+    forHover ? `---` : "",
     `**Type:** ${getType(prop.type)}`,
     `**Description:** ${prop.description}`,
-    `**Visibility:** ${prop.visibility}`,
     `**Optional:** ${prop.optional}`,
     `[More information](${link})`,
   ];

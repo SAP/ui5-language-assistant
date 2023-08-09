@@ -10,3 +10,5 @@ export {
 export { getCursorContext } from "./cursor";
 
 export { getLogger } from "./logger";
+
+export { getDocumentation } from "./documentation";
