@@ -136,7 +136,7 @@ The feature is available in the following:
   - SAPUI5 Namespaces
   - Name of property binding info
 
-### Semantic Highlighting for property binding info or aggregation binding
+### Semantic Highlighting
 
 ![](https://raw.githubusercontent.com/SAP/ui5-language-assistant/master/packages/vscode-ui5-language-assistant/resources/readme/preview-semantic-highlighting-binding.png)
 
