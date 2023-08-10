@@ -35,7 +35,7 @@ describe("definition", () => {
       join(framework.getProjectRoot(), ...viewFilePathSegments)
     )) as BindContext;
   });
-  describe.only("getPropertyBindingInfoElements", () => {
+  describe("getPropertyBindingInfoElements", () => {
     it("get binding elements", () => {
       const result = getPropertyBindingInfoElements(context);
       expect(result).toMatchSnapshot();
