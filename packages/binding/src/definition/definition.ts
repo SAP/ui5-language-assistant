@@ -144,6 +144,11 @@ const buildType = (
         );
       }
       break;
+    case "ArrayType":
+      if (type.type?.kind === "UI5Typedef") {
+        propertyType.push(...buildType(context, type.type, name, true));
+      }
+      break;
   }
   return propertyType;
 };
