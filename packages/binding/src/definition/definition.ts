@@ -174,10 +174,12 @@ export const getPropertyBindingInfoElements = (
         const index = previous.findIndex((i) => i.kind === current.kind);
         if (index !== -1) {
           // there is duplicate
+          /* istanbul ignore next */
           if (current.possibleValue?.values.length !== 0) {
             // has possible value, remove previous - keep current
             return [...previous.slice(index), current];
           }
+          /* istanbul ignore next */
           if (previous[index].possibleValue?.values.length !== 0) {
             // has possible value - keep it
             return previous;

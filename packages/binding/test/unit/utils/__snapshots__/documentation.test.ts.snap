@@ -1,0 +1,86 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`documentation check ArrayType 1`] = `
+Object {
+  "kind": "markdown",
+  "value": "\`(typedef) sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+
+
+**Type:** test.inner.PropertyBindingInfo
+
+**Description:** undefined
+
+**Optional:** undefined
+
+[More information](https://ui5.sap.com/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+}
+`;
+
+exports[`documentation check PrimitiveType 1`] = `
+Object {
+  "kind": "markdown",
+  "value": "\`(typedef) sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+
+
+**Type:** String
+
+**Description:** undefined
+
+**Optional:** undefined
+
+[More information](https://ui5.sap.com/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+}
+`;
+
+exports[`documentation check UI5Typedef, UI5Class or UI5Enum 1`] = `
+Object {
+  "kind": "markdown",
+  "value": "\`(typedef) sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+
+
+**Type:** test.inner.PropertyBindingInfo
+
+**Description:** undefined
+
+**Optional:** undefined
+
+[More information](https://ui5.sap.com/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+}
+`;
+
+exports[`documentation check UnionType 1`] = `
+Object {
+  "kind": "markdown",
+  "value": "\`(typedef) sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+
+
+**Type:** test.inner.PropertyBindingInfo
+
+**Description:** undefined
+
+**Optional:** undefined
+
+[More information](https://ui5.sap.com/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+}
+`;
+
+exports[`documentation check undefined type 1`] = `
+Object {
+  "kind": "markdown",
+  "value": "\`(typedef) sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+
+
+**Type:** 
+
+**Description:** undefined
+
+**Optional:** undefined
+
+[More information](https://ui5.sap.com/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+}
+`;

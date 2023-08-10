@@ -134,17 +134,17 @@ The feature is available in the following:
 
   - Enum values
   - SAPUI5 Namespaces
-  - any keys of property binding info
+  - Name of property binding info
 
-### Semantic highlighting for property binding info or aggregation binding
+### Semantic Highlighting for property binding info or aggregation binding
 
 ![](https://raw.githubusercontent.com/SAP/ui5-language-assistant/master/packages/vscode-ui5-language-assistant/resources/readme/preview-semantic-highlighting-binding.png)
 
 #### Description
 
-Make sure that semantic highlighting is not disabled. For details check [here](https://code.visualstudio.com/api/language-extensions/semantic-highlight-guide#enablement-of-semantic-highlighting)
+Property binding info and aggregation binding are displayed semantically highlighted to let you easily grasp the sense of dense code.
 
-Property binding info or aggregation binding is semantically highlighted.
+Make sure that semantic highlighting is enabled. For more information, see [Enablement of semantic highlighting](https://code.visualstudio.com/api/language-extensions/semantic-highlight-guide#enablement-of-semantic-highlighting)
 
 ### XML View Format
 

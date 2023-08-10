@@ -1,5 +1,258 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`definition getPropertyBindingInfoElements check fallback 1`] = `
+Array [
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "name": "path",
+    "type": Array [
+      Object {
+        "dependents": Array [],
+        "kind": "string",
+        "notAllowedElements": Array [
+          "value",
+          "parts",
+        ],
+      },
+    ],
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "name": "value",
+    "type": Array [
+      Object {
+        "dependents": Array [],
+        "kind": "string",
+        "notAllowedElements": Array [
+          "path",
+          "parts",
+        ],
+      },
+    ],
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "name": "model",
+    "type": Array [
+      Object {
+        "dependents": Array [],
+        "kind": "string",
+        "notAllowedElements": Array [],
+      },
+    ],
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "name": "suspended",
+    "type": Array [
+      Object {
+        "dependents": Array [],
+        "kind": "boolean",
+        "notAllowedElements": Array [],
+      },
+    ],
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "name": "formatter",
+    "type": Array [
+      Object {
+        "dependents": Array [],
+        "kind": "string",
+        "notAllowedElements": Array [],
+      },
+    ],
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "name": "useRawValues",
+    "type": Array [
+      Object {
+        "dependents": Array [],
+        "kind": "boolean",
+        "notAllowedElements": Array [],
+      },
+    ],
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "name": "useInternalValues",
+    "type": Array [
+      Object {
+        "dependents": Array [],
+        "kind": "boolean",
+        "notAllowedElements": Array [],
+      },
+    ],
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "name": "type",
+    "type": Array [
+      Object {
+        "dependents": Array [],
+        "kind": "string",
+        "notAllowedElements": Array [],
+      },
+    ],
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "name": "targetType",
+    "type": Array [
+      Object {
+        "dependents": Array [],
+        "kind": "string",
+        "notAllowedElements": Array [],
+      },
+    ],
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "name": "formatOptions",
+    "type": Array [
+      Object {
+        "dependents": Array [
+          Object {
+            "name": "type",
+            "type": Array [
+              Object {
+                "dependents": Array [],
+                "kind": "string",
+                "notAllowedElements": Array [],
+              },
+            ],
+          },
+        ],
+        "kind": "object",
+        "notAllowedElements": Array [],
+      },
+    ],
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "name": "constraints",
+    "type": Array [
+      Object {
+        "dependents": Array [
+          Object {
+            "name": "type",
+            "type": Array [
+              Object {
+                "dependents": Array [],
+                "kind": "string",
+                "notAllowedElements": Array [],
+              },
+            ],
+          },
+        ],
+        "kind": "object",
+        "notAllowedElements": Array [],
+      },
+    ],
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "name": "mode",
+    "type": Array [
+      Object {
+        "dependents": Array [],
+        "kind": "string",
+        "notAllowedElements": Array [],
+      },
+    ],
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "name": "parameters",
+    "type": Array [
+      Object {
+        "dependents": Array [],
+        "kind": "object",
+        "notAllowedElements": Array [],
+      },
+    ],
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "name": "events",
+    "type": Array [
+      Object {
+        "dependents": Array [],
+        "kind": "object",
+        "notAllowedElements": Array [],
+      },
+    ],
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "name": "parts",
+    "type": Array [
+      Object {
+        "collection": true,
+        "dependents": Array [],
+        "kind": "string",
+        "notAllowedElements": Array [],
+      },
+      Object {
+        "collection": true,
+        "dependents": Array [],
+        "kind": "object",
+        "notAllowedElements": Array [
+          "path",
+          "value",
+        ],
+      },
+    ],
+  },
+]
+`;
+
 exports[`definition getPropertyBindingInfoElements get binding elements 1`] = `
 Array [
   Object {
