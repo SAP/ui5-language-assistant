@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.37
+
+### Patch Changes
+
+- 069457b: Add read me file, manual test and fix type
+
 ## 4.0.36
 
 ### Patch Changes

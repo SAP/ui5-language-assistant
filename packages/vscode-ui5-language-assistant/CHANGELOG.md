@@ -1,5 +1,12 @@
 # Change Log
 
+## 4.0.37
+
+### Patch Changes
+
+- 069457b: Add read me file, manual test and fix type
+  - @ui5-language-assistant/language-server@4.0.29
+
 ## 4.0.36
 
 ### Patch Changes

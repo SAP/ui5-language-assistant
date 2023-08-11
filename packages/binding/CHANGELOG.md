@@ -1,5 +1,11 @@
 # @ui5-language-assistant/binding
 
+## 1.0.13
+
+### Patch Changes
+
+- 069457b: Add read me file, manual test and fix type
+
 ## 1.0.12
 
 ### Patch Changes
