@@ -15,7 +15,7 @@
   "dependencies": {
     "@xml-tools/ast": "5.0.0",
     "@xml-tools/parser": "1.0.7",
-    "chevrotain": "7.0.1",
+    "chevrotain": "11.0.2",
     "fs-extra": "10.1.0",
     "lodash": "4.17.21",
     "vscode-languageserver-textdocument": "^1.0.7",
