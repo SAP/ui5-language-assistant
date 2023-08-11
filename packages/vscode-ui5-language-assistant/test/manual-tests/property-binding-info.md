@@ -4,6 +4,8 @@
 
 [#563](https://github.com/SAP/ui5-language-assistant/issues/563) Provide a minimal code completion and syntax check for the simple binding notation
 
+[#614](https://github.com/SAP/ui5-language-assistant/issues/614) Display tooltip for property binding info names on hover
+
 ## Install latest UI5 Language Assistant
 
 [UI5 Language Assistant](https://marketplace.visualstudio.com/items?itemName=SAPOSS.vscode-ui5-language-assistant)
@@ -142,3 +144,34 @@ Open `Main.view.xml` file which is located under `app/manage_travels/webapp/ext/
 
 1. Copy and paste snippet `<Input value="{path: ' ', mode:' ', }" id="test-id-02"/>`
 2. Check that a diagnostic with message `Trailing comma` is reported
+
+## Hover tooltip
+
+Open `Main.view.xml` file which is located under `app/manage_travels/webapp/ext/main` folder
+
+### on name
+
+1. Copy and paste snippet `<Text text="{pa|rts: [{path: 'test-model'}]}" id="test-id"/>`
+2. Request hover at cursor position
+3. A tooltip appears which has `Type`, `Description`, `Optional` and a link `more information`
+
+### on name inside collection
+
+1. Copy and paste snippet `<Text text="{parts: [{pa|th: 'test-model'}]}" id="test-id"/>`
+2. Request hover at cursor position
+3. A tooltip appears which has `Type`, `Description`, `Optional` and a link `more information`
+
+**Note:** There is currently no hover support on value
+
+## Semantic highlighting
+
+Make sure that semantic highlighting is not disabled. For details check [here](https://code.visualstudio.com/api/language-extensions/semantic-highlight-guide#enablement-of-semantic-highlighting)
+
+Property binding info or aggregation binding has below semantic highlighting
+
+- keys e.g `part` has same semantic highlighting as of xml attribute
+- colon e.g `:` and comma e.g `,` has same semantic highlighting as of colon in `<mvc:View>`
+- brackets e.g `{} or []` and string value e.g `"double quote string" or 'single quote string'` has same semantic highlighting as of xml string value
+- `boolean`, `number` and `null` has same semantic highlighting as of their respective javascript counterpart
+
+**Note:** Semantic highlighting works fine with all vscode included themes

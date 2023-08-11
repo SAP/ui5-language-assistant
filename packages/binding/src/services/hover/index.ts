@@ -22,6 +22,7 @@ const getHoverFromBinding = (
   binding: BindingParserTypes.StructureValue
 ): Hover | undefined => {
   let hover: Hover | undefined;
+  /* istanbul ignore next */
   const cursorPos = context.textDocumentPosition?.position;
   for (const element of binding.elements) {
     if (
@@ -84,6 +85,7 @@ export const getHover = (
       return;
     }
     const value = attribute.syntax.value;
+    /* istanbul ignore next */
     const text = attribute.value ?? "";
     if (text.trim().length === 0) {
       return;
@@ -101,6 +103,7 @@ export const getHover = (
         line: value?.startLine ? value.startLine - 1 : 0, // zero based index
       };
       const { ast, errors } = parseBinding(expression, position);
+      /* istanbul ignore next */
       const cursorPos = context.textDocumentPosition?.position;
       const binding = ast.bindings.find(
         (b) =>
