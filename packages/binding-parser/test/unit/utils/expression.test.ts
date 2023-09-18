@@ -213,61 +213,64 @@ describe("expression", () => {
     it("empty string", () => {
       const input = "  ";
       const { ast, errors } = parseBinding(input);
-      const result = isBindingAllowed(input, ast.bindings[0], errors);
+      const result = isBindingAllowed(input, ast.bindings[0], errors, []);
       expect(result).toBeTrue();
     });
     it("string value", () => {
       const input = "40";
       const { ast, errors } = parseBinding(input);
-      const result = isBindingAllowed(input, ast.bindings[0], errors);
+      const result = isBindingAllowed(input, ast.bindings[0], errors, []);
       expect(result).toBeFalse();
     });
     it("empty curly bracket without space", () => {
       const input = "{}";
       const { ast, errors } = parseBinding(input);
-      const result = isBindingAllowed(input, ast.bindings[0], errors);
+      const result = isBindingAllowed(input, ast.bindings[0], errors, []);
       expect(result).toBeTrue();
     });
     it("empty curly bracket with space", () => {
       const input = "{   }";
       const { ast, errors } = parseBinding(input);
-      const result = isBindingAllowed(input, ast.bindings[0], errors);
+      const result = isBindingAllowed(input, ast.bindings[0], errors, []);
       expect(result).toBeTrue();
     });
-    it("key with colone [true]", () => {
+    it("property binding info key with colon [true]", () => {
       const input = ' {path: "some/path"}';
       const { ast, errors } = parseBinding(input);
-      const result = isBindingAllowed(input, ast.bindings[0], errors);
+      const result = isBindingAllowed(input, ast.bindings[0], errors, ["path"]);
       expect(result).toBeTrue();
     });
-    it("key with colone any where [true]", () => {
-      const input = ' {path "some/path", thisKey: {}}';
+    it("property binding info key with colon any where [true]", () => {
+      const input = ' {path "some/path", event: {}}';
       const { ast, errors } = parseBinding(input);
-      const result = isBindingAllowed(input, ast.bindings[0], errors);
+      const result = isBindingAllowed(input, ast.bindings[0], errors, [
+        "path",
+        "event",
+      ]);
       expect(result).toBeTrue();
     });
     it("missing colon [false]", () => {
       const input = '{path "some/path"}';
       const { ast, errors } = parseBinding(input);
-      const result = isBindingAllowed(input, ast.bindings[0], errors);
+      const result = isBindingAllowed(input, ast.bindings[0], errors, ["path"]);
       expect(result).toBeFalse();
     });
     it("contains > after first key [false]", () => {
       const input = "{i18n>myTestModel}";
       const { ast, errors } = parseBinding(input);
-      const result = isBindingAllowed(input, ast.bindings[0], errors);
+      const result = isBindingAllowed(input, ast.bindings[0], errors, ["path"]);
       expect(result).toBeFalse();
     });
     it("contains / before first key [false]", () => {
       const input = "{/oData/path/to/some/dynamic/value}";
       const { ast, errors } = parseBinding(input);
-      const result = isBindingAllowed(input, ast.bindings[0], errors);
+      const result = isBindingAllowed(input, ast.bindings[0], errors, ["path"]);
       expect(result).toBeFalse();
     });
     it("contains / after first key [false]", () => {
       const input = "{/oData/path/to/some/dynamic/value}";
       const { ast, errors } = parseBinding(input);
-      const result = isBindingAllowed(input, ast.bindings[0], errors);
+      const result = isBindingAllowed(input, ast.bindings[0], errors, ["path"]);
       expect(result).toBeFalse();
     });
   });

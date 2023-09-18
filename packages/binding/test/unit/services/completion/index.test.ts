@@ -708,6 +708,16 @@ describe("index", () => {
           "label: {}; text: {$0}; kind:5; commit:undefined; sort:",
         ]);
       });
+      it("no CC for ui5 property which does not contain any property binding info key", async () => {
+        const snippet = `
+            <core:ComponentContainer id="test-id" name="a.b.name" url="/a/b"
+              settings='{${CURSOR_ANCHOR} AppMode: false, WidgetStyleClass: "ab"}' componentCreated=".extension.customer.a.b">
+            </core:ComponentContainer>`;
+        const result = await getCompletionResult(snippet);
+        expect(
+          result.map((item) => completionItemToSnapshot(item))
+        ).toStrictEqual([]);
+      });
     });
   });
 });

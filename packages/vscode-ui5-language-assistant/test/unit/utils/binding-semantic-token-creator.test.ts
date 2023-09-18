@@ -65,7 +65,7 @@ describe("binding-semantic-token-creator", () => {
       expect(result.filter((i) => i.tokenType === bracket).length).toEqual(4);
     });
     it("get semantics token for curly as value", async () => {
-      const content = getContent("{anyKey: {}}");
+      const content = getContent("{events: {}}");
       const result = await getSemanticTokens({ documentUri, content });
       const bracket = getTokenType(CustomSemanticToken.bracket);
       expect(result.filter((i) => i.tokenType === bracket).length).toEqual(4);
@@ -79,28 +79,28 @@ describe("binding-semantic-token-creator", () => {
       expect(semanticResult.length).toEqual(1);
     });
     it("get semantics token for number", async () => {
-      const content = getContent("{anyKey: 123}");
+      const content = getContent("{path: 123}");
       const result = await getSemanticTokens({ documentUri, content });
       const tokenType = getTokenType(SemanticTokenTypes.number);
       const semanticResult = result.filter((i) => i.tokenType === tokenType);
       expect(semanticResult.length).toEqual(1);
     });
     it("get semantics token for boolean", async () => {
-      const content = getContent("{anyKey: true}");
+      const content = getContent("{suspended: false}");
       const result = await getSemanticTokens({ documentUri, content });
       const tokenType = getTokenType(CustomSemanticToken.boolean);
       const semanticResult = result.filter((i) => i.tokenType === tokenType);
       expect(semanticResult.length).toEqual(1);
     });
     it("get semantics token for null", async () => {
-      const content = getContent("{anyKey: null}");
+      const content = getContent("{model: null}");
       const result = await getSemanticTokens({ documentUri, content });
       const tokenType = getTokenType(CustomSemanticToken.null);
       const semanticResult = result.filter((i) => i.tokenType === tokenType);
       expect(semanticResult.length).toEqual(1);
     });
     it("get semantics token for comma or colon [operator]", async () => {
-      const content = getContent("{anyKey: null, anyKey02: true}");
+      const content = getContent("{path: 'a/b', model: 'demo'}");
       const result = await getSemanticTokens({ documentUri, content });
       const tokenType = getTokenType(SemanticTokenTypes.operator);
       const semanticResult = result.filter((i) => i.tokenType === tokenType);

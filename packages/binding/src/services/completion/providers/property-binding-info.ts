@@ -18,6 +18,7 @@ import { createAllSupportedElements } from "./create-all-supported-elements";
 import { createKeyProperties } from "./create-key-properties";
 import { createValue } from "./create-value";
 import { createKeyValue } from "./create-key-value";
+import { PROPERTY_BINDING_INFO } from "./../../../constant";
 
 export const getCompletionItems = (
   context: BindContext,
@@ -62,6 +63,9 @@ export function propertyBindingInfoSuggestions({
   if (!ui5Property) {
     return completionItems;
   }
+  const propBinding = context.ui5Model.typedefs[PROPERTY_BINDING_INFO];
+  /* istanbul ignore next */
+  const properties = propBinding?.properties?.map((i) => i.name) ?? [];
   const value = attribute.syntax.value;
   const startChar = value && value.image.charAt(0);
   context.doubleQuotes = startChar === '"';
@@ -94,7 +98,7 @@ export function propertyBindingInfoSuggestions({
     if (!binding) {
       continue;
     }
-    if (!isBindingAllowed(text, binding, errors)) {
+    if (!isBindingAllowed(text, binding, errors, properties)) {
       continue;
     }
     completionItems.push(...getCompletionItems(context, binding, ast.spaces));

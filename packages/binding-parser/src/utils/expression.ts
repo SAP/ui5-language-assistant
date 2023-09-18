@@ -97,7 +97,7 @@ export const isMetadataPath = (
  *
  * a. is empty curly bracket e.g  `{}` or `{   }`
  *
- * b. has starting or closing curly bracket and key property with colon e.g `{anyKey: }` or `{"anyKey":}` or `{'anyKey':}`
+ * b. has starting or closing curly bracket and known properties with colon e.g `{anyKey: }` or `{"anyKey":}` or `{'anyKey':}`
  *
  * c. empty string [for initial code completion snippet]
  *
@@ -107,8 +107,9 @@ export const isMetadataPath = (
  */
 export const isBindingAllowed = (
   input: string,
-  binding?: StructureValue,
-  errors?: ParseResultErrors
+  binding: StructureValue,
+  errors: ParseResultErrors,
+  properties: string[]
 ): boolean => {
   // check empty string
   if (input.trim().length === 0) {
@@ -140,7 +141,7 @@ export const isBindingAllowed = (
   // check it has at least one key with colon
   const result = binding.elements.find(
     /* istanbul ignore next */
-    (item) => item.key?.text && item.colon?.text
+    (item) => properties.find((p) => p === item.key?.text) && item.colon?.text
   );
   if (result && binding.leftCurly && binding.leftCurly.text) {
     return true;

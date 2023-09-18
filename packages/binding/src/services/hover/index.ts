@@ -90,7 +90,7 @@ export const getHover = (
     if (text.trim().length === 0) {
       return;
     }
-
+    const properties = propBinding.properties.map((i) => i.name);
     const extractedText = extractBindingSyntax(text);
     for (const bindingSyntax of extractedText) {
       const { expression, startIndex } = bindingSyntax;
@@ -114,7 +114,7 @@ export const getHover = (
       if (!binding) {
         continue;
       }
-      if (!isBindingAllowed(text, binding, errors)) {
+      if (!isBindingAllowed(text, binding, errors, properties)) {
         continue;
       }
       return getHoverFromBinding(context, propBinding, binding);

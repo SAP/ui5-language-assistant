@@ -11,3 +11,5 @@ export function isBindingIssue<T extends { issueType: string }>(
 ): issue is BindingIssue {
   return issue.issueType === BINDING_ISSUE_TYPE;
 }
+
+export { AGGREGATION_BINDING_INFO, PROPERTY_BINDING_INFO } from "./constant";
