@@ -154,7 +154,8 @@ const buildType = (
 };
 
 export const getPropertyBindingInfoElements = (
-  context: BindContext
+  context: BindContext,
+  forHover = false
 ): PropertyBindingInfoElement[] => {
   const elements: PropertyBindingInfoElement[] = [];
   const propBinding = context.ui5Model.typedefs[PROPERTY_BINDING_INFO];
@@ -192,7 +193,7 @@ export const getPropertyBindingInfoElements = (
     elements.push({
       name: name,
       type: builtType,
-      documentation: getDocumentation(context, property),
+      documentation: getDocumentation(context, property, forHover),
     });
   }
   return elements;

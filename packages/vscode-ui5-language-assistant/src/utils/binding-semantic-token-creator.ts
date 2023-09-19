@@ -196,6 +196,7 @@ const walkAttributes = (
   attributes: XMLAttribute[]
 ): SemanticToken[] => {
   const semanticTokens: SemanticToken[] = [];
+  // todo - use `getPropertyBindingInfoElements` method or similar one, once fallback for aggregation binding is added
   const bindingInfo =
     context.ui5Model.typedefs[PROPERTY_BINDING_INFO] ??
     context.ui5Model.typedefs[AGGREGATION_BINDING_INFO];

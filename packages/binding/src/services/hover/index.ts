@@ -11,14 +11,12 @@ import {
   BindingParserTypes,
 } from "@ui5-language-assistant/binding-parser";
 import { Position } from "vscode-languageserver-types";
-import { BindContext } from "../../types";
-import { PROPERTY_BINDING_INFO } from "../../constant";
-import { getDocumentation } from "../../utils";
-import { UI5Typedef } from "@ui5-language-assistant/semantic-model-types";
+import { BindContext, PropertyBindingInfoElement } from "../../types";
+import { getPropertyBindingInfoElements } from "../../definition/definition";
 
 const getHoverFromBinding = (
   context: BindContext,
-  propertyBinding: UI5Typedef,
+  propertyBinding: PropertyBindingInfoElement[],
   binding: BindingParserTypes.StructureValue
 ): Hover | undefined => {
   let hover: Hover | undefined;
@@ -43,11 +41,11 @@ const getHoverFromBinding = (
         })
       ) {
         // check valid key
-        const property = propertyBinding.properties.find(
+        const property = propertyBinding.find(
           (prop) => prop.name === element.key?.originalText
         );
         if (property) {
-          return { contents: getDocumentation(context, property, true) };
+          return { contents: property.documentation };
         }
       }
 
@@ -73,10 +71,6 @@ export const getHover = (
   attribute: XMLAttribute
 ): Hover | undefined => {
   try {
-    const propBinding = context.ui5Model.typedefs[PROPERTY_BINDING_INFO];
-    if (!propBinding) {
-      return;
-    }
     const ui5Property = getUI5PropertyByXMLAttributeKey(
       attribute,
       context.ui5Model
@@ -90,7 +84,8 @@ export const getHover = (
     if (text.trim().length === 0) {
       return;
     }
-    const properties = propBinding.properties.map((i) => i.name);
+    const propBinding = getPropertyBindingInfoElements(context, true);
+    const properties = propBinding.map((i) => i.name);
     const extractedText = extractBindingSyntax(text);
     for (const bindingSyntax of extractedText) {
       const { expression, startIndex } = bindingSyntax;
