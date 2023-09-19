@@ -55,6 +55,23 @@ describe("property-binding-info-validator", () => {
     const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([]);
   });
+  it("do not check if ui5object has truthy value", async () => {
+    const snippet = `
+      <Text text="{ui5object: true, path: }" id="test-id"></Text>`; // here path: has no value, no diagnostic report
+    const result = await validateView(snippet);
+    expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([]);
+  });
+
+  ["null", `''`, "0", "false"].forEach((value) => {
+    it(`check if ui5object has false value: ${value}`, async () => {
+      const snippet = `
+          <Text text="{ui5object: ${value}, path: }" id="test-id"></Text>`;
+      const result = await validateView(snippet);
+      expect(result.map((item) => issueToSnapshot(item))).toMatchSnapshot(
+        value
+      );
+    });
+  });
   it("do not check empty string", async () => {
     const snippet = `
     <Text text="" id="test-id"></Text>`;

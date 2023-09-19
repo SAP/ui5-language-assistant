@@ -718,6 +718,25 @@ describe("index", () => {
           result.map((item) => completionItemToSnapshot(item))
         ).toStrictEqual([]);
       });
+      it("no CC if ui5object has truthy value", async () => {
+        const snippet = `
+          <Text text="{ui5object: true, path:${CURSOR_ANCHOR}}" id="test-id"></Text>`;
+        const result = await getCompletionResult(snippet);
+        expect(
+          result.map((item) => completionItemToSnapshot(item))
+        ).toStrictEqual([]);
+      });
+
+      ["null", `''`, "0", "false"].forEach((value) => {
+        it(`check if ui5object has false value: ${value}`, async () => {
+          const snippet = `
+          <Text text="{ui5object: ${value}, path:${CURSOR_ANCHOR} }" id="test-id"></Text>`;
+          const result = await getCompletionResult(snippet);
+          expect(
+            result.map((item) => completionItemToSnapshot(item))
+          ).toMatchSnapshot(value);
+        });
+      });
     });
   });
 });

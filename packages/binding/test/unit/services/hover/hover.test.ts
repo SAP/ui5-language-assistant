@@ -56,6 +56,14 @@ describe("hover/index", () => {
       const result = await getHover(snippet);
       expect(result).toMatchSnapshot();
     });
+    ["null", `''`, "0", "false"].forEach((value) => {
+      it(`on key if ui5object has false value: ${value}`, async () => {
+        const snippet = `
+          <Text text="{ui5object: ${value}, pa${CURSOR_ANCHOR}th:'some-value' }" id="test-id"></Text>`;
+        const result = await getHover(snippet);
+        expect(result).toMatchSnapshot(value);
+      });
+    });
   });
   describe("no hover result", () => {
     it("check on value", async () => {
@@ -125,6 +133,12 @@ describe("hover/index", () => {
       const snippet = `
         <Text text="{pa${CURSOR_ANCHOR}rts: ['some-value']}"></Text>
      `;
+      const result = await getHover(snippet, false, true);
+      expect(result).toBeUndefined();
+    });
+    it("on key if ui5object has truthy value", async () => {
+      const snippet = `
+          <Text text="{ui5object: true, pa${CURSOR_ANCHOR}th:'some-value' }" id="test-id"></Text>`;
       const result = await getHover(snippet, false, true);
       expect(result).toBeUndefined();
     });

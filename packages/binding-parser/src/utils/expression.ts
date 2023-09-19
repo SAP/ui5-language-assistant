@@ -1,3 +1,4 @@
+import { isPrimitiveValue } from "../api";
 import { ExtractBindingSyntax } from "../types";
 import type {
   ParseResultErrors,
@@ -136,6 +137,18 @@ export const isBindingAllowed = (
     binding.elements.length === 0
   ) {
     // check empty curly brackets
+    return true;
+  }
+  // check if `ui5object` has a truthy value.
+  const ui5Obj = binding.elements.find((i) => i.key?.text === "ui5object");
+  if (ui5Obj && isPrimitiveValue(ui5Obj.value)) {
+    // if truthy value [not false value], it is not a binding expression
+    if (!["null", `''`, `""`, "0", "false"].includes(ui5Obj.value.text)) {
+      return false;
+    }
+  }
+  // check if only `ui5object` - show code completion
+  if (ui5Obj && binding.elements.length === 1) {
     return true;
   }
   // check it has at least one key with colon
