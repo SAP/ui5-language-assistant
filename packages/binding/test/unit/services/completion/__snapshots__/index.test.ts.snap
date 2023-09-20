@@ -1,5 +1,29 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`index getCompletionItems multiple binding check if ui5object has false value: '': '' 1`] = `
+Array [
+  "label: ''; text: '$0'; kind:5; commit:undefined; sort:",
+]
+`;
+
+exports[`index getCompletionItems multiple binding check if ui5object has false value: 0: 0 1`] = `
+Array [
+  "label: ''; text: '$0'; kind:5; commit:undefined; sort:",
+]
+`;
+
+exports[`index getCompletionItems multiple binding check if ui5object has false value: false: false 1`] = `
+Array [
+  "label: ''; text: '$0'; kind:5; commit:undefined; sort:",
+]
+`;
+
+exports[`index getCompletionItems multiple binding check if ui5object has false value: null: null 1`] = `
+Array [
+  "label: ''; text: '$0'; kind:5; commit:undefined; sort:",
+]
+`;
+
 exports[`index getCompletionItems provides CC for empty [with documentation] 1`] = `
 Array [
   "label: path; text: path: '$0'; kind:15; commit:undefined; sort:; documentation: kind:markdown,value:\`(typedef) sap.ui.base.ManagedObject.PropertyBindingInfo\`

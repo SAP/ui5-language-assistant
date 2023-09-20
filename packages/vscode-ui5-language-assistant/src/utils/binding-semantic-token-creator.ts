@@ -11,6 +11,10 @@ import {
   parseBinding,
   BindingParserTypes as bindingTypes,
 } from "@ui5-language-assistant/binding-parser";
+import {
+  PROPERTY_BINDING_INFO,
+  AGGREGATION_BINDING_INFO,
+} from "@ui5-language-assistant/binding";
 import { parse, DocumentCstNode } from "@xml-tools/parser";
 import {
   getUI5NodeByXMLAttribute,
@@ -192,6 +196,12 @@ const walkAttributes = (
   attributes: XMLAttribute[]
 ): SemanticToken[] => {
   const semanticTokens: SemanticToken[] = [];
+  // todo - use `getPropertyBindingInfoElements` method or similar one, once fallback for aggregation binding is added
+  const bindingInfo =
+    context.ui5Model.typedefs[PROPERTY_BINDING_INFO] ??
+    context.ui5Model.typedefs[AGGREGATION_BINDING_INFO];
+  /* istanbul ignore next */
+  const properties = bindingInfo?.properties?.map((i) => i.name) ?? [];
   for (const attr of attributes) {
     const ui5Node = getUI5NodeByXMLAttribute(attr, context.ui5Model);
     if (!ui5Node) {
@@ -213,7 +223,7 @@ const walkAttributes = (
       };
       const { ast, errors } = parseBinding(expression, position);
       for (const binding of ast.bindings) {
-        if (!isBindingAllowed(expression, binding, errors)) {
+        if (!isBindingAllowed(expression, binding, errors, properties)) {
           continue;
         }
         semanticTokens.push(...getSemanticToken(binding));

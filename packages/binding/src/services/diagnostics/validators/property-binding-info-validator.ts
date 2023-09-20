@@ -2,7 +2,7 @@ import { XMLAttribute } from "@xml-tools/ast";
 import { Context } from "@ui5-language-assistant/context";
 import { getUI5PropertyByXMLAttributeKey } from "@ui5-language-assistant/logic-utils";
 import { BindingIssue } from "../../../types";
-import { BINDING_ISSUE_TYPE } from "../../../constant";
+import { BINDING_ISSUE_TYPE, PROPERTY_BINDING_INFO } from "../../../constant";
 import { getLogger } from "../../../utils";
 import { Position } from "vscode-languageserver-types";
 import {
@@ -27,7 +27,8 @@ export function validatePropertyBindingInfo(
     if (!ui5Property) {
       return [];
     }
-
+    const propBinding = context.ui5Model.typedefs[PROPERTY_BINDING_INFO];
+    const properties = propBinding.properties.map((i) => i.name);
     const value = attribute.syntax.value;
     const text = attribute.value ?? "";
     const startChar = value?.image.charAt(0);
@@ -49,7 +50,7 @@ export function validatePropertyBindingInfo(
       };
       const { ast, errors } = parseBinding(expression, position);
       for (const binding of ast.bindings) {
-        if (!isBindingAllowed(expression, binding, errors)) {
+        if (!isBindingAllowed(expression, binding, errors, properties)) {
           continue;
         }
 

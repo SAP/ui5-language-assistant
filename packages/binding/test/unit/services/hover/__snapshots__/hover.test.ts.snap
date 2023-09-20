@@ -23,6 +23,82 @@ If a part is not specified as a binding info object but as a simple string, a bi
 }
 `;
 
+exports[`hover/index hover result on key if ui5object has false value: '': '' 1`] = `
+Object {
+  "contents": Object {
+    "kind": "markdown",
+    "value": "\`(typedef) sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+---
+
+**Type:** String
+
+**Description:** Path in the model to bind to, either an absolute path or relative to the binding context for the corresponding model; when the path contains a '&gt;' sign, the string preceding it will override the <code>model</code> property and the remainder after the '&gt;' will be used as binding path
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+  },
+}
+`;
+
+exports[`hover/index hover result on key if ui5object has false value: 0: 0 1`] = `
+Object {
+  "contents": Object {
+    "kind": "markdown",
+    "value": "\`(typedef) sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+---
+
+**Type:** String
+
+**Description:** Path in the model to bind to, either an absolute path or relative to the binding context for the corresponding model; when the path contains a '&gt;' sign, the string preceding it will override the <code>model</code> property and the remainder after the '&gt;' will be used as binding path
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+  },
+}
+`;
+
+exports[`hover/index hover result on key if ui5object has false value: false: false 1`] = `
+Object {
+  "contents": Object {
+    "kind": "markdown",
+    "value": "\`(typedef) sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+---
+
+**Type:** String
+
+**Description:** Path in the model to bind to, either an absolute path or relative to the binding context for the corresponding model; when the path contains a '&gt;' sign, the string preceding it will override the <code>model</code> property and the remainder after the '&gt;' will be used as binding path
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+  },
+}
+`;
+
+exports[`hover/index hover result on key if ui5object has false value: null: null 1`] = `
+Object {
+  "contents": Object {
+    "kind": "markdown",
+    "value": "\`(typedef) sap.ui.base.ManagedObject.PropertyBindingInfo\`
+
+---
+
+**Type:** String
+
+**Description:** Path in the model to bind to, either an absolute path or relative to the binding context for the corresponding model; when the path contains a '&gt;' sign, the string preceding it will override the <code>model</code> property and the remainder after the '&gt;' will be used as binding path
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+  },
+}
+`;
+
 exports[`hover/index hover result on key inside collection 1`] = `
 Object {
   "contents": Object {

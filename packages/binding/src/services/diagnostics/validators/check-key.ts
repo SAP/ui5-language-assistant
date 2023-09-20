@@ -24,6 +24,9 @@ export const checkKey = (
   const bindingElement = getPropertyBindingInfoElements(context).find(
     (el) => el.name === text
   );
+  if (text === "ui5object") {
+    return issues;
+  }
   if (!bindingElement) {
     issues.push({
       issueType: BINDING_ISSUE_TYPE,

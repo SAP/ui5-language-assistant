@@ -45,6 +45,33 @@ describe("property-binding-info-validator", () => {
       validatePropertyBindingInfo
     );
   });
+  // issue link: https://github.com/SAP/ui5-language-assistant/issues/652
+  it("do not check ui5 property which does not contain any property binding info key", async () => {
+    const snippet = `
+   	<core:ComponentContainer id="test-id" name="a.b.name" url="/a/b"
+      settings='{AppMode: false, WidgetStyleClass: "ab"}' componentCreated=".extension.customer.a.b">
+    </core:ComponentContainer>
+    `;
+    const result = await validateView(snippet);
+    expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([]);
+  });
+  it("do not check if ui5object has truthy value", async () => {
+    const snippet = `
+      <Text text="{ui5object: true, path: }" id="test-id"></Text>`; // here path: has no value, no diagnostic report
+    const result = await validateView(snippet);
+    expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([]);
+  });
+
+  ["null", `''`, "0", "false"].forEach((value) => {
+    it(`check if ui5object has false value: ${value}`, async () => {
+      const snippet = `
+          <Text text="{ui5object: ${value}, path: }" id="test-id"></Text>`;
+      const result = await validateView(snippet);
+      expect(result.map((item) => issueToSnapshot(item))).toMatchSnapshot(
+        value
+      );
+    });
+  });
   it("do not check empty string", async () => {
     const snippet = `
     <Text text="" id="test-id"></Text>`;
