@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.38
+
+### Patch Changes
+
+- 1a1115e: fix: check binding expression only if it has at least one known property
+
 ## 4.0.37
 
 ### Patch Changes

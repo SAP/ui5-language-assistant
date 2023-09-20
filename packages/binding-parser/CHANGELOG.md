@@ -1,5 +1,11 @@
 # @ui5-language-assistant/binding-parser
 
+## 1.0.5
+
+### Patch Changes
+
+- 1a1115e: fix: check binding expression only if it has at least one known property
+
 ## 1.0.4
 
 ### Patch Changes
