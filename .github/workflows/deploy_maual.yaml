@@ -18,6 +18,11 @@ jobs:
         with:
           node-version: 14
 
+      - name: Run install
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: install # will run `yarn install` command
+
       - name: Download latest released artifact
         uses: robinraju/release-downloader@v1.7
         with:
