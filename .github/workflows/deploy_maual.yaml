@@ -7,16 +7,16 @@ on:
 jobs:
   deploy-npm:
     if: github.repository == 'SAP/ui5-language-assistant' && github.ref == 'refs/heads/master'
-    runs-on: [ubuntu-latest]
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node-version: [14.x]
+    runs-on: ${{ matrix.os }}
+
 
     steps:
       - name: Checkout code repository
         uses: actions/checkout@v3
-
-      - name: Setup node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 14
 
       - name: Run install
         uses: borales/actions-yarn@v4

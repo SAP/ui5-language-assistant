@@ -59,7 +59,11 @@ jobs:
   version:
     # Run version job only on pushes to the main branch. The job depends on completion of the build job.
     if: github.repository == 'SAP/ui5-language-assistant' && github.event_name == 'push' && github.ref == 'refs/heads/master'
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node-version: [14.x]
+    runs-on: ${{ matrix.os }}
     needs: [build, compliance]
     outputs:
       changes: ${{ steps.changesetVersion.outputs.changes }} # map step output to job output
@@ -70,10 +74,6 @@ jobs:
         with:
           fetch-depth: 0
           token: ${{ secrets.ACCESS_PAT }} # needed to auto trigger release job
-      - name: Setup node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 14
 
       - name: Run install
         uses: borales/actions-yarn@v4
