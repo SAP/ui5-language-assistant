@@ -1,5 +1,12 @@
 # Change Log
 
+## 4.0.39
+
+### Patch Changes
+
+- 850746d: use fix lerna version
+- 650f3b8: Github actions workflow fix, lerna version rollback
+
 ## 4.0.38
 
 ### Patch Changes
