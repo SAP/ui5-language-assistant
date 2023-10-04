@@ -5,7 +5,7 @@ import {
 } from "vscode-languageserver-types";
 import { BindingParserTypes as BindingTypes } from "@ui5-language-assistant/binding-parser";
 
-import { getPropertyBindingInfoElements } from "../../../definition/definition";
+import { getBindingElements } from "../../../definition/definition";
 import { typesToValue } from "../../../utils";
 import { BindContext, ValueContext } from "../../../types";
 import { createDefaultValue } from "./create-default-value";
@@ -14,18 +14,23 @@ import { createCollectionValue } from "./create-collection-value";
 export const createValue = (
   context: BindContext,
   spaces: BindingTypes.WhiteSpaces[],
-  valueContext: ValueContext
+  valueContext: ValueContext,
+  aggregation = false
 ): CompletionItem[] => {
   const completionItems: CompletionItem[] = [];
   const { element } = valueContext;
   const text = element.key && element.key.text;
-  const bindingElement = getPropertyBindingInfoElements(context).find(
+  const bindingElement = getBindingElements(context, aggregation).find(
     (el) => el.name === text
   );
   if (!element.value) {
     // if value is missing, provide a value
     if (bindingElement) {
-      const data = typesToValue(bindingElement.type, context, 0);
+      const data = typesToValue({
+        types: bindingElement.type,
+        context,
+        tabStop: 0,
+      });
       data.forEach((item) => {
         completionItems.push({
           label: item.replace(/\$\d+/g, ""),

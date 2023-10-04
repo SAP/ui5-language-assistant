@@ -1,4 +1,4 @@
-import { getPropertyBindingInfoElements } from "../../../definition/definition";
+import { getBindingElements } from "../../../definition/definition";
 import { BindContext, ValueContext } from "../../../types";
 import { getPropertyTypeWithPossibleValue } from "../../../utils";
 import {
@@ -28,7 +28,7 @@ export const createDefaultValue = (
   const completionItems: CompletionItem[] = [];
   const { element } = valueContext;
   const text = element.key?.text;
-  const bindingElement = getPropertyBindingInfoElements(context).find(
+  const bindingElement = getBindingElements(context).find(
     (el) => el.name === text
   );
   const bindingType = getPropertyTypeWithPossibleValue(element, bindingElement);

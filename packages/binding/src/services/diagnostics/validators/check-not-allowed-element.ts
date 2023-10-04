@@ -6,7 +6,7 @@ import {
 } from "../../../types";
 import { BindingParserTypes as BindingTypes } from "@ui5-language-assistant/binding-parser";
 import { findRange } from "../../../utils";
-import { getPropertyBindingInfoElements } from "../../../definition/definition";
+import { getBindingElements } from "../../../definition/definition";
 
 const search = (
   context: BindContext,
@@ -22,7 +22,7 @@ const search = (
   if (alreadyCollected) {
     return [];
   }
-  const propInfoElement = getPropertyBindingInfoElements(context).find(
+  const propInfoElement = getBindingElements(context).find(
     (i) => i.name === key
   );
   if (!propInfoElement) {

@@ -12,25 +12,25 @@ import {
   rangeContained,
 } from "@ui5-language-assistant/binding-parser";
 
-import { getPropertyBindingInfoElements } from "../../../definition/definition";
+import { getBindingElements } from "../../../definition/definition";
 import { isParts, typesToValue } from "../../../utils";
-import { getCompletionItems } from "./property-binding-info";
+import { getCompletionItems } from "./binding";
 import { BindContext, ValueContext } from "../../../types";
 
 const getCollectionCompletionItem = (
   context: BindContext,
   element: BindingTypes.StructureElement
 ): CompletionItem[] => {
-  const bindingElement = getPropertyBindingInfoElements(context).find(
+  const bindingElement = getBindingElements(context).find(
     (el) => el.name === (element.key && element.key.text)
   );
-  const data = typesToValue(
+  const data = typesToValue({
     /* istanbul ignore next */
-    bindingElement?.type ?? [],
+    types: bindingElement?.type ?? [],
     context,
-    0,
-    true
-  );
+    tabStop: 0,
+    collectionValue: true,
+  });
   return data.map((item) => ({
     label: item.replace(/\$\d+/g, ""),
     insertTextFormat: InsertTextFormat.Snippet,

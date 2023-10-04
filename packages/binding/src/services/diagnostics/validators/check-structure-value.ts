@@ -4,7 +4,7 @@ import {
   BindingParserTypes as BindingTypes,
 } from "@ui5-language-assistant/binding-parser";
 import { checkAst } from "./issue-collector";
-import { getPropertyBindingInfoElements } from "../../../definition/definition";
+import { getBindingElements } from "../../../definition/definition";
 import { findRange, typesToValue, valueTypeMap } from "../../../utils";
 
 /**
@@ -20,6 +20,7 @@ export const checkStructureValue = (
     parse: BindingTypes.ParseError[];
     lexer: BindingTypes.LexerError[];
   },
+  aggregation = false,
   ignore = false
 ): BindingIssue[] => {
   const issues: BindingIssue[] = [];
@@ -27,7 +28,7 @@ export const checkStructureValue = (
   if (isStructureValue(value)) {
     if (!ignore) {
       const text = element.key && element.key.text;
-      const bindingElement = getPropertyBindingInfoElements(context).find(
+      const bindingElement = getBindingElements(context, aggregation).find(
         (el) => el.name === text
       );
       if (!bindingElement) {
@@ -39,7 +40,11 @@ export const checkStructureValue = (
       );
       // check if that element is allowed to have structure value
       if (!elementSpecificType || elementSpecificType.collection) {
-        const data = typesToValue(bindingElement.type, context);
+        const data = typesToValue({
+          types: bindingElement.type,
+          context,
+          forDiagnostic: true,
+        });
         /* istanbul ignore next */
         const message = `Allowed value${
           data.length > 1 ? "s are" : " is"
@@ -56,7 +61,7 @@ export const checkStructureValue = (
     }
 
     // check its content - recursive call
-    issues.push(...checkAst(context, value, errors, true));
+    issues.push(...checkAst(context, value, errors, aggregation, true));
   }
   return issues;
 };

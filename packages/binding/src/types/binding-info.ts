@@ -5,6 +5,8 @@ import {
 } from "vscode-languageserver-protocol";
 
 export enum TypeKind {
+  "integer" = "integer",
+  "Integer" = "integer",
   "string" = "string",
   "String" = "string",
   "function" = "string",
@@ -16,21 +18,33 @@ export enum TypeKind {
   "PropertyBindingInfo" = "object",
 }
 export enum BindingInfoName {
-  "path" = "path",
-  "value" = "value",
-  "model" = "model",
-  "suspended" = "suspended",
-  "formatter" = "formatter",
-  "useRawValues" = "useRawValues",
-  "useInternalValues" = "useInternalValues",
-  "type" = "type",
-  "targetType" = "targetType",
-  "constraints" = "constraints",
-  "mode" = "mode",
-  "parameters" = "parameters",
-  "events" = "events",
-  "parts" = "parts",
-  "formatOptions" = "formatOptions",
+  // common between PropertyBindingInfo and AggregationBindingInfo
+  events = "events",
+  model = "model",
+  path = "path",
+  parameters = "parameters",
+  suspended = "suspended",
+  // PropertyBindingInfo only
+  constraints = "constraints",
+  formatter = "formatter",
+  formatOptions = "formatOptions",
+  mode = "mode",
+  parts = "parts",
+  type = "type",
+  targetType = "targetType",
+  useRawValues = "useRawValues",
+  useInternalValues = "useInternalValues",
+  value = "value",
+  // AggregationBindingInfo only
+  factory = "factory",
+  filters = "filters",
+  groupHeaderFactory = "groupHeaderFactory",
+  key = "key",
+  length = "length",
+  sorter = "sorter",
+  startIndex = "startIndex",
+  template = "template",
+  templateShareable = "templateShareable",
 }
 export interface Dependents {
   name: BindingInfoName;
@@ -46,8 +60,8 @@ export interface PropertyType {
   notAllowedElements: BindingInfoName[];
   collection?: boolean;
 }
-export interface PropertyBindingInfoElement {
-  name: BindingInfoName;
+export interface BindingInfoElement {
+  name: string;
   type: PropertyType[];
   documentation: {
     kind: MarkupKind;
@@ -58,4 +72,9 @@ export interface PropertyBindingInfoElement {
 export interface BindContext extends Context {
   textDocumentPosition?: TextDocumentPositionParams;
   doubleQuotes?: boolean;
+}
+
+export enum ClassName {
+  "Sorter" = "Sorter",
+  "Filter" = "Filter",
 }

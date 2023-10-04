@@ -5,15 +5,18 @@ import {
 import { BindContext } from "../types";
 import { MarkupKind } from "vscode-languageserver-types";
 import { ui5NodeToFQN, getLink } from "@ui5-language-assistant/logic-utils";
-import { PROPERTY_BINDING_INFO } from "../constant";
+import { PROPERTY_BINDING_INFO, AGGREGATION_BINDING_INFO } from "../constant";
 
 const getType = (type: UI5Type | undefined): string[] => {
   const result: string[] = [];
   if (!type) {
     return result;
   }
-
-  const unionType: string[] = [];
+  const collectionType: string[] = [];
+  const noneCollectionType: string[] = [];
+  let collectionResult = "";
+  let noneColResult = "";
+  const data: string[] = [];
   switch (type.kind) {
     case "PrimitiveType":
       result.push(type.name);
@@ -24,12 +27,26 @@ const getType = (type: UI5Type | undefined): string[] => {
       result.push(ui5NodeToFQN(type));
       break;
     case "UnionType":
-      type.types.forEach((i) => unionType.push(...getType(i)));
-      if (type.collection) {
-        result.push(`Array<(${unionType.join(" | ")}>)`);
-      } else {
-        result.push(unionType.join(" | "));
+      type.types.forEach((i) => {
+        if (i.kind === "ArrayType") {
+          collectionType.push(...getType(i.type));
+        } else {
+          noneCollectionType.push(...getType(i));
+        }
+      });
+      collectionResult =
+        collectionType.length > 0
+          ? `Array<(${collectionType.join(" | ")})>`
+          : "";
+      noneColResult = noneCollectionType.join(" | ");
+      if (collectionResult) {
+        data.push(collectionResult);
       }
+      if (noneColResult) {
+        data.push(noneColResult);
+      }
+
+      result.push(data.join(" | "));
       break;
     case "ArrayType":
       if (type.type?.kind === "UI5Typedef") {
@@ -43,14 +60,18 @@ const getType = (type: UI5Type | undefined): string[] => {
 export const getDocumentation = (
   context: BindContext,
   prop: UI5TypedefProp,
+  aggregation = false,
   forHover = false
 ): {
   kind: MarkupKind;
   value: string;
 } => {
-  const link = getLink(context.ui5Model, PROPERTY_BINDING_INFO);
+  const binding = aggregation
+    ? AGGREGATION_BINDING_INFO
+    : PROPERTY_BINDING_INFO;
+  const link = getLink(context.ui5Model, binding);
   const values: string[] = [
-    `\`(typedef) ${PROPERTY_BINDING_INFO}\``,
+    `\`(typedef) ${binding}\``,
     forHover ? `---` : "",
     `**Type:** ${getType(prop.type)}`,
     `**Description:** ${prop.description}`,

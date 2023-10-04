@@ -219,7 +219,7 @@ const collectUnionType = ({
     .map((i) =>
       resolveType({
         model,
-        type: i,
+        type: collection ? `${i}[]` : i,
         typeNameFix,
         strict,
         typedef,
@@ -228,7 +228,6 @@ const collectUnionType = ({
     .filter(noUndefined);
   return {
     kind: "UnionType",
-    collection,
     types: innerType,
   };
 };
@@ -319,17 +318,17 @@ export function resolveType({
       type: innerType,
     };
   } else if (typeName.endsWith("[]")) {
-    const innerTypeName = typeName.substring(0, typeName.length - "[]".length);
-    if (innerTypeName.indexOf("|") !== -1) {
+    if (typeName.indexOf("|") !== -1) {
       return collectUnionType({
         model,
-        type: innerTypeName,
+        type: typeName,
         typeNameFix,
         strict,
-        collection: true,
+        collection: false,
         typedef,
       });
     }
+    const innerTypeName = typeName.substring(0, typeName.length - "[]".length);
     const innerType = resolveType({
       model,
       type: innerTypeName,
@@ -348,6 +347,15 @@ export function resolveType({
       typeNameFix,
       strict,
       collection: false,
+      typedef,
+    });
+  } else if (typeName.indexOf("function") !== -1) {
+    const t = typeName.slice(typeName.indexOf("function"), "function".length);
+    return resolveType({
+      model,
+      type: t,
+      strict,
+      typeNameFix,
       typedef,
     });
   } else {
@@ -378,7 +386,7 @@ const apiJsonTypeToModelType: Record<string, PrimitiveTypeName> = {
 };
 
 function getPrimitiveTypeName(typeName: string): PrimitiveTypeName | undefined {
-  return apiJsonTypeToModelType[typeName];
+  return apiJsonTypeToModelType[typeName]; // function(string,sap.ui.model.Context) : sap.ui.base.ManagedObject
 }
 
 // These types don't have any specific type information

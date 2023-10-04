@@ -1,15 +1,16 @@
 import { BindingParserTypes as BindingTypes } from "@ui5-language-assistant/binding-parser";
 import { findRange } from "../../../utils";
-import { getPropertyBindingInfoElements } from "../../../definition/definition";
+import { getBindingElements } from "../../../definition/definition";
 import { BindContext, BindingIssue, BINDING_ISSUE_TYPE } from "../../../types";
 
 export const checkDependents = (
   context: BindContext,
-  binding: BindingTypes.StructureValue
+  binding: BindingTypes.StructureValue,
+  aggregation = false
 ): BindingIssue[] => {
   const issues: BindingIssue[] = [];
   // collect all definition which has dependencies
-  const dependentElements = getPropertyBindingInfoElements(context).filter(
+  const dependentElements = getBindingElements(context, aggregation).filter(
     (item) => item.type.find((i) => i.dependents.length > 0)
   );
   for (const dep of dependentElements) {

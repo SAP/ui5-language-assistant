@@ -1,4 +1,4 @@
-import { getPropertyBindingInfoElements } from "../../../definition/definition";
+import { getBindingElements } from "../../../definition/definition";
 import { BindingIssue, BINDING_ISSUE_TYPE, BindContext } from "../../../types";
 import { BindingParserTypes as BindingTypes } from "@ui5-language-assistant/binding-parser";
 import { findRange } from "../../../utils";
@@ -7,7 +7,8 @@ import { findRange } from "../../../utils";
  */
 export const checkKey = (
   context: BindContext,
-  element: BindingTypes.StructureElement
+  element: BindingTypes.StructureElement,
+  aggregation = false
 ): BindingIssue[] => {
   const issues: BindingIssue[] = [];
   if (!element.key) {
@@ -21,7 +22,7 @@ export const checkKey = (
     return issues;
   }
   const text = element.key && element.key.text;
-  const bindingElement = getPropertyBindingInfoElements(context).find(
+  const bindingElement = getBindingElements(context, aggregation).find(
     (el) => el.name === text
   );
   if (text === "ui5object") {

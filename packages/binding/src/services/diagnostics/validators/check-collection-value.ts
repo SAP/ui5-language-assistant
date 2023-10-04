@@ -7,7 +7,7 @@ import {
 } from "@ui5-language-assistant/binding-parser";
 import { checkAst } from "./issue-collector";
 import { getPrimitiveValueIssues } from "./check-primitive-value";
-import { getPropertyBindingInfoElements } from "../../../definition/definition";
+import { getBindingElements } from "../../../definition/definition";
 import { isParts, typesToValue, findRange } from "../../../utils";
 import { checkComma } from "./check-comma";
 import { checkBrackets } from "./check-brackets";
@@ -25,6 +25,7 @@ export const checkCollectionValue = (
     parse: BindingTypes.ParseError[];
     lexer: BindingTypes.LexerError[];
   },
+  aggregation = false,
   ignore = false
 ): BindingIssue[] => {
   const issues: BindingIssue[] = [];
@@ -41,7 +42,9 @@ export const checkCollectionValue = (
       const item = elements[index];
       const nextItem = elements[index + 1];
       if (isStructureValue(item)) {
-        issues.push(...checkAst(context, item, errors, !isParts(element)));
+        issues.push(
+          ...checkAst(context, item, errors, aggregation, !isParts(element))
+        );
       }
       if (isPrimitiveValue(item)) {
         issues.push(...getPrimitiveValueIssues(context, item, undefined, true));
@@ -52,7 +55,7 @@ export const checkCollectionValue = (
   }
   // check if that element is allowed to have collection value
   const text = element.key && element.key.text;
-  const bindingElement = getPropertyBindingInfoElements(context).find(
+  const bindingElement = getBindingElements(context, aggregation).find(
     (el) => el.name === text
   );
 
@@ -62,7 +65,11 @@ export const checkCollectionValue = (
   }
   const collectionItem = bindingElement.type.find((item) => item.collection);
   if (!collectionItem) {
-    const data = typesToValue(bindingElement.type, context, undefined);
+    const data = typesToValue({
+      types: bindingElement.type,
+      context,
+      forDiagnostic: true,
+    });
     /* istanbul ignore next */
     const message = `Allowed value${
       data.length > 1 ? "s are" : " is"
@@ -78,7 +85,12 @@ export const checkCollectionValue = (
   }
 
   if (elements.length === 0) {
-    const data = typesToValue(bindingElement.type, context, undefined, true);
+    const data = typesToValue({
+      types: bindingElement.type,
+      context,
+      collectionValue: true,
+      forDiagnostic: true,
+    });
     const message = `Required value${data.length > 1 ? "s" : ""} ${data.join(
       " or "
     )} must be provided`;
@@ -105,7 +117,9 @@ export const checkCollectionValue = (
           severity: "error",
         });
       } else {
-        issues.push(...checkAst(context, item, errors, !isParts(element)));
+        issues.push(
+          ...checkAst(context, item, errors, aggregation, !isParts(element))
+        );
       }
     }
     if (isCollectionValue(item) && isParts(element)) {

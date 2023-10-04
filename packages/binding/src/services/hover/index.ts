@@ -1,5 +1,8 @@
 import { XMLAttribute } from "@xml-tools/ast";
-import { getUI5PropertyByXMLAttributeKey } from "@ui5-language-assistant/logic-utils";
+import {
+  getUI5PropertyByXMLAttributeKey,
+  getUI5AggregationByXMLAttributeKey,
+} from "@ui5-language-assistant/logic-utils";
 import { getLogger } from "../../utils";
 import { Hover } from "vscode-languageserver";
 import {
@@ -11,12 +14,12 @@ import {
   BindingParserTypes,
 } from "@ui5-language-assistant/binding-parser";
 import { Position } from "vscode-languageserver-types";
-import { BindContext, PropertyBindingInfoElement } from "../../types";
-import { getPropertyBindingInfoElements } from "../../definition/definition";
+import { BindContext, BindingInfoElement } from "../../types";
+import { getBindingElements } from "../../definition/definition";
 
 const getHoverFromBinding = (
   context: BindContext,
-  propertyBinding: PropertyBindingInfoElement[],
+  propertyBinding: BindingInfoElement[],
   binding: BindingParserTypes.StructureValue
 ): Hover | undefined => {
   let hover: Hover | undefined;
@@ -75,7 +78,11 @@ export const getHover = (
       attribute,
       context.ui5Model
     );
-    if (!ui5Property) {
+    const ui5Aggregation = getUI5AggregationByXMLAttributeKey(
+      attribute,
+      context.ui5Model
+    );
+    if (!ui5Property && !ui5Aggregation) {
       return;
     }
     const value = attribute.syntax.value;
@@ -84,7 +91,7 @@ export const getHover = (
     if (text.trim().length === 0) {
       return;
     }
-    const propBinding = getPropertyBindingInfoElements(context, true);
+    const propBinding = getBindingElements(context, !!ui5Aggregation, true);
     const properties = propBinding.map((i) => i.name);
     const extractedText = extractBindingSyntax(text);
     for (const bindingSyntax of extractedText) {
@@ -116,7 +123,7 @@ export const getHover = (
     }
     return;
   } catch (error) {
-    getLogger().debug("validatePropertyBindingInfo failed:", error);
+    getLogger().debug("getHover failed:", error);
     return;
   }
 };

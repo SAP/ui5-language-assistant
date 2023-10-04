@@ -179,7 +179,6 @@ export interface ArrayType {
 export interface UnionType {
   kind: "UnionType";
   types: UI5Type[];
-  collection?: boolean;
 }
 
 export interface PrimitiveType {

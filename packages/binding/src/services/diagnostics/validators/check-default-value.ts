@@ -3,7 +3,7 @@ import {
   BindingParserTypes as BindingTypes,
   isPrimitiveValue,
 } from "@ui5-language-assistant/binding-parser";
-import { getPropertyBindingInfoElements } from "../../../definition/definition";
+import { getBindingElements } from "../../../definition/definition";
 import {
   findRange,
   getPropertyTypeWithPossibleValue,
@@ -16,7 +16,8 @@ const cleanText = (context: BindContext, text: string): string => {
 };
 export const checkDefaultValue = (
   context: BindContext,
-  element: BindingTypes.StructureElement
+  element: BindingTypes.StructureElement,
+  aggregation = false
 ): BindingIssue[] => {
   const issues: BindingIssue[] = [];
   if (!isPrimitiveValue(element.value)) {
@@ -28,7 +29,7 @@ export const checkDefaultValue = (
     return issues;
   }
   const text = element.key?.text;
-  const bindingElement = getPropertyBindingInfoElements(context).find(
+  const bindingElement = getBindingElements(context, aggregation, false).find(
     (el) => el.name === text
   );
   const bindingType = getPropertyTypeWithPossibleValue(element, bindingElement);

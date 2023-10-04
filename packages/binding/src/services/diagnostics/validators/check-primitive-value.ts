@@ -2,14 +2,14 @@ import {
   BindContext,
   BindingIssue,
   BINDING_ISSUE_TYPE,
-  PropertyBindingInfoElement,
+  BindingInfoElement,
 } from "../../../types";
 import {
   isPrimitiveValue,
   BindingParserTypes as BindingTypes,
 } from "@ui5-language-assistant/binding-parser";
 import { typesToValue, valueTypeMap } from "../../../utils";
-import { getPropertyBindingInfoElements } from "../../../definition/definition";
+import { getBindingElements } from "../../../definition/definition";
 
 /**
  * Get issue for primitive value
@@ -22,7 +22,7 @@ import { getPropertyBindingInfoElements } from "../../../definition/definition";
 export const getPrimitiveValueIssues = (
   context: BindContext,
   item: BindingTypes.PrimitiveValue,
-  bindingElement: PropertyBindingInfoElement | undefined,
+  bindingElement: BindingInfoElement | undefined,
   collectionValue = false
 ): BindingIssue[] => {
   const issues: BindingIssue[] = [];
@@ -33,12 +33,12 @@ export const getPrimitiveValueIssues = (
     (i) => i.kind === valueTypeMap.get(item.type)
   );
   if (!elementSpecificType) {
-    const data = typesToValue(
-      bindingElement.type,
+    const data = typesToValue({
+      types: bindingElement.type,
       context,
-      undefined,
-      collectionValue
-    );
+      collectionValue,
+      forDiagnostic: true,
+    });
     const message = `Allowed value${
       data.length > 1 ? "s are" : " is"
     } ${data.join(" or ")}`;
@@ -57,7 +57,12 @@ export const getPrimitiveValueIssues = (
     elementSpecificType.collection
   ) {
     // for a value which is not inside square bracket e.g []. primitive value is used for collection element e.g parts: ''
-    const data = typesToValue(bindingElement.type, context, undefined, false);
+    const data = typesToValue({
+      types: bindingElement.type,
+      context,
+      collectionValue: false,
+      forDiagnostic: true,
+    });
     const message = `Allowed value${
       data.length > 1 ? "s are" : " is"
     } ${data.join(" or ")}`;
@@ -80,6 +85,7 @@ export const getPrimitiveValueIssues = (
 export const checkPrimitiveValue = (
   context: BindContext,
   element: BindingTypes.StructureElement,
+  aggregation = false,
   ignore = false
 ): BindingIssue[] => {
   const issues: BindingIssue[] = [];
@@ -89,7 +95,7 @@ export const checkPrimitiveValue = (
   const value = element.value;
   if (isPrimitiveValue(value)) {
     const text = element.key && element.key.text;
-    const bindingElement = getPropertyBindingInfoElements(context).find(
+    const bindingElement = getBindingElements(context, aggregation).find(
       (el) => el.name === text
     );
     issues.push(...getPrimitiveValueIssues(context, value, bindingElement));

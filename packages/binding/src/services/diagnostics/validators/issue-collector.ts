@@ -27,6 +27,7 @@ export const checkAst = (
     parse: BindingTypes.ParseError[];
     lexer: BindingTypes.LexerError[];
   },
+  aggregation = false,
   ignore = false
 ): BindingIssue[] => {
   const issues: BindingIssue[] = [];
@@ -36,7 +37,7 @@ export const checkAst = (
     const colonIssue: BindingIssue[] = [];
     const missingValueIssue: BindingIssue[] = [];
     if (!ignore) {
-      keyIssue.push(...checkKey(context, element));
+      keyIssue.push(...checkKey(context, element, aggregation));
       issues.push(...keyIssue);
     }
     if (keyIssue.length === 0) {
@@ -44,14 +45,22 @@ export const checkAst = (
       issues.push(...colonIssue);
     }
     if (colonIssue.length === 0) {
-      missingValueIssue.push(...checkMissingValue(context, element));
+      missingValueIssue.push(
+        ...checkMissingValue(context, element, aggregation)
+      );
       issues.push(...missingValueIssue);
     }
     if (missingValueIssue.length === 0) {
-      issues.push(...checkPrimitiveValue(context, element, ignore));
-      issues.push(...checkCollectionValue(context, element, errors, ignore));
-      issues.push(...checkStructureValue(context, element, errors, ignore));
-      issues.push(...checkDefaultValue(context, element));
+      issues.push(
+        ...checkPrimitiveValue(context, element, aggregation, ignore)
+      );
+      issues.push(
+        ...checkCollectionValue(context, element, errors, aggregation, ignore)
+      );
+      issues.push(
+        ...checkStructureValue(context, element, errors, aggregation, ignore)
+      );
+      issues.push(...checkDefaultValue(context, element, aggregation));
     }
     issues.push(
       ...checkComma(

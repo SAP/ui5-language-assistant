@@ -7,7 +7,7 @@ import {
 } from "@ui5-language-assistant/test-framework";
 import { getContext } from "@ui5-language-assistant/context";
 import { BindContext } from "../../../src/types";
-import { getPropertyBindingInfoElements } from "../../../src/definition/definition";
+import { getBindingElements } from "../../../src/definition/definition";
 import { UI5Typedef } from "@ui5-language-assistant/semantic-model-types";
 
 describe("definition", () => {
@@ -35,13 +35,13 @@ describe("definition", () => {
       join(framework.getProjectRoot(), ...viewFilePathSegments)
     )) as BindContext;
   });
-  describe("getPropertyBindingInfoElements", () => {
+  describe("getBindingElements", () => {
     it("get binding elements", () => {
-      const result = getPropertyBindingInfoElements(context);
+      const result = getBindingElements(context);
       expect(result).toMatchSnapshot();
     });
     it("check fallback", () => {
-      const result = getPropertyBindingInfoElements({
+      const result = getBindingElements({
         ...context,
         ui5Model: {
           ...context.ui5Model,

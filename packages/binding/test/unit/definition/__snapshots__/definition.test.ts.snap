@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`definition getPropertyBindingInfoElements check fallback 1`] = `
+exports[`definition getBindingElements check fallback 1`] = `
 Array [
   Object {
     "documentation": Object {
@@ -253,7 +253,7 @@ Array [
 ]
 `;
 
-exports[`definition getPropertyBindingInfoElements get binding elements 1`] = `
+exports[`definition getBindingElements get binding elements 1`] = `
 Array [
   Object {
     "documentation": Object {
@@ -763,7 +763,7 @@ Array [
 
 
 
-**Type:** Array<(String | sap.ui.base.ManagedObject.PropertyBindingInfo>)
+**Type:** Array<(String | sap.ui.base.ManagedObject.PropertyBindingInfo)>
 
 **Description:** Array of binding info objects for the parts of a composite binding; the structure of each binding info is the same as described for the <code>oBindingInfo</code> as a whole.
 

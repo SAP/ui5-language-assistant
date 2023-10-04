@@ -106,6 +106,20 @@ export function getUI5PropertyByXMLAttributeKey(
   return ui5Property;
 }
 
+export function getUI5AggregationByXMLAttributeKey(
+  attribute: XMLAttribute,
+  model: UI5SemanticModel
+): UI5Aggregation | undefined {
+  const xmlElement = attribute.parent;
+  const elementClass = getUI5ClassByXMLElement(xmlElement, model);
+  if (elementClass === undefined) {
+    return undefined;
+  }
+  const properties = flattenAggregations(elementClass);
+  const ui5Aggregation = find(properties, ["name", attribute.key]);
+  return ui5Aggregation;
+}
+
 export function getUI5NodeByXMLAttribute(
   attribute: XMLAttribute,
   model: UI5SemanticModel

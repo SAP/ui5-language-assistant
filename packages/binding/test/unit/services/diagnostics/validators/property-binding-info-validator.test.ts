@@ -6,7 +6,7 @@ import {
   TestFramework,
 } from "@ui5-language-assistant/test-framework";
 
-import { validatePropertyBindingInfo } from "../../../../../src/services/diagnostics/validators/property-binding-info-validator";
+import { validateBinding } from "../../../../../src/services/diagnostics/validators/binding-validator";
 import {
   issueToSnapshot,
   ViewValidatorType,
@@ -42,7 +42,7 @@ describe("property-binding-info-validator", () => {
       framework,
       viewFilePathSegments,
       documentPath,
-      validatePropertyBindingInfo
+      validateBinding
     );
   });
   // issue link: https://github.com/SAP/ui5-language-assistant/issues/652
