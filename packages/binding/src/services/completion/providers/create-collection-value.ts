@@ -5,28 +5,31 @@ import {
 } from "vscode-languageserver-types";
 import {
   isCollectionValue,
-  isStructureValue,
-  positionContained,
-  isBefore,
   BindingParserTypes as BindingTypes,
-  rangeContained,
+  isBefore,
+  positionContained,
+  isStructureValue,
+  positionInside,
+  isPrimitiveValue,
 } from "@ui5-language-assistant/binding-parser";
 
-import { getBindingElements } from "../../../definition/definition";
 import { isParts, typesToValue } from "../../../utils";
+import {
+  BindContext,
+  BindingInfoElement,
+  ValueContext,
+  PropertyType,
+} from "../../../types";
 import { getCompletionItems } from "./binding";
-import { BindContext, ValueContext } from "../../../types";
+import { getBindingElements } from "../../../api";
+import { PARTS } from "../../../constant";
 
-const getCollectionCompletionItem = (
+const getCompletionItemsByType = (
   context: BindContext,
-  element: BindingTypes.StructureElement
+  types: PropertyType[] = []
 ): CompletionItem[] => {
-  const bindingElement = getBindingElements(context).find(
-    (el) => el.name === (element.key && element.key.text)
-  );
   const data = typesToValue({
-    /* istanbul ignore next */
-    types: bindingElement?.type ?? [],
+    types: types,
     context,
     tabStop: 0,
     collectionValue: true,
@@ -42,46 +45,86 @@ const getCollectionCompletionItem = (
 export const createCollectionValue = (
   context: BindContext,
   spaces: BindingTypes.WhiteSpaces[],
-  valueContext: ValueContext
+  valueContext: ValueContext,
+  bindingElements: BindingInfoElement[],
+  aggregation = false
 ): CompletionItem[] => {
-  const completionItems: CompletionItem[] = [];
   const { element } = valueContext;
-  if (isCollectionValue(element.value) && isParts(element)) {
-    /* istanbul ignore next */
-    const position = context.textDocumentPosition?.position;
-    if (!position) {
-      return completionItems;
-    }
-    const el = element.value.elements
-      .filter((item) => !!item)
-      .find((item) => positionContained(item.range, position));
-
-    if (isStructureValue(el)) {
-      if (
-        (el.leftCurly && isBefore(position, el.leftCurly.range.start, true)) ||
-        (el.rightCurly && isBefore(el.rightCurly.range.end, position, true))
-      ) {
-        // position is outside {}
-        return getCollectionCompletionItem(context, element);
-      }
-      const result = getCompletionItems(context, el, spaces).filter(
-        (item) => item.label !== "parts"
-      );
-      return result;
-    }
-    if (
-      element.value.range &&
-      (isBefore(position, element.value.range.start, true) ||
-        isBefore(element.value.range.end, position, true))
-    ) {
-      // position is outside []
-      return completionItems;
-    }
-    if (el && rangeContained(el.range, { start: position, end: position })) {
-      // on primitive value e.g '|'
-      return completionItems;
-    }
-    return getCollectionCompletionItem(context, element);
+  if (!isCollectionValue(element.value)) {
+    return [];
   }
-  return completionItems;
+  const key = element.key?.text;
+  const foundElement = bindingElements.find((i) => i.name === key);
+  if (!foundElement) {
+    return [];
+  }
+  /* istanbul ignore next */
+  const position = context.textDocumentPosition?.position;
+  if (!position) {
+    return [];
+  }
+  if (!element.value.range) {
+    return [];
+  }
+  if (isBefore(position, element.value.range.start, true)) {
+    // position is outside [] e.g |[]
+    return [];
+  }
+  if (isBefore(element.value.range.end, position, true)) {
+    // position is outside [] e.g [] |
+    return [];
+  }
+
+  const el = element.value.elements
+    .filter((item) => !!item)
+    .find((item) => positionContained(item.range, position));
+
+  const referenceType = foundElement.type.find((i) => !!i.reference);
+  if (isStructureValue(el) && positionInside(el.range, position)) {
+    if (isParts(element)) {
+      // only for parts which can be any `PropertyBindingInfo` excluding itself
+      return getCompletionItems(
+        context,
+        el,
+        spaces,
+        aggregation,
+        bindingElements
+      ).filter((item) => item.label !== PARTS);
+    }
+
+    if (referenceType) {
+      const [bdElement] = getBindingElements(context, aggregation).filter(
+        (i) => i.name === referenceType.reference
+      );
+      if (!bdElement) {
+        // currently checking reference to other binding element only
+        return [];
+      }
+      const possibleType = bdElement.type.find(
+        (i) => i.possibleElements?.length
+      );
+      const data = possibleType?.possibleElements ?? [];
+      return getCompletionItems(context, el, spaces, aggregation, data);
+    }
+
+    const possibleType = foundElement.type.find(
+      (i) => i.possibleElements?.length
+    );
+    const data = possibleType?.possibleElements ?? [];
+    return getCompletionItems(context, el, spaces, aggregation, data);
+  }
+  if (isPrimitiveValue(el)) {
+    return [];
+  }
+  if (referenceType) {
+    const [bdElement] = getBindingElements(context, aggregation).filter(
+      (i) => i.name === referenceType.reference
+    );
+    if (!bdElement) {
+      // currently checking reference to other binding element only
+      return [];
+    }
+    return getCompletionItemsByType(context, bdElement.type);
+  }
+  return getCompletionItemsByType(context, foundElement.type);
 };

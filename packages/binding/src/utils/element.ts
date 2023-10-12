@@ -13,6 +13,7 @@ import {
   COLLECTION_VALUE,
   STRUCTURE_VALUE,
 } from "@ui5-language-assistant/binding-parser";
+import { PARTS } from "../constant";
 import { Range } from "vscode-languageserver-types";
 const isNumber = (input: number | undefined): input is number => {
   return input !== undefined;
@@ -84,7 +85,16 @@ export const valueTypeMap = new Map([
 
 export const isParts = (element: BindingTypes.StructureElement): boolean => {
   const text = element.key && element.key.text;
-  return text === "parts";
+  return text === PARTS;
+};
+
+export const isAnyType = (
+  element: BindingTypes.StructureElement,
+  bindingElements: BindingInfoElement[]
+): boolean => {
+  const text = element.key && element.key.text;
+  const bindingElement = bindingElements.find((el) => el.name === text);
+  return !!bindingElement?.type.find((t) => t.kind === TypeKind.any);
 };
 
 export const defaultRange = (): Range => {

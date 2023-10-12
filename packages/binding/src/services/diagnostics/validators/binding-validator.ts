@@ -35,8 +35,12 @@ export function validateBinding(
     if (!ui5Property && !ui5Aggregation) {
       return issues;
     }
-    const propBinding = getBindingElements(context, !!ui5Aggregation, false);
-    const properties = propBinding.map((i) => i.name);
+    const bindingElements = getBindingElements(
+      context,
+      !!ui5Aggregation,
+      false
+    );
+    const properties = bindingElements.map((i) => i.name);
     const value = attribute.syntax.value;
     const text = attribute.value ?? "";
     const startChar = value?.image.charAt(0);
@@ -62,7 +66,15 @@ export function validateBinding(
           continue;
         }
 
-        issues.push(...checkAst(context, binding, errors, !!ui5Aggregation));
+        issues.push(
+          ...checkAst(
+            context,
+            binding,
+            errors,
+            !!ui5Aggregation,
+            bindingElements
+          )
+        );
 
         /**
          * Show all lexer errors

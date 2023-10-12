@@ -585,6 +585,14 @@ describe("property-binding-info-validator", () => {
       "kind: MissingComma; text: Missing comma; severity:error; range:9:27-9:36",
     ]);
   });
+  it("check missing comma - nested", async () => {
+    const snippet = `
+    <Text text="{ path: '', events:{one: true, two: {x: 123 y: 321}} }" id="test-id"></Text>`;
+    const result = await validateView(snippet);
+    expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
+      "kind: MissingComma; text: Missing comma; severity:error; range:9:60-9:66",
+    ]);
+  });
   it("check trailing comma", async () => {
     const snippet = `
     <Text text="{ path: '', events:{}, }" id="test-id"></Text>`;

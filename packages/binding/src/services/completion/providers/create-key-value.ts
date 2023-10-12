@@ -5,17 +5,16 @@ import {
 } from "vscode-languageserver-types";
 import { BindingParserTypes as BindingTypes } from "@ui5-language-assistant/binding-parser";
 
-import { getBindingElements } from "../../../definition/definition";
 import { typesToValue } from "../../../utils";
-import { BindContext } from "../../../types";
+import { BindContext, BindingInfoElement } from "../../../types";
 
 export const createKeyValue = (
   context: BindContext,
   binding: BindingTypes.StructureValue,
-  aggregation = false
+  bindingElements: BindingInfoElement[]
 ): CompletionItem[] => {
   // exclude duplicate
-  return getBindingElements(context, aggregation)
+  return bindingElements
     .filter((item) => {
       if (
         !binding.elements.find(

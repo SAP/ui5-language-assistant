@@ -16,6 +16,8 @@ import { ui5NodeToFQN } from "@ui5-language-assistant/logic-utils";
 import { forOwn } from "lodash";
 import { getDocumentation } from "../utils";
 import { getFallBackElements } from "./fall-back-definition";
+import { getSorterPossibleElement } from "./sorter";
+import { getFiltersPossibleElement } from "./filter";
 
 const notAllowedElements: Map<BindingInfoName, BindingInfoName[]> = new Map([
   [BindingInfoName.path, [BindingInfoName.parts, BindingInfoName.value]],
@@ -70,6 +72,17 @@ const classKind: Map<ClassName, TypeKind> = new Map([
 
 const getClassKind = (name: string) =>
   classKind.get(name as ClassName) ?? TypeKind.string;
+
+const getPossibleElement = (name: string): BindingInfoElement[] => {
+  if (name === ClassName.Sorter) {
+    return getSorterPossibleElement();
+  }
+  if (name === ClassName.Filter) {
+    return getFiltersPossibleElement();
+  }
+  return [];
+};
+
 const getPossibleValuesForClass = (
   context: BindContext,
   type: UI5Class
@@ -135,6 +148,7 @@ const buildType = (
         kind: getClassKind(type.name),
         dependents: getFromMap(dependents, name, aggregation),
         notAllowedElements: getFromMap(notAllowedElements, name, aggregation),
+        possibleElements: getPossibleElement(type.name),
         possibleValue: {
           fixed: false,
           values: getPossibleValuesForClass(context, type),

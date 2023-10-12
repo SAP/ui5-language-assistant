@@ -13,6 +13,9 @@ import { checkNestedParts } from "./check-nested-parts";
 import { checkComma } from "./check-comma";
 import { checkBrackets } from "./check-brackets";
 import { checkDefaultValue } from "./check-default-value";
+import { getBindingElements } from "../../../api";
+import { isAnyType } from "../../../utils";
+import { checkSkeleton } from "./check-skeleton";
 
 /**
  * Check an AST
@@ -28,39 +31,59 @@ export const checkAst = (
     lexer: BindingTypes.LexerError[];
   },
   aggregation = false,
+  bindingElements = getBindingElements(context, aggregation),
   ignore = false
 ): BindingIssue[] => {
   const issues: BindingIssue[] = [];
+  if (ignore) {
+    // check only skeleton conforms to JSON format
+    return checkSkeleton(context, binding, errors);
+  }
   for (let index = 0; binding.elements.length > index; index++) {
     const element = binding.elements[index];
     const keyIssue: BindingIssue[] = [];
     const colonIssue: BindingIssue[] = [];
     const missingValueIssue: BindingIssue[] = [];
-    if (!ignore) {
-      keyIssue.push(...checkKey(context, element, aggregation));
-      issues.push(...keyIssue);
-    }
+
+    keyIssue.push(...checkKey(element, bindingElements, aggregation));
+    issues.push(...keyIssue);
     if (keyIssue.length === 0) {
       colonIssue.push(...checkColon(element, errors));
       issues.push(...colonIssue);
     }
     if (colonIssue.length === 0) {
       missingValueIssue.push(
-        ...checkMissingValue(context, element, aggregation)
+        ...checkMissingValue(context, element, bindingElements)
       );
       issues.push(...missingValueIssue);
     }
     if (missingValueIssue.length === 0) {
+      // check any type - any value is allowed
+      if (isAnyType(element, bindingElements)) {
+        continue;
+      }
       issues.push(
-        ...checkPrimitiveValue(context, element, aggregation, ignore)
+        ...checkPrimitiveValue(context, element, bindingElements, ignore)
       );
       issues.push(
-        ...checkCollectionValue(context, element, errors, aggregation, ignore)
+        ...checkStructureValue(
+          context,
+          element,
+          errors,
+          bindingElements,
+          aggregation
+        )
       );
       issues.push(
-        ...checkStructureValue(context, element, errors, aggregation, ignore)
+        ...checkCollectionValue(
+          context,
+          element,
+          errors,
+          bindingElements,
+          aggregation
+        )
       );
-      issues.push(...checkDefaultValue(context, element, aggregation));
+      issues.push(...checkDefaultValue(context, element, bindingElements));
     }
     issues.push(
       ...checkComma(
@@ -72,8 +95,8 @@ export const checkAst = (
     );
   }
   issues.push(...checkDuplicate(binding));
-  issues.push(...checkNotAllowedElement(context, binding));
-  issues.push(...checkDependents(context, binding));
+  issues.push(...checkNotAllowedElement(bindingElements, binding));
+  issues.push(...checkDependents(bindingElements, binding));
   issues.push(...checkNestedParts(binding));
   issues.push(...checkBrackets(binding));
   return issues;

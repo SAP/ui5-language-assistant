@@ -447,29 +447,7 @@ describe("index", () => {
           "label: {}; text: {$0}; kind:5; commit:undefined; sort:",
         ]);
       });
-      it("o. for parts only [outside existing primitive element(s) - case 01]", async function () {
-        const snippet = `
-        <Text text="{parts: [''${CURSOR_ANCHOR} ]}" id="test-id"></Text>`;
-        const result = await getCompletionResult(snippet);
-        expect(
-          result.map((item) => completionItemToSnapshot(item))
-        ).toStrictEqual([
-          "label: ''; text: '$0'; kind:5; commit:undefined; sort:",
-          "label: {}; text: {$0}; kind:5; commit:undefined; sort:",
-        ]);
-      });
-      it("p. for parts only [outside existing primitive element(s) - case 02]", async function () {
-        const snippet = `
-        <Text text="{parts: [${CURSOR_ANCHOR}'' ]}" id="test-id"></Text>`;
-        const result = await getCompletionResult(snippet);
-        expect(
-          result.map((item) => completionItemToSnapshot(item))
-        ).toStrictEqual([
-          "label: ''; text: '$0'; kind:5; commit:undefined; sort:",
-          "label: {}; text: {$0}; kind:5; commit:undefined; sort:",
-        ]);
-      });
-      it("q. for parts only [on existing primitive element(s) - no completion item]", async function () {
+      it("o. for parts only [on existing primitive element(s) - no completion item]", async function () {
         const snippet = `
         <Text text="{parts: ['${CURSOR_ANCHOR}' ]}" id="test-id"></Text>`;
         const result = await getCompletionResult(snippet);

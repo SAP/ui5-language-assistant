@@ -4,16 +4,13 @@ import {
   InsertTextFormat,
 } from "vscode-languageserver-types";
 import { BindingParserTypes as BindingTypes } from "@ui5-language-assistant/binding-parser";
-
-import { getBindingElements } from "../../../definition/definition";
-import { BindContext } from "../../../types";
+import { BindingInfoElement } from "../../../types";
 
 export const createKeyProperties = (
-  context: BindContext,
   element: BindingTypes.StructureElement,
-  aggregation = false
+  bindingElements: BindingInfoElement[]
 ): CompletionItem[] => {
-  return getBindingElements(context, aggregation).map((item) => {
+  return bindingElements.map((item) => {
     const data: CompletionItem = {
       label: item.name,
       insertTextFormat: InsertTextFormat.Snippet,

@@ -1,0 +1,1066 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`aggregation binding all properties 1`] = `
+Array [
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** String
+
+**Description:** Path in the model to bind to, either an absolute path or relative to the binding context for the corresponding model; when the path contains a '&gt;' sign, the string preceding it will override the <code>model</code> property and the remainder after the '&gt;' will be used as binding path
+
+**Optional:** false
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
+    },
+    "insertText": "path: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "path",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** String
+
+**Description:** Name of the model to bind against; when <code>undefined</code> or omitted, the default model is used
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
+    },
+    "insertText": "model: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "model",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** sap.ui.base.ManagedObject
+
+**Description:** The template to clone for each item in the aggregation; either a template or a factory must be given
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
+    },
+    "insertText": "template: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "template",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** Boolean
+
+**Description:** Whether the framework should assume that the application takes care of the lifecycle of the given template; when set to <code>true</code>, the template can be used in multiple bindings, either in parallel or over time, and the framework won't clone it when this <code>ManagedObject</code> is cloned; when set to <code>false</code>, the lifecycle of the template is bound to the lifecycle of the binding, when the aggregation is unbound or when this <code>ManagedObject</code> is destroyed, the template also will be destroyed, and when this <code>ManagedObject</code> is cloned, the template will be cloned as well; the third option (<code>undefined</code>) only exists for compatibility reasons, its behavior is not fully reliable and it may leak the template
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
+    },
+    "insertText": "templateShareable: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "templateShareable",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** Function
+
+**Description:** A factory function that will be called to create an object for each item in the aggregation; this is an alternative to providing a template object and can be used when the objects should differ depending on the binding context; the factory function will be called with two parameters: an ID that should be used for the created object and the binding context for which the object has to be created; the function must return an object appropriate for the bound aggregation
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
+    },
+    "insertText": "factory: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "factory",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** Boolean
+
+**Description:** Whether the binding should be suspended initially
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
+    },
+    "insertText": "suspended: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "suspended",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** Integer
+
+**Description:** the first entry of the list to be created
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
+    },
+    "insertText": "startIndex: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "startIndex",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** Integer
+
+**Description:** The amount of entries to be created (may exceed the size limit of the model)
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
+    },
+    "insertText": "length: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "length",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** Array<(sap.ui.model.Sorter)> | sap.ui.model.Sorter
+
+**Description:** The initial sort order (optional)
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
+    },
+    "insertText": "sorter: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "sorter",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** Array<(sap.ui.model.Filter)> | sap.ui.model.Filter
+
+**Description:** The predefined filters for this aggregation (optional)
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
+    },
+    "insertText": "filters: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "filters",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** String | Function
+
+**Description:** Name of the key property or a function getting the context as only parameter to calculate a key for entries. This can be used to improve update behaviour in models, where a key is not already available.
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
+    },
+    "insertText": "key: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "key",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** Object
+
+**Description:** Map of additional parameters for this binding; the names and value ranges of the supported parameters depend on the model implementation, they should be documented with the <code>bindList</code> method of the corresponding model class or with the model specific subclass of <code>sap.ui.model.ListBinding</code>
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
+    },
+    "insertText": "parameters: {$0}",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "parameters",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** Function
+
+**Description:** A factory function to generate custom group visualization (optional). It should return a control suitable to visualize a group header (e.g. a <code>sap.m.GroupHeaderListItem</code> for a <code>sap.m.List</code>).
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
+    },
+    "insertText": "groupHeaderFactory: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "groupHeaderFactory",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** Object
+
+**Description:** Map of event handler functions keyed by the name of the binding events that they should be attached to
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
+    },
+    "insertText": "events: {$0}",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "events",
+  },
+]
+`;
+
+exports[`aggregation binding filters all properties - inside collection 1`] = `
+Array [
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "path: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "path",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "test: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "test",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "comparator: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "comparator",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "operator: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "operator",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "value1: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "value1",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "value2: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "value2",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "variable: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "variable",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "condition: {$0}",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "condition",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "filters: [{$0}]",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "filters",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "and: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "and",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "caseSensitive: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "caseSensitive",
+  },
+]
+`;
+
+exports[`aggregation binding filters all properties 1`] = `
+Array [
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "path: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "path",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "test: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "test",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "comparator: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "comparator",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "operator: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "operator",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "value1: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "value1",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "value2: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "value2",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "variable: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "variable",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "condition: {$0}",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "condition",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "filters: [{$0}]",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "filters",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "and: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "and",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "caseSensitive: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "caseSensitive",
+  },
+]
+`;
+
+exports[`aggregation binding filters condition all properties - nested 1`] = `
+Array [
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "path: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "path",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "test: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "test",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "comparator: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "comparator",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "operator: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "operator",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "value1: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "value1",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "value2: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "value2",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "variable: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "variable",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "condition: {$0}",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "condition",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "filters: [{$0}]",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "filters",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "and: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "and",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "caseSensitive: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "caseSensitive",
+  },
+]
+`;
+
+exports[`aggregation binding filters condition all properties 1`] = `
+Array [
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "path: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "path",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "test: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "test",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "comparator: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "comparator",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "operator: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "operator",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "value1: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "value1",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "value2: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "value2",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "variable: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "variable",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "condition: {$0}",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "condition",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "filters: [{$0}]",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "filters",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "and: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "and",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "caseSensitive: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "caseSensitive",
+  },
+]
+`;
+
+exports[`aggregation binding filters filters all properties - nested 1`] = `
+Array [
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "path: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "path",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "test: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "test",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "comparator: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "comparator",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "operator: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "operator",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "value1: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "value1",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "value2: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "value2",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "variable: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "variable",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "condition: {$0}",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "condition",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "filters: [{$0}]",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "filters",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "and: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "and",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "caseSensitive: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "caseSensitive",
+  },
+]
+`;
+
+exports[`aggregation binding filters filters all properties 1`] = `
+Array [
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "path: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "path",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "test: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "test",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "comparator: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "comparator",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "operator: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "operator",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "value1: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "value1",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "value2: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "value2",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "variable: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "variable",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "condition: {$0}",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "condition",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "filters: [{$0}]",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "filters",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "and: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "and",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "caseSensitive: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "caseSensitive",
+  },
+]
+`;
+
+exports[`aggregation binding sorter all properties - inside collection 1`] = `
+Array [
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "path: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "path",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "descending: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "descending",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "group: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "group",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "comparator: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "comparator",
+  },
+]
+`;
+
+exports[`aggregation binding sorter all properties 1`] = `
+Array [
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "path: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "path",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "descending: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "descending",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "group: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "group",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "insertText": "comparator: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "comparator",
+  },
+]
+`;

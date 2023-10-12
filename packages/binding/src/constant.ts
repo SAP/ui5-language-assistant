@@ -4,3 +4,4 @@ export const PROPERTY_BINDING_INFO =
 export const AGGREGATION_BINDING_INFO =
   "sap.ui.base.ManagedObject.AggregationBindingInfo";
 export const Binding_Mode = "sap.ui.model.BindingMode";
+export const PARTS = "parts";

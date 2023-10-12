@@ -1,4 +1,9 @@
-import { BindContext, BindingIssue, BINDING_ISSUE_TYPE } from "../../../types";
+import {
+  BindContext,
+  BindingIssue,
+  BINDING_ISSUE_TYPE,
+  BindingInfoElement,
+} from "../../../types";
 import {
   isCollectionValue,
   isPrimitiveValue,
@@ -25,44 +30,26 @@ export const checkCollectionValue = (
     parse: BindingTypes.ParseError[];
     lexer: BindingTypes.LexerError[];
   },
-  aggregation = false,
-  ignore = false
+  bindingElements: BindingInfoElement[],
+  aggregation = false
 ): BindingIssue[] => {
   const issues: BindingIssue[] = [];
   const value = element.value;
   if (!isCollectionValue(value)) {
-    return issues;
+    return [];
   }
   issues.push(...checkBrackets(value));
   // filter undefined
   const elements = value.elements.filter((item) => !!item);
-  if (ignore) {
-    // do not check key - process collection value
-    for (let index = 0; elements.length > index; index++) {
-      const item = elements[index];
-      const nextItem = elements[index + 1];
-      if (isStructureValue(item)) {
-        issues.push(
-          ...checkAst(context, item, errors, aggregation, !isParts(element))
-        );
-      }
-      if (isPrimitiveValue(item)) {
-        issues.push(...getPrimitiveValueIssues(context, item, undefined, true));
-      }
-      issues.push(...checkComma(item, errors, value.commas, nextItem));
-    }
-    return issues;
-  }
-  // check if that element is allowed to have collection value
+
   const text = element.key && element.key.text;
-  const bindingElement = getBindingElements(context, aggregation).find(
-    (el) => el.name === text
-  );
+  const bindingElement = bindingElements.find((el) => el.name === text);
 
   if (!bindingElement) {
     // should have been detected by checkKey
     return issues;
   }
+  // check if that element is allowed to have collection value
   const collectionItem = bindingElement.type.find((item) => item.collection);
   if (!collectionItem) {
     const data = typesToValue({
@@ -84,30 +71,50 @@ export const checkCollectionValue = (
     return issues;
   }
 
+  // check empty collection. `parts` must have value where `filters` and `sorter` can have empty collection
   if (elements.length === 0) {
-    const data = typesToValue({
-      types: bindingElement.type,
-      context,
-      collectionValue: true,
-      forDiagnostic: true,
-    });
-    const message = `Required value${data.length > 1 ? "s" : ""} ${data.join(
-      " or "
-    )} must be provided`;
-    issues.push({
-      issueType: BINDING_ISSUE_TYPE,
-      kind: "MissingValue",
-      message,
-      range: findRange([value.range, element.range]),
-      severity: "error",
-    });
+    if (isParts(element)) {
+      const data = typesToValue({
+        context,
+        types: bindingElement.type,
+        collectionValue: true,
+        forDiagnostic: true,
+      });
+      const message = `Required value${data.length > 1 ? "s" : ""} ${data.join(
+        " or "
+      )} must be provided`;
+      issues.push({
+        issueType: BINDING_ISSUE_TYPE,
+        kind: "MissingValue",
+        message,
+        range: findRange([value.range, element.range]),
+        severity: "error",
+      });
+    }
     return issues;
+  }
+
+  // only for parts which can be any of `PropertyBindingInfo` (bindingElements should be PropertyBindingInfo)
+  let data = isParts(element)
+    ? bindingElements
+    : collectionItem.possibleElements ?? [];
+  if (collectionItem.reference) {
+    const [bdElement] = getBindingElements(context, aggregation).filter(
+      (i) => i.name === collectionItem.reference
+    );
+    if (!bdElement) {
+      // currently checking reference to other binding element only
+      return [];
+    }
+    const possibleType = bdElement.type.find((i) => i.possibleElements?.length);
+    data = possibleType?.possibleElements ?? [];
   }
 
   for (let index = 0; elements.length > index; index++) {
     const item = elements[index];
     const nextItem = elements[index + 1];
     if (isStructureValue(item)) {
+      // parts must have a property binding element
       if (item.elements.length === 0 && isParts(element)) {
         issues.push({
           issueType: BINDING_ISSUE_TYPE,
@@ -118,7 +125,14 @@ export const checkCollectionValue = (
         });
       } else {
         issues.push(
-          ...checkAst(context, item, errors, aggregation, !isParts(element))
+          ...checkAst(
+            context,
+            item,
+            errors,
+            aggregation,
+            data,
+            data.length === 0
+          )
         );
       }
     }

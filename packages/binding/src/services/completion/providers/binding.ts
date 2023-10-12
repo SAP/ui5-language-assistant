@@ -27,7 +27,8 @@ export const getCompletionItems = (
   context: BindContext,
   binding: BindingTypes.StructureValue,
   spaces: BindingTypes.WhiteSpaces[],
-  aggregation = false
+  aggregation = false,
+  bindingElements = getBindingElements(context, aggregation)
 ): CompletionItem[] => {
   const completionItems: CompletionItem[] = [];
   /* istanbul ignore next */
@@ -41,13 +42,19 @@ export const getCompletionItems = (
   );
   switch (cursorContext.type) {
     case "empty":
-      return createAllSupportedElements(context, aggregation);
+      return createAllSupportedElements(context, bindingElements);
     case "key":
-      return createKeyProperties(context, cursorContext.element, aggregation);
+      return createKeyProperties(cursorContext.element, bindingElements);
     case "value":
-      return createValue(context, spaces, cursorContext, aggregation);
+      return createValue(
+        context,
+        spaces,
+        cursorContext,
+        bindingElements,
+        aggregation
+      );
     case "key-value":
-      return createKeyValue(context, binding, aggregation);
+      return createKeyValue(context, binding, bindingElements);
   }
   return completionItems;
 };

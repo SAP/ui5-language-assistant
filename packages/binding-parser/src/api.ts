@@ -12,6 +12,7 @@ export {
   isModel,
   isBindingAllowed,
   extractBindingSyntax,
+  positionInside,
 } from "./utils";
 
 import {

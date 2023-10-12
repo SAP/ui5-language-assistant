@@ -3,18 +3,17 @@ import {
   CompletionItemKind,
   InsertTextFormat,
 } from "vscode-languageserver-types";
-import { getBindingElements } from "../../../definition/definition";
 import { typesToValue } from "../../../utils";
-import { BindContext } from "../../../types";
+import { BindContext, BindingInfoElement } from "../../../types";
 
 /**
  * Create all supported elements
  */
 export const createAllSupportedElements = (
   context: BindContext,
-  aggregation = false
+  bindingElements: BindingInfoElement[]
 ): CompletionItem[] => {
-  return getBindingElements(context, aggregation).map((item) => {
+  return bindingElements.map((item) => {
     const type = typesToValue({ types: item.type, context, tabStop: 0 });
     const text = `${item.name}: ${type.length === 1 ? type[0] : "$0"}`;
     return {

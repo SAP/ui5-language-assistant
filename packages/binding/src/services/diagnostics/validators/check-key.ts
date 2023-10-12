@@ -1,13 +1,16 @@
-import { getBindingElements } from "../../../definition/definition";
-import { BindingIssue, BINDING_ISSUE_TYPE, BindContext } from "../../../types";
+import {
+  BindingIssue,
+  BINDING_ISSUE_TYPE,
+  BindingInfoElement,
+} from "../../../types";
 import { BindingParserTypes as BindingTypes } from "@ui5-language-assistant/binding-parser";
 import { findRange } from "../../../utils";
 /**
  * Check if key is a one of supported property binding info
  */
 export const checkKey = (
-  context: BindContext,
   element: BindingTypes.StructureElement,
+  bindingElements: BindingInfoElement[],
   aggregation = false
 ): BindingIssue[] => {
   const issues: BindingIssue[] = [];
@@ -22,9 +25,7 @@ export const checkKey = (
     return issues;
   }
   const text = element.key && element.key.text;
-  const bindingElement = getBindingElements(context, aggregation).find(
-    (el) => el.name === text
-  );
+  const bindingElement = bindingElements.find((el) => el.name === text);
   if (text === "ui5object") {
     return issues;
   }
@@ -32,7 +33,9 @@ export const checkKey = (
     issues.push({
       issueType: BINDING_ISSUE_TYPE,
       kind: "UnknownPropertyBindingInfo",
-      message: "Unknown property binding info",
+      message: `Unknown ${
+        aggregation ? "aggregation binding" : "property binding info"
+      }`,
       range: element.key.range,
       severity: "error",
     });

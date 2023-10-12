@@ -1,5 +1,7 @@
 import { BindingInfoName, TypeKind } from "../types";
 import type { BindingInfoElement } from "../types";
+import { filters } from "./filter";
+import { sorter } from "./sorter";
 
 export const aggregationBindingInfoElements: BindingInfoElement[] = [
   {
@@ -170,32 +172,6 @@ export const aggregationBindingInfoElements: BindingInfoElement[] = [
       kind: "plaintext",
     },
   },
-  // {
-  //   name: BindingInfoName.filters,
-  //   type: [
-  //     {
-  //       kind: TypeKind.string,
-  //       dependents: [],
-  //       notAllowedElements: [],
-  //     },
-  //   ],
-  //   documentation: {
-  //     value: "",
-  //     kind: "plaintext",
-  //   },
-  // },
-  // {
-  // name: BindingInfoName.sorter,
-  //   type: [
-  //     {
-  //       kind: TypeKind.string,
-  //       dependents: [],
-  //       notAllowedElements: [],
-  //     },
-  //   ],
-  //   documentation: {
-  //     value: "",
-  //     kind: "plaintext",
-  //   },
-  // },
+  ...filters,
+  ...sorter,
 ];
