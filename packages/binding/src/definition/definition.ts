@@ -225,11 +225,15 @@ export const getBindingElements = (
       },
       []
     );
-    elements.push({
+    const data: BindingInfoElement = {
       name: name,
       type: builtType,
       documentation: getDocumentation(context, property, aggregation, forHover),
-    });
+    };
+    if (property.optional === false) {
+      data.required = true;
+    }
+    elements.push(data);
   }
   return elements;
 };

@@ -745,6 +745,315 @@ Array [
 ]
 `;
 
+exports[`aggregation binding filters default value operator 1`] = `
+Array [
+  Object {
+    "insertText": "'All$0'",
+    "insertTextFormat": 2,
+    "kind": 5,
+    "label": "'All'",
+    "textEdit": Object {
+      "newText": "'All$0'",
+      "range": Object {
+        "end": Object {
+          "character": 30,
+          "line": 11,
+        },
+        "start": Object {
+          "character": 28,
+          "line": 11,
+        },
+      },
+    },
+  },
+  Object {
+    "insertText": "'Any$0'",
+    "insertTextFormat": 2,
+    "kind": 5,
+    "label": "'Any'",
+    "textEdit": Object {
+      "newText": "'Any$0'",
+      "range": Object {
+        "end": Object {
+          "character": 30,
+          "line": 11,
+        },
+        "start": Object {
+          "character": 28,
+          "line": 11,
+        },
+      },
+    },
+  },
+  Object {
+    "insertText": "'BT$0'",
+    "insertTextFormat": 2,
+    "kind": 5,
+    "label": "'BT'",
+    "textEdit": Object {
+      "newText": "'BT$0'",
+      "range": Object {
+        "end": Object {
+          "character": 30,
+          "line": 11,
+        },
+        "start": Object {
+          "character": 28,
+          "line": 11,
+        },
+      },
+    },
+  },
+  Object {
+    "insertText": "'Contains$0'",
+    "insertTextFormat": 2,
+    "kind": 5,
+    "label": "'Contains'",
+    "textEdit": Object {
+      "newText": "'Contains$0'",
+      "range": Object {
+        "end": Object {
+          "character": 30,
+          "line": 11,
+        },
+        "start": Object {
+          "character": 28,
+          "line": 11,
+        },
+      },
+    },
+  },
+  Object {
+    "insertText": "'EndsWith$0'",
+    "insertTextFormat": 2,
+    "kind": 5,
+    "label": "'EndsWith'",
+    "textEdit": Object {
+      "newText": "'EndsWith$0'",
+      "range": Object {
+        "end": Object {
+          "character": 30,
+          "line": 11,
+        },
+        "start": Object {
+          "character": 28,
+          "line": 11,
+        },
+      },
+    },
+  },
+  Object {
+    "insertText": "'EQ$0'",
+    "insertTextFormat": 2,
+    "kind": 5,
+    "label": "'EQ'",
+    "textEdit": Object {
+      "newText": "'EQ$0'",
+      "range": Object {
+        "end": Object {
+          "character": 30,
+          "line": 11,
+        },
+        "start": Object {
+          "character": 28,
+          "line": 11,
+        },
+      },
+    },
+  },
+  Object {
+    "insertText": "'GE$0'",
+    "insertTextFormat": 2,
+    "kind": 5,
+    "label": "'GE'",
+    "textEdit": Object {
+      "newText": "'GE$0'",
+      "range": Object {
+        "end": Object {
+          "character": 30,
+          "line": 11,
+        },
+        "start": Object {
+          "character": 28,
+          "line": 11,
+        },
+      },
+    },
+  },
+  Object {
+    "insertText": "'GT$0'",
+    "insertTextFormat": 2,
+    "kind": 5,
+    "label": "'GT'",
+    "textEdit": Object {
+      "newText": "'GT$0'",
+      "range": Object {
+        "end": Object {
+          "character": 30,
+          "line": 11,
+        },
+        "start": Object {
+          "character": 28,
+          "line": 11,
+        },
+      },
+    },
+  },
+  Object {
+    "insertText": "'LE$0'",
+    "insertTextFormat": 2,
+    "kind": 5,
+    "label": "'LE'",
+    "textEdit": Object {
+      "newText": "'LE$0'",
+      "range": Object {
+        "end": Object {
+          "character": 30,
+          "line": 11,
+        },
+        "start": Object {
+          "character": 28,
+          "line": 11,
+        },
+      },
+    },
+  },
+  Object {
+    "insertText": "'LT$0'",
+    "insertTextFormat": 2,
+    "kind": 5,
+    "label": "'LT'",
+    "textEdit": Object {
+      "newText": "'LT$0'",
+      "range": Object {
+        "end": Object {
+          "character": 30,
+          "line": 11,
+        },
+        "start": Object {
+          "character": 28,
+          "line": 11,
+        },
+      },
+    },
+  },
+  Object {
+    "insertText": "'NB$0'",
+    "insertTextFormat": 2,
+    "kind": 5,
+    "label": "'NB'",
+    "textEdit": Object {
+      "newText": "'NB$0'",
+      "range": Object {
+        "end": Object {
+          "character": 30,
+          "line": 11,
+        },
+        "start": Object {
+          "character": 28,
+          "line": 11,
+        },
+      },
+    },
+  },
+  Object {
+    "insertText": "'NE$0'",
+    "insertTextFormat": 2,
+    "kind": 5,
+    "label": "'NE'",
+    "textEdit": Object {
+      "newText": "'NE$0'",
+      "range": Object {
+        "end": Object {
+          "character": 30,
+          "line": 11,
+        },
+        "start": Object {
+          "character": 28,
+          "line": 11,
+        },
+      },
+    },
+  },
+  Object {
+    "insertText": "'NotContains$0'",
+    "insertTextFormat": 2,
+    "kind": 5,
+    "label": "'NotContains'",
+    "textEdit": Object {
+      "newText": "'NotContains$0'",
+      "range": Object {
+        "end": Object {
+          "character": 30,
+          "line": 11,
+        },
+        "start": Object {
+          "character": 28,
+          "line": 11,
+        },
+      },
+    },
+  },
+  Object {
+    "insertText": "'NotEndsWith$0'",
+    "insertTextFormat": 2,
+    "kind": 5,
+    "label": "'NotEndsWith'",
+    "textEdit": Object {
+      "newText": "'NotEndsWith$0'",
+      "range": Object {
+        "end": Object {
+          "character": 30,
+          "line": 11,
+        },
+        "start": Object {
+          "character": 28,
+          "line": 11,
+        },
+      },
+    },
+  },
+  Object {
+    "insertText": "'NotStartsWith$0'",
+    "insertTextFormat": 2,
+    "kind": 5,
+    "label": "'NotStartsWith'",
+    "textEdit": Object {
+      "newText": "'NotStartsWith$0'",
+      "range": Object {
+        "end": Object {
+          "character": 30,
+          "line": 11,
+        },
+        "start": Object {
+          "character": 28,
+          "line": 11,
+        },
+      },
+    },
+  },
+  Object {
+    "insertText": "'StartsWith$0'",
+    "insertTextFormat": 2,
+    "kind": 5,
+    "label": "'StartsWith'",
+    "textEdit": Object {
+      "newText": "'StartsWith$0'",
+      "range": Object {
+        "end": Object {
+          "character": 30,
+          "line": 11,
+        },
+        "start": Object {
+          "character": 28,
+          "line": 11,
+        },
+      },
+    },
+  },
+]
+`;
+
 exports[`aggregation binding filters filters all properties - nested 1`] = `
 Array [
   Object {

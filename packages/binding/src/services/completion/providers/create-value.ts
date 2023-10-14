@@ -42,7 +42,9 @@ export const createValue = (
     return completionItems;
   }
 
-  completionItems.push(...createDefaultValue(context, valueContext));
+  completionItems.push(
+    ...createDefaultValue(context, valueContext, bindingElements)
+  );
   completionItems.push(
     ...createStructureValue(
       context,

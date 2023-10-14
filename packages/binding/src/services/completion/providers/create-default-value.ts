@@ -1,5 +1,4 @@
-import { getBindingElements } from "../../../definition/definition";
-import { BindContext, ValueContext } from "../../../types";
+import { BindContext, BindingInfoElement, ValueContext } from "../../../types";
 import { getPropertyTypeWithPossibleValue } from "../../../utils";
 import {
   CompletionItem,
@@ -23,14 +22,13 @@ const getText = (
 
 export const createDefaultValue = (
   context: BindContext,
-  valueContext: ValueContext
+  valueContext: ValueContext,
+  bindingElements: BindingInfoElement[]
 ): CompletionItem[] => {
   const completionItems: CompletionItem[] = [];
   const { element } = valueContext;
   const text = element.key?.text;
-  const bindingElement = getBindingElements(context).find(
-    (el) => el.name === text
-  );
+  const bindingElement = bindingElements.find((el) => el.name === text);
   const bindingType = getPropertyTypeWithPossibleValue(element, bindingElement);
   if (bindingType) {
     const range = element.value?.range;

@@ -56,6 +56,46 @@ describe("hover/index", () => {
       const result = await getHover(snippet);
       expect(result).toMatchSnapshot();
     });
+    it("on key - inside structure", async () => {
+      const snippet = `
+      <List items="{
+          path: '',
+          filters: {
+              pa${CURSOR_ANCHOR}th: ''
+          }
+      }" />
+    `;
+      const result = await getHover(snippet);
+      expect(result).toMatchSnapshot();
+    });
+    it("on key - inside structure [reference]", async () => {
+      const snippet = `
+      <List items="{
+          path: '',
+          filters: {
+              path: '',
+              operator: 'All', 
+              condition:{
+                  filters: [{pa${CURSOR_ANCHOR}th: ''}]
+              }
+          }
+      }" />
+    `;
+      const result = await getHover(snippet);
+      expect(result).toMatchSnapshot();
+    });
+    it("on key - inside collection [filters]", async () => {
+      const snippet = `
+      <List items="{
+          path: '',
+          filters: [{
+              pa${CURSOR_ANCHOR}th: ''
+          }]
+      }" />
+    `;
+      const result = await getHover(snippet);
+      expect(result).toMatchSnapshot();
+    });
     ["null", `''`, "0", "false"].forEach((value) => {
       it(`on key if ui5object has false value: ${value}`, async () => {
         const snippet = `

@@ -97,10 +97,7 @@ export const getFiltersPossibleElement = (): BindingInfoElement[] => {
               type: [],
             },
           ],
-          // todo - only allowed with operator when operator is used with  "BT" between and "NB" not between
-          notAllowedElements: Object.values(Operator).filter(
-            (i) => ![Operator.BT, Operator.NB].includes(i)
-          ),
+          notAllowedElements: [],
         },
       ],
       documentation: {
@@ -119,9 +116,7 @@ export const getFiltersPossibleElement = (): BindingInfoElement[] => {
               type: [],
             },
           ],
-          notAllowedElements: Object.values(Operator).filter(
-            (i) => ![Operator.All, Operator.Any].includes(i)
-          ),
+          notAllowedElements: [],
         },
       ],
       documentation: {
@@ -140,9 +135,7 @@ export const getFiltersPossibleElement = (): BindingInfoElement[] => {
               type: [],
             },
           ],
-          notAllowedElements: Object.values(Operator).filter(
-            (i) => ![Operator.Any, Operator.All].includes(i)
-          ),
+          notAllowedElements: [],
           reference: "filters",
         },
       ],

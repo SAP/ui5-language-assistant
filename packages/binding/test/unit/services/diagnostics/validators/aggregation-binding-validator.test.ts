@@ -48,7 +48,7 @@ describe("aggregation binding", () => {
 
   it("check wrong value - integer", async () => {
     const snippet = `
-    <List items="{startIndex: ''}"> </List>`;
+    <List items="{startIndex: '', path: 'test-path'}"> </List>`;
     const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       "kind: MissMatchValue; text: Allowed value is integer; severity:error; range:9:30-9:32",
@@ -57,7 +57,7 @@ describe("aggregation binding", () => {
   describe("structure", () => {
     it("check wrong value", async () => {
       const snippet = `
-        <List items="{filters: {condition: ''}}"> </List>`;
+        <List items="{filters: {condition: '', operator: 'All'}, path: 'test-path'}"> </List>`;
       const result = await validateView(snippet);
       expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
         "kind: MissMatchValue; text: Allowed value is { }; severity:error; range:9:43-9:45",
@@ -66,17 +66,21 @@ describe("aggregation binding", () => {
     it("check wrong value - deep nested", async () => {
       const snippet = `
         <List items="{
-          filters: {
-              condition: {
-                  filters: [{
-                          condition: ''
-                      }]
-                  }
-              }
-          }"></List>`;
+            path: 'test-path',
+            filters: {
+                operator: 'All',
+                condition: {
+                    filters: [{
+                        operator: 'Any',
+                        condition: ''
+                    }]
+                }
+            }
+        }"
+        />`;
       const result = await validateView(snippet);
       expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-        "kind: MissMatchValue; text: Allowed value is { }; severity:error; range:13:37-13:39",
+        "kind: MissMatchValue; text: Allowed value is { }; severity:error; range:16:35-16:37",
       ]);
     });
   });
@@ -88,7 +92,8 @@ describe("aggregation binding", () => {
             filters: [{
                 conditionXYZ: {}
             }]
-        }]
+        }],
+        path: 'test-path'
       }" />`;
       const result = await validateView(snippet);
       expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
@@ -99,26 +104,43 @@ describe("aggregation binding", () => {
       const snippet = `
       <List items="{
         sorter: [{
-            paths: ''
-        }]
+            path: 'test-path',
+            groups: true
+        }],
+        path: 'test-path'
       }" />`;
       const result = await validateView(snippet);
       expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-        "kind: UnknownPropertyBindingInfo; text: Unknown aggregation binding; severity:error; range:11:12-11:17",
+        "kind: UnknownPropertyBindingInfo; text: Unknown aggregation binding; severity:error; range:12:12-12:18",
       ]);
     });
-  });
-  it("no diagnostic for empty collection - filters", async () => {
-    const snippet = `
-    <List items="{filters: []}"> </List>`;
-    const result = await validateView(snippet);
-    expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([]);
-  });
-  it("no diagnostic for empty collection - sorter", async () => {
-    const snippet = `
-    <List items="{sorter: []}"> </List>`;
-    const result = await validateView(snippet);
-    expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([]);
+    it("check trailing comma aggregation - sorter or filters", async () => {
+      const snippet = `
+      <List items="{
+        filters: [{
+            path: 'test-path',
+            operator: 'BT',
+            value2: 'C',
+        }],
+        path: 'test-path'
+      }" />`;
+      const result = await validateView(snippet);
+      expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
+        "kind: TrailingComma; text: Trailing comma; severity:error; range:13:23-13:24",
+      ]);
+    });
+    it("no diagnostic for empty collection - filters", async () => {
+      const snippet = `
+    <List items="{filters: [], path: 'test-path'}"> </List>`;
+      const result = await validateView(snippet);
+      expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([]);
+    });
+    it("no diagnostic for empty collection - sorter", async () => {
+      const snippet = `
+    <List items="{sorter: [], path: 'test-path'}"> </List>`;
+      const result = await validateView(snippet);
+      expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([]);
+    });
   });
   describe("no diagnostic for any type - value2", () => {
     it("primitive", async () => {
@@ -126,8 +148,10 @@ describe("aggregation binding", () => {
         <List
           items="{
               filters: {
+                  operator: 'NB',
                   value2: 123
-              }
+              },
+              path: 'test-path'
             }"
         />`;
       const result = await validateView(snippet);
@@ -138,8 +162,10 @@ describe("aggregation binding", () => {
         <List
           items="{
               filters: {
+                  operator: 'NB',
                   value2: {}
-              }
+              },
+              path: 'test-path'
             }"
         />`;
       const result = await validateView(snippet);
@@ -150,13 +176,101 @@ describe("aggregation binding", () => {
         <List
           items="{
               filters: {
+                  operator: 'NB',
                   value2: []
-              }
+              },
+              path: 'test-path'
             }"
         />`;
       const result = await validateView(snippet);
       expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([]);
     });
   });
-  it.todo("required dependency - value1");
+  describe("required dependency", () => {
+    it("value1", async () => {
+      const snippet = `
+        <List
+          items="{
+              filters: {
+                value1: 'any-value'
+              },
+              path: 'test-path'
+            }"
+        />`;
+      const result = await validateView(snippet);
+      expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
+        'kind: RequiredDependency; text: Required dependency "operator" should be defined; severity:info; range:12:16-12:22',
+      ]);
+    });
+    it("value2", async () => {
+      const snippet = `
+        <List
+          items="{
+              filters: {
+                value2: 'any-value'
+              },
+              path: 'test-path'
+            }"
+        />`;
+      const result = await validateView(snippet);
+      expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
+        'kind: RequiredDependency; text: Required dependency "operator" should be defined; severity:info; range:12:16-12:22',
+      ]);
+    });
+    it("condition", async () => {
+      const snippet = `
+        <List
+          items="{
+              filters: {
+                condition: {}
+              },
+              path: 'test-path'
+            }"
+        />`;
+      const result = await validateView(snippet);
+      expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
+        'kind: RequiredDependency; text: Required dependency "operator" should be defined; severity:info; range:12:16-12:25',
+      ]);
+    });
+  });
+  describe("required property", () => {
+    it("aggregation - path required", async () => {
+      const snippet = `
+        <List items="{}"> </List>`;
+      const result = await validateView(snippet);
+      expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
+        'kind: MandatoryProperty; text: Mandatory property "path" must be defined; severity:error; range:9:21-9:23',
+      ]);
+    });
+    describe("sorter", () => {
+      it("path required", async () => {
+        const snippet = `
+        <List items="{
+          path: 'test-path',
+          sorter: {
+
+          }
+        }"> </List>`;
+        const result = await validateView(snippet);
+        expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
+          'kind: MandatoryProperty; text: Mandatory property "path" must be defined; severity:error; range:11:18-13:11',
+        ]);
+      });
+      it("path required [collection]", async () => {
+        const snippet = `
+        <List items="{
+          path: 'test-path',
+          sorter: [
+            {
+              
+            }
+          ]
+        }"> </List>`;
+        const result = await validateView(snippet);
+        expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
+          'kind: MandatoryProperty; text: Mandatory property "path" must be defined; severity:error; range:12:12-14:13',
+        ]);
+      });
+    });
+  });
 });

@@ -137,6 +137,18 @@ describe("aggregation binding", () => {
       const result = await getCompletionResult(snippet);
       expect(result).toMatchSnapshot();
     });
+    describe("default value", function () {
+      it("operator", async function () {
+        const snippet = `
+          <List items="{
+              filters: {
+                  operator: '${CURSOR_ANCHOR}'
+              }
+          }"> </List>`;
+        const result = await getCompletionResult(snippet);
+        expect(result).toMatchSnapshot();
+      });
+    });
     describe("condition", () => {
       it("all properties", async function () {
         const snippet = `

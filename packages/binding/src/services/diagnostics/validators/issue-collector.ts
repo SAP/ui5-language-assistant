@@ -16,6 +16,7 @@ import { checkDefaultValue } from "./check-default-value";
 import { getBindingElements } from "../../../api";
 import { isAnyType } from "../../../utils";
 import { checkSkeleton } from "./check-skeleton";
+import { checkRequiredElement } from "./check-required";
 
 /**
  * Check an AST
@@ -44,6 +45,15 @@ export const checkAst = (
     const keyIssue: BindingIssue[] = [];
     const colonIssue: BindingIssue[] = [];
     const missingValueIssue: BindingIssue[] = [];
+
+    issues.push(
+      ...checkComma(
+        element,
+        errors,
+        binding.commas,
+        binding.elements[index + 1]
+      )
+    );
 
     keyIssue.push(...checkKey(element, bindingElements, aggregation));
     issues.push(...keyIssue);
@@ -85,19 +95,12 @@ export const checkAst = (
       );
       issues.push(...checkDefaultValue(context, element, bindingElements));
     }
-    issues.push(
-      ...checkComma(
-        element,
-        errors,
-        binding.commas,
-        binding.elements[index + 1]
-      )
-    );
   }
   issues.push(...checkDuplicate(binding));
   issues.push(...checkNotAllowedElement(bindingElements, binding));
   issues.push(...checkDependents(bindingElements, binding));
   issues.push(...checkNestedParts(binding));
   issues.push(...checkBrackets(binding));
+  issues.push(...checkRequiredElement(binding, bindingElements));
   return issues;
 };

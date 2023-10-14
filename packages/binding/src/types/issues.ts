@@ -19,6 +19,7 @@ export type BindingIssue =
   | RequiredDependency
   | RecursiveProperty
   | Unnecessary
+  | MandatoryProperty
   | MissingBracket;
 
 interface BaseUI5XMLViewBindingIssue {
@@ -86,4 +87,7 @@ export interface Unnecessary extends BaseUI5XMLViewBindingIssue {
 }
 export interface RecursiveProperty extends BaseUI5XMLViewBindingIssue {
   kind: "RecursiveProperty";
+}
+export interface MandatoryProperty extends BaseUI5XMLViewBindingIssue {
+  kind: "MandatoryProperty";
 }

@@ -116,7 +116,13 @@ export function bindingSuggestions({
       continue;
     }
     completionItems.push(
-      ...getCompletionItems(context, binding, ast.spaces, !!ui5Aggregation)
+      ...getCompletionItems(
+        context,
+        binding,
+        ast.spaces,
+        !!ui5Aggregation,
+        propBinding
+      )
     );
   }
   return completionItems;

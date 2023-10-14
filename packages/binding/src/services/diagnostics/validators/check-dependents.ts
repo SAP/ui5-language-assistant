@@ -21,7 +21,7 @@ export const checkDependents = (
       (item) => (item.key && item.key.text) === dep.name
     );
     if (!dependentElementApplied) {
-      return issues;
+      continue;
     }
     // check if its dependency is applied too
     for (const types of dep.type) {

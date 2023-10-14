@@ -74,34 +74,34 @@ export const aggregationBindingInfoElements: BindingInfoElement[] = [
       kind: "plaintext",
     },
   },
-  // {
-  //   name: BindingInfoName.factory,
-  //   type: [
-  //     {
-  //       kind: TypeKind.string,
-  //       dependents: [],
-  //       notAllowedElements: [],
-  //     },
-  //   ],
-  //   documentation: {
-  //     value: "",
-  //     kind: "plaintext",
-  //   },
-  // },
-  // {
-  //   name: BindingInfoName.groupHeaderFactory,
-  //   type: [
-  //     {
-  //       kind: TypeKind.string,
-  //       dependents: [],
-  //       notAllowedElements: [],
-  //     },
-  //   ],
-  //   documentation: {
-  //     value: "",
-  //     kind: "plaintext",
-  //   },
-  // },
+  {
+    name: BindingInfoName.factory,
+    type: [
+      {
+        kind: TypeKind.string,
+        dependents: [],
+        notAllowedElements: [],
+      },
+    ],
+    documentation: {
+      value: "",
+      kind: "plaintext",
+    },
+  },
+  {
+    name: BindingInfoName.groupHeaderFactory,
+    type: [
+      {
+        kind: TypeKind.string,
+        dependents: [],
+        notAllowedElements: [],
+      },
+    ],
+    documentation: {
+      value: "",
+      kind: "plaintext",
+    },
+  },
   {
     name: BindingInfoName.key,
     type: [
@@ -144,20 +144,20 @@ export const aggregationBindingInfoElements: BindingInfoElement[] = [
       kind: "plaintext",
     },
   },
-  // {
-  //   name: BindingInfoName.template,
-  //   type: [
-  //     {
-  //       kind: TypeKind.boolean,
-  //       dependents: [],
-  //       notAllowedElements: [],
-  //     },
-  //   ],
-  //   documentation: {
-  //     value: "",
-  //     kind: "plaintext",
-  //   },
-  // },
+  {
+    name: BindingInfoName.template,
+    type: [
+      {
+        kind: TypeKind.string,
+        dependents: [],
+        notAllowedElements: [],
+      },
+    ],
+    documentation: {
+      value: "",
+      kind: "plaintext",
+    },
+  },
   {
     name: BindingInfoName.templateShareable,
     type: [

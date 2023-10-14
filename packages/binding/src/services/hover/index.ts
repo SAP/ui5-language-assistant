@@ -12,6 +12,8 @@ import {
   extractBindingSyntax,
   rangeContained,
   BindingParserTypes,
+  isStructureValue,
+  isCollectionValue,
 } from "@ui5-language-assistant/binding-parser";
 import { Position } from "vscode-languageserver-types";
 import { BindContext, BindingInfoElement } from "../../types";
@@ -19,49 +21,94 @@ import { getBindingElements } from "../../definition/definition";
 
 const getHoverFromBinding = (
   context: BindContext,
-  propertyBinding: BindingInfoElement[],
-  binding: BindingParserTypes.StructureValue
+  bindingElements: BindingInfoElement[],
+  binding: BindingParserTypes.StructureValue,
+  aggregation: boolean
 ): Hover | undefined => {
   let hover: Hover | undefined;
   /* istanbul ignore next */
   const cursorPos = context.textDocumentPosition?.position;
+  if (!cursorPos) {
+    return;
+  }
   for (const element of binding.elements) {
     if (
-      cursorPos &&
-      element.range &&
-      rangeContained(element.range, {
+      !(
+        element.range &&
+        rangeContained(element.range, {
+          start: cursorPos,
+          end: cursorPos,
+        })
+      )
+    ) {
+      continue;
+    }
+
+    // check valid key
+    const property = bindingElements.find(
+      (prop) => prop.name === element.key?.text
+    );
+
+    // check if cursor is on key range
+    if (
+      element.key &&
+      rangeContained(element.key.range, {
         start: cursorPos,
         end: cursorPos,
       })
     ) {
-      // check if cursor is on key range
-      if (
-        cursorPos &&
-        element.key &&
-        rangeContained(element.key.range, {
-          start: cursorPos,
-          end: cursorPos,
-        })
-      ) {
-        // check valid key
-        const property = propertyBinding.find(
-          (prop) => prop.name === element.key?.originalText
-        );
-        if (property) {
-          return { contents: property.documentation };
-        }
+      if (property) {
+        return { contents: property.documentation };
       }
+    }
 
-      // check collection value as they may have property binding
-      if (element.value?.type === "collection-value") {
-        for (const collectionEl of element.value.elements) {
-          if (collectionEl.type !== "structure-value") {
-            continue;
+    const value = element.value;
+    if (isStructureValue(value)) {
+      let data = bindingElements;
+      if (property) {
+        const referencedType = property.type.find((t) => t.reference);
+        if (referencedType) {
+          const [bdElement] = getBindingElements(
+            context,
+            aggregation,
+            true
+          ).filter((i) => i.name === referencedType.reference);
+          if (!bdElement) {
+            return;
           }
-          hover = getHoverFromBinding(context, propertyBinding, collectionEl);
-          if (hover) {
-            return hover;
+          const possibleType = bdElement.type.find(
+            (i) => i.possibleElements?.length
+          );
+          data = possibleType?.possibleElements ?? [];
+        } else {
+          const typeWithPossibleEl = property?.type.find(
+            (t) => t.possibleElements
+          );
+          if (typeWithPossibleEl?.possibleElements?.length) {
+            data = typeWithPossibleEl.possibleElements;
           }
+        }
+        return getHoverFromBinding(context, data, value, aggregation);
+      }
+    }
+
+    // check collection value as they may have property binding
+    if (isCollectionValue(value)) {
+      for (const collectionEl of value.elements) {
+        if (collectionEl.type !== "structure-value") {
+          continue;
+        }
+        const typeWithPossibleEl = property?.type.find(
+          (t) => t.possibleElements
+        );
+        hover = getHoverFromBinding(
+          context,
+          typeWithPossibleEl?.possibleElements ?? bindingElements,
+          collectionEl,
+          aggregation
+        );
+        if (hover) {
+          return hover;
         }
       }
     }
@@ -119,7 +166,12 @@ export const getHover = (
       if (!isBindingAllowed(text, binding, errors, properties)) {
         continue;
       }
-      return getHoverFromBinding(context, propBinding, binding);
+      return getHoverFromBinding(
+        context,
+        propBinding,
+        binding,
+        !!ui5Aggregation
+      );
     }
     return;
   } catch (error) {
