@@ -4,6 +4,7 @@ import {
   isAfterAdjacentRange,
   positionContained,
   rangeContained,
+  positionInside,
 } from "../../../src/api";
 import { Range, Position } from "vscode-languageserver-protocol";
 describe("position", () => {
@@ -64,6 +65,52 @@ describe("position", () => {
         line: 0,
       };
       const result = positionContained(undefined, p);
+      expect(result).toBeFalse();
+    });
+    it("false", () => {
+      const range: Range = {
+        start: {
+          line: 1,
+          character: 2,
+        },
+        end: {
+          line: 1,
+          character: 20,
+        },
+      };
+      const p: Position = {
+        character: 50,
+        line: 1,
+      };
+      const result = positionContained(range, p);
+      expect(result).toBeFalse();
+    });
+    it("true", () => {
+      const range: Range = {
+        start: {
+          line: 1,
+          character: 2,
+        },
+        end: {
+          line: 1,
+          character: 20,
+        },
+      };
+      const p: Position = {
+        character: 5,
+        line: 1,
+      };
+      const result = positionContained(range, p);
+      expect(result).toBeTrue();
+    });
+  });
+  describe("positionInside", () => {
+    it("false [range undefined]", () => {
+      const p: Position = {
+        character: 5,
+        line: 0,
+      };
+      const result = positionInside(undefined, p);
       expect(result).toBeFalse();
     });
     it("false", () => {
