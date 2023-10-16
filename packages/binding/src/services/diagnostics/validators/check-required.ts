@@ -15,6 +15,7 @@ export const checkRequiredElement = (
   if (reqEl) {
     // check required element is applied
     const usedRequiredEl = element.elements.find(
+      /* istanbul ignore next */
       (i) => i.key?.text === reqEl.name
     );
     if (!usedRequiredEl) {

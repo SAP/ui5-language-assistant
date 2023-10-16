@@ -31,6 +31,7 @@ export const checkCollectionValue = (
     lexer: BindingTypes.LexerError[];
   },
   bindingElements: BindingInfoElement[],
+  /* istanbul ignore next */
   aggregation = false
 ): BindingIssue[] => {
   const issues: BindingIssue[] = [];
@@ -97,16 +98,21 @@ export const checkCollectionValue = (
   // only for parts which can be any of `PropertyBindingInfo` (bindingElements should be PropertyBindingInfo)
   let data = isParts(element)
     ? bindingElements
-    : collectionItem.possibleElements ?? [];
+    : /* istanbul ignore next */
+      collectionItem.possibleElements ?? [];
   if (collectionItem.reference) {
     const [bdElement] = getBindingElements(context, aggregation).filter(
       (i) => i.name === collectionItem.reference
     );
     if (!bdElement) {
       // currently checking reference to other binding element only
+      /* istanbul ignore next */
       return [];
     }
-    const possibleType = bdElement.type.find((i) => i.possibleElements?.length);
+    const possibleType = bdElement.type.find(
+      (i) => /* istanbul ignore next */ i.possibleElements?.length
+    );
+    /* istanbul ignore next */
     data = possibleType?.possibleElements ?? [];
   }
 

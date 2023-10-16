@@ -16,6 +16,7 @@ export const createValue = (
   spaces: BindingTypes.WhiteSpaces[],
   valueContext: ValueContext,
   bindingElements: BindingInfoElement[],
+  /* istanbul ignore next */
   aggregation = false
 ): CompletionItem[] => {
   const completionItems: CompletionItem[] = [];

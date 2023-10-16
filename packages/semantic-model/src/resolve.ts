@@ -17,7 +17,6 @@ import {
   UI5Interface,
   UI5SemanticModel,
   UI5Type,
-  UI5TypedefProp,
 } from "@ui5-language-assistant/semantic-model-types";
 import { TypeNameFix } from "../api";
 import { SymbolBase, ClassSymbol, ObjCallableParameters } from "./api-json";
@@ -49,12 +48,16 @@ function resolveConstructorParameters(
   model: UI5SemanticModel,
   symbols: Record<string, SymbolBase>,
   typeNameFix: TypeNameFix,
-  strict: boolean,
   params: ObjCallableParameters = []
 ): UI5ConstructorParameters[] {
   const result: UI5ConstructorParameters[] = [];
   for (const param of params) {
-    const type = resolveType({ model, type: param.type, typeNameFix, strict });
+    const type = resolveType({
+      model,
+      type: param.type,
+      typeNameFix,
+      strict: false,
+    });
     if (type) {
       const data: UI5ConstructorParameters = {
         ...param,
@@ -65,13 +68,9 @@ function resolveConstructorParameters(
       if (param.parameterProperties) {
         for (const key of Object.keys(param.parameterProperties)) {
           data.parameterProperties.push(
-            ...resolveConstructorParameters(
-              model,
-              symbols,
-              typeNameFix,
-              strict,
-              [param.parameterProperties[key]]
-            )
+            ...resolveConstructorParameters(model, symbols, typeNameFix, [
+              param.parameterProperties[key],
+            ])
           );
         }
       }
@@ -185,7 +184,6 @@ export function resolveSemanticProperties(
           model,
           symbols,
           typeNameFix,
-          strict,
           jsonSymbol.constructor.parameters
         )
       );
@@ -321,7 +319,12 @@ export function resolveType({
   if (typeName === undefined) {
     return undefined;
   }
-
+  if (typeName === "any") {
+    return {
+      kind: "UI5Any",
+      name: "any",
+    };
+  }
   const typeObj = findValueInMaps<UI5Type>(
     typeName,
     model.classes,

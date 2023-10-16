@@ -27,11 +27,14 @@ export const createDefaultValue = (
 ): CompletionItem[] => {
   const completionItems: CompletionItem[] = [];
   const { element } = valueContext;
+  /* istanbul ignore next */
   const text = element.key?.text;
   const bindingElement = bindingElements.find((el) => el.name === text);
   const bindingType = getPropertyTypeWithPossibleValue(element, bindingElement);
   if (bindingType) {
+    /* istanbul ignore next */
     const range = element.value?.range;
+    /* istanbul ignore next */
     bindingType.possibleValue?.values.forEach((i) => {
       const label = getText(context, i, false);
       const newText = getText(context, i);

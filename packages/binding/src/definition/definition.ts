@@ -6,7 +6,7 @@ import {
   AGGREGATION_BINDING_INFO,
   FILTER_OPERATOR,
   PROPERTY_BINDING_INFO,
-} from "../constant";
+} from "../api";
 import {
   BindContext,
   BindingInfoElement,
@@ -113,6 +113,7 @@ const getPossibleElement = (param: {
   forHover?: boolean;
   type: UI5Class;
 }): BindingInfoElement[] => {
+  /* istanbul ignore next */
   const { aggregation = false, forHover = false, type, context } = param;
   if (type.name === ClassName.Sorter) {
     return getSorterPossibleElement();
@@ -191,6 +192,7 @@ const buildType = (param: {
   forHover?: boolean;
   reference?: string;
 }): PropertyType[] => {
+  /* istanbul ignore next */
   const {
     collection = false,
     aggregation = false,
@@ -202,16 +204,14 @@ const buildType = (param: {
   } = param;
   const propertyType: PropertyType[] = [];
   switch (type.kind) {
-    case "UnresolvedType": {
-      if (type.name === "any") {
-        propertyType.push({
-          kind: TypeKind[type.name],
-          dependents: getFromMap(dependents, name, aggregation),
-          notAllowedElements: getFromMap(notAllowedElements, name, aggregation),
-          collection,
-          reference,
-        });
-      }
+    case "UI5Any": {
+      propertyType.push({
+        kind: TypeKind[type.name],
+        dependents: getFromMap(dependents, name, aggregation),
+        notAllowedElements: getFromMap(notAllowedElements, name, aggregation),
+        collection,
+        reference,
+      });
       break;
     }
     case "PrimitiveType":

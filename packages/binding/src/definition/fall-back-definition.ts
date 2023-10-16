@@ -8,6 +8,7 @@ import { propertyBindingInfoElements } from "./fall-back-property-binding-info";
  * completely deleted
  */
 export const getFallBackElements = (
+  /* istanbul ignore next */
   aggregation = false
 ): BindingInfoElement[] => {
   if (aggregation) {

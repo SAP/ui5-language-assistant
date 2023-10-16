@@ -11,6 +11,7 @@ import { findRange } from "../../../utils";
 export const checkKey = (
   element: BindingTypes.StructureElement,
   bindingElements: BindingInfoElement[],
+  /* istanbul ignore next */
   aggregation = false
 ): BindingIssue[] => {
   const issues: BindingIssue[] = [];

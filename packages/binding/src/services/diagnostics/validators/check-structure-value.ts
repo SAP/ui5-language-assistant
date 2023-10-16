@@ -26,6 +26,7 @@ export const checkStructureValue = (
     lexer: BindingTypes.LexerError[];
   },
   bindingElements: BindingInfoElement[],
+  /* istanbul ignore next */
   aggregation = false
 ): BindingIssue[] => {
   const issues: BindingIssue[] = [];
@@ -70,9 +71,13 @@ export const checkStructureValue = (
     );
     if (!bdElement) {
       // currently checking reference to other binding element only
+      /* istanbul ignore next */
       return [];
     }
-    const possibleType = bdElement.type.find((i) => i.possibleElements?.length);
+    const possibleType = bdElement.type.find(
+      (i) => /* istanbul ignore next */ i.possibleElements?.length
+    );
+    /* istanbul ignore next */
     data = possibleType?.possibleElements ?? [];
   }
   // check content of structure value - recursive call

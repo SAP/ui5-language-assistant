@@ -5,13 +5,14 @@ import {
   ProjectType,
   TestFramework,
 } from "@ui5-language-assistant/test-framework";
-
+import { XMLAttribute } from "@xml-tools/ast";
 import { validateBinding } from "../../../../../src/services/diagnostics/validators/binding-validator";
 import {
   issueToSnapshot,
   ViewValidatorType,
   getViewValidator,
 } from "../../../helper";
+import { Context } from "@ui5-language-assistant/context";
 
 describe("property-binding-info-validator", () => {
   let framework: TestFramework;
@@ -45,6 +46,11 @@ describe("property-binding-info-validator", () => {
       validateBinding
     );
   });
+  it("throws exception - empty result", () => {
+    const result = validateBinding({} as XMLAttribute, {} as Context);
+    expect(result).toStrictEqual([]);
+  });
+
   // issue link: https://github.com/SAP/ui5-language-assistant/issues/652
   it("do not check ui5 property which does not contain any property binding info key", async () => {
     const snippet = `

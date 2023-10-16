@@ -40,18 +40,42 @@ describe("definition", () => {
       const result = getBindingElements(context);
       expect(result).toMatchSnapshot();
     });
+    it("get binding elements - aggregation", () => {
+      const result = getBindingElements(context, true);
+      expect(result).toMatchSnapshot();
+    });
     it("check fallback", () => {
-      const result = getBindingElements({
-        ...context,
-        ui5Model: {
-          ...context.ui5Model,
-          typedefs: {
-            ...context.ui5Model.typedefs,
-            "sap.ui.base.ManagedObject.PropertyBindingInfo":
-              undefined as unknown as UI5Typedef,
+      const result = getBindingElements(
+        {
+          ...context,
+          ui5Model: {
+            ...context.ui5Model,
+            typedefs: {
+              ...context.ui5Model.typedefs,
+              "sap.ui.base.ManagedObject.PropertyBindingInfo":
+                undefined as unknown as UI5Typedef,
+            },
           },
         },
-      });
+        false
+      );
+      expect(result).toMatchSnapshot();
+    });
+    it("check fallback - aggregation", () => {
+      const result = getBindingElements(
+        {
+          ...context,
+          ui5Model: {
+            ...context.ui5Model,
+            typedefs: {
+              ...context.ui5Model.typedefs,
+              "sap.ui.base.ManagedObject.AggregationBindingInfo":
+                undefined as unknown as UI5Typedef,
+            },
+          },
+        },
+        true
+      );
       expect(result).toMatchSnapshot();
     });
   });

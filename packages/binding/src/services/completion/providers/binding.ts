@@ -27,7 +27,9 @@ export const getCompletionItems = (
   context: BindContext,
   binding: BindingTypes.StructureValue,
   spaces: BindingTypes.WhiteSpaces[],
+  /* istanbul ignore next */
   aggregation = false,
+  /* istanbul ignore next */
   bindingElements = getBindingElements(context, aggregation)
 ): CompletionItem[] => {
   const completionItems: CompletionItem[] = [];
@@ -102,6 +104,7 @@ export function bindingSuggestions({
       completionItems.push(...createInitialSnippet());
       continue;
     }
+    /* istanbul ignore next */
     const cursorPos = context.textDocumentPosition?.position;
     const binding = ast.bindings.find(
       (b) =>

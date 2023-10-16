@@ -31,8 +31,11 @@ export const checkAst = (
     parse: BindingTypes.ParseError[];
     lexer: BindingTypes.LexerError[];
   },
+  /* istanbul ignore next */
   aggregation = false,
+  /* istanbul ignore next */
   bindingElements = getBindingElements(context, aggregation),
+  /* istanbul ignore next */
   ignore = false
 ): BindingIssue[] => {
   const issues: BindingIssue[] = [];

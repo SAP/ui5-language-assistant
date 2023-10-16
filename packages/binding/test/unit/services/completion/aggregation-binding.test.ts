@@ -125,6 +125,20 @@ describe("aggregation binding", () => {
         "label: {}; text: {$0}; kind:5; commit:undefined; sort:",
       ]);
     });
+    it("inside collection - reference", async function () {
+      const snippet = `
+        <List items="{
+          filters: [{
+            filters: [${CURSOR_ANCHOR}]
+          }]
+        }"> </List>`;
+      const result = await getCompletionResult(snippet);
+      expect(
+        result.map((item) => completionItemToSnapshot(item))
+      ).toStrictEqual([
+        "label: {}; text: {$0}; kind:5; commit:undefined; sort:",
+      ]);
+    });
     it("all properties", async function () {
       const snippet = `
         <List items="{filters: {${CURSOR_ANCHOR}} }"> </List>`;

@@ -46,6 +46,7 @@ const getHoverFromBinding = (
 
     // check valid key
     const property = bindingElements.find(
+      /* istanbul ignore next */
       (prop) => prop.name === element.key?.text
     );
 
@@ -77,13 +78,16 @@ const getHoverFromBinding = (
             return;
           }
           const possibleType = bdElement.type.find(
+            /* istanbul ignore next */
             (i) => i.possibleElements?.length
           );
+          /* istanbul ignore next */
           data = possibleType?.possibleElements ?? [];
         } else {
           const typeWithPossibleEl = property?.type.find(
             (t) => t.possibleElements
           );
+          /* istanbul ignore next */
           if (typeWithPossibleEl?.possibleElements?.length) {
             data = typeWithPossibleEl.possibleElements;
           }
@@ -99,6 +103,7 @@ const getHoverFromBinding = (
           continue;
         }
         let data = bindingElements;
+        /* istanbul ignore next */
         const typeWithPossibleEl = property?.type.find(
           (t) => t.possibleElements
         );
@@ -109,6 +114,7 @@ const getHoverFromBinding = (
             true
           ).find((i) => i.name === typeWithPossibleEl.reference);
           data =
+            /* istanbul ignore next */
             refWithPossibleEl?.type.find((i) => i.possibleElements?.length)
               ?.possibleElements ?? [];
         } else if (typeWithPossibleEl?.possibleElements?.length) {

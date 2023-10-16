@@ -96,6 +96,10 @@ export interface UI5Method extends BaseUI5Node {
   kind: "UI5Method";
   // TODO: TBD: Ignoring this type's content at this time.
 }
+export interface UI5Any {
+  kind: "UI5Any";
+  name: "any";
+}
 
 // Likely Not Relevant for XML.Views
 export interface UI5Function extends BaseUI5Node {
@@ -204,6 +208,7 @@ export type UI5Type =
   | ArrayType
   | PrimitiveType
   | UnionType
+  | UI5Any
   | UnresolvedType;
 
 // TODO Should we keep int and float in addition to number? Should we keep both object and map?

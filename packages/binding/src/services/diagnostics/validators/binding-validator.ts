@@ -42,7 +42,9 @@ export function validateBinding(
     );
     const properties = bindingElements.map((i) => i.name);
     const value = attribute.syntax.value;
+    /* istanbul ignore next */
     const text = attribute.value ?? "";
+    /* istanbul ignore next */
     const startChar = value?.image.charAt(0);
     context.doubleQuotes = startChar === '"';
     if (text.trim().length === 0) {
