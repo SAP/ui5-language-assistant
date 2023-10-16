@@ -18,6 +18,12 @@ const getType = (type: UI5Type | undefined): string[] => {
   let noneColResult = "";
   const data: string[] = [];
   switch (type.kind) {
+    case "UnresolvedType": {
+      if (type.name === "any") {
+        result.push(type.name);
+        break;
+      }
+    }
     case "PrimitiveType":
       result.push(type.name);
       break;

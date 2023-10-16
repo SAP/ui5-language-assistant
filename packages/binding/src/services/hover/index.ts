@@ -98,15 +98,24 @@ const getHoverFromBinding = (
         if (collectionEl.type !== "structure-value") {
           continue;
         }
+        let data = bindingElements;
         const typeWithPossibleEl = property?.type.find(
           (t) => t.possibleElements
         );
-        hover = getHoverFromBinding(
-          context,
-          typeWithPossibleEl?.possibleElements ?? bindingElements,
-          collectionEl,
-          aggregation
-        );
+        if (typeWithPossibleEl?.reference) {
+          const refWithPossibleEl = getBindingElements(
+            context,
+            aggregation,
+            true
+          ).find((i) => i.name === typeWithPossibleEl.reference);
+          data =
+            refWithPossibleEl?.type.find((i) => i.possibleElements?.length)
+              ?.possibleElements ?? [];
+        } else if (typeWithPossibleEl?.possibleElements?.length) {
+          data = typeWithPossibleEl.possibleElements;
+        }
+
+        hover = getHoverFromBinding(context, data, collectionEl, aggregation);
         if (hover) {
           return hover;
         }
