@@ -186,53 +186,6 @@ describe("aggregation binding", () => {
       expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([]);
     });
   });
-  describe("required dependency", () => {
-    it("value1", async () => {
-      const snippet = `
-        <List
-          items="{
-              filters: {
-                value1: 'any-value'
-              },
-              path: 'test-path'
-            }"
-        />`;
-      const result = await validateView(snippet);
-      expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-        'kind: RequiredDependency; text: Required dependency "operator" should be defined; severity:info; range:12:16-12:22',
-      ]);
-    });
-    it("value2", async () => {
-      const snippet = `
-        <List
-          items="{
-              filters: {
-                value2: 'any-value'
-              },
-              path: 'test-path'
-            }"
-        />`;
-      const result = await validateView(snippet);
-      expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-        'kind: RequiredDependency; text: Required dependency "operator" should be defined; severity:info; range:12:16-12:22',
-      ]);
-    });
-    it("condition", async () => {
-      const snippet = `
-        <List
-          items="{
-              filters: {
-                condition: {}
-              },
-              path: 'test-path'
-            }"
-        />`;
-      const result = await validateView(snippet);
-      expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-        'kind: RequiredDependency; text: Required dependency "operator" should be defined; severity:info; range:12:16-12:25',
-      ]);
-    });
-  });
   describe("required property", () => {
     it("aggregation - path required", async () => {
       const snippet = `

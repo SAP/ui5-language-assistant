@@ -72,12 +72,7 @@ export const getFiltersPossibleElement = (): BindingInfoElement[] => {
       type: [
         {
           kind: TypeKind.any,
-          dependents: [
-            {
-              name: "operator",
-              type: [],
-            },
-          ],
+          dependents: [],
           notAllowedElements: [],
         },
       ],
@@ -91,12 +86,7 @@ export const getFiltersPossibleElement = (): BindingInfoElement[] => {
       type: [
         {
           kind: TypeKind.any,
-          dependents: [
-            {
-              name: "operator",
-              type: [],
-            },
-          ],
+          dependents: [],
           notAllowedElements: [],
         },
       ],
@@ -110,12 +100,7 @@ export const getFiltersPossibleElement = (): BindingInfoElement[] => {
       type: [
         {
           kind: TypeKind.any,
-          dependents: [
-            {
-              name: "operator",
-              type: [],
-            },
-          ],
+          dependents: [],
           notAllowedElements: [],
         },
       ],
@@ -129,12 +114,7 @@ export const getFiltersPossibleElement = (): BindingInfoElement[] => {
       type: [
         {
           kind: TypeKind.object,
-          dependents: [
-            {
-              name: "operator",
-              type: [],
-            },
-          ],
+          dependents: [],
           notAllowedElements: [],
           reference: "filters",
         },
