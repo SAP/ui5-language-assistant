@@ -80,10 +80,14 @@ export interface UI5Typedef extends BaseUI5Node {
   properties: UI5TypedefProp[];
 }
 
+export interface UI5ConstructorParameters extends UI5TypedefProp {
+  parameterProperties: UI5ConstructorParameters[];
+}
 // Likely Not Relevant for XML.Views
 export interface UI5Constructor extends BaseUI5Node {
   kind: "UI5Constructor";
   name: "";
+  parameters: UI5ConstructorParameters[];
   // TODO: TBD: Ignoring this type's content at this time.
 }
 

@@ -220,6 +220,7 @@ function getTypeNameFix(): TypeNameFix {
     array: "object[]",
     Array: "object[]",
     bloolean: "boolean",
+    any: "any",
     "sap.m.PlanningCalendarHeader": undefined,
     "sap.m.TimePickerSlider": undefined,
     "sap.ui.layout.ResponsiveSplitterPage": undefined,

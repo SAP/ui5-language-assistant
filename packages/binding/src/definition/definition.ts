@@ -2,7 +2,11 @@ import {
   UI5Class,
   UI5Type,
 } from "@ui5-language-assistant/semantic-model-types";
-import { AGGREGATION_BINDING_INFO, PROPERTY_BINDING_INFO } from "../constant";
+import {
+  AGGREGATION_BINDING_INFO,
+  FILTER_OPERATOR,
+  PROPERTY_BINDING_INFO,
+} from "../constant";
 import {
   BindContext,
   BindingInfoElement,
@@ -73,14 +77,81 @@ const classKind: Map<ClassName, TypeKind> = new Map([
 const getClassKind = (name: string) =>
   classKind.get(name as ClassName) ?? TypeKind.string;
 
-const getPossibleElement = (name: string): BindingInfoElement[] => {
-  if (name === ClassName.Sorter) {
+const getReference = (type: UI5Type) => {
+  let reference;
+  switch (type.kind) {
+    case "PrimitiveType":
+    case "UI5Enum":
+    case "UI5Class":
+    case "UI5Typedef":
+      if (type.name === ClassName.Filter) {
+        reference = "filters";
+      }
+      break;
+    case "ArrayType":
+      if (type.type) {
+        reference = getReference(type.type);
+      }
+      break;
+    case "UnionType":
+      for (const t of type.types) {
+        reference = getReference(t);
+        if (reference) {
+          break;
+        }
+      }
+      break;
+    default:
+      break;
+  }
+  return reference;
+};
+
+const getPossibleElement = (param: {
+  context: BindContext;
+  aggregation?: boolean;
+  forHover?: boolean;
+  type: UI5Class;
+}): BindingInfoElement[] => {
+  const { aggregation = false, forHover = false, type, context } = param;
+  if (type.name === ClassName.Sorter) {
     return getSorterPossibleElement();
   }
-  if (name === ClassName.Filter) {
-    return getFiltersPossibleElement();
+  const result: BindingInfoElement[] = [];
+  if (type.name === ClassName.Filter) {
+    // for filters only try `vFilterInfo` from constructor
+    const vFilter = type.ctor?.parameters.find((i) => i.name === "vFilterInfo");
+    if (!vFilter) {
+      // use fallback filter
+      return getFiltersPossibleElement();
+    }
+    for (const param of vFilter.parameterProperties) {
+      if (!param.type) {
+        continue;
+      }
+      // add reference to type and avoid recursion
+      let paramType = param.type;
+      const reference = getReference(paramType);
+      const data: BindingInfoElement = {
+        name: param.name,
+        type: buildType({
+          context,
+          type: paramType,
+          name: param.name,
+          collection: false,
+          aggregation,
+          forHover,
+          reference,
+        }),
+        documentation: getDocumentation(context, param, aggregation, forHover),
+      };
+      if (param.optional === false) {
+        data.required = true;
+      }
+      result.push(data);
+    }
   }
-  return [];
+  return result;
 };
 
 const getPossibleValuesForClass = (
@@ -110,15 +181,38 @@ const getFromMap = <T, U extends string>(
   return aggregation ? [] : map.get(name) ?? [];
 };
 
-const buildType = (
-  context: BindContext,
-  type: UI5Type,
-  name: string,
-  collection = false,
-  aggregation = false
-): PropertyType[] => {
+const buildType = (param: {
+  context: BindContext;
+  type: UI5Type;
+  name: string;
+  collection?: boolean;
+  aggregation?: boolean;
+  forHover?: boolean;
+  reference?: string;
+}): PropertyType[] => {
+  const {
+    collection = false,
+    aggregation = false,
+    forHover = false,
+    context,
+    type,
+    name,
+    reference,
+  } = param;
   const propertyType: PropertyType[] = [];
   switch (type.kind) {
+    case "UnresolvedType": {
+      if (type.name === "any") {
+        propertyType.push({
+          kind: TypeKind[type.name],
+          dependents: getFromMap(dependents, name, aggregation),
+          notAllowedElements: getFromMap(notAllowedElements, name, aggregation),
+          collection,
+          reference,
+        });
+      }
+      break;
+    }
     case "PrimitiveType":
       propertyType.push({
         kind: TypeKind[type.name],
@@ -129,6 +223,7 @@ const buildType = (
           values: getFromMap(defaultBoolean, type.name, aggregation),
         },
         collection,
+        reference,
       });
       break;
     case "UI5Enum":
@@ -138,9 +233,18 @@ const buildType = (
         notAllowedElements: getFromMap(notAllowedElements, name, aggregation),
         possibleValue: {
           fixed: true,
-          values: type.fields.map((field) => ui5NodeToFQN(field)),
+          values: type.fields.map((field) => {
+            /**
+             * filter operator accepts `BT` as value in XML instead of FQN `sap.ui.model.FilterOperator.BT`
+             */
+            if (type.name === FILTER_OPERATOR) {
+              return field.name;
+            }
+            return ui5NodeToFQN(field);
+          }),
         },
         collection,
+        reference,
       });
       break;
     case "UI5Class":
@@ -148,12 +252,15 @@ const buildType = (
         kind: getClassKind(type.name),
         dependents: getFromMap(dependents, name, aggregation),
         notAllowedElements: getFromMap(notAllowedElements, name, aggregation),
-        possibleElements: getPossibleElement(type.name),
+        possibleElements: reference
+          ? []
+          : getPossibleElement({ context, aggregation, forHover, type }),
         possibleValue: {
           fixed: false,
           values: getPossibleValuesForClass(context, type),
         },
         collection,
+        reference,
       });
       break;
     case "UI5Typedef":
@@ -163,22 +270,54 @@ const buildType = (
           dependents: getFromMap(dependents, name, aggregation),
           notAllowedElements: getFromMap(notAllowedElements, name, aggregation),
           collection,
+          reference,
         });
       }
       break;
     case "UnionType":
       for (const unionType of type.types) {
         if (unionType.kind === "ArrayType" && unionType.type) {
-          propertyType.push(...buildType(context, unionType.type, name, true));
+          propertyType.push(
+            ...buildType({
+              context,
+              type: unionType.type,
+              name,
+              collection: true,
+              aggregation,
+              forHover,
+              reference,
+            })
+          );
         } else {
-          propertyType.push(...buildType(context, unionType, name));
+          propertyType.push(
+            ...buildType({
+              context,
+              type: unionType,
+              name,
+              collection,
+              aggregation,
+              forHover,
+              reference,
+            })
+          );
         }
       }
       break;
     case "ArrayType":
-      if (type.type?.kind === "UI5Typedef") {
-        propertyType.push(...buildType(context, type.type, name, true));
+      if (!type.type) {
+        break;
       }
+      propertyType.push(
+        ...buildType({
+          context,
+          type: type.type,
+          name,
+          collection: true,
+          aggregation,
+          forHover,
+          reference,
+        })
+      );
       break;
   }
   return propertyType;
@@ -205,26 +344,30 @@ export const getBindingElements = (
       /* istanbul ignore next */
       continue;
     }
-    const builtType = buildType(context, type, name).reduce(
-      (previous: PropertyType[], current: PropertyType) => {
-        const index = previous.findIndex((i) => i.kind === current.kind);
-        if (index !== -1) {
-          // there is duplicate
-          /* istanbul ignore next */
-          if (current.possibleValue?.values.length !== 0) {
-            // has possible value, remove previous - keep current
-            return [...previous.slice(index), current];
-          }
-          /* istanbul ignore next */
-          if (previous[index].possibleValue?.values.length !== 0) {
-            // has possible value - keep it
-            return previous;
-          }
+    const builtType = buildType({
+      context,
+      type,
+      name,
+      collection: false,
+      aggregation,
+      forHover,
+    }).reduce((previous: PropertyType[], current: PropertyType) => {
+      const index = previous.findIndex((i) => i.kind === current.kind);
+      if (index !== -1) {
+        // there is duplicate
+        /* istanbul ignore next */
+        if (current.possibleValue?.values.length !== 0) {
+          // has possible value, remove previous - keep current
+          return [...previous.slice(index), current];
         }
-        return [...previous, current];
-      },
-      []
-    );
+        /* istanbul ignore next */
+        if (previous[index].possibleValue?.values.length !== 0) {
+          // has possible value - keep it
+          return previous;
+        }
+      }
+      return [...previous, current];
+    }, []);
     const data: BindingInfoElement = {
       name: name,
       type: builtType,

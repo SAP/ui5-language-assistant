@@ -13,12 +13,14 @@ import {
   BaseUI5Node,
   PrimitiveTypeName,
   UI5Class,
+  UI5ConstructorParameters,
   UI5Interface,
   UI5SemanticModel,
   UI5Type,
+  UI5TypedefProp,
 } from "@ui5-language-assistant/semantic-model-types";
 import { TypeNameFix } from "../api";
-import { SymbolBase, ClassSymbol } from "./api-json";
+import { SymbolBase, ClassSymbol, ObjCallableParameters } from "./api-json";
 import { error, getParentFqn, findValueInMaps, findSymbol } from "./utils";
 
 // Exported for testing purpose
@@ -41,6 +43,42 @@ export function setParent(
     }
     symbol.parent = parent;
   }
+}
+
+function resolveConstructorParameters(
+  model: UI5SemanticModel,
+  symbols: Record<string, SymbolBase>,
+  typeNameFix: TypeNameFix,
+  strict: boolean,
+  params: ObjCallableParameters = []
+): UI5ConstructorParameters[] {
+  const result: UI5ConstructorParameters[] = [];
+  for (const param of params) {
+    const type = resolveType({ model, type: param.type, typeNameFix, strict });
+    if (type) {
+      const data: UI5ConstructorParameters = {
+        ...param,
+        kind: "UI5TypedefProp",
+        type,
+        parameterProperties: [],
+      };
+      if (param.parameterProperties) {
+        for (const key of Object.keys(param.parameterProperties)) {
+          data.parameterProperties.push(
+            ...resolveConstructorParameters(
+              model,
+              symbols,
+              typeNameFix,
+              strict,
+              [param.parameterProperties[key]]
+            )
+          );
+        }
+      }
+      result.push(data);
+    }
+  }
+  return result;
 }
 
 export function resolveSemanticProperties(
@@ -139,6 +177,18 @@ export function resolveSemanticProperties(
         )
         .filter((item) => !!item);
       classs.returnTypes = convertedTypes;
+    }
+
+    if (classs.ctor?.parameters && jsonSymbol.constructor.parameters) {
+      classs.ctor.parameters.push(
+        ...resolveConstructorParameters(
+          model,
+          symbols,
+          typeNameFix,
+          strict,
+          jsonSymbol.constructor.parameters
+        )
+      );
     }
   }
 
@@ -392,7 +442,7 @@ function getPrimitiveTypeName(typeName: string): PrimitiveTypeName | undefined {
 // These types don't have any specific type information
 const typesToIgnore: Record<string, undefined> = {
   undefined: undefined,
-  any: undefined,
+  // any: undefined,
 };
 function ignoreType(typeName: string): boolean {
   return has(typesToIgnore, typeName);

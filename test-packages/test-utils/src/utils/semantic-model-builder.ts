@@ -92,6 +92,7 @@ export function buildUI5Constructor<T extends Partial<UI5Constructor>>(
     ...baseUI5NodeDefaults,
     kind: "UI5Constructor",
     name: "",
+    parameters: [],
     ...opts,
   };
 }

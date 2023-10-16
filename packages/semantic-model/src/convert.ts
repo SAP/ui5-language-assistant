@@ -353,6 +353,7 @@ function convertConstructor(
     since: undefined,
     name: "",
     parent: parent,
+    parameters: [],
   };
   return constructor;
 }
