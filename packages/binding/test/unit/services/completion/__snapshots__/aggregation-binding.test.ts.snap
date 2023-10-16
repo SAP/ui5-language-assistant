@@ -289,8 +289,18 @@ exports[`aggregation binding filters all properties - inside collection 1`] = `
 Array [
   Object {
     "documentation": Object {
-      "kind": "plaintext",
-      "value": "",
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** String
+
+**Description:** Binding path for this filter
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "insertText": "path: '$0'",
     "insertTextFormat": 2,
@@ -299,8 +309,18 @@ Array [
   },
   Object {
     "documentation": Object {
-      "kind": "plaintext",
-      "value": "",
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** Function
+
+**Description:** Function used for the client-side filtering of items. It should return a Boolean indicating whether the current item passes the filter. If no test function is given, a default test function is used, based on the given filter operator and the comparator function.
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "insertText": "test: '$0'",
     "insertTextFormat": 2,
@@ -309,8 +329,18 @@ Array [
   },
   Object {
     "documentation": Object {
-      "kind": "plaintext",
-      "value": "",
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** Function
+
+**Description:** Function used to compare two values for equality and order during client-side filtering. Two values are given as parameters. The function is expected to return: <ul> <li>a negative number if the first value is smaller than the second value, <li><code>0</code> if the two values are equal, <li>a positive number if the first value is larger than the second value, <li><code>NaN</code> for non-comparable values. </ul> If no function is given, {@link sap.ui.model.Filter.defaultComparator} is used.
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "insertText": "comparator: '$0'",
     "insertTextFormat": 2,
@@ -319,8 +349,18 @@ Array [
   },
   Object {
     "documentation": Object {
-      "kind": "plaintext",
-      "value": "",
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** sap.ui.model.FilterOperator
+
+**Description:** Operator used for the filter
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "insertText": "operator: '$0'",
     "insertTextFormat": 2,
@@ -329,8 +369,18 @@ Array [
   },
   Object {
     "documentation": Object {
-      "kind": "plaintext",
-      "value": "",
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** any
+
+**Description:** First value to use with the given filter operator
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "insertText": "value1: $0",
     "insertTextFormat": 2,
@@ -339,8 +389,18 @@ Array [
   },
   Object {
     "documentation": Object {
-      "kind": "plaintext",
-      "value": "",
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** any
+
+**Description:** Second value to use with the given filter operator, used only for the {@link sap.ui.model.FilterOperator.BT \\"BT\\" between} and {@link sap.ui.model.FilterOperator.NB \\"NB\\" not between} filter operators
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "insertText": "value2: $0",
     "insertTextFormat": 2,
@@ -349,18 +409,38 @@ Array [
   },
   Object {
     "documentation": Object {
-      "kind": "plaintext",
-      "value": "",
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** String
+
+**Description:** The variable name used in lambda operators ({@link sap.ui.model.FilterOperator.Any \\"Any\\"} and {@link sap.ui.model.FilterOperator.All \\"All\\"})
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
-    "insertText": "variable: $0",
+    "insertText": "variable: '$0'",
     "insertTextFormat": 2,
     "kind": 15,
     "label": "variable",
   },
   Object {
     "documentation": Object {
-      "kind": "plaintext",
-      "value": "",
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** sap.ui.model.Filter
+
+**Description:** A filter instance which will be used as the condition for lambda operators ({@link sap.ui.model.FilterOperator.Any \\"Any\\"} and {@link sap.ui.model.FilterOperator.All \\"All\\"})
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "insertText": "condition: {$0}",
     "insertTextFormat": 2,
@@ -369,8 +449,18 @@ Array [
   },
   Object {
     "documentation": Object {
-      "kind": "plaintext",
-      "value": "",
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** 
+
+**Description:** An array of filters on which the logical conjunction is applied
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "insertText": "filters: [{$0}]",
     "insertTextFormat": 2,
@@ -379,8 +469,18 @@ Array [
   },
   Object {
     "documentation": Object {
-      "kind": "plaintext",
-      "value": "",
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** Boolean
+
+**Description:** Indicates whether an \\"AND\\" logical conjunction is applied on the filters. If it's not set or set to <code>false</code>, an \\"OR\\" conjunction is applied.
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "insertText": "and: $0",
     "insertTextFormat": 2,
@@ -389,8 +489,18 @@ Array [
   },
   Object {
     "documentation": Object {
-      "kind": "plaintext",
-      "value": "",
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** Boolean
+
+**Description:** Indicates whether a string value should be compared case sensitive or not. The handling of <code>undefined</code> depends on the model implementation.
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "insertText": "caseSensitive: $0",
     "insertTextFormat": 2,
@@ -404,8 +514,18 @@ exports[`aggregation binding filters all properties 1`] = `
 Array [
   Object {
     "documentation": Object {
-      "kind": "plaintext",
-      "value": "",
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** String
+
+**Description:** Binding path for this filter
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "insertText": "path: '$0'",
     "insertTextFormat": 2,
@@ -414,8 +534,18 @@ Array [
   },
   Object {
     "documentation": Object {
-      "kind": "plaintext",
-      "value": "",
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** Function
+
+**Description:** Function used for the client-side filtering of items. It should return a Boolean indicating whether the current item passes the filter. If no test function is given, a default test function is used, based on the given filter operator and the comparator function.
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "insertText": "test: '$0'",
     "insertTextFormat": 2,
@@ -424,8 +554,18 @@ Array [
   },
   Object {
     "documentation": Object {
-      "kind": "plaintext",
-      "value": "",
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** Function
+
+**Description:** Function used to compare two values for equality and order during client-side filtering. Two values are given as parameters. The function is expected to return: <ul> <li>a negative number if the first value is smaller than the second value, <li><code>0</code> if the two values are equal, <li>a positive number if the first value is larger than the second value, <li><code>NaN</code> for non-comparable values. </ul> If no function is given, {@link sap.ui.model.Filter.defaultComparator} is used.
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "insertText": "comparator: '$0'",
     "insertTextFormat": 2,
@@ -434,8 +574,18 @@ Array [
   },
   Object {
     "documentation": Object {
-      "kind": "plaintext",
-      "value": "",
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** sap.ui.model.FilterOperator
+
+**Description:** Operator used for the filter
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "insertText": "operator: '$0'",
     "insertTextFormat": 2,
@@ -444,8 +594,18 @@ Array [
   },
   Object {
     "documentation": Object {
-      "kind": "plaintext",
-      "value": "",
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** any
+
+**Description:** First value to use with the given filter operator
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "insertText": "value1: $0",
     "insertTextFormat": 2,
@@ -454,8 +614,18 @@ Array [
   },
   Object {
     "documentation": Object {
-      "kind": "plaintext",
-      "value": "",
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** any
+
+**Description:** Second value to use with the given filter operator, used only for the {@link sap.ui.model.FilterOperator.BT \\"BT\\" between} and {@link sap.ui.model.FilterOperator.NB \\"NB\\" not between} filter operators
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "insertText": "value2: $0",
     "insertTextFormat": 2,
@@ -464,18 +634,38 @@ Array [
   },
   Object {
     "documentation": Object {
-      "kind": "plaintext",
-      "value": "",
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** String
+
+**Description:** The variable name used in lambda operators ({@link sap.ui.model.FilterOperator.Any \\"Any\\"} and {@link sap.ui.model.FilterOperator.All \\"All\\"})
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
-    "insertText": "variable: $0",
+    "insertText": "variable: '$0'",
     "insertTextFormat": 2,
     "kind": 15,
     "label": "variable",
   },
   Object {
     "documentation": Object {
-      "kind": "plaintext",
-      "value": "",
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** sap.ui.model.Filter
+
+**Description:** A filter instance which will be used as the condition for lambda operators ({@link sap.ui.model.FilterOperator.Any \\"Any\\"} and {@link sap.ui.model.FilterOperator.All \\"All\\"})
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "insertText": "condition: {$0}",
     "insertTextFormat": 2,
@@ -484,8 +674,18 @@ Array [
   },
   Object {
     "documentation": Object {
-      "kind": "plaintext",
-      "value": "",
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** 
+
+**Description:** An array of filters on which the logical conjunction is applied
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "insertText": "filters: [{$0}]",
     "insertTextFormat": 2,
@@ -494,8 +694,18 @@ Array [
   },
   Object {
     "documentation": Object {
-      "kind": "plaintext",
-      "value": "",
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** Boolean
+
+**Description:** Indicates whether an \\"AND\\" logical conjunction is applied on the filters. If it's not set or set to <code>false</code>, an \\"OR\\" conjunction is applied.
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "insertText": "and: $0",
     "insertTextFormat": 2,
@@ -504,8 +714,18 @@ Array [
   },
   Object {
     "documentation": Object {
-      "kind": "plaintext",
-      "value": "",
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** Boolean
+
+**Description:** Indicates whether a string value should be compared case sensitive or not. The handling of <code>undefined</code> depends on the model implementation.
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "insertText": "caseSensitive: $0",
     "insertTextFormat": 2,
@@ -519,8 +739,18 @@ exports[`aggregation binding filters condition all properties - nested 1`] = `
 Array [
   Object {
     "documentation": Object {
-      "kind": "plaintext",
-      "value": "",
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** String
+
+**Description:** Binding path for this filter
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "insertText": "path: '$0'",
     "insertTextFormat": 2,
@@ -529,8 +759,18 @@ Array [
   },
   Object {
     "documentation": Object {
-      "kind": "plaintext",
-      "value": "",
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** Function
+
+**Description:** Function used for the client-side filtering of items. It should return a Boolean indicating whether the current item passes the filter. If no test function is given, a default test function is used, based on the given filter operator and the comparator function.
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "insertText": "test: '$0'",
     "insertTextFormat": 2,
@@ -539,8 +779,18 @@ Array [
   },
   Object {
     "documentation": Object {
-      "kind": "plaintext",
-      "value": "",
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** Function
+
+**Description:** Function used to compare two values for equality and order during client-side filtering. Two values are given as parameters. The function is expected to return: <ul> <li>a negative number if the first value is smaller than the second value, <li><code>0</code> if the two values are equal, <li>a positive number if the first value is larger than the second value, <li><code>NaN</code> for non-comparable values. </ul> If no function is given, {@link sap.ui.model.Filter.defaultComparator} is used.
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "insertText": "comparator: '$0'",
     "insertTextFormat": 2,
@@ -549,8 +799,18 @@ Array [
   },
   Object {
     "documentation": Object {
-      "kind": "plaintext",
-      "value": "",
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** sap.ui.model.FilterOperator
+
+**Description:** Operator used for the filter
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "insertText": "operator: '$0'",
     "insertTextFormat": 2,
@@ -559,8 +819,18 @@ Array [
   },
   Object {
     "documentation": Object {
-      "kind": "plaintext",
-      "value": "",
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** any
+
+**Description:** First value to use with the given filter operator
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "insertText": "value1: $0",
     "insertTextFormat": 2,
@@ -569,8 +839,18 @@ Array [
   },
   Object {
     "documentation": Object {
-      "kind": "plaintext",
-      "value": "",
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** any
+
+**Description:** Second value to use with the given filter operator, used only for the {@link sap.ui.model.FilterOperator.BT \\"BT\\" between} and {@link sap.ui.model.FilterOperator.NB \\"NB\\" not between} filter operators
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "insertText": "value2: $0",
     "insertTextFormat": 2,
@@ -579,18 +859,38 @@ Array [
   },
   Object {
     "documentation": Object {
-      "kind": "plaintext",
-      "value": "",
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** String
+
+**Description:** The variable name used in lambda operators ({@link sap.ui.model.FilterOperator.Any \\"Any\\"} and {@link sap.ui.model.FilterOperator.All \\"All\\"})
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
-    "insertText": "variable: $0",
+    "insertText": "variable: '$0'",
     "insertTextFormat": 2,
     "kind": 15,
     "label": "variable",
   },
   Object {
     "documentation": Object {
-      "kind": "plaintext",
-      "value": "",
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** sap.ui.model.Filter
+
+**Description:** A filter instance which will be used as the condition for lambda operators ({@link sap.ui.model.FilterOperator.Any \\"Any\\"} and {@link sap.ui.model.FilterOperator.All \\"All\\"})
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "insertText": "condition: {$0}",
     "insertTextFormat": 2,
@@ -599,8 +899,18 @@ Array [
   },
   Object {
     "documentation": Object {
-      "kind": "plaintext",
-      "value": "",
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** 
+
+**Description:** An array of filters on which the logical conjunction is applied
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "insertText": "filters: [{$0}]",
     "insertTextFormat": 2,
@@ -609,8 +919,18 @@ Array [
   },
   Object {
     "documentation": Object {
-      "kind": "plaintext",
-      "value": "",
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** Boolean
+
+**Description:** Indicates whether an \\"AND\\" logical conjunction is applied on the filters. If it's not set or set to <code>false</code>, an \\"OR\\" conjunction is applied.
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "insertText": "and: $0",
     "insertTextFormat": 2,
@@ -619,8 +939,18 @@ Array [
   },
   Object {
     "documentation": Object {
-      "kind": "plaintext",
-      "value": "",
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** Boolean
+
+**Description:** Indicates whether a string value should be compared case sensitive or not. The handling of <code>undefined</code> depends on the model implementation.
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "insertText": "caseSensitive: $0",
     "insertTextFormat": 2,
@@ -634,8 +964,18 @@ exports[`aggregation binding filters condition all properties 1`] = `
 Array [
   Object {
     "documentation": Object {
-      "kind": "plaintext",
-      "value": "",
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** String
+
+**Description:** Binding path for this filter
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "insertText": "path: '$0'",
     "insertTextFormat": 2,
@@ -644,8 +984,18 @@ Array [
   },
   Object {
     "documentation": Object {
-      "kind": "plaintext",
-      "value": "",
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** Function
+
+**Description:** Function used for the client-side filtering of items. It should return a Boolean indicating whether the current item passes the filter. If no test function is given, a default test function is used, based on the given filter operator and the comparator function.
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "insertText": "test: '$0'",
     "insertTextFormat": 2,
@@ -654,8 +1004,18 @@ Array [
   },
   Object {
     "documentation": Object {
-      "kind": "plaintext",
-      "value": "",
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** Function
+
+**Description:** Function used to compare two values for equality and order during client-side filtering. Two values are given as parameters. The function is expected to return: <ul> <li>a negative number if the first value is smaller than the second value, <li><code>0</code> if the two values are equal, <li>a positive number if the first value is larger than the second value, <li><code>NaN</code> for non-comparable values. </ul> If no function is given, {@link sap.ui.model.Filter.defaultComparator} is used.
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "insertText": "comparator: '$0'",
     "insertTextFormat": 2,
@@ -664,8 +1024,18 @@ Array [
   },
   Object {
     "documentation": Object {
-      "kind": "plaintext",
-      "value": "",
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** sap.ui.model.FilterOperator
+
+**Description:** Operator used for the filter
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "insertText": "operator: '$0'",
     "insertTextFormat": 2,
@@ -674,8 +1044,18 @@ Array [
   },
   Object {
     "documentation": Object {
-      "kind": "plaintext",
-      "value": "",
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** any
+
+**Description:** First value to use with the given filter operator
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "insertText": "value1: $0",
     "insertTextFormat": 2,
@@ -684,8 +1064,18 @@ Array [
   },
   Object {
     "documentation": Object {
-      "kind": "plaintext",
-      "value": "",
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** any
+
+**Description:** Second value to use with the given filter operator, used only for the {@link sap.ui.model.FilterOperator.BT \\"BT\\" between} and {@link sap.ui.model.FilterOperator.NB \\"NB\\" not between} filter operators
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "insertText": "value2: $0",
     "insertTextFormat": 2,
@@ -694,18 +1084,38 @@ Array [
   },
   Object {
     "documentation": Object {
-      "kind": "plaintext",
-      "value": "",
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** String
+
+**Description:** The variable name used in lambda operators ({@link sap.ui.model.FilterOperator.Any \\"Any\\"} and {@link sap.ui.model.FilterOperator.All \\"All\\"})
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
-    "insertText": "variable: $0",
+    "insertText": "variable: '$0'",
     "insertTextFormat": 2,
     "kind": 15,
     "label": "variable",
   },
   Object {
     "documentation": Object {
-      "kind": "plaintext",
-      "value": "",
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** sap.ui.model.Filter
+
+**Description:** A filter instance which will be used as the condition for lambda operators ({@link sap.ui.model.FilterOperator.Any \\"Any\\"} and {@link sap.ui.model.FilterOperator.All \\"All\\"})
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "insertText": "condition: {$0}",
     "insertTextFormat": 2,
@@ -714,8 +1124,18 @@ Array [
   },
   Object {
     "documentation": Object {
-      "kind": "plaintext",
-      "value": "",
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** 
+
+**Description:** An array of filters on which the logical conjunction is applied
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "insertText": "filters: [{$0}]",
     "insertTextFormat": 2,
@@ -724,8 +1144,18 @@ Array [
   },
   Object {
     "documentation": Object {
-      "kind": "plaintext",
-      "value": "",
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** Boolean
+
+**Description:** Indicates whether an \\"AND\\" logical conjunction is applied on the filters. If it's not set or set to <code>false</code>, an \\"OR\\" conjunction is applied.
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "insertText": "and: $0",
     "insertTextFormat": 2,
@@ -734,8 +1164,18 @@ Array [
   },
   Object {
     "documentation": Object {
-      "kind": "plaintext",
-      "value": "",
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** Boolean
+
+**Description:** Indicates whether a string value should be compared case sensitive or not. The handling of <code>undefined</code> depends on the model implementation.
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "insertText": "caseSensitive: $0",
     "insertTextFormat": 2,
@@ -1058,8 +1498,18 @@ exports[`aggregation binding filters filters all properties - nested 1`] = `
 Array [
   Object {
     "documentation": Object {
-      "kind": "plaintext",
-      "value": "",
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** String
+
+**Description:** Binding path for this filter
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "insertText": "path: '$0'",
     "insertTextFormat": 2,
@@ -1068,8 +1518,18 @@ Array [
   },
   Object {
     "documentation": Object {
-      "kind": "plaintext",
-      "value": "",
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** Function
+
+**Description:** Function used for the client-side filtering of items. It should return a Boolean indicating whether the current item passes the filter. If no test function is given, a default test function is used, based on the given filter operator and the comparator function.
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "insertText": "test: '$0'",
     "insertTextFormat": 2,
@@ -1078,8 +1538,18 @@ Array [
   },
   Object {
     "documentation": Object {
-      "kind": "plaintext",
-      "value": "",
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** Function
+
+**Description:** Function used to compare two values for equality and order during client-side filtering. Two values are given as parameters. The function is expected to return: <ul> <li>a negative number if the first value is smaller than the second value, <li><code>0</code> if the two values are equal, <li>a positive number if the first value is larger than the second value, <li><code>NaN</code> for non-comparable values. </ul> If no function is given, {@link sap.ui.model.Filter.defaultComparator} is used.
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "insertText": "comparator: '$0'",
     "insertTextFormat": 2,
@@ -1088,8 +1558,18 @@ Array [
   },
   Object {
     "documentation": Object {
-      "kind": "plaintext",
-      "value": "",
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** sap.ui.model.FilterOperator
+
+**Description:** Operator used for the filter
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "insertText": "operator: '$0'",
     "insertTextFormat": 2,
@@ -1098,8 +1578,18 @@ Array [
   },
   Object {
     "documentation": Object {
-      "kind": "plaintext",
-      "value": "",
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** any
+
+**Description:** First value to use with the given filter operator
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "insertText": "value1: $0",
     "insertTextFormat": 2,
@@ -1108,8 +1598,18 @@ Array [
   },
   Object {
     "documentation": Object {
-      "kind": "plaintext",
-      "value": "",
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** any
+
+**Description:** Second value to use with the given filter operator, used only for the {@link sap.ui.model.FilterOperator.BT \\"BT\\" between} and {@link sap.ui.model.FilterOperator.NB \\"NB\\" not between} filter operators
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "insertText": "value2: $0",
     "insertTextFormat": 2,
@@ -1118,18 +1618,38 @@ Array [
   },
   Object {
     "documentation": Object {
-      "kind": "plaintext",
-      "value": "",
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** String
+
+**Description:** The variable name used in lambda operators ({@link sap.ui.model.FilterOperator.Any \\"Any\\"} and {@link sap.ui.model.FilterOperator.All \\"All\\"})
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
-    "insertText": "variable: $0",
+    "insertText": "variable: '$0'",
     "insertTextFormat": 2,
     "kind": 15,
     "label": "variable",
   },
   Object {
     "documentation": Object {
-      "kind": "plaintext",
-      "value": "",
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** sap.ui.model.Filter
+
+**Description:** A filter instance which will be used as the condition for lambda operators ({@link sap.ui.model.FilterOperator.Any \\"Any\\"} and {@link sap.ui.model.FilterOperator.All \\"All\\"})
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "insertText": "condition: {$0}",
     "insertTextFormat": 2,
@@ -1138,8 +1658,18 @@ Array [
   },
   Object {
     "documentation": Object {
-      "kind": "plaintext",
-      "value": "",
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** 
+
+**Description:** An array of filters on which the logical conjunction is applied
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "insertText": "filters: [{$0}]",
     "insertTextFormat": 2,
@@ -1148,8 +1678,18 @@ Array [
   },
   Object {
     "documentation": Object {
-      "kind": "plaintext",
-      "value": "",
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** Boolean
+
+**Description:** Indicates whether an \\"AND\\" logical conjunction is applied on the filters. If it's not set or set to <code>false</code>, an \\"OR\\" conjunction is applied.
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "insertText": "and: $0",
     "insertTextFormat": 2,
@@ -1158,8 +1698,18 @@ Array [
   },
   Object {
     "documentation": Object {
-      "kind": "plaintext",
-      "value": "",
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** Boolean
+
+**Description:** Indicates whether a string value should be compared case sensitive or not. The handling of <code>undefined</code> depends on the model implementation.
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "insertText": "caseSensitive: $0",
     "insertTextFormat": 2,
@@ -1173,8 +1723,18 @@ exports[`aggregation binding filters filters all properties 1`] = `
 Array [
   Object {
     "documentation": Object {
-      "kind": "plaintext",
-      "value": "",
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** String
+
+**Description:** Binding path for this filter
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "insertText": "path: '$0'",
     "insertTextFormat": 2,
@@ -1183,8 +1743,18 @@ Array [
   },
   Object {
     "documentation": Object {
-      "kind": "plaintext",
-      "value": "",
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** Function
+
+**Description:** Function used for the client-side filtering of items. It should return a Boolean indicating whether the current item passes the filter. If no test function is given, a default test function is used, based on the given filter operator and the comparator function.
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "insertText": "test: '$0'",
     "insertTextFormat": 2,
@@ -1193,8 +1763,18 @@ Array [
   },
   Object {
     "documentation": Object {
-      "kind": "plaintext",
-      "value": "",
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** Function
+
+**Description:** Function used to compare two values for equality and order during client-side filtering. Two values are given as parameters. The function is expected to return: <ul> <li>a negative number if the first value is smaller than the second value, <li><code>0</code> if the two values are equal, <li>a positive number if the first value is larger than the second value, <li><code>NaN</code> for non-comparable values. </ul> If no function is given, {@link sap.ui.model.Filter.defaultComparator} is used.
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "insertText": "comparator: '$0'",
     "insertTextFormat": 2,
@@ -1203,8 +1783,18 @@ Array [
   },
   Object {
     "documentation": Object {
-      "kind": "plaintext",
-      "value": "",
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** sap.ui.model.FilterOperator
+
+**Description:** Operator used for the filter
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "insertText": "operator: '$0'",
     "insertTextFormat": 2,
@@ -1213,8 +1803,18 @@ Array [
   },
   Object {
     "documentation": Object {
-      "kind": "plaintext",
-      "value": "",
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** any
+
+**Description:** First value to use with the given filter operator
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "insertText": "value1: $0",
     "insertTextFormat": 2,
@@ -1223,8 +1823,18 @@ Array [
   },
   Object {
     "documentation": Object {
-      "kind": "plaintext",
-      "value": "",
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** any
+
+**Description:** Second value to use with the given filter operator, used only for the {@link sap.ui.model.FilterOperator.BT \\"BT\\" between} and {@link sap.ui.model.FilterOperator.NB \\"NB\\" not between} filter operators
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "insertText": "value2: $0",
     "insertTextFormat": 2,
@@ -1233,18 +1843,38 @@ Array [
   },
   Object {
     "documentation": Object {
-      "kind": "plaintext",
-      "value": "",
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** String
+
+**Description:** The variable name used in lambda operators ({@link sap.ui.model.FilterOperator.Any \\"Any\\"} and {@link sap.ui.model.FilterOperator.All \\"All\\"})
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
-    "insertText": "variable: $0",
+    "insertText": "variable: '$0'",
     "insertTextFormat": 2,
     "kind": 15,
     "label": "variable",
   },
   Object {
     "documentation": Object {
-      "kind": "plaintext",
-      "value": "",
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** sap.ui.model.Filter
+
+**Description:** A filter instance which will be used as the condition for lambda operators ({@link sap.ui.model.FilterOperator.Any \\"Any\\"} and {@link sap.ui.model.FilterOperator.All \\"All\\"})
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "insertText": "condition: {$0}",
     "insertTextFormat": 2,
@@ -1253,8 +1883,18 @@ Array [
   },
   Object {
     "documentation": Object {
-      "kind": "plaintext",
-      "value": "",
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** 
+
+**Description:** An array of filters on which the logical conjunction is applied
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "insertText": "filters: [{$0}]",
     "insertTextFormat": 2,
@@ -1263,8 +1903,18 @@ Array [
   },
   Object {
     "documentation": Object {
-      "kind": "plaintext",
-      "value": "",
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** Boolean
+
+**Description:** Indicates whether an \\"AND\\" logical conjunction is applied on the filters. If it's not set or set to <code>false</code>, an \\"OR\\" conjunction is applied.
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "insertText": "and: $0",
     "insertTextFormat": 2,
@@ -1273,8 +1923,18 @@ Array [
   },
   Object {
     "documentation": Object {
-      "kind": "plaintext",
-      "value": "",
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** Boolean
+
+**Description:** Indicates whether a string value should be compared case sensitive or not. The handling of <code>undefined</code> depends on the model implementation.
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "insertText": "caseSensitive: $0",
     "insertTextFormat": 2,
