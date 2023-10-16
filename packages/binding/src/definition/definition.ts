@@ -130,10 +130,11 @@ const getPossibleElement = (param: {
         continue;
       }
       // add reference to type and avoid recursion
-      let paramType = param.type;
+      const paramType = param.type;
       const reference = getReference(paramType);
       const data: BindingInfoElement = {
         name: param.name,
+        // eslint-disable-next-line @typescript-eslint/no-use-before-define
         type: buildType({
           context,
           type: paramType,

@@ -21,8 +21,8 @@ const getType = (type: UI5Type | undefined): string[] => {
     case "UnresolvedType": {
       if (type.name === "any") {
         result.push(type.name);
-        break;
       }
+      break;
     }
     case "PrimitiveType":
       result.push(type.name);
