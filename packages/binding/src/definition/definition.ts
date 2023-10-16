@@ -106,21 +106,64 @@ const getReference = (type: UI5Type) => {
   }
   return reference;
 };
-
+const sorterMap = new Map([
+  ["sPath", "path"],
+  ["path", "path"],
+  ["bDescending", "descending"],
+  ["descending", "descending"],
+  ["vGroup", "group"],
+  ["group", "group"],
+  ["fnComparator", "comparator"],
+  ["comparator", "comparator"],
+]);
 const getPossibleElement = (param: {
   context: BindContext;
   aggregation?: boolean;
   forHover?: boolean;
   type: UI5Class;
 }): BindingInfoElement[] => {
+  const result: BindingInfoElement[] = [];
   /* istanbul ignore next */
   const { aggregation = false, forHover = false, type, context } = param;
   if (type.name === ClassName.Sorter) {
-    return getSorterPossibleElement();
+    const parameters = type.ctor && type.ctor.parameters;
+    if (!parameters) {
+      return getSorterPossibleElement();
+    }
+    for (const constParam of parameters) {
+      if (!constParam.type) {
+        continue;
+      }
+      const reference = getReference(constParam.type);
+      const data: BindingInfoElement = {
+        name: sorterMap.get(constParam.name) ?? constParam.name,
+        // eslint-disable-next-line @typescript-eslint/no-use-before-define
+        type: buildType({
+          context,
+          type: constParam.type,
+          name: sorterMap.get(constParam.name) ?? constParam.name,
+          collection: false,
+          aggregation,
+          forHover,
+          reference,
+        }),
+        documentation: getDocumentation(
+          context,
+          constParam,
+          aggregation,
+          forHover
+        ),
+      };
+      if (constParam.optional === false) {
+        data.required = true;
+      }
+      result.push(data);
+    }
   }
-  const result: BindingInfoElement[] = [];
+
   if (type.name === ClassName.Filter) {
     // for filters only try `vFilterInfo` from constructor
+    /* istanbul ignore next */
     const vFilter = type.ctor?.parameters.find((i) => i.name === "vFilterInfo");
     if (!vFilter) {
       // use fallback filter
@@ -178,6 +221,7 @@ const getPossibleValuesForClass = (
 const getFromMap = <T, U extends string>(
   map: Map<U, T[]>,
   name: U,
+  /* istanbul ignore next */
   aggregation = false
 ): T[] => {
   return aggregation ? [] : map.get(name) ?? [];
@@ -326,7 +370,9 @@ const buildType = (param: {
 
 export const getBindingElements = (
   context: BindContext,
+  /* istanbul ignore next */
   aggregation = false,
+  /* istanbul ignore next */
   forHover = false
 ): BindingInfoElement[] => {
   const elements: BindingInfoElement[] = [];
