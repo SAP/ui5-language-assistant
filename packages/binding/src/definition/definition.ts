@@ -147,12 +147,13 @@ const getPossibleElement = (param: {
           forHover,
           reference,
         }),
-        documentation: getDocumentation(
+        documentation: getDocumentation({
           context,
-          constParam,
-          aggregation,
-          forHover
-        ),
+          prop: constParam,
+          FQN: ui5NodeToFQN(type),
+          titlePrefix: "(class)",
+          forHover,
+        }),
       };
       if (constParam.optional === false) {
         data.required = true;
@@ -188,7 +189,13 @@ const getPossibleElement = (param: {
           forHover,
           reference,
         }),
-        documentation: getDocumentation(context, param, aggregation, forHover),
+        documentation: getDocumentation({
+          context,
+          prop: param,
+          FQN: ui5NodeToFQN(type),
+          titlePrefix: "(class)",
+          forHover,
+        }),
       };
       if (param.optional === false) {
         data.required = true;
@@ -415,10 +422,16 @@ export const getBindingElements = (
       }
       return [...previous, current];
     }, []);
+    const FQN = aggregation ? AGGREGATION_BINDING_INFO : PROPERTY_BINDING_INFO;
     const data: BindingInfoElement = {
       name: name,
       type: builtType,
-      documentation: getDocumentation(context, property, aggregation, forHover),
+      documentation: getDocumentation({
+        context,
+        prop: property,
+        FQN,
+        forHover,
+      }),
     };
     if (property.optional === false) {
       data.required = true;

@@ -4,7 +4,7 @@ exports[`hover/index hover result on key - any type 1`] = `
 Object {
   "contents": Object {
     "kind": "markdown",
-    "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+    "value": "\`(class) sap.ui.model.Filter\`
 
 ---
 
@@ -14,7 +14,7 @@ Object {
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
   },
 }
 `;
@@ -23,7 +23,7 @@ exports[`hover/index hover result on key - inside collection [ nested filters] 1
 Object {
   "contents": Object {
     "kind": "markdown",
-    "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+    "value": "\`(class) sap.ui.model.Filter\`
 
 ---
 
@@ -33,7 +33,7 @@ Object {
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
   },
 }
 `;
@@ -42,7 +42,7 @@ exports[`hover/index hover result on key - inside collection [filters] 1`] = `
 Object {
   "contents": Object {
     "kind": "markdown",
-    "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+    "value": "\`(class) sap.ui.model.Filter\`
 
 ---
 
@@ -52,7 +52,7 @@ Object {
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
   },
 }
 `;
@@ -61,7 +61,7 @@ exports[`hover/index hover result on key - inside structure [reference] 1`] = `
 Object {
   "contents": Object {
     "kind": "markdown",
-    "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+    "value": "\`(class) sap.ui.model.Filter\`
 
 ---
 
@@ -71,7 +71,7 @@ Object {
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
   },
 }
 `;
@@ -80,7 +80,7 @@ exports[`hover/index hover result on key - inside structure 1`] = `
 Object {
   "contents": Object {
     "kind": "markdown",
-    "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+    "value": "\`(class) sap.ui.model.Filter\`
 
 ---
 
@@ -90,7 +90,7 @@ Object {
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
   },
 }
 `;

@@ -5,7 +5,7 @@ import {
 import { BindContext } from "../types";
 import { MarkupKind } from "vscode-languageserver-types";
 import { ui5NodeToFQN, getLink } from "@ui5-language-assistant/logic-utils";
-import { PROPERTY_BINDING_INFO, AGGREGATION_BINDING_INFO } from "../constant";
+import { PROPERTY_BINDING_INFO } from "../constant";
 
 const getType = (type: UI5Type | undefined): string[] => {
   const result: string[] = [];
@@ -61,21 +61,26 @@ const getType = (type: UI5Type | undefined): string[] => {
   return result;
 };
 
-export const getDocumentation = (
-  context: BindContext,
-  prop: UI5TypedefProp,
-  aggregation = false,
-  forHover = false
-): {
+export const getDocumentation = (param: {
+  context: BindContext;
+  prop: UI5TypedefProp;
+  FQN?: string;
+  titlePrefix?: string;
+  forHover?: boolean;
+}): {
   kind: MarkupKind;
   value: string;
 } => {
-  const binding = aggregation
-    ? AGGREGATION_BINDING_INFO
-    : PROPERTY_BINDING_INFO;
-  const link = getLink(context.ui5Model, binding);
+  const {
+    forHover = false,
+    FQN = PROPERTY_BINDING_INFO,
+    titlePrefix = "(typedef)",
+    context,
+    prop,
+  } = param;
+  const link = getLink(context.ui5Model, FQN);
   const values: string[] = [
-    `\`(typedef) ${binding}\``,
+    `\`${titlePrefix} ${FQN}\``,
     forHover ? `---` : "",
     `**Type:** ${getType(prop.type)}`,
     `**Description:** ${prop.description}`,
