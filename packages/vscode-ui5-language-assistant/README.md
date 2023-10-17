@@ -50,7 +50,8 @@ The feature is available in the following:
   - metaPath values in building blocks
   - contextPath values for Chart building blocks
   - filterBar values from the current file in building blocks
-  - property binding info when possible
+  - Property binding info when possible
+  - Aggregation binding info when possible
 
 ### XML View Validations
 
@@ -74,14 +75,14 @@ and cannot be configured by the end user.
   - Wrong cardinality of aggregation
   - Wrong type of tags inside aggregations
   - Missing or empty ID when `flexEnabled` is true (stableID)
-  - property binding info
+  - Property binding info or aggregation binding info
     - missing key
     - missing or extra colon(s)
     - missing or wrong value
     - missing or extra comma(s)
     - duplicate keys
     - unknown key or char(s)
-    - recursive composite bindings
+    - recursive composite bindings (only property binding info)
 
 - Warnings:
 
@@ -134,7 +135,7 @@ The feature is available in the following:
 
   - Enum values
   - SAPUI5 Namespaces
-  - Name of property binding info
+  - Name of property binding info or aggregation binding info
 
 ### Semantic Highlighting
 
