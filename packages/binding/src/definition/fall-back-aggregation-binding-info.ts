@@ -34,6 +34,7 @@ export const aggregationBindingInfoElements: BindingInfoElement[] = [
   },
   {
     name: BindingInfoName.path,
+    required: true,
     type: [
       {
         kind: TypeKind.string,

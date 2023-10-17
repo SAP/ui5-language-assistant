@@ -5,7 +5,13 @@ export type {
   PropertyType,
   BindContext,
 } from "./binding-info";
-export { BindingInfoName, TypeKind, ClassName, Operator } from "./binding-info";
+export {
+  BindingInfoName,
+  TypeKind,
+  ClassName,
+  Operator,
+  BindingMode,
+} from "./binding-info";
 
 export { BINDING_ISSUE_TYPE } from "../../src/constant";
 

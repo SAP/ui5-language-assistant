@@ -36,6 +36,7 @@ Array [
       "value": "",
     },
     "name": "path",
+    "required": true,
     "type": Array [
       Object {
         "dependents": Array [],
@@ -177,6 +178,196 @@ Array [
     },
     "name": "filters",
     "type": Array [
+      Object {
+        "collection": false,
+        "dependents": Array [],
+        "kind": "object",
+        "notAllowedElements": Array [],
+        "possibleElements": Array [
+          Object {
+            "documentation": Object {
+              "kind": "plaintext",
+              "value": "",
+            },
+            "name": "path",
+            "type": Array [
+              Object {
+                "dependents": Array [],
+                "kind": "string",
+                "notAllowedElements": Array [],
+              },
+            ],
+          },
+          Object {
+            "documentation": Object {
+              "kind": "plaintext",
+              "value": "",
+            },
+            "name": "test",
+            "type": Array [
+              Object {
+                "dependents": Array [],
+                "kind": "string",
+                "notAllowedElements": Array [],
+              },
+            ],
+          },
+          Object {
+            "documentation": Object {
+              "kind": "plaintext",
+              "value": "",
+            },
+            "name": "comparator",
+            "type": Array [
+              Object {
+                "dependents": Array [],
+                "kind": "string",
+                "notAllowedElements": Array [],
+              },
+            ],
+          },
+          Object {
+            "documentation": Object {
+              "kind": "plaintext",
+              "value": "",
+            },
+            "name": "operator",
+            "type": Array [
+              Object {
+                "dependents": Array [],
+                "kind": "string",
+                "notAllowedElements": Array [],
+                "possibleValue": Object {
+                  "fixed": true,
+                  "values": Array [
+                    "All",
+                    "Any",
+                    "BT",
+                    "Contains",
+                    "EndsWith",
+                    "EQ",
+                    "GE",
+                    "GT",
+                    "LE",
+                    "LT",
+                    "NB",
+                    "NE",
+                    "NotContains",
+                    "NotEndsWith",
+                    "NotStartsWith",
+                    "StartsWith",
+                  ],
+                },
+              },
+            ],
+          },
+          Object {
+            "documentation": Object {
+              "kind": "plaintext",
+              "value": "",
+            },
+            "name": "value1",
+            "type": Array [
+              Object {
+                "dependents": Array [],
+                "kind": "any",
+                "notAllowedElements": Array [],
+              },
+            ],
+          },
+          Object {
+            "documentation": Object {
+              "kind": "plaintext",
+              "value": "",
+            },
+            "name": "value2",
+            "type": Array [
+              Object {
+                "dependents": Array [],
+                "kind": "any",
+                "notAllowedElements": Array [],
+              },
+            ],
+          },
+          Object {
+            "documentation": Object {
+              "kind": "plaintext",
+              "value": "",
+            },
+            "name": "variable",
+            "type": Array [
+              Object {
+                "dependents": Array [],
+                "kind": "any",
+                "notAllowedElements": Array [],
+              },
+            ],
+          },
+          Object {
+            "documentation": Object {
+              "kind": "plaintext",
+              "value": "",
+            },
+            "name": "condition",
+            "type": Array [
+              Object {
+                "dependents": Array [],
+                "kind": "object",
+                "notAllowedElements": Array [],
+                "reference": "filters",
+              },
+            ],
+          },
+          Object {
+            "documentation": Object {
+              "kind": "plaintext",
+              "value": "",
+            },
+            "name": "filters",
+            "type": Array [
+              Object {
+                "collection": true,
+                "dependents": Array [],
+                "kind": "object",
+                "notAllowedElements": Array [],
+                "reference": "filters",
+              },
+            ],
+          },
+          Object {
+            "documentation": Object {
+              "kind": "plaintext",
+              "value": "",
+            },
+            "name": "and",
+            "type": Array [
+              Object {
+                "dependents": Array [],
+                "kind": "boolean",
+                "notAllowedElements": Array [],
+              },
+            ],
+          },
+          Object {
+            "documentation": Object {
+              "kind": "plaintext",
+              "value": "",
+            },
+            "name": "caseSensitive",
+            "type": Array [
+              Object {
+                "dependents": Array [],
+                "kind": "boolean",
+                "notAllowedElements": Array [],
+              },
+            ],
+          },
+        ],
+        "possibleValue": Object {
+          "fixed": true,
+          "values": Array [],
+        },
+      },
       Object {
         "collection": true,
         "dependents": Array [],
@@ -376,6 +567,80 @@ Array [
     },
     "name": "sorter",
     "type": Array [
+      Object {
+        "collection": false,
+        "dependents": Array [],
+        "kind": "object",
+        "notAllowedElements": Array [],
+        "possibleElements": Array [
+          Object {
+            "documentation": Object {
+              "kind": "plaintext",
+              "value": "",
+            },
+            "name": "path",
+            "required": true,
+            "type": Array [
+              Object {
+                "dependents": Array [],
+                "kind": "string",
+                "notAllowedElements": Array [],
+              },
+            ],
+          },
+          Object {
+            "documentation": Object {
+              "kind": "plaintext",
+              "value": "",
+            },
+            "name": "descending",
+            "type": Array [
+              Object {
+                "dependents": Array [],
+                "kind": "boolean",
+                "notAllowedElements": Array [],
+              },
+            ],
+          },
+          Object {
+            "documentation": Object {
+              "kind": "plaintext",
+              "value": "",
+            },
+            "name": "group",
+            "type": Array [
+              Object {
+                "dependents": Array [],
+                "kind": "string",
+                "notAllowedElements": Array [],
+              },
+              Object {
+                "dependents": Array [],
+                "kind": "boolean",
+                "notAllowedElements": Array [],
+              },
+            ],
+          },
+          Object {
+            "documentation": Object {
+              "kind": "plaintext",
+              "value": "",
+            },
+            "name": "comparator",
+            "type": Array [
+              Object {
+                "dependents": Array [],
+                "kind": "string",
+                "notAllowedElements": Array [],
+              },
+            ],
+          },
+        ],
+        "possibleValue": Object {
+          "fixed": true,
+          "values": Array [],
+        },
+      },
       Object {
         "collection": true,
         "dependents": Array [],
@@ -650,6 +915,15 @@ Array [
         "dependents": Array [],
         "kind": "string",
         "notAllowedElements": Array [],
+        "possibleValue": Object {
+          "fixed": true,
+          "values": Array [
+            "sap.ui.model.BindingMode.Default",
+            "sap.ui.model.BindingMode.OneTime",
+            "sap.ui.model.BindingMode.OneWay",
+            "sap.ui.model.BindingMode.TwoWay",
+          ],
+        },
       },
     ],
   },

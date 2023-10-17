@@ -176,6 +176,17 @@ export const filters: BindingInfoElement[] = [
     type: [
       {
         kind: TypeKind.object,
+        collection: false,
+        dependents: [],
+        notAllowedElements: [],
+        possibleElements: getFiltersPossibleElement(),
+        possibleValue: {
+          fixed: true,
+          values: [],
+        },
+      },
+      {
+        kind: TypeKind.object,
         collection: true,
         dependents: [],
         notAllowedElements: [],

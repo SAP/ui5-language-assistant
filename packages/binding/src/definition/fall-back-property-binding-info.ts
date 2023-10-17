@@ -1,4 +1,4 @@
-import { BindingInfoName, TypeKind } from "../types";
+import { BindingInfoName, TypeKind, BindingMode } from "../types";
 import type { BindingInfoElement } from "../types";
 
 export const propertyBindingInfoElements: BindingInfoElement[] = [
@@ -184,6 +184,10 @@ export const propertyBindingInfoElements: BindingInfoElement[] = [
       {
         kind: TypeKind.string,
         dependents: [],
+        possibleValue: {
+          fixed: true,
+          values: Object.values(BindingMode),
+        },
         notAllowedElements: [],
       },
     ],

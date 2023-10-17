@@ -106,6 +106,12 @@ const getReference = (type: UI5Type) => {
   }
   return reference;
 };
+
+/**
+ * Currently [api.json](https://ui5.sap.com/1.118.1/test-resources/sap/ui/core/designtime/api.json) provides these constructor parameters as old school convention
+ * e.g `sPath` for `path` where `s` stands for string type. These params are [map in runtime](https://github.com/SAP/openui5/blob/master/src/sap.ui.core/src/sap/ui/model/Sorter.js#L54-L60).
+ * We build a map to overcome old school convention
+ */
 const sorterMap = new Map([
   ["sPath", "path"],
   ["path", "path"],

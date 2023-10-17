@@ -138,3 +138,10 @@ export enum Operator {
   NotStartsWith = "NotStartsWith",
   StartsWith = "StartsWith",
 }
+
+export enum BindingMode {
+  "sap.ui.model.BindingMode.Default" = "sap.ui.model.BindingMode.Default",
+  "sap.ui.model.BindingMode.OneTime" = "sap.ui.model.BindingMode.OneTime",
+  "sap.ui.model.BindingMode.OneWay" = "sap.ui.model.BindingMode.OneWay",
+  "sap.ui.model.BindingMode.TwoWay" = "sap.ui.model.BindingMode.TwoWay",
+}
