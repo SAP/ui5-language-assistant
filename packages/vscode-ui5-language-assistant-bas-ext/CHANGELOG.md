@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.40
+
+### Patch Changes
+
+- 905a6be: Support aggregation binding info
+
 ## 4.0.39
 
 ### Patch Changes

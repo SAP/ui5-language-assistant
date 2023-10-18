@@ -1,5 +1,12 @@
 # Change Log
 
+## 4.0.40
+
+### Patch Changes
+
+- 905a6be: Support aggregation binding info
+  - @ui5-language-assistant/language-server@4.0.31
+
 ## 4.0.39
 
 ### Patch Changes

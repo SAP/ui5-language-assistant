@@ -1,5 +1,13 @@
 # Change Log
 
+## 4.0.14
+
+### Patch Changes
+
+- 905a6be: Support aggregation binding info
+- Updated dependencies [905a6be]
+  - @ui5-language-assistant/semantic-model-types@4.0.9
+
 ## 4.0.13
 
 ### Patch Changes
