@@ -141,13 +141,14 @@ const getPossibleElement = (param: {
         continue;
       }
       const reference = getReference(constParam.type);
+      const name = sorterMap.get(constParam.name) ?? constParam.name;
       const data: BindingInfoElement = {
-        name: sorterMap.get(constParam.name) ?? constParam.name,
+        name,
         // eslint-disable-next-line @typescript-eslint/no-use-before-define
         type: buildType({
           context,
           type: constParam.type,
-          name: sorterMap.get(constParam.name) ?? constParam.name,
+          name,
           collection: false,
           aggregation,
           forHover,
