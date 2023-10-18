@@ -1,10 +1,11 @@
 import {
   BindContext,
-  PropertyBindingInfoElement,
+  BindingInfoElement,
   PropertyType,
   TypeKind,
 } from "../types";
 import {
+  NUMBER_VALUE,
   BOOLEAN_VALUE,
   BindingParserTypes as BindingTypes,
   STRING_VALUE,
@@ -12,6 +13,7 @@ import {
   COLLECTION_VALUE,
   STRUCTURE_VALUE,
 } from "@ui5-language-assistant/binding-parser";
+import { PARTS } from "../constant";
 import { Range } from "vscode-languageserver-types";
 const isNumber = (input: number | undefined): input is number => {
   return input !== undefined;
@@ -25,12 +27,19 @@ const emptyString = (context: BindContext, tabStop: number | undefined) => {
   }
   return emptyString;
 };
-export const typesToValue = (
-  types: PropertyType[],
-  context: BindContext,
-  tabStop?: number | undefined,
-  collectionValue = false
-): string[] => {
+export const typesToValue = ({
+  types,
+  context,
+  tabStop,
+  collectionValue = false,
+  forDiagnostic = false,
+}: {
+  types: PropertyType[];
+  context: BindContext;
+  tabStop?: number | undefined;
+  collectionValue?: boolean;
+  forDiagnostic?: boolean;
+}): string[] => {
   const result: string[] = [];
   types.forEach((type) => {
     if (type.kind === TypeKind.string) {
@@ -48,6 +57,13 @@ export const typesToValue = (
         result.push("false");
       }
     }
+    if (type.kind === TypeKind.integer && forDiagnostic) {
+      if (type.collection && collectionValue === false) {
+        result.push("collection of integer");
+      } else {
+        result.push("integer");
+      }
+    }
     if (type.kind === TypeKind.object) {
       if (type.collection && collectionValue === false) {
         result.push(isNumber(tabStop) ? `[{${"$" + tabStop}}]` : "[{ }]");
@@ -62,13 +78,23 @@ export const typesToValue = (
 export const valueTypeMap = new Map([
   [STRING_VALUE, "string"],
   [BOOLEAN_VALUE, "boolean"],
+  [NUMBER_VALUE, "integer"],
   [COLLECTION_VALUE, "array"],
   [STRUCTURE_VALUE, "object"],
 ]);
 
 export const isParts = (element: BindingTypes.StructureElement): boolean => {
   const text = element.key && element.key.text;
-  return text === "parts";
+  return text === PARTS;
+};
+
+export const isAnyType = (
+  element: BindingTypes.StructureElement,
+  bindingElements: BindingInfoElement[]
+): boolean => {
+  const text = element.key && element.key.text;
+  const bindingElement = bindingElements.find((el) => el.name === text);
+  return !!bindingElement?.type.find((t) => t.kind === TypeKind.any);
 };
 
 export const defaultRange = (): Range => {
@@ -87,7 +113,7 @@ export const findRange = (args: (Range | undefined)[]): Range => {
  */
 export const getPropertyTypeWithPossibleValue = (
   element: BindingTypes.StructureElement,
-  bindingInfo?: PropertyBindingInfoElement
+  bindingInfo?: BindingInfoElement
 ): PropertyType | undefined => {
   if (!bindingInfo) {
     return undefined;

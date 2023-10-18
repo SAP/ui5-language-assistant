@@ -27,6 +27,20 @@ export function positionContained(
 }
 
 /**
+ * checks if position is inside a range
+ */
+export function positionInside(
+  range: Range | undefined,
+  position: Position
+): range is Range {
+  return (
+    range !== undefined &&
+    !isBefore(position, range.start, true) &&
+    isBefore(position, range.end, false)
+  );
+}
+
+/**
  * Checks if position1 is before position2
  */
 export function isBefore(

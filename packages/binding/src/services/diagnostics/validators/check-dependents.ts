@@ -1,16 +1,19 @@
 import { BindingParserTypes as BindingTypes } from "@ui5-language-assistant/binding-parser";
 import { findRange } from "../../../utils";
-import { getPropertyBindingInfoElements } from "../../../definition/definition";
-import { BindContext, BindingIssue, BINDING_ISSUE_TYPE } from "../../../types";
+import {
+  BindingIssue,
+  BINDING_ISSUE_TYPE,
+  BindingInfoElement,
+} from "../../../types";
 
 export const checkDependents = (
-  context: BindContext,
+  bindingElements: BindingInfoElement[],
   binding: BindingTypes.StructureValue
 ): BindingIssue[] => {
   const issues: BindingIssue[] = [];
   // collect all definition which has dependencies
-  const dependentElements = getPropertyBindingInfoElements(context).filter(
-    (item) => item.type.find((i) => i.dependents.length > 0)
+  const dependentElements = bindingElements.filter((item) =>
+    item.type.find((i) => i.dependents.length > 0)
   );
   for (const dep of dependentElements) {
     // check if an element which has dependency is used
@@ -18,7 +21,7 @@ export const checkDependents = (
       (item) => (item.key && item.key.text) === dep.name
     );
     if (!dependentElementApplied) {
-      return issues;
+      continue;
     }
     // check if its dependency is applied too
     for (const types of dep.type) {

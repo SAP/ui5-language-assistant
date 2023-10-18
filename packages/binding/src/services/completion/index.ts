@@ -39,10 +39,14 @@ export function getCompletionItems(opts: {
         attributeValue: attributeValueProviders,
       },
     });
+    const uniqueSuggestion = [
+      ...new Set(suggestions.map((i) => JSON.stringify(i))),
+    ].map((i) => JSON.parse(i));
+
     getLogger().trace("computed completion items", {
-      suggestions,
+      uniqueSuggestion,
     });
-    return suggestions;
+    return uniqueSuggestion;
   } catch (error) {
     getLogger().debug("getCompletionItems failed:", error);
     return [];

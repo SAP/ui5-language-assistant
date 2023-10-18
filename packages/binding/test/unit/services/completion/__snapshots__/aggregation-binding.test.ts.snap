@@ -1,0 +1,2115 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`aggregation binding all properties 1`] = `
+Array [
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** String
+
+**Description:** Path in the model to bind to, either an absolute path or relative to the binding context for the corresponding model; when the path contains a '&gt;' sign, the string preceding it will override the <code>model</code> property and the remainder after the '&gt;' will be used as binding path
+
+**Optional:** false
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
+    },
+    "insertText": "path: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "path",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** String
+
+**Description:** Name of the model to bind against; when <code>undefined</code> or omitted, the default model is used
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
+    },
+    "insertText": "model: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "model",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** sap.ui.base.ManagedObject
+
+**Description:** The template to clone for each item in the aggregation; either a template or a factory must be given
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
+    },
+    "insertText": "template: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "template",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** Boolean
+
+**Description:** Whether the framework should assume that the application takes care of the lifecycle of the given template; when set to <code>true</code>, the template can be used in multiple bindings, either in parallel or over time, and the framework won't clone it when this <code>ManagedObject</code> is cloned; when set to <code>false</code>, the lifecycle of the template is bound to the lifecycle of the binding, when the aggregation is unbound or when this <code>ManagedObject</code> is destroyed, the template also will be destroyed, and when this <code>ManagedObject</code> is cloned, the template will be cloned as well; the third option (<code>undefined</code>) only exists for compatibility reasons, its behavior is not fully reliable and it may leak the template
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
+    },
+    "insertText": "templateShareable: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "templateShareable",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** Function
+
+**Description:** A factory function that will be called to create an object for each item in the aggregation; this is an alternative to providing a template object and can be used when the objects should differ depending on the binding context; the factory function will be called with two parameters: an ID that should be used for the created object and the binding context for which the object has to be created; the function must return an object appropriate for the bound aggregation
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
+    },
+    "insertText": "factory: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "factory",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** Boolean
+
+**Description:** Whether the binding should be suspended initially
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
+    },
+    "insertText": "suspended: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "suspended",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** Integer
+
+**Description:** the first entry of the list to be created
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
+    },
+    "insertText": "startIndex: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "startIndex",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** Integer
+
+**Description:** The amount of entries to be created (may exceed the size limit of the model)
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
+    },
+    "insertText": "length: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "length",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** Array<(sap.ui.model.Sorter)> | sap.ui.model.Sorter
+
+**Description:** The initial sort order (optional)
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
+    },
+    "insertText": "sorter: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "sorter",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** Array<(sap.ui.model.Filter)> | sap.ui.model.Filter
+
+**Description:** The predefined filters for this aggregation (optional)
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
+    },
+    "insertText": "filters: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "filters",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** String | Function
+
+**Description:** Name of the key property or a function getting the context as only parameter to calculate a key for entries. This can be used to improve update behaviour in models, where a key is not already available.
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
+    },
+    "insertText": "key: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "key",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** Object
+
+**Description:** Map of additional parameters for this binding; the names and value ranges of the supported parameters depend on the model implementation, they should be documented with the <code>bindList</code> method of the corresponding model class or with the model specific subclass of <code>sap.ui.model.ListBinding</code>
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
+    },
+    "insertText": "parameters: {$0}",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "parameters",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** Function
+
+**Description:** A factory function to generate custom group visualization (optional). It should return a control suitable to visualize a group header (e.g. a <code>sap.m.GroupHeaderListItem</code> for a <code>sap.m.List</code>).
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
+    },
+    "insertText": "groupHeaderFactory: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "groupHeaderFactory",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(typedef) sap.ui.base.ManagedObject.AggregationBindingInfo\`
+
+
+
+**Type:** Object
+
+**Description:** Map of event handler functions keyed by the name of the binding events that they should be attached to
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
+    },
+    "insertText": "events: {$0}",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "events",
+  },
+]
+`;
+
+exports[`aggregation binding filters all properties - inside collection 1`] = `
+Array [
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Filter\`
+
+
+
+**Type:** String
+
+**Description:** Binding path for this filter
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+    },
+    "insertText": "path: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "path",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Filter\`
+
+
+
+**Type:** Function
+
+**Description:** Function used for the client-side filtering of items. It should return a Boolean indicating whether the current item passes the filter. If no test function is given, a default test function is used, based on the given filter operator and the comparator function.
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+    },
+    "insertText": "test: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "test",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Filter\`
+
+
+
+**Type:** Function
+
+**Description:** Function used to compare two values for equality and order during client-side filtering. Two values are given as parameters. The function is expected to return: <ul> <li>a negative number if the first value is smaller than the second value, <li><code>0</code> if the two values are equal, <li>a positive number if the first value is larger than the second value, <li><code>NaN</code> for non-comparable values. </ul> If no function is given, {@link sap.ui.model.Filter.defaultComparator} is used.
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+    },
+    "insertText": "comparator: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "comparator",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Filter\`
+
+
+
+**Type:** sap.ui.model.FilterOperator
+
+**Description:** Operator used for the filter
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+    },
+    "insertText": "operator: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "operator",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Filter\`
+
+
+
+**Type:** any
+
+**Description:** First value to use with the given filter operator
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+    },
+    "insertText": "value1: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "value1",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Filter\`
+
+
+
+**Type:** any
+
+**Description:** Second value to use with the given filter operator, used only for the {@link sap.ui.model.FilterOperator.BT \\"BT\\" between} and {@link sap.ui.model.FilterOperator.NB \\"NB\\" not between} filter operators
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+    },
+    "insertText": "value2: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "value2",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Filter\`
+
+
+
+**Type:** String
+
+**Description:** The variable name used in lambda operators ({@link sap.ui.model.FilterOperator.Any \\"Any\\"} and {@link sap.ui.model.FilterOperator.All \\"All\\"})
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+    },
+    "insertText": "variable: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "variable",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Filter\`
+
+
+
+**Type:** sap.ui.model.Filter
+
+**Description:** A filter instance which will be used as the condition for lambda operators ({@link sap.ui.model.FilterOperator.Any \\"Any\\"} and {@link sap.ui.model.FilterOperator.All \\"All\\"})
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+    },
+    "insertText": "condition: {$0}",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "condition",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Filter\`
+
+
+
+**Type:** 
+
+**Description:** An array of filters on which the logical conjunction is applied
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+    },
+    "insertText": "filters: [{$0}]",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "filters",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Filter\`
+
+
+
+**Type:** Boolean
+
+**Description:** Indicates whether an \\"AND\\" logical conjunction is applied on the filters. If it's not set or set to <code>false</code>, an \\"OR\\" conjunction is applied.
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+    },
+    "insertText": "and: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "and",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Filter\`
+
+
+
+**Type:** Boolean
+
+**Description:** Indicates whether a string value should be compared case sensitive or not. The handling of <code>undefined</code> depends on the model implementation.
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+    },
+    "insertText": "caseSensitive: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "caseSensitive",
+  },
+]
+`;
+
+exports[`aggregation binding filters all properties 1`] = `
+Array [
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Filter\`
+
+
+
+**Type:** String
+
+**Description:** Binding path for this filter
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+    },
+    "insertText": "path: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "path",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Filter\`
+
+
+
+**Type:** Function
+
+**Description:** Function used for the client-side filtering of items. It should return a Boolean indicating whether the current item passes the filter. If no test function is given, a default test function is used, based on the given filter operator and the comparator function.
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+    },
+    "insertText": "test: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "test",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Filter\`
+
+
+
+**Type:** Function
+
+**Description:** Function used to compare two values for equality and order during client-side filtering. Two values are given as parameters. The function is expected to return: <ul> <li>a negative number if the first value is smaller than the second value, <li><code>0</code> if the two values are equal, <li>a positive number if the first value is larger than the second value, <li><code>NaN</code> for non-comparable values. </ul> If no function is given, {@link sap.ui.model.Filter.defaultComparator} is used.
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+    },
+    "insertText": "comparator: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "comparator",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Filter\`
+
+
+
+**Type:** sap.ui.model.FilterOperator
+
+**Description:** Operator used for the filter
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+    },
+    "insertText": "operator: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "operator",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Filter\`
+
+
+
+**Type:** any
+
+**Description:** First value to use with the given filter operator
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+    },
+    "insertText": "value1: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "value1",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Filter\`
+
+
+
+**Type:** any
+
+**Description:** Second value to use with the given filter operator, used only for the {@link sap.ui.model.FilterOperator.BT \\"BT\\" between} and {@link sap.ui.model.FilterOperator.NB \\"NB\\" not between} filter operators
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+    },
+    "insertText": "value2: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "value2",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Filter\`
+
+
+
+**Type:** String
+
+**Description:** The variable name used in lambda operators ({@link sap.ui.model.FilterOperator.Any \\"Any\\"} and {@link sap.ui.model.FilterOperator.All \\"All\\"})
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+    },
+    "insertText": "variable: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "variable",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Filter\`
+
+
+
+**Type:** sap.ui.model.Filter
+
+**Description:** A filter instance which will be used as the condition for lambda operators ({@link sap.ui.model.FilterOperator.Any \\"Any\\"} and {@link sap.ui.model.FilterOperator.All \\"All\\"})
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+    },
+    "insertText": "condition: {$0}",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "condition",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Filter\`
+
+
+
+**Type:** 
+
+**Description:** An array of filters on which the logical conjunction is applied
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+    },
+    "insertText": "filters: [{$0}]",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "filters",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Filter\`
+
+
+
+**Type:** Boolean
+
+**Description:** Indicates whether an \\"AND\\" logical conjunction is applied on the filters. If it's not set or set to <code>false</code>, an \\"OR\\" conjunction is applied.
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+    },
+    "insertText": "and: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "and",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Filter\`
+
+
+
+**Type:** Boolean
+
+**Description:** Indicates whether a string value should be compared case sensitive or not. The handling of <code>undefined</code> depends on the model implementation.
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+    },
+    "insertText": "caseSensitive: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "caseSensitive",
+  },
+]
+`;
+
+exports[`aggregation binding filters condition all properties - nested 1`] = `
+Array [
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Filter\`
+
+
+
+**Type:** String
+
+**Description:** Binding path for this filter
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+    },
+    "insertText": "path: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "path",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Filter\`
+
+
+
+**Type:** Function
+
+**Description:** Function used for the client-side filtering of items. It should return a Boolean indicating whether the current item passes the filter. If no test function is given, a default test function is used, based on the given filter operator and the comparator function.
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+    },
+    "insertText": "test: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "test",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Filter\`
+
+
+
+**Type:** Function
+
+**Description:** Function used to compare two values for equality and order during client-side filtering. Two values are given as parameters. The function is expected to return: <ul> <li>a negative number if the first value is smaller than the second value, <li><code>0</code> if the two values are equal, <li>a positive number if the first value is larger than the second value, <li><code>NaN</code> for non-comparable values. </ul> If no function is given, {@link sap.ui.model.Filter.defaultComparator} is used.
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+    },
+    "insertText": "comparator: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "comparator",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Filter\`
+
+
+
+**Type:** sap.ui.model.FilterOperator
+
+**Description:** Operator used for the filter
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+    },
+    "insertText": "operator: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "operator",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Filter\`
+
+
+
+**Type:** any
+
+**Description:** First value to use with the given filter operator
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+    },
+    "insertText": "value1: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "value1",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Filter\`
+
+
+
+**Type:** any
+
+**Description:** Second value to use with the given filter operator, used only for the {@link sap.ui.model.FilterOperator.BT \\"BT\\" between} and {@link sap.ui.model.FilterOperator.NB \\"NB\\" not between} filter operators
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+    },
+    "insertText": "value2: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "value2",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Filter\`
+
+
+
+**Type:** String
+
+**Description:** The variable name used in lambda operators ({@link sap.ui.model.FilterOperator.Any \\"Any\\"} and {@link sap.ui.model.FilterOperator.All \\"All\\"})
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+    },
+    "insertText": "variable: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "variable",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Filter\`
+
+
+
+**Type:** sap.ui.model.Filter
+
+**Description:** A filter instance which will be used as the condition for lambda operators ({@link sap.ui.model.FilterOperator.Any \\"Any\\"} and {@link sap.ui.model.FilterOperator.All \\"All\\"})
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+    },
+    "insertText": "condition: {$0}",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "condition",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Filter\`
+
+
+
+**Type:** 
+
+**Description:** An array of filters on which the logical conjunction is applied
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+    },
+    "insertText": "filters: [{$0}]",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "filters",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Filter\`
+
+
+
+**Type:** Boolean
+
+**Description:** Indicates whether an \\"AND\\" logical conjunction is applied on the filters. If it's not set or set to <code>false</code>, an \\"OR\\" conjunction is applied.
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+    },
+    "insertText": "and: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "and",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Filter\`
+
+
+
+**Type:** Boolean
+
+**Description:** Indicates whether a string value should be compared case sensitive or not. The handling of <code>undefined</code> depends on the model implementation.
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+    },
+    "insertText": "caseSensitive: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "caseSensitive",
+  },
+]
+`;
+
+exports[`aggregation binding filters condition all properties 1`] = `
+Array [
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Filter\`
+
+
+
+**Type:** String
+
+**Description:** Binding path for this filter
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+    },
+    "insertText": "path: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "path",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Filter\`
+
+
+
+**Type:** Function
+
+**Description:** Function used for the client-side filtering of items. It should return a Boolean indicating whether the current item passes the filter. If no test function is given, a default test function is used, based on the given filter operator and the comparator function.
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+    },
+    "insertText": "test: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "test",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Filter\`
+
+
+
+**Type:** Function
+
+**Description:** Function used to compare two values for equality and order during client-side filtering. Two values are given as parameters. The function is expected to return: <ul> <li>a negative number if the first value is smaller than the second value, <li><code>0</code> if the two values are equal, <li>a positive number if the first value is larger than the second value, <li><code>NaN</code> for non-comparable values. </ul> If no function is given, {@link sap.ui.model.Filter.defaultComparator} is used.
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+    },
+    "insertText": "comparator: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "comparator",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Filter\`
+
+
+
+**Type:** sap.ui.model.FilterOperator
+
+**Description:** Operator used for the filter
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+    },
+    "insertText": "operator: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "operator",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Filter\`
+
+
+
+**Type:** any
+
+**Description:** First value to use with the given filter operator
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+    },
+    "insertText": "value1: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "value1",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Filter\`
+
+
+
+**Type:** any
+
+**Description:** Second value to use with the given filter operator, used only for the {@link sap.ui.model.FilterOperator.BT \\"BT\\" between} and {@link sap.ui.model.FilterOperator.NB \\"NB\\" not between} filter operators
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+    },
+    "insertText": "value2: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "value2",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Filter\`
+
+
+
+**Type:** String
+
+**Description:** The variable name used in lambda operators ({@link sap.ui.model.FilterOperator.Any \\"Any\\"} and {@link sap.ui.model.FilterOperator.All \\"All\\"})
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+    },
+    "insertText": "variable: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "variable",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Filter\`
+
+
+
+**Type:** sap.ui.model.Filter
+
+**Description:** A filter instance which will be used as the condition for lambda operators ({@link sap.ui.model.FilterOperator.Any \\"Any\\"} and {@link sap.ui.model.FilterOperator.All \\"All\\"})
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+    },
+    "insertText": "condition: {$0}",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "condition",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Filter\`
+
+
+
+**Type:** 
+
+**Description:** An array of filters on which the logical conjunction is applied
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+    },
+    "insertText": "filters: [{$0}]",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "filters",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Filter\`
+
+
+
+**Type:** Boolean
+
+**Description:** Indicates whether an \\"AND\\" logical conjunction is applied on the filters. If it's not set or set to <code>false</code>, an \\"OR\\" conjunction is applied.
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+    },
+    "insertText": "and: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "and",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Filter\`
+
+
+
+**Type:** Boolean
+
+**Description:** Indicates whether a string value should be compared case sensitive or not. The handling of <code>undefined</code> depends on the model implementation.
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+    },
+    "insertText": "caseSensitive: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "caseSensitive",
+  },
+]
+`;
+
+exports[`aggregation binding filters default value operator 1`] = `
+Array [
+  Object {
+    "insertText": "'All$0'",
+    "insertTextFormat": 2,
+    "kind": 5,
+    "label": "'All'",
+    "textEdit": Object {
+      "newText": "'All$0'",
+      "range": Object {
+        "end": Object {
+          "character": 30,
+          "line": 11,
+        },
+        "start": Object {
+          "character": 28,
+          "line": 11,
+        },
+      },
+    },
+  },
+  Object {
+    "insertText": "'Any$0'",
+    "insertTextFormat": 2,
+    "kind": 5,
+    "label": "'Any'",
+    "textEdit": Object {
+      "newText": "'Any$0'",
+      "range": Object {
+        "end": Object {
+          "character": 30,
+          "line": 11,
+        },
+        "start": Object {
+          "character": 28,
+          "line": 11,
+        },
+      },
+    },
+  },
+  Object {
+    "insertText": "'BT$0'",
+    "insertTextFormat": 2,
+    "kind": 5,
+    "label": "'BT'",
+    "textEdit": Object {
+      "newText": "'BT$0'",
+      "range": Object {
+        "end": Object {
+          "character": 30,
+          "line": 11,
+        },
+        "start": Object {
+          "character": 28,
+          "line": 11,
+        },
+      },
+    },
+  },
+  Object {
+    "insertText": "'Contains$0'",
+    "insertTextFormat": 2,
+    "kind": 5,
+    "label": "'Contains'",
+    "textEdit": Object {
+      "newText": "'Contains$0'",
+      "range": Object {
+        "end": Object {
+          "character": 30,
+          "line": 11,
+        },
+        "start": Object {
+          "character": 28,
+          "line": 11,
+        },
+      },
+    },
+  },
+  Object {
+    "insertText": "'EndsWith$0'",
+    "insertTextFormat": 2,
+    "kind": 5,
+    "label": "'EndsWith'",
+    "textEdit": Object {
+      "newText": "'EndsWith$0'",
+      "range": Object {
+        "end": Object {
+          "character": 30,
+          "line": 11,
+        },
+        "start": Object {
+          "character": 28,
+          "line": 11,
+        },
+      },
+    },
+  },
+  Object {
+    "insertText": "'EQ$0'",
+    "insertTextFormat": 2,
+    "kind": 5,
+    "label": "'EQ'",
+    "textEdit": Object {
+      "newText": "'EQ$0'",
+      "range": Object {
+        "end": Object {
+          "character": 30,
+          "line": 11,
+        },
+        "start": Object {
+          "character": 28,
+          "line": 11,
+        },
+      },
+    },
+  },
+  Object {
+    "insertText": "'GE$0'",
+    "insertTextFormat": 2,
+    "kind": 5,
+    "label": "'GE'",
+    "textEdit": Object {
+      "newText": "'GE$0'",
+      "range": Object {
+        "end": Object {
+          "character": 30,
+          "line": 11,
+        },
+        "start": Object {
+          "character": 28,
+          "line": 11,
+        },
+      },
+    },
+  },
+  Object {
+    "insertText": "'GT$0'",
+    "insertTextFormat": 2,
+    "kind": 5,
+    "label": "'GT'",
+    "textEdit": Object {
+      "newText": "'GT$0'",
+      "range": Object {
+        "end": Object {
+          "character": 30,
+          "line": 11,
+        },
+        "start": Object {
+          "character": 28,
+          "line": 11,
+        },
+      },
+    },
+  },
+  Object {
+    "insertText": "'LE$0'",
+    "insertTextFormat": 2,
+    "kind": 5,
+    "label": "'LE'",
+    "textEdit": Object {
+      "newText": "'LE$0'",
+      "range": Object {
+        "end": Object {
+          "character": 30,
+          "line": 11,
+        },
+        "start": Object {
+          "character": 28,
+          "line": 11,
+        },
+      },
+    },
+  },
+  Object {
+    "insertText": "'LT$0'",
+    "insertTextFormat": 2,
+    "kind": 5,
+    "label": "'LT'",
+    "textEdit": Object {
+      "newText": "'LT$0'",
+      "range": Object {
+        "end": Object {
+          "character": 30,
+          "line": 11,
+        },
+        "start": Object {
+          "character": 28,
+          "line": 11,
+        },
+      },
+    },
+  },
+  Object {
+    "insertText": "'NB$0'",
+    "insertTextFormat": 2,
+    "kind": 5,
+    "label": "'NB'",
+    "textEdit": Object {
+      "newText": "'NB$0'",
+      "range": Object {
+        "end": Object {
+          "character": 30,
+          "line": 11,
+        },
+        "start": Object {
+          "character": 28,
+          "line": 11,
+        },
+      },
+    },
+  },
+  Object {
+    "insertText": "'NE$0'",
+    "insertTextFormat": 2,
+    "kind": 5,
+    "label": "'NE'",
+    "textEdit": Object {
+      "newText": "'NE$0'",
+      "range": Object {
+        "end": Object {
+          "character": 30,
+          "line": 11,
+        },
+        "start": Object {
+          "character": 28,
+          "line": 11,
+        },
+      },
+    },
+  },
+  Object {
+    "insertText": "'NotContains$0'",
+    "insertTextFormat": 2,
+    "kind": 5,
+    "label": "'NotContains'",
+    "textEdit": Object {
+      "newText": "'NotContains$0'",
+      "range": Object {
+        "end": Object {
+          "character": 30,
+          "line": 11,
+        },
+        "start": Object {
+          "character": 28,
+          "line": 11,
+        },
+      },
+    },
+  },
+  Object {
+    "insertText": "'NotEndsWith$0'",
+    "insertTextFormat": 2,
+    "kind": 5,
+    "label": "'NotEndsWith'",
+    "textEdit": Object {
+      "newText": "'NotEndsWith$0'",
+      "range": Object {
+        "end": Object {
+          "character": 30,
+          "line": 11,
+        },
+        "start": Object {
+          "character": 28,
+          "line": 11,
+        },
+      },
+    },
+  },
+  Object {
+    "insertText": "'NotStartsWith$0'",
+    "insertTextFormat": 2,
+    "kind": 5,
+    "label": "'NotStartsWith'",
+    "textEdit": Object {
+      "newText": "'NotStartsWith$0'",
+      "range": Object {
+        "end": Object {
+          "character": 30,
+          "line": 11,
+        },
+        "start": Object {
+          "character": 28,
+          "line": 11,
+        },
+      },
+    },
+  },
+  Object {
+    "insertText": "'StartsWith$0'",
+    "insertTextFormat": 2,
+    "kind": 5,
+    "label": "'StartsWith'",
+    "textEdit": Object {
+      "newText": "'StartsWith$0'",
+      "range": Object {
+        "end": Object {
+          "character": 30,
+          "line": 11,
+        },
+        "start": Object {
+          "character": 28,
+          "line": 11,
+        },
+      },
+    },
+  },
+]
+`;
+
+exports[`aggregation binding filters filters all properties - nested 1`] = `
+Array [
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Filter\`
+
+
+
+**Type:** String
+
+**Description:** Binding path for this filter
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+    },
+    "insertText": "path: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "path",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Filter\`
+
+
+
+**Type:** Function
+
+**Description:** Function used for the client-side filtering of items. It should return a Boolean indicating whether the current item passes the filter. If no test function is given, a default test function is used, based on the given filter operator and the comparator function.
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+    },
+    "insertText": "test: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "test",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Filter\`
+
+
+
+**Type:** Function
+
+**Description:** Function used to compare two values for equality and order during client-side filtering. Two values are given as parameters. The function is expected to return: <ul> <li>a negative number if the first value is smaller than the second value, <li><code>0</code> if the two values are equal, <li>a positive number if the first value is larger than the second value, <li><code>NaN</code> for non-comparable values. </ul> If no function is given, {@link sap.ui.model.Filter.defaultComparator} is used.
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+    },
+    "insertText": "comparator: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "comparator",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Filter\`
+
+
+
+**Type:** sap.ui.model.FilterOperator
+
+**Description:** Operator used for the filter
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+    },
+    "insertText": "operator: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "operator",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Filter\`
+
+
+
+**Type:** any
+
+**Description:** First value to use with the given filter operator
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+    },
+    "insertText": "value1: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "value1",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Filter\`
+
+
+
+**Type:** any
+
+**Description:** Second value to use with the given filter operator, used only for the {@link sap.ui.model.FilterOperator.BT \\"BT\\" between} and {@link sap.ui.model.FilterOperator.NB \\"NB\\" not between} filter operators
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+    },
+    "insertText": "value2: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "value2",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Filter\`
+
+
+
+**Type:** String
+
+**Description:** The variable name used in lambda operators ({@link sap.ui.model.FilterOperator.Any \\"Any\\"} and {@link sap.ui.model.FilterOperator.All \\"All\\"})
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+    },
+    "insertText": "variable: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "variable",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Filter\`
+
+
+
+**Type:** sap.ui.model.Filter
+
+**Description:** A filter instance which will be used as the condition for lambda operators ({@link sap.ui.model.FilterOperator.Any \\"Any\\"} and {@link sap.ui.model.FilterOperator.All \\"All\\"})
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+    },
+    "insertText": "condition: {$0}",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "condition",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Filter\`
+
+
+
+**Type:** 
+
+**Description:** An array of filters on which the logical conjunction is applied
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+    },
+    "insertText": "filters: [{$0}]",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "filters",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Filter\`
+
+
+
+**Type:** Boolean
+
+**Description:** Indicates whether an \\"AND\\" logical conjunction is applied on the filters. If it's not set or set to <code>false</code>, an \\"OR\\" conjunction is applied.
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+    },
+    "insertText": "and: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "and",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Filter\`
+
+
+
+**Type:** Boolean
+
+**Description:** Indicates whether a string value should be compared case sensitive or not. The handling of <code>undefined</code> depends on the model implementation.
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+    },
+    "insertText": "caseSensitive: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "caseSensitive",
+  },
+]
+`;
+
+exports[`aggregation binding filters filters all properties 1`] = `
+Array [
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Filter\`
+
+
+
+**Type:** String
+
+**Description:** Binding path for this filter
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+    },
+    "insertText": "path: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "path",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Filter\`
+
+
+
+**Type:** Function
+
+**Description:** Function used for the client-side filtering of items. It should return a Boolean indicating whether the current item passes the filter. If no test function is given, a default test function is used, based on the given filter operator and the comparator function.
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+    },
+    "insertText": "test: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "test",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Filter\`
+
+
+
+**Type:** Function
+
+**Description:** Function used to compare two values for equality and order during client-side filtering. Two values are given as parameters. The function is expected to return: <ul> <li>a negative number if the first value is smaller than the second value, <li><code>0</code> if the two values are equal, <li>a positive number if the first value is larger than the second value, <li><code>NaN</code> for non-comparable values. </ul> If no function is given, {@link sap.ui.model.Filter.defaultComparator} is used.
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+    },
+    "insertText": "comparator: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "comparator",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Filter\`
+
+
+
+**Type:** sap.ui.model.FilterOperator
+
+**Description:** Operator used for the filter
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+    },
+    "insertText": "operator: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "operator",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Filter\`
+
+
+
+**Type:** any
+
+**Description:** First value to use with the given filter operator
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+    },
+    "insertText": "value1: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "value1",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Filter\`
+
+
+
+**Type:** any
+
+**Description:** Second value to use with the given filter operator, used only for the {@link sap.ui.model.FilterOperator.BT \\"BT\\" between} and {@link sap.ui.model.FilterOperator.NB \\"NB\\" not between} filter operators
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+    },
+    "insertText": "value2: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "value2",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Filter\`
+
+
+
+**Type:** String
+
+**Description:** The variable name used in lambda operators ({@link sap.ui.model.FilterOperator.Any \\"Any\\"} and {@link sap.ui.model.FilterOperator.All \\"All\\"})
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+    },
+    "insertText": "variable: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "variable",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Filter\`
+
+
+
+**Type:** sap.ui.model.Filter
+
+**Description:** A filter instance which will be used as the condition for lambda operators ({@link sap.ui.model.FilterOperator.Any \\"Any\\"} and {@link sap.ui.model.FilterOperator.All \\"All\\"})
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+    },
+    "insertText": "condition: {$0}",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "condition",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Filter\`
+
+
+
+**Type:** 
+
+**Description:** An array of filters on which the logical conjunction is applied
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+    },
+    "insertText": "filters: [{$0}]",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "filters",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Filter\`
+
+
+
+**Type:** Boolean
+
+**Description:** Indicates whether an \\"AND\\" logical conjunction is applied on the filters. If it's not set or set to <code>false</code>, an \\"OR\\" conjunction is applied.
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+    },
+    "insertText": "and: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "and",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Filter\`
+
+
+
+**Type:** Boolean
+
+**Description:** Indicates whether a string value should be compared case sensitive or not. The handling of <code>undefined</code> depends on the model implementation.
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+    },
+    "insertText": "caseSensitive: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "caseSensitive",
+  },
+]
+`;
+
+exports[`aggregation binding sorter all properties - inside collection 1`] = `
+Array [
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Sorter\`
+
+
+
+**Type:** String
+
+**Description:** the binding path used for sorting
+
+**Optional:** false
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Sorter)",
+    },
+    "insertText": "path: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "path",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Sorter\`
+
+
+
+**Type:** Boolean
+
+**Description:** whether the sort order should be descending
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Sorter)",
+    },
+    "insertText": "descending: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "descending",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Sorter\`
+
+
+
+**Type:** Boolean | Function
+
+**Description:** configure grouping of the content, can either be true to enable grouping based on the raw model property value, or a function which calculates the group value out of the context (e.g. oContext.getProperty(\\"date\\").getYear() for year grouping). The control needs to implement the grouping behaviour for the aggregation which you want to group. In case a function is provided it must either return a primitive type value as the group key or an object containing a \\"key\\" property and additional properties needed for group visualization. This object or the object with the primitive type return value as \\"key\\" property is passed to the <code>groupHeaderFactory</code> function that has been specified to create the group header for the control aggregation; see {@link sap.ui.base.ManagedObject#bindAggregation}. <b>Note:</b> Grouping via <code>vGroup=true</code> is only possible (and only makes sense) for the primary sort property. A more complicated grouping is possible by providing a grouping function. The sort order needs to fit to the grouping also in this case. See also {@link topic:ec79a5d5918f4f7f9cbc2150e66778cc Sorting, Grouping, and Filtering for List Binding}.
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Sorter)",
+    },
+    "insertText": "group: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "group",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Sorter\`
+
+
+
+**Type:** Function
+
+**Description:** A custom comparator function, which is used for client-side sorting instead of the default comparator method. Information about parameters and expected return values of such a method can be found in the {@link #.defaultComparator default comparator} documentation. <b>Note:</b> Custom comparator functions are meant to be used on the client. Models that implement sorting in the backend usually don't support custom comparator functions. Consult the documentation of the specific model implementation.
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Sorter)",
+    },
+    "insertText": "comparator: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "comparator",
+  },
+]
+`;
+
+exports[`aggregation binding sorter all properties 1`] = `
+Array [
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Sorter\`
+
+
+
+**Type:** String
+
+**Description:** the binding path used for sorting
+
+**Optional:** false
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Sorter)",
+    },
+    "insertText": "path: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "path",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Sorter\`
+
+
+
+**Type:** Boolean
+
+**Description:** whether the sort order should be descending
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Sorter)",
+    },
+    "insertText": "descending: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "descending",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Sorter\`
+
+
+
+**Type:** Boolean | Function
+
+**Description:** configure grouping of the content, can either be true to enable grouping based on the raw model property value, or a function which calculates the group value out of the context (e.g. oContext.getProperty(\\"date\\").getYear() for year grouping). The control needs to implement the grouping behaviour for the aggregation which you want to group. In case a function is provided it must either return a primitive type value as the group key or an object containing a \\"key\\" property and additional properties needed for group visualization. This object or the object with the primitive type return value as \\"key\\" property is passed to the <code>groupHeaderFactory</code> function that has been specified to create the group header for the control aggregation; see {@link sap.ui.base.ManagedObject#bindAggregation}. <b>Note:</b> Grouping via <code>vGroup=true</code> is only possible (and only makes sense) for the primary sort property. A more complicated grouping is possible by providing a grouping function. The sort order needs to fit to the grouping also in this case. See also {@link topic:ec79a5d5918f4f7f9cbc2150e66778cc Sorting, Grouping, and Filtering for List Binding}.
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Sorter)",
+    },
+    "insertText": "group: $0",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "group",
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) sap.ui.model.Sorter\`
+
+
+
+**Type:** Function
+
+**Description:** A custom comparator function, which is used for client-side sorting instead of the default comparator method. Information about parameters and expected return values of such a method can be found in the {@link #.defaultComparator default comparator} documentation. <b>Note:</b> Custom comparator functions are meant to be used on the client. Models that implement sorting in the backend usually don't support custom comparator functions. Consult the documentation of the specific model implementation.
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Sorter)",
+    },
+    "insertText": "comparator: '$0'",
+    "insertTextFormat": 2,
+    "kind": 15,
+    "label": "comparator",
+  },
+]
+`;

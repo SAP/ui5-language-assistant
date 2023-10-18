@@ -4,6 +4,7 @@ export {
   isBeforeAdjacentRange,
   positionContained,
   rangeContained,
+  positionInside,
 } from "./position";
 
 export {

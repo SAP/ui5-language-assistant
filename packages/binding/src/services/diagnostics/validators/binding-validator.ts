@@ -1,8 +1,11 @@
 import { XMLAttribute } from "@xml-tools/ast";
 import { Context } from "@ui5-language-assistant/context";
-import { getUI5PropertyByXMLAttributeKey } from "@ui5-language-assistant/logic-utils";
+import {
+  getUI5PropertyByXMLAttributeKey,
+  getUI5AggregationByXMLAttributeKey,
+} from "@ui5-language-assistant/logic-utils";
 import { BindingIssue } from "../../../types";
-import { BINDING_ISSUE_TYPE, PROPERTY_BINDING_INFO } from "../../../constant";
+import { BINDING_ISSUE_TYPE } from "../../../constant";
 import { getLogger } from "../../../utils";
 import { Position } from "vscode-languageserver-types";
 import {
@@ -13,8 +16,9 @@ import {
 } from "@ui5-language-assistant/binding-parser";
 import { checkAst } from "./issue-collector";
 import { filterLexerError, filterParseError } from "../../../utils/expression";
+import { getBindingElements } from "../../../definition/definition";
 
-export function validatePropertyBindingInfo(
+export function validateBinding(
   attribute: XMLAttribute,
   context: Context & { doubleQuotes?: boolean }
 ): BindingIssue[] {
@@ -24,13 +28,23 @@ export function validatePropertyBindingInfo(
       attribute,
       context.ui5Model
     );
-    if (!ui5Property) {
-      return [];
+    const ui5Aggregation = getUI5AggregationByXMLAttributeKey(
+      attribute,
+      context.ui5Model
+    );
+    if (!ui5Property && !ui5Aggregation) {
+      return issues;
     }
-    const propBinding = context.ui5Model.typedefs[PROPERTY_BINDING_INFO];
-    const properties = propBinding.properties.map((i) => i.name);
+    const bindingElements = getBindingElements(
+      context,
+      !!ui5Aggregation,
+      false
+    );
+    const properties = bindingElements.map((i) => i.name);
     const value = attribute.syntax.value;
+    /* istanbul ignore next */
     const text = attribute.value ?? "";
+    /* istanbul ignore next */
     const startChar = value?.image.charAt(0);
     context.doubleQuotes = startChar === '"';
     if (text.trim().length === 0) {
@@ -54,7 +68,15 @@ export function validatePropertyBindingInfo(
           continue;
         }
 
-        issues.push(...checkAst(context, binding, errors));
+        issues.push(
+          ...checkAst(
+            context,
+            binding,
+            errors,
+            !!ui5Aggregation,
+            bindingElements
+          )
+        );
 
         /**
          * Show all lexer errors
@@ -90,7 +112,7 @@ export function validatePropertyBindingInfo(
     getLogger().trace("computed diagnostics", { diagnostics: issues });
     return issues;
   } catch (error) {
-    getLogger().debug("validatePropertyBindingInfo failed:", error);
+    getLogger().debug("validateBinding failed:", error);
     return issues;
   }
 }

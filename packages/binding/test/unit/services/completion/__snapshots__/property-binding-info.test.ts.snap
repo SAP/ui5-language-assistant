@@ -188,7 +188,7 @@ Array [
 
 
 
-**Type:** Array<(String | sap.ui.base.ManagedObject.PropertyBindingInfo>)
+**Type:** Array<(String | sap.ui.base.ManagedObject.PropertyBindingInfo)>
 
 **Description:** Array of binding info objects for the parts of a composite binding; the structure of each binding info is the same as described for the <code>oBindingInfo</code> as a whole.
 

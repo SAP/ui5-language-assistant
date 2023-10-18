@@ -7,7 +7,7 @@ import {
 } from "@ui5-language-assistant/test-framework";
 import { getContext } from "@ui5-language-assistant/context";
 import { BindContext } from "../../../src/types";
-import { getPropertyBindingInfoElements } from "../../../src/definition/definition";
+import { getBindingElements } from "../../../src/definition/definition";
 import { UI5Typedef } from "@ui5-language-assistant/semantic-model-types";
 
 describe("definition", () => {
@@ -35,23 +35,47 @@ describe("definition", () => {
       join(framework.getProjectRoot(), ...viewFilePathSegments)
     )) as BindContext;
   });
-  describe("getPropertyBindingInfoElements", () => {
+  describe("getBindingElements", () => {
     it("get binding elements", () => {
-      const result = getPropertyBindingInfoElements(context);
+      const result = getBindingElements(context);
+      expect(result).toMatchSnapshot();
+    });
+    it("get binding elements - aggregation", () => {
+      const result = getBindingElements(context, true);
       expect(result).toMatchSnapshot();
     });
     it("check fallback", () => {
-      const result = getPropertyBindingInfoElements({
-        ...context,
-        ui5Model: {
-          ...context.ui5Model,
-          typedefs: {
-            ...context.ui5Model.typedefs,
-            "sap.ui.base.ManagedObject.PropertyBindingInfo":
-              undefined as unknown as UI5Typedef,
+      const result = getBindingElements(
+        {
+          ...context,
+          ui5Model: {
+            ...context.ui5Model,
+            typedefs: {
+              ...context.ui5Model.typedefs,
+              "sap.ui.base.ManagedObject.PropertyBindingInfo":
+                undefined as unknown as UI5Typedef,
+            },
           },
         },
-      });
+        false
+      );
+      expect(result).toMatchSnapshot();
+    });
+    it("check fallback - aggregation", () => {
+      const result = getBindingElements(
+        {
+          ...context,
+          ui5Model: {
+            ...context.ui5Model,
+            typedefs: {
+              ...context.ui5Model.typedefs,
+              "sap.ui.base.ManagedObject.AggregationBindingInfo":
+                undefined as unknown as UI5Typedef,
+            },
+          },
+        },
+        true
+      );
       expect(result).toMatchSnapshot();
     });
   });

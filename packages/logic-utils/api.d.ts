@@ -143,6 +143,15 @@ export function getUI5PropertyByXMLAttributeKey(
   attribute: XMLAttribute,
   model: UI5SemanticModel
 ): UI5Prop | undefined;
+/**
+ * Return the UI5 Aggregation for an XML Attribute
+ * @param attribute
+ * @param model
+ */
+export function getUI5AggregationByXMLAttributeKey(
+  attribute: XMLAttribute,
+  model: UI5SemanticModel
+): UI5Aggregation | undefined;
 
 /**
  * Return the UI5 node for an XML Attribute

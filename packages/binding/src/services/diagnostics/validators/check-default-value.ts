@@ -1,9 +1,13 @@
-import { BindContext, BindingIssue, BINDING_ISSUE_TYPE } from "../../../types";
+import {
+  BindContext,
+  BindingIssue,
+  BINDING_ISSUE_TYPE,
+  BindingInfoElement,
+} from "../../../types";
 import {
   BindingParserTypes as BindingTypes,
   isPrimitiveValue,
 } from "@ui5-language-assistant/binding-parser";
-import { getPropertyBindingInfoElements } from "../../../definition/definition";
 import {
   findRange,
   getPropertyTypeWithPossibleValue,
@@ -16,7 +20,8 @@ const cleanText = (context: BindContext, text: string): string => {
 };
 export const checkDefaultValue = (
   context: BindContext,
-  element: BindingTypes.StructureElement
+  element: BindingTypes.StructureElement,
+  bindingElements: BindingInfoElement[]
 ): BindingIssue[] => {
   const issues: BindingIssue[] = [];
   if (!isPrimitiveValue(element.value)) {
@@ -28,9 +33,7 @@ export const checkDefaultValue = (
     return issues;
   }
   const text = element.key?.text;
-  const bindingElement = getPropertyBindingInfoElements(context).find(
-    (el) => el.name === text
-  );
+  const bindingElement = bindingElements.find((el) => el.name === text);
   const bindingType = getPropertyTypeWithPossibleValue(element, bindingElement);
   if (bindingType && bindingType.possibleValue?.fixed) {
     const values = bindingType.possibleValue.values;

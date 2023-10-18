@@ -2,6 +2,7 @@ export {
   typesToValue,
   valueTypeMap,
   isParts,
+  isAnyType,
   findRange,
   defaultRange,
   getPropertyTypeWithPossibleValue,

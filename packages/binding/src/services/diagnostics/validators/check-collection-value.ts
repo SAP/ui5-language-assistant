@@ -1,4 +1,9 @@
-import { BindContext, BindingIssue, BINDING_ISSUE_TYPE } from "../../../types";
+import {
+  BindContext,
+  BindingIssue,
+  BINDING_ISSUE_TYPE,
+  BindingInfoElement,
+} from "../../../types";
 import {
   isCollectionValue,
   isPrimitiveValue,
@@ -7,7 +12,7 @@ import {
 } from "@ui5-language-assistant/binding-parser";
 import { checkAst } from "./issue-collector";
 import { getPrimitiveValueIssues } from "./check-primitive-value";
-import { getPropertyBindingInfoElements } from "../../../definition/definition";
+import { getBindingElements } from "../../../definition/definition";
 import { isParts, typesToValue, findRange } from "../../../utils";
 import { checkComma } from "./check-comma";
 import { checkBrackets } from "./check-brackets";
@@ -25,44 +30,34 @@ export const checkCollectionValue = (
     parse: BindingTypes.ParseError[];
     lexer: BindingTypes.LexerError[];
   },
-  ignore = false
+  bindingElements: BindingInfoElement[],
+  /* istanbul ignore next */
+  aggregation = false
 ): BindingIssue[] => {
   const issues: BindingIssue[] = [];
   const value = element.value;
   if (!isCollectionValue(value)) {
-    return issues;
+    return [];
   }
   issues.push(...checkBrackets(value));
   // filter undefined
   const elements = value.elements.filter((item) => !!item);
-  if (ignore) {
-    // do not check key - process collection value
-    for (let index = 0; elements.length > index; index++) {
-      const item = elements[index];
-      const nextItem = elements[index + 1];
-      if (isStructureValue(item)) {
-        issues.push(...checkAst(context, item, errors, !isParts(element)));
-      }
-      if (isPrimitiveValue(item)) {
-        issues.push(...getPrimitiveValueIssues(context, item, undefined, true));
-      }
-      issues.push(...checkComma(item, errors, value.commas, nextItem));
-    }
-    return issues;
-  }
-  // check if that element is allowed to have collection value
+
   const text = element.key && element.key.text;
-  const bindingElement = getPropertyBindingInfoElements(context).find(
-    (el) => el.name === text
-  );
+  const bindingElement = bindingElements.find((el) => el.name === text);
 
   if (!bindingElement) {
     // should have been detected by checkKey
     return issues;
   }
+  // check if that element is allowed to have collection value
   const collectionItem = bindingElement.type.find((item) => item.collection);
   if (!collectionItem) {
-    const data = typesToValue(bindingElement.type, context, undefined);
+    const data = typesToValue({
+      types: bindingElement.type,
+      context,
+      forDiagnostic: true,
+    });
     /* istanbul ignore next */
     const message = `Allowed value${
       data.length > 1 ? "s are" : " is"
@@ -77,25 +72,55 @@ export const checkCollectionValue = (
     return issues;
   }
 
+  // check empty collection. `parts` must have value where `filters` and `sorter` can have empty collection
   if (elements.length === 0) {
-    const data = typesToValue(bindingElement.type, context, undefined, true);
-    const message = `Required value${data.length > 1 ? "s" : ""} ${data.join(
-      " or "
-    )} must be provided`;
-    issues.push({
-      issueType: BINDING_ISSUE_TYPE,
-      kind: "MissingValue",
-      message,
-      range: findRange([value.range, element.range]),
-      severity: "error",
-    });
+    if (isParts(element)) {
+      const data = typesToValue({
+        context,
+        types: bindingElement.type,
+        collectionValue: true,
+        forDiagnostic: true,
+      });
+      const message = `Required value${data.length > 1 ? "s" : ""} ${data.join(
+        " or "
+      )} must be provided`;
+      issues.push({
+        issueType: BINDING_ISSUE_TYPE,
+        kind: "MissingValue",
+        message,
+        range: findRange([value.range, element.range]),
+        severity: "error",
+      });
+    }
     return issues;
+  }
+
+  // only for parts which can be any of `PropertyBindingInfo` (bindingElements should be PropertyBindingInfo)
+  let data = isParts(element)
+    ? bindingElements
+    : /* istanbul ignore next */
+      collectionItem.possibleElements ?? [];
+  if (collectionItem.reference) {
+    const [bdElement] = getBindingElements(context, aggregation).filter(
+      (i) => i.name === collectionItem.reference
+    );
+    if (!bdElement) {
+      // currently checking reference to other binding element only
+      /* istanbul ignore next */
+      return [];
+    }
+    const possibleType = bdElement.type.find(
+      (i) => /* istanbul ignore next */ i.possibleElements?.length
+    );
+    /* istanbul ignore next */
+    data = possibleType?.possibleElements ?? [];
   }
 
   for (let index = 0; elements.length > index; index++) {
     const item = elements[index];
     const nextItem = elements[index + 1];
     if (isStructureValue(item)) {
+      // parts must have a property binding element
       if (item.elements.length === 0 && isParts(element)) {
         issues.push({
           issueType: BINDING_ISSUE_TYPE,
@@ -105,7 +130,16 @@ export const checkCollectionValue = (
           severity: "error",
         });
       } else {
-        issues.push(...checkAst(context, item, errors, !isParts(element)));
+        issues.push(
+          ...checkAst(
+            context,
+            item,
+            errors,
+            aggregation,
+            data,
+            data.length === 0
+          )
+        );
       }
     }
     if (isCollectionValue(item) && isParts(element)) {

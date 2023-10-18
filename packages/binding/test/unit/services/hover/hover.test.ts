@@ -49,9 +49,79 @@ describe("hover/index", () => {
       const result = await getHover(snippet);
       expect(result).toMatchSnapshot();
     });
+    it("on key - any type", async () => {
+      const snippet = `
+        <List
+            items="{
+                  path: '',
+                  filters: [{
+                      val${CURSOR_ANCHOR}ue1: ''
+                  }]
+              }"
+        />
+    `;
+      const result = await getHover(snippet);
+      expect(result).toMatchSnapshot();
+    });
     it("on key inside collection", async () => {
       const snippet = `
         <Text text="{parts: ['some-test-data', { pa${CURSOR_ANCHOR}th: 'some-value'}]}"></Text>
+    `;
+      const result = await getHover(snippet);
+      expect(result).toMatchSnapshot();
+    });
+    it("on key - inside structure", async () => {
+      const snippet = `
+      <List items="{
+          path: '',
+          filters: {
+              pa${CURSOR_ANCHOR}th: ''
+          }
+      }" />
+    `;
+      const result = await getHover(snippet);
+      expect(result).toMatchSnapshot();
+    });
+    it("on key - inside structure [reference]", async () => {
+      const snippet = `
+      <List items="{
+          path: '',
+          filters: {
+              path: '',
+              operator: 'All', 
+              condition:{
+                  filters: [{pa${CURSOR_ANCHOR}th: ''}]
+              }
+          }
+      }" />
+    `;
+      const result = await getHover(snippet);
+      expect(result).toMatchSnapshot();
+    });
+    it("on key - inside collection [filters]", async () => {
+      const snippet = `
+      <List items="{
+          path: '',
+          filters: [{
+              pa${CURSOR_ANCHOR}th: ''
+          }]
+      }" />
+    `;
+      const result = await getHover(snippet);
+      expect(result).toMatchSnapshot();
+    });
+    it("on key - inside collection [ nested filters]", async () => {
+      const snippet = `
+        <List
+            items="{
+                  path: '',
+                  filters: [{
+                      filters: [{
+                        pa${CURSOR_ANCHOR}th: ''
+                      }]
+                  }]
+              }"
+        />
     `;
       const result = await getHover(snippet);
       expect(result).toMatchSnapshot();
