@@ -2919,6 +2919,7 @@ Array [
 [More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Sorter)",
             },
             "name": "descending",
+            "required": false,
             "type": Array [
               Object {
                 "collection": false,
@@ -2949,6 +2950,7 @@ Array [
 [More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Sorter)",
             },
             "name": "group",
+            "required": false,
             "type": Array [
               Object {
                 "collection": false,
@@ -2990,6 +2992,7 @@ Array [
 [More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Sorter)",
             },
             "name": "comparator",
+            "required": false,
             "type": Array [
               Object {
                 "collection": false,
@@ -3064,6 +3067,7 @@ Array [
 [More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Sorter)",
             },
             "name": "descending",
+            "required": false,
             "type": Array [
               Object {
                 "collection": false,
@@ -3094,6 +3098,7 @@ Array [
 [More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Sorter)",
             },
             "name": "group",
+            "required": false,
             "type": Array [
               Object {
                 "collection": false,
@@ -3135,6 +3140,7 @@ Array [
 [More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Sorter)",
             },
             "name": "comparator",
+            "required": false,
             "type": Array [
               Object {
                 "collection": false,
@@ -3197,6 +3203,7 @@ Array [
 [More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
             },
             "name": "path",
+            "required": false,
             "type": Array [
               Object {
                 "collection": false,
@@ -3227,6 +3234,7 @@ Array [
 [More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
             },
             "name": "test",
+            "required": false,
             "type": Array [
               Object {
                 "collection": false,
@@ -3257,6 +3265,7 @@ Array [
 [More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
             },
             "name": "comparator",
+            "required": false,
             "type": Array [
               Object {
                 "collection": false,
@@ -3287,6 +3296,7 @@ Array [
 [More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
             },
             "name": "operator",
+            "required": false,
             "type": Array [
               Object {
                 "collection": false,
@@ -3334,6 +3344,7 @@ Array [
 [More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
             },
             "name": "value1",
+            "required": false,
             "type": Array [
               Object {
                 "collection": false,
@@ -3360,6 +3371,7 @@ Array [
 [More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
             },
             "name": "value2",
+            "required": false,
             "type": Array [
               Object {
                 "collection": false,
@@ -3386,6 +3398,7 @@ Array [
 [More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
             },
             "name": "variable",
+            "required": false,
             "type": Array [
               Object {
                 "collection": false,
@@ -3416,6 +3429,7 @@ Array [
 [More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
             },
             "name": "condition",
+            "required": false,
             "type": Array [
               Object {
                 "collection": false,
@@ -3447,6 +3461,7 @@ Array [
 [More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
             },
             "name": "filters",
+            "required": false,
             "type": Array [
               Object {
                 "collection": true,
@@ -3478,6 +3493,7 @@ Array [
 [More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
             },
             "name": "and",
+            "required": false,
             "type": Array [
               Object {
                 "collection": false,
@@ -3508,6 +3524,7 @@ Array [
 [More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
             },
             "name": "caseSensitive",
+            "required": false,
             "type": Array [
               Object {
                 "collection": false,
@@ -3551,6 +3568,7 @@ Array [
 [More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
             },
             "name": "path",
+            "required": false,
             "type": Array [
               Object {
                 "collection": false,
@@ -3581,6 +3599,7 @@ Array [
 [More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
             },
             "name": "test",
+            "required": false,
             "type": Array [
               Object {
                 "collection": false,
@@ -3611,6 +3630,7 @@ Array [
 [More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
             },
             "name": "comparator",
+            "required": false,
             "type": Array [
               Object {
                 "collection": false,
@@ -3641,6 +3661,7 @@ Array [
 [More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
             },
             "name": "operator",
+            "required": false,
             "type": Array [
               Object {
                 "collection": false,
@@ -3688,6 +3709,7 @@ Array [
 [More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
             },
             "name": "value1",
+            "required": false,
             "type": Array [
               Object {
                 "collection": false,
@@ -3714,6 +3736,7 @@ Array [
 [More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
             },
             "name": "value2",
+            "required": false,
             "type": Array [
               Object {
                 "collection": false,
@@ -3740,6 +3763,7 @@ Array [
 [More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
             },
             "name": "variable",
+            "required": false,
             "type": Array [
               Object {
                 "collection": false,
@@ -3770,6 +3794,7 @@ Array [
 [More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
             },
             "name": "condition",
+            "required": false,
             "type": Array [
               Object {
                 "collection": false,
@@ -3801,6 +3826,7 @@ Array [
 [More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
             },
             "name": "filters",
+            "required": false,
             "type": Array [
               Object {
                 "collection": true,
@@ -3832,6 +3858,7 @@ Array [
 [More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
             },
             "name": "and",
+            "required": false,
             "type": Array [
               Object {
                 "collection": false,
@@ -3862,6 +3889,7 @@ Array [
 [More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
             },
             "name": "caseSensitive",
+            "required": false,
             "type": Array [
               Object {
                 "collection": false,

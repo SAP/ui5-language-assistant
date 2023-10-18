@@ -52,48 +52,45 @@ const getHoverFromBinding = (
 
     // check if cursor is on key range
     if (
+      property &&
       element.key &&
       rangeContained(element.key.range, {
         start: cursorPos,
         end: cursorPos,
       })
     ) {
-      if (property) {
-        return { contents: property.documentation };
-      }
+      return { contents: property.documentation };
     }
 
     const value = element.value;
-    if (isStructureValue(value)) {
+    if (isStructureValue(value) && property) {
       let data = bindingElements;
-      if (property) {
-        const referencedType = property.type.find((t) => t.reference);
-        if (referencedType) {
-          const [bdElement] = getBindingElements(
-            context,
-            aggregation,
-            true
-          ).filter((i) => i.name === referencedType.reference);
-          if (!bdElement) {
-            return;
-          }
-          const possibleType = bdElement.type.find(
-            /* istanbul ignore next */
-            (i) => i.possibleElements?.length
-          );
-          /* istanbul ignore next */
-          data = possibleType?.possibleElements ?? [];
-        } else {
-          const typeWithPossibleEl = property?.type.find(
-            (t) => t.possibleElements
-          );
-          /* istanbul ignore next */
-          if (typeWithPossibleEl?.possibleElements?.length) {
-            data = typeWithPossibleEl.possibleElements;
-          }
+      const referencedType = property.type.find((t) => t.reference);
+      if (referencedType) {
+        const [bdElement] = getBindingElements(
+          context,
+          aggregation,
+          true
+        ).filter((i) => i.name === referencedType.reference);
+        if (!bdElement) {
+          return;
         }
-        return getHoverFromBinding(context, data, value, aggregation);
+        const possibleType = bdElement.type.find(
+          /* istanbul ignore next */
+          (i) => i.possibleElements?.length
+        );
+        /* istanbul ignore next */
+        data = possibleType?.possibleElements ?? [];
+      } else {
+        const typeWithPossibleEl = property?.type.find(
+          (t) => t.possibleElements
+        );
+        /* istanbul ignore next */
+        if (typeWithPossibleEl?.possibleElements?.length) {
+          data = typeWithPossibleEl.possibleElements;
+        }
       }
+      return getHoverFromBinding(context, data, value, aggregation);
     }
 
     // check collection value as they may have property binding

@@ -161,9 +161,7 @@ const getPossibleElement = (param: {
           forHover,
         }),
       };
-      if (constParam.optional === false) {
-        data.required = true;
-      }
+      data.required = !constParam.optional;
       result.push(data);
     }
   }
@@ -203,9 +201,7 @@ const getPossibleElement = (param: {
           forHover,
         }),
       };
-      if (param.optional === false) {
-        data.required = true;
-      }
+      data.required = !param.optional;
       result.push(data);
     }
   }

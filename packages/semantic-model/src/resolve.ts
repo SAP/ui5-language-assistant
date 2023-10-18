@@ -445,7 +445,6 @@ function getPrimitiveTypeName(typeName: string): PrimitiveTypeName | undefined {
 // These types don't have any specific type information
 const typesToIgnore: Record<string, undefined> = {
   undefined: undefined,
-  // any: undefined,
 };
 function ignoreType(typeName: string): boolean {
   return has(typesToIgnore, typeName);
