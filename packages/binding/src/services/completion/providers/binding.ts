@@ -9,7 +9,10 @@ import {
 import type { Position } from "vscode-languageserver-types";
 import { AttributeValueCompletionOptions } from "@xml-tools/content-assist";
 import { CompletionItem } from "vscode-languageserver-types";
-import { getUI5PropertyByXMLAttributeKey } from "@ui5-language-assistant/logic-utils";
+import {
+  getUI5PropertyByXMLAttributeKey,
+  getUI5AggregationByXMLAttributeKey,
+} from "@ui5-language-assistant/logic-utils";
 
 import { BindContext } from "../../../types";
 import { createInitialSnippet } from "./create-initial-snippet";
@@ -18,12 +21,16 @@ import { createAllSupportedElements } from "./create-all-supported-elements";
 import { createKeyProperties } from "./create-key-properties";
 import { createValue } from "./create-value";
 import { createKeyValue } from "./create-key-value";
-import { PROPERTY_BINDING_INFO } from "./../../../constant";
+import { getBindingElements } from "./../../../definition/definition";
 
 export const getCompletionItems = (
   context: BindContext,
   binding: BindingTypes.StructureValue,
-  spaces: BindingTypes.WhiteSpaces[]
+  spaces: BindingTypes.WhiteSpaces[],
+  /* istanbul ignore next */
+  aggregation = false,
+  /* istanbul ignore next */
+  bindingElements = getBindingElements(context, aggregation)
 ): CompletionItem[] => {
   const completionItems: CompletionItem[] = [];
   /* istanbul ignore next */
@@ -37,21 +44,27 @@ export const getCompletionItems = (
   );
   switch (cursorContext.type) {
     case "empty":
-      return createAllSupportedElements(context);
+      return createAllSupportedElements(context, bindingElements);
     case "key":
-      return createKeyProperties(context, cursorContext.element);
+      return createKeyProperties(cursorContext.element, bindingElements);
     case "value":
-      return createValue(context, spaces, cursorContext);
+      return createValue(
+        context,
+        spaces,
+        cursorContext,
+        bindingElements,
+        aggregation
+      );
     case "key-value":
-      return createKeyValue(context, binding);
+      return createKeyValue(context, binding, bindingElements);
   }
   return completionItems;
 };
 
 /**
- * Suggests values for property binding info
+ * Suggests values for binding
  */
-export function propertyBindingInfoSuggestions({
+export function bindingSuggestions({
   attribute,
   context,
 }: AttributeValueCompletionOptions<BindContext>): CompletionItem[] {
@@ -60,12 +73,15 @@ export function propertyBindingInfoSuggestions({
     attribute,
     context.ui5Model
   );
-  if (!ui5Property) {
+  const ui5Aggregation = getUI5AggregationByXMLAttributeKey(
+    attribute,
+    context.ui5Model
+  );
+  if (!ui5Property && !ui5Aggregation) {
     return completionItems;
   }
-  const propBinding = context.ui5Model.typedefs[PROPERTY_BINDING_INFO];
-  /* istanbul ignore next */
-  const properties = propBinding?.properties?.map((i) => i.name) ?? [];
+  const propBinding = getBindingElements(context, !!ui5Aggregation, false);
+  const properties = propBinding.map((i) => i.name);
   const value = attribute.syntax.value;
   const startChar = value && value.image.charAt(0);
   context.doubleQuotes = startChar === '"';
@@ -88,6 +104,7 @@ export function propertyBindingInfoSuggestions({
       completionItems.push(...createInitialSnippet());
       continue;
     }
+    /* istanbul ignore next */
     const cursorPos = context.textDocumentPosition?.position;
     const binding = ast.bindings.find(
       (b) =>
@@ -101,7 +118,15 @@ export function propertyBindingInfoSuggestions({
     if (!isBindingAllowed(text, binding, errors, properties)) {
       continue;
     }
-    completionItems.push(...getCompletionItems(context, binding, ast.spaces));
+    completionItems.push(
+      ...getCompletionItems(
+        context,
+        binding,
+        ast.spaces,
+        !!ui5Aggregation,
+        propBinding
+      )
+    );
   }
   return completionItems;
 }

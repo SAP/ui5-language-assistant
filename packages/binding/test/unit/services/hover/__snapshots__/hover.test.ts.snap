@@ -1,5 +1,100 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`hover/index hover result on key - any type 1`] = `
+Object {
+  "contents": Object {
+    "kind": "markdown",
+    "value": "\`(class) sap.ui.model.Filter\`
+
+---
+
+**Type:** any
+
+**Description:** First value to use with the given filter operator
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+  },
+}
+`;
+
+exports[`hover/index hover result on key - inside collection [ nested filters] 1`] = `
+Object {
+  "contents": Object {
+    "kind": "markdown",
+    "value": "\`(class) sap.ui.model.Filter\`
+
+---
+
+**Type:** String
+
+**Description:** Binding path for this filter
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+  },
+}
+`;
+
+exports[`hover/index hover result on key - inside collection [filters] 1`] = `
+Object {
+  "contents": Object {
+    "kind": "markdown",
+    "value": "\`(class) sap.ui.model.Filter\`
+
+---
+
+**Type:** String
+
+**Description:** Binding path for this filter
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+  },
+}
+`;
+
+exports[`hover/index hover result on key - inside structure [reference] 1`] = `
+Object {
+  "contents": Object {
+    "kind": "markdown",
+    "value": "\`(class) sap.ui.model.Filter\`
+
+---
+
+**Type:** String
+
+**Description:** Binding path for this filter
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+  },
+}
+`;
+
+exports[`hover/index hover result on key - inside structure 1`] = `
+Object {
+  "contents": Object {
+    "kind": "markdown",
+    "value": "\`(class) sap.ui.model.Filter\`
+
+---
+
+**Type:** String
+
+**Description:** Binding path for this filter
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+  },
+}
+`;
+
 exports[`hover/index hover result on key 1`] = `
 Object {
   "contents": Object {
@@ -8,7 +103,7 @@ Object {
 
 ---
 
-**Type:** Array<(String | sap.ui.base.ManagedObject.PropertyBindingInfo>)
+**Type:** Array<(String | sap.ui.base.ManagedObject.PropertyBindingInfo)>
 
 **Description:** Array of binding info objects for the parts of a composite binding; the structure of each binding info is the same as described for the <code>oBindingInfo</code> as a whole.
 

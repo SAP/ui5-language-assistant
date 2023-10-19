@@ -5,13 +5,14 @@ import {
   ProjectType,
   TestFramework,
 } from "@ui5-language-assistant/test-framework";
-
-import { validatePropertyBindingInfo } from "../../../../../src/services/diagnostics/validators/property-binding-info-validator";
+import { XMLAttribute } from "@xml-tools/ast";
+import { validateBinding } from "../../../../../src/services/diagnostics/validators/binding-validator";
 import {
   issueToSnapshot,
   ViewValidatorType,
   getViewValidator,
 } from "../../../helper";
+import { Context } from "@ui5-language-assistant/context";
 
 describe("property-binding-info-validator", () => {
   let framework: TestFramework;
@@ -42,9 +43,14 @@ describe("property-binding-info-validator", () => {
       framework,
       viewFilePathSegments,
       documentPath,
-      validatePropertyBindingInfo
+      validateBinding
     );
   });
+  it("throws exception - empty result", () => {
+    const result = validateBinding({} as XMLAttribute, {} as Context);
+    expect(result).toStrictEqual([]);
+  });
+
   // issue link: https://github.com/SAP/ui5-language-assistant/issues/652
   it("do not check ui5 property which does not contain any property binding info key", async () => {
     const snippet = `
@@ -583,6 +589,14 @@ describe("property-binding-info-validator", () => {
     const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       "kind: MissingComma; text: Missing comma; severity:error; range:9:27-9:36",
+    ]);
+  });
+  it("check missing comma - nested", async () => {
+    const snippet = `
+    <Text text="{ path: '', events:{one: true, two: {x: 123 y: 321}} }" id="test-id"></Text>`;
+    const result = await validateView(snippet);
+    expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
+      "kind: MissingComma; text: Missing comma; severity:error; range:9:60-9:66",
     ]);
   });
   it("check trailing comma", async () => {

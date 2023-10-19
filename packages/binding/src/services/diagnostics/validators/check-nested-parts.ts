@@ -4,7 +4,7 @@ import {
   isStructureValue,
   BindingParserTypes as BindingTypes,
 } from "@ui5-language-assistant/binding-parser";
-import { findRange } from "../../../utils";
+import { findRange, isParts } from "../../../utils";
 
 /**
  * Check parts element MUST not contain another parts element
@@ -15,7 +15,7 @@ const getParts = (element: BindingTypes.StructureElement) => {
     for (const item of element.value.elements) {
       if (isStructureValue(item)) {
         for (const el of item.elements) {
-          if (el.key?.text === "parts") {
+          if (isParts(el)) {
             issues.push({
               issueType: BINDING_ISSUE_TYPE,
               kind: "RecursiveProperty",
@@ -41,7 +41,7 @@ export const checkNestedParts = (
 ): BindingIssue[] => {
   const issues: BindingIssue[] = [];
   // check "parts" element is used
-  const parts = binding.elements.find((i) => i.key?.text === "parts");
+  const parts = binding.elements.find((i) => isParts(i));
   if (parts) {
     issues.push(...getParts(parts));
   }

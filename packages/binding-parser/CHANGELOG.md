@@ -1,5 +1,11 @@
 # @ui5-language-assistant/binding-parser
 
+## 1.0.6
+
+### Patch Changes
+
+- 905a6be: Support aggregation binding info
+
 ## 1.0.5
 
 ### Patch Changes

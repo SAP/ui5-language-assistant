@@ -23,10 +23,10 @@ describe("documentation", () => {
       },
     }) as unknown as UI5TypedefProp;
 
-    const result = getDocumentation(
-      { ui5Model: {} } as unknown as Context,
-      prop
-    );
+    const result = getDocumentation({
+      context: { ui5Model: {} } as unknown as Context,
+      prop,
+    });
     expect(result).toMatchSnapshot();
   });
   it("check UI5Typedef, UI5Class or UI5Enum", () => {
@@ -38,10 +38,10 @@ describe("documentation", () => {
         parent: testInnerNS,
       },
     }) as unknown as UI5TypedefProp;
-    const result = getDocumentation(
-      { ui5Model: {} } as unknown as Context,
-      prop
-    );
+    const result = getDocumentation({
+      context: { ui5Model: {} } as unknown as Context,
+      prop,
+    });
     expect(result).toMatchSnapshot();
   });
   it("check UnionType", () => {
@@ -58,10 +58,10 @@ describe("documentation", () => {
         ],
       },
     }) as unknown as UI5TypedefProp;
-    const result = getDocumentation(
-      { ui5Model: {} } as unknown as Context,
-      prop
-    );
+    const result = getDocumentation({
+      context: { ui5Model: {} } as unknown as Context,
+      prop,
+    });
     expect(result).toMatchSnapshot();
   });
   it("check ArrayType", () => {
@@ -76,10 +76,10 @@ describe("documentation", () => {
         },
       },
     }) as unknown as UI5TypedefProp;
-    const result = getDocumentation(
-      { ui5Model: {} } as unknown as Context,
-      prop
-    );
+    const result = getDocumentation({
+      context: { ui5Model: {} } as unknown as Context,
+      prop,
+    });
     expect(result).toMatchSnapshot();
   });
   it("check undefined type", () => {
@@ -87,10 +87,10 @@ describe("documentation", () => {
       name: "TestTypedef",
     }) as unknown as UI5TypedefProp;
 
-    const result = getDocumentation(
-      { ui5Model: {} } as unknown as Context,
-      prop
-    );
+    const result = getDocumentation({
+      context: { ui5Model: {} } as unknown as Context,
+      prop,
+    });
     expect(result).toMatchSnapshot();
   });
 });

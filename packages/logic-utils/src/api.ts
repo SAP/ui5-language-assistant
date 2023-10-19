@@ -20,6 +20,7 @@ export {
   getUI5ClassByXMLElementClosingTag,
   getUI5AggregationByXMLElement,
   getUI5PropertyByXMLAttributeKey,
+  getUI5AggregationByXMLAttributeKey,
   getUI5NodeByXMLAttribute,
   getUI5NodeFromXMLElementNamespace,
 } from "./utils/xml-node-to-ui5-node";

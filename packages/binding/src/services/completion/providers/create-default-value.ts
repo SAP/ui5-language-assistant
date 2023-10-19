@@ -1,5 +1,4 @@
-import { getPropertyBindingInfoElements } from "../../../definition/definition";
-import { BindContext, ValueContext } from "../../../types";
+import { BindContext, BindingInfoElement, ValueContext } from "../../../types";
 import { getPropertyTypeWithPossibleValue } from "../../../utils";
 import {
   CompletionItem,
@@ -23,17 +22,19 @@ const getText = (
 
 export const createDefaultValue = (
   context: BindContext,
-  valueContext: ValueContext
+  valueContext: ValueContext,
+  bindingElements: BindingInfoElement[]
 ): CompletionItem[] => {
   const completionItems: CompletionItem[] = [];
   const { element } = valueContext;
+  /* istanbul ignore next */
   const text = element.key?.text;
-  const bindingElement = getPropertyBindingInfoElements(context).find(
-    (el) => el.name === text
-  );
+  const bindingElement = bindingElements.find((el) => el.name === text);
   const bindingType = getPropertyTypeWithPossibleValue(element, bindingElement);
   if (bindingType) {
+    /* istanbul ignore next */
     const range = element.value?.range;
+    /* istanbul ignore next */
     bindingType.possibleValue?.values.forEach((i) => {
       const label = getText(context, i, false);
       const newText = getText(context, i);

@@ -273,6 +273,12 @@ describe("expression", () => {
       const result = isBindingAllowed(input, ast.bindings[0], errors, ["path"]);
       expect(result).toBeFalse();
     });
+    it("ui5object exits and does not have [null, '', \"\", 0, false] as a value [false]", () => {
+      const input = "{ui5object: true}";
+      const { ast, errors } = parseBinding(input);
+      const result = isBindingAllowed(input, ast.bindings[0], errors, ["path"]);
+      expect(result).toBeFalse();
+    });
   });
 
   describe("isModel", () => {

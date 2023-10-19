@@ -51,6 +51,7 @@ const fixes: Record<TestModelVersion, TypeNameFix> = {
     "sap.ui.vk.tools.CoordinateSystem": undefined,
     "sap.ui.vk.SelectionMode": undefined,
     "sap.viz.ui5.controls.VizRangeSlider": undefined,
+    any: "any",
   },
   "1.71.49": {
     array: "any[]",
@@ -82,6 +83,7 @@ const fixes: Record<TestModelVersion, TypeNameFix> = {
     "sap.ui.vk.SelectionMode": undefined,
     "sap.ui.vk.RenderMode": undefined,
     "sap.viz.ui5.controls.VizRangeSlider": undefined,
+    any: "any",
   },
   "1.84.27": {
     array: "any[]",
@@ -114,6 +116,7 @@ const fixes: Record<TestModelVersion, TypeNameFix> = {
     "sap.ui.vk.ViewManager": undefined,
     "sap.viz.ui5.controls.VizRangeSlider": undefined,
     "QUnit.Assert": undefined,
+    any: "any",
   },
   "1.96.11": {
     array: "any[]",
@@ -203,9 +206,14 @@ const fixes: Record<TestModelVersion, TypeNameFix> = {
     "sap.ushell.ui.tile.TileBase": undefined,
     "sap.viz.ui5.controls.VizRangeSlider": undefined,
     "QUnit.Assert": undefined,
+    any: "any",
   },
-  "1.108.2": {},
-  "1.109.1": {},
+  "1.108.2": {
+    any: "any",
+  },
+  "1.109.1": {
+    any: "any",
+  },
 };
 
 function getModelFolder(version: TestModelVersion): string {

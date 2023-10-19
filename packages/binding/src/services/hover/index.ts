@@ -1,5 +1,8 @@
 import { XMLAttribute } from "@xml-tools/ast";
-import { getUI5PropertyByXMLAttributeKey } from "@ui5-language-assistant/logic-utils";
+import {
+  getUI5PropertyByXMLAttributeKey,
+  getUI5AggregationByXMLAttributeKey,
+} from "@ui5-language-assistant/logic-utils";
 import { getLogger } from "../../utils";
 import { Hover } from "vscode-languageserver";
 import {
@@ -9,56 +12,115 @@ import {
   extractBindingSyntax,
   rangeContained,
   BindingParserTypes,
+  isStructureValue,
+  isCollectionValue,
 } from "@ui5-language-assistant/binding-parser";
 import { Position } from "vscode-languageserver-types";
-import { BindContext, PropertyBindingInfoElement } from "../../types";
-import { getPropertyBindingInfoElements } from "../../definition/definition";
+import { BindContext, BindingInfoElement } from "../../types";
+import { getBindingElements } from "../../definition/definition";
 
 const getHoverFromBinding = (
   context: BindContext,
-  propertyBinding: PropertyBindingInfoElement[],
-  binding: BindingParserTypes.StructureValue
+  bindingElements: BindingInfoElement[],
+  binding: BindingParserTypes.StructureValue,
+  aggregation: boolean
 ): Hover | undefined => {
   let hover: Hover | undefined;
   /* istanbul ignore next */
   const cursorPos = context.textDocumentPosition?.position;
+  if (!cursorPos) {
+    return;
+  }
   for (const element of binding.elements) {
     if (
-      cursorPos &&
-      element.range &&
-      rangeContained(element.range, {
+      !(
+        element.range &&
+        rangeContained(element.range, {
+          start: cursorPos,
+          end: cursorPos,
+        })
+      )
+    ) {
+      continue;
+    }
+
+    // check valid key
+    const property = bindingElements.find(
+      /* istanbul ignore next */
+      (prop) => prop.name === element.key?.text
+    );
+
+    // check if cursor is on key range
+    if (
+      property &&
+      element.key &&
+      rangeContained(element.key.range, {
         start: cursorPos,
         end: cursorPos,
       })
     ) {
-      // check if cursor is on key range
-      if (
-        cursorPos &&
-        element.key &&
-        rangeContained(element.key.range, {
-          start: cursorPos,
-          end: cursorPos,
-        })
-      ) {
-        // check valid key
-        const property = propertyBinding.find(
-          (prop) => prop.name === element.key?.originalText
+      return { contents: property.documentation };
+    }
+
+    const value = element.value;
+    if (isStructureValue(value) && property) {
+      let data = bindingElements;
+      const referencedType = property.type.find((t) => t.reference);
+      if (referencedType) {
+        const [bdElement] = getBindingElements(
+          context,
+          aggregation,
+          true
+        ).filter((i) => i.name === referencedType.reference);
+        if (!bdElement) {
+          return;
+        }
+        const possibleType = bdElement.type.find(
+          /* istanbul ignore next */
+          (i) => i.possibleElements?.length
         );
-        if (property) {
-          return { contents: property.documentation };
+        /* istanbul ignore next */
+        data = possibleType?.possibleElements ?? [];
+      } else {
+        const typeWithPossibleEl = property?.type.find(
+          (t) => t.possibleElements
+        );
+        /* istanbul ignore next */
+        if (typeWithPossibleEl?.possibleElements?.length) {
+          data = typeWithPossibleEl.possibleElements;
         }
       }
+      return getHoverFromBinding(context, data, value, aggregation);
+    }
 
-      // check collection value as they may have property binding
-      if (element.value?.type === "collection-value") {
-        for (const collectionEl of element.value.elements) {
-          if (collectionEl.type !== "structure-value") {
-            continue;
-          }
-          hover = getHoverFromBinding(context, propertyBinding, collectionEl);
-          if (hover) {
-            return hover;
-          }
+    // check collection value as they may have property binding
+    if (isCollectionValue(value)) {
+      for (const collectionEl of value.elements) {
+        if (collectionEl.type !== "structure-value") {
+          continue;
+        }
+        let data = bindingElements;
+        /* istanbul ignore next */
+        const typeWithPossibleEl = property?.type.find(
+          (t) => t.possibleElements
+        );
+        if (typeWithPossibleEl?.reference) {
+          const refWithPossibleEl = getBindingElements(
+            context,
+            aggregation,
+            true
+          ).find((i) => i.name === typeWithPossibleEl.reference);
+          data =
+            /* istanbul ignore next */
+            refWithPossibleEl?.type.find((i) => i.possibleElements?.length)
+              ?.possibleElements ?? [];
+        } else if (typeWithPossibleEl?.possibleElements?.length) {
+          data = typeWithPossibleEl.possibleElements;
+        }
+
+        hover = getHoverFromBinding(context, data, collectionEl, aggregation);
+        if (hover) {
+          return hover;
         }
       }
     }
@@ -75,7 +137,11 @@ export const getHover = (
       attribute,
       context.ui5Model
     );
-    if (!ui5Property) {
+    const ui5Aggregation = getUI5AggregationByXMLAttributeKey(
+      attribute,
+      context.ui5Model
+    );
+    if (!ui5Property && !ui5Aggregation) {
       return;
     }
     const value = attribute.syntax.value;
@@ -84,7 +150,7 @@ export const getHover = (
     if (text.trim().length === 0) {
       return;
     }
-    const propBinding = getPropertyBindingInfoElements(context, true);
+    const propBinding = getBindingElements(context, !!ui5Aggregation, true);
     const properties = propBinding.map((i) => i.name);
     const extractedText = extractBindingSyntax(text);
     for (const bindingSyntax of extractedText) {
@@ -112,11 +178,16 @@ export const getHover = (
       if (!isBindingAllowed(text, binding, errors, properties)) {
         continue;
       }
-      return getHoverFromBinding(context, propBinding, binding);
+      return getHoverFromBinding(
+        context,
+        propBinding,
+        binding,
+        !!ui5Aggregation
+      );
     }
     return;
   } catch (error) {
-    getLogger().debug("validatePropertyBindingInfo failed:", error);
+    getLogger().debug("getHover failed:", error);
     return;
   }
 };
