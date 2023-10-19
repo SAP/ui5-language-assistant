@@ -53,9 +53,7 @@ const getType = (type: UI5Type | undefined): string[] => {
       result.push(data.join(" | "));
       break;
     case "ArrayType":
-      if (type.type?.kind === "UI5Typedef") {
-        result.push(...getType(type.type));
-      }
+      result.push(...getType(type.type));
       break;
   }
   return result;

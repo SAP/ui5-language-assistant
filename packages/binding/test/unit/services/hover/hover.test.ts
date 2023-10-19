@@ -126,6 +126,21 @@ describe("hover/index", () => {
       const result = await getHover(snippet);
       expect(result).toMatchSnapshot();
     });
+    it("on key - inside collection [ nested filters 02]", async () => {
+      const snippet = `
+        <List
+            items="{
+                  path: '',
+                  filters: [{
+                      filter${CURSOR_ANCHOR}s: [{
+                      }]
+                  }]
+              }"
+        />
+    `;
+      const result = await getHover(snippet);
+      expect(result).toMatchSnapshot();
+    });
     ["null", `''`, "0", "false"].forEach((value) => {
       it(`on key if ui5object has false value: ${value}`, async () => {
         const snippet = `
