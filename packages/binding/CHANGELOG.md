@@ -1,5 +1,11 @@
 # @ui5-language-assistant/binding
 
+## 1.0.16
+
+### Patch Changes
+
+- 6dac4f6: Fix type in documentation
+
 ## 1.0.15
 
 ### Patch Changes
