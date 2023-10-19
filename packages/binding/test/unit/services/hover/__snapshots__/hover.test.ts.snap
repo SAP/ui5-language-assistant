@@ -19,6 +19,25 @@ Object {
 }
 `;
 
+exports[`hover/index hover result on key - inside collection [ nested filters 02] 1`] = `
+Object {
+  "contents": Object {
+    "kind": "markdown",
+    "value": "\`(class) sap.ui.model.Filter\`
+
+---
+
+**Type:** sap.ui.model.Filter
+
+**Description:** An array of filters on which the logical conjunction is applied
+
+**Optional:** true
+
+[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+  },
+}
+`;
+
 exports[`hover/index hover result on key - inside collection [ nested filters] 1`] = `
 Object {
   "contents": Object {

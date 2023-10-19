@@ -1,6 +1,6 @@
 {
   "name": "@ui5-language-assistant/binding",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "private": true,
   "description": "UI5 LSP server extension for binding",
   "keywords": [],

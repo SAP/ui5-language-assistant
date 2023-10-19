@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.42
+
+### Patch Changes
+
+- 6dac4f6: Fix type in documentation
+
 ## 4.0.41
 
 ### Patch Changes

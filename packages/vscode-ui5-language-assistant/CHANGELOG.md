@@ -1,5 +1,12 @@
 # Change Log
 
+## 4.0.42
+
+### Patch Changes
+
+- 6dac4f6: Fix type in documentation
+  - @ui5-language-assistant/language-server@4.0.32
+
 ## 4.0.41
 
 ### Patch Changes
