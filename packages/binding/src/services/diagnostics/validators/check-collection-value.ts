@@ -10,7 +10,7 @@ import {
   isStructureValue,
   BindingParserTypes as BindingTypes,
 } from "@ui5-language-assistant/binding-parser";
-import { checkAst } from "./issue-collector";
+import { checkBinding } from "./issue-collector";
 import { getPrimitiveValueIssues } from "./check-primitive-value";
 import { getBindingElements } from "../../../definition/definition";
 import { isParts, typesToValue, findRange } from "../../../utils";
@@ -135,7 +135,7 @@ export const checkCollectionValue = (
         });
       } else {
         issues.push(
-          ...checkAst(
+          ...checkBinding(
             context,
             item,
             errors,

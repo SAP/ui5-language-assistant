@@ -8,7 +8,7 @@ import {
   isStructureValue,
   BindingParserTypes as BindingTypes,
 } from "@ui5-language-assistant/binding-parser";
-import { checkAst } from "./issue-collector";
+import { checkBinding } from "./issue-collector";
 import { getBindingElements } from "../../../definition/definition";
 import { findRange, typesToValue, valueTypeMap } from "../../../utils";
 import { t } from "../../../i18n";
@@ -84,7 +84,14 @@ export const checkStructureValue = (
   }
   // check content of structure value - recursive call
   issues.push(
-    ...checkAst(context, value, errors, aggregation, data, data.length === 0)
+    ...checkBinding(
+      context,
+      value,
+      errors,
+      aggregation,
+      data,
+      data.length === 0
+    )
   );
   return issues;
 };
