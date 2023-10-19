@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.41
+
+### Patch Changes
+
+- 8eaa48f: Adapt readme file
+
 ## 4.0.40
 
 ### Patch Changes
