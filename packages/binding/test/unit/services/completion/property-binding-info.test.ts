@@ -13,7 +13,7 @@ import {
   getViewCompletionProvider,
   ViewCompletionProviderType,
 } from "../../helper";
-import { getCompletionItems } from "../../../../src/api";
+import { getCompletionItems, initI18n } from "../../../../src/api";
 import { TextDocumentPositionParams } from "vscode-languageserver-protocol";
 import { CstNode, IToken } from "chevrotain";
 import { XMLDocument } from "@xml-tools/ast";
@@ -46,7 +46,7 @@ describe("index", () => {
     SplitAttributesOnFormat: true,
   };
 
-  beforeAll(function () {
+  beforeAll(async function () {
     const config: Config = {
       projectInfo: {
         name: ProjectName.cap,
@@ -56,6 +56,8 @@ describe("index", () => {
       },
     };
     framework = new TestFramework(config);
+    const i18n = await framework.initI18n();
+    initI18n(i18n);
 
     root = framework.getProjectRoot();
     documentPath = join(root, ...viewFilePathSegments);

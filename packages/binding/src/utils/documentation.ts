@@ -6,7 +6,7 @@ import { BindContext } from "../types";
 import { MarkupKind } from "vscode-languageserver-types";
 import { ui5NodeToFQN, getLink } from "@ui5-language-assistant/logic-utils";
 import { PROPERTY_BINDING_INFO } from "../constant";
-
+import { t } from "../i18n";
 const getType = (type: UI5Type | undefined): string[] => {
   const result: string[] = [];
   if (!type) {
@@ -82,10 +82,10 @@ export const getDocumentation = (param: {
   const values: string[] = [
     `\`${titlePrefix} ${FQN}\``,
     forHover ? `---` : "",
-    `**Type:** ${getType(prop.type)}`,
-    `**Description:** ${prop.description}`,
-    `**Optional:** ${prop.optional}`,
-    `[More information](${link})`,
+    `**${t("TYPE")}** ${getType(prop.type)}`,
+    `**${t("DESCRIPTION")}** ${prop.description}`,
+    `**${t("OPTIONAL")}** ${prop.optional}`,
+    `${t("MORE_INFO")}(${link})`,
   ];
   return {
     kind: MarkupKind.Markdown,

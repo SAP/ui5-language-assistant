@@ -13,6 +13,7 @@ import {
   getViewCompletionProvider,
   ViewCompletionProviderType,
 } from "../../helper";
+import { initI18n } from "../../../../src/api";
 
 describe("aggregation binding", () => {
   let getCompletionResult: ViewCompletionProviderType;
@@ -40,7 +41,7 @@ describe("aggregation binding", () => {
     SplitAttributesOnFormat: true,
   };
 
-  beforeAll(function () {
+  beforeAll(async function () {
     const config: Config = {
       projectInfo: {
         name: ProjectName.cap,
@@ -50,7 +51,8 @@ describe("aggregation binding", () => {
       },
     };
     framework = new TestFramework(config);
-
+    const i18n = await framework.initI18n();
+    initI18n(i18n);
     root = framework.getProjectRoot();
     documentPath = join(root, ...viewFilePathSegments);
     const uri = framework.getFileUri(viewFilePathSegments);

@@ -9,6 +9,7 @@ import { getContext } from "@ui5-language-assistant/context";
 import { BindContext } from "../../../src/types";
 import { getBindingElements } from "../../../src/definition/definition";
 import { UI5Typedef } from "@ui5-language-assistant/semantic-model-types";
+import { initI18n } from "../../../src/i18n";
 
 describe("definition", () => {
   let framework: TestFramework;
@@ -31,6 +32,8 @@ describe("definition", () => {
       },
     };
     framework = new TestFramework(config);
+    const i18n = await framework.initI18n();
+    initI18n(i18n);
     context = (await getContext(
       join(framework.getProjectRoot(), ...viewFilePathSegments)
     )) as BindContext;
