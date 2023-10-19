@@ -19,3 +19,5 @@ export {
 } from "./constant";
 
 export { getBindingElements } from "./definition/definition";
+
+export { initI18n } from "./i18n";

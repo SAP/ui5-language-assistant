@@ -16,6 +16,7 @@ import { getBindingElements } from "../../../definition/definition";
 import { isParts, typesToValue, findRange } from "../../../utils";
 import { checkComma } from "./check-comma";
 import { checkBrackets } from "./check-brackets";
+import { t } from "../../../i18n";
 
 /**
  * Check collection value
@@ -59,9 +60,10 @@ export const checkCollectionValue = (
       forDiagnostic: true,
     });
     /* istanbul ignore next */
-    const message = `Allowed value${
-      data.length > 1 ? "s are" : " is"
-    } ${data.join(" or ")}`;
+    const message =
+      data.length > 1
+        ? t("ALLOWED_VALUES_ARE", { data: data.join(t("OR")) })
+        : t("ALLOWED_VALUES_IS", { data: data.join(t("OR")) });
     issues.push({
       issueType: BINDING_ISSUE_TYPE,
       kind: "MissMatchValue",
@@ -81,9 +83,11 @@ export const checkCollectionValue = (
         collectionValue: true,
         forDiagnostic: true,
       });
-      const message = `Required value${data.length > 1 ? "s" : ""} ${data.join(
-        " or "
-      )} must be provided`;
+      const requiredData = data.join(t("OR"));
+      const message =
+        data.length > 1
+          ? t("REQUIRED_VALUES", { data: requiredData })
+          : t("REQUIRED_VALUE", { data: requiredData });
       issues.push({
         issueType: BINDING_ISSUE_TYPE,
         kind: "MissingValue",
@@ -125,7 +129,7 @@ export const checkCollectionValue = (
         issues.push({
           issueType: BINDING_ISSUE_TYPE,
           kind: "MissingValue",
-          message: 'A valid binding property info must be provided for "{}"',
+          message: t("VALID_BINDING_PROPERTY"),
           range: findRange([item.range, value.range, element.range]),
           severity: "error",
         });
@@ -147,7 +151,7 @@ export const checkCollectionValue = (
       issues.push({
         issueType: BINDING_ISSUE_TYPE,
         kind: "MissingValue",
-        message: 'Nested "[]" are not allowed',
+        message: t("NESTED_COLLECTION"),
         range: findRange([nestedColItem.range, value.range, element.range]),
         severity: "error",
       });

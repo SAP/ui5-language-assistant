@@ -17,6 +17,7 @@ import {
 import { checkAst } from "./issue-collector";
 import { filterLexerError, filterParseError } from "../../../utils/expression";
 import { getBindingElements } from "../../../definition/definition";
+import { t } from "../../../i18n";
 
 export function validateBinding(
   attribute: XMLAttribute,
@@ -88,7 +89,7 @@ export function validateBinding(
           issues.push({
             issueType: BINDING_ISSUE_TYPE,
             kind: "UnknownChar",
-            message: "Unknown character",
+            message: t("UNKNOWN_CHARACTER"),
             range: item.range,
             severity: "error",
           });

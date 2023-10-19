@@ -4,6 +4,8 @@ import {
   BindingParserTypes as BindingTypes,
 } from "@ui5-language-assistant/binding-parser";
 import { findRange } from "../../../utils";
+import { t } from "../../../i18n";
+
 export const checkBrackets = (
   binding: BindingTypes.StructureValue | BindingTypes.CollectionValue
 ): BindingIssue[] => {
@@ -13,7 +15,7 @@ export const checkBrackets = (
       issues.push({
         issueType: BINDING_ISSUE_TYPE,
         kind: "MissingBracket",
-        message: "Expect closing brace",
+        message: t("EXPECT_CLOSING_BRACE"),
         range: findRange([binding.range]),
         severity: "error",
       });
@@ -24,7 +26,7 @@ export const checkBrackets = (
     issues.push({
       issueType: BINDING_ISSUE_TYPE,
       kind: "MissingBracket",
-      message: "Expect closing bracket",
+      message: t("EXPECT_CLOSING_BRACKET"),
       range: findRange([binding.range]),
       severity: "error",
     });

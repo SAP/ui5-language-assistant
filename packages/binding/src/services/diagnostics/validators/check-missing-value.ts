@@ -6,6 +6,7 @@ import {
 } from "../../../types";
 import { BindingParserTypes as BindingTypes } from "@ui5-language-assistant/binding-parser";
 import { typesToValue } from "../../../utils";
+import { t } from "../../../i18n";
 
 /**
  * Check missing value
@@ -25,14 +26,14 @@ export const checkMissingValue = (
   if (!element.value) {
     const text = element.key && element.key.text;
     const bindingElement = bindingElements.find((el) => el.name === text);
-    let message = "Expect a value";
+    let message = t("EXPECT_A_VALUE");
     if (bindingElement) {
       const data = typesToValue({
         types: bindingElement.type,
         context,
         forDiagnostic: true,
       });
-      message = `Expect ${data.join(" or ")} as a value`;
+      message = t("EXPECT_DATA_AS_A_VALUE", { data: data.join(t("OR")) });
     }
     issues.push({
       issueType: BINDING_ISSUE_TYPE,

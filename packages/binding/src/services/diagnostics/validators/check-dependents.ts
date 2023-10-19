@@ -5,6 +5,7 @@ import {
   BINDING_ISSUE_TYPE,
   BindingInfoElement,
 } from "../../../types";
+import { t } from "../../../i18n";
 
 export const checkDependents = (
   bindingElements: BindingInfoElement[],
@@ -33,7 +34,7 @@ export const checkDependents = (
           issues.push({
             issueType: BINDING_ISSUE_TYPE,
             kind: "RequiredDependency",
-            message: `Required dependency "${requiredDep.name}" should be defined`,
+            message: t("REQUIRED_DEPENDENCY", { name: requiredDep.name }),
             range: findRange([
               /* istanbul ignore next */
               dependentElementApplied.key?.range,

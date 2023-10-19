@@ -13,6 +13,7 @@ import {
   getPropertyTypeWithPossibleValue,
   valueTypeMap,
 } from "../../../utils";
+import { t } from "../../../i18n";
 
 const cleanText = (context: BindContext, text: string): string => {
   const splitKey = context.doubleQuotes ? "'" : '"';
@@ -38,9 +39,10 @@ export const checkDefaultValue = (
   if (bindingType && bindingType.possibleValue?.fixed) {
     const values = bindingType.possibleValue.values;
     if (!values.includes(cleanText(context, element.value.text))) {
-      const message = `Allowed value${values.length > 1 ? "s" : ""} ${
-        values.length > 1 ? "are" : "is"
-      } "${values.join(", ")}"`;
+      const message =
+        values.length > 1
+          ? t("ALLOWED_VALUES_ARE_QUOTES", { data: values.join(t("COMMA")) })
+          : t("ALLOWED_VALUES_IS", { data: values.join(t("COMMA")) });
       issues.push({
         issueType: BINDING_ISSUE_TYPE,
         kind: "MissMatchValue",

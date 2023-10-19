@@ -6,6 +6,7 @@ import {
 } from "../../../types";
 import { BindingParserTypes as BindingTypes } from "@ui5-language-assistant/binding-parser";
 import { findRange } from "../../../utils";
+import { t } from "../../../i18n";
 
 const search = (
   bindingElements: BindingInfoElement[],
@@ -62,7 +63,7 @@ export const checkNotAllowedElement = (
     issues.push({
       issueType: BINDING_ISSUE_TYPE,
       kind: "NotAllowedProperty",
-      message: `One of these elements [${keys.join(", ")}] are allowed`,
+      message: t("ONE_OF_THESE_ELEMENTS", { data: keys.join(t("COMMA")) }),
       range: findRange([
         /* istanbul ignore next */
         item.key?.range,
