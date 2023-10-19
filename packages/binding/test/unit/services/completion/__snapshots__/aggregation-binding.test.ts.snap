@@ -454,7 +454,7 @@ Array [
 
 
 
-**Type:** 
+**Type:** sap.ui.model.Filter
 
 **Description:** An array of filters on which the logical conjunction is applied
 
@@ -679,7 +679,7 @@ Array [
 
 
 
-**Type:** 
+**Type:** sap.ui.model.Filter
 
 **Description:** An array of filters on which the logical conjunction is applied
 
@@ -904,7 +904,7 @@ Array [
 
 
 
-**Type:** 
+**Type:** sap.ui.model.Filter
 
 **Description:** An array of filters on which the logical conjunction is applied
 
@@ -1129,7 +1129,7 @@ Array [
 
 
 
-**Type:** 
+**Type:** sap.ui.model.Filter
 
 **Description:** An array of filters on which the logical conjunction is applied
 
@@ -1663,7 +1663,7 @@ Array [
 
 
 
-**Type:** 
+**Type:** sap.ui.model.Filter
 
 **Description:** An array of filters on which the logical conjunction is applied
 
@@ -1888,7 +1888,7 @@ Array [
 
 
 
-**Type:** 
+**Type:** sap.ui.model.Filter
 
 **Description:** An array of filters on which the logical conjunction is applied
 
