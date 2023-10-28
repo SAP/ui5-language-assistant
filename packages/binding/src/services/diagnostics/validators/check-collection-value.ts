@@ -17,6 +17,7 @@ import { isParts, typesToValue, findRange } from "../../../utils";
 import { checkComma } from "./check-comma";
 import { checkBrackets } from "./check-brackets";
 import { t } from "../../../i18n";
+import { createMissMatchValueIssue } from "./common";
 
 /**
  * Check collection value
@@ -54,23 +55,14 @@ export const checkCollectionValue = (
   // check if that element is allowed to have collection value
   const collectionItem = bindingElement.type.find((item) => item.collection);
   if (!collectionItem) {
-    const data = typesToValue({
-      types: bindingElement.type,
-      context,
-      forDiagnostic: true,
-    });
-    /* istanbul ignore next */
-    const message =
-      data.length > 1
-        ? t("ALLOWED_VALUES_ARE", { data: data.join(t("OR")) })
-        : t("ALLOWED_VALUES_IS", { data: data.join(t("OR")) });
-    issues.push({
-      issueType: BINDING_ISSUE_TYPE,
-      kind: "MissMatchValue",
-      message,
-      range: findRange([value.range, element.range]),
-      severity: "error",
-    });
+    issues.push(
+      createMissMatchValueIssue({
+        context,
+        bindingElement,
+        ranges: [value.range, element.range],
+        forDiagnostic: true,
+      })
+    );
     return issues;
   }
 
