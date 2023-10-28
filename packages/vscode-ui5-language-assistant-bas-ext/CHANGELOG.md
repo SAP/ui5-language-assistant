@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.43
+
+### Patch Changes
+
+- 0df62cd: Use i18n
+
 ## 4.0.42
 
 ### Patch Changes

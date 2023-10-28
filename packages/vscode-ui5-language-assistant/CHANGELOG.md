@@ -1,5 +1,12 @@
 # Change Log
 
+## 4.0.43
+
+### Patch Changes
+
+- 0df62cd: Use i18n
+  - @ui5-language-assistant/language-server@4.0.33
+
 ## 4.0.42
 
 ### Patch Changes

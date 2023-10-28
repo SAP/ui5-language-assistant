@@ -1,5 +1,11 @@
 # @ui5-language-assistant/binding
 
+## 1.0.17
+
+### Patch Changes
+
+- 0df62cd: Use i18n
+
 ## 1.0.16
 
 ### Patch Changes
