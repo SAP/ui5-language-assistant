@@ -5,6 +5,7 @@ import {
   BindingParserTypes as BindingTypes,
 } from "@ui5-language-assistant/binding-parser";
 import { findRange, isParts } from "../../../utils";
+import { t } from "../../../i18n";
 
 /**
  * Check parts element MUST not contain another parts element
@@ -19,7 +20,7 @@ const getParts = (element: BindingTypes.StructureElement) => {
             issues.push({
               issueType: BINDING_ISSUE_TYPE,
               kind: "RecursiveProperty",
-              message: `Recursive composite bindings is not allowed`,
+              message: t("RECURSIVE_COMPOSITE_BINDING"),
               range: findRange([
                 /* istanbul ignore next */
                 el.key?.range,

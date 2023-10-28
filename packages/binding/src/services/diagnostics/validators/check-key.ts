@@ -5,6 +5,8 @@ import {
 } from "../../../types";
 import { BindingParserTypes as BindingTypes } from "@ui5-language-assistant/binding-parser";
 import { findRange } from "../../../utils";
+import { t } from "../../../i18n";
+
 /**
  * Check if key is a one of supported property binding info
  */
@@ -19,7 +21,7 @@ export const checkKey = (
     issues.push({
       issueType: BINDING_ISSUE_TYPE,
       kind: "MissingKey",
-      message: "Expect key",
+      message: t("EXPECT_KEY"),
       range: findRange([element.colon?.range, element.value?.range]),
       severity: "error",
     });
@@ -34,9 +36,9 @@ export const checkKey = (
     issues.push({
       issueType: BINDING_ISSUE_TYPE,
       kind: "UnknownPropertyBindingInfo",
-      message: `Unknown ${
-        aggregation ? "aggregation binding" : "property binding info"
-      }`,
+      message: aggregation
+        ? t("UNKNOWN_AGGREGATION_BINDING")
+        : t("UNKNOWN_PROPERTY_BINDING"),
       range: element.key.range,
       severity: "error",
     });

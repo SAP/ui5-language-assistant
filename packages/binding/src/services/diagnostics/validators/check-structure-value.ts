@@ -1,16 +1,12 @@
-import {
-  BindContext,
-  BindingIssue,
-  BINDING_ISSUE_TYPE,
-  BindingInfoElement,
-} from "../../../types";
+import { BindContext, BindingIssue, BindingInfoElement } from "../../../types";
 import {
   isStructureValue,
   BindingParserTypes as BindingTypes,
 } from "@ui5-language-assistant/binding-parser";
-import { checkAst } from "./issue-collector";
+import { checkBinding } from "./issue-collector";
 import { getBindingElements } from "../../../definition/definition";
-import { findRange, typesToValue, valueTypeMap } from "../../../utils";
+import { valueTypeMap } from "../../../utils";
+import { createMissMatchValueIssue } from "./common";
 
 /**
  * Check structure value
@@ -45,22 +41,14 @@ export const checkStructureValue = (
   );
   // check if that element is allowed to have structure value
   if (!elementSpecificType || elementSpecificType.collection) {
-    const data = typesToValue({
-      types: bindingElement.type,
-      context,
-      forDiagnostic: true,
-    });
-    /* istanbul ignore next */
-    const message = `Allowed value${
-      data.length > 1 ? "s are" : " is"
-    } ${data.join(" or ")}`;
-    issues.push({
-      issueType: BINDING_ISSUE_TYPE,
-      kind: "MissMatchValue",
-      message,
-      range: findRange([value.range, element.range]),
-      severity: "error",
-    });
+    issues.push(
+      createMissMatchValueIssue({
+        context,
+        bindingElement,
+        ranges: [value.range, element.range],
+        forDiagnostic: true,
+      })
+    );
     return issues;
   }
 
@@ -82,7 +70,14 @@ export const checkStructureValue = (
   }
   // check content of structure value - recursive call
   issues.push(
-    ...checkAst(context, value, errors, aggregation, data, data.length === 0)
+    ...checkBinding(
+      context,
+      value,
+      errors,
+      aggregation,
+      data,
+      data.length === 0
+    )
   );
   return issues;
 };

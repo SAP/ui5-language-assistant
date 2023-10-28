@@ -10,12 +10,14 @@ import {
   isStructureValue,
   BindingParserTypes as BindingTypes,
 } from "@ui5-language-assistant/binding-parser";
-import { checkAst } from "./issue-collector";
+import { checkBinding } from "./issue-collector";
 import { getPrimitiveValueIssues } from "./check-primitive-value";
 import { getBindingElements } from "../../../definition/definition";
 import { isParts, typesToValue, findRange } from "../../../utils";
 import { checkComma } from "./check-comma";
 import { checkBrackets } from "./check-brackets";
+import { t } from "../../../i18n";
+import { createMissMatchValueIssue } from "./common";
 
 /**
  * Check collection value
@@ -53,22 +55,14 @@ export const checkCollectionValue = (
   // check if that element is allowed to have collection value
   const collectionItem = bindingElement.type.find((item) => item.collection);
   if (!collectionItem) {
-    const data = typesToValue({
-      types: bindingElement.type,
-      context,
-      forDiagnostic: true,
-    });
-    /* istanbul ignore next */
-    const message = `Allowed value${
-      data.length > 1 ? "s are" : " is"
-    } ${data.join(" or ")}`;
-    issues.push({
-      issueType: BINDING_ISSUE_TYPE,
-      kind: "MissMatchValue",
-      message,
-      range: findRange([value.range, element.range]),
-      severity: "error",
-    });
+    issues.push(
+      createMissMatchValueIssue({
+        context,
+        bindingElement,
+        ranges: [value.range, element.range],
+        forDiagnostic: true,
+      })
+    );
     return issues;
   }
 
@@ -81,9 +75,11 @@ export const checkCollectionValue = (
         collectionValue: true,
         forDiagnostic: true,
       });
-      const message = `Required value${data.length > 1 ? "s" : ""} ${data.join(
-        " or "
-      )} must be provided`;
+      const requiredData = data.join(t("OR"));
+      const message =
+        data.length > 1
+          ? t("REQUIRED_VALUES", { data: requiredData })
+          : t("REQUIRED_VALUE", { data: requiredData });
       issues.push({
         issueType: BINDING_ISSUE_TYPE,
         kind: "MissingValue",
@@ -125,13 +121,13 @@ export const checkCollectionValue = (
         issues.push({
           issueType: BINDING_ISSUE_TYPE,
           kind: "MissingValue",
-          message: 'A valid binding property info must be provided for "{}"',
+          message: t("VALID_BINDING_PROPERTY"),
           range: findRange([item.range, value.range, element.range]),
           severity: "error",
         });
       } else {
         issues.push(
-          ...checkAst(
+          ...checkBinding(
             context,
             item,
             errors,
@@ -147,7 +143,7 @@ export const checkCollectionValue = (
       issues.push({
         issueType: BINDING_ISSUE_TYPE,
         kind: "MissingValue",
-        message: 'Nested "[]" are not allowed',
+        message: t("NESTED_COLLECTION"),
         range: findRange([nestedColItem.range, value.range, element.range]),
         severity: "error",
       });

@@ -5,6 +5,7 @@ import {
   BindingInfoElement,
 } from "../../../types";
 import { BindingParserTypes as BindingTypes } from "@ui5-language-assistant/binding-parser";
+import { t } from "../../../i18n";
 
 export const checkRequiredElement = (
   element: BindingTypes.StructureValue,
@@ -23,7 +24,7 @@ export const checkRequiredElement = (
         {
           issueType: BINDING_ISSUE_TYPE,
           kind: "MandatoryProperty",
-          message: `Mandatory property "${reqEl.name}" must be defined`,
+          message: t("MANDATORY_PROPERTY", { name: reqEl.name }),
           range: findRange([element.range, element.range]),
           severity: "error",
         },

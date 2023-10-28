@@ -9,6 +9,7 @@ import {
   BindingParserTypes as BindingTypes,
 } from "@ui5-language-assistant/binding-parser";
 import { typesToValue, valueTypeMap } from "../../../utils";
+import { t } from "../../../i18n";
 
 /**
  * Get issue for primitive value
@@ -38,9 +39,10 @@ export const getPrimitiveValueIssues = (
       collectionValue,
       forDiagnostic: true,
     });
-    const message = `Allowed value${
-      data.length > 1 ? "s are" : " is"
-    } ${data.join(" or ")}`;
+    const message =
+      data.length > 1
+        ? t("ALLOWED_VALUES_ARE", { data: data.join(t("OR")) })
+        : t("ALLOWED_VALUES_IS", { data: data.join(t("OR")) });
     issues.push({
       issueType: BINDING_ISSUE_TYPE,
       kind: "MissMatchValue",
@@ -62,9 +64,10 @@ export const getPrimitiveValueIssues = (
       collectionValue: false,
       forDiagnostic: true,
     });
-    const message = `Allowed value${
-      data.length > 1 ? "s are" : " is"
-    } ${data.join(" or ")}`;
+    const message =
+      data.length > 1
+        ? t("ALLOWED_VALUES_ARE", { data: data.join(t("OR")) })
+        : t("ALLOWED_VALUES_IS", { data: data.join(t("OR")) });
     issues.push({
       issueType: BINDING_ISSUE_TYPE,
       kind: "MissMatchValue",

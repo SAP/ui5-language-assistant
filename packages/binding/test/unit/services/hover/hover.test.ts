@@ -7,6 +7,7 @@ import {
   CURSOR_ANCHOR,
 } from "@ui5-language-assistant/test-framework";
 import { HoverService, getHoverService } from "../../helper";
+import { initI18n } from "../../../../src/api";
 
 describe("hover/index", () => {
   let getHover: HoverService;
@@ -20,7 +21,7 @@ describe("hover/index", () => {
     "main",
     "Main.view.xml",
   ];
-  beforeAll(function () {
+  beforeAll(async function () {
     const config: Config = {
       projectInfo: {
         name: ProjectName.cap,
@@ -30,6 +31,8 @@ describe("hover/index", () => {
       },
     };
     framework = new TestFramework(config);
+    const i18n = await framework.initI18n();
+    initI18n(i18n);
 
     root = framework.getProjectRoot();
     documentPath = join(root, ...viewFilePathSegments);

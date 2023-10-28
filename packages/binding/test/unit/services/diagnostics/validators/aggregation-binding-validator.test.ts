@@ -7,6 +7,7 @@ import {
 } from "@ui5-language-assistant/test-framework";
 
 import { validateBinding } from "../../../../../src/services/diagnostics/validators/binding-validator";
+import { initI18n } from "../../../../../src/i18n";
 import {
   issueToSnapshot,
   ViewValidatorType,
@@ -35,7 +36,8 @@ describe("aggregation binding", () => {
       },
     };
     framework = new TestFramework(config);
-
+    const i18n = await framework.initI18n();
+    initI18n(i18n);
     root = framework.getProjectRoot();
     documentPath = join(root, ...viewFilePathSegments);
     validateView = getViewValidator(

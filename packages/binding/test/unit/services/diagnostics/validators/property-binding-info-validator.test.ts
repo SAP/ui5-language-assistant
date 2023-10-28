@@ -13,6 +13,7 @@ import {
   getViewValidator,
 } from "../../../helper";
 import { Context } from "@ui5-language-assistant/context";
+import { initI18n } from "../../../../../src/i18n";
 
 describe("property-binding-info-validator", () => {
   let framework: TestFramework;
@@ -36,7 +37,8 @@ describe("property-binding-info-validator", () => {
       },
     };
     framework = new TestFramework(config);
-
+    const i18n = await framework.initI18n();
+    initI18n(i18n);
     root = framework.getProjectRoot();
     documentPath = join(root, ...viewFilePathSegments);
     validateView = getViewValidator(
@@ -201,6 +203,14 @@ describe("property-binding-info-validator", () => {
     const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       "kind: MissingValue; text: Expect '' as a value; severity:error; range:9:18-9:23",
+    ]);
+  });
+  it("check missing value [double quotes]", async () => {
+    const snippet = `
+    <Text text='{ path: }' id="test-id"></Text>`;
+    const result = await validateView(snippet);
+    expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
+      `kind: MissingValue; text: Expect "" as a value; severity:error; range:9:18-9:23`,
     ]);
   });
   it("check wrong value - allowed value is ''", async () => {

@@ -19,12 +19,9 @@ import { checkSkeleton } from "./check-skeleton";
 import { checkRequiredElement } from "./check-required";
 
 /**
- * Check an AST
- *
- * @param element AST element
- * @param ignore flag to ignore checking of key or value
+ * Check binding
  */
-export const checkAst = (
+export const checkBinding = (
   context: BindContext,
   binding: BindingTypes.StructureValue,
   errors: {

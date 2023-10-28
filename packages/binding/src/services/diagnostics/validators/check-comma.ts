@@ -6,6 +6,7 @@ import {
 import { Range } from "vscode-languageserver-types";
 import { findRange } from "../../../utils";
 import { filterTooManyColon } from "./check-colon";
+import { t } from "../../../i18n";
 
 /**
  * Check comma
@@ -53,7 +54,7 @@ export const checkComma = (
     issues.push({
       issueType: BINDING_ISSUE_TYPE,
       kind: "MissingComma",
-      message: "Missing comma",
+      message: t("MISSING_COMMA"),
       range: findRange([range]),
       severity: "error",
     });
@@ -67,7 +68,7 @@ export const checkComma = (
     issues.push({
       issueType: BINDING_ISSUE_TYPE,
       kind: "TooManyCommas",
-      message: "Too many commas",
+      message: t("TOO_MANY_COMMAS"),
       range: range,
       severity: "error",
     });
@@ -80,7 +81,7 @@ export const checkComma = (
     issues.push({
       issueType: BINDING_ISSUE_TYPE,
       kind: "TrailingComma",
-      message: "Trailing comma",
+      message: t("TRAILING_COMMA"),
       range: range,
       severity: "error",
     });

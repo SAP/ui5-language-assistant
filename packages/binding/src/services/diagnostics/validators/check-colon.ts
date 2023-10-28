@@ -4,6 +4,7 @@ import {
   BindingParserTypes as BindingTypes,
   rangeContained,
 } from "@ui5-language-assistant/binding-parser";
+import { t } from "../../../i18n";
 
 export const filterTooManyColon = (
   element:
@@ -65,7 +66,7 @@ export const checkColon = (
     issues.push({
       issueType: BINDING_ISSUE_TYPE,
       kind: "TooManyColons",
-      message: "Too many colon",
+      message: t("TOO_MANY_COLON"),
       range: tooManyColon[0].range,
       severity: "error",
     });
@@ -74,7 +75,7 @@ export const checkColon = (
     issues.push({
       issueType: BINDING_ISSUE_TYPE,
       kind: "MissingColon",
-      message: "Expect colon",
+      message: t("EXPECT_COLON"),
       range: element.key.range,
       severity: "error",
     });
