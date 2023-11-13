@@ -128,7 +128,7 @@ describe("aggregation binding", () => {
       }" />`;
       const result = await validateView(snippet);
       expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-        "kind: TrailingComma; text: Trailing comma; severity:error; range:13:23-13:24",
+        "kind: TrailingComma; text: Trailing ','; severity:error; range:13:23-13:24",
       ]);
     });
     it("no diagnostic for empty collection - filters", async () => {
