@@ -609,6 +609,30 @@ describe("property-binding-info-validator", () => {
       "kind: MissingComma; text: ',' expected; severity:error; range:9:60-9:60",
     ]);
   });
+  it("check missing comma - collection", async () => {
+    const snippet = `
+    <Text text="{ path: '', events:{one:[1 [true] ] } }" id="test-id"></Text>`;
+    const result = await validateView(snippet);
+    expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
+      "kind: MissingComma; text: ',' expected; severity:error; range:9:43-9:43",
+    ]);
+  });
+  it("check missing comma - structure", async () => {
+    const snippet = `
+    <Text text="{ path: '', events:{one:[1 {} ] } }" id="test-id"></Text>`;
+    const result = await validateView(snippet);
+    expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
+      "kind: MissingComma; text: ',' expected; severity:error; range:9:43-9:43",
+    ]);
+  });
+  it("check missing comma - primitive", async () => {
+    const snippet = `
+    <Text text="{ path: '', events:{one:[1 'this' ] } }" id="test-id"></Text>`;
+    const result = await validateView(snippet);
+    expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
+      "kind: MissingComma; text: ',' expected; severity:error; range:9:43-9:49",
+    ]);
+  });
   it("check trailing comma", async () => {
     const snippet = `
     <Text text="{ path: '', events:{}, }" id="test-id"></Text>`;

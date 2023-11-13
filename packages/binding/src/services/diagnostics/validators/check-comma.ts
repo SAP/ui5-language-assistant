@@ -26,6 +26,7 @@ export const checkComma = (
     | BindingTypes.StructureElement
     | BindingTypes.PrimitiveValue
     | BindingTypes.StructureValue
+    | BindingTypes.CollectionValue
 ): BindingIssue[] => {
   const issues: BindingIssue[] = [];
   // check too many colon - no comma issue in case of too many colon
@@ -51,11 +52,20 @@ export const checkComma = (
   if (allCommas.length === 0 && nextItem) {
     // missing comma
     const start = nextItem.range?.start ?? { character: 0, line: 0 };
+    let range = { start, end: start };
+    if (
+      nextItem.type !== "structure-value" &&
+      nextItem.type !== "collection-value" &&
+      nextItem.type !== "structure-element"
+    ) {
+      // must be primitive value
+      range = nextItem.range;
+    }
     issues.push({
       issueType: BINDING_ISSUE_TYPE,
       kind: "MissingComma",
       message: t("MISSING_COMMA"),
-      range: findRange([{ start, end: start }]),
+      range: findRange([range]),
       severity: "error",
     });
   }
