@@ -178,7 +178,7 @@ describe("property-binding-info-validator", () => {
     <Text text="{ events: {}, path }" id="test-id"></Text>`;
     const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-      "kind: MissingColon; text: Expect colon; severity:error; range:9:30-9:34",
+      "kind: MissingColon; text: ':' expected; severity:error; range:9:30-9:34",
     ]);
   });
   it("check missing colon when value exists", async () => {
@@ -186,7 +186,7 @@ describe("property-binding-info-validator", () => {
     <Text text="{ path '', events: {}}" id="test-id"></Text>`;
     const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-      "kind: MissingColon; text: Expect colon; severity:error; range:9:18-9:22",
+      "kind: MissingColon; text: ':' expected; severity:error; range:9:18-9:22",
     ]);
   });
   it("check missing key", async () => {
@@ -194,7 +194,7 @@ describe("property-binding-info-validator", () => {
     <Text text="{ : {}, type: ''}" id="test-id"></Text>`;
     const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-      "kind: MissingKey; text: Expect key; severity:error; range:9:18-9:19",
+      "kind: MissingKey; text: Key expected; severity:error; range:9:18-9:19",
     ]);
   });
   it("check missing value", async () => {
@@ -202,7 +202,7 @@ describe("property-binding-info-validator", () => {
     <Text text="{ path: }" id="test-id"></Text>`;
     const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-      "kind: MissingValue; text: Expect '' as a value; severity:error; range:9:18-9:23",
+      "kind: MissingValue; text: '' expected as a value; severity:error; range:9:18-9:23",
     ]);
   });
   it("check missing value [double quotes]", async () => {
@@ -210,7 +210,7 @@ describe("property-binding-info-validator", () => {
     <Text text='{ path: }' id="test-id"></Text>`;
     const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-      `kind: MissingValue; text: Expect "" as a value; severity:error; range:9:18-9:23`,
+      `kind: MissingValue; text: "" expected as a value; severity:error; range:9:18-9:23`,
     ]);
   });
   it("check wrong value - allowed value is ''", async () => {
@@ -344,7 +344,7 @@ describe("property-binding-info-validator", () => {
     <Text text="{ events: {anyKeyNotChecked} }" id="test-id"></Text>`;
     const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-      "kind: MissingColon; text: Expect colon; severity:error; range:9:27-9:43",
+      "kind: MissingColon; text: ':' expected; severity:error; range:9:27-9:43",
     ]);
   });
   it("check missing colon in structure value inside collection", async () => {
@@ -352,7 +352,7 @@ describe("property-binding-info-validator", () => {
     <Text text="{ events: {anyKeyNotChecked: [{collectionKey}]} }" id="test-id"></Text>`;
     const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-      "kind: MissingColon; text: Expect colon; severity:error; range:9:47-9:60",
+      "kind: MissingColon; text: ':' expected; severity:error; range:9:47-9:60",
     ]);
   });
   it("check missing colon for collection", async () => {
@@ -360,7 +360,7 @@ describe("property-binding-info-validator", () => {
     <Text text="{ events: {}, parts ['one'] }" id="test-id"></Text>`;
     const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-      "kind: MissingColon; text: Expect colon; severity:error; range:9:30-9:35",
+      "kind: MissingColon; text: ':' expected; severity:error; range:9:30-9:35",
     ]);
   });
   it("check missing colon in nested structure value", async () => {
@@ -368,7 +368,7 @@ describe("property-binding-info-validator", () => {
     <Text text="{ events: {anyKeyNotChecked: {anotherKey: {nestedKey } } } }" id="test-id"></Text>`;
     const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-      "kind: MissingColon; text: Expect colon; severity:error; range:9:59-9:68",
+      "kind: MissingColon; text: ':' expected; severity:error; range:9:59-9:68",
     ]);
   });
   it("check missing value in structure value", async () => {
@@ -376,7 +376,7 @@ describe("property-binding-info-validator", () => {
     <Text text="{ events: {anyKeyNotChecked: } }" id="test-id"></Text>`;
     const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-      "kind: MissingValue; text: Expect a value; severity:error; range:9:27-9:44",
+      "kind: MissingValue; text: Value expected; severity:error; range:9:27-9:44",
     ]);
   });
   it("check missing value in structure value inside collection", async () => {
@@ -384,7 +384,7 @@ describe("property-binding-info-validator", () => {
     <Text text="{ events: {anyKeyNotChecked: [{collectionKey:}]} }" id="test-id"></Text>`;
     const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-      "kind: MissingValue; text: Expect a value; severity:error; range:9:47-9:61",
+      "kind: MissingValue; text: Value expected; severity:error; range:9:47-9:61",
     ]);
   });
   it("check missing value in nested structure value", async () => {
@@ -392,7 +392,7 @@ describe("property-binding-info-validator", () => {
     <Text text="{ events: {anyKeyNotChecked: {anotherKey: {nestedKey: } } } }" id="test-id"></Text>`;
     const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-      "kind: MissingValue; text: Expect a value; severity:error; range:9:59-9:69",
+      "kind: MissingValue; text: Value expected; severity:error; range:9:59-9:69",
     ]);
   });
   it("check duplicate element", async () => {
@@ -400,7 +400,7 @@ describe("property-binding-info-validator", () => {
     <Text text="{ path: '', path: '' }" id="test-id"></Text>`;
     const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-      "kind: DuplicateProperty; text: Duplicate property; severity:error; range:9:28-9:32",
+      "kind: DuplicateProperty; text: Duplicated property; severity:error; range:9:28-9:32",
     ]);
   });
   it("check nested duplicate element", async () => {
@@ -416,8 +416,8 @@ describe("property-binding-info-validator", () => {
     }}" id="test-id"></Text>`;
     const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-      "kind: DuplicateProperty; text: Duplicate property; severity:error; range:14:10-14:12",
-      "kind: DuplicateProperty; text: Duplicate property; severity:error; range:12:8-12:11",
+      "kind: DuplicateProperty; text: Duplicated property; severity:error; range:14:10-14:12",
+      "kind: DuplicateProperty; text: Duplicated property; severity:error; range:12:8-12:11",
     ]);
   });
   it("check duplicate element - collection", async () => {
@@ -425,7 +425,7 @@ describe("property-binding-info-validator", () => {
     <Text text="{ parts: [{path: '', path: ''}] }" id="test-id"></Text>`;
     const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-      "kind: DuplicateProperty; text: Duplicate property; severity:error; range:9:37-9:41",
+      "kind: DuplicateProperty; text: Duplicated property; severity:error; range:9:37-9:41",
     ]);
   });
   it("check nested duplicate element - collection", async () => {
@@ -445,7 +445,7 @@ describe("property-binding-info-validator", () => {
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
       "kind: UnknownPropertyBindingInfo; text: Unknown property binding info; severity:error; range:11:8-11:11",
       "kind: UnknownPropertyBindingInfo; text: Unknown property binding info; severity:error; range:17:8-17:11",
-      "kind: DuplicateProperty; text: Duplicate property; severity:error; range:17:8-17:11",
+      "kind: DuplicateProperty; text: Duplicated property; severity:error; range:17:8-17:11",
     ]);
   });
   it("check only one of elements [path, value or parts] is allowed", async () => {
@@ -519,7 +519,7 @@ describe("property-binding-info-validator", () => {
     <Text text="{ parts: [{ path }] }" id="test-id"></Text>`;
       const result = await validateView(snippet);
       expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-        "kind: MissingColon; text: Expect colon; severity:error; range:9:28-9:32",
+        "kind: MissingColon; text: ':' expected; severity:error; range:9:28-9:32",
       ]);
     });
     it("check missing value", async () => {
@@ -527,7 +527,7 @@ describe("property-binding-info-validator", () => {
     <Text text="{ parts: [{ path: }] }" id="test-id"></Text>`;
       const result = await validateView(snippet);
       expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-        "kind: MissingValue; text: Expect '' as a value; severity:error; range:9:28-9:33",
+        "kind: MissingValue; text: '' expected as a value; severity:error; range:9:28-9:33",
       ]);
     });
     it("check missing comma [parts]", async () => {
@@ -535,7 +535,7 @@ describe("property-binding-info-validator", () => {
     <Text text="{ parts: [{ path: '' events: {} }]}" id="test-id"></Text>`;
       const result = await validateView(snippet);
       expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-        "kind: MissingComma; text: Missing comma; severity:error; range:9:37-9:47",
+        "kind: MissingComma; text: ',' expected; severity:error; range:9:37-9:37",
       ]);
     });
     it("check missing comma for elements [parts]", async () => {
@@ -543,7 +543,7 @@ describe("property-binding-info-validator", () => {
     <Text text="{ parts: [{ path: '01'} {path: '02'}]}" id="test-id"></Text>`;
       const result = await validateView(snippet);
       expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-        "kind: MissingComma; text: Missing comma; severity:error; range:9:40-9:52",
+        "kind: MissingComma; text: ',' expected; severity:error; range:9:40-9:40",
       ]);
     });
     it("check trailing comma [parts]", async () => {
@@ -551,7 +551,7 @@ describe("property-binding-info-validator", () => {
     <Text text="{ parts: [{ path: ''}, ]}" id="test-id"></Text>`;
       const result = await validateView(snippet);
       expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-        "kind: TrailingComma; text: Trailing comma; severity:error; range:9:37-9:38",
+        "kind: TrailingComma; text: Trailing ','; severity:error; range:9:37-9:38",
       ]);
     });
     it("check empty collection", async () => {
@@ -581,7 +581,7 @@ describe("property-binding-info-validator", () => {
     <Text text="{ parts: [[]]}" id="test-id"></Text>`;
       const result = await validateView(snippet);
       expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-        'kind: MissingValue; text: Nested "[]" are not allowed; severity:error; range:9:26-9:28',
+        'kind: MissingValue; text: Nested "[]" is not allowed; severity:error; range:9:26-9:28',
       ]);
     });
     it("check wrong value", async () => {
@@ -598,7 +598,7 @@ describe("property-binding-info-validator", () => {
     <Text text="{ path: '' events:{} }" id="test-id"></Text>`;
     const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-      "kind: MissingComma; text: Missing comma; severity:error; range:9:27-9:36",
+      "kind: MissingComma; text: ',' expected; severity:error; range:9:27-9:27",
     ]);
   });
   it("check missing comma - nested", async () => {
@@ -606,7 +606,7 @@ describe("property-binding-info-validator", () => {
     <Text text="{ path: '', events:{one: true, two: {x: 123 y: 321}} }" id="test-id"></Text>`;
     const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-      "kind: MissingComma; text: Missing comma; severity:error; range:9:60-9:66",
+      "kind: MissingComma; text: ',' expected; severity:error; range:9:60-9:60",
     ]);
   });
   it("check trailing comma", async () => {
@@ -614,7 +614,7 @@ describe("property-binding-info-validator", () => {
     <Text text="{ path: '', events:{}, }" id="test-id"></Text>`;
     const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-      "kind: TrailingComma; text: Trailing comma; severity:error; range:9:37-9:38",
+      "kind: TrailingComma; text: Trailing ','; severity:error; range:9:37-9:38",
     ]);
   });
   it("check too many commas", async () => {
@@ -622,7 +622,7 @@ describe("property-binding-info-validator", () => {
     <Text text="{ path: '',,,, events:{} }" id="test-id"></Text>`;
     const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-      "kind: TooManyCommas; text: Too many commas; severity:error; range:9:27-9:30",
+      "kind: TooManyCommas; text: Single ',' expected; severity:error; range:9:27-9:30",
     ]);
   });
   it("check too many colon", async () => {
@@ -630,11 +630,11 @@ describe("property-binding-info-validator", () => {
     <Text text="{ path::::: '', events:{} }" id="test-id"></Text>`;
     const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-      "kind: TooManyColons; text: Too many colon; severity:error; range:9:23-9:24",
-      "kind: MissingKey; text: Expect key; severity:error; range:9:23-9:24",
-      "kind: MissingKey; text: Expect key; severity:error; range:9:24-9:25",
-      "kind: MissingKey; text: Expect key; severity:error; range:9:25-9:26",
-      "kind: MissingKey; text: Expect key; severity:error; range:9:26-9:27",
+      "kind: TooManyColons; text: Single ':' expected; severity:error; range:9:23-9:24",
+      "kind: MissingKey; text: Key expected; severity:error; range:9:23-9:24",
+      "kind: MissingKey; text: Key expected; severity:error; range:9:24-9:25",
+      "kind: MissingKey; text: Key expected; severity:error; range:9:25-9:26",
+      "kind: MissingKey; text: Key expected; severity:error; range:9:26-9:27",
     ]);
   });
   it("check too many object", async () => {
@@ -677,8 +677,8 @@ describe("property-binding-info-validator", () => {
       expect(result.map((item) => issueToSnapshot(item)))
         .toMatchInlineSnapshot(`
         Array [
-          "kind: MissingValue; text: Expect '' as a value; severity:error; range:9:28-9:33",
-          "kind: MissingColon; text: Expect colon; severity:error; range:9:54-9:58",
+          "kind: MissingValue; text: '' expected as a value; severity:error; range:9:28-9:33",
+          "kind: MissingColon; text: ':' expected; severity:error; range:9:54-9:58",
         ]
       `);
     });
@@ -703,7 +703,7 @@ describe("property-binding-info-validator", () => {
     <Text text="{ events: {}, 'path' }" id="test-id"></Text>`;
       const result = await validateView(snippet);
       expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-        "kind: MissingColon; text: Expect colon; severity:error; range:9:30-9:36",
+        "kind: MissingColon; text: ':' expected; severity:error; range:9:30-9:36",
       ]);
     });
     it("check missing colon when value exists", async () => {
@@ -711,7 +711,7 @@ describe("property-binding-info-validator", () => {
     <Text text="{ 'path' '', events: {}}" id="test-id"></Text>`;
       const result = await validateView(snippet);
       expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-        "kind: MissingColon; text: Expect colon; severity:error; range:9:18-9:24",
+        "kind: MissingColon; text: ':' expected; severity:error; range:9:18-9:24",
       ]);
     });
     it("check missing value", async () => {
@@ -719,7 +719,7 @@ describe("property-binding-info-validator", () => {
     <Text text="{ 'path': }" id="test-id"></Text>`;
       const result = await validateView(snippet);
       expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-        "kind: MissingValue; text: Expect '' as a value; severity:error; range:9:18-9:25",
+        "kind: MissingValue; text: '' expected as a value; severity:error; range:9:18-9:25",
       ]);
     });
     it("check wrong value - allowed value is ''", async () => {
@@ -759,8 +759,8 @@ describe("property-binding-info-validator", () => {
         expect(result.map((item) => issueToSnapshot(item)))
           .toMatchInlineSnapshot(`
           Array [
-            "kind: DuplicateProperty; text: Duplicate property; severity:error; range:14:10-14:14",
-            "kind: DuplicateProperty; text: Duplicate property; severity:error; range:12:8-12:13",
+            "kind: DuplicateProperty; text: Duplicated property; severity:error; range:14:10-14:14",
+            "kind: DuplicateProperty; text: Duplicated property; severity:error; range:12:8-12:13",
           ]
         `);
       });
@@ -771,7 +771,7 @@ describe("property-binding-info-validator", () => {
         expect(result.map((item) => issueToSnapshot(item)))
           .toMatchInlineSnapshot(`
           Array [
-            "kind: MissingValue; text: Expect a value; severity:error; range:9:63-9:75",
+            "kind: MissingValue; text: Value expected; severity:error; range:9:63-9:75",
           ]
         `);
       });
@@ -782,7 +782,7 @@ describe("property-binding-info-validator", () => {
         expect(result.map((item) => issueToSnapshot(item)))
           .toMatchInlineSnapshot(`
           Array [
-            "kind: MissingColon; text: Expect colon; severity:error; range:9:63-9:74",
+            "kind: MissingColon; text: ':' expected; severity:error; range:9:63-9:74",
           ]
         `);
       });
@@ -801,7 +801,7 @@ describe("property-binding-info-validator", () => {
     <Text text="{ 'parts': [{ 'path' }] }" id="test-id"></Text>`;
         const result = await validateView(snippet);
         expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-          "kind: MissingColon; text: Expect colon; severity:error; range:9:30-9:36",
+          "kind: MissingColon; text: ':' expected; severity:error; range:9:30-9:36",
         ]);
       });
       it("check missing value", async () => {
@@ -809,7 +809,7 @@ describe("property-binding-info-validator", () => {
     <Text text="{ 'parts': [{ 'path': }] }" id="test-id"></Text>`;
         const result = await validateView(snippet);
         expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-          "kind: MissingValue; text: Expect '' as a value; severity:error; range:9:30-9:37",
+          "kind: MissingValue; text: '' expected as a value; severity:error; range:9:30-9:37",
         ]);
       });
       it("check empty collection", async () => {
@@ -837,7 +837,7 @@ describe("property-binding-info-validator", () => {
         <Text text="{" id="test-id"></Text>`;
         const result = await validateView(snippet);
         expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-          "kind: MissingBracket; text: Expect closing brace; severity:error; range:9:20-9:21",
+          "kind: MissingBracket; text: '}' expected; severity:error; range:9:20-9:21",
         ]);
       });
       it("case 02 [diagnostic [at least key with colon]", async () => {
@@ -845,7 +845,7 @@ describe("property-binding-info-validator", () => {
         <Text text="{path: '' " id="test-id"></Text>`;
         const result = await validateView(snippet);
         expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-          "kind: MissingBracket; text: Expect closing brace; severity:error; range:9:20-9:29",
+          "kind: MissingBracket; text: '}' expected; severity:error; range:9:20-9:29",
         ]);
       });
       it("case 03 [inside collection]", async () => {
@@ -853,7 +853,7 @@ describe("property-binding-info-validator", () => {
         <Text text="{ parts: [{path: '' ] }" id="test-id"></Text>`;
         const result = await validateView(snippet);
         expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-          "kind: MissingBracket; text: Expect closing brace; severity:error; range:9:30-9:39",
+          "kind: MissingBracket; text: '}' expected; severity:error; range:9:30-9:39",
         ]);
       });
     });
@@ -863,7 +863,7 @@ describe("property-binding-info-validator", () => {
         <Text text="{parts: ['' }" id="test-id"></Text>`;
         const result = await validateView(snippet);
         expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-          "kind: MissingBracket; text: Expect closing bracket; severity:error; range:9:28-9:31",
+          "kind: MissingBracket; text: ']' expected; severity:error; range:9:28-9:31",
         ]);
       });
       it("case 02", async () => {
@@ -871,7 +871,7 @@ describe("property-binding-info-validator", () => {
         <Text text="{parts: [{path: ''} }" id="test-id"></Text>`;
         const result = await validateView(snippet);
         expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-          "kind: MissingBracket; text: Expect closing bracket; severity:error; range:9:28-9:39",
+          "kind: MissingBracket; text: ']' expected; severity:error; range:9:28-9:39",
         ]);
       });
     });

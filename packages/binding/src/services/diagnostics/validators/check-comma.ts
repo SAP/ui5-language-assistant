@@ -21,7 +21,7 @@ export const checkComma = (
     lexer: BindingTypes.LexerError[];
   },
   /* istanbul ignore next */
-  comma: BindingTypes.Comma[] = [],
+  commas: BindingTypes.Comma[] = [],
   nextItem?:
     | BindingTypes.StructureElement
     | BindingTypes.PrimitiveValue
@@ -33,7 +33,7 @@ export const checkComma = (
   if (tooManyColon.length > 0) {
     return issues;
   }
-  const commas = comma.filter((comma) => {
+  const allCommas = commas.filter((comma) => {
     if (item.range && item.range.end && comma.range.start) {
       if (nextItem && nextItem.range && nextItem.range.start) {
         return (
@@ -48,20 +48,20 @@ export const checkComma = (
       isBefore(item.range.end, comma.range.start, true)
     );
   });
-  if (commas.length === 0 && nextItem) {
+  if (allCommas.length === 0 && nextItem) {
     // missing comma
-    const range = nextItem.range;
+    const start = nextItem.range?.start ?? { character: 0, line: 0 };
     issues.push({
       issueType: BINDING_ISSUE_TYPE,
       kind: "MissingComma",
       message: t("MISSING_COMMA"),
-      range: findRange([range]),
+      range: findRange([{ start, end: start }]),
       severity: "error",
     });
   }
-  if (commas.length > 1 && nextItem) {
+  if (allCommas.length > 1 && nextItem) {
     // too many commas
-    const comma = commas.slice(1);
+    const comma = allCommas.slice(1);
     const first = comma[0];
     const last = comma[comma.length - 1];
     const range = Range.create(first.range.start, last.range.end);
@@ -73,10 +73,10 @@ export const checkComma = (
       severity: "error",
     });
   }
-  if (commas.length >= 1 && nextItem === undefined) {
+  if (allCommas.length >= 1 && nextItem === undefined) {
     // Trailing commas
-    const first = commas[0];
-    const last = commas[commas.length - 1];
+    const first = allCommas[0];
+    const last = allCommas[allCommas.length - 1];
     const range = Range.create(first.range.start, last.range.end);
     issues.push({
       issueType: BINDING_ISSUE_TYPE,
