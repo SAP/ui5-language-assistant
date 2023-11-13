@@ -51,15 +51,20 @@ export const checkComma = (
   });
   if (allCommas.length === 0 && nextItem) {
     // missing comma
-    const start = nextItem.range?.start ?? { character: 0, line: 0 };
-    let range = { start, end: start };
-    if (
-      nextItem.type !== "structure-value" &&
-      nextItem.type !== "collection-value" &&
-      nextItem.type !== "structure-element"
-    ) {
-      // must be primitive value
-      range = nextItem.range;
+    let range: Range | undefined;
+    switch (nextItem.type) {
+      case "structure-element":
+        range = nextItem.key?.range;
+        break;
+      case "structure-value":
+        range = nextItem.leftCurly?.range;
+        break;
+      case "collection-value":
+        range = nextItem.leftSquare?.range;
+        break;
+      default:
+        range = nextItem.range;
+        break;
     }
     issues.push({
       issueType: BINDING_ISSUE_TYPE,
