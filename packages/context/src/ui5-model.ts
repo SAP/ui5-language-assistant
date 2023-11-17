@@ -373,7 +373,6 @@ export async function negotiateVersionWithFetcher(
   if (version === UI5_VERSION_S4_PLACEHOLDER) {
     useLatestVersion = true;
     adjustedVersion = version;
-    // TODO: insert actual number into the message
     getLogger().warn(
       `The version specified as minUI5Version in your manifest.json is not supported by Language Assistant, the latest available version is used instead`
     );
@@ -387,7 +386,7 @@ export async function negotiateVersionWithFetcher(
   }
 
   if (!version) {
-    // no version defined, using default or latest version
+    // no version defined, using default version
     getLogger().warn(
       "No version defined! Please check the minUI5Version in your manifest.json!"
     );
