@@ -12,7 +12,7 @@ import {
   Json,
   TypeNameFix,
 } from "@ui5-language-assistant/semantic-model";
-import { Fetcher } from "./types";
+import { Fetcher, UI5_VERSION_S4_PLACEHOLDER } from "./types";
 import { fetch } from "@ui5-language-assistant/logic-utils";
 import {
   getLibraryAPIJsonUrl,
@@ -262,12 +262,16 @@ async function getVersionInfo(
   let versionInfo = await readFromCache(cacheFilePath);
   if (versionInfo === undefined) {
     const url = await getVersionInfoUrl(framework, version);
-    const response = await fetcher(url);
-    if (response.ok) {
-      versionInfo = await response.json();
-      writeToCache(cacheFilePath, versionInfo);
-    } else {
-      getLogger().error("Could not read version information", {
+    try {
+      const response = await fetcher(url);
+      if (response.ok) {
+        versionInfo = await response.json();
+        writeToCache(cacheFilePath, versionInfo);
+      } else {
+        throw new Error(`Version info request has failed (${url})`);
+      }
+    } catch (e) {
+      getLogger().error("Could not read version information. " + e, {
         url,
       });
     }
@@ -361,11 +365,19 @@ export async function negotiateVersionWithFetcher(
   // try to negotiate version
   let isFallback = false;
   let isIncorrectVersion = false;
+  let useLatestVersion = false;
   let versions = versionMap[framework];
 
   let adjustedVersion: string = version || DEFAULT_UI5_VERSION;
 
-  if (version && !isVersionSupported(version)) {
+  if (version === UI5_VERSION_S4_PLACEHOLDER) {
+    useLatestVersion = true;
+    adjustedVersion = version;
+    // TODO: insert actual number into the message
+    getLogger().warn(
+      `The version specified as minUI5Version in your manifest.json is not supported by Language Assistant, the latest available version is used instead`
+    );
+  } else if (version && !isVersionSupported(version)) {
     // version is out of support in LA, using default version
     getLogger().warn(
       `The version specified as minUI5Version in your manifest.json is not supported by Language Assistant, the fallback version ${DEFAULT_UI5_VERSION} is used instead`
@@ -375,7 +387,7 @@ export async function negotiateVersionWithFetcher(
   }
 
   if (!version) {
-    // no version defined, using default version
+    // no version defined, using default or latest version
     getLogger().warn(
       "No version defined! Please check the minUI5Version in your manifest.json!"
     );
@@ -388,6 +400,7 @@ export async function negotiateVersionWithFetcher(
       isIncorrectVersion = true;
     }
   } else if (
+    useLatestVersion ||
     !(await getVersionInfo(
       versionInfoJsonFetcher,
       modelCachePath,
@@ -427,7 +440,7 @@ export async function negotiateVersionWithFetcher(
     }
     // coerce the version (check for invalid version, which indicates development scenario)
     const parsedVersion = semver.coerce(adjustedVersion);
-    if (parsedVersion) {
+    if (!useLatestVersion && parsedVersion) {
       if (versions[`${parsedVersion.major}.${parsedVersion.minor}`]) {
         // lookup for a valid major.minor entry
         adjustedVersion =
@@ -453,7 +466,7 @@ export async function negotiateVersionWithFetcher(
         isIncorrectVersion = true;
       }
     } else {
-      // development scenario => use latest version
+      // development scenario or version placeholder in manifest found => use latest version
       adjustedVersion = versions["latest"].version;
       isIncorrectVersion = true;
     }

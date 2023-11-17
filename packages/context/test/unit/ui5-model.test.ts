@@ -42,6 +42,7 @@ describe("the UI5 language assistant ui5 model", () => {
   const FRAMEWORK = "SAPUI5";
   const OPEN_FRAMEWORK = "OpenUI5";
   const VERSION = "1.71.49";
+  const UI5_VERSION_S4_PLACEHOLDER = "${sap.ui5.dist.version}";
   const NO_CACHE_FOLDER = undefined;
 
   function assertSemanticModel(ui5Model: UI5SemanticModel): void {
@@ -620,6 +621,23 @@ describe("the UI5 language assistant ui5 model", () => {
         "a.b"
       );
       expect(objNegotiatedVersionWithFetcher.version).toEqual("1.71.50");
+      expect(objNegotiatedVersionWithFetcher.isFallback).toBeFalse();
+      expect(objNegotiatedVersionWithFetcher.isIncorrectVersion).toBeTrue();
+    });
+
+    it("resolve unsupported version placeholder - S/4 generator artifact (should be latest)", async () => {
+      const objNegotiatedVersionWithFetcher = await negotiateVersionWithFetcher(
+        async (): Promise<FetchResponse> => {
+          return createResponse(true, 200, versionMap[OPEN_FRAMEWORK]);
+        },
+        async (): Promise<FetchResponse> => {
+          return createResponse(false, 404);
+        },
+        cachePath,
+        FRAMEWORK,
+        UI5_VERSION_S4_PLACEHOLDER
+      );
+      expect(objNegotiatedVersionWithFetcher.version).toEqual("1.105.0");
       expect(objNegotiatedVersionWithFetcher.isFallback).toBeFalse();
       expect(objNegotiatedVersionWithFetcher.isIncorrectVersion).toBeTrue();
     });
