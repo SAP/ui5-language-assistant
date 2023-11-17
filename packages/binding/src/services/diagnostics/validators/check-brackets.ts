@@ -15,7 +15,7 @@ export const checkBrackets = (
       issues.push({
         issueType: BINDING_ISSUE_TYPE,
         kind: "MissingBracket",
-        message: t("EXPECT_CLOSING_BRACE"),
+        message: t("EXPECT_CLOSING_BRACKET"),
         range: findRange([binding.range]),
         severity: "error",
       });
@@ -26,7 +26,7 @@ export const checkBrackets = (
     issues.push({
       issueType: BINDING_ISSUE_TYPE,
       kind: "MissingBracket",
-      message: t("EXPECT_CLOSING_BRACKET"),
+      message: t("EXPECT_CLOSING_BRACE"),
       range: findRange([binding.range]),
       severity: "error",
     });

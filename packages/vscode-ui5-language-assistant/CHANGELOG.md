@@ -1,5 +1,12 @@
 # Change Log
 
+## 4.0.44
+
+### Patch Changes
+
+- 3f94f36: Enhance diagnostic messages
+  - @ui5-language-assistant/language-server@4.0.34
+
 ## 4.0.43
 
 ### Patch Changes
