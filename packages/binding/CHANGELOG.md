@@ -1,5 +1,11 @@
 # @ui5-language-assistant/binding
 
+## 1.0.18
+
+### Patch Changes
+
+- 3f94f36: Enhance diagnostic messages
+
 ## 1.0.17
 
 ### Patch Changes

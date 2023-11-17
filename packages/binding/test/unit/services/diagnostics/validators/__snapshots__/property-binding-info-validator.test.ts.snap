@@ -2,24 +2,24 @@
 
 exports[`property-binding-info-validator check if ui5object has false value: '': '' 1`] = `
 Array [
-  "kind: MissingValue; text: Expect '' as a value; severity:error; range:9:38-9:43",
+  "kind: MissingValue; text: '' expected as a value; severity:error; range:9:38-9:43",
 ]
 `;
 
 exports[`property-binding-info-validator check if ui5object has false value: 0: 0 1`] = `
 Array [
-  "kind: MissingValue; text: Expect '' as a value; severity:error; range:9:37-9:42",
+  "kind: MissingValue; text: '' expected as a value; severity:error; range:9:37-9:42",
 ]
 `;
 
 exports[`property-binding-info-validator check if ui5object has false value: false: false 1`] = `
 Array [
-  "kind: MissingValue; text: Expect '' as a value; severity:error; range:9:41-9:46",
+  "kind: MissingValue; text: '' expected as a value; severity:error; range:9:41-9:46",
 ]
 `;
 
 exports[`property-binding-info-validator check if ui5object has false value: null: null 1`] = `
 Array [
-  "kind: MissingValue; text: Expect '' as a value; severity:error; range:9:40-9:45",
+  "kind: MissingValue; text: '' expected as a value; severity:error; range:9:40-9:45",
 ]
 `;
