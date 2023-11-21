@@ -81,13 +81,28 @@ describe("contextPath attribute value completion", () => {
       annoFileSegmentsCDS,
       annotationSnippetCDS
     );
-    getCompletionResult = getViewCompletionProvider(
+
+    const provider = getViewCompletionProvider(
       framework,
       viewFilePathSegments,
       documentPath,
       uri,
       settings
     );
+
+    getCompletionResult = (
+      snippet: string,
+      contextAdapter?: (context: Context) => Context
+    ) => {
+      const testAdapter = (context: Context) => {
+        const result: Context = contextAdapter
+          ? contextAdapter(context)
+          : context;
+        return { ...result, forTest: true } as Context;
+      };
+
+      return provider(snippet, testAdapter);
+    };
   }, 5 * 60000);
 
   describe("contextPath completion", () => {
