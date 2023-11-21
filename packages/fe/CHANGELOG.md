@@ -1,5 +1,14 @@
 # Change Log
 
+## 4.0.19
+
+### Patch Changes
+
+- 222a0f5: Code completion for context path is disabled, S/4 version placeholder in manifest's minUI5Version property defaults to the latest available version
+- Updated dependencies [222a0f5]
+  - @ui5-language-assistant/context@4.0.19
+  - @ui5-language-assistant/xml-views-completion@4.0.19
+
 ## 4.0.18
 
 ### Patch Changes

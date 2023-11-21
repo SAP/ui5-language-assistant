@@ -1,5 +1,12 @@
 # Change Log
 
+## 4.0.19
+
+### Patch Changes
+
+- Updated dependencies [222a0f5]
+  - @ui5-language-assistant/context@4.0.19
+
 ## 4.0.18
 
 ### Patch Changes
