@@ -47,14 +47,9 @@ export function contextPathSuggestions({
     context.ui5Model
   );
 
-  // provider is blocked and is used in tests only
-  // reserved for the future to be reused in binding expressions
-  if (!(context as unknown as { forTest: boolean }).forTest) {
-    return [];
-  }
-
   if (
     ui5Property?.library === SAP_FE_MACROS &&
+    ui5Property.parent?.name === "Chart" &&
     ui5Property.name === "contextPath"
   ) {
     const mainServicePath = context.manifestDetails.mainServicePath;
