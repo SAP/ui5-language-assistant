@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.20
+
+### Patch Changes
+
+- c8768ac: contextPath attribute value completion enabled for Chart macros element
+
 ## 4.0.19
 
 ### Patch Changes
