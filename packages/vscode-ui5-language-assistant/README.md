@@ -74,7 +74,7 @@ and cannot be configured by the end user.
   - Duplicate ID tags
   - Wrong cardinality of aggregation
   - Wrong type of tags inside aggregations
-  - Missing or empty ID when `flexEnabled` is true (stableID)
+  - Missing or empty ID when `flexEnabled` is true in manifest.json (stableID)
   - Property binding info or aggregation binding info
     - missing key
     - missing or extra colon(s)
@@ -103,7 +103,7 @@ Quick Fix will be shown for some validations when hovering over a diagnostic or 
 
 #### Quick Fixes List
 
-- Missing or empty ID when `flexEnabled` is true (stableID).
+- Missing or empty ID when `flexEnabled` is true in manifest.json (stableID).
   - Will add a generated ID.
   - Supports both fixing a single missing ID or all missing IDs in an entire file.
 

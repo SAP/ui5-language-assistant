@@ -58,7 +58,7 @@ export const validations: Validations = {
     code: NaN,
   },
   NON_STABLE_ID: {
-    msg: `The "{0}" class can't have an empty ID attribute when flexEnabled is "true".`,
+    msg: `The "{0}" class can't have an empty ID attribute when flexEnabled is "true" in manifest.json.`,
     code: 1012,
   },
 };
