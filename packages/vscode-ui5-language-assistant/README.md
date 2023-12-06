@@ -204,7 +204,7 @@ This extension derives the UI5 version in the following sequence:
 2. Lookup in CDN for UI5 version and negotiate to the closest LTS version (see note).
 3. If it is not found or the version is 1.38 or older, then default back to 1.71 (latest patch level).
 
-Note: If `minUI5Version` not found in the manifest.json or lookup in CDN fails, then fall back to default 1.71.49 version
+Note: If `minUI5Version` not found in the manifest.json or lookup in CDN fails, then fall back to default 1.71.60 version
 
 The framework(SAPUI5/OpenUI5) is derived from the ui5.yaml file. This defaults to SAPUI5.
 
