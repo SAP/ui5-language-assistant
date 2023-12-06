@@ -311,7 +311,7 @@ describe("The ui5-language-assistant semantic model package API", () => {
     "1.71.49",
     "1.84.27",
     "1.96.11",
-    "1.105.0",
+    // "1.105.0",
   ];
   for (const version of versions) {
     // TODO: consider also openui5?

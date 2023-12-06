@@ -74,7 +74,7 @@ and cannot be configured by the end user.
   - Duplicate ID tags
   - Wrong cardinality of aggregation
   - Wrong type of tags inside aggregations
-  - Missing or empty ID when `flexEnabled` is true (stableID)
+  - Missing or empty ID when `flexEnabled` is true in manifest.json (stableID)
   - Property binding info or aggregation binding info
     - missing key
     - missing or extra colon(s)
@@ -103,7 +103,7 @@ Quick Fix will be shown for some validations when hovering over a diagnostic or 
 
 #### Quick Fixes List
 
-- Missing or empty ID when `flexEnabled` is true (stableID).
+- Missing or empty ID when `flexEnabled` is true in manifest.json (stableID).
   - Will add a generated ID.
   - Supports both fixing a single missing ID or all missing IDs in an entire file.
 
@@ -204,7 +204,7 @@ This extension derives the UI5 version in the following sequence:
 2. Lookup in CDN for UI5 version and negotiate to the closest LTS version (see note).
 3. If it is not found or the version is 1.38 or older, then default back to 1.71 (latest patch level).
 
-Note: If `minUI5Version` not found in the manifest.json or lookup in CDN fails, then fall back to default 1.71.49 version
+Note: If `minUI5Version` not found in the manifest.json or lookup in CDN fails, then fall back to default 1.71.60 version
 
 The framework(SAPUI5/OpenUI5) is derived from the ui5.yaml file. This defaults to SAPUI5.
 
