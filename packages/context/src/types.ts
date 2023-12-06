@@ -7,7 +7,7 @@ import type { Manifest } from "@sap-ux/project-access";
 import { FetchResponse } from "@ui5-language-assistant/logic-utils";
 
 export const DEFAULT_UI5_FRAMEWORK = "SAPUI5";
-export const DEFAULT_UI5_VERSION = "1.71.49";
+export const DEFAULT_UI5_VERSION = "1.71.60";
 export const UI5_VERSION_S4_PLACEHOLDER = "${sap.ui5.dist.version}";
 export const UI5_FRAMEWORK_CDN_BASE_URL = {
   OpenUI5: "https://sdk.openui5.org/",

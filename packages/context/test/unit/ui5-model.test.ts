@@ -41,7 +41,7 @@ describe("the UI5 language assistant ui5 model", () => {
   const GET_MODEL_TIMEOUT = 30000;
   const FRAMEWORK = "SAPUI5";
   const OPEN_FRAMEWORK = "OpenUI5";
-  const VERSION = "1.71.49";
+  const VERSION = "1.71.60";
   const UI5_VERSION_S4_PLACEHOLDER = "${sap.ui5.dist.version}";
   const NO_CACHE_FOLDER = undefined;
 
@@ -64,7 +64,7 @@ describe("the UI5 language assistant ui5 model", () => {
 
     // Dist layer
     expect(Object.keys(ui5Model.classes)).toInclude("sap.ui.vk.Camera");
-    expect(Object.keys(ui5Model.namespaces)).toInclude("sap.apf.base");
+    expect(Object.keys(ui5Model.namespaces)).toInclude("sap.apf");
     expect(Object.keys(ui5Model.enums)).toInclude(
       "sap.ca.ui.charts.ChartSelectionMode"
     );
@@ -555,7 +555,7 @@ describe("the UI5 language assistant ui5 model", () => {
         FRAMEWORK,
         ""
       );
-      expect(objNegotiatedVersionWithFetcher.version).toEqual("1.71.49");
+      expect(objNegotiatedVersionWithFetcher.version).toEqual("1.71.60");
       expect(objNegotiatedVersionWithFetcher.isFallback).toBeTrue();
       expect(objNegotiatedVersionWithFetcher.isIncorrectVersion).toBeFalse();
       objNegotiatedVersionWithFetcher = await negotiateVersionWithFetcher(
@@ -569,7 +569,7 @@ describe("the UI5 language assistant ui5 model", () => {
         FRAMEWORK,
         undefined
       );
-      expect(objNegotiatedVersionWithFetcher.version).toEqual("1.71.49");
+      expect(objNegotiatedVersionWithFetcher.version).toEqual("1.71.60");
       expect(objNegotiatedVersionWithFetcher.isFallback).toBeTrue();
       expect(objNegotiatedVersionWithFetcher.isIncorrectVersion).toBeFalse();
     });
@@ -586,7 +586,7 @@ describe("the UI5 language assistant ui5 model", () => {
         OPEN_FRAMEWORK,
         ""
       );
-      expect(objNegotiatedVersionWithFetcher.version).toEqual("1.71.49");
+      expect(objNegotiatedVersionWithFetcher.version).toEqual("1.71.60");
       expect(objNegotiatedVersionWithFetcher.isFallback).toBeTrue();
       expect(objNegotiatedVersionWithFetcher.isIncorrectVersion).toBeFalse();
     });
