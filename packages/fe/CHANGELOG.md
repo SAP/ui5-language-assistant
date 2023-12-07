@@ -1,5 +1,14 @@
 # Change Log
 
+## 4.0.21
+
+### Patch Changes
+
+- Updated dependencies [ccd5eae]
+  - @ui5-language-assistant/context@4.0.20
+  - @ui5-language-assistant/xml-views-validation@4.0.15
+  - @ui5-language-assistant/xml-views-completion@4.0.20
+
 ## 4.0.20
 
 ### Patch Changes

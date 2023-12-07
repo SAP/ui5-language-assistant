@@ -1,5 +1,13 @@
 # Change Log
 
+## 4.0.47
+
+### Patch Changes
+
+- ccd5eae: Adapt non stable id message
+- Updated dependencies [ccd5eae]
+  - @ui5-language-assistant/language-server@4.0.37
+
 ## 4.0.46
 
 ### Patch Changes

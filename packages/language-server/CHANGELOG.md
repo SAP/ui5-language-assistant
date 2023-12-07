@@ -1,5 +1,20 @@
 # Change Log
 
+## 4.0.37
+
+### Patch Changes
+
+- ccd5eae: Adapt non stable id message
+- Updated dependencies [ccd5eae]
+  - @ui5-language-assistant/user-facing-text@4.0.8
+  - @ui5-language-assistant/semantic-model@4.0.13
+  - @ui5-language-assistant/context@4.0.20
+  - @ui5-language-assistant/xml-views-validation@4.0.15
+  - @ui5-language-assistant/xml-views-completion@4.0.20
+  - @ui5-language-assistant/xml-views-tooltip@4.0.20
+  - @ui5-language-assistant/binding@1.0.20
+  - @ui5-language-assistant/fe@4.0.21
+
 ## 4.0.36
 
 ### Patch Changes

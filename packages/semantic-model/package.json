@@ -1,6 +1,6 @@
 {
   "name": "@ui5-language-assistant/semantic-model",
-  "version": "4.0.12",
+  "version": "4.0.13",
   "private": true,
   "description": "Semantic model provider for UI5",
   "keywords": [],
