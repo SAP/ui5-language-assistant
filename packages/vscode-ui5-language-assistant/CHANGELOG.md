@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.48
+
+### Patch Changes
+
+- 802458e: Version bump for BAS extension
+
 ## 4.0.47
 
 ### Patch Changes
