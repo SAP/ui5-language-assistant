@@ -9,7 +9,9 @@ import {
   TestFramework,
 } from "@ui5-language-assistant/test-framework";
 import { join } from "path";
+import type { UI5Aggregation } from "@ui5-language-assistant/semantic-model-types";
 
+const aggregation = {} as UI5Aggregation;
 let context: BindContext;
 describe("element", () => {
   describe("typesToValue", () => {
@@ -116,7 +118,7 @@ describe("element", () => {
     });
     describe('type.kind === "integer" [forDiagnostic]', () => {
       it("type.collection && collectionValue === false", () => {
-        let el = getBindingElements(context, true).find(
+        let el = getBindingElements(context, aggregation).find(
           (i) => i.name === "startIndex"
         ) as BindingInfoElement;
         // for test - set collection as true
@@ -131,7 +133,7 @@ describe("element", () => {
         expect(result).toStrictEqual(["collection of integer"]);
       });
       it("integer", () => {
-        const el = getBindingElements(context, true).find(
+        const el = getBindingElements(context, aggregation).find(
           (i) => i.name === "startIndex"
         ) as BindingInfoElement;
         const result = typesToValue({

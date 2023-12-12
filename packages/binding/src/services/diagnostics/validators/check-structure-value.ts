@@ -7,6 +7,7 @@ import { checkBinding } from "./issue-collector";
 import { getBindingElements } from "../../../definition/definition";
 import { valueTypeMap } from "../../../utils";
 import { createMissMatchValueIssue } from "./common";
+import type { UI5Aggregation } from "@ui5-language-assistant/semantic-model-types";
 
 /**
  * Check structure value
@@ -22,8 +23,7 @@ export const checkStructureValue = (
     lexer: BindingTypes.LexerError[];
   },
   bindingElements: BindingInfoElement[],
-  /* istanbul ignore next */
-  aggregation = false
+  aggregation?: UI5Aggregation
 ): BindingIssue[] => {
   const issues: BindingIssue[] = [];
   const value = element.value;

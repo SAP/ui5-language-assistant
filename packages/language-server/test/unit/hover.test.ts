@@ -84,6 +84,19 @@ describe("the UI5 language assistant Hover Tooltip Service", () => {
       const response = getHoverItem(xmlSnippet, appContext);
       expect(response).toBeUndefined();
     });
+    it("will get hover content UI5 property - alt types", () => {
+      const xmlSnippet = `<mvc:View
+                            xmlns:mvc="sap.ui.core.mvc"
+                            xmlns="sap.m"> 
+                            <mvc:content>
+                               <Text text="My Text" tool⇶tip="" />
+                            </mvc:content>
+                          </mvc:View>`;
+      const response = getHoverItem(xmlSnippet, appContext);
+      expectExists(response, "Hover item");
+      assertMarkup(response.contents);
+      expect(response.contents.value).toInclude("Alternative types: String");
+    });
   });
 
   describe("hover on attribute value", () => {
