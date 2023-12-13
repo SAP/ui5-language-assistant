@@ -3,24 +3,12 @@ import {
   setLogLevel as setLogLevelSetter,
   LogLevel,
   ILogger,
-} from "@ui5-language-assistant/logic-utils";
-import { join } from "path";
-import { readJsonSync } from "fs-extra";
-const getPackageName = (): string => {
-  let meta;
-  try {
-    // in production - ../extensions/saposs.vscode-ui5-language-assistant-4.0.6/node_modules/@ui5-language-assistant/language-server/dist
-    meta = readJsonSync(join(__dirname, "..", "package.json"));
-  } catch (error) {
-    meta = readJsonSync(join(__dirname, "..", "..", "package.json"));
-  }
-  return meta?.name;
-};
+} from "@ui5-language-assistant/logger";
+import { PACKAGE_NAME } from "./constant";
 
-const name = getPackageName();
 export const getLogger = (): ILogger => {
-  return logger(name);
+  return logger(PACKAGE_NAME);
 };
 
 export const setLogLevel = (logLevel: LogLevel): void =>
-  setLogLevelSetter(name, logLevel);
+  setLogLevelSetter(PACKAGE_NAME, logLevel);

@@ -17,7 +17,7 @@ import {
   ProjectType,
   UI5_PROJECT_TYPE,
 } from "../types";
-import { getLogger } from "./logger";
+import { getLogger } from ".";
 
 /**
  * Unify service path by adding forward slash to beginning and end of a service path

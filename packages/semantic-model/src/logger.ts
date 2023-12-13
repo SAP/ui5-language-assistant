@@ -1,24 +1,6 @@
-import {
-  getLogger as logger,
-  ILogger,
-} from "@ui5-language-assistant/logic-utils";
-
-const getPackageName = (): string => {
-  let meta: { name: string };
-  try {
-    meta = require("../package.json");
-  } catch (e) {
-    meta = require("../../package.json");
-  }
-
-  if (!meta) {
-    return "";
-  }
-  // eslint-disable-next-line @typescript-eslint/no-var-requires -- Using `require` for .json file as this gets bundled with webpack correctly.
-  return meta.name;
-};
+import { getLogger as logger, ILogger } from "@ui5-language-assistant/logger";
+import { PACKAGE_NAME } from "./constant";
 
 export const getLogger = (): ILogger => {
-  const name = getPackageName();
-  return logger(name);
+  return logger(PACKAGE_NAME);
 };
