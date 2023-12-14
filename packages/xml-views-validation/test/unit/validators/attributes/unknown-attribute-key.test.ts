@@ -21,7 +21,7 @@ describe("the unknown attribute name validation", () => {
   beforeAll(async () => {
     ui5SemanticModel = await generateModel({
       framework: "SAPUI5",
-      version: "1.71.49",
+      version: "1.71.60",
       modelGenerator: generate,
     });
     appContext = getDefaultContext(ui5SemanticModel);

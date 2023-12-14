@@ -308,7 +308,7 @@ describe("The ui5-language-assistant semantic model package API", () => {
   // TODO: old patches may be removed, should be updated continuously
   const versions: TestModelVersion[] = [
     "1.60.44",
-    "1.71.49",
+    "1.71.60",
     "1.84.27",
     "1.96.11",
     // "1.105.0",
@@ -325,7 +325,7 @@ describe("The ui5-language-assistant semantic model package API", () => {
     beforeAll(async () => {
       model = await generateModel({
         framework: "SAPUI5",
-        version: "1.71.49",
+        version: "1.71.60",
         modelGenerator: generate,
       });
     });
@@ -394,7 +394,7 @@ describe("The ui5-language-assistant semantic model package API", () => {
     beforeAll(async () => {
       model = await generateModel({
         framework: "SAPUI5",
-        version: "1.71.49",
+        version: "1.71.60",
         modelGenerator: generate,
       });
     });
