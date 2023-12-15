@@ -6,7 +6,7 @@ import {
 } from "@ui5-language-assistant/logic-utils";
 import { BindingIssue } from "../../../types";
 import { BINDING_ISSUE_TYPE } from "../../../constant";
-import { getLogger } from "../../../utils";
+import { getLogger, isMacrosMetaContextPath } from "../../../utils";
 import { Position } from "vscode-languageserver-types";
 import {
   parseBinding,
@@ -25,6 +25,9 @@ export function validateBinding(
 ): BindingIssue[] {
   const issues: BindingIssue[] = [];
   try {
+    if (isMacrosMetaContextPath(attribute)) {
+      return issues;
+    }
     const ui5Property = getUI5PropertyByXMLAttributeKey(
       attribute,
       context.ui5Model
