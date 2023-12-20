@@ -274,11 +274,6 @@ export function isSameXMLNSFromPrefix(
 ): boolean;
 
 export {
-  ILogger,
-  getLogLevel,
-  getLogger,
-  setLogLevel,
-  LogLevel,
   fetch,
   tryFetch,
   getLocalUrl,

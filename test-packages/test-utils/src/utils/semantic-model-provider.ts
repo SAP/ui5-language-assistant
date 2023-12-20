@@ -53,7 +53,7 @@ const fixes: Record<TestModelVersion, TypeNameFix> = {
     "sap.viz.ui5.controls.VizRangeSlider": undefined,
     any: "any",
   },
-  "1.71.49": {
+  "1.71.60": {
     array: "any[]",
     Array: "any[]",
     bloolean: undefined,
@@ -61,6 +61,7 @@ const fixes: Record<TestModelVersion, TypeNameFix> = {
     Element: "sap.ui.core.Element",
     "sap.fe.macros.MacroMetadata": undefined,
     "sap.gantt.misc.AxisTime": undefined,
+    "sap.m.IToolbarInteractiveControl": undefined,
     "sap.gantt.control.Toolbar": undefined,
     "sap.gantt.DragOrientation": undefined,
     "sap.gantt.simple.GanttHeader": undefined,
@@ -358,7 +359,7 @@ const libraryFixes: Record<TestModelVersion, Record<string, LibraryFix[]>> = {
       },
     ],
   },
-  "1.71.49": {},
+  "1.71.60": {},
   "1.84.27": {},
   "1.96.11": {
     "sap.ui.mdc": [

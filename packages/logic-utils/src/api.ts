@@ -38,14 +38,6 @@ export {
   isSameXMLNSFromPrefix,
 } from "./utils/xml-namespaces";
 
-export {
-  ILogger,
-  getLogLevel,
-  getLogger,
-  setLogLevel,
-  LogLevel,
-} from "./utils/logger";
-
 export { fetch } from "./utils/fetch";
 export { tryFetch, getLocalUrl } from "./utils/fetch-helper";
 export { isXMLView } from "./utils/document";

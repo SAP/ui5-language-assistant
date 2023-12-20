@@ -14,7 +14,7 @@ describe("The @ui5-language-assistant/logic-utils <findClassesMatchingType> func
   beforeAll(async () => {
     ui5Model = await generateModel({
       framework: "SAPUI5",
-      version: "1.71.49",
+      version: "1.71.60",
       modelGenerator: generate,
     });
   });
@@ -73,7 +73,7 @@ describe("The @ui5-language-assistant/logic-utils <classIsOfType> function", () 
   let ui5Model: UI5SemanticModel;
   const beforeAllPromise = generateModel({
     framework: "SAPUI5",
-    version: "1.71.49",
+    version: "1.71.60",
     modelGenerator: generate,
   });
 

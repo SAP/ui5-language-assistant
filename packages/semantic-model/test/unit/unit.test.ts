@@ -70,7 +70,7 @@ describe("The ui5-language-assistant semantic model package unit tests", () => {
   describe("generate", () => {
     function generateSymbol(symbol: SymbolBase): UI5SemanticModel {
       return generate({
-        version: "1.71.49",
+        version: "1.71.60",
         strict: true,
         typeNameFix: {},
         libraries: {
@@ -210,7 +210,7 @@ describe("The ui5-language-assistant semantic model package unit tests", () => {
     describe("symbols is undefined", () => {
       const fileContent = {
         "$schema-ref": "http://schemas.sap.com/sapui5/designtime/api.json/1.0",
-        version: "1.71.49",
+        version: "1.71.60",
         library: "testLib",
       };
 
@@ -241,7 +241,7 @@ describe("The ui5-language-assistant semantic model package unit tests", () => {
       libraries: Record<string, unknown>
     ): UI5SemanticModel {
       const result = generate({
-        version: "1.71.49",
+        version: "1.71.60",
         strict: false,
         typeNameFix: {},
         libraries: libraries,

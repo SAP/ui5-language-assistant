@@ -18,7 +18,6 @@
   "dependencies": {
     "@ui5-language-assistant/semantic-model-types": "4.0.9",
     "@ui5-language-assistant/settings": "4.0.9",
-    "@vscode-logging/logger": "1.2.2",
     "@xml-tools/ast": "5.0.0",
     "lodash": "4.17.21",
     "node-fetch": "2.6.9",
@@ -28,7 +27,6 @@
   "devDependencies": {
     "@ui5-language-assistant/semantic-model": "4.0.13",
     "@ui5-language-assistant/test-utils": "4.0.9",
-    "@vscode-logging/types": "0.1.4",
     "@xml-tools/parser": "1.0.7"
   },
   "scripts": {

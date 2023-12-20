@@ -1,0 +1,34 @@
+{
+  "name": "@ui5-language-assistant/logger",
+  "version": "0.0.1",
+  "private": true,
+  "description": "A logger package",
+  "keywords": [],
+  "files": [
+    ".reuse",
+    "LICENSES",
+    "lib/src",
+    "api.d.ts",
+    "src"
+  ],
+  "main": "lib/src/api.js",
+  "repository": "https://github.com/sap/ui5-language-assistant/",
+  "license": "Apache-2.0",
+  "typings": "./api.d.ts",
+  "dependencies": {
+    "@vscode-logging/logger": "1.2.2",
+    "@ui5-language-assistant/settings": "4.0.9"
+  },
+  "devDependencies": {
+    "@vscode-logging/types": "0.1.4"
+  },
+  "scripts": {
+    "ci": "npm-run-all clean compile lint coverage",
+    "clean": "rimraf ./lib ./coverage ./nyc_output",
+    "compile": "yarn run clean && tsc -p .",
+    "compile:watch": "tsc -p . --watch",
+    "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore",
+    "test": "jest --ci --forceExit --detectOpenHandles --maxWorkers=1 --coverage=false",
+    "coverage": "jest --ci --forceExit --detectOpenHandles --maxWorkers=1 --coverage=true"
+  }
+}

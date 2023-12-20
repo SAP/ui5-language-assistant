@@ -1,0 +1,306 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`the unknown tag name validation negative edge cases tag with namespace ui5 namespace will detect an issue for sap.ui.core.ExtensionPoint in the root tag 1`] = `
+Array [
+  Object {
+    "issueType": "base",
+    "kind": "UnknownTagName",
+    "message": "The \\"ExtensionPoint\\" class doesn't exist. Enter a namespace.",
+    "offsetRange": Object {
+      "end": 16,
+      "start": 3,
+    },
+    "severity": "error",
+  },
+]
+`;
+
+exports[`the unknown tag name validation true positive scenarios tag with namespace will detect an invalid aggregation name under known class tag without default aggregation 1`] = `
+Array [
+  Object {
+    "issueType": "base",
+    "kind": "UnknownTagName",
+    "message": "The \\"content_TYPO\\" name is neither a class name in the \\"sap.m\\" namespace nor an aggregation of the \\"sap.m.SplitApp\\" class.",
+    "offsetRange": Object {
+      "end": 176,
+      "start": 163,
+    },
+    "severity": "error",
+  },
+]
+`;
+
+exports[`the unknown tag name validation true positive scenarios tag with namespace will detect an invalid aggregation when it's in the wrong namespace 1`] = `
+Array [
+  Object {
+    "issueType": "base",
+    "kind": "UnknownTagName",
+    "message": "The \\"content\\" class doesn't exist in the \\"sap.m\\" namespace.",
+    "offsetRange": Object {
+      "end": 138,
+      "start": 130,
+    },
+    "severity": "error",
+  },
+]
+`;
+
+exports[`the unknown tag name validation true positive scenarios tag with namespace will detect an invalid class name in root tag 1`] = `
+Array [
+  Object {
+    "issueType": "base",
+    "kind": "UnknownTagName",
+    "message": "The \\"View_TYPO\\" class doesn't exist in the \\"sap.ui.core.mvc\\" namespace.",
+    "offsetRange": Object {
+      "end": 22,
+      "start": 10,
+    },
+    "severity": "error",
+  },
+]
+`;
+
+exports[`the unknown tag name validation true positive scenarios tag with namespace will detect an invalid class name under aggregation 1`] = `
+Array [
+  Object {
+    "issueType": "base",
+    "kind": "UnknownTagName",
+    "message": "The \\"Button_TYPO\\" class doesn't exist in the \\"sap.m\\" namespace.",
+    "offsetRange": Object {
+      "end": 176,
+      "start": 164,
+    },
+    "severity": "error",
+  },
+]
+`;
+
+exports[`the unknown tag name validation true positive scenarios tag with namespace will detect an invalid class name under aggregation in the same namespace 1`] = `
+Array [
+  Object {
+    "issueType": "base",
+    "kind": "UnknownTagName",
+    "message": "The \\"Button_TYPO\\" class doesn't exist in the \\"sap.ui.core.mvc\\" namespace.",
+    "offsetRange": Object {
+      "end": 111,
+      "start": 97,
+    },
+    "severity": "error",
+  },
+]
+`;
+
+exports[`the unknown tag name validation true positive scenarios tag with namespace will detect an invalid class name under class that doesn't have a default aggregation 1`] = `
+Array [
+  Object {
+    "issueType": "base",
+    "kind": "UnknownTagName",
+    "message": "The \\"Button_TYPO\\" name is neither a class name in the \\"sap.m\\" namespace nor an aggregation of the \\"sap.m.SplitApp\\" class.",
+    "offsetRange": Object {
+      "end": 163,
+      "start": 151,
+    },
+    "severity": "error",
+  },
+]
+`;
+
+exports[`the unknown tag name validation true positive scenarios tag with namespace will detect an invalid class name under class that has default aggregation 1`] = `
+Array [
+  Object {
+    "issueType": "base",
+    "kind": "UnknownTagName",
+    "message": "The \\"Button_TYPO\\" class doesn't exist in the \\"sap.m\\" namespace.",
+    "offsetRange": Object {
+      "end": 132,
+      "start": 120,
+    },
+    "severity": "error",
+  },
+]
+`;
+
+exports[`the unknown tag name validation true positive scenarios tag with namespace will detect an issue for unknown name under unknown class in a known namespace 1`] = `
+Array [
+  Object {
+    "issueType": "base",
+    "kind": "UnknownTagName",
+    "message": "The \\"SplitApp_TYPO\\" class doesn't exist in the \\"sap.m\\" namespace.",
+    "offsetRange": Object {
+      "end": 134,
+      "start": 120,
+    },
+    "severity": "error",
+  },
+  Object {
+    "issueType": "base",
+    "kind": "UnknownTagName",
+    "message": "The \\"Button_TYPO\\" name is neither a class name in the \\"sap.m\\" namespace nor an aggregation of its parent tag.",
+    "offsetRange": Object {
+      "end": 168,
+      "start": 156,
+    },
+    "severity": "error",
+  },
+]
+`;
+
+exports[`the unknown tag name validation true positive scenarios tag without namespace when default namespace is a ui5 namespace will detect an issue for unknown name under unknown class in the default namespace 1`] = `
+Array [
+  Object {
+    "issueType": "base",
+    "kind": "UnknownTagName",
+    "message": "The \\"SplitApp_TYPO\\" name is neither a class name in the \\"sap.m\\" namespace nor an aggregation of the \\"sap.ui.core.mvc.View\\" class.",
+    "offsetRange": Object {
+      "end": 140,
+      "start": 128,
+    },
+    "severity": "error",
+  },
+  Object {
+    "issueType": "base",
+    "kind": "UnknownTagName",
+    "message": "The \\"Button_TYPO\\" name is neither a class name in the \\"sap.m\\" namespace nor an aggregation of its parent tag.",
+    "offsetRange": Object {
+      "end": 174,
+      "start": 164,
+    },
+    "severity": "error",
+  },
+]
+`;
+
+exports[`the unknown tag name validation true positive scenarios tag without namespace when default namespace is not defined will detect an invalid aggregation namespace under known class tag without default aggregation 1`] = `
+Array [
+  Object {
+    "issueType": "base",
+    "kind": "UnknownTagName",
+    "message": "The \\"content\\" aggregation must have the same namespace as the \\"sap.m.SplitApp\\" class.",
+    "offsetRange": Object {
+      "end": 169,
+      "start": 163,
+    },
+    "severity": "error",
+  },
+]
+`;
+
+exports[`the unknown tag name validation true positive scenarios tag without namespace when default namespace is not defined will detect an invalid class name in root tag 1`] = `
+Array [
+  Object {
+    "issueType": "base",
+    "kind": "UnknownTagName",
+    "message": "The \\"View\\" class doesn't exist. Enter a namespace.",
+    "offsetRange": Object {
+      "end": 17,
+      "start": 14,
+    },
+    "severity": "error",
+  },
+]
+`;
+
+exports[`the unknown tag name validation true positive scenarios tag without namespace when default namespace is not defined will detect an invalid class name under known aggregation tag 1`] = `
+Array [
+  Object {
+    "issueType": "base",
+    "kind": "UnknownTagName",
+    "message": "The \\"List\\" class doesn't exist. Enter a namespace.",
+    "offsetRange": Object {
+      "end": 106,
+      "start": 103,
+    },
+    "severity": "error",
+  },
+]
+`;
+
+exports[`the unknown tag name validation true positive scenarios tag without namespace when default namespace is not defined will detect an invalid class or aggregation name under known class tag with default aggregation 1`] = `
+Array [
+  Object {
+    "issueType": "base",
+    "kind": "UnknownTagName",
+    "message": "The \\"List\\" name is neither a class name nor an aggregation of the \\"sap.ui.core.mvc.View\\" class.",
+    "offsetRange": Object {
+      "end": 72,
+      "start": 69,
+    },
+    "severity": "error",
+  },
+]
+`;
+
+exports[`the unknown tag name validation true positive scenarios tag without namespace when default namespace is not defined will detect an issue for unknown name under unknown class in non-default non-ui5 namespace when name starts with uppercase 1`] = `
+Array [
+  Object {
+    "issueType": "base",
+    "kind": "UnknownTagName",
+    "message": "The \\"Button_TYPO\\" name is neither a class name nor an aggregation of its parent tag. Enter a namespace.",
+    "offsetRange": Object {
+      "end": 184,
+      "start": 174,
+    },
+    "severity": "error",
+  },
+]
+`;
+
+exports[`the unknown tag name validation true positive scenarios when default namespace is a ui5 namespace will detect an invalid aggregation name under known class tag without default aggregation 1`] = `
+Array [
+  Object {
+    "issueType": "base",
+    "kind": "UnknownTagName",
+    "message": "The \\"content_TYPO\\" aggregation doesn't exist in the \\"sap.m.SplitApp\\" class.",
+    "offsetRange": Object {
+      "end": 160,
+      "start": 149,
+    },
+    "severity": "error",
+  },
+]
+`;
+
+exports[`the unknown tag name validation true positive scenarios when default namespace is a ui5 namespace will detect an invalid class name in root tag 1`] = `
+Array [
+  Object {
+    "issueType": "base",
+    "kind": "UnknownTagName",
+    "message": "The \\"View_TYPO\\" class doesn't exist in the \\"sap.ui.core.mvc\\" namespace.",
+    "offsetRange": Object {
+      "end": 9,
+      "start": 1,
+    },
+    "severity": "error",
+  },
+]
+`;
+
+exports[`the unknown tag name validation true positive scenarios when default namespace is a ui5 namespace will detect an invalid class name under known aggregation tag 1`] = `
+Array [
+  Object {
+    "issueType": "base",
+    "kind": "UnknownTagName",
+    "message": "The \\"List_TYPO\\" class doesn't exist in the \\"sap.ui.core.mvc\\" namespace.",
+    "offsetRange": Object {
+      "end": 111,
+      "start": 103,
+    },
+    "severity": "error",
+  },
+]
+`;
+
+exports[`the unknown tag name validation true positive scenarios when default namespace is a ui5 namespace will detect an invalid class or aggregation name under known class tag with default aggregation 1`] = `
+Array [
+  Object {
+    "issueType": "base",
+    "kind": "UnknownTagName",
+    "message": "The \\"List_TYPO\\" name is neither a class name in the \\"sap.ui.core.mvc\\" namespace nor an aggregation of the \\"sap.ui.core.mvc.View\\" class.",
+    "offsetRange": Object {
+      "end": 69,
+      "start": 61,
+    },
+    "severity": "error",
+  },
+]
+`;

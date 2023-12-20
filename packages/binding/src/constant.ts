@@ -6,3 +6,4 @@ export const AGGREGATION_BINDING_INFO =
 export const Binding_Mode = "sap.ui.model.BindingMode";
 export const PARTS = "parts";
 export const FILTER_OPERATOR = "FilterOperator";
+export const PACKAGE_NAME = "@ui5-language-assistant/binding";

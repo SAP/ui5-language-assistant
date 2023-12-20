@@ -14,7 +14,7 @@ Object {
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+[More information](https://ui5.sap.com/1.108.26/#/api/sap.ui.model.Filter)",
   },
 }
 `;
@@ -33,7 +33,7 @@ Object {
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+[More information](https://ui5.sap.com/1.108.26/#/api/sap.ui.model.Filter)",
   },
 }
 `;
@@ -52,7 +52,7 @@ Object {
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+[More information](https://ui5.sap.com/1.108.26/#/api/sap.ui.model.Filter)",
   },
 }
 `;
@@ -71,7 +71,7 @@ Object {
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+[More information](https://ui5.sap.com/1.108.26/#/api/sap.ui.model.Filter)",
   },
 }
 `;
@@ -90,7 +90,7 @@ Object {
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+[More information](https://ui5.sap.com/1.108.26/#/api/sap.ui.model.Filter)",
   },
 }
 `;
@@ -109,7 +109,7 @@ Object {
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.model.Filter)",
+[More information](https://ui5.sap.com/1.108.26/#/api/sap.ui.model.Filter)",
   },
 }
 `;
@@ -132,7 +132,7 @@ If a part is not specified as a binding info object but as a simple string, a bi
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+[More information](https://ui5.sap.com/1.108.26/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
   },
 }
 `;
@@ -151,7 +151,7 @@ Object {
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+[More information](https://ui5.sap.com/1.108.26/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
   },
 }
 `;
@@ -170,7 +170,7 @@ Object {
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+[More information](https://ui5.sap.com/1.108.26/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
   },
 }
 `;
@@ -189,7 +189,7 @@ Object {
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+[More information](https://ui5.sap.com/1.108.26/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
   },
 }
 `;
@@ -208,7 +208,7 @@ Object {
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+[More information](https://ui5.sap.com/1.108.26/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
   },
 }
 `;
@@ -227,7 +227,7 @@ Object {
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.1/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+[More information](https://ui5.sap.com/1.108.26/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
   },
 }
 `;
