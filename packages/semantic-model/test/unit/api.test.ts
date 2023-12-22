@@ -306,11 +306,7 @@ describe("The ui5-language-assistant semantic model package API", () => {
   }
 
   // TODO: old patches may be removed, should be updated continuously
-  const versions: TestModelVersion[] = [
-    "1.71.61",
-    "1.84.41",
-    "1.96.27"
-  ];
+  const versions: TestModelVersion[] = ["1.71.61", "1.84.41", "1.96.27"];
   for (const version of versions) {
     // TODO: consider also openui5?
     createModelConsistencyTests("SAPUI5", version);

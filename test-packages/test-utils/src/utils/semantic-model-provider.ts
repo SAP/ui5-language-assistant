@@ -1,7 +1,7 @@
 import { readdirSync } from "fs";
 import { readJsonSync, readJson, existsSync } from "fs-extra";
 import { resolve, dirname } from "path";
-import { filter, reduce, has, forEach, remove, get, find } from "lodash";
+import { filter, reduce, has, forEach, get } from "lodash";
 import { FetchResponse } from "@ui5-language-assistant/language-server";
 import {
   UI5Framework,
@@ -14,7 +14,7 @@ const MODEL_CACHE: Record<TestModelVersion, UI5SemanticModel> =
   Object.create(null);
 
 const fixes: Record<TestModelVersion, TypeNameFix> = {
-    "1.71.61": {
+  "1.71.61": {
     array: "any[]",
     Array: "any[]",
     bloolean: undefined,
@@ -125,7 +125,7 @@ const fixes: Record<TestModelVersion, TypeNameFix> = {
   },
   "1.108.26": {
     any: "any",
-  }
+  },
 };
 
 function getModelFolder(version: TestModelVersion): string {
