@@ -126,6 +126,9 @@ const fixes: Record<TestModelVersion, TypeNameFix> = {
   "1.108.26": {
     any: "any",
   },
+  "1.114.11": {
+    any: "any",
+  }
 };
 
 function getModelFolder(version: TestModelVersion): string {
