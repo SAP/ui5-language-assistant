@@ -20,7 +20,7 @@ export function error(message: string, throwError: boolean): void {
   if (throwError) {
     throw new Error(message);
   } else {
-    // console.error(message);
+    console.error(message);
   }
 }
 
