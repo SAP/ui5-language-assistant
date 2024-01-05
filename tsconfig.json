@@ -37,6 +37,9 @@
       "path": "./packages/context"
     },
     {
+      "path": "./packages/logger"
+    },
+    {
       "path": "./packages/binding-parser"
     },
     {

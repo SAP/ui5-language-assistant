@@ -1,8 +1,8 @@
 {
-  "name": "@ui5-language-assistant/logic-utils",
-  "version": "4.0.15",
+  "name": "@ui5-language-assistant/logger",
+  "version": "0.0.1",
   "private": true,
-  "description": "TBD",
+  "description": "A logger package",
   "keywords": [],
   "files": [
     ".reuse",
@@ -16,18 +16,11 @@
   "license": "Apache-2.0",
   "typings": "./api.d.ts",
   "dependencies": {
-    "@ui5-language-assistant/semantic-model-types": "4.0.9",
-    "@ui5-language-assistant/settings": "4.0.9",
-    "@xml-tools/ast": "5.0.0",
-    "lodash": "4.17.21",
-    "node-fetch": "2.6.9",
-    "https-proxy-agent": "5.0.1",
-    "proxy-from-env": "1.1.0"
+    "@vscode-logging/logger": "1.2.2",
+    "@ui5-language-assistant/settings": "4.0.9"
   },
   "devDependencies": {
-    "@ui5-language-assistant/semantic-model": "4.0.14",
-    "@ui5-language-assistant/test-utils": "4.0.10",
-    "@xml-tools/parser": "1.0.7"
+    "@vscode-logging/types": "0.1.4"
   },
   "scripts": {
     "ci": "npm-run-all clean compile lint coverage",
