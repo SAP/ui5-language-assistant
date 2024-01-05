@@ -96,7 +96,7 @@ export function readSnapshotDiagnosticsLSPResponse(
 
 const ui5ModelPromise = generateModel({
   framework: "SAPUI5",
-  version: "1.71.49",
+  version: "1.71.61",
   modelGenerator: generate,
 });
 let ui5Model: UI5SemanticModel | undefined = undefined;

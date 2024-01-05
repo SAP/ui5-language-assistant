@@ -21,7 +21,7 @@ describe("the UI5 language assistant xml view diagnostics service", () => {
   beforeAll(async () => {
     ui5SemanticModel = await generateModel({
       framework: "SAPUI5",
-      version: "1.108.2",
+      version: "1.108.26",
       modelGenerator: generate,
     });
     appContext = getDefaultContext(ui5SemanticModel);

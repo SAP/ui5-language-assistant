@@ -15,7 +15,7 @@ describe("the unknown namespace in xmlns attribute value validation", () => {
   beforeAll(async () => {
     ui5SemanticModel = await generateModel({
       framework: "SAPUI5",
-      version: "1.71.49",
+      version: "1.71.61",
       modelGenerator: generate,
     });
     appContext = getDefaultContext(ui5SemanticModel);

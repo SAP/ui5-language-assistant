@@ -1,7 +1,7 @@
 import { readdirSync } from "fs";
 import { readJsonSync, readJson, existsSync } from "fs-extra";
 import { resolve, dirname } from "path";
-import { filter, reduce, has, forEach, remove, get, find } from "lodash";
+import { filter, reduce, has, forEach, get } from "lodash";
 import { FetchResponse } from "@ui5-language-assistant/language-server";
 import {
   UI5Framework,
@@ -14,46 +14,7 @@ const MODEL_CACHE: Record<TestModelVersion, UI5SemanticModel> =
   Object.create(null);
 
 const fixes: Record<TestModelVersion, TypeNameFix> = {
-  "1.60.44": {
-    "{sap.ui.layout.cssgrid.IGridConfigurable}": undefined,
-    "sap.m.IHyphenation": undefined,
-    "sap.ui.core.IDScope": undefined,
-    "sap.m.TimePickerSlider": undefined,
-    "sap.ui.layout.ResponsiveSplitterPage": undefined,
-    "sap.ui.layout.cssgrid.CSSGridTrack": undefined,
-    "sap.ui.layout.cssgrid.CSSGridGapShortHand": undefined,
-    "sap.ui.layout.cssgrid.CSSGridLine": undefined,
-    "sap.gantt.def.SvgDefs": undefined,
-    "sap.gantt.simple.UtilizationChart": undefined,
-    "sap.ui.suite.ui.commons.statusindicator.SimpleShape": undefined,
-    "sap.ui.fl.transport.FlTransportDialog": undefined,
-    "sap.ui.mdc.EditMode": undefined,
-    "sap.ui.mdc.base.FieldHelpBase": undefined,
-    "sap.ui.vk.TransformationMatrix": undefined,
-    "sap.ui.base.BaseObject": undefined,
-    "sap.ui.core.EventProvider": undefined,
-    "sap.ui.vk.": "sap.ui.vk.Material",
-    Service: undefined,
-
-    Control: "sap.ui.core.Control",
-    Element: "sap.ui.core.Element",
-    array: "any[]",
-    Array: "any[]",
-    bloolean: "boolean",
-    "sap.gantt.misc.AxisTime": "sap.gantt.misc.AxisTimes",
-    "sap.gantt.control.Toolbar": undefined,
-    "sap.gantt.DragOrientation": undefined,
-    "sap.gantt.simple.GanttHeader": undefined,
-    "sap.gantt.simple.InnerGanttChart": undefined,
-    "sap.rules.ui.RuleBase": undefined,
-    "sap.ui.generic.app.transaction.BaseController": undefined,
-    "sap.ui.vk.tools.HitTestIdMode": undefined,
-    "sap.ui.vk.tools.CoordinateSystem": undefined,
-    "sap.ui.vk.SelectionMode": undefined,
-    "sap.viz.ui5.controls.VizRangeSlider": undefined,
-    any: "any",
-  },
-  "1.71.49": {
+  "1.71.61": {
     array: "any[]",
     Array: "any[]",
     bloolean: undefined,
@@ -66,6 +27,7 @@ const fixes: Record<TestModelVersion, TypeNameFix> = {
     "sap.gantt.simple.GanttHeader": undefined,
     "sap.gantt.simple.InnerGanttChart": undefined,
     "sap.m.PlanningCalendarHeader": undefined,
+    "sap.m.IToolbarInteractiveControl": undefined,
     "sap.m.TimePickerSlider": undefined,
     "sap.rules.ui.RuleBase": undefined,
     "sap.ui.generic.app.transaction.BaseController": undefined,
@@ -85,7 +47,7 @@ const fixes: Record<TestModelVersion, TypeNameFix> = {
     "sap.viz.ui5.controls.VizRangeSlider": undefined,
     any: "any",
   },
-  "1.84.27": {
+  "1.84.41": {
     array: "any[]",
     Array: "any[]",
     Control: "sap.ui.core.Control",
@@ -102,6 +64,7 @@ const fixes: Record<TestModelVersion, TypeNameFix> = {
     "sap.gantt.simple.InnerGanttChart": undefined,
     "sap.m.PlanningCalendarHeader": undefined,
     "sap.m.TimePickerSlider": undefined,
+    "sap.m.IToolbarInteractiveControl": undefined,
     "sap.rules.ui.RuleBase": undefined,
     "sap.ui.core.mvc.XMLProcessingMode": undefined,
     "sap.ui.fl.write._internal.transport.TransportDialog": undefined,
@@ -118,7 +81,7 @@ const fixes: Record<TestModelVersion, TypeNameFix> = {
     "QUnit.Assert": undefined,
     any: "any",
   },
-  "1.96.11": {
+  "1.96.27": {
     array: "any[]",
     Array: "any[]",
     "object|string": "object",
@@ -142,6 +105,7 @@ const fixes: Record<TestModelVersion, TypeNameFix> = {
     "sap.m.p13n.AbstractContainer": undefined,
     "sap.m.PlanningCalendarHeader": undefined,
     "sap.m.internal.ToggleSpinButton": undefined,
+    "sap.m.IToolbarInteractiveControl": undefined,
     "sap.m.TimePickerClock": undefined,
     "sap.m.TimePickerSlider": undefined,
     "sap.rules.ui.RuleBase": undefined,
@@ -159,59 +123,10 @@ const fixes: Record<TestModelVersion, TypeNameFix> = {
     "sap.viz.ui5.controls.VizRangeSlider": undefined,
     "QUnit.Assert": undefined,
   },
-  "1.105.0": {
-    array: "any[]",
-    Array: "any[]",
-    "object|string": "object",
-    "boolean|string": "boolean",
-    Promise: undefined,
-
-    "function() : function": undefined,
-    "function() : boolean": undefined,
-
-    Element: "sap.ui.core.Element",
-
-    "sap.f.cards.NumericIndicators": undefined,
-    "sap.fe.core.TemplateComponent": undefined,
-    "sap.fe.macros.MacroMetadata": undefined,
-    "sap.fe.macros.NavigationType": undefined,
-    "sap.fe.navigation.NavError": undefined,
-    "sap.fe.navigation.NavigationHandler": undefined,
-    "sap.fe.navigation.PresentationVariant": undefined,
-    "sap.fe.navigation.SelectionVariant": undefined,
-    "sap.fe.templates.ExtensionAPI": undefined,
-    "sap.gantt.control.Toolbar": undefined,
-    "sap.gantt.simple.GanttSearchSidePanel": undefined,
-    "sap.gantt.simple.GanttHeader": undefined,
-    "sap.gantt.simple.InnerGanttChart": undefined,
-    "sap.m.PlanningCalendarHeader": undefined,
-    "sap.m.internal.ToggleSpinButton": undefined,
-    "sap.m.TimePickerClock": undefined,
-    "sap.m.TimePickerSlider": undefined,
-    "sap.rules.ui.RuleBase": undefined,
-    "sap.sac.df.DFKernel": undefined,
-    "sap.suite.ui.commons.FilePickerModes": undefined,
-    "sap.ui.core.mvc.XMLProcessingMode": undefined,
-    "Object<string,(string|function(sap.ui.core.Control) : string)>": "object",
-    "sap.ui.integration.cards.filters.FilterBar": undefined,
-    "sap.ui.layout.ResponsiveSplitterPage": undefined,
-    "sap.ui.mdc.IxState": undefined,
-    "sap.ui.mdc.chart.ChartToolbar": undefined,
-    "sap.ui.mdc.field.FieldValueHelpTableWrapperBase": undefined,
-    "sap.ui.mdc.filterbar.IFilterContainer": undefined,
-    "sap.ui.mdc.TableType": undefined,
-    "sap.ui.vk.RedlineComment": undefined,
-    "sap.ui.vk.ToggleMenuItem": undefined,
-    "sap.ui.vk.ViewManager": undefined,
-    "sap.ushell.ui.tile.TileBase": undefined,
-    "sap.viz.ui5.controls.VizRangeSlider": undefined,
-    "QUnit.Assert": undefined,
+  "1.108.26": {
     any: "any",
   },
-  "1.108.2": {
-    any: "any",
-  },
-  "1.109.1": {
+  "1.114.11": {
     any: "any",
   },
 };
@@ -343,24 +258,9 @@ type LibraryFix = (content: Json) => void;
 
 // Library version -> library name -> fix function
 const libraryFixes: Record<TestModelVersion, Record<string, LibraryFix[]>> = {
-  "1.60.44": {
-    "sap.ushell": [
-      (content: Json): void => {
-        const symbol = find(
-          get(content, "symbols"),
-          (symbol) => symbol.name === "sap.ushell.services.EndUserFeedback"
-        );
-        const method = find(
-          get(symbol, "methods"),
-          (method) => method.name === "getLegalText"
-        );
-        remove(method.parameters, (parameter) => get(parameter, "name") === "");
-      },
-    ],
-  },
-  "1.71.49": {},
-  "1.84.27": {},
-  "1.96.11": {
+  "1.71.61": {},
+  "1.84.41": {},
+  "1.96.27": {
     "sap.ui.mdc": [
       (content: Json): void => {
         forEach(get(content, "symbols"), (symbol) => {
@@ -385,33 +285,8 @@ const libraryFixes: Record<TestModelVersion, Record<string, LibraryFix[]>> = {
       },
     ],
   },
-  "1.105.0": {
-    "sap.ui.mdc": [
-      (content: Json): void => {
-        forEach(get(content, "symbols"), (symbol) => {
-          const defaultAggregation =
-            symbol?.["ui5-metadata"]?.defaultAggregation;
-          if (
-            defaultAggregation &&
-            !symbol["ui5-metadata"].aggregations?.[defaultAggregation]
-          ) {
-            symbol["ui5-metadata"].aggregations =
-              symbol["ui5-metadata"].aggregations || [];
-            symbol["ui5-metadata"].aggregations.push({
-              name: "content",
-              singularName: "content",
-              type: "sap.ui.core.Control",
-              cardinality: "0..1",
-              visibility: "public",
-              methods: ["getContent", "destroyContent", "setContent"],
-            });
-          }
-        });
-      },
-    ],
-  },
-  "1.108.2": {},
-  "1.109.1": {},
+  "1.108.26": {},
+  "1.114.11": {},
 };
 
 function fixLibraries(
