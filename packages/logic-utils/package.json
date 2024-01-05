@@ -1,6 +1,6 @@
 {
   "name": "@ui5-language-assistant/logic-utils",
-  "version": "4.0.14",
+  "version": "4.0.15",
   "private": true,
   "description": "TBD",
   "keywords": [],
@@ -26,8 +26,8 @@
     "proxy-from-env": "1.1.0"
   },
   "devDependencies": {
-    "@ui5-language-assistant/semantic-model": "4.0.13",
-    "@ui5-language-assistant/test-utils": "4.0.9",
+    "@ui5-language-assistant/semantic-model": "4.0.14",
+    "@ui5-language-assistant/test-utils": "4.0.10",
     "@vscode-logging/types": "0.1.4",
     "@xml-tools/parser": "1.0.7"
   },
