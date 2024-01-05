@@ -28,7 +28,6 @@ const fixes: Record<TestModelVersion, TypeNameFix> = {
     "sap.gantt.simple.GanttHeader": undefined,
     "sap.gantt.simple.InnerGanttChart": undefined,
     "sap.m.PlanningCalendarHeader": undefined,
-    "sap.m.IToolbarInteractiveControl": undefined,
     "sap.m.TimePickerSlider": undefined,
     "sap.rules.ui.RuleBase": undefined,
     "sap.ui.generic.app.transaction.BaseController": undefined,
