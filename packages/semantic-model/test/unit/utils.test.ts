@@ -1,6 +1,8 @@
 import {
+  DEFAULT_UI5_VERSION,
   expectExists,
   generateModel,
+  getFallbackPatchVersions,
 } from "@ui5-language-assistant/test-utils";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { findSymbol, generate } from "../../src/api";
@@ -12,7 +14,9 @@ describe("The semantic model utils", () => {
   beforeAll(async () => {
     model = await generateModel({
       framework: "SAPUI5",
-      version: "1.71.49",
+      version: (
+        await getFallbackPatchVersions()
+      ).SAPUI5 as typeof DEFAULT_UI5_VERSION,
       modelGenerator: generate,
     });
   });

@@ -7,7 +7,8 @@ import type { Manifest } from "@sap-ux/project-access";
 import { FetchResponse } from "@ui5-language-assistant/logic-utils";
 
 export const DEFAULT_UI5_FRAMEWORK = "SAPUI5";
-export const DEFAULT_UI5_VERSION = "1.71.60";
+export const DEFAULT_UI5_VERSION = "1.71.61";
+export const DEFAULT_UI5_VERSION_BASE = "1.71";
 export const UI5_VERSION_S4_PLACEHOLDER = "${sap.ui5.dist.version}";
 export const UI5_FRAMEWORK_CDN_BASE_URL = {
   OpenUI5: "https://sdk.openui5.org/",
@@ -113,4 +114,4 @@ export type CAPProjectKind = "Java" | "NodeJS";
 export type ProjectKind = CAPProjectKind | "UI5";
 export type Project = UI5Project | CAPProject;
 export type ProjectType = typeof UI5_PROJECT_TYPE | typeof CAP_PROJECT_TYPE;
-export type Fetcher = (url: string) => Promise<FetchResponse>;
+export type Fetcher<T = unknown> = (url: string) => Promise<FetchResponse<T>>;

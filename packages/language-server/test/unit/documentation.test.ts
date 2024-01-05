@@ -1,6 +1,8 @@
 import {
+  DEFAULT_UI5_VERSION,
   buildUI5Enum,
   generateModel,
+  getFallbackPatchVersions,
 } from "@ui5-language-assistant/test-utils";
 import { generate } from "@ui5-language-assistant/semantic-model";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
@@ -11,7 +13,9 @@ describe("The @ui5-language-assistant/language-server <getNodeDocumentation> fun
   beforeAll(async function () {
     ui5SemanticModel = await generateModel({
       framework: "SAPUI5",
-      version: "1.71.49",
+      version: (
+        await getFallbackPatchVersions()
+      ).SAPUI5 as typeof DEFAULT_UI5_VERSION,
       modelGenerator: generate,
     });
   });

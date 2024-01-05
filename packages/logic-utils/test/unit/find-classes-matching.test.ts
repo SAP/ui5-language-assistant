@@ -1,7 +1,11 @@
 import { map, forEach, cloneDeep } from "lodash";
 
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
-import { generateModel } from "@ui5-language-assistant/test-utils";
+import {
+  DEFAULT_UI5_VERSION,
+  generateModel,
+  getFallbackPatchVersions,
+} from "@ui5-language-assistant/test-utils";
 import { generate } from "@ui5-language-assistant/semantic-model";
 import {
   findClassesMatchingType,
@@ -9,14 +13,21 @@ import {
   classIsOfType,
 } from "../../src/api";
 
+async function generateModelForLatestPatch(): Promise<UI5SemanticModel> {
+  const { SAPUI5: latestPatchVersion } = await getFallbackPatchVersions();
+  return await generateModel({
+    framework: "SAPUI5",
+    version: latestPatchVersion as typeof DEFAULT_UI5_VERSION,
+    modelGenerator: generate,
+  });
+}
+
+const modelGeneratorPromise = generateModelForLatestPatch();
+
 describe("The @ui5-language-assistant/logic-utils <findClassesMatchingType> function", () => {
   let ui5Model: UI5SemanticModel;
   beforeAll(async () => {
-    ui5Model = await generateModel({
-      framework: "SAPUI5",
-      version: "1.71.49",
-      modelGenerator: generate,
-    });
+    ui5Model = await modelGeneratorPromise;
   });
 
   it("can locate classes matching an interface directly", () => {
@@ -71,14 +82,8 @@ describe("The @ui5-language-assistant/logic-utils <findClassesMatchingType> func
 
 describe("The @ui5-language-assistant/logic-utils <classIsOfType> function", () => {
   let ui5Model: UI5SemanticModel;
-  const beforeAllPromise = generateModel({
-    framework: "SAPUI5",
-    version: "1.71.49",
-    modelGenerator: generate,
-  });
-
   beforeAll(async () => {
-    ui5Model = await beforeAllPromise;
+    ui5Model = await modelGeneratorPromise;
   });
 
   it("can tell if the class matching a UI5Interface type", () => {
@@ -102,7 +107,7 @@ describe("The @ui5-language-assistant/logic-utils <classIsOfType> function", () 
   describe("classes with returnTypes specified in metadata", () => {
     let adaptedUI5Model: UI5SemanticModel;
     beforeAll(async () => {
-      adaptedUI5Model = cloneDeep(await beforeAllPromise);
+      adaptedUI5Model = cloneDeep(await modelGeneratorPromise);
       adaptedUI5Model.classes["sap.ui.layout.BlockLayout"].returnTypes = [
         adaptedUI5Model.classes["sap.ui.layout.form.FormElement"],
       ];

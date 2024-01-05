@@ -3,7 +3,11 @@ import {
   UI5SemanticModel,
   UI5Aggregation,
 } from "@ui5-language-assistant/semantic-model-types";
-import { generateModel } from "@ui5-language-assistant/test-utils";
+import {
+  DEFAULT_UI5_VERSION,
+  generateModel,
+  getFallbackPatchVersions,
+} from "@ui5-language-assistant/test-utils";
 import { generate } from "@ui5-language-assistant/semantic-model";
 import {
   validations,
@@ -25,7 +29,9 @@ describe("the type aggregation validation", () => {
   beforeAll(async () => {
     ui5SemanticModel = await generateModel({
       framework: "SAPUI5",
-      version: "1.71.49",
+      version: (
+        await getFallbackPatchVersions()
+      ).SAPUI5 as typeof DEFAULT_UI5_VERSION,
       modelGenerator: generate,
     });
     appContext = getDefaultContext(ui5SemanticModel);

@@ -88,10 +88,12 @@ export function buildUI5Model<T extends Partial<UI5SemanticModel>>(
   opts: Partial<UI5SemanticModel>
 ): UI5SemanticModel & Pick<T, keyof UI5SemanticModel>;
 
+export const DEFAULT_UI5_VERSION = "1.71.61";
+
 // TODO: list should be updated continuously!
 export type TestModelVersion =
   | "1.60.44"
-  | /* OOM */ "1.71.49"
+  | /* OOM */ typeof DEFAULT_UI5_VERSION
   | "1.84.27"
   | "1.96.11"
   | "1.105.0"
@@ -170,3 +172,8 @@ export type generateFunc = (opts: {
   strict: boolean;
   printValidationErrors?: boolean;
 }) => UI5SemanticModel;
+
+export async function getFallbackPatchVersions(): Promise<{
+  SAPUI5: string | undefined;
+  OpenUI5: string | undefined;
+}>;

@@ -2,8 +2,10 @@ import { cloneDeep } from "lodash";
 import { UI5Class } from "@ui5-language-assistant/semantic-model-types";
 import { generate } from "@ui5-language-assistant/semantic-model";
 import {
+  DEFAULT_UI5_VERSION,
   buildUI5Class,
   generateModel,
+  getFallbackPatchVersions,
 } from "@ui5-language-assistant/test-utils";
 import { getSuperClasses } from "../../src/api";
 
@@ -33,10 +35,11 @@ describe("The @ui5-language-assistant/logic-utils <getSuperClasses> function", (
   });
 
   it("will avoid infinite loops in case of cyclic extends clauses", async () => {
+    const { SAPUI5: latestPatchVersion } = await getFallbackPatchVersions();
     const ui5Model = cloneDeep(
       await generateModel({
         framework: "SAPUI5",
-        version: "1.71.49",
+        version: latestPatchVersion as typeof DEFAULT_UI5_VERSION,
         modelGenerator: generate,
       })
     );

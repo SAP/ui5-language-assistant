@@ -2,6 +2,11 @@ import { zipObject, map, noop, get } from "lodash";
 import { resolve } from "path";
 import { writeFile, mkdirs, pathExists } from "fs-extra";
 
+export const UI5_FRAMEWORK_CDN_BASE_URL = {
+  OpenUI5: "https://sdk.openui5.org/",
+  SAPUI5: "https://ui5.sap.com/",
+};
+
 const importDynamic = (modulePath: string) => {
   try {
     return import(modulePath);
@@ -112,4 +117,43 @@ async function writeUrlToFile(url: string, file: string): Promise<void> {
     return;
   }
   await writeFile(file, text);
+}
+
+type VersionMapJsonType = Record<
+  string,
+  { version: string; support: string; lts: boolean }
+>;
+
+const FRAMEWORK = "SAPUI5";
+const OPEN_FRAMEWORK = "OpenUI5";
+const FALLBACK_VERSION_BASE = "1.71";
+
+async function getCurrentVersionMaps(
+  framework: typeof FRAMEWORK | typeof OPEN_FRAMEWORK
+): Promise<VersionMapJsonType | undefined> {
+  const url = `${UI5_FRAMEWORK_CDN_BASE_URL[framework]}version.json`;
+  const response = await fetch(url);
+  if (response.ok) {
+    return (await response.json()) as VersionMapJsonType;
+  } else {
+    return undefined;
+  }
+}
+
+export async function getFallbackPatchVersions(): Promise<{
+  SAPUI5: string | undefined;
+  OpenUI5: string | undefined;
+}> {
+  const result: { SAPUI5: string | undefined; OpenUI5: string | undefined } = {
+    OpenUI5: undefined,
+    SAPUI5: undefined,
+  };
+
+  result.SAPUI5 = (await getCurrentVersionMaps(FRAMEWORK))?.[
+    FALLBACK_VERSION_BASE
+  ]?.version;
+  result.OpenUI5 = (await getCurrentVersionMaps(OPEN_FRAMEWORK))?.[
+    FALLBACK_VERSION_BASE
+  ]?.version;
+  return result;
 }
