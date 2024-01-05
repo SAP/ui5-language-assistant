@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.16
+
+### Patch Changes
+
+- a9a2141: Add logger package
+
 ## 4.0.15
 
 ### Patch Changes

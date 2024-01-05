@@ -1,5 +1,13 @@
 # Change Log
 
+## 4.0.50
+
+### Patch Changes
+
+- a9a2141: Add logger package
+- Updated dependencies [a9a2141]
+  - @ui5-language-assistant/language-server@4.0.39
+
 ## 4.0.49
 
 ### Patch Changes

@@ -1,5 +1,14 @@
 # Change Log
 
+## 4.0.22
+
+### Patch Changes
+
+- a9a2141: Add logger package
+- Updated dependencies [a9a2141]
+  - @ui5-language-assistant/logic-utils@4.0.16
+  - @ui5-language-assistant/context@4.0.22
+
 ## 4.0.21
 
 ### Patch Changes
