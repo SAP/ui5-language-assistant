@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.15
+
+### Patch Changes
+
+- 910e437: Adaptation to the latest UI5 maintenance changes
+
 ## 4.0.14
 
 ### Patch Changes

@@ -36,7 +36,7 @@ describe("The @ui5-language-assistant/logic-utils <getSuperClasses> function", (
     const ui5Model = cloneDeep(
       await generateModel({
         framework: "SAPUI5",
-        version: "1.71.60",
+        version: "1.71.61",
         modelGenerator: generate,
       })
     );

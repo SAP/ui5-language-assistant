@@ -11,7 +11,7 @@ describe("The @ui5-language-assistant/language-server <getNodeDocumentation> fun
   beforeAll(async function () {
     ui5SemanticModel = await generateModel({
       framework: "SAPUI5",
-      version: "1.71.60",
+      version: "1.71.61",
       modelGenerator: generate,
     });
   });

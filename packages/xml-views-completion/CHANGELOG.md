@@ -1,5 +1,14 @@
 # Change Log
 
+## 4.0.21
+
+### Patch Changes
+
+- 910e437: Adaptation to the latest UI5 maintenance changes
+- Updated dependencies [910e437]
+  - @ui5-language-assistant/context@4.0.21
+  - @ui5-language-assistant/logic-utils@4.0.15
+
 ## 4.0.20
 
 ### Patch Changes

@@ -17,7 +17,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
   beforeAll(async () => {
     REAL_UI5_MODEL = await generateModel({
       framework: "SAPUI5",
-      version: "1.71.60",
+      version: "1.71.61",
       modelGenerator: generate,
     });
     appContext = getDefaultContext(REAL_UI5_MODEL);
