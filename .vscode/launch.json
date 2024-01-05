@@ -49,6 +49,7 @@
       "args": [
         "${fileBasenameNoExtension}",
         "--coverage=false",
+        "--maxWorkers=1",
         "--config",
         "jest.config.js"
       ],
@@ -68,6 +69,7 @@
       "args": [
         "${fileBasenameNoExtension}",
         "--coverage=false",
+        "--maxWorkers=1",
         "--config",
         "jest.config.js"
       ],
@@ -87,6 +89,7 @@
       "args": [
         "${fileBasenameNoExtension}",
         "--coverage=false",
+        "--maxWorkers=1",
         "--config",
         "jest.config.js"
       ],
@@ -106,6 +109,7 @@
       "args": [
         "${fileBasenameNoExtension}",
         "--coverage=false",
+        "--maxWorkers=1",
         "--config",
         "jest.config.js"
       ],
@@ -125,6 +129,7 @@
       "args": [
         "${fileBasenameNoExtension}",
         "--coverage=false",
+        "--maxWorkers=1",
         "--config",
         "jest.config.js"
       ],
@@ -144,6 +149,7 @@
       "args": [
         "${fileBasenameNoExtension}",
         "--coverage=false",
+        "--maxWorkers=1",
         "--config",
         "jest.config.js"
       ],
@@ -163,6 +169,7 @@
       "args": [
         "${fileBasenameNoExtension}",
         "--coverage=false",
+        "--maxWorkers=1",
         "--config",
         "jest.config.js"
       ],
@@ -182,6 +189,7 @@
       "args": [
         "${fileBasenameNoExtension}",
         "--coverage=false",
+        "--maxWorkers=1",
         "--config",
         "jest.config.js"
       ],

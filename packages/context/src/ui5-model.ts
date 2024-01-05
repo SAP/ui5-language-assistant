@@ -292,6 +292,15 @@ async function getVersionInfo(
   return versionInfo;
 }
 
+/**
+ * Checks whether version libs cache exists and is consistent.
+ *
+ * @param version Requested version
+ * @param framework The UI5 framework version
+ * @param modelCachePath Path to model data cache on disk
+ * @param libs Library module names
+ * @returns true if cache data exists for all libs
+ */
 async function isVersionLibsCacheValid(
   version: string,
   framework: UI5Framework,
@@ -318,12 +327,22 @@ async function isVersionLibsCacheValid(
   return result.every((item) => !!item);
 }
 
+/**
+ * Checks whether the test resources for specific version are available locally or on server.
+ *
+ * @param versionInfoJsonFetcher Fetcher function which loads version info json
+ * @param versionLibsFetcher Fetcher function which loads version libs
+ * @param modelCachePath Path to model data cache on disk
+ * @param framework The UI5 framework version
+ * @param version Requested version
+ * @returns true if resouces are found
+ */
 async function isVersionResourcesAvailable(
-  version: string,
-  framework: UI5Framework,
-  modelCachePath: string | undefined,
   versionInfoJsonFetcher: Fetcher<Json>,
-  versionLibsFetcher: Fetcher<Json>
+  versionLibsFetcher: Fetcher<Json>,
+  modelCachePath: string | undefined,
+  framework: UI5Framework,
+  version: string
 ): Promise<boolean> {
   const libs = await getLibs(
     modelCachePath,
@@ -425,9 +444,11 @@ async function negotiateVersion(
 /**
  * Tries to negotiate UI5 version.
  * Note: This function is exported for testing purposes (using a mock fetcher).
+ * All Three fetchers are exposed to have comprehensive and easy control over web requests in tests
  *
  * @param versionJsonFetcher Fetcher function which loads version map json
  * @param versionInfoJsonFetcher Fetcher function which loads version info json
+ * @param versionLibsFetcher Fetcher function which loads version libs
  * @param modelCachePath Path to model data cache on disk
  * @param framework The UI5 framework version
  * @param version Requested version
@@ -633,6 +654,7 @@ function adjustRequestedVersion(
  * @param framework Framework type
  * @param versions Version map for the current framework
  * @param versionInfoJsonFetcher Fetcher function to load remote version data
+ * @param versionLibsFetcher Fetcher function which loads version libs
  * @param modelCachePath Path to model data cache on disk
  * @returns Object with resolved version and flag whether the requested version is incorrect and whether the resolved version should be stored in resolution cache
  * We don't need to store resolution result in cache if test data available
@@ -655,11 +677,11 @@ async function resolveRequestedVersion(
   if (
     !useLatestVersion &&
     (await isVersionResourcesAvailable(
-      requestedVersion,
-      framework,
-      modelCachePath,
       versionInfoJsonFetcher,
-      versionLibsFetcher
+      versionLibsFetcher,
+      modelCachePath,
+      framework,
+      requestedVersion
     ))
   ) {
     return {
