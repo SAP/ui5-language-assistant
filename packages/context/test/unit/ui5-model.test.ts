@@ -1,25 +1,3 @@
-jest.mock("@ui5-language-assistant/logic-utils", () => {
-  const actual = jest.requireActual("@ui5-language-assistant/logic-utils");
-
-  return {
-    ...actual,
-    getLogger: (name: string) => {
-      const logger = actual.getLogger(name);
-      return {
-        ...logger,
-        fatal: (m, ...args: unknown[]) =>
-          console.log(`Fatal: ${m}, ${JSON.stringify(args)}`),
-        error: (m, ...args: unknown[]) =>
-          console.log(`Error: ${m}, ${JSON.stringify(args)}`),
-        warn: (m, ...args: unknown[]) =>
-          console.log(`Warning: ${m}, ${JSON.stringify(args)}`),
-        info: (m, ...args: unknown[]) =>
-          console.log(`Info: ${m}, ${JSON.stringify(args)}}`),
-      };
-    },
-  };
-});
-
 import { dir as tempDir, file as tempFile } from "tmp-promise";
 import { readdir, mkdirs, writeFile } from "fs-extra";
 import { sync as rimrafSync } from "rimraf";
@@ -41,12 +19,12 @@ describe("the UI5 language assistant ui5 model", () => {
   const GET_MODEL_TIMEOUT = 30000;
   const FRAMEWORK = "SAPUI5";
   const OPEN_FRAMEWORK = "OpenUI5";
-  const VERSION = "1.71.60";
+  const DEFAULT_UI5_VERSION = "1.71.61";
   const UI5_VERSION_S4_PLACEHOLDER = "${sap.ui5.dist.version}";
   const NO_CACHE_FOLDER = undefined;
 
   function assertSemanticModel(ui5Model: UI5SemanticModel): void {
-    expect(ui5Model.version).toEqual(VERSION);
+    expect(ui5Model.version).toEqual(DEFAULT_UI5_VERSION);
 
     expect(Object.keys(ui5Model.classes).length).toBeGreaterThan(200);
     expect(Object.keys(ui5Model.namespaces).length).toBeGreaterThan(200);
@@ -173,7 +151,7 @@ describe("the UI5 language assistant ui5 model", () => {
         async () => {
           // Create a folder with the file name so the file will not be written
           const cacheFilePath = getCacheFilePath(
-            getCacheFolder(cachePath, FRAMEWORK, VERSION),
+            getCacheFolder(cachePath, FRAMEWORK, DEFAULT_UI5_VERSION),
             "sap.m"
           );
           expectExists(cacheFilePath, "cacheFilePath");
@@ -196,7 +174,11 @@ describe("the UI5 language assistant ui5 model", () => {
         "doesn't fail when file cannot be read from the cache",
         async () => {
           // Create a file with non-json content so the file will not be deserialized
-          const cacheFolder = getCacheFolder(cachePath, FRAMEWORK, VERSION);
+          const cacheFolder = getCacheFolder(
+            cachePath,
+            FRAMEWORK,
+            DEFAULT_UI5_VERSION
+          );
           await mkdirs(cacheFolder);
           const cacheFilePath = getCacheFilePath(cacheFolder, "sap.m");
           expectExists(cacheFilePath, "cacheFilePath");
@@ -270,7 +252,7 @@ describe("the UI5 language assistant ui5 model", () => {
     const versionMap = {
       SAPUI5: {
         latest: {
-          version: "1.105.0",
+          version: "1.120.3",
           support: "Maintenance",
           lts: true,
         },
@@ -280,17 +262,17 @@ describe("the UI5 language assistant ui5 model", () => {
           lts: true,
         },
         "1.96": {
-          version: "1.96.11",
+          version: "1.96.27",
           support: "Maintenance",
           lts: true,
         },
         "1.84": {
-          version: "1.84.27",
+          version: "1.84.41",
           support: "Maintenance",
           lts: true,
         },
         "1.71": {
-          version: "1.71.50",
+          version: "1.71.70",
           support: "Maintenance",
           lts: true,
         },
@@ -307,7 +289,7 @@ describe("the UI5 language assistant ui5 model", () => {
           lts: true,
         },
         "1.71": {
-          version: "1.71.50",
+          version: "1.71.70",
           support: "Maintenance",
           lts: true,
         },
@@ -348,9 +330,11 @@ describe("the UI5 language assistant ui5 model", () => {
         },
         cachePath,
         FRAMEWORK,
-        VERSION
+        DEFAULT_UI5_VERSION
       );
-      expect(objNegotiatedVersionWithFetcher.version).toEqual(VERSION);
+      expect(objNegotiatedVersionWithFetcher.version).toEqual(
+        DEFAULT_UI5_VERSION
+      );
     });
 
     it("resolve the default version open UI5", async () => {
@@ -363,9 +347,11 @@ describe("the UI5 language assistant ui5 model", () => {
         },
         cachePath,
         OPEN_FRAMEWORK,
-        VERSION
+        DEFAULT_UI5_VERSION
       );
-      expect(objNegotiatedVersionWithFetcher.version).toEqual(VERSION);
+      expect(objNegotiatedVersionWithFetcher.version).toEqual(
+        DEFAULT_UI5_VERSION
+      );
     });
 
     it("resolve available concrete version OpenUI5 (1.106.0)", async () => {
@@ -479,7 +465,7 @@ describe("the UI5 language assistant ui5 model", () => {
         FRAMEWORK,
         "1.96"
       );
-      expect(objNegotiatedVersionWithFetcher.version).toEqual("1.96.11");
+      expect(objNegotiatedVersionWithFetcher.version).toEqual("1.96.27");
       expect(objNegotiatedVersionWithFetcher.isFallback).toBeFalse();
       expect(objNegotiatedVersionWithFetcher.isIncorrectVersion).toBeTrue();
       objNegotiatedVersionWithFetcher = await negotiateVersionWithFetcher(
@@ -493,7 +479,7 @@ describe("the UI5 language assistant ui5 model", () => {
         FRAMEWORK,
         "1.84"
       );
-      expect(objNegotiatedVersionWithFetcher.version).toEqual("1.84.27");
+      expect(objNegotiatedVersionWithFetcher.version).toEqual("1.84.41");
       expect(objNegotiatedVersionWithFetcher.isFallback).toBeFalse();
       expect(objNegotiatedVersionWithFetcher.isIncorrectVersion).toBeTrue();
       objNegotiatedVersionWithFetcher = await negotiateVersionWithFetcher(
@@ -507,7 +493,7 @@ describe("the UI5 language assistant ui5 model", () => {
         FRAMEWORK,
         "1.71"
       );
-      expect(objNegotiatedVersionWithFetcher.version).toEqual("1.71.50");
+      expect(objNegotiatedVersionWithFetcher.version).toEqual("1.71.70");
       expect(objNegotiatedVersionWithFetcher.isFallback).toBeFalse();
       expect(objNegotiatedVersionWithFetcher.isIncorrectVersion).toBeTrue();
       objNegotiatedVersionWithFetcher = await negotiateVersionWithFetcher(
@@ -521,7 +507,7 @@ describe("the UI5 language assistant ui5 model", () => {
         FRAMEWORK,
         "1.18"
       );
-      expect(objNegotiatedVersionWithFetcher.version).toEqual("1.71.50");
+      expect(objNegotiatedVersionWithFetcher.version).toEqual("1.71.70");
       expect(objNegotiatedVersionWithFetcher.isFallback).toBeFalse();
       expect(objNegotiatedVersionWithFetcher.isIncorrectVersion).toBeTrue();
     });
@@ -538,7 +524,7 @@ describe("the UI5 language assistant ui5 model", () => {
         FRAMEWORK,
         "1"
       );
-      expect(objNegotiatedVersionWithFetcher.version).toEqual("1.71.50");
+      expect(objNegotiatedVersionWithFetcher.version).toEqual("1.71.70");
       expect(objNegotiatedVersionWithFetcher.isFallback).toBeFalse();
       expect(objNegotiatedVersionWithFetcher.isIncorrectVersion).toBeTrue();
     });
@@ -555,7 +541,7 @@ describe("the UI5 language assistant ui5 model", () => {
         FRAMEWORK,
         ""
       );
-      expect(objNegotiatedVersionWithFetcher.version).toEqual("1.71.60");
+      expect(objNegotiatedVersionWithFetcher.version).toEqual("1.71.61");
       expect(objNegotiatedVersionWithFetcher.isFallback).toBeTrue();
       expect(objNegotiatedVersionWithFetcher.isIncorrectVersion).toBeFalse();
       objNegotiatedVersionWithFetcher = await negotiateVersionWithFetcher(
@@ -569,7 +555,7 @@ describe("the UI5 language assistant ui5 model", () => {
         FRAMEWORK,
         undefined
       );
-      expect(objNegotiatedVersionWithFetcher.version).toEqual("1.71.60");
+      expect(objNegotiatedVersionWithFetcher.version).toEqual("1.71.61");
       expect(objNegotiatedVersionWithFetcher.isFallback).toBeTrue();
       expect(objNegotiatedVersionWithFetcher.isIncorrectVersion).toBeFalse();
     });
@@ -586,7 +572,7 @@ describe("the UI5 language assistant ui5 model", () => {
         OPEN_FRAMEWORK,
         ""
       );
-      expect(objNegotiatedVersionWithFetcher.version).toEqual("1.71.60");
+      expect(objNegotiatedVersionWithFetcher.version).toEqual("1.71.61");
       expect(objNegotiatedVersionWithFetcher.isFallback).toBeTrue();
       expect(objNegotiatedVersionWithFetcher.isIncorrectVersion).toBeFalse();
     });
@@ -603,7 +589,7 @@ describe("the UI5 language assistant ui5 model", () => {
         FRAMEWORK,
         "1.38"
       );
-      expect(objNegotiatedVersionWithFetcher.version).toEqual("1.71.50");
+      expect(objNegotiatedVersionWithFetcher.version).toEqual("1.71.70");
       expect(objNegotiatedVersionWithFetcher.isFallback).toBeFalse();
       expect(objNegotiatedVersionWithFetcher.isIncorrectVersion).toBeTrue();
     });
@@ -620,7 +606,7 @@ describe("the UI5 language assistant ui5 model", () => {
         FRAMEWORK,
         "a.b"
       );
-      expect(objNegotiatedVersionWithFetcher.version).toEqual("1.71.50");
+      expect(objNegotiatedVersionWithFetcher.version).toEqual("1.71.70");
       expect(objNegotiatedVersionWithFetcher.isFallback).toBeFalse();
       expect(objNegotiatedVersionWithFetcher.isIncorrectVersion).toBeTrue();
     });
@@ -637,7 +623,7 @@ describe("the UI5 language assistant ui5 model", () => {
         FRAMEWORK,
         UI5_VERSION_S4_PLACEHOLDER
       );
-      expect(objNegotiatedVersionWithFetcher.version).toEqual("1.105.0");
+      expect(objNegotiatedVersionWithFetcher.version).toEqual("1.120.3");
       expect(objNegotiatedVersionWithFetcher.isFallback).toBeFalse();
       expect(objNegotiatedVersionWithFetcher.isIncorrectVersion).toBeTrue();
     });

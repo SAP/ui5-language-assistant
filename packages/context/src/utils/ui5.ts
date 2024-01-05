@@ -1,6 +1,6 @@
 import { UI5Framework } from "@ui5-language-assistant/semantic-model-types";
 import { UI5_FRAMEWORK_CDN_BASE_URL } from "../types";
-import { getLogger } from "../utils";
+import { getLogger } from ".";
 import { tryFetch, getLocalUrl } from "@ui5-language-assistant/logic-utils";
 
 /**

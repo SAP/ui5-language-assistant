@@ -7,6 +7,7 @@ import {
 import { forEachSymbol } from "../../src/utils";
 import { generate } from "../../src/api";
 
+const DEFAULT_UI5_VERSION = "1.71.61";
 describe("The ui5-language-assistant semantic model package API negative tests", () => {
   describe("generate from model with invalid library file", () => {
     const message = "not a valid library file";
@@ -17,12 +18,12 @@ describe("The ui5-language-assistant semantic model package API negative tests",
     ): () => UI5SemanticModel {
       const generateCall = (): UI5SemanticModel => {
         return generate({
-          version: "1.71.49",
+          version: DEFAULT_UI5_VERSION,
           libraries: {
             validLib: {
               "$schema-ref":
                 "http://schemas.sap.com/sapui5/designtime/api.json/1.0",
-              version: "1.71.49",
+              version: DEFAULT_UI5_VERSION,
               library: "validLib",
               symbols: [
                 {
@@ -78,7 +79,7 @@ describe("The ui5-language-assistant semantic model package API negative tests",
       const validLibNamespaces = ["sap.valid", "sap"];
       const invalidLibValidNamespaces = ["sap.validNS"];
       expect(model).not.toBeUndefined();
-      expect(model.version).toEqual("1.71.49");
+      expect(model.version).toEqual(DEFAULT_UI5_VERSION);
       expect(keys(model.namespaces)).toIncludeAllMembers(validLibNamespaces);
 
       if (onlyValidLibSymbols) {
@@ -109,7 +110,7 @@ describe("The ui5-language-assistant semantic model package API negative tests",
     describe("$schema-ref is not a string", () => {
       const fileContent = {
         "$schema-ref": 123,
-        version: "1.71.49",
+        version: DEFAULT_UI5_VERSION,
         library: "invalidLib",
         symbols: [validSymbolFromInvalidLib],
       };
@@ -145,7 +146,7 @@ describe("The ui5-language-assistant semantic model package API negative tests",
     describe("library is not a string or undefined", () => {
       const fileContent = {
         "$schema-ref": "http://schemas.sap.com/sapui5/designtime/api.json/1.0",
-        version: "1.71.49",
+        version: DEFAULT_UI5_VERSION,
         library: 123,
         symbols: [validSymbolFromInvalidLib],
       };
@@ -163,7 +164,7 @@ describe("The ui5-language-assistant semantic model package API negative tests",
     describe("symbols is not an array", () => {
       const fileContent = {
         "$schema-ref": "http://schemas.sap.com/sapui5/designtime/api.json/1.0",
-        version: "1.71.49",
+        version: DEFAULT_UI5_VERSION,
         library: "invalidLib",
         symbols: 123,
       };
@@ -181,7 +182,7 @@ describe("The ui5-language-assistant semantic model package API negative tests",
     describe("symbol with unknown kind exists", () => {
       const fileContent = {
         "$schema-ref": "http://schemas.sap.com/sapui5/designtime/api.json/1.0",
-        version: "1.71.49",
+        version: DEFAULT_UI5_VERSION,
         library: "invalidLib",
         symbols: [
           validSymbolFromInvalidLib,
@@ -217,7 +218,7 @@ describe("The ui5-language-assistant semantic model package API negative tests",
           const fileContent = {
             "$schema-ref":
               "http://schemas.sap.com/sapui5/designtime/api.json/1.0",
-            version: "1.71.49",
+            version: DEFAULT_UI5_VERSION,
             library: "invalidLib",
             symbols: [
               validSymbolFromInvalidLib,
@@ -248,7 +249,7 @@ describe("The ui5-language-assistant semantic model package API negative tests",
           const fileContent = {
             "$schema-ref":
               "http://schemas.sap.com/sapui5/designtime/api.json/1.0",
-            version: "1.71.49",
+            version: DEFAULT_UI5_VERSION,
             library: "invalidLib",
             symbols: [
               validSymbolFromInvalidLib,
@@ -281,7 +282,7 @@ describe("The ui5-language-assistant semantic model package API negative tests",
           const fileContent = {
             "$schema-ref":
               "http://schemas.sap.com/sapui5/designtime/api.json/1.0",
-            version: "1.71.49",
+            version: DEFAULT_UI5_VERSION,
             library: "invalidLib",
             symbols: [
               validSymbolFromInvalidLib,
@@ -314,7 +315,7 @@ describe("The ui5-language-assistant semantic model package API negative tests",
           const fileContent = {
             "$schema-ref":
               "http://schemas.sap.com/sapui5/designtime/api.json/1.0",
-            version: "1.71.49",
+            version: DEFAULT_UI5_VERSION,
             library: "invalidLib",
             symbols: [
               validSymbolFromInvalidLib,
@@ -345,7 +346,7 @@ describe("The ui5-language-assistant semantic model package API negative tests",
           const fileContent = {
             "$schema-ref":
               "http://schemas.sap.com/sapui5/designtime/api.json/1.0",
-            version: "1.71.49",
+            version: DEFAULT_UI5_VERSION,
             library: "invalidLib",
             symbols: [
               validSymbolFromInvalidLib,
@@ -378,7 +379,7 @@ describe("The ui5-language-assistant semantic model package API negative tests",
           const fileContent = {
             "$schema-ref":
               "http://schemas.sap.com/sapui5/designtime/api.json/1.0",
-            version: "1.71.49",
+            version: DEFAULT_UI5_VERSION,
             library: "invalidLib",
             symbols: [
               validSymbolFromInvalidLib,
@@ -415,7 +416,7 @@ describe("The ui5-language-assistant semantic model package API negative tests",
           const fileContent = {
             "$schema-ref":
               "http://schemas.sap.com/sapui5/designtime/api.json/1.0",
-            version: "1.71.49",
+            version: DEFAULT_UI5_VERSION,
             library: "invalidLib",
             symbols: [
               validSymbolFromInvalidLib,
@@ -446,7 +447,7 @@ describe("The ui5-language-assistant semantic model package API negative tests",
           const fileContent = {
             "$schema-ref":
               "http://schemas.sap.com/sapui5/designtime/api.json/1.0",
-            version: "1.71.49",
+            version: DEFAULT_UI5_VERSION,
             library: "invalidLib",
             symbols: [
               validSymbolFromInvalidLib,
@@ -479,7 +480,7 @@ describe("The ui5-language-assistant semantic model package API negative tests",
           const fileContent = {
             "$schema-ref":
               "http://schemas.sap.com/sapui5/designtime/api.json/1.0",
-            version: "1.71.49",
+            version: DEFAULT_UI5_VERSION,
             library: "invalidLib",
             symbols: [
               validSymbolFromInvalidLib,
@@ -514,7 +515,7 @@ describe("The ui5-language-assistant semantic model package API negative tests",
         const fileContent = {
           "$schema-ref":
             "http://schemas.sap.com/sapui5/designtime/api.json/1.0",
-          version: "1.71.49",
+          version: DEFAULT_UI5_VERSION,
           library: "invalidLib",
           symbols: [
             validSymbolFromInvalidLib,
@@ -545,7 +546,7 @@ describe("The ui5-language-assistant semantic model package API negative tests",
         const fileContent = {
           "$schema-ref":
             "http://schemas.sap.com/sapui5/designtime/api.json/1.0",
-          version: "1.71.49",
+          version: DEFAULT_UI5_VERSION,
           library: "invalidLib",
           symbols: [
             validSymbolFromInvalidLib,
@@ -578,7 +579,7 @@ describe("The ui5-language-assistant semantic model package API negative tests",
         const fileContent = {
           "$schema-ref":
             "http://schemas.sap.com/sapui5/designtime/api.json/1.0",
-          version: "1.71.49",
+          version: DEFAULT_UI5_VERSION,
           library: "invalidLib",
           symbols: [
             validSymbolFromInvalidLib,
@@ -616,7 +617,7 @@ describe("The ui5-language-assistant semantic model package API negative tests",
         const fileContent = {
           "$schema-ref":
             "http://schemas.sap.com/sapui5/designtime/api.json/1.0",
-          version: "1.71.49",
+          version: DEFAULT_UI5_VERSION,
           library: "invalidLib",
           symbols: [
             validSymbolFromInvalidLib,
@@ -660,7 +661,7 @@ describe("The ui5-language-assistant semantic model package API negative tests",
         const fileContent = {
           "$schema-ref":
             "http://schemas.sap.com/sapui5/designtime/api.json/1.0",
-          version: "1.71.49",
+          version: DEFAULT_UI5_VERSION,
           library: "invalidLib",
           symbols: [
             validSymbolFromInvalidLib,
@@ -708,7 +709,7 @@ describe("The ui5-language-assistant semantic model package API negative tests",
     describe("invalid extends for class", () => {
       const fileContent = {
         "$schema-ref": "http://schemas.sap.com/sapui5/designtime/api.json/1.0",
-        version: "1.71.49",
+        version: DEFAULT_UI5_VERSION,
         library: "invalidLib",
         symbols: [
           validSymbolFromInvalidLib,
@@ -752,7 +753,7 @@ describe("The ui5-language-assistant semantic model package API negative tests",
     describe("invalid implements for class", () => {
       const fileContent = {
         "$schema-ref": "http://schemas.sap.com/sapui5/designtime/api.json/1.0",
-        version: "1.71.49",
+        version: DEFAULT_UI5_VERSION,
         library: "invalidLib",
         symbols: [
           validSymbolFromInvalidLib,
@@ -796,7 +797,7 @@ describe("The ui5-language-assistant semantic model package API negative tests",
     describe("invalid defaultAggregation for class", () => {
       const fileContent = {
         "$schema-ref": "http://schemas.sap.com/sapui5/designtime/api.json/1.0",
-        version: "1.71.49",
+        version: DEFAULT_UI5_VERSION,
         library: "invalidLib",
         symbols: [
           validSymbolFromInvalidLib,
@@ -837,7 +838,7 @@ describe("The ui5-language-assistant semantic model package API negative tests",
     describe("invalid type for class property", () => {
       const fileContent = {
         "$schema-ref": "http://schemas.sap.com/sapui5/designtime/api.json/1.0",
-        version: "1.71.49",
+        version: DEFAULT_UI5_VERSION,
         library: "invalidLib",
         symbols: [
           validSymbolFromInvalidLib,

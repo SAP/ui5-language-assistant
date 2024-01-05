@@ -96,7 +96,7 @@ describe("manifest", () => {
       },
       mainServicePath: "/processor/",
       flexEnabled: true,
-      minUI5Version: "1.108.1",
+      minUI5Version: "1.108.26",
     });
   });
 
@@ -255,7 +255,7 @@ describe("manifest", () => {
         },
         mainServicePath: "/processor/",
         flexEnabled: true,
-        minUI5Version: "1.108.1",
+        minUI5Version: "1.108.26",
       });
     } finally {
       mock.restore();

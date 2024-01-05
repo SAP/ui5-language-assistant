@@ -87,7 +87,7 @@ describe("filterBar id attribute value completion", () => {
       uri,
       settings
     );
-  }, 5 * 60000);
+  });
 
   describe("filterBar attribute completion", () => {
     it("id value completion", async function () {
