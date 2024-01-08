@@ -3,6 +3,7 @@ import {
   BaseUI5Node,
   UI5SemanticModel,
 } from "@ui5-language-assistant/semantic-model-types";
+import { getLogger } from "./logger";
 
 export function newMap<T>(): Record<string, T> {
   // Create an object without a prototype so it doesn't have built-in methods like toString
@@ -20,7 +21,7 @@ export function error(message: string, throwError: boolean): void {
   if (throwError) {
     throw new Error(message);
   } else {
-    console.error(message);
+    getLogger().trace(message);
   }
 }
 

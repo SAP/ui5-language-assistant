@@ -1,5 +1,17 @@
 # Change Log
 
+## 4.0.50
+
+### Patch Changes
+
+- a9a2141: Add logger package
+
+## 4.0.49
+
+### Patch Changes
+
+- 910e437: Adaptation to the latest UI5 maintenance changes
+
 ## 4.0.48
 
 ### Patch Changes

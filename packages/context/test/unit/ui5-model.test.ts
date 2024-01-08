@@ -1,25 +1,3 @@
-jest.mock("@ui5-language-assistant/logic-utils", () => {
-  const actual = jest.requireActual("@ui5-language-assistant/logic-utils");
-
-  return {
-    ...actual,
-    getLogger: (name: string) => {
-      const logger = actual.getLogger(name);
-      return {
-        ...logger,
-        fatal: (m, ...args: unknown[]) =>
-          console.log(`Fatal: ${m}, ${JSON.stringify(args)}`),
-        error: (m, ...args: unknown[]) =>
-          console.log(`Error: ${m}, ${JSON.stringify(args)}`),
-        warn: (m, ...args: unknown[]) =>
-          console.log(`Warning: ${m}, ${JSON.stringify(args)}`),
-        info: (m, ...args: unknown[]) =>
-          console.log(`Info: ${m}, ${JSON.stringify(args)}}`),
-      };
-    },
-  };
-});
-
 // mock to test offline mode version negotiation, needed to override original methods
 jest.mock("@ui5-language-assistant/logic-utils", () => {
   const actual = jest.requireActual("@ui5-language-assistant/logic-utils");
@@ -354,7 +332,6 @@ describe("the UI5 language assistant ui5 model", () => {
   describe("version negotiation", () => {
     let cachePath: string;
     let cleanup: () => Promise<void>;
-
     const versionInfo = {
       libraries: [
         {

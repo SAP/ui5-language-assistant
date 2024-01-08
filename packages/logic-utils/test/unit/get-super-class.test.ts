@@ -35,11 +35,12 @@ describe("The @ui5-language-assistant/logic-utils <getSuperClasses> function", (
   });
 
   it("will avoid infinite loops in case of cyclic extends clauses", async () => {
-    const { SAPUI5: latestPatchVersion } = await getFallbackPatchVersions();
     const ui5Model = cloneDeep(
       await generateModel({
         framework: "SAPUI5",
-        version: latestPatchVersion as typeof DEFAULT_UI5_VERSION,
+        version: (
+          await getFallbackPatchVersions()
+        ).SAPUI5 as typeof DEFAULT_UI5_VERSION,
         modelGenerator: generate,
       })
     );

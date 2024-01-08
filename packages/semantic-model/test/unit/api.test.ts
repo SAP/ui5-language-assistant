@@ -308,10 +308,9 @@ describe("The ui5-language-assistant semantic model package API", () => {
 
   // TODO: old patches may be removed, should be updated continuously
   const versions: TestModelVersion[] = [
-    "1.60.44",
     DEFAULT_UI5_VERSION,
-    "1.84.27",
-    "1.96.11",
+    "1.84.41",
+    "1.96.27",
     // "1.105.0",
   ];
   for (const version of versions) {

@@ -39,7 +39,7 @@ export async function findAllFilesInWorkspace(
   // Windows paths are not supported by globby
   const pattern = toPosixPath(join(workspaceFolderPath, "**", fileName));
   const result = globby(pattern).catch((reason) => {
-    getLogger().error(
+    getLogger().warn(
       `Failed to find all ${fileName} files in current workspace!`,
       {
         workspaceFolderPath,

@@ -1,5 +1,37 @@
 # Change Log
 
+## 4.0.39
+
+### Patch Changes
+
+- a9a2141: Add logger package
+- Updated dependencies [a9a2141]
+  - @ui5-language-assistant/semantic-model@4.0.15
+  - @ui5-language-assistant/logic-utils@4.0.16
+  - @ui5-language-assistant/binding@1.0.22
+  - @ui5-language-assistant/context@4.0.22
+  - @ui5-language-assistant/xml-views-completion@4.0.22
+  - @ui5-language-assistant/xml-views-validation@4.0.17
+  - @ui5-language-assistant/xml-views-tooltip@4.0.22
+  - @ui5-language-assistant/fe@4.0.23
+  - @ui5-language-assistant/xml-views-quick-fix@4.0.16
+
+## 4.0.38
+
+### Patch Changes
+
+- 910e437: Adaptation to the latest UI5 maintenance changes
+- Updated dependencies [910e437]
+  - @ui5-language-assistant/semantic-model@4.0.14
+  - @ui5-language-assistant/context@4.0.21
+  - @ui5-language-assistant/xml-views-completion@4.0.21
+  - @ui5-language-assistant/xml-views-validation@4.0.16
+  - @ui5-language-assistant/xml-views-tooltip@4.0.21
+  - @ui5-language-assistant/logic-utils@4.0.15
+  - @ui5-language-assistant/binding@1.0.21
+  - @ui5-language-assistant/fe@4.0.22
+  - @ui5-language-assistant/xml-views-quick-fix@4.0.15
+
 ## 4.0.37
 
 ### Patch Changes

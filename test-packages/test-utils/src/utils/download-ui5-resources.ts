@@ -54,8 +54,8 @@ async function getLibs(version: TestModelVersion): Promise<string[]> {
   // For now we assume the libraries are the same in all versions, when we support newer versions we should
   // do a better check here
   let versionInMetadataURL: string = version;
-  if (versionInMetadataURL !== "1.71.49") {
-    versionInMetadataURL = "1.71.49";
+  if (versionInMetadataURL !== "1.71.60") {
+    versionInMetadataURL = "1.71.60";
   }
   const url = `https://ui5.sap.com/${versionInMetadataURL}/resources/sap-ui-version.json`;
   const response = await fetch(url);
