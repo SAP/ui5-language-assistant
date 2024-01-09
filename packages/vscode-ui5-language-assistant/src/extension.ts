@@ -74,11 +74,11 @@ export async function activate(context: ExtensionContext): Promise<void> {
   client.start().then(() => {
     client.onNotification(
       "UI5LanguageAssistant/ui5Model",
-      async (model: UI5Model) => await updateCurrentModel(model)
+      async (model: UI5Model): Promise<void> => await updateCurrentModel(model)
     );
     client.onNotification(
       "UI5LanguageAssistant/context-error",
-      async (error: Error) => await handleContextError(error)
+      (error: Error) => handleContextError(error)
     );
   });
   window.onDidChangeActiveTextEditor(async () => {

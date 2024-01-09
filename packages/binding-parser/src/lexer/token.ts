@@ -25,7 +25,7 @@ const whiteSpace = createToken({
 const specialChars = createToken({
   name: SPECIAL_CHARS,
   pattern:
-    /(?:#|&gt;|&#47;|&#x2F;|!|"|\$|%|&|'|\(|\)|\*|\+|-|\.|\/|;|<|=|>|\?|@|\\|\^|_|`|~|\||)+/,
+    /(?:#|&gt;|&#47;|&#x2F;|!|"|\$|%|&|'|\(|\)|\*|\+|-|\.|\/|;|<|=|>|\?|@|\\|\^|_|`|~|\|)+/,
 });
 
 const leftCurly = createToken({
