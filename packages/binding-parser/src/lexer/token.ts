@@ -33,8 +33,8 @@ const tokens: string[] = specChars.split("").map((token) => {
   return token;
 });
 
-const regExLookup = [...tokens, "&gt;", "&#47;", "&#x2F;"].join("|");
-const pattern = new RegExp(`/(?:${regExLookup})+/`);
+const regExLookup = ["&gt;", "&#47;", "&#x2F;", ...tokens].join("|");
+const pattern = new RegExp(`(?:${regExLookup})+`);
 
 const specialChars = createToken({
   name: SPECIAL_CHARS,
