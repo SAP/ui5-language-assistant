@@ -386,6 +386,31 @@ const buildType = (param: {
 const getAltTypesPrime = (aggregation?: UI5Aggregation) =>
   aggregation?.altTypes?.find((i) => i.kind === "PrimitiveType");
 
+const removeDuplicate = (builtType: PropertyType[]): PropertyType[] => {
+  const result = builtType.reduce(
+    (previous: PropertyType[], current: PropertyType) => {
+      const index = previous.findIndex((i) => i.kind === current.kind);
+      if (index === -1) {
+        return [...previous, current];
+      }
+      // there is duplicate
+      /* istanbul ignore next */
+      if (current.possibleValue?.values.length !== 0) {
+        // has possible value, remove previous - keep current
+        return [...previous.slice(index), current];
+      }
+      /* istanbul ignore next */
+      if (previous[index].possibleValue?.values.length !== 0) {
+        // has possible value - keep it
+        return previous;
+      }
+      return [...previous, current];
+    },
+    []
+  );
+  return result;
+};
+
 const processUI5TypedefProperties = (param: {
   properties: UI5TypedefProp[];
   context: BindContext;
@@ -400,30 +425,15 @@ const processUI5TypedefProperties = (param: {
       /* istanbul ignore next */
       continue;
     }
-    const builtType = buildType({
+    let builtType = buildType({
       context,
       type,
       name,
       collection: false,
       ui5Aggregation: aggregation,
       forHover,
-    }).reduce((previous: PropertyType[], current: PropertyType) => {
-      const index = previous.findIndex((i) => i.kind === current.kind);
-      if (index !== -1) {
-        // there is duplicate
-        /* istanbul ignore next */
-        if (current.possibleValue?.values.length !== 0) {
-          // has possible value, remove previous - keep current
-          return [...previous.slice(index), current];
-        }
-        /* istanbul ignore next */
-        if (previous[index].possibleValue?.values.length !== 0) {
-          // has possible value - keep it
-          return previous;
-        }
-      }
-      return [...previous, current];
-    }, []);
+    });
+    builtType = removeDuplicate(builtType);
     const FQN = aggregation ? AGGREGATION_BINDING_INFO : PROPERTY_BINDING_INFO;
     const data: BindingInfoElement = {
       name: name,
