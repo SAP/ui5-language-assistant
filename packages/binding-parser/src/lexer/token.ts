@@ -22,10 +22,23 @@ const whiteSpace = createToken({
   // group: Lexer.SKIPPED,
   line_breaks: true,
 });
+
+const specChars = "#!\"'$%&()*+-./;<=>?@\\^_`~|";
+const charsToEscape = "$()*+./?^|\\";
+
+const tokens: string[] = specChars.split("").map((token) => {
+  if (charsToEscape.includes(token)) {
+    token = "\\" + token;
+  }
+  return token;
+});
+
+const regExLookup = [...tokens, "&gt;", "&#47;", "&#x2F;"].join("|");
+const pattern = new RegExp(`/(?:${regExLookup})+/`);
+
 const specialChars = createToken({
   name: SPECIAL_CHARS,
-  pattern:
-    /(?:#|&gt;|&#47;|&#x2F;|!|"|\$|%|&|'|\(|\)|\*|\+|-|\.|\/|;|<|=|>|\?|@|\\|\^|_|`|~|\|)+/,
+  pattern,
 });
 
 const leftCurly = createToken({
