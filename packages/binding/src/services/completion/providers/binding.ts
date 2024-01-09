@@ -16,7 +16,11 @@ import {
 
 import { BindContext } from "../../../types";
 import { createInitialSnippet } from "./create-initial-snippet";
-import { getCursorContext } from "../../../utils";
+import {
+  getCursorContext,
+  getLogger,
+  isMacrosMetaContextPath,
+} from "../../../utils";
 import { createAllSupportedElements } from "./create-all-supported-elements";
 import { createKeyProperties } from "./create-key-properties";
 import { createValue } from "./create-value";
@@ -69,64 +73,73 @@ export function bindingSuggestions({
   context,
 }: AttributeValueCompletionOptions<BindContext>): CompletionItem[] {
   const completionItems: CompletionItem[] = [];
-  const ui5Property = getUI5PropertyByXMLAttributeKey(
-    attribute,
-    context.ui5Model
-  );
-  const ui5Aggregation = getUI5AggregationByXMLAttributeKey(
-    attribute,
-    context.ui5Model
-  );
-  if (!ui5Property && !ui5Aggregation) {
+  try {
+    // `metaPath` and `contextPath` of 'sap.fe.macros' is static
+    if (isMacrosMetaContextPath(attribute)) {
+      return completionItems;
+    }
+    const ui5Property = getUI5PropertyByXMLAttributeKey(
+      attribute,
+      context.ui5Model
+    );
+    const ui5Aggregation = getUI5AggregationByXMLAttributeKey(
+      attribute,
+      context.ui5Model
+    );
+    if (!ui5Property && !ui5Aggregation) {
+      return completionItems;
+    }
+    const propBinding = getBindingElements(context, !!ui5Aggregation, false);
+    const properties = propBinding.map((i) => i.name);
+    const value = attribute.syntax.value;
+    const startChar = value && value.image.charAt(0);
+    context.doubleQuotes = startChar === '"';
+    /* istanbul ignore next */
+    const text = attribute.value ?? "";
+    const extractedBindings = extractBindingSyntax(text);
+    for (const bindingSyntax of extractedBindings) {
+      const { expression, startIndex } = bindingSyntax;
+      if (isBindingExpression(expression)) {
+        continue;
+      }
+      /* istanbul ignore next */
+      const position: Position = {
+        character: (value?.startColumn ?? 0) + startIndex,
+        line: value?.startLine ? value.startLine - 1 : 0, // zero based index
+      };
+      const { ast, errors } = parseBinding(expression, position);
+      const input = expression;
+      if (input.trim() === "") {
+        completionItems.push(...createInitialSnippet());
+        continue;
+      }
+      /* istanbul ignore next */
+      const cursorPos = context.textDocumentPosition?.position;
+      const binding = ast.bindings.find(
+        (b) =>
+          cursorPos &&
+          b.range &&
+          rangeContained(b.range, { start: cursorPos, end: cursorPos })
+      );
+      if (!binding) {
+        continue;
+      }
+      if (!isBindingAllowed(text, binding, errors, properties)) {
+        continue;
+      }
+      completionItems.push(
+        ...getCompletionItems(
+          context,
+          binding,
+          ast.spaces,
+          !!ui5Aggregation,
+          propBinding
+        )
+      );
+    }
+    return completionItems;
+  } catch (error) {
+    getLogger().debug("bindingSuggestions failed:", error);
     return completionItems;
   }
-  const propBinding = getBindingElements(context, !!ui5Aggregation, false);
-  const properties = propBinding.map((i) => i.name);
-  const value = attribute.syntax.value;
-  const startChar = value && value.image.charAt(0);
-  context.doubleQuotes = startChar === '"';
-  /* istanbul ignore next */
-  const text = attribute.value ?? "";
-  const extractedBindings = extractBindingSyntax(text);
-  for (const bindingSyntax of extractedBindings) {
-    const { expression, startIndex } = bindingSyntax;
-    if (isBindingExpression(expression)) {
-      continue;
-    }
-    /* istanbul ignore next */
-    const position: Position = {
-      character: (value?.startColumn ?? 0) + startIndex,
-      line: value?.startLine ? value.startLine - 1 : 0, // zero based index
-    };
-    const { ast, errors } = parseBinding(expression, position);
-    const input = expression;
-    if (input.trim() === "") {
-      completionItems.push(...createInitialSnippet());
-      continue;
-    }
-    /* istanbul ignore next */
-    const cursorPos = context.textDocumentPosition?.position;
-    const binding = ast.bindings.find(
-      (b) =>
-        cursorPos &&
-        b.range &&
-        rangeContained(b.range, { start: cursorPos, end: cursorPos })
-    );
-    if (!binding) {
-      continue;
-    }
-    if (!isBindingAllowed(text, binding, errors, properties)) {
-      continue;
-    }
-    completionItems.push(
-      ...getCompletionItems(
-        context,
-        binding,
-        ast.spaces,
-        !!ui5Aggregation,
-        propBinding
-      )
-    );
-  }
-  return completionItems;
 }

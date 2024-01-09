@@ -718,5 +718,17 @@ describe("index", () => {
         });
       });
     });
+    describe("macros static property", () => {
+      it("no CC for metaPath", async () => {
+        const snippet = `<macros:Chart metaPath="${CURSOR_ANCHOR}"></macros:Chart>`;
+        const result = await getCompletionResult(snippet);
+        expect(result).toStrictEqual([]);
+      });
+      it("no CC for contextPath", async () => {
+        const snippet = `<macros:Chart contextPath="${CURSOR_ANCHOR}"></macros:Chart>`;
+        const result = await getCompletionResult(snippet);
+        expect(result).toStrictEqual([]);
+      });
+    });
   });
 });

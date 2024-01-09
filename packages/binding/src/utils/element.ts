@@ -15,6 +15,7 @@ import {
 } from "@ui5-language-assistant/binding-parser";
 import { PARTS } from "../constant";
 import { Range } from "vscode-languageserver-types";
+import type { XMLAttribute } from "@xml-tools/ast";
 const isNumber = (input: number | undefined): input is number => {
   return input !== undefined;
 };
@@ -128,4 +129,20 @@ export const getPropertyTypeWithPossibleValue = (
   }
 
   return undefined;
+};
+
+/**
+ * Return turn if it is `metaPath` or `contextPath` of `macros` namespace
+ */
+export const isMacrosMetaContextPath = (attribute: XMLAttribute): boolean => {
+  if (!attribute.key) {
+    return false;
+  }
+  if (
+    ["metaPath", "contextPath"].includes(attribute.key) &&
+    attribute.parent.ns === "macros"
+  ) {
+    return true;
+  }
+  return false;
 };
