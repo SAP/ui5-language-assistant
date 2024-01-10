@@ -6,6 +6,8 @@ import { generate } from "@ui5-language-assistant/semantic-model";
 import {
   generateModel,
   expectExists,
+  getFallbackPatchVersions,
+  DEFAULT_UI5_VERSION,
 } from "@ui5-language-assistant/test-utils";
 import {
   getUI5ClassByXMLElement,
@@ -17,14 +19,21 @@ import {
   getUI5NodeByXMLAttribute,
 } from "../../src/api";
 
+async function generateModelForLatestPatch(): Promise<UI5SemanticModel> {
+  const { SAPUI5: latestPatchVersion } = await getFallbackPatchVersions();
+  return await generateModel({
+    framework: "SAPUI5",
+    version: latestPatchVersion as typeof DEFAULT_UI5_VERSION,
+    modelGenerator: generate,
+  });
+}
+
+const modelGeneratorPromise = generateModelForLatestPatch();
+
 describe("The @ui5-language-assistant/logic-utils <getUI5ClassByXMLElement> function", () => {
   let ui5Model: UI5SemanticModel;
   beforeAll(async () => {
-    ui5Model = await generateModel({
-      framework: "SAPUI5",
-      version: "1.71.61",
-      modelGenerator: generate,
-    });
+    ui5Model = await modelGeneratorPromise;
   });
 
   it("returns the class for class in the default namespace", () => {
@@ -103,11 +112,7 @@ describe("The @ui5-language-assistant/logic-utils <getUI5ClassByXMLElement> func
 describe("The @ui5-language-assistant/logic-utils <getUI5ClassByXMLElementClosingTag> function", () => {
   let ui5Model: UI5SemanticModel;
   beforeAll(async () => {
-    ui5Model = await generateModel({
-      framework: "SAPUI5",
-      version: "1.71.61",
-      modelGenerator: generate,
-    });
+    ui5Model = await modelGeneratorPromise;
   });
 
   it("returns the class for class in the default namespace", () => {
@@ -185,11 +190,7 @@ describe("The @ui5-language-assistant/logic-utils <getUI5ClassByXMLElementClosin
 describe("The @ui5-language-assistant/logic-utils <getUI5AggregationByXMLElement> function", () => {
   let ui5Model: UI5SemanticModel;
   beforeAll(async () => {
-    ui5Model = await generateModel({
-      framework: "SAPUI5",
-      version: "1.71.61",
-      modelGenerator: generate,
-    });
+    ui5Model = await modelGeneratorPromise;
   });
 
   it("returns the aggregation for known aggregation under a class tag", () => {
@@ -335,11 +336,7 @@ describe("The @ui5-language-assistant/logic-utils <getUI5AggregationByXMLElement
 describe("The @ui5-language-assistant/logic-utils <getUI5NodeByXMLAttribute> function", () => {
   let ui5Model: UI5SemanticModel;
   beforeAll(async () => {
-    ui5Model = await generateModel({
-      framework: "SAPUI5",
-      version: "1.71.61",
-      modelGenerator: generate,
-    });
+    ui5Model = await modelGeneratorPromise;
   });
 
   it("returns undefined for unknown class", () => {
@@ -430,11 +427,7 @@ describe("The @ui5-language-assistant/logic-utils <getUI5NodeByXMLAttribute> fun
 describe("The @ui5-language-assistant/logic-utils <getUI5PropertyByXMLAttributeKey> function", () => {
   let ui5Model: UI5SemanticModel;
   beforeAll(async () => {
-    ui5Model = await generateModel({
-      framework: "SAPUI5",
-      version: "1.71.61",
-      modelGenerator: generate,
-    });
+    ui5Model = await modelGeneratorPromise;
   });
 
   it("returns undefined for unknown class", () => {
@@ -494,11 +487,7 @@ describe("The @ui5-language-assistant/logic-utils <getUI5PropertyByXMLAttributeK
 describe("The @ui5-language-assistant/logic-utils <getUI5NodeFromXMLElementNamespace> function", () => {
   let ui5Model: UI5SemanticModel;
   beforeAll(async () => {
-    ui5Model = await generateModel({
-      framework: "SAPUI5",
-      version: "1.71.61",
-      modelGenerator: generate,
-    });
+    ui5Model = await modelGeneratorPromise;
   });
 
   it("returns the namespace for tag in a defined namespace", () => {

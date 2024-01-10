@@ -3,6 +3,7 @@ import {
   buildUI5Model,
   buildUI5Class,
   expectExists,
+  DEFAULT_UI5_VERSION,
 } from "@ui5-language-assistant/test-utils";
 import {
   UI5Class,
@@ -70,7 +71,7 @@ describe("The ui5-language-assistant semantic model package unit tests", () => {
   describe("generate", () => {
     function generateSymbol(symbol: SymbolBase): UI5SemanticModel {
       return generate({
-        version: "1.71.61",
+        version: DEFAULT_UI5_VERSION,
         strict: true,
         typeNameFix: {},
         libraries: {
@@ -210,7 +211,7 @@ describe("The ui5-language-assistant semantic model package unit tests", () => {
     describe("symbols is undefined", () => {
       const fileContent = {
         "$schema-ref": "http://schemas.sap.com/sapui5/designtime/api.json/1.0",
-        version: "1.71.61",
+        version: DEFAULT_UI5_VERSION,
         library: "testLib",
       };
 
@@ -241,7 +242,7 @@ describe("The ui5-language-assistant semantic model package unit tests", () => {
       libraries: Record<string, unknown>
     ): UI5SemanticModel {
       const result = generate({
-        version: "1.71.61",
+        version: DEFAULT_UI5_VERSION,
         strict: false,
         typeNameFix: {},
         libraries: libraries,

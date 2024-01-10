@@ -5,7 +5,11 @@ import {
   UI5Class,
   UI5SemanticModel,
 } from "@ui5-language-assistant/semantic-model-types";
-import { generateModel } from "@ui5-language-assistant/test-utils";
+import {
+  DEFAULT_UI5_VERSION,
+  generateModel,
+  getFallbackPatchVersions,
+} from "@ui5-language-assistant/test-utils";
 import { generate } from "@ui5-language-assistant/semantic-model";
 import {
   getSuperClasses,
@@ -25,7 +29,9 @@ describe("The ui5-language-assistant xml-views-completion", () => {
   beforeAll(async function () {
     ui5Model = await generateModel({
       framework: "SAPUI5",
-      version: "1.71.61",
+      version: (
+        await getFallbackPatchVersions()
+      ).SAPUI5 as typeof DEFAULT_UI5_VERSION,
       modelGenerator: generate,
     });
     appContext = getDefaultContext(ui5Model);

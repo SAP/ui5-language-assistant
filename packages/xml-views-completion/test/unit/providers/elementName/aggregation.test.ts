@@ -2,8 +2,10 @@ import { map, cloneDeep, forEach } from "lodash";
 import { XMLElement } from "@xml-tools/ast";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import {
+  DEFAULT_UI5_VERSION,
   buildUI5Aggregation,
   generateModel,
+  getFallbackPatchVersions,
 } from "@ui5-language-assistant/test-utils";
 import { generate } from "@ui5-language-assistant/semantic-model";
 import { aggregationSuggestions } from "../../../../src/providers/elementName/aggregation";
@@ -17,7 +19,9 @@ describe("The ui5-language-assistant xml-views-completion", () => {
   beforeAll(async () => {
     REAL_UI5_MODEL = await generateModel({
       framework: "SAPUI5",
-      version: "1.71.61",
+      version: (
+        await getFallbackPatchVersions()
+      ).SAPUI5 as typeof DEFAULT_UI5_VERSION,
       modelGenerator: generate,
     });
     appContext = getDefaultContext(REAL_UI5_MODEL);

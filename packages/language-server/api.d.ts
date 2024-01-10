@@ -25,10 +25,10 @@ export type ServerInitializationOptions = {
   logLevel?: LogLevel;
 };
 
-export type FetchResponse = {
+export type FetchResponse<T = unknown> = {
   ok: boolean;
   status: number;
-  json: () => Promise<unknown>;
+  json: () => Promise<T>;
 };
 
 export type Fetcher = (url: string) => Promise<FetchResponse>;

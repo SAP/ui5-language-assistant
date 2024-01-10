@@ -5,6 +5,7 @@ import {
   expectProperty,
   expectExists,
   downloadLibraries,
+  DEFAULT_UI5_VERSION,
 } from "@ui5-language-assistant/test-utils";
 import {
   UI5Framework,
@@ -306,7 +307,12 @@ describe("The ui5-language-assistant semantic model package API", () => {
   }
 
   // TODO: old patches may be removed, should be updated continuously
-  const versions: TestModelVersion[] = ["1.71.61", "1.84.41", "1.96.27"];
+  const versions: TestModelVersion[] = [
+    DEFAULT_UI5_VERSION,
+    "1.84.41",
+    "1.96.27",
+    // "1.105.0",
+  ];
   for (const version of versions) {
     // TODO: consider also openui5?
     createModelConsistencyTests("SAPUI5", version);
@@ -319,7 +325,7 @@ describe("The ui5-language-assistant semantic model package API", () => {
     beforeAll(async () => {
       model = await generateModel({
         framework: "SAPUI5",
-        version: "1.71.61",
+        version: DEFAULT_UI5_VERSION,
         modelGenerator: generate,
       });
     });
@@ -388,7 +394,7 @@ describe("The ui5-language-assistant semantic model package API", () => {
     beforeAll(async () => {
       model = await generateModel({
         framework: "SAPUI5",
-        version: "1.71.61",
+        version: DEFAULT_UI5_VERSION,
         modelGenerator: generate,
       });
     });
