@@ -10,14 +10,14 @@ import { BindContext, BindingInfoElement, ValueContext } from "../../../types";
 import { createDefaultValue } from "./create-default-value";
 import { createCollectionValue } from "./create-collection-value";
 import { createStructureValue } from "./create-structure-value";
+import type { UI5Aggregation } from "@ui5-language-assistant/semantic-model-types";
 
 export const createValue = (
   context: BindContext,
   spaces: BindingTypes.WhiteSpaces[],
   valueContext: ValueContext,
   bindingElements: BindingInfoElement[],
-  /* istanbul ignore next */
-  aggregation = false
+  aggregation?: UI5Aggregation
 ): CompletionItem[] => {
   const completionItems: CompletionItem[] = [];
   const { element } = valueContext;

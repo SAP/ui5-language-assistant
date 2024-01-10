@@ -6,6 +6,7 @@ import {
 import { BindingParserTypes as BindingTypes } from "@ui5-language-assistant/binding-parser";
 import { findRange } from "../../../utils";
 import { t } from "../../../i18n";
+import type { UI5Aggregation } from "@ui5-language-assistant/semantic-model-types";
 
 /**
  * Check if key is a one of supported property binding info
@@ -13,8 +14,7 @@ import { t } from "../../../i18n";
 export const checkKey = (
   element: BindingTypes.StructureElement,
   bindingElements: BindingInfoElement[],
-  /* istanbul ignore next */
-  aggregation = false
+  aggregation?: UI5Aggregation
 ): BindingIssue[] => {
   const issues: BindingIssue[] = [];
   if (!element.key) {
