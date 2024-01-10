@@ -1,6 +1,6 @@
 {
   "name": "@ui5-language-assistant/language-server",
-  "version": "4.0.40",
+  "version": "4.0.41",
   "private": true,
   "description": "UI5 Language Server",
   "keywords": [
@@ -25,7 +25,7 @@
     "node": ">=10.0.0"
   },
   "dependencies": {
-    "@ui5-language-assistant/binding": "1.0.23",
+    "@ui5-language-assistant/binding": "1.0.24",
     "@sap/swa-for-sapbas-vsx": "1.1.9",
     "@ui5-language-assistant/logger": "0.0.1",
     "@ui5-language-assistant/context": "4.0.22",

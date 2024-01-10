@@ -1,5 +1,13 @@
 # Change Log
 
+## 4.0.52
+
+### Patch Changes
+
+- 1e011e6: Fixed SonarCloud complaints
+- Updated dependencies [1e011e6]
+  - @ui5-language-assistant/language-server@4.0.41
+
 ## 4.0.51
 
 ### Patch Changes
