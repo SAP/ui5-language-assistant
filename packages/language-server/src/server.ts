@@ -104,7 +104,7 @@ connection.onInitialize(
   }
 );
 
-connection.onInitialized(async () => {
+connection.onInitialized(async (): Promise<void> => {
   getLogger().info("`onInitialized` event");
   if (hasConfigurationCapability) {
     // Register for all configuration changes
@@ -266,7 +266,7 @@ const validateOpenDocuments = async (changes: FileEvent[]): Promise<void> => {
   }
 };
 
-connection.onDidChangeWatchedFiles(async (changeEvent) => {
+connection.onDidChangeWatchedFiles(async (changeEvent): Promise<void> => {
   getLogger().debug("`onDidChangeWatchedFiles` event", {
     changeEvent,
   });

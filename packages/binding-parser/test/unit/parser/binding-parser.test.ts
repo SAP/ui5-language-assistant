@@ -67,9 +67,10 @@ describe("binding parser", () => {
       continue;
     }
     if (only.includes(t)) {
-      it.only(`${t}`, async () => {
+      const cb = async () => {
         await testParser(t);
-      });
+      };
+      it.only(`${t}`, cb); // NOSONAR
       continue;
     }
     it(`${t}`, async () => {
