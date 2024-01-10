@@ -141,6 +141,6 @@ export function bindingSuggestions({
     return completionItems;
   } catch (error) {
     getLogger().debug("bindingSuggestions failed:", error);
-    return completionItems;
+    return [];
   }
 }
