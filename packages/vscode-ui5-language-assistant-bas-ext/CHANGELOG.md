@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.53
+
+### Patch Changes
+
+- 0186685: Fallback to the latest supported patch version
+
 ## 4.0.52
 
 ### Patch Changes

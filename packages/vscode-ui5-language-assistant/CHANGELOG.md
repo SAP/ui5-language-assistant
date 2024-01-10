@@ -1,5 +1,13 @@
 # Change Log
 
+## 4.0.53
+
+### Patch Changes
+
+- 0186685: Fallback to the latest supported patch version
+- Updated dependencies [0186685]
+  - @ui5-language-assistant/language-server@4.0.42
+
 ## 4.0.52
 
 ### Patch Changes
