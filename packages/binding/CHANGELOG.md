@@ -1,5 +1,11 @@
 # @ui5-language-assistant/binding
 
+## 1.0.26
+
+### Patch Changes
+
+- 647470e: No code completion or diagnostic for contextPath or metaPath of macros namespace
+
 ## 1.0.25
 
 ### Patch Changes

@@ -1,5 +1,12 @@
 # Change Log
 
+## 4.0.54
+
+### Patch Changes
+
+- 647470e: No code completion or diagnostic for contextPath or metaPath of macros namespace
+  - @ui5-language-assistant/language-server@4.0.43
+
 ## 4.0.53
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.54
+
+### Patch Changes
+
+- 647470e: No code completion or diagnostic for contextPath or metaPath of macros namespace
+
 ## 4.0.53
 
 ### Patch Changes
