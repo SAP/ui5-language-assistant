@@ -12,7 +12,7 @@ import {
   positionInside,
   isPrimitiveValue,
 } from "@ui5-language-assistant/binding-parser";
-
+import type { UI5Aggregation } from "@ui5-language-assistant/semantic-model-types";
 import { isParts, typesToValue } from "../../../utils";
 import {
   BindContext,
@@ -48,8 +48,7 @@ export const createCollectionValue = (
   spaces: BindingTypes.WhiteSpaces[],
   valueContext: ValueContext,
   bindingElements: BindingInfoElement[],
-  /* istanbul ignore next */
-  aggregation = false
+  aggregation?: UI5Aggregation
 ): CompletionItem[] => {
   const { element } = valueContext;
   if (!isCollectionValue(element.value)) {

@@ -18,12 +18,13 @@ import {
 import { Position } from "vscode-languageserver-types";
 import { BindContext, BindingInfoElement } from "../../types";
 import { getBindingElements } from "../../definition/definition";
+import type { UI5Aggregation } from "@ui5-language-assistant/semantic-model-types";
 
 const getHoverFromBinding = (
   context: BindContext,
   bindingElements: BindingInfoElement[],
   binding: BindingParserTypes.StructureValue,
-  aggregation: boolean
+  aggregation?: UI5Aggregation
 ): Hover | undefined => {
   let hover: Hover | undefined;
   /* istanbul ignore next */
@@ -150,7 +151,7 @@ export const getHover = (
     if (text.trim().length === 0) {
       return;
     }
-    const propBinding = getBindingElements(context, !!ui5Aggregation, true);
+    const propBinding = getBindingElements(context, ui5Aggregation, true);
     const properties = propBinding.map((i) => i.name);
     const extractedText = extractBindingSyntax(text);
     for (const bindingSyntax of extractedText) {
@@ -178,12 +179,7 @@ export const getHover = (
       if (!isBindingAllowed(text, binding, errors, properties)) {
         continue;
       }
-      return getHoverFromBinding(
-        context,
-        propBinding,
-        binding,
-        !!ui5Aggregation
-      );
+      return getHoverFromBinding(context, propBinding, binding, ui5Aggregation);
     }
     return;
   } catch (error) {

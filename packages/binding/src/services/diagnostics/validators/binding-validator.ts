@@ -36,11 +36,7 @@ export function validateBinding(
     if (!ui5Property && !ui5Aggregation) {
       return issues;
     }
-    const bindingElements = getBindingElements(
-      context,
-      !!ui5Aggregation,
-      false
-    );
+    const bindingElements = getBindingElements(context, ui5Aggregation, false);
     const properties = bindingElements.map((i) => i.name);
     const value = attribute.syntax.value;
     /* istanbul ignore next */
@@ -74,7 +70,7 @@ export function validateBinding(
             context,
             binding,
             errors,
-            !!ui5Aggregation,
+            ui5Aggregation,
             bindingElements
           )
         );

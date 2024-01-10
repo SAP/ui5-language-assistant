@@ -30,6 +30,22 @@ const createRange = (range: Range | undefined): string => {
   return "0:0-0:0";
 };
 
+export const removeUI5PatchVersion = (
+  completionItems: CompletionItem[]
+): void => {
+  for (const item of completionItems) {
+    if (item.documentation) {
+      if (typeof item.documentation === "string") {
+        const value = item.documentation.replace(/\.(\d+)\//, "");
+        item.documentation = value;
+      } else if (item.documentation.kind === "markdown") {
+        const value = item.documentation.value.replace(/\.(\d+)\//, "");
+        item.documentation.value = value;
+      }
+    }
+  }
+};
+
 export const completionItemToSnapshot = (
   item: CompletionItem,
   documentation = false
@@ -99,7 +115,7 @@ export const getViewCompletionProvider =
     );
     const context = (await getContext(documentPath)) as Context;
 
-    return await getCompletionItems({
+    const result = await getCompletionItems({
       ast,
       context: contextAdapter ? contextAdapter(context) : context,
       cst,
@@ -108,6 +124,8 @@ export const getViewCompletionProvider =
       textDocumentPosition,
       tokenVector,
     });
+    removeUI5PatchVersion(result);
+    return result;
   };
 
 type AttributeValidator = (

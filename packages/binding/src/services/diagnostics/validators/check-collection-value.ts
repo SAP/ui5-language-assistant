@@ -18,6 +18,7 @@ import { checkComma } from "./check-comma";
 import { checkBrackets } from "./check-brackets";
 import { t } from "../../../i18n";
 import { createMissMatchValueIssue } from "./common";
+import type { UI5Aggregation } from "@ui5-language-assistant/semantic-model-types";
 
 /**
  * Check collection value
@@ -33,8 +34,7 @@ export const checkCollectionValue = (
     lexer: BindingTypes.LexerError[];
   },
   bindingElements: BindingInfoElement[],
-  /* istanbul ignore next */
-  aggregation = false
+  aggregation?: UI5Aggregation
 ): BindingIssue[] => {
   const issues: BindingIssue[] = [];
   const value = element.value;

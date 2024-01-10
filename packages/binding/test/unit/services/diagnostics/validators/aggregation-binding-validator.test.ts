@@ -228,4 +228,10 @@ describe("aggregation binding", () => {
       });
     });
   });
+  it("tooltip [altTypes]", async () => {
+    const snippet = `
+       <Text text="My Text" tooltip="{ path: 'descr', formatter: '.getTooltipText'}"/>`;
+    const result = await validateView(snippet);
+    expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([]);
+  });
 });
