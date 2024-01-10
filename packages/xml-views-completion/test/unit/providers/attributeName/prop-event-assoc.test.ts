@@ -3,9 +3,11 @@ import { XMLAttribute } from "@xml-tools/ast";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { generate } from "@ui5-language-assistant/semantic-model";
 import {
+  DEFAULT_UI5_VERSION,
   expectSuggestions,
   expectXMLAttribute,
   generateModel,
+  getFallbackPatchVersions,
 } from "@ui5-language-assistant/test-utils";
 import { propEventAssocSuggestions } from "../../../../src/providers/attributeName/prop-event-assoc";
 import { UI5XMLViewCompletion } from "../../../../api";
@@ -62,7 +64,9 @@ describe("The ui5-language-assistant xml-views-completion", () => {
   beforeAll(async () => {
     ui5SemanticModel = await generateModel({
       framework: "SAPUI5",
-      version: "1.71.61",
+      version: (
+        await getFallbackPatchVersions()
+      ).SAPUI5 as typeof DEFAULT_UI5_VERSION,
       modelGenerator: generate,
     });
     appContext = getDefaultContext(ui5SemanticModel);

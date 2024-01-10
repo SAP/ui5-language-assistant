@@ -200,11 +200,9 @@ When configuring local web server, make sure it responds to the exact UI5 versio
 
 This extension derives the UI5 version in the following sequence:
 
-1. The `minUI5Version` from the manifest.json file (see note)
-2. Lookup in CDN for UI5 version and negotiate to the closest LTS version (see note).
-3. If it is not found or the version is 1.38 or older, then default back to 1.71 (latest patch level).
-
-Note: If `minUI5Version` not found in the manifest.json or lookup in CDN fails, then fall back to default 1.71.60 version
+1. If the exact version defined in the `minUI5Version` setting is not retrievable from local cache or CDN, the closest available LTS version is used.
+2. If the version is 1.38 or older, or if minUI5Version is not defined, fall back to 1.71 (latest patch level) is applied.
+3. If `minUI5Version` is provided in incorrect format, the latest patch version available in CDN is used.
 
 The framework(SAPUI5/OpenUI5) is derived from the ui5.yaml file. This defaults to SAPUI5.
 

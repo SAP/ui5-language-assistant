@@ -1,5 +1,8 @@
 import { keys } from "lodash";
-import { expectExists } from "@ui5-language-assistant/test-utils";
+import {
+  DEFAULT_UI5_VERSION,
+  expectExists,
+} from "@ui5-language-assistant/test-utils";
 import {
   UI5SemanticModel,
   UnresolvedType,
@@ -7,7 +10,6 @@ import {
 import { forEachSymbol } from "../../src/utils";
 import { generate } from "../../src/api";
 
-const DEFAULT_UI5_VERSION = "1.71.61";
 describe("The ui5-language-assistant semantic model package API negative tests", () => {
   describe("generate from model with invalid library file", () => {
     const message = "not a valid library file";

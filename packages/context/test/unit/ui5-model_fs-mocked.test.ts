@@ -8,7 +8,10 @@ jest.mock("fs-extra", () => {
 
 import { file as tempFile } from "tmp-promise";
 
-import { negotiateVersionWithFetcher } from "../../src/ui5-model";
+import {
+  VersionMapJsonType,
+  negotiateVersionWithFetcher,
+} from "../../src/ui5-model";
 import { FetchResponse } from "@ui5-language-assistant/language-server";
 import { DEFAULT_UI5_VERSION } from "../../src/types";
 
@@ -19,12 +22,12 @@ describe("the UI5 language assistant ui5 model", () => {
   describe("version negotiation", () => {
     let cachePath: string;
     let cleanup: () => Promise<void>;
-    const createResponse = (ok: boolean, status: number, json?: unknown) => {
+    const createFailedResponse = <T = undefined>() => {
       return {
-        ok,
-        status,
-        json: async (): Promise<unknown> => {
-          return json;
+        ok: false,
+        status: 404,
+        json: async (): Promise<T> => {
+          return {} as T;
         },
       };
     };
@@ -39,11 +42,14 @@ describe("the UI5 language assistant ui5 model", () => {
 
     it("fallback to default (while versions map is empty)", async () => {
       const objNegotiatedVersionWithFetcher = await negotiateVersionWithFetcher(
-        async (): Promise<FetchResponse> => {
-          return createResponse(false, 404);
+        async (): Promise<FetchResponse<VersionMapJsonType>> => {
+          return createFailedResponse();
         },
         async (): Promise<FetchResponse> => {
-          return createResponse(false, 404);
+          return createFailedResponse();
+        },
+        async (): Promise<FetchResponse> => {
+          return createFailedResponse();
         },
         cachePath,
         FRAMEWORK,
@@ -59,11 +65,14 @@ describe("the UI5 language assistant ui5 model", () => {
       // checking resolution from the cache to cover this case
       const objNegotiatedVersionWithFetcher2 =
         await negotiateVersionWithFetcher(
-          async (): Promise<FetchResponse> => {
-            return createResponse(false, 404);
+          async (): Promise<FetchResponse<VersionMapJsonType>> => {
+            return createFailedResponse();
           },
           async (): Promise<FetchResponse> => {
-            return createResponse(false, 404);
+            return createFailedResponse();
+          },
+          async (): Promise<FetchResponse> => {
+            return createFailedResponse();
           },
           cachePath,
           FRAMEWORK,
