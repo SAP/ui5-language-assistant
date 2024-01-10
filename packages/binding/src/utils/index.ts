@@ -6,6 +6,7 @@ export {
   findRange,
   defaultRange,
   getPropertyTypeWithPossibleValue,
+  isMacrosMetaContextPath,
 } from "./element";
 
 export { getCursorContext } from "./cursor";

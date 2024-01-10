@@ -900,4 +900,16 @@ describe("property-binding-info-validator", () => {
       });
     });
   });
+  describe("macros static property", () => {
+    it("no diagnostic for metaPath", async () => {
+      const snippet = `<macros:Chart metaPath="{path: 'dynamic-path', wrong: true}"></macros:Chart>`;
+      const result = await validateView(snippet);
+      expect(result).toStrictEqual([]);
+    });
+    it("no diagnostic for contextPath", async () => {
+      const snippet = `<macros:Chart contextPath="{path: 'dynamic-path', wrong: true}"></macros:Chart>`;
+      const result = await validateView(snippet);
+      expect(result).toStrictEqual([]);
+    });
+  });
 });
