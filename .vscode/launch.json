@@ -49,6 +49,7 @@
       "args": [
         "${fileBasenameNoExtension}",
         "--coverage=false",
+        "--maxWorkers=1",
         "--config",
         "jest.config.js"
       ],
@@ -68,6 +69,7 @@
       "args": [
         "${fileBasenameNoExtension}",
         "--coverage=false",
+        "--maxWorkers=1",
         "--config",
         "jest.config.js"
       ],
@@ -87,6 +89,7 @@
       "args": [
         "${fileBasenameNoExtension}",
         "--coverage=false",
+        "--maxWorkers=1",
         "--config",
         "jest.config.js"
       ],
@@ -106,6 +109,7 @@
       "args": [
         "${fileBasenameNoExtension}",
         "--coverage=false",
+        "--maxWorkers=1",
         "--config",
         "jest.config.js"
       ],
@@ -120,11 +124,32 @@
     {
       "type": "node",
       "request": "launch",
+      "name": "XML completion: Run Current Jest File",
+      "program": "${workspaceFolder}/node_modules/.bin/jest",
+      "args": [
+        "${fileBasenameNoExtension}",
+        "--coverage=false",
+        "--maxWorkers=1",
+        "--config",
+        "jest.config.js"
+      ],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "disableOptimisticBPs": true,
+      "windows": {
+        "program": "${workspaceFolder}/node_modules/jest/bin/jest"
+      },
+      "cwd": "${workspaceFolder}/packages/xml-views-completion"
+    },
+    {
+      "type": "node",
+      "request": "launch",
       "name": "Logic Utils: Run Current Jest File",
       "program": "${workspaceFolder}/node_modules/.bin/jest",
       "args": [
         "${fileBasenameNoExtension}",
         "--coverage=false",
+        "--maxWorkers=1",
         "--config",
         "jest.config.js"
       ],
@@ -144,6 +169,7 @@
       "args": [
         "${fileBasenameNoExtension}",
         "--coverage=false",
+        "--maxWorkers=1",
         "--config",
         "jest.config.js"
       ],
@@ -163,6 +189,7 @@
       "args": [
         "${fileBasenameNoExtension}",
         "--coverage=false",
+        "--maxWorkers=1",
         "--config",
         "jest.config.js"
       ],

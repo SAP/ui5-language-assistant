@@ -1,5 +1,26 @@
+// mock to test offline mode version negotiation, needed to override original methods
+jest.mock("@ui5-language-assistant/logic-utils", () => {
+  const actual = jest.requireActual("@ui5-language-assistant/logic-utils");
+  return {
+    ...actual,
+    getLocalUrl: jest.fn().mockImplementation(actual.getLocalUrl),
+    tryFetch: jest.fn().mockImplementation(actual.tryFetch),
+  };
+});
+
+jest.mock("fs-extra", () => {
+  const actual = jest.requireActual("fs-extra");
+  return {
+    ...actual,
+    readJson: jest.fn().mockImplementation(actual.readJson),
+    pathExists: jest.fn().mockImplementation(actual.pathExists),
+    lstat: jest.fn().mockImplementation(actual.lstat),
+  };
+});
+
 import { dir as tempDir, file as tempFile } from "tmp-promise";
 import { readdir, mkdirs, writeFile } from "fs-extra";
+import * as fsExtra from "fs-extra";
 import { sync as rimrafSync } from "rimraf";
 import { forEach, isPlainObject } from "lodash";
 
@@ -11,20 +32,72 @@ import {
   getCacheFilePath,
   getCacheFolder,
   negotiateVersionWithFetcher,
+  VersionMapJsonType,
 } from "../../src/ui5-model";
 import { FetchResponse } from "@ui5-language-assistant/language-server";
+import { fetch } from "@ui5-language-assistant/logic-utils";
+import * as logicUtils from "@ui5-language-assistant/logic-utils";
+import { getVersionJsonUrl } from "../../src/utils";
+import semverMinSatisfying from "semver/ranges/min-satisfying";
+import { Response } from "node-fetch";
+
+const GET_MODEL_TIMEOUT = 30000;
+const FRAMEWORK = "SAPUI5";
+const OPEN_FRAMEWORK = "OpenUI5";
+const FALLBACK_VERSION = "1.71.61";
+const FALLBACK_VERSION_BASE = "1.71";
+const UI5_VERSION_S4_PLACEHOLDER = "${sap.ui5.dist.version}";
+const NO_CACHE_FOLDER = undefined;
+
+type UI5FrameworkType = typeof FRAMEWORK | typeof OPEN_FRAMEWORK;
+const frameworks = [FRAMEWORK, OPEN_FRAMEWORK] as UI5FrameworkType[];
+
+async function getCurrentVersionMaps(
+  framework: UI5FrameworkType
+): Promise<VersionMapJsonType | undefined> {
+  const url = getVersionJsonUrl(framework);
+  const response = await fetch(url);
+  if (response.ok) {
+    return (await response.json()) as VersionMapJsonType;
+  } else {
+    return undefined;
+  }
+}
+
+const latestFallbackPatchVersion: Record<UI5FrameworkType, string | undefined> =
+  {
+    OpenUI5: undefined,
+    SAPUI5: undefined,
+  };
+
+const currentVersionMaps: Record<UI5FrameworkType, VersionMapJsonType> = {
+  OpenUI5: {},
+  SAPUI5: {},
+};
+
+const loadCurrentVersionMaps = Promise.all([
+  getCurrentVersionMaps(FRAMEWORK).then((data) => {
+    currentVersionMaps.SAPUI5 = data || {};
+    latestFallbackPatchVersion.SAPUI5 = data?.[FALLBACK_VERSION_BASE]?.version;
+  }),
+  getCurrentVersionMaps(OPEN_FRAMEWORK).then((data) => {
+    currentVersionMaps.OpenUI5 = data || {};
+    latestFallbackPatchVersion.OpenUI5 = data?.[FALLBACK_VERSION_BASE]?.version;
+  }),
+]);
 
 describe("the UI5 language assistant ui5 model", () => {
   // The default timeout is 2000ms and getSemanticModel can take ~3000-5000ms
-  const GET_MODEL_TIMEOUT = 30000;
-  const FRAMEWORK = "SAPUI5";
-  const OPEN_FRAMEWORK = "OpenUI5";
-  const DEFAULT_UI5_VERSION = "1.71.61";
-  const UI5_VERSION_S4_PLACEHOLDER = "${sap.ui5.dist.version}";
-  const NO_CACHE_FOLDER = undefined;
 
-  function assertSemanticModel(ui5Model: UI5SemanticModel): void {
-    expect(ui5Model.version).toEqual(DEFAULT_UI5_VERSION);
+  beforeAll(async () => {
+    await loadCurrentVersionMaps;
+  });
+
+  function assertSemanticModel(
+    ui5Model: UI5SemanticModel,
+    expectedVersion?: string
+  ): void {
+    expect(ui5Model.version).toEqual(expectedVersion || FALLBACK_VERSION);
 
     expect(Object.keys(ui5Model.classes).length).toBeGreaterThan(200);
     expect(Object.keys(ui5Model.namespaces).length).toBeGreaterThan(200);
@@ -48,16 +121,23 @@ describe("the UI5 language assistant ui5 model", () => {
     );
   }
 
+  it("check loaded version maps correctness", () => {
+    expect(latestFallbackPatchVersion.SAPUI5?.startsWith("1.71.")).toBeTrue();
+    expect(currentVersionMaps.SAPUI5?.["latest"]).toBeDefined();
+    expect(latestFallbackPatchVersion.OpenUI5?.startsWith("1.71.")).toBeTrue();
+    expect(currentVersionMaps.OpenUI5?.["latest"]).toBeDefined();
+  });
+
   it(
     "will get UI5 semantic model",
     async () => {
       const ui5Model = await getSemanticModel(
         NO_CACHE_FOLDER,
         FRAMEWORK,
-        undefined,
+        latestFallbackPatchVersion.SAPUI5,
         true
       );
-      assertSemanticModel(ui5Model);
+      assertSemanticModel(ui5Model, latestFallbackPatchVersion.SAPUI5);
     },
     GET_MODEL_TIMEOUT
   );
@@ -100,10 +180,10 @@ describe("the UI5 language assistant ui5 model", () => {
           const ui5Model = await getSemanticModel(
             cachePath,
             FRAMEWORK,
-            undefined,
+            latestFallbackPatchVersion.SAPUI5,
             true
           );
-          assertSemanticModel(ui5Model);
+          assertSemanticModel(ui5Model, latestFallbackPatchVersion.SAPUI5);
 
           // Check the files were created in the folder
           const files = await readdir(cachePath);
@@ -120,7 +200,7 @@ describe("the UI5 language assistant ui5 model", () => {
             },
             cachePath,
             FRAMEWORK,
-            undefined,
+            latestFallbackPatchVersion.SAPUI5,
             true
           );
           expect(fetcherCalled).toBeFalse();
@@ -141,7 +221,10 @@ describe("the UI5 language assistant ui5 model", () => {
               );
             }
           });
-          assertSemanticModel(ui5ModelFromCache);
+          assertSemanticModel(
+            ui5ModelFromCache,
+            latestFallbackPatchVersion.SAPUI5
+          );
         },
         GET_MODEL_TIMEOUT
       );
@@ -151,7 +234,7 @@ describe("the UI5 language assistant ui5 model", () => {
         async () => {
           // Create a folder with the file name so the file will not be written
           const cacheFilePath = getCacheFilePath(
-            getCacheFolder(cachePath, FRAMEWORK, DEFAULT_UI5_VERSION),
+            getCacheFolder(cachePath, FRAMEWORK, FALLBACK_VERSION),
             "sap.m"
           );
           expectExists(cacheFilePath, "cacheFilePath");
@@ -160,7 +243,7 @@ describe("the UI5 language assistant ui5 model", () => {
           const ui5Model = await getSemanticModel(
             cachePath,
             FRAMEWORK,
-            undefined
+            latestFallbackPatchVersion.SAPUI5
           );
           expect(ui5Model).not.toBeUndefined();
           // Check we still got the sap.m library data
@@ -177,7 +260,7 @@ describe("the UI5 language assistant ui5 model", () => {
           const cacheFolder = getCacheFolder(
             cachePath,
             FRAMEWORK,
-            DEFAULT_UI5_VERSION
+            FALLBACK_VERSION
           );
           await mkdirs(cacheFolder);
           const cacheFilePath = getCacheFilePath(cacheFolder, "sap.m");
@@ -216,10 +299,10 @@ describe("the UI5 language assistant ui5 model", () => {
           const ui5Model = await getSemanticModel(
             cachePath,
             FRAMEWORK,
-            undefined,
+            latestFallbackPatchVersion.SAPUI5,
             true
           );
-          assertSemanticModel(ui5Model);
+          assertSemanticModel(ui5Model, latestFallbackPatchVersion.SAPUI5);
 
           // Call getSemanticModel again with the same path and check it doesn't try to read from the URL
           let fetcherCalled = false;
@@ -236,7 +319,7 @@ describe("the UI5 language assistant ui5 model", () => {
             },
             cachePath,
             FRAMEWORK,
-            undefined,
+            latestFallbackPatchVersion.SAPUI5,
             true
           );
           expect(fetcherCalled).toBeTrue();
@@ -249,52 +332,6 @@ describe("the UI5 language assistant ui5 model", () => {
   describe("version negotiation", () => {
     let cachePath: string;
     let cleanup: () => Promise<void>;
-    const versionMap = {
-      SAPUI5: {
-        latest: {
-          version: "1.120.3",
-          support: "Maintenance",
-          lts: true,
-        },
-        "1.105": {
-          version: "1.105.0",
-          support: "Maintenance",
-          lts: true,
-        },
-        "1.96": {
-          version: "1.96.27",
-          support: "Maintenance",
-          lts: true,
-        },
-        "1.84": {
-          version: "1.84.41",
-          support: "Maintenance",
-          lts: true,
-        },
-        "1.71": {
-          version: "1.71.70",
-          support: "Maintenance",
-          lts: true,
-        },
-      },
-      OpenUI5: {
-        latest: {
-          version: "1.106.0",
-          support: "Maintenance",
-          lts: true,
-        },
-        "1.106": {
-          version: "1.106.0",
-          support: "Maintenance",
-          lts: true,
-        },
-        "1.71": {
-          version: "1.71.70",
-          support: "Maintenance",
-          lts: true,
-        },
-      },
-    };
     const versionInfo = {
       libraries: [
         {
@@ -302,15 +339,28 @@ describe("the UI5 language assistant ui5 model", () => {
         },
       ],
     };
-    const createResponse = (ok: boolean, status: number, json?: unknown) => {
+    const createSuccessfulResponse = <T = unknown>(json: T) => {
       return {
-        ok,
-        status,
-        json: async (): Promise<unknown> => {
+        ok: true,
+        status: 200,
+        json: async (): Promise<T> => {
           return json;
         },
       };
     };
+    const createFailedResponse = <T = undefined>() => {
+      return {
+        ok: false,
+        status: 404,
+        json: async (): Promise<T> => {
+          return undefined as T;
+        },
+      };
+    };
+
+    beforeAll(async () => {
+      await loadCurrentVersionMaps;
+    });
 
     beforeEach(async () => {
       ({ path: cachePath, cleanup } = await tempFile());
@@ -320,312 +370,432 @@ describe("the UI5 language assistant ui5 model", () => {
       await cleanup();
     });
 
-    it("resolve the default version", async () => {
-      const objNegotiatedVersionWithFetcher = await negotiateVersionWithFetcher(
-        async (): Promise<FetchResponse> => {
-          return createResponse(true, 200, versionMap[FRAMEWORK]);
-        },
-        async (): Promise<FetchResponse> => {
-          return createResponse(true, 200, versionInfo);
-        },
-        cachePath,
-        FRAMEWORK,
-        DEFAULT_UI5_VERSION
-      );
-      expect(objNegotiatedVersionWithFetcher.version).toEqual(
-        DEFAULT_UI5_VERSION
-      );
+    const getExpectedVersion = (
+      framework: typeof FRAMEWORK | typeof OPEN_FRAMEWORK,
+      requestedVersion: string
+    ) => {
+      const versions = currentVersionMaps[framework];
+      const versionList = Object.values(versions)
+        .filter((entry) => !entry.version.startsWith("1.38."))
+        .map((entry) => entry.version);
+      const expectedVersion =
+        semverMinSatisfying(versionList, `^${requestedVersion}`) ||
+        versions["latest"].version;
+      return expectedVersion;
+    };
+
+    describe.each(frameworks)("for framework %s", (framework) => {
+      it("resolve the default version", async () => {
+        const objNegotiatedVersionWithFetcher =
+          await negotiateVersionWithFetcher(
+            async (): Promise<FetchResponse<VersionMapJsonType>> => {
+              return createSuccessfulResponse(currentVersionMaps[framework]);
+            },
+            async (): Promise<FetchResponse> => {
+              return createSuccessfulResponse(versionInfo);
+            },
+            async (): Promise<FetchResponse> => {
+              return createSuccessfulResponse({});
+            },
+            cachePath,
+            framework,
+            latestFallbackPatchVersion[framework]
+          );
+        expect(objNegotiatedVersionWithFetcher.version).toEqual(
+          latestFallbackPatchVersion[framework]
+        );
+      });
+
+      it("resolve available concrete version", async () => {
+        const testVersionKey = Object.keys(currentVersionMaps[framework])[2];
+        const testVersion =
+          currentVersionMaps[framework][testVersionKey].version;
+        const objNegotiatedVersionWithFetcher =
+          await negotiateVersionWithFetcher(
+            async (): Promise<FetchResponse<VersionMapJsonType>> => {
+              return createSuccessfulResponse(currentVersionMaps[framework]);
+            },
+            async (): Promise<FetchResponse> => {
+              return createSuccessfulResponse(versionInfo);
+            },
+            async (): Promise<FetchResponse> => {
+              return createSuccessfulResponse({});
+            },
+            cachePath,
+            framework,
+            testVersion
+          );
+        expect(objNegotiatedVersionWithFetcher.version).toEqual(testVersion);
+        expect(objNegotiatedVersionWithFetcher.isFallback).toBeFalse();
+        expect(objNegotiatedVersionWithFetcher.isIncorrectVersion).toBeFalse();
+      });
+
+      it("resolve outdated but still available concrete version (1.104.0)", async () => {
+        const testVersion = "1.104.0";
+        const objNegotiatedVersionWithFetcher =
+          await negotiateVersionWithFetcher(
+            async (): Promise<FetchResponse<VersionMapJsonType>> => {
+              return createSuccessfulResponse(currentVersionMaps[framework]);
+            },
+            async (): Promise<FetchResponse> => {
+              return createSuccessfulResponse(versionInfo);
+            },
+            async (): Promise<FetchResponse> => {
+              return createSuccessfulResponse({});
+            },
+            cachePath,
+            framework,
+            testVersion
+          );
+        expect(objNegotiatedVersionWithFetcher.version).toEqual(testVersion);
+        expect(objNegotiatedVersionWithFetcher.isFallback).toBeFalse();
+        expect(objNegotiatedVersionWithFetcher.isIncorrectVersion).toBeFalse();
+      });
+
+      it("resolve outdated but still available in cache concrete version (1.104.0)", async () => {
+        const testVersion = "1.104.0";
+
+        // Mock cache reader
+        const fileReaderSpy = jest
+          .spyOn(fsExtra, "readJson")
+          .mockImplementation(async () => {
+            return { key1: {} };
+          });
+        const pathExistsSpy = jest
+          .spyOn(fsExtra, "pathExists")
+          .mockImplementationOnce(async () => false) // version info json cache read fail, should send request
+          .mockImplementationOnce(async () => true); // version libs cache read
+        const lstatSpy = jest
+          .spyOn(fsExtra, "lstat")
+          .mockImplementation(
+            async () => ({ isFile: () => true } as unknown as fsExtra.Stats)
+          );
+        jest.clearAllMocks(); // to reset call counters which are already above zero due to mocked fs-extra module
+
+        try {
+          const objNegotiatedVersionWithFetcher =
+            await negotiateVersionWithFetcher(
+              async (): Promise<FetchResponse<VersionMapJsonType>> => {
+                return createSuccessfulResponse(currentVersionMaps[framework]);
+              },
+              async (): Promise<FetchResponse> => {
+                return createSuccessfulResponse(versionInfo);
+              },
+              async (): Promise<FetchResponse> => {
+                return createFailedResponse();
+              },
+              cachePath,
+              framework,
+              testVersion
+            );
+          expect(objNegotiatedVersionWithFetcher.version).toEqual(testVersion);
+          expect(objNegotiatedVersionWithFetcher.isFallback).toBeFalse();
+          expect(
+            objNegotiatedVersionWithFetcher.isIncorrectVersion
+          ).toBeFalse();
+          expect(fileReaderSpy).toHaveBeenCalledOnce();
+          const arg = fileReaderSpy.mock.calls[0];
+          expect(
+            arg[0]
+              .replace(/\\/g, "/")
+              .endsWith(
+                `ui5-resources-cache/${framework}/1.104.0/sap.ui.core.json`
+              )
+          ).toBeTrue();
+        } finally {
+          fileReaderSpy.mockRestore();
+          pathExistsSpy.mockRestore();
+          lstatSpy.mockRestore();
+        }
+      });
+
+      it("resolve outdated version with broken cache data (1.104.0)", async () => {
+        const testVersion = "1.104.0";
+        const expectedVersion = getExpectedVersion(framework, testVersion);
+
+        // Mock cache reader
+        const fileReaderSpy = jest
+          .spyOn(fsExtra, "readJson")
+          .mockImplementation(async () => {
+            return { key1: {} };
+          });
+        const pathExistsSpy = jest
+          .spyOn(fsExtra, "pathExists")
+          .mockImplementationOnce(async () => false);
+
+        try {
+          const objNegotiatedVersionWithFetcher =
+            await negotiateVersionWithFetcher(
+              async (): Promise<FetchResponse<VersionMapJsonType>> => {
+                return createSuccessfulResponse(currentVersionMaps[framework]);
+              },
+              async (): Promise<FetchResponse> => {
+                return createSuccessfulResponse(versionInfo);
+              },
+              async (): Promise<FetchResponse> => {
+                return createFailedResponse();
+              },
+              cachePath,
+              framework,
+              testVersion
+            );
+          expect(objNegotiatedVersionWithFetcher.version).toEqual(
+            expectedVersion
+          );
+          expect(objNegotiatedVersionWithFetcher.isFallback).toBeFalse();
+          expect(objNegotiatedVersionWithFetcher.isIncorrectVersion).toBeTrue();
+        } finally {
+          fileReaderSpy.mockRestore();
+          pathExistsSpy.mockRestore();
+        }
+      });
+
+      it("resolve not available concrete version (should be closest)", async () => {
+        const testVersion = "1.104.0";
+        const expectedVersion = getExpectedVersion(framework, testVersion);
+        const objNegotiatedVersionWithFetcher =
+          await negotiateVersionWithFetcher(
+            async (): Promise<FetchResponse<VersionMapJsonType>> => {
+              return createSuccessfulResponse(currentVersionMaps[framework]);
+            },
+            async (): Promise<FetchResponse> => {
+              return createSuccessfulResponse(versionInfo);
+            },
+            async (): Promise<FetchResponse> => {
+              return createFailedResponse();
+            },
+            cachePath,
+            framework,
+            testVersion
+          );
+        expect(objNegotiatedVersionWithFetcher.version).toEqual(
+          expectedVersion
+        );
+        expect(objNegotiatedVersionWithFetcher.isFallback).toBeFalse();
+        expect(objNegotiatedVersionWithFetcher.isIncorrectVersion).toBeTrue();
+      });
     });
 
-    it("resolve the default version open UI5", async () => {
-      const objNegotiatedVersionWithFetcher = await negotiateVersionWithFetcher(
-        async (): Promise<FetchResponse> => {
-          return createResponse(true, 200, versionMap[OPEN_FRAMEWORK]);
+    describe("resolve major.minor versions", () => {
+      const testCases: {
+        version: () => string;
+        expected: () => string;
+      }[] = [
+        {
+          // outdated version
+          version: () => "1.104",
+          expected: () => getExpectedVersion(FRAMEWORK, "1.104"),
         },
-        async (): Promise<FetchResponse> => {
-          return createResponse(true, 200, versionInfo);
+        {
+          // supported version
+          version: () => Object.keys(currentVersionMaps.SAPUI5)[1],
+          expected: () =>
+            currentVersionMaps.SAPUI5[Object.keys(currentVersionMaps.SAPUI5)[1]]
+              .version,
         },
-        cachePath,
-        OPEN_FRAMEWORK,
-        DEFAULT_UI5_VERSION
-      );
-      expect(objNegotiatedVersionWithFetcher.version).toEqual(
-        DEFAULT_UI5_VERSION
-      );
+        {
+          // fallback base
+          version: () => FALLBACK_VERSION_BASE,
+          expected: () => latestFallbackPatchVersion.SAPUI5 || "",
+        },
+        {
+          // out of support
+          version: () => "1.18",
+          expected: () => latestFallbackPatchVersion.SAPUI5 || "",
+        },
+      ];
+
+      beforeAll(async () => {
+        await loadCurrentVersionMaps;
+      });
+
+      it.each(testCases)("test case %#", async (testCase) => {
+        const result = await negotiateVersionWithFetcher(
+          async (): Promise<FetchResponse<VersionMapJsonType>> => {
+            return createSuccessfulResponse(currentVersionMaps.SAPUI5);
+          },
+          async (): Promise<FetchResponse> => {
+            return createFailedResponse();
+          },
+          async (): Promise<FetchResponse> => {
+            return createFailedResponse();
+          },
+          cachePath,
+          FRAMEWORK,
+          testCase.version()
+        );
+        expect(result.version).toEqual(testCase.expected());
+        expect(result.isFallback).toBeFalse();
+        expect(result.isIncorrectVersion).toBeTrue();
+      });
     });
 
-    it("resolve available concrete version OpenUI5 (1.106.0)", async () => {
+    it("resolve major version (should be closest supported)", async () => {
+      const expectedVersion = getExpectedVersion(FRAMEWORK, "1");
       const objNegotiatedVersionWithFetcher = await negotiateVersionWithFetcher(
-        async (): Promise<FetchResponse> => {
-          return createResponse(true, 200, versionMap[OPEN_FRAMEWORK]);
+        async (): Promise<FetchResponse<VersionMapJsonType>> => {
+          return createSuccessfulResponse(currentVersionMaps.SAPUI5);
         },
         async (): Promise<FetchResponse> => {
-          return createResponse(true, 200, versionInfo);
-        },
-        cachePath,
-        OPEN_FRAMEWORK,
-        "1.106.0"
-      );
-      expect(objNegotiatedVersionWithFetcher.version).toEqual("1.106.0");
-      expect(objNegotiatedVersionWithFetcher.isFallback).toBeFalse();
-      expect(objNegotiatedVersionWithFetcher.isIncorrectVersion).toBeFalse();
-    });
-
-    it("resolve available concrete version (1.105.0)", async () => {
-      const objNegotiatedVersionWithFetcher = await negotiateVersionWithFetcher(
-        async (): Promise<FetchResponse> => {
-          return createResponse(true, 200, versionMap[FRAMEWORK]);
+          return createFailedResponse();
         },
         async (): Promise<FetchResponse> => {
-          return createResponse(true, 200, versionInfo);
-        },
-        cachePath,
-        FRAMEWORK,
-        "1.105.0"
-      );
-      expect(objNegotiatedVersionWithFetcher.version).toEqual("1.105.0");
-      expect(objNegotiatedVersionWithFetcher.isFallback).toBeFalse();
-      expect(objNegotiatedVersionWithFetcher.isIncorrectVersion).toBeFalse();
-    });
-
-    it("resolve available concrete version (1.104.0)", async () => {
-      const objNegotiatedVersionWithFetcher = await negotiateVersionWithFetcher(
-        async (): Promise<FetchResponse> => {
-          return createResponse(true, 200, versionMap[FRAMEWORK]);
-        },
-        async (): Promise<FetchResponse> => {
-          return createResponse(true, 200, versionInfo);
-        },
-        cachePath,
-        FRAMEWORK,
-        "1.104.0"
-      );
-      expect(objNegotiatedVersionWithFetcher.version).toEqual("1.104.0");
-      expect(objNegotiatedVersionWithFetcher.isFallback).toBeFalse();
-      expect(objNegotiatedVersionWithFetcher.isIncorrectVersion).toBeFalse();
-    });
-
-    it("resolve not available concrete version (should be latest)", async () => {
-      const objNegotiatedVersionWithFetcher = await negotiateVersionWithFetcher(
-        async (): Promise<FetchResponse> => {
-          return createResponse(true, 200, versionMap[FRAMEWORK]);
-        },
-        async (): Promise<FetchResponse> => {
-          return createResponse(false, 404);
-        },
-        cachePath,
-        FRAMEWORK,
-        "1.104.0"
-      );
-      expect(objNegotiatedVersionWithFetcher.version).toEqual("1.105.0");
-      expect(objNegotiatedVersionWithFetcher.isFallback).toBeFalse();
-      expect(objNegotiatedVersionWithFetcher.isIncorrectVersion).toBeTrue();
-    });
-
-    it("resolve not available concrete version OpenUI5 (should be latest)", async () => {
-      const objNegotiatedVersionWithFetcher = await negotiateVersionWithFetcher(
-        async (): Promise<FetchResponse> => {
-          return createResponse(true, 200, versionMap[OPEN_FRAMEWORK]);
-        },
-        async (): Promise<FetchResponse> => {
-          return createResponse(false, 404);
-        },
-        cachePath,
-        OPEN_FRAMEWORK,
-        "1.104.0"
-      );
-      expect(objNegotiatedVersionWithFetcher.version).toEqual("1.106.0");
-      expect(objNegotiatedVersionWithFetcher.isFallback).toBeFalse();
-      expect(objNegotiatedVersionWithFetcher.isIncorrectVersion).toBeTrue();
-    });
-
-    it("resolve major.minor versions (should be closest)", async () => {
-      let objNegotiatedVersionWithFetcher = await negotiateVersionWithFetcher(
-        async (): Promise<FetchResponse> => {
-          return createResponse(true, 200, versionMap[FRAMEWORK]);
-        },
-        async (): Promise<FetchResponse> => {
-          return createResponse(false, 404);
-        },
-        cachePath,
-        FRAMEWORK,
-        "1.103"
-      );
-      expect(objNegotiatedVersionWithFetcher.version).toEqual("1.105.0");
-      expect(objNegotiatedVersionWithFetcher.isFallback).toBeFalse();
-      expect(objNegotiatedVersionWithFetcher.isIncorrectVersion).toBeTrue();
-      objNegotiatedVersionWithFetcher = await negotiateVersionWithFetcher(
-        async (): Promise<FetchResponse> => {
-          return createResponse(true, 200, versionMap[FRAMEWORK]);
-        },
-        async (): Promise<FetchResponse> => {
-          return createResponse(false, 404);
-        },
-        cachePath,
-        FRAMEWORK,
-        "1.96"
-      );
-      expect(objNegotiatedVersionWithFetcher.version).toEqual("1.96.27");
-      expect(objNegotiatedVersionWithFetcher.isFallback).toBeFalse();
-      expect(objNegotiatedVersionWithFetcher.isIncorrectVersion).toBeTrue();
-      objNegotiatedVersionWithFetcher = await negotiateVersionWithFetcher(
-        async (): Promise<FetchResponse> => {
-          return createResponse(true, 200, versionMap[FRAMEWORK]);
-        },
-        async (): Promise<FetchResponse> => {
-          return createResponse(false, 404);
-        },
-        cachePath,
-        FRAMEWORK,
-        "1.84"
-      );
-      expect(objNegotiatedVersionWithFetcher.version).toEqual("1.84.41");
-      expect(objNegotiatedVersionWithFetcher.isFallback).toBeFalse();
-      expect(objNegotiatedVersionWithFetcher.isIncorrectVersion).toBeTrue();
-      objNegotiatedVersionWithFetcher = await negotiateVersionWithFetcher(
-        async (): Promise<FetchResponse> => {
-          return createResponse(true, 200, versionMap[FRAMEWORK]);
-        },
-        async (): Promise<FetchResponse> => {
-          return createResponse(false, 404);
-        },
-        cachePath,
-        FRAMEWORK,
-        "1.71"
-      );
-      expect(objNegotiatedVersionWithFetcher.version).toEqual("1.71.70");
-      expect(objNegotiatedVersionWithFetcher.isFallback).toBeFalse();
-      expect(objNegotiatedVersionWithFetcher.isIncorrectVersion).toBeTrue();
-      objNegotiatedVersionWithFetcher = await negotiateVersionWithFetcher(
-        async (): Promise<FetchResponse> => {
-          return createResponse(true, 200, versionMap[FRAMEWORK]);
-        },
-        async (): Promise<FetchResponse> => {
-          return createResponse(false, 404);
-        },
-        cachePath,
-        FRAMEWORK,
-        "1.18"
-      );
-      expect(objNegotiatedVersionWithFetcher.version).toEqual("1.71.70");
-      expect(objNegotiatedVersionWithFetcher.isFallback).toBeFalse();
-      expect(objNegotiatedVersionWithFetcher.isIncorrectVersion).toBeTrue();
-    });
-
-    it("resolve major version (should be closest)", async () => {
-      const objNegotiatedVersionWithFetcher = await negotiateVersionWithFetcher(
-        async (): Promise<FetchResponse> => {
-          return createResponse(true, 200, versionMap[FRAMEWORK]);
-        },
-        async (): Promise<FetchResponse> => {
-          return createResponse(false, 404);
+          return createFailedResponse();
         },
         cachePath,
         FRAMEWORK,
         "1"
       );
-      expect(objNegotiatedVersionWithFetcher.version).toEqual("1.71.70");
+      expect(objNegotiatedVersionWithFetcher.version).toEqual(expectedVersion);
       expect(objNegotiatedVersionWithFetcher.isFallback).toBeFalse();
       expect(objNegotiatedVersionWithFetcher.isIncorrectVersion).toBeTrue();
     });
 
-    it("resolve invalid versions (should be fallback)", async () => {
-      let objNegotiatedVersionWithFetcher = await negotiateVersionWithFetcher(
-        async (): Promise<FetchResponse> => {
-          return createResponse(true, 200, versionMap[FRAMEWORK]);
-        },
-        async (): Promise<FetchResponse> => {
-          return createResponse(false, 404);
-        },
-        cachePath,
-        FRAMEWORK,
-        ""
-      );
-      expect(objNegotiatedVersionWithFetcher.version).toEqual("1.71.61");
-      expect(objNegotiatedVersionWithFetcher.isFallback).toBeTrue();
-      expect(objNegotiatedVersionWithFetcher.isIncorrectVersion).toBeFalse();
-      objNegotiatedVersionWithFetcher = await negotiateVersionWithFetcher(
-        async (): Promise<FetchResponse> => {
-          return createResponse(true, 200, versionMap[FRAMEWORK]);
-        },
-        async (): Promise<FetchResponse> => {
-          return createResponse(false, 404);
-        },
-        cachePath,
-        FRAMEWORK,
-        undefined
-      );
-      expect(objNegotiatedVersionWithFetcher.version).toEqual("1.71.61");
-      expect(objNegotiatedVersionWithFetcher.isFallback).toBeTrue();
-      expect(objNegotiatedVersionWithFetcher.isIncorrectVersion).toBeFalse();
-    });
+    it.each(frameworks)(
+      "resolve invalid versions (should be fallback) %s",
+      async (framework) => {
+        let objNegotiatedVersionWithFetcher = await negotiateVersionWithFetcher(
+          async (): Promise<FetchResponse<VersionMapJsonType>> => {
+            return createSuccessfulResponse(currentVersionMaps[framework]);
+          },
+          async (): Promise<FetchResponse> => {
+            return createFailedResponse();
+          },
+          async (): Promise<FetchResponse> => {
+            return createFailedResponse();
+          },
+          cachePath,
+          framework,
+          ""
+        );
+        expect(objNegotiatedVersionWithFetcher.version).toEqual(
+          latestFallbackPatchVersion[framework]
+        );
+        expect(objNegotiatedVersionWithFetcher.isFallback).toBeTrue();
+        expect(objNegotiatedVersionWithFetcher.isIncorrectVersion).toBeFalse();
 
-    it("resolve invalid versions OpenUI5 (should be fallback)", async () => {
-      const objNegotiatedVersionWithFetcher = await negotiateVersionWithFetcher(
-        async (): Promise<FetchResponse> => {
-          return createResponse(true, 200, versionMap[OPEN_FRAMEWORK]);
-        },
-        async (): Promise<FetchResponse> => {
-          return createResponse(false, 404);
-        },
-        cachePath,
-        OPEN_FRAMEWORK,
-        ""
-      );
-      expect(objNegotiatedVersionWithFetcher.version).toEqual("1.71.61");
-      expect(objNegotiatedVersionWithFetcher.isFallback).toBeTrue();
-      expect(objNegotiatedVersionWithFetcher.isIncorrectVersion).toBeFalse();
-    });
+        objNegotiatedVersionWithFetcher = await negotiateVersionWithFetcher(
+          async (): Promise<FetchResponse<VersionMapJsonType>> => {
+            return createSuccessfulResponse(currentVersionMaps[framework]);
+          },
+          async (): Promise<FetchResponse> => {
+            return createFailedResponse();
+          },
+          async (): Promise<FetchResponse> => {
+            return createFailedResponse();
+          },
+          cachePath,
+          framework,
+          undefined
+        );
+        expect(objNegotiatedVersionWithFetcher.version).toEqual(
+          latestFallbackPatchVersion[framework]
+        );
+        expect(objNegotiatedVersionWithFetcher.isFallback).toBeTrue();
+        expect(objNegotiatedVersionWithFetcher.isIncorrectVersion).toBeFalse();
+      }
+    );
 
-    it("resolve unsupported versions (should be latest)", async () => {
+    it("resolve unsupported versions (should be latest fallback)", async () => {
       const objNegotiatedVersionWithFetcher = await negotiateVersionWithFetcher(
-        async (): Promise<FetchResponse> => {
-          return createResponse(true, 200, versionMap[OPEN_FRAMEWORK]);
+        async (): Promise<FetchResponse<VersionMapJsonType>> => {
+          return createSuccessfulResponse(currentVersionMaps.SAPUI5);
         },
         async (): Promise<FetchResponse> => {
-          return createResponse(false, 404);
+          return createFailedResponse();
+        },
+        async (): Promise<FetchResponse> => {
+          return createFailedResponse();
         },
         cachePath,
         FRAMEWORK,
         "1.38"
       );
-      expect(objNegotiatedVersionWithFetcher.version).toEqual("1.71.70");
+      expect(objNegotiatedVersionWithFetcher.version).toEqual(
+        latestFallbackPatchVersion.SAPUI5
+      );
       expect(objNegotiatedVersionWithFetcher.isFallback).toBeFalse();
       expect(objNegotiatedVersionWithFetcher.isIncorrectVersion).toBeTrue();
     });
 
     it("resolve wrong versions (should be latest)", async () => {
       const objNegotiatedVersionWithFetcher = await negotiateVersionWithFetcher(
-        async (): Promise<FetchResponse> => {
-          return createResponse(true, 200, versionMap[OPEN_FRAMEWORK]);
+        async (): Promise<FetchResponse<VersionMapJsonType>> => {
+          return createSuccessfulResponse(currentVersionMaps.SAPUI5);
         },
         async (): Promise<FetchResponse> => {
-          return createResponse(false, 404);
+          return createFailedResponse();
+        },
+        async (): Promise<FetchResponse> => {
+          return createFailedResponse();
         },
         cachePath,
         FRAMEWORK,
         "a.b"
       );
-      expect(objNegotiatedVersionWithFetcher.version).toEqual("1.71.70");
+      expect(objNegotiatedVersionWithFetcher.version).toEqual(
+        currentVersionMaps.SAPUI5["latest"].version
+      );
       expect(objNegotiatedVersionWithFetcher.isFallback).toBeFalse();
       expect(objNegotiatedVersionWithFetcher.isIncorrectVersion).toBeTrue();
     });
 
     it("resolve unsupported version placeholder - S/4 generator artifact (should be latest)", async () => {
       const objNegotiatedVersionWithFetcher = await negotiateVersionWithFetcher(
-        async (): Promise<FetchResponse> => {
-          return createResponse(true, 200, versionMap[OPEN_FRAMEWORK]);
+        async (): Promise<FetchResponse<VersionMapJsonType>> => {
+          return createSuccessfulResponse(currentVersionMaps.SAPUI5);
         },
         async (): Promise<FetchResponse> => {
-          return createResponse(false, 404);
+          return createFailedResponse();
+        },
+        async (): Promise<FetchResponse> => {
+          return createFailedResponse();
         },
         cachePath,
         FRAMEWORK,
         UI5_VERSION_S4_PLACEHOLDER
       );
-      expect(objNegotiatedVersionWithFetcher.version).toEqual("1.120.3");
+      expect(objNegotiatedVersionWithFetcher.version).toEqual(
+        currentVersionMaps.SAPUI5["latest"].version
+      );
       expect(objNegotiatedVersionWithFetcher.isFallback).toBeFalse();
       expect(objNegotiatedVersionWithFetcher.isIncorrectVersion).toBeTrue();
+    });
+
+    it("offline mode (should be the same as requested)", async () => {
+      const fetchSpy = jest
+        .spyOn(logicUtils, "tryFetch")
+        .mockImplementation(async () => {
+          return {} as Response;
+        });
+      const localUrlSpy = jest
+        .spyOn(logicUtils, "getLocalUrl")
+        .mockReturnValueOnce("localhost");
+
+      const testVersion = "1.71.1";
+      try {
+        const objNegotiatedVersionWithFetcher =
+          await negotiateVersionWithFetcher(
+            async (): Promise<FetchResponse<VersionMapJsonType>> => {
+              return createSuccessfulResponse(currentVersionMaps.SAPUI5);
+            },
+            async (): Promise<FetchResponse> => {
+              return createFailedResponse();
+            },
+            async (): Promise<FetchResponse> => {
+              return createFailedResponse();
+            },
+            cachePath,
+            FRAMEWORK,
+            testVersion
+          );
+        expect(objNegotiatedVersionWithFetcher.version).toEqual(testVersion);
+        expect(objNegotiatedVersionWithFetcher.isFallback).toBeFalse();
+        expect(objNegotiatedVersionWithFetcher.isIncorrectVersion).toBeFalse();
+      } finally {
+        localUrlSpy.mockRestore();
+        fetchSpy.mockRestore();
+      }
     });
   });
 });

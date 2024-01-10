@@ -5,7 +5,11 @@ import {
   UI5Aggregation,
   UI5SemanticModel,
 } from "@ui5-language-assistant/semantic-model-types";
-import { generateModel } from "@ui5-language-assistant/test-utils";
+import {
+  DEFAULT_UI5_VERSION,
+  generateModel,
+  getFallbackPatchVersions,
+} from "@ui5-language-assistant/test-utils";
 import { CodeAssistSettings } from "@ui5-language-assistant/settings";
 import { ui5NodeToFQN } from "@ui5-language-assistant/logic-utils";
 import { generate } from "@ui5-language-assistant/semantic-model";
@@ -23,7 +27,9 @@ describe("The `getXMLViewCompletions()` api", () => {
   beforeAll(async function () {
     REAL_UI5_MODEL = await generateModel({
       framework: "SAPUI5",
-      version: "1.71.61",
+      version: (
+        await getFallbackPatchVersions()
+      ).SAPUI5 as typeof DEFAULT_UI5_VERSION,
       modelGenerator: generate,
     });
     appContext = getDefaultContext(REAL_UI5_MODEL);

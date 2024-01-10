@@ -1,5 +1,15 @@
 # Change Log
 
+## 4.0.23
+
+### Patch Changes
+
+- 0186685: Fallback to the latest supported patch version
+- Updated dependencies [0186685]
+  - @ui5-language-assistant/semantic-model@4.0.16
+  - @ui5-language-assistant/logic-utils@4.0.17
+  - @ui5-language-assistant/context@4.0.23
+
 ## 4.0.22
 
 ### Patch Changes

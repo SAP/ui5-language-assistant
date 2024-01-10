@@ -10,6 +10,8 @@ import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import {
   generateModel,
   expectExists,
+  getFallbackPatchVersions,
+  DEFAULT_UI5_VERSION,
 } from "@ui5-language-assistant/test-utils";
 import { generate } from "@ui5-language-assistant/semantic-model";
 import { getHoverResponse } from "../../src/hover";
@@ -23,7 +25,9 @@ describe("the UI5 language assistant Hover Tooltip Service", () => {
   beforeAll(async () => {
     ui5SemanticModel = await generateModel({
       framework: "SAPUI5",
-      version: "1.71.61",
+      version: (
+        await getFallbackPatchVersions()
+      ).SAPUI5 as typeof DEFAULT_UI5_VERSION,
       modelGenerator: generate,
     });
     appContext = getDefaultContext(ui5SemanticModel);

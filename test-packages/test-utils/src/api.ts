@@ -29,3 +29,6 @@ export {
   expectExists,
   expectProperty,
 } from "./utils/expect";
+export { getFallbackPatchVersions } from "./utils/download-ui5-resources";
+
+export const DEFAULT_UI5_VERSION = "1.71.61";

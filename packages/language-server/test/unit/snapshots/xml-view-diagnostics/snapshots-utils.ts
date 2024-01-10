@@ -4,7 +4,11 @@ import { TextDocument } from "vscode-languageserver";
 import { readJsonSync, readFileSync } from "fs-extra";
 import { expect } from "chai";
 import { sortBy, forEachRight, map, cloneDeep, forEach } from "lodash";
-import { generateModel } from "@ui5-language-assistant/test-utils";
+import {
+  DEFAULT_UI5_VERSION,
+  generateModel,
+  getFallbackPatchVersions,
+} from "@ui5-language-assistant/test-utils";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { generate } from "@ui5-language-assistant/semantic-model";
 import { getXMLViewDiagnostics } from "../../../../src/xml-view-diagnostics";
@@ -94,11 +98,20 @@ export function readSnapshotDiagnosticsLSPResponse(
   return expectedDiagnostics;
 }
 
-const ui5ModelPromise = generateModel({
-  framework: "SAPUI5",
-  version: "1.71.61",
-  modelGenerator: generate,
+const ui5ModelPromise = new Promise<UI5SemanticModel>((done, reject) => {
+  getFallbackPatchVersions()
+    .then((patch) => {
+      generateModel({
+        framework: "SAPUI5",
+        version: patch.SAPUI5 as typeof DEFAULT_UI5_VERSION,
+        modelGenerator: generate,
+      })
+        .then((model) => done(model))
+        .catch((e) => reject(e));
+    })
+    .catch((e) => reject(e));
 });
+
 let ui5Model: UI5SemanticModel | undefined = undefined;
 let appContext: AppContext;
 
