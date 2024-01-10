@@ -8,14 +8,14 @@ import {
 import { BindContext, BindingInfoElement, ValueContext } from "../../../types";
 import { getBindingElements } from "./../../../api";
 import { getCompletionItems } from "./binding";
+import type { UI5Aggregation } from "@ui5-language-assistant/semantic-model-types";
 
 export const createStructureValue = (
   context: BindContext,
   spaces: BindingTypes.WhiteSpaces[],
   valueContext: ValueContext,
   bindingElements: BindingInfoElement[],
-  /* istanbul ignore next */
-  aggregation = false
+  aggregation?: UI5Aggregation
 ): CompletionItem[] => {
   const { element } = valueContext;
   /* istanbul ignore next */

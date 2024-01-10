@@ -17,6 +17,7 @@ import { getBindingElements } from "../../../api";
 import { isAnyType } from "../../../utils";
 import { checkSkeleton } from "./check-skeleton";
 import { checkRequiredElement } from "./check-required";
+import type { UI5Aggregation } from "@ui5-language-assistant/semantic-model-types";
 
 /**
  * Check binding
@@ -28,8 +29,7 @@ export const checkBinding = (
     parse: BindingTypes.ParseError[];
     lexer: BindingTypes.LexerError[];
   },
-  /* istanbul ignore next */
-  aggregation = false,
+  aggregation: UI5Aggregation | undefined = undefined,
   /* istanbul ignore next */
   bindingElements = getBindingElements(context, aggregation),
   /* istanbul ignore next */

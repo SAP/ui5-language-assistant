@@ -218,7 +218,7 @@ const walkAttributes = (
         attr,
         context.ui5Model
       );
-      const bindingInfo = getBindingElements(context, !!ui5Aggregation);
+      const bindingInfo = getBindingElements(context, ui5Aggregation);
       const properties = bindingInfo.map((i) => i.name);
 
       for (const binding of ast.bindings) {

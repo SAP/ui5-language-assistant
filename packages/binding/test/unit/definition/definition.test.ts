@@ -8,7 +8,10 @@ import {
 import { getContext } from "@ui5-language-assistant/context";
 import { BindContext } from "../../../src/types";
 import { getBindingElements } from "../../../src/definition/definition";
-import { UI5Typedef } from "@ui5-language-assistant/semantic-model-types";
+import type {
+  UI5Aggregation,
+  UI5Typedef,
+} from "@ui5-language-assistant/semantic-model-types";
 import { initI18n } from "../../../src/i18n";
 
 describe("definition", () => {
@@ -44,24 +47,21 @@ describe("definition", () => {
       expect(result).toMatchSnapshot();
     });
     it("get binding elements - aggregation", () => {
-      const result = getBindingElements(context, true);
+      const result = getBindingElements(context, {} as UI5Aggregation);
       expect(result).toMatchSnapshot();
     });
     it("check fallback", () => {
-      const result = getBindingElements(
-        {
-          ...context,
-          ui5Model: {
-            ...context.ui5Model,
-            typedefs: {
-              ...context.ui5Model.typedefs,
-              "sap.ui.base.ManagedObject.PropertyBindingInfo":
-                undefined as unknown as UI5Typedef,
-            },
+      const result = getBindingElements({
+        ...context,
+        ui5Model: {
+          ...context.ui5Model,
+          typedefs: {
+            ...context.ui5Model.typedefs,
+            "sap.ui.base.ManagedObject.PropertyBindingInfo":
+              undefined as unknown as UI5Typedef,
           },
         },
-        false
-      );
+      });
       expect(result).toMatchSnapshot();
     });
     it("check fallback - aggregation", () => {
@@ -77,7 +77,7 @@ describe("definition", () => {
             },
           },
         },
-        true
+        {} as UI5Aggregation
       );
       expect(result).toMatchSnapshot();
     });
