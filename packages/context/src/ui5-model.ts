@@ -317,10 +317,7 @@ async function isVersionLibsCacheValid(
       } catch (e) {
         apiJson = undefined;
       }
-      return (
-        apiJson &&
-        typeof apiJson === "object"
-      );
+      return apiJson && typeof apiJson === "object";
     })
   );
   return result.every((item) => !!item);
