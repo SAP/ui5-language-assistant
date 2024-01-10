@@ -1,5 +1,11 @@
 # @ui5-language-assistant/binding
 
+## 1.0.23
+
+### Patch Changes
+
+- 360deaa: Relax diagnostics for aggregation which have alternative types
+
 ## 1.0.22
 
 ### Patch Changes
