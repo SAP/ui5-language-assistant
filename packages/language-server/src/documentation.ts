@@ -96,7 +96,9 @@ export function getNodeDetail(node: BaseUI5Node): string {
     case "UI5Aggregation":
       return `(aggregation) ${node.name}: ${typeToString(
         (node as UI5Aggregation).type
-      )}`;
+      )}\n\nAlternative types: ${(node as UI5Aggregation).altTypes
+        .map((i) => typeToString(i))
+        .join(",")}`;
     case "UI5Association":
       return `(association) ${node.name}: ${typeToString(
         (node as UI5Association).type

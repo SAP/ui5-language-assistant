@@ -218,4 +218,10 @@ describe("aggregation binding", () => {
       });
     });
   });
+  it("tooltip [altTypes] - contains both aggregation and property binding info", async () => {
+    const snippet = `
+       <Text text="My Text" tooltip="{ ${CURSOR_ANCHOR} }"/>`;
+    const result = await getCompletionResult(snippet);
+    expect(result).toMatchSnapshot();
+  });
 });

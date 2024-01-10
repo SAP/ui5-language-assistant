@@ -1,5 +1,13 @@
 # Change Log
 
+## 4.0.51
+
+### Patch Changes
+
+- 360deaa: Relax diagnostics for aggregation which have alternative types
+- Updated dependencies [360deaa]
+  - @ui5-language-assistant/language-server@4.0.40
+
 ## 4.0.50
 
 ### Patch Changes

@@ -22,6 +22,10 @@ import { getDocumentation } from "../utils";
 import { getFallBackElements } from "./fall-back-definition";
 import { getSorterPossibleElement } from "./sorter";
 import { getFiltersPossibleElement } from "./filter";
+import type {
+  UI5Aggregation,
+  UI5TypedefProp,
+} from "@ui5-language-assistant/semantic-model-types";
 
 const notAllowedElements: Map<BindingInfoName, BindingInfoName[]> = new Map([
   [BindingInfoName.path, [BindingInfoName.parts, BindingInfoName.value]],
@@ -124,13 +128,13 @@ const sorterMap = new Map([
 ]);
 const getPossibleElement = (param: {
   context: BindContext;
-  aggregation?: boolean;
+  ui5Aggregation?: UI5Aggregation;
   forHover?: boolean;
   type: UI5Class;
 }): BindingInfoElement[] => {
   const result: BindingInfoElement[] = [];
   /* istanbul ignore next */
-  const { aggregation = false, forHover = false, type, context } = param;
+  const { ui5Aggregation, forHover = false, type, context } = param;
   if (type.name === ClassName.Sorter) {
     const parameters = type.ctor && type.ctor.parameters;
     if (!parameters) {
@@ -150,7 +154,7 @@ const getPossibleElement = (param: {
           type: constParam.type,
           name,
           collection: false,
-          aggregation,
+          ui5Aggregation,
           forHover,
           reference,
         }),
@@ -190,7 +194,7 @@ const getPossibleElement = (param: {
           type: paramType,
           name: param.name,
           collection: false,
-          aggregation,
+          ui5Aggregation,
           forHover,
           reference,
         }),
@@ -242,20 +246,21 @@ const buildType = (param: {
   type: UI5Type;
   name: string;
   collection?: boolean;
-  aggregation?: boolean;
+  ui5Aggregation?: UI5Aggregation;
   forHover?: boolean;
   reference?: string;
 }): PropertyType[] => {
   /* istanbul ignore next */
   const {
     collection = false,
-    aggregation = false,
+    ui5Aggregation,
     forHover = false,
     context,
     type,
     name,
     reference,
   } = param;
+  const aggregation = !!ui5Aggregation;
   const propertyType: PropertyType[] = [];
   switch (type.kind) {
     case "UI5Any": {
@@ -309,7 +314,7 @@ const buildType = (param: {
         notAllowedElements: getFromMap(notAllowedElements, name, aggregation),
         possibleElements: reference
           ? []
-          : getPossibleElement({ context, aggregation, forHover, type }),
+          : getPossibleElement({ context, ui5Aggregation, forHover, type }),
         possibleValue: {
           fixed: false,
           values: getPossibleValuesForClass(context, type),
@@ -338,7 +343,7 @@ const buildType = (param: {
               type: unionType.type,
               name,
               collection: true,
-              aggregation,
+              ui5Aggregation,
               forHover,
               reference,
             })
@@ -350,7 +355,7 @@ const buildType = (param: {
               type: unionType,
               name,
               collection,
-              aggregation,
+              ui5Aggregation,
               forHover,
               reference,
             })
@@ -368,7 +373,7 @@ const buildType = (param: {
           type: type.type,
           name,
           collection: true,
-          aggregation,
+          ui5Aggregation,
           forHover,
           reference,
         })
@@ -378,53 +383,57 @@ const buildType = (param: {
   return propertyType;
 };
 
-export const getBindingElements = (
-  context: BindContext,
-  /* istanbul ignore next */
-  aggregation = false,
-  /* istanbul ignore next */
-  forHover = false
-): BindingInfoElement[] => {
-  const elements: BindingInfoElement[] = [];
-  const propBinding = aggregation
-    ? context.ui5Model.typedefs[AGGREGATION_BINDING_INFO]
-    : context.ui5Model.typedefs[PROPERTY_BINDING_INFO];
+const getAltTypesPrime = (aggregation?: UI5Aggregation) =>
+  aggregation?.altTypes?.find((i) => i.kind === "PrimitiveType");
 
-  if (!propBinding) {
-    return getFallBackElements(aggregation);
-  }
-  /* istanbul ignore next */
-  const properties = propBinding.properties ?? [];
+const removeDuplicate = (builtType: PropertyType[]): PropertyType[] => {
+  const result = builtType.reduce(
+    (previous: PropertyType[], current: PropertyType) => {
+      const index = previous.findIndex((i) => i.kind === current.kind);
+      if (index === -1) {
+        return [...previous, current];
+      }
+      // there is duplicate
+      /* istanbul ignore next */
+      if (current.possibleValue?.values.length !== 0) {
+        // has possible value, remove previous - keep current
+        return [...previous.slice(index), current];
+      }
+      /* istanbul ignore next */
+      if (previous[index].possibleValue?.values.length !== 0) {
+        // has possible value - keep it
+        return previous;
+      }
+      return [...previous, current];
+    },
+    []
+  );
+  return result;
+};
+
+const processUI5TypedefProperties = (param: {
+  properties: UI5TypedefProp[];
+  context: BindContext;
+  aggregation?: UI5Aggregation;
+  forHover?: boolean;
+}) => {
+  const { properties, forHover = false, aggregation, context } = param;
+  const elements: BindingInfoElement[] = [];
   for (const property of properties) {
     const { name, type } = property;
     if (!type) {
       /* istanbul ignore next */
       continue;
     }
-    const builtType = buildType({
+    let builtType = buildType({
       context,
       type,
       name,
       collection: false,
-      aggregation,
+      ui5Aggregation: aggregation,
       forHover,
-    }).reduce((previous: PropertyType[], current: PropertyType) => {
-      const index = previous.findIndex((i) => i.kind === current.kind);
-      if (index !== -1) {
-        // there is duplicate
-        /* istanbul ignore next */
-        if (current.possibleValue?.values.length !== 0) {
-          // has possible value, remove previous - keep current
-          return [...previous.slice(index), current];
-        }
-        /* istanbul ignore next */
-        if (previous[index].possibleValue?.values.length !== 0) {
-          // has possible value - keep it
-          return previous;
-        }
-      }
-      return [...previous, current];
-    }, []);
+    });
+    builtType = removeDuplicate(builtType);
     const FQN = aggregation ? AGGREGATION_BINDING_INFO : PROPERTY_BINDING_INFO;
     const data: BindingInfoElement = {
       name: name,
@@ -441,5 +450,42 @@ export const getBindingElements = (
     }
     elements.push(data);
   }
+  return elements;
+};
+export const getBindingElements = (
+  context: BindContext,
+  /* istanbul ignore next */
+  aggregation: UI5Aggregation | undefined = undefined,
+  /* istanbul ignore next */
+  forHover = false
+): BindingInfoElement[] => {
+  const elements: BindingInfoElement[] = [];
+  const propBinding = aggregation
+    ? context.ui5Model.typedefs[AGGREGATION_BINDING_INFO]
+    : context.ui5Model.typedefs[PROPERTY_BINDING_INFO];
+
+  if (!propBinding) {
+    return getFallBackElements(!!aggregation);
+  }
+  elements.push(
+    ...processUI5TypedefProperties({
+      context,
+      forHover,
+      aggregation,
+      properties: propBinding.properties,
+    })
+  );
+  const altTypes = getAltTypesPrime(aggregation);
+  if (altTypes) {
+    // if `altTypes`, add `PROPERTY_BINDING_INFO` properties too
+    elements.push(
+      ...processUI5TypedefProperties({
+        properties: context.ui5Model.typedefs[PROPERTY_BINDING_INFO].properties,
+        context,
+        forHover,
+      })
+    );
+  }
+
   return elements;
 };

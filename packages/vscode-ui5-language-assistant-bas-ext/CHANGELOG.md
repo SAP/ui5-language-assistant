@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.51
+
+### Patch Changes
+
+- 360deaa: Relax diagnostics for aggregation which have alternative types
+
 ## 4.0.50
 
 ### Patch Changes

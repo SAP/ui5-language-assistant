@@ -26,13 +26,14 @@ import { createKeyProperties } from "./create-key-properties";
 import { createValue } from "./create-value";
 import { createKeyValue } from "./create-key-value";
 import { getBindingElements } from "./../../../definition/definition";
+import type { UI5Aggregation } from "@ui5-language-assistant/semantic-model-types";
 
 export const getCompletionItems = (
   context: BindContext,
   binding: BindingTypes.StructureValue,
   spaces: BindingTypes.WhiteSpaces[],
   /* istanbul ignore next */
-  aggregation = false,
+  aggregation: UI5Aggregation | undefined = undefined,
   /* istanbul ignore next */
   bindingElements = getBindingElements(context, aggregation)
 ): CompletionItem[] => {
@@ -89,7 +90,7 @@ export function bindingSuggestions({
     if (!ui5Property && !ui5Aggregation) {
       return completionItems;
     }
-    const propBinding = getBindingElements(context, !!ui5Aggregation, false);
+    const propBinding = getBindingElements(context, ui5Aggregation, false);
     const properties = propBinding.map((i) => i.name);
     const value = attribute.syntax.value;
     const startChar = value && value.image.charAt(0);
@@ -132,7 +133,7 @@ export function bindingSuggestions({
           context,
           binding,
           ast.spaces,
-          !!ui5Aggregation,
+          ui5Aggregation,
           propBinding
         )
       );
