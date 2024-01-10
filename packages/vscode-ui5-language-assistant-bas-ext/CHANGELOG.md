@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.52
+
+### Patch Changes
+
+- 1e011e6: Fixed SonarCloud complaints
+
 ## 4.0.51
 
 ### Patch Changes

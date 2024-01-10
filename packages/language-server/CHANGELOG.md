@@ -1,5 +1,12 @@
 # Change Log
 
+## 4.0.41
+
+### Patch Changes
+
+- 1e011e6: Fixed SonarCloud complaints
+  - @ui5-language-assistant/binding@1.0.24
+
 ## 4.0.40
 
 ### Patch Changes
