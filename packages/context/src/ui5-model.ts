@@ -319,8 +319,7 @@ async function isVersionLibsCacheValid(
       }
       return (
         apiJson &&
-        typeof apiJson === "object" &&
-        Object.keys(apiJson).length > 0
+        typeof apiJson === "object"
       );
     })
   );
@@ -335,7 +334,7 @@ async function isVersionLibsCacheValid(
  * @param modelCachePath Path to model data cache on disk
  * @param framework The UI5 framework version
  * @param version Requested version
- * @returns true if resouces are found
+ * @returns true if resources are found
  */
 async function isVersionResourcesAvailable(
   versionInfoJsonFetcher: Fetcher<Json>,
