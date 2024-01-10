@@ -1,5 +1,11 @@
 # @ui5-language-assistant/binding-parser
 
+## 1.0.7
+
+### Patch Changes
+
+- 1e011e6: Fixed SonarCloud complaints
+
 ## 1.0.6
 
 ### Patch Changes
