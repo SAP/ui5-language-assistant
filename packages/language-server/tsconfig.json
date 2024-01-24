@@ -1,9 +1,53 @@
 {
-  "extends": "../../tsconfig.base.json",
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
     "rootDir": ".",
     "outDir": "lib",
     "baseUrl": "."
   },
-  "include": ["src/**/*", "test/**/*", "api.d.ts", "src/**/*.json"]
+  "include": ["src/**/*", "test/**/*", "api.d.ts", "src/**/*.json"],
+  "references": [
+    {
+      "path": "../binding"
+    },
+    {
+      "path": "../logger"
+    },
+    {
+      "path": "../context"
+    },
+    {
+      "path": "../logic-utils"
+    },
+    {
+      "path": "../fe"
+    },
+    {
+      "path": "../semantic-model"
+    },
+    {
+      "path": "../xml-views-completion"
+    },
+    {
+      "path": "../xml-views-validation"
+    },
+    {
+      "path": "../settings"
+    },
+    {
+      "path": "../user-facing-text"
+    },
+    {
+      "path": "../xml-views-quick-fix"
+    },
+    {
+      "path": "../xml-views-tooltip"
+    },
+    {
+      "path": "../semantic-model-types"
+    },
+    {
+      "path": "../../test-packages/test-utils"
+    }
+  ]
 }

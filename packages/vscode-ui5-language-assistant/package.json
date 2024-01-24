@@ -154,7 +154,7 @@
     "package": "node ./scripts/package-vsix"
   },
   "dependencies": {
-    "@ui5-language-assistant/language-server": "4.0.43",
+    "@ui5-language-assistant/language-server": "workspace:*",
     "vscode-languageclient": "8.0.2",
     "@prettier/plugin-xml": "2.2.0",
     "prettier": "2.8.7"
@@ -162,14 +162,14 @@
   "devDependencies": {
     "@types/lodash": "4.14.168",
     "@types/vscode": "1.47.0",
-    "@ui5-language-assistant/settings": "4.0.9",
-    "@ui5-language-assistant/logic-utils": "4.0.17",
-    "@ui5-language-assistant/user-facing-text": "4.0.8",
+    "@ui5-language-assistant/settings": "workspace:*",
+    "@ui5-language-assistant/logic-utils": "workspace:*",
+    "@ui5-language-assistant/user-facing-text": "workspace:*",
     "lodash": "4.17.21",
     "proxyquire": "2.1.3",
     "vsce": "1.83.0",
     "vscode-languageserver": "8.0.2",
     "vscode-test": "1.6.1",
-    "@ui5-language-assistant/test-framework": "4.0.12"
+    "@ui5-language-assistant/test-framework": "workspace:*"
   }
 }

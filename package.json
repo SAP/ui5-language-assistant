@@ -1,18 +1,6 @@
 {
-  "name": "root",
+  "name": "@ui5-language-assistant/root",
   "private": true,
-  "workspaces": {
-    "packages": [
-      "packages/*",
-      "test-packages/*"
-    ],
-    "nohoist": [
-      "vscode-ui5-language-assistant/prettier",
-      "vscode-ui5-language-assistant/@prettier/plugin-xml",
-      "vscode-ui5-language-assistant/@ui5-language-assistant/language-server",
-      "vscode-ui5-language-assistant/@ui5-language-assistant/language-server/**"
-    ]
-  },
   "scripts": {
     "build:quick": "lerna run compile && lerna run bundle && lerna run package",
     "release:version": "lerna version --force-publish",
@@ -91,6 +79,13 @@
     "typescript": "4.9.4",
     "esbuild": "0.17.12"
   },
+  "engines": {
+    "npm": "please-use-pnpm",
+    "yarn": "please-use-pnpm",
+    "pnpm": "8.14.0",
+    "node": ">=18.x"
+  },
+  "packageManager": "pnpm@8.14.0",
   "lint-staged": {
     "*.{js,ts,md,json}": [
       "prettier --write"

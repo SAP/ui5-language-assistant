@@ -24,7 +24,7 @@ async function builder(options) {
   };
 
   if (process.argv.slice(2).includes("--watch")) {
-    console.log("Applyin watch config");
+    console.log("Applying watch config");
     buildConfig.watch = true;
     buildConfig.minify = false;
   }

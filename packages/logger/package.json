@@ -17,7 +17,7 @@
   "typings": "./api.d.ts",
   "dependencies": {
     "@vscode-logging/logger": "1.2.2",
-    "@ui5-language-assistant/settings": "4.0.9"
+    "@ui5-language-assistant/settings": "workspace:*"
   },
   "devDependencies": {
     "@vscode-logging/types": "0.1.4"
