@@ -22,10 +22,10 @@
     "node": ">=10.0.0"
   },
   "dependencies": {
-    "@ui5-language-assistant/context": "4.0.23",
-    "@ui5-language-assistant/logic-utils": "4.0.17",
-    "@ui5-language-assistant/semantic-model": "4.0.16",
-    "@ui5-language-assistant/semantic-model-types": "4.0.9",
+    "@ui5-language-assistant/context": "workspace:*",
+    "@ui5-language-assistant/logic-utils": "workspace:*",
+    "@ui5-language-assistant/semantic-model": "workspace:*",
+    "@ui5-language-assistant/semantic-model-types": "workspace:*",
     "@xml-tools/ast": "5.0.0",
     "@xml-tools/ast-position": "2.0.2",
     "@xml-tools/common": "0.1.2",

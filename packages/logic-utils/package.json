@@ -16,8 +16,8 @@
   "license": "Apache-2.0",
   "typings": "./api.d.ts",
   "dependencies": {
-    "@ui5-language-assistant/semantic-model-types": "4.0.9",
-    "@ui5-language-assistant/settings": "4.0.9",
+    "@ui5-language-assistant/semantic-model-types": "workspace:*",
+    "@ui5-language-assistant/settings": "workspace:*",
     "@xml-tools/ast": "5.0.0",
     "lodash": "4.17.21",
     "node-fetch": "2.6.9",
@@ -25,8 +25,8 @@
     "proxy-from-env": "1.1.0"
   },
   "devDependencies": {
-    "@ui5-language-assistant/semantic-model": "4.0.16",
-    "@ui5-language-assistant/test-utils": "4.0.12",
+    "@ui5-language-assistant/semantic-model": "workspace:*",
+    "@ui5-language-assistant/test-utils": "workspace:*",
     "@xml-tools/parser": "1.0.7"
   },
   "scripts": {

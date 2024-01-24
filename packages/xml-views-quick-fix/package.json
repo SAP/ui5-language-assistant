@@ -21,13 +21,13 @@
     "node": ">=10.0.0"
   },
   "dependencies": {
-    "@ui5-language-assistant/logic-utils": "4.0.17",
+    "@ui5-language-assistant/logic-utils": "workspace:*",
     "@xml-tools/ast": "5.0.0",
     "@xml-tools/ast-position": "2.0.2",
     "lodash": "4.17.21"
   },
   "devDependencies": {
-    "@ui5-language-assistant/test-utils": "4.0.12",
+    "@ui5-language-assistant/test-utils": "workspace:*",
     "@xml-tools/parser": "1.0.7",
     "vscode-languageserver": "8.0.2"
   },

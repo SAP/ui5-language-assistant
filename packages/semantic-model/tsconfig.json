@@ -1,9 +1,20 @@
 {
-  "extends": "../../tsconfig.base.json",
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
     "rootDir": ".",
     "outDir": "lib",
     "baseUrl": "."
   },
-  "include": ["src/**/*", "test/**/*", "api.d.ts"]
+  "include": ["src/**/*", "test/**/*", "api.d.ts"],
+  "references": [
+    {
+      "path": "../logger"
+    },
+    {
+      "path": "../semantic-model-types"
+    },
+    {
+      "path": "../../test-packages/test-utils"
+    }
+  ]
 }
