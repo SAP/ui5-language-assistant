@@ -1,5 +1,13 @@
 # Change Log
 
+## 4.0.18
+
+### Patch Changes
+
+- 7edb021: Fix semantic model for UI5, starting from version 1.121.0
+- Updated dependencies [7edb021]
+  - @ui5-language-assistant/semantic-model-types@4.0.10
+
 ## 4.0.17
 
 ### Patch Changes

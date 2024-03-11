@@ -1,5 +1,12 @@
 # Change Log
 
+## 4.0.55
+
+### Patch Changes
+
+- 7edb021: Fix semantic model for UI5, starting from version 1.121.0
+  - @ui5-language-assistant/language-server@4.0.44
+
 ## 4.0.54
 
 ### Patch Changes

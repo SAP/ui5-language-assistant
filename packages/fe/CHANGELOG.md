@@ -1,5 +1,15 @@
 # Change Log
 
+## 4.0.25
+
+### Patch Changes
+
+- Updated dependencies [7edb021]
+  - @ui5-language-assistant/logic-utils@4.0.18
+  - @ui5-language-assistant/context@4.0.24
+  - @ui5-language-assistant/xml-views-validation@4.0.19
+  - @ui5-language-assistant/xml-views-completion@4.0.24
+
 ## 4.0.24
 
 ### Patch Changes

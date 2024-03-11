@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.10
+
+### Patch Changes
+
+- 7edb021: Fix semantic model for UI5, starting from version 1.121.0
+
 ## 4.0.9
 
 ### Patch Changes
