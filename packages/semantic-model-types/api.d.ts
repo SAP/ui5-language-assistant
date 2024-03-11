@@ -196,7 +196,7 @@ export interface PrimitiveType {
 
 export interface UnresolvedType {
   kind: "UnresolvedType";
-  name: string;
+  name: string | string[];
 }
 
 export type UI5Type =

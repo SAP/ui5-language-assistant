@@ -9,6 +9,7 @@ import {
   UI5Class,
   UI5SemanticModel,
   UI5Type,
+  UnresolvedType,
 } from "@ui5-language-assistant/semantic-model-types";
 import { resolveType, setParent } from "../../src/resolve";
 import { getSymbolMaps } from "../../src/utils";
@@ -32,6 +33,27 @@ describe("The ui5-language-assistant semantic model package unit tests", () => {
           strict: true,
         })
       ).toEqual(stringPrimitiveType);
+    });
+
+    it("unresolved type - array", () => {
+      const model = buildUI5Model({});
+      model.classes["sap.fe.macros.table.Action"] = {} as UI5Class;
+      model.classes["sap.fe.macros.table.ActionGroup"] = {} as UI5Class;
+
+      const type: UnresolvedType = {
+        kind: "UnresolvedType",
+        name: ["sap.fe.macros.table.Action", "sap.fe.macros.table.ActionGroup"],
+      };
+      const result = resolveType({
+        model,
+        type: type,
+        typeNameFix: {},
+        strict: true,
+      });
+      expect(result).toEqual({
+        kind: "UnionType",
+        types: [{}, {}],
+      });
     });
   });
 
