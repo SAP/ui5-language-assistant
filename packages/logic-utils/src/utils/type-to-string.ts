@@ -14,7 +14,7 @@ export function typeToString(type: UI5Type | undefined): string {
       return typeToString(type.type) + "[]";
     case "PrimitiveType":
     case "UnresolvedType":
-      return type.name;
+      return Array.isArray(type.name) ? type.name.join(",") : type.name;
     default:
       return "any";
   }
