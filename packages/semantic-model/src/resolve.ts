@@ -344,6 +344,31 @@ export function resolveType({
       name: primitiveTypeName,
     };
   }
+  /**
+   * JSDoc uses usually `|` to represent union type, but
+   * starting with UI5 version 1.121.1, it may use `,`. For instance aggregation actions of `sap.fe.macros.Table` is represented by "sap.fe.macros.table.Action,sap.fe.macros.table.ActionGroup"
+   * Todo: Alignment on union type representation is required.
+   */
+  if (Array.isArray(typeName)) {
+    const types: UI5Type[] = [];
+    for (const t of typeName) {
+      const resolvedType = resolveType({
+        model,
+        type: t,
+        typeNameFix,
+        strict,
+        typedef,
+      });
+      if (!resolvedType) {
+        continue;
+      }
+      types.push(t);
+    }
+    return {
+      kind: "UnionType",
+      types,
+    };
+  }
   if (typeName.startsWith("Array<(")) {
     const innerTypeName = typeName.slice(
       typeName.indexOf("(") + 1,

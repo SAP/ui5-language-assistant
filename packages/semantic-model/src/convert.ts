@@ -93,7 +93,15 @@ function convertLibraryToSemanticModel(
     return model;
   }
   for (const symbol of lib.symbols) {
-    const fqn = symbol.name;
+    let fqn = symbol.name;
+    /**
+     * Workaround to fix namespace miss match of the `sap.fe.core.controls.buildingBlocks.BuildingBlockBase` and
+     * "sap.fe.macros.MacroAPI" which extends "sap.fe.core.buildingBlocks.BuildingBlockBase"
+     * This is a workaround and should be removed once issue is fixed.
+     */
+    if (fqn === "sap.fe.core.controls.buildingBlocks.BuildingBlockBase") {
+      fqn = "sap.fe.core.buildingBlocks.BuildingBlockBase";
+    }
     if (has(jsonSymbols, fqn)) {
       error(
         `${libName}: Duplicate symbol found: ${symbol.kind} ${fqn}. First occurrence is a ${jsonSymbols[fqn].kind}.`,
