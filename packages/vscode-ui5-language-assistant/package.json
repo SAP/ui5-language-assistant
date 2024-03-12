@@ -151,7 +151,8 @@
     "test:unit": "jest --ci --forceExit --detectOpenHandles --maxWorkers=1 --coverage=false",
     "coverage:unit": "jest --ci --forceExit --detectOpenHandles --maxWorkers=1 --coverage=true",
     "bundle": "node esbuild.js",
-    "package": "node ./scripts/package-vsix"
+    "package": "node ./scripts/package-vsix",
+    "update:schema": "ts-node  --project tsconfig.cli.json tools/run-update.ts"
   },
   "dependencies": {
     "@ui5-language-assistant/language-server": "4.0.44",
@@ -170,6 +171,8 @@
     "vsce": "1.83.0",
     "vscode-languageserver": "8.0.2",
     "vscode-test": "1.6.1",
-    "@ui5-language-assistant/test-framework": "4.0.12"
+    "@ui5-language-assistant/test-framework": "4.0.12",
+    "axios": "1.6.1",
+    "ts-node": "8.5.2"
   }
 }
