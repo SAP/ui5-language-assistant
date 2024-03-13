@@ -3,6 +3,7 @@ const defaultConfig = require("../../jest.config");
 
 module.exports = {
   ...defaultConfig,
+  collectCoverageFrom: ["src/**/*.{ts,tsx}", "!scripts/**/*.{ts,js}"],
   globals: {
     "ts-jest": {
       tsconfig: join(__dirname, "tsconfig-test.json"),
@@ -12,5 +13,4 @@ module.exports = {
       },
     },
   },
-  collectCoverageFrom: ["!**/*scripts"],
 };
