@@ -152,7 +152,7 @@
     "coverage:unit": "jest --ci --forceExit --detectOpenHandles --maxWorkers=1 --coverage=true",
     "bundle": "node esbuild.js",
     "package": "node ./scripts/package-vsix",
-    "update:schema": "ts-node  --project tsconfig.cli.json tools/run-update.ts"
+    "update:schema": "ts-node  --project tsconfig.cli.json scripts/manifest/run-update.ts"
   },
   "dependencies": {
     "@ui5-language-assistant/language-server": "4.0.44",
