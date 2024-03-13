@@ -9,7 +9,7 @@ export const ADAPTIVE_CARD_LOCATION = join(BASE_PATH, "adaptive-card.json");
 export const MANIFEST_SCHEMA_URI =
   "https://raw.githubusercontent.com/SAP/ui5-manifest/master/schema.json";
 export const ADAPTIVE_CARD_URI =
-  "http://adaptivecards.io/schemas/adaptive-card.json";
+  "https://adaptivecards.io/schemas/adaptive-card.json";
 
 // eslint-disable-next-line no-console
 updateManifestResources().catch(console.error);
