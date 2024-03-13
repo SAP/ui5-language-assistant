@@ -18,6 +18,11 @@ export function expectXMLAttribute(
 ): asserts astNode is XMLAttribute {
   expect(astNode.type).to.equal("XMLAttribute");
 }
+export function expectXMLAttribute02(
+  astNode: XMLElement | XMLAttribute
+): asserts astNode is XMLAttribute {
+  expect(astNode.type).to.equal("XMLAttribute");
+}
 
 export function expectExists(value: unknown, message: string): asserts value {
   expect(value, message).to.exist;
