@@ -11,7 +11,7 @@ export const MANIFEST_SCHEMA_URI =
 export const ADAPTIVE_CARD_URI =
   "http://adaptivecards.io/schemas/adaptive-card.json";
 
-/* eslint-disable no-console */ // Only intend to run in CLI environment where we don't need more advanced logging
+// eslint-disable-next-line no-console
 updateManifestResources().catch(console.error);
 
 async function updateManifestResources() {
@@ -23,7 +23,7 @@ async function updateManifestResources() {
  * Fetch data from ADAPTIVE_CARD_URI and updates the adaptive-card.json
  */
 async function updateAdaptiveCard() {
-  let content = await axiosGetRequest(ADAPTIVE_CARD_URI);
+  const content = await axiosGetRequest(ADAPTIVE_CARD_URI);
   const prettifiedContent = prettifyFileContent(ADAPTIVE_CARD_URI, content);
   if (prettifiedContent) {
     await fs.writeFile(ADAPTIVE_CARD_LOCATION, prettifiedContent, "utf8");
