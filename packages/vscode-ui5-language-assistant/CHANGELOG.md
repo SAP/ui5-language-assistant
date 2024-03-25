@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.56
+
+### Patch Changes
+
+- 6d8f0d9: New script for updating manifest schema and updated manifest schema
+
 ## 4.0.55
 
 ### Patch Changes
