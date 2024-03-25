@@ -16,6 +16,8 @@ describe("context", () => {
       const getManifestDetailsStub = jest
         .spyOn(manifest, "getManifestDetails")
         .mockResolvedValue({
+          appId: "",
+          manifestPath: "",
           mainServicePath: "/",
           customViews: {},
           flexEnabled: false,
@@ -54,6 +56,8 @@ describe("context", () => {
       const getManifestDetailsStub = jest
         .spyOn(manifest, "getManifestDetails")
         .mockResolvedValue({
+          appId: "",
+          manifestPath: "",
           mainServicePath: "/",
           customViews: {},
           flexEnabled: false,
