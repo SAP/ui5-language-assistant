@@ -40,7 +40,7 @@ export async function getControllerLocation(
     return [];
   }
   // value must be present - otherwise getAttribute method returns undefined
-  const value = attr.value!;
+  const value = attr.value as string;
   const id = context.manifestDetails.appId;
   const manifestPath = context.manifestDetails.manifestPath;
 

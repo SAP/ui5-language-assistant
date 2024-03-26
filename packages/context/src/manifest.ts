@@ -259,7 +259,7 @@ async function extractManifestDetails(
     customViews,
     flexEnabled,
     minUI5Version,
-    appId: manifest["sap.app"].id ?? "",
+    appId: manifest["sap.app"]?.id ?? "",
     manifestPath,
   };
 }
