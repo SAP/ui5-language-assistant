@@ -1,9 +1,6 @@
 import { Position } from "vscode-languageserver-textdocument";
 import { SourcePosition, XMLElement } from "@xml-tools/ast";
-import {
-  getAttribute,
-  positionContained,
-} from "../../../../src/controller/utils";
+import { getAttribute, positionContained } from "../../../src/utils";
 import { parse, DocumentCstNode } from "@xml-tools/parser";
 import { buildAst } from "@xml-tools/ast";
 
@@ -12,6 +9,11 @@ function getXmlElement(text: string): XMLElement {
   const ast = buildAst(cst as DocumentCstNode, tokenVector);
   return ast.rootElement as XMLElement;
 }
+const allowedAttrs = new Set([
+  "controllerName",
+  "template:require",
+  "core:require",
+]);
 
 describe("index", () => {
   describe("getAttribute", () => {
@@ -20,7 +22,7 @@ describe("index", () => {
       const element = { attributes: [] } as unknown as XMLElement;
       const position = {} as Position;
       // act
-      const result = getAttribute(element, position);
+      const result = getAttribute(element, position, allowedAttrs);
       // assert
       expect(result).toBeUndefined();
     });
@@ -36,7 +38,7 @@ describe("index", () => {
       const element = getXmlElement(text);
       const position: Position = { line: 3, character: 32 };
       // act
-      const result = getAttribute(element, position);
+      const result = getAttribute(element, position, allowedAttrs);
       // assert
       expect(result?.value).toEqual("sap.ui.demo.walkthrough.controller.Main");
     });
@@ -51,7 +53,7 @@ describe("index", () => {
       const element = getXmlElement(text);
       const position: Position = { line: 2, character: 32 };
       // act
-      const result = getAttribute(element, position);
+      const result = getAttribute(element, position, allowedAttrs);
       // assert
       expect(result?.value).toEqual(
         "sap.ui.demo.walkthrough.controller.Helper"
@@ -72,7 +74,7 @@ describe("index", () => {
       const element = getXmlElement(text);
       const position: Position = { line: 6, character: 92 };
       // act
-      const result = getAttribute(element, position);
+      const result = getAttribute(element, position, allowedAttrs);
       // assert
       expect(result?.value).toEqual(
         "{ MessageToast: 'sap/m/MessageToast', helper: 'sap/ui/demo/walkthrough/controller/Helper' }"

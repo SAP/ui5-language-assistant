@@ -3,7 +3,7 @@ import { DefinitionParams } from "vscode-languageserver";
 import { readFile } from "fs/promises";
 import { parse, DocumentCstNode } from "@xml-tools/parser";
 import { buildAst } from "@xml-tools/ast";
-import { buildFileUri, getAttribute } from "./utils";
+import { buildFileUri, getAttribute } from "../utils";
 import { URI } from "vscode-uri";
 import { isContext, getContext } from "@ui5-language-assistant/context";
 import {
@@ -11,9 +11,16 @@ import {
   positionInside,
 } from "@ui5-language-assistant/binding-parser";
 
+const allowedAttrs = new Set([
+  "controllerName",
+  "template:require",
+  "core:require",
+]);
+const exts = [".controller.js", ".js", ".controller.ts", ".ts"];
+
 /**
  * Get controller location.
- * It searches local file system for file with `.controller.js` or `.controller.ts` extension.
+ * It searches local file system for file with `.controller.js`, `.js`, `.controller.ts` or `.ts` extension.
  *
  * @param param definition param
  * @returns array of location
@@ -30,7 +37,7 @@ export async function getControllerLocation(
   if (!ast.rootElement) {
     return [];
   }
-  const attr = getAttribute(ast.rootElement, position);
+  const attr = getAttribute(ast.rootElement, position, allowedAttrs);
   if (!attr) {
     return [];
   }
@@ -66,7 +73,7 @@ export async function getControllerLocation(
     }
     const text = el.value.text.split("/").join(".").replace(/'|"$/g, "");
 
-    const fileUri = await buildFileUri(id, text, manifestPath);
+    const fileUri = await buildFileUri(id, text, manifestPath, exts);
     if (!fileUri) {
       return [];
     }
@@ -79,7 +86,7 @@ export async function getControllerLocation(
   }
 
   // handle dot notation
-  const fileUri = await buildFileUri(id, value, manifestPath);
+  const fileUri = await buildFileUri(id, value, manifestPath, exts);
   if (!fileUri) {
     return [];
   }

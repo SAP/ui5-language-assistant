@@ -1,9 +1,8 @@
-import * as utils from "../../../../src/controller/utils";
+import { pathExists, buildFileUri } from "../../../src/utils";
 import { join } from "path";
 
 describe("file", () => {
   describe("pathExists", () => {
-    const { pathExists } = utils;
     test("returns true if path exists", async () => {
       // arrange
       const filePath = join(__dirname, "index.test.ts");
@@ -21,14 +20,8 @@ describe("file", () => {
     });
   });
   describe("buildFileUri", () => {
-    const { buildFileUri } = utils;
-    const mockManifestPath = join(
-      __dirname,
-      "..",
-      "..",
-      "data",
-      "manifest.json"
-    );
+    const exts = [".controller.js", ".js", ".controller.ts", ".ts"];
+    const mockManifestPath = join(__dirname, "..", "data", "manifest.json");
 
     test("file uri when matching controller file exists with .controller.js extension", async () => {
       // arrange
@@ -37,13 +30,17 @@ describe("file", () => {
       const expectedFileUri = join(
         __dirname,
         "..",
-        "..",
         "data",
         "controller",
         "App.controller.js"
       );
       // act
-      const result = await buildFileUri(namespace, value, mockManifestPath);
+      const result = await buildFileUri(
+        namespace,
+        value,
+        mockManifestPath,
+        exts
+      );
       // assert
       expect(result).toBe(expectedFileUri);
     });
@@ -54,13 +51,17 @@ describe("file", () => {
       const expectedFileUri = join(
         __dirname,
         "..",
-        "..",
         "data",
         "controller",
         "AppHelper.js"
       );
       // act
-      const result = await buildFileUri(namespace, value, mockManifestPath);
+      const result = await buildFileUri(
+        namespace,
+        value,
+        mockManifestPath,
+        exts
+      );
       // assert
       expect(result).toBe(expectedFileUri);
     });
@@ -72,13 +73,17 @@ describe("file", () => {
       const expectedFileUri = join(
         __dirname,
         "..",
-        "..",
         "data",
         "controller",
         "Helper.controller.ts"
       );
       // act
-      const result = await buildFileUri(namespace, value, mockManifestPath);
+      const result = await buildFileUri(
+        namespace,
+        value,
+        mockManifestPath,
+        exts
+      );
       // assert
       expect(result).toBe(expectedFileUri);
     });
@@ -89,13 +94,17 @@ describe("file", () => {
       const expectedFileUri = join(
         __dirname,
         "..",
-        "..",
         "data",
         "controller",
         "Handler.ts"
       );
       // act
-      const result = await buildFileUri(namespace, value, mockManifestPath);
+      const result = await buildFileUri(
+        namespace,
+        value,
+        mockManifestPath,
+        exts
+      );
       // assert
       expect(result).toBe(expectedFileUri);
     });
@@ -105,7 +114,12 @@ describe("file", () => {
       const namespace = "sap.ui.demo.walkthrough";
       const value = "sap.ui.demo.walkthrough.controller.Abc";
       // act
-      const result = await buildFileUri(namespace, value, mockManifestPath);
+      const result = await buildFileUri(
+        namespace,
+        value,
+        mockManifestPath,
+        exts
+      );
       // assert
       expect(result).toBeUndefined();
     });

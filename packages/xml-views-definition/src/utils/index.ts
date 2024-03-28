@@ -2,11 +2,6 @@ import { SourcePosition, XMLAttribute, XMLElement } from "@xml-tools/ast";
 import { Position } from "vscode-languageserver-textdocument";
 export { buildFileUri, pathExists } from "./file";
 
-const allowedAttrs = new Set([
-  "controllerName",
-  "template:require",
-  "core:require",
-]);
 /**
  * Check if cursor position is contained in source position.
  *
@@ -32,18 +27,16 @@ export function positionContained(
 
 /**
  * Get attribute from xml element.
- * Following xml attribute are checked.
- * - "controllerName"
- * - "template:require"
- * - "core:require"
  *
  * @param element xml element
  * @param position cursor position
+ * @param allowedAttrs allowed xml attributes
  * @returns xml attribute or undefined
  */
 export function getAttribute(
   element: XMLElement,
-  position: Position
+  position: Position,
+  allowedAttrs: Set<string>
 ): XMLAttribute | undefined {
   for (const attr of element.attributes) {
     if (allowedAttrs.has(attr.key ?? "")) {
@@ -61,7 +54,10 @@ export function getAttribute(
   }
   const subElements = element.subElements || [];
   for (const subElement of subElements) {
-    return getAttribute(subElement, position);
+    const result = getAttribute(subElement, position, allowedAttrs);
+    if (result) {
+      return result;
+    }
   }
   return;
 }
