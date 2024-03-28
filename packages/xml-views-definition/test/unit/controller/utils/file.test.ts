@@ -30,7 +30,7 @@ describe("file", () => {
       "manifest.json"
     );
 
-    test("file uri when matching controller file exists with .js extension", async () => {
+    test("file uri when matching controller file exists with .controller.js extension", async () => {
       // arrange
       const namespace = "sap.ui.demo.walkthrough";
       const value = "sap.ui.demo.walkthrough.controller.App";
@@ -47,8 +47,25 @@ describe("file", () => {
       // assert
       expect(result).toBe(expectedFileUri);
     });
+    test("file uri when matching controller file exists with .js extension", async () => {
+      // arrange
+      const namespace = "sap.ui.demo.walkthrough";
+      const value = "sap.ui.demo.walkthrough.controller.AppHelper";
+      const expectedFileUri = join(
+        __dirname,
+        "..",
+        "..",
+        "data",
+        "controller",
+        "AppHelper.js"
+      );
+      // act
+      const result = await buildFileUri(namespace, value, mockManifestPath);
+      // assert
+      expect(result).toBe(expectedFileUri);
+    });
 
-    test("file uri when matching controller file exists with .ts extension", async () => {
+    test("file uri when matching controller file exists with .controller.ts extension", async () => {
       // arrange
       const namespace = "sap.ui.demo.walkthrough";
       const value = "sap.ui.demo.walkthrough.controller.Helper";
@@ -59,6 +76,23 @@ describe("file", () => {
         "data",
         "controller",
         "Helper.controller.ts"
+      );
+      // act
+      const result = await buildFileUri(namespace, value, mockManifestPath);
+      // assert
+      expect(result).toBe(expectedFileUri);
+    });
+    test("file uri when matching controller file exists with .ts extension", async () => {
+      // arrange
+      const namespace = "sap.ui.demo.walkthrough";
+      const value = "sap.ui.demo.walkthrough.controller.Handler";
+      const expectedFileUri = join(
+        __dirname,
+        "..",
+        "..",
+        "data",
+        "controller",
+        "Handler.ts"
       );
       // act
       const result = await buildFileUri(namespace, value, mockManifestPath);

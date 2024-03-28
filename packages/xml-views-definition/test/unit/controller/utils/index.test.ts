@@ -24,21 +24,22 @@ describe("index", () => {
       // assert
       expect(result).toBeUndefined();
     });
-    test("for template:require attribute", () => {
+    test("for controllerName attribute", () => {
       // arrange
       const text = `
-        <core:FragmentDefinition
-            template:require="sap.ui.demo.walkthrough.controller.Helper"
-            xmlns:core="sap.ui.core">
-        </core:FragmentDefinition>
+      <mvc:View
+          xmlns:core="sap.ui.core"
+          controllerName="sap.ui.demo.walkthrough.controller.Main"
+      >
+      </mvc:View>
       `;
       const element = getXmlElement(text);
-      const position: Position = { line: 2, character: 32 };
+      const position: Position = { line: 3, character: 32 };
       // act
       const result = getAttribute(element, position);
       // assert
       expect(result?.value).toEqual(
-        "sap.ui.demo.walkthrough.controller.Helper"
+        "sap.ui.demo.walkthrough.controller.Main"
       );
     });
     test("for template:require attribute", () => {
@@ -62,12 +63,16 @@ describe("index", () => {
       // arrange
       const text = `
         <core:FragmentDefinition
-            core:require="{ MessageToast: 'sap/m/MessageToast', helper: 'sap/ui/demo/walkthrough/controller/Helper' }"
-            xmlns:core="sap.ui.core">
+            xmlns:core="sap.ui.core"
+            xmlns:macros="sap.fe.macros"
+        >
+            <VBox
+                core:require="{ MessageToast: 'sap/m/MessageToast', helper: 'sap/ui/demo/walkthrough/controller/Helper' }"
+            />
         </core:FragmentDefinition>
       `;
       const element = getXmlElement(text);
-      const position: Position = { line: 2, character: 92 };
+      const position: Position = { line: 6, character: 92 };
       // act
       const result = getAttribute(element, position);
       // assert

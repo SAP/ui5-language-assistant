@@ -42,10 +42,14 @@ export async function buildFileUri(
   const withoutNSParts = valueWithoutNS.split(".") ?? [];
   const absolutePath = join(dirname(manifestPath), ...withoutNSParts);
 
-  for (const ext of [".js", ".ts"]) {
-    const filePath = `${absolutePath}.controller${ext}`;
+  for (const ext of ["js", "ts"]) {
+    const filePath = `${absolutePath}.controller.${ext}`;
     if (await pathExists(filePath)) {
       return filePath;
+    }
+    const filePathWithoutCtr = `${absolutePath}.${ext}`;
+    if (await pathExists(filePathWithoutCtr)) {
+      return filePathWithoutCtr;
     }
   }
   return;

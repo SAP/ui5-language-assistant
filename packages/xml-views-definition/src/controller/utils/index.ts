@@ -59,5 +59,9 @@ export function getAttribute(
       }
     }
   }
+  const subElements = element.subElements || [];
+  for (const subElement of subElements) {
+    return getAttribute(subElement, position);
+  }
   return;
 }
