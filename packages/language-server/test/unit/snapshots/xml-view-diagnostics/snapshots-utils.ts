@@ -124,6 +124,8 @@ export async function computeNewDiagnosticLSPResponse(
   appContext = {
     ...getDefaultContext(ui5Model),
     manifestDetails: {
+      appId: "",
+      manifestPath: "",
       flexEnabled: options ? options.flexEnabled : false,
       customViews: {},
       mainServicePath: undefined,

@@ -219,7 +219,8 @@ function collectViewsCustomTemplates(
  * @param manifest manifest of an app
  */
 async function extractManifestDetails(
-  manifest: Manifest
+  manifest: Manifest,
+  manifestPath: string
 ): Promise<ManifestDetails> {
   const customViews = {};
   const targets = manifest["sap.ui5"]?.routing?.targets || {};
@@ -258,6 +259,8 @@ async function extractManifestDetails(
     customViews,
     flexEnabled,
     minUI5Version,
+    appId: manifest["sap.app"]?.id ?? "",
+    manifestPath,
   };
 }
 
@@ -271,6 +274,8 @@ export async function getManifestDetails(
   const manifestPath = await findManifestPath(documentPath);
   if (!manifestPath) {
     return {
+      appId: "",
+      manifestPath: "",
       flexEnabled: false,
       customViews: {},
       mainServicePath: undefined,
@@ -280,13 +285,15 @@ export async function getManifestDetails(
   const manifest = await getUI5Manifest(manifestPath);
   if (!manifest) {
     return {
+      appId: "",
+      manifestPath: "",
       flexEnabled: false,
       customViews: {},
       mainServicePath: undefined,
       minUI5Version: undefined,
     };
   }
-  return extractManifestDetails(manifest);
+  return extractManifestDetails(manifest, manifestPath);
 }
 
 /**

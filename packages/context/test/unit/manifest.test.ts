@@ -97,6 +97,8 @@ describe("manifest", () => {
       mainServicePath: "/processor/",
       flexEnabled: true,
       minUI5Version: "1.108.26",
+      appId: "sap.fe.demo.managetravels",
+      manifestPath: join(appRoot, "manifest.json"),
     });
   });
 
@@ -173,8 +175,11 @@ describe("manifest", () => {
     });
     try {
       const result = await getManifestDetails(docPath);
+      // adapt manifestPath
+      result.manifestPath = result.manifestPath.split(appRoot).join(".");
       expect(result).toMatchInlineSnapshot(`
         Object {
+          "appId": "",
           "customViews": Object {
             "template1": Object {
               "contextPath": "/Incidents/to_Customer",
@@ -211,6 +216,7 @@ describe("manifest", () => {
           },
           "flexEnabled": false,
           "mainServicePath": "//",
+          "manifestPath": "./manifest.json",
           "minUI5Version": undefined,
         }
       `);
@@ -256,6 +262,8 @@ describe("manifest", () => {
         mainServicePath: "/processor/",
         flexEnabled: true,
         minUI5Version: "1.108.26",
+        appId: "sap.fe.demo.managetravels",
+        manifestPath: join(appRoot, "manifest.json"),
       });
     } finally {
       mock.restore();
@@ -284,6 +292,8 @@ describe("manifest", () => {
         flexEnabled: false,
         mainServicePath: undefined,
         minUI5Version: undefined,
+        appId: "",
+        manifestPath: "",
       });
     } finally {
       cacheSpy.mockRestore();
@@ -309,6 +319,8 @@ describe("manifest", () => {
         flexEnabled: false,
         mainServicePath: undefined,
         minUI5Version: undefined,
+        appId: "",
+        manifestPath: "",
       });
     } finally {
       cacheGetSpy.mockRestore();

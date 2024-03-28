@@ -48,6 +48,7 @@ import { initSwa } from "./swa";
 import { getLogger, setLogLevel } from "./logger";
 import { initI18n } from "./i18n";
 import { isXMLView } from "@ui5-language-assistant/logic-utils";
+import { getDefinition } from "@ui5-language-assistant/xml-views-definition";
 
 const connection = createConnection(ProposedFeatures.all);
 const documents = new TextDocuments(TextDocument);
@@ -91,6 +92,7 @@ connection.onInitialize(
           triggerCharacters: ['"', "'", ":", "<", "/"],
         },
         hoverProvider: true,
+        definitionProvider: true,
         codeActionProvider: true,
         // Each command executes a different code action scenario
         executeCommandProvider: {
@@ -103,6 +105,8 @@ connection.onInitialize(
     };
   }
 );
+
+connection.onDefinition(getDefinition);
 
 connection.onInitialized(async (): Promise<void> => {
   getLogger().info("`onInitialized` event");

@@ -46,12 +46,16 @@ export interface ServiceDetails {
  * @param minUI5Version minimum version of UI5
  * @param mainServicePath path to a main OData service
  * @param customViews record of views id and their entity set
+ * @param appId application id under `sap.app` namespace
+ * @param manifestPath path to manifest.json file
  */
 export type ManifestDetails = {
   flexEnabled: boolean;
   minUI5Version: string | undefined;
   mainServicePath: string | undefined;
   customViews: { [name: string]: { entitySet?: string; contextPath?: string } };
+  appId: string;
+  manifestPath: string;
 };
 /**
  * @param framework UI5 framework
