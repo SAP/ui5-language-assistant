@@ -38,9 +38,7 @@ describe("index", () => {
       // act
       const result = getAttribute(element, position);
       // assert
-      expect(result?.value).toEqual(
-        "sap.ui.demo.walkthrough.controller.Main"
-      );
+      expect(result?.value).toEqual("sap.ui.demo.walkthrough.controller.Main");
     });
     test("for template:require attribute", () => {
       // arrange
