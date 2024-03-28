@@ -49,7 +49,7 @@ export async function getControllerLocation(
     /* istanbul ignore next */
     const character = attr.syntax.value?.startColumn ?? 0;
     /* istanbul ignore next */
-    const line = (attr.syntax.value?.startLine ?? 1) - 1 ?? 0; // zero based index
+    const line = (attr.syntax.value && attr.syntax.value.startLine - 1) ?? 0; // zero based index
     const pos: Position = { character, line };
     const result = parseBinding(value, pos);
     /* istanbul ignore next */
@@ -64,10 +64,7 @@ export async function getControllerLocation(
     if (el.value?.type !== "string-value") {
       return [];
     }
-    const text = el.value.text
-      .split("/")
-      .join(".")
-      .replace(/^['"]|['"]$/g, "");
+    const text = el.value.text.split("/").join(".").replace(/'|"$/g, "");
 
     const fileUri = await buildFileUri(id, text, manifestPath);
     if (!fileUri) {
