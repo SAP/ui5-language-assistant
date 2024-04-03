@@ -1,5 +1,19 @@
 # Change Log
 
+## 4.0.45
+
+### Patch Changes
+
+- ceab281: Enable go to controller's definition from XML view file
+- Updated dependencies [ceab281]
+  - @ui5-language-assistant/xml-views-completion@4.0.25
+  - @ui5-language-assistant/xml-views-definition@0.0.2
+  - @ui5-language-assistant/xml-views-validation@4.0.20
+  - @ui5-language-assistant/xml-views-tooltip@4.0.25
+  - @ui5-language-assistant/context@4.0.25
+  - @ui5-language-assistant/binding@1.0.28
+  - @ui5-language-assistant/fe@4.0.26
+
 ## 4.0.44
 
 ### Patch Changes

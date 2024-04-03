@@ -1,5 +1,13 @@
 # Change Log
 
+## 4.0.25
+
+### Patch Changes
+
+- ceab281: Enable go to controller's definition from XML view file
+- Updated dependencies [ceab281]
+  - @ui5-language-assistant/context@4.0.25
+
 ## 4.0.24
 
 ### Patch Changes

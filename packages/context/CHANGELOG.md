@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.25
+
+### Patch Changes
+
+- ceab281: Enable go to controller's definition from XML view file
+
 ## 4.0.24
 
 ### Patch Changes
