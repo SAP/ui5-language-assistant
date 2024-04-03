@@ -35,10 +35,10 @@ export async function buildFileUri(
   exts: string[]
 ): Promise<string | undefined> {
   /* istanbul ignore next */
-  const parts = value.split(namespace) ?? [];
+  const parts = value.split(namespace);
   const valueWithoutNS = parts.filter((i) => !!i).join(".");
   /* istanbul ignore next */
-  const withoutNSParts = valueWithoutNS.split(".") ?? [];
+  const withoutNSParts = valueWithoutNS.split(".");
   const absolutePath = join(dirname(manifestPath), ...withoutNSParts);
 
   for (const ext of exts) {
