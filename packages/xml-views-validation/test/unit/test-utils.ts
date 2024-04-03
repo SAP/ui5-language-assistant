@@ -130,6 +130,8 @@ export const getDefaultContext = (ui5Model: UI5SemanticModel): Context => {
     ui5Model,
     customViewId: "",
     manifestDetails: {
+      appId: "",
+      manifestPath: "",
       flexEnabled: false,
       customViews: {},
       mainServicePath: undefined,
