@@ -71,7 +71,10 @@ export async function getControllerLocation(
     if (el.value?.type !== "string-value") {
       return [];
     }
-    const text = el.value.text.split("/").join(".").replace(/'|"$/g, "");
+    const text = el.value.text
+      .split("/")
+      .join(".")
+      .replace(/('|")$/g, "");
 
     const fileUri = await buildFileUri(id, text, manifestPath, exts);
     if (!fileUri) {

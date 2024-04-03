@@ -1,18 +1,25 @@
-[![npm (scoped)](https://img.shields.io/npm/v/@ui5-language-assistant/context.svg)](https://www.npmjs.com/package/@ui5-language-assistant/context)
+[![npm (scoped)](https://img.shields.io/npm/v/@ui5-language-assistant/xml-views-definition.svg)](https://www.npmjs.com/package/@ui5-language-assistant/xml-views-definition)
 
-# @ui5-language-assistant/context
+# @ui5-language-assistant/xml-views-definition
 
-A context for a workspace containing one or more projects. Other packages in this mono repo can consume this context to implement editor functionality such as content-assist or validations.
+Logic for goto definition of Language Server Protocol (LSP).
 
-## Installation
+## Supported scenarios:
 
-With npm:
+### From XML to controllers' definition:
 
-- `npm install @ui5-language-assistant/context`
+It supports dot or object notation for following XML attributes.
 
-With Yarn:
+- "controllerName"
+- "template:require"
+- "core:require"
 
-- `yarn add @ui5-language-assistant/context`
+It resolves controllers' definition as follows:
+
+1. It tries to load `<path>.controller.js`
+2. It tries to load `<path>.js`
+3. It tries to load `<path>.controller.ts`
+4. It tries to load `<path>.ts`
 
 ## Usage
 

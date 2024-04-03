@@ -47,5 +47,4 @@ export async function buildFileUri(
       return filePath;
     }
   }
-  return;
 }

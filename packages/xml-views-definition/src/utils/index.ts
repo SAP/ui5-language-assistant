@@ -59,5 +59,4 @@ export function getAttribute(
       return result;
     }
   }
-  return;
 }
