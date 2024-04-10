@@ -137,6 +137,20 @@ The feature is available in the following:
   - SAPUI5 Namespaces
   - Name of property binding info or aggregation binding info
 
+### XML View Go To Definition
+
+#### Description
+
+Go to definition appears when pressing `Ctr` or `Command` + `hover` on XML attribute's value.
+
+#### Availability
+
+- For following XML attribute values only:
+
+  - controllerName
+  - core:require
+  - template:require
+
 ### Semantic Highlighting
 
 ![](https://raw.githubusercontent.com/SAP/ui5-language-assistant/master/packages/vscode-ui5-language-assistant/resources/readme/preview-semantic-highlighting-binding.png)
