@@ -1,5 +1,8 @@
 import { pathExists, buildFileUri } from "../../../src/utils";
 import { join } from "path";
+import { URI } from "vscode-uri";
+const getExpectedFileUri = (parts: string[]) =>
+  URI.file(join(__dirname, ...parts)).toString();
 
 describe("file", () => {
   describe("pathExists", () => {
@@ -27,13 +30,12 @@ describe("file", () => {
       // arrange
       const namespace = "sap.ui.demo.walkthrough";
       const value = "sap.ui.demo.walkthrough.controller.App";
-      const expectedFileUri = join(
-        __dirname,
+      const expectedFileUri = getExpectedFileUri([
         "..",
         "data",
         "controller",
-        "App.controller.js"
-      );
+        "App.controller.js",
+      ]);
       // act
       const result = await buildFileUri(
         namespace,
@@ -48,13 +50,12 @@ describe("file", () => {
       // arrange
       const namespace = "sap.ui.demo.walkthrough";
       const value = "sap.ui.demo.walkthrough.controller.AppHelper";
-      const expectedFileUri = join(
-        __dirname,
+      const expectedFileUri = getExpectedFileUri([
         "..",
         "data",
         "controller",
-        "AppHelper.js"
-      );
+        "AppHelper.js",
+      ]);
       // act
       const result = await buildFileUri(
         namespace,
@@ -70,13 +71,12 @@ describe("file", () => {
       // arrange
       const namespace = "sap.ui.demo.walkthrough";
       const value = "sap.ui.demo.walkthrough.controller.Helper";
-      const expectedFileUri = join(
-        __dirname,
+      const expectedFileUri = getExpectedFileUri([
         "..",
         "data",
         "controller",
-        "Helper.controller.ts"
-      );
+        "Helper.controller.ts",
+      ]);
       // act
       const result = await buildFileUri(
         namespace,
@@ -91,13 +91,13 @@ describe("file", () => {
       // arrange
       const namespace = "sap.ui.demo.walkthrough";
       const value = "sap.ui.demo.walkthrough.controller.Handler";
-      const expectedFileUri = join(
-        __dirname,
+      const expectedFileUri = getExpectedFileUri([
         "..",
         "data",
         "controller",
-        "Handler.ts"
-      );
+        "Handler.ts",
+      ]);
+
       // act
       const result = await buildFileUri(
         namespace,
