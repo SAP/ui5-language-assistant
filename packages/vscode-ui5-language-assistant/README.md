@@ -141,15 +141,16 @@ The feature is available in the following:
 
 #### Description
 
-Go to definition appears when pressing `Ctr` or `Command` + `hover` on XML attribute's value.
+The tool provides navigation to project files referenced in xml fragments or views with Go To Definition. The standard keyboard shortcuts for Go To Definition are `Ctr` / `Command` + `Click` or `F12`.
 
 #### Availability
 
-- For following XML attribute values only:
+The feature is available for:
 
-  - controllerName
-  - core:require
-  - template:require
+- references to controller files in the following XML attributes:
+  - `controllerName`
+  - `core:require`
+  - `template:require`
 
 ### Semantic Highlighting
 
