@@ -1,6 +1,8 @@
 import { pathExists, buildFileUri } from "../../../src/utils";
 import { join } from "path";
 import { URI } from "vscode-uri";
+const getExpectedFileUri = (parts: string[]) =>
+  URI.file(join(__dirname, ...parts)).toString();
 
 describe("file", () => {
   describe("pathExists", () => {
@@ -28,9 +30,12 @@ describe("file", () => {
       // arrange
       const namespace = "sap.ui.demo.walkthrough";
       const value = "sap.ui.demo.walkthrough.controller.App";
-      const expectedFileUri = URI.file(
-        join(__dirname, "..", "data", "controller", "App.controller.js")
-      ).toString();
+      const expectedFileUri = getExpectedFileUri([
+        "..",
+        "data",
+        "controller",
+        "App.controller.js",
+      ]);
       // act
       const result = await buildFileUri(
         namespace,
@@ -45,9 +50,12 @@ describe("file", () => {
       // arrange
       const namespace = "sap.ui.demo.walkthrough";
       const value = "sap.ui.demo.walkthrough.controller.AppHelper";
-      const expectedFileUri = URI.file(
-        join(__dirname, "..", "data", "controller", "AppHelper.js")
-      ).toString();
+      const expectedFileUri = getExpectedFileUri([
+        "..",
+        "data",
+        "controller",
+        "AppHelper.js",
+      ]);
       // act
       const result = await buildFileUri(
         namespace,
@@ -63,9 +71,12 @@ describe("file", () => {
       // arrange
       const namespace = "sap.ui.demo.walkthrough";
       const value = "sap.ui.demo.walkthrough.controller.Helper";
-      const expectedFileUri = URI.file(
-        join(__dirname, "..", "data", "controller", "Helper.controller.ts")
-      ).toString();
+      const expectedFileUri = getExpectedFileUri([
+        "..",
+        "data",
+        "controller",
+        "Helper.controller.ts",
+      ]);
       // act
       const result = await buildFileUri(
         namespace,
@@ -80,9 +91,13 @@ describe("file", () => {
       // arrange
       const namespace = "sap.ui.demo.walkthrough";
       const value = "sap.ui.demo.walkthrough.controller.Handler";
-      const expectedFileUri = URI.file(
-        join(__dirname, "..", "data", "controller", "Handler.ts")
-      ).toString();
+      const expectedFileUri = getExpectedFileUri([
+        "..",
+        "data",
+        "controller",
+        "Handler.ts",
+      ]);
+
       // act
       const result = await buildFileUri(
         namespace,
