@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.58
+
+### Patch Changes
+
+- 5b190da: Fix: Use file uri for definition
+
 ## 4.0.57
 
 ### Patch Changes
