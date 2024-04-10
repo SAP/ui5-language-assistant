@@ -1,5 +1,12 @@
 # Change Log
 
+## 4.0.46
+
+### Patch Changes
+
+- Updated dependencies [5b190da]
+  - @ui5-language-assistant/xml-views-definition@0.0.3
+
 ## 4.0.45
 
 ### Patch Changes

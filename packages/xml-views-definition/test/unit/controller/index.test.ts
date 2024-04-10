@@ -10,6 +10,7 @@ import * as fs from "fs";
 import * as context from "@ui5-language-assistant/context";
 import { getControllerLocation } from "../../../src/controller";
 import { join } from "path";
+import { URI } from "vscode-uri";
 
 describe("index", () => {
   let testFramework: TestFramework;
@@ -173,12 +174,14 @@ describe("index", () => {
         // assert
         expect(result).toEqual([
           {
-            uri: join(
-              testFramework.getProjectRoot(),
-              "src",
-              "controller",
-              "App.controller.ts"
-            ),
+            uri: URI.file(
+              join(
+                testFramework.getProjectRoot(),
+                "src",
+                "controller",
+                "App.controller.ts"
+              )
+            ).toString(),
             range: { start: position, end: position },
           },
         ]);
@@ -281,12 +284,14 @@ describe("index", () => {
         // assert
         expect(result).toEqual([
           {
-            uri: join(
-              testFramework.getProjectRoot(),
-              "src",
-              "controller",
-              "App.controller.ts"
-            ),
+            uri: URI.file(
+              join(
+                testFramework.getProjectRoot(),
+                "src",
+                "controller",
+                "App.controller.ts"
+              )
+            ).toString(),
             range: { start: position, end: position },
           },
         ]);

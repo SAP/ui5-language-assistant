@@ -77,12 +77,8 @@ export async function getControllerLocation(
     if (!fileUri) {
       return [];
     }
-    return [
-      {
-        uri: fileUri,
-        range: { start: position, end: position },
-      },
-    ];
+    const loc = Location.create(fileUri, { start: position, end: position });
+    return [loc];
   }
 
   // handle dot notation
@@ -90,10 +86,6 @@ export async function getControllerLocation(
   if (!fileUri) {
     return [];
   }
-  return [
-    {
-      uri: fileUri,
-      range: { start: position, end: position },
-    },
-  ];
+  const loc = Location.create(fileUri, { start: position, end: position });
+  return [loc];
 }

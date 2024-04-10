@@ -1,6 +1,6 @@
 {
   "name": "@ui5-language-assistant/xml-views-definition",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "private": true,
   "description": "Definition logic for UI5 XML-Views",
   "keywords": [],

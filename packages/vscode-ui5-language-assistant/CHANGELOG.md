@@ -1,5 +1,12 @@
 # Change Log
 
+## 4.0.58
+
+### Patch Changes
+
+- 5b190da: Fix: Use file uri for definition
+  - @ui5-language-assistant/language-server@4.0.46
+
 ## 4.0.57
 
 ### Patch Changes
