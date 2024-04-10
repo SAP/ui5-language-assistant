@@ -1,5 +1,6 @@
 import { access, constants } from "fs";
 import { join, dirname } from "path";
+import { URI } from "vscode-uri";
 
 /**
  * Check if path exists on file system.
@@ -44,7 +45,7 @@ export async function buildFileUri(
   for (const ext of exts) {
     const filePath = `${absolutePath}${ext}`;
     if (await pathExists(filePath)) {
-      return filePath;
+      return URI.file(filePath).toString();
     }
   }
 }

@@ -1,5 +1,6 @@
 import { pathExists, buildFileUri } from "../../../src/utils";
 import { join } from "path";
+import { URI } from "vscode-uri";
 
 describe("file", () => {
   describe("pathExists", () => {
@@ -27,13 +28,9 @@ describe("file", () => {
       // arrange
       const namespace = "sap.ui.demo.walkthrough";
       const value = "sap.ui.demo.walkthrough.controller.App";
-      const expectedFileUri = join(
-        __dirname,
-        "..",
-        "data",
-        "controller",
-        "App.controller.js"
-      );
+      const expectedFileUri = URI.file(
+        join(__dirname, "..", "data", "controller", "App.controller.js")
+      ).toString();
       // act
       const result = await buildFileUri(
         namespace,
@@ -48,13 +45,9 @@ describe("file", () => {
       // arrange
       const namespace = "sap.ui.demo.walkthrough";
       const value = "sap.ui.demo.walkthrough.controller.AppHelper";
-      const expectedFileUri = join(
-        __dirname,
-        "..",
-        "data",
-        "controller",
-        "AppHelper.js"
-      );
+      const expectedFileUri = URI.file(
+        join(__dirname, "..", "data", "controller", "AppHelper.js")
+      ).toString();
       // act
       const result = await buildFileUri(
         namespace,
@@ -70,13 +63,9 @@ describe("file", () => {
       // arrange
       const namespace = "sap.ui.demo.walkthrough";
       const value = "sap.ui.demo.walkthrough.controller.Helper";
-      const expectedFileUri = join(
-        __dirname,
-        "..",
-        "data",
-        "controller",
-        "Helper.controller.ts"
-      );
+      const expectedFileUri = URI.file(
+        join(__dirname, "..", "data", "controller", "Helper.controller.ts")
+      ).toString();
       // act
       const result = await buildFileUri(
         namespace,
@@ -91,13 +80,9 @@ describe("file", () => {
       // arrange
       const namespace = "sap.ui.demo.walkthrough";
       const value = "sap.ui.demo.walkthrough.controller.Handler";
-      const expectedFileUri = join(
-        __dirname,
-        "..",
-        "data",
-        "controller",
-        "Handler.ts"
-      );
+      const expectedFileUri = URI.file(
+        join(__dirname, "..", "data", "controller", "Handler.ts")
+      ).toString();
       // act
       const result = await buildFileUri(
         namespace,
