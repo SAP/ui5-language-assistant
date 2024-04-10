@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.59
+
+### Patch Changes
+
+- dda4622: fix: Add Goto definition to readme file
+
 ## 4.0.58
 
 ### Patch Changes
