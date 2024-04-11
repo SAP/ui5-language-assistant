@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.60
+
+### Patch Changes
+
+- 5b9fa1f: fix: add manual test case
+
 ## 4.0.59
 
 ### Patch Changes
