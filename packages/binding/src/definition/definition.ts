@@ -18,7 +18,7 @@ import {
 } from "../types";
 import { ui5NodeToFQN } from "@ui5-language-assistant/logic-utils";
 import { forOwn } from "lodash";
-import { getDocumentation } from "../utils";
+import { getAltTypesPrime, getDocumentation } from "../utils";
 import { getFallBackElements } from "./fall-back-definition";
 import { getSorterPossibleElement } from "./sorter";
 import { getFiltersPossibleElement } from "./filter";
@@ -382,9 +382,6 @@ const buildType = (param: {
   }
   return propertyType;
 };
-
-const getAltTypesPrime = (aggregation?: UI5Aggregation) =>
-  aggregation?.altTypes?.find((i) => i.kind === "PrimitiveType");
 
 const removeDuplicate = (builtType: PropertyType[]): PropertyType[] => {
   const result = builtType.reduce(

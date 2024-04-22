@@ -234,4 +234,10 @@ describe("aggregation binding", () => {
     const result = await validateView(snippet);
     expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([]);
   });
+  it("tooltip [altTypes] - no diagnostics if any element used", async () => {
+    const snippet = `
+       <Text text="My Text" tooltip="{ parts:['']}"/>`;
+    const result = await validateView(snippet);
+    expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([]);
+  });
 });
