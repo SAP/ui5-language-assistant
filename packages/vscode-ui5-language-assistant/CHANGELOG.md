@@ -1,5 +1,12 @@
 # Change Log
 
+## 4.0.61
+
+### Patch Changes
+
+- 98c33e7: fix: relax diagnostic for property which can be used with both aggregation binding info or property binding info
+  - @ui5-language-assistant/language-server@4.0.47
+
 ## 4.0.60
 
 ### Patch Changes
