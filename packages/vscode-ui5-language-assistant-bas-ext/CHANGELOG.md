@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.62
+
+### Patch Changes
+
+- fdbf071: chore: update schema.json file
+
 ## 4.0.61
 
 ### Patch Changes
