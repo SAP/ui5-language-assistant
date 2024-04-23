@@ -1,4 +1,4 @@
-import { findRange } from "../../../utils";
+import { findRange, getAltTypesPrime } from "../../../utils";
 import {
   BindingIssue,
   BINDING_ISSUE_TYPE,
@@ -6,19 +6,27 @@ import {
 } from "../../../types";
 import { BindingParserTypes as BindingTypes } from "@ui5-language-assistant/binding-parser";
 import { t } from "../../../i18n";
+import { UI5Aggregation } from "@ui5-language-assistant/semantic-model-types";
 
 export const checkRequiredElement = (
   element: BindingTypes.StructureValue,
-  bindingElements: BindingInfoElement[]
+  bindingElements: BindingInfoElement[],
+  aggregation: UI5Aggregation | undefined
 ): BindingIssue[] => {
   // check required element
   const reqEl = bindingElements.find((i) => i.required);
   if (reqEl) {
     // check required element is applied
-    const usedRequiredEl = element.elements.find(
+    let usedRequiredEl = element.elements.find(
       /* istanbul ignore next */
       (i) => i.key?.text === reqEl.name
     );
+    const altTypes = getAltTypesPrime(aggregation);
+    if (!usedRequiredEl && altTypes) {
+      // some property e.g `tooltip` can be used with both `aggregation binding info` or `property binding info`. Therefore `altTypes` is defined in design time.
+      // if `altTypes` is present, check if any element is used. This is a very broad check to avoid false diagnostic.
+      usedRequiredEl = element.elements[0];
+    }
     if (!usedRequiredEl) {
       return [
         {

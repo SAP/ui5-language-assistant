@@ -101,6 +101,6 @@ export const checkBinding = (
   issues.push(...checkDependents(bindingElements, binding));
   issues.push(...checkNestedParts(binding));
   issues.push(...checkBrackets(binding));
-  issues.push(...checkRequiredElement(binding, bindingElements));
+  issues.push(...checkRequiredElement(binding, bindingElements, aggregation));
   return issues;
 };
