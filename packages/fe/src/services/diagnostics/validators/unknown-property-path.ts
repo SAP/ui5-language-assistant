@@ -49,7 +49,7 @@ export function validateUnknownPropertyPath(
   ) {
     const element = attribute.parent;
     const control = element.name;
-
+    const isAbsolutePath = actualAttributeValue.startsWith("/");
     const mainServicePath = context.manifestDetails.mainServicePath;
     const service = mainServicePath
       ? context.services[mainServicePath]

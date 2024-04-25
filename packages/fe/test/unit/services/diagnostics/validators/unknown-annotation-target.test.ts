@@ -157,6 +157,7 @@ describe("contextPath attribute value validation", () => {
       );
       expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
         "kind: ContextPathBindingNotRecommended; text: Context path for Field is usually defined if binding for the object is different than that of the page; severity:info; offset:347-356",
+        "kind: InvalidAnnotationTarget; text: Invalid contextPath value. It does not lead to any annotations of the expected type; severity:warn; offset:347-356",
       ]);
     });
   });

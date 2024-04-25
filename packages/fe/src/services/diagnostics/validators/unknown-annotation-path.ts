@@ -19,6 +19,7 @@ import {
   normalizePath,
   t,
   getContextPath,
+  TypeNameMap,
 } from "../../../utils";
 import { getAnnotationAppliedOnElement } from "../../../utils";
 
@@ -65,6 +66,8 @@ export function validateUnknownAnnotationPath(
       context.manifestDetails.customViews[context.customViewId || ""]
         ?.entitySet ?? "";
 
+    const isAbsolutePath = actualAttributeValue.startsWith("/");
+
     let isNavSegmentsAllowed = true;
     let base: ResolvedPathTargetType | undefined;
     let baseType: EntityType | undefined;
@@ -81,7 +84,7 @@ export function validateUnknownAnnotationPath(
         normalizedContextPath
       ));
       isNavSegmentsAllowed = typeof contextPathAttr === "undefined";
-    } else {
+    } else if (!isAbsolutePath) {
       if (!entitySet) {
         return [];
       }
@@ -91,7 +94,7 @@ export function validateUnknownAnnotationPath(
         (e) => e.name === entitySet
       );
       baseType = base?.entityType;
-      if (entitySet && !base) {
+      if (entitySet && !base && !isAbsolutePath) {
         return [
           {
             kind: "InvalidAnnotationTarget",
@@ -106,12 +109,12 @@ export function validateUnknownAnnotationPath(
         ];
       }
     }
-    const { expectedAnnotations } = getPathConstraintsForControl(
+    const { expectedAnnotations, expectedTypes } = getPathConstraintsForControl(
       control,
       ui5Property
     );
 
-    if (!base || base._type === "Property") {
+    if (!isAbsolutePath && (!base || base._type === "Property")) {
       return [];
     }
 
@@ -158,21 +161,22 @@ export function validateUnknownAnnotationPath(
       segment.includes("@")
     );
     segments.splice(termSegmentIndex);
-    if (segments.length > 1 && !segments[0]) {
-      // absolute path not allowed
-      return [
-        {
-          kind: "InvalidAnnotationTerm",
-          issueType: ANNOTATION_ISSUE_TYPE,
-          message: t("ABSOLUTE_ANNOTATION_PATH_NOT_ALLOWED"),
-          offsetRange: {
-            start: actualAttributeValueToken.startOffset,
-            end: actualAttributeValueToken.endOffset,
-          },
-          severity: "warn",
-        } as AnnotationIssue,
-      ];
-    } else if (segments.length > 0 && !isNavSegmentsAllowed) {
+    // if (segments.length > 1 && !segments[0]) {
+    //   // absolute path not allowed
+    //   return [
+    //     {
+    //       kind: "InvalidAnnotationTerm",
+    //       issueType: ANNOTATION_ISSUE_TYPE,
+    //       message: t("ABSOLUTE_ANNOTATION_PATH_NOT_ALLOWED"),
+    //       offsetRange: {
+    //         start: actualAttributeValueToken.startOffset,
+    //         end: actualAttributeValueToken.endOffset,
+    //       },
+    //       severity: "warn",
+    //     } as AnnotationIssue,
+    //   ];
+    // } else
+    if (segments.length > 0 && !isNavSegmentsAllowed) {
       return [
         {
           kind: "InvalidAnnotationTerm",
@@ -188,22 +192,31 @@ export function validateUnknownAnnotationPath(
         } as AnnotationIssue,
       ];
     }
-
-    let targetEntity: EntityType | undefined = baseType;
+    let targetEntity: ResolvedPathTargetType | undefined = baseType;
     let lastValidSegmentIndex = -1;
-    for (const segment of segments) {
-      if (!targetEntity) {
-        break;
-      }
-      const navProperty = targetEntity.navigationProperties.find(
-        (p) => p.name === segment
+    if (isAbsolutePath) {
+      const resolvedPathTarget = resolvePathTarget(
+        service.convertedMetadata,
+        segments.join("/"),
+        baseType
       );
-      targetEntity = navProperty?.targetType;
-      if (targetEntity) {
-        lastValidSegmentIndex++;
+      targetEntity = resolvedPathTarget.target;
+      lastValidSegmentIndex = resolvedPathTarget.lastValidSegmentIndex;
+    } else {
+      for (const segment of segments) {
+        if (!targetEntity) {
+          break;
+        }
+        const navProperty = (
+          targetEntity as EntityType
+        ).navigationProperties.find((p) => p.name === segment);
+
+        targetEntity = navProperty?.targetType;
+        if (targetEntity) {
+          lastValidSegmentIndex++;
+        }
       }
     }
-
     if (!targetEntity) {
       originalSegments.splice(lastValidSegmentIndex + 1);
       const correctPart = originalSegments.join("/");
@@ -222,13 +235,32 @@ export function validateUnknownAnnotationPath(
           severity: "warn",
         },
       ];
+    } else if (targetEntity._type === "Property") {
+      const expectedTypesList = expectedTypes
+        .map((item) => TypeNameMap[item])
+        .join(", ");
+      return [
+        {
+          kind: "UnknownEnumValue",
+          issueType: ANNOTATION_ISSUE_TYPE,
+          message: t("CONTEXT_PATH_LEADS_TO_WRONG_TARGET", {
+            actualType: "Edm.Property",
+            expectedTypes: expectedTypesList,
+          }),
+          offsetRange: {
+            start: actualAttributeValueToken.startOffset,
+            end: actualAttributeValueToken.endOffset,
+          },
+          severity: "warn",
+        },
+      ];
     } else {
       const termSegment = originalSegments[termSegmentIndex];
       const parts = termSegment.split("@");
       let annotations: AnnotationBase[] | undefined;
       annotations = getAnnotationAppliedOnElement(
         expectedAnnotations,
-        segments.length === 0 ? base : targetEntity,
+        segments.length === 0 ? base! : targetEntity!,
         parts[0]
       );
 

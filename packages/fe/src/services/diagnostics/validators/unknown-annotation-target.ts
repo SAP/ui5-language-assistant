@@ -22,6 +22,7 @@ import {
   EntityType,
   Singleton,
 } from "@sap-ux/vocabularies-types";
+import { validateAbsolutePath } from "./absolute-path";
 
 export function validateUnknownAnnotationTarget(
   attribute: XMLAttribute,
@@ -110,169 +111,185 @@ export function validateUnknownAnnotationTarget(
       });
     }
 
-    if (!actualAttributeValue.startsWith("/")) {
-      return pushToResult({
-        kind: "UnknownEnumValue",
-        issueType: ANNOTATION_ISSUE_TYPE,
-        message: t("INVALID_CONTEXT_PATH_VALUE", {
-          value: actualAttributeValue,
-        }),
-        offsetRange: {
-          start: actualAttributeValueToken.startOffset,
-          end: actualAttributeValueToken.endOffset,
-        },
-        severity: "warn",
-      });
-    }
+    // if (!actualAttributeValue.startsWith("/")) {
+    //   return pushToResult({
+    //     kind: "UnknownEnumValue",
+    //     issueType: ANNOTATION_ISSUE_TYPE,
+    //     message: t("INVALID_CONTEXT_PATH_VALUE", {
+    //       value: actualAttributeValue,
+    //     }),
+    //     offsetRange: {
+    //       start: actualAttributeValueToken.startOffset,
+    //       end: actualAttributeValueToken.endOffset,
+    //     },
+    //     severity: "warn",
+    //   });
+    // }
+    // const segments = attribute.value.split('/');
+    // const proceedingPath = segments.slice(0, segments.length - 1).join('/');
+    // const normalizedValue = normalizePath(actualAttributeValue);
+    // const expectedTypesList = (
+    //   isNotRecommended ? expectedTypesMetaPath : expectedTypes
+    // )
+    //   .map((item) => TypeNameMap[item])
+    //   .join(", ");
 
-    const normalizedValue = normalizePath(actualAttributeValue);
-    const expectedTypesList = (
-      isNotRecommended ? expectedTypesMetaPath : expectedTypes
-    )
-      .map((item) => TypeNameMap[item])
-      .join(", ");
+    // // Check by segments
+    // const {
+    //   target,
+    //   targetStructuredType: targetEntity,
+    //   isCardinalityIssue,
+    //   lastValidSegmentIndex,
+    // } = resolvePathTarget(service.convertedMetadata, normalizedValue);
+    // const originalSegments = actualAttributeValue.split("/");
 
-    // Check by segments
-    const {
-      target,
-      targetStructuredType: targetEntity,
-      isCardinalityIssue,
-      lastValidSegmentIndex,
-    } = resolvePathTarget(service.convertedMetadata, normalizedValue);
-    const originalSegments = actualAttributeValue.split("/");
+    // if (target?._type === "Property") {
+    //   return pushToResult({
+    //     kind: "UnknownEnumValue",
+    //     issueType: ANNOTATION_ISSUE_TYPE,
+    //     message: t("CONTEXT_PATH_LEADS_TO_WRONG_TARGET", {
+    //       actualType: "Edm.Property",
+    //       expectedTypes: expectedTypesList,
+    //     }),
+    //     offsetRange: {
+    //       start: actualAttributeValueToken.startOffset,
+    //       end: actualAttributeValueToken.endOffset,
+    //     },
+    //     severity: "warn",
+    //   });
+    // }
 
-    if (target?._type === "Property") {
-      return pushToResult({
-        kind: "UnknownEnumValue",
-        issueType: ANNOTATION_ISSUE_TYPE,
-        message: t("CONTEXT_PATH_LEADS_TO_WRONG_TARGET", {
-          actualType: "Edm.Property",
-          expectedTypes: expectedTypesList,
-        }),
-        offsetRange: {
-          start: actualAttributeValueToken.startOffset,
-          end: actualAttributeValueToken.endOffset,
-        },
-        severity: "warn",
-      });
-    }
+    // if (target?._type === "EntityContainer") {
+    //   const message = t(
+    //     isNotRecommended
+    //       ? "INCOMPLETE_CONTEXT_PATH_LEADS_TO_ENTITY_CONTAINER"
+    //       : "INCOMPLETE_CONTEXT_PATH_TRIGGER_CODE_COMPLETION"
+    //   );
+    //   return pushToResult({
+    //     kind: "IncompletePath",
+    //     issueType: ANNOTATION_ISSUE_TYPE,
+    //     message,
+    //     offsetRange: {
+    //       start: actualAttributeValueToken.startOffset,
+    //       end: actualAttributeValueToken.endOffset,
+    //     },
+    //     severity: "warn",
+    //   });
+    // }
 
-    if (target?._type === "EntityContainer") {
-      const message = t(
+    // if (!target || !targetEntity) {
+    //   if (!isCardinalityIssue) {
+    //     // Path does not exist
+    //     originalSegments.splice(lastValidSegmentIndex + 1);
+    //     const correctPart = originalSegments.length
+    //       ? "/" + originalSegments.join("/")
+    //       : "";
+    //     return pushToResult({
+    //       kind: "UnknownEnumValue",
+    //       issueType: ANNOTATION_ISSUE_TYPE,
+    //       message: t("UNKNOWN_CONTEXT_PATH", { value: actualAttributeValue }),
+    //       offsetRange: {
+    //         start:
+    //           actualAttributeValueToken.startOffset + correctPart.length + 1,
+    //         end: actualAttributeValueToken.endOffset - 1,
+    //       },
+    //       severity: "warn",
+    //     });
+    //   } else {
+    //     // segment found but preceding path leads to collection
+    //     originalSegments.splice(lastValidSegmentIndex + 1);
+    //     const correctPart = originalSegments.join("/");
+    //     return pushToResult({
+    //       kind: "UnknownEnumValue",
+    //       issueType: ANNOTATION_ISSUE_TYPE,
+    //       message: t("INVALID_CONTEXT_PATH_MULTIPLE_1_TO_MANY"),
+    //       offsetRange: {
+    //         start:
+    //           actualAttributeValueToken.startOffset + correctPart.length + 1,
+    //         end: actualAttributeValueToken.endOffset - 1,
+    //       },
+    //       severity: "warn",
+    //     });
+    //   }
+    // } else {
+    //   if (
+    //     (!isNotRecommended && !expectedTypes.includes(target._type)) ||
+    //     (isNotRecommended && !expectedTypesMetaPath.includes(target._type))
+    //   ) {
+    //     return pushToResult({
+    //       kind: "InvalidAnnotationTarget",
+    //       issueType: ANNOTATION_ISSUE_TYPE,
+    //       message: t("CONTEXT_PATH_LEADS_TO_WRONG_TARGET", {
+    //         actualType: TypeNameMap[target._type],
+    //         expectedTypes: expectedTypesList,
+    //       }),
+    //       offsetRange: {
+    //         start: actualAttributeValueToken.startOffset,
+    //         end: actualAttributeValueToken.endOffset,
+    //       },
+    //       severity: "warn",
+    //     });
+    //   }
+
+    //   if (isPropertyPathAllowed(control)) {
+    //     return result;
+    //   }
+
+    const { resolvedTarget: target, issues: absolutePathIssues } =
+      validateAbsolutePath(
+        attribute,
+        attribute.value,
+        expectedTypes,
+        expectedTypesMetaPath,
+        isPropertyPathAllowed(control),
+        service,
         isNotRecommended
-          ? "INCOMPLETE_CONTEXT_PATH_LEADS_TO_ENTITY_CONTAINER"
-          : "INCOMPLETE_CONTEXT_PATH_TRIGGER_CODE_COMPLETION"
       );
-      return pushToResult({
-        kind: "IncompletePath",
-        issueType: ANNOTATION_ISSUE_TYPE,
-        message,
-        offsetRange: {
-          start: actualAttributeValueToken.startOffset,
-          end: actualAttributeValueToken.endOffset,
-        },
-        severity: "warn",
-      });
+
+    if (absolutePathIssues.length > 0) {
+      return [...result, ...absolutePathIssues];
     }
 
-    if (!target || !targetEntity) {
-      if (!isCardinalityIssue) {
-        // Path does not exist
-        originalSegments.splice(lastValidSegmentIndex + 1);
-        const correctPart = originalSegments.length
-          ? "/" + originalSegments.join("/")
-          : "";
-        return pushToResult({
-          kind: "UnknownEnumValue",
-          issueType: ANNOTATION_ISSUE_TYPE,
-          message: t("UNKNOWN_CONTEXT_PATH", { value: actualAttributeValue }),
-          offsetRange: {
-            start:
-              actualAttributeValueToken.startOffset + correctPart.length + 1,
-            end: actualAttributeValueToken.endOffset - 1,
-          },
-          severity: "warn",
-        });
-      } else {
-        // segment found but preceding path leads to collection
-        originalSegments.splice(lastValidSegmentIndex + 1);
-        const correctPart = originalSegments.join("/");
-        return pushToResult({
-          kind: "UnknownEnumValue",
-          issueType: ANNOTATION_ISSUE_TYPE,
-          message: t("INVALID_CONTEXT_PATH_MULTIPLE_1_TO_MANY"),
-          offsetRange: {
-            start:
-              actualAttributeValueToken.startOffset + correctPart.length + 1,
-            end: actualAttributeValueToken.endOffset - 1,
-          },
-          severity: "warn",
-        });
-      }
-    } else {
-      if (
-        (!isNotRecommended && !expectedTypes.includes(target._type)) ||
-        (isNotRecommended && !expectedTypesMetaPath.includes(target._type))
-      ) {
-        return pushToResult({
-          kind: "InvalidAnnotationTarget",
-          issueType: ANNOTATION_ISSUE_TYPE,
-          message: t("CONTEXT_PATH_LEADS_TO_WRONG_TARGET", {
-            actualType: TypeNameMap[target._type],
-            expectedTypes: expectedTypesList,
-          }),
-          offsetRange: {
-            start: actualAttributeValueToken.startOffset,
-            end: actualAttributeValueToken.endOffset,
-          },
-          severity: "warn",
-        });
-      }
+    let annotationList = getAnnotationAppliedOnElement(
+      expectedAnnotations,
+      target as EntityContainer | EntityType | EntitySet | Singleton
+    );
 
-      if (isPropertyPathAllowed(control)) {
-        return result;
-      }
-
-      let annotationList = getAnnotationAppliedOnElement(
-        expectedAnnotations,
-        target as EntityContainer | EntityType | EntitySet | Singleton
-      );
-
-      if (annotationList.length > 0) {
-        // path is correct
-        return result;
-      }
-
-      annotationList = getAnnotationAppliedOnElement(
-        expectedAnnotationsMetaPath,
-        target as EntityContainer | EntityType | EntitySet | Singleton
-      );
-
-      if (annotationList.length > 0) {
-        // path is correct
-        return result;
-      }
-
-      const message = t(
-        expectedAnnotations.length === 0
-          ? "CONTEXT_PATH_DOES_NOT_LEAD_TO_ANNOTATIONS"
-          : "INVALID_CONTEXT_PATH_TRIGGER_CODE_COMPLETION"
-      );
-      // Path itself is found but it doesn't suit current context
-      const issue: AnnotationIssue = {
-        kind: "InvalidAnnotationTarget",
-        issueType: ANNOTATION_ISSUE_TYPE,
-        message,
-        offsetRange: {
-          start: actualAttributeValueToken.startOffset,
-          end: actualAttributeValueToken.endOffset,
-        },
-        severity: "warn",
-      };
-
-      // TODO: required and actual cardinality mismatch check
-      return pushToResult(issue);
+    if (annotationList.length > 0) {
+      // path is correct
+      return result;
     }
+
+    annotationList = getAnnotationAppliedOnElement(
+      expectedAnnotationsMetaPath,
+      target as EntityContainer | EntityType | EntitySet | Singleton
+    );
+
+    if (annotationList.length > 0) {
+      // path is correct
+      return result;
+    }
+
+    const message = t(
+      expectedAnnotations.length === 0
+        ? "CONTEXT_PATH_DOES_NOT_LEAD_TO_ANNOTATIONS"
+        : "INVALID_CONTEXT_PATH_TRIGGER_CODE_COMPLETION"
+    );
+    // Path itself is found but it doesn't suit current context
+    const issue: AnnotationIssue = {
+      kind: "InvalidAnnotationTarget",
+      issueType: ANNOTATION_ISSUE_TYPE,
+      message,
+      offsetRange: {
+        start: actualAttributeValueToken.startOffset,
+        end: actualAttributeValueToken.endOffset,
+      },
+      severity: "warn",
+    };
+
+    // TODO: required and actual cardinality mismatch check
+    return pushToResult(issue);
   }
+  // }
   return [];
 }

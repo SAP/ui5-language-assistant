@@ -30,6 +30,10 @@ export function validateMissingViewEntitySet(
     ) {
       return [];
     }
+    const isAbsolutePath = actualAttributeValue.startsWith("/");
+    if (isAbsolutePath) {
+      return [];
+    }
     const element = attribute.parent;
     const contextPathAttr = getElementAttributeValue(element, "contextPath");
     const contextPath = getContextPath(contextPathAttr, context);
