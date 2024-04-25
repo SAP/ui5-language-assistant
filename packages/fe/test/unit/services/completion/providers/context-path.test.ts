@@ -113,54 +113,54 @@ describe("contextPath attribute value completion", () => {
       expect(
         result.map((item) => completionItemToSnapshot(item))
       ).toStrictEqual([
-        "label: /TravelService.EntityContainer; text: /TravelService.EntityContainer; kind:19; commit:/; sort:Z",
-        "label: /TravelService.EntityContainer/Travel; text: /TravelService.EntityContainer/Travel; kind:2; commit:/; sort:B",
-        "label: /TravelService.EntityContainer/HighestTotal; text: /TravelService.EntityContainer/HighestTotal; kind:2; commit:; sort:B",
-        "label: /TravelService.EntityContainer/Currencies; text: /TravelService.EntityContainer/Currencies; kind:2; commit:/; sort:B",
-        "label: /TravelService.EntityContainer/TravelStatus; text: /TravelService.EntityContainer/TravelStatus; kind:2; commit:/; sort:B",
-        "label: /TravelService.EntityContainer/TravelAgency; text: /TravelService.EntityContainer/TravelAgency; kind:2; commit:/; sort:B",
-        "label: /TravelService.EntityContainer/Passenger; text: /TravelService.EntityContainer/Passenger; kind:2; commit:/; sort:B",
-        "label: /TravelService.EntityContainer/Booking; text: /TravelService.EntityContainer/Booking; kind:2; commit:/; sort:B",
-        "label: /TravelService.EntityContainer/BookedFlights; text: /TravelService.EntityContainer/BookedFlights; kind:2; commit:/; sort:B",
-        "label: /TravelService.EntityContainer/Countries; text: /TravelService.EntityContainer/Countries; kind:2; commit:/; sort:B",
-        "label: /TravelService.EntityContainer/BookingStatus; text: /TravelService.EntityContainer/BookingStatus; kind:2; commit:/; sort:B",
-        "label: /TravelService.EntityContainer/BookingSupplement; text: /TravelService.EntityContainer/BookingSupplement; kind:2; commit:/; sort:B",
-        "label: /TravelService.EntityContainer/Airline; text: /TravelService.EntityContainer/Airline; kind:2; commit:/; sort:B",
-        "label: /TravelService.EntityContainer/Flight; text: /TravelService.EntityContainer/Flight; kind:2; commit:/; sort:B",
-        "label: /TravelService.EntityContainer/Supplement; text: /TravelService.EntityContainer/Supplement; kind:2; commit:/; sort:B",
-        "label: /TravelService.EntityContainer/FlightConnection; text: /TravelService.EntityContainer/FlightConnection; kind:2; commit:/; sort:B",
-        "label: /TravelService.EntityContainer/SupplementType; text: /TravelService.EntityContainer/SupplementType; kind:2; commit:/; sort:B",
-        "label: /TravelService.EntityContainer/Airport; text: /TravelService.EntityContainer/Airport; kind:2; commit:/; sort:B",
-        "label: /TravelService.EntityContainer/Currencies_texts; text: /TravelService.EntityContainer/Currencies_texts; kind:2; commit:; sort:B",
-        "label: /TravelService.EntityContainer/TravelStatus_texts; text: /TravelService.EntityContainer/TravelStatus_texts; kind:2; commit:; sort:B",
-        "label: /TravelService.EntityContainer/Countries_texts; text: /TravelService.EntityContainer/Countries_texts; kind:2; commit:; sort:B",
-        "label: /TravelService.EntityContainer/BookingStatus_texts; text: /TravelService.EntityContainer/BookingStatus_texts; kind:2; commit:; sort:B",
-        "label: /TravelService.EntityContainer/Supplement_texts; text: /TravelService.EntityContainer/Supplement_texts; kind:2; commit:; sort:B",
-        "label: /TravelService.EntityContainer/SupplementType_texts; text: /TravelService.EntityContainer/SupplementType_texts; kind:2; commit:; sort:B",
-        "label: /Travel; text: /Travel; kind:7; commit:/; sort:A",
-        "label: /HighestTotal; text: /HighestTotal; kind:7; commit:; sort:A",
-        "label: /Currencies; text: /Currencies; kind:7; commit:/; sort:A",
-        "label: /TravelStatus; text: /TravelStatus; kind:7; commit:/; sort:A",
-        "label: /TravelAgency; text: /TravelAgency; kind:7; commit:/; sort:A",
-        "label: /Passenger; text: /Passenger; kind:7; commit:/; sort:A",
-        "label: /Booking; text: /Booking; kind:7; commit:/; sort:A",
-        "label: /BookedFlights; text: /BookedFlights; kind:7; commit:/; sort:A",
-        "label: /Countries; text: /Countries; kind:7; commit:/; sort:A",
-        "label: /BookingStatus; text: /BookingStatus; kind:7; commit:/; sort:A",
-        "label: /BookingSupplement; text: /BookingSupplement; kind:7; commit:/; sort:A",
-        "label: /Airline; text: /Airline; kind:7; commit:/; sort:A",
-        "label: /Flight; text: /Flight; kind:7; commit:/; sort:A",
-        "label: /Supplement; text: /Supplement; kind:7; commit:/; sort:A",
-        "label: /FlightConnection; text: /FlightConnection; kind:7; commit:/; sort:A",
-        "label: /SupplementType; text: /SupplementType; kind:7; commit:/; sort:A",
-        "label: /Airport; text: /Airport; kind:7; commit:/; sort:A",
-        "label: /DraftAdministrativeData; text: /DraftAdministrativeData; kind:7; commit:; sort:A",
-        "label: /Currencies_texts; text: /Currencies_texts; kind:7; commit:; sort:A",
-        "label: /TravelStatus_texts; text: /TravelStatus_texts; kind:7; commit:; sort:A",
-        "label: /Countries_texts; text: /Countries_texts; kind:7; commit:; sort:A",
-        "label: /BookingStatus_texts; text: /BookingStatus_texts; kind:7; commit:; sort:A",
-        "label: /Supplement_texts; text: /Supplement_texts; kind:7; commit:; sort:A",
-        "label: /SupplementType_texts; text: /SupplementType_texts; kind:7; commit:; sort:A",
+        "label: /TravelService.EntityContainer; text: /TravelService.EntityContainer; kind:19; commit:; sort:Z",
+        "label: /TravelService.EntityContainer/Travel; text: /TravelService.EntityContainer/Travel; kind:2; commit:/; sort:E",
+        "label: /TravelService.EntityContainer/HighestTotal; text: /TravelService.EntityContainer/HighestTotal; kind:2; commit:; sort:E",
+        "label: /TravelService.EntityContainer/Currencies; text: /TravelService.EntityContainer/Currencies; kind:2; commit:/; sort:E",
+        "label: /TravelService.EntityContainer/TravelStatus; text: /TravelService.EntityContainer/TravelStatus; kind:2; commit:/; sort:E",
+        "label: /TravelService.EntityContainer/TravelAgency; text: /TravelService.EntityContainer/TravelAgency; kind:2; commit:/; sort:E",
+        "label: /TravelService.EntityContainer/Passenger; text: /TravelService.EntityContainer/Passenger; kind:2; commit:/; sort:E",
+        "label: /TravelService.EntityContainer/Booking; text: /TravelService.EntityContainer/Booking; kind:2; commit:/; sort:E",
+        "label: /TravelService.EntityContainer/BookedFlights; text: /TravelService.EntityContainer/BookedFlights; kind:2; commit:/; sort:E",
+        "label: /TravelService.EntityContainer/Countries; text: /TravelService.EntityContainer/Countries; kind:2; commit:/; sort:E",
+        "label: /TravelService.EntityContainer/BookingStatus; text: /TravelService.EntityContainer/BookingStatus; kind:2; commit:/; sort:E",
+        "label: /TravelService.EntityContainer/BookingSupplement; text: /TravelService.EntityContainer/BookingSupplement; kind:2; commit:/; sort:E",
+        "label: /TravelService.EntityContainer/Airline; text: /TravelService.EntityContainer/Airline; kind:2; commit:/; sort:E",
+        "label: /TravelService.EntityContainer/Flight; text: /TravelService.EntityContainer/Flight; kind:2; commit:/; sort:E",
+        "label: /TravelService.EntityContainer/Supplement; text: /TravelService.EntityContainer/Supplement; kind:2; commit:/; sort:E",
+        "label: /TravelService.EntityContainer/FlightConnection; text: /TravelService.EntityContainer/FlightConnection; kind:2; commit:/; sort:E",
+        "label: /TravelService.EntityContainer/SupplementType; text: /TravelService.EntityContainer/SupplementType; kind:2; commit:/; sort:E",
+        "label: /TravelService.EntityContainer/Airport; text: /TravelService.EntityContainer/Airport; kind:2; commit:/; sort:E",
+        "label: /TravelService.EntityContainer/Currencies_texts; text: /TravelService.EntityContainer/Currencies_texts; kind:2; commit:; sort:E",
+        "label: /TravelService.EntityContainer/TravelStatus_texts; text: /TravelService.EntityContainer/TravelStatus_texts; kind:2; commit:; sort:E",
+        "label: /TravelService.EntityContainer/Countries_texts; text: /TravelService.EntityContainer/Countries_texts; kind:2; commit:; sort:E",
+        "label: /TravelService.EntityContainer/BookingStatus_texts; text: /TravelService.EntityContainer/BookingStatus_texts; kind:2; commit:; sort:E",
+        "label: /TravelService.EntityContainer/Supplement_texts; text: /TravelService.EntityContainer/Supplement_texts; kind:2; commit:; sort:E",
+        "label: /TravelService.EntityContainer/SupplementType_texts; text: /TravelService.EntityContainer/SupplementType_texts; kind:2; commit:; sort:E",
+        "label: /Travel; text: /Travel; kind:7; commit:/; sort:D",
+        "label: /HighestTotal; text: /HighestTotal; kind:7; commit:; sort:D",
+        "label: /Currencies; text: /Currencies; kind:7; commit:/; sort:D",
+        "label: /TravelStatus; text: /TravelStatus; kind:7; commit:/; sort:D",
+        "label: /TravelAgency; text: /TravelAgency; kind:7; commit:/; sort:D",
+        "label: /Passenger; text: /Passenger; kind:7; commit:/; sort:D",
+        "label: /Booking; text: /Booking; kind:7; commit:/; sort:D",
+        "label: /BookedFlights; text: /BookedFlights; kind:7; commit:/; sort:D",
+        "label: /Countries; text: /Countries; kind:7; commit:/; sort:D",
+        "label: /BookingStatus; text: /BookingStatus; kind:7; commit:/; sort:D",
+        "label: /BookingSupplement; text: /BookingSupplement; kind:7; commit:/; sort:D",
+        "label: /Airline; text: /Airline; kind:7; commit:/; sort:D",
+        "label: /Flight; text: /Flight; kind:7; commit:/; sort:D",
+        "label: /Supplement; text: /Supplement; kind:7; commit:/; sort:D",
+        "label: /FlightConnection; text: /FlightConnection; kind:7; commit:/; sort:D",
+        "label: /SupplementType; text: /SupplementType; kind:7; commit:/; sort:D",
+        "label: /Airport; text: /Airport; kind:7; commit:/; sort:D",
+        "label: /DraftAdministrativeData; text: /DraftAdministrativeData; kind:7; commit:; sort:D",
+        "label: /Currencies_texts; text: /Currencies_texts; kind:7; commit:; sort:D",
+        "label: /TravelStatus_texts; text: /TravelStatus_texts; kind:7; commit:; sort:D",
+        "label: /Countries_texts; text: /Countries_texts; kind:7; commit:; sort:D",
+        "label: /BookingStatus_texts; text: /BookingStatus_texts; kind:7; commit:; sort:D",
+        "label: /Supplement_texts; text: /Supplement_texts; kind:7; commit:; sort:D",
+        "label: /SupplementType_texts; text: /SupplementType_texts; kind:7; commit:; sort:D",
       ]);
     });
 
@@ -227,22 +227,22 @@ describe("contextPath attribute value completion", () => {
       expect(
         result.map((item) => completionItemToSnapshot(item))
       ).toStrictEqual([
-        "label: Travel; text: Travel; kind:2; commit:/; sort:B",
-        "label: Currencies; text: Currencies; kind:2; commit:/; sort:B",
-        "label: TravelStatus; text: TravelStatus; kind:2; commit:/; sort:B",
-        "label: TravelAgency; text: TravelAgency; kind:2; commit:/; sort:B",
-        "label: Passenger; text: Passenger; kind:2; commit:/; sort:B",
-        "label: Booking; text: Booking; kind:2; commit:/; sort:B",
-        "label: BookedFlights; text: BookedFlights; kind:2; commit:/; sort:B",
-        "label: Countries; text: Countries; kind:2; commit:/; sort:B",
-        "label: BookingStatus; text: BookingStatus; kind:2; commit:/; sort:B",
-        "label: BookingSupplement; text: BookingSupplement; kind:2; commit:/; sort:B",
-        "label: Airline; text: Airline; kind:2; commit:/; sort:B",
-        "label: Flight; text: Flight; kind:2; commit:/; sort:B",
-        "label: Supplement; text: Supplement; kind:2; commit:/; sort:B",
-        "label: FlightConnection; text: FlightConnection; kind:2; commit:/; sort:B",
-        "label: SupplementType; text: SupplementType; kind:2; commit:/; sort:B",
-        "label: Airport; text: Airport; kind:2; commit:/; sort:B",
+        "label: Travel; text: Travel; kind:2; commit:/; sort:E",
+        "label: Currencies; text: Currencies; kind:2; commit:/; sort:E",
+        "label: TravelStatus; text: TravelStatus; kind:2; commit:/; sort:E",
+        "label: TravelAgency; text: TravelAgency; kind:2; commit:/; sort:E",
+        "label: Passenger; text: Passenger; kind:2; commit:/; sort:E",
+        "label: Booking; text: Booking; kind:2; commit:/; sort:E",
+        "label: BookedFlights; text: BookedFlights; kind:2; commit:/; sort:E",
+        "label: Countries; text: Countries; kind:2; commit:/; sort:E",
+        "label: BookingStatus; text: BookingStatus; kind:2; commit:/; sort:E",
+        "label: BookingSupplement; text: BookingSupplement; kind:2; commit:/; sort:E",
+        "label: Airline; text: Airline; kind:2; commit:/; sort:E",
+        "label: Flight; text: Flight; kind:2; commit:/; sort:E",
+        "label: Supplement; text: Supplement; kind:2; commit:/; sort:E",
+        "label: FlightConnection; text: FlightConnection; kind:2; commit:/; sort:E",
+        "label: SupplementType; text: SupplementType; kind:2; commit:/; sort:E",
+        "label: Airport; text: Airport; kind:2; commit:/; sort:E",
       ]);
     });
 
@@ -253,14 +253,14 @@ describe("contextPath attribute value completion", () => {
       expect(
         result.map((item) => completionItemToSnapshot(item))
       ).toStrictEqual([
-        "label: CurrencyCode; text: CurrencyCode; kind:18; commit:/; sort:N",
-        "label: BookingStatus; text: BookingStatus; kind:18; commit:/; sort:N",
-        "label: to_BookSupplement; text: to_BookSupplement; kind:18; commit:/; sort:N",
-        "label: to_Carrier; text: to_Carrier; kind:18; commit:/; sort:N",
-        "label: to_Customer; text: to_Customer; kind:18; commit:/; sort:N",
-        "label: to_Travel; text: to_Travel; kind:18; commit:/; sort:N",
-        "label: to_Flight; text: to_Flight; kind:18; commit:/; sort:N",
-        "label: DraftAdministrativeData; text: DraftAdministrativeData; kind:18; commit:; sort:N",
+        "label: CurrencyCode; text: CurrencyCode; kind:18; commit:/; sort:B",
+        "label: BookingStatus; text: BookingStatus; kind:18; commit:/; sort:B",
+        "label: to_BookSupplement; text: to_BookSupplement; kind:18; commit:/; sort:B",
+        "label: to_Carrier; text: to_Carrier; kind:18; commit:/; sort:B",
+        "label: to_Customer; text: to_Customer; kind:18; commit:/; sort:B",
+        "label: to_Travel; text: to_Travel; kind:18; commit:/; sort:B",
+        "label: to_Flight; text: to_Flight; kind:18; commit:/; sort:B",
+        "label: DraftAdministrativeData; text: DraftAdministrativeData; kind:18; commit:; sort:B",
       ]);
     });
     it("navigation segment completion (case 2)", async function () {
@@ -270,14 +270,14 @@ describe("contextPath attribute value completion", () => {
       expect(
         result.map((item) => completionItemToSnapshot(item))
       ).toStrictEqual([
-        "label: CurrencyCode; text: CurrencyCode; kind:18; commit:/; sort:N",
-        "label: BookingStatus; text: BookingStatus; kind:18; commit:/; sort:N",
-        "label: to_BookSupplement; text: to_BookSupplement; kind:18; commit:/; sort:N",
-        "label: to_Carrier; text: to_Carrier; kind:18; commit:/; sort:N",
-        "label: to_Customer; text: to_Customer; kind:18; commit:/; sort:N",
-        "label: to_Travel; text: to_Travel; kind:18; commit:/; sort:N",
-        "label: to_Flight; text: to_Flight; kind:18; commit:/; sort:N",
-        "label: DraftAdministrativeData; text: DraftAdministrativeData; kind:18; commit:; sort:N",
+        "label: CurrencyCode; text: CurrencyCode; kind:18; commit:/; sort:B",
+        "label: BookingStatus; text: BookingStatus; kind:18; commit:/; sort:B",
+        "label: to_BookSupplement; text: to_BookSupplement; kind:18; commit:/; sort:B",
+        "label: to_Carrier; text: to_Carrier; kind:18; commit:/; sort:B",
+        "label: to_Customer; text: to_Customer; kind:18; commit:/; sort:B",
+        "label: to_Travel; text: to_Travel; kind:18; commit:/; sort:B",
+        "label: to_Flight; text: to_Flight; kind:18; commit:/; sort:B",
+        "label: DraftAdministrativeData; text: DraftAdministrativeData; kind:18; commit:; sort:B",
       ]);
     });
 
@@ -288,13 +288,13 @@ describe("contextPath attribute value completion", () => {
       expect(
         result.map((item) => completionItemToSnapshot(item))
       ).toStrictEqual([
-        "label: CurrencyCode; text: CurrencyCode; kind:18; commit:/; sort:N",
-        "label: BookingStatus; text: BookingStatus; kind:18; commit:/; sort:N",
-        "label: to_Carrier; text: to_Carrier; kind:18; commit:/; sort:N",
-        "label: to_Customer; text: to_Customer; kind:18; commit:/; sort:N",
-        "label: to_Travel; text: to_Travel; kind:18; commit:/; sort:N",
-        "label: to_Flight; text: to_Flight; kind:18; commit:/; sort:N",
-        "label: DraftAdministrativeData; text: DraftAdministrativeData; kind:18; commit:; sort:N",
+        "label: CurrencyCode; text: CurrencyCode; kind:18; commit:/; sort:B",
+        "label: BookingStatus; text: BookingStatus; kind:18; commit:/; sort:B",
+        "label: to_Carrier; text: to_Carrier; kind:18; commit:/; sort:B",
+        "label: to_Customer; text: to_Customer; kind:18; commit:/; sort:B",
+        "label: to_Travel; text: to_Travel; kind:18; commit:/; sort:B",
+        "label: to_Flight; text: to_Flight; kind:18; commit:/; sort:B",
+        "label: DraftAdministrativeData; text: DraftAdministrativeData; kind:18; commit:; sort:B",
       ]);
     });
 
@@ -305,12 +305,12 @@ describe("contextPath attribute value completion", () => {
       expect(
         result.map((item) => completionItemToSnapshot(item))
       ).toStrictEqual([
-        "label: CurrencyCode; text: CurrencyCode; kind:18; commit:/; sort:N",
-        "label: BookingStatus; text: BookingStatus; kind:18; commit:/; sort:N",
-        "label: to_Carrier; text: to_Carrier; kind:18; commit:/; sort:N",
-        "label: to_Customer; text: to_Customer; kind:18; commit:/; sort:N",
-        "label: to_Flight; text: to_Flight; kind:18; commit:/; sort:N",
-        "label: DraftAdministrativeData; text: DraftAdministrativeData; kind:18; commit:; sort:N",
+        "label: CurrencyCode; text: CurrencyCode; kind:18; commit:/; sort:B",
+        "label: BookingStatus; text: BookingStatus; kind:18; commit:/; sort:B",
+        "label: to_Carrier; text: to_Carrier; kind:18; commit:/; sort:B",
+        "label: to_Customer; text: to_Customer; kind:18; commit:/; sort:B",
+        "label: to_Flight; text: to_Flight; kind:18; commit:/; sort:B",
+        "label: DraftAdministrativeData; text: DraftAdministrativeData; kind:18; commit:; sort:B",
       ]);
     });
 
@@ -341,15 +341,15 @@ describe("contextPath attribute value completion", () => {
         expect(
           result.map((item) => completionItemToSnapshot(item))
         ).toStrictEqual([
-          "label: /TravelService.EntityContainer; text: /TravelService.EntityContainer; kind:19; commit:/; sort:Z",
-          "label: /TravelService.EntityContainer/Travel; text: /TravelService.EntityContainer/Travel; kind:2; commit:/; sort:B",
-          "label: /TravelService.EntityContainer/Booking; text: /TravelService.EntityContainer/Booking; kind:2; commit:/; sort:B",
-          "label: /TravelService.EntityContainer/BookedFlights; text: /TravelService.EntityContainer/BookedFlights; kind:2; commit:/; sort:B",
-          "label: /TravelService.EntityContainer/BookingSupplement; text: /TravelService.EntityContainer/BookingSupplement; kind:2; commit:/; sort:B",
-          "label: /Travel; text: /Travel; kind:7; commit:; sort:A",
-          "label: /Booking; text: /Booking; kind:7; commit:/; sort:A",
-          "label: /BookedFlights; text: /BookedFlights; kind:7; commit:/; sort:A",
-          "label: /BookingSupplement; text: /BookingSupplement; kind:7; commit:/; sort:A",
+          "label: /TravelService.EntityContainer; text: /TravelService.EntityContainer; kind:19; commit:; sort:Z",
+          "label: /TravelService.EntityContainer/Travel; text: /TravelService.EntityContainer/Travel; kind:2; commit:/; sort:E",
+          "label: /TravelService.EntityContainer/Booking; text: /TravelService.EntityContainer/Booking; kind:2; commit:/; sort:E",
+          "label: /TravelService.EntityContainer/BookedFlights; text: /TravelService.EntityContainer/BookedFlights; kind:2; commit:/; sort:E",
+          "label: /TravelService.EntityContainer/BookingSupplement; text: /TravelService.EntityContainer/BookingSupplement; kind:2; commit:/; sort:E",
+          "label: /Travel; text: /Travel; kind:7; commit:/; sort:D",
+          "label: /Booking; text: /Booking; kind:7; commit:/; sort:D",
+          "label: /BookedFlights; text: /BookedFlights; kind:7; commit:/; sort:D",
+          "label: /BookingSupplement; text: /BookingSupplement; kind:7; commit:/; sort:D",
         ]);
       });
 
@@ -377,10 +377,10 @@ describe("contextPath attribute value completion", () => {
         expect(
           result.map((item) => completionItemToSnapshot(item))
         ).toStrictEqual([
-          "label: Travel; text: Travel; kind:2; commit:; sort:B",
-          "label: Booking; text: Booking; kind:2; commit:/; sort:B",
-          "label: BookedFlights; text: BookedFlights; kind:2; commit:/; sort:B",
-          "label: BookingSupplement; text: BookingSupplement; kind:2; commit:/; sort:B",
+          "label: Travel; text: Travel; kind:2; commit:; sort:E",
+          "label: Booking; text: Booking; kind:2; commit:/; sort:E",
+          "label: BookedFlights; text: BookedFlights; kind:2; commit:/; sort:E",
+          "label: BookingSupplement; text: BookingSupplement; kind:2; commit:/; sort:E",
         ]);
       });
 
@@ -391,8 +391,8 @@ describe("contextPath attribute value completion", () => {
         expect(
           result.map((item) => completionItemToSnapshot(item))
         ).toStrictEqual([
-          "label: to_BookSupplement; text: to_BookSupplement; kind:18; commit:/; sort:N",
-          "label: to_Travel; text: to_Travel; kind:18; commit:; sort:N",
+          "label: to_BookSupplement; text: to_BookSupplement; kind:18; commit:/; sort:B",
+          "label: to_Travel; text: to_Travel; kind:18; commit:; sort:B",
         ]);
       });
 
@@ -403,8 +403,8 @@ describe("contextPath attribute value completion", () => {
         expect(
           result.map((item) => completionItemToSnapshot(item))
         ).toStrictEqual([
-          "label: to_BookSupplement; text: to_BookSupplement; kind:18; commit:/; sort:N",
-          "label: to_Travel; text: to_Travel; kind:18; commit:; sort:N",
+          "label: to_BookSupplement; text: to_BookSupplement; kind:18; commit:/; sort:B",
+          "label: to_Travel; text: to_Travel; kind:18; commit:; sort:B",
         ]);
       });
 
@@ -415,7 +415,7 @@ describe("contextPath attribute value completion", () => {
         expect(
           result.map((item) => completionItemToSnapshot(item))
         ).toStrictEqual([
-          "label: to_Travel; text: to_Travel; kind:18; commit:; sort:N",
+          "label: to_Travel; text: to_Travel; kind:18; commit:; sort:B",
         ]);
       });
 
