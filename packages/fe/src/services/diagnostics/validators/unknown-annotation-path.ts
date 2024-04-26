@@ -23,7 +23,24 @@ import {
 } from "../../../utils";
 import { getAnnotationAppliedOnElement } from "../../../utils";
 
-import { EntityType } from "@sap-ux/vocabularies-types";
+import { EntityType, Property } from "@sap-ux/vocabularies-types";
+
+const getMessageValue = (
+  isAbsolutePath: boolean,
+  value: string | null,
+  normalizedContext: string | undefined
+): string => {
+  if (!value) {
+    return "";
+  }
+  if (isAbsolutePath) {
+    return value;
+  }
+  if (normalizedContext) {
+    return `${normalizedContext}/${value}`;
+  }
+  return value;
+};
 
 export function validateUnknownAnnotationPath(
   attribute: XMLAttribute,
@@ -71,7 +88,7 @@ export function validateUnknownAnnotationPath(
     let isNavSegmentsAllowed = true;
     let base: ResolvedPathTargetType | undefined;
     let baseType: EntityType | undefined;
-    let normalizedContextPath: string;
+    let normalizedContextPath: string | undefined;
 
     // resolve context and get annotations for it
     if (typeof contextPath === "string") {
@@ -94,7 +111,7 @@ export function validateUnknownAnnotationPath(
         (e) => e.name === entitySet
       );
       baseType = base?.entityType;
-      if (entitySet && !base && !isAbsolutePath) {
+      if (entitySet && !base) {
         return [
           {
             kind: "InvalidAnnotationTarget",
@@ -161,21 +178,6 @@ export function validateUnknownAnnotationPath(
       segment.includes("@")
     );
     segments.splice(termSegmentIndex);
-    // if (segments.length > 1 && !segments[0]) {
-    //   // absolute path not allowed
-    //   return [
-    //     {
-    //       kind: "InvalidAnnotationTerm",
-    //       issueType: ANNOTATION_ISSUE_TYPE,
-    //       message: t("ABSOLUTE_ANNOTATION_PATH_NOT_ALLOWED"),
-    //       offsetRange: {
-    //         start: actualAttributeValueToken.startOffset,
-    //         end: actualAttributeValueToken.endOffset,
-    //       },
-    //       severity: "warn",
-    //     } as AnnotationIssue,
-    //   ];
-    // } else
     if (segments.length > 0 && !isNavSegmentsAllowed) {
       return [
         {
@@ -225,7 +227,11 @@ export function validateUnknownAnnotationPath(
           kind: "PathDoesNotExist",
           issueType: ANNOTATION_ISSUE_TYPE,
           message: t("UNKNOWN_ANNOTATION_PATH", {
-            value: `${normalizedContextPath}/${attribute.value}`,
+            value: getMessageValue(
+              isAbsolutePath,
+              attribute.value,
+              normalizedContextPath
+            ),
           }),
           offsetRange: {
             start:
@@ -235,7 +241,8 @@ export function validateUnknownAnnotationPath(
           severity: "warn",
         },
       ];
-    } else if (targetEntity._type === "Property") {
+    }
+    if (targetEntity._type === "Property") {
       const expectedTypesList = expectedTypes
         .map((item) => TypeNameMap[item])
         .join(", ");
@@ -254,74 +261,80 @@ export function validateUnknownAnnotationPath(
           severity: "warn",
         },
       ];
+    }
+
+    base = base as Exclude<ResolvedPathTargetType, Property>;
+    const termSegment = originalSegments[termSegmentIndex];
+    const parts = termSegment.split("@");
+    let annotations: AnnotationBase[] | undefined;
+
+    annotations = getAnnotationAppliedOnElement(
+      expectedAnnotations,
+      segments.length === 0 ? base : targetEntity,
+      parts[0]
+    );
+
+    const match = annotations.find(
+      (anno) => composeAnnotationPath(anno) === "@" + parts[1]
+    );
+    if (match) {
+      return [];
     } else {
-      const termSegment = originalSegments[termSegmentIndex];
-      const parts = termSegment.split("@");
-      let annotations: AnnotationBase[] | undefined;
+      // check whether the provided term exists on target
+      const term: AnnotationTerm = fullyQualifiedNameToTerm(parts[1]);
       annotations = getAnnotationAppliedOnElement(
-        expectedAnnotations,
-        segments.length === 0 ? base! : targetEntity!,
+        [term],
+        segments.length === 0 ? base : targetEntity,
         parts[0]
       );
-
       const match = annotations.find(
         (anno) => composeAnnotationPath(anno) === "@" + parts[1]
       );
       if (match) {
-        return [];
-      } else {
-        // check whether the provided term exists on target
-        const term: AnnotationTerm = fullyQualifiedNameToTerm(parts[1]);
+        // determine whether any allowed term exists in the project suitable for the current context
         annotations = getAnnotationAppliedOnElement(
-          [term],
-          segments.length === 0 ? base : targetEntity,
-          parts[0]
+          expectedAnnotations,
+          segments.length === 0 ? base : targetEntity
         );
-        const match = annotations.find(
-          (anno) => composeAnnotationPath(anno) === "@" + parts[1]
-        );
-        if (match) {
-          // determine whether any allowed term exists in the project suitable for the current context
-          annotations = getAnnotationAppliedOnElement(
-            expectedAnnotations,
-            base
-          );
 
-          return [
-            {
-              kind: "InvalidAnnotationTerm",
-              issueType: ANNOTATION_ISSUE_TYPE,
-              message: t(
-                annotations.length
-                  ? "INVALID_ANNOTATION_TERM_TRIGGER_CODE_COMPLETION"
-                  : "INVALID_ANNOTATION_TERM_THERE_ARE_NO_SUITABLE_ANNOTATIONS",
-                { value: attribute.value }
-              ),
-              offsetRange: {
-                start: actualAttributeValueToken.startOffset,
-                end: actualAttributeValueToken.endOffset,
-              },
-              severity: "warn",
+        return [
+          {
+            kind: "InvalidAnnotationTerm",
+            issueType: ANNOTATION_ISSUE_TYPE,
+            message: t(
+              annotations.length
+                ? "INVALID_ANNOTATION_TERM_TRIGGER_CODE_COMPLETION"
+                : "INVALID_ANNOTATION_TERM_THERE_ARE_NO_SUITABLE_ANNOTATIONS",
+              { value: attribute.value }
+            ),
+            offsetRange: {
+              start: actualAttributeValueToken.startOffset,
+              end: actualAttributeValueToken.endOffset,
             },
-          ];
-        }
-      }
-
-      return [
-        {
-          kind: "PathDoesNotExist",
-          issueType: ANNOTATION_ISSUE_TYPE,
-          message: t("UNKNOWN_ANNOTATION_PATH", {
-            value: `${normalizedContextPath}/${attribute.value}`,
-          }),
-          offsetRange: {
-            start: actualAttributeValueToken.startOffset,
-            end: actualAttributeValueToken.endOffset,
+            severity: "warn",
           },
-          severity: "warn",
-        },
-      ];
+        ];
+      }
     }
+
+    return [
+      {
+        kind: "PathDoesNotExist",
+        issueType: ANNOTATION_ISSUE_TYPE,
+        message: t("UNKNOWN_ANNOTATION_PATH", {
+          value: getMessageValue(
+            isAbsolutePath,
+            attribute.value,
+            normalizedContextPath
+          ),
+        }),
+        offsetRange: {
+          start: actualAttributeValueToken.startOffset,
+          end: actualAttributeValueToken.endOffset,
+        },
+        severity: "warn",
+      },
+    ];
   }
 
   return [];

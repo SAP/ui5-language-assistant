@@ -123,6 +123,13 @@ describe("missing entitySet validation", () => {
       expect(result.length).toEqual(0);
     });
 
+    it("attribute value is absolute", async function () {
+      const result = await validateView(
+        `<macros:Chart metaPath="/Travel"></macros:Chart>`
+      );
+      expect(result.length).toEqual(0);
+    });
+
     it("contextPath exists", async function () {
       const result = await validateView(
         `<macros:Chart contextPath="/Travel" metaPath="@UI.Chart"></macros:Chart>`
