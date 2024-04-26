@@ -24,7 +24,7 @@
   "UNKNOWN_PATH": "Unknown path: \"{{value}}\"",
   "INVALID_PROPERTY_PATH_MULTIPLE_1_TO_MANY": "Invalid property path value. Multiple 1:many association segments not allowed",
 
-  "ENTITY_SET_OR_CONTEXT_PATH_IS_MISSING_IN_MANIFEST": "EntitySet or contextPath for the current view are not defined in application manifest. Attribute value completion and diagnostics is not possible if EntitySet or contextPath are not defined or defined dynamically in controllers",
+  "ENTITY_SET_OR_CONTEXT_PATH_IS_MISSING_IN_MANIFEST": "Path cannot be identified: use absolute path or define contextPath",
   "EMPTY_CONTEXT_PATH_IN_MANIFEST": "ContextPath in manifest is empty. Attribute value completion and diagnostics are disabled",
   "RELATIVE_CONTEXT_PATH_IN_MANIFEST": "ContextPath in manifest \"{{value}}\" must be absolute. Attribute value completion and diagnostics are disabled",
   "UNKNOWN_CONTEXT_PATH_IN_MANIFEST": "Unknown contextPath in manifest \"{{value}}\". Attribute value completion and diagnostics are disabled",

@@ -55,7 +55,7 @@ export function validateMissingViewEntitySet(
               start: actualAttributeValueToken.startOffset,
               end: actualAttributeValueToken.endOffset,
             },
-            severity: "info",
+            severity: "warn",
           },
         ];
       }

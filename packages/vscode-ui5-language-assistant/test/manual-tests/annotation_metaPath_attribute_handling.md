@@ -57,7 +57,7 @@ annotate service.Travel with @(
 4. Set the metaPath attribute value as `to_Booking`. Observe warning message `Path value must end with annotation term. Use code completion to select annotation path`.
 5. Set the metaPath attribute value as `@com.sap.vocabularies.UI.v1.LineItem`. Observe warning message `Invalid annotation term: "@com.sap.vocabularies.UI.v1.LineItem". Trigger code completion to choose one of allowed annotations`.
 6. Go to app manifest file, find `routing\targets\TravelMain` settings entry and rename `entitySet` property in the nested object structure to `entitySet_`. Save the file.
-7. Set the metaPath attribute value as `@com.sap.vocabularies.UI.v1.Chart#sample1`. Observe info message `EntitySet or contextPath for the current view are not defined in application manifest. Attribute value completion and diagnostics is not possible if EntitySet or contextPath are not defined or defined dynamically in controllers`.
+7. Set the metaPath attribute value as `@com.sap.vocabularies.UI.v1.Chart#sample1`. Observe warn message `Path cannot be identified: use absolute path or define contextPath`.
 8. Revert manifest change that is done at previous step 7. Change property `entitySet` value to `Travel_`. Save the file.
 9. Set the metaPath attribute value as `@com.sap.vocabularies.UI.v1.Chart#sample`. Observe info message `Entity Set "Travel_" specified in manifest for the current view is not found. Attribute value completion and diagnostics are disabled`.
 10. Reset property `entitySet` value to `Travel` in app manifest. Save the file.
