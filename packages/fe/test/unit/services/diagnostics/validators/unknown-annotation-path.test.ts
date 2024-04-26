@@ -212,6 +212,7 @@ describe("metaPath attribute value validation (annotation path)", () => {
       );
       expect(result.length).toEqual(0);
     });
+
     it("is absolute path", async function () {
       const result = await validateView(
         `<macros:Chart metaPath="/Booking/to_Travel/@com.sap.vocabularies.UI.v1.Chart#sample1"></macros:Chart>`

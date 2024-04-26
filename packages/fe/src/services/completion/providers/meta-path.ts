@@ -134,7 +134,7 @@ export function metaPathSuggestions({
     );
     baseType = base?.entityType;
   }
-  let isCollection;
+  let isCollection: boolean | undefined;
 
   // for (navigation) property segment or annotation term
   if (!isAbsolutePath && completionSegmentIndex > 0) {
@@ -147,7 +147,7 @@ export function metaPathSuggestions({
     ({
       target: base,
       targetStructuredType: baseType,
-      isCollection: isCollection,
+      isCollection,
     } = resolvePathTarget(metadata, contextToConsider, baseType));
     if (!base) {
       // target not resolved e.g. for wrong nav segment - no further segments possible
@@ -159,7 +159,7 @@ export function metaPathSuggestions({
     ({
       target: base,
       targetStructuredType: baseType,
-      isCollection: isCollection,
+      isCollection,
     } = resolvePathTarget(metadata, normalizePath(contextPath)));
   }
 
@@ -195,7 +195,7 @@ export function metaPathSuggestions({
     // for first path segment completion, where current base can be entity set or singleton,
     // we collect also terms applied on their structural entity type
 
-    // targetStructuredType is never undefined in this context
+    // baseType is never undefined in this context
     annotationList.push(
       ...collectAnnotationsForElement(expectedAnnotations, baseType)
     );

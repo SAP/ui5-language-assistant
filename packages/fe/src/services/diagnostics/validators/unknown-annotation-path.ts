@@ -263,14 +263,18 @@ export function validateUnknownAnnotationPath(
       ];
     }
 
-    base = base as Exclude<ResolvedPathTargetType, Property>;
+    const baseEntity =
+      segments.length === 0
+        ? (base as Exclude<ResolvedPathTargetType, Property>)
+        : targetEntity;
+
     const termSegment = originalSegments[termSegmentIndex];
     const parts = termSegment.split("@");
     let annotations: AnnotationBase[] | undefined;
 
     annotations = getAnnotationAppliedOnElement(
       expectedAnnotations,
-      segments.length === 0 ? base : targetEntity,
+      baseEntity,
       parts[0]
     );
 
@@ -282,11 +286,7 @@ export function validateUnknownAnnotationPath(
     } else {
       // check whether the provided term exists on target
       const term: AnnotationTerm = fullyQualifiedNameToTerm(parts[1]);
-      annotations = getAnnotationAppliedOnElement(
-        [term],
-        segments.length === 0 ? base : targetEntity,
-        parts[0]
-      );
+      annotations = getAnnotationAppliedOnElement([term], baseEntity, parts[0]);
       const match = annotations.find(
         (anno) => composeAnnotationPath(anno) === "@" + parts[1]
       );
@@ -294,7 +294,7 @@ export function validateUnknownAnnotationPath(
         // determine whether any allowed term exists in the project suitable for the current context
         annotations = getAnnotationAppliedOnElement(
           expectedAnnotations,
-          segments.length === 0 ? base : targetEntity
+          baseEntity
         );
 
         return [
