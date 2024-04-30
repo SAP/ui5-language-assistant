@@ -1,4 +1,11 @@
 import { MarkupContent, Range } from "vscode-languageserver-types";
+import {
+  EntityContainer,
+  EntitySet,
+  EntityType,
+  NavigationProperty,
+  Singleton,
+} from "@sap-ux/vocabularies-types";
 
 export type CompletionItemKind =
   | "Term"
@@ -123,3 +130,20 @@ export interface FilterBarIdInXMLAttributeValueCompletion
   extends BaseXMLViewAnnotationCompletion<FilterBarIdValue> {
   type: typeof FilterBarIdInXMLAttributeValueTypeName;
 }
+
+export type ApplicableMetadataElement =
+  | EntityContainer
+  | EntitySet
+  | EntityType
+  | Singleton
+  | NavigationProperty;
+
+export interface CompletionSuggestion {
+  element: ApplicableMetadataElement;
+  isLastSegment: boolean;
+}
+
+export type MetaPathSuggestion =
+  | AnnotationPathInXMLAttributeValueCompletion
+  | PropertyPathInXMLAttributeValueCompletion
+  | AnnotationTargetInXMLAttributeValueCompletion;

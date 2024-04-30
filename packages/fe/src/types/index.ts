@@ -15,3 +15,15 @@ export type AnnotationBase = {
   term: string;
   qualifier: string;
 };
+
+export enum ContextPathOrigin {
+  xmlAttributeInContextPath = "xml-attribute-in-context-path",
+  xmlAttributeInMetaPath = "xml-attribute-in-meta-path",
+  contextPathInManifest = "context-path-in-manifest",
+  entitySetInManifest = "entitySet-in-manifest",
+}
+
+export interface ResolveContextPath {
+  contextPath: string;
+  origin: ContextPathOrigin;
+}

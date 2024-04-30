@@ -202,6 +202,8 @@ For SAPUI5 XML views, this means:`*.view.xml` or `*.fragment.xml` files.
 Note that the extension **lazily** downloads the SAPUI5 metadata needed for its features.
 This means that there may be a delay between starting VS Code and having the relevant features available.
 
+When working with CAP projects, make sure you have @sap/cds module installed. For this, run npm install on your project. This command will download and install all necessary modules from the npm package repository.
+
 ### Enabling offline work
 
 You can set up a local web server to host one or more supported versions of SAP UI5 SDK and register it in the user/workspace setting `"UI5LanguageAssistant.SAPUI5WebServer"`. This overrides the public CDN of SAP UI5 SDK in the extension and enables offline work with the apps having the matching hosted `"minUI5Version"` in `manifest.json`.

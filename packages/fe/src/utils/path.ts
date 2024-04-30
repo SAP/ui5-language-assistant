@@ -13,6 +13,7 @@ import {
   getEntityTypeForElement,
 } from "./metadata";
 import { AnnotationTerm } from "./spec";
+import { ApplicableMetadataElement } from "../types/completion";
 
 export type ResolvedPathTargetType =
   | EntityContainer
@@ -272,3 +273,24 @@ export function getNextPossiblePathTargets(
 
   return result;
 }
+
+export const isNextSegmentPossible = (
+  convertedMetadata: ConvertedMetadata,
+  currentTarget: Exclude<ApplicableMetadataElement, NavigationProperty>,
+  options: {
+    isPropertyPath?: boolean;
+    allowedTerms?: AnnotationTerm[];
+    allowedTargets?: AllowedTargetType[];
+    isCollection?: boolean;
+  },
+  milestones: string[] = []
+): boolean => {
+  return (
+    getNextPossibleContextPathTargets(
+      convertedMetadata,
+      currentTarget,
+      options,
+      [...milestones, currentTarget.fullyQualifiedName]
+    ).length > 0
+  );
+};

@@ -101,7 +101,7 @@ describe("filterBar attribute value validation", () => {
     });
   });
 
-  it("shows warning when is is not empty and no filterBar macros elements in the document", async function () {
+  it("shows warning when it is not empty and no filterBar macros elements in the document", async function () {
     const result = await validateView(
       `<macros:Table filterBar="test"></macros:Table>`
     );

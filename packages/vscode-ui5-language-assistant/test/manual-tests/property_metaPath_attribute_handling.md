@@ -28,7 +28,16 @@ Associated user stories:
 ```
 
 4. Place the cursor at the position of the `metaPath` attribute value and trigger code completion.
-5. Observe the list of suggestions for the first path segment. Make sure that properties of the current default entity set `Travel` specified in manifest go first in the list and followed by possible navigation segments. Choose first property and press `Enter`. Observe no error messages are shown for the attribute value.
+5. Observe the list of suggestions for the first path segment. Make sure that list is sort as:
+
+   - properties of the current default entity set `Travel` specified in manifest
+   - navigation segments
+   - entity types with absolute path
+   - entity sets
+   - entity container
+
+   Choose first property and press `Enter`. Observe no error messages are shown for the attribute value.
+
 6. Place cursor at value's first position and trigger code completion. Choose option `to_Booking` and press `/` to confirm. Observe the segment is added, and completion for next segment is triggered. Choose navigation property `to_Travel` and press `/` to confirm. Observe `Travel` properties are listed and further navigation segment `to_Booking` is not available to avoid cyclic routes. Choose first property and press `Enter`. Observe no error messages are shown for the attribute value.
 7. Remove entire current element and place following snippet instead:
 
