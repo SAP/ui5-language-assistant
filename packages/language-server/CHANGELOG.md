@@ -1,5 +1,12 @@
 # Change Log
 
+## 4.0.48
+
+### Patch Changes
+
+- Updated dependencies [fddc24b]
+  - @ui5-language-assistant/fe@4.0.27
+
 ## 4.0.47
 
 ### Patch Changes

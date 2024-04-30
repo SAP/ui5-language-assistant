@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.27
+
+### Patch Changes
+
+- fddc24b: feat: add absolute path support for meta path
+
 ## 4.0.26
 
 ### Patch Changes
