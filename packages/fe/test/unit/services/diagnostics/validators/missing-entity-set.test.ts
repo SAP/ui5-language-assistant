@@ -76,7 +76,7 @@ describe("missing entitySet validation", () => {
         }
       );
       expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-        "kind: MissingEntitySet; text: Path cannot be identified: use absolute path or define contextPath; severity:warn; offset:344-354",
+        "kind: MissingEntitySet; text: The path cannot be identified. Use an absolute path or define the contextPath; severity:warn; offset:344-354",
       ]);
     });
 
@@ -87,7 +87,7 @@ describe("missing entitySet validation", () => {
         (c) => ({ ...c, manifestDetails: undefined } as any)
       );
       expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-        "kind: MissingEntitySet; text: Path cannot be identified: use absolute path or define contextPath; severity:warn; offset:344-349",
+        "kind: MissingEntitySet; text: The path cannot be identified. Use an absolute path or define the contextPath; severity:warn; offset:344-349",
       ]);
     });
 
@@ -103,7 +103,7 @@ describe("missing entitySet validation", () => {
         }
       );
       expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-        "kind: MissingEntitySet; text: Path cannot be identified: use absolute path or define contextPath; severity:warn; offset:344-349",
+        "kind: MissingEntitySet; text: The path cannot be identified. Use an absolute path or define the contextPath; severity:warn; offset:344-349",
       ]);
     });
   });
