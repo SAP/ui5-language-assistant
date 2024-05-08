@@ -1,5 +1,12 @@
 # Change Log
 
+## 4.0.64
+
+### Patch Changes
+
+- 286a57d: Warning text correction
+  - @ui5-language-assistant/language-server@4.0.49
+
 ## 4.0.63
 
 ### Patch Changes

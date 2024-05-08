@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.28
+
+### Patch Changes
+
+- 286a57d: Warning text correction
+
 ## 4.0.27
 
 ### Patch Changes
