@@ -18,7 +18,7 @@
   "dependencies": {
     "@sap-ux/annotation-converter": "0.5.20",
     "@sap-ux/edmx-parser": "0.5.13",
-    "@sap-ux/project-access": "1.9.1",
+    "@sap-ux/project-access": "1.25.5",
     "@ui5-language-assistant/logger": "0.0.1",
     "@ui5-language-assistant/logic-utils": "4.0.18",
     "@ui5-language-assistant/settings": "4.0.9",
@@ -31,7 +31,7 @@
     "vscode-uri": "2.1.2"
   },
   "devDependencies": {
-    "@sap-ux/vocabularies-types": "0.6.8",
+    "@sap-ux/vocabularies-types": "0.10.14",
     "@types/js-yaml": "4.0.5",
     "@types/lodash": "4.14.168",
     "@types/node-fetch": "2.5.10",
