@@ -88,7 +88,7 @@ export function buildUI5Model<T extends Partial<UI5SemanticModel>>(
   opts: Partial<UI5SemanticModel>
 ): UI5SemanticModel & Pick<T, keyof UI5SemanticModel>;
 
-export const DEFAULT_UI5_VERSION = "1.71.67";
+export const DEFAULT_UI5_VERSION = "1.71.69";
 
 // TODO: list should be updated continuously!
 export type TestModelVersion =
