@@ -76,7 +76,9 @@
         "1.60.0",
         "1.61.0",
         "1.62.0",
-        "1.63.0"
+        "1.63.0",
+        "1.64.0",
+        "1.65.0"
       ]
     },
     "start_url": {
@@ -539,8 +541,8 @@
               "required": ["minUI5Version"],
               "properties": {
                 "minUI5Version": {
-                  "description": "Represents the minimum version of SAP UI5 that your component requires",
-                  "$ref": "#/definitions/version"
+                  "description": "Represents the minimum version of SAP UI5 that your component requires. It is either a specific version or an array of versions where each major version can only be included once. If array contains more than one version and if version 1 is included it must be at least 1.120.x.",
+                  "$ref": "#/definitions/minUI5Version"
                 },
                 "libs": {
                   "description": "Represents the id (namespace) of the libraries that should be loaded by UI5 Core to be used in your component",
@@ -1792,7 +1794,9 @@
             "1.41.0",
             "1.42.0",
             "1.43.0",
-            "1.44.0"
+            "1.44.0",
+            "1.45.0",
+            "1.46.0"
           ]
         },
         "designtime": {
@@ -1811,6 +1815,10 @@
             "enableMarkdown": {
               "description": "Markdown enablement for Adaptive Content",
               "type": "boolean"
+            },
+            "helpId": {
+              "description": "[Experimental] The help-id which will be rendered as data-help-id on the base element of the card.",
+              "type": "string"
             },
             "modelSizeLimit": {
               "description": "[Experimental] Represents the maximum number of entries that are used for list bindings.",
@@ -2665,7 +2673,7 @@
         }
       }
     },
-    "Microchart.StackedBar.Bar": {
+    "MicroChart.StackedBar.Bar": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
@@ -2702,7 +2710,7 @@
         }
       }
     },
-    "Microchart.Bullet.Threshold": {
+    "MicroChart.Bullet.Threshold": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
@@ -2731,13 +2739,13 @@
         }
       }
     },
-    "Microchart.StackedBar": {
+    "MicroChart.StackedBar": {
       "type": "object",
       "additionalProperties": false,
       "required": ["type"],
       "properties": {
         "type": {
-          "description": "Represents the type of the Microchart",
+          "description": "Represents the type of the MicroChart",
           "type": "string",
           "const": "StackedBar"
         },
@@ -2756,11 +2764,23 @@
           "description": "The value, which will be displayed as a text next to the bar",
           "type": "string"
         },
+        "displayZeroValue": {
+          "description": "Defines whether bars with zero values are displayed",
+          "oneOf": [
+            {
+              "type": "boolean",
+              "default": true
+            },
+            {
+              "$ref": "#/definitions/simpleBinding"
+            }
+          ]
+        },
         "bars": {
           "description": "The bars of the chart",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Microchart.StackedBar.Bar"
+            "$ref": "#/definitions/MicroChart.StackedBar.Bar"
           }
         },
         "visible": {
@@ -2769,13 +2789,13 @@
         }
       }
     },
-    "Microchart.Bullet": {
+    "MicroChart.Bullet": {
       "type": "object",
       "additionalProperties": false,
       "required": ["type"],
       "properties": {
         "type": {
-          "description": "Represents the type of the Microchart",
+          "description": "Represents the type of the MicroChart",
           "type": "string",
           "const": "Bullet"
         },
@@ -2847,12 +2867,24 @@
           "description": "The thresholds indicators of the bar",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Microchart.Bullet.Threshold"
+            "$ref": "#/definitions/MicroChart.Bullet.Threshold"
           }
         },
         "visible": {
           "description": "Represents the visibility of the chart",
           "$ref": "#/definitions/visibility"
+        }
+      }
+    },
+    "MicroChart.Generic": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["type"],
+      "properties": {
+        "type": {
+          "description": "Represents the type of the MicroChart",
+          "type": "string",
+          "enum": ["Line", "Column", "HarveyBall", "Radial"]
         }
       }
     },
@@ -4394,17 +4426,6 @@
         }
       }
     },
-    "Microchart": {
-      "description": "[Experimental] Describes Microchart attributes",
-      "oneOf": [
-        {
-          "$ref": "#/definitions/Microchart.Bullet"
-        },
-        {
-          "$ref": "#/definitions/Microchart.StackedBar"
-        }
-      ]
-    },
     "icon": {
       "description": "Represents icon attributes",
       "type": "object",
@@ -4444,6 +4465,18 @@
           "oneOf": [
             {
               "enum": ["XS", "S", "M"]
+            },
+            {
+              "$ref": "#/definitions/simpleBinding"
+            }
+          ]
+        },
+        "fitType": {
+          "description": "Defines how the image fits in the icon area",
+          "oneOf": [
+            {
+              "enum": ["Cover", "Contain"],
+              "default": "Cover"
             },
             {
               "$ref": "#/definitions/simpleBinding"
@@ -4640,7 +4673,7 @@
           }
         },
         "chart": {
-          "$ref": "#/definitions/Microchart"
+          "$ref": "#/definitions/MicroChart"
         },
         "actionsStrip": {
           "description": "Describes actions strip",
@@ -4665,6 +4698,20 @@
     "Enums.ValueColor": {
       "enum": ["Critical", "Error", "Good", "Neutral"],
       "default": "Neutral"
+    },
+    "MicroChart": {
+      "description": "[Experimental] Describes MicroChart attributes",
+      "oneOf": [
+        {
+          "$ref": "#/definitions/MicroChart.Generic"
+        },
+        {
+          "$ref": "#/definitions/MicroChart.Bullet"
+        },
+        {
+          "$ref": "#/definitions/MicroChart.StackedBar"
+        }
+      ]
     },
     "HeaderType.Numeric.SideIndicator": {
       "description": "Represents side indicator attributes which are used for additional information about the main indicator",
@@ -5098,6 +5145,9 @@
         "visible": {
           "description": "[Experimental] Visibility of the header",
           "$ref": "#/definitions/visibility"
+        },
+        "chart": {
+          "$ref": "#/definitions/MicroChart"
         }
       }
     },
@@ -5201,6 +5251,34 @@
         "sandbox": {
           "description": "Sandbox attribute of the iframe",
           "type": "string"
+        },
+        "allow": {
+          "description": "Allow attribute of the iframe",
+          "type": "string"
+        },
+        "allowfullscreen": {
+          "description": "Allowfullscreen attribute of the iframe",
+          "oneOf": [
+            {
+              "type": "boolean",
+              "default": false
+            },
+            {
+              "$ref": "#/definitions/simpleBinding"
+            }
+          ]
+        },
+        "omitSandbox": {
+          "description": "If set to 'true' the 'sandbox' attribute will not be added to the iframe.",
+          "oneOf": [
+            {
+              "type": "boolean",
+              "default": false
+            },
+            {
+              "$ref": "#/definitions/simpleBinding"
+            }
+          ]
         }
       }
     },
@@ -5447,33 +5525,7 @@
     "ContentType.AnalyticsCloud": {
       "description": "Represents SAP Analytics Cloud content attributes",
       "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "data": {
-          "$ref": "#/definitions/data"
-        },
-        "minHeight": {
-          "$ref": "#/definitions/minHeight"
-        },
-        "actions": {
-          "description": "Defines actions that can be applied on the content",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/action"
-          }
-        },
-        "options": {
-          "description": "Options of the chart",
-          "oneOf": [
-            {
-              "type": "object"
-            },
-            {
-              "$ref": "#/definitions/simpleBinding"
-            }
-          ]
-        }
-      }
+      "additionalProperties": true
     },
     "ContentType.Analytical": {
       "description": "Represents analytical content attributes",
@@ -7865,6 +7917,9 @@
         }
       }
     },
+    "version": {
+      "type": "string"
+    },
     "id_def_0": {
       "type": "string"
     },
@@ -7951,8 +8006,18 @@
         }
       }
     },
-    "version": {
-      "type": "string"
+    "minUI5Version": {
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      ]
     },
     "componentUsages": {
       "description": "Represents component name for usage",
