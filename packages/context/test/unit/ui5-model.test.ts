@@ -44,7 +44,7 @@ import { Response } from "node-fetch";
 const GET_MODEL_TIMEOUT = 30000;
 const FRAMEWORK = "SAPUI5";
 const OPEN_FRAMEWORK = "OpenUI5";
-const FALLBACK_VERSION = "1.71.61";
+const FALLBACK_VERSION = "1.71.69";
 const FALLBACK_VERSION_BASE = "1.71";
 const UI5_VERSION_S4_PLACEHOLDER = "${sap.ui5.dist.version}";
 const NO_CACHE_FOLDER = undefined;

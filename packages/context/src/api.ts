@@ -1,4 +1,9 @@
-import { getCustomViewId, getManifestDetails } from "./manifest";
+import { getMinimumUI5Version } from "@sap-ux/project-access";
+import {
+  getCustomViewId,
+  getManifestDetails,
+  getUI5Manifest,
+} from "./manifest";
 import { getServices } from "./services";
 import { Context } from "./types";
 import { getSemanticModel } from "./ui5-model";
@@ -37,11 +42,17 @@ export async function getContext(
 ): Promise<Context | Error> {
   try {
     const manifestDetails = await getManifestDetails(documentPath);
+    const manifest = await getUI5Manifest(manifestDetails.manifestPath);
+    let minUI5Version = manifestDetails.minUI5Version;
+    if (manifest) {
+      minUI5Version = getMinimumUI5Version(manifest);
+    }
+
     const yamlDetails = await getYamlDetails(documentPath);
     const ui5Model = await getSemanticModel(
       modelCachePath,
       yamlDetails.framework,
-      manifestDetails.minUI5Version
+      minUI5Version
     );
     const services = await getServices(documentPath);
     const customViewId = await getCustomViewId(documentPath);

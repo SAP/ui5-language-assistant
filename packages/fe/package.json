@@ -24,7 +24,7 @@
     "lodash": "4.17.21"
   },
   "devDependencies": {
-    "@sap-ux/vocabularies-types": "0.6.8",
+    "@sap-ux/vocabularies-types": "0.10.14",
     "@types/lodash": "4.14.168",
     "@ui5-language-assistant/semantic-model-types": "4.0.10",
     "@ui5-language-assistant/test-framework": "4.0.12",
