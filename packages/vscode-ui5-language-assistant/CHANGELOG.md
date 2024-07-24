@@ -1,5 +1,12 @@
 # Change Log
 
+## 4.0.65
+
+### Patch Changes
+
+- fa811f5: fix: support `minUI5Version` as an array
+  - @ui5-language-assistant/language-server@4.0.50
+
 ## 4.0.64
 
 ### Patch Changes

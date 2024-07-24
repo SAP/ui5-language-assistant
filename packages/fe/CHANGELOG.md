@@ -1,5 +1,14 @@
 # Change Log
 
+## 4.0.29
+
+### Patch Changes
+
+- fa811f5: fix: support `minUI5Version` as an array
+- Updated dependencies [fa811f5]
+  - @ui5-language-assistant/context@4.0.26
+  - @ui5-language-assistant/xml-views-completion@4.0.26
+
 ## 4.0.28
 
 ### Patch Changes

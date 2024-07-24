@@ -1,5 +1,17 @@
 # Change Log
 
+## 4.0.50
+
+### Patch Changes
+
+- Updated dependencies [fa811f5]
+  - @ui5-language-assistant/binding@1.0.30
+  - @ui5-language-assistant/context@4.0.26
+  - @ui5-language-assistant/fe@4.0.29
+  - @ui5-language-assistant/xml-views-completion@4.0.26
+  - @ui5-language-assistant/xml-views-definition@0.0.4
+  - @ui5-language-assistant/xml-views-tooltip@4.0.26
+
 ## 4.0.49
 
 ### Patch Changes

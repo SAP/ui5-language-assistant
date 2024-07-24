@@ -1,5 +1,14 @@
 # @ui5-language-assistant/binding
 
+## 1.0.30
+
+### Patch Changes
+
+- fa811f5: fix: support `minUI5Version` as an array
+- Updated dependencies [fa811f5]
+  - @ui5-language-assistant/context@4.0.26
+  - @ui5-language-assistant/xml-views-completion@4.0.26
+
 ## 1.0.29
 
 ### Patch Changes

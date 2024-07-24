@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.14
+
+### Patch Changes
+
+- fa811f5: fix: support `minUI5Version` as an array
+
 ## 4.0.13
 
 ### Patch Changes
