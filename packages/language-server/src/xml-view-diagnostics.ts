@@ -6,8 +6,6 @@ import {
   DiagnosticTag,
 } from "vscode-languageserver-types";
 import { TextDocument } from "vscode-languageserver-textdocument";
-import { DocumentCstNode, parse } from "@xml-tools/parser";
-import { buildAst } from "@xml-tools/ast";
 import {
   validations,
   DIAGNOSTIC_SOURCE,
@@ -33,14 +31,13 @@ import {
 } from "@ui5-language-assistant/binding";
 import type { BindingIssue } from "@ui5-language-assistant/binding";
 import type { IssueType } from "./types";
+import { URI } from "vscode-uri";
 
 export function getXMLViewDiagnostics(opts: {
   document: TextDocument;
   context: Context;
 }): Diagnostic[] {
-  const documentText = opts.document.getText();
-  const { cst, tokenVector } = parse(documentText);
-  const xmlDocAst = buildAst(cst as DocumentCstNode, tokenVector);
+  const xmlDocAst = opts.context.viewFiles[opts.context.documentPath];
   const actualValidators = cloneDeep(defaultValidators);
   if (opts.context.manifestDetails.flexEnabled) {
     actualValidators.element.push(validators.validateNonStableId);
@@ -86,7 +83,6 @@ function mergeValidators(
 }
 
 function baseDiagnostic(
-  document: TextDocument,
   currIssue: UI5XMLViewIssue,
   commonDiagnosticPros: Diagnostic
 ): Diagnostic {
@@ -124,8 +120,8 @@ function baseDiagnostic(
           (_) => ({
             message: validations.NON_UNIQUE_ID_RELATED_INFO.msg,
             location: {
-              uri: document.uri,
-              range: offsetRangeToLSPRange(_, document),
+              uri: URI.file(_.documentPath).toString(),
+              range: _.range,
             },
           })
         ),
@@ -151,7 +147,7 @@ function validationIssuesToLspDiagnostics(
       message: currIssue.message,
     };
     if (currIssue.issueType === "base") {
-      return baseDiagnostic(document, currIssue, commonDiagnosticPros);
+      return baseDiagnostic(currIssue, commonDiagnosticPros);
     }
     if (currIssue.issueType === "annotation-issue") {
       return {

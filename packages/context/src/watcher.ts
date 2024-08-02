@@ -224,6 +224,13 @@ export const reactOnXmlFileChange = async (
     xmlUri: uri,
     changeType,
   });
+  if (
+    changeType === FileChangeType.Created ||
+    changeType === FileChangeType.Deleted
+  ) {
+    // reset cached view files
+    cache.setViewFiles({});
+  }
   const documentPath = URI.parse(uri).fsPath;
   const manifestPath = await findManifestPath(documentPath);
   if (!manifestPath) {

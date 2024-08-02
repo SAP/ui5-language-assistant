@@ -8,6 +8,8 @@ import { getServices } from "./services";
 import { Context } from "./types";
 import { getSemanticModel } from "./ui5-model";
 import { getYamlDetails } from "./ui5-yaml";
+import { getViewFiles } from "./utils/view-files";
+import { join } from "path";
 
 export {
   initializeManifestData,
@@ -56,7 +58,18 @@ export async function getContext(
     );
     const services = await getServices(documentPath);
     const customViewId = await getCustomViewId(documentPath);
-    return { manifestDetails, yamlDetails, ui5Model, services, customViewId };
+    const viewFiles = await getViewFiles(
+      join(manifestDetails.manifestPath, "..")
+    );
+    return {
+      manifestDetails,
+      yamlDetails,
+      ui5Model,
+      services,
+      customViewId,
+      viewFiles,
+      documentPath,
+    };
   } catch (error) {
     return error as Error;
   }

@@ -24,6 +24,7 @@
     "@ui5-language-assistant/logic-utils": "4.0.18",
     "@ui5-language-assistant/semantic-model-types": "4.0.10",
     "@ui5-language-assistant/user-facing-text": "4.0.8",
+    "vscode-languageserver-types": "3.17.2",
     "@xml-tools/ast": "5.0.0",
     "@xml-tools/common": "0.1.2",
     "deep-freeze-strict": "1.1.1",

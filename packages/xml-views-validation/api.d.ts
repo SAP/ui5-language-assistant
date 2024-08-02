@@ -2,6 +2,7 @@ import { XMLDocument, XMLElement, XMLAttribute } from "@xml-tools/ast";
 import { OffsetRange } from "@ui5-language-assistant/logic-utils";
 import { UI5ValidatorsConfig } from "./src/validate-xml-views";
 import { Context } from "@ui5-language-assistant/context";
+import { Range } from "vscode-languageserver-types";
 
 export function validateXMLView<ExternalXMLViewIssue>(opts: {
   validators: UI5ValidatorsConfig<UI5XMLViewIssue | ExternalXMLViewIssue>;
@@ -101,7 +102,10 @@ export interface InvalidBooleanValueIssue extends BaseUI5XMLViewIssue {
 
 export interface NonUniqueIDIssue extends BaseUI5XMLViewIssue {
   kind: "NonUniqueIDIssue";
-  identicalIDsRanges: OffsetRange[];
+  identicalIDsRanges: {
+    range: Range;
+    documentPath: string;
+  }[];
 }
 
 export interface NonStableIDIssue extends BaseUI5XMLViewIssue {
@@ -113,7 +117,7 @@ type XMLAttributeValidator<T> = (
   context: Context
 ) => T[];
 
-type XMLDocumentValidator<T> = (document: XMLDocument) => T[];
+type XMLDocumentValidator<T> = (document: XMLDocument, context: Context) => T[];
 
 type XMLElementValidator<T> = (XMLElement: XMLElement, context: Context) => T[];
 

@@ -49,6 +49,8 @@ import { getLogger, setLogLevel } from "./logger";
 import { initI18n } from "./i18n";
 import { isXMLView } from "@ui5-language-assistant/logic-utils";
 import { getDefinition } from "@ui5-language-assistant/xml-views-definition";
+import { DocumentCstNode, parse } from "@xml-tools/parser";
+import { buildAst } from "@xml-tools/ast";
 
 const connection = createConnection(ProposedFeatures.all);
 const documents = new TextDocuments(TextDocument);
@@ -321,6 +323,10 @@ documents.onDidChangeContent(async (changeEvent): Promise<void> => {
       );
       return;
     }
+    const documentText = document.getText();
+    const { cst, tokenVector } = parse(documentText);
+    const xmlDocAst = buildAst(cst as DocumentCstNode, tokenVector);
+    context.viewFiles[documentPath] = xmlDocAst;
     const version = context.ui5Model.version;
     const framework = context.yamlDetails.framework;
     const isFallback = context.ui5Model.isFallback;
@@ -363,6 +369,12 @@ connection.onCodeAction(async (params) => {
     connection.sendNotification("UI5LanguageAssistant/context-error", context);
     return;
   }
+
+  // rebuild XMLDocument and assign it to viewFils cache. In quick fix, sometimes there is un-sync content in TextDocument and its XMLDocument version especially in case QuickFix
+  const { cst, tokenVector } = parse(textDocument.getText());
+  const xmlDocAst = buildAst(cst as DocumentCstNode, tokenVector);
+  context.viewFiles[documentPath] = xmlDocAst;
+
   const version = context.ui5Model.version;
   const framework = context.yamlDetails.framework;
   const isFallback = context.ui5Model.isFallback;

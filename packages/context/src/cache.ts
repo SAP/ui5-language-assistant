@@ -1,6 +1,6 @@
 import type { Manifest } from "@sap-ux/project-access";
 import type { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
-
+import type { XMLDocument } from "@xml-tools/ast";
 import type { App, Project, YamlDetails } from "./types";
 
 type AbsoluteAppRoot = string;
@@ -13,6 +13,7 @@ class Cache {
   private CAPServices: Map<AbsoluteProjectRoot, Map<string, string>>;
   private ui5YamlDetails: Map<string, YamlDetails>;
   private ui5Model: Map<string, UI5SemanticModel>;
+  private viewFiles: Record<string, XMLDocument>;
   constructor() {
     this.project = new Map();
     this.manifest = new Map();
@@ -20,6 +21,7 @@ class Cache {
     this.CAPServices = new Map();
     this.ui5YamlDetails = new Map();
     this.ui5Model = new Map();
+    this.viewFiles = {};
   }
   reset() {
     this.project = new Map();
@@ -123,6 +125,16 @@ class Cache {
   }
   deleteUI5Model(key: string): boolean {
     return this.ui5Model.delete(key);
+  }
+  /**
+   * Get entries of view files
+   */
+  getViewFiles() {
+    return this.viewFiles;
+  }
+  setViewFiles(viewFiles: Record<string, XMLDocument>) {
+    this.viewFiles = viewFiles;
+    return this.viewFiles;
   }
 }
 
