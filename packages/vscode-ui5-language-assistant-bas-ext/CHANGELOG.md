@@ -1,5 +1,12 @@
 # Change Log
 
+## 4.0.66
+
+### Patch Changes
+
+- 68fc8d1: fix: support `minUI5Version` as an array
+- 97a4b84: fix: bump for SBAS
+
 ## 4.0.64
 
 ### Patch Changes

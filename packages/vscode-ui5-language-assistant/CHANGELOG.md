@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.66
+
+### Patch Changes
+
+- 97a4b84: fix: bump for SBAS
+
 ## 4.0.65
 
 ### Patch Changes
