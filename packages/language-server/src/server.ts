@@ -12,6 +12,7 @@ import {
   DidChangeConfigurationNotification,
   FileEvent,
   InitializeResult,
+  FileChangeType,
 } from "vscode-languageserver/node";
 import { URI } from "vscode-uri";
 import { TextDocument } from "vscode-languageserver-textdocument";
@@ -299,6 +300,13 @@ connection.onDidChangeWatchedFiles(async (changeEvent): Promise<void> => {
       cdsFileEvents.push(change);
     } else if (uri.endsWith(".xml")) {
       await reactOnXmlFileChange(uri, change.type);
+      if (
+        change.type === FileChangeType.Created ||
+        change.type === FileChangeType.Deleted
+      ) {
+        // revalidate - needed to assure unique ID
+        validateOpenDocuments();
+      }
     } else if (uri.endsWith("package.json")) {
       await reactOnPackageJson(uri, change.type);
     }
