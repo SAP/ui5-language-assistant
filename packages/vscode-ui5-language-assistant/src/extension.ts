@@ -54,9 +54,29 @@ let client: LanguageClient;
 let statusBarItem: StatusBarItem;
 let currentModel: UI5Model | undefined;
 
-export async function activate(context: ExtensionContext): Promise<void> {
+async function init(context: ExtensionContext): Promise<void> {
+  // create the StatusBarItem which displays the used UI5 version
+  statusBarItem = createStatusBarItem(context);
+
   // create the LanguageClient (+Server)
   client = createLanguageClient(context);
+
+  client.start().then(() => {
+    // show/hide and update the status bar
+    client.onNotification(
+      "UI5LanguageAssistant/ui5Model",
+      async (model: UI5Model): Promise<void> => await updateCurrentModel(model)
+    );
+    client.onNotification(
+      "UI5LanguageAssistant/context-error",
+      (error: Error) => handleContextError(error)
+    );
+  });
+}
+
+export async function activate(context: ExtensionContext): Promise<void> {
+  // complete initialization task asynchronously
+  setTimeout(() => void init(context), 0);
 
   // register semantic token provider
   context.subscriptions.push(
@@ -67,45 +87,41 @@ export async function activate(context: ExtensionContext): Promise<void> {
     )
   );
 
-  // create the StatusBarItem which displays the used UI5 version
-  statusBarItem = createStatusBarItem(context);
-
-  // show/hide and update the status bar
-  client.start().then(() => {
-    client.onNotification(
-      "UI5LanguageAssistant/ui5Model",
-      async (model: UI5Model): Promise<void> => await updateCurrentModel(model)
-    );
-    client.onNotification(
-      "UI5LanguageAssistant/context-error",
-      (error: Error) => handleContextError(error)
-    );
-  });
   window.onDidChangeActiveTextEditor(async () => {
     await updateCurrentModel(undefined);
   });
 
-  languages.registerDocumentFormattingEditProvider("xml", {
-    provideDocumentFormattingEdits(document: TextDocument): TextEdit[] {
-      if (isXMLView(document.uri.fsPath)) {
-        return formatDocument(document);
-      }
-      return [];
-    },
-  });
-  languages.registerDocumentRangeFormattingEditProvider("xml", {
-    provideDocumentRangeFormattingEdits(document, range, options): TextEdit[] {
-      if (isXMLView(document.uri.fsPath)) {
-        return formatRange(document, range, options);
-      }
-      return [];
-    },
-  });
-  client.start();
-
-  const provider = await getManifestSchemaProvider(context);
   context.subscriptions.push(
-    workspace.registerTextDocumentContentProvider(MANIFEST_SCHEMA, provider)
+    languages.registerDocumentFormattingEditProvider("xml", {
+      provideDocumentFormattingEdits(document: TextDocument): TextEdit[] {
+        if (isXMLView(document.uri.fsPath)) {
+          return formatDocument(document);
+        }
+        return [];
+      },
+    })
+  );
+
+  context.subscriptions.push(
+    languages.registerDocumentRangeFormattingEditProvider("xml", {
+      provideDocumentRangeFormattingEdits(
+        document,
+        range,
+        options
+      ): TextEdit[] {
+        if (isXMLView(document.uri.fsPath)) {
+          return formatRange(document, range, options);
+        }
+        return [];
+      },
+    })
+  );
+
+  context.subscriptions.push(
+    workspace.registerTextDocumentContentProvider(
+      MANIFEST_SCHEMA,
+      await getManifestSchemaProvider(context)
+    )
   );
 }
 
