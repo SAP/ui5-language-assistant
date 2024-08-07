@@ -28,7 +28,9 @@
     "lodash": "4.17.21",
     "semver": "7.3.7",
     "vscode-languageserver": "8.0.2",
-    "vscode-uri": "2.1.2"
+    "vscode-uri": "2.1.2",
+    "@xml-tools/ast": "5.0.0",
+    "@xml-tools/parser": "1.0.7"
   },
   "devDependencies": {
     "@sap-ux/vocabularies-types": "0.10.14",

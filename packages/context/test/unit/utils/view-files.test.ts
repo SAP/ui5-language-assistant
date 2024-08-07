@@ -31,18 +31,22 @@ describe("view-files", () => {
     const getViewFilesStub = jest
       .spyOn(cache, "getViewFiles")
       .mockReturnValue({ documentPath: {} as XMLDocument });
+
     const projectRoot = testFramework.getProjectRoot();
     const webapp = join(projectRoot, "app", "manage_travels", "webapp");
     // act
     const viewFiles = await getViewFiles(webapp);
     // assert
-    expect(getViewFilesStub).toHaveBeenCalledOnce();
+    expect(getViewFilesStub).toHaveBeenCalledTimes(2);
     expect(Object.keys(viewFiles).length).toBeGreaterThan(0);
   });
 
   it("get view files", async () => {
     // arrange
     cache.reset();
+    const getViewFilesStub = jest
+      .spyOn(cache, "getViewFiles")
+      .mockReturnValue({});
     const projectRoot = testFramework.getProjectRoot();
     const webapp = join(projectRoot, "app", "manage_travels", "webapp");
     const documentPath = join(
@@ -57,6 +61,7 @@ describe("view-files", () => {
     // act
     const viewFiles = await getViewFiles(webapp);
     // assert
+    expect(getViewFilesStub).toHaveBeenCalledTimes(1);
     expect(Object.keys(viewFiles).length).toBeGreaterThan(1);
     expect(viewFiles[documentPath]).toBeDefined();
   });

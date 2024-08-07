@@ -48,11 +48,10 @@ async function processViewFiles(
 export async function getViewFiles(
   webappPath: string
 ): Promise<Record<DocPath, XMLDocument>> {
-  let files = cache.getViewFiles(webappPath);
-  if (Object.keys(files).length > 0) {
-    return files;
+  if (Object.keys(cache.getViewFiles(webappPath)).length > 0) {
+    return cache.getViewFiles(webappPath);
   }
-  files = await processViewFiles(webappPath);
+  const files = await processViewFiles(webappPath);
   cache.setViewFiles(webappPath, files);
   return files;
 }

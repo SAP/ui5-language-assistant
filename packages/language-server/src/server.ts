@@ -301,8 +301,9 @@ connection.onDidChangeWatchedFiles(async (changeEvent): Promise<void> => {
     } else if (uri.endsWith(".xml")) {
       await reactOnXmlFileChange(uri, change.type);
       if (
-        change.type === FileChangeType.Created ||
-        change.type === FileChangeType.Deleted
+        isXMLView(uri) &&
+        (change.type === FileChangeType.Created ||
+          change.type === FileChangeType.Deleted)
       ) {
         // revalidate - needed to assure unique ID
         validateOpenDocuments();

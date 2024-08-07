@@ -34,6 +34,7 @@
     "@ui5-language-assistant/semantic-model": "4.0.17",
     "@ui5-language-assistant/test-utils": "4.0.14",
     "@xml-tools/parser": "1.0.7",
+    "chevrotain": "10.4.2",
     "@ui5-language-assistant/test-framework": "4.0.12"
   },
   "scripts": {
