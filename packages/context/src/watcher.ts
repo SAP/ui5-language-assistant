@@ -3,6 +3,7 @@ import {
   getProjectRoot,
   getProjectInfo,
   getLogger,
+  getWebappPath,
 } from "./utils";
 import {
   findManifestPath,
@@ -19,6 +20,7 @@ import { getYamlDetails } from "./ui5-yaml";
 import { join } from "path";
 import { FileName } from "@sap-ux/project-access";
 import { CAP_PROJECT_TYPE, UI5_PROJECT_TYPE } from "./types";
+import { isXMLView } from "@ui5-language-assistant/logic-utils";
 
 /**
  * React on manifest.json file change
@@ -224,14 +226,18 @@ export const reactOnXmlFileChange = async (
     xmlUri: uri,
     changeType,
   });
-  if (
-    changeType === FileChangeType.Created ||
-    changeType === FileChangeType.Deleted
-  ) {
-    // reset cached view files
-    cache.setViewFiles({});
-  }
+
   const documentPath = URI.parse(uri).fsPath;
+  if (isXMLView(documentPath)) {
+    if (
+      changeType === FileChangeType.Created ||
+      changeType === FileChangeType.Deleted
+    ) {
+      // reset cached view files
+      cache.setViewFiles(getWebappPath(documentPath), {});
+    }
+  }
+
   const manifestPath = await findManifestPath(documentPath);
   if (!manifestPath) {
     return;

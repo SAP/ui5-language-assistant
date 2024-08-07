@@ -7,6 +7,7 @@ import {
   getProjectInfo,
   getProjectRoot,
   unifyServicePath,
+  getWebappPath,
 } from "../../../src/utils/project";
 import {
   Config,
@@ -208,6 +209,30 @@ describe("project", () => {
       const servicePath = "/processor/one/two";
       const result = unifyServicePath(servicePath);
       expect(result).toEqual("/processor/one/two/");
+    });
+  });
+  describe("getWebappPath", () => {
+    it("webapp exists in file uri", () => {
+      // arrange
+      const uri = join(
+        "root",
+        "project",
+        "webapp",
+        "ext",
+        "my-test-file.view.xml"
+      );
+      // act
+      const result = getWebappPath(uri);
+      // assert
+      expect(join("root", "project", "webapp")).toStrictEqual(result);
+    });
+    it("webapp does not exist in file uri", () => {
+      // arrange
+      const uri = join("root", "project", "ext", "my-test-file.view.xml");
+      // act
+      const result = getWebappPath(uri);
+      // assert
+      expect("webapp").toStrictEqual(result);
     });
   });
 });

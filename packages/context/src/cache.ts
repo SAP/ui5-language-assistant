@@ -1,7 +1,7 @@
 import type { Manifest } from "@sap-ux/project-access";
 import type { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import type { XMLDocument } from "@xml-tools/ast";
-import type { App, Project, YamlDetails } from "./types";
+import type { App, DocPath, Project, WebApp, YamlDetails } from "./types";
 
 type AbsoluteAppRoot = string;
 type AbsoluteProjectRoot = string;
@@ -13,7 +13,7 @@ class Cache {
   private CAPServices: Map<AbsoluteProjectRoot, Map<string, string>>;
   private ui5YamlDetails: Map<string, YamlDetails>;
   private ui5Model: Map<string, UI5SemanticModel>;
-  private viewFiles: Record<string, XMLDocument>;
+  private viewFiles: Record<string, Record<string, XMLDocument>>;
   constructor() {
     this.project = new Map();
     this.manifest = new Map();
@@ -30,6 +30,7 @@ class Cache {
     this.CAPServices = new Map();
     this.ui5YamlDetails = new Map();
     this.ui5Model = new Map();
+    this.viewFiles = {};
   }
   /**
    * Get entries of cached project
@@ -129,12 +130,11 @@ class Cache {
   /**
    * Get entries of view files
    */
-  getViewFiles() {
-    return this.viewFiles;
+  getViewFiles(webapp: WebApp): Record<DocPath, XMLDocument> {
+    return this.viewFiles[webapp] ?? {};
   }
-  setViewFiles(viewFiles: Record<string, XMLDocument>) {
-    this.viewFiles = viewFiles;
-    return this.viewFiles;
+  setViewFiles(webapp: WebApp, viewFiles: Record<DocPath, XMLDocument>): void {
+    this.viewFiles[webapp] = viewFiles;
   }
 }
 

@@ -243,12 +243,14 @@ function assertFilterMatches(
 }
 
 export const getDefaultContext = (ui5Model: UI5SemanticModel): Context => {
+  const viewFiles = {};
+  viewFiles[""] = {};
   return {
     ui5Model,
     customViewId: "",
     manifestDetails: {
       appId: "",
-      manifestPath: "",
+      manifestPath: "manifest.json",
       flexEnabled: false,
       customViews: {},
       mainServicePath: undefined,
@@ -259,7 +261,7 @@ export const getDefaultContext = (ui5Model: UI5SemanticModel): Context => {
       framework: "SAPUI5",
       version: undefined,
     },
-    viewFiles: {},
+    viewFiles,
     documentPath: "",
   };
 };

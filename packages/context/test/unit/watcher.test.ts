@@ -393,6 +393,7 @@ describe("watcher", () => {
     const deleteProjectSpy = jest.spyOn(cache, "deleteProject");
     const setProjectSpy = jest.spyOn(cache, "setProject");
     const getProjectSpy = jest.spyOn(loader, "getProject");
+    const setViewFilesSpy = jest.spyOn(cache, "setViewFiles");
 
     let fileUri, documentPath;
 
@@ -432,6 +433,7 @@ describe("watcher", () => {
       await reactOnXmlFileChange(fileUri, 1);
 
       expect(deleteAppSpy).not.toHaveBeenCalledOnce();
+      expect(setViewFilesSpy).toHaveBeenCalledOnce();
     });
 
     it("test registered xml file", async () => {

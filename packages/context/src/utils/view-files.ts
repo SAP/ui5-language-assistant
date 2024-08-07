@@ -5,6 +5,7 @@ import { isXMLView } from "@ui5-language-assistant/logic-utils";
 import { parse, DocumentCstNode } from "@xml-tools/parser";
 import { buildAst, XMLDocument } from "@xml-tools/ast";
 import { cache } from "../cache";
+import type { DocPath } from "../types";
 
 /**
  * Get `.view.xml` or `.fragment.xml` files under webapp folder.
@@ -16,7 +17,7 @@ import { cache } from "../cache";
 async function processViewFiles(
   base: string,
   files: Record<string, XMLDocument> = {}
-): Promise<Record<string, XMLDocument>> {
+): Promise<Record<DocPath, XMLDocument>> {
   return new Promise((resolve) => {
     return readdir(base).then(async (fileOrFolder) => {
       for (const item of fileOrFolder) {
@@ -46,11 +47,12 @@ async function processViewFiles(
  */
 export async function getViewFiles(
   webappPath: string
-): Promise<Record<string, XMLDocument>> {
-  if (Object.keys(cache.getViewFiles()).length > 0) {
-    return cache.getViewFiles();
+): Promise<Record<DocPath, XMLDocument>> {
+  let files = cache.getViewFiles(webappPath);
+  if (Object.keys(files).length > 0) {
+    return files;
   }
-  const files = await processViewFiles(webappPath);
-  cache.setViewFiles(files);
+  files = await processViewFiles(webappPath);
+  cache.setViewFiles(webappPath, files);
   return files;
 }

@@ -1,6 +1,7 @@
 import { App, Project } from "../../src/types";
 import { cache } from "../../src/cache";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
+import type { XMLDocument } from "@xml-tools/ast";
 
 describe("cache", () => {
   it("show singleton instance", async () => {
@@ -29,6 +30,11 @@ describe("cache", () => {
       const result = cache.deleteUI5Model("dummyRoot3");
       expect(result).toBeTrue();
       expect(cache.getUI5ModelEntries()).toBeEmpty();
+    });
+
+    it("view files", () => {
+      cache.setViewFiles("webapp", { file: {} as XMLDocument });
+      expect(cache.getViewFiles("webapp")).toEqual({ file: {} });
     });
   });
 });

@@ -25,13 +25,16 @@ export enum DirName {
   Ext = "ext",
 }
 
+export type WebApp = string;
+export type DocPath = string;
+
 export interface Context {
   ui5Model: UI5SemanticModel;
   manifestDetails: ManifestDetails;
   yamlDetails: YamlDetails;
   services: Record<string, ServiceDetails>;
   customViewId: string;
-  viewFiles: Record<string, XMLDocument>;
+  viewFiles: Record<DocPath, XMLDocument>;
   documentPath: string;
 }
 

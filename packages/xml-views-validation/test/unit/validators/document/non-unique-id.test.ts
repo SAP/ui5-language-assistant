@@ -17,6 +17,10 @@ import {
   testValidationsScenario,
 } from "../../test-utils";
 import { Context as AppContext } from "@ui5-language-assistant/context";
+import { DocumentCstNode, parse } from "@xml-tools/parser";
+import { buildAst, XMLElement } from "@xml-tools/ast";
+import { Range } from "vscode-languageserver-types";
+import { locationToRange } from "../../../../src/utils/range";
 
 const { NON_UNIQUE_ID } = validations;
 
@@ -26,6 +30,7 @@ describe("the use of non unique id validation", () => {
   let testNonUniqueIDScenario: (opts: {
     xmlText: string;
     assertion: (issues: NonUniqueIDIssue[]) => void;
+    context?: AppContext;
   }) => void;
 
   beforeAll(async () => {
@@ -39,7 +44,7 @@ describe("the use of non unique id validation", () => {
     appContext = getDefaultContext(ui5SemanticModel);
     testNonUniqueIDScenario = (opts): void =>
       testValidationsScenario({
-        context: appContext,
+        context: opts.context ?? appContext,
         validators: {
           document: [validators.validateNonUniqueID],
         },
@@ -48,6 +53,22 @@ describe("the use of non unique id validation", () => {
         assertion: opts.assertion as any,
       });
   });
+  afterEach(() => {
+    appContext = getDefaultContext(ui5SemanticModel);
+  });
+
+  function getIdRanges(elements: XMLElement[], ranges: Range[] = []): Range[] {
+    for (const el of elements) {
+      const id = el.attributes.find((i) => i.key === "id");
+      if (id) {
+        ranges.push(locationToRange(id.syntax.value));
+      }
+      if (el.subElements.length) {
+        getIdRanges(el.subElements, ranges);
+      }
+    }
+    return ranges;
+  }
 
   describe("true positive scenarios", () => {
     it("will detect two duplicate ID in different controls", () => {
@@ -75,7 +96,7 @@ describe("the use of non unique id validation", () => {
               message: buildMessage(NON_UNIQUE_ID.msg, "DUPLICATE"),
               severity: "error",
               offsetRange: expectedRanges[0],
-              identicalIDsRanges: [expectedRanges[1]],
+              identicalIDsRanges: [],
             },
             {
               issueType: "base",
@@ -83,7 +104,7 @@ describe("the use of non unique id validation", () => {
               message: buildMessage(NON_UNIQUE_ID.msg, "DUPLICATE"),
               severity: "error",
               offsetRange: expectedRanges[1],
-              identicalIDsRanges: [expectedRanges[0]],
+              identicalIDsRanges: [],
             },
           ]);
         },
@@ -115,7 +136,7 @@ describe("the use of non unique id validation", () => {
               message: buildMessage(NON_UNIQUE_ID.msg, "DUPLICATE"),
               severity: "error",
               offsetRange: expectedRanges[0],
-              identicalIDsRanges: [expectedRanges[1]],
+              identicalIDsRanges: [],
             },
             {
               issueType: "base",
@@ -123,7 +144,7 @@ describe("the use of non unique id validation", () => {
               message: buildMessage(NON_UNIQUE_ID.msg, "DUPLICATE"),
               severity: "error",
               offsetRange: expectedRanges[1],
-              identicalIDsRanges: [expectedRanges[0]],
+              identicalIDsRanges: [],
             },
           ]);
         },
@@ -157,7 +178,7 @@ describe("the use of non unique id validation", () => {
               message: buildMessage(NON_UNIQUE_ID.msg, "TRIPLICATE"),
               severity: "error",
               offsetRange: expectedRanges[0],
-              identicalIDsRanges: [expectedRanges[1], expectedRanges[2]],
+              identicalIDsRanges: [],
             },
             {
               issueType: "base",
@@ -165,7 +186,7 @@ describe("the use of non unique id validation", () => {
               message: buildMessage(NON_UNIQUE_ID.msg, "TRIPLICATE"),
               severity: "error",
               offsetRange: expectedRanges[1],
-              identicalIDsRanges: [expectedRanges[0], expectedRanges[2]],
+              identicalIDsRanges: [],
             },
             {
               issueType: "base",
@@ -173,7 +194,84 @@ describe("the use of non unique id validation", () => {
               message: buildMessage(NON_UNIQUE_ID.msg, "TRIPLICATE"),
               severity: "error",
               offsetRange: expectedRanges[2],
-              identicalIDsRanges: [expectedRanges[0], expectedRanges[1]],
+              identicalIDsRanges: [],
+            },
+          ]);
+        },
+      });
+    });
+    it("will detect duplicate IDs cross view files", () => {
+      const xmlSnippet = `
+          <mvc:View
+            xmlns:mvc="sap.ui.core.mvc"
+            xmlns="sap.ui.commons"
+            >
+            <Button id=🢂"DUPLICATE"🢀>
+            </Button>
+            <Button id=🢂"DUPLICATE"🢀>
+            </Button>
+          </mvc:View>`;
+      // modify context
+      appContext.documentPath = "docPath01";
+      const xmlSnippet02 = `
+          <mvc:View
+            xmlns:mvc="sap.ui.core.mvc"
+            xmlns="sap.ui.commons"
+            >
+            <Button id="DUPLICATE">
+            </Button>
+            <Button id="DUPLICATE">
+            </Button>
+          </mvc:View>`;
+      const { cst, tokenVector } = parse(xmlSnippet02);
+      const ast = buildAst(cst as DocumentCstNode, tokenVector);
+      const expectedIdenticalIdRanges = getIdRanges(
+        ast.rootElement?.subElements ?? []
+      );
+      appContext.viewFiles["docPath02"] = ast;
+
+      testNonUniqueIDScenario({
+        xmlText: xmlSnippet,
+        context: appContext,
+        assertion: (issues) => {
+          expect(issues).toHaveLength(2);
+
+          const expectedRanges = computeExpectedRanges(xmlSnippet);
+
+          expect(issues).toIncludeAllMembers([
+            {
+              issueType: "base",
+              kind: "NonUniqueIDIssue",
+              message: buildMessage(NON_UNIQUE_ID.msg, "DUPLICATE"),
+              severity: "error",
+              offsetRange: expectedRanges[0],
+              identicalIDsRanges: [
+                {
+                  documentPath: "docPath02",
+                  range: expectedIdenticalIdRanges[0],
+                },
+                {
+                  documentPath: "docPath02",
+                  range: expectedIdenticalIdRanges[1],
+                },
+              ],
+            },
+            {
+              issueType: "base",
+              kind: "NonUniqueIDIssue",
+              message: buildMessage(NON_UNIQUE_ID.msg, "DUPLICATE"),
+              severity: "error",
+              offsetRange: expectedRanges[1],
+              identicalIDsRanges: [
+                {
+                  documentPath: "docPath02",
+                  range: expectedIdenticalIdRanges[0],
+                },
+                {
+                  documentPath: "docPath02",
+                  range: expectedIdenticalIdRanges[1],
+                },
+              ],
             },
           ]);
         },

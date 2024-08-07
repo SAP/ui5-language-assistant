@@ -343,10 +343,12 @@ documents.onDidChangeContent(async (changeEvent): Promise<void> => {
       );
       return;
     }
+
     const documentText = document.getText();
     const { cst, tokenVector } = parse(documentText);
     const xmlDocAst = buildAst(cst as DocumentCstNode, tokenVector);
     context.viewFiles[documentPath] = xmlDocAst;
+
     const version = context.ui5Model.version;
     const framework = context.yamlDetails.framework;
     const isFallback = context.ui5Model.isFallback;
