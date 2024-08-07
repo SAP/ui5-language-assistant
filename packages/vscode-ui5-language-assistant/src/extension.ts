@@ -77,7 +77,7 @@ async function init(context: ExtensionContext): Promise<void> {
 
 export async function activate(context: ExtensionContext): Promise<void> {
   // complete initialization task asynchronously
-  setTimeout(() => void init(context), 0);
+  await init(context);
 
   // register semantic token provider
   context.subscriptions.push(
