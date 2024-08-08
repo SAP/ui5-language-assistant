@@ -13,6 +13,7 @@ import { join } from "path";
 import findUp from "find-up";
 import {
   CAP_PROJECT_TYPE,
+  DirName,
   ProjectKind,
   ProjectType,
   UI5_PROJECT_TYPE,
@@ -175,3 +176,18 @@ export async function getLocalMetadataForService(
   }
   return undefined;
 }
+
+/**
+ * Returns the path of the corresponding webapp folder for a given file
+ *
+ * The webapp folder contains the manifest.json file
+ *
+ * @param docPath document path of a file in current project
+ * @returns webapp path
+ */
+export const getWebappPath = function (docPath: string): string {
+  const pathSegments = docPath.split(DirName.Webapp);
+  pathSegments.pop();
+  const webappPath = join(...pathSegments, DirName.Webapp);
+  return webappPath;
+};

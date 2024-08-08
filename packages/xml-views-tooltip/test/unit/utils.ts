@@ -18,5 +18,7 @@ export const getDefaultContext = (ui5Model: UI5SemanticModel): Context => {
       framework: "SAPUI5",
       version: undefined,
     },
+    viewFiles: {},
+    documentPath: "",
   };
 };

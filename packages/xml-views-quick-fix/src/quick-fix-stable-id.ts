@@ -1,15 +1,16 @@
 import { find, some, compact, map } from "lodash";
 import { astPositionAtOffset } from "@xml-tools/ast-position";
 import {
-  XMLDocument,
   accept,
   XMLAstVisitor,
   XMLAttribute,
   XMLElement,
 } from "@xml-tools/ast";
 import { OffsetRange } from "@ui5-language-assistant/logic-utils";
+import type { Context } from "@ui5-language-assistant/context";
 
-const ID_PATTERN = /^_IDGen(.+)([1-9]\d*)$/;
+// https://sapui5.hana.ondemand.com/sdk/#/api/sap.ui.core.ID
+const ID_PATTERN = /^[A-Za-z_][A-Za-z0-9_\-:.]*$/;
 const ID_PREFIX_PATTERN = "_IDGen";
 
 export type QuickFixStableIdInfo = {
@@ -18,12 +19,16 @@ export type QuickFixStableIdInfo = {
 };
 
 export function computeQuickFixStableIdInfo(
-  xmlDoc: XMLDocument,
+  context: Context,
   errorOffset: OffsetRange[]
 ): QuickFixStableIdInfo[] {
   const biggestIdsByElementNameCollector =
     new BiggestIdsByElementNameCollector();
-  accept(xmlDoc, biggestIdsByElementNameCollector);
+  const files = Object.keys(context.viewFiles);
+  for (const docPath of files) {
+    accept(context.viewFiles[docPath], biggestIdsByElementNameCollector);
+  }
+  const xmlDoc = context.viewFiles[context.documentPath];
   const biggestIdsByElementName =
     biggestIdsByElementNameCollector.biggestIdsByElementName;
   const quickFixStableIdInfo = compact(
@@ -73,16 +78,42 @@ class BiggestIdsByElementNameCollector implements XMLAstVisitor {
         return;
       }
 
-      const className = match[1];
-      const suffix = parseInt(match[2]);
-      if (
-        this.biggestIdsByElementName[className] === undefined ||
-        suffix > this.biggestIdsByElementName[className]
-      ) {
-        this.biggestIdsByElementName[className] = suffix;
+      const className = match[0];
+      if (this.biggestIdsByElementName[className] === undefined) {
+        this.biggestIdsByElementName[className] = 1;
+      } else {
+        this.biggestIdsByElementName[className] += 1;
       }
     }
   }
+}
+
+/**
+ * Get unique ID. It creates unique incremented number suffix for each new unique id.
+ *
+ * @param existingIds all existing ids in all `.xml` files
+ * @param newId new suggested id
+ * @param suffix index suffix
+ * @returns unique id across `.xml` files
+ */
+function getUniqueId(
+  existingIds: Record<string, number>,
+  newId: string,
+  suffix = 0
+): string {
+  if (existingIds[newId]) {
+    const lastChar = Number(newId.slice(-1));
+    if (!isNaN(lastChar)) {
+      // last char is number
+      suffix = lastChar + 1;
+      // remove last char
+      newId = newId.slice(0, -1);
+    } else {
+      suffix = suffix + 1;
+    }
+    return getUniqueId(existingIds, `${newId}${suffix}`);
+  }
+  return newId;
 }
 
 function computeQuickFixIdSuggestion(
@@ -90,14 +121,16 @@ function computeQuickFixIdSuggestion(
   elementName: string,
   hasIdAttribute: boolean
 ): string {
-  const suffix = biggestIdsByElementName[elementName]
-    ? biggestIdsByElementName[elementName] + 1
-    : 1;
-  // Data structure supports multiple fixes in the same file without conflicts
-  biggestIdsByElementName[elementName] = suffix;
-  let newText = `id="${ID_PREFIX_PATTERN}${elementName}${suffix}"`;
+  const uniqueId = getUniqueId(
+    biggestIdsByElementName,
+    `${ID_PREFIX_PATTERN}${elementName}`
+  );
+  // keep track of newly generated id
+  biggestIdsByElementName[uniqueId] = 1;
+
+  let newText = `id="${uniqueId}"`;
   if (!hasIdAttribute) {
-    // We want extra space if there is no id key to seperate the new text from the tag name
+    // We want extra space if there is no id key to separate the new text from the tag name
     newText = " " + newText;
   }
 

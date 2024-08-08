@@ -17,6 +17,7 @@ describe("index", () => {
   let uri = "";
   const pathSegments = ["src", "view", "App.view.xml"];
   beforeEach(function () {
+    context.cache.reset();
     const useConfig: Config = {
       projectInfo: {
         name: ProjectName.tsFreeStyle,
@@ -35,7 +36,7 @@ describe("index", () => {
       // arrange
       const param: DefinitionParams = {
         position: {} as Position,
-        textDocument: { uri: "file:\\dummy" },
+        textDocument: { uri },
       };
       jest.spyOn(fs.promises, "readFile").mockResolvedValue("");
       // act

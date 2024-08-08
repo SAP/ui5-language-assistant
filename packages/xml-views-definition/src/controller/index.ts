@@ -1,8 +1,5 @@
 import { Location, Position } from "vscode-languageserver-types";
 import { DefinitionParams } from "vscode-languageserver";
-import { readFile } from "fs/promises";
-import { parse, DocumentCstNode } from "@xml-tools/parser";
-import { buildAst } from "@xml-tools/ast";
 import { buildFileUri, getAttribute } from "../utils";
 import { URI } from "vscode-uri";
 import { isContext, getContext } from "@ui5-language-assistant/context";
@@ -31,9 +28,11 @@ export async function getControllerLocation(
   const { position, textDocument } = param;
   const documentUri = textDocument.uri;
   const documentPath = URI.parse(documentUri).fsPath;
-  const text = await readFile(documentPath, "utf-8");
-  const { cst, tokenVector } = parse(text);
-  const ast = buildAst(cst as DocumentCstNode, tokenVector);
+  const context = await getContext(documentPath);
+  if (!isContext(context)) {
+    return [];
+  }
+  const ast = context.viewFiles[documentPath];
   if (!ast.rootElement) {
     return [];
   }
@@ -42,10 +41,6 @@ export async function getControllerLocation(
     return [];
   }
 
-  const context = await getContext(documentPath);
-  if (!isContext(context)) {
-    return [];
-  }
   // value must be present - otherwise getAttribute method returns undefined
   const value = attr.value as string;
   const id = context.manifestDetails.appId;

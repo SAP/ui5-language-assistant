@@ -5,6 +5,7 @@ import type {
 import { ConvertedMetadata } from "@sap-ux/vocabularies-types";
 import type { Manifest } from "@sap-ux/project-access";
 import { FetchResponse } from "@ui5-language-assistant/logic-utils";
+import type { XMLDocument } from "@xml-tools/ast";
 
 export const DEFAULT_UI5_FRAMEWORK = "SAPUI5";
 export const DEFAULT_UI5_VERSION = "1.71.69";
@@ -24,12 +25,17 @@ export enum DirName {
   Ext = "ext",
 }
 
+export type WebApp = string;
+export type DocPath = string;
+
 export interface Context {
   ui5Model: UI5SemanticModel;
   manifestDetails: ManifestDetails;
   yamlDetails: YamlDetails;
   services: Record<string, ServiceDetails>;
   customViewId: string;
+  viewFiles: Record<DocPath, XMLDocument>;
+  documentPath: string;
 }
 
 /**

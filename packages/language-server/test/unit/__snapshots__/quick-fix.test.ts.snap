@@ -17,13 +17,13 @@ Array [
             "line": 5,
           },
         },
-        " id=\\"_IDGenButton1\\"",
+        " id=\\"_IDGenButton\\"",
       ],
       "command": "ui5_lang.quick_fix_stable_id",
-      "title": "Generate an ID",
+      "title": "Generate a unique ID",
     },
     "kind": "quickfix",
-    "title": "Generate an ID",
+    "title": "Generate a unique ID",
   },
   Object {
     "command": Object {
@@ -69,7 +69,7 @@ Array [
         0,
         Array [
           Object {
-            "newText": " id=\\"_IDGenButton1\\"",
+            "newText": " id=\\"_IDGenButton\\"",
             "replaceRange": Object {
               "end": Object {
                 "character": 19,
@@ -82,7 +82,7 @@ Array [
             },
           },
           Object {
-            "newText": " id=\\"_IDGenDialog1\\"",
+            "newText": " id=\\"_IDGenDialog\\"",
             "replaceRange": Object {
               "end": Object {
                 "character": 23,
@@ -97,10 +97,10 @@ Array [
         ],
       ],
       "command": "ui5_lang.quick_fix_file_stable_id",
-      "title": "Generate IDs for the entire file",
+      "title": "Generate unique IDs for the entire file",
     },
     "kind": "quickfix",
-    "title": "Generate IDs for the entire file",
+    "title": "Generate unique IDs for the entire file",
   },
   Object {
     "command": Object {
@@ -117,13 +117,13 @@ Array [
             "line": 11,
           },
         },
-        " id=\\"_IDGenDialog1\\"",
+        " id=\\"_IDGenDialog\\"",
       ],
       "command": "ui5_lang.quick_fix_stable_id",
-      "title": "Generate an ID",
+      "title": "Generate a unique ID",
     },
     "kind": "quickfix",
-    "title": "Generate an ID",
+    "title": "Generate a unique ID",
   },
   Object {
     "command": Object {
@@ -169,7 +169,7 @@ Array [
         0,
         Array [
           Object {
-            "newText": " id=\\"_IDGenButton1\\"",
+            "newText": " id=\\"_IDGenButton\\"",
             "replaceRange": Object {
               "end": Object {
                 "character": 19,
@@ -182,7 +182,7 @@ Array [
             },
           },
           Object {
-            "newText": " id=\\"_IDGenDialog1\\"",
+            "newText": " id=\\"_IDGenDialog\\"",
             "replaceRange": Object {
               "end": Object {
                 "character": 23,
@@ -197,10 +197,10 @@ Array [
         ],
       ],
       "command": "ui5_lang.quick_fix_file_stable_id",
-      "title": "Generate IDs for the entire file",
+      "title": "Generate unique IDs for the entire file",
     },
     "kind": "quickfix",
-    "title": "Generate IDs for the entire file",
+    "title": "Generate unique IDs for the entire file",
   },
 ]
 `;

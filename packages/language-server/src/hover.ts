@@ -5,8 +5,6 @@ import {
   MarkupContent,
   MarkupKind,
 } from "vscode-languageserver";
-import { parse, DocumentCstNode } from "@xml-tools/parser";
-import { buildAst } from "@xml-tools/ast";
 import { astPositionAtOffset } from "@xml-tools/ast-position";
 import {
   UI5SemanticModel,
@@ -23,9 +21,7 @@ export function getHoverResponse(
   textDocumentPosition: TextDocumentPositionParams,
   document: TextDocument
 ): Hover | undefined {
-  const documentText = document.getText();
-  const { cst, tokenVector } = parse(documentText);
-  const ast = buildAst(cst as DocumentCstNode, tokenVector);
+  const ast = context.viewFiles[context.documentPath];
   const offset = document.offsetAt(textDocumentPosition.position);
   const astPosition = astPositionAtOffset(ast, offset);
   if (astPosition !== undefined) {
