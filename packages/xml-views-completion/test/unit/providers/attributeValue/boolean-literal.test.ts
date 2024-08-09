@@ -1,8 +1,8 @@
 import { forEach, map } from "lodash";
 import { XMLAttribute, XMLElement } from "@xml-tools/ast";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
+import { DEFAULT_UI5_VERSION } from "@ui5-language-assistant/constant";
 import {
-  DEFAULT_UI5_VERSION,
   generateModel,
   getFallbackPatchVersions,
 } from "@ui5-language-assistant/test-utils";

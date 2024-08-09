@@ -1,8 +1,8 @@
 import { cloneDeep } from "lodash";
 import { UI5Class } from "@ui5-language-assistant/semantic-model-types";
+import { DEFAULT_UI5_VERSION } from "@ui5-language-assistant/constant";
 import { generate } from "@ui5-language-assistant/semantic-model";
 import {
-  DEFAULT_UI5_VERSION,
   buildUI5Class,
   generateModel,
   getFallbackPatchVersions,

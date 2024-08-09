@@ -6,11 +6,11 @@ import {
   UI5SemanticModel,
   BaseUI5Node,
 } from "@ui5-language-assistant/semantic-model-types";
+import { DEFAULT_UI5_VERSION } from "@ui5-language-assistant/constant";
 import { generate } from "@ui5-language-assistant/semantic-model";
 import {
   generateModel,
   expectExists,
-  DEFAULT_UI5_VERSION,
   getFallbackPatchVersions,
 } from "@ui5-language-assistant/test-utils";
 import { findUI5HoverNodeAtOffset } from "../../src/api";

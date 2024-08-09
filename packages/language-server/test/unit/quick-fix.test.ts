@@ -1,11 +1,11 @@
 import {
-  DEFAULT_UI5_VERSION,
   generateModel,
   getFallbackPatchVersions,
 } from "@ui5-language-assistant/test-utils";
 import { Position, Range } from "vscode-languageserver-types";
 import { generate } from "@ui5-language-assistant/semantic-model";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
+import { DEFAULT_UI5_VERSION } from "@ui5-language-assistant/constant";
 import {
   QuickFixStableIdLSPInfo,
   diagnosticToCodeActionFix,

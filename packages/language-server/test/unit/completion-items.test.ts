@@ -2,9 +2,9 @@ import { map, uniq, forEach, filter } from "lodash";
 import { CompletionItemKind, TextEdit } from "vscode-languageserver";
 import { UI5XMLViewCompletion } from "@ui5-language-assistant/xml-views-completion";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
+import { DEFAULT_UI5_VERSION } from "@ui5-language-assistant/constant";
 import { Settings } from "@ui5-language-assistant/settings";
 import {
-  DEFAULT_UI5_VERSION,
   generateModel,
   getFallbackPatchVersions,
 } from "@ui5-language-assistant/test-utils";

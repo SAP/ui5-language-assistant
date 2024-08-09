@@ -13,7 +13,7 @@ import {
   negotiateVersionWithFetcher,
 } from "../../src/ui5-model";
 import { FetchResponse } from "@ui5-language-assistant/language-server";
-import { DEFAULT_UI5_VERSION } from "../../src/types";
+import { DEFAULT_UI5_VERSION } from "@ui5-language-assistant/constant";
 
 describe("the UI5 language assistant ui5 model", () => {
   // The default timeout is 2000ms and getSemanticModel can take ~3000-5000ms

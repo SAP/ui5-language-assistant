@@ -41,3 +41,13 @@ export {
 export { fetch } from "./utils/fetch";
 export { tryFetch, getLocalUrl } from "./utils/fetch-helper";
 export { isXMLView } from "./utils/document";
+
+export type { FetchResponse } from "./utils/types";
+
+export {
+  getCDNBaseUrl,
+  getLibraryAPIJsonUrl,
+  getVersionInfoUrl,
+  getVersionJsonUrl,
+  getVersionsMap,
+} from "./utils/ui5";

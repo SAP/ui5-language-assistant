@@ -1,10 +1,10 @@
 import {
-  DEFAULT_UI5_VERSION,
   expectExists,
   generateModel,
   getFallbackPatchVersions,
 } from "@ui5-language-assistant/test-utils";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
+import { DEFAULT_UI5_VERSION } from "@ui5-language-assistant/constant";
 import { findSymbol, generate } from "../../src/api";
 import { getFQN } from "./utils/model-test-utils";
 

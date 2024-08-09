@@ -17,6 +17,7 @@
   "license": "Apache-2.0",
   "typings": "./api.d.ts",
   "dependencies": {
+    "@ui5-language-assistant/constant": "0.0.0",
     "@ui5-language-assistant/semantic-model-types": "4.0.10",
     "@ui5-language-assistant/logger": "0.0.1",
     "ajv": "6.12.3",
