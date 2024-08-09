@@ -25,6 +25,10 @@ import { sync as rimrafSync } from "rimraf";
 import { forEach, isPlainObject } from "lodash";
 
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
+import {
+  DEFAULT_UI5_VERSION_BASE,
+  DEFAULT_UI5_VERSION,
+} from "@ui5-language-assistant/constant";
 import { expectExists } from "@ui5-language-assistant/test-utils";
 import {
   getSemanticModel,
@@ -35,54 +39,35 @@ import {
   VersionMapJsonType,
 } from "../../src/ui5-model";
 import { FetchResponse } from "@ui5-language-assistant/language-server";
-import { fetch } from "@ui5-language-assistant/logic-utils";
 import * as logicUtils from "@ui5-language-assistant/logic-utils";
-import { getVersionJsonUrl } from "../../src/utils";
 import semverMinSatisfying from "semver/ranges/min-satisfying";
 import { Response } from "node-fetch";
-
+import { UI5Framework } from "@ui5-language-assistant/semantic-model-types";
+import { UI5_VERSION_S4_PLACEHOLDER } from "../../src/types";
 const GET_MODEL_TIMEOUT = 30000;
-const FRAMEWORK = "SAPUI5";
-const OPEN_FRAMEWORK = "OpenUI5";
-const FALLBACK_VERSION = "1.71.69";
-const FALLBACK_VERSION_BASE = "1.71";
-const UI5_VERSION_S4_PLACEHOLDER = "${sap.ui5.dist.version}";
 const NO_CACHE_FOLDER = undefined;
+const { getVersionsMap } = logicUtils;
+const frameworks: UI5Framework[] = ["OpenUI5", "SAPUI5"];
+const latestFallbackPatchVersion: Record<UI5Framework, string | undefined> = {
+  OpenUI5: undefined,
+  SAPUI5: undefined,
+};
 
-type UI5FrameworkType = typeof FRAMEWORK | typeof OPEN_FRAMEWORK;
-const frameworks = [FRAMEWORK, OPEN_FRAMEWORK] as UI5FrameworkType[];
-
-async function getCurrentVersionMaps(
-  framework: UI5FrameworkType
-): Promise<VersionMapJsonType | undefined> {
-  const url = getVersionJsonUrl(framework);
-  const response = await fetch(url);
-  if (response.ok) {
-    return (await response.json()) as VersionMapJsonType;
-  } else {
-    return undefined;
-  }
-}
-
-const latestFallbackPatchVersion: Record<UI5FrameworkType, string | undefined> =
-  {
-    OpenUI5: undefined,
-    SAPUI5: undefined,
-  };
-
-const currentVersionMaps: Record<UI5FrameworkType, VersionMapJsonType> = {
+const currentVersionMaps: Record<UI5Framework, VersionMapJsonType> = {
   OpenUI5: {},
   SAPUI5: {},
 };
 
 const loadCurrentVersionMaps = Promise.all([
-  getCurrentVersionMaps(FRAMEWORK).then((data) => {
+  getVersionsMap("SAPUI5", logicUtils.fetch).then((data) => {
     currentVersionMaps.SAPUI5 = data || {};
-    latestFallbackPatchVersion.SAPUI5 = data?.[FALLBACK_VERSION_BASE]?.version;
+    latestFallbackPatchVersion.SAPUI5 =
+      data?.[DEFAULT_UI5_VERSION_BASE]?.version;
   }),
-  getCurrentVersionMaps(OPEN_FRAMEWORK).then((data) => {
+  getVersionsMap("OpenUI5", logicUtils.fetch).then((data) => {
     currentVersionMaps.OpenUI5 = data || {};
-    latestFallbackPatchVersion.OpenUI5 = data?.[FALLBACK_VERSION_BASE]?.version;
+    latestFallbackPatchVersion.OpenUI5 =
+      data?.[DEFAULT_UI5_VERSION_BASE]?.version;
   }),
 ]);
 
@@ -97,7 +82,7 @@ describe("the UI5 language assistant ui5 model", () => {
     ui5Model: UI5SemanticModel,
     expectedVersion?: string
   ): void {
-    expect(ui5Model.version).toEqual(expectedVersion || FALLBACK_VERSION);
+    expect(ui5Model.version).toEqual(expectedVersion || DEFAULT_UI5_VERSION);
 
     expect(Object.keys(ui5Model.classes).length).toBeGreaterThan(200);
     expect(Object.keys(ui5Model.namespaces).length).toBeGreaterThan(200);
@@ -133,7 +118,7 @@ describe("the UI5 language assistant ui5 model", () => {
     async () => {
       const ui5Model = await getSemanticModel(
         NO_CACHE_FOLDER,
-        FRAMEWORK,
+        "SAPUI5",
         latestFallbackPatchVersion.SAPUI5,
         true
       );
@@ -154,7 +139,7 @@ describe("the UI5 language assistant ui5 model", () => {
         };
       },
       NO_CACHE_FOLDER,
-      FRAMEWORK,
+      "SAPUI5",
       undefined,
       true
     );
@@ -179,7 +164,7 @@ describe("the UI5 language assistant ui5 model", () => {
         async () => {
           const ui5Model = await getSemanticModel(
             cachePath,
-            FRAMEWORK,
+            "SAPUI5",
             latestFallbackPatchVersion.SAPUI5,
             true
           );
@@ -199,7 +184,7 @@ describe("the UI5 language assistant ui5 model", () => {
               );
             },
             cachePath,
-            FRAMEWORK,
+            "SAPUI5",
             latestFallbackPatchVersion.SAPUI5,
             true
           );
@@ -234,7 +219,7 @@ describe("the UI5 language assistant ui5 model", () => {
         async () => {
           // Create a folder with the file name so the file will not be written
           const cacheFilePath = getCacheFilePath(
-            getCacheFolder(cachePath, FRAMEWORK, FALLBACK_VERSION),
+            getCacheFolder(cachePath, "SAPUI5", DEFAULT_UI5_VERSION),
             "sap.m"
           );
           expectExists(cacheFilePath, "cacheFilePath");
@@ -242,7 +227,7 @@ describe("the UI5 language assistant ui5 model", () => {
 
           const ui5Model = await getSemanticModel(
             cachePath,
-            FRAMEWORK,
+            "SAPUI5",
             latestFallbackPatchVersion.SAPUI5
           );
           expect(ui5Model).not.toBeUndefined();
@@ -259,8 +244,8 @@ describe("the UI5 language assistant ui5 model", () => {
           // Create a file with non-json content so the file will not be deserialized
           const cacheFolder = getCacheFolder(
             cachePath,
-            FRAMEWORK,
-            FALLBACK_VERSION
+            "SAPUI5",
+            DEFAULT_UI5_VERSION
           );
           await mkdirs(cacheFolder);
           const cacheFilePath = getCacheFilePath(cacheFolder, "sap.m");
@@ -269,7 +254,7 @@ describe("the UI5 language assistant ui5 model", () => {
 
           const ui5Model = await getSemanticModel(
             cachePath,
-            FRAMEWORK,
+            "SAPUI5",
             undefined,
             true
           );
@@ -298,7 +283,7 @@ describe("the UI5 language assistant ui5 model", () => {
         async () => {
           const ui5Model = await getSemanticModel(
             cachePath,
-            FRAMEWORK,
+            "SAPUI5",
             latestFallbackPatchVersion.SAPUI5,
             true
           );
@@ -318,7 +303,7 @@ describe("the UI5 language assistant ui5 model", () => {
               };
             },
             cachePath,
-            FRAMEWORK,
+            "SAPUI5",
             latestFallbackPatchVersion.SAPUI5,
             true
           );
@@ -371,7 +356,7 @@ describe("the UI5 language assistant ui5 model", () => {
     });
 
     const getExpectedVersion = (
-      framework: typeof FRAMEWORK | typeof OPEN_FRAMEWORK,
+      framework: UI5Framework,
       requestedVersion: string
     ) => {
       const versions = currentVersionMaps[framework];
@@ -584,7 +569,7 @@ describe("the UI5 language assistant ui5 model", () => {
         {
           // outdated version
           version: () => "1.104",
-          expected: () => getExpectedVersion(FRAMEWORK, "1.104"),
+          expected: () => getExpectedVersion("SAPUI5", "1.104"),
         },
         {
           // supported version
@@ -595,7 +580,7 @@ describe("the UI5 language assistant ui5 model", () => {
         },
         {
           // fallback base
-          version: () => FALLBACK_VERSION_BASE,
+          version: () => DEFAULT_UI5_VERSION_BASE,
           expected: () => latestFallbackPatchVersion.SAPUI5 || "",
         },
         {
@@ -621,7 +606,7 @@ describe("the UI5 language assistant ui5 model", () => {
             return createFailedResponse();
           },
           cachePath,
-          FRAMEWORK,
+          "SAPUI5",
           testCase.version()
         );
         expect(result.version).toEqual(testCase.expected());
@@ -631,7 +616,7 @@ describe("the UI5 language assistant ui5 model", () => {
     });
 
     it("resolve major version (should be closest supported)", async () => {
-      const expectedVersion = getExpectedVersion(FRAMEWORK, "1");
+      const expectedVersion = getExpectedVersion("SAPUI5", "1");
       const objNegotiatedVersionWithFetcher = await negotiateVersionWithFetcher(
         async (): Promise<FetchResponse<VersionMapJsonType>> => {
           return createSuccessfulResponse(currentVersionMaps.SAPUI5);
@@ -643,7 +628,7 @@ describe("the UI5 language assistant ui5 model", () => {
           return createFailedResponse();
         },
         cachePath,
-        FRAMEWORK,
+        "SAPUI5",
         "1"
       );
       expect(objNegotiatedVersionWithFetcher.version).toEqual(expectedVersion);
@@ -708,7 +693,7 @@ describe("the UI5 language assistant ui5 model", () => {
           return createFailedResponse();
         },
         cachePath,
-        FRAMEWORK,
+        "SAPUI5",
         "1.38"
       );
       expect(objNegotiatedVersionWithFetcher.version).toEqual(
@@ -730,7 +715,7 @@ describe("the UI5 language assistant ui5 model", () => {
           return createFailedResponse();
         },
         cachePath,
-        FRAMEWORK,
+        "SAPUI5",
         "a.b"
       );
       expect(objNegotiatedVersionWithFetcher.version).toEqual(
@@ -752,7 +737,7 @@ describe("the UI5 language assistant ui5 model", () => {
           return createFailedResponse();
         },
         cachePath,
-        FRAMEWORK,
+        "SAPUI5",
         UI5_VERSION_S4_PLACEHOLDER
       );
       expect(objNegotiatedVersionWithFetcher.version).toEqual(
@@ -786,7 +771,7 @@ describe("the UI5 language assistant ui5 model", () => {
               return createFailedResponse();
             },
             cachePath,
-            FRAMEWORK,
+            "SAPUI5",
             testVersion
           );
         expect(objNegotiatedVersionWithFetcher.version).toEqual(testVersion);

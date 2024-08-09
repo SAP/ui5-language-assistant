@@ -3,7 +3,6 @@ import {
   buildUI5Model,
   buildUI5Class,
   expectExists,
-  DEFAULT_UI5_VERSION,
 } from "@ui5-language-assistant/test-utils";
 import {
   UI5Class,
@@ -11,6 +10,7 @@ import {
   UI5Type,
   UnresolvedType,
 } from "@ui5-language-assistant/semantic-model-types";
+import { DEFAULT_UI5_VERSION } from "@ui5-language-assistant/constant";
 import { resolveType, setParent } from "../../src/resolve";
 import { getSymbolMaps } from "../../src/utils";
 import { generate } from "../../src/api";

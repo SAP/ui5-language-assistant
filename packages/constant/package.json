@@ -1,0 +1,27 @@
+{
+  "name": "@ui5-language-assistant/constant",
+  "version": "0.0.0",
+  "private": true,
+  "description": "constant variables used across packages",
+  "keywords": [],
+  "files": [
+    ".reuse",
+    "LICENSES",
+    "lib/src",
+    "src"
+  ],
+  "main": "lib/src/api.js",
+  "repository": "https://github.com/sap/ui5-language-assistant/",
+  "license": "Apache-2.0",
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "ci": "npm-run-all clean compile lint",
+    "clean": "rimraf ./lib ./coverage ./nyc_output",
+    "compile": "yarn run clean && tsc -p .",
+    "compile:watch": "tsc -p . --watch",
+    "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore",
+    "test": "echo nothing to test",
+    "format:fix": "prettier --write \"**/*.@(js|ts|json|md)\" --ignore-path=.gitignore"
+  }
+}

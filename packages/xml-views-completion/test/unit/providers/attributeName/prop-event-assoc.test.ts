@@ -1,9 +1,9 @@
 import { difference, forEach, partial } from "lodash";
 import { XMLAttribute } from "@xml-tools/ast";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
+import { DEFAULT_UI5_VERSION } from "@ui5-language-assistant/constant";
 import { generate } from "@ui5-language-assistant/semantic-model";
 import {
-  DEFAULT_UI5_VERSION,
   expectSuggestions,
   expectXMLAttribute,
   generateModel,

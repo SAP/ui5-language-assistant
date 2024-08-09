@@ -3,12 +3,13 @@ import { maxBy, map, filter } from "lodash";
 import { readFile } from "fs-extra";
 import { URI } from "vscode-uri";
 import { loadAll } from "js-yaml";
-import { DEFAULT_UI5_FRAMEWORK, YamlDetails } from "./types";
+import { YamlDetails } from "./types";
 import { FileName } from "@sap-ux/project-access";
 import findUp from "find-up";
 import { cache } from "./cache";
 import { getLogger } from "./utils";
 import { findAllFilesInWorkspace } from "./utils/fileUtils";
+import { DEFAULT_UI5_FRAMEWORK } from "@ui5-language-assistant/constant";
 
 export async function initializeUI5YamlData(
   workspaceFolderPath: string

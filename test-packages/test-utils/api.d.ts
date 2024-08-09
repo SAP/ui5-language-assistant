@@ -20,6 +20,7 @@ import {
 import { XMLAttribute, XMLElement } from "@xml-tools/ast";
 import { UI5XMLViewCompletion } from "@ui5-language-assistant/xml-views-completion";
 import { FetchResponse } from "@ui5-language-assistant/language-server";
+import { DEFAULT_UI5_VERSION } from "@ui5-language-assistant/constant";
 
 //	easily build (partial) data structures for tests with mandatory "name" field
 export type PartialWithName<T> = { name: string } & Partial<T>;
@@ -87,8 +88,6 @@ export function buildUI5DeprecatedInfo<T extends Partial<UI5DeprecatedInfo>>(
 export function buildUI5Model<T extends Partial<UI5SemanticModel>>(
   opts: Partial<UI5SemanticModel>
 ): UI5SemanticModel & Pick<T, keyof UI5SemanticModel>;
-
-export const DEFAULT_UI5_VERSION = "1.71.69";
 
 // TODO: list should be updated continuously!
 export type TestModelVersion =

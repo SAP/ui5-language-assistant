@@ -3,8 +3,8 @@ import {
   UI5SemanticModel,
   UI5Aggregation,
 } from "@ui5-language-assistant/semantic-model-types";
+import { DEFAULT_UI5_VERSION } from "@ui5-language-assistant/constant";
 import {
-  DEFAULT_UI5_VERSION,
   generateModel,
   getFallbackPatchVersions,
 } from "@ui5-language-assistant/test-utils";

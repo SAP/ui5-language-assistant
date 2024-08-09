@@ -1,8 +1,8 @@
 import { map, cloneDeep, forEach } from "lodash";
 import { XMLElement } from "@xml-tools/ast";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
+import { DEFAULT_UI5_VERSION } from "@ui5-language-assistant/constant";
 import {
-  DEFAULT_UI5_VERSION,
   buildUI5Aggregation,
   generateModel,
   getFallbackPatchVersions,

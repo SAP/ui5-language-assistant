@@ -9,10 +9,10 @@ import {
   UI5Prop,
   UI5SemanticModel,
 } from "@ui5-language-assistant/semantic-model-types";
+import { DEFAULT_UI5_VERSION } from "@ui5-language-assistant/constant";
 import { generate } from "@ui5-language-assistant/semantic-model";
 import { ui5NodeToFQN } from "@ui5-language-assistant/logic-utils";
 import {
-  DEFAULT_UI5_VERSION,
   expectSuggestions,
   expectXMLAttribute,
   generateModel,

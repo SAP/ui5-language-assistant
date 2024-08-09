@@ -2,10 +2,10 @@ import { partial, find } from "lodash";
 import { parse, DocumentCstNode } from "@xml-tools/parser";
 import { buildAst } from "@xml-tools/ast";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
+import { DEFAULT_UI5_VERSION } from "@ui5-language-assistant/constant";
 import {
   generateModel,
   expectExists,
-  DEFAULT_UI5_VERSION,
   getFallbackPatchVersions,
 } from "@ui5-language-assistant/test-utils";
 import { generate } from "@ui5-language-assistant/semantic-model";
