@@ -5,14 +5,17 @@ import {
 } from "@ui5-language-assistant/test-utils";
 import { generate } from "@ui5-language-assistant/semantic-model";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
-import { DEFAULT_UI5_VERSION } from "@ui5-language-assistant/constant";
+import {
+  DEFAULT_UI5_FRAMEWORK,
+  DEFAULT_UI5_VERSION,
+} from "@ui5-language-assistant/constant";
 import { getNodeDocumentation } from "../../src/documentation";
 
 describe("The @ui5-language-assistant/language-server <getNodeDocumentation> function", () => {
   let ui5SemanticModel: UI5SemanticModel;
   beforeAll(async function () {
     ui5SemanticModel = await generateModel({
-      framework: "SAPUI5",
+      framework: DEFAULT_UI5_FRAMEWORK,
       version: (
         await getFallbackPatchVersions()
       ).SAPUI5 as typeof DEFAULT_UI5_VERSION,

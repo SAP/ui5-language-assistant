@@ -2,7 +2,10 @@ import { find } from "lodash";
 import { parse, DocumentCstNode } from "@xml-tools/parser";
 import { buildAst, XMLElement, XMLAttribute } from "@xml-tools/ast";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
-import { DEFAULT_UI5_VERSION } from "@ui5-language-assistant/constant";
+import {
+  DEFAULT_UI5_FRAMEWORK,
+  DEFAULT_UI5_VERSION,
+} from "@ui5-language-assistant/constant";
 import { generate } from "@ui5-language-assistant/semantic-model";
 import {
   generateModel,
@@ -22,7 +25,7 @@ import {
 async function generateModelForLatestPatch(): Promise<UI5SemanticModel> {
   const { SAPUI5: latestPatchVersion } = await getFallbackPatchVersions();
   return await generateModel({
-    framework: "SAPUI5",
+    framework: DEFAULT_UI5_FRAMEWORK,
     version: latestPatchVersion as typeof DEFAULT_UI5_VERSION,
     modelGenerator: generate,
   });

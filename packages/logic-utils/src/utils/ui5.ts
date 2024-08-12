@@ -3,6 +3,7 @@ import {
   UI5_FRAMEWORK_CDN_BASE_URL,
   DEFAULT_OPEN_UI5_VERSION,
   DEFAULT_UI5_VERSION,
+  DEFAULT_UI5_FRAMEWORK,
 } from "@ui5-language-assistant/constant";
 import { Fetcher, VersionMapJsonType } from "./types";
 import { getLogger } from "./logger";
@@ -89,7 +90,9 @@ export async function getVersionsMap(
     versionMap[framework] = await response.json();
   } else {
     const DEFAULT_FALL_BACK =
-      framework === "SAPUI5" ? DEFAULT_UI5_VERSION : DEFAULT_OPEN_UI5_VERSION;
+      framework === DEFAULT_UI5_FRAMEWORK
+        ? DEFAULT_UI5_VERSION
+        : DEFAULT_OPEN_UI5_VERSION;
 
     getLogger().error(
       "Could not read version mapping, fallback to default version",

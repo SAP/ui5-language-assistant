@@ -7,6 +7,8 @@ import {
   DEFAULT_OPEN_UI5_VERSION,
   DEFAULT_UI5_VERSION,
   DEFAULT_UI5_VERSION_BASE,
+  DEFAULT_UI5_FRAMEWORK,
+  OPEN_FRAMEWORK,
 } from "@ui5-language-assistant/constant";
 
 const importDynamic = (modulePath: string) => {
@@ -135,7 +137,9 @@ async function getCurrentVersionMaps(
     return (await response.json()) as VersionMapJsonType;
   } else {
     const DEFAULT_FALL_BACK =
-      framework === "SAPUI5" ? DEFAULT_UI5_VERSION : DEFAULT_OPEN_UI5_VERSION;
+      framework === DEFAULT_UI5_FRAMEWORK
+        ? DEFAULT_UI5_VERSION
+        : DEFAULT_OPEN_UI5_VERSION;
     const data = {};
     data[framework] = {
       latest: {
@@ -157,10 +161,10 @@ export async function getFallbackPatchVersions(): Promise<{
     SAPUI5: undefined,
   };
 
-  result.SAPUI5 = (await getCurrentVersionMaps("SAPUI5"))[
+  result.SAPUI5 = (await getCurrentVersionMaps(DEFAULT_UI5_FRAMEWORK))[
     DEFAULT_UI5_VERSION_BASE
   ]?.version;
-  result.OpenUI5 = (await getCurrentVersionMaps("OpenUI5"))[
+  result.OpenUI5 = (await getCurrentVersionMaps(OPEN_FRAMEWORK))[
     DEFAULT_UI5_VERSION_BASE
   ]?.version;
   return result;

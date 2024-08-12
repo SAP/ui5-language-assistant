@@ -7,6 +7,7 @@ import { UI5ValidatorsConfig } from "../../src/validate-xml-views";
 import { UI5XMLViewIssue } from "../../api";
 import { validateXMLView } from "../../src/api";
 import { Context } from "@ui5-language-assistant/context";
+import { DEFAULT_UI5_FRAMEWORK } from "@ui5-language-assistant/constant";
 
 const START_RANGE_MARKER = "🢂";
 const END_RANGE_MARKER = "🢀";
@@ -139,7 +140,7 @@ export const getDefaultContext = (ui5Model: UI5SemanticModel): Context => {
     },
     services: {},
     yamlDetails: {
-      framework: "SAPUI5",
+      framework: DEFAULT_UI5_FRAMEWORK,
       version: undefined,
     },
   };

@@ -20,5 +20,8 @@
     "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore",
     "test": "echo nothing to test",
     "coverage": "echo nothing to test"
+  },
+  "dependencies": {
+    "@ui5-language-assistant/constant": "0.0.0"
   }
 }

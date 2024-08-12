@@ -1,5 +1,8 @@
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
-import { DEFAULT_UI5_VERSION } from "@ui5-language-assistant/constant";
+import {
+  DEFAULT_UI5_FRAMEWORK,
+  DEFAULT_UI5_VERSION,
+} from "@ui5-language-assistant/constant";
 import {
   generateModel,
   getFallbackPatchVersions,
@@ -18,7 +21,7 @@ describe("the invalid boolean value validation", () => {
   let appContext: AppContext;
   beforeAll(async () => {
     ui5SemanticModel = await generateModel({
-      framework: "SAPUI5",
+      framework: DEFAULT_UI5_FRAMEWORK,
       version: (
         await getFallbackPatchVersions()
       ).SAPUI5 as typeof DEFAULT_UI5_VERSION,

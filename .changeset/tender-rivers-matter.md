@@ -7,6 +7,7 @@
 "@ui5-language-assistant/language-server": patch
 "@ui5-language-assistant/test-utils": patch
 "@ui5-language-assistant/semantic-model": patch
+"@ui5-language-assistant/semantic-model-types": patch
 "@ui5-language-assistant/logic-utils": patch
 "@ui5-language-assistant/constant": patch
 "@ui5-language-assistant/context": patch

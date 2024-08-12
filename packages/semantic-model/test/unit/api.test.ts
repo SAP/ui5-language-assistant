@@ -11,7 +11,10 @@ import {
   UI5SemanticModel,
   UI5Typedef,
 } from "@ui5-language-assistant/semantic-model-types";
-import { DEFAULT_UI5_VERSION } from "@ui5-language-assistant/constant";
+import {
+  DEFAULT_UI5_FRAMEWORK,
+  DEFAULT_UI5_VERSION,
+} from "@ui5-language-assistant/constant";
 import { forEachSymbol } from "../../src/utils";
 import { generate } from "../../src/api";
 import {
@@ -315,7 +318,7 @@ describe("The ui5-language-assistant semantic model package API", () => {
   ];
   for (const version of versions) {
     // TODO: consider also openui5?
-    createModelConsistencyTests("SAPUI5", version);
+    createModelConsistencyTests(DEFAULT_UI5_FRAMEWORK, version);
   }
 
   describe("returned model is frozen", () => {
@@ -324,7 +327,7 @@ describe("The ui5-language-assistant semantic model package API", () => {
     let model: UI5SemanticModel;
     beforeAll(async () => {
       model = await generateModel({
-        framework: "SAPUI5",
+        framework: DEFAULT_UI5_FRAMEWORK,
         version: DEFAULT_UI5_VERSION,
         modelGenerator: generate,
       });
@@ -393,7 +396,7 @@ describe("The ui5-language-assistant semantic model package API", () => {
     let model: UI5SemanticModel;
     beforeAll(async () => {
       model = await generateModel({
-        framework: "SAPUI5",
+        framework: DEFAULT_UI5_FRAMEWORK,
         version: DEFAULT_UI5_VERSION,
         modelGenerator: generate,
       });

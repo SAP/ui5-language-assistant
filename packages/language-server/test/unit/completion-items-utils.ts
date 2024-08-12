@@ -15,6 +15,7 @@ import { expectExists } from "@ui5-language-assistant/test-utils";
 import { getCompletionItems } from "../../src/completion-items";
 import { Settings, getDefaultSettings } from "@ui5-language-assistant/settings";
 import { Context } from "@ui5-language-assistant/context";
+import { DEFAULT_UI5_FRAMEWORK } from "@ui5-language-assistant/constant";
 
 /** Return the first part of a tag name suggestion insert text */
 export function getTagName(textEdit: TextEdit | undefined): string | undefined {
@@ -256,7 +257,7 @@ export const getDefaultContext = (ui5Model: UI5SemanticModel): Context => {
     },
     services: {},
     yamlDetails: {
-      framework: "SAPUI5",
+      framework: DEFAULT_UI5_FRAMEWORK,
       version: undefined,
     },
   };

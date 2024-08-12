@@ -9,7 +9,9 @@ import {
 import { Response } from "node-fetch";
 import {
   DEFAULT_OPEN_UI5_VERSION,
+  DEFAULT_UI5_FRAMEWORK,
   DEFAULT_UI5_VERSION,
+  OPEN_FRAMEWORK,
 } from "@ui5-language-assistant/constant";
 
 describe("ui5", () => {
@@ -18,11 +20,11 @@ describe("ui5", () => {
   });
   describe("getCDNBaseUrl", () => {
     it("get CDN without local url [with version]", async () => {
-      const result = await getCDNBaseUrl("SAPUI5", "1.111.0");
+      const result = await getCDNBaseUrl(DEFAULT_UI5_FRAMEWORK, "1.111.0");
       expect(result).toEqual("https://ui5.sap.com/1.111.0/");
     });
     it("get CDN without local url [without version]", async () => {
-      const result = await getCDNBaseUrl("SAPUI5", undefined);
+      const result = await getCDNBaseUrl(DEFAULT_UI5_FRAMEWORK, undefined);
       expect(result).toEqual("https://ui5.sap.com/");
     });
     it("get CDN with local url", async () => {
@@ -33,7 +35,7 @@ describe("ui5", () => {
       const fakeTryFetch = jest
         .spyOn(fetchHelper, "tryFetch")
         .mockResolvedValue({ ok: true } as unknown as Response);
-      const result = await getCDNBaseUrl("SAPUI5", "1.111.0");
+      const result = await getCDNBaseUrl(DEFAULT_UI5_FRAMEWORK, "1.111.0");
       expect(fakeGetLocalUrl).toHaveBeenCalled();
       expect(fakeTryFetch).toHaveBeenCalled();
       expect(result).toEqual("http://localhost:3000/1.111.0/");
@@ -45,7 +47,7 @@ describe("ui5", () => {
       const fakeTryFetch = jest
         .spyOn(fetchHelper, "tryFetch")
         .mockResolvedValue(undefined);
-      const result = await getCDNBaseUrl("SAPUI5", "1.112.0");
+      const result = await getCDNBaseUrl(DEFAULT_UI5_FRAMEWORK, "1.112.0");
       expect(fakeGetLocalUrl).toHaveBeenCalled();
       expect(fakeTryFetch).toHaveBeenCalled();
       expect(result).toEqual("https://ui5.sap.com/1.112.0/");
@@ -57,7 +59,7 @@ describe("ui5", () => {
       expect(result).toStrictEqual("https://ui5.sap.com/version.json");
     });
     it("get version uri for OpenUI5", () => {
-      const result = getVersionJsonUrl("OpenUI5");
+      const result = getVersionJsonUrl(OPEN_FRAMEWORK);
       expect(result).toStrictEqual("https://sdk.openui5.org/version.json");
     });
   });
@@ -65,13 +67,19 @@ describe("ui5", () => {
 
 describe("getVersionInfoUrl", () => {
   it("get version info uri for SAPUI5", async () => {
-    const result = await getVersionInfoUrl("SAPUI5", DEFAULT_UI5_VERSION);
+    const result = await getVersionInfoUrl(
+      DEFAULT_UI5_FRAMEWORK,
+      DEFAULT_UI5_VERSION
+    );
     expect(result).toStrictEqual(
       "https://ui5.sap.com/1.71.70/resources/sap-ui-version.json"
     );
   });
   it("get version info uri for OpenUI5", async () => {
-    const result = await getVersionInfoUrl("OpenUI5", DEFAULT_OPEN_UI5_VERSION);
+    const result = await getVersionInfoUrl(
+      OPEN_FRAMEWORK,
+      DEFAULT_OPEN_UI5_VERSION
+    );
     expect(result).toStrictEqual(
       "https://sdk.openui5.org/1.71.67/resources/sap-ui-version.json"
     );
@@ -80,7 +88,7 @@ describe("getVersionInfoUrl", () => {
 
 it("getLibraryAPIJsonUrl", async () => {
   const result = await getLibraryAPIJsonUrl(
-    "SAPUI5",
+    DEFAULT_UI5_FRAMEWORK,
     DEFAULT_UI5_VERSION,
     "sap.m"
   );
@@ -102,7 +110,7 @@ describe("getVersionsMap", () => {
       ok: true,
       json: () => data,
     });
-    const result = await getVersionsMap("SAPUI5", fetcherSpy);
+    const result = await getVersionsMap(DEFAULT_UI5_FRAMEWORK, fetcherSpy);
     expect(result).toEqual(data);
   });
 
@@ -117,7 +125,7 @@ describe("getVersionsMap", () => {
     const fetcherSpy = jest.fn().mockResolvedValue({
       ok: false,
     });
-    const result = await getVersionsMap("OpenUI5", fetcherSpy);
+    const result = await getVersionsMap(OPEN_FRAMEWORK, fetcherSpy);
     expect(result).toEqual(data);
   });
 });
