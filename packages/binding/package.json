@@ -1,6 +1,6 @@
 {
   "name": "@ui5-language-assistant/binding",
-  "version": "1.0.30",
+  "version": "1.0.31",
   "private": true,
   "description": "UI5 LSP server extension for binding",
   "keywords": [],
@@ -17,10 +17,10 @@
   "dependencies": {
     "@ui5-language-assistant/binding-parser": "1.0.7",
     "@ui5-language-assistant/logger": "0.0.1",
-    "@ui5-language-assistant/context": "4.0.26",
-    "@ui5-language-assistant/logic-utils": "4.0.18",
-    "@ui5-language-assistant/xml-views-completion": "4.0.26",
-    "@ui5-language-assistant/xml-views-validation": "4.0.20",
+    "@ui5-language-assistant/context": "4.0.27",
+    "@ui5-language-assistant/logic-utils": "4.0.19",
+    "@ui5-language-assistant/xml-views-completion": "4.0.27",
+    "@ui5-language-assistant/xml-views-validation": "4.0.21",
     "@ui5-language-assistant/settings": "4.0.9",
     "deep-freeze-strict": "1.1.1",
     "lodash": "4.17.21"
@@ -28,9 +28,9 @@
   "devDependencies": {
     "@sap-ux/vocabularies-types": "0.10.14",
     "@types/lodash": "4.14.168",
-    "@ui5-language-assistant/semantic-model-types": "4.0.10",
+    "@ui5-language-assistant/semantic-model-types": "4.0.11",
     "@ui5-language-assistant/test-framework": "4.0.12",
-    "@ui5-language-assistant/test-utils": "4.0.14",
+    "@ui5-language-assistant/test-utils": "4.0.15",
     "@xml-tools/ast": "5.0.0",
     "@xml-tools/parser": "1.0.7",
     "vscode-languageserver-protocol": "3.17.2",

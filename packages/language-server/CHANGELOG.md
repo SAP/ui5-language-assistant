@@ -1,5 +1,23 @@
 # Change Log
 
+## 4.0.51
+
+### Patch Changes
+
+- b2a8d01: fix: introduce constant package to handle UI5 default version in central package
+- Updated dependencies [b2a8d01]
+  - @ui5-language-assistant/xml-views-completion@4.0.27
+  - @ui5-language-assistant/xml-views-validation@4.0.21
+  - @ui5-language-assistant/xml-views-tooltip@4.0.27
+  - @ui5-language-assistant/semantic-model@4.0.18
+  - @ui5-language-assistant/logic-utils@4.0.19
+  - @ui5-language-assistant/constant@0.0.1
+  - @ui5-language-assistant/context@4.0.27
+  - @ui5-language-assistant/binding@1.0.31
+  - @ui5-language-assistant/fe@4.0.30
+  - @ui5-language-assistant/xml-views-quick-fix@4.0.19
+  - @ui5-language-assistant/xml-views-definition@0.0.5
+
 ## 4.0.50
 
 ### Patch Changes

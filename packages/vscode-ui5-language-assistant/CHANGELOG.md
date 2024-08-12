@@ -1,5 +1,13 @@
 # Change Log
 
+## 4.0.67
+
+### Patch Changes
+
+- b2a8d01: fix: introduce constant package to handle UI5 default version in central package
+- Updated dependencies [b2a8d01]
+  - @ui5-language-assistant/language-server@4.0.51
+
 ## 4.0.66
 
 ### Patch Changes
