@@ -56,8 +56,8 @@ const latestFallbackPatchVersion: Record<UI5Framework, string | undefined> = {
 };
 
 const currentVersionMaps: Record<UI5Framework, VersionMapJsonType> = {
-  OpenUI5: {},
-  SAPUI5: {},
+  [OPEN_FRAMEWORK]: {},
+  [DEFAULT_UI5_FRAMEWORK]: {},
 };
 
 const loadCurrentVersionMaps = Promise.all([
