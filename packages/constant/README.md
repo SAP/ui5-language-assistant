@@ -2,7 +2,7 @@
 
 # @ui5-language-assistant/constant
 
-A package for constants that can be reuse a cross other packages. This package is introduced to avoid cyclic dependency.
+A package for constants that can be reused a cross other packages. This package is introduced to avoid cyclic dependency.
 
 ## Installation
 
