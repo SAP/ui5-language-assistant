@@ -51,8 +51,8 @@ const NO_CACHE_FOLDER = undefined;
 const { getVersionsMap } = logicUtils;
 const frameworks: UI5Framework[] = [OPEN_FRAMEWORK, DEFAULT_UI5_FRAMEWORK];
 const latestFallbackPatchVersion: Record<UI5Framework, string | undefined> = {
-  OpenUI5: undefined,
-  SAPUI5: undefined,
+  [OPEN_FRAMEWORK]: undefined,
+  [DEFAULT_UI5_FRAMEWORK]: undefined,
 };
 
 const currentVersionMaps: Record<UI5Framework, VersionMapJsonType> = {
