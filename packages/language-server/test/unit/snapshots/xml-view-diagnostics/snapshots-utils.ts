@@ -5,11 +5,14 @@ import { readJsonSync, readFileSync } from "fs-extra";
 import { expect } from "chai";
 import { sortBy, forEachRight, map, cloneDeep, forEach } from "lodash";
 import {
-  DEFAULT_UI5_VERSION,
   generateModel,
   getFallbackPatchVersions,
 } from "@ui5-language-assistant/test-utils";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
+import {
+  DEFAULT_UI5_VERSION,
+  DEFAULT_UI5_FRAMEWORK,
+} from "@ui5-language-assistant/constant";
 import { generate } from "@ui5-language-assistant/semantic-model";
 import { getXMLViewDiagnostics } from "../../../../src/xml-view-diagnostics";
 import { Context as AppContext } from "@ui5-language-assistant/context";
@@ -102,7 +105,7 @@ const ui5ModelPromise = new Promise<UI5SemanticModel>((done, reject) => {
   getFallbackPatchVersions()
     .then((patch) => {
       generateModel({
-        framework: "SAPUI5",
+        framework: DEFAULT_UI5_FRAMEWORK,
         version: patch.SAPUI5 as typeof DEFAULT_UI5_VERSION,
         modelGenerator: generate,
       })

@@ -1,11 +1,15 @@
 import { zipObject, map, noop, get } from "lodash";
 import { resolve } from "path";
 import { writeFile, mkdirs, pathExists } from "fs-extra";
-
-export const UI5_FRAMEWORK_CDN_BASE_URL = {
-  OpenUI5: "https://sdk.openui5.org/",
-  SAPUI5: "https://ui5.sap.com/",
-};
+import { UI5Framework } from "@ui5-language-assistant/semantic-model-types";
+import {
+  UI5_FRAMEWORK_CDN_BASE_URL,
+  DEFAULT_OPEN_UI5_VERSION,
+  DEFAULT_UI5_VERSION,
+  DEFAULT_UI5_VERSION_BASE,
+  DEFAULT_UI5_FRAMEWORK,
+  OPEN_FRAMEWORK,
+} from "@ui5-language-assistant/constant";
 
 const importDynamic = (modulePath: string) => {
   try {
@@ -124,19 +128,27 @@ type VersionMapJsonType = Record<
   { version: string; support: string; lts: boolean }
 >;
 
-const FRAMEWORK = "SAPUI5";
-const OPEN_FRAMEWORK = "OpenUI5";
-const FALLBACK_VERSION_BASE = "1.71";
-
 async function getCurrentVersionMaps(
-  framework: typeof FRAMEWORK | typeof OPEN_FRAMEWORK
-): Promise<VersionMapJsonType | undefined> {
+  framework: UI5Framework
+): Promise<VersionMapJsonType> {
   const url = `${UI5_FRAMEWORK_CDN_BASE_URL[framework]}version.json`;
   const response = await fetch(url);
   if (response.ok) {
     return (await response.json()) as VersionMapJsonType;
   } else {
-    return undefined;
+    const DEFAULT_FALL_BACK =
+      framework === DEFAULT_UI5_FRAMEWORK
+        ? DEFAULT_UI5_VERSION
+        : DEFAULT_OPEN_UI5_VERSION;
+    const data = {};
+    data[framework] = {
+      latest: {
+        version: DEFAULT_FALL_BACK,
+        support: "Maintenance",
+        lts: true,
+      },
+    };
+    return data;
   }
 }
 
@@ -149,11 +161,11 @@ export async function getFallbackPatchVersions(): Promise<{
     SAPUI5: undefined,
   };
 
-  result.SAPUI5 = (await getCurrentVersionMaps(FRAMEWORK))?.[
-    FALLBACK_VERSION_BASE
+  result.SAPUI5 = (await getCurrentVersionMaps(DEFAULT_UI5_FRAMEWORK))[
+    DEFAULT_UI5_VERSION_BASE
   ]?.version;
-  result.OpenUI5 = (await getCurrentVersionMaps(OPEN_FRAMEWORK))?.[
-    FALLBACK_VERSION_BASE
+  result.OpenUI5 = (await getCurrentVersionMaps(OPEN_FRAMEWORK))[
+    DEFAULT_UI5_VERSION_BASE
   ]?.version;
   return result;
 }

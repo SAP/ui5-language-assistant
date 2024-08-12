@@ -6,7 +6,10 @@ import {
   UI5SemanticModel,
 } from "@ui5-language-assistant/semantic-model-types";
 import {
+  DEFAULT_UI5_FRAMEWORK,
   DEFAULT_UI5_VERSION,
+} from "@ui5-language-assistant/constant";
+import {
   generateModel,
   getFallbackPatchVersions,
 } from "@ui5-language-assistant/test-utils";
@@ -26,7 +29,7 @@ describe("The `getXMLViewCompletions()` api", () => {
   let appContext: AppContext;
   beforeAll(async function () {
     REAL_UI5_MODEL = await generateModel({
-      framework: "SAPUI5",
+      framework: DEFAULT_UI5_FRAMEWORK,
       version: (
         await getFallbackPatchVersions()
       ).SAPUI5 as typeof DEFAULT_UI5_VERSION,

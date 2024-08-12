@@ -2,7 +2,10 @@ import { forEach, map } from "lodash";
 import { XMLAttribute, XMLElement } from "@xml-tools/ast";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import {
+  DEFAULT_UI5_FRAMEWORK,
   DEFAULT_UI5_VERSION,
+} from "@ui5-language-assistant/constant";
+import {
   generateModel,
   getFallbackPatchVersions,
 } from "@ui5-language-assistant/test-utils";
@@ -20,7 +23,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
   let appContext: AppContext;
   beforeAll(async () => {
     ui5SemanticModel = await generateModel({
-      framework: "SAPUI5",
+      framework: DEFAULT_UI5_FRAMEWORK,
       version: (
         await getFallbackPatchVersions()
       ).SAPUI5 as typeof DEFAULT_UI5_VERSION,
