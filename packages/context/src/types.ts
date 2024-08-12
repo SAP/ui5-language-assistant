@@ -7,14 +7,8 @@ import type { Manifest } from "@sap-ux/project-access";
 import { FetchResponse } from "@ui5-language-assistant/logic-utils";
 import type { XMLDocument } from "@xml-tools/ast";
 
-export const DEFAULT_UI5_FRAMEWORK = "SAPUI5";
-export const DEFAULT_UI5_VERSION = "1.71.69";
-export const DEFAULT_UI5_VERSION_BASE = "1.71";
 export const UI5_VERSION_S4_PLACEHOLDER = "${sap.ui5.dist.version}";
-export const UI5_FRAMEWORK_CDN_BASE_URL = {
-  OpenUI5: "https://sdk.openui5.org/",
-  SAPUI5: "https://ui5.sap.com/",
-};
+
 export const UI5_PROJECT_TYPE = "UI5";
 export const CAP_PROJECT_TYPE = "CAP";
 export enum DirName {

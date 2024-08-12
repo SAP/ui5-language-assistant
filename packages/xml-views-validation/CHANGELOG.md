@@ -1,5 +1,15 @@
 # Change Log
 
+## 4.0.21
+
+### Patch Changes
+
+- b2a8d01: fix: introduce constant package to handle UI5 default version in central package
+- Updated dependencies [b2a8d01]
+  - @ui5-language-assistant/semantic-model-types@4.0.11
+  - @ui5-language-assistant/logic-utils@4.0.19
+  - @ui5-language-assistant/constant@0.0.1
+
 ## 4.0.20
 
 ### Patch Changes

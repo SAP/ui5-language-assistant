@@ -23,7 +23,6 @@ export {
   getUI5Yaml,
   findYamlPath,
 } from "./ui5-yaml";
-export { getCDNBaseUrl } from "./utils";
 export { cache } from "./cache";
 export {
   reactOnCdsFileChange,

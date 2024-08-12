@@ -41,6 +41,7 @@ import {
   bindingLegend,
   bindingSemanticTokensProvider,
 } from "./binding-semantic-token-provider";
+import { OPEN_FRAMEWORK } from "@ui5-language-assistant/constant";
 
 type UI5Model = {
   url: string;
@@ -201,7 +202,7 @@ async function updateCurrentModel(model: UI5Model | undefined): Promise<void> {
       }
       statusBarItem.tooltip = tooltipText;
       statusBarItem.text = `$(notebook-mimetype)  ${version}${
-        currentModel.framework === "OpenUI5" ? "'" : ""
+        currentModel.framework === OPEN_FRAMEWORK ? "'" : ""
       }`;
       statusBarItem.show();
     } else {

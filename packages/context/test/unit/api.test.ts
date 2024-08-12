@@ -7,6 +7,7 @@ import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { getContext, isContext } from "../../src/api";
 import type { Context } from "../../src/types";
 import * as projectAccess from "@sap-ux/project-access";
+import { OPEN_FRAMEWORK } from "@ui5-language-assistant/constant";
 
 describe("context", () => {
   afterEach(() => {
@@ -40,7 +41,7 @@ describe("context", () => {
       const getYamlDetailsStub = jest
         .spyOn(ui5Yaml, "getYamlDetails")
         .mockResolvedValue({
-          framework: "OpenUI5",
+          framework: OPEN_FRAMEWORK,
           version: undefined,
         });
       const getSemanticModelStub = jest
@@ -87,7 +88,7 @@ describe("context", () => {
       const getYamlDetailsStub = jest
         .spyOn(ui5Yaml, "getYamlDetails")
         .mockResolvedValue({
-          framework: "OpenUI5",
+          framework: OPEN_FRAMEWORK,
           version: undefined,
         });
       const getSemanticModelStub = jest

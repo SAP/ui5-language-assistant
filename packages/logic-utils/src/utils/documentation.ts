@@ -3,6 +3,7 @@ import {
   UI5DeprecatedInfo,
   UI5SemanticModel,
 } from "@ui5-language-assistant/semantic-model-types";
+import { OPEN_FRAMEWORK } from "@ui5-language-assistant/constant";
 
 export function getDeprecationPlainTextSnippet({
   title,
@@ -200,7 +201,7 @@ export function getLink(model: UI5SemanticModel, link: string): string {
     link = `api/${link}`;
   }
   let baseUrl;
-  if (model.framework === "OpenUI5") {
+  if (model.framework === OPEN_FRAMEWORK) {
     baseUrl = "https://sdk.openui5.org/";
   } else {
     baseUrl = "https://ui5.sap.com/";

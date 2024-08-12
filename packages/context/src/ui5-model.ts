@@ -8,27 +8,24 @@ import {
   UI5SemanticModel,
 } from "@ui5-language-assistant/semantic-model-types";
 import {
+  DEFAULT_UI5_VERSION_BASE,
+  DEFAULT_UI5_VERSION,
+} from "@ui5-language-assistant/constant";
+import {
   generate,
   Json,
   TypeNameFix,
 } from "@ui5-language-assistant/semantic-model";
-import {
-  DEFAULT_UI5_VERSION_BASE,
-  Fetcher,
-  UI5_VERSION_S4_PLACEHOLDER,
-} from "./types";
+import { Fetcher, UI5_VERSION_S4_PLACEHOLDER } from "./types";
 import {
   fetch,
   getLocalUrl,
   tryFetch,
-} from "@ui5-language-assistant/logic-utils";
-import {
-  getLibraryAPIJsonUrl,
-  getLogger,
   getVersionInfoUrl,
   getVersionJsonUrl,
-} from "./utils";
-import { DEFAULT_UI5_VERSION } from "./types";
+  getLibraryAPIJsonUrl,
+} from "@ui5-language-assistant/logic-utils";
+import { getLogger } from "./utils";
 import { cache } from "./cache";
 
 export type VersionMapJsonType = Record<
