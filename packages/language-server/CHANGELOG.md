@@ -1,5 +1,18 @@
 # Change Log
 
+## 4.0.52
+
+### Patch Changes
+
+- a82d24c: fix: reference
+- Updated dependencies [a82d24c]
+  - @ui5-language-assistant/context@4.0.28
+  - @ui5-language-assistant/binding@1.0.32
+  - @ui5-language-assistant/fe@4.0.31
+  - @ui5-language-assistant/xml-views-completion@4.0.28
+  - @ui5-language-assistant/xml-views-definition@0.0.6
+  - @ui5-language-assistant/xml-views-tooltip@4.0.28
+
 ## 4.0.51
 
 ### Patch Changes

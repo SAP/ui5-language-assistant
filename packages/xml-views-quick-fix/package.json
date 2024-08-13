@@ -27,7 +27,7 @@
     "lodash": "4.17.21"
   },
   "devDependencies": {
-    "@ui5-language-assistant/test-utils": "4.0.15",
+    "@ui5-language-assistant/test-utils": "4.0.16",
     "@xml-tools/parser": "1.0.7",
     "vscode-languageserver": "8.0.2"
   },

@@ -1,6 +1,6 @@
 {
   "name": "@ui5-language-assistant/test-utils",
-  "version": "4.0.15",
+  "version": "4.0.16",
   "private": true,
   "description": "Test Utils",
   "files": [
