@@ -152,13 +152,12 @@ async function getCurrentVersionMaps(
   }
 }
 
-export async function getFallbackPatchVersions(): Promise<{
-  SAPUI5: string | undefined;
-  OpenUI5: string | undefined;
-}> {
-  const result: { SAPUI5: string | undefined; OpenUI5: string | undefined } = {
-    OpenUI5: undefined,
-    SAPUI5: undefined,
+export async function getFallbackPatchVersions(): Promise<
+  Record<UI5Framework, string | undefined>
+> {
+  const result: Record<UI5Framework, string | undefined> = {
+    [OPEN_FRAMEWORK]: undefined,
+    [DEFAULT_UI5_FRAMEWORK]: undefined,
   };
 
   result.SAPUI5 = (await getCurrentVersionMaps(DEFAULT_UI5_FRAMEWORK))[

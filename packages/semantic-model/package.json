@@ -27,7 +27,7 @@
   },
   "devDependencies": {
     "@types/deep-freeze-strict": "1.1.0",
-    "@ui5-language-assistant/test-utils": "4.0.15",
+    "@ui5-language-assistant/test-utils": "4.0.16",
     "json-schema-to-typescript": "10.0.3"
   },
   "scripts": {

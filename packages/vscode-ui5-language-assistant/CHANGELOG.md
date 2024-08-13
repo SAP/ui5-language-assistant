@@ -1,5 +1,13 @@
 # Change Log
 
+## 4.0.68
+
+### Patch Changes
+
+- a82d24c: fix: reference
+- Updated dependencies [a82d24c]
+  - @ui5-language-assistant/language-server@4.0.52
+
 ## 4.0.67
 
 ### Patch Changes

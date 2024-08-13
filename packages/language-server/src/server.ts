@@ -35,7 +35,6 @@ import {
   initializeManifestData,
   initializeUI5YamlData,
   reactOnUI5YamlChange,
-  getCDNBaseUrl,
   getContext,
   reactOnManifestChange,
   reactOnCdsFileChange,
@@ -48,7 +47,7 @@ import { executeCommand } from "./commands";
 import { initSwa } from "./swa";
 import { getLogger, setLogLevel } from "./logger";
 import { initI18n } from "./i18n";
-import { isXMLView } from "@ui5-language-assistant/logic-utils";
+import { isXMLView, getCDNBaseUrl } from "@ui5-language-assistant/logic-utils";
 import { getDefinition } from "@ui5-language-assistant/xml-views-definition";
 import { DocumentCstNode, parse } from "@xml-tools/parser";
 import { buildAst } from "@xml-tools/ast";
