@@ -94,7 +94,7 @@
           "type": "string",
           "scope": "window",
           "default": "",
-          "markdownDescription": "Use an alternative (local) web server to serve [SAP UI5 SDK](https://tools.hana.ondemand.com/#sapui5) for enabling offline work."
+          "markdownDescription": "Use an alternative (local) web server to serve [SAPUI5 SDK](https://tools.hana.ondemand.com/#sapui5) for enabling offline work."
         },
         "UI5LanguageAssistant.logging.level": {
           "type": "string",
