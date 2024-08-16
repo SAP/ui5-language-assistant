@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.69
+
+### Patch Changes
+
+- 65eaef5: fix: change SAP UI5 to SAPUI5
+
 ## 4.0.68
 
 ### Patch Changes
