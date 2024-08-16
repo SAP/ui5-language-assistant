@@ -18,12 +18,16 @@ describe("the UI5 language assistant QuickFix Service", () => {
         getXmlSnippet(testXmlSnippet);
       expect(quickFixStableIdTestInfo).not.toBeEmpty();
       const context = getContext(document);
-      const quickFixInfo = computeQuickFixStableIdInfo(context, [
-        {
-          start: quickFixStableIdTestInfo[0].start,
-          end: quickFixStableIdTestInfo[0].end,
-        },
-      ]);
+      const quickFixInfo = computeQuickFixStableIdInfo(
+        context,
+        [
+          {
+            start: quickFixStableIdTestInfo[0].start,
+            end: quickFixStableIdTestInfo[0].end,
+          },
+        ],
+        {}
+      );
       expectExists(quickFixInfo, "Quick Fix Info");
       expect(quickFixInfo[0].newText).toEqual(' id="_IDGenList"');
       expect(quickFixInfo[0].replaceRange.start).toEqual(
@@ -44,16 +48,20 @@ describe("the UI5 language assistant QuickFix Service", () => {
         getXmlSnippet(testXmlSnippet);
       expect(quickFixStableIdTestInfo).not.toBeEmpty();
       const context = getContext(document);
-      const quickFixInfo = computeQuickFixStableIdInfo(context, [
-        {
-          start: quickFixStableIdTestInfo[0].start,
-          end: quickFixStableIdTestInfo[0].end,
-        },
-        {
-          start: quickFixStableIdTestInfo[1].start,
-          end: quickFixStableIdTestInfo[1].end,
-        },
-      ]);
+      const quickFixInfo = computeQuickFixStableIdInfo(
+        context,
+        [
+          {
+            start: quickFixStableIdTestInfo[0].start,
+            end: quickFixStableIdTestInfo[0].end,
+          },
+          {
+            start: quickFixStableIdTestInfo[1].start,
+            end: quickFixStableIdTestInfo[1].end,
+          },
+        ],
+        {}
+      );
       expectExists(quickFixInfo, "Quick Fix Info");
       expect(quickFixInfo[0].newText).toEqual(' id="_IDGenList"');
       expect(quickFixInfo[0].replaceRange.start).toEqual(
@@ -79,12 +87,18 @@ describe("the UI5 language assistant QuickFix Service", () => {
         getXmlSnippet(testXmlSnippet);
       expect(quickFixStableIdTestInfo).not.toBeEmpty();
       const context = getContext(document);
-      const quickFixInfo = computeQuickFixStableIdInfo(context, [
-        {
-          start: quickFixStableIdTestInfo[0].start,
-          end: quickFixStableIdTestInfo[0].end,
-        },
-      ]);
+      const existingIds = {};
+      existingIds["dummy-id"] = 1;
+      const quickFixInfo = computeQuickFixStableIdInfo(
+        context,
+        [
+          {
+            start: quickFixStableIdTestInfo[0].start,
+            end: quickFixStableIdTestInfo[0].end,
+          },
+        ],
+        existingIds
+      );
       expectExists(quickFixInfo, "Quick Fix Info");
       expect(quickFixInfo[0].newText).toEqual(expectedSuggestion);
       expect(quickFixInfo[0].replaceRange.start).toEqual(
@@ -107,12 +121,19 @@ describe("the UI5 language assistant QuickFix Service", () => {
         getXmlSnippet(testXmlSnippet);
       expect(quickFixStableIdTestInfo).not.toBeEmpty();
       const context = getContext(document);
-      const quickFixInfo = computeQuickFixStableIdInfo(context, [
-        {
-          start: quickFixStableIdTestInfo[0].start,
-          end: quickFixStableIdTestInfo[0].end,
-        },
-      ]);
+      const existingIds = {};
+      existingIds["_IDGenList"] = 1;
+      existingIds["_IDGenList1"] = 1;
+      const quickFixInfo = computeQuickFixStableIdInfo(
+        context,
+        [
+          {
+            start: quickFixStableIdTestInfo[0].start,
+            end: quickFixStableIdTestInfo[0].end,
+          },
+        ],
+        existingIds
+      );
       expectExists(quickFixInfo, "Quick Fix Info");
       expect(quickFixInfo[0].newText).toEqual(expectedSuggestion);
       expect(quickFixInfo[0].replaceRange.start).toEqual(
@@ -133,12 +154,16 @@ describe("the UI5 language assistant QuickFix Service", () => {
         getXmlSnippet(testXmlSnippet);
       expect(quickFixStableIdTestInfo).not.toBeEmpty();
       const context = getContext(document);
-      const quickFixInfo = computeQuickFixStableIdInfo(context, [
-        {
-          start: quickFixStableIdTestInfo[0].start,
-          end: quickFixStableIdTestInfo[0].end,
-        },
-      ]);
+      const quickFixInfo = computeQuickFixStableIdInfo(
+        context,
+        [
+          {
+            start: quickFixStableIdTestInfo[0].start,
+            end: quickFixStableIdTestInfo[0].end,
+          },
+        ],
+        {}
+      );
       expectExists(quickFixInfo, "Quick Fix Info");
       expect(quickFixInfo[0].newText).toEqual(expectedSuggestion);
       expect(quickFixInfo[0].replaceRange.start).toEqual(
@@ -159,12 +184,16 @@ describe("the UI5 language assistant QuickFix Service", () => {
         getXmlSnippet(testXmlSnippet);
       expect(quickFixStableIdTestInfo).not.toBeEmpty();
       const context = getContext(document);
-      const quickFixInfo = computeQuickFixStableIdInfo(context, [
-        {
-          start: quickFixStableIdTestInfo[0].start,
-          end: quickFixStableIdTestInfo[0].end,
-        },
-      ]);
+      const quickFixInfo = computeQuickFixStableIdInfo(
+        context,
+        [
+          {
+            start: quickFixStableIdTestInfo[0].start,
+            end: quickFixStableIdTestInfo[0].end,
+          },
+        ],
+        {}
+      );
       expectExists(quickFixInfo, "Quick Fix Info");
       expect(quickFixInfo[0].newText).toEqual(expectedSuggestion);
       expect(quickFixInfo[0].replaceRange.start).toEqual(
@@ -196,17 +225,23 @@ describe("the UI5 language assistant QuickFix Service", () => {
 
       const context = getContext(document);
       context.viewFiles["uri02"] = getXmlDocument(doc02);
-
-      const quickFixInfo = computeQuickFixStableIdInfo(context, [
-        {
-          start: quickFixStableIdTestInfo[0].start,
-          end: quickFixStableIdTestInfo[0].end,
-        },
-        {
-          start: quickFixStableIdTestInfo[1].start,
-          end: quickFixStableIdTestInfo[1].end,
-        },
-      ]);
+      const existingIds = {};
+      existingIds["_IDGenList"] = 1;
+      existingIds["_IDGenList1"] = 1;
+      const quickFixInfo = computeQuickFixStableIdInfo(
+        context,
+        [
+          {
+            start: quickFixStableIdTestInfo[0].start,
+            end: quickFixStableIdTestInfo[0].end,
+          },
+          {
+            start: quickFixStableIdTestInfo[1].start,
+            end: quickFixStableIdTestInfo[1].end,
+          },
+        ],
+        existingIds
+      );
       expectExists(quickFixInfo, "Quick Fix Info");
       expect(quickFixInfo[0].newText).toEqual(' id="_IDGenList2"');
       expect(quickFixInfo[0].replaceRange.start).toEqual(
@@ -231,12 +266,16 @@ describe("the UI5 language assistant QuickFix Service", () => {
       const { document, quickFixStableIdTestInfo } =
         getXmlSnippet(testXmlSnippet);
       const context = getContext(document);
-      const quickFixInfo = computeQuickFixStableIdInfo(context, [
-        {
-          start: quickFixStableIdTestInfo[0].start,
-          end: quickFixStableIdTestInfo[0].end,
-        },
-      ]);
+      const quickFixInfo = computeQuickFixStableIdInfo(
+        context,
+        [
+          {
+            start: quickFixStableIdTestInfo[0].start,
+            end: quickFixStableIdTestInfo[0].end,
+          },
+        ],
+        {}
+      );
 
       expect(quickFixInfo).toBeEmpty();
     });
@@ -297,6 +336,7 @@ function getContext(textDocument: TextDocument): Context {
       version: undefined,
     },
     viewFiles: {},
+    controlIds: new Map(),
     documentPath: "uri",
   } as Context;
   context.viewFiles["uri"] = getXmlDocument(textDocument);

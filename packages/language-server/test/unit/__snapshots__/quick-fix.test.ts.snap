@@ -69,7 +69,7 @@ Array [
         0,
         Array [
           Object {
-            "newText": " id=\\"_IDGenButton\\"",
+            "newText": " id=\\"_IDGenButton1\\"",
             "replaceRange": Object {
               "end": Object {
                 "character": 19,
@@ -182,7 +182,7 @@ Array [
             },
           },
           Object {
-            "newText": " id=\\"_IDGenDialog\\"",
+            "newText": " id=\\"_IDGenDialog1\\"",
             "replaceRange": Object {
               "end": Object {
                 "character": 23,

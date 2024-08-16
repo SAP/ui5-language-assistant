@@ -1,289 +1,329 @@
-import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import {
-  DEFAULT_UI5_FRAMEWORK,
-  DEFAULT_UI5_VERSION,
-} from "@ui5-language-assistant/constant";
-import {
-  generateModel,
-  getFallbackPatchVersions,
-} from "@ui5-language-assistant/test-utils";
-import { generate } from "@ui5-language-assistant/semantic-model";
+  Config,
+  ProjectName,
+  ProjectType,
+  TestFramework,
+} from "@ui5-language-assistant/test-framework";
+import { Context, getContext, cache } from "@ui5-language-assistant/context";
+import { join } from "path";
+import { validateNonUniqueID } from "../../../../src/validators";
 import {
   validations,
   buildMessage,
 } from "@ui5-language-assistant/user-facing-text";
-import { validators } from "../../../../src/api";
-import { NonUniqueIDIssue } from "../../../../api";
+import { XMLAttribute, XMLDocument, XMLElement } from "@xml-tools/ast";
 import {
-  computeExpectedRanges,
-  getDefaultContext,
-  testValidationsScenario,
-} from "../../test-utils";
-import { Context as AppContext } from "@ui5-language-assistant/context";
-import { DocumentCstNode, parse } from "@xml-tools/parser";
-import { buildAst, XMLElement } from "@xml-tools/ast";
+  locationToRange,
+  OffsetRange,
+} from "@ui5-language-assistant/logic-utils";
 import { Range } from "vscode-languageserver-types";
-import { locationToRange } from "../../../../src/utils/range";
+import { pathToFileURL } from "url";
 
 const { NON_UNIQUE_ID } = validations;
+let testFramework: TestFramework;
+const viewFilePathSegments = [
+  "app",
+  "manage_travels",
+  "webapp",
+  "ext",
+  "main",
+  "Main.view.xml",
+];
 
-describe("the use of non unique id validation", () => {
-  let ui5SemanticModel: UI5SemanticModel;
-  let appContext: AppContext;
-  let testNonUniqueIDScenario: (opts: {
-    xmlText: string;
-    assertion: (issues: NonUniqueIDIssue[]) => void;
-    context?: AppContext;
-  }) => void;
-
-  beforeAll(async () => {
-    ui5SemanticModel = await generateModel({
-      framework: DEFAULT_UI5_FRAMEWORK,
-      version: (
-        await getFallbackPatchVersions()
-      ).SAPUI5 as typeof DEFAULT_UI5_VERSION,
-      modelGenerator: generate,
-    });
-    appContext = getDefaultContext(ui5SemanticModel);
-    testNonUniqueIDScenario = (opts): void =>
-      testValidationsScenario({
-        context: opts.context ?? appContext,
-        validators: {
-          document: [validators.validateNonUniqueID],
-        },
-        xmlText: opts.xmlText,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        assertion: opts.assertion as any,
-      });
-  });
-  afterEach(() => {
-    appContext = getDefaultContext(ui5SemanticModel);
-  });
-
-  function getIdRanges(elements: XMLElement[], ranges: Range[] = []): Range[] {
-    for (const el of elements) {
-      const id = el.attributes.find((i) => i.key === "id");
-      if (id) {
-        ranges.push(locationToRange(id.syntax.value));
-      }
-      if (el.subElements.length) {
-        getIdRanges(el.subElements, ranges);
-      }
-    }
-    return ranges;
+const getDocumentPath = () =>
+  join(testFramework.getProjectRoot(), ...viewFilePathSegments);
+const getOffsetRange = (
+  attributes: XMLAttribute[],
+  key: string
+): OffsetRange | undefined => {
+  const id = attributes.find((i) => i.key === key);
+  if (id) {
+    const offsetRange = {
+      start: id.syntax.value?.startOffset ?? 0,
+      end: id.syntax.value?.endOffset ?? 0,
+    };
+    return offsetRange;
   }
+  return;
+};
 
+function processOffsetRanges(
+  elements: XMLElement[],
+  offSetRanges: OffsetRange[],
+  key = "id"
+) {
+  for (const el of elements) {
+    const offsetRange = getOffsetRange(el.attributes, key);
+    if (offsetRange) {
+      offSetRanges.push(offsetRange);
+    }
+    if (el.subElements.length) {
+      processOffsetRanges(el.subElements, offSetRanges, key);
+    }
+  }
+}
+
+const getOffsetRanges = (
+  context: Context,
+  key = "id"
+): Record<string, OffsetRange[]> => {
+  const viewFiles = Object.keys(context.viewFiles);
+  const offsetRangesPerView = {};
+  for (const view of viewFiles) {
+    const xmlDoc = context.viewFiles[view];
+    if (xmlDoc.rootElement) {
+      const offsetRanges: OffsetRange[] = [];
+      const offsetRange = getOffsetRange(xmlDoc.rootElement?.attributes, key);
+      if (offsetRange) {
+        offsetRanges.push(offsetRange);
+      }
+      processOffsetRanges(xmlDoc.rootElement.subElements, offsetRanges, key);
+      offsetRangesPerView[view] = offsetRanges;
+    }
+  }
+  return offsetRangesPerView;
+};
+
+function getIdRanges(elements: XMLElement[], ranges: Range[] = []): Range[] {
+  for (const el of elements) {
+    const id = el.attributes.find((i) => i.key === "id");
+    if (id) {
+      ranges.push(locationToRange(id.syntax.value));
+    }
+    if (el.subElements.length) {
+      getIdRanges(el.subElements, ranges);
+    }
+  }
+  return ranges;
+}
+
+async function getParam(xmlSnippet: string): Promise<{
+  context: Context;
+  xmlView: XMLDocument;
+  offsetRanges: Record<string, OffsetRange[]>;
+  documentPath: string;
+}> {
+  await testFramework.updateFile(viewFilePathSegments, xmlSnippet);
+  const documentPath = getDocumentPath();
+  const context = (await getContext(documentPath)) as Context;
+  const xmlView = context.viewFiles[context.documentPath];
+  const offsetRanges = getOffsetRanges(context);
+  return { context, xmlView, offsetRanges, documentPath };
+}
+describe("the use of non unique id validation", () => {
+  beforeEach(function () {
+    const useConfig: Config = {
+      projectInfo: {
+        name: ProjectName.cap,
+        type: ProjectType.CAP,
+        npmInstall: false,
+      },
+    };
+    testFramework = new TestFramework(useConfig);
+    // reset cache to avoid side effect
+    cache.reset();
+  });
   describe("true positive scenarios", () => {
-    it("will detect two duplicate ID in different controls", () => {
+    it("will detect two duplicate ID in different controls", async () => {
+      // arrange
       const xmlSnippet = `
           <mvc:View
             xmlns:mvc="sap.ui.core.mvc"
             xmlns="sap.ui.commons"
-            id=🢂"DUPLICATE"🢀
+            id="DUPLICATE"
             >
-            <Button id=🢂"DUPLICATE"🢀>
+            <Button id="DUPLICATE">
             </Button>
           </mvc:View>`;
-
-      testNonUniqueIDScenario({
-        xmlText: xmlSnippet,
-        assertion: (issues) => {
-          expect(issues).toHaveLength(2);
-
-          const expectedRanges = computeExpectedRanges(xmlSnippet);
-
-          expect(issues).toIncludeAllMembers([
-            {
-              issueType: "base",
-              kind: "NonUniqueIDIssue",
-              message: buildMessage(NON_UNIQUE_ID.msg, "DUPLICATE"),
-              severity: "error",
-              offsetRange: expectedRanges[0],
-              identicalIDsRanges: [],
-            },
-            {
-              issueType: "base",
-              kind: "NonUniqueIDIssue",
-              message: buildMessage(NON_UNIQUE_ID.msg, "DUPLICATE"),
-              severity: "error",
-              offsetRange: expectedRanges[1],
-              identicalIDsRanges: [],
-            },
-          ]);
+      const { xmlView, context, offsetRanges, documentPath } = await getParam(
+        xmlSnippet
+      );
+      const offset = offsetRanges[documentPath];
+      // act
+      const result = validateNonUniqueID(xmlView, context);
+      // assert
+      expect(result).toEqual([
+        {
+          issueType: "base",
+          kind: "NonUniqueIDIssue",
+          message: buildMessage(NON_UNIQUE_ID.msg, "DUPLICATE"),
+          severity: "error",
+          offsetRange: offset[0],
+          identicalIDsRanges: [],
         },
-      });
+        {
+          issueType: "base",
+          kind: "NonUniqueIDIssue",
+          message: buildMessage(NON_UNIQUE_ID.msg, "DUPLICATE"),
+          severity: "error",
+          offsetRange: offset[1],
+          identicalIDsRanges: [],
+        },
+      ]);
     });
 
-    it("will detect two duplicate ID in different custom controls", () => {
+    it("will detect two duplicate ID in different custom controls", async () => {
+      // arrange
       const xmlSnippet = `
           <custom:View
             xmlns:custom="foo.bar"
             xmlns="bar.foo"
-            id=🢂"DUPLICATE"🢀
+            id="DUPLICATE"
             >
-            <Button id=🢂"DUPLICATE"🢀>
+            <Button id="DUPLICATE">
             </Button>
           </custom:View>`;
 
-      testNonUniqueIDScenario({
-        xmlText: xmlSnippet,
-        assertion: (issues) => {
-          expect(issues).toHaveLength(2);
-
-          const expectedRanges = computeExpectedRanges(xmlSnippet);
-
-          expect(issues).toIncludeAllMembers([
-            {
-              issueType: "base",
-              kind: "NonUniqueIDIssue",
-              message: buildMessage(NON_UNIQUE_ID.msg, "DUPLICATE"),
-              severity: "error",
-              offsetRange: expectedRanges[0],
-              identicalIDsRanges: [],
-            },
-            {
-              issueType: "base",
-              kind: "NonUniqueIDIssue",
-              message: buildMessage(NON_UNIQUE_ID.msg, "DUPLICATE"),
-              severity: "error",
-              offsetRange: expectedRanges[1],
-              identicalIDsRanges: [],
-            },
-          ]);
-        },
-      });
-    });
-
-    it("will detect three duplicate ID in different controls", () => {
-      const xmlSnippet = `
-          <mvc:View
-            xmlns:mvc="sap.ui.core.mvc"
-            xmlns="sap.ui.commons"
-            id=🢂"TRIPLICATE"🢀
-            >
-            <Button id=🢂"TRIPLICATE"🢀>
-            </Button>
-            <Button id=🢂"TRIPLICATE"🢀>
-            </Button>
-          </mvc:View>`;
-
-      testNonUniqueIDScenario({
-        xmlText: xmlSnippet,
-        assertion: (issues) => {
-          expect(issues).toHaveLength(3);
-
-          const expectedRanges = computeExpectedRanges(xmlSnippet);
-
-          expect(issues).toIncludeAllMembers([
-            {
-              issueType: "base",
-              kind: "NonUniqueIDIssue",
-              message: buildMessage(NON_UNIQUE_ID.msg, "TRIPLICATE"),
-              severity: "error",
-              offsetRange: expectedRanges[0],
-              identicalIDsRanges: [],
-            },
-            {
-              issueType: "base",
-              kind: "NonUniqueIDIssue",
-              message: buildMessage(NON_UNIQUE_ID.msg, "TRIPLICATE"),
-              severity: "error",
-              offsetRange: expectedRanges[1],
-              identicalIDsRanges: [],
-            },
-            {
-              issueType: "base",
-              kind: "NonUniqueIDIssue",
-              message: buildMessage(NON_UNIQUE_ID.msg, "TRIPLICATE"),
-              severity: "error",
-              offsetRange: expectedRanges[2],
-              identicalIDsRanges: [],
-            },
-          ]);
-        },
-      });
-    });
-    it("will detect duplicate IDs cross view files", () => {
-      const xmlSnippet = `
-          <mvc:View
-            xmlns:mvc="sap.ui.core.mvc"
-            xmlns="sap.ui.commons"
-            >
-            <Button id=🢂"DUPLICATE"🢀>
-            </Button>
-            <Button id=🢂"DUPLICATE"🢀>
-            </Button>
-          </mvc:View>`;
-      // modify context
-      appContext.documentPath = "docPath01";
-      const xmlSnippet02 = `
-          <mvc:View
-            xmlns:mvc="sap.ui.core.mvc"
-            xmlns="sap.ui.commons"
-            >
-            <Button id="DUPLICATE">
-            </Button>
-            <Button id="DUPLICATE">
-            </Button>
-          </mvc:View>`;
-      const { cst, tokenVector } = parse(xmlSnippet02);
-      const ast = buildAst(cst as DocumentCstNode, tokenVector);
-      const expectedIdenticalIdRanges = getIdRanges(
-        ast.rootElement?.subElements ?? []
+      const { xmlView, context, offsetRanges, documentPath } = await getParam(
+        xmlSnippet
       );
-      appContext.viewFiles["docPath02"] = ast;
-
-      testNonUniqueIDScenario({
-        xmlText: xmlSnippet,
-        context: appContext,
-        assertion: (issues) => {
-          expect(issues).toHaveLength(2);
-
-          const expectedRanges = computeExpectedRanges(xmlSnippet);
-
-          expect(issues).toIncludeAllMembers([
-            {
-              issueType: "base",
-              kind: "NonUniqueIDIssue",
-              message: buildMessage(NON_UNIQUE_ID.msg, "DUPLICATE"),
-              severity: "error",
-              offsetRange: expectedRanges[0],
-              identicalIDsRanges: [
-                {
-                  documentPath: "docPath02",
-                  range: expectedIdenticalIdRanges[0],
-                },
-                {
-                  documentPath: "docPath02",
-                  range: expectedIdenticalIdRanges[1],
-                },
-              ],
-            },
-            {
-              issueType: "base",
-              kind: "NonUniqueIDIssue",
-              message: buildMessage(NON_UNIQUE_ID.msg, "DUPLICATE"),
-              severity: "error",
-              offsetRange: expectedRanges[1],
-              identicalIDsRanges: [
-                {
-                  documentPath: "docPath02",
-                  range: expectedIdenticalIdRanges[0],
-                },
-                {
-                  documentPath: "docPath02",
-                  range: expectedIdenticalIdRanges[1],
-                },
-              ],
-            },
-          ]);
+      const offset = offsetRanges[documentPath];
+      // act
+      const result = validateNonUniqueID(xmlView, context);
+      // assert
+      expect(result).toEqual([
+        {
+          issueType: "base",
+          kind: "NonUniqueIDIssue",
+          message: buildMessage(NON_UNIQUE_ID.msg, "DUPLICATE"),
+          severity: "error",
+          offsetRange: offset[0],
+          identicalIDsRanges: [],
         },
-      });
+        {
+          issueType: "base",
+          kind: "NonUniqueIDIssue",
+          message: buildMessage(NON_UNIQUE_ID.msg, "DUPLICATE"),
+          severity: "error",
+          offsetRange: offset[1],
+          identicalIDsRanges: [],
+        },
+      ]);
+    });
+    it("will detect three duplicate ID in different controls", async () => {
+      // arrange
+      const xmlSnippet = `
+          <mvc:View
+            xmlns:mvc="sap.ui.core.mvc"
+            xmlns="sap.ui.commons"
+            id="TRIPLICATE"
+            >
+            <Button id="TRIPLICATE">
+            </Button>
+            <Button id="TRIPLICATE">
+            </Button>
+          </mvc:View>`;
+      const { xmlView, context, offsetRanges, documentPath } = await getParam(
+        xmlSnippet
+      );
+      const offset = offsetRanges[documentPath];
+      // act
+      const result = validateNonUniqueID(xmlView, context);
+      // assert
+      expect(result).toEqual([
+        {
+          issueType: "base",
+          kind: "NonUniqueIDIssue",
+          message: buildMessage(NON_UNIQUE_ID.msg, "TRIPLICATE"),
+          severity: "error",
+          offsetRange: offset[0],
+          identicalIDsRanges: [],
+        },
+        {
+          issueType: "base",
+          kind: "NonUniqueIDIssue",
+          message: buildMessage(NON_UNIQUE_ID.msg, "TRIPLICATE"),
+          severity: "error",
+          offsetRange: offset[1],
+          identicalIDsRanges: [],
+        },
+        {
+          issueType: "base",
+          kind: "NonUniqueIDIssue",
+          message: buildMessage(NON_UNIQUE_ID.msg, "TRIPLICATE"),
+          severity: "error",
+          offsetRange: offset[2],
+          identicalIDsRanges: [],
+        },
+      ]);
+    });
+
+    it("will detect duplicate IDs cross view files", async () => {
+      // arrange
+      const xmlSnippet = `
+        <mvc:View
+          xmlns:mvc="sap.ui.core.mvc"
+          xmlns="sap.ui.commons"
+          >
+          <Button id="DUPLICATE">
+          </Button>
+          <Button id="DUPLICATE">
+          </Button>
+        </mvc:View>`;
+      // modify context
+      const xmlSnippet02 = `
+        <mvc:View
+          xmlns:mvc="sap.ui.core.mvc"
+          xmlns="sap.ui.commons"
+          >
+          <Button id="DUPLICATE">
+          </Button>
+          <Button id="DUPLICATE">
+          </Button>
+        </mvc:View>`;
+
+      const CustomSectionSegments = [
+        "app",
+        "manage_travels",
+        "webapp",
+        "ext",
+        "fragment",
+        "CustomSection.fragment.xml",
+      ];
+      await testFramework.updateFile(CustomSectionSegments, xmlSnippet02);
+      const customSectionPath = join(
+        testFramework.getProjectRoot(),
+        ...CustomSectionSegments
+      );
+
+      const { xmlView, context, offsetRanges, documentPath } = await getParam(
+        xmlSnippet
+      );
+      const offset = offsetRanges[documentPath];
+      const ranges = getIdRanges(
+        context.viewFiles[customSectionPath].rootElement?.subElements ?? []
+      );
+      const customSectionUri = pathToFileURL(customSectionPath).toString();
+      const identicalIDsRanges = ranges.map((range) => ({
+        uri: customSectionUri,
+        range,
+      }));
+      // act
+      const result = validateNonUniqueID(xmlView, context);
+      // assert
+      expect(result).toEqual([
+        {
+          issueType: "base",
+          kind: "NonUniqueIDIssue",
+          message: buildMessage(NON_UNIQUE_ID.msg, "DUPLICATE"),
+          severity: "error",
+          offsetRange: offset[0],
+          identicalIDsRanges,
+        },
+        {
+          issueType: "base",
+          kind: "NonUniqueIDIssue",
+          message: buildMessage(NON_UNIQUE_ID.msg, "DUPLICATE"),
+          severity: "error",
+          offsetRange: offset[1],
+          identicalIDsRanges,
+        },
+      ]);
     });
   });
-
   describe("negative edge cases", () => {
-    it("will not detect issues for duplicate attribute keys that are not `id`", () => {
+    it("will not detect issues for duplicate attribute keys that are not `id`", async () => {
+      // arrange
       const xmlSnippet = `
           <mvc:View
             xmlns:mvc="sap.ui.core.mvc"
@@ -293,35 +333,14 @@ describe("the use of non unique id validation", () => {
             <Button iddqd="DUPLICATE">
             </Button>
           </mvc:View>`;
-
-      testNonUniqueIDScenario({
-        xmlText: xmlSnippet,
-        assertion: (issues) => {
-          expect(issues).toBeEmpty;
-        },
-      });
+      const { xmlView, context } = await getParam(xmlSnippet);
+      // act
+      const result = validateNonUniqueID(xmlView, context);
+      // assert
+      expect(result).toBeEmpty();
     });
-
-    it("will not detect issues for attributes that do not have a value", () => {
-      const xmlSnippet = `
-          <mvc:View
-            xmlns:mvc="sap.ui.core.mvc"
-            xmlns="sap.ui.commons"
-            id="DUPLICATE"
-            >
-            <Button id=>
-            </Button>
-          </mvc:View>`;
-
-      testNonUniqueIDScenario({
-        xmlText: xmlSnippet,
-        assertion: (issues) => {
-          expect(issues).toBeEmpty;
-        },
-      });
-    });
-
-    it("will not detect issues for attributes that have an empty value", () => {
+    it("will not detect issues for attributes that have an empty value", async () => {
+      // arrange
       const xmlSnippet = `
           <mvc:View
             xmlns:mvc="sap.ui.core.mvc"
@@ -331,16 +350,14 @@ describe("the use of non unique id validation", () => {
             <Button id="">
             </Button>
           </mvc:View>`;
-
-      testNonUniqueIDScenario({
-        xmlText: xmlSnippet,
-        assertion: (issues) => {
-          expect(issues).toBeEmpty;
-        },
-      });
+      const { xmlView, context } = await getParam(xmlSnippet);
+      // act
+      const result = validateNonUniqueID(xmlView, context);
+      // assert
+      expect(result).toBeEmpty();
     });
-
-    it("will not detect issues for id attributes under lowercase element tags", () => {
+    it("will not detect issues for id attributes under lowercase element tags", async () => {
+      // arrange
       const xmlSnippet = `
           <mvc:view
             xmlns:mvc="sap.ui.core.mvc"
@@ -350,16 +367,14 @@ describe("the use of non unique id validation", () => {
             <Button id="DUPLICATE">
             </Button>
           </mvc:view>`;
-
-      testNonUniqueIDScenario({
-        xmlText: xmlSnippet,
-        assertion: (issues) => {
-          expect(issues).toBeEmpty;
-        },
-      });
+      const { xmlView, context } = await getParam(xmlSnippet);
+      // act
+      const result = validateNonUniqueID(xmlView, context);
+      // assert
+      expect(result).toBeEmpty();
     });
-
-    it("will not detect issues for id attributes under whitelisted (none UI5) namespaces", () => {
+    it("will not detect issues for id attributes under whitelisted (none UI5) namespaces", async () => {
+      // arrange
       const xmlSnippet = `
           <mvc:View
             xmlns:svg="http://www.w3.org/2000/svg"
@@ -369,13 +384,11 @@ describe("the use of non unique id validation", () => {
             <svg:Circle id="DUPLICATE">
             </svg:Circle>
           </mvc:View>`;
-
-      testNonUniqueIDScenario({
-        xmlText: xmlSnippet,
-        assertion: (issues) => {
-          expect(issues).toBeEmpty;
-        },
-      });
+      const { xmlView, context } = await getParam(xmlSnippet);
+      // act
+      const result = validateNonUniqueID(xmlView, context);
+      // assert
+      expect(result).toBeEmpty();
     });
   });
 });

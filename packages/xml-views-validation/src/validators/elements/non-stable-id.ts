@@ -1,16 +1,17 @@
 import { some, includes } from "lodash";
 import { XMLElement } from "@xml-tools/ast";
-import { resolveXMLNS } from "@ui5-language-assistant/logic-utils";
+import {
+  resolveXMLNS,
+  isPossibleCustomClass,
+  isKnownUI5Class,
+  CORE_NS,
+} from "@ui5-language-assistant/logic-utils";
 import {
   validations,
   buildMessage,
 } from "@ui5-language-assistant/user-facing-text";
 import { NonStableIDIssue } from "../../../api";
-import {
-  isPossibleCustomClass,
-  isKnownUI5Class,
-} from "../../utils/ui5-classes";
-import { CORE_NS } from "../../utils/special-namespaces";
+
 import { Context } from "@ui5-language-assistant/context";
 
 const { NON_STABLE_ID } = validations;

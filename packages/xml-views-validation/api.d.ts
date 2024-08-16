@@ -104,7 +104,7 @@ export interface NonUniqueIDIssue extends BaseUI5XMLViewIssue {
   kind: "NonUniqueIDIssue";
   identicalIDsRanges: {
     range: Range;
-    documentPath: string;
+    uri: string;
   }[];
 }
 

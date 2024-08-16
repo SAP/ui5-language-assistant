@@ -245,6 +245,7 @@ function assertFilterMatches(
 
 export const getDefaultContext = (ui5Model: UI5SemanticModel): Context => {
   const viewFiles = {};
+  const controlIds = new Map();
   viewFiles[""] = {};
   return {
     ui5Model,
@@ -263,6 +264,7 @@ export const getDefaultContext = (ui5Model: UI5SemanticModel): Context => {
       version: undefined,
     },
     viewFiles,
+    controlIds,
     documentPath: "",
   };
 };

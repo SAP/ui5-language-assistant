@@ -42,6 +42,9 @@ export function validateXMLView<ExternalXMLViewIssue>(opts: {
   const validatorVisitor = new ValidatorVisitor(opts.context, opts.validators);
   accept(opts.xmlView, validatorVisitor);
   const issues = validatorVisitor.collectedIssues;
+
+  const nonUniqueIdIssues = validateNonUniqueID(opts.xmlView, opts.context);
+  issues.push(...nonUniqueIdIssues);
   return issues;
 }
 

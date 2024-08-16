@@ -31,7 +31,6 @@ import {
 } from "@ui5-language-assistant/binding";
 import type { BindingIssue } from "@ui5-language-assistant/binding";
 import type { IssueType } from "./types";
-import { URI } from "vscode-uri";
 
 export function getXMLViewDiagnostics(opts: {
   document: TextDocument;
@@ -120,7 +119,7 @@ function baseDiagnostic(
           (_) => ({
             message: validations.NON_UNIQUE_ID_RELATED_INFO.msg,
             location: {
-              uri: URI.file(_.documentPath).toString(),
+              uri: _.uri,
               range: _.range,
             },
           })

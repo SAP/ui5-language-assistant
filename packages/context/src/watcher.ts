@@ -3,7 +3,6 @@ import {
   getProjectRoot,
   getProjectInfo,
   getLogger,
-  getWebappPath,
 } from "./utils";
 import {
   findManifestPath,
@@ -228,20 +227,11 @@ export const reactOnXmlFileChange = async (
   });
 
   const documentPath = URI.parse(uri).fsPath;
-  if (isXMLView(documentPath)) {
-    if (
-      changeType === FileChangeType.Created ||
-      changeType === FileChangeType.Deleted
-    ) {
-      // reset cached view files
-      cache.setViewFiles(getWebappPath(documentPath), {});
-    }
-  }
-
   const manifestPath = await findManifestPath(documentPath);
   if (!manifestPath) {
     return;
   }
+
   const manifest = await getUI5Manifest(manifestPath);
   if (!manifest) {
     return;
@@ -265,6 +255,70 @@ export const reactOnXmlFileChange = async (
   await getProject(documentPath);
 };
 
+/**
+ * React to an `.view.xml` or `.fragment.xml` file change.
+ *
+ * @param uri uri to an view file
+ * @param changeType change type
+ * @description
+ * a. for remove operation, it delete view file and controls ids entry
+ *
+ * b. for create operation, it add view file and controls ids entry
+ *
+ * c. trigger validator at last to revalidate
+ */
+export async function reactOnViewFileChange(
+  uri: string,
+  changeType: FileChangeType,
+  validator: () => Promise<void>
+): Promise<void> {
+  getLogger().debug("`reactOnViewFileChange` function called", {
+    xmlUri: uri,
+    changeType,
+  });
+
+  const documentPath = URI.parse(uri).fsPath;
+  if (!isXMLView(documentPath)) {
+    return;
+  }
+
+  const manifestPath = await findManifestPath(documentPath);
+  if (!manifestPath) {
+    return;
+  }
+  if (changeType === FileChangeType.Deleted) {
+    // remove document from cache
+    await cache.setViewFile({
+      manifestPath,
+      documentPath,
+      operation: "delete",
+    });
+
+    // remove controls id
+    cache.setControlIdsForViewFile({
+      manifestPath,
+      documentPath,
+      operation: "delete",
+    });
+  }
+
+  if (changeType === FileChangeType.Created) {
+    // add document to cache
+    await cache.setViewFile({
+      manifestPath,
+      documentPath,
+      operation: "create",
+    });
+
+    // add controls id
+    cache.setControlIdsForViewFile({
+      manifestPath,
+      documentPath,
+      operation: "create",
+    });
+  }
+  await validator();
+}
 /**
  * React on package.json file. In `package.json` user can define `cds`, `sapux` or similar configurations
  *

@@ -8,7 +8,7 @@ import {
   splitQNameByNamespace,
   flattenEvents,
   flattenAssociations,
-} from "@ui5-language-assistant/logic-utils";
+} from "../api";
 import { XMLElement, XMLAttribute } from "@xml-tools/ast";
 import {
   UI5Class,

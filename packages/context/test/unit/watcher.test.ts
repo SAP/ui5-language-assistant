@@ -12,6 +12,7 @@ import {
   reactOnManifestChange,
   reactOnPackageJson,
   reactOnUI5YamlChange,
+  reactOnViewFileChange,
   reactOnXmlFileChange,
 } from "../../src/watcher";
 import { CAPProject, Project, YamlDetails } from "../../src/types";
@@ -23,6 +24,8 @@ import {
   DEFAULT_UI5_FRAMEWORK,
   OPEN_FRAMEWORK,
 } from "@ui5-language-assistant/constant";
+import { FileChangeType } from "vscode-languageserver";
+import { join } from "path";
 
 describe("watcher", () => {
   let testFramework: TestFramework;
@@ -397,7 +400,6 @@ describe("watcher", () => {
     const deleteProjectSpy = jest.spyOn(cache, "deleteProject");
     const setProjectSpy = jest.spyOn(cache, "setProject");
     const getProjectSpy = jest.spyOn(loader, "getProject");
-    const setViewFilesSpy = jest.spyOn(cache, "setViewFiles");
 
     let fileUri, documentPath;
 
@@ -437,7 +439,6 @@ describe("watcher", () => {
       await reactOnXmlFileChange(fileUri, 1);
 
       expect(deleteAppSpy).not.toHaveBeenCalledOnce();
-      expect(setViewFilesSpy).toHaveBeenCalledOnce();
     });
 
     it("test registered xml file", async () => {
@@ -539,6 +540,96 @@ describe("watcher", () => {
     });
   });
 
+  describe("reactOnViewFileChange", () => {
+    const setViewFileSpy = jest.spyOn(cache, "setViewFile");
+    const setControlIdsForViewFileSpy = jest.spyOn(
+      cache,
+      "setControlIdsForViewFile"
+    );
+    const validatorSpy = jest.fn();
+    const getManifestPath = (projectRoot: string) =>
+      join(projectRoot, "app", "manage_travels", "webapp", "manifest.json");
+
+    let fileUri, documentPath;
+
+    beforeAll(() => {
+      fileUri = testFramework.getFileUri([
+        "app",
+        "manage_travels",
+        "webapp",
+        "ext",
+        "main",
+        "Main.view.xml",
+      ]);
+      documentPath = URI.parse(fileUri).fsPath;
+    });
+
+    beforeEach(() => {
+      // reset cache for consistency
+      cache.reset();
+      jest.resetAllMocks();
+    });
+
+    it("test unregistered .view.xml file", async () => {
+      // arrange
+      const manifestPath = getManifestPath(testFramework.getProjectRoot());
+      const findManifestSpy = jest
+        .spyOn(manifest, "findManifestPath")
+        .mockResolvedValue(manifestPath);
+      setViewFileSpy.mockResolvedValue();
+      setControlIdsForViewFileSpy.mockReturnValue();
+      // act
+      await reactOnViewFileChange(
+        fileUri,
+        FileChangeType.Deleted,
+        validatorSpy
+      );
+
+      // assert
+      expect(findManifestSpy).toHaveBeenNthCalledWith(1, documentPath);
+      expect(setViewFileSpy).toHaveBeenNthCalledWith(1, {
+        documentPath,
+        manifestPath,
+        operation: "delete",
+      });
+      expect(setControlIdsForViewFileSpy).toHaveBeenNthCalledWith(1, {
+        documentPath,
+        manifestPath,
+        operation: "delete",
+      });
+      expect(validatorSpy).toHaveBeenCalledOnce();
+    });
+
+    it("test registered xml file", async () => {
+      // arrange
+      const manifestPath = getManifestPath(testFramework.getProjectRoot());
+      const findManifestSpy = jest
+        .spyOn(manifest, "findManifestPath")
+        .mockResolvedValue(manifestPath);
+      setViewFileSpy.mockResolvedValue();
+      setControlIdsForViewFileSpy.mockReturnValue();
+      // act
+      await reactOnViewFileChange(
+        fileUri,
+        FileChangeType.Created,
+        validatorSpy
+      );
+
+      // assert
+      expect(findManifestSpy).toHaveBeenNthCalledWith(1, documentPath);
+      expect(setViewFileSpy).toHaveBeenNthCalledWith(1, {
+        documentPath,
+        manifestPath,
+        operation: "create",
+      });
+      expect(setControlIdsForViewFileSpy).toHaveBeenNthCalledWith(1, {
+        documentPath,
+        manifestPath,
+        operation: "create",
+      });
+      expect(validatorSpy).toHaveBeenCalledOnce();
+    });
+  });
   describe("reactOnPackageJson", () => {
     const deleteAppSpy = jest.spyOn(cache, "deleteApp");
     const deleteProjectSpy = jest.spyOn(cache, "deleteProject");

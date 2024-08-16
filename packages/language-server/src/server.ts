@@ -12,7 +12,6 @@ import {
   DidChangeConfigurationNotification,
   FileEvent,
   InitializeResult,
-  FileChangeType,
 } from "vscode-languageserver/node";
 import { URI } from "vscode-uri";
 import { TextDocument } from "vscode-languageserver-textdocument";
@@ -39,6 +38,7 @@ import {
   reactOnManifestChange,
   reactOnCdsFileChange,
   reactOnXmlFileChange,
+  reactOnViewFileChange,
   reactOnPackageJson,
   isContext,
 } from "@ui5-language-assistant/context";
@@ -49,8 +49,6 @@ import { getLogger, setLogLevel } from "./logger";
 import { initI18n } from "./i18n";
 import { isXMLView, getCDNBaseUrl } from "@ui5-language-assistant/logic-utils";
 import { getDefinition } from "@ui5-language-assistant/xml-views-definition";
-import { DocumentCstNode, parse } from "@xml-tools/parser";
-import { buildAst } from "@xml-tools/ast";
 
 const connection = createConnection(ProposedFeatures.all);
 const documents = new TextDocuments(TextDocument);
@@ -230,14 +228,12 @@ connection.onHover(
 );
 
 /**
- * Validate all `.view.xml` and `.fragment.xml` documents. If uri is provided, only exclude it from validation.
+ * Validate all `.view.xml` and `.fragment.xml` documents
  *
- * @param uri file uri
  * @returns void
  */
-const validateOpenDocuments = async (uri?: string): Promise<void> => {
-  const allDocs = documents.all();
-  const allDocuments = uri ? allDocs.filter((i) => i.uri !== uri) : allDocs;
+const validateOpenDocuments = async (): Promise<void> => {
+  const allDocuments = documents.all();
   for (const document of allDocuments) {
     const documentPath = URI.parse(document.uri).fsPath;
     const context = await getContext(
@@ -299,14 +295,7 @@ connection.onDidChangeWatchedFiles(async (changeEvent): Promise<void> => {
       cdsFileEvents.push(change);
     } else if (uri.endsWith(".xml")) {
       await reactOnXmlFileChange(uri, change.type);
-      if (
-        isXMLView(uri) &&
-        (change.type === FileChangeType.Created ||
-          change.type === FileChangeType.Deleted)
-      ) {
-        // revalidate - needed to assure unique ID
-        validateOpenDocuments();
-      }
+      await reactOnViewFileChange(uri, change.type, validateOpenDocuments);
     } else if (uri.endsWith("package.json")) {
       await reactOnPackageJson(uri, change.type);
     }
@@ -334,7 +323,8 @@ documents.onDidChangeContent(async (changeEvent): Promise<void> => {
     const documentPath = URI.parse(documentUri).fsPath;
     const context = await getContext(
       documentPath,
-      initializationOptions?.modelCachePath
+      initializationOptions?.modelCachePath,
+      document.getText()
     );
     if (!isContext(context)) {
       connection.sendNotification(
@@ -343,11 +333,6 @@ documents.onDidChangeContent(async (changeEvent): Promise<void> => {
       );
       return;
     }
-
-    const documentText = document.getText();
-    const { cst, tokenVector } = parse(documentText);
-    const xmlDocAst = buildAst(cst as DocumentCstNode, tokenVector);
-    context.viewFiles[documentPath] = xmlDocAst;
 
     const version = context.ui5Model.version;
     const framework = context.yamlDetails.framework;
@@ -361,16 +346,7 @@ documents.onDidChangeContent(async (changeEvent): Promise<void> => {
       isFallback,
       isIncorrectVersion,
     });
-    validateOpenDocuments(documentUri);
-    const diagnostics = getXMLViewDiagnostics({
-      document,
-      context,
-    });
-    getLogger().trace("computed diagnostics", { diagnostics });
-    connection.sendDiagnostics({
-      uri: changeEvent.document.uri,
-      diagnostics,
-    });
+    await validateOpenDocuments();
   }
 });
 
@@ -386,17 +362,13 @@ connection.onCodeAction(async (params) => {
   const documentPath = URI.parse(docUri).fsPath;
   const context = await getContext(
     documentPath,
-    initializationOptions?.modelCachePath
+    initializationOptions?.modelCachePath,
+    textDocument.getText()
   );
   if (!isContext(context)) {
     connection.sendNotification("UI5LanguageAssistant/context-error", context);
     return;
   }
-
-  // rebuild XMLDocument and assign it to viewFils cache. In quick fix, sometimes there is un-sync content in TextDocument and its XMLDocument version especially in case of QuickFix
-  const { cst, tokenVector } = parse(textDocument.getText());
-  const xmlDocAst = buildAst(cst as DocumentCstNode, tokenVector);
-  context.viewFiles[documentPath] = xmlDocAst;
 
   const version = context.ui5Model.version;
   const framework = context.yamlDetails.framework;

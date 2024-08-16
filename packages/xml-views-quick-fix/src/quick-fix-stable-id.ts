@@ -1,16 +1,9 @@
 import { find, some, compact, map } from "lodash";
 import { astPositionAtOffset } from "@xml-tools/ast-position";
-import {
-  accept,
-  XMLAstVisitor,
-  XMLAttribute,
-  XMLElement,
-} from "@xml-tools/ast";
+import { XMLElement } from "@xml-tools/ast";
 import { OffsetRange } from "@ui5-language-assistant/logic-utils";
 import type { Context } from "@ui5-language-assistant/context";
 
-// https://sapui5.hana.ondemand.com/sdk/#/api/sap.ui.core.ID
-const ID_PATTERN = /^[A-Za-z_][A-Za-z0-9_\-:.]*$/;
 const ID_PREFIX_PATTERN = "_IDGen";
 
 export type QuickFixStableIdInfo = {
@@ -20,17 +13,10 @@ export type QuickFixStableIdInfo = {
 
 export function computeQuickFixStableIdInfo(
   context: Context,
-  errorOffset: OffsetRange[]
+  errorOffset: OffsetRange[],
+  existingIds: Record<string, number>
 ): QuickFixStableIdInfo[] {
-  const biggestIdsByElementNameCollector =
-    new BiggestIdsByElementNameCollector();
-  const files = Object.keys(context.viewFiles);
-  for (const docPath of files) {
-    accept(context.viewFiles[docPath], biggestIdsByElementNameCollector);
-  }
   const xmlDoc = context.viewFiles[context.documentPath];
-  const biggestIdsByElementName =
-    biggestIdsByElementNameCollector.biggestIdsByElementName;
   const quickFixStableIdInfo = compact(
     map(errorOffset, (_) => {
       const astNode = astPositionAtOffset(xmlDoc, _.start);
@@ -53,7 +39,7 @@ export function computeQuickFixStableIdInfo(
       );
 
       const newText = computeQuickFixIdSuggestion(
-        biggestIdsByElementName,
+        existingIds,
         xmlElement.name,
         hasIdAttribute
       );
@@ -65,27 +51,6 @@ export function computeQuickFixStableIdInfo(
   );
 
   return quickFixStableIdInfo;
-}
-
-// We collect the biggest id number for each element name.
-// The element name should match the pattern: `_IDGen{ElementName}{idNumber}`.
-class BiggestIdsByElementNameCollector implements XMLAstVisitor {
-  public biggestIdsByElementName: Record<string, number> = Object.create(null);
-  visitXMLAttribute(xmlAttribute: XMLAttribute) {
-    if (xmlAttribute.key === "id" && xmlAttribute.value !== null) {
-      const match = ID_PATTERN.exec(xmlAttribute.value);
-      if (match === null) {
-        return;
-      }
-
-      const className = match[0];
-      if (this.biggestIdsByElementName[className] === undefined) {
-        this.biggestIdsByElementName[className] = 1;
-      } else {
-        this.biggestIdsByElementName[className] += 1;
-      }
-    }
-  }
 }
 
 /**
@@ -117,16 +82,16 @@ function getUniqueId(
 }
 
 function computeQuickFixIdSuggestion(
-  biggestIdsByElementName: Record<string, number>,
+  existingIds: Record<string, number>,
   elementName: string,
   hasIdAttribute: boolean
 ): string {
   const uniqueId = getUniqueId(
-    biggestIdsByElementName,
+    existingIds,
     `${ID_PREFIX_PATTERN}${elementName}`
   );
   // keep track of newly generated id
-  biggestIdsByElementName[uniqueId] = 1;
+  existingIds[uniqueId] = 1;
 
   let newText = `id="${uniqueId}"`;
   if (!hasIdAttribute) {

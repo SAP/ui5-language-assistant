@@ -60,10 +60,15 @@ function computeCodeActionsForQuickFixStableId(opts: {
     opts.nonStableIdDiagnostic.range,
     opts.document
   );
-
-  const quickFixStableIdInfo = computeQuickFixStableIdInfo(opts.context, [
-    errorOffset,
-  ]);
+  const existingIds: Record<string, number> = {};
+  for (const [key, value] of opts.context.controlIds) {
+    existingIds[key] = value.length;
+  }
+  const quickFixStableIdInfo = computeQuickFixStableIdInfo(
+    opts.context,
+    [errorOffset],
+    existingIds
+  );
 
   const replaceRange = offsetRangeToLSPRange(
     quickFixStableIdInfo[0].replaceRange,
@@ -89,6 +94,7 @@ function computeCodeActionsForQuickFixStableId(opts: {
     computeCodeActionsForQuickFixFileStableId({
       document: opts.document,
       context: opts.context,
+      existingIds,
     });
 
   codeActions = codeActions.concat(quickFixFileStableIdCodeActions);
@@ -99,6 +105,7 @@ function computeCodeActionsForQuickFixStableId(opts: {
 function computeCodeActionsForQuickFixFileStableId(opts: {
   document: TextDocument;
   context: Context;
+  existingIds: Record<string, number>;
 }): CodeAction[] {
   const actualValidators = {
     document: [],
@@ -121,7 +128,8 @@ function computeCodeActionsForQuickFixFileStableId(opts: {
   const errorsOffset = map(nonStableIdFileIssues, (_) => _.offsetRange);
   const nonStableIdFileIssuesInfo = computeQuickFixStableIdInfo(
     opts.context,
-    errorsOffset
+    errorsOffset,
+    opts.existingIds
   );
   const nonStableIdFileIssuesLSPInfo: QuickFixStableIdLSPInfo[] = map(
     nonStableIdFileIssuesInfo,

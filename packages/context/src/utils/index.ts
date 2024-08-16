@@ -4,9 +4,10 @@ export {
   getLocalMetadataForService,
   getProjectInfo,
   getProjectRoot,
-  getWebappPath,
 } from "./project";
 
 export { getLogger } from "./logger";
 
-export { getViewFiles } from "./view-files";
+export { getViewFiles, createDocumentAst } from "./view-files";
+
+export { IdsCollectorVisitor } from "./ids-collector";

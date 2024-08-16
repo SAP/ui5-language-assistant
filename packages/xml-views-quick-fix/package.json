@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "@ui5-language-assistant/logic-utils": "4.0.19",
-    "@ui5-language-assistant/context": "4.0.26",
+    "@ui5-language-assistant/context": "4.0.28",
     "@xml-tools/ast": "5.0.0",
     "@xml-tools/ast-position": "2.0.2",
     "lodash": "4.17.21"

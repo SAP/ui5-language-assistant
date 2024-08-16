@@ -19,6 +19,7 @@ import {
 import { TestFrameworkAPI, ProjectInfo, Config, ReadFileResult } from "./types";
 import { repeat } from "lodash";
 import i18next, { i18n } from "i18next";
+import { getFrameworkRoot } from "./utils/project";
 
 export const CURSOR_ANCHOR = "⇶";
 
@@ -50,8 +51,8 @@ export class TestFramework implements TestFrameworkAPI {
    * path to project folder
    */
   private getProjectsSource(): string {
-    const dirname = __dirname;
-    return join(dirname, "..", "projects");
+    const testFrameworkRoot = getFrameworkRoot();
+    return join(testFrameworkRoot, "projects");
   }
 
   private deleteProjectsCopy(): void {
@@ -83,8 +84,8 @@ export class TestFramework implements TestFrameworkAPI {
 
   public getProjectRoot(): string {
     const { name } = this.projectInfo;
-    const dirname = __dirname;
-    return join(dirname, "..", "projects-copy", getPackageName(), name);
+    const testFrameworkRoot = getFrameworkRoot();
+    return join(testFrameworkRoot, "projects-copy", getPackageName(), name);
   }
 
   public async initI18n(): Promise<i18n> {

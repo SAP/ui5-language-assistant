@@ -22,7 +22,10 @@ import { buildAst } from "@xml-tools/ast";
 
 export const INPUT_FILE_NAME = "input.xml";
 export const OUTPUT_LSP_RESPONSE_FILE_NAME = "output-lsp-response.json";
-export type LSPDiagnosticOptions = { flexEnabled: boolean };
+export type LSPDiagnosticOptions = {
+  flexEnabled: boolean;
+  controlIds: Map<string, []>;
+};
 
 export async function snapshotTestLSPDiagnostic(
   testDir: string,
@@ -142,6 +145,7 @@ export async function computeNewDiagnosticLSPResponse(
       minUI5Version: undefined,
     },
     viewFiles,
+    controlIds: options?.controlIds ? options.controlIds : new Map(),
   };
   const xmlTextDoc = TextDocument.create(
     `file://${getInputXMLSnippetPath(testDir)}`,
