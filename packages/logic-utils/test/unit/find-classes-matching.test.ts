@@ -2,7 +2,10 @@ import { map, forEach, cloneDeep } from "lodash";
 
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import {
+  DEFAULT_UI5_FRAMEWORK,
   DEFAULT_UI5_VERSION,
+} from "@ui5-language-assistant/constant";
+import {
   generateModel,
   getFallbackPatchVersions,
 } from "@ui5-language-assistant/test-utils";
@@ -16,7 +19,7 @@ import {
 async function generateModelForLatestPatch(): Promise<UI5SemanticModel> {
   const { SAPUI5: latestPatchVersion } = await getFallbackPatchVersions();
   return await generateModel({
-    framework: "SAPUI5",
+    framework: DEFAULT_UI5_FRAMEWORK,
     version: latestPatchVersion as typeof DEFAULT_UI5_VERSION,
     modelGenerator: generate,
   });

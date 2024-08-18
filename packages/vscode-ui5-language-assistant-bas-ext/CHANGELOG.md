@@ -1,5 +1,23 @@
 # Change Log
 
+## 4.0.69
+
+### Patch Changes
+
+- 65eaef5: fix: change SAP UI5 to SAPUI5
+
+## 4.0.68
+
+### Patch Changes
+
+- a82d24c: fix: reference
+
+## 4.0.67
+
+### Patch Changes
+
+- b2a8d01: fix: introduce constant package to handle UI5 default version in central package
+
 ## 4.0.66
 
 ### Patch Changes

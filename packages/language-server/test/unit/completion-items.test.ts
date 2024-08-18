@@ -2,9 +2,12 @@ import { map, uniq, forEach, filter } from "lodash";
 import { CompletionItemKind, TextEdit } from "vscode-languageserver";
 import { UI5XMLViewCompletion } from "@ui5-language-assistant/xml-views-completion";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
-import { Settings } from "@ui5-language-assistant/settings";
 import {
   DEFAULT_UI5_VERSION,
+  DEFAULT_UI5_FRAMEWORK,
+} from "@ui5-language-assistant/constant";
+import { Settings } from "@ui5-language-assistant/settings";
+import {
   generateModel,
   getFallbackPatchVersions,
 } from "@ui5-language-assistant/test-utils";
@@ -33,7 +36,7 @@ describe("the UI5 language assistant Code Completion Services", () => {
   let appContext: AppContext;
   beforeAll(async () => {
     ui5SemanticModel = await generateModel({
-      framework: "SAPUI5",
+      framework: DEFAULT_UI5_FRAMEWORK,
       version: (
         await getFallbackPatchVersions()
       ).SAPUI5 as typeof DEFAULT_UI5_VERSION,
