@@ -5,7 +5,6 @@ import { isXMLView } from "@ui5-language-assistant/logic-utils";
 import { parse, DocumentCstNode } from "@xml-tools/parser";
 import { buildAst, XMLDocument } from "@xml-tools/ast";
 import { cache } from "../cache";
-import type { DocumentPath } from "../types";
 
 export async function createDocumentAst(
   documentPath: string,
@@ -34,11 +33,9 @@ async function processViewFiles(
     const itemPath = join(base, item);
     if (statSync(itemPath).isDirectory()) {
       await processViewFiles(itemPath, files);
-    } else {
-      if (isXMLView(itemPath)) {
-        const ast = await createDocumentAst(itemPath);
-        files[itemPath] = ast;
-      }
+    } else if (isXMLView(itemPath)) {
+      const ast = await createDocumentAst(itemPath);
+      files[itemPath] = ast;
     }
   }
 }
@@ -55,7 +52,7 @@ export async function getViewFiles(param: {
   manifestPath: string;
   documentPath: string;
   content?: string;
-}): Promise<Record<DocumentPath, XMLDocument>> {
+}): Promise<Record<string, XMLDocument>> {
   const { manifestPath, documentPath, content } = param;
   if (Object.keys(cache.getViewFiles(manifestPath)).length > 0) {
     if (content) {

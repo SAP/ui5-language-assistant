@@ -1,7 +1,6 @@
 import { XMLElement } from "@xml-tools/ast";
-import { resolveXMLNS } from "../api";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
-import { SVG_NS, TEMPLATING_NS, XHTML_NS } from "../api";
+import { SVG_NS, TEMPLATING_NS, XHTML_NS, resolveXMLNS } from "../api";
 import { getUI5ClassByXMLElement } from "./xml-node-to-ui5-node";
 
 // Heuristic to limit false positives by only checking tags starting with upper

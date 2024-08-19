@@ -1,15 +1,8 @@
 import type { Manifest } from "@sap-ux/project-access";
 import type { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { accept, type XMLDocument } from "@xml-tools/ast";
-import type {
-  App,
-  ControlIdLocation,
-  DocumentPath,
-  Project,
-  YamlDetails,
-} from "./types";
-import { createDocumentAst } from "./utils";
-import { IdsCollectorVisitor } from "./utils";
+import type { App, ControlIdLocation, Project, YamlDetails } from "./types";
+import { createDocumentAst, IdsCollectorVisitor } from "./utils";
 
 type AbsoluteAppRoot = string;
 type AbsoluteProjectRoot = string;
@@ -24,7 +17,7 @@ class Cache {
   private viewFiles: Record<string, Record<string, XMLDocument>>;
   private controlIds: Record<
     string,
-    Record<DocumentPath, Map<string, ControlIdLocation[]>>
+    Record<string, Map<string, ControlIdLocation[]>>
   >;
   constructor() {
     this.project = new Map();
@@ -144,13 +137,13 @@ class Cache {
   /**
    * Get entries of view files
    */
-  getViewFiles(manifestPath: string): Record<DocumentPath, XMLDocument> {
+  getViewFiles(manifestPath: string): Record<string, XMLDocument> {
     return this.viewFiles[manifestPath] ?? {};
   }
 
   setViewFiles(
     manifestPath: string,
-    viewFiles: Record<DocumentPath, XMLDocument>
+    viewFiles: Record<string, XMLDocument>
   ): void {
     this.viewFiles[manifestPath] = viewFiles;
   }
@@ -188,12 +181,12 @@ class Cache {
    */
   getControlIds(
     manifestPath: string
-  ): Record<DocumentPath, Map<string, ControlIdLocation[]>> {
+  ): Record<string, Map<string, ControlIdLocation[]>> {
     return this.controlIds[manifestPath] ?? {};
   }
   setControlIds(
     manifestPath: string,
-    controlIds: Record<DocumentPath, Map<string, ControlIdLocation[]>>
+    controlIds: Record<string, Map<string, ControlIdLocation[]>>
   ) {
     this.controlIds[manifestPath] = controlIds;
   }

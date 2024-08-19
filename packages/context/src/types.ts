@@ -23,7 +23,6 @@ export enum DirName {
   Ext = "ext",
 }
 
-export type DocumentPath = string;
 export interface ControlIdLocation extends Location {
   offsetRange: OffsetRange;
 }
@@ -34,7 +33,7 @@ export interface Context {
   yamlDetails: YamlDetails;
   services: Record<string, ServiceDetails>;
   customViewId: string;
-  viewFiles: Record<DocumentPath, XMLDocument>;
+  viewFiles: Record<string, XMLDocument>;
   controlIds: Map<string, ControlIdLocation[]>;
   documentPath: string;
 }

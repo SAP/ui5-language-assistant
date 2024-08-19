@@ -1,5 +1,5 @@
 import { cache } from "../api";
-import { ControlIdLocation, DocumentPath } from "../types";
+import { ControlIdLocation } from "../types";
 import { IdsCollectorVisitor } from "./ids-collector";
 import { accept } from "@xml-tools/ast";
 
@@ -12,7 +12,7 @@ import { accept } from "@xml-tools/ast";
  */
 function processControlIds(param: {
   manifestPath: string;
-  documentPath: DocumentPath;
+  documentPath: string;
 }): void {
   const { documentPath, manifestPath } = param;
   // check cache
@@ -27,7 +27,7 @@ function processControlIds(param: {
   }
 
   // build fresh
-  const ctrIds: Record<DocumentPath, Map<string, ControlIdLocation[]>> = {};
+  const ctrIds: Record<string, Map<string, ControlIdLocation[]>> = {};
   const viewFiles = cache.getViewFiles(manifestPath);
   const files = Object.keys(viewFiles);
   for (const docPath of files) {
@@ -48,7 +48,7 @@ function processControlIds(param: {
  */
 export function getControlIds(param: {
   manifestPath: string;
-  documentPath: DocumentPath;
+  documentPath: string;
 }): Map<string, ControlIdLocation[]> {
   const { manifestPath } = param;
 
