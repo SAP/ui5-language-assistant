@@ -54,7 +54,7 @@ let client: LanguageClient;
 let statusBarItem: StatusBarItem;
 let currentModel: UI5Model | undefined;
 
-async function init(context: ExtensionContext): Promise<void> {
+function init(context: ExtensionContext): void {
   // create the StatusBarItem which displays the used UI5 version
   statusBarItem = createStatusBarItem(context);
 
@@ -76,7 +76,7 @@ async function init(context: ExtensionContext): Promise<void> {
 
 export async function activate(context: ExtensionContext): Promise<void> {
   // complete initialization task asynchronously
-  await init(context);
+  init(context);
 
   // register semantic token provider
   context.subscriptions.push(
