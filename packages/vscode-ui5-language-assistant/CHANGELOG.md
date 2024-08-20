@@ -1,5 +1,13 @@
 # Change Log
 
+## 4.0.70
+
+### Patch Changes
+
+- bfcac90: activation process fine tuning
+- Updated dependencies [bfcac90]
+  - @ui5-language-assistant/language-server@4.0.53
+
 ## 4.0.69
 
 ### Patch Changes

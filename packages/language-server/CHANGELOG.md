@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.53
+
+### Patch Changes
+
+- bfcac90: activation process fine tuning
+
 ## 4.0.52
 
 ### Patch Changes
