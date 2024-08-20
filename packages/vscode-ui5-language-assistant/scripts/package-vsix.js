@@ -1,4 +1,3 @@
-/* istanbul ignore file */
 /**
  * Workaround to: https://github.com/microsoft/vscode-vsce/issues/300
  * This "sorts of" implements the (broken) `yarn list` with support for workspaces

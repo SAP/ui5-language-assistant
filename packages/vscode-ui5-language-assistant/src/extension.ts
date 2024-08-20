@@ -1,4 +1,3 @@
-/* istanbul ignore file */
 import { resolve } from "path";
 import { readFileSync } from "fs";
 import {
