@@ -19,6 +19,10 @@ import * as utils from "../../src/utils";
 import * as manifest from "../../src/manifest";
 import { URI } from "vscode-uri";
 import pathParse from "path-parse";
+import {
+  DEFAULT_UI5_FRAMEWORK,
+  OPEN_FRAMEWORK,
+} from "@ui5-language-assistant/constant";
 
 describe("watcher", () => {
   let testFramework: TestFramework;
@@ -168,7 +172,7 @@ describe("watcher", () => {
         expect(setYamlDetailsSpy.mock.calls[0]).toEqual([
           yamlPath,
           {
-            framework: "SAPUI5",
+            framework: DEFAULT_UI5_FRAMEWORK,
             version: undefined,
           },
         ]);
@@ -190,7 +194,7 @@ describe("watcher", () => {
           expect(setYamlDetailsSpy.mock.calls[1]).toEqual([
             yamlPath,
             {
-              framework: "OpenUI5",
+              framework: OPEN_FRAMEWORK,
               version: undefined,
             },
           ]);
@@ -206,7 +210,7 @@ describe("watcher", () => {
             [directory]: {
               ["ui5.yaml"]: `
           framework:
-            name: SAPUI5
+            name: ${DEFAULT_UI5_FRAMEWORK}
             version: "1.100.0"
           `,
             },
@@ -216,7 +220,7 @@ describe("watcher", () => {
           expect(setYamlDetailsSpy.mock.calls[1]).toEqual([
             yamlPath,
             {
-              framework: "SAPUI5",
+              framework: DEFAULT_UI5_FRAMEWORK,
               version: "1.100.0",
             },
           ]);

@@ -1,5 +1,9 @@
-export type UI5Framework = "OpenUI5" | "SAPUI5";
+import {
+  DEFAULT_UI5_FRAMEWORK,
+  OPEN_FRAMEWORK,
+} from "@ui5-language-assistant/constant";
 
+export type UI5Framework = typeof DEFAULT_UI5_FRAMEWORK | typeof OPEN_FRAMEWORK;
 export interface UI5SemanticModel {
   version?: string;
   framework?: UI5Framework;

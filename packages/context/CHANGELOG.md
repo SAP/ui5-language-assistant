@@ -1,5 +1,20 @@
 # Change Log
 
+## 4.0.28
+
+### Patch Changes
+
+- a82d24c: fix: reference
+
+## 4.0.27
+
+### Patch Changes
+
+- b2a8d01: fix: introduce constant package to handle UI5 default version in central package
+- Updated dependencies [b2a8d01]
+  - @ui5-language-assistant/logic-utils@4.0.19
+  - @ui5-language-assistant/constant@0.0.1
+
 ## 4.0.26
 
 ### Patch Changes
