@@ -1,4 +1,3 @@
-/* istanbul ignore file */
 import { forEach } from "lodash";
 import {
   createConnection,

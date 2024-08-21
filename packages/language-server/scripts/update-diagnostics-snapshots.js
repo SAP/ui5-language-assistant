@@ -1,4 +1,3 @@
-/* istanbul ignore file - dev scripts don't need tests */
 const klawSync = require("klaw-sync");
 const { forEach, filter, map } = require("lodash");
 const { resolve, dirname } = require("path");
