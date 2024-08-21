@@ -67,7 +67,7 @@ function getUniqueId(
   suffix = 0
 ): string {
   if (existingIds[newId]) {
-    const match = newId.match(/(\d+)$/);
+    const match = newId.match(/(\d{1,10})$/);
     if (match) {
       let num = Number(match[0]);
       const len = match[0].length;
