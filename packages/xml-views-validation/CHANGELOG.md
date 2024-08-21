@@ -1,5 +1,15 @@
 # Change Log
 
+## 4.0.22
+
+### Patch Changes
+
+- d6ceeaa: feat: support unique id generation across view files in an application
+- Updated dependencies [d6ceeaa]
+  - @ui5-language-assistant/context@4.0.29
+  - @ui5-language-assistant/logic-utils@4.0.20
+  - @ui5-language-assistant/user-facing-text@4.0.9
+
 ## 4.0.21
 
 ### Patch Changes
