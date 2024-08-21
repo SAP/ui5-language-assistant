@@ -373,7 +373,7 @@ describe("the use of non unique id validation", () => {
       // assert
       expect(result).toBeEmpty();
     });
-    it("will not detect issues for id attributes under whitelisted (none UI5) namespaces", async () => {
+    it("will not detect issues for id attributes under allow list (none UI5) namespaces", async () => {
       // arrange
       const xmlSnippet = `
           <mvc:View
