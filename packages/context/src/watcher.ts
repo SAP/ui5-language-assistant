@@ -19,6 +19,7 @@ import { getYamlDetails } from "./ui5-yaml";
 import { join } from "path";
 import { FileName } from "@sap-ux/project-access";
 import { CAP_PROJECT_TYPE, UI5_PROJECT_TYPE } from "./types";
+import { isXMLView } from "@ui5-language-assistant/logic-utils";
 
 /**
  * React on manifest.json file change
@@ -224,11 +225,13 @@ export const reactOnXmlFileChange = async (
     xmlUri: uri,
     changeType,
   });
+
   const documentPath = URI.parse(uri).fsPath;
   const manifestPath = await findManifestPath(documentPath);
   if (!manifestPath) {
     return;
   }
+
   const manifest = await getUI5Manifest(manifestPath);
   if (!manifest) {
     return;
@@ -252,6 +255,56 @@ export const reactOnXmlFileChange = async (
   await getProject(documentPath);
 };
 
+/**
+ * React to an `.view.xml` or `.fragment.xml` file change.
+ *
+ * @param uri uri to an view file
+ * @param changeType change type
+ * @description
+ * a. for remove operation, it delete view file and controls ids entry
+ *
+ * b. for create operation, it add view file and controls ids entry
+ *
+ * c. trigger validator at last to revalidate
+ */
+export async function reactOnViewFileChange(
+  uri: string,
+  changeType: FileChangeType,
+  validator: () => Promise<void>
+): Promise<void> {
+  getLogger().debug("`reactOnViewFileChange` function called", {
+    xmlUri: uri,
+    changeType,
+  });
+
+  const documentPath = URI.parse(uri).fsPath;
+  if (!isXMLView(documentPath)) {
+    return;
+  }
+
+  const manifestPath = await findManifestPath(documentPath);
+  if (!manifestPath) {
+    return;
+  }
+
+  if (
+    changeType === FileChangeType.Created ||
+    changeType === FileChangeType.Deleted
+  ) {
+    await cache.setViewFile({
+      manifestPath,
+      documentPath,
+      operation: changeType,
+    });
+
+    cache.setControlIdsForViewFile({
+      manifestPath,
+      documentPath,
+      operation: changeType,
+    });
+    await validator();
+  }
+}
 /**
  * React on package.json file. In `package.json` user can define `cds`, `sapux` or similar configurations
  *

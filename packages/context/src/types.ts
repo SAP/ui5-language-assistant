@@ -4,7 +4,12 @@ import type {
 } from "@ui5-language-assistant/semantic-model-types";
 import { ConvertedMetadata } from "@sap-ux/vocabularies-types";
 import type { Manifest } from "@sap-ux/project-access";
-import { FetchResponse } from "@ui5-language-assistant/logic-utils";
+import {
+  FetchResponse,
+  OffsetRange,
+} from "@ui5-language-assistant/logic-utils";
+import type { XMLDocument } from "@xml-tools/ast";
+import { Location } from "vscode-languageserver";
 
 export const UI5_VERSION_S4_PLACEHOLDER = "${sap.ui5.dist.version}";
 
@@ -18,12 +23,19 @@ export enum DirName {
   Ext = "ext",
 }
 
+export interface ControlIdLocation extends Location {
+  offsetRange: OffsetRange;
+}
+
 export interface Context {
   ui5Model: UI5SemanticModel;
   manifestDetails: ManifestDetails;
   yamlDetails: YamlDetails;
   services: Record<string, ServiceDetails>;
   customViewId: string;
+  viewFiles: Record<string, XMLDocument>;
+  controlIds: Map<string, ControlIdLocation[]>;
+  documentPath: string;
 }
 
 /**

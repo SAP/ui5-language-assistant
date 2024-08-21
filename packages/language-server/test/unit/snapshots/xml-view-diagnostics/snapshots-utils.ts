@@ -1,4 +1,4 @@
-import { resolve, sep, relative, dirname } from "path";
+import { resolve, sep, relative, dirname, basename } from "path";
 import { Diagnostic, Range } from "vscode-languageserver-types";
 import { TextDocument } from "vscode-languageserver";
 import { readJsonSync, readFileSync } from "fs-extra";
@@ -14,13 +14,21 @@ import {
   DEFAULT_UI5_FRAMEWORK,
 } from "@ui5-language-assistant/constant";
 import { generate } from "@ui5-language-assistant/semantic-model";
-import { getXMLViewDiagnostics } from "../../../../src/xml-view-diagnostics";
+import {
+  getXMLViewDiagnostics,
+  getXMLViewIdDiagnostics,
+} from "../../../../src/xml-view-diagnostics";
 import { Context as AppContext } from "@ui5-language-assistant/context";
 import { getDefaultContext } from "../../completion-items-utils";
+import { DocumentCstNode, parse } from "@xml-tools/parser";
+import { buildAst } from "@xml-tools/ast";
 
 export const INPUT_FILE_NAME = "input.xml";
 export const OUTPUT_LSP_RESPONSE_FILE_NAME = "output-lsp-response.json";
-export type LSPDiagnosticOptions = { flexEnabled: boolean };
+export type LSPDiagnosticOptions = {
+  flexEnabled: boolean;
+  controlIds: Map<string, []>;
+};
 
 export async function snapshotTestLSPDiagnostic(
   testDir: string,
@@ -122,6 +130,11 @@ export async function computeNewDiagnosticLSPResponse(
   testDir: string,
   options: LSPDiagnosticOptions
 ): Promise<Diagnostic[]> {
+  const xmlTextSnippet = readInputXMLSnippet(testDir);
+  const viewFiles = {};
+  const { cst, tokenVector } = parse(xmlTextSnippet);
+  const ast = buildAst(cst as DocumentCstNode, tokenVector);
+  viewFiles[""] = ast;
   // No top level await
   ui5Model = await ui5ModelPromise;
   appContext = {
@@ -134,19 +147,23 @@ export async function computeNewDiagnosticLSPResponse(
       mainServicePath: undefined,
       minUI5Version: undefined,
     },
+    viewFiles,
+    controlIds: options?.controlIds ? options.controlIds : new Map(),
   };
-  const xmlTextSnippet = readInputXMLSnippet(testDir);
   const xmlTextDoc = TextDocument.create(
     `file://${getInputXMLSnippetPath(testDir)}`,
     "xml",
     0,
     xmlTextSnippet
   );
-
-  const actualDiagnostics = getXMLViewDiagnostics({
-    document: xmlTextDoc,
-    context: appContext,
-  });
+  const dirName = basename(testDir);
+  const actualDiagnostics =
+    dirName === "non-unique-id"
+      ? getXMLViewIdDiagnostics({ document: xmlTextDoc, context: appContext })
+      : getXMLViewDiagnostics({
+          document: xmlTextDoc,
+          context: appContext,
+        });
 
   const diagnosticsForAssertions =
     cleanupLSPResponseForAssertions(actualDiagnostics);

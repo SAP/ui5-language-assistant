@@ -244,12 +244,15 @@ function assertFilterMatches(
 }
 
 export const getDefaultContext = (ui5Model: UI5SemanticModel): Context => {
+  const viewFiles = {};
+  const controlIds = new Map();
+  viewFiles[""] = {};
   return {
     ui5Model,
     customViewId: "",
     manifestDetails: {
       appId: "",
-      manifestPath: "",
+      manifestPath: "manifest.json",
       flexEnabled: false,
       customViews: {},
       mainServicePath: undefined,
@@ -260,5 +263,8 @@ export const getDefaultContext = (ui5Model: UI5SemanticModel): Context => {
       framework: DEFAULT_UI5_FRAMEWORK,
       version: undefined,
     },
+    viewFiles,
+    controlIds,
+    documentPath: "",
   };
 };

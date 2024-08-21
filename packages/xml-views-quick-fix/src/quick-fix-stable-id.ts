@@ -1,15 +1,9 @@
 import { find, some, compact, map } from "lodash";
 import { astPositionAtOffset } from "@xml-tools/ast-position";
-import {
-  XMLDocument,
-  accept,
-  XMLAstVisitor,
-  XMLAttribute,
-  XMLElement,
-} from "@xml-tools/ast";
+import { XMLElement } from "@xml-tools/ast";
 import { OffsetRange } from "@ui5-language-assistant/logic-utils";
+import type { Context } from "@ui5-language-assistant/context";
 
-const ID_PATTERN = /^_IDGen(.+)([1-9]\d*)$/;
 const ID_PREFIX_PATTERN = "_IDGen";
 
 export type QuickFixStableIdInfo = {
@@ -18,14 +12,11 @@ export type QuickFixStableIdInfo = {
 };
 
 export function computeQuickFixStableIdInfo(
-  xmlDoc: XMLDocument,
-  errorOffset: OffsetRange[]
+  context: Context,
+  errorOffset: OffsetRange[],
+  existingIds: Record<string, number>
 ): QuickFixStableIdInfo[] {
-  const biggestIdsByElementNameCollector =
-    new BiggestIdsByElementNameCollector();
-  accept(xmlDoc, biggestIdsByElementNameCollector);
-  const biggestIdsByElementName =
-    biggestIdsByElementNameCollector.biggestIdsByElementName;
+  const xmlDoc = context.viewFiles[context.documentPath];
   const quickFixStableIdInfo = compact(
     map(errorOffset, (_) => {
       const astNode = astPositionAtOffset(xmlDoc, _.start);
@@ -48,7 +39,7 @@ export function computeQuickFixStableIdInfo(
       );
 
       const newText = computeQuickFixIdSuggestion(
-        biggestIdsByElementName,
+        existingIds,
         xmlElement.name,
         hasIdAttribute
       );
@@ -62,42 +53,49 @@ export function computeQuickFixStableIdInfo(
   return quickFixStableIdInfo;
 }
 
-// We collect the biggest id number for each element name.
-// The element name should match the pattern: `_IDGen{ElementName}{idNumber}`.
-class BiggestIdsByElementNameCollector implements XMLAstVisitor {
-  public biggestIdsByElementName: Record<string, number> = Object.create(null);
-  visitXMLAttribute(xmlAttribute: XMLAttribute) {
-    if (xmlAttribute.key === "id" && xmlAttribute.value !== null) {
-      const match = ID_PATTERN.exec(xmlAttribute.value);
-      if (match === null) {
-        return;
-      }
-
-      const className = match[1];
-      const suffix = parseInt(match[2]);
-      if (
-        this.biggestIdsByElementName[className] === undefined ||
-        suffix > this.biggestIdsByElementName[className]
-      ) {
-        this.biggestIdsByElementName[className] = suffix;
-      }
+/**
+ * Get unique ID. It creates unique incremented number suffix for each new unique id.
+ *
+ * @param existingIds all existing ids in all `.xml` files
+ * @param newId new suggested id
+ * @param suffix index suffix
+ * @returns unique id across `.xml` files
+ */
+function getUniqueId(
+  existingIds: Record<string, number>,
+  newId: string,
+  suffix = 0
+): string {
+  if (existingIds[newId]) {
+    const lastChar = Number(newId.slice(-1));
+    if (!isNaN(lastChar)) {
+      // last char is number
+      suffix = lastChar + 1;
+      // remove last char
+      newId = newId.slice(0, -1);
+    } else {
+      suffix = suffix + 1;
     }
+    return getUniqueId(existingIds, `${newId}${suffix}`);
   }
+  return newId;
 }
 
 function computeQuickFixIdSuggestion(
-  biggestIdsByElementName: Record<string, number>,
+  existingIds: Record<string, number>,
   elementName: string,
   hasIdAttribute: boolean
 ): string {
-  const suffix = biggestIdsByElementName[elementName]
-    ? biggestIdsByElementName[elementName] + 1
-    : 1;
-  // Data structure supports multiple fixes in the same file without conflicts
-  biggestIdsByElementName[elementName] = suffix;
-  let newText = `id="${ID_PREFIX_PATTERN}${elementName}${suffix}"`;
+  const uniqueId = getUniqueId(
+    existingIds,
+    `${ID_PREFIX_PATTERN}${elementName}`
+  );
+  // keep track of newly generated id
+  existingIds[uniqueId] = 1;
+
+  let newText = `id="${uniqueId}"`;
   if (!hasIdAttribute) {
-    // We want extra space if there is no id key to seperate the new text from the tag name
+    // We want extra space if there is no id key to separate the new text from the tag name
     newText = " " + newText;
   }
 

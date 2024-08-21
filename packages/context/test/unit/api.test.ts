@@ -2,6 +2,8 @@ import * as manifest from "../../src/manifest";
 import * as ui5Yaml from "../../src/ui5-yaml";
 import * as ui5Model from "../../src/ui5-model";
 import * as services from "../../src/services";
+import * as viewFiles from "../../src/utils/view-files";
+import * as controlIds from "../../src/utils/control-ids";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { getContext, isContext } from "../../src/api";
 import type { Context } from "../../src/types";
@@ -49,6 +51,12 @@ describe("context", () => {
       const getServicesStub = jest
         .spyOn(services, "getServices")
         .mockResolvedValue({});
+      const getViewFilesStub = jest
+        .spyOn(viewFiles, "getViewFiles")
+        .mockResolvedValue({});
+      const getControlIdsStub = jest
+        .spyOn(controlIds, "getControlIds")
+        .mockReturnValue(new Map());
       // act
       const result = await getContext("path/to/xml/file");
       // assert
@@ -59,12 +67,17 @@ describe("context", () => {
       expect(getYamlDetailsStub).toHaveBeenCalled();
       expect(getSemanticModelStub).toHaveBeenCalled();
       expect(getServicesStub).toHaveBeenCalled();
+      expect(getViewFilesStub).toHaveBeenCalled();
+      expect(getControlIdsStub).toHaveBeenCalled();
       expect(result).toContainAllKeys([
         "services",
         "manifestDetails",
         "yamlDetails",
         "customViewId",
         "ui5Model",
+        "viewFiles",
+        "controlIds",
+        "documentPath",
       ]);
     });
     it("throw connection error", async () => {

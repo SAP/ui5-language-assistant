@@ -11,6 +11,7 @@ import {
   DidChangeConfigurationNotification,
   FileEvent,
   InitializeResult,
+  Diagnostic,
 } from "vscode-languageserver/node";
 import { URI } from "vscode-uri";
 import { TextDocument } from "vscode-languageserver-textdocument";
@@ -27,7 +28,10 @@ import {
 import { commands } from "@ui5-language-assistant/user-facing-text";
 import { ServerInitializationOptions } from "../api";
 import { getCompletionItems } from "./completion-items";
-import { getXMLViewDiagnostics } from "./xml-view-diagnostics";
+import {
+  getXMLViewDiagnostics,
+  getXMLViewIdDiagnostics,
+} from "./xml-view-diagnostics";
 import { getHoverResponse } from "./hover";
 import {
   initializeManifestData,
@@ -37,6 +41,7 @@ import {
   reactOnManifestChange,
   reactOnCdsFileChange,
   reactOnXmlFileChange,
+  reactOnViewFileChange,
   reactOnPackageJson,
   isContext,
 } from "@ui5-language-assistant/context";
@@ -54,6 +59,8 @@ let manifestStateInitialized: Promise<void[]> | undefined = undefined;
 let ui5yamlStateInitialized: Promise<void[]> | undefined = undefined;
 let initializationOptions: ServerInitializationOptions | undefined;
 let hasConfigurationCapability = false;
+
+const documentsDiagnostics = new Map<string, Diagnostic[]>();
 
 connection.onInitialize(
   async (params: InitializeParams): Promise<InitializeResult> => {
@@ -225,24 +232,12 @@ connection.onHover(
   }
 );
 
-const validateOpenDocuments = async (changes: FileEvent[]): Promise<void> => {
-  const supportedDocs = [
-    "manifest.json",
-    "ui5.yaml",
-    ".cds",
-    ".xml",
-    "package.json",
-  ];
-
-  const found = changes.find(
-    (change) =>
-      !isXMLView(change.uri) &&
-      supportedDocs.find((doc) => change.uri.endsWith(doc))
-  );
-  if (!found) {
-    return;
-  }
-
+/**
+ * Validate all open `.view.xml` and `.fragment.xml` documents
+ *
+ * @returns void
+ */
+const validateOpenDocuments = async (): Promise<void> => {
   const allDocuments = documents.all();
   for (const document of allDocuments) {
     const documentPath = URI.parse(document.uri).fsPath;
@@ -261,12 +256,69 @@ const validateOpenDocuments = async (changes: FileEvent[]): Promise<void> => {
       document,
       context,
     });
+    documentsDiagnostics.set(document.uri, diagnostics);
     getLogger().trace("computed diagnostics", {
       diagnostics,
     });
     connection.sendDiagnostics({ uri: document.uri, diagnostics });
   }
 };
+/**
+ * Validate ids for all open `.view.xml` and `.fragment.xml` documents
+ *
+ * @returns void
+ */
+const validateIdsOfOpenDocuments = async (): Promise<void> => {
+  const allDocuments = documents.all();
+  for (const document of allDocuments) {
+    const documentPath = URI.parse(document.uri).fsPath;
+    const context = await getContext(
+      documentPath,
+      initializationOptions?.modelCachePath
+    );
+    if (!isContext(context)) {
+      connection.sendNotification(
+        "UI5LanguageAssistant/context-error",
+        context
+      );
+      return;
+    }
+    const idDiagnostics = getXMLViewIdDiagnostics({
+      document,
+      context,
+    });
+    let diagnostics = documentsDiagnostics.get(document.uri) ?? [];
+    diagnostics = diagnostics.concat(idDiagnostics);
+
+    getLogger().trace("computed diagnostics", {
+      diagnostics,
+    });
+    connection.sendDiagnostics({ uri: document.uri, diagnostics });
+  }
+};
+
+async function validateOpenDocumentsOnDidChangeWatchedFiles(
+  changes: FileEvent[]
+): Promise<void> {
+  const supportedDocs = [
+    "manifest.json",
+    "ui5.yaml",
+    ".cds",
+    ".xml",
+    "package.json",
+  ];
+
+  const found = changes.find(
+    (change) =>
+      !isXMLView(change.uri) &&
+      supportedDocs.find((doc) => change.uri.endsWith(doc))
+  );
+  if (!found) {
+    return;
+  }
+  await validateOpenDocuments();
+  await validateIdsOfOpenDocuments();
+}
 
 connection.onDidChangeWatchedFiles(async (changeEvent): Promise<void> => {
   getLogger().debug("`onDidChangeWatchedFiles` event", {
@@ -283,12 +335,13 @@ connection.onDidChangeWatchedFiles(async (changeEvent): Promise<void> => {
       cdsFileEvents.push(change);
     } else if (uri.endsWith(".xml")) {
       await reactOnXmlFileChange(uri, change.type);
+      await reactOnViewFileChange(uri, change.type, validateIdsOfOpenDocuments);
     } else if (uri.endsWith("package.json")) {
       await reactOnPackageJson(uri, change.type);
     }
   });
   await reactOnCdsFileChange(cdsFileEvents);
-  await validateOpenDocuments(changeEvent.changes);
+  await validateOpenDocumentsOnDidChangeWatchedFiles(changeEvent.changes);
 });
 
 documents.onDidChangeContent(async (changeEvent): Promise<void> => {
@@ -310,7 +363,8 @@ documents.onDidChangeContent(async (changeEvent): Promise<void> => {
     const documentPath = URI.parse(documentUri).fsPath;
     const context = await getContext(
       documentPath,
-      initializationOptions?.modelCachePath
+      initializationOptions?.modelCachePath,
+      document.getText()
     );
     if (!isContext(context)) {
       connection.sendNotification(
@@ -319,6 +373,7 @@ documents.onDidChangeContent(async (changeEvent): Promise<void> => {
       );
       return;
     }
+
     const version = context.ui5Model.version;
     const framework = context.yamlDetails.framework;
     const isFallback = context.ui5Model.isFallback;
@@ -335,11 +390,8 @@ documents.onDidChangeContent(async (changeEvent): Promise<void> => {
       document,
       context,
     });
-    getLogger().trace("computed diagnostics", { diagnostics });
-    connection.sendDiagnostics({
-      uri: changeEvent.document.uri,
-      diagnostics,
-    });
+    documentsDiagnostics.set(document.uri, diagnostics);
+    await validateIdsOfOpenDocuments();
   }
 });
 
@@ -355,12 +407,14 @@ connection.onCodeAction(async (params) => {
   const documentPath = URI.parse(docUri).fsPath;
   const context = await getContext(
     documentPath,
-    initializationOptions?.modelCachePath
+    initializationOptions?.modelCachePath,
+    textDocument.getText()
   );
   if (!isContext(context)) {
     connection.sendNotification("UI5LanguageAssistant/context-error", context);
     return;
   }
+
   const version = context.ui5Model.version;
   const framework = context.yamlDetails.framework;
   const isFallback = context.ui5Model.isFallback;
@@ -449,6 +503,7 @@ documents.onDidClose((textDocumentChangeEvent) => {
   if (isXMLView(uri)) {
     // clear diagnostics for a closed file
     connection.sendDiagnostics({ uri, diagnostics: [] });
+    documentsDiagnostics.delete(uri);
   }
   clearDocumentSettings(uri);
 });

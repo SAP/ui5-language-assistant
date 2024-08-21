@@ -35,6 +35,7 @@ export function testValidationsScenario(opts: {
   const xmlTextNoMarkers = opts.xmlText.replace(rangeMarkersRegExp, "");
   const { cst, tokenVector } = parse(xmlTextNoMarkers);
   const ast = buildAst(cst as DocumentCstNode, tokenVector);
+  opts.context.viewFiles[opts.context.documentPath] = ast;
 
   const issues = validateXMLView({
     validators: {
@@ -143,5 +144,8 @@ export const getDefaultContext = (ui5Model: UI5SemanticModel): Context => {
       framework: DEFAULT_UI5_FRAMEWORK,
       version: undefined,
     },
+    viewFiles: {},
+    controlIds: new Map(),
+    documentPath: "",
   };
 };

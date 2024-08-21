@@ -19,6 +19,8 @@ import { TextDocument } from "vscode-languageserver-textdocument";
 import { getDefaultContext } from "./completion-items-utils";
 import { Context } from "@ui5-language-assistant/context";
 import { getXMLViewDiagnostics } from "../../src/xml-view-diagnostics";
+import { DocumentCstNode, parse } from "@xml-tools/parser";
+import { buildAst } from "@xml-tools/ast";
 
 let appContext: Context;
 
@@ -32,6 +34,11 @@ describe("The @ui5-language-assistant/language-server diagnostics quick fix func
       ).SAPUI5 as typeof DEFAULT_UI5_VERSION,
       modelGenerator: generate,
     });
+    appContext = getDefaultContext(ui5SemanticModel);
+    appContext.manifestDetails.flexEnabled = true;
+  });
+
+  afterEach(() => {
     appContext = getDefaultContext(ui5SemanticModel);
     appContext.manifestDetails.flexEnabled = true;
   });
@@ -79,6 +86,10 @@ describe("The @ui5-language-assistant/language-server diagnostics quick fix func
 
       const xmlTextDoc = TextDocument.create(`dummyUri`, "xml", 0, xmlSnippet);
 
+      const { cst, tokenVector } = parse(xmlSnippet);
+      const ast = buildAst(cst as DocumentCstNode, tokenVector);
+      appContext.viewFiles[appContext.documentPath] = ast;
+
       const actualDiagnostics = getXMLViewDiagnostics({
         document: xmlTextDoc,
         context: appContext,
@@ -93,7 +104,7 @@ describe("The @ui5-language-assistant/language-server diagnostics quick fix func
     });
   });
 
-  it("excute Quick Fix Stable Id Command", () => {
+  it("execute Quick Fix Stable Id Command", () => {
     const response = executeQuickFixStableIdCommand({
       documentUri: "dummyUri",
       documentVersion: 1,

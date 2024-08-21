@@ -11,13 +11,12 @@ import {
   flattenAggregations,
   ui5NodeToFQN,
   splitQNameByNamespace,
-} from "@ui5-language-assistant/logic-utils";
-import { UnknownAttributeKeyIssue } from "../../../api";
-import {
   TEMPLATING_NS,
   CUSTOM_DATA_NS,
   CORE_NS,
-} from "../../utils/special-namespaces";
+} from "@ui5-language-assistant/logic-utils";
+import { UnknownAttributeKeyIssue } from "../../../api";
+
 import { Context } from "@ui5-language-assistant/context";
 
 export function validateUnknownAttributeKey(

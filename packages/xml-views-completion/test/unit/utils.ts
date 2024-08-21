@@ -94,5 +94,8 @@ export const getDefaultContext = (ui5Model: UI5SemanticModel): Context => {
       framework: DEFAULT_UI5_FRAMEWORK,
       version: undefined,
     },
+    viewFiles: {},
+    controlIds: new Map(),
+    documentPath: "",
   };
 };
