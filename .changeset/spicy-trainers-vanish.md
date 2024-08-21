@@ -3,7 +3,7 @@
 "vscode-ui5-language-assistant": patch
 "@ui5-language-assistant/context": patch
 "@ui5-language-assistant/language-server": patch
-"@ui5-language-assistant/logic-utils",: patch
+"@ui5-language-assistant/logic-utils": patch
 "@ui5-language-assistant/user-facing-text": patch
 "@ui5-language-assistant/xml-views-completion": patch
 "@ui5-language-assistant/xml-views-definition": patch
