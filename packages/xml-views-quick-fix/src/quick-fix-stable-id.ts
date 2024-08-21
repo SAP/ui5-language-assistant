@@ -67,12 +67,13 @@ function getUniqueId(
   suffix = 0
 ): string {
   if (existingIds[newId]) {
-    const lastChar = Number(newId.slice(-1));
-    if (!isNaN(lastChar)) {
-      // last char is number
-      suffix = lastChar + 1;
-      // remove last char
-      newId = newId.slice(0, -1);
+    const match = newId.match(/(\d+)$/);
+    if (match) {
+      let num = Number(match[0]);
+      const len = match[0].length;
+      // remove number char(s) from end
+      newId = newId.slice(0, -len);
+      suffix = ++num;
     } else {
       suffix = suffix + 1;
     }
