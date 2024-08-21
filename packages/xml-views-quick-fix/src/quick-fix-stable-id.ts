@@ -69,11 +69,11 @@ function getUniqueId(
   if (existingIds[newId]) {
     const match = newId.match(/(\d{1,10})$/);
     if (match) {
-      let num = Number(match[0]);
+      const num = Number(match[0]);
       const len = match[0].length;
       // remove number char(s) from end
       newId = newId.slice(0, -len);
-      suffix = ++num;
+      suffix = num + 1;
     } else {
       suffix = suffix + 1;
     }
