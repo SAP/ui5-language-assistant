@@ -8,6 +8,7 @@ import { join } from "path";
 import { getViewFiles } from "../../../src/utils";
 import { cache } from "../../../src/cache";
 import type { XMLDocument } from "@xml-tools/ast";
+import { FileChangeType } from "vscode-languageserver/node";
 
 const getManifestPath = (projectRoot: string) =>
   join(projectRoot, "app", "manage_travels", "webapp", "manifest.json");
@@ -78,7 +79,7 @@ describe("view-files", () => {
     expect(setViewFileStub).toHaveBeenNthCalledWith(1, {
       manifestPath,
       documentPath,
-      operation: "create",
+      operation: FileChangeType.Created,
       content,
     });
     expect(Object.keys(viewFiles).length).toBeGreaterThan(0);

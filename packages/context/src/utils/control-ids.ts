@@ -1,3 +1,4 @@
+import { FileChangeType } from "vscode-languageserver/node";
 import { cache } from "../api";
 import { ControlIdLocation } from "../types";
 import { IdsCollectorVisitor } from "./ids-collector";
@@ -13,16 +14,19 @@ import { accept } from "@xml-tools/ast";
 function processControlIds(param: {
   manifestPath: string;
   documentPath: string;
+  content?: string;
 }): void {
-  const { documentPath, manifestPath } = param;
+  const { documentPath, manifestPath, content } = param;
   // check cache
   if (Object.keys(cache.getControlIds(manifestPath)).length > 0) {
-    // for current document, re-collect and re-assign it to avoid cache issue
-    cache.setControlIdsForViewFile({
-      manifestPath,
-      documentPath,
-      operation: "create",
-    });
+    if (content) {
+      // for current document, re-collect and re-assign it to avoid cache issue
+      cache.setControlIdsForViewFile({
+        manifestPath,
+        documentPath,
+        operation: FileChangeType.Created,
+      });
+    }
     return;
   }
 
@@ -49,6 +53,7 @@ function processControlIds(param: {
 export function getControlIds(param: {
   manifestPath: string;
   documentPath: string;
+  content?: string;
 }): Map<string, ControlIdLocation[]> {
   const { manifestPath } = param;
 

@@ -5,6 +5,7 @@ import { isXMLView } from "@ui5-language-assistant/logic-utils";
 import { parse, DocumentCstNode } from "@xml-tools/parser";
 import { buildAst, XMLDocument } from "@xml-tools/ast";
 import { cache } from "../cache";
+import { FileChangeType } from "vscode-languageserver";
 
 export async function createDocumentAst(
   documentPath: string,
@@ -60,7 +61,7 @@ export async function getViewFiles(param: {
       await cache.setViewFile({
         manifestPath,
         documentPath,
-        operation: "create",
+        operation: FileChangeType.Created,
         content,
       });
     }

@@ -8,6 +8,7 @@ import { join } from "path";
 import { getControlIds } from "../../../src/utils/control-ids";
 import { getViewFiles } from "../../../src/utils";
 import { cache } from "../../../src/cache";
+import { FileChangeType } from "vscode-languageserver/node";
 const getManifestPath = (projectRoot: string) =>
   join(projectRoot, "app", "manage_travels", "webapp", "manifest.json");
 const mainViewSeg = [
@@ -71,12 +72,12 @@ describe("control-ids", () => {
     await cache.setViewFile({
       manifestPath,
       documentPath,
-      operation: "create",
+      operation: FileChangeType.Created,
       content,
     });
     await testFramework.updateFileContent(mainViewSeg, content);
     // act
-    const resultCached = getControlIds({ manifestPath, documentPath });
+    const resultCached = getControlIds({ manifestPath, documentPath, content });
     // assert
     expect(resultCached).toBeDefined();
     expect(resultCached.get("Main")).toBeUndefined();

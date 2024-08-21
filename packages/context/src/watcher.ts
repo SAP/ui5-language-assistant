@@ -286,38 +286,24 @@ export async function reactOnViewFileChange(
   if (!manifestPath) {
     return;
   }
-  if (changeType === FileChangeType.Deleted) {
-    // remove document from cache
+
+  if (
+    changeType === FileChangeType.Created ||
+    changeType === FileChangeType.Deleted
+  ) {
     await cache.setViewFile({
       manifestPath,
       documentPath,
-      operation: "delete",
+      operation: changeType,
     });
 
-    // remove controls id
     cache.setControlIdsForViewFile({
       manifestPath,
       documentPath,
-      operation: "delete",
+      operation: changeType,
     });
+    await validator();
   }
-
-  if (changeType === FileChangeType.Created) {
-    // add document to cache
-    await cache.setViewFile({
-      manifestPath,
-      documentPath,
-      operation: "create",
-    });
-
-    // add controls id
-    cache.setControlIdsForViewFile({
-      manifestPath,
-      documentPath,
-      operation: "create",
-    });
-  }
-  await validator();
 }
 /**
  * React on package.json file. In `package.json` user can define `cds`, `sapux` or similar configurations

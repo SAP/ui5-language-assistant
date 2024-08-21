@@ -3,6 +3,7 @@ import type { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-ty
 import { accept, type XMLDocument } from "@xml-tools/ast";
 import type { App, ControlIdLocation, Project, YamlDetails } from "./types";
 import { createDocumentAst, IdsCollectorVisitor } from "./utils";
+import { FileChangeType } from "vscode-languageserver/node";
 
 type AbsoluteAppRoot = string;
 type AbsoluteProjectRoot = string;
@@ -14,8 +15,8 @@ class Cache {
   private CAPServices: Map<AbsoluteProjectRoot, Map<string, string>>;
   private ui5YamlDetails: Map<string, YamlDetails>;
   private ui5Model: Map<string, UI5SemanticModel>;
-  private viewFiles: Record<string, Record<string, XMLDocument>>;
-  private controlIds: Record<
+  private viewFiles: Map<string, Record<string, XMLDocument>>;
+  private controlIds: Map<
     string,
     Record<string, Map<string, ControlIdLocation[]>>
   >;
@@ -26,8 +27,8 @@ class Cache {
     this.CAPServices = new Map();
     this.ui5YamlDetails = new Map();
     this.ui5Model = new Map();
-    this.viewFiles = {};
-    this.controlIds = {};
+    this.viewFiles = new Map();
+    this.controlIds = new Map();
   }
   reset() {
     this.project = new Map();
@@ -36,8 +37,8 @@ class Cache {
     this.CAPServices = new Map();
     this.ui5YamlDetails = new Map();
     this.ui5Model = new Map();
-    this.viewFiles = {};
-    this.controlIds = {};
+    this.viewFiles = new Map();
+    this.controlIds = new Map();
   }
   /**
    * Get entries of cached project
@@ -138,14 +139,14 @@ class Cache {
    * Get entries of view files
    */
   getViewFiles(manifestPath: string): Record<string, XMLDocument> {
-    return this.viewFiles[manifestPath] ?? {};
+    return this.viewFiles.get(manifestPath) ?? {};
   }
 
   setViewFiles(
     manifestPath: string,
     viewFiles: Record<string, XMLDocument>
   ): void {
-    this.viewFiles[manifestPath] = viewFiles;
+    this.viewFiles.set(manifestPath, viewFiles);
   }
 
   /**
@@ -161,19 +162,21 @@ class Cache {
   async setViewFile(param: {
     manifestPath: string;
     documentPath: string;
-    operation: "create" | "delete";
+    operation: Exclude<FileChangeType, 2>;
     content?: string;
   }): Promise<void> {
     const { manifestPath, documentPath, operation, content } = param;
-    if (operation === "create") {
+    if (operation === FileChangeType.Created) {
       const viewFiles = this.getViewFiles(manifestPath);
       viewFiles[documentPath] = await createDocumentAst(documentPath, content);
+      // assign new view files to cache
       this.setViewFiles(manifestPath, viewFiles);
       return;
     }
 
     const viewFiles = this.getViewFiles(manifestPath);
     delete viewFiles[documentPath];
+    // assign new view files to cache
     this.setViewFiles(manifestPath, viewFiles);
   }
   /**
@@ -182,13 +185,13 @@ class Cache {
   getControlIds(
     manifestPath: string
   ): Record<string, Map<string, ControlIdLocation[]>> {
-    return this.controlIds[manifestPath] ?? {};
+    return this.controlIds.get(manifestPath) ?? {};
   }
   setControlIds(
     manifestPath: string,
     controlIds: Record<string, Map<string, ControlIdLocation[]>>
   ) {
-    this.controlIds[manifestPath] = controlIds;
+    this.controlIds.set(manifestPath, controlIds);
   }
 
   /**
@@ -201,24 +204,27 @@ class Cache {
   setControlIdsForViewFile(param: {
     manifestPath: string;
     documentPath: string;
-    operation: "create" | "delete";
+    operation: Exclude<FileChangeType, 2>;
   }): void {
     const { manifestPath, documentPath, operation } = param;
 
-    if (operation === "create") {
+    if (operation === FileChangeType.Created) {
       const viewFiles = this.getViewFiles(manifestPath);
       // for current document, re-collect and re-assign it to avoid cache issue
       if (viewFiles[documentPath]) {
         const idCollector = new IdsCollectorVisitor(documentPath);
         accept(viewFiles[documentPath], idCollector);
-        this.controlIds[manifestPath][documentPath] =
-          idCollector.getControlIds();
+        const idControls = this.getControlIds(manifestPath);
+        idControls[documentPath] = idCollector.getControlIds();
+        // assign new control ids to cache
+        this.setControlIds(manifestPath, idControls);
       }
       return;
     }
 
     const idControls = this.getControlIds(manifestPath);
     delete idControls[documentPath];
+    // assign new control ids to cache
     this.setControlIds(manifestPath, idControls);
   }
 }

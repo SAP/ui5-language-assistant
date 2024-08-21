@@ -70,6 +70,7 @@ export async function getContext(
     const controlIds = getControlIds({
       manifestPath,
       documentPath,
+      content,
     });
     return {
       manifestDetails,

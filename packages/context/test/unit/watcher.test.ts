@@ -590,12 +590,12 @@ describe("watcher", () => {
       expect(setViewFileSpy).toHaveBeenNthCalledWith(1, {
         documentPath,
         manifestPath,
-        operation: "delete",
+        operation: FileChangeType.Deleted,
       });
       expect(setControlIdsForViewFileSpy).toHaveBeenNthCalledWith(1, {
         documentPath,
         manifestPath,
-        operation: "delete",
+        operation: FileChangeType.Deleted,
       });
       expect(validatorSpy).toHaveBeenCalledOnce();
     });
@@ -620,12 +620,12 @@ describe("watcher", () => {
       expect(setViewFileSpy).toHaveBeenNthCalledWith(1, {
         documentPath,
         manifestPath,
-        operation: "create",
+        operation: FileChangeType.Created,
       });
       expect(setControlIdsForViewFileSpy).toHaveBeenNthCalledWith(1, {
         documentPath,
         manifestPath,
-        operation: "create",
+        operation: FileChangeType.Created,
       });
       expect(validatorSpy).toHaveBeenCalledOnce();
     });

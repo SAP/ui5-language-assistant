@@ -9,6 +9,7 @@ import {
   TestFramework,
 } from "@ui5-language-assistant/test-framework";
 import { join } from "path";
+import { FileChangeType } from "vscode-languageserver/node";
 
 const getManifestPath = (projectRoot: string) =>
   join(projectRoot, "app", "manage_travels", "webapp", "manifest.json");
@@ -83,7 +84,7 @@ describe("cache", () => {
     await cache.setViewFile({
       manifestPath,
       documentPath,
-      operation: "create",
+      operation: FileChangeType.Created,
     });
     // assert
     const cachedData = cache.getViewFiles(manifestPath)[documentPath];
@@ -102,7 +103,7 @@ describe("cache", () => {
     await cache.setViewFile({
       manifestPath,
       documentPath,
-      operation: "delete",
+      operation: FileChangeType.Deleted,
     });
     // assert
     const cachedData = cache.getViewFiles(manifestPath)[documentPath];
@@ -123,7 +124,7 @@ describe("cache", () => {
     await cache.setViewFile({
       manifestPath,
       documentPath,
-      operation: "create",
+      operation: FileChangeType.Created,
     });
     // create controls id
     const data = {};
@@ -133,7 +134,7 @@ describe("cache", () => {
     cache.setControlIdsForViewFile({
       manifestPath,
       documentPath,
-      operation: "create",
+      operation: FileChangeType.Created,
     });
     // assert
     const cachedData = cache.getControlIds(manifestPath)[documentPath];
@@ -152,7 +153,7 @@ describe("cache", () => {
     cache.setControlIdsForViewFile({
       manifestPath,
       documentPath,
-      operation: "delete",
+      operation: FileChangeType.Deleted,
     });
     // assert
     const cachedData = cache.getControlIds(manifestPath)[documentPath];
