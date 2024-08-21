@@ -17,7 +17,7 @@ export { validateBooleanValue } from "./attributes/invalid-boolean-value";
 export { validateUseOfDeprecatedClass } from "./elements/use-of-deprecated-class";
 export { validateUseOfDeprecatedAggregation } from "./elements/use-of-depracated-aggregation";
 export { validateUseOfDeprecatedAttribute } from "./attributes/use-of-depracated-attribute";
-export { validateNonUniqueID } from "./document/non-unique-id";
+export { validateNonUniqueID } from "./non-unique-id";
 export { validateUnknownAttributeKey } from "./attributes/unknown-attribute-key";
 export { validateUnknownTagName } from "./elements/unknown-tag-name";
 export { validateExplicitAggregationCardinality } from "./elements/cardinality-of-aggregation";

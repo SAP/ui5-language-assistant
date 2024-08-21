@@ -1,19 +1,15 @@
 import { map } from "lodash";
-import { XMLDocument } from "@xml-tools/ast";
 import {
   validations,
   buildMessage,
 } from "@ui5-language-assistant/user-facing-text";
-import { NonUniqueIDIssue } from "../../../api";
+import { NonUniqueIDIssue } from "../../api";
 import { Context } from "@ui5-language-assistant/context";
 import { pathToFileURL } from "url";
 
 const { NON_UNIQUE_ID } = validations;
 
-export function validateNonUniqueID(
-  xmlDoc: XMLDocument,
-  context: Context
-): NonUniqueIDIssue[] {
+export function validateNonUniqueID(context: Context): NonUniqueIDIssue[] {
   const allIDsIssues: NonUniqueIDIssue[] = [];
   const uri = pathToFileURL(context.documentPath).toString();
   for (const [key, value] of context.controlIds) {

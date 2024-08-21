@@ -127,7 +127,6 @@ export type Validators = {
   validateBooleanValue: XMLAttributeValidator<InvalidBooleanValueIssue>;
   validateUseOfDeprecatedAttribute: XMLAttributeValidator<UseOfDeprecatedAttributeIssue>;
   validateUnknownAttributeKey: XMLAttributeValidator<UnknownAttributeKeyIssue>;
-  validateNonUniqueID: XMLDocumentValidator<NonUniqueIDIssue>;
   validateUseOfDeprecatedAggregation: XMLElementValidator<UseOfDeprecatedAggregationIssue>;
   validateUseOfDeprecatedClass: XMLElementValidator<UseOfDeprecatedClassIssue>;
   validateUnknownTagName: XMLElementValidator<UnknownTagNameIssue>;
@@ -139,3 +138,5 @@ export type Validators = {
 export const validators: Validators;
 
 export function isPossibleBindingAttributeValue(value: string): boolean;
+
+export { validateNonUniqueID } from "./src/api";

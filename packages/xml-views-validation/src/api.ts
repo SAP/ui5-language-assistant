@@ -9,7 +9,6 @@ import {
   validateUseOfDeprecatedClass,
   validateUseOfDeprecatedAggregation,
   validateUseOfDeprecatedAttribute,
-  validateNonUniqueID,
   validateUnknownAttributeKey,
   validateUnknownTagName,
   validateExplicitAggregationCardinality,
@@ -26,7 +25,6 @@ export const validators: Validators = {
   validateUseOfDeprecatedClass,
   validateUseOfDeprecatedAggregation,
   validateUseOfDeprecatedAttribute,
-  validateNonUniqueID,
   validateUnknownAttributeKey,
   validateUnknownTagName,
   validateExplicitAggregationCardinality,
@@ -43,11 +41,10 @@ export function validateXMLView<ExternalXMLViewIssue>(opts: {
   accept(opts.xmlView, validatorVisitor);
   const issues = validatorVisitor.collectedIssues;
 
-  const nonUniqueIdIssues = validateNonUniqueID(opts.xmlView, opts.context);
-  issues.push(...nonUniqueIdIssues);
   return issues;
 }
 
 export type { UI5ValidatorsConfig } from "./validate-xml-views";
 
 export { isPossibleBindingAttributeValue } from "../src/utils/is-binding-attribute-value";
+export { validateNonUniqueID } from "./validators/non-unique-id";

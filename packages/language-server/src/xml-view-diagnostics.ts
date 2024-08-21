@@ -18,6 +18,7 @@ import {
   defaultValidators,
   validators,
   UI5ValidatorsConfig,
+  validateNonUniqueID,
 } from "@ui5-language-assistant/xml-views-validation";
 
 import { defaultValidators as feValidators } from "@ui5-language-assistant/fe";
@@ -54,6 +55,16 @@ export function getXMLViewDiagnostics(opts: {
     xmlView: xmlDocAst,
     context: opts.context,
   });
+  const diagnostics = validationIssuesToLspDiagnostics(issues, opts.document);
+  return diagnostics;
+}
+
+export function getXMLViewIdDiagnostics(opts: {
+  document: TextDocument;
+  context: Context;
+}): Diagnostic[] {
+  const { context } = opts;
+  const issues = validateNonUniqueID(context);
   const diagnostics = validationIssuesToLspDiagnostics(issues, opts.document);
   return diagnostics;
 }

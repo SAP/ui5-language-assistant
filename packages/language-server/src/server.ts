@@ -11,6 +11,7 @@ import {
   DidChangeConfigurationNotification,
   FileEvent,
   InitializeResult,
+  Diagnostic,
 } from "vscode-languageserver/node";
 import { URI } from "vscode-uri";
 import { TextDocument } from "vscode-languageserver-textdocument";
@@ -27,7 +28,10 @@ import {
 import { commands } from "@ui5-language-assistant/user-facing-text";
 import { ServerInitializationOptions } from "../api";
 import { getCompletionItems } from "./completion-items";
-import { getXMLViewDiagnostics } from "./xml-view-diagnostics";
+import {
+  getXMLViewDiagnostics,
+  getXMLViewIdDiagnostics,
+} from "./xml-view-diagnostics";
 import { getHoverResponse } from "./hover";
 import {
   initializeManifestData,
@@ -55,6 +59,8 @@ let manifestStateInitialized: Promise<void[]> | undefined = undefined;
 let ui5yamlStateInitialized: Promise<void[]> | undefined = undefined;
 let initializationOptions: ServerInitializationOptions | undefined;
 let hasConfigurationCapability = false;
+
+const documentsDiagnostics = new Map<string, Diagnostic[]>();
 
 connection.onInitialize(
   async (params: InitializeParams): Promise<InitializeResult> => {
@@ -227,7 +233,7 @@ connection.onHover(
 );
 
 /**
- * Validate all `.view.xml` and `.fragment.xml` documents
+ * Validate all open `.view.xml` and `.fragment.xml` documents
  *
  * @returns void
  */
@@ -250,6 +256,40 @@ const validateOpenDocuments = async (): Promise<void> => {
       document,
       context,
     });
+    documentsDiagnostics.set(document.uri, diagnostics);
+    getLogger().trace("computed diagnostics", {
+      diagnostics,
+    });
+    connection.sendDiagnostics({ uri: document.uri, diagnostics });
+  }
+};
+/**
+ * Validate ids for all open `.view.xml` and `.fragment.xml` documents
+ *
+ * @returns void
+ */
+const validateIdsOfOpenDocuments = async (): Promise<void> => {
+  const allDocuments = documents.all();
+  for (const document of allDocuments) {
+    const documentPath = URI.parse(document.uri).fsPath;
+    const context = await getContext(
+      documentPath,
+      initializationOptions?.modelCachePath
+    );
+    if (!isContext(context)) {
+      connection.sendNotification(
+        "UI5LanguageAssistant/context-error",
+        context
+      );
+      return;
+    }
+    const idDiagnostics = getXMLViewIdDiagnostics({
+      document,
+      context,
+    });
+    let diagnostics = documentsDiagnostics.get(document.uri) ?? [];
+    diagnostics = diagnostics.concat(idDiagnostics);
+
     getLogger().trace("computed diagnostics", {
       diagnostics,
     });
@@ -277,6 +317,7 @@ async function validateOpenDocumentsOnDidChangeWatchedFiles(
     return;
   }
   await validateOpenDocuments();
+  await validateIdsOfOpenDocuments();
 }
 
 connection.onDidChangeWatchedFiles(async (changeEvent): Promise<void> => {
@@ -294,7 +335,7 @@ connection.onDidChangeWatchedFiles(async (changeEvent): Promise<void> => {
       cdsFileEvents.push(change);
     } else if (uri.endsWith(".xml")) {
       await reactOnXmlFileChange(uri, change.type);
-      await reactOnViewFileChange(uri, change.type, validateOpenDocuments);
+      await reactOnViewFileChange(uri, change.type, validateIdsOfOpenDocuments);
     } else if (uri.endsWith("package.json")) {
       await reactOnPackageJson(uri, change.type);
     }
@@ -345,7 +386,12 @@ documents.onDidChangeContent(async (changeEvent): Promise<void> => {
       isFallback,
       isIncorrectVersion,
     });
-    await validateOpenDocuments();
+    const diagnostics = getXMLViewDiagnostics({
+      document,
+      context,
+    });
+    documentsDiagnostics.set(document.uri, diagnostics);
+    await validateIdsOfOpenDocuments();
   }
 });
 
@@ -457,6 +503,7 @@ documents.onDidClose((textDocumentChangeEvent) => {
   if (isXMLView(uri)) {
     // clear diagnostics for a closed file
     connection.sendDiagnostics({ uri, diagnostics: [] });
+    documentsDiagnostics.delete(uri);
   }
   clearDocumentSettings(uri);
 });

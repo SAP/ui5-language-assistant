@@ -1,4 +1,4 @@
-import { resolve, sep, relative, dirname } from "path";
+import { resolve, sep, relative, dirname, basename } from "path";
 import { Diagnostic, Range } from "vscode-languageserver-types";
 import { TextDocument } from "vscode-languageserver";
 import { readJsonSync, readFileSync } from "fs-extra";
@@ -14,7 +14,10 @@ import {
   DEFAULT_UI5_FRAMEWORK,
 } from "@ui5-language-assistant/constant";
 import { generate } from "@ui5-language-assistant/semantic-model";
-import { getXMLViewDiagnostics } from "../../../../src/xml-view-diagnostics";
+import {
+  getXMLViewDiagnostics,
+  getXMLViewIdDiagnostics,
+} from "../../../../src/xml-view-diagnostics";
 import { Context as AppContext } from "@ui5-language-assistant/context";
 import { getDefaultContext } from "../../completion-items-utils";
 import { DocumentCstNode, parse } from "@xml-tools/parser";
@@ -153,11 +156,14 @@ export async function computeNewDiagnosticLSPResponse(
     0,
     xmlTextSnippet
   );
-
-  const actualDiagnostics = getXMLViewDiagnostics({
-    document: xmlTextDoc,
-    context: appContext,
-  });
+  const dirName = basename(testDir);
+  const actualDiagnostics =
+    dirName === "non-unique-id"
+      ? getXMLViewIdDiagnostics({ document: xmlTextDoc, context: appContext })
+      : getXMLViewDiagnostics({
+          document: xmlTextDoc,
+          context: appContext,
+        });
 
   const diagnosticsForAssertions =
     cleanupLSPResponseForAssertions(actualDiagnostics);

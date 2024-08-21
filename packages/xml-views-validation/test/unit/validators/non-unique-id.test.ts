@@ -6,7 +6,7 @@ import {
 } from "@ui5-language-assistant/test-framework";
 import { Context, getContext, cache } from "@ui5-language-assistant/context";
 import { join } from "path";
-import { validateNonUniqueID } from "../../../../src/validators";
+import { validateNonUniqueID } from "../../../src/validators";
 import {
   validations,
   buildMessage,
@@ -135,12 +135,12 @@ describe("the use of non unique id validation", () => {
             <Button id="DUPLICATE">
             </Button>
           </mvc:View>`;
-      const { xmlView, context, offsetRanges, documentPath } = await getParam(
+      const { context, offsetRanges, documentPath } = await getParam(
         xmlSnippet
       );
       const offset = offsetRanges[documentPath];
       // act
-      const result = validateNonUniqueID(xmlView, context);
+      const result = validateNonUniqueID(context);
       // assert
       expect(result).toEqual([
         {
@@ -174,12 +174,12 @@ describe("the use of non unique id validation", () => {
             </Button>
           </custom:View>`;
 
-      const { xmlView, context, offsetRanges, documentPath } = await getParam(
+      const { context, offsetRanges, documentPath } = await getParam(
         xmlSnippet
       );
       const offset = offsetRanges[documentPath];
       // act
-      const result = validateNonUniqueID(xmlView, context);
+      const result = validateNonUniqueID(context);
       // assert
       expect(result).toEqual([
         {
@@ -213,12 +213,12 @@ describe("the use of non unique id validation", () => {
             <Button id="TRIPLICATE">
             </Button>
           </mvc:View>`;
-      const { xmlView, context, offsetRanges, documentPath } = await getParam(
+      const { context, offsetRanges, documentPath } = await getParam(
         xmlSnippet
       );
       const offset = offsetRanges[documentPath];
       // act
-      const result = validateNonUniqueID(xmlView, context);
+      const result = validateNonUniqueID(context);
       // assert
       expect(result).toEqual([
         {
@@ -286,7 +286,7 @@ describe("the use of non unique id validation", () => {
         ...CustomSectionSegments
       );
 
-      const { xmlView, context, offsetRanges, documentPath } = await getParam(
+      const { context, offsetRanges, documentPath } = await getParam(
         xmlSnippet
       );
       const offset = offsetRanges[documentPath];
@@ -299,7 +299,7 @@ describe("the use of non unique id validation", () => {
         range,
       }));
       // act
-      const result = validateNonUniqueID(xmlView, context);
+      const result = validateNonUniqueID(context);
       // assert
       expect(result).toEqual([
         {
@@ -333,9 +333,9 @@ describe("the use of non unique id validation", () => {
             <Button iddqd="DUPLICATE">
             </Button>
           </mvc:View>`;
-      const { xmlView, context } = await getParam(xmlSnippet);
+      const { context } = await getParam(xmlSnippet);
       // act
-      const result = validateNonUniqueID(xmlView, context);
+      const result = validateNonUniqueID(context);
       // assert
       expect(result).toBeEmpty();
     });
@@ -350,9 +350,9 @@ describe("the use of non unique id validation", () => {
             <Button id="">
             </Button>
           </mvc:View>`;
-      const { xmlView, context } = await getParam(xmlSnippet);
+      const { context } = await getParam(xmlSnippet);
       // act
-      const result = validateNonUniqueID(xmlView, context);
+      const result = validateNonUniqueID(context);
       // assert
       expect(result).toBeEmpty();
     });
@@ -367,9 +367,9 @@ describe("the use of non unique id validation", () => {
             <Button id="DUPLICATE">
             </Button>
           </mvc:view>`;
-      const { xmlView, context } = await getParam(xmlSnippet);
+      const { context } = await getParam(xmlSnippet);
       // act
-      const result = validateNonUniqueID(xmlView, context);
+      const result = validateNonUniqueID(context);
       // assert
       expect(result).toBeEmpty();
     });
@@ -384,9 +384,9 @@ describe("the use of non unique id validation", () => {
             <svg:Circle id="DUPLICATE">
             </svg:Circle>
           </mvc:View>`;
-      const { xmlView, context } = await getParam(xmlSnippet);
+      const { context } = await getParam(xmlSnippet);
       // act
-      const result = validateNonUniqueID(xmlView, context);
+      const result = validateNonUniqueID(context);
       // assert
       expect(result).toBeEmpty();
     });
