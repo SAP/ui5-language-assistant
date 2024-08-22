@@ -1,4 +1,4 @@
-# Property binding info
+# Unique control IDs
 
 ## Associated user stories:
 
