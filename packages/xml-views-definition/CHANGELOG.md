@@ -1,5 +1,13 @@
 # @ui5-language-assistant/xml-views-definition
 
+## 0.0.7
+
+### Patch Changes
+
+- d6ceeaa: feat: support unique id generation across view files in an application
+- Updated dependencies [d6ceeaa]
+  - @ui5-language-assistant/context@4.0.29
+
 ## 0.0.6
 
 ### Patch Changes

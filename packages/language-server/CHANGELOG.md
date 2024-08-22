@@ -1,5 +1,22 @@
 # Change Log
 
+## 4.0.54
+
+### Patch Changes
+
+- d6ceeaa: feat: support unique id generation across view files in an application
+- Updated dependencies [d6ceeaa]
+  - @ui5-language-assistant/context@4.0.29
+  - @ui5-language-assistant/logic-utils@4.0.20
+  - @ui5-language-assistant/user-facing-text@4.0.9
+  - @ui5-language-assistant/xml-views-completion@4.0.29
+  - @ui5-language-assistant/xml-views-definition@0.0.7
+  - @ui5-language-assistant/xml-views-quick-fix@4.0.20
+  - @ui5-language-assistant/xml-views-tooltip@4.0.29
+  - @ui5-language-assistant/xml-views-validation@4.0.22
+  - @ui5-language-assistant/binding@1.0.33
+  - @ui5-language-assistant/fe@4.0.32
+
 ## 4.0.53
 
 ### Patch Changes

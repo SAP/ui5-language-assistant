@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.9
+
+### Patch Changes
+
+- d6ceeaa: feat: support unique id generation across view files in an application
+
 ## 4.0.8
 
 ### Patch Changes
