@@ -1,6 +1,6 @@
 {
   "name": "@ui5-language-assistant/xml-views-quick-fix",
-  "version": "4.0.20",
+  "version": "4.0.21",
   "private": true,
   "description": "Logic for UI5 XML-Views quick-fixes",
   "keywords": [

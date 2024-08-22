@@ -1,5 +1,12 @@
 # Change Log
 
+## 4.0.72
+
+### Patch Changes
+
+- 491c5f9: fix: add manual test case and meaningful ids
+  - @ui5-language-assistant/language-server@4.0.55
+
 ## 4.0.71
 
 ### Patch Changes

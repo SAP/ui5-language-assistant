@@ -1,5 +1,12 @@
 # Change Log
 
+## 4.0.55
+
+### Patch Changes
+
+- Updated dependencies [491c5f9]
+  - @ui5-language-assistant/xml-views-quick-fix@4.0.21
+
 ## 4.0.54
 
 ### Patch Changes
