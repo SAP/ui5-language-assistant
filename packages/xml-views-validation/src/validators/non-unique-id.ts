@@ -5,13 +5,13 @@ import {
 } from "@ui5-language-assistant/user-facing-text";
 import { NonUniqueIDIssue } from "../../api";
 import { Context } from "@ui5-language-assistant/context";
-import { pathToFileURL } from "url";
+import { URI } from "vscode-uri";
 
 const { NON_UNIQUE_ID } = validations;
 
 export function validateNonUniqueID(context: Context): NonUniqueIDIssue[] {
   const allIDsIssues: NonUniqueIDIssue[] = [];
-  const uri = pathToFileURL(context.documentPath).toString();
+  const uri = URI.file(context.documentPath).toString();
   for (const [key, value] of context.controlIds) {
     if (value.length > 1) {
       const currentDocIssues = value.filter((i) => i.uri === uri);
