@@ -1,5 +1,15 @@
 # Change Log
 
+## 4.0.56
+
+### Patch Changes
+
+- f6680ca: fix: file uri for windows
+- Updated dependencies [f6680ca]
+  - @ui5-language-assistant/xml-views-validation@4.0.23
+  - @ui5-language-assistant/binding@1.0.34
+  - @ui5-language-assistant/fe@4.0.33
+
 ## 4.0.55
 
 ### Patch Changes

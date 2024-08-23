@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.73
+
+### Patch Changes
+
+- f6680ca: fix: file uri for windows
+
 ## 4.0.72
 
 ### Patch Changes

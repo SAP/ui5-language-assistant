@@ -1,5 +1,12 @@
 # Change Log
 
+## 4.0.33
+
+### Patch Changes
+
+- Updated dependencies [f6680ca]
+  - @ui5-language-assistant/xml-views-validation@4.0.23
+
 ## 4.0.32
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # Change Log
 
+## 4.0.73
+
+### Patch Changes
+
+- f6680ca: fix: file uri for windows
+- Updated dependencies [f6680ca]
+  - @ui5-language-assistant/language-server@4.0.56
+
 ## 4.0.72
 
 ### Patch Changes
