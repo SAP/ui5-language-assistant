@@ -30,7 +30,8 @@
     "@xml-tools/ast": "5.0.0",
     "@xml-tools/common": "0.1.2",
     "deep-freeze-strict": "1.1.1",
-    "lodash": "4.17.21"
+    "lodash": "4.17.21",
+    "vscode-uri": "2.1.2"
   },
   "devDependencies": {
     "@ui5-language-assistant/semantic-model": "4.0.18",

@@ -17,7 +17,7 @@ import {
   OffsetRange,
 } from "@ui5-language-assistant/logic-utils";
 import { Range } from "vscode-languageserver-types";
-import { pathToFileURL } from "url";
+import { URI } from "vscode-uri";
 
 const { NON_UNIQUE_ID } = validations;
 let testFramework: TestFramework;
@@ -293,7 +293,7 @@ describe("the use of non unique id validation", () => {
       const ranges = getIdRanges(
         context.viewFiles[customSectionPath].rootElement?.subElements ?? []
       );
-      const customSectionUri = pathToFileURL(customSectionPath).toString();
+      const customSectionUri = URI.file(customSectionPath).toString();
       const identicalIDsRanges = ranges.map((range) => ({
         uri: customSectionUri,
         range,
