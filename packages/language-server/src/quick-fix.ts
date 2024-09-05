@@ -10,8 +10,6 @@ import {
   TextDocumentEdit,
   TextEdit,
 } from "vscode-languageserver-types";
-import { parse, DocumentCstNode } from "@xml-tools/parser";
-import { buildAst, XMLDocument } from "@xml-tools/ast";
 import {
   validateXMLView,
   validators,
@@ -34,17 +32,12 @@ export function diagnosticToCodeActionFix(
   diagnostics: Diagnostic[],
   context: Context
 ): CodeAction[] {
-  const documentText = document.getText();
-  // We prefer to parse the document again to avoid cache state handling
-  const { cst, tokenVector } = parse(documentText);
-  const xmlDocAst = buildAst(cst as DocumentCstNode, tokenVector);
   const codeActions = flatMap(diagnostics, (diagnostic) => {
     switch (diagnostic.code) {
       case validations.NON_STABLE_ID.code: {
         // non stable id
         return computeCodeActionsForQuickFixStableId({
           document,
-          xmlDocument: xmlDocAst,
           nonStableIdDiagnostic: diagnostic,
           context,
         });
@@ -59,7 +52,6 @@ export function diagnosticToCodeActionFix(
 
 function computeCodeActionsForQuickFixStableId(opts: {
   document: TextDocument;
-  xmlDocument: XMLDocument;
   nonStableIdDiagnostic: Diagnostic;
   context: Context;
 }): CodeAction[] {
@@ -68,10 +60,15 @@ function computeCodeActionsForQuickFixStableId(opts: {
     opts.nonStableIdDiagnostic.range,
     opts.document
   );
-
-  const quickFixStableIdInfo = computeQuickFixStableIdInfo(opts.xmlDocument, [
-    errorOffset,
-  ]);
+  const existingIds: Record<string, number> = {};
+  for (const [key, value] of opts.context.controlIds) {
+    existingIds[key] = value.length;
+  }
+  const quickFixStableIdInfo = computeQuickFixStableIdInfo(
+    opts.context,
+    [errorOffset],
+    existingIds
+  );
 
   const replaceRange = offsetRangeToLSPRange(
     quickFixStableIdInfo[0].replaceRange,
@@ -96,8 +93,8 @@ function computeCodeActionsForQuickFixStableId(opts: {
   const quickFixFileStableIdCodeActions =
     computeCodeActionsForQuickFixFileStableId({
       document: opts.document,
-      xmlDocument: opts.xmlDocument,
       context: opts.context,
+      existingIds,
     });
 
   codeActions = codeActions.concat(quickFixFileStableIdCodeActions);
@@ -107,8 +104,8 @@ function computeCodeActionsForQuickFixStableId(opts: {
 
 function computeCodeActionsForQuickFixFileStableId(opts: {
   document: TextDocument;
-  xmlDocument: XMLDocument;
   context: Context;
+  existingIds: Record<string, number>;
 }): CodeAction[] {
   const actualValidators = {
     document: [],
@@ -120,7 +117,7 @@ function computeCodeActionsForQuickFixFileStableId(opts: {
   const nonStableIdFileIssues = validateXMLView({
     validators: actualValidators,
     context: opts.context,
-    xmlView: opts.xmlDocument,
+    xmlView: opts.context.viewFiles[opts.context.documentPath],
   });
 
   // We don't suggest quick fix stable stable id for entire file when there is only one non-stable id issue
@@ -130,8 +127,9 @@ function computeCodeActionsForQuickFixFileStableId(opts: {
 
   const errorsOffset = map(nonStableIdFileIssues, (_) => _.offsetRange);
   const nonStableIdFileIssuesInfo = computeQuickFixStableIdInfo(
-    opts.xmlDocument,
-    errorsOffset
+    opts.context,
+    errorsOffset,
+    opts.existingIds
   );
   const nonStableIdFileIssuesLSPInfo: QuickFixStableIdLSPInfo[] = map(
     nonStableIdFileIssuesInfo,

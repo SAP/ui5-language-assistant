@@ -31,7 +31,7 @@ describe(`The language server diagnostics capability`, () => {
     if (existsSync(optionsPath)) {
       options = require(optionsPath);
     } else {
-      options = { flexEnabled: false };
+      options = { flexEnabled: false, controlIds: new Map() };
     }
 
     it(`Can create diagnostic for ${dirName.replace(/-/g, " ")} (${relative(

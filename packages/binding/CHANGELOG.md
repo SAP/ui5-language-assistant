@@ -1,5 +1,74 @@
 # @ui5-language-assistant/binding
 
+## 1.0.34
+
+### Patch Changes
+
+- Updated dependencies [f6680ca]
+  - @ui5-language-assistant/xml-views-validation@4.0.23
+
+## 1.0.33
+
+### Patch Changes
+
+- Updated dependencies [d6ceeaa]
+  - @ui5-language-assistant/context@4.0.29
+  - @ui5-language-assistant/logic-utils@4.0.20
+  - @ui5-language-assistant/xml-views-completion@4.0.29
+  - @ui5-language-assistant/xml-views-validation@4.0.22
+
+## 1.0.32
+
+### Patch Changes
+
+- Updated dependencies [a82d24c]
+  - @ui5-language-assistant/context@4.0.28
+  - @ui5-language-assistant/xml-views-completion@4.0.28
+
+## 1.0.31
+
+### Patch Changes
+
+- Updated dependencies [b2a8d01]
+  - @ui5-language-assistant/xml-views-completion@4.0.27
+  - @ui5-language-assistant/xml-views-validation@4.0.21
+  - @ui5-language-assistant/logic-utils@4.0.19
+  - @ui5-language-assistant/context@4.0.27
+
+## 1.0.30
+
+### Patch Changes
+
+- fa811f5: fix: support `minUI5Version` as an array
+- Updated dependencies [fa811f5]
+  - @ui5-language-assistant/context@4.0.26
+  - @ui5-language-assistant/xml-views-completion@4.0.26
+
+## 1.0.29
+
+### Patch Changes
+
+- 98c33e7: fix: relax diagnostic for property which can be used with both aggregation binding info or property binding info
+
+## 1.0.28
+
+### Patch Changes
+
+- Updated dependencies [ceab281]
+  - @ui5-language-assistant/xml-views-completion@4.0.25
+  - @ui5-language-assistant/xml-views-validation@4.0.20
+  - @ui5-language-assistant/context@4.0.25
+
+## 1.0.27
+
+### Patch Changes
+
+- Updated dependencies [7edb021]
+  - @ui5-language-assistant/logic-utils@4.0.18
+  - @ui5-language-assistant/context@4.0.24
+  - @ui5-language-assistant/xml-views-validation@4.0.19
+  - @ui5-language-assistant/xml-views-completion@4.0.24
+
 ## 1.0.26
 
 ### Patch Changes

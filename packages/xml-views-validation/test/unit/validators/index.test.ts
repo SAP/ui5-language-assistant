@@ -23,7 +23,9 @@ describe("The `allValidators` constant", () => {
       !_.endsWith("index.js") &&
       // "non-stable-id" validation is not part of allValidators.
       // We use it only when `flexEnabled` is set to true.
-      !_.endsWith("non-stable-id.js")
+      !_.endsWith("non-stable-id.js") &&
+      // non-unique-id validation is not part of allValidators. It is called explicity after all validation to collect non-unique ids cross all xml view files under webapp
+      !_.endsWith("non-unique-id.js")
   );
   expect(validatorPaths).not.toBeEmpty();
 

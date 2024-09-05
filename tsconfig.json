@@ -20,16 +20,13 @@
   },
   "references": [
     {
-      "path": "./test-packages/framework"
-    },
-    {
-      "path": "./packages/logic-utils"
-    },
-    {
-      "path": "./packages/semantic-model"
-    },
-    {
       "path": "./packages/semantic-model-types"
+    },
+    {
+      "path": "./packages/constant"
+    },
+    {
+      "path": "./packages/binding-parser"
     },
     {
       "path": "./packages/settings"
@@ -38,28 +35,39 @@
       "path": "./packages/user-facing-text"
     },
     {
+      "path": "./test-packages/framework"
+    },
+    {
+      "path": "./test-packages/test-utils"
+    },
+    {
+      "path": "./packages/logger"
+    },
+
+    {
+      "path": "./packages/semantic-model"
+    },
+
+    {
+      "path": "./packages/logic-utils"
+    },
+    {
+      "path": "./packages/context"
+    },
+    {
+      "path": "./packages/xml-views-validation"
+    },
+    {
       "path": "./packages/xml-views-completion"
+    },
+    {
+      "path": "./packages/xml-views-definition"
     },
     {
       "path": "./packages/xml-views-quick-fix"
     },
     {
       "path": "./packages/xml-views-tooltip"
-    },
-    {
-      "path": "./packages/xml-views-validation"
-    },
-    {
-      "path": "./test-packages/test-utils"
-    },
-    {
-      "path": "./packages/context"
-    },
-    {
-      "path": "./packages/logger"
-    },
-    {
-      "path": "./packages/binding-parser"
     },
     {
       "path": "./packages/binding"

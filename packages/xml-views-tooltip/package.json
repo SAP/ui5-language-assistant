@@ -1,6 +1,6 @@
 {
   "name": "@ui5-language-assistant/xml-views-tooltip",
-  "version": "4.0.23",
+  "version": "4.0.29",
   "private": true,
   "description": "XML Views Tooltip",
   "keywords": [
@@ -26,6 +26,7 @@
     "@ui5-language-assistant/logic-utils": "workspace:*",
     "@ui5-language-assistant/semantic-model": "workspace:*",
     "@ui5-language-assistant/semantic-model-types": "workspace:*",
+    "@ui5-language-assistant/constant": "0.0.1",
     "@xml-tools/ast": "5.0.0",
     "@xml-tools/ast-position": "2.0.2",
     "@xml-tools/common": "0.1.2",

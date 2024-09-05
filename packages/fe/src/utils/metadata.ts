@@ -101,7 +101,7 @@ export function getRootElements(
 
 export function collectAnnotationsForElement(
   allowedTerms: AnnotationTerm[],
-  element: EntityType | EntitySet | Singleton | undefined,
+  element: EntityContainer | EntityType | EntitySet | Singleton | undefined,
   property?: string,
   navigationProperty?: string
 ): AnnotationBase[] {
@@ -110,20 +110,25 @@ export function collectAnnotationsForElement(
   if (!element) {
     return [];
   }
-  const type: EntityType = getEntityTypeForElement(element);
   let target:
+    | EntityContainer
     | EntityType
     | EntitySet
     | Singleton
     | Property
     | NavigationProperty
     | undefined;
-  if (property) {
-    target = type.entityProperties.find((p) => p.name === property);
-  } else if (navigationProperty) {
-    target = type.navigationProperties.find(
-      (p) => p.name === navigationProperty
-    );
+  if (element._type !== "EntityContainer") {
+    const type: EntityType = getEntityTypeForElement(element);
+    if (property) {
+      target = type.entityProperties.find((p) => p.name === property);
+    } else if (navigationProperty) {
+      target = type.navigationProperties.find(
+        (p) => p.name === navigationProperty
+      );
+    } else {
+      target = element;
+    }
   } else {
     target = element;
   }

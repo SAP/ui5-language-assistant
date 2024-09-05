@@ -35,9 +35,11 @@ describe("manifest", () => {
       const result = await getManifestDetails(docPath);
       expect(result).toMatchInlineSnapshot(`
         Object {
+          "appId": "",
           "customViews": Object {},
           "flexEnabled": false,
           "mainServicePath": undefined,
+          "manifestPath": "",
           "minUI5Version": undefined,
         }
       `);

@@ -3,7 +3,7 @@
   "displayName": "UI5 Language Assistant",
   "private": true,
   "description": "Language Support For SAPUI5",
-  "version": "4.0.54",
+  "version": "4.0.73",
   "publisher": "SAPOSS",
   "icon": "resources/ui5-language-assistant.png",
   "keywords": [
@@ -18,7 +18,7 @@
   "main": "./lib/src/extension",
   "activationEvents": [
     "onFileSystem:manifest-schema",
-    "*"
+    "onLanguage:xml"
   ],
   "contributes": {
     "semanticTokenScopes": [
@@ -94,7 +94,7 @@
           "type": "string",
           "scope": "window",
           "default": "",
-          "markdownDescription": "Use an alternative (local) web server to serve [SAP UI5 SDK](https://tools.hana.ondemand.com/#sapui5) for enabling offline work."
+          "markdownDescription": "Use an alternative (local) web server to serve [SAPUI5 SDK](https://tools.hana.ondemand.com/#sapui5) for enabling offline work."
         },
         "UI5LanguageAssistant.logging.level": {
           "type": "string",
@@ -151,7 +151,8 @@
     "test:unit": "jest --ci --forceExit --detectOpenHandles --maxWorkers=1 --coverage=false",
     "coverage:unit": "jest --ci --forceExit --detectOpenHandles --maxWorkers=1 --coverage=true",
     "bundle": "node esbuild.js",
-    "package": "node ./scripts/package-vsix"
+    "package": "node ./scripts/package-vsix",
+    "update:schema": "ts-node  --project tsconfig.cli.json scripts/manifest/run-update.ts"
   },
   "dependencies": {
     "@ui5-language-assistant/language-server": "workspace:*",
@@ -165,11 +166,14 @@
     "@ui5-language-assistant/settings": "workspace:*",
     "@ui5-language-assistant/logic-utils": "workspace:*",
     "@ui5-language-assistant/user-facing-text": "workspace:*",
+    "@ui5-language-assistant/constant": "0.0.1",
     "lodash": "4.17.21",
     "proxyquire": "2.1.3",
     "vsce": "1.83.0",
     "vscode-languageserver": "8.0.2",
     "vscode-test": "1.6.1",
-    "@ui5-language-assistant/test-framework": "workspace:*"
+    "@ui5-language-assistant/test-framework": "workspace:*",
+    "axios": "1.6.1",
+    "ts-node": "8.5.2"
   }
 }

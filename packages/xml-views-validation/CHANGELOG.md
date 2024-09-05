@@ -1,5 +1,45 @@
 # Change Log
 
+## 4.0.23
+
+### Patch Changes
+
+- f6680ca: fix: file uri for windows
+
+## 4.0.22
+
+### Patch Changes
+
+- d6ceeaa: feat: support unique id generation across view files in an application
+- Updated dependencies [d6ceeaa]
+  - @ui5-language-assistant/context@4.0.29
+  - @ui5-language-assistant/logic-utils@4.0.20
+  - @ui5-language-assistant/user-facing-text@4.0.9
+
+## 4.0.21
+
+### Patch Changes
+
+- b2a8d01: fix: introduce constant package to handle UI5 default version in central package
+- Updated dependencies [b2a8d01]
+  - @ui5-language-assistant/semantic-model-types@4.0.11
+  - @ui5-language-assistant/logic-utils@4.0.19
+  - @ui5-language-assistant/constant@0.0.1
+
+## 4.0.20
+
+### Patch Changes
+
+- ceab281: Enable go to controller's definition from XML view file
+
+## 4.0.19
+
+### Patch Changes
+
+- Updated dependencies [7edb021]
+  - @ui5-language-assistant/semantic-model-types@4.0.10
+  - @ui5-language-assistant/logic-utils@4.0.18
+
 ## 4.0.18
 
 ### Patch Changes

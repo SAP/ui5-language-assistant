@@ -6,6 +6,7 @@ import { Context as AppContext } from "@ui5-language-assistant/context";
 import { getDefaultContext } from "./completion-items-utils";
 import { getXMLViewDiagnostics } from "../../src/xml-view-diagnostics";
 import { xmlSnippetToDocument } from "./testUtils";
+import { DEFAULT_UI5_FRAMEWORK } from "@ui5-language-assistant/constant";
 
 export function getDiagnostics(
   xmlSnippet: string,
@@ -20,7 +21,7 @@ describe("the UI5 language assistant xml view diagnostics service", () => {
   let appContext: AppContext;
   beforeAll(async () => {
     ui5SemanticModel = await generateModel({
-      framework: "SAPUI5",
+      framework: DEFAULT_UI5_FRAMEWORK,
       version: "1.108.26",
       modelGenerator: generate,
     });

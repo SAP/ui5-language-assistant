@@ -7,6 +7,7 @@ import { UI5ValidatorsConfig } from "../../src/validate-xml-views";
 import { UI5XMLViewIssue } from "../../api";
 import { validateXMLView } from "../../src/api";
 import { Context } from "@ui5-language-assistant/context";
+import { DEFAULT_UI5_FRAMEWORK } from "@ui5-language-assistant/constant";
 
 const START_RANGE_MARKER = "🢂";
 const END_RANGE_MARKER = "🢀";
@@ -34,6 +35,7 @@ export function testValidationsScenario(opts: {
   const xmlTextNoMarkers = opts.xmlText.replace(rangeMarkersRegExp, "");
   const { cst, tokenVector } = parse(xmlTextNoMarkers);
   const ast = buildAst(cst as DocumentCstNode, tokenVector);
+  opts.context.viewFiles[opts.context.documentPath] = ast;
 
   const issues = validateXMLView({
     validators: {
@@ -130,6 +132,8 @@ export const getDefaultContext = (ui5Model: UI5SemanticModel): Context => {
     ui5Model,
     customViewId: "",
     manifestDetails: {
+      appId: "",
+      manifestPath: "",
       flexEnabled: false,
       customViews: {},
       mainServicePath: undefined,
@@ -137,8 +141,11 @@ export const getDefaultContext = (ui5Model: UI5SemanticModel): Context => {
     },
     services: {},
     yamlDetails: {
-      framework: "SAPUI5",
+      framework: DEFAULT_UI5_FRAMEWORK,
       version: undefined,
     },
+    viewFiles: {},
+    controlIds: new Map(),
+    documentPath: "",
   };
 };

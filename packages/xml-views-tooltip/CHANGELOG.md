@@ -1,5 +1,58 @@
 # Change Log
 
+## 4.0.29
+
+### Patch Changes
+
+- d6ceeaa: feat: support unique id generation across view files in an application
+- Updated dependencies [d6ceeaa]
+  - @ui5-language-assistant/context@4.0.29
+  - @ui5-language-assistant/logic-utils@4.0.20
+
+## 4.0.28
+
+### Patch Changes
+
+- Updated dependencies [a82d24c]
+  - @ui5-language-assistant/context@4.0.28
+
+## 4.0.27
+
+### Patch Changes
+
+- b2a8d01: fix: introduce constant package to handle UI5 default version in central package
+- Updated dependencies [b2a8d01]
+  - @ui5-language-assistant/semantic-model@4.0.18
+  - @ui5-language-assistant/semantic-model-types@4.0.11
+  - @ui5-language-assistant/logic-utils@4.0.19
+  - @ui5-language-assistant/constant@0.0.1
+  - @ui5-language-assistant/context@4.0.27
+
+## 4.0.26
+
+### Patch Changes
+
+- Updated dependencies [fa811f5]
+  - @ui5-language-assistant/context@4.0.26
+
+## 4.0.25
+
+### Patch Changes
+
+- ceab281: Enable go to controller's definition from XML view file
+- Updated dependencies [ceab281]
+  - @ui5-language-assistant/context@4.0.25
+
+## 4.0.24
+
+### Patch Changes
+
+- Updated dependencies [7edb021]
+  - @ui5-language-assistant/semantic-model@4.0.17
+  - @ui5-language-assistant/semantic-model-types@4.0.10
+  - @ui5-language-assistant/logic-utils@4.0.18
+  - @ui5-language-assistant/context@4.0.24
+
 ## 4.0.23
 
 ### Patch Changes

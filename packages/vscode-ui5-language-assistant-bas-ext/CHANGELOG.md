@@ -1,5 +1,114 @@
 # Change Log
 
+## 4.0.73
+
+### Patch Changes
+
+- f6680ca: fix: file uri for windows
+
+## 4.0.72
+
+### Patch Changes
+
+- 491c5f9: fix: add manual test case and meaningful ids
+
+## 4.0.71
+
+### Patch Changes
+
+- d6ceeaa: feat: support unique id generation across view files in an application
+
+## 4.0.70
+
+### Patch Changes
+
+- bfcac90: activation process fine tuning
+
+## 4.0.69
+
+### Patch Changes
+
+- 65eaef5: fix: change SAP UI5 to SAPUI5
+
+## 4.0.68
+
+### Patch Changes
+
+- a82d24c: fix: reference
+
+## 4.0.67
+
+### Patch Changes
+
+- b2a8d01: fix: introduce constant package to handle UI5 default version in central package
+
+## 4.0.66
+
+### Patch Changes
+
+- 68fc8d1: fix: support `minUI5Version` as an array
+- 97a4b84: fix: bump for SBAS
+
+## 4.0.64
+
+### Patch Changes
+
+- 286a57d: Warning text correction
+
+## 4.0.63
+
+### Patch Changes
+
+- fddc24b: feat: add absolute path support for meta path
+
+## 4.0.62
+
+### Patch Changes
+
+- fdbf071: chore: update schema.json file
+
+## 4.0.61
+
+### Patch Changes
+
+- 98c33e7: fix: relax diagnostic for property which can be used with both aggregation binding info or property binding info
+
+## 4.0.60
+
+### Patch Changes
+
+- 5b9fa1f: fix: add manual test case
+
+## 4.0.59
+
+### Patch Changes
+
+- dda4622: fix: Add Goto definition to readme file
+
+## 4.0.58
+
+### Patch Changes
+
+- 5b190da: Fix: Use file uri for definition
+
+## 4.0.57
+
+### Patch Changes
+
+- ceab281: Enable go to controller's definition from XML view file
+
+## 4.0.56
+
+### Patch Changes
+
+- 6d8f0d9: New script for updating manifest schema and updated manifest schema
+
+## 4.0.55
+
+### Patch Changes
+
+- 7edb021: Fix semantic model for UI5, starting from version 1.121.0
+
 ## 4.0.54
 
 ### Patch Changes

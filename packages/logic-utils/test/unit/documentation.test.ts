@@ -5,6 +5,7 @@ import {
   convertJSDocToPlainText,
 } from "../../src/utils/documentation";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
+import { OPEN_FRAMEWORK } from "@ui5-language-assistant/constant";
 
 describe("The @ui5-language-assistant/logic-utils <getDeprecationPlainTextSnippet> function", () => {
   let model: UI5SemanticModel;
@@ -196,7 +197,7 @@ describe("The @ui5-language-assistant/logic-utils <convertJSDocToMarkdown> funct
 
   it("replaces link tags that point to UI5 classes with markdown links when model has a version (OpenUI5)", () => {
     const modelWithVersion = buildUI5Model({
-      framework: "OpenUI5",
+      framework: OPEN_FRAMEWORK,
       version: "1.2.3",
     });
     expect(
@@ -210,7 +211,7 @@ describe("The @ui5-language-assistant/logic-utils <convertJSDocToMarkdown> funct
   });
 
   it("replaces link tags that point to UI5 classes with markdown links when model doesn't have a version (OpenUI5)", () => {
-    const modelOpenUI5 = buildUI5Model({ framework: "OpenUI5" });
+    const modelOpenUI5 = buildUI5Model({ framework: OPEN_FRAMEWORK });
     expect(
       convertJSDocToMarkdown(
         "This text has a {@link sap.m.Button link to Button} and a nameless link to a type: {@link sap.m.Button}",
@@ -223,7 +224,7 @@ describe("The @ui5-language-assistant/logic-utils <convertJSDocToMarkdown> funct
 
   it("replaces topic links with markdown links when model has a version", () => {
     const modelWithVersion = buildUI5Model({
-      framework: "OpenUI5",
+      framework: OPEN_FRAMEWORK,
       version: "1.2.3",
     });
     expect(
@@ -237,7 +238,7 @@ describe("The @ui5-language-assistant/logic-utils <convertJSDocToMarkdown> funct
   });
 
   it("replaces topic links with markdown links when model doesn't have a version", () => {
-    const modelOpenUI5 = buildUI5Model({ framework: "OpenUI5" });
+    const modelOpenUI5 = buildUI5Model({ framework: OPEN_FRAMEWORK });
     expect(
       convertJSDocToMarkdown(
         "This text link to the topic {@link topic:a4afb138acf64a61a038aa5b91a4f082 App}.",

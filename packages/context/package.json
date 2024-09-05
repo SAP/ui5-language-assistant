@@ -1,6 +1,6 @@
 {
   "name": "@ui5-language-assistant/context",
-  "version": "4.0.23",
+  "version": "4.0.29",
   "private": true,
   "description": "A context for an xml file",
   "keywords": [],
@@ -18,20 +18,23 @@
   "dependencies": {
     "@sap-ux/annotation-converter": "0.5.20",
     "@sap-ux/edmx-parser": "0.5.13",
-    "@sap-ux/project-access": "1.9.1",
     "@ui5-language-assistant/logger": "workspace:*",
     "@ui5-language-assistant/logic-utils": "workspace:*",
     "@ui5-language-assistant/settings": "workspace:*",
+    "@sap-ux/project-access": "1.25.5",
+    "@ui5-language-assistant/constant": "0.0.1",
     "fs-extra": "10.1.0",
     "globby": "11.1.0",
     "js-yaml": "4.1.0",
     "lodash": "4.17.21",
     "semver": "7.3.7",
     "vscode-languageserver": "8.0.2",
-    "vscode-uri": "2.1.2"
+    "vscode-uri": "2.1.2",
+    "@xml-tools/ast": "5.0.0",
+    "@xml-tools/parser": "1.0.7"
   },
   "devDependencies": {
-    "@sap-ux/vocabularies-types": "0.6.8",
+    "@sap-ux/vocabularies-types": "0.10.14",
     "@types/js-yaml": "4.0.5",
     "@types/lodash": "4.14.168",
     "@types/node-fetch": "2.5.10",

@@ -12,6 +12,7 @@ import { getSuggestions, SuggestionProviders } from "@xml-tools/content-assist";
 
 import { UI5XMLViewCompletion } from "../../api";
 import { Context } from "@ui5-language-assistant/context";
+import { DEFAULT_UI5_FRAMEWORK } from "@ui5-language-assistant/constant";
 
 export function testSuggestionsScenario(opts: {
   xmlText: string;
@@ -81,6 +82,8 @@ export const getDefaultContext = (ui5Model: UI5SemanticModel): Context => {
     ui5Model,
     customViewId: "",
     manifestDetails: {
+      appId: "",
+      manifestPath: "",
       flexEnabled: false,
       customViews: {},
       mainServicePath: undefined,
@@ -88,8 +91,11 @@ export const getDefaultContext = (ui5Model: UI5SemanticModel): Context => {
     },
     services: {},
     yamlDetails: {
-      framework: "SAPUI5",
+      framework: DEFAULT_UI5_FRAMEWORK,
       version: undefined,
     },
+    viewFiles: {},
+    controlIds: new Map(),
+    documentPath: "",
   };
 };

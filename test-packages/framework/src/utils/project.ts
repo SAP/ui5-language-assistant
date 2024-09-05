@@ -1,7 +1,7 @@
 import { copySync, removeSync, pathExists, pathExistsSync } from "fs-extra";
 import { execSync } from "child_process";
 import { readdirSync } from "fs";
-import { join, sep } from "path";
+import { join, sep, dirname } from "path";
 import { print } from ".";
 import { ProjectInfo } from "../api";
 
@@ -113,3 +113,15 @@ export const fileExits = (filePath: string): Promise<boolean> => {
 export const fileExitsSync = (filePath: string): boolean => {
   return pathExistsSync(filePath);
 };
+
+/**
+ * Retrieves the root directory of the test framework package.
+ *
+ * @returns The root directory of the test framework package.
+ */
+export function getFrameworkRoot(): string {
+  const pkgJsonPath = require.resolve(
+    "@ui5-language-assistant/test-framework/package.json"
+  );
+  return dirname(pkgJsonPath);
+}

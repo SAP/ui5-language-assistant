@@ -14,12 +14,12 @@ import {
   getRootElements,
 } from "../../../src/utils";
 
-const entityContainer: EntityContainer = {
+const entityContainer = {
   _type: "EntityContainer",
   annotations: {},
   fullyQualifiedName: "TravelService.EntityContainer",
   name: "EntityContainer",
-};
+} as EntityContainer;
 const bookingEntityType: EntityType = {
   _type: "EntityType",
   name: "Booking",

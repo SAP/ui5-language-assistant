@@ -1,5 +1,34 @@
 # Change Log
 
+## 4.0.21
+
+### Patch Changes
+
+- 491c5f9: fix: add manual test case and meaningful ids
+
+## 4.0.20
+
+### Patch Changes
+
+- d6ceeaa: feat: support unique id generation across view files in an application
+- Updated dependencies [d6ceeaa]
+  - @ui5-language-assistant/context@4.0.29
+  - @ui5-language-assistant/logic-utils@4.0.20
+
+## 4.0.19
+
+### Patch Changes
+
+- Updated dependencies [b2a8d01]
+  - @ui5-language-assistant/logic-utils@4.0.19
+
+## 4.0.18
+
+### Patch Changes
+
+- Updated dependencies [7edb021]
+  - @ui5-language-assistant/logic-utils@4.0.18
+
 ## 4.0.17
 
 ### Patch Changes

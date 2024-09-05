@@ -1,5 +1,32 @@
 # Change Log
 
+## 4.0.16
+
+### Patch Changes
+
+- a82d24c: fix: reference
+
+## 4.0.15
+
+### Patch Changes
+
+- b2a8d01: fix: introduce constant package to handle UI5 default version in central package
+- Updated dependencies [b2a8d01]
+  - @ui5-language-assistant/semantic-model-types@4.0.11
+  - @ui5-language-assistant/constant@0.0.1
+
+## 4.0.14
+
+### Patch Changes
+
+- fa811f5: fix: support `minUI5Version` as an array
+
+## 4.0.13
+
+### Patch Changes
+
+- 7edb021: Fix semantic model for UI5, starting from version 1.121.0
+
 ## 4.0.12
 
 ### Patch Changes

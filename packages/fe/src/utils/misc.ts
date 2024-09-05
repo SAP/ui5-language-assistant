@@ -2,7 +2,11 @@ import { UI5Prop } from "@ui5-language-assistant/semantic-model-types";
 import { Context } from "@ui5-language-assistant/context";
 import { XMLElement } from "@xml-tools/ast";
 import i18next, { TFunction } from "i18next";
-import type { AnnotationTerm } from "../types";
+import {
+  ContextPathOrigin,
+  type AnnotationTerm,
+  type ResolveContextPath,
+} from "../types";
 import { AllowedTargetType } from "./metadata";
 import {
   BuildingBlockPathConstraints,
@@ -72,7 +76,9 @@ export const t: TFunction = (key: string, ...args) => {
 };
 
 /**
- * Returns context path for completion and diagnostics services
+ * Returns context path for completion and diagnostics services. Context path defined in xml attribute wins over
+ * context path defined in manifest.json file.
+ *
  * @param attributeValue - current element contextPath attribute value
  * @param context - global context object
  * @returns - context path
@@ -82,9 +88,76 @@ export function getContextPath(
   context: Context
 ): AttributeValueType {
   const contextPathInManifest: string | undefined =
-    context.manifestDetails?.customViews?.[context.customViewId || ""]
-      ?.contextPath;
+    getManifestContextPath(context);
   return typeof attributeValue !== "undefined"
     ? attributeValue
     : contextPathInManifest || undefined;
+}
+
+/**
+ * Get context path defined in manifest.json file.
+ *
+ * @param context
+ * @returns
+ */
+export function getManifestContextPath(context: Context): string | undefined {
+  return context.manifestDetails?.customViews?.[context.customViewId || ""]
+    ?.contextPath;
+}
+
+/**
+ * Resolve context path. Context path can be defined
+ * - as xml attribute
+ * - as contextPath in manifest.json file
+ * - in meta path if path is starting as absolute
+ * - as entity set of view defined in manifest.json file
+ *
+ * @param context context
+ * @param element xml element
+ * @param isAbsolutePath path started as absolute
+ * @param precedingPath proceeding path segment
+ * @returns context path with its origin
+ */
+export function resolveContextPath(
+  context: Context,
+  element: XMLElement,
+  isAbsolutePath: boolean,
+  precedingPath: string
+): ResolveContextPath | undefined {
+  const contextPathAttr = getElementAttributeValue(element, "contextPath");
+  if (contextPathAttr) {
+    return {
+      contextPath: contextPathAttr,
+      origin: ContextPathOrigin.xmlAttributeInContextPath,
+    };
+  }
+
+  // if not absolute path and context path is not defined in xml, take it from manifest.json
+  const contextPath = getManifestContextPath(context);
+  if (!isAbsolutePath && contextPath) {
+    return {
+      contextPath,
+      origin: ContextPathOrigin.contextPathInManifest,
+    };
+  }
+
+  // context path is preceding path if it started as absolute path
+  if (isAbsolutePath && precedingPath.length > 0) {
+    return {
+      contextPath: precedingPath,
+      origin: ContextPathOrigin.xmlAttributeInMetaPath,
+    };
+  }
+
+  const entitySet =
+    context.manifestDetails.customViews[context.customViewId || ""]
+      ?.entitySet ?? "";
+
+  if (entitySet) {
+    // context path is entity set
+    return {
+      contextPath: `/${entitySet}`,
+      origin: ContextPathOrigin.entitySetInManifest,
+    };
+  }
 }

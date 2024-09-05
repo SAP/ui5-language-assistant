@@ -1,11 +1,4 @@
 export {
-  getLibraryAPIJsonUrl,
-  getVersionInfoUrl,
-  getVersionJsonUrl,
-  getCDNBaseUrl,
-} from "./ui5";
-
-export {
   findAppRoot,
   getLocalAnnotationsForService,
   getLocalMetadataForService,
@@ -14,3 +7,7 @@ export {
 } from "./project";
 
 export { getLogger } from "./logger";
+
+export { getViewFiles, createDocumentAst } from "./view-files";
+
+export { IdsCollectorVisitor } from "./ids-collector";

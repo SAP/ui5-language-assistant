@@ -1,5 +1,145 @@
 # Change Log
 
+## 4.0.56
+
+### Patch Changes
+
+- f6680ca: fix: file uri for windows
+- Updated dependencies [f6680ca]
+  - @ui5-language-assistant/xml-views-validation@4.0.23
+  - @ui5-language-assistant/binding@1.0.34
+  - @ui5-language-assistant/fe@4.0.33
+
+## 4.0.55
+
+### Patch Changes
+
+- Updated dependencies [491c5f9]
+  - @ui5-language-assistant/xml-views-quick-fix@4.0.21
+
+## 4.0.54
+
+### Patch Changes
+
+- d6ceeaa: feat: support unique id generation across view files in an application
+- Updated dependencies [d6ceeaa]
+  - @ui5-language-assistant/context@4.0.29
+  - @ui5-language-assistant/logic-utils@4.0.20
+  - @ui5-language-assistant/user-facing-text@4.0.9
+  - @ui5-language-assistant/xml-views-completion@4.0.29
+  - @ui5-language-assistant/xml-views-definition@0.0.7
+  - @ui5-language-assistant/xml-views-quick-fix@4.0.20
+  - @ui5-language-assistant/xml-views-tooltip@4.0.29
+  - @ui5-language-assistant/xml-views-validation@4.0.22
+  - @ui5-language-assistant/binding@1.0.33
+  - @ui5-language-assistant/fe@4.0.32
+
+## 4.0.53
+
+### Patch Changes
+
+- bfcac90: activation process fine tuning
+
+## 4.0.52
+
+### Patch Changes
+
+- a82d24c: fix: reference
+- Updated dependencies [a82d24c]
+  - @ui5-language-assistant/context@4.0.28
+  - @ui5-language-assistant/binding@1.0.32
+  - @ui5-language-assistant/fe@4.0.31
+  - @ui5-language-assistant/xml-views-completion@4.0.28
+  - @ui5-language-assistant/xml-views-definition@0.0.6
+  - @ui5-language-assistant/xml-views-tooltip@4.0.28
+
+## 4.0.51
+
+### Patch Changes
+
+- b2a8d01: fix: introduce constant package to handle UI5 default version in central package
+- Updated dependencies [b2a8d01]
+  - @ui5-language-assistant/xml-views-completion@4.0.27
+  - @ui5-language-assistant/xml-views-validation@4.0.21
+  - @ui5-language-assistant/xml-views-tooltip@4.0.27
+  - @ui5-language-assistant/semantic-model@4.0.18
+  - @ui5-language-assistant/logic-utils@4.0.19
+  - @ui5-language-assistant/constant@0.0.1
+  - @ui5-language-assistant/context@4.0.27
+  - @ui5-language-assistant/binding@1.0.31
+  - @ui5-language-assistant/fe@4.0.30
+  - @ui5-language-assistant/xml-views-quick-fix@4.0.19
+  - @ui5-language-assistant/xml-views-definition@0.0.5
+
+## 4.0.50
+
+### Patch Changes
+
+- Updated dependencies [fa811f5]
+  - @ui5-language-assistant/binding@1.0.30
+  - @ui5-language-assistant/context@4.0.26
+  - @ui5-language-assistant/fe@4.0.29
+  - @ui5-language-assistant/xml-views-completion@4.0.26
+  - @ui5-language-assistant/xml-views-definition@0.0.4
+  - @ui5-language-assistant/xml-views-tooltip@4.0.26
+
+## 4.0.49
+
+### Patch Changes
+
+- Updated dependencies [286a57d]
+  - @ui5-language-assistant/fe@4.0.28
+
+## 4.0.48
+
+### Patch Changes
+
+- Updated dependencies [fddc24b]
+  - @ui5-language-assistant/fe@4.0.27
+
+## 4.0.47
+
+### Patch Changes
+
+- Updated dependencies [98c33e7]
+  - @ui5-language-assistant/binding@1.0.29
+
+## 4.0.46
+
+### Patch Changes
+
+- Updated dependencies [5b190da]
+  - @ui5-language-assistant/xml-views-definition@0.0.3
+
+## 4.0.45
+
+### Patch Changes
+
+- ceab281: Enable go to controller's definition from XML view file
+- Updated dependencies [ceab281]
+  - @ui5-language-assistant/xml-views-completion@4.0.25
+  - @ui5-language-assistant/xml-views-definition@0.0.2
+  - @ui5-language-assistant/xml-views-validation@4.0.20
+  - @ui5-language-assistant/xml-views-tooltip@4.0.25
+  - @ui5-language-assistant/context@4.0.25
+  - @ui5-language-assistant/binding@1.0.28
+  - @ui5-language-assistant/fe@4.0.26
+
+## 4.0.44
+
+### Patch Changes
+
+- Updated dependencies [7edb021]
+  - @ui5-language-assistant/semantic-model@4.0.17
+  - @ui5-language-assistant/logic-utils@4.0.18
+  - @ui5-language-assistant/binding@1.0.27
+  - @ui5-language-assistant/context@4.0.24
+  - @ui5-language-assistant/fe@4.0.25
+  - @ui5-language-assistant/xml-views-quick-fix@4.0.18
+  - @ui5-language-assistant/xml-views-validation@4.0.19
+  - @ui5-language-assistant/xml-views-completion@4.0.24
+  - @ui5-language-assistant/xml-views-tooltip@4.0.24
+
 ## 4.0.43
 
 ### Patch Changes

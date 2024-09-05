@@ -1,5 +1,80 @@
 # Change Log
 
+## 4.0.33
+
+### Patch Changes
+
+- Updated dependencies [f6680ca]
+  - @ui5-language-assistant/xml-views-validation@4.0.23
+
+## 4.0.32
+
+### Patch Changes
+
+- Updated dependencies [d6ceeaa]
+  - @ui5-language-assistant/context@4.0.29
+  - @ui5-language-assistant/logic-utils@4.0.20
+  - @ui5-language-assistant/xml-views-completion@4.0.29
+  - @ui5-language-assistant/xml-views-validation@4.0.22
+
+## 4.0.31
+
+### Patch Changes
+
+- Updated dependencies [a82d24c]
+  - @ui5-language-assistant/context@4.0.28
+  - @ui5-language-assistant/xml-views-completion@4.0.28
+
+## 4.0.30
+
+### Patch Changes
+
+- Updated dependencies [b2a8d01]
+  - @ui5-language-assistant/xml-views-completion@4.0.27
+  - @ui5-language-assistant/xml-views-validation@4.0.21
+  - @ui5-language-assistant/logic-utils@4.0.19
+  - @ui5-language-assistant/context@4.0.27
+
+## 4.0.29
+
+### Patch Changes
+
+- fa811f5: fix: support `minUI5Version` as an array
+- Updated dependencies [fa811f5]
+  - @ui5-language-assistant/context@4.0.26
+  - @ui5-language-assistant/xml-views-completion@4.0.26
+
+## 4.0.28
+
+### Patch Changes
+
+- 286a57d: Warning text correction
+
+## 4.0.27
+
+### Patch Changes
+
+- fddc24b: feat: add absolute path support for meta path
+
+## 4.0.26
+
+### Patch Changes
+
+- Updated dependencies [ceab281]
+  - @ui5-language-assistant/xml-views-completion@4.0.25
+  - @ui5-language-assistant/xml-views-validation@4.0.20
+  - @ui5-language-assistant/context@4.0.25
+
+## 4.0.25
+
+### Patch Changes
+
+- Updated dependencies [7edb021]
+  - @ui5-language-assistant/logic-utils@4.0.18
+  - @ui5-language-assistant/context@4.0.24
+  - @ui5-language-assistant/xml-views-validation@4.0.19
+  - @ui5-language-assistant/xml-views-completion@4.0.24
+
 ## 4.0.24
 
 ### Patch Changes

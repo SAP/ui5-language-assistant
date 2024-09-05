@@ -1,6 +1,6 @@
 {
   "name": "@ui5-language-assistant/language-server",
-  "version": "4.0.43",
+  "version": "4.0.56",
   "private": true,
   "description": "UI5 Language Server",
   "keywords": [
@@ -38,6 +38,8 @@
     "@ui5-language-assistant/xml-views-quick-fix": "workspace:*",
     "@ui5-language-assistant/xml-views-tooltip": "workspace:*",
     "@ui5-language-assistant/xml-views-validation": "workspace:*",
+    "@ui5-language-assistant/constant": "0.0.1",
+    "@ui5-language-assistant/xml-views-definition": "0.0.7",
     "@xml-tools/ast": "5.0.0",
     "@xml-tools/ast-position": "2.0.2",
     "@xml-tools/parser": "1.0.7",

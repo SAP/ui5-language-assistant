@@ -76,7 +76,7 @@ describe("missing entitySet validation", () => {
         }
       );
       expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-        "kind: MissingEntitySet; text: EntitySet or contextPath for the current view are not defined in application manifest. Attribute value completion and diagnostics is not possible if EntitySet or contextPath are not defined or defined dynamically in controllers; severity:info; offset:344-354",
+        "kind: MissingEntitySet; text: The path cannot be identified. Use an absolute path or define the contextPath; severity:warn; offset:344-354",
       ]);
     });
 
@@ -87,7 +87,7 @@ describe("missing entitySet validation", () => {
         (c) => ({ ...c, manifestDetails: undefined } as any)
       );
       expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-        "kind: MissingEntitySet; text: EntitySet or contextPath for the current view are not defined in application manifest. Attribute value completion and diagnostics is not possible if EntitySet or contextPath are not defined or defined dynamically in controllers; severity:info; offset:344-349",
+        "kind: MissingEntitySet; text: The path cannot be identified. Use an absolute path or define the contextPath; severity:warn; offset:344-349",
       ]);
     });
 
@@ -103,7 +103,7 @@ describe("missing entitySet validation", () => {
         }
       );
       expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-        "kind: MissingEntitySet; text: EntitySet or contextPath for the current view are not defined in application manifest. Attribute value completion and diagnostics is not possible if EntitySet or contextPath are not defined or defined dynamically in controllers; severity:info; offset:344-349",
+        "kind: MissingEntitySet; text: The path cannot be identified. Use an absolute path or define the contextPath; severity:warn; offset:344-349",
       ]);
     });
   });
@@ -119,6 +119,13 @@ describe("missing entitySet validation", () => {
     it("attribute value is absent", async function () {
       const result = await validateView(
         `<macros:Chart metaPath></macros:Chart>`
+      );
+      expect(result.length).toEqual(0);
+    });
+
+    it("attribute value is absolute", async function () {
+      const result = await validateView(
+        `<macros:Chart metaPath="/Travel"></macros:Chart>`
       );
       expect(result.length).toEqual(0);
     });

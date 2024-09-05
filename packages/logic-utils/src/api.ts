@@ -41,3 +41,24 @@ export {
 export { fetch } from "./utils/fetch";
 export { tryFetch, getLocalUrl } from "./utils/fetch-helper";
 export { isXMLView } from "./utils/document";
+
+export type { FetchResponse } from "./utils/types";
+
+export {
+  getCDNBaseUrl,
+  getLibraryAPIJsonUrl,
+  getVersionInfoUrl,
+  getVersionJsonUrl,
+  getVersionsMap,
+} from "./utils/ui5";
+
+export {
+  CORE_NS,
+  CUSTOM_DATA_NS,
+  SVG_NS,
+  TEMPLATING_NS,
+  XHTML_NS,
+} from "./utils/special-namespaces";
+export { isKnownUI5Class, isPossibleCustomClass } from "./utils/ui5-classes";
+
+export { locationToRange } from "./utils/range";

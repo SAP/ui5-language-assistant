@@ -1,10 +1,13 @@
 import { partial } from "lodash";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
+import {
+  DEFAULT_UI5_FRAMEWORK,
+  DEFAULT_UI5_VERSION,
+} from "@ui5-language-assistant/constant";
 import { ui5NodeToFQN } from "@ui5-language-assistant/logic-utils";
 import { UI5NamespacesInXMLAttributeValueCompletion } from "@ui5-language-assistant/xml-views-completion";
 import { generate } from "@ui5-language-assistant/semantic-model";
 import {
-  DEFAULT_UI5_VERSION,
   expectSuggestions,
   expectXMLAttribute,
   generateModel,
@@ -32,7 +35,7 @@ describe("The ui5-editor-tools xml-views-completion", () => {
   let appContext: AppContext;
   beforeAll(async () => {
     ui5SemanticModel = await generateModel({
-      framework: "SAPUI5",
+      framework: DEFAULT_UI5_FRAMEWORK,
       version: (
         await getFallbackPatchVersions()
       ).SAPUI5 as typeof DEFAULT_UI5_VERSION,

@@ -4,16 +4,15 @@ import type {
 } from "@ui5-language-assistant/semantic-model-types";
 import { ConvertedMetadata } from "@sap-ux/vocabularies-types";
 import type { Manifest } from "@sap-ux/project-access";
-import { FetchResponse } from "@ui5-language-assistant/logic-utils";
+import {
+  FetchResponse,
+  OffsetRange,
+} from "@ui5-language-assistant/logic-utils";
+import type { XMLDocument } from "@xml-tools/ast";
+import { Location } from "vscode-languageserver";
 
-export const DEFAULT_UI5_FRAMEWORK = "SAPUI5";
-export const DEFAULT_UI5_VERSION = "1.71.61";
-export const DEFAULT_UI5_VERSION_BASE = "1.71";
 export const UI5_VERSION_S4_PLACEHOLDER = "${sap.ui5.dist.version}";
-export const UI5_FRAMEWORK_CDN_BASE_URL = {
-  OpenUI5: "https://sdk.openui5.org/",
-  SAPUI5: "https://ui5.sap.com/",
-};
+
 export const UI5_PROJECT_TYPE = "UI5";
 export const CAP_PROJECT_TYPE = "CAP";
 export enum DirName {
@@ -24,12 +23,19 @@ export enum DirName {
   Ext = "ext",
 }
 
+export interface ControlIdLocation extends Location {
+  offsetRange: OffsetRange;
+}
+
 export interface Context {
   ui5Model: UI5SemanticModel;
   manifestDetails: ManifestDetails;
   yamlDetails: YamlDetails;
   services: Record<string, ServiceDetails>;
   customViewId: string;
+  viewFiles: Record<string, XMLDocument>;
+  controlIds: Map<string, ControlIdLocation[]>;
+  documentPath: string;
 }
 
 /**
@@ -46,12 +52,16 @@ export interface ServiceDetails {
  * @param minUI5Version minimum version of UI5
  * @param mainServicePath path to a main OData service
  * @param customViews record of views id and their entity set
+ * @param appId application id under `sap.app` namespace
+ * @param manifestPath path to manifest.json file
  */
 export type ManifestDetails = {
   flexEnabled: boolean;
   minUI5Version: string | undefined;
   mainServicePath: string | undefined;
   customViews: { [name: string]: { entitySet?: string; contextPath?: string } };
+  appId: string;
+  manifestPath: string;
 };
 /**
  * @param framework UI5 framework

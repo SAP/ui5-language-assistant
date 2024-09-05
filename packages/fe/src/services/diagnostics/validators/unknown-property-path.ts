@@ -49,7 +49,6 @@ export function validateUnknownPropertyPath(
   ) {
     const element = attribute.parent;
     const control = element.name;
-
     const mainServicePath = context.manifestDetails.mainServicePath;
     const service = mainServicePath
       ? context.services[mainServicePath]

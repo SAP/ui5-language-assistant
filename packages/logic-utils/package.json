@@ -1,6 +1,6 @@
 {
   "name": "@ui5-language-assistant/logic-utils",
-  "version": "4.0.17",
+  "version": "4.0.20",
   "private": true,
   "description": "TBD",
   "keywords": [],
@@ -18,16 +18,20 @@
   "dependencies": {
     "@ui5-language-assistant/semantic-model-types": "workspace:*",
     "@ui5-language-assistant/settings": "workspace:*",
+    "@ui5-language-assistant/constant": "0.0.1",
+    "@ui5-language-assistant/logger": "workspace:*",
     "@xml-tools/ast": "5.0.0",
     "lodash": "4.17.21",
     "node-fetch": "2.6.9",
     "https-proxy-agent": "5.0.1",
-    "proxy-from-env": "1.1.0"
+    "proxy-from-env": "1.1.0",
+    "chevrotain": "7.0.1"
   },
   "devDependencies": {
     "@ui5-language-assistant/semantic-model": "workspace:*",
     "@ui5-language-assistant/test-utils": "workspace:*",
-    "@xml-tools/parser": "1.0.7"
+    "@xml-tools/parser": "1.0.7",
+    "vscode-languageserver-types": "3.17.2"
   },
   "scripts": {
     "ci": "npm-run-all clean compile lint coverage",

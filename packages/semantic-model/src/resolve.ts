@@ -21,6 +21,7 @@ import {
 import { TypeNameFix } from "../api";
 import { SymbolBase, ClassSymbol, ObjCallableParameters } from "./api-json";
 import { error, getParentFqn, findValueInMaps, findSymbol } from "./utils";
+import { DEFAULT_UI5_FRAMEWORK } from "@ui5-language-assistant/constant";
 
 // Exported for testing purpose
 export function setParent(
@@ -35,7 +36,7 @@ export function setParent(
       // Always throwing an error because we add these symbols implicitly so an error here means we have a bug
       error(
         `Symbol ${parentFqn} not found (should be parent of ${fqn}) [${
-          model.framework || "SAPUI5"
+          model.framework || DEFAULT_UI5_FRAMEWORK
         }:${model.version}]`,
         true
       );
@@ -108,7 +109,7 @@ export function resolveSemanticProperties(
             `${jsonSymbol.extends} is a ${
               extendsType.kind
             } and not a class (class ${key} extends it) [${
-              model.framework || "SAPUI5"
+              model.framework || DEFAULT_UI5_FRAMEWORK
             }:${model.version}]`,
             strict
           );
@@ -126,7 +127,7 @@ export function resolveSemanticProperties(
               `${interfacee} is a ${
                 interfaceType.kind
               } and not an interface (class ${key} implements it) [${
-                model.framework || "SAPUI5"
+                model.framework || DEFAULT_UI5_FRAMEWORK
               }:${model.version}]`,
               strict
             );
@@ -148,7 +149,7 @@ export function resolveSemanticProperties(
       if (classs.defaultAggregation === undefined) {
         error(
           `Unknown default aggregation ${defaultAggregation} in class ${key} [${
-            model.framework || "SAPUI5"
+            model.framework || DEFAULT_UI5_FRAMEWORK
           }:${model.version}]`,
           strict
         );
@@ -178,7 +179,7 @@ export function resolveSemanticProperties(
       classs.returnTypes = convertedTypes;
     }
 
-    if (classs.ctor?.parameters && jsonSymbol.constructor.parameters) {
+    if (classs.ctor?.parameters && jsonSymbol.constructor?.parameters) {
       classs.ctor.parameters.push(
         ...resolveConstructorParameters(
           model,
@@ -314,6 +315,31 @@ export function resolveType({
   if (type === undefined || type.kind !== "UnresolvedType") {
     return type;
   }
+  /**
+   * JSDoc uses usually `|` to represent union type, but
+   * starting with UI5 version 1.121.1, it may use `,`. For instance aggregation actions of `sap.fe.macros.Table` is represented by "sap.fe.macros.table.Action,sap.fe.macros.table.ActionGroup"
+   * Todo: Alignment on union type representation is required.
+   */
+  if (Array.isArray(type.name)) {
+    const types: UI5Type[] = [];
+    for (const t of type.name) {
+      const resolvedType = resolveType({
+        model,
+        type: t,
+        typeNameFix,
+        strict,
+        typedef,
+      });
+      if (!resolvedType) {
+        continue;
+      }
+      types.push(resolvedType);
+    }
+    return {
+      kind: "UnionType",
+      types,
+    };
+  }
 
   const typeName = fixTypeName(type.name, typeNameFix);
   if (typeName === undefined) {
@@ -344,6 +370,7 @@ export function resolveType({
       name: primitiveTypeName,
     };
   }
+
   if (typeName.startsWith("Array<(")) {
     const innerTypeName = typeName.slice(
       typeName.indexOf("(") + 1,
@@ -413,7 +440,7 @@ export function resolveType({
     });
   } else {
     error(
-      `Unknown type: ${typeName} [${model.framework || "SAPUI5"}:${
+      `Unknown type: ${typeName} [${model.framework || DEFAULT_UI5_FRAMEWORK}:${
         model.version
       }]`,
       strict && !typedef

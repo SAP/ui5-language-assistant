@@ -137,6 +137,21 @@ The feature is available in the following:
   - SAPUI5 Namespaces
   - Name of property binding info or aggregation binding info
 
+### XML View Go To Definition
+
+#### Description
+
+The tool provides navigation to project files referenced in xml fragments or views with Go To Definition. The standard keyboard shortcuts for Go To Definition are `Ctr` / `Command` + `Click` or `F12`.
+
+#### Availability
+
+The feature is available for:
+
+- references to controller files in the following XML attributes:
+  - `controllerName`
+  - `core:require`
+  - `template:require`
+
 ### Semantic Highlighting
 
 ![](https://raw.githubusercontent.com/SAP/ui5-language-assistant/master/packages/vscode-ui5-language-assistant/resources/readme/preview-semantic-highlighting-binding.png)
@@ -186,6 +201,8 @@ For SAPUI5 XML views, this means:`*.view.xml` or `*.fragment.xml` files.
 
 Note that the extension **lazily** downloads the SAPUI5 metadata needed for its features.
 This means that there may be a delay between starting VS Code and having the relevant features available.
+
+When working with CAP projects, make sure you have @sap/cds module installed. For this, run npm install on your project. This command will download and install all necessary modules from the npm package repository.
 
 ### Enabling offline work
 

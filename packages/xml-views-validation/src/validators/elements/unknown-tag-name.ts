@@ -13,12 +13,12 @@ import {
   isSameXMLNS,
   resolveXMLNS,
   getUI5KindByXMLElement,
+  CORE_NS,
 } from "@ui5-language-assistant/logic-utils";
 import {
   validations,
   buildMessage,
 } from "@ui5-language-assistant/user-facing-text";
-import { CORE_NS } from "../../utils/special-namespaces";
 import { Context } from "@ui5-language-assistant/context";
 
 const {

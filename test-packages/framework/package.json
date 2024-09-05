@@ -8,7 +8,7 @@
     "api.d.ts",
     "src"
   ],
-  "main": "lib/api.js",
+  "main": "lib/src/api.js",
   "repository": "https://github.com/sap/ui5-language-assistant/",
   "license": "Apache-2.0",
   "typings": "./api.d.ts",
@@ -27,7 +27,7 @@
   "scripts": {
     "ci": "npm-run-all clean compile lint test",
     "clean": "rimraf ./lib ./coverage ./nyc_output ./.model-cache *.tsbuildinfo",
-    "compile": "yarn run clean && tsc -p tsconfig-build.json",
+    "compile": "yarn run clean && tsc -p .",
     "compile:watch": "tsc -p . --watch",
     "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore",
     "test": "jest --ci --forceExit --detectOpenHandles --maxWorkers=1 --coverage=false"

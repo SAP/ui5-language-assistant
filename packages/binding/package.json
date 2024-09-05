@@ -1,6 +1,6 @@
 {
   "name": "@ui5-language-assistant/binding",
-  "version": "1.0.26",
+  "version": "1.0.34",
   "private": true,
   "description": "UI5 LSP server extension for binding",
   "keywords": [],
@@ -26,7 +26,7 @@
     "lodash": "4.17.21"
   },
   "devDependencies": {
-    "@sap-ux/vocabularies-types": "0.7.4",
+    "@sap-ux/vocabularies-types": "0.10.14",
     "@types/lodash": "4.14.168",
     "@ui5-language-assistant/semantic-model-types": "workspace:*",
     "@ui5-language-assistant/test-framework": "workspace:*",

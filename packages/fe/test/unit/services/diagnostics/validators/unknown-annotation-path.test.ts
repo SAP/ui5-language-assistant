@@ -136,9 +136,36 @@ describe("metaPath attribute value validation (annotation path)", () => {
       expect(result.length).toEqual(0);
     });
 
+    it("custom views are empty manifest - absolute path", async function () {
+      const result = await validateView(
+        `<macros:Chart metaPath="/Booking/to_Travel/@com.sap.vocabularies.UI.v1.Chart#sample1"></macros:Chart>`,
+        (c) => {
+          const newContext = {
+            ...c,
+            manifestDetails: { ...c.manifestDetails, customViews: {} },
+          };
+          return newContext;
+        }
+      );
+      expect(result.length).toEqual(0);
+    });
+
     it("custom view id not determined", async function () {
       const result = await validateView(
         `<macros:Chart metaPath=""></macros:Chart>`,
+        (c) => {
+          const newContext: Context = {
+            ...c,
+            customViewId: "",
+          };
+          return newContext;
+        }
+      );
+      expect(result.length).toEqual(0);
+    });
+    it("custom view id not determined - absolute path", async function () {
+      const result = await validateView(
+        `<macros:Chart metaPath="/Booking/to_Travel/@com.sap.vocabularies.UI.v1.Chart#sample1"></macros:Chart>></macros:Chart>`,
         (c) => {
           const newContext: Context = {
             ...c,
@@ -182,6 +209,13 @@ describe("metaPath attribute value validation (annotation path)", () => {
       const result = await validateView(
         `<macros:Chart metaPath="to_Travel/@com.sap.vocabularies.UI.v1.Chart#sample1"></macros:Chart>`,
         prepareContextAdapter("/Booking")
+      );
+      expect(result.length).toEqual(0);
+    });
+
+    it("is absolute path", async function () {
+      const result = await validateView(
+        `<macros:Chart metaPath="/Booking/to_Travel/@com.sap.vocabularies.UI.v1.Chart#sample1"></macros:Chart>`
       );
       expect(result.length).toEqual(0);
     });
@@ -235,12 +269,12 @@ describe("metaPath attribute value validation (annotation path)", () => {
       ]);
     });
 
-    it("is absolute path", async function () {
+    it("contains wrong segments - absolute path", async function () {
       const result = await validateView(
-        `<macros:Chart metaPath="/Booking/to_Travel/@com.sap.vocabularies.UI.v1.Chart#sample1"></macros:Chart>`
+        `<macros:Chart metaPath="/Booking_01/to_Travel/@com.sap.vocabularies.UI.v1.Chart#sample1"></macros:Chart>`
       );
       expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-        "kind: InvalidAnnotationTerm; text: Absolute annotation paths not allowed in metaPath. Use contextPath attribute to change path context; severity:warn; offset:344-405",
+        'kind: PathDoesNotExist; text: Unknown annotation path: "/Booking_01/to_Travel/@com.sap.vocabularies.UI.v1.Chart#sample1"; severity:warn; offset:345-407',
       ]);
     });
 
@@ -253,12 +287,30 @@ describe("metaPath attribute value validation (annotation path)", () => {
       ]);
     });
 
+    it("is incomplete - absolute path", async function () {
+      const result = await validateView(
+        `<macros:Chart metaPath="/Booking/to_Travel"></macros:Chart>`
+      );
+      expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
+        "kind: PropertyPathNotAllowed; text: Path value must end with annotation term. Use code completion to select annotation path; severity:warn; offset:344-363",
+      ]);
+    });
+
     it("is property path", async function () {
       const result = await validateView(
         `<macros:Chart metaPath="to_Booking/to_Travel/BeginDate"></macros:Chart>`
       );
       expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
         "kind: PropertyPathNotAllowed; text: Path value must end with annotation term. Use code completion to select annotation path; severity:warn; offset:344-375",
+      ]);
+    });
+
+    it("is property path - absolute path", async function () {
+      const result = await validateView(
+        `<macros:Chart metaPath="/Booking/to_Travel/BeginDate"></macros:Chart>`
+      );
+      expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
+        "kind: PropertyPathNotAllowed; text: Path value must end with annotation term. Use code completion to select annotation path; severity:warn; offset:344-373",
       ]);
     });
 
@@ -277,6 +329,15 @@ describe("metaPath attribute value validation (annotation path)", () => {
       );
       expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
         'kind: PathDoesNotExist; text: Unknown annotation path: "/Travel/@com.sap.vocabularies.UI.v1.Chart"; severity:warn; offset:344-378',
+      ]);
+    });
+
+    it("is pointing to not existing term - absolute path", async function () {
+      const result = await validateView(
+        `<macros:Chart metaPath="/Booking/to_Travel/@com.sap.vocabularies.UI.v1.Chart#NotExisting"></macros:Chart>`
+      );
+      expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
+        'kind: PathDoesNotExist; text: Unknown annotation path: "/Booking/to_Travel/@com.sap.vocabularies.UI.v1.Chart#NotExisting"; severity:warn; offset:344-409',
       ]);
     });
 

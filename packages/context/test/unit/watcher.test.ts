@@ -12,6 +12,7 @@ import {
   reactOnManifestChange,
   reactOnPackageJson,
   reactOnUI5YamlChange,
+  reactOnViewFileChange,
   reactOnXmlFileChange,
 } from "../../src/watcher";
 import { CAPProject, Project, YamlDetails } from "../../src/types";
@@ -19,6 +20,12 @@ import * as utils from "../../src/utils";
 import * as manifest from "../../src/manifest";
 import { URI } from "vscode-uri";
 import pathParse from "path-parse";
+import {
+  DEFAULT_UI5_FRAMEWORK,
+  OPEN_FRAMEWORK,
+} from "@ui5-language-assistant/constant";
+import { FileChangeType } from "vscode-languageserver";
+import { join } from "path";
 
 describe("watcher", () => {
   let testFramework: TestFramework;
@@ -168,7 +175,7 @@ describe("watcher", () => {
         expect(setYamlDetailsSpy.mock.calls[0]).toEqual([
           yamlPath,
           {
-            framework: "SAPUI5",
+            framework: DEFAULT_UI5_FRAMEWORK,
             version: undefined,
           },
         ]);
@@ -190,7 +197,7 @@ describe("watcher", () => {
           expect(setYamlDetailsSpy.mock.calls[1]).toEqual([
             yamlPath,
             {
-              framework: "OpenUI5",
+              framework: OPEN_FRAMEWORK,
               version: undefined,
             },
           ]);
@@ -206,7 +213,7 @@ describe("watcher", () => {
             [directory]: {
               ["ui5.yaml"]: `
           framework:
-            name: SAPUI5
+            name: ${DEFAULT_UI5_FRAMEWORK}
             version: "1.100.0"
           `,
             },
@@ -216,7 +223,7 @@ describe("watcher", () => {
           expect(setYamlDetailsSpy.mock.calls[1]).toEqual([
             yamlPath,
             {
-              framework: "SAPUI5",
+              framework: DEFAULT_UI5_FRAMEWORK,
               version: "1.100.0",
             },
           ]);
@@ -533,6 +540,96 @@ describe("watcher", () => {
     });
   });
 
+  describe("reactOnViewFileChange", () => {
+    const setViewFileSpy = jest.spyOn(cache, "setViewFile");
+    const setControlIdsForViewFileSpy = jest.spyOn(
+      cache,
+      "setControlIdsForViewFile"
+    );
+    const validatorSpy = jest.fn();
+    const getManifestPath = (projectRoot: string) =>
+      join(projectRoot, "app", "manage_travels", "webapp", "manifest.json");
+
+    let fileUri, documentPath;
+
+    beforeAll(() => {
+      fileUri = testFramework.getFileUri([
+        "app",
+        "manage_travels",
+        "webapp",
+        "ext",
+        "main",
+        "Main.view.xml",
+      ]);
+      documentPath = URI.parse(fileUri).fsPath;
+    });
+
+    beforeEach(() => {
+      // reset cache for consistency
+      cache.reset();
+      jest.resetAllMocks();
+    });
+
+    it("test unregistered .view.xml file", async () => {
+      // arrange
+      const manifestPath = getManifestPath(testFramework.getProjectRoot());
+      const findManifestSpy = jest
+        .spyOn(manifest, "findManifestPath")
+        .mockResolvedValue(manifestPath);
+      setViewFileSpy.mockResolvedValue();
+      setControlIdsForViewFileSpy.mockReturnValue();
+      // act
+      await reactOnViewFileChange(
+        fileUri,
+        FileChangeType.Deleted,
+        validatorSpy
+      );
+
+      // assert
+      expect(findManifestSpy).toHaveBeenNthCalledWith(1, documentPath);
+      expect(setViewFileSpy).toHaveBeenNthCalledWith(1, {
+        documentPath,
+        manifestPath,
+        operation: FileChangeType.Deleted,
+      });
+      expect(setControlIdsForViewFileSpy).toHaveBeenNthCalledWith(1, {
+        documentPath,
+        manifestPath,
+        operation: FileChangeType.Deleted,
+      });
+      expect(validatorSpy).toHaveBeenCalledOnce();
+    });
+
+    it("test registered xml file", async () => {
+      // arrange
+      const manifestPath = getManifestPath(testFramework.getProjectRoot());
+      const findManifestSpy = jest
+        .spyOn(manifest, "findManifestPath")
+        .mockResolvedValue(manifestPath);
+      setViewFileSpy.mockResolvedValue();
+      setControlIdsForViewFileSpy.mockReturnValue();
+      // act
+      await reactOnViewFileChange(
+        fileUri,
+        FileChangeType.Created,
+        validatorSpy
+      );
+
+      // assert
+      expect(findManifestSpy).toHaveBeenNthCalledWith(1, documentPath);
+      expect(setViewFileSpy).toHaveBeenNthCalledWith(1, {
+        documentPath,
+        manifestPath,
+        operation: FileChangeType.Created,
+      });
+      expect(setControlIdsForViewFileSpy).toHaveBeenNthCalledWith(1, {
+        documentPath,
+        manifestPath,
+        operation: FileChangeType.Created,
+      });
+      expect(validatorSpy).toHaveBeenCalledOnce();
+    });
+  });
   describe("reactOnPackageJson", () => {
     const deleteAppSpy = jest.spyOn(cache, "deleteApp");
     const deleteProjectSpy = jest.spyOn(cache, "deleteProject");

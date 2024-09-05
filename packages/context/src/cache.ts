@@ -1,7 +1,9 @@
 import type { Manifest } from "@sap-ux/project-access";
 import type { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
-
-import type { App, Project, YamlDetails } from "./types";
+import { accept, type XMLDocument } from "@xml-tools/ast";
+import type { App, ControlIdLocation, Project, YamlDetails } from "./types";
+import { createDocumentAst, IdsCollectorVisitor } from "./utils";
+import { FileChangeType } from "vscode-languageserver/node";
 
 type AbsoluteAppRoot = string;
 type AbsoluteProjectRoot = string;
@@ -13,6 +15,11 @@ class Cache {
   private CAPServices: Map<AbsoluteProjectRoot, Map<string, string>>;
   private ui5YamlDetails: Map<string, YamlDetails>;
   private ui5Model: Map<string, UI5SemanticModel>;
+  private viewFiles: Map<string, Record<string, XMLDocument>>;
+  private controlIds: Map<
+    string,
+    Record<string, Map<string, ControlIdLocation[]>>
+  >;
   constructor() {
     this.project = new Map();
     this.manifest = new Map();
@@ -20,6 +27,8 @@ class Cache {
     this.CAPServices = new Map();
     this.ui5YamlDetails = new Map();
     this.ui5Model = new Map();
+    this.viewFiles = new Map();
+    this.controlIds = new Map();
   }
   reset() {
     this.project = new Map();
@@ -28,6 +37,8 @@ class Cache {
     this.CAPServices = new Map();
     this.ui5YamlDetails = new Map();
     this.ui5Model = new Map();
+    this.viewFiles = new Map();
+    this.controlIds = new Map();
   }
   /**
    * Get entries of cached project
@@ -123,6 +134,98 @@ class Cache {
   }
   deleteUI5Model(key: string): boolean {
     return this.ui5Model.delete(key);
+  }
+  /**
+   * Get entries of view files
+   */
+  getViewFiles(manifestPath: string): Record<string, XMLDocument> {
+    return this.viewFiles.get(manifestPath) ?? {};
+  }
+
+  setViewFiles(
+    manifestPath: string,
+    viewFiles: Record<string, XMLDocument>
+  ): void {
+    this.viewFiles.set(manifestPath, viewFiles);
+  }
+
+  /**
+   * Set view file. Use this API to manipulate cache for single view file. This is to avoid cache manipulation outside of cache file.
+   *
+   * @param param - The parameter object
+   * @param param.manifestPath - The path to the manifest.json
+   * @param param.documentPath - The path to the document
+   * @param param.operation - The operation to be performed (create or delete)
+   * @param param.content - The content of the document (optional, only required for 'create' operation)
+   * @returns - A Promise that resolves to void
+   */
+  async setViewFile(param: {
+    manifestPath: string;
+    documentPath: string;
+    operation: Exclude<FileChangeType, 2>;
+    content?: string;
+  }): Promise<void> {
+    const { manifestPath, documentPath, operation, content } = param;
+    if (operation === FileChangeType.Created) {
+      const viewFiles = this.getViewFiles(manifestPath);
+      viewFiles[documentPath] = await createDocumentAst(documentPath, content);
+      // assign new view files to cache
+      this.setViewFiles(manifestPath, viewFiles);
+      return;
+    }
+
+    const viewFiles = this.getViewFiles(manifestPath);
+    delete viewFiles[documentPath];
+    // assign new view files to cache
+    this.setViewFiles(manifestPath, viewFiles);
+  }
+  /**
+   * Get entries of control ids
+   */
+  getControlIds(
+    manifestPath: string
+  ): Record<string, Map<string, ControlIdLocation[]>> {
+    return this.controlIds.get(manifestPath) ?? {};
+  }
+  setControlIds(
+    manifestPath: string,
+    controlIds: Record<string, Map<string, ControlIdLocation[]>>
+  ) {
+    this.controlIds.set(manifestPath, controlIds);
+  }
+
+  /**
+   * Set control's id for xml view. Use this API to manipulate cache for controls ids of a single view file. This is to avoid cache manipulation out side of cache file.
+   *
+   * @param manifestPath - The path to the manifest.json
+   * @param documentPath - The path to the document
+   * @param param.operation - The operation to be performed (create or delete)
+   */
+  setControlIdsForViewFile(param: {
+    manifestPath: string;
+    documentPath: string;
+    operation: Exclude<FileChangeType, 2>;
+  }): void {
+    const { manifestPath, documentPath, operation } = param;
+
+    if (operation === FileChangeType.Created) {
+      const viewFiles = this.getViewFiles(manifestPath);
+      // for current document, re-collect and re-assign it to avoid cache issue
+      if (viewFiles[documentPath]) {
+        const idCollector = new IdsCollectorVisitor(documentPath);
+        accept(viewFiles[documentPath], idCollector);
+        const idControls = this.getControlIds(manifestPath);
+        idControls[documentPath] = idCollector.getControlIds();
+        // assign new control ids to cache
+        this.setControlIds(manifestPath, idControls);
+      }
+      return;
+    }
+
+    const idControls = this.getControlIds(manifestPath);
+    delete idControls[documentPath];
+    // assign new control ids to cache
+    this.setControlIds(manifestPath, idControls);
   }
 }
 

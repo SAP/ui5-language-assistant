@@ -279,6 +279,19 @@ export {
   getLocalUrl,
   isXMLView,
   getUI5KindByXMLElement,
+  getCDNBaseUrl,
+  getLibraryAPIJsonUrl,
+  getVersionInfoUrl,
+  getVersionJsonUrl,
+  getVersionsMap,
+  isKnownUI5Class,
+  isPossibleCustomClass,
+  locationToRange,
+  CORE_NS,
+  CUSTOM_DATA_NS,
+  SVG_NS,
+  TEMPLATING_NS,
+  XHTML_NS,
 } from "./src/api";
 
-export { FetchResponse } from "./src/utils/types";
+export { FetchResponse } from "./src/api";

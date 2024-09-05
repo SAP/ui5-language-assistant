@@ -6,8 +6,6 @@ import {
   DiagnosticTag,
 } from "vscode-languageserver-types";
 import { TextDocument } from "vscode-languageserver-textdocument";
-import { DocumentCstNode, parse } from "@xml-tools/parser";
-import { buildAst } from "@xml-tools/ast";
 import {
   validations,
   DIAGNOSTIC_SOURCE,
@@ -20,6 +18,7 @@ import {
   defaultValidators,
   validators,
   UI5ValidatorsConfig,
+  validateNonUniqueID,
 } from "@ui5-language-assistant/xml-views-validation";
 
 import { defaultValidators as feValidators } from "@ui5-language-assistant/fe";
@@ -38,9 +37,7 @@ export function getXMLViewDiagnostics(opts: {
   document: TextDocument;
   context: Context;
 }): Diagnostic[] {
-  const documentText = opts.document.getText();
-  const { cst, tokenVector } = parse(documentText);
-  const xmlDocAst = buildAst(cst as DocumentCstNode, tokenVector);
+  const xmlDocAst = opts.context.viewFiles[opts.context.documentPath];
   const actualValidators = cloneDeep(defaultValidators);
   if (opts.context.manifestDetails.flexEnabled) {
     actualValidators.element.push(validators.validateNonStableId);
@@ -58,6 +55,16 @@ export function getXMLViewDiagnostics(opts: {
     xmlView: xmlDocAst,
     context: opts.context,
   });
+  const diagnostics = validationIssuesToLspDiagnostics(issues, opts.document);
+  return diagnostics;
+}
+
+export function getXMLViewIdDiagnostics(opts: {
+  document: TextDocument;
+  context: Context;
+}): Diagnostic[] {
+  const { context } = opts;
+  const issues = validateNonUniqueID(context);
   const diagnostics = validationIssuesToLspDiagnostics(issues, opts.document);
   return diagnostics;
 }
@@ -86,7 +93,6 @@ function mergeValidators(
 }
 
 function baseDiagnostic(
-  document: TextDocument,
   currIssue: UI5XMLViewIssue,
   commonDiagnosticPros: Diagnostic
 ): Diagnostic {
@@ -124,8 +130,8 @@ function baseDiagnostic(
           (_) => ({
             message: validations.NON_UNIQUE_ID_RELATED_INFO.msg,
             location: {
-              uri: document.uri,
-              range: offsetRangeToLSPRange(_, document),
+              uri: _.uri,
+              range: _.range,
             },
           })
         ),
@@ -151,7 +157,7 @@ function validationIssuesToLspDiagnostics(
       message: currIssue.message,
     };
     if (currIssue.issueType === "base") {
-      return baseDiagnostic(document, currIssue, commonDiagnosticPros);
+      return baseDiagnostic(currIssue, commonDiagnosticPros);
     }
     if (currIssue.issueType === "annotation-issue") {
       return {

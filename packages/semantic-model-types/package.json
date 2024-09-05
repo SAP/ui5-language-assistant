@@ -1,6 +1,6 @@
 {
   "name": "@ui5-language-assistant/semantic-model-types",
-  "version": "4.0.9",
+  "version": "4.0.11",
   "private": true,
   "description": "UI5 Semantic model type definitions",
   "keywords": [],
@@ -20,5 +20,8 @@
     "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore",
     "test": "echo nothing to test",
     "coverage": "echo nothing to test"
+  },
+  "dependencies": {
+    "@ui5-language-assistant/constant": "0.0.1"
   }
 }

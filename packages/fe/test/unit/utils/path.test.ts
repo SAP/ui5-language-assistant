@@ -13,12 +13,12 @@ import {
 } from "../../../src/utils";
 
 describe("path utils (exotic cases to achieve full code coverage)", () => {
-  const entityContainer: EntityContainer = {
+  const entityContainer = {
     _type: "EntityContainer",
     annotations: {},
     fullyQualifiedName: "TravelService.EntityContainer",
     name: "EntityContainer",
-  };
+  } as EntityContainer;
   const bookingEntityType: EntityType = {
     _type: "EntityType",
     name: "Booking",

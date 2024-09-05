@@ -7,6 +7,7 @@ import {
 } from "@ui5-language-assistant/test-framework";
 import { toPosixPath } from "../../src/utils/fileUtils";
 import { getVersionForXMLFile, getYamlDetails } from "../../src/ui5-yaml";
+import { OPEN_FRAMEWORK } from "@ui5-language-assistant/constant";
 
 describe("UI5 yaml data handling", () => {
   let testFramework: TestFramework;
@@ -55,7 +56,7 @@ describe("UI5 yaml data handling", () => {
     const dummyPath = entries[0] + "/dummyPath";
     cache.setYamlDetails(
       dummyPath,
-      details || { framework: "OpenUI5", version: undefined }
+      details || { framework: OPEN_FRAMEWORK, version: undefined }
     );
     let result = getVersionForXMLFile(dummyPath + "/a.xml");
     expect(result).toBe("1.104.0");
