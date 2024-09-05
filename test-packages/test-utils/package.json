@@ -16,7 +16,7 @@
     "https-proxy-agent": "5.0.1",
     "node-fetch": "2.6.9",
     "proxy-from-env": "1.1.0",
-    "@ui5-language-assistant/constant": "0.0.1",
+    "@ui5-language-assistant/constant": "workspace:*",
     "@ui5-language-assistant/semantic-model-types": "4.0.11"
   },
   "devDependencies": {

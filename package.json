@@ -84,6 +84,9 @@
     "node": ">=18.x"
   },
   "packageManager": "pnpm@8.14.0",
+  "pnpm": {
+    "overrides": {}
+  },
   "lint-staged": {
     "*.{js,ts,md,json}": [
       "prettier --write"

@@ -18,7 +18,7 @@
   "dependencies": {
     "@ui5-language-assistant/semantic-model-types": "workspace:*",
     "@ui5-language-assistant/settings": "workspace:*",
-    "@ui5-language-assistant/constant": "0.0.1",
+    "@ui5-language-assistant/constant": "workspace:*",
     "@ui5-language-assistant/logger": "workspace:*",
     "@xml-tools/ast": "5.0.0",
     "lodash": "4.17.21",
