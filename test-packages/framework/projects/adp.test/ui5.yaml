@@ -1,0 +1,44 @@
+# yaml-language-server: $schema=https://sap.github.io/ui5-tooling/schema/ui5.yaml.json
+
+specVersion: "3.0"
+metadata:
+  name: adp.test
+type: application
+resources:
+  configuration:
+    propertiesFileSourceEncoding: UTF-8
+customConfiguration:
+  adp:
+    support:
+      id: '@sap/generator-adaptation-project'
+      version: 1.1.61
+      toolsId: e9caf76b-f8d3-49ff-a5f2-6e4a8fee7ee0
+server:
+  customMiddleware:
+    - name: fiori-tools-appreload
+      afterMiddleware: compression
+      configuration:
+        port: 35729
+        path: webapp
+        delay: 300
+    - name: fiori-tools-preview
+      afterMiddleware: fiori-tools-appreload
+      configuration:
+        adp:
+          target:
+            destination: adpDestination
+          ignoreCertErrors: false
+    - name: fiori-tools-proxy
+      afterMiddleware: fiori-tools-preview
+      configuration:
+        ignoreCertError: false # If set to true, certificate errors will be ignored. E.g. self-signed certificates will be accepted
+        backend:
+          - destination: adpDestination
+            url: https://test.example
+            path: /test
+        ui5:
+          path:
+            - /resources
+            - /test-resources
+          url: https://sapui5.hana.ondemand.com/1.129.0/
+          version: 1.129.0

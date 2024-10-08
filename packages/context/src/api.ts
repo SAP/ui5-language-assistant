@@ -4,6 +4,7 @@ import {
   getManifestDetails,
   getUI5Manifest,
 } from "./manifest";
+import { finAdpdManifestPath } from "./adp-manifest";
 import { getServices } from "./services";
 import { Context } from "./types";
 import { getSemanticModel } from "./ui5-model";
@@ -47,7 +48,8 @@ export async function getContext(
 ): Promise<Context | Error> {
   try {
     const manifestDetails = await getManifestDetails(documentPath);
-    const manifest = await getUI5Manifest(manifestDetails.manifestPath);
+    let manifestPath = manifestDetails.manifestPath;
+    const manifest = await getUI5Manifest(manifestPath);
     let minUI5Version = manifestDetails.minUI5Version;
     if (manifest) {
       minUI5Version = getMinimumUI5Version(manifest);
@@ -61,7 +63,12 @@ export async function getContext(
     );
     const services = await getServices(documentPath);
     const customViewId = await getCustomViewId(documentPath);
-    const manifestPath = manifestDetails.manifestPath;
+    if (!manifestPath) {
+      const adpManifestPath = await finAdpdManifestPath(documentPath);
+      if (adpManifestPath) {
+        manifestPath = adpManifestPath;
+      }
+    }
     const viewFiles = await getViewFiles({
       manifestPath,
       documentPath,

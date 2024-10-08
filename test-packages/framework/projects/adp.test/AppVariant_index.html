@@ -1,0 +1,64 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<title>Adaptation Project Preview</title>
+
+	<style>
+		/* hide variant management popover footer */
+		.sapUiFlVarMngmtPopover .sapMPageWithFooter>section { bottom: 0 !important; }
+		.sapUiFlVarMngmtPopover .sapMPageFooter, .sapUICompVarMngmtPopover .sapMPageFooter { display: none !important; }
+	</style>
+	
+	<script type="text/javascript">
+		window["sap-ushell-config"] = {
+			defaultRenderer : "fiori2",
+			renderers: {
+				fiori2: {
+					componentData: {
+						config: {
+							appState: "headerless",
+							rootIntent: "adaptationproject-display"
+						}
+					}
+				}
+			},
+			applications: {
+				"adaptationproject-display": {
+					title: "Adaptation Project Preview",
+					additionalInformation: "SAPUI5.Component=demo.v4",
+					applicationType: "URL",
+					applicationDependencies: {"name":"demo.v4","url":"/adp/test/demo/","manifest":{}}
+				}
+			}
+		};
+	</script>
+
+	<script src="https://sapui5.hana.ondemand.com/1.129.0//test-resources/sap/ushell/bootstrap/sandbox.js" id="sap-ushell-bootstrap"></script>
+
+	<script id="sap-ui-bootstrap"
+			src="https://sapui5.hana.ondemand.com/1.129.0//resources/sap-ui-core.js"
+			data-sap-ui-libs="sap.ushell, sap.ui.rta"
+			data-sap-ui-theme="sap_horizon"
+			data-sap-ui-compatVersion="edge"
+			data-sap-ui-xx-bindingSyntax="complex"
+			data-sap-ui-xx-rootComponentNode="content"
+			data-sap-ui-xx-designMode="true"
+			data-sap-ui-flexibilityServices='[<REMOVED>]'
+			data-sap-ui-xx-suppressDeactivationOfControllerCode="true">
+	</script>
+
+	<script type="text/javascript">
+		sap.ui.getCore().attachInit(function() {
+			sap.ushell.Container.createRenderer().placeAt("content");
+		});
+	</script>
+
+</head>
+
+<body class="sapUiBody" id="content" role="application">
+</body>
+
+</html>

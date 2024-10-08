@@ -1,0 +1,72 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`xml view diagnostics adaptation project diagnostics for duplicate ids - duplicates 1`] = `
+Array [
+  Object {
+    "message": "Select a unique ID. The current \\"_IDGenText\\" ID has already been used.",
+    "range": Object {
+      "end": Object {
+        "character": 25,
+        "line": 3,
+      },
+      "start": Object {
+        "character": 13,
+        "line": 3,
+      },
+    },
+    "relatedInformation": Array [
+      Object {
+        "location": Object {
+          "range": Object {
+            "end": Object {
+              "character": 25,
+              "line": 3,
+            },
+            "start": Object {
+              "character": 13,
+              "line": 3,
+            },
+          },
+          "uri": "filterBar.fragment.xml",
+        },
+        "message": "An identical ID is also used here.",
+      },
+    ],
+    "severity": 1,
+    "source": "UI5 Language Assistant",
+  },
+  Object {
+    "message": "Select a unique ID. The current \\"_IDGenButton\\" ID has already been used.",
+    "range": Object {
+      "end": Object {
+        "character": 29,
+        "line": 4,
+      },
+      "start": Object {
+        "character": 15,
+        "line": 4,
+      },
+    },
+    "relatedInformation": Array [
+      Object {
+        "location": Object {
+          "range": Object {
+            "end": Object {
+              "character": 29,
+              "line": 4,
+            },
+            "start": Object {
+              "character": 15,
+              "line": 4,
+            },
+          },
+          "uri": "filterBar.fragment.xml",
+        },
+        "message": "An identical ID is also used here.",
+      },
+    ],
+    "severity": 1,
+    "source": "UI5 Language Assistant",
+  },
+]
+`;

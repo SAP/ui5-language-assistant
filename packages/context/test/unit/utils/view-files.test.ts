@@ -104,4 +104,23 @@ describe("view-files", () => {
     expect(Object.keys(viewFiles).length).toBeGreaterThan(1);
     expect(viewFiles[documentPath]).toBeDefined();
   });
+  it("get view files - no manifest path", async () => {
+    // arrange
+    cache.reset();
+    const getViewFilesStub = jest
+      .spyOn(cache, "getViewFiles")
+      .mockReturnValue({});
+    const projectRoot = testFramework.getProjectRoot();
+    const documentPath = getDocumentPath(projectRoot);
+    const manifestPath = "";
+    // act
+    const viewFiles = await getViewFiles({
+      manifestPath,
+      documentPath,
+    });
+    // assert
+    expect(getViewFilesStub).toHaveBeenCalledTimes(1);
+    expect(Object.keys(viewFiles).length).toEqual(1);
+    expect(viewFiles[documentPath]).toBeDefined();
+  });
 });
