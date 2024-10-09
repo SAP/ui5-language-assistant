@@ -1,0 +1,49 @@
+{
+  "fileName": "manifest",
+  "layer": "VENDOR",
+  "fileType": "appdescr_variant",
+  "reference": "demo.v4",
+  "id": "adp.test",
+  "namespace": "apps/demo.v4/appVariants/adp.test/",
+  "version": "0.1.0",
+  "content": [
+    {
+    "changeType": "appdescr_ui5_addNewModelEnhanceWith",
+    "content": {
+        "modelId": "i18n",
+        "bundleUrl": "i18n/i18n.properties",
+        "supportedLocales": [
+            ""
+        ],
+        "fallbackLocale": ""
+    }
+},
+    {
+    "changeType": "appdescr_fiori_setRegistrationIds",
+    "content": {
+        "registrationIds": [
+            "test123"
+        ]
+    }
+},
+    {
+    "changeType": "appdescr_app_setAch",
+    "content": {
+        "ach": "no"
+    }
+},
+    {
+    "changeType": "appdescr_ui5_setMinUI5Version",
+    "content": {
+        "minUI5Version": "1.129.0"
+    }
+},
+    {
+      "changeType": "appdescr_app_setTitle",
+      "content": {},
+      "texts": {
+        "i18n": "i18n/i18n.properties"
+      }
+    }
+  ]
+}

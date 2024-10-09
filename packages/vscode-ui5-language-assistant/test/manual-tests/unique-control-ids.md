@@ -55,3 +55,25 @@ You can navigate to related file where identical ids are used
 6. Click on `Generate a unique ID`. Unique Id is generated. This ID is unique for entire app
 7. Click on `Button` tag. Light bulb appears
 8. Click on light bulb and select `Generate unique IDs for the entire file`. Unique Ids are generated. These IDs are unique for entire app
+
+## Diagnostic Adaption Project
+
+**Note:** For this step test, we use `test-packages/framework/projects/adp.test` project
+
+1. Open `actionToolbar.fragment.xml` file which is located under `adp.test/webapp/changes/fragments` folder
+2. Copy and replace snippet below with `<!--  add your xml here -->`
+
+```xml
+   <Text id="_IDGenText" >
+   <Button id="_IDGenButton" />
+```
+
+3. Check that no diagnostic is reported as there is not duplicate id
+4. Open `filterBar.fragment.xml` file which is located under `adp.test/webapp/changes/fragments` folder and copy paste all content of `actionToolbar.fragment.xml` file in `filterBar.fragment.xml`
+5. Check that diagnostics are reported for duplicate ids
+6. Remove `MyTest.view.xml` file
+7. Check that no diagnostic is reported as duplicate ids are removed
+
+##### Note
+
+You can navigate to related file where identical ids are used
