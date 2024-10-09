@@ -1,5 +1,13 @@
 # Change Log
 
+## 4.0.74
+
+### Patch Changes
+
+- 6fe3662: fix: lsp for adaption project - first iteration
+- Updated dependencies [6fe3662]
+  - @ui5-language-assistant/language-server@4.0.57
+
 ## 4.0.73
 
 ### Patch Changes

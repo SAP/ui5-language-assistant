@@ -3,7 +3,7 @@
   "displayName": "UI5 Language Assistant",
   "private": true,
   "description": "Language Support For SAPUI5",
-  "version": "4.0.73",
+  "version": "4.0.74",
   "publisher": "SAPOSS",
   "icon": "resources/ui5-language-assistant.png",
   "keywords": [
@@ -155,7 +155,7 @@
     "update:schema": "ts-node  --project tsconfig.cli.json scripts/manifest/run-update.ts"
   },
   "dependencies": {
-    "@ui5-language-assistant/language-server": "4.0.56",
+    "@ui5-language-assistant/language-server": "4.0.57",
     "vscode-languageclient": "8.0.2",
     "@prettier/plugin-xml": "2.2.0",
     "prettier": "2.8.7"
@@ -172,7 +172,7 @@
     "vsce": "1.83.0",
     "vscode-languageserver": "8.0.2",
     "vscode-test": "1.6.1",
-    "@ui5-language-assistant/test-framework": "4.0.12",
+    "@ui5-language-assistant/test-framework": "4.0.13",
     "axios": "1.6.1",
     "ts-node": "8.5.2"
   }

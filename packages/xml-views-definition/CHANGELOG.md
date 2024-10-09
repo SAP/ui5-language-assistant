@@ -1,5 +1,12 @@
 # @ui5-language-assistant/xml-views-definition
 
+## 0.0.8
+
+### Patch Changes
+
+- Updated dependencies [6fe3662]
+  - @ui5-language-assistant/context@4.0.30
+
 ## 0.0.7
 
 ### Patch Changes

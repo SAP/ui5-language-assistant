@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.30
+
+### Patch Changes
+
+- 6fe3662: fix: lsp for adaption project - first iteration
+
 ## 4.0.29
 
 ### Patch Changes

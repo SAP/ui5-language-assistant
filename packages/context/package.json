@@ -1,6 +1,6 @@
 {
   "name": "@ui5-language-assistant/context",
-  "version": "4.0.29",
+  "version": "4.0.30",
   "private": true,
   "description": "A context for an xml file",
   "keywords": [],
@@ -40,7 +40,7 @@
     "@types/node-fetch": "2.5.10",
     "@types/semver": "7.3.12",
     "@ui5-language-assistant/semantic-model-types": "4.0.11",
-    "@ui5-language-assistant/test-framework": "4.0.12",
+    "@ui5-language-assistant/test-framework": "4.0.13",
     "@ui5-language-assistant/test-utils": "4.0.16",
     "rimraf": "3.0.2",
     "tmp-promise": "3.0.2",
