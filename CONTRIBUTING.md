@@ -138,3 +138,9 @@ Performing a release requires push permissions to the repository.
   - Inspect the npm registry to see the new sub packages versions.
   - Inspect the new github release named after the new `/v\d+.\d+.\d+/` tag
     and verify it contains the `.vsix` artifact.
+
+## Contributing with AI-generated code
+
+As artificial intelligence evolves, AI-generated code is becoming valuable for many software projects, including open-source initiatives. While we recognize the potential benefits of incorporating AI-generated content into our open-source projects there a certain requirements that need to be reflected and adhered to when making contributions.
+
+Please see our [guideline for AI-generated code contributions to SAP Open Source Software Projects](CONTRIBUTING_USING_GENAI.md) for these requirements.
