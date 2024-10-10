@@ -5,5 +5,34 @@
     "outDir": "lib",
     "baseUrl": "."
   },
-  "include": ["src/**/*", "test/**/*", "api.d.ts"]
+  "include": ["src/**/*", "test/**/*", "api.d.ts", "src/**/*.json"],
+  "references": [
+    {
+      "path": "../logger"
+    },
+    {
+      "path": "../context"
+    },
+    {
+      "path": "../logic-utils"
+    },
+    {
+      "path": "../xml-views-completion"
+    },
+    {
+      "path": "../xml-views-validation"
+    },
+    {
+      "path": "../settings"
+    },
+    {
+      "path": "../semantic-model-types"
+    },
+    {
+      "path": "../../test-packages/framework"
+    },
+    {
+      "path": "../../test-packages/test-utils"
+    }
+  ]
 }

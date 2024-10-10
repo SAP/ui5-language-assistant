@@ -16,12 +16,17 @@
   "license": "Apache-2.0",
   "typings": "./api.d.ts",
   "dependencies": {
-    "deep-freeze-strict": "1.1.1"
+    "deep-freeze-strict": "1.1.1",
+    "lodash": "4.17.21"
+  },
+  "devDependencies": {
+    "@types/lodash": "4.14.168",
+    "@types/deep-freeze-strict": "1.1.0"
   },
   "scripts": {
     "ci": "npm-run-all clean compile lint coverage",
     "clean": "rimraf ./lib ./coverage ./nyc_output",
-    "compile": "yarn run clean && tsc -p .",
+    "compile": "pnpm run clean && tsc -p .",
     "compile:watch": "tsc -p . --watch",
     "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore",
     "test": "jest --ci --forceExit --detectOpenHandles --maxWorkers=1 --coverage=false",

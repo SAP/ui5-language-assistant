@@ -11,6 +11,9 @@
       "path": "../logger"
     },
     {
+      "path": "../constant"
+    },
+    {
       "path": "../semantic-model-types"
     },
     {

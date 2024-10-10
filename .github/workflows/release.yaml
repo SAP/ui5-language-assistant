@@ -15,21 +15,17 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        node-version: [14.x, 16.x, 18.x]
+        node-version: [18.x, 20.x]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout code repository
         uses: actions/checkout@v3
         with:
           fetch-depth: 0 # will fetch all history
-      - name: Run install
-        uses: borales/actions-yarn@v4
-        with:
-          cmd: install # will run `yarn install` command
+      - name: Install pnpm modules
+        run: pnpm install 
       - name: Run build
-        uses: borales/actions-yarn@v4
-        with:
-          cmd: ci # will run `yarn run ci` command
+        run: pnpm ci 
 
       - name: Run SonarCloud scan
         if: matrix.os == 'ubuntu-latest' && matrix.node-version == '14.x'
@@ -62,7 +58,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        node-version: [14.x]
+        node-version: [18.x, 20.x]
     runs-on: ${{ matrix.os }}
     needs: [build, compliance]
     outputs:
@@ -75,10 +71,8 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.ACCESS_PAT }} # needed to auto trigger release job
 
-      - name: Run install
-        uses: borales/actions-yarn@v4
-        with:
-          cmd: install # will run `yarn install` command
+      - name: Install pnpm modules
+        run: pnpm install 
 
       - name: Apply changesets
         id: changesetVersion

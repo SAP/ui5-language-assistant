@@ -25,8 +25,7 @@ export class IdsCollectorVisitor implements XMLAstVisitor {
       attrib.value !== "" &&
       attrib.syntax.value !== undefined &&
       attrib.parent.name !== null &&
-      // @ts-expect-error - we already checked that xmlElement.name is not null
-      isPossibleCustomClass(attrib.parent)
+      isPossibleCustomClass(attrib.parent as any)
     ) {
       const existing = this.ids.get(attrib.value);
       const offsetRange = {

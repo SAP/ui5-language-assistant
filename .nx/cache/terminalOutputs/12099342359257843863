@@ -1,0 +1,8 @@
+
+> @ui5-language-assistant/test-utils@4.0.16 compile /Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/test-packages/test-utils
+> pnpm run clean && tsc -p .
+
+
+> @ui5-language-assistant/test-utils@4.0.16 clean /Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/test-packages/test-utils
+> rimraf ./lib ./coverage ./nyc_output ./.model-cache
+

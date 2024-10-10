@@ -9,11 +9,11 @@
     "url": "https://github.com/SAP/ui5-language-assistant"
   },
   "scripts": {
-    "ci": "node ./scripts/copy"
+    "ci": "node ./scripts/copy",
+    "clean": "rimraf ./dist ./lib ./coverage ./nyc_output *.vsix NOTICE LICENSE"
   },
   "devDependencies": {
-    "fs-extra": "10.1.0",
-    "vscode-ui5-language-assistant": "workspace:*"
+    "fs-extra": "10.1.0"
   },
   "files": [
     "*.vsix",

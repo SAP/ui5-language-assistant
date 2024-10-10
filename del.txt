@@ -1,0 +1,816 @@
+[
+  {
+    "name": "@ui5-language-assistant/root",
+    "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant",
+    "private": true,
+    "unsavedDependencies": {
+      "conventional-changelog-eslint": {
+        "from": "conventional-changelog-eslint",
+        "version": "link:node_modules/.pnpm/conventional-changelog-eslint@3.0.9/node_modules/conventional-changelog-eslint",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/node_modules/.pnpm/conventional-changelog-eslint@3.0.9/node_modules/conventional-changelog-eslint"
+      },
+      "eslint-import-resolver-node": {
+        "from": "eslint-import-resolver-node",
+        "version": "link:node_modules/.pnpm/eslint-import-resolver-node@0.3.9/node_modules/eslint-import-resolver-node",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/node_modules/.pnpm/eslint-import-resolver-node@0.3.9/node_modules/eslint-import-resolver-node"
+      },
+      "eslint-module-utils": {
+        "from": "eslint-module-utils",
+        "version": "link:node_modules/.pnpm/eslint-module-utils@2.12.0_eslint-import-resolver-node@0.3.9_eslint-import-resolver-typescript@3.6.1_eslint@7.18.0/node_modules/eslint-module-utils",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/node_modules/.pnpm/eslint-module-utils@2.12.0_eslint-import-resolver-node@0.3.9_eslint-import-resolver-typescript@3.6.1_eslint@7.18.0/node_modules/eslint-module-utils"
+      },
+      "eslint-plugin-import": {
+        "from": "eslint-plugin-import",
+        "version": "link:node_modules/.pnpm/eslint-plugin-import@2.31.0_eslint-import-resolver-typescript@3.6.1_eslint@7.18.0/node_modules/eslint-plugin-import",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/node_modules/.pnpm/eslint-plugin-import@2.31.0_eslint-import-resolver-typescript@3.6.1_eslint@7.18.0/node_modules/eslint-plugin-import"
+      },
+      "eslint-scope": {
+        "from": "eslint-scope",
+        "version": "link:node_modules/.pnpm/eslint-scope@5.1.1/node_modules/eslint-scope",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/node_modules/.pnpm/eslint-scope@5.1.1/node_modules/eslint-scope"
+      },
+      "eslint-utils": {
+        "from": "eslint-utils",
+        "version": "link:node_modules/.pnpm/eslint-utils@2.1.0/node_modules/eslint-utils",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/node_modules/.pnpm/eslint-utils@2.1.0/node_modules/eslint-utils"
+      },
+      "@eslint/eslintrc": {
+        "from": "@eslint/eslintrc",
+        "version": "link:node_modules/.pnpm/@eslint+eslintrc@0.3.0/node_modules/@eslint/eslintrc",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/node_modules/.pnpm/@eslint+eslintrc@0.3.0/node_modules/@eslint/eslintrc"
+      },
+      "eslint-visitor-keys": {
+        "from": "eslint-visitor-keys",
+        "version": "link:node_modules/.pnpm/eslint-visitor-keys@2.1.0/node_modules/eslint-visitor-keys",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/node_modules/.pnpm/eslint-visitor-keys@2.1.0/node_modules/eslint-visitor-keys"
+      },
+      "@types/prettier": {
+        "from": "@types/prettier",
+        "version": "link:node_modules/.pnpm/@types+prettier@2.7.3/node_modules/@types/prettier",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/node_modules/.pnpm/@types+prettier@2.7.3/node_modules/@types/prettier"
+      },
+      "@typescript-eslint/eslint-plugin": {
+        "from": "@typescript-eslint/eslint-plugin",
+        "version": "link:node_modules/.pnpm/@typescript-eslint+eslint-plugin@4.33.0_@typescript-eslint+parser@4.14.0_eslint@7.18.0_typescript@4.9.4/node_modules/@typescript-eslint/eslint-plugin",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/node_modules/.pnpm/@typescript-eslint+eslint-plugin@4.33.0_@typescript-eslint+parser@4.14.0_eslint@7.18.0_typescript@4.9.4/node_modules/@typescript-eslint/eslint-plugin"
+      },
+      "@typescript-eslint/experimental-utils": {
+        "from": "@typescript-eslint/experimental-utils",
+        "version": "link:node_modules/.pnpm/@typescript-eslint+experimental-utils@4.33.0_eslint@7.18.0_typescript@4.9.4/node_modules/@typescript-eslint/experimental-utils",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/node_modules/.pnpm/@typescript-eslint+experimental-utils@4.33.0_eslint@7.18.0_typescript@4.9.4/node_modules/@typescript-eslint/experimental-utils"
+      },
+      "@typescript-eslint/parser": {
+        "from": "@typescript-eslint/parser",
+        "version": "link:node_modules/.pnpm/@typescript-eslint+parser@4.14.0_eslint@7.18.0_typescript@4.9.4/node_modules/@typescript-eslint/parser",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/node_modules/.pnpm/@typescript-eslint+parser@4.14.0_eslint@7.18.0_typescript@4.9.4/node_modules/@typescript-eslint/parser"
+      },
+      "@typescript-eslint/scope-manager": {
+        "from": "@typescript-eslint/scope-manager",
+        "version": "link:node_modules/.pnpm/@typescript-eslint+scope-manager@4.33.0/node_modules/@typescript-eslint/scope-manager",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/node_modules/.pnpm/@typescript-eslint+scope-manager@4.33.0/node_modules/@typescript-eslint/scope-manager"
+      },
+      "@typescript-eslint/types": {
+        "from": "@typescript-eslint/types",
+        "version": "link:node_modules/.pnpm/@typescript-eslint+types@4.14.0/node_modules/@typescript-eslint/types",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/node_modules/.pnpm/@typescript-eslint+types@4.14.0/node_modules/@typescript-eslint/types"
+      },
+      "@typescript-eslint/typescript-estree": {
+        "from": "@typescript-eslint/typescript-estree",
+        "version": "link:node_modules/.pnpm/@typescript-eslint+typescript-estree@4.14.0_typescript@4.9.4/node_modules/@typescript-eslint/typescript-estree",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/node_modules/.pnpm/@typescript-eslint+typescript-estree@4.14.0_typescript@4.9.4/node_modules/@typescript-eslint/typescript-estree"
+      },
+      "@typescript-eslint/visitor-keys": {
+        "from": "@typescript-eslint/visitor-keys",
+        "version": "link:node_modules/.pnpm/@typescript-eslint+visitor-keys@4.14.0/node_modules/@typescript-eslint/visitor-keys",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/node_modules/.pnpm/@typescript-eslint+visitor-keys@4.14.0/node_modules/@typescript-eslint/visitor-keys"
+      }
+    }
+  },
+  {
+    "name": "@ui5-language-assistant/binding",
+    "version": "1.0.34",
+    "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/binding",
+    "private": true,
+    "dependencies": {
+      "@ui5-language-assistant/binding-parser": {
+        "from": "@ui5-language-assistant/binding-parser",
+        "version": "link:../binding-parser",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/binding-parser"
+      },
+      "@ui5-language-assistant/context": {
+        "from": "@ui5-language-assistant/context",
+        "version": "link:../context",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/context"
+      },
+      "@ui5-language-assistant/logger": {
+        "from": "@ui5-language-assistant/logger",
+        "version": "link:../logger",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/logger"
+      },
+      "@ui5-language-assistant/logic-utils": {
+        "from": "@ui5-language-assistant/logic-utils",
+        "version": "link:../logic-utils",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/logic-utils"
+      },
+      "@ui5-language-assistant/settings": {
+        "from": "@ui5-language-assistant/settings",
+        "version": "link:../settings",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/settings"
+      },
+      "@ui5-language-assistant/xml-views-validation": {
+        "from": "@ui5-language-assistant/xml-views-validation",
+        "version": "link:../xml-views-validation",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/xml-views-validation"
+      }
+    },
+    "devDependencies": {
+      "@ui5-language-assistant/semantic-model-types": {
+        "from": "@ui5-language-assistant/semantic-model-types",
+        "version": "link:../semantic-model-types",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/semantic-model-types"
+      },
+      "@ui5-language-assistant/test-framework": {
+        "from": "@ui5-language-assistant/test-framework",
+        "version": "link:../../test-packages/framework",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/test-packages/framework"
+      },
+      "@ui5-language-assistant/test-utils": {
+        "from": "@ui5-language-assistant/test-utils",
+        "version": "link:../../test-packages/test-utils",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/test-packages/test-utils"
+      }
+    }
+  },
+  {
+    "name": "@ui5-language-assistant/binding-parser",
+    "version": "1.0.7",
+    "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/binding-parser",
+    "private": true
+  },
+  {
+    "name": "@ui5-language-assistant/constant",
+    "version": "0.0.1",
+    "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/constant",
+    "private": true
+  },
+  {
+    "name": "@ui5-language-assistant/context",
+    "version": "4.0.29",
+    "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/context",
+    "private": true,
+    "dependencies": {
+      "@ui5-language-assistant/constant": {
+        "from": "@ui5-language-assistant/constant",
+        "version": "link:../constant",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/constant"
+      },
+      "@ui5-language-assistant/language-server": {
+        "from": "@ui5-language-assistant/language-server",
+        "version": "link:../language-server",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/language-server"
+      },
+      "@ui5-language-assistant/logger": {
+        "from": "@ui5-language-assistant/logger",
+        "version": "link:../logger",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/logger"
+      },
+      "@ui5-language-assistant/logic-utils": {
+        "from": "@ui5-language-assistant/logic-utils",
+        "version": "link:../logic-utils",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/logic-utils"
+      },
+      "@ui5-language-assistant/semantic-model": {
+        "from": "@ui5-language-assistant/semantic-model",
+        "version": "link:../semantic-model",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/semantic-model"
+      }
+    },
+    "devDependencies": {
+      "@ui5-language-assistant/semantic-model-types": {
+        "from": "@ui5-language-assistant/semantic-model-types",
+        "version": "link:../semantic-model-types",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/semantic-model-types"
+      },
+      "@ui5-language-assistant/test-framework": {
+        "from": "@ui5-language-assistant/test-framework",
+        "version": "link:../../test-packages/framework",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/test-packages/framework"
+      },
+      "@ui5-language-assistant/test-utils": {
+        "from": "@ui5-language-assistant/test-utils",
+        "version": "link:../../test-packages/test-utils",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/test-packages/test-utils"
+      }
+    }
+  },
+  {
+    "name": "@ui5-language-assistant/fe",
+    "version": "4.0.33",
+    "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/fe",
+    "private": true,
+    "dependencies": {
+      "@ui5-language-assistant/context": {
+        "from": "@ui5-language-assistant/context",
+        "version": "link:../context",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/context"
+      },
+      "@ui5-language-assistant/logic-utils": {
+        "from": "@ui5-language-assistant/logic-utils",
+        "version": "link:../logic-utils",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/logic-utils"
+      },
+      "@ui5-language-assistant/settings": {
+        "from": "@ui5-language-assistant/settings",
+        "version": "link:../settings",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/settings"
+      },
+      "@ui5-language-assistant/xml-views-completion": {
+        "from": "@ui5-language-assistant/xml-views-completion",
+        "version": "link:../xml-views-completion",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/xml-views-completion"
+      },
+      "@ui5-language-assistant/xml-views-validation": {
+        "from": "@ui5-language-assistant/xml-views-validation",
+        "version": "link:../xml-views-validation",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/xml-views-validation"
+      }
+    },
+    "devDependencies": {
+      "@ui5-language-assistant/semantic-model-types": {
+        "from": "@ui5-language-assistant/semantic-model-types",
+        "version": "link:../semantic-model-types",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/semantic-model-types"
+      },
+      "@ui5-language-assistant/test-framework": {
+        "from": "@ui5-language-assistant/test-framework",
+        "version": "link:../../test-packages/framework",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/test-packages/framework"
+      }
+    }
+  },
+  {
+    "name": "@ui5-language-assistant/language-server",
+    "version": "4.0.56",
+    "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/language-server",
+    "private": true,
+    "dependencies": {
+      "@ui5-language-assistant/binding": {
+        "from": "@ui5-language-assistant/binding",
+        "version": "link:../binding",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/binding"
+      },
+      "@ui5-language-assistant/constant": {
+        "from": "@ui5-language-assistant/constant",
+        "version": "link:../constant",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/constant"
+      },
+      "@ui5-language-assistant/context": {
+        "from": "@ui5-language-assistant/context",
+        "version": "link:../context",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/context"
+      },
+      "@ui5-language-assistant/fe": {
+        "from": "@ui5-language-assistant/fe",
+        "version": "link:../fe",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/fe"
+      },
+      "@ui5-language-assistant/language-server": {
+        "from": "@ui5-language-assistant/language-server",
+        "version": "link:",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/language-server"
+      },
+      "@ui5-language-assistant/logger": {
+        "from": "@ui5-language-assistant/logger",
+        "version": "link:../logger",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/logger"
+      },
+      "@ui5-language-assistant/logic-utils": {
+        "from": "@ui5-language-assistant/logic-utils",
+        "version": "link:../logic-utils",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/logic-utils"
+      },
+      "@ui5-language-assistant/semantic-model": {
+        "from": "@ui5-language-assistant/semantic-model",
+        "version": "link:../semantic-model",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/semantic-model"
+      },
+      "@ui5-language-assistant/settings": {
+        "from": "@ui5-language-assistant/settings",
+        "version": "link:../settings",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/settings"
+      },
+      "@ui5-language-assistant/user-facing-text": {
+        "from": "@ui5-language-assistant/user-facing-text",
+        "version": "link:../user-facing-text",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/user-facing-text"
+      },
+      "@ui5-language-assistant/xml-views-completion": {
+        "from": "@ui5-language-assistant/xml-views-completion",
+        "version": "link:../xml-views-completion",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/xml-views-completion"
+      },
+      "@ui5-language-assistant/xml-views-definition": {
+        "from": "@ui5-language-assistant/xml-views-definition",
+        "version": "link:../xml-views-definition",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/xml-views-definition"
+      },
+      "@ui5-language-assistant/xml-views-quick-fix": {
+        "from": "@ui5-language-assistant/xml-views-quick-fix",
+        "version": "link:../xml-views-quick-fix",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/xml-views-quick-fix"
+      },
+      "@ui5-language-assistant/xml-views-tooltip": {
+        "from": "@ui5-language-assistant/xml-views-tooltip",
+        "version": "link:../xml-views-tooltip",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/xml-views-tooltip"
+      },
+      "@ui5-language-assistant/xml-views-validation": {
+        "from": "@ui5-language-assistant/xml-views-validation",
+        "version": "link:../xml-views-validation",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/xml-views-validation"
+      }
+    },
+    "devDependencies": {
+      "@ui5-language-assistant/binding-parser": {
+        "from": "@ui5-language-assistant/binding-parser",
+        "version": "link:../binding-parser",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/binding-parser"
+      },
+      "@ui5-language-assistant/semantic-model-types": {
+        "from": "@ui5-language-assistant/semantic-model-types",
+        "version": "link:../semantic-model-types",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/semantic-model-types"
+      },
+      "@ui5-language-assistant/test-utils": {
+        "from": "@ui5-language-assistant/test-utils",
+        "version": "link:../../test-packages/test-utils",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/test-packages/test-utils"
+      }
+    }
+  },
+  {
+    "name": "@ui5-language-assistant/logger",
+    "version": "0.0.1",
+    "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/logger",
+    "private": true,
+    "dependencies": {
+      "@ui5-language-assistant/settings": {
+        "from": "@ui5-language-assistant/settings",
+        "version": "link:../settings",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/settings"
+      }
+    }
+  },
+  {
+    "name": "@ui5-language-assistant/logic-utils",
+    "version": "4.0.20",
+    "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/logic-utils",
+    "private": true,
+    "dependencies": {
+      "@ui5-language-assistant/constant": {
+        "from": "@ui5-language-assistant/constant",
+        "version": "link:../constant",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/constant"
+      },
+      "@ui5-language-assistant/logger": {
+        "from": "@ui5-language-assistant/logger",
+        "version": "link:../logger",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/logger"
+      },
+      "@ui5-language-assistant/semantic-model-types": {
+        "from": "@ui5-language-assistant/semantic-model-types",
+        "version": "link:../semantic-model-types",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/semantic-model-types"
+      },
+      "@ui5-language-assistant/settings": {
+        "from": "@ui5-language-assistant/settings",
+        "version": "link:../settings",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/settings"
+      }
+    },
+    "devDependencies": {
+      "@ui5-language-assistant/semantic-model": {
+        "from": "@ui5-language-assistant/semantic-model",
+        "version": "link:../semantic-model",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/semantic-model"
+      },
+      "@ui5-language-assistant/test-utils": {
+        "from": "@ui5-language-assistant/test-utils",
+        "version": "link:../../test-packages/test-utils",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/test-packages/test-utils"
+      }
+    }
+  },
+  {
+    "name": "@ui5-language-assistant/semantic-model",
+    "version": "4.0.18",
+    "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/semantic-model",
+    "private": true,
+    "dependencies": {
+      "@ui5-language-assistant/constant": {
+        "from": "@ui5-language-assistant/constant",
+        "version": "link:../constant",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/constant"
+      },
+      "@ui5-language-assistant/logger": {
+        "from": "@ui5-language-assistant/logger",
+        "version": "link:../logger",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/logger"
+      },
+      "@ui5-language-assistant/semantic-model": {
+        "from": "@ui5-language-assistant/semantic-model",
+        "version": "link:",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/semantic-model"
+      },
+      "@ui5-language-assistant/semantic-model-types": {
+        "from": "@ui5-language-assistant/semantic-model-types",
+        "version": "link:../semantic-model-types",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/semantic-model-types"
+      }
+    },
+    "devDependencies": {
+      "@ui5-language-assistant/test-utils": {
+        "from": "@ui5-language-assistant/test-utils",
+        "version": "link:../../test-packages/test-utils",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/test-packages/test-utils"
+      }
+    }
+  },
+  {
+    "name": "@ui5-language-assistant/semantic-model-types",
+    "version": "4.0.11",
+    "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/semantic-model-types",
+    "private": true,
+    "dependencies": {
+      "@ui5-language-assistant/constant": {
+        "from": "@ui5-language-assistant/constant",
+        "version": "link:../constant",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/constant"
+      }
+    }
+  },
+  {
+    "name": "@ui5-language-assistant/settings",
+    "version": "4.0.9",
+    "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/settings",
+    "private": true
+  },
+  {
+    "name": "@ui5-language-assistant/user-facing-text",
+    "version": "4.0.9",
+    "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/user-facing-text",
+    "private": true
+  },
+  {
+    "name": "vscode-ui5-language-assistant",
+    "version": "4.0.73",
+    "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/vscode-ui5-language-assistant",
+    "private": true,
+    "dependencies": {
+      "@ui5-language-assistant/language-server": {
+        "from": "@ui5-language-assistant/language-server",
+        "version": "link:../language-server",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/language-server"
+      }
+    },
+    "devDependencies": {
+      "@ui5-language-assistant/binding": {
+        "from": "@ui5-language-assistant/binding",
+        "version": "link:../binding",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/binding"
+      },
+      "@ui5-language-assistant/binding-parser": {
+        "from": "@ui5-language-assistant/binding-parser",
+        "version": "link:../binding-parser",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/binding-parser"
+      },
+      "@ui5-language-assistant/constant": {
+        "from": "@ui5-language-assistant/constant",
+        "version": "link:../constant",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/constant"
+      },
+      "@ui5-language-assistant/context": {
+        "from": "@ui5-language-assistant/context",
+        "version": "link:../context",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/context"
+      },
+      "@ui5-language-assistant/logic-utils": {
+        "from": "@ui5-language-assistant/logic-utils",
+        "version": "link:../logic-utils",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/logic-utils"
+      },
+      "@ui5-language-assistant/settings": {
+        "from": "@ui5-language-assistant/settings",
+        "version": "link:../settings",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/settings"
+      },
+      "@ui5-language-assistant/test-framework": {
+        "from": "@ui5-language-assistant/test-framework",
+        "version": "link:../../test-packages/framework",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/test-packages/framework"
+      },
+      "@ui5-language-assistant/user-facing-text": {
+        "from": "@ui5-language-assistant/user-facing-text",
+        "version": "link:../user-facing-text",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/user-facing-text"
+      },
+      "vscode-ui5-language-assistant": {
+        "from": "vscode-ui5-language-assistant",
+        "version": "link:",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/vscode-ui5-language-assistant"
+      }
+    }
+  },
+  {
+    "name": "@ui5-language-assistant/vscode-ui5-language-assistant-bas-ext",
+    "version": "4.0.73",
+    "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/vscode-ui5-language-assistant-bas-ext",
+    "private": false
+  },
+  {
+    "name": "@ui5-language-assistant/xml-views-completion",
+    "version": "4.0.29",
+    "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/xml-views-completion",
+    "private": true,
+    "dependencies": {
+      "@ui5-language-assistant/constant": {
+        "from": "@ui5-language-assistant/constant",
+        "version": "link:../constant",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/constant"
+      },
+      "@ui5-language-assistant/context": {
+        "from": "@ui5-language-assistant/context",
+        "version": "link:../context",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/context"
+      },
+      "@ui5-language-assistant/logic-utils": {
+        "from": "@ui5-language-assistant/logic-utils",
+        "version": "link:../logic-utils",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/logic-utils"
+      },
+      "@ui5-language-assistant/semantic-model-types": {
+        "from": "@ui5-language-assistant/semantic-model-types",
+        "version": "link:../semantic-model-types",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/semantic-model-types"
+      },
+      "@ui5-language-assistant/settings": {
+        "from": "@ui5-language-assistant/settings",
+        "version": "link:../settings",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/settings"
+      },
+      "@ui5-language-assistant/test-utils": {
+        "from": "@ui5-language-assistant/test-utils",
+        "version": "link:../../test-packages/test-utils",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/test-packages/test-utils"
+      },
+      "@ui5-language-assistant/xml-views-completion": {
+        "from": "@ui5-language-assistant/xml-views-completion",
+        "version": "link:",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/xml-views-completion"
+      }
+    },
+    "devDependencies": {
+      "@ui5-language-assistant/semantic-model": {
+        "from": "@ui5-language-assistant/semantic-model",
+        "version": "link:../semantic-model",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/semantic-model"
+      }
+    }
+  },
+  {
+    "name": "@ui5-language-assistant/xml-views-definition",
+    "version": "0.0.7",
+    "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/xml-views-definition",
+    "private": true,
+    "dependencies": {
+      "@ui5-language-assistant/binding-parser": {
+        "from": "@ui5-language-assistant/binding-parser",
+        "version": "link:../binding-parser",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/binding-parser"
+      },
+      "@ui5-language-assistant/context": {
+        "from": "@ui5-language-assistant/context",
+        "version": "link:../context",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/context"
+      }
+    },
+    "devDependencies": {
+      "@ui5-language-assistant/test-framework": {
+        "from": "@ui5-language-assistant/test-framework",
+        "version": "link:../../test-packages/framework",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/test-packages/framework"
+      }
+    }
+  },
+  {
+    "name": "@ui5-language-assistant/xml-views-quick-fix",
+    "version": "4.0.21",
+    "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/xml-views-quick-fix",
+    "private": true,
+    "dependencies": {
+      "@ui5-language-assistant/context": {
+        "from": "@ui5-language-assistant/context",
+        "version": "link:../context",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/context"
+      },
+      "@ui5-language-assistant/logic-utils": {
+        "from": "@ui5-language-assistant/logic-utils",
+        "version": "link:../logic-utils",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/logic-utils"
+      }
+    },
+    "devDependencies": {
+      "@ui5-language-assistant/test-utils": {
+        "from": "@ui5-language-assistant/test-utils",
+        "version": "link:../../test-packages/test-utils",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/test-packages/test-utils"
+      }
+    }
+  },
+  {
+    "name": "@ui5-language-assistant/xml-views-tooltip",
+    "version": "4.0.29",
+    "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/xml-views-tooltip",
+    "private": true,
+    "dependencies": {
+      "@ui5-language-assistant/constant": {
+        "from": "@ui5-language-assistant/constant",
+        "version": "link:../constant",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/constant"
+      },
+      "@ui5-language-assistant/context": {
+        "from": "@ui5-language-assistant/context",
+        "version": "link:../context",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/context"
+      },
+      "@ui5-language-assistant/logic-utils": {
+        "from": "@ui5-language-assistant/logic-utils",
+        "version": "link:../logic-utils",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/logic-utils"
+      },
+      "@ui5-language-assistant/semantic-model": {
+        "from": "@ui5-language-assistant/semantic-model",
+        "version": "link:../semantic-model",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/semantic-model"
+      },
+      "@ui5-language-assistant/semantic-model-types": {
+        "from": "@ui5-language-assistant/semantic-model-types",
+        "version": "link:../semantic-model-types",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/semantic-model-types"
+      },
+      "@ui5-language-assistant/test-utils": {
+        "from": "@ui5-language-assistant/test-utils",
+        "version": "link:../../test-packages/test-utils",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/test-packages/test-utils"
+      }
+    }
+  },
+  {
+    "name": "@ui5-language-assistant/xml-views-validation",
+    "version": "4.0.23",
+    "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/xml-views-validation",
+    "private": true,
+    "dependencies": {
+      "@ui5-language-assistant/constant": {
+        "from": "@ui5-language-assistant/constant",
+        "version": "link:../constant",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/constant"
+      },
+      "@ui5-language-assistant/context": {
+        "from": "@ui5-language-assistant/context",
+        "version": "link:../context",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/context"
+      },
+      "@ui5-language-assistant/logic-utils": {
+        "from": "@ui5-language-assistant/logic-utils",
+        "version": "link:../logic-utils",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/logic-utils"
+      },
+      "@ui5-language-assistant/semantic-model-types": {
+        "from": "@ui5-language-assistant/semantic-model-types",
+        "version": "link:../semantic-model-types",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/semantic-model-types"
+      },
+      "@ui5-language-assistant/user-facing-text": {
+        "from": "@ui5-language-assistant/user-facing-text",
+        "version": "link:../user-facing-text",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/user-facing-text"
+      },
+      "@ui5-language-assistant/xml-views-validation": {
+        "from": "@ui5-language-assistant/xml-views-validation",
+        "version": "link:",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/xml-views-validation"
+      }
+    },
+    "devDependencies": {
+      "@ui5-language-assistant/semantic-model": {
+        "from": "@ui5-language-assistant/semantic-model",
+        "version": "link:../semantic-model",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/semantic-model"
+      },
+      "@ui5-language-assistant/test-framework": {
+        "from": "@ui5-language-assistant/test-framework",
+        "version": "link:../../test-packages/framework",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/test-packages/framework"
+      },
+      "@ui5-language-assistant/test-utils": {
+        "from": "@ui5-language-assistant/test-utils",
+        "version": "link:../../test-packages/test-utils",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/test-packages/test-utils"
+      }
+    }
+  },
+  {
+    "name": "@ui5-language-assistant/test-framework",
+    "version": "4.0.12",
+    "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/test-packages/framework",
+    "private": true,
+    "dependencies": {
+      "@ui5-language-assistant/test-framework": {
+        "from": "@ui5-language-assistant/test-framework",
+        "version": "link:",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/test-packages/framework"
+      }
+    }
+  },
+  {
+    "name": "@ui5-language-assistant/test-utils",
+    "version": "4.0.16",
+    "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/test-packages/test-utils",
+    "private": true,
+    "dependencies": {
+      "@ui5-language-assistant/constant": {
+        "from": "@ui5-language-assistant/constant",
+        "version": "link:../../packages/constant",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/constant"
+      },
+      "@ui5-language-assistant/language-server": {
+        "from": "@ui5-language-assistant/language-server",
+        "version": "link:../../packages/language-server",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/language-server"
+      },
+      "@ui5-language-assistant/semantic-model-types": {
+        "from": "@ui5-language-assistant/semantic-model-types",
+        "version": "link:../../packages/semantic-model-types",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/semantic-model-types"
+      },
+      "@ui5-language-assistant/test-utils": {
+        "from": "@ui5-language-assistant/test-utils",
+        "version": "link:",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/test-packages/test-utils"
+      },
+      "@ui5-language-assistant/xml-views-completion": {
+        "from": "@ui5-language-assistant/xml-views-completion",
+        "version": "link:../../packages/xml-views-completion",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/xml-views-completion"
+      }
+    }
+  }
+]
+[
+  {
+    "name": "@ui5-language-assistant/fe",
+    "version": "4.0.33",
+    "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/fe",
+    "private": true,
+    "dependencies": {
+      "@ui5-language-assistant/context": {
+        "from": "@ui5-language-assistant/context",
+        "version": "link:../context",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/context"
+      },
+      "@ui5-language-assistant/logic-utils": {
+        "from": "@ui5-language-assistant/logic-utils",
+        "version": "link:../logic-utils",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/logic-utils"
+      },
+      "@ui5-language-assistant/settings": {
+        "from": "@ui5-language-assistant/settings",
+        "version": "link:../settings",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/settings"
+      },
+      "@ui5-language-assistant/xml-views-completion": {
+        "from": "@ui5-language-assistant/xml-views-completion",
+        "version": "link:../xml-views-completion",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/xml-views-completion"
+      },
+      "@ui5-language-assistant/xml-views-validation": {
+        "from": "@ui5-language-assistant/xml-views-validation",
+        "version": "link:../xml-views-validation",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/xml-views-validation"
+      }
+    },
+    "devDependencies": {
+      "@ui5-language-assistant/semantic-model-types": {
+        "from": "@ui5-language-assistant/semantic-model-types",
+        "version": "link:../semantic-model-types",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/semantic-model-types"
+      },
+      "@ui5-language-assistant/test-framework": {
+        "from": "@ui5-language-assistant/test-framework",
+        "version": "link:../../test-packages/framework",
+        "path": "/Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/test-packages/framework"
+      }
+    }
+  }
+]

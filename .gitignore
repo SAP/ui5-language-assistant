@@ -101,3 +101,6 @@ test-packages/test-utils/.model-cache
 # Test reports
 junit-report.xml
 test-report.xml
+
+# Ignore nx
+.nx

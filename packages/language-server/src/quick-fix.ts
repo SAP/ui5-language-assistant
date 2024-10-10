@@ -11,6 +11,7 @@ import {
   TextEdit,
 } from "vscode-languageserver-types";
 import {
+  UI5XMLViewIssue,
   validateXMLView,
   validators,
 } from "@ui5-language-assistant/xml-views-validation";
@@ -125,7 +126,10 @@ function computeCodeActionsForQuickFixFileStableId(opts: {
     return [];
   }
 
-  const errorsOffset = map(nonStableIdFileIssues, (_) => _.offsetRange);
+  const errorsOffset = map(
+    nonStableIdFileIssues,
+    (_: UI5XMLViewIssue) => _.offsetRange
+  );
   const nonStableIdFileIssuesInfo = computeQuickFixStableIdInfo(
     opts.context,
     errorsOffset,

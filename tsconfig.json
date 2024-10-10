@@ -1,22 +1,21 @@
 {
+  "compileOnSave": true,
   "compilerOptions": {
+    // TODO - align with tsconfig from open ux tools https://github.com/SAP/open-ux-tools/blob/main/tsconfig.json
     "composite": true,
-    "declaration": true,
-    "declarationMap": true,
-    "esModuleInterop": true,
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "lib": ["es6", "dom", "dom.iterable"],
     "module": "commonjs",
-    "moduleResolution": "node",
-    "noEmit": false,
+    "lib": ["es6", "dom", "es2016", "dom.iterable"],
+    "target": "es2017",
+    "declaration": true,
     "sourceMap": true,
-    "strict": true,
-    "strictPropertyInitialization": false,
-    "target": "ES6",
-    "skipLibCheck": true,
     "resolveJsonModule": true,
-    "useUnknownInCatchVariables": false
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noImplicitAny": false,
+    "noImplicitReturns": false,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "types": ["jest", "jest-extended", "node"]
   },
   "references": [
     {
@@ -43,11 +42,9 @@
     {
       "path": "./packages/logger"
     },
-
     {
       "path": "./packages/semantic-model"
     },
-
     {
       "path": "./packages/logic-utils"
     },

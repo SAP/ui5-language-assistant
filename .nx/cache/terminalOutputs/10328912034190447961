@@ -1,0 +1,8 @@
+
+> @ui5-language-assistant/settings@4.0.9 compile /Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/settings
+> pnpm run clean && tsc -p .
+
+
+> @ui5-language-assistant/settings@4.0.9 clean /Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/settings
+> rimraf ./lib ./coverage ./nyc_output
+

@@ -18,7 +18,7 @@
   "scripts": {
     "ci": "npm-run-all clean compile lint",
     "clean": "rimraf ./lib ./coverage ./nyc_output",
-    "compile": "yarn run clean && tsc -p .",
+    "compile": "pnpm run clean && tsc -p .",
     "compile:watch": "tsc -p . --watch",
     "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore",
     "test": "echo nothing to test",

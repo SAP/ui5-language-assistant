@@ -1,0 +1,9 @@
+
+> @ui5-language-assistant/semantic-model-types@4.0.11 compile /Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/semantic-model-types
+> pnpm run clean && tsc -p .
+
+
+> @ui5-language-assistant/semantic-model-types@4.0.11 clean /Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/semantic-model-types
+> echo "nothing to clean"
+
+nothing to clean

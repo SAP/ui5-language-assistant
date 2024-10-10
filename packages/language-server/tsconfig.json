@@ -11,6 +11,9 @@
       "path": "../binding"
     },
     {
+      "path": "../binding-parser"
+    },
+    {
       "path": "../logger"
     },
     {
@@ -27,6 +30,9 @@
     },
     {
       "path": "../xml-views-completion"
+    },
+    {
+      "path": "../xml-views-definition"
     },
     {
       "path": "../xml-views-validation"

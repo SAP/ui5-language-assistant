@@ -13,11 +13,19 @@
   "license": "Apache-2.0",
   "typings": "./api.d.ts",
   "dependencies": {
-    "https-proxy-agent": "5.0.1",
-    "node-fetch": "2.6.9",
-    "proxy-from-env": "1.1.0",
     "@ui5-language-assistant/constant": "workspace:*",
-    "@ui5-language-assistant/semantic-model-types": "4.0.11"
+    "@ui5-language-assistant/language-server": "workspace:*",
+    "@ui5-language-assistant/semantic-model-types": "4.0.11",
+    "@ui5-language-assistant/test-utils": "workspace:*",
+    "@ui5-language-assistant/xml-views-completion": "workspace:*",
+    "@xml-tools/ast": "5.0.0",
+    "chai": "4.2.0",
+    "deep-equal-in-any-order": "1.0.28",
+    "fs-extra": "10.1.0",
+    "https-proxy-agent": "5.0.1",
+    "lodash": "4.17.21",
+    "node-fetch": "2.6.9",
+    "proxy-from-env": "1.1.0"
   },
   "devDependencies": {
     "@types/node-fetch": "2.5.10"
@@ -25,7 +33,7 @@
   "scripts": {
     "ci": "npm-run-all clean compile lint",
     "clean": "rimraf ./lib ./coverage ./nyc_output ./.model-cache",
-    "compile": "yarn run clean && tsc -p .",
+    "compile": "pnpm run clean && tsc -p .",
     "compile:watch": "tsc -p . --watch",
     "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore"
   }
