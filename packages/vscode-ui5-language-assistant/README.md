@@ -95,6 +95,10 @@ and cannot be configured by the end user.
   - References to filter bars that cannot be found in current file
   - Use of context paths that do not lead to the annotations of types expected for the given building block
 
+#### Relevant User/Workspace settings for Duplicate ID tags
+
+- `UI5LanguageAssistant.ReportNonUniqueIdsCrossViewFiles` is set on by default and report diagnostics cross view files. Settings it to false, reports only on a single file
+
 ### XML View Quick Fix
 
 #### Description

@@ -39,6 +39,7 @@ describe("aggregation binding", () => {
       server: "off",
     },
     SplitAttributesOnFormat: true,
+    ReportNonUniqueIdsCrossViewFiles: true,
   };
 
   beforeAll(async function () {

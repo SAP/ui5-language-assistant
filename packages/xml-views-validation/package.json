@@ -21,6 +21,7 @@
   "license": "Apache-2.0",
   "typings": "./api.d.ts",
   "dependencies": {
+    "@ui5-language-assistant/settings": "4.0.9",
     "@ui5-language-assistant/constant": "0.0.1",
     "@ui5-language-assistant/context": "4.0.30",
     "@ui5-language-assistant/logic-utils": "4.0.20",

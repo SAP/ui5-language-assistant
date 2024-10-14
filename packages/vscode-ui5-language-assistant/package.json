@@ -90,6 +90,12 @@
           "default": true,
           "markdownDescription": "Put each attribute on a new line when formatting `*.view.xml` or `*.fragment.xml`."
         },
+        "UI5LanguageAssistant.ReportNonUniqueIdsCrossViewFiles": {
+          "type": "boolean",
+          "scope": "window",
+          "default": true,
+          "markdownDescription": "Diagnostic report for non unique ID on `*.view.xml` or `*.fragment.xml`."
+        },
         "UI5LanguageAssistant.SAPUI5WebServer": {
           "type": "string",
           "scope": "window",

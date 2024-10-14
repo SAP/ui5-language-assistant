@@ -24,6 +24,7 @@ import {
   getSettingsForDocument,
   setConfigurationSettings,
   Settings,
+  getConfigurationSettings,
 } from "@ui5-language-assistant/settings";
 import { commands } from "@ui5-language-assistant/user-facing-text";
 import { ServerInitializationOptions } from "../api";
@@ -44,6 +45,7 @@ import {
   reactOnViewFileChange,
   reactOnPackageJson,
   isContext,
+  Context,
 } from "@ui5-language-assistant/context";
 import { diagnosticToCodeActionFix } from "./quick-fix";
 import { executeCommand } from "./commands";
@@ -296,6 +298,28 @@ const validateIdsOfOpenDocuments = async (): Promise<void> => {
     connection.sendDiagnostics({ uri: document.uri, diagnostics });
   }
 };
+/**
+ * Validates the IDs of the open document and sends the diagnostics to the client
+ * @param {TextDocument} document - The open document to be validated
+ * @param {Context} context - The context containing additional information
+ * @returns {void}
+ */
+const validateIdsOfOpenDocument = (
+  document: TextDocument,
+  context: Context
+): void => {
+  const idDiagnostics = getXMLViewIdDiagnostics({
+    document,
+    context,
+  });
+  let diagnostics = documentsDiagnostics.get(document.uri) ?? [];
+  diagnostics = diagnostics.concat(idDiagnostics);
+
+  getLogger().trace("computed diagnostics", {
+    diagnostics,
+  });
+  connection.sendDiagnostics({ uri: document.uri, diagnostics });
+};
 
 async function validateOpenDocumentsOnDidChangeWatchedFiles(
   changes: FileEvent[]
@@ -391,7 +415,13 @@ documents.onDidChangeContent(async (changeEvent): Promise<void> => {
       context,
     });
     documentsDiagnostics.set(document.uri, diagnostics);
-    await validateIdsOfOpenDocuments();
+    const settings = getConfigurationSettings();
+    const reportNonUniqueIds = settings.ReportNonUniqueIdsCrossViewFiles;
+    if (reportNonUniqueIds) {
+      await validateIdsOfOpenDocuments();
+    } else {
+      validateIdsOfOpenDocument(document, context);
+    }
   }
 });
 
@@ -466,7 +496,7 @@ function ensureDocumentSettingsUpdated(resource: string): void {
   }
 }
 
-connection.onDidChangeConfiguration((change) => {
+connection.onDidChangeConfiguration(async (change) => {
   getLogger().debug("`onDidChangeConfiguration` event");
   if (hasConfigurationCapability) {
     getLogger().trace("Reset all cached document settings");
@@ -487,9 +517,8 @@ connection.onDidChangeConfiguration((change) => {
     });
     setConfigurationSettings(ui5LangAssistSettings);
   }
-  // In the future we might want to
   // re-validate the files related to the `cached document settings`.
-
+  await validateIdsOfOpenDocuments();
   // `setLogLevel` will ignore `undefined` values
   setLogLevel(change?.settings?.UI5LanguageAssistant?.logging?.level);
 });
