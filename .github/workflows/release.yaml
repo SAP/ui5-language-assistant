@@ -2,9 +2,9 @@ name: Release workflow
 
 on:
   push:
-    branches: [master]
+    branches: [feat/pnpm]
   pull_request:
-    branches: [master]
+    branches: [feat/pnpm]
 
 env:
   GHR_PROJECT_REPONAME: ui5-language-assistant
@@ -15,7 +15,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        node-version: [18.x, 20.x]
+        node-version: [18.x]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout code repository
