@@ -95,9 +95,9 @@ and cannot be configured by the end user.
   - References to filter bars that cannot be found in current file
   - Use of context paths that do not lead to the annotations of types expected for the given building block
 
-#### Relevant User/Workspace settings for Duplicate ID tags
+#### Relevant User/Workspace
 
-- `UI5LanguageAssistant.LimitUniqueIdDiagnostics` Set this setting to `true` to limit diagnostics reporting for unique IDs on a single file.
+- `UI5LanguageAssistant.LimitUniqueIdDiagnostics` is set off by default to check all `*.fragment.xml` and `*.view.xml` files for unique IDs. If you like to limit this validation to the current file, set it on.
 
 ### XML View Quick Fix
 
