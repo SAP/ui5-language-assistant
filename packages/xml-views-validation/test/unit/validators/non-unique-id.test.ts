@@ -325,11 +325,11 @@ describe("the use of non unique id validation", () => {
         },
       ]);
     });
-    it("will not detect duplicate IDs cross view files when UI5LanguageAssistant.ReportNonUniqueIdsCrossViewFiles settings set to false", async () => {
+    it("will not detect duplicate IDs cross view files when UI5LanguageAssistant.LimitUniqueIdDiagnostics settings set to false", async () => {
       // arrange
       setConfigurationSettings({
         ...getDefaultSettings(),
-        ReportNonUniqueIdsCrossViewFiles: false,
+        LimitUniqueIdDiagnostics: true,
       });
       const xmlSnippet = `
         <mvc:View

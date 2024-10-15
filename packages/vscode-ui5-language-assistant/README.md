@@ -97,7 +97,7 @@ and cannot be configured by the end user.
 
 #### Relevant User/Workspace settings for Duplicate ID tags
 
-- `UI5LanguageAssistant.ReportNonUniqueIdsCrossViewFiles` is set on by default and report diagnostics cross view files. Settings it to false, reports only on a single file
+- `UI5LanguageAssistant.LimitUniqueIdDiagnostics` Set this setting to `true` to limit diagnostics reporting for unique IDs on a single file.
 
 ### XML View Quick Fix
 

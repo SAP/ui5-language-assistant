@@ -46,7 +46,7 @@ describe("settings utilities", () => {
         trace: { server: "off" as const },
         logging: { level: "off" as const },
         SplitAttributesOnFormat: true,
-        ReportNonUniqueIdsCrossViewFiles: true,
+        LimitUniqueIdDiagnostics: false,
       };
       setGlobalSettings(globalSettings);
       const docSettings = await getSettingsForDocument("doc1");
@@ -59,7 +59,7 @@ describe("settings utilities", () => {
         trace: { server: "off" as const },
         logging: { level: "off" as const },
         SplitAttributesOnFormat: true,
-        ReportNonUniqueIdsCrossViewFiles: true,
+        LimitUniqueIdDiagnostics: false,
       };
       setGlobalSettings(globalSettings);
       const docSettings = await getSettingsForDocument("doc1");
@@ -77,7 +77,7 @@ describe("settings utilities", () => {
         trace: { server: "off" as const },
         logging: { level: "off" as const },
         SplitAttributesOnFormat: true,
-        ReportNonUniqueIdsCrossViewFiles: true,
+        LimitUniqueIdDiagnostics: false,
       };
       setSettingsForDocument("doc1", Promise.resolve(docSettings));
       const result = await getSettingsForDocument("doc1");
@@ -94,7 +94,7 @@ describe("settings utilities", () => {
           trace: { server: "off" as const },
           logging: { level: "off" as const },
           SplitAttributesOnFormat: true,
-          ReportNonUniqueIdsCrossViewFiles: true,
+          LimitUniqueIdDiagnostics: false,
         })
       );
       expect(hasSettingsForDocument("doc1")).toBeTrue();
@@ -111,7 +111,7 @@ describe("settings utilities", () => {
           trace: { server: "off" as const },
           logging: { level: "off" as const },
           SplitAttributesOnFormat: true,
-          ReportNonUniqueIdsCrossViewFiles: true,
+          LimitUniqueIdDiagnostics: false,
         })
       );
       expect(hasSettingsForDocument("doc1")).toBeFalse();
@@ -125,7 +125,7 @@ describe("settings utilities", () => {
         trace: { server: "off" as const },
         logging: { level: "off" as const },
         SplitAttributesOnFormat: true,
-        ReportNonUniqueIdsCrossViewFiles: true,
+        LimitUniqueIdDiagnostics: false,
       };
       setSettingsForDocument("doc1", Promise.resolve(docSettings));
       expect(await getSettingsForDocument("doc1")).toStrictEqual(docSettings);
@@ -137,14 +137,14 @@ describe("settings utilities", () => {
         trace: { server: "off" as const },
         logging: { level: "off" as const },
         SplitAttributesOnFormat: true,
-        ReportNonUniqueIdsCrossViewFiles: true,
+        LimitUniqueIdDiagnostics: false,
       };
       const docSettings2 = {
         codeAssist: { deprecated: true, experimental: false },
         trace: { server: "off" as const },
         logging: { level: "off" as const },
         SplitAttributesOnFormat: true,
-        ReportNonUniqueIdsCrossViewFiles: true,
+        LimitUniqueIdDiagnostics: false,
       };
       setSettingsForDocument("doc1", Promise.resolve(docSettings1));
       setSettingsForDocument("doc1", Promise.resolve(docSettings2));
@@ -164,14 +164,14 @@ describe("settings utilities", () => {
         trace: { server: "off" as const },
         logging: { level: "off" as const },
         SplitAttributesOnFormat: true,
-        ReportNonUniqueIdsCrossViewFiles: true,
+        LimitUniqueIdDiagnostics: false,
       };
       const docSettings2 = {
         codeAssist: { deprecated: true, experimental: false },
         trace: { server: "off" as const },
         logging: { level: "off" as const },
         SplitAttributesOnFormat: true,
-        ReportNonUniqueIdsCrossViewFiles: true,
+        LimitUniqueIdDiagnostics: false,
       };
       setSettingsForDocument("doc1", Promise.resolve(docSettings1));
       setSettingsForDocument("doc2", Promise.resolve(docSettings2));
@@ -197,7 +197,7 @@ describe("settings utilities", () => {
         trace: { server: "off" as const },
         logging: { level: "off" as const },
         SplitAttributesOnFormat: true,
-        ReportNonUniqueIdsCrossViewFiles: true,
+        LimitUniqueIdDiagnostics: false,
       };
       setSettingsForDocument("doc1", Promise.resolve(docSettings));
 
@@ -213,14 +213,14 @@ describe("settings utilities", () => {
         trace: { server: "off" as const },
         logging: { level: "off" as const },
         SplitAttributesOnFormat: true,
-        ReportNonUniqueIdsCrossViewFiles: true,
+        LimitUniqueIdDiagnostics: false,
       };
       const docSettings2 = {
         codeAssist: { deprecated: true, experimental: false },
         trace: { server: "off" as const },
         logging: { level: "off" as const },
         SplitAttributesOnFormat: true,
-        ReportNonUniqueIdsCrossViewFiles: true,
+        LimitUniqueIdDiagnostics: false,
       };
       setSettingsForDocument("doc1", Promise.resolve(docSettings1));
       setSettingsForDocument("doc2", Promise.resolve(docSettings2));
@@ -237,7 +237,7 @@ describe("settings utilities", () => {
         trace: { server: "off" as const },
         logging: { level: "off" as const },
         SplitAttributesOnFormat: true,
-        ReportNonUniqueIdsCrossViewFiles: true,
+        LimitUniqueIdDiagnostics: false,
       };
       setGlobalSettings(globalSettings);
       expect(await getSettingsForDocument("doc1")).toStrictEqual(
@@ -253,7 +253,7 @@ describe("settings utilities", () => {
         trace: { server: "off" as const },
         logging: { level: "off" as const },
         SplitAttributesOnFormat: true,
-        ReportNonUniqueIdsCrossViewFiles: true,
+        LimitUniqueIdDiagnostics: false,
       };
       setConfigurationSettings(configSettings);
       expect(getConfigurationSettings()).toStrictEqual(configSettings);

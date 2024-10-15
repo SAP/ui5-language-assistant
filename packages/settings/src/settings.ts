@@ -9,7 +9,7 @@ const defaultSettings: Settings = {
   logging: { level: "error" },
   SAPUI5WebServer: "",
   SplitAttributesOnFormat: true,
-  ReportNonUniqueIdsCrossViewFiles: true,
+  LimitUniqueIdDiagnostics: false,
 };
 deepFreezeStrict(defaultSettings);
 

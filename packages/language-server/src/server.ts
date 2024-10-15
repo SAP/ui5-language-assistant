@@ -416,11 +416,11 @@ documents.onDidChangeContent(async (changeEvent): Promise<void> => {
     });
     documentsDiagnostics.set(document.uri, diagnostics);
     const settings = getConfigurationSettings();
-    const reportNonUniqueIds = settings.ReportNonUniqueIdsCrossViewFiles;
-    if (reportNonUniqueIds) {
-      await validateIdsOfOpenDocuments();
-    } else {
+    const limitUniqueIdsDiagReport = settings.LimitUniqueIdDiagnostics;
+    if (limitUniqueIdsDiagReport) {
       validateIdsOfOpenDocument(document, context);
+    } else {
+      await validateIdsOfOpenDocuments();
     }
   }
 });

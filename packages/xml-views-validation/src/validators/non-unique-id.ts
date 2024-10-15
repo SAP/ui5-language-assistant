@@ -25,11 +25,11 @@ const isNoneUniqueIdIssue = (
   currentDocIssues: ControlIdLocation[]
 ): boolean => {
   const settings = getConfigurationSettings();
-  const reportNonUniqueIds = settings.ReportNonUniqueIdsCrossViewFiles;
-  if (reportNonUniqueIds) {
-    return ctrId.length > 1;
+  const limitDiagReport = settings.LimitUniqueIdDiagnostics;
+  if (limitDiagReport) {
+    return ctrId.length > 1 && currentDocIssues.length > 1;
   }
-  return ctrId.length > 1 && currentDocIssues.length > 1;
+  return ctrId.length > 1;
 };
 
 const getIdenticalIDsRanges = (
@@ -39,14 +39,14 @@ const getIdenticalIDsRanges = (
   uri: string;
 }[] => {
   const settings = getConfigurationSettings();
-  const reportNonUniqueIds = settings.ReportNonUniqueIdsCrossViewFiles;
-  if (reportNonUniqueIds) {
-    return map(otherDocsIssues, (_) => ({
-      range: _.range,
-      uri: _.uri,
-    }));
+  const limitDiagReport = settings.LimitUniqueIdDiagnostics;
+  if (limitDiagReport) {
+    return [];
   }
-  return [];
+  return map(otherDocsIssues, (_) => ({
+    range: _.range,
+    uri: _.uri,
+  }));
 };
 /**
  * Validates non-unique control IDs within the specified context

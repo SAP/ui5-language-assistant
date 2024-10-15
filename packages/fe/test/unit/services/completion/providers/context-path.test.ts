@@ -45,7 +45,7 @@ describe("contextPath attribute value completion", () => {
       server: "off",
     },
     SplitAttributesOnFormat: true,
-    ReportNonUniqueIdsCrossViewFiles: true,
+    LimitUniqueIdDiagnostics: false,
   };
 
   const annotationSnippetCDS = `

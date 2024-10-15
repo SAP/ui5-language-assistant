@@ -44,7 +44,7 @@ describe("index", () => {
       server: "off",
     },
     SplitAttributesOnFormat: true,
-    ReportNonUniqueIdsCrossViewFiles: true,
+    LimitUniqueIdDiagnostics: false,
   };
 
   beforeAll(async function () {
