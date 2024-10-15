@@ -10,7 +10,7 @@
   },
   "scripts": {
     "ci": "node ./scripts/copy",
-    "clean": "rimraf ./dist ./lib ./coverage ./nyc_output *.vsix NOTICE LICENSE"
+    "clean": "rimraf ./dist ./lib ./coverage *.vsix NOTICE LICENSE"
   },
   "devDependencies": {
     "fs-extra": "10.1.0"

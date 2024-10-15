@@ -1,8 +1,0 @@
-
-> @ui5-language-assistant/fe@4.0.33 compile /Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/fe
-> pnpm run clean && tsc -p .
-
-
-> @ui5-language-assistant/fe@4.0.33 clean /Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/fe
-> rimraf ./lib ./coverage
-

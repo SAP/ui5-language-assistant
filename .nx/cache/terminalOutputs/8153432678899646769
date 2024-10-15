@@ -1,8 +1,0 @@
-
-> @ui5-language-assistant/xml-views-tooltip@4.0.29 compile /Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/xml-views-tooltip
-> pnpm run clean && tsc -p .
-
-
-> @ui5-language-assistant/xml-views-tooltip@4.0.29 clean /Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/xml-views-tooltip
-> rimraf ./lib ./coverage ./nyc_output
-

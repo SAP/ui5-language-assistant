@@ -1,8 +1,0 @@
-
-> @ui5-language-assistant/xml-views-validation@4.0.23 compile /Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/xml-views-validation
-> pnpm run clean && tsc -p .
-
-
-> @ui5-language-assistant/xml-views-validation@4.0.23 clean /Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/xml-views-validation
-> rimraf ./lib ./coverage ./nyc_output
-

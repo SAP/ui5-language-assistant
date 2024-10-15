@@ -1,8 +1,0 @@
-
-> @ui5-language-assistant/semantic-model@4.0.18 compile /Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/semantic-model
-> pnpm run clean && tsc -p .
-
-
-> @ui5-language-assistant/semantic-model@4.0.18 clean /Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/semantic-model
-> rimraf ./lib ./coverage
-

@@ -1,0 +1,54 @@
+{
+  "tasksRunnerOptions": {
+    "default": {
+      "runner": "@nrwl/nx-cloud",
+      "options": {
+        "cacheableOperations": ["compile", "lint", "test"],
+        "accessToken": "",
+        "canTrackAnalytics": false,
+        "showUsageWarnings": true
+      }
+    }
+  },
+  "namedInputs": {
+    "default": ["{projectRoot}/**/*"],
+    "prod": ["!{projectRoot}/**/*.test.ts"]
+  },
+  "targetDefaults": {
+    "build:quick": {
+      "dependsOn": ["compile"],
+      "outputs": ["{projectRoot}/lib"]
+    },
+    "dev": {
+      "dependsOn": ["^compile"],
+      "outputs": ["{projectRoot}/lib"]
+    },
+    "compile": {
+      "outputs": ["{projectRoot}/lib"]
+    },
+    "test": {
+      "inputs": [
+        "default",
+        "^prod",
+        "{workspaceRoot}/jest.base.js",
+        "{projectRoot}/jest.config.js"
+      ],
+      "outputs": ["{projectRoot}/coverage"]
+    },
+
+    "build:extension": {
+      "outputs": ["{projectRoot}/*.vsix"]
+    },
+
+    "lint": {
+      "inputs": ["default", "^prod"]
+    },
+    "lint:fix": {
+      "inputs": ["default", "^prod"]
+    },
+    "clean": {
+      "inputs": []
+    }
+  },
+  "defaultBase": "master"
+}

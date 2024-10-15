@@ -23,13 +23,14 @@
     "@ui5-language-assistant/constant": "workspace:*",
     "ajv": "6.12.3",
     "deep-freeze-strict": "1.1.1",
-    "fs-extra": "10.1.0",
     "lodash": "4.17.21"
   },
   "devDependencies": {
     "@types/deep-freeze-strict": "1.1.0",
     "@ui5-language-assistant/test-utils": "workspace:*",
-    "json-schema-to-typescript": "10.0.3"
+    "json-schema-to-typescript": "10.0.3",
+    "chai": "4.2.0",
+    "@types/lodash": "4.14.168"
   },
   "scripts": {
     "ci": "npm-run-all clean generate-json-api compile lint coverage",

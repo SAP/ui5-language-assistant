@@ -31,11 +31,12 @@
     "@ui5-language-assistant/semantic-model": "workspace:*",
     "@ui5-language-assistant/test-utils": "workspace:*",
     "@xml-tools/parser": "1.0.7",
-    "vscode-languageserver-types": "3.17.2"
+    "vscode-languageserver-types": "3.17.2",
+    "@types/lodash": "4.14.168"
   },
   "scripts": {
     "ci": "npm-run-all clean compile lint coverage",
-    "clean": "rimraf ./lib ./coverage ./nyc_output",
+    "clean": "rimraf ./lib ./coverage",
     "compile": "pnpm run clean && tsc -p .",
     "compile:watch": "tsc -p . --watch",
     "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore",

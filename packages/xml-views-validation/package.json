@@ -41,11 +41,12 @@
     "@ui5-language-assistant/test-framework": "workspace:*",
     "@ui5-language-assistant/test-utils": "workspace:*",
     "@xml-tools/parser": "1.0.7",
-    "@types/deep-freeze-strict": "1.1.0"
+    "@types/deep-freeze-strict": "1.1.0",
+    "@types/lodash": "4.14.168"
   },
   "scripts": {
     "ci": "npm-run-all clean compile lint coverage",
-    "clean": "rimraf ./lib ./coverage ./nyc_output",
+    "clean": "rimraf ./lib ./coverage",
     "compile": "pnpm run clean && tsc -p .",
     "compile:watch": "tsc -p . --watch",
     "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore",

@@ -28,11 +28,12 @@
     "proxy-from-env": "1.1.0"
   },
   "devDependencies": {
-    "@types/node-fetch": "2.5.10"
+    "@types/node-fetch": "2.5.10",
+    "@types/lodash": "4.14.168"
   },
   "scripts": {
     "ci": "npm-run-all clean compile lint",
-    "clean": "rimraf ./lib ./coverage ./nyc_output ./.model-cache",
+    "clean": "rimraf ./lib ./coverage ./.model-cache",
     "compile": "pnpm run clean && tsc -p .",
     "compile:watch": "tsc -p . --watch",
     "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore"

@@ -1,8 +1,0 @@
-
-> @ui5-language-assistant/test-framework@4.0.12 compile /Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/test-packages/framework
-> pnpm run clean && tsc -p .
-
-
-> @ui5-language-assistant/test-framework@4.0.12 clean /Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/test-packages/framework
-> rimraf ./lib ./coverage ./.model-cache *.tsbuildinfo
-

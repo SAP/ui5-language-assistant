@@ -1,8 +1,0 @@
-
-> @ui5-language-assistant/logger@0.0.1 compile /Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/logger
-> pnpm run clean && tsc -p .
-
-
-> @ui5-language-assistant/logger@0.0.1 clean /Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/logger
-> rimraf ./lib ./coverage ./nyc_output
-

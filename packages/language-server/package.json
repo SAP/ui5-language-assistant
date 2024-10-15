@@ -57,13 +57,10 @@
   "devDependencies": {
     "@ui5-language-assistant/semantic-model-types": "workspace:*",
     "@ui5-language-assistant/test-utils": "workspace:*",
-    "@ui5-language-assistant/binding-parser": "workspace:*",
     "vscode-languageserver-types": "3.17.2",
-    "@types/js-yaml": "4.0.5",
-    "@types/node-fetch": "2.5.10",
-    "@types/semver": "7.3.12",
-    "@types/tmp": "0.2.0",
-    "string-replace-loader": "3.1.0"
+    "@vscode-logging/types": "0.1.4",
+    "chai": "4.2.0",
+    "prettier": "2.8.7"
   },
   "scripts": {
     "ci": "npm-run-all clean compile lint coverage bundle",

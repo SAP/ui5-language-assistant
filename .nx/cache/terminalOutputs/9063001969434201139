@@ -1,8 +1,0 @@
-
-> @ui5-language-assistant/binding@1.0.34 compile /Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/binding
-> pnpm run clean && tsc -p .
-
-
-> @ui5-language-assistant/binding@1.0.34 clean /Users/I744939/SAPDevelop/git/ux-engineering/ui5-language-assistant/packages/binding
-> rimraf ./lib ./coverage
-
