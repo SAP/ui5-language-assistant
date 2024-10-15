@@ -20,7 +20,7 @@
       "outputs": ["{projectRoot}/lib"]
     },
     "dev": {
-      "dependsOn": ["^compile"],
+      "dependsOn": ["compile"],
       "outputs": ["{projectRoot}/lib"]
     },
     "compile": {

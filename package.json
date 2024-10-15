@@ -2,7 +2,7 @@
   "name": "@ui5-language-assistant/root",
   "private": true,
   "scripts": {
-    "build:quick": "nx run-many --target=compile --all --parallel=1",
+    "build:quick": "nx run-many --target=compile --parallel=1",
     "release:version": "pnpm version --force-publish",
     "release:publish": "pnpm publish from-package --yes",
     "ci": "npm-run-all format:validate ci:subpackages legal:*",

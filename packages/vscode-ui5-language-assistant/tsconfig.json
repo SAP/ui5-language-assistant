@@ -8,19 +8,28 @@
   "include": ["src/**/*", "test/**/*", "api.d.ts", "src/manifest/*.json"],
   "references": [
     {
-      "path": "../language-server"
+      "path": "../binding-parser"
     },
     {
-      "path": "../binding"
+      "path": "../constant"
     },
     {
-      "path": "../settings"
+      "path": "../context"
     },
     {
       "path": "../logic-utils"
     },
     {
-      "path": "../user-facing-text"
+      "path": "../settings"
+    },
+    {
+      "path": "../language-server"
+    },
+    {
+      "path": "../../test-packages/framework"
+    },
+    {
+      "path": "../binding"
     }
   ]
 }
