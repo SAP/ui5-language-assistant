@@ -1,6 +1,6 @@
 {
   "name": "@ui5-language-assistant/binding",
-  "version": "1.0.35",
+  "version": "1.0.36",
   "private": true,
   "description": "UI5 LSP server extension for binding",
   "keywords": [],
@@ -16,12 +16,12 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@ui5-language-assistant/binding-parser": "1.0.7",
-    "@ui5-language-assistant/logger": "0.0.1",
-    "@ui5-language-assistant/context": "4.0.30",
-    "@ui5-language-assistant/logic-utils": "4.0.20",
-    "@ui5-language-assistant/xml-views-completion": "4.0.30",
-    "@ui5-language-assistant/xml-views-validation": "4.0.24",
-    "@ui5-language-assistant/settings": "4.0.9",
+    "@ui5-language-assistant/logger": "0.0.2",
+    "@ui5-language-assistant/context": "4.0.31",
+    "@ui5-language-assistant/logic-utils": "4.0.21",
+    "@ui5-language-assistant/xml-views-completion": "4.0.31",
+    "@ui5-language-assistant/xml-views-validation": "4.0.25",
+    "@ui5-language-assistant/settings": "4.0.10",
     "deep-freeze-strict": "1.1.1",
     "lodash": "4.17.21"
   },

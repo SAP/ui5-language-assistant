@@ -1,5 +1,15 @@
 # Change Log
 
+## 4.0.31
+
+### Patch Changes
+
+- 3abf9a6: feat: User settings to control diagnostics reporting cross view files
+- Updated dependencies [3abf9a6]
+  - @ui5-language-assistant/settings@4.0.10
+  - @ui5-language-assistant/logger@0.0.2
+  - @ui5-language-assistant/logic-utils@4.0.21
+
 ## 4.0.30
 
 ### Patch Changes

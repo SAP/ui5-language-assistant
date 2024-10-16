@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.75
+
+### Patch Changes
+
+- 3abf9a6: feat: User settings to control diagnostics reporting cross view files
+
 ## 4.0.74
 
 ### Patch Changes

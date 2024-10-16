@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.19
+
+### Patch Changes
+
+- @ui5-language-assistant/logger@0.0.2
+
 ## 4.0.18
 
 ### Patch Changes

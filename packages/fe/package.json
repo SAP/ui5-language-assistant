@@ -1,6 +1,6 @@
 {
   "name": "@ui5-language-assistant/fe",
-  "version": "4.0.34",
+  "version": "4.0.35",
   "private": true,
   "description": "UI5 LSP server extension for annotation relevant building blocks",
   "keywords": [],
@@ -16,10 +16,10 @@
   "license": "Apache-2.0",
   "typings": "./api.d.ts",
   "dependencies": {
-    "@ui5-language-assistant/context": "4.0.30",
-    "@ui5-language-assistant/logic-utils": "4.0.20",
-    "@ui5-language-assistant/xml-views-completion": "4.0.30",
-    "@ui5-language-assistant/xml-views-validation": "4.0.24",
+    "@ui5-language-assistant/context": "4.0.31",
+    "@ui5-language-assistant/logic-utils": "4.0.21",
+    "@ui5-language-assistant/xml-views-completion": "4.0.31",
+    "@ui5-language-assistant/xml-views-validation": "4.0.25",
     "deep-freeze-strict": "1.1.1",
     "lodash": "4.17.21"
   },
