@@ -5,5 +5,6 @@ export type {
   ManifestDetails,
   YamlDetails,
   ProjectKind,
+  ControlIdLocation,
 } from "./src/types";
 export type { Manifest } from "@sap-ux/project-access";

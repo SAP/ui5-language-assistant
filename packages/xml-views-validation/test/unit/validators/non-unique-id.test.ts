@@ -5,6 +5,10 @@ import {
   TestFramework,
 } from "@ui5-language-assistant/test-framework";
 import { Context, getContext, cache } from "@ui5-language-assistant/context";
+import {
+  setConfigurationSettings,
+  getDefaultSettings,
+} from "@ui5-language-assistant/settings";
 import { join } from "path";
 import { validateNonUniqueID } from "../../../src/validators";
 import {
@@ -122,6 +126,7 @@ describe("the use of non unique id validation", () => {
     testFramework = new TestFramework(useConfig);
     // reset cache to avoid side effect
     cache.reset();
+    setConfigurationSettings(getDefaultSettings());
   });
   describe("true positive scenarios", () => {
     it("will detect two duplicate ID in different controls", async () => {
@@ -317,6 +322,69 @@ describe("the use of non unique id validation", () => {
           severity: "error",
           offsetRange: offset[1],
           identicalIDsRanges,
+        },
+      ]);
+    });
+    it("will not detect duplicate IDs cross view files when UI5LanguageAssistant.LimitUniqueIdDiagnostics settings set to false", async () => {
+      // arrange
+      setConfigurationSettings({
+        ...getDefaultSettings(),
+        LimitUniqueIdDiagnostics: true,
+      });
+      const xmlSnippet = `
+        <mvc:View
+          xmlns:mvc="sap.ui.core.mvc"
+          xmlns="sap.ui.commons"
+          >
+          <Button id="DUPLICATE">
+          </Button>
+          <Button id="DUPLICATE">
+          </Button>
+        </mvc:View>`;
+      // modify context
+      const xmlSnippet02 = `
+        <mvc:View
+          xmlns:mvc="sap.ui.core.mvc"
+          xmlns="sap.ui.commons"
+          >
+          <Button id="DUPLICATE">
+          </Button>
+          <Button id="DUPLICATE">
+          </Button>
+        </mvc:View>`;
+
+      const CustomSectionSegments = [
+        "app",
+        "manage_travels",
+        "webapp",
+        "ext",
+        "fragment",
+        "CustomSection.fragment.xml",
+      ];
+      await testFramework.updateFile(CustomSectionSegments, xmlSnippet02);
+      const { context, offsetRanges, documentPath } = await getParam(
+        xmlSnippet
+      );
+      const offset = offsetRanges[documentPath];
+      // act
+      const result = validateNonUniqueID(context);
+      // assert
+      expect(result).toEqual([
+        {
+          issueType: "base",
+          kind: "NonUniqueIDIssue",
+          message: buildMessage(NON_UNIQUE_ID.msg, "DUPLICATE"),
+          severity: "error",
+          offsetRange: offset[0],
+          identicalIDsRanges: [], // empty identical id ranges => no cross view files
+        },
+        {
+          issueType: "base",
+          kind: "NonUniqueIDIssue",
+          message: buildMessage(NON_UNIQUE_ID.msg, "DUPLICATE"),
+          severity: "error",
+          offsetRange: offset[1],
+          identicalIDsRanges: [], // empty identical id ranges => no cross view files
         },
       ]);
     });

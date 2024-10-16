@@ -90,6 +90,12 @@
           "default": true,
           "markdownDescription": "Put each attribute on a new line when formatting `*.view.xml` or `*.fragment.xml`."
         },
+        "UI5LanguageAssistant.LimitUniqueIdDiagnostics": {
+          "type": "boolean",
+          "scope": "window",
+          "default": false,
+          "markdownDescription": "Limit diagnostics for unique IDs to current `*.view.xml` or `*.fragment.xml` file"
+        },
         "UI5LanguageAssistant.SAPUI5WebServer": {
           "type": "string",
           "scope": "window",
