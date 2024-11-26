@@ -2,7 +2,9 @@ import { readdirSync } from "fs";
 import { readJsonSync, readJson, existsSync } from "fs-extra";
 import { resolve, dirname } from "path";
 import { filter, reduce, has, forEach, get } from "lodash";
-import { FetchResponse } from "@ui5-language-assistant/language-server";
+import {
+  FetchResponse
+} from "@ui5-language-assistant/logic-utils";
 import {
   UI5Framework,
   UI5SemanticModel,

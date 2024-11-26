@@ -13,11 +13,6 @@
   "license": "Apache-2.0",
   "typings": "./api.d.ts",
   "dependencies": {
-    "@ui5-language-assistant/constant": "workspace:*",
-    "@ui5-language-assistant/language-server": "workspace:*",
-    "@ui5-language-assistant/semantic-model-types": "4.0.11",
-    "@ui5-language-assistant/test-utils": "workspace:*",
-    "@ui5-language-assistant/xml-views-completion": "workspace:*",
     "@xml-tools/ast": "5.0.0",
     "chai": "4.2.0",
     "deep-equal-in-any-order": "1.0.28",

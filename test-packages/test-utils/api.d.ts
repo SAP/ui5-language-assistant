@@ -19,7 +19,9 @@ import {
 } from "@ui5-language-assistant/semantic-model-types";
 import { XMLAttribute, XMLElement } from "@xml-tools/ast";
 import { UI5XMLViewCompletion } from "@ui5-language-assistant/xml-views-completion";
-import { FetchResponse } from "@ui5-language-assistant/language-server";
+import {
+  FetchResponse
+} from "@ui5-language-assistant/logic-utils";
 import { DEFAULT_UI5_VERSION } from "@ui5-language-assistant/constant";
 
 //	easily build (partial) data structures for tests with mandatory "name" field
