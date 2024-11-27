@@ -212,7 +212,7 @@ async function updateCurrentModel(model: UI5Model | undefined): Promise<void> {
         if (response) {
           version = `${version} (local)`;
           tooltipText =
-            "Alternative (local) SAP UI5 web server is defined in user or workspace settings. Using SAP UI5 version fetched from the local server";
+            "Alternative (local) SAPUI5 web server is defined in user or workspace settings. Using SAPUI5 version fetched from the local server";
         }
       }
       statusBarItem.tooltip = tooltipText;
@@ -234,7 +234,7 @@ function handleContextError(error: Error & { code?: string }) {
   showedOnce = true;
   if (error.code) {
     window.showErrorMessage(
-      "[SAP UI5 SDK](https://tools.hana.ondemand.com/#sapui5) is not accessible. Connect to the internet or setup local web server for offline work."
+      "[SAPUI5 SDK](https://tools.hana.ondemand.com/#sapui5) is not accessible. Connect to the internet or setup local web server for offline work."
     );
   } else {
     window.showErrorMessage(

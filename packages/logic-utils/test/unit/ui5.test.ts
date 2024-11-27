@@ -72,7 +72,7 @@ describe("getVersionInfoUrl", () => {
       DEFAULT_UI5_VERSION
     );
     expect(result).toStrictEqual(
-      "https://ui5.sap.com/1.71.70/resources/sap-ui-version.json"
+      "https://ui5.sap.com/1.71.72/resources/sap-ui-version.json"
     );
   });
   it("get version info uri for OpenUI5", async () => {
@@ -81,7 +81,7 @@ describe("getVersionInfoUrl", () => {
       DEFAULT_OPEN_UI5_VERSION
     );
     expect(result).toStrictEqual(
-      "https://sdk.openui5.org/1.71.67/resources/sap-ui-version.json"
+      "https://sdk.openui5.org/1.71.68/resources/sap-ui-version.json"
     );
   });
 });
@@ -93,7 +93,7 @@ it("getLibraryAPIJsonUrl", async () => {
     "sap.m"
   );
   expect(result).toStrictEqual(
-    "https://ui5.sap.com/1.71.70/test-resources/sap/m/designtime/api.json"
+    "https://ui5.sap.com/1.71.72/test-resources/sap/m/designtime/api.json"
   );
 });
 
@@ -117,7 +117,7 @@ describe("getVersionsMap", () => {
   it("get version map for OpenUI5 - fallback default", async () => {
     const data = {
       latest: {
-        version: "1.71.67",
+        version: "1.71.68",
         support: "Maintenance",
         lts: true,
       },
