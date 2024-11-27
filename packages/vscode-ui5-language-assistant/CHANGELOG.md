@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.76
+
+### Patch Changes
+
+- 898c3b6: fix: correct SAPUI5 term
+
 ## 4.0.75
 
 ### Patch Changes
