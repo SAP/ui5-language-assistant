@@ -1,4 +1,5 @@
 import * as manifest from "../../src/manifest";
+import * as adpManifest from "../../src/adp-manifest";
 import * as ui5Yaml from "../../src/ui5-yaml";
 import * as ui5Model from "../../src/ui5-model";
 import * as services from "../../src/services";
@@ -51,6 +52,9 @@ describe("context", () => {
       const getServicesStub = jest
         .spyOn(services, "getServices")
         .mockResolvedValue({});
+      const finAdpdManifestPathStub = jest
+        .spyOn(adpManifest, "finAdpdManifestPath")
+        .mockResolvedValue("/path/to/app/variant");
       const getViewFilesStub = jest
         .spyOn(viewFiles, "getViewFiles")
         .mockResolvedValue({});
@@ -67,6 +71,7 @@ describe("context", () => {
       expect(getYamlDetailsStub).toHaveBeenCalled();
       expect(getSemanticModelStub).toHaveBeenCalled();
       expect(getServicesStub).toHaveBeenCalled();
+      expect(finAdpdManifestPathStub).toHaveBeenCalled();
       expect(getViewFilesStub).toHaveBeenCalled();
       expect(getControlIdsStub).toHaveBeenCalled();
       expect(result).toContainAllKeys([

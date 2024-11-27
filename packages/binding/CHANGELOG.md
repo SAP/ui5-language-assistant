@@ -1,5 +1,27 @@
 # @ui5-language-assistant/binding
 
+## 1.0.36
+
+### Patch Changes
+
+- 3abf9a6: feat: User settings to control diagnostics reporting cross view files
+- Updated dependencies [3abf9a6]
+  - @ui5-language-assistant/xml-views-completion@4.0.31
+  - @ui5-language-assistant/settings@4.0.10
+  - @ui5-language-assistant/context@4.0.31
+  - @ui5-language-assistant/logger@0.0.2
+  - @ui5-language-assistant/logic-utils@4.0.21
+  - @ui5-language-assistant/xml-views-validation@4.0.25
+
+## 1.0.35
+
+### Patch Changes
+
+- Updated dependencies [6fe3662]
+  - @ui5-language-assistant/context@4.0.30
+  - @ui5-language-assistant/xml-views-validation@4.0.24
+  - @ui5-language-assistant/xml-views-completion@4.0.30
+
 ## 1.0.34
 
 ### Patch Changes

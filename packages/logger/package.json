@@ -1,6 +1,6 @@
 {
   "name": "@ui5-language-assistant/logger",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": true,
   "description": "A logger package",
   "keywords": [],
@@ -17,7 +17,7 @@
   "typings": "./api.d.ts",
   "dependencies": {
     "@vscode-logging/logger": "1.2.2",
-    "@ui5-language-assistant/settings": "4.0.9"
+    "@ui5-language-assistant/settings": "4.0.10"
   },
   "devDependencies": {
     "@vscode-logging/types": "0.1.4"

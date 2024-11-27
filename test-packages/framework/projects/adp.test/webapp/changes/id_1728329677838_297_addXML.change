@@ -1,0 +1,30 @@
+{
+	"changeType": "addXML",
+	"reference": "adp.test",
+	"namespace": "apps/adp.test/changes/",
+	"projectId": "adp.test",
+	"packageName": "$TMP",
+	"moduleName": "adp/test/changes/fragments/filterBar.fragment.xml",
+	"support": {
+		"generator": "sap.ui.rta.command",
+		"command": "addXML",
+		"sapui5Version": "1.129.0"
+	},
+	"originalLanguage": "EN",
+	"layer": "VENDOR",
+	"fileType": "change",
+	"fileName": "id_1728329677838_297_addXML",
+	"content": {
+		"targetAggregation": "filterItems",
+		"index": 4,
+		"fragmentPath": "fragments/filterBar.fragment.xml"
+	},
+	"texts": {},
+	"selector": {
+		"id": "demo.v4::ProductsList--fe::FilterBar::Products",
+		"idIsLocal": false
+	},
+	"dependentSelector": {},
+	"jsOnly": false,
+	"creation": "2024-10-07T19:34:38.040Z"
+}

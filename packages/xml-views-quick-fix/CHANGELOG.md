@@ -1,5 +1,20 @@
 # Change Log
 
+## 4.0.23
+
+### Patch Changes
+
+- Updated dependencies [3abf9a6]
+  - @ui5-language-assistant/context@4.0.31
+  - @ui5-language-assistant/logic-utils@4.0.21
+
+## 4.0.22
+
+### Patch Changes
+
+- Updated dependencies [6fe3662]
+  - @ui5-language-assistant/context@4.0.30
+
 ## 4.0.21
 
 ### Patch Changes

@@ -1,0 +1,30 @@
+{
+	"changeType": "addXML",
+	"reference": "adp.test",
+	"namespace": "apps/adp.test/changes/",
+	"projectId": "adp.test",
+	"packageName": "$TMP",
+	"moduleName": "adp/test/changes/fragments/actionToolbar.fragment.xml",
+	"support": {
+		"generator": "sap.ui.rta.command",
+		"command": "addXML",
+		"sapui5Version": "1.129.0"
+	},
+	"originalLanguage": "EN",
+	"layer": "VENDOR",
+	"fileType": "change",
+	"fileName": "id_1728329742822_298_addXML",
+	"content": {
+		"targetAggregation": "actions",
+		"index": 2,
+		"fragmentPath": "fragments/actionToolbar.fragment.xml"
+	},
+	"texts": {},
+	"selector": {
+		"id": "demo.v4::ProductsList--fe::table::Products::LineItem-toolbar",
+		"idIsLocal": false
+	},
+	"dependentSelector": {},
+	"jsOnly": false,
+	"creation": "2024-10-07T19:35:42.861Z"
+}

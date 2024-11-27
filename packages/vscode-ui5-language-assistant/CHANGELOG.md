@@ -1,5 +1,21 @@
 # Change Log
 
+## 4.0.75
+
+### Patch Changes
+
+- 3abf9a6: feat: User settings to control diagnostics reporting cross view files
+- Updated dependencies [3abf9a6]
+  - @ui5-language-assistant/language-server@4.0.58
+
+## 4.0.74
+
+### Patch Changes
+
+- 6fe3662: fix: lsp for adaption project - first iteration
+- Updated dependencies [6fe3662]
+  - @ui5-language-assistant/language-server@4.0.57
+
 ## 4.0.73
 
 ### Patch Changes

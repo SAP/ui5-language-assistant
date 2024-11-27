@@ -11,7 +11,11 @@ import * as manifest from "../../src/manifest";
 import * as projectUtils from "../../src/utils/project";
 import { cache } from "../../src/cache";
 import { Manifest } from "@sap-ux/project-access";
-import { ProjectKind, UI5_PROJECT_TYPE } from "../../src/types";
+import {
+  ProjectKind,
+  UI5_PROJECT_TYPE,
+  ProjectType as ProjType,
+} from "../../src/types";
 import { getProjectData } from "./utils";
 import { getManifestDetails, getUI5Manifest } from "../../src/manifest";
 import { getApp } from "../../src/loader";
@@ -156,7 +160,7 @@ describe("loader", () => {
         projectRoot
       );
       const projectInfo = { kind: "Java", type: "CAP" } as {
-        type: ProjectType;
+        type: ProjType;
         kind: ProjectKind;
       };
       const capProject = await loader.getCAPProject(
