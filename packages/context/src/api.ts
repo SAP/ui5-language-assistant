@@ -6,7 +6,7 @@ import {
 } from "./manifest";
 import { finAdpdManifestPath } from "./adp-manifest";
 import { getServices } from "./services";
-import { Context } from "./types";
+import { Context, UI5_VERSION_S4_PLACEHOLDER } from "./types";
 import { getSemanticModel } from "./ui5-model";
 import { getYamlDetails } from "./ui5-yaml";
 import { getViewFiles } from "./utils/view-files";
@@ -51,7 +51,8 @@ export async function getContext(
     let manifestPath = manifestDetails.manifestPath;
     const manifest = await getUI5Manifest(manifestPath);
     let minUI5Version = manifestDetails.minUI5Version;
-    if (manifest) {
+    // if minUi5Version is not S4 placeholder, get it from manifest
+    if (minUI5Version !== UI5_VERSION_S4_PLACEHOLDER && manifest) {
       minUI5Version = getMinimumUI5Version(manifest);
     }
 
