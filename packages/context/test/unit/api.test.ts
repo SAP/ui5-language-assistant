@@ -135,7 +135,10 @@ describe("context", () => {
         .spyOn(controlIds, "getControlIds")
         .mockReturnValue(new Map());
       // act
-      const result = await getContext("path/to/xml/file", 'test-model-cache-path');
+      const result = await getContext(
+        "path/to/xml/file",
+        "test-model-cache-path"
+      );
       // assert
       expect(getManifestDetailsStub).toHaveBeenCalled();
       expect(getManifestStub).toHaveBeenCalled();
@@ -143,7 +146,7 @@ describe("context", () => {
       expect(getCustomViewIdStub).toHaveBeenCalled();
       expect(getYamlDetailsStub).toHaveBeenCalled();
       expect(getSemanticModelStub).toHaveBeenCalledWith(
-        'test-model-cache-path',
+        "test-model-cache-path",
         "OpenUI5",
         UI5_VERSION_S4_PLACEHOLDER
       );
