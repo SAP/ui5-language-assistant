@@ -1,6 +1,6 @@
 {
   "name": "@ui5-language-assistant/xml-views-quick-fix",
-  "version": "4.0.23",
+  "version": "4.0.24",
   "private": true,
   "description": "Logic for UI5 XML-Views quick-fixes",
   "keywords": [
@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "@ui5-language-assistant/logic-utils": "4.0.21",
-    "@ui5-language-assistant/context": "4.0.31",
+    "@ui5-language-assistant/context": "4.0.32",
     "@xml-tools/ast": "5.0.0",
     "@xml-tools/ast-position": "2.0.2",
     "lodash": "4.17.21"

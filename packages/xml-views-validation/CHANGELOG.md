@@ -1,5 +1,12 @@
 # Change Log
 
+## 4.0.26
+
+### Patch Changes
+
+- Updated dependencies [1a974e0]
+  - @ui5-language-assistant/context@4.0.32
+
 ## 4.0.25
 
 ### Patch Changes

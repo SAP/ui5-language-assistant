@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.77
+
+### Patch Changes
+
+- 1a974e0: fix: use latest ui5 version incase of s4 placeholder
+
 ## 4.0.76
 
 ### Patch Changes
