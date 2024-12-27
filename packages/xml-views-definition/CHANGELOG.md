@@ -1,5 +1,12 @@
 # @ui5-language-assistant/xml-views-definition
 
+## 0.0.11
+
+### Patch Changes
+
+- Updated dependencies [e8e5a72]
+  - @ui5-language-assistant/binding-parser@1.0.8
+
 ## 0.0.10
 
 ### Patch Changes

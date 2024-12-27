@@ -1,5 +1,11 @@
 # @ui5-language-assistant/binding-parser
 
+## 1.0.8
+
+### Patch Changes
+
+- e8e5a72: fix: consider longer alt for null
+
 ## 1.0.7
 
 ### Patch Changes

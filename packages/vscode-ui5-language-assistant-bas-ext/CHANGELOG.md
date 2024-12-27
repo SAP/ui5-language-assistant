@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.78
+
+### Patch Changes
+
+- e8e5a72: fix: consider longer alt for null
+
 ## 4.0.77
 
 ### Patch Changes

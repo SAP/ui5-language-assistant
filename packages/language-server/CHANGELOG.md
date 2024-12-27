@@ -1,5 +1,12 @@
 # Change Log
 
+## 4.0.60
+
+### Patch Changes
+
+- @ui5-language-assistant/binding@1.0.38
+- @ui5-language-assistant/xml-views-definition@0.0.11
+
 ## 4.0.59
 
 ### Patch Changes

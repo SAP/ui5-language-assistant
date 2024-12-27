@@ -1,5 +1,12 @@
 # @ui5-language-assistant/binding
 
+## 1.0.38
+
+### Patch Changes
+
+- Updated dependencies [e8e5a72]
+  - @ui5-language-assistant/binding-parser@1.0.8
+
 ## 1.0.37
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "@ui5-language-assistant/binding",
-  "version": "1.0.37",
+  "version": "1.0.38",
   "private": true,
   "description": "UI5 LSP server extension for binding",
   "keywords": [],
@@ -15,7 +15,7 @@
   "repository": "https://github.com/sap/ui5-language-assistant/",
   "license": "Apache-2.0",
   "dependencies": {
-    "@ui5-language-assistant/binding-parser": "1.0.7",
+    "@ui5-language-assistant/binding-parser": "1.0.8",
     "@ui5-language-assistant/logger": "0.0.2",
     "@ui5-language-assistant/context": "4.0.32",
     "@ui5-language-assistant/logic-utils": "4.0.21",

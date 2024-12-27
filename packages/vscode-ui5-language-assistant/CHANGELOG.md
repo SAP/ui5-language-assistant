@@ -1,5 +1,12 @@
 # Change Log
 
+## 4.0.78
+
+### Patch Changes
+
+- e8e5a72: fix: consider longer alt for null
+  - @ui5-language-assistant/language-server@4.0.60
+
 ## 4.0.77
 
 ### Patch Changes
