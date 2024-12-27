@@ -86,7 +86,11 @@ const numberValue = createToken({
   pattern: /-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?/,
 });
 
-const nullValue = createToken({ name: NULL_VALUE, pattern: /null/ });
+const nullValue = createToken({
+  name: NULL_VALUE,
+  pattern: /null/,
+  longer_alt: key,
+});
 
 const comma = createToken({
   name: COMMA,
