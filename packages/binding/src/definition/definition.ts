@@ -24,6 +24,7 @@ import { getSorterPossibleElement } from "./sorter";
 import { getFiltersPossibleElement } from "./filter";
 import type {
   UI5Aggregation,
+  UI5ConstructorParameters,
   UI5TypedefProp,
 } from "@ui5-language-assistant/semantic-model-types";
 
@@ -111,6 +112,55 @@ const getReference = (type: UI5Type) => {
   return reference;
 };
 
+function getParameterProperties(param: {
+  context: BindContext;
+  parameterProperties: UI5ConstructorParameters[];
+  ui5Aggregation?: UI5Aggregation;
+  forHover?: boolean;
+  type: UI5Class;
+}): BindingInfoElement[] {
+  const result: BindingInfoElement[] = [];
+  const {
+    ui5Aggregation,
+    forHover = false,
+    type,
+    context,
+    parameterProperties,
+  } = param;
+  for (const param of parameterProperties) {
+    if (!param.type) {
+      continue;
+    }
+    // add reference to type and avoid recursion
+    const paramType = param.type;
+    const reference = getReference(paramType);
+    const data: BindingInfoElement = {
+      name: param.name,
+      // eslint-disable-next-line @typescript-eslint/no-use-before-define
+      type: buildType({
+        context,
+        type: paramType,
+        name: param.name,
+        collection: false,
+        ui5Aggregation,
+        forHover,
+        reference,
+      }),
+      documentation: getDocumentation({
+        context,
+        prop: param,
+        FQN: ui5NodeToFQN(type),
+        titlePrefix: "(class)",
+        forHover,
+      }),
+    };
+    data.required = !param.optional;
+    result.push(data);
+  }
+
+  return result;
+}
+
 /**
  * Currently [api.json](https://ui5.sap.com/1.118.1/test-resources/sap/ui/core/designtime/api.json) provides these constructor parameters as old school convention
  * e.g `sPath` for `path` where `s` stands for string type. These params are [map in runtime](https://github.com/SAP/openui5/blob/master/src/sap.ui.core/src/sap/ui/model/Sorter.js#L54-L60).
@@ -144,8 +194,17 @@ const getPossibleElement = (param: {
       if (!constParam.type) {
         continue;
       }
-      const reference = getReference(constParam.type);
       const name = sorterMap.get(constParam.name) ?? constParam.name;
+      if (name === "vSorterInfo" && constParam.parameterProperties) {
+        result.push(
+          ...getParameterProperties({
+            ...param,
+            parameterProperties: constParam.parameterProperties,
+          })
+        );
+        continue;
+      }
+      const reference = getReference(constParam.type);
       const data: BindingInfoElement = {
         name,
         // eslint-disable-next-line @typescript-eslint/no-use-before-define
@@ -179,36 +238,12 @@ const getPossibleElement = (param: {
       // use fallback filter
       return getFiltersPossibleElement();
     }
-    for (const param of vFilter.parameterProperties) {
-      if (!param.type) {
-        continue;
-      }
-      // add reference to type and avoid recursion
-      const paramType = param.type;
-      const reference = getReference(paramType);
-      const data: BindingInfoElement = {
-        name: param.name,
-        // eslint-disable-next-line @typescript-eslint/no-use-before-define
-        type: buildType({
-          context,
-          type: paramType,
-          name: param.name,
-          collection: false,
-          ui5Aggregation,
-          forHover,
-          reference,
-        }),
-        documentation: getDocumentation({
-          context,
-          prop: param,
-          FQN: ui5NodeToFQN(type),
-          titlePrefix: "(class)",
-          forHover,
-        }),
-      };
-      data.required = !param.optional;
-      result.push(data);
-    }
+    result.push(
+      ...getParameterProperties({
+        ...param,
+        parameterProperties: vFilter.parameterProperties,
+      })
+    );
   }
   return result;
 };

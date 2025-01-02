@@ -14,6 +14,7 @@ import {
   ViewCompletionProviderType,
 } from "../../helper";
 import { initI18n } from "../../../../src/api";
+import { readFile, writeFile } from "fs/promises";
 
 describe("aggregation binding", () => {
   let getCompletionResult: ViewCompletionProviderType;
@@ -104,6 +105,24 @@ describe("aggregation binding", () => {
         <List items="{sorter: [{${CURSOR_ANCHOR}}] }"> </List>`;
       const result = await getCompletionResult(snippet);
       expect(result).toMatchSnapshot();
+    });
+
+    it("do not show `vSorterInfo`. Some UI5 version e.g. 1.131.0 has `vSorterInfo` as param of constructor ", async function () {
+      // adapt manifest.json file
+      const manifestPath = join(
+        root,
+        "app",
+        "manage_travels",
+        "webapp",
+        "manifest.json"
+      );
+      const manifest = JSON.parse(await readFile(manifestPath, "utf-8"));
+      manifest["sap.ui5"]["dependencies"]["minUI5Version"] = "1.131.0";
+      await writeFile(manifestPath, JSON.stringify(manifest, null, 2));
+      const snippet = `
+        <List items="{sorter: {${CURSOR_ANCHOR}} }"> </List>`;
+      const result = await getCompletionResult(snippet);
+      expect(result.find((i) => i.label === "vSorterInfo")).toBeUndefined();
     });
   });
   describe("filters", function () {
