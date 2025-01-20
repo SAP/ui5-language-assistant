@@ -1,0 +1,348 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`getPossibleElement should return constructor parameter properties for filter when name is vFilterInfo 1`] = `
+Array [
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) Filter\`
+
+
+
+**undefined** Boolean
+
+**undefined** undefined
+
+**undefined** undefined
+
+undefined(https://sdk.openui5.org/#/api/Filter)",
+    },
+    "name": "value1",
+    "required": true,
+    "type": Array [
+      Object {
+        "collection": false,
+        "dependents": Array [],
+        "kind": "boolean",
+        "notAllowedElements": Array [],
+        "possibleValue": Object {
+          "fixed": true,
+          "values": Array [
+            true,
+            false,
+          ],
+        },
+        "reference": undefined,
+      },
+    ],
+  },
+]
+`;
+
+exports[`getPossibleElement should return constructor parameter properties for sorter when name is vSorterInfo 1`] = `
+Array [
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) Sorter\`
+
+
+
+**undefined** Boolean
+
+**undefined** undefined
+
+**undefined** undefined
+
+undefined(https://sdk.openui5.org/#/api/Sorter)",
+    },
+    "name": "param1",
+    "required": true,
+    "type": Array [
+      Object {
+        "collection": false,
+        "dependents": Array [],
+        "kind": "boolean",
+        "notAllowedElements": Array [],
+        "possibleValue": Object {
+          "fixed": true,
+          "values": Array [
+            true,
+            false,
+          ],
+        },
+        "reference": undefined,
+      },
+    ],
+  },
+  Object {
+    "documentation": Object {
+      "kind": "markdown",
+      "value": "\`(class) Sorter\`
+
+
+
+**undefined** 
+
+**undefined** undefined
+
+**undefined** undefined
+
+undefined(https://sdk.openui5.org/#/api/Sorter)",
+    },
+    "name": "path",
+    "required": true,
+    "type": Array [],
+  },
+]
+`;
+
+exports[`getPossibleElement should return filter possible elements when type is Filter and vFilterInfo is not defined - fallback 1`] = `
+Array [
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "name": "path",
+    "type": Array [
+      Object {
+        "dependents": Array [],
+        "kind": "string",
+        "notAllowedElements": Array [],
+      },
+    ],
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "name": "test",
+    "type": Array [
+      Object {
+        "dependents": Array [],
+        "kind": "string",
+        "notAllowedElements": Array [],
+      },
+    ],
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "name": "comparator",
+    "type": Array [
+      Object {
+        "dependents": Array [],
+        "kind": "string",
+        "notAllowedElements": Array [],
+      },
+    ],
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "name": "operator",
+    "type": Array [
+      Object {
+        "dependents": Array [],
+        "kind": "string",
+        "notAllowedElements": Array [],
+        "possibleValue": Object {
+          "fixed": true,
+          "values": Array [
+            "All",
+            "Any",
+            "BT",
+            "Contains",
+            "EndsWith",
+            "EQ",
+            "GE",
+            "GT",
+            "LE",
+            "LT",
+            "NB",
+            "NE",
+            "NotContains",
+            "NotEndsWith",
+            "NotStartsWith",
+            "StartsWith",
+          ],
+        },
+      },
+    ],
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "name": "value1",
+    "type": Array [
+      Object {
+        "dependents": Array [],
+        "kind": "any",
+        "notAllowedElements": Array [],
+      },
+    ],
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "name": "value2",
+    "type": Array [
+      Object {
+        "dependents": Array [],
+        "kind": "any",
+        "notAllowedElements": Array [],
+      },
+    ],
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "name": "variable",
+    "type": Array [
+      Object {
+        "dependents": Array [],
+        "kind": "any",
+        "notAllowedElements": Array [],
+      },
+    ],
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "name": "condition",
+    "type": Array [
+      Object {
+        "dependents": Array [],
+        "kind": "object",
+        "notAllowedElements": Array [],
+        "reference": "filters",
+      },
+    ],
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "name": "filters",
+    "type": Array [
+      Object {
+        "collection": true,
+        "dependents": Array [],
+        "kind": "object",
+        "notAllowedElements": Array [],
+        "reference": "filters",
+      },
+    ],
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "name": "and",
+    "type": Array [
+      Object {
+        "dependents": Array [],
+        "kind": "boolean",
+        "notAllowedElements": Array [],
+      },
+    ],
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "name": "caseSensitive",
+    "type": Array [
+      Object {
+        "dependents": Array [],
+        "kind": "boolean",
+        "notAllowedElements": Array [],
+      },
+    ],
+  },
+]
+`;
+
+exports[`getPossibleElement should return sorter possible elements when type is Sorter and parameters are not defined - fallback 1`] = `
+Array [
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "name": "path",
+    "required": true,
+    "type": Array [
+      Object {
+        "dependents": Array [],
+        "kind": "string",
+        "notAllowedElements": Array [],
+      },
+    ],
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "name": "descending",
+    "type": Array [
+      Object {
+        "dependents": Array [],
+        "kind": "boolean",
+        "notAllowedElements": Array [],
+      },
+    ],
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "name": "group",
+    "type": Array [
+      Object {
+        "dependents": Array [],
+        "kind": "string",
+        "notAllowedElements": Array [],
+      },
+      Object {
+        "dependents": Array [],
+        "kind": "boolean",
+        "notAllowedElements": Array [],
+      },
+    ],
+  },
+  Object {
+    "documentation": Object {
+      "kind": "plaintext",
+      "value": "",
+    },
+    "name": "comparator",
+    "type": Array [
+      Object {
+        "dependents": Array [],
+        "kind": "string",
+        "notAllowedElements": Array [],
+      },
+    ],
+  },
+]
+`;

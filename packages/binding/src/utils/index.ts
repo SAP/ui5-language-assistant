@@ -24,3 +24,11 @@ export const getAltTypesPrime = (
   aggregation?: UI5Aggregation
 ): UI5Type | undefined =>
   aggregation?.altTypes?.find((i) => i.kind === "PrimitiveType");
+
+export {
+  getReference,
+  buildType,
+  getPossibleValuesForClass,
+  getConstructorParameterProperties,
+  getPossibleElement,
+} from "./definition";
