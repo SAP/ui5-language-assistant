@@ -109,6 +109,78 @@ const sorterMap = new Map([
   ["comparator", "comparator"],
 ]);
 
+const getSorterElements = (param: {
+  context: BindContext;
+  ui5Aggregation?: UI5Aggregation;
+  forHover?: boolean;
+  type: UI5Class;
+}): BindingInfoElement[] => {
+  const { ui5Aggregation, forHover = false, type, context } = param;
+  const result: BindingInfoElement[] = [];
+  const parameters = type.ctor?.parameters;
+  if (!parameters) {
+    return getSorterPossibleElement();
+  }
+  for (const constParam of parameters) {
+    if (!constParam.type) {
+      continue;
+    }
+    const name = sorterMap.get(constParam.name) ?? constParam.name;
+    if (name === "vSorterInfo" && constParam.parameterProperties) {
+      result.push(
+        ...getConstructorParameterProperties({
+          ...param,
+          parameterProperties: constParam.parameterProperties,
+        })
+      );
+      continue;
+    }
+    const reference = getReference(constParam.type);
+    const data: BindingInfoElement = {
+      name,
+      // eslint-disable-next-line @typescript-eslint/no-use-before-define
+      type: buildType({
+        context,
+        type: constParam.type,
+        name,
+        collection: false,
+        ui5Aggregation,
+        forHover,
+        reference,
+      }),
+      documentation: getDocumentation({
+        context,
+        prop: constParam,
+        FQN: ui5NodeToFQN(type),
+        titlePrefix: "(class)",
+        forHover,
+      }),
+    };
+    data.required = !constParam.optional;
+    result.push(data);
+  }
+  return result;
+};
+
+const getFilterElements = (param: {
+  context: BindContext;
+  ui5Aggregation?: UI5Aggregation;
+  forHover?: boolean;
+  type: UI5Class;
+}): BindingInfoElement[] => {
+  const { type } = param;
+  // for filters only try `vFilterInfo` from constructor
+  /* istanbul ignore next */
+  const vFilter = type.ctor?.parameters?.find((i) => i.name === "vFilterInfo");
+  if (!vFilter) {
+    // use fallback filter
+    return getFiltersPossibleElement();
+  }
+  return getConstructorParameterProperties({
+    ...param,
+    parameterProperties: vFilter.parameterProperties,
+  });
+};
 /**
  * Retrieves possible binding information elements for a given UI5 class.
  *
@@ -127,68 +199,13 @@ export const getPossibleElement = (param: {
 }): BindingInfoElement[] => {
   const result: BindingInfoElement[] = [];
   /* istanbul ignore next */
-  const { ui5Aggregation, forHover = false, type, context } = param;
+  const { type } = param;
   if (type.name === ClassName.Sorter) {
-    const parameters = type.ctor && type.ctor.parameters;
-    if (!parameters) {
-      return getSorterPossibleElement();
-    }
-    for (const constParam of parameters) {
-      if (!constParam.type) {
-        continue;
-      }
-      const name = sorterMap.get(constParam.name) ?? constParam.name;
-      if (name === "vSorterInfo" && constParam.parameterProperties) {
-        result.push(
-          ...getConstructorParameterProperties({
-            ...param,
-            parameterProperties: constParam.parameterProperties,
-          })
-        );
-        continue;
-      }
-      const reference = getReference(constParam.type);
-      const data: BindingInfoElement = {
-        name,
-        // eslint-disable-next-line @typescript-eslint/no-use-before-define
-        type: buildType({
-          context,
-          type: constParam.type,
-          name,
-          collection: false,
-          ui5Aggregation,
-          forHover,
-          reference,
-        }),
-        documentation: getDocumentation({
-          context,
-          prop: constParam,
-          FQN: ui5NodeToFQN(type),
-          titlePrefix: "(class)",
-          forHover,
-        }),
-      };
-      data.required = !constParam.optional;
-      result.push(data);
-    }
+    return getSorterElements(param);
   }
 
   if (type.name === ClassName.Filter) {
-    // for filters only try `vFilterInfo` from constructor
-    /* istanbul ignore next */
-    const vFilter = type.ctor?.parameters?.find(
-      (i) => i.name === "vFilterInfo"
-    );
-    if (!vFilter) {
-      // use fallback filter
-      return getFiltersPossibleElement();
-    }
-    result.push(
-      ...getConstructorParameterProperties({
-        ...param,
-        parameterProperties: vFilter.parameterProperties,
-      })
-    );
+    return getFilterElements(param);
   }
   return result;
 };
