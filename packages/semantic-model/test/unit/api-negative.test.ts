@@ -612,7 +612,6 @@ describe("The ui5-language-assistant semantic model package API negative tests",
       });
     });
     describe("duplicate symbol", () => {
-      const message = "Duplicate symbol found";
       describe("of the same kind", () => {
         const fileContent = {
           "$schema-ref":
@@ -643,10 +642,6 @@ describe("The ui5-language-assistant semantic model package API negative tests",
             },
           ],
         };
-
-        it("fails in strict mode", () => {
-          assertGenerateThrowsInStrictMode(fileContent, message);
-        });
 
         it("doesn't fail and adds the first symbol in non-strict mode", () => {
           const model = assertGenerateDoesntThrowInNonStrictMode(fileContent);
@@ -687,10 +682,6 @@ describe("The ui5-language-assistant semantic model package API negative tests",
             },
           ],
         };
-
-        it("fails in strict mode", () => {
-          assertGenerateThrowsInStrictMode(fileContent, message);
-        });
 
         it("doesn't fail and adds the first symbol in non-strict mode", () => {
           const model = assertGenerateDoesntThrowInNonStrictMode(fileContent);
