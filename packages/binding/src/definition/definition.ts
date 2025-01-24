@@ -1,6 +1,10 @@
 import { AGGREGATION_BINDING_INFO, PROPERTY_BINDING_INFO } from "../api";
 import { BindContext, BindingInfoElement, PropertyType } from "../types";
-import { buildType, getAltTypesPrime, getDocumentation } from "../utils";
+import {
+  buildType,
+  findPrimitiveTypeInAggregation,
+  getDocumentation,
+} from "../utils";
 import { getFallBackElements } from "./fall-back-definition";
 import type {
   UI5Aggregation,
@@ -97,7 +101,7 @@ export const getBindingElements = (
       properties: propBinding.properties,
     })
   );
-  const altTypes = getAltTypesPrime(aggregation);
+  const altTypes = findPrimitiveTypeInAggregation(aggregation);
   if (altTypes) {
     // if `altTypes`, add `PROPERTY_BINDING_INFO` properties too
     elements.push(

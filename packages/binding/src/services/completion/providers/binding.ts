@@ -17,7 +17,7 @@ import {
 import { BindContext } from "../../../types";
 import { createInitialSnippet } from "./create-initial-snippet";
 import {
-  getAltTypesPrime,
+  findPrimitiveTypeInAggregation,
   getCursorContext,
   getLogger,
   isMacrosMetaContextPath,
@@ -140,7 +140,7 @@ export function bindingSuggestions({
       );
     }
 
-    const altTypes = getAltTypesPrime(ui5Aggregation);
+    const altTypes = findPrimitiveTypeInAggregation(ui5Aggregation);
     if (altTypes) {
       // for `altTypes`, `PROPERTY_BINDING_INFO` properties are added (duplicate allowed)
       return completionItems;
