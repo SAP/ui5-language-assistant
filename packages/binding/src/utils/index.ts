@@ -20,7 +20,22 @@ export { getLogger } from "./logger";
 
 export { getDocumentation } from "./documentation";
 
-export const getAltTypesPrime = (
+/**
+ * Finds and returns the first alternative type in the aggregation's altTypes array
+ * that has a kind property equal to "PrimitiveType".
+ *
+ * @param {UI5Aggregation} [aggregation] - The aggregation object which may contain alternative types.
+ * @returns {UI5Type | undefined} - The first alternative type with kind "PrimitiveType", or undefined if not found.
+ */
+export const findPrimitiveTypeInAggregation = (
   aggregation?: UI5Aggregation
 ): UI5Type | undefined =>
   aggregation?.altTypes?.find((i) => i.kind === "PrimitiveType");
+
+export {
+  getReference,
+  buildType,
+  getPossibleValuesForClass,
+  getConstructorParameterProperties,
+  getPossibleElement,
+} from "./definition";

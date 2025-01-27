@@ -1,4 +1,4 @@
-import { findRange, getAltTypesPrime } from "../../../utils";
+import { findRange, findPrimitiveTypeInAggregation } from "../../../utils";
 import {
   BindingIssue,
   BINDING_ISSUE_TYPE,
@@ -21,7 +21,7 @@ export const checkRequiredElement = (
       /* istanbul ignore next */
       (i) => i.key?.text === reqEl.name
     );
-    const altTypes = getAltTypesPrime(aggregation);
+    const altTypes = findPrimitiveTypeInAggregation(aggregation);
     if (!usedRequiredEl && altTypes) {
       // some property e.g `tooltip` can be used with both `aggregation binding info` or `property binding info`. Therefore `altTypes` is defined in design time.
       // if `altTypes` is present, check if any element is used. This is a very broad check to avoid false diagnostic.
