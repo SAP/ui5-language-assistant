@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.80
+
+### Patch Changes
+
+- ccb3dd5: fix: update actions/download-artifact
+
 ## 4.0.79
 
 ### Patch Changes
