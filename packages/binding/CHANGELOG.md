@@ -1,5 +1,11 @@
 # @ui5-language-assistant/binding
 
+## 1.0.39
+
+### Patch Changes
+
+- 6f5945b: fix: do not show vSorterInfo as completion item and show correct diagnostic
+
 ## 1.0.38
 
 ### Patch Changes

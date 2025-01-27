@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.79
+
+### Patch Changes
+
+- 6f5945b: fix: do not show vSorterInfo as completion item and show correct diagnostic
+
 ## 4.0.78
 
 ### Patch Changes
