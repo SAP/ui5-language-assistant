@@ -1,0 +1,10 @@
+version = 1
+SPDX-PackageName = "ui5-language-assistant"
+SPDX-PackageSupplier = "Shachar Soel <shachar.soel@sap.com>"
+SPDX-PackageDownloadLocation = "https://github.com/SAP/ui5-language-assistant"
+
+[[annotations]]
+path = "**"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2020-2021 SAP SE or an SAP affiliate company and UI5 Language Assistant contributors"
+SPDX-License-Identifier = "Apache-2.0"

@@ -1,8 +1,0 @@
-Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
-Upstream-Name: ui5-language-assistant
-Upstream-Contact: Shachar Soel <shachar.soel@sap.com>
-Source: https://github.com/SAP/ui5-language-assistant
-
-Files: *
-Copyright: 2020-2021 SAP SE or an SAP affiliate company and UI5 Language Assistant contributors
-License: Apache-2.0
