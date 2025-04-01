@@ -7,7 +7,8 @@ import * as viewFiles from "../../src/utils/view-files";
 import * as controlIds from "../../src/utils/control-ids";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
 import { getContext, isContext } from "../../src/api";
-import { UI5_VERSION_S4_PLACEHOLDER, type Context } from "../../src/types";
+import { type Context } from "../../src/types";
+import { UI5_VERSION_S4_PLACEHOLDER } from "@ui5-language-assistant/constant";
 import * as projectAccess from "@sap-ux/project-access";
 import { OPEN_FRAMEWORK } from "@ui5-language-assistant/constant";
 

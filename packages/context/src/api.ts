@@ -6,7 +6,8 @@ import {
 } from "./manifest";
 import { finAdpdManifestPath } from "./adp-manifest";
 import { getServices } from "./services";
-import { Context, UI5_VERSION_S4_PLACEHOLDER } from "./types";
+import { Context } from "./types";
+import { UI5_VERSION_S4_PLACEHOLDER } from "@ui5-language-assistant/constant";
 import { getSemanticModel } from "./ui5-model";
 import { getYamlDetails } from "./ui5-yaml";
 import { getViewFiles } from "./utils/view-files";

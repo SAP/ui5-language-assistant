@@ -16,7 +16,8 @@ import {
   Json,
   TypeNameFix,
 } from "@ui5-language-assistant/semantic-model";
-import { Fetcher, UI5_VERSION_S4_PLACEHOLDER } from "./types";
+import { Fetcher } from "./types";
+import { UI5_VERSION_S4_PLACEHOLDER } from "@ui5-language-assistant/constant";
 import {
   fetch,
   getLocalUrl,
@@ -466,7 +467,7 @@ export async function negotiateVersionWithFetcher(
   const isOffline = await isOfflineMode(version);
   if (isOffline) {
     return {
-      version: version as string,
+      version: version === UI5_VERSION_S4_PLACEHOLDER ? 'latest': version as string,
       isFallback,
       isIncorrectVersion,
     };
