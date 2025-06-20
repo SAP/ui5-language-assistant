@@ -578,10 +578,10 @@ describe("the UI5 language assistant ui5 model", () => {
           expected: () => getExpectedVersion("SAPUI5", "1.104"),
         },
         {
-          // supported version
-          version: () => Object.keys(currentVersionMaps.SAPUI5)[1],
+          // supported version - take second entry which is supported version (now it ias latest and active entry)
+          version: () => Object.keys(currentVersionMaps.SAPUI5)[2],
           expected: () =>
-            currentVersionMaps.SAPUI5[Object.keys(currentVersionMaps.SAPUI5)[1]]
+            currentVersionMaps.SAPUI5[Object.keys(currentVersionMaps.SAPUI5)[2]]
               .version,
         },
         {
