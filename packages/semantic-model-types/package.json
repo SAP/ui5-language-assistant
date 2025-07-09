@@ -1,6 +1,6 @@
 {
   "name": "@ui5-language-assistant/semantic-model-types",
-  "version": "4.0.11",
+  "version": "4.0.12",
   "private": true,
   "description": "UI5 Semantic model type definitions",
   "keywords": [],
@@ -22,6 +22,6 @@
     "coverage": "echo nothing to test"
   },
   "dependencies": {
-    "@ui5-language-assistant/constant": "0.0.1"
+    "@ui5-language-assistant/constant": "0.0.2"
   }
 }

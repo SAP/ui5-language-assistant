@@ -1,6 +1,6 @@
 {
   "name": "@ui5-language-assistant/semantic-model",
-  "version": "4.0.19",
+  "version": "4.0.20",
   "private": true,
   "description": "Semantic model provider for UI5",
   "keywords": [],
@@ -17,8 +17,8 @@
   "license": "Apache-2.0",
   "typings": "./api.d.ts",
   "dependencies": {
-    "@ui5-language-assistant/constant": "0.0.1",
-    "@ui5-language-assistant/semantic-model-types": "4.0.11",
+    "@ui5-language-assistant/constant": "0.0.2",
+    "@ui5-language-assistant/semantic-model-types": "4.0.12",
     "@ui5-language-assistant/logger": "0.0.2",
     "ajv": "6.12.3",
     "deep-freeze-strict": "1.1.1",
@@ -27,7 +27,7 @@
   },
   "devDependencies": {
     "@types/deep-freeze-strict": "1.1.0",
-    "@ui5-language-assistant/test-utils": "4.0.16",
+    "@ui5-language-assistant/test-utils": "4.0.17",
     "json-schema-to-typescript": "10.0.3"
   },
   "scripts": {

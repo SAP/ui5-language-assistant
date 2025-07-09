@@ -1,5 +1,13 @@
 # Change Log
 
+## 4.0.22
+
+### Patch Changes
+
+- Updated dependencies [c8bb0ec]
+  - @ui5-language-assistant/constant@0.0.2
+  - @ui5-language-assistant/semantic-model-types@4.0.12
+
 ## 4.0.21
 
 ### Patch Changes

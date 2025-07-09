@@ -1,6 +1,6 @@
 {
   "name": "@ui5-language-assistant/xml-views-quick-fix",
-  "version": "4.0.24",
+  "version": "4.0.25",
   "private": true,
   "description": "Logic for UI5 XML-Views quick-fixes",
   "keywords": [
@@ -21,14 +21,14 @@
     "node": ">=10.0.0"
   },
   "dependencies": {
-    "@ui5-language-assistant/logic-utils": "4.0.21",
-    "@ui5-language-assistant/context": "4.0.32",
+    "@ui5-language-assistant/logic-utils": "4.0.22",
+    "@ui5-language-assistant/context": "4.0.33",
     "@xml-tools/ast": "5.0.0",
     "@xml-tools/ast-position": "2.0.2",
     "lodash": "4.17.21"
   },
   "devDependencies": {
-    "@ui5-language-assistant/test-utils": "4.0.16",
+    "@ui5-language-assistant/test-utils": "4.0.17",
     "@xml-tools/parser": "1.0.7",
     "vscode-languageserver": "8.0.2"
   },

@@ -1,5 +1,14 @@
 # Change Log
 
+## 4.0.33
+
+### Patch Changes
+
+- c8bb0ec: feat: new logo
+- Updated dependencies [c8bb0ec]
+  - @ui5-language-assistant/constant@0.0.2
+  - @ui5-language-assistant/logic-utils@4.0.22
+
 ## 4.0.32
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "@ui5-language-assistant/test-utils",
-  "version": "4.0.16",
+  "version": "4.0.17",
   "private": true,
   "description": "Test Utils",
   "files": [
@@ -16,8 +16,8 @@
     "https-proxy-agent": "5.0.1",
     "node-fetch": "2.6.9",
     "proxy-from-env": "1.1.0",
-    "@ui5-language-assistant/constant": "0.0.1",
-    "@ui5-language-assistant/semantic-model-types": "4.0.11"
+    "@ui5-language-assistant/constant": "0.0.2",
+    "@ui5-language-assistant/semantic-model-types": "4.0.12"
   },
   "devDependencies": {
     "@types/node-fetch": "2.5.10"

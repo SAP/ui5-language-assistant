@@ -1,5 +1,12 @@
 # Change Log
 
+## 4.0.81
+
+### Patch Changes
+
+- c8bb0ec: feat: new logo
+  - @ui5-language-assistant/language-server@4.0.62
+
 ## 4.0.80
 
 ### Patch Changes

@@ -1,5 +1,14 @@
 # Change Log
 
+## 4.0.17
+
+### Patch Changes
+
+- c8bb0ec: feat: new logo
+- Updated dependencies [c8bb0ec]
+  - @ui5-language-assistant/constant@0.0.2
+  - @ui5-language-assistant/semantic-model-types@4.0.12
+
 ## 4.0.16
 
 ### Patch Changes
