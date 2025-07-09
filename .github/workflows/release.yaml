@@ -33,7 +33,7 @@ jobs:
 
       - name: Run SonarCloud scan
         if: matrix.os == 'ubuntu-latest' && matrix.node-version == '14.x'
-        uses: sonarsource/sonarcloud-github-action@master
+        uses: SonarSource/sonarqube-scan-action@v5.2.0
         env:
           GITHUB_TOKEN: ${{ secrets.ACCESS_PAT }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}  
