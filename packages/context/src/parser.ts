@@ -26,7 +26,7 @@ export function parseServiceFiles({
       annotations.push(parsedAnnotation);
     } catch (error: unknown) {
       // log and continue
-      getLogger().debug(
+      getLogger().warn(
         `parseServiceFiles: Failed to parse annotation file ${
           i + 1
         } at path ${path}: ${(error as Error).message}`
