@@ -1,3 +1,4 @@
+import { forEach } from "lodash";
 import {
   createConnection,
   TextDocuments,
@@ -133,55 +134,51 @@ connection.onCompletion(
   async (
     textDocumentPosition: TextDocumentPositionParams
   ): Promise<CompletionItem[]> => {
-    try {
-      getLogger().debug("`onCompletion` event", {
-        textDocumentPosition,
-      });
-      const documentUri = textDocumentPosition.textDocument.uri;
-      const document = documents.get(documentUri);
-      if (document) {
-        const documentPath = URI.parse(documentUri).fsPath;
-        const context = await getContext(
-          documentPath,
-          initializationOptions?.modelCachePath
+    getLogger().debug("`onCompletion` event", {
+      textDocumentPosition,
+    });
+
+    const documentUri = textDocumentPosition.textDocument.uri;
+    const document = documents.get(documentUri);
+    if (document) {
+      const documentPath = URI.parse(documentUri).fsPath;
+      const context = await getContext(
+        documentPath,
+        initializationOptions?.modelCachePath
+      );
+      if (!isContext(context)) {
+        connection.sendNotification(
+          "UI5LanguageAssistant/context-error",
+          context
         );
-        if (!isContext(context)) {
-          connection.sendNotification(
-            "UI5LanguageAssistant/context-error",
-            context
-          );
-          return [];
-        }
-        const version = context.ui5Model.version;
-        const framework = context.yamlDetails.framework;
-        const isFallback = context.ui5Model.isFallback;
-        const isIncorrectVersion = context.ui5Model.isIncorrectVersion;
-        const url = await getCDNBaseUrl(framework, version);
-        connection.sendNotification("UI5LanguageAssistant/ui5Model", {
-          url,
-          framework,
-          version,
-          isFallback,
-          isIncorrectVersion,
-        });
-        ensureDocumentSettingsUpdated(document.uri);
-        const documentSettings = await getSettingsForDocument(document.uri);
-        const completionItems = getCompletionItems({
-          context,
-          textDocumentPosition,
-          document,
-          documentSettings,
-        });
-        getLogger().trace("computed completion items", {
-          completionItems,
-        });
-        return completionItems;
+        return [];
       }
-      return [];
-    } catch (error) {
-      getLogger().error("`onCompletion` error", { error });
-      return [];
+      const version = context.ui5Model.version;
+      const framework = context.yamlDetails.framework;
+      const isFallback = context.ui5Model.isFallback;
+      const isIncorrectVersion = context.ui5Model.isIncorrectVersion;
+      const url = await getCDNBaseUrl(framework, version);
+      connection.sendNotification("UI5LanguageAssistant/ui5Model", {
+        url,
+        framework,
+        version,
+        isFallback,
+        isIncorrectVersion,
+      });
+      ensureDocumentSettingsUpdated(document.uri);
+      const documentSettings = await getSettingsForDocument(document.uri);
+      const completionItems = getCompletionItems({
+        context,
+        textDocumentPosition,
+        document,
+        documentSettings,
+      });
+      getLogger().trace("computed completion items", {
+        completionItems,
+      });
+      return completionItems;
     }
+    return [];
   }
 );
 
@@ -193,50 +190,45 @@ connection.onHover(
   async (
     textDocumentPosition: TextDocumentPositionParams
   ): Promise<Hover | undefined> => {
-    try {
-      getLogger().debug("`onHover` event", {
-        textDocumentPosition,
-      });
-      const documentUri = textDocumentPosition.textDocument.uri;
-      const document = documents.get(documentUri);
-      if (document) {
-        const documentPath = URI.parse(documentUri).fsPath;
-        const context = await getContext(
-          documentPath,
-          initializationOptions?.modelCachePath
+    getLogger().debug("`onHover` event", {
+      textDocumentPosition,
+    });
+    const documentUri = textDocumentPosition.textDocument.uri;
+    const document = documents.get(documentUri);
+    if (document) {
+      const documentPath = URI.parse(documentUri).fsPath;
+      const context = await getContext(
+        documentPath,
+        initializationOptions?.modelCachePath
+      );
+      if (!isContext(context)) {
+        connection.sendNotification(
+          "UI5LanguageAssistant/context-error",
+          context
         );
-        if (!isContext(context)) {
-          connection.sendNotification(
-            "UI5LanguageAssistant/context-error",
-            context
-          );
-          return;
-        }
-        const version = context.ui5Model.version;
-        const framework = context.yamlDetails.framework;
-        const isFallback = context.ui5Model.isFallback;
-        const isIncorrectVersion = context.ui5Model.isIncorrectVersion;
-        const url = await getCDNBaseUrl(framework, version);
-        connection.sendNotification("UI5LanguageAssistant/ui5Model", {
-          url,
-          framework,
-          version,
-          isFallback,
-          isIncorrectVersion,
-        });
-        const hoverResponse = getHoverResponse(
-          context,
-          textDocumentPosition,
-          document
-        );
-        getLogger().trace("computed hoverResponse", {
-          hoverResponse,
-        });
-        return hoverResponse;
+        return;
       }
-    } catch (error) {
-      getLogger().error("`onHover` error", { error });
-      return undefined;
+      const version = context.ui5Model.version;
+      const framework = context.yamlDetails.framework;
+      const isFallback = context.ui5Model.isFallback;
+      const isIncorrectVersion = context.ui5Model.isIncorrectVersion;
+      const url = await getCDNBaseUrl(framework, version);
+      connection.sendNotification("UI5LanguageAssistant/ui5Model", {
+        url,
+        framework,
+        version,
+        isFallback,
+        isIncorrectVersion,
+      });
+      const hoverResponse = getHoverResponse(
+        context,
+        textDocumentPosition,
+        document
+      );
+      getLogger().trace("computed hoverResponse", {
+        hoverResponse,
+      });
+      return hoverResponse;
     }
     return undefined;
   }
@@ -353,113 +345,50 @@ async function validateOpenDocumentsOnDidChangeWatchedFiles(
 }
 
 connection.onDidChangeWatchedFiles(async (changeEvent): Promise<void> => {
-  try {
-    getLogger().debug("`onDidChangeWatchedFiles` event", {
-      changeEvent,
-    });
-    const cdsFileEvents: FileEvent[] = [];
-    for (const change of changeEvent.changes) {
-      const uri = change.uri;
-      if (uri.endsWith("manifest.json")) {
-        await reactOnManifestChange(uri, change.type);
-      } else if (uri.endsWith("ui5.yaml")) {
-        await reactOnUI5YamlChange(uri, change.type);
-      } else if (uri.endsWith(".cds")) {
-        cdsFileEvents.push(change);
-      } else if (uri.endsWith(".xml")) {
-        await reactOnXmlFileChange(uri, change.type);
-        await reactOnViewFileChange(
-          uri,
-          change.type,
-          validateIdsOfOpenDocuments
-        );
-      } else if (uri.endsWith("package.json")) {
-        await reactOnPackageJson(uri, change.type);
-      }
+  getLogger().debug("`onDidChangeWatchedFiles` event", {
+    changeEvent,
+  });
+  const cdsFileEvents: FileEvent[] = [];
+  forEach(changeEvent.changes, async (change) => {
+    const uri = change.uri;
+    if (uri.endsWith("manifest.json")) {
+      await reactOnManifestChange(uri, change.type);
+    } else if (uri.endsWith("ui5.yaml")) {
+      await reactOnUI5YamlChange(uri, change.type);
+    } else if (uri.endsWith(".cds")) {
+      cdsFileEvents.push(change);
+    } else if (uri.endsWith(".xml")) {
+      await reactOnXmlFileChange(uri, change.type);
+      await reactOnViewFileChange(uri, change.type, validateIdsOfOpenDocuments);
+    } else if (uri.endsWith("package.json")) {
+      await reactOnPackageJson(uri, change.type);
     }
-    await reactOnCdsFileChange(cdsFileEvents);
-    await validateOpenDocumentsOnDidChangeWatchedFiles(changeEvent.changes);
-  } catch (error) {
-    getLogger().error("`onDidChangeWatchedFiles` failed:", error);
-  }
+  });
+  await reactOnCdsFileChange(cdsFileEvents);
+  await validateOpenDocumentsOnDidChangeWatchedFiles(changeEvent.changes);
 });
 
 documents.onDidChangeContent(async (changeEvent): Promise<void> => {
-  try {
-    getLogger().trace("`onDidChangeContent` event", {
-      ...changeEvent.document,
-    });
-    if (
-      manifestStateInitialized === undefined ||
-      ui5yamlStateInitialized === undefined ||
-      !isXMLView(changeEvent.document.uri)
-    ) {
-      return;
-    }
-
-    await Promise.all([manifestStateInitialized, ui5yamlStateInitialized]);
-    const documentUri = changeEvent.document.uri;
-    const document = documents.get(documentUri);
-    if (document !== undefined) {
-      const documentPath = URI.parse(documentUri).fsPath;
-      const context = await getContext(
-        documentPath,
-        initializationOptions?.modelCachePath,
-        document.getText()
-      );
-      if (!isContext(context)) {
-        connection.sendNotification(
-          "UI5LanguageAssistant/context-error",
-          context
-        );
-        return;
-      }
-
-      const version = context.ui5Model.version;
-      const framework = context.yamlDetails.framework;
-      const isFallback = context.ui5Model.isFallback;
-      const isIncorrectVersion = context.ui5Model.isIncorrectVersion;
-      const url = await getCDNBaseUrl(framework, version);
-      connection.sendNotification("UI5LanguageAssistant/ui5Model", {
-        url,
-        framework,
-        version,
-        isFallback,
-        isIncorrectVersion,
-      });
-      const diagnostics = getXMLViewDiagnostics({
-        document,
-        context,
-      });
-      documentsDiagnostics.set(document.uri, diagnostics);
-      const settings = getConfigurationSettings();
-      const limitUniqueIdsDiagReport = settings.LimitUniqueIdDiagnostics;
-      if (limitUniqueIdsDiagReport) {
-        validateIdsOfOpenDocument(document, context);
-      } else {
-        await validateIdsOfOpenDocuments();
-      }
-    }
-  } catch (error) {
-    getLogger().error("`onDidChangeContent` failed:", error);
+  getLogger().trace("`onDidChangeContent` event", {
+    ...changeEvent.document,
+  });
+  if (
+    manifestStateInitialized === undefined ||
+    ui5yamlStateInitialized === undefined ||
+    !isXMLView(changeEvent.document.uri)
+  ) {
+    return;
   }
-});
 
-connection.onCodeAction(async (params) => {
-  try {
-    getLogger().debug("`onCodeAction` event", { params });
-
-    const docUri = params.textDocument.uri;
-    const textDocument = documents.get(docUri);
-    if (textDocument === undefined) {
-      return;
-    }
-
-    const documentPath = URI.parse(docUri).fsPath;
+  await Promise.all([manifestStateInitialized, ui5yamlStateInitialized]);
+  const documentUri = changeEvent.document.uri;
+  const document = documents.get(documentUri);
+  if (document !== undefined) {
+    const documentPath = URI.parse(documentUri).fsPath;
     const context = await getContext(
       documentPath,
       initializationOptions?.modelCachePath,
-      textDocument.getText()
+      document.getText()
     );
     if (!isContext(context)) {
       connection.sendNotification(
@@ -481,27 +410,67 @@ connection.onCodeAction(async (params) => {
       isFallback,
       isIncorrectVersion,
     });
-
-    const diagnostics = params.context.diagnostics;
-    const codeActions = diagnosticToCodeActionFix(
-      textDocument,
-      diagnostics,
-      context
-    );
-    getLogger().trace("`computed codeActions", { codeActions });
-    return codeActions;
-  } catch (error) {
-    getLogger().error("`onCodeAction` failed:", error);
+    const diagnostics = getXMLViewDiagnostics({
+      document,
+      context,
+    });
+    documentsDiagnostics.set(document.uri, diagnostics);
+    const settings = getConfigurationSettings();
+    const limitUniqueIdsDiagReport = settings.LimitUniqueIdDiagnostics;
+    if (limitUniqueIdsDiagReport) {
+      validateIdsOfOpenDocument(document, context);
+    } else {
+      await validateIdsOfOpenDocuments();
+    }
   }
 });
 
-connection.onExecuteCommand(async (params) => {
-  try {
-    getLogger().debug("`onExecuteCommand` event", { params });
-    executeCommand(connection, params);
-  } catch (error) {
-    getLogger().error("`onExecuteCommand` failed:", error);
+connection.onCodeAction(async (params) => {
+  getLogger().debug("`onCodeAction` event", { params });
+
+  const docUri = params.textDocument.uri;
+  const textDocument = documents.get(docUri);
+  if (textDocument === undefined) {
+    return;
   }
+
+  const documentPath = URI.parse(docUri).fsPath;
+  const context = await getContext(
+    documentPath,
+    initializationOptions?.modelCachePath,
+    textDocument.getText()
+  );
+  if (!isContext(context)) {
+    connection.sendNotification("UI5LanguageAssistant/context-error", context);
+    return;
+  }
+
+  const version = context.ui5Model.version;
+  const framework = context.yamlDetails.framework;
+  const isFallback = context.ui5Model.isFallback;
+  const isIncorrectVersion = context.ui5Model.isIncorrectVersion;
+  const url = await getCDNBaseUrl(framework, version);
+  connection.sendNotification("UI5LanguageAssistant/ui5Model", {
+    url,
+    framework,
+    version,
+    isFallback,
+    isIncorrectVersion,
+  });
+
+  const diagnostics = params.context.diagnostics;
+  const codeActions = diagnosticToCodeActionFix(
+    textDocument,
+    diagnostics,
+    context
+  );
+  getLogger().trace("`computed codeActions", { codeActions });
+  return codeActions;
+});
+
+connection.onExecuteCommand(async (params) => {
+  getLogger().debug("`onExecuteCommand` event", { params });
+  executeCommand(connection, params);
 });
 
 function ensureDocumentSettingsUpdated(resource: string): void {
@@ -528,34 +497,30 @@ function ensureDocumentSettingsUpdated(resource: string): void {
 }
 
 connection.onDidChangeConfiguration(async (change) => {
-  try {
-    getLogger().debug("`onDidChangeConfiguration` event");
-    if (hasConfigurationCapability) {
-      getLogger().trace("Reset all cached document settings");
-      clearSettings();
-    } else {
-      if (change.settings.UI5LanguageAssistant !== undefined) {
-        const ui5LangAssistSettings = change.settings.UI5LanguageAssistant;
-        getLogger().trace("Set global settings", {
-          ui5LangAssistSettings,
-        });
-        setGlobalSettings(ui5LangAssistSettings);
-      }
-    }
+  getLogger().debug("`onDidChangeConfiguration` event");
+  if (hasConfigurationCapability) {
+    getLogger().trace("Reset all cached document settings");
+    clearSettings();
+  } else {
     if (change.settings.UI5LanguageAssistant !== undefined) {
       const ui5LangAssistSettings = change.settings.UI5LanguageAssistant;
-      getLogger().trace("Set configuration settings", {
+      getLogger().trace("Set global settings", {
         ui5LangAssistSettings,
       });
-      setConfigurationSettings(ui5LangAssistSettings);
+      setGlobalSettings(ui5LangAssistSettings);
     }
-    // re-validate the files related to the `cached document settings`.
-    await validateIdsOfOpenDocuments();
-    // `setLogLevel` will ignore `undefined` values
-    setLogLevel(change?.settings?.UI5LanguageAssistant?.logging?.level);
-  } catch (error) {
-    getLogger().error("`onDidChangeConfiguration` failed:", error);
   }
+  if (change.settings.UI5LanguageAssistant !== undefined) {
+    const ui5LangAssistSettings = change.settings.UI5LanguageAssistant;
+    getLogger().trace("Set configuration settings", {
+      ui5LangAssistSettings,
+    });
+    setConfigurationSettings(ui5LangAssistSettings);
+  }
+  // re-validate the files related to the `cached document settings`.
+  await validateIdsOfOpenDocuments();
+  // `setLogLevel` will ignore `undefined` values
+  setLogLevel(change?.settings?.UI5LanguageAssistant?.logging?.level);
 });
 
 // Only keep settings for open documents
