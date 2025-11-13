@@ -26,10 +26,10 @@ jobs:
         uses: borales/actions-yarn@v4
         with:
           cmd: install # will run `yarn install` command
-      - name: Run build
-        uses: borales/actions-yarn@v4
-        with:
-          cmd: ci # will run `yarn run ci` command
+      # - name: Run build
+      #   uses: borales/actions-yarn@v4
+      #   with:
+      #     cmd: ci # will run `yarn run ci` command
 
       - name: Run SonarCloud scan
         if: matrix.os == 'ubuntu-latest' && matrix.node-version == '14.x'
@@ -121,7 +121,7 @@ jobs:
           fetch-depth: 0
 
       # Download vsix artifact
-      - name: 'make folder'
+      - name: "make folder"
         run: mkdir ./artifacts
       - name: Download artifact
         uses: actions/download-artifact@v4
@@ -129,7 +129,7 @@ jobs:
           name: vscode-extension-file
           path: ./artifacts
 
-      - name: 'check artifacts'
+      - name: "check artifacts"
         run: ls ./artifacts -la
 
       # Get new version number
@@ -153,4 +153,4 @@ jobs:
           tag: v${{env.CURRENT_RELEASE_VERSION}}
           owner: ${{env.GHR_PROJECT_USERNAME}}
           repo: ${{env.GHR_PROJECT_REPONAME}}
-          artifacts: './artifacts/*-${{env.CURRENT_RELEASE_VERSION}}.vsix'
+          artifacts: "./artifacts/*-${{env.CURRENT_RELEASE_VERSION}}.vsix"
