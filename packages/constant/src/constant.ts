@@ -2,9 +2,9 @@ export const OPEN_FRAMEWORK = "OpenUI5";
 export const DEFAULT_UI5_FRAMEWORK = "SAPUI5";
 
 //https://ui5.sap.com/version.json
-export const DEFAULT_UI5_VERSION = "1.71.75";
+export const DEFAULT_UI5_VERSION = "1.71.78";
 // https://sdk.openui5.org/version.json
-export const DEFAULT_OPEN_UI5_VERSION = "1.71.71";
+export const DEFAULT_OPEN_UI5_VERSION = "1.71.74";
 
 export const DEFAULT_UI5_VERSION_BASE = "1.71";
 
