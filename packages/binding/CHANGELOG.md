@@ -1,5 +1,15 @@
 # @ui5-language-assistant/binding
 
+## 1.0.41
+
+### Patch Changes
+
+- Updated dependencies [ad36b43]
+  - @ui5-language-assistant/context@4.0.34
+  - @ui5-language-assistant/logic-utils@4.0.23
+  - @ui5-language-assistant/xml-views-validation@4.0.28
+  - @ui5-language-assistant/xml-views-completion@4.0.34
+
 ## 1.0.40
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @ui5-language-assistant/constant
 
+## 0.0.3
+
+### Patch Changes
+
+- ad36b43: fix: catch exception
+
 ## 0.0.2
 
 ### Patch Changes

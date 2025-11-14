@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.82
+
+### Patch Changes
+
+- ad36b43: fix: catch exception
+
 ## 4.0.81
 
 ### Patch Changes

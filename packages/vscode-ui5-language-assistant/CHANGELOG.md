@@ -1,5 +1,13 @@
 # Change Log
 
+## 4.0.82
+
+### Patch Changes
+
+- ad36b43: fix: catch exception
+- Updated dependencies [ad36b43]
+  - @ui5-language-assistant/language-server@4.0.63
+
 ## 4.0.81
 
 ### Patch Changes

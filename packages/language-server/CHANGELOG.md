@@ -1,5 +1,23 @@
 # Change Log
 
+## 4.0.63
+
+### Patch Changes
+
+- ad36b43: fix: catch exception
+- Updated dependencies [ad36b43]
+  - @ui5-language-assistant/constant@0.0.3
+  - @ui5-language-assistant/context@4.0.34
+  - @ui5-language-assistant/binding@1.0.41
+  - @ui5-language-assistant/fe@4.0.38
+  - @ui5-language-assistant/logic-utils@4.0.23
+  - @ui5-language-assistant/semantic-model@4.0.21
+  - @ui5-language-assistant/xml-views-quick-fix@4.0.26
+  - @ui5-language-assistant/xml-views-validation@4.0.28
+  - @ui5-language-assistant/xml-views-completion@4.0.34
+  - @ui5-language-assistant/xml-views-tooltip@4.0.34
+  - @ui5-language-assistant/xml-views-definition@0.0.13
+
 ## 4.0.62
 
 ### Patch Changes
