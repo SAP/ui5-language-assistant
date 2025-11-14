@@ -29,7 +29,7 @@ export function parseServiceFiles({
       getLogger().warn(
         `parseServiceFiles: Failed to parse annotation file ${
           i + 1
-        } at path ${path}: ${(error as Error).message}`
+        } at path ${path}: ${error}`
       );
     }
   }
