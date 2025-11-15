@@ -1,6 +1,7 @@
 import { getConfigurationSettings } from "@ui5-language-assistant/settings";
 import { Response } from "node-fetch";
 import { fetch } from "./fetch";
+import { UI5_VERSION_S4_PLACEHOLDER } from "@ui5-language-assistant/constant";
 
 export const getLocalUrl = (
   version?: string,
@@ -11,6 +12,9 @@ export const getLocalUrl = (
     let localUrl = webServer.endsWith("/") ? webServer : `${webServer}/`;
 
     if (version) {
+      if (version === UI5_VERSION_S4_PLACEHOLDER) {
+        version = "latest";
+      }
       localUrl += `${version}/`;
     }
     return localUrl;

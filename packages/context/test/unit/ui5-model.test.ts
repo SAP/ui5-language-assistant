@@ -30,6 +30,7 @@ import {
   DEFAULT_UI5_VERSION,
   OPEN_FRAMEWORK,
   DEFAULT_UI5_FRAMEWORK,
+  UI5_VERSION_S4_PLACEHOLDER
 } from "@ui5-language-assistant/constant";
 import { expectExists } from "@ui5-language-assistant/test-utils";
 import {
@@ -45,7 +46,6 @@ import * as logicUtils from "@ui5-language-assistant/logic-utils";
 import semverMinSatisfying from "semver/ranges/min-satisfying";
 import { Response } from "node-fetch";
 import { UI5Framework } from "@ui5-language-assistant/semantic-model-types";
-import { UI5_VERSION_S4_PLACEHOLDER } from "../../src/types";
 const GET_MODEL_TIMEOUT = 30000;
 const NO_CACHE_FOLDER = undefined;
 const { getVersionsMap } = logicUtils;

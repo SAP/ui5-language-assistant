@@ -11,8 +11,6 @@ import {
 import type { XMLDocument } from "@xml-tools/ast";
 import { Location } from "vscode-languageserver";
 
-export const UI5_VERSION_S4_PLACEHOLDER = "${sap.ui5.dist.version}";
-
 export const UI5_PROJECT_TYPE = "UI5";
 export const CAP_PROJECT_TYPE = "CAP";
 export enum DirName {

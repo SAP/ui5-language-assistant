@@ -12,3 +12,5 @@ export const UI5_FRAMEWORK_CDN_BASE_URL = {
   OpenUI5: "https://sdk.openui5.org/",
   SAPUI5: "https://ui5.sap.com/",
 };
+
+export const UI5_VERSION_S4_PLACEHOLDER = "${sap.ui5.dist.version}";
