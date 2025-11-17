@@ -2,12 +2,12 @@ import axios from "axios";
 import fs from "fs/promises";
 import { join } from "path";
 import prettier from "prettier";
+import { SCHEMA_URI_V1, SCHEMA_URI_V2 } from "../../src/constants";
 
 export const BASE_PATH = join(process.cwd(), "src", "manifest");
-export const MANIFEST_SCHEMA_LOCATION = join(BASE_PATH, "schema.json");
+export const MANIFEST_SCHEMA_LOCATION_V1 = join(BASE_PATH, "schema-v1.json");
+export const MANIFEST_SCHEMA_LOCATION_V2 = join(BASE_PATH, "schema-v2.json");
 export const ADAPTIVE_CARD_LOCATION = join(BASE_PATH, "adaptive-card.json");
-export const MANIFEST_SCHEMA_URI =
-  "https://raw.githubusercontent.com/SAP/ui5-manifest/master/schema.json";
 export const ADAPTIVE_CARD_URI =
   "https://adaptivecards.io/schemas/adaptive-card.json";
 
@@ -34,17 +34,32 @@ async function updateAdaptiveCard() {
  * Fetch data from MANIFEST_SCHEMA_URI and updates the schema.json
  */
 async function updateManifestSchama() {
-  const content = await axiosGetRequest(MANIFEST_SCHEMA_URI);
-  const finalString = content.replace(
+  const contentV1 = await axiosGetRequest(SCHEMA_URI_V1);
+  const contentV2 = await axiosGetRequest(SCHEMA_URI_V2);
+  const finalStringV1 = contentV1.replace(
     /"(https:\/\/adaptivecards\.io[^"]*)"/,
     `"/manifest/adaptive-card.json"`
   );
-  const prettifiedContent = prettifyFileContent(
-    MANIFEST_SCHEMA_URI,
-    finalString
+  const finalStringV2 = contentV2.replace(
+    /"(https:\/\/adaptivecards\.io[^"]*)"/,
+    `"/manifest/adaptive-card.json"`
   );
-  if (prettifiedContent) {
-    await fs.writeFile(MANIFEST_SCHEMA_LOCATION, prettifiedContent, "utf8");
+
+  const prettifiedContentV1 = prettifyFileContent(SCHEMA_URI_V1, finalStringV1);
+  if (prettifiedContentV1) {
+    await fs.writeFile(
+      MANIFEST_SCHEMA_LOCATION_V1,
+      prettifiedContentV1,
+      "utf8"
+    );
+  }
+  const prettifiedContentV2 = prettifyFileContent(SCHEMA_URI_V2, finalStringV2);
+  if (prettifiedContentV2) {
+    await fs.writeFile(
+      MANIFEST_SCHEMA_LOCATION_V2,
+      prettifiedContentV2,
+      "utf8"
+    );
   }
 }
 
