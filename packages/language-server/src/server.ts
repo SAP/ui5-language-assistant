@@ -53,6 +53,7 @@ import { getLogger, setLogLevel } from "./logger";
 import { initI18n } from "./i18n";
 import { isXMLView, getCDNBaseUrl } from "@ui5-language-assistant/logic-utils";
 import { getDefinition } from "@ui5-language-assistant/xml-views-definition";
+import { handleContextError } from "./utils";
 
 const connection = createConnection(ProposedFeatures.all);
 const documents = new TextDocuments(TextDocument);
@@ -146,10 +147,7 @@ connection.onCompletion(
           initializationOptions?.modelCachePath
         );
         if (!isContext(context)) {
-          connection.sendNotification(
-            "UI5LanguageAssistant/context-error",
-            context
-          );
+          handleContextError(context);
           return [];
         }
         const version = context.ui5Model.version;
@@ -206,10 +204,7 @@ connection.onHover(
           initializationOptions?.modelCachePath
         );
         if (!isContext(context)) {
-          connection.sendNotification(
-            "UI5LanguageAssistant/context-error",
-            context
-          );
+          handleContextError(context);
           return;
         }
         const version = context.ui5Model.version;
@@ -256,10 +251,7 @@ const validateOpenDocuments = async (): Promise<void> => {
       initializationOptions?.modelCachePath
     );
     if (!isContext(context)) {
-      connection.sendNotification(
-        "UI5LanguageAssistant/context-error",
-        context
-      );
+      handleContextError(context);
       return;
     }
     const diagnostics = getXMLViewDiagnostics({
@@ -287,10 +279,7 @@ const validateIdsOfOpenDocuments = async (): Promise<void> => {
       initializationOptions?.modelCachePath
     );
     if (!isContext(context)) {
-      connection.sendNotification(
-        "UI5LanguageAssistant/context-error",
-        context
-      );
+      handleContextError(context);
       return;
     }
     const idDiagnostics = getXMLViewIdDiagnostics({
@@ -408,10 +397,7 @@ documents.onDidChangeContent(async (changeEvent): Promise<void> => {
         document.getText()
       );
       if (!isContext(context)) {
-        connection.sendNotification(
-          "UI5LanguageAssistant/context-error",
-          context
-        );
+        handleContextError(context);
         return;
       }
 
@@ -462,10 +448,7 @@ connection.onCodeAction(async (params) => {
       textDocument.getText()
     );
     if (!isContext(context)) {
-      connection.sendNotification(
-        "UI5LanguageAssistant/context-error",
-        context
-      );
+      handleContextError(context);
       return;
     }
 
