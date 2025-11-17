@@ -5284,7 +5284,7 @@
     },
     "ContentType.AdaptiveCard": {
       "description": "Represents AdaptiveCard content",
-      "$ref": "/manifest/adaptive-card.json"
+      "$ref": "/manifest/adaptive-card-v1.json"
     },
     "ContentType.Calendar": {
       "description": "The calendar card is used to display a schedule of a single entity (such as person, resource) for a selected time interval",

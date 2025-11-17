@@ -1,18 +1,34 @@
 import { join } from "path";
 import { readFile } from "fs/promises";
 import { ExtensionContext } from "vscode";
+import { getLogger } from "../logger";
 
 /**
  * Read schema content from `lib->manifest->schema.json`
  *
  */
-export const getSchemaContent = (
-  context: ExtensionContext
+export const getSchemaContent = async (
+  context: ExtensionContext,
+  schemaVersion: string
 ): Promise<string> => {
+  let fileName = "schema-v1.json";
+  // for version 2.x use v2 schema
+  if (schemaVersion && schemaVersion.startsWith("2.")) {
+    fileName = "schema-v2.json";
+  }
   const filePath = context.asAbsolutePath(
-    join("lib", "src", "manifest", "schema.json")
+    join("lib", "src", "manifest", fileName)
   );
-  return readFile(filePath, "utf8");
+  try {
+    const content = await readFile(filePath, "utf8");
+    return content;
+  } catch (error) {
+    getLogger().error(
+      `Failed to read manifest content from ${filePath}`,
+      error
+    );
+    return "";
+  }
 };
 
 export {

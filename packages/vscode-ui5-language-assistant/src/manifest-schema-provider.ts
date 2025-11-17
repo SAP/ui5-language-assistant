@@ -3,10 +3,15 @@ import {
   TextDocumentContentProvider,
   EventEmitter,
   ExtensionContext,
+  window,
 } from "vscode";
 import { tryFetch } from "@ui5-language-assistant/logic-utils";
-import { SCHEMA_URI, MANIFEST_SCHEMA } from "./constants";
+import { SCHEMA_URI_V1, MANIFEST_SCHEMA, SCHEMA_URI_V2 } from "./constants";
 import { getSchemaContent } from "./utils";
+import {
+  findManifestPath,
+  getUI5Manifest,
+} from "@ui5-language-assistant/context";
 
 class ManifestSchemaProvider implements TextDocumentContentProvider {
   private _schemaContent = "";
@@ -37,11 +42,30 @@ export const getManifestSchemaProvider = async (
   context: ExtensionContext
 ): Promise<ManifestSchemaProvider> => {
   let content = "";
+  const activeEditor = window.activeTextEditor;
+  if (!activeEditor) {
+    return schemaProvider;
+  }
+  const filePath = activeEditor.document.uri.fsPath;
+  const manifestPath = await findManifestPath(filePath);
+  if (!manifestPath) {
+    return schemaProvider;
+  }
+  const manifest = await getUI5Manifest(manifestPath);
+  if (!manifest) {
+    return schemaProvider;
+  }
+  // default v1.x
+  let SCHEMA_URI = SCHEMA_URI_V1;
+  // if schema start with 2, try master uri for v2.x
+  if (manifest._version?.startsWith("2.")) {
+    SCHEMA_URI = SCHEMA_URI_V2;
+  }
   const response = await tryFetch(SCHEMA_URI);
   if (response) {
     content = await response.text();
   } else {
-    content = await getSchemaContent(context);
+    content = await getSchemaContent(context, manifest._version);
   }
   schemaProvider.schemaContent = content;
   return schemaProvider;
