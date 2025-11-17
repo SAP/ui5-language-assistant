@@ -115,6 +115,14 @@ const TextEdit = {
 
 const window = {
   showErrorMessage: () => {},
+  get activeTextEditor() {
+    return this._activeTextEditor;
+  },
+  _activeTextEditor: {
+    document: {
+      uri: { fsPath: "/path/to/file.js" },
+    },
+  },
 };
 
 module.exports = {
