@@ -7,7 +7,7 @@ import {
 } from "vscode";
 import { tryFetch } from "@ui5-language-assistant/logic-utils";
 import { SCHEMA_URI_V1, MANIFEST_SCHEMA, SCHEMA_URI_V2 } from "./constants";
-import { getSchemaContent } from "./utils";
+import { getSchemaContent, replaceVersionPlaceholder } from "./utils";
 import {
   findManifestPath,
   getUI5Manifest,
@@ -55,16 +55,21 @@ export const getManifestSchemaProvider = async (
   if (!manifest) {
     return schemaProvider;
   }
-  // default v1.x
-  let SCHEMA_URI = SCHEMA_URI_V1;
-  // if schema start with 2, try master uri for v2.x
-  if (manifest._version?.startsWith("2.")) {
-    SCHEMA_URI = SCHEMA_URI_V2;
+  if (manifest._version === undefined) {
+    return schemaProvider;
   }
+  // default v1.x
+  let SCHEMA_URI = replaceVersionPlaceholder(SCHEMA_URI_V1, manifest._version);
+  // if schema start with 2, try master uri for v2.x
+  if (manifest._version.startsWith("2.")) {
+    SCHEMA_URI = replaceVersionPlaceholder(SCHEMA_URI_V2, manifest._version);
+  }
+  // try specific schema version over internet
   const response = await tryFetch(SCHEMA_URI);
   if (response) {
     content = await response.text();
   } else {
+    // fallback to local schema which is based on main branch
     content = await getSchemaContent(context, manifest._version);
   }
   schemaProvider.schemaContent = content;

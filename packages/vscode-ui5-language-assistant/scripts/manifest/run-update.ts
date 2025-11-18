@@ -2,7 +2,7 @@ import axios from "axios";
 import fs from "fs/promises";
 import { join } from "path";
 import prettier from "prettier";
-import { SCHEMA_URI_V1, SCHEMA_URI_V2 } from "../../src/constants";
+import { SCHEMA_URI_V1_MAIN, SCHEMA_URI_V2_MAIN } from "../../src/constants";
 
 export const BASE_PATH = join(process.cwd(), "src", "manifest");
 export const MANIFEST_SCHEMA_LOCATION_V1 = join(BASE_PATH, "schema-v1.json");
@@ -34,8 +34,8 @@ async function updateAdaptiveCard() {
  * Fetch data from MANIFEST_SCHEMA_URI and updates the schema.json
  */
 async function updateManifestSchama() {
-  const contentV1 = await axiosGetRequest(SCHEMA_URI_V1);
-  const contentV2 = await axiosGetRequest(SCHEMA_URI_V2);
+  const contentV1 = await axiosGetRequest(SCHEMA_URI_V1_MAIN);
+  const contentV2 = await axiosGetRequest(SCHEMA_URI_V2_MAIN);
   const finalStringV1 = contentV1.replace(
     /"(https:\/\/adaptivecards\.io[^"]*)"/,
     `"/manifest/adaptive-card.json"`
@@ -45,7 +45,10 @@ async function updateManifestSchama() {
     `"/manifest/adaptive-card.json"`
   );
 
-  const prettifiedContentV1 = prettifyFileContent(SCHEMA_URI_V1, finalStringV1);
+  const prettifiedContentV1 = prettifyFileContent(
+    SCHEMA_URI_V1_MAIN,
+    finalStringV1
+  );
   if (prettifiedContentV1) {
     await fs.writeFile(
       MANIFEST_SCHEMA_LOCATION_V1,
@@ -53,7 +56,10 @@ async function updateManifestSchama() {
       "utf8"
     );
   }
-  const prettifiedContentV2 = prettifyFileContent(SCHEMA_URI_V2, finalStringV2);
+  const prettifiedContentV2 = prettifyFileContent(
+    SCHEMA_URI_V2_MAIN,
+    finalStringV2
+  );
   if (prettifiedContentV2) {
     await fs.writeFile(
       MANIFEST_SCHEMA_LOCATION_V2,

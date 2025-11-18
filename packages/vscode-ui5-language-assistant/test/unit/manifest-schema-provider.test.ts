@@ -85,16 +85,26 @@ describe("Manifest schema provider", () => {
     expect(result.schemaContent).toBe("");
   });
 
+  it("returns empty when _version is not defined", async () => {
+    getUI5ManifestSpy.mockResolvedValue({});
+
+    const result = await getManifestSchemaProvider(fakeExtensionContext);
+
+    expect(result.schemaContent).toBe("");
+  });
+
   it("loads v1 schema from web", async () => {
     const fetchSpy = jest.spyOn(logicUtils, "tryFetch").mockResolvedValue({
       text: () => "v1 schema content",
     } as unknown as Response);
 
-    getUI5ManifestSpy.mockResolvedValue({ _version: "1.0" });
+    getUI5ManifestSpy.mockResolvedValue({ _version: "1.0.0" });
 
     const result = await getManifestSchemaProvider(fakeExtensionContext);
 
-    expect(fetchSpy).toHaveBeenCalledWith(SCHEMA_URI_V1);
+    expect(fetchSpy).toHaveBeenCalledWith(
+      utils.replaceVersionPlaceholder(SCHEMA_URI_V1, "1.0.0")
+    );
     expect(result.schemaContent).toBe("v1 schema content");
   });
 
@@ -107,7 +117,9 @@ describe("Manifest schema provider", () => {
 
     const result = await getManifestSchemaProvider(fakeExtensionContext);
 
-    expect(fetchSpy).toHaveBeenCalledWith(SCHEMA_URI_V2);
+    expect(fetchSpy).toHaveBeenCalledWith(
+      utils.replaceVersionPlaceholder(SCHEMA_URI_V2, "2.0.0")
+    );
     expect(result.schemaContent).toBe("v2 schema content");
   });
 
@@ -116,14 +128,16 @@ describe("Manifest schema provider", () => {
       .spyOn(logicUtils, "tryFetch")
       .mockResolvedValue(undefined);
 
-    getUI5ManifestSpy.mockResolvedValue({ _version: "1.5" });
+    getUI5ManifestSpy.mockResolvedValue({ _version: "1.5.0" });
 
     const result = await getManifestSchemaProvider(fakeExtensionContext);
 
-    expect(fetchSpy).toHaveBeenCalledWith(SCHEMA_URI_V1);
+    expect(fetchSpy).toHaveBeenCalledWith(
+      utils.replaceVersionPlaceholder(SCHEMA_URI_V1, "1.5.0")
+    );
     expect(getSchemaContentSpy).toHaveBeenCalledWith(
       fakeExtensionContext,
-      "1.5"
+      "1.5.0"
     );
     expect(result.schemaContent).toBe("local schema content");
   });
@@ -133,14 +147,16 @@ describe("Manifest schema provider", () => {
       .spyOn(logicUtils, "tryFetch")
       .mockResolvedValue(undefined);
 
-    getUI5ManifestSpy.mockResolvedValue({ _version: "2.1" });
+    getUI5ManifestSpy.mockResolvedValue({ _version: "2.1.0" });
 
     const result = await getManifestSchemaProvider(fakeExtensionContext);
 
-    expect(fetchSpy).toHaveBeenCalledWith(SCHEMA_URI_V2);
+    expect(fetchSpy).toHaveBeenCalledWith(
+      utils.replaceVersionPlaceholder(SCHEMA_URI_V2, "2.1.0")
+    );
     expect(getSchemaContentSpy).toHaveBeenCalledWith(
       fakeExtensionContext,
-      "2.1"
+      "2.1.0"
     );
     expect(result.schemaContent).toBe("local schema content");
   });
