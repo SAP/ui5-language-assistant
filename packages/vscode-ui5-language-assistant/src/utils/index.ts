@@ -9,11 +9,11 @@ import { getLogger } from "../logger";
  */
 export const getSchemaContent = async (
   context: ExtensionContext,
-  schemaVersion: string
+  schemaVersion?: string
 ): Promise<string> => {
   let fileName = "schema-v1.json";
   // for version 2.x use v2 schema
-  if (schemaVersion && schemaVersion.startsWith("2.")) {
+  if (schemaVersion?.startsWith("2.")) {
     fileName = "schema-v2.json";
   }
   const filePath = context.asAbsolutePath(

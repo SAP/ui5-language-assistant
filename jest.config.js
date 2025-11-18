@@ -17,6 +17,12 @@ module.exports = {
   },
   collectCoverageFrom: ["src/**/*.{ts,tsx}"],
   coverageDirectory: "reports/test/unit/coverage",
+  coverageReporters: [
+    "text",
+    "lcov",
+    "clover",
+    ["lcov", { projectRoot: "../../" }],
+  ],
   coverageThreshold: {
     global: {
       branches: 90,
