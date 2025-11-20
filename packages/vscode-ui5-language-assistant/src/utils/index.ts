@@ -44,9 +44,6 @@ export {
   getTokenType,
 } from "./binding-semantic-token-creator";
 
-export function replaceVersionPlaceholder(
-  uriTemplate: string,
-  version: string
-): string {
-  return uriTemplate.replace("{VERSION_PLACEHOLDER}", version);
+export function getSchemaUri(version: string): string {
+  return `https://raw.githubusercontent.com/UI5/manifest/refs/tags/v${version}/schema.json`;
 }

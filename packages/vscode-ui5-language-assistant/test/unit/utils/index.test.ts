@@ -1,8 +1,5 @@
 import { ExtensionContext } from "vscode";
-import {
-  getSchemaContent,
-  replaceVersionPlaceholder,
-} from "../../../src/utils";
+import { getSchemaContent, getSchemaUri } from "../../../src/utils";
 import { getLogger } from "../../../src/logger";
 import { readFile, readdir } from "fs/promises";
 
@@ -134,14 +131,12 @@ describe("getSchemaContent", () => {
   });
 });
 
-describe("replaceVersionPlaceholder", () => {
-  it("should replace {VERSION_PLACEHOLDER} with the provided version", () => {
-    const uriTemplate =
-      "https://example.com/api/{VERSION_PLACEHOLDER}/schema.json";
-    const version = "1.136.11";
+describe("getSchemaUri", () => {
+  it("should get correct versioned uri", () => {
+    const result = getSchemaUri("2.1.0");
 
-    const result = replaceVersionPlaceholder(uriTemplate, version);
-
-    expect(result).toBe("https://example.com/api/1.136.11/schema.json");
+    expect(result).toBe(
+      "https://raw.githubusercontent.com/UI5/manifest/refs/tags/v2.1.0/schema.json"
+    );
   });
 });

@@ -2,8 +2,7 @@ import axios from "axios";
 import fs from "fs/promises";
 import { join } from "path";
 import prettier from "prettier";
-import { SCHEMA_URI_WITH_PLACEHOLDER } from "../../src/constants";
-import { replaceVersionPlaceholder } from "../../src/utils";
+import { getSchemaUri } from "../../src/utils";
 
 const BASE_PATH = join(process.cwd(), "src", "manifest");
 const ADAPTIVE_CARD_LOCATION = join(BASE_PATH, "adaptive-card.json");
@@ -76,10 +75,7 @@ async function updateAdaptiveCard() {
 async function updateManifestSchema() {
   const versions = await getManifestLatestVersions();
   for (const version of versions) {
-    const SCHEMA_URI = replaceVersionPlaceholder(
-      SCHEMA_URI_WITH_PLACEHOLDER,
-      version
-    );
+    const SCHEMA_URI = getSchemaUri(version);
     const content = await axiosGetRequest(SCHEMA_URI);
     const finalString = content.replace(
       /"(https:\/\/adaptivecards\.io[^"]*)"/,

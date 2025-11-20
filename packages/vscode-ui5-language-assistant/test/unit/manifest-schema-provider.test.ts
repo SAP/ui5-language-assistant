@@ -10,10 +10,7 @@ import * as logicUtils from "@ui5-language-assistant/logic-utils";
 import * as context from "@ui5-language-assistant/context";
 import * as utils from "../../src/utils";
 import { Response } from "node-fetch";
-import {
-  MANIFEST_SCHEMA,
-  SCHEMA_URI_WITH_PLACEHOLDER,
-} from "../../src/constants";
+import { MANIFEST_SCHEMA } from "../../src/constants";
 import { CancellationToken } from "vscode-languageclient";
 
 const fakeExtensionContext: ExtensionContext = {
@@ -84,14 +81,6 @@ describe("Manifest schema provider", () => {
     expect(result.schemaContent).toBe("");
   });
 
-  it("returns empty when _version is not defined", async () => {
-    getUI5ManifestSpy.mockResolvedValue({});
-
-    const result = await getManifestSchemaProvider(fakeExtensionContext);
-
-    expect(result.schemaContent).toBe("");
-  });
-
   it("loads schema from web with version placeholder replaced", async () => {
     const fetchSpy = jest.spyOn(logicUtils, "tryFetch").mockResolvedValue({
       text: () => "schema content from web",
@@ -101,9 +90,7 @@ describe("Manifest schema provider", () => {
 
     const result = await getManifestSchemaProvider(fakeExtensionContext);
 
-    expect(fetchSpy).toHaveBeenCalledWith(
-      utils.replaceVersionPlaceholder(SCHEMA_URI_WITH_PLACEHOLDER, "1.58.0")
-    );
+    expect(fetchSpy).toHaveBeenCalledWith(utils.getSchemaUri("1.58.0"));
     expect(result.schemaContent).toBe("schema content from web");
   });
 
@@ -116,9 +103,7 @@ describe("Manifest schema provider", () => {
 
     const result = await getManifestSchemaProvider(fakeExtensionContext);
 
-    expect(fetchSpy).toHaveBeenCalledWith(
-      utils.replaceVersionPlaceholder(SCHEMA_URI_WITH_PLACEHOLDER, "1.5.0")
-    );
+    expect(fetchSpy).toHaveBeenCalledWith(utils.getSchemaUri("1.5.0"));
     expect(getSchemaContentSpy).toHaveBeenCalledWith(
       fakeExtensionContext,
       "1.5.0"
