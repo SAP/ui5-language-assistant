@@ -12,8 +12,7 @@ import * as utils from "../../src/utils";
 import { Response } from "node-fetch";
 import {
   MANIFEST_SCHEMA,
-  SCHEMA_URI_V1,
-  SCHEMA_URI_V2,
+  SCHEMA_URI_WITH_PLACEHOLDER,
 } from "../../src/constants";
 import { CancellationToken } from "vscode-languageclient";
 
@@ -93,37 +92,22 @@ describe("Manifest schema provider", () => {
     expect(result.schemaContent).toBe("");
   });
 
-  it("loads v1 schema from web", async () => {
+  it("loads schema from web with version placeholder replaced", async () => {
     const fetchSpy = jest.spyOn(logicUtils, "tryFetch").mockResolvedValue({
-      text: () => "v1 schema content",
+      text: () => "schema content from web",
     } as unknown as Response);
 
-    getUI5ManifestSpy.mockResolvedValue({ _version: "1.0.0" });
+    getUI5ManifestSpy.mockResolvedValue({ _version: "1.58.0" });
 
     const result = await getManifestSchemaProvider(fakeExtensionContext);
 
     expect(fetchSpy).toHaveBeenCalledWith(
-      utils.replaceVersionPlaceholder(SCHEMA_URI_V1, "1.0.0")
+      utils.replaceVersionPlaceholder(SCHEMA_URI_WITH_PLACEHOLDER, "1.58.0")
     );
-    expect(result.schemaContent).toBe("v1 schema content");
+    expect(result.schemaContent).toBe("schema content from web");
   });
 
-  it("loads v2 schema from web", async () => {
-    const fetchSpy = jest.spyOn(logicUtils, "tryFetch").mockResolvedValue({
-      text: () => "v2 schema content",
-    } as unknown as Response);
-
-    getUI5ManifestSpy.mockResolvedValue({ _version: "2.0.0" });
-
-    const result = await getManifestSchemaProvider(fakeExtensionContext);
-
-    expect(fetchSpy).toHaveBeenCalledWith(
-      utils.replaceVersionPlaceholder(SCHEMA_URI_V2, "2.0.0")
-    );
-    expect(result.schemaContent).toBe("v2 schema content");
-  });
-
-  it("loads v1 schema from local when web fetch fails", async () => {
+  it("loads schema from local when web fetch fails", async () => {
     const fetchSpy = jest
       .spyOn(logicUtils, "tryFetch")
       .mockResolvedValue(undefined);
@@ -133,30 +117,11 @@ describe("Manifest schema provider", () => {
     const result = await getManifestSchemaProvider(fakeExtensionContext);
 
     expect(fetchSpy).toHaveBeenCalledWith(
-      utils.replaceVersionPlaceholder(SCHEMA_URI_V1, "1.5.0")
+      utils.replaceVersionPlaceholder(SCHEMA_URI_WITH_PLACEHOLDER, "1.5.0")
     );
     expect(getSchemaContentSpy).toHaveBeenCalledWith(
       fakeExtensionContext,
       "1.5.0"
-    );
-    expect(result.schemaContent).toBe("local schema content");
-  });
-
-  it("loads v2 schema from local when web fetch fails", async () => {
-    const fetchSpy = jest
-      .spyOn(logicUtils, "tryFetch")
-      .mockResolvedValue(undefined);
-
-    getUI5ManifestSpy.mockResolvedValue({ _version: "2.1.0" });
-
-    const result = await getManifestSchemaProvider(fakeExtensionContext);
-
-    expect(fetchSpy).toHaveBeenCalledWith(
-      utils.replaceVersionPlaceholder(SCHEMA_URI_V2, "2.1.0")
-    );
-    expect(getSchemaContentSpy).toHaveBeenCalledWith(
-      fakeExtensionContext,
-      "2.1.0"
     );
     expect(result.schemaContent).toBe("local schema content");
   });
