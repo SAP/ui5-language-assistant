@@ -45,6 +45,7 @@ import {
   reactOnPackageJson,
   isContext,
   Context,
+  getManifestVersion,
 } from "@ui5-language-assistant/context";
 import { diagnosticToCodeActionFix } from "./quick-fix";
 import { executeCommand } from "./commands";
@@ -361,6 +362,19 @@ connection.onDidChangeWatchedFiles(async (changeEvent): Promise<void> => {
     for (const change of changeEvent.changes) {
       const uri = change.uri;
       if (uri.endsWith("manifest.json")) {
+        const manifestVersion = await getManifestVersion({
+          manifestUri: uri,
+          changeType: change.type,
+        });
+        if (manifestVersion.changed) {
+          // notify client
+          connection.sendNotification(
+            "UI5LanguageAssistant/manifestVersionChanged",
+            {
+              ...manifestVersion,
+            }
+          );
+        }
         await reactOnManifestChange(uri, change.type);
       } else if (uri.endsWith("ui5.yaml")) {
         await reactOnUI5YamlChange(uri, change.type);

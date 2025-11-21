@@ -41,6 +41,7 @@ import {
   bindingSemanticTokensProvider,
 } from "./binding-semantic-token-provider";
 import { OPEN_FRAMEWORK } from "@ui5-language-assistant/constant";
+import type { ManifestVersionChange } from "@ui5-language-assistant/context";
 
 type UI5Model = {
   url: string;
@@ -70,6 +71,11 @@ function init(context: ExtensionContext): void {
     client.onNotification(
       "UI5LanguageAssistant/context-error",
       (error: Error) => handleContextError(error)
+    );
+    client.onNotification(
+      "UI5LanguageAssistant/manifestVersionChanged",
+      (manifestChange: ManifestVersionChange) =>
+        getManifestSchemaProvider(context, manifestChange)
     );
   });
 }

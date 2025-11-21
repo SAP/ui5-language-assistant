@@ -1,5 +1,4 @@
 import {
-  EventEmitter,
   ExtensionContext,
   TextDocumentContentProvider,
   Uri,
@@ -111,6 +110,30 @@ describe("Manifest schema provider", () => {
     expect(result.schemaContent).toBe("local schema content");
   });
 
+  it("loads schema using version from manifestVersionChanged parameter", async () => {
+    const fetchSpy = jest.spyOn(logicUtils, "tryFetch").mockResolvedValue({
+      text: () => "schema content from web with version change",
+    } as unknown as Response);
+
+    const manifestVersionChanged = {
+      changed: true,
+      oldVersion: "1.0.0",
+      newVersion: "2.0.0",
+    };
+
+    const result = await getManifestSchemaProvider(
+      fakeExtensionContext,
+      manifestVersionChanged
+    );
+
+    expect(fetchSpy).toHaveBeenCalledWith(utils.getSchemaUri("2.0.0"));
+    expect(result.schemaContent).toBe(
+      "schema content from web with version change"
+    );
+    expect(findManifestPathSpy).not.toHaveBeenCalled();
+    expect(getUI5ManifestSpy).not.toHaveBeenCalled();
+  });
+
   describe("class methods", () => {
     let provider: TextDocumentContentProvider;
     const uri: Uri = { scheme: MANIFEST_SCHEMA } as unknown as Uri;
@@ -146,7 +169,34 @@ describe("Manifest schema provider", () => {
       if (method) {
         result = method(() => null);
       }
-      expect(result instanceof EventEmitter).toBeTrue();
+      expect(result).toBeDefined();
+      expect(result).toHaveProperty("dispose");
+      expect(typeof result?.dispose).toBe("function");
+    });
+
+    it("fireContentChange triggers event listeners", async () => {
+      const mockListener = jest.fn();
+      const testUri = Uri.parse(`${MANIFEST_SCHEMA}://test`);
+
+      // Subscribe to the event
+      expect(provider.onDidChange).toBeDefined();
+      if (!provider.onDidChange) {
+        throw new Error("onDidChange is not defined");
+      }
+      const disposable = provider.onDidChange(mockListener);
+
+      // Trigger the event using type assertion to access private method
+      const providerWithFireMethod = provider as TextDocumentContentProvider & {
+        fireContentChange: (uri: Uri) => void;
+      };
+      providerWithFireMethod.fireContentChange(testUri);
+
+      // Verify the listener was called with the URI
+      expect(mockListener).toHaveBeenCalledWith(testUri);
+      expect(mockListener).toHaveBeenCalledTimes(1);
+
+      // Clean up
+      disposable.dispose();
     });
 
     it("provideTextDocumentContent, correct schema", () => {

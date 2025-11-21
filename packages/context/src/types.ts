@@ -125,3 +125,9 @@ export type ProjectKind = CAPProjectKind | "UI5";
 export type Project = UI5Project | CAPProject;
 export type ProjectType = typeof UI5_PROJECT_TYPE | typeof CAP_PROJECT_TYPE;
 export type Fetcher<T = unknown> = (url: string) => Promise<FetchResponse<T>>;
+
+export interface ManifestVersionChange {
+  oldVersion: string;
+  newVersion: string;
+  changed: boolean;
+}
