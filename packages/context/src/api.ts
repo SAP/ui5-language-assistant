@@ -17,7 +17,7 @@ import { getViewFiles } from "./utils/view-files";
 import { getControlIds } from "./utils/control-ids";
 import { getLogger } from "./utils";
 import { cache } from "./cache";
-import { readFile } from "fs/promises";
+import { readFile } from "node:fs/promises";
 import { FileChangeType } from "vscode-languageserver/node";
 import { URI } from "vscode-uri";
 

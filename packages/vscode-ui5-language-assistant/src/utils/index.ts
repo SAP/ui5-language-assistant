@@ -4,9 +4,10 @@ import { ExtensionContext } from "vscode";
 import { getLogger } from "../logger";
 
 const getDummySchema = (files: string[]) => {
+  const regex = /schema-v(\d+\.\d+\.\d+)\.json/;
   const versions = files
     .map((file) => {
-      const match = file.match(/schema-v(\d+\.\d+\.\d+)\.json/);
+      const match = regex.exec(file);
       return match ? match[1] : null;
     })
     .filter((v): v is string => v !== null);

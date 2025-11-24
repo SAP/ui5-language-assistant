@@ -16,7 +16,7 @@ import {
 
 class ManifestSchemaProvider implements TextDocumentContentProvider {
   private _schemaContent = "";
-  private _onDidChange = new EventEmitter<Uri>();
+  readonly _onDidChange = new EventEmitter<Uri>();
 
   readonly onDidChange = this._onDidChange.event;
 
