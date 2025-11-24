@@ -12,10 +12,10 @@ import * as projectAccess from "@sap-ux/project-access";
 import { OPEN_FRAMEWORK } from "@ui5-language-assistant/constant";
 import { FileChangeType } from "vscode-languageserver/node";
 import { cache } from "../../src/cache";
-import { readFile } from "fs/promises";
+import { readFile } from "node:fs/promises";
 import { URI } from "vscode-uri";
 
-jest.mock("fs/promises");
+jest.mock("node:fs/promises");
 jest.mock("vscode-uri");
 
 describe("context", () => {
@@ -219,7 +219,7 @@ describe("context", () => {
     const mockManifestUri = `file://${mockManifestPath}`;
 
     beforeEach(() => {
-      jest.clearAllMocks();
+      jest.resetAllMocks();
     });
 
     it("should return empty versions when changeType is Deleted", async () => {
