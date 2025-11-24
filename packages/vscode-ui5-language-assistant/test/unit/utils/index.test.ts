@@ -109,7 +109,7 @@ describe("getSchemaContent", () => {
       );
     });
 
-    it("should return empty string when schema file is not found", async () => {
+    it("should return dummy schema when schema file is not found", async () => {
       const mockBasePath = "/mock/path/lib/src/manifest";
 
       (mockExtensionContext.asAbsolutePath as jest.Mock).mockReturnValue(
@@ -122,10 +122,33 @@ describe("getSchemaContent", () => {
 
       const result = await getSchemaContent(mockExtensionContext, "3.0.0");
 
-      expect(result).toBe("");
+      expect(result).not.toBe("");
+      expect(result).toContain("Invalid Version");
+      expect(result).toContain("ERROR: Wrong major version specified");
+      expect(result).toContain("1 (e.g., 1.81.0)");
+      expect(result).toContain("2 (e.g., 2.1.0)");
       expect(mockReaddir).toHaveBeenCalledWith(mockBasePath);
       expect(mockLogger.error).toHaveBeenCalledWith(
         "No local manifest schema file found for major version 3"
+      );
+    });
+
+    it("should handle directory reading errors gracefully", async () => {
+      const mockBasePath = "/mock/path/lib/src/manifest";
+      const mockError = new Error("EACCES: permission denied");
+
+      (mockExtensionContext.asAbsolutePath as jest.Mock).mockReturnValue(
+        mockBasePath
+      );
+      mockReaddir.mockRejectedValue(mockError);
+
+      const result = await getSchemaContent(mockExtensionContext, "1.0.0");
+
+      expect(result).toBe("");
+      expect(mockReaddir).toHaveBeenCalledWith(mockBasePath);
+      expect(mockLogger.error).toHaveBeenCalledWith(
+        "Failed to read manifest content from ",
+        mockError
       );
     });
   });

@@ -3,6 +3,46 @@ import { readdir, readFile } from "fs/promises";
 import { ExtensionContext } from "vscode";
 import { getLogger } from "../logger";
 
+const getDummySchema = (files: string[]) => {
+  const versions = files
+    .map((file) => {
+      const match = file.match(/schema-v(\d+\.\d+\.\d+)\.json/);
+      return match ? match[1] : null;
+    })
+    .filter((v): v is string => v !== null);
+  const supportedVersions = versions
+    .map((v) => {
+      const major = v.split(".")[0];
+      return `${major} (e.g., ${v})`;
+    })
+    .join(", ");
+  const content = `
+{
+  "title": "SAP JSON schema for Web Application Manifest File - Invalid Version",
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "type": "object",
+  "required": ["_version"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "description": "The resource identifier for the JSON schema to be used.",
+      "type": "string"
+    },
+    "_version": {
+      "description": "ERROR: Wrong major version specified in the manifest file. Supported major versions are: ${supportedVersions}. Please update your _version field.",
+      "type": "string",
+      "not": {
+        "type": "string"
+      },
+      "errorMessage": ""
+    }
+  }
+}
+
+`;
+  return content;
+};
+
 /**
  * Read schema content from `lib->manifest->schema.json`
  *
@@ -23,7 +63,7 @@ export const getSchemaContent = async (
       getLogger().error(
         `No local manifest schema file found for major version ${majorVersion}`
       );
-      return "";
+      return getDummySchema(files);
     }
     filePath = join(BASE_PATH, fileName);
     const content = await readFile(filePath, "utf8");
