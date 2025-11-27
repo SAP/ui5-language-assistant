@@ -6,12 +6,20 @@ import {
 } from "./manifest";
 import { finAdpdManifestPath } from "./adp-manifest";
 import { getServices } from "./services";
-import { Context, UI5_VERSION_S4_PLACEHOLDER } from "./types";
+import {
+  Context,
+  ManifestVersionChange,
+  UI5_VERSION_S4_PLACEHOLDER,
+} from "./types";
 import { getSemanticModel } from "./ui5-model";
 import { getYamlDetails } from "./ui5-yaml";
 import { getViewFiles } from "./utils/view-files";
 import { getControlIds } from "./utils/control-ids";
 import { getLogger } from "./utils";
+import { cache } from "./cache";
+import { readFile } from "node:fs/promises";
+import { FileChangeType } from "vscode-languageserver/node";
+import { URI } from "vscode-uri";
 
 export {
   initializeManifestData,
@@ -111,3 +119,42 @@ export const isContext = (
 };
 
 export const DEFAULT_I18N_NAMESPACE = "translation";
+
+/**
+ * Retrieves and compares manifest versions to detect changes.
+ *
+ * Reads the manifest file from the specified URI, compares the cached version
+ * with the current version in the file, and returns information about any version changes.
+ *
+ * @param {Object} params - The parameters object
+ * @param {FileChangeType} params.changeType - The type of file change (Created, Changed, or Deleted)
+ * @param {string} params.manifestUri - The URI of the manifest.json file
+ * @returns {Promise<ManifestVersionChange>} An object containing the old version, new version,
+ *                                           and a boolean indicating whether the version changed
+ * @throws {Error} Returns a default result object with empty versions if reading or parsing fails
+ */
+export async function getManifestVersion({
+  manifestUri,
+  changeType,
+}: {
+  changeType: FileChangeType;
+  manifestUri: string;
+}): Promise<ManifestVersionChange> {
+  if (changeType === FileChangeType.Deleted) {
+    return { oldVersion: "", newVersion: "", changed: false };
+  }
+  try {
+    const manifestPath = URI.parse(manifestUri).fsPath;
+    const oldManifest = cache.getManifest(manifestPath);
+    const manifestContent = await readFile(manifestPath, "utf-8");
+    const newManifest = JSON.parse(manifestContent);
+    const oldVersion = oldManifest["_version"];
+    const newVersion = newManifest["_version"];
+    return { oldVersion, newVersion, changed: oldVersion !== newVersion };
+  } catch (error) {
+    getLogger().debug("getManifestVersion failed:", {
+      error,
+    });
+  }
+  return { oldVersion: "", newVersion: "", changed: false };
+}
