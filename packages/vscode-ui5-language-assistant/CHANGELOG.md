@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.83
+
+### Patch Changes
+
+- f2c76a3: feat: support manifest schema version 2
+
 ## 4.0.82
 
 ### Patch Changes
