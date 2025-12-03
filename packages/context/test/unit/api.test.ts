@@ -324,5 +324,40 @@ describe("context", () => {
         changed: false,
       });
     });
+
+    it("should update manifest cache after reading new manifest", async () => {
+      // arrange
+      const oldManifest = { _version: "1.0.0" };
+      const newManifest = { _version: "1.1.0" };
+
+      jest
+        .spyOn(URI, "parse")
+        .mockReturnValue({ fsPath: mockManifestPath } as ReturnType<
+          typeof URI.parse
+        >);
+      const getManifestSpy = jest
+        .spyOn(cache, "getManifest")
+        .mockReturnValue(oldManifest as { _version: string });
+      const setManifestSpy = jest.spyOn(cache, "setManifest");
+      (readFile as jest.Mock).mockResolvedValue(JSON.stringify(newManifest));
+
+      // act
+      const result = await getManifestVersion({
+        manifestUri: mockManifestUri,
+        changeType: FileChangeType.Changed,
+      });
+
+      // assert
+      expect(getManifestSpy).toHaveBeenCalledWith(mockManifestPath);
+      expect(setManifestSpy).toHaveBeenCalledWith(
+        mockManifestPath,
+        newManifest
+      );
+      expect(result).toEqual({
+        oldVersion: "1.0.0",
+        newVersion: "1.1.0",
+        changed: true,
+      });
+    });
   });
 });

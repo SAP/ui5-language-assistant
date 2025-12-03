@@ -150,6 +150,8 @@ export async function getManifestVersion({
     const newManifest = JSON.parse(manifestContent);
     const oldVersion = oldManifest["_version"];
     const newVersion = newManifest["_version"];
+    // update manifest cache to new manifest
+    cache.setManifest(manifestPath, newManifest);
     return { oldVersion, newVersion, changed: oldVersion !== newVersion };
   } catch (error) {
     getLogger().debug("getManifestVersion failed:", {
