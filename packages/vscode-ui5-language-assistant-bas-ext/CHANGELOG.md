@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.84
+
+### Patch Changes
+
+- 870d01a: fix: update manifest cache after reading new manifest
+
 ## 4.0.83
 
 ### Patch Changes
