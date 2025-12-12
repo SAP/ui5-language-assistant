@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.85
+
+### Patch Changes
+
+- a254754: fix: remove glob package
+
 ## 4.0.84
 
 ### Patch Changes
