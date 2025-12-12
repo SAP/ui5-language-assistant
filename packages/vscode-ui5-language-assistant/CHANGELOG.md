@@ -1,11 +1,5 @@
 # Change Log
 
-## 5.0.0
-
-### Major Changes
-
-- 391828b: fix: remove glob package
-
 ## 4.0.84
 
 ### Patch Changes
