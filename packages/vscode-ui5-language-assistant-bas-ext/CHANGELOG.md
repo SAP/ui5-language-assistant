@@ -1,5 +1,23 @@
 # Change Log
 
+## 4.0.85
+
+### Patch Changes
+
+- a254754: fix: remove glob package
+
+## 4.0.84
+
+### Patch Changes
+
+- 870d01a: fix: update manifest cache after reading new manifest
+
+## 4.0.83
+
+### Patch Changes
+
+- f2c76a3: feat: support manifest schema version 2
+
 ## 4.0.82
 
 ### Patch Changes

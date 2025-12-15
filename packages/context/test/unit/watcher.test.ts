@@ -119,7 +119,7 @@ describe("watcher", () => {
           .mockReturnValue(undefined);
         try {
           await reactOnManifestChange(manifestUri, 1);
-          expect(deleteManifestSpy).toHaveBeenCalledOnce();
+          expect(deleteManifestSpy).not.toHaveBeenCalled();
           expect(deleteProjectSpy).not.toHaveBeenCalled();
         } finally {
           cacheGetProjectSpy.mockRestore();

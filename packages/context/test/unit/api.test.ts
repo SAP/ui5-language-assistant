@@ -6,10 +6,17 @@ import * as services from "../../src/services";
 import * as viewFiles from "../../src/utils/view-files";
 import * as controlIds from "../../src/utils/control-ids";
 import { UI5SemanticModel } from "@ui5-language-assistant/semantic-model-types";
-import { getContext, isContext } from "../../src/api";
+import { getContext, isContext, getManifestVersion } from "../../src/api";
 import { UI5_VERSION_S4_PLACEHOLDER, type Context } from "../../src/types";
 import * as projectAccess from "@sap-ux/project-access";
 import { OPEN_FRAMEWORK } from "@ui5-language-assistant/constant";
+import { FileChangeType } from "vscode-languageserver/node";
+import { cache } from "../../src/cache";
+import { readFile } from "node:fs/promises";
+import { URI } from "vscode-uri";
+
+jest.mock("node:fs/promises");
+jest.mock("vscode-uri");
 
 describe("context", () => {
   afterEach(() => {
@@ -204,6 +211,153 @@ describe("context", () => {
         code?: string;
       });
       expect(result).toBeFalse();
+    });
+  });
+
+  describe("getManifestVersion", () => {
+    const mockManifestPath = "/path/to/manifest.json";
+    const mockManifestUri = `file://${mockManifestPath}`;
+
+    beforeEach(() => {
+      jest.resetAllMocks();
+    });
+
+    it("should return empty versions when changeType is Deleted", async () => {
+      // act
+      const result = await getManifestVersion({
+        manifestUri: mockManifestUri,
+        changeType: FileChangeType.Deleted,
+      });
+
+      // assert
+      expect(result).toEqual({
+        oldVersion: "",
+        newVersion: "",
+        changed: false,
+      });
+      expect(readFile).not.toHaveBeenCalled();
+    });
+
+    it("should detect version change when manifest version is updated", async () => {
+      // arrange
+      const oldManifest = { _version: "1.0.0" };
+      const newManifest = { _version: "1.1.0" };
+
+      jest
+        .spyOn(URI, "parse")
+        .mockReturnValue({ fsPath: mockManifestPath } as ReturnType<
+          typeof URI.parse
+        >);
+      jest
+        .spyOn(cache, "getManifest")
+        .mockReturnValue(oldManifest as { _version: string });
+      (readFile as jest.Mock).mockResolvedValue(JSON.stringify(newManifest));
+
+      // act
+      const result = await getManifestVersion({
+        manifestUri: mockManifestUri,
+        changeType: FileChangeType.Changed,
+      });
+
+      // assert
+      expect(URI.parse).toHaveBeenCalledWith(mockManifestUri);
+      expect(cache.getManifest).toHaveBeenCalledWith(mockManifestPath);
+      expect(readFile).toHaveBeenCalledWith(mockManifestPath, "utf-8");
+      expect(result).toEqual({
+        oldVersion: "1.0.0",
+        newVersion: "1.1.0",
+        changed: true,
+      });
+    });
+
+    it("should return changed: false when versions are the same", async () => {
+      // arrange
+      const oldManifest = { _version: "1.0.0" };
+      const newManifest = { _version: "1.0.0" };
+
+      jest
+        .spyOn(URI, "parse")
+        .mockReturnValue({ fsPath: mockManifestPath } as ReturnType<
+          typeof URI.parse
+        >);
+      jest
+        .spyOn(cache, "getManifest")
+        .mockReturnValue(oldManifest as { _version: string });
+      (readFile as jest.Mock).mockResolvedValue(JSON.stringify(newManifest));
+
+      // act
+      const result = await getManifestVersion({
+        manifestUri: mockManifestUri,
+        changeType: FileChangeType.Changed,
+      });
+
+      // assert
+      expect(result).toEqual({
+        oldVersion: "1.0.0",
+        newVersion: "1.0.0",
+        changed: false,
+      });
+    });
+
+    it("should return empty versions on file read error", async () => {
+      // arrange
+      jest
+        .spyOn(URI, "parse")
+        .mockReturnValue({ fsPath: mockManifestPath } as ReturnType<
+          typeof URI.parse
+        >);
+      jest
+        .spyOn(cache, "getManifest")
+        .mockReturnValue({ _version: "1.0.0" } as { _version: string });
+      (readFile as jest.Mock).mockRejectedValue(new Error("File not found"));
+
+      // act
+      const result = await getManifestVersion({
+        manifestUri: mockManifestUri,
+        changeType: FileChangeType.Changed,
+      });
+
+      // assert
+      expect(result).toEqual({
+        oldVersion: "",
+        newVersion: "",
+        changed: false,
+      });
+    });
+
+    it("should update manifest cache after reading new manifest", async () => {
+      // arrange
+      const oldManifest = { _version: "1.0.0" };
+      const newManifest = { _version: "1.1.0" };
+
+      jest
+        .spyOn(URI, "parse")
+        .mockReturnValue({ fsPath: mockManifestPath } as ReturnType<
+          typeof URI.parse
+        >);
+      const getManifestSpy = jest
+        .spyOn(cache, "getManifest")
+        .mockReturnValue(oldManifest as { _version: string });
+      const setManifestSpy = jest.spyOn(cache, "setManifest");
+      (readFile as jest.Mock).mockResolvedValue(JSON.stringify(newManifest));
+
+      // act
+      const result = await getManifestVersion({
+        manifestUri: mockManifestUri,
+        changeType: FileChangeType.Changed,
+      });
+
+      // assert
+      expect(getManifestSpy).toHaveBeenCalledWith(mockManifestPath);
+      expect(setManifestSpy).toHaveBeenCalledWith(
+        mockManifestPath,
+        newManifest
+      );
+      expect(result).toEqual({
+        oldVersion: "1.0.0",
+        newVersion: "1.1.0",
+        changed: true,
+      });
     });
   });
 });

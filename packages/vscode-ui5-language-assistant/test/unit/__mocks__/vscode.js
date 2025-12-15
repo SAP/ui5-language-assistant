@@ -7,16 +7,14 @@ class TextDocumentContentProvider {
 class EventEmitter {
   constructor(e) {
     this.eventHandler = new Set();
+    // Bind the event method to preserve context
+    this.event = this.event.bind(this);
   }
   event(handler) {
-    if (this._emitter) {
-      this._emitter.eventHandler.add(handler);
-    }
+    this.eventHandler.add(handler);
     return {
       dispose: () => {
-        if (this._emitter) {
-          this._emitter.eventHandler.delete(handler);
-        }
+        this.eventHandler.delete(handler);
       },
     };
   }
@@ -34,7 +32,14 @@ const ExtensionContext = {
   asAbsolutePath: () => "",
 };
 
-const Uri = {};
+const Uri = {
+  parse: (value) => ({
+    scheme: value.split("://")[0],
+    path: value.split("://")[1] || "",
+    fsPath: value,
+    toString: () => value,
+  }),
+};
 
 const FormattingOptions = {
   tabSize: 4,
@@ -115,6 +120,14 @@ const TextEdit = {
 
 const window = {
   showErrorMessage: () => {},
+  get activeTextEditor() {
+    return this._activeTextEditor;
+  },
+  _activeTextEditor: {
+    document: {
+      uri: { fsPath: "/path/to/file.js" },
+    },
+  },
 };
 
 module.exports = {

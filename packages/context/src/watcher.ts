@@ -47,8 +47,7 @@ export const reactOnManifestChange = async (
   if (!projectRoot) {
     return;
   }
-  // remove manifest cache
-  cache.deleteManifest(manifestPath);
+
   const cachedProject = cache.getProject(projectRoot);
   if (!cachedProject) {
     return;
@@ -65,6 +64,8 @@ export const reactOnManifestChange = async (
   }
   // remove project cache
   cache.deleteProject(projectRoot);
+  // remove manifest cache
+  cache.deleteManifest(manifestPath);
   // get a fresh project
   await getProject(manifestPath);
 };
