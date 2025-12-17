@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.86
+
+### Patch Changes
+
+- d7f5b66: fix: Substitute error message popup with log
+
 ## 4.0.85
 
 ### Patch Changes

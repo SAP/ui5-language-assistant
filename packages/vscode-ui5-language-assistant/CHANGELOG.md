@@ -1,5 +1,13 @@
 # Change Log
 
+## 4.0.86
+
+### Patch Changes
+
+- d7f5b66: fix: Substitute error message popup with log
+- Updated dependencies [d7f5b66]
+  - @ui5-language-assistant/language-server@4.0.65
+
 ## 4.0.85
 
 ### Patch Changes
