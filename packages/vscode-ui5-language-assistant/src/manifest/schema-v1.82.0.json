@@ -86,8 +86,17 @@
         "1.70.1",
         "1.71.0",
         "1.72.0",
-        "2.0.0",
-        "2.1.0"
+        "1.73.1",
+        "1.75.1",
+        "1.76.0",
+        "1.77.0",
+        "1.78.0",
+        "1.79.0",
+        "1.80.0",
+        "1.80.1",
+        "1.81.0",
+        "1.81.1",
+        "1.82.0"
       ]
     },
     "start_url": {
@@ -101,6 +110,34 @@
       "additionalProperties": false,
       "required": ["id", "type", "title", "applicationVersion"],
       "properties": {
+        "_version": {
+          "description": "Application attributes format version. It is managed by namespace owner",
+          "type": "string",
+          "enum": [
+            "1.1.0",
+            "1.2.0",
+            "1.3.0",
+            "1.4.0",
+            "1.5.0",
+            "1.6.0",
+            "1.7.0",
+            "1.8.0",
+            "1.9.0",
+            "1.10.0",
+            "1.11.0",
+            "1.12.0",
+            "1.13.0",
+            "1.14.0",
+            "1.15.0",
+            "1.16.0",
+            "1.17.0",
+            "1.18.0",
+            "1.19.0",
+            "1.20.0",
+            "1.21.0",
+            "1.21.1"
+          ]
+        },
         "sourceTemplate": {
           "description": "Represents the template from which the app was generated",
           "type": "object",
@@ -404,6 +441,11 @@
       "type": "object",
       "required": ["technology", "deviceTypes"],
       "properties": {
+        "_version": {
+          "description": "Represents UI attributes format version. It is managed by namespace owner",
+          "type": "string",
+          "enum": ["1.1.0", "1.2.0", "1.3.0", "1.4.0", "1.5.0"]
+        },
         "technology": {
           "description": "Represents UI technology. The possible values are UI5 (default), WDA, NWBC, GUI, URL and WCF",
           "type": "string",
@@ -474,8 +516,34 @@
           "type": "object",
           "required": ["dependencies", "contentDensities"],
           "properties": {
+            "_version": {
+              "description": " Represents SAPUI5 attributes format version. It is managed by namespace owner",
+              "type": "string",
+              "enum": [
+                "1.1.0",
+                "1.2.0",
+                "1.3.0",
+                "1.4.0",
+                "1.5.0",
+                "1.6.0",
+                "1.7.0",
+                "1.8.0",
+                "1.9.0",
+                "1.10.0",
+                "1.11.0",
+                "1.12.0",
+                "1.13.0",
+                "1.14.0",
+                "1.15.0",
+                "1.16.0",
+                "1.17.0",
+                "1.18.0",
+                "1.19.0",
+                "1.20.0"
+              ]
+            },
             "resources": {
-              "description": "Represents paths to CSS resources that your app needs (app internal).",
+              "description": "Represents paths to JavaScript/CSS resources that your app needs (app internal), formerly called '.includes'",
               "$ref": "#/$defs/resource"
             },
             "componentUsages": {
@@ -748,6 +816,10 @@
                 }
               }
             },
+            "flexBundle": {
+              "description": "Represents an indicator whether a flexibility bundle was created and is within the application sources. This property is set by the building tool.",
+              "type": "boolean"
+            },
             "flexExtensionPointEnabled": {
               "description": "Represents an indicator whether app variant is flex extension point enabled",
               "type": "boolean",
@@ -826,6 +898,11 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
+        "_version": {
+          "description": "Represents attributes format version. It is managed by namespace owner",
+          "type": "string",
+          "enum": ["1.1.0", "1.2.0"]
+        },
         "uri": {
           "description": "Represents the uri of the app in the ABAP system",
           "type": "string"
@@ -842,6 +919,11 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
+        "_version": {
+          "description": "Represents attributes format version. It is managed by namespace owner",
+          "type": "string",
+          "enum": ["1.1.0", "1.2.0", "1.3.0"]
+        },
         "uri": {
           "description": "Represents the uri of the app in the HANA Cloud Platform",
           "type": "string"
@@ -875,6 +957,11 @@
       "type": "object",
       "additionalProperties": true,
       "properties": {
+        "_version": {
+          "description": "Represents attributes format version. It is managed by namespace owner",
+          "type": "string",
+          "enum": ["1.1.0", "1.2.0"]
+        },
         "oAuthScopes": {
           "description": "Represents the authorization scope of the application",
           "type": "array",
@@ -911,6 +998,11 @@
       "type": "object",
       "additionalProperties": true,
       "properties": {
+        "_version": {
+          "description": "Represents attributes format version. It is managed by namespace owner",
+          "type": "string",
+          "enum": ["1.0.0"]
+        },
         "compatible": {
           "description": "Represents the compatibility of this app with the Mobile Cards platform.",
           "type": "boolean"
@@ -924,6 +1016,11 @@
       "required": ["registrationIds", "archeType"],
       "additionalProperties": false,
       "properties": {
+        "_version": {
+          "description": "Represents attributes format version. It is managed by namespace owner",
+          "type": "string",
+          "enum": ["1.1.0", "1.2.0", "1.3.0"]
+        },
         "registrationIds": {
           "description": "Represents array of registration ids, i.e. for Fiori apps fiori id(s)",
           "type": "array",
@@ -960,6 +1057,10 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
+        "_version": {
+          "type": "string",
+          "enum": ["1.1.0", "1.2.0", "1.3.0", "1.4.0", "1.5.0", "1.6.0"]
+        },
         "settings": {
           "description": "Represents global settings for the application controller",
           "$ref": "#/$defs/setting_def"
@@ -997,16 +1098,27 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
+        "_version": {
+          "description": "Represents attributes format version. It is managed by namespace owner",
+          "type": "string",
+          "enum": ["1.1.0", "1.2.0", "1.3.0", "1.4.0"]
+        },
+        "tileSize": {
+          "description": "Represents size of the tile. Deprecated, use 'vizOptions' instead.",
+          "type": "string",
+          "enum": ["1x1", "1x2"],
+          "deprecated": true
+        },
         "vizOptions": {
           "description": "Options a visualization (launchpad tile) is offering with regards to rendering, for example",
           "type": "object",
           "properties": {
             "displayFormats": {
-              "description": "Defines what display formats a visualization type can render itself in",
+              "description": "Defines what display formats a visualization type can render itself in. The value 'default' is deprecated - please use 'standard' instead!",
               "type": "object",
               "properties": {
                 "supported": {
-                  "description": "Lists all display formats the visualization type is capable of rendering itself in. The order of items may be used as preference definition (most important first).",
+                  "description": "Lists all display formats the visualization type is capable of rendering itself in. The order of items may be used as preference definition (most important first). The value 'default' is deprecated - please use 'standard' instead!",
                   "type": "array",
                   "default": ["standard"],
                   "items": {
@@ -1036,6 +1148,22 @@
               "type": "object"
             }
           }
+        },
+        "origin": {
+          "description": "Represents the original tile and target mapping which resulted in this app. Deprecated.",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "tileId": {
+              "description": "Represents the original tile which resulted in this app",
+              "type": "string"
+            },
+            "targetMappingId": {
+              "description": "Represents the original target mapping which resulted in this app",
+              "type": "string"
+            }
+          },
+          "deprecated": true
         }
       }
     },
@@ -1045,12 +1173,36 @@
       "type": "object",
       "required": ["cards"],
       "dependentRequired": {
-        "globalFilterEntitySet": ["globalFilterModel"]
+        "globalFilterEntityType": ["globalFilterModel"]
       },
       "additionalProperties": false,
       "properties": {
+        "_version": {
+          "description": "Represents attributes format version. It is managed by namespace owner",
+          "type": "string",
+          "enum": [
+            "1.1.0",
+            "1.2.0",
+            "1.3.0",
+            "1.4.0",
+            "1.5.0",
+            "1.6.0",
+            "1.7.0",
+            "1.8.0",
+            "1.9.0",
+            "1.10.0",
+            "1.11.0",
+            "1.12.0",
+            "1.13.0"
+          ]
+        },
         "globalFilterModel": {
           "description": "Represents the name of global filter OData model, which  contains entities definition that are relevant for global filters",
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_\\.\\-\\|@]*$"
+        },
+        "globalFilterEntityType": {
+          "description": "Represents the entity to use as global filter in the smart filter bar control",
           "type": "string",
           "pattern": "^[a-zA-Z0-9_\\.\\-\\|@]*$"
         },
@@ -1088,8 +1240,17 @@
         "containerLayout": {
           "description": "Represents the layout of the card container",
           "type": "string",
-          "default": "fixed",
-          "enum": ["fixed", "resizable"]
+          "default": "resizable",
+          "oneOf": [
+            {
+              "const": "resizable"
+            },
+            {
+              "const": "fixed",
+              "deprecated": true,
+              "description": "[Deprecated] Value fixed is deprecated"
+            }
+          ]
         },
         "showDateInRelativeFormat": {
           "description": "Represents a switch to Enable or disable Relative or Normal date formating in ovp application",
@@ -1213,6 +1374,10 @@
       "description": "Represents Insights attributes",
       "required": ["parentAppId", "cardType"],
       "properties": {
+        "_version": {
+          "type": "string",
+          "enum": ["1.0.0", "1.1.0", "1.2.0", "1.3.0", "1.4.0", "1.5.0"]
+        },
         "parentAppId": {
           "type": "string",
           "description": "Represents mandatory unique app identifier of the app containing self manifest."
@@ -1322,10 +1487,96 @@
       "title": "JSON schema for SAP Insights Namespace",
       "type": "object"
     },
+    "sap.wda": {
+      "title": "JSON schema for SAP.WDA Namespace",
+      "description": "Represents WDA specific attributes",
+      "type": "object",
+      "required": ["applicationId"],
+      "additionalProperties": false,
+      "properties": {
+        "_version": {
+          "description": "Represents attributes format version. It is managed by namespace owner",
+          "type": "string",
+          "enum": ["1.1.0", "1.2.0"]
+        },
+        "applicationId": {
+          "description": "Represents ID of an application",
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9\\/_]{1,30}$"
+        },
+        "configId": {
+          "description": "Represents ID of an application configuration",
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9\\/\\_]{1,32}$"
+        },
+        "flavorId": {
+          "description": "Represents SAP Screen Personas Flavor ID",
+          "type": "string",
+          "pattern": "^[A-F0-9]{1,32}$"
+        },
+        "compatibilityMode": {
+          "description": "Indicates that WebDynpro Application requires Compatibility Mode, while uses legacy shell services. Possible values are true or false (default)",
+          "type": "boolean",
+          "default": false
+        }
+      }
+    },
+    "sap.apf": {
+      "title": "JSON schema for SAP.APF Namespace",
+      "description": "Represents APF specific attributes",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "_version": {
+          "description": "Represents attributes format version. It is managed by namespace owner",
+          "type": "string",
+          "enum": ["1.1.0", "1.2.0"]
+        },
+        "activateFilterReduction": {
+          "description": "Represents a switch to activate filter reduction so that filters in OData requests can be represented as ABAP select options",
+          "type": "boolean",
+          "default": false
+        },
+        "activateLrep": {
+          "description": "Represents a switch to activate LREP as the persistence for configurations and texts",
+          "type": "boolean",
+          "default": false
+        },
+        "useHeadRequestForXsrfToken": {
+          "description": "Represents a switch to use HEAD-Requests instead of GET-Requests when fetching the XSRF-Security-Token",
+          "type": "boolean",
+          "default": false
+        }
+      }
+    },
     "sap.cloud.portal": {
       "title": "JSON schema for SAP.CLOUD.PORTAL Namespace",
       "description": "Represents Cloud Portal specific attributes",
       "type": "object"
+    },
+    "sap.gui": {
+      "title": "JSON schema for SAP.GUI Namespace",
+      "description": "Represents GUI specific attributes",
+      "type": "object",
+      "required": ["transaction"],
+      "additionalProperties": false,
+      "properties": {
+        "_version": {
+          "description": "Represents attributes format version. It is managed by namespace owner",
+          "type": "string",
+          "enum": ["1.1.0", "1.2.0"]
+        },
+        "transaction": {
+          "description": "Represents transaction of an application",
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9\\/_]{1,20}$"
+        },
+        "flavorId": {
+          "description": "Represents SAP Screen Personas Flavor ID",
+          "type": "string",
+          "pattern": "^[A-F0-9]{1,32}$"
+        }
+      }
     },
     "sap.integration": {
       "title": "JSON schema for SAP.INTEGRATION Namespace",
@@ -1333,6 +1584,11 @@
       "type": "object",
       "required": ["urlTemplateId", "parameters"],
       "properties": {
+        "_version": {
+          "description": "Represents attributes format version. It is managed by namespace owner",
+          "type": "string",
+          "enum": ["1.0.0"]
+        },
         "urlTemplateId": {
           "description": "Reference to the desired URL Template",
           "type": "string",
@@ -1362,6 +1618,25 @@
         }
       }
     },
+    "sap.wcf": {
+      "title": "JSON schema for SAP.WCF Namespace",
+      "description": "Represents WCF Application specific attributes",
+      "type": "object",
+      "required": ["wcf-target-id"],
+      "additionalProperties": false,
+      "properties": {
+        "_version": {
+          "description": "Represents attributes format version. It is managed by namespace owner",
+          "type": "string",
+          "enum": ["1.1.0"]
+        },
+        "wcf-target-id": {
+          "description": "Represents the target technical id for a WCF Application",
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9\\/_]{1,10}$"
+        }
+      }
+    },
     "sap.ui.smartbusiness.app": {
       "title": "JSON schema for SAP.UI.SMARTBUSINESS.APP Namespace",
       "description": "Represents specific attributes for Smart Business  ",
@@ -1373,6 +1648,11 @@
       "type": "object",
       "required": ["definingRequests"],
       "properties": {
+        "_version": {
+          "description": "Represents attributes format version. It is managed by namespace owner",
+          "type": "string",
+          "enum": ["1.1.0"]
+        },
         "definingRequests": {
           "description": "Represents mobile specific attributes",
           "type": "object",
@@ -1391,6 +1671,11 @@
       "type": "object",
       "additionalProperties": true,
       "properties": {
+        "_version": {
+          "description": "Represents SAP.COPILOT attributes format version. It is managed by namespace owner",
+          "type": "string",
+          "enum": ["1.0.0", "1.1.0"]
+        },
         "contextAnalysis": {
           "description": "Settings for the context analysis features of SAP CoPilot",
           "type": "object",
@@ -1409,8 +1694,48 @@
               }
             }
           }
+        },
+        "digitalAssistant": {
+          "description": "Settings for the Digital Assistant features of SAP CoPilot",
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "intentDefinition": {
+              "description": "A list of Intent",
+              "type": "object",
+              "additionalProperties": false,
+              "patternProperties": {
+                "^[a-zA-Z0-9_\\.\\-]*$": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "properties": {
+                    "uri": {
+                      "description": "Represents the uri of the intent",
+                      "type": "string"
+                    },
+                    "dataSources": {
+                      "description": "A list of the sap.app.dataSources used by the intent",
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "i18n": {
+                      "description": "Represents the uri of the translation file",
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
         }
       }
+    },
+    "sap.map": {
+      "title": "JSON schema for SAP.MAP Namespace",
+      "description": "Represents specific attributes for SAP.MAP  ",
+      "type": "object"
     },
     "sap.url": {
       "title": "JSON schema for SAP.URL Namespace",
@@ -1419,6 +1744,11 @@
       "additionalProperties": false,
       "required": ["uri"],
       "properties": {
+        "_version": {
+          "description": "Represents attributes format version. It is managed by namespace owner",
+          "type": "string",
+          "enum": ["1.0.0"]
+        },
         "uri": {
           "description": "Represents URI of an application",
           "type": "string"
@@ -1432,6 +1762,11 @@
       "additionalProperties": false,
       "required": ["appName"],
       "properties": {
+        "_version": {
+          "description": "Represents attributes format version. It is managed by namespace owner",
+          "type": "string",
+          "enum": ["1.0.0"]
+        },
         "uri": {
           "description": "Represents the uri inside the SFSF app",
           "type": "string"
@@ -1452,6 +1787,11 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
+        "_version": {
+          "description": "Represents attributes format version. It is managed by namespace owner",
+          "type": "string",
+          "enum": ["1.0.0", "1.1.0", "1.2.0"]
+        },
         "service": {
           "description": "Unique Business Service Identifier",
           "type": "string",
@@ -1471,6 +1811,75 @@
       "additionalProperties": false,
       "required": ["type", "header"],
       "properties": {
+        "_version": {
+          "description": "Represents SAP.CARD attributes format version. It is managed by namespace owner",
+          "type": "string",
+          "enum": [
+            "1.1.0",
+            "1.2.0",
+            "1.3.0",
+            "1.4.0",
+            "1.5.0",
+            "1.6.0",
+            "1.7.0",
+            "1.8.0",
+            "1.9.0",
+            "1.10.0",
+            "1.11.0",
+            "1.13.0",
+            "1.14.0",
+            "1.15.0",
+            "1.16.0",
+            "1.17.0",
+            "1.18.0",
+            "1.19.0",
+            "1.20.0",
+            "1.21.0",
+            "1.22.0",
+            "1.23.0",
+            "1.24.0",
+            "1.25.0",
+            "1.26.0",
+            "1.27.0",
+            "1.28.0",
+            "1.29.0",
+            "1.30.0",
+            "1.31.0",
+            "1.32.0",
+            "1.33.0",
+            "1.34.0",
+            "1.35.0",
+            "1.36.0",
+            "1.37.0",
+            "1.38.0",
+            "1.39.0",
+            "1.40.0",
+            "1.41.0",
+            "1.42.0",
+            "1.43.0",
+            "1.44.0",
+            "1.45.0",
+            "1.46.0",
+            "1.47.0",
+            "1.48.0",
+            "1.49.0",
+            "1.50.0",
+            "1.51.0",
+            "1.52.0",
+            "1.53.0",
+            "1.54.0",
+            "1.55.0",
+            "1.56.0",
+            "1.57.0",
+            "1.58.0",
+            "1.59.0"
+          ]
+        },
+        "designtime": {
+          "description": "[Deprecated] The path to the design time folder with assets files",
+          "type": "string",
+          "deprecated": true
+        },
         "configuration": {
           "description": "General configuration of the card. Allows to define parameters, destinations, filters and more",
           "type": "object",
@@ -1527,11 +1936,16 @@
               }
             },
             "destinations": {
-              "description": "Describes what destinations are used by the card",
+              "description": "Specifies the destinations configured for use by the card",
               "type": "object",
               "additionalProperties": {
                 "$ref": "#/$defs/Configuration.Destinations"
               }
+            },
+            "useMainDestinations": {
+              "description": "Indicates if child cards should reference the main card's destinations. Must be set to true in child cards to use the main card's destinations",
+              "type": "boolean",
+              "default": false
             },
             "csrfTokens": {
               "description": "Describes the CSRF tokens used by the card",
@@ -1541,7 +1955,7 @@
               }
             },
             "actionHandlers": {
-              "description": "Holds configuration for the default action handlers",
+              "description": "Contains configuration settings for the default action handlers",
               "type": "object",
               "additionalProperties": false,
               "properties": {
@@ -1563,13 +1977,20 @@
               "type": "object"
             },
             "loadingPlaceholders": {
-              "description": "[Experimental] Object which will represent the loading placeholder of the card",
+              "description": "[Experimental] Object that will represent the loading placeholder of the card",
               "type": "object",
               "properties": {
                 "delay": {
                   "description": "The delay of the loading placeholder",
                   "type": "number"
                 }
+              }
+            },
+            "childCards": {
+              "description": "[Experimental] Map of child cards",
+              "type": "object",
+              "additionalProperties": {
+                "$ref": "#/$defs/Configuration.ChildCard"
               }
             }
           }
@@ -1845,41 +2266,7 @@
             }
           }
         }
-      ],
-      "$defs": {
-        "ContentType.Analytical.DataLabel": {
-          "description": "Represents value attributes in the plot area",
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "visible": {
-              "description": "Visibility of the data labels",
-              "$ref": "#/$defs/visibility"
-            },
-            "showTotal": {
-              "description": "Visibility of data label for total value in some charts",
-              "$ref": "#/$defs/visibility"
-            }
-          }
-        },
-        "ContentType.Analytical.AxisText": {
-          "description": "Represents descriptive text of the axis",
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "visible": {
-              "description": "Represents the visibility state of the descriptive axis text",
-              "$ref": "#/$defs/visibility"
-            }
-          }
-        },
-        "target": {
-          "description": "Specifies where to open an URL",
-          "type": "string",
-          "enum": ["_blank", "_self"],
-          "default": "_blank"
-        }
-      }
+      ]
     },
     "sap.package": {
       "title": "JSON schema for SAP.PACKAGE Namespace",
@@ -1895,6 +2282,11 @@
         "support"
       ],
       "properties": {
+        "_version": {
+          "description": "Represents SAP.PACKAGE attributes format version. It is managed by namespace owner",
+          "type": "string",
+          "enum": ["1.0.0", "1.1.0", "1.2.0"]
+        },
         "id": {
           "description": "Represents mandatory unique package identifier",
           "$ref": "#/$defs/iddef"
@@ -2053,6 +2445,11 @@
       "additionalProperties": true,
       "required": ["id", "type", "title", "description", "artifactVersion"],
       "properties": {
+        "_version": {
+          "description": "Represents SAP.ARTIFACT attributes format version. It is managed by namespace owner",
+          "type": "string",
+          "enum": ["1.0.0", "1.1.0", "1.2.0"]
+        },
         "id": {
           "description": "Represents mandatory unique artifact identifier",
           "$ref": "#/$defs/iddef"
@@ -2150,9 +2547,14 @@
       "title": "JSON schema for sap.bpa.task Namespace",
       "description": "Represents SBPA Custom Task UI Attributes",
       "type": "object",
-      "required": ["outcomes", "category"],
+      "required": ["outcomes", "category", "_version"],
       "additionalProperties": false,
       "properties": {
+        "_version": {
+          "description": "Represents attributes format version. It is managed by namespace owner",
+          "type": "string",
+          "enum": ["1.0.0", "1.1.0"]
+        },
         "inputs": {
           "description": "Represents the inputs of the task ui",
           "$ref": "http://json-schema.org/draft-07/schema"
@@ -2217,6 +2619,11 @@
       "description": "Represents generated cards saved to the application repository",
       "type": "object",
       "properties": {
+        "_version": {
+          "description": "Represents attributes format version.",
+          "type": "string",
+          "enum": ["1.0.0", "1.1.0"]
+        },
         "embeds": {
           "type": "object",
           "description": "Represents an object with reference to the generated cards",
@@ -2646,10 +3053,14 @@
       "description": "Parameters for ShowCard action",
       "type": "object",
       "additionalProperties": false,
-      "required": ["manifest"],
       "properties": {
+        "childCardKey": {
+          "description": "The key of the card to be shown",
+          "type": "string"
+        },
         "manifest": {
-          "description": "An application identifier consisting of semanticObject and action",
+          "deprecated": true,
+          "description": "[Deprecated] Child card manifest",
           "oneOf": [
             {
               "type": "string"
@@ -2742,6 +3153,12 @@
           "type": "boolean",
           "default": false
         },
+        "noStore": {
+          "description": "[Deprecated] Set to true to disable caching for this card",
+          "deprecated": true,
+          "type": "boolean",
+          "default": false
+        },
         "enabled": {
           "description": "Set to false to disable caching for this card",
           "type": "boolean",
@@ -2790,6 +3207,28 @@
           "type": "array"
         }
       }
+    },
+    "service_0": {
+      "description": "Represents service that will be used for actions",
+      "oneOf": [
+        {
+          "description": "Represents name of the Service to be used for the action",
+          "type": "string"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "name": {
+              "description": "Represents name of the Service to be used for the action",
+              "type": "string"
+            },
+            "parameters": {
+              "type": "object"
+            }
+          }
+        }
+      ]
     },
     "request": {
       "description": "Represents request attributes",
@@ -3181,6 +3620,20 @@
         {
           "type": "boolean",
           "default": false
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "[Deprecated]",
+          "deprecated": true,
+          "properties": {
+            "url": {
+              "type": "string"
+            },
+            "target": {
+              "$ref": "#/$defs/target"
+            }
+          }
         }
       ]
     },
@@ -3241,6 +3694,24 @@
             }
           ]
         },
+        "url": {
+          "description": "[Deprecated] Defines the URL string",
+          "deprecated": true,
+          "type": "string"
+        },
+        "target": {
+          "description": "[Deprecated] Specifies where to open the 'url', if it is provided",
+          "deprecated": true,
+          "type": "string",
+          "oneOf": [
+            {
+              "$ref": "#/$defs/target"
+            },
+            {
+              "$ref": "#/$defs/simpleBinding"
+            }
+          ]
+        },
         "identifier": {
           "oneOf": [
             {
@@ -3291,6 +3762,11 @@
         "src": {
           "type": "string",
           "description": "Represents icon name or source URL"
+        },
+        "text": {
+          "type": "string",
+          "description": "[Deprecated] Represents text that will be displayed in the icon",
+          "deprecated": true
         },
         "initials": {
           "type": "string",
@@ -3464,6 +3940,12 @@
         }
       }
     },
+    "target_0": {
+      "description": "Specifies where to open an URL",
+      "type": "string",
+      "enum": ["_blank", "_self"],
+      "default": "_blank"
+    },
     "ContentType.Object.Item": {
       "description": "Represents a single item of information. It can contain label, value and image",
       "type": "object",
@@ -3517,7 +3999,7 @@
           "type": "string"
         },
         "type": {
-          "description": "Defines the type of the displayed information.",
+          "description": "Defines the type of the displayed information. Some of the types are deprecated",
           "type": "string",
           "oneOf": [
             {
@@ -3532,6 +4014,10 @@
                 "Duration",
                 "DateRange",
                 "RatingIndicator",
+                "phone",
+                "email",
+                "link",
+                "text",
                 "Image"
               ],
               "default": "Default"
@@ -3540,6 +4026,28 @@
               "$ref": "#/$defs/simpleBinding"
             }
           ]
+        },
+        "url": {
+          "description": "[Deprecated] Defines the URL string. Works only with items of type 'link'",
+          "deprecated": true,
+          "type": "string"
+        },
+        "target": {
+          "description": "[Deprecated] Specifies the target of the link - it works like the target property of the HTML 'a' tag. Works only with items of type 'link'",
+          "deprecated": true,
+          "oneOf": [
+            {
+              "$ref": "#/$defs/target"
+            },
+            {
+              "$ref": "#/$defs/simpleBinding"
+            }
+          ]
+        },
+        "emailSubject": {
+          "description": "[Deprecated] Represents the subject of the email. Works only with item of type 'email'",
+          "deprecated": true,
+          "type": "string"
         },
         "actions": {
           "description": "Defines actions that can be applied on the group item",
@@ -3944,6 +4452,11 @@
           "description": "The name of the measure",
           "type": "string"
         },
+        "label": {
+          "description": "[Deprecated] Label for the measure",
+          "deprecated": true,
+          "type": "string"
+        },
         "value": {
           "type": "string",
           "description": "Binding path to the data"
@@ -3957,6 +4470,11 @@
       "properties": {
         "name": {
           "description": "The name of the dimension",
+          "type": "string"
+        },
+        "label": {
+          "description": "[Deprecated] Label for the dimension",
+          "deprecated": true,
           "type": "string"
         },
         "value": {
@@ -3974,6 +4492,70 @@
             {
               "enum": ["string", "number", "date"],
               "default": "string"
+            },
+            {
+              "$ref": "#/$defs/simpleBinding"
+            }
+          ]
+        }
+      }
+    },
+    "ContentType.Analytical.AxisText": {
+      "description": "Represents descriptive text of the axis",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "visible": {
+          "description": "Represents the visibility state of the descriptive axis text",
+          "$ref": "#/$defs/visibility"
+        }
+      }
+    },
+    "ContentType.Analytical.DataLabel": {
+      "description": "Represents value attributes in the plot area",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "visible": {
+          "description": "Visibility of the data labels",
+          "$ref": "#/$defs/visibility"
+        },
+        "showTotal": {
+          "description": "Visibility of data label for total value in some charts",
+          "$ref": "#/$defs/visibility"
+        }
+      }
+    },
+    "ContentType.Analytical.Legend": {
+      "description": "[Deprecated] Represents chart legend attributes",
+      "deprecated": true,
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "visible": {
+          "description": "Defines whether the legend will be visible",
+          "$ref": "#/$defs/visibility"
+        },
+        "position": {
+          "description": "Defines where the legend will be positioned",
+          "type": "string",
+          "oneOf": [
+            {
+              "enum": ["Top", "Bottom", "Left", "Right"],
+              "default": "Right"
+            },
+            {
+              "$ref": "#/$defs/simpleBinding"
+            }
+          ]
+        },
+        "alignment": {
+          "description": "Defines how the legend will be aligned",
+          "type": "string",
+          "oneOf": [
+            {
+              "enum": ["TopLeft", "Center"],
+              "default": "TopLeft"
             },
             {
               "$ref": "#/$defs/simpleBinding"
@@ -4007,6 +4589,11 @@
               "$ref": "#/$defs/simpleBinding"
             }
           ]
+        },
+        "text": {
+          "description": "[Deprecated] Initials for the avatar. Up to 2 symbols. If the image provided to the 'src' property fails to load, then the text will be shown",
+          "deprecated": true,
+          "type": "string"
         },
         "initials": {
           "description": "Used as fallback if the 'src' property is not set or there is an issue with the resource. Up to two Latin letters can be displayed",
@@ -4510,6 +5097,11 @@
             }
           ]
         },
+        "text": {
+          "description": "[Deprecated] Initials for the avatar. Up to 2 symbols. If the image provided to the 'src' property fails to load, then the text will be shown",
+          "deprecated": true,
+          "type": "string"
+        },
         "initials": {
           "description": "Used as fallback if the 'src' property is not set or there is an issue with the resource. Up to two Latin letters can be displayed",
           "type": "string"
@@ -4529,11 +5121,49 @@
             }
           ]
         },
+        "state": {
+          "description": "Defines the state of the icon",
+          "oneOf": [
+            {
+              "$ref": "#/$defs/state"
+            },
+            {
+              "$ref": "#/$defs/simpleBinding"
+            }
+          ]
+        },
         "visible": {
           "description": "Visibility of the icon",
           "$ref": "#/$defs/visibility"
         }
-      }
+      },
+      "allOf": [
+        {
+          "anyOf": [
+            {
+              "required": ["src"]
+            },
+            {
+              "required": ["initials"]
+            },
+            {
+              "required": ["state"]
+            }
+          ]
+        },
+        {
+          "not": {
+            "anyOf": [
+              {
+                "required": ["src", "state"]
+              },
+              {
+                "required": ["initials", "state"]
+              }
+            ]
+          }
+        }
+      ]
     },
     "action": {
       "description": "Represents actions that can be applied on card elements",
@@ -4564,8 +5194,29 @@
             }
           ]
         },
+        "service": {
+          "$ref": "#/$defs/service"
+        },
+        "url": {
+          "description": "[Deprecated] Represents the URL that will be used as navigation target if no service is provided",
+          "deprecated": true,
+          "type": "string"
+        },
         "parameters": {
           "description": "Parameters passed to the navigation action handler"
+        },
+        "target": {
+          "description": "[Deprecated] Specifies where to open the 'url', if it is provided",
+          "deprecated": true,
+          "type": "string",
+          "oneOf": [
+            {
+              "$ref": "#/$defs/target"
+            },
+            {
+              "$ref": "#/$defs/simpleBinding"
+            }
+          ]
         }
       },
       "allOf": [
@@ -4789,6 +5440,11 @@
           "description": "Represents the status of the card",
           "$ref": "#/$defs/status"
         },
+        "closeButton": {
+          "description": "[Experimental] Represents the Close button when a card is opened by the ShowCard action",
+          "$ref": "#/$defs/closeButton",
+          "deprecated": true
+        },
         "wrappingType": {
           "description": "[Experimental] The wrapping type for texts inside the header",
           "$ref": "#/$defs/wrappingType"
@@ -4895,6 +5551,11 @@
         "status": {
           "description": "Represents the status of the card",
           "$ref": "#/$defs/status"
+        },
+        "closeButton": {
+          "description": "[Experimental] Represents the Close button when a card is opened by the ShowCard action",
+          "$ref": "#/$defs/closeButton",
+          "deprecated": true
         },
         "wrappingType": {
           "description": "[Experimental] The wrapping type for texts inside the header",
@@ -5093,8 +5754,9 @@
           }
         },
         "actions": {
-          "description": "Defines actions that can be applied on the content",
+          "description": "[Deprecated] Defines actions that can be applied on the content",
           "type": "array",
+          "deprecated": true,
           "items": {
             "$ref": "#/$defs/action"
           }
@@ -5266,6 +5928,64 @@
         "minHeight": {
           "$ref": "#/$defs/minHeight"
         },
+        "legend": {
+          "$ref": "#/$defs/ContentType.Analytical.Legend"
+        },
+        "plotArea": {
+          "description": "[Deprecated] Describes the plotArea properties",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "dataLabel": {
+              "$ref": "#/$defs/ContentType.Analytical.DataLabel"
+            },
+            "categoryAxisText": {
+              "$ref": "#/$defs/ContentType.Analytical.AxisText"
+            },
+            "valueAxisText": {
+              "$ref": "#/$defs/ContentType.Analytical.AxisText"
+            }
+          },
+          "deprecated": true
+        },
+        "title": {
+          "description": "[Deprecated] Represents title attributes",
+          "deprecated": true,
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "visible": {
+              "description": "Represents the visibility state of the title",
+              "$ref": "#/$defs/visibility"
+            },
+            "text": {
+              "description": "Represents a title text",
+              "type": "string"
+            },
+            "alignment": {
+              "description": "Represents the title alignment",
+              "oneOf": [
+                {
+                  "enum": ["Left", "Center", "Right"],
+                  "default": "Center"
+                },
+                {
+                  "$ref": "#/$defs/simpleBinding"
+                }
+              ]
+            }
+          }
+        },
+        "measureAxis": {
+          "description": "[Deprecated] Represents the value set for measure axis",
+          "deprecated": true,
+          "type": "string"
+        },
+        "dimensionAxis": {
+          "description": "[Deprecated] Represents the value set for dimension axis",
+          "deprecated": true,
+          "type": "string"
+        },
         "dimensions": {
           "type": "array",
           "items": {
@@ -5343,6 +6063,18 @@
               }
             }
           }
+        },
+        "tooltips": {
+          "description": "Visualize the tooltips that are generated by Viz charts.",
+          "oneOf": [
+            {
+              "type": "boolean",
+              "default": false
+            },
+            {
+              "$ref": "#/$defs/simpleBinding"
+            }
+          ]
         }
       }
     },
@@ -5543,6 +6275,9 @@
           "type": ["object", "array"],
           "additionalProperties": true
         },
+        "service": {
+          "$ref": "#/$defs/service"
+        },
         "updateInterval": {
           "description": "Represents interval in seconds, after which a new data request will be triggered",
           "oneOf": [
@@ -5578,6 +6313,18 @@
               "$ref": "#/$defs/extension"
             }
           }
+        }
+      }
+    },
+    "Configuration.ChildCard": {
+      "description": "Represents a configuration for a child card",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["manifest"],
+      "properties": {
+        "manifest": {
+          "description": "The manifest of the child card",
+          "type": "string"
         }
       }
     },
@@ -5997,79 +6744,6 @@
         }
       }
     },
-    "tab_setting": {
-      "description": "Represents the tab specific properties - properties that are passed to a particular tab in a card",
-      "type": "object",
-      "additionalProperties": true,
-      "properties": {
-        "annotationPath": {
-          "description": "Represents the annotation path",
-          "type": "string",
-          "pattern": "^[a-zA-Z0-9_\\.\\-\\|@#]*$"
-        },
-        "selectionAnnotationPath": {
-          "description": "Represents the selection annotation path",
-          "type": "string",
-          "pattern": "^[a-zA-Z0-9_\\.\\-\\|@#]*$"
-        },
-        "chartAnnotationPath": {
-          "description": "Represents the chart annotation path",
-          "type": "string",
-          "pattern": "^[a-zA-Z0-9_\\.\\-\\|@#]*$"
-        },
-        "presentationAnnotationPath": {
-          "description": "Represents the presentation annotation path",
-          "type": "string",
-          "pattern": "^[a-zA-Z0-9_\\.\\-\\|@#]*$"
-        },
-        "dataPointAnnotationPath": {
-          "description": "Represents the data point annotation path",
-          "type": "string",
-          "pattern": "^[a-zA-Z0-9_\\.\\-\\|@#]*$"
-        },
-        "identificationAnnotationPath": {
-          "description": "Represents the identification annotation path",
-          "type": "string",
-          "pattern": "^[a-zA-Z0-9_\\.\\-\\|@#]*$"
-        },
-        "dynamicSubtitleAnnotationPath": {
-          "description": "Represents the dynamic subtitle annotation path",
-          "type": "string",
-          "pattern": "^[a-zA-Z0-9_\\.\\-\\|@#]*$"
-        },
-        "value": {
-          "description": "Represents the drop down value to be shown",
-          "type": "string"
-        },
-        "chartProperties": {
-          "description": "This property is responsible for setting specific chart settings",
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "plotArea": {
-              "$ref": "#/$defs/plotAreaDef"
-            },
-            "timeAxis": {
-              "$ref": "#/$defs/timeAxisDef"
-            }
-          }
-        },
-        "colorPalette": {
-          "description": "Represents the configuration to customize the column stacked chart",
-          "oneOf": [
-            {
-              "type": "array",
-              "items": {
-                "type": "object"
-              }
-            },
-            {
-              "type": "object"
-            }
-          ]
-        }
-      }
-    },
     "timeAxisDef": {
       "description": "Represents the configuration to customize the time axis",
       "type": "object",
@@ -6169,6 +6843,79 @@
         }
       ]
     },
+    "tab_setting": {
+      "description": "Represents the tab specific properties - properties that are passed to a particular tab in a card",
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "annotationPath": {
+          "description": "Represents the annotation path",
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_\\.\\-\\|@#]*$"
+        },
+        "selectionAnnotationPath": {
+          "description": "Represents the selection annotation path",
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_\\.\\-\\|@#]*$"
+        },
+        "chartAnnotationPath": {
+          "description": "Represents the chart annotation path",
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_\\.\\-\\|@#]*$"
+        },
+        "presentationAnnotationPath": {
+          "description": "Represents the presentation annotation path",
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_\\.\\-\\|@#]*$"
+        },
+        "dataPointAnnotationPath": {
+          "description": "Represents the data point annotation path",
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_\\.\\-\\|@#]*$"
+        },
+        "identificationAnnotationPath": {
+          "description": "Represents the identification annotation path",
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_\\.\\-\\|@#]*$"
+        },
+        "dynamicSubtitleAnnotationPath": {
+          "description": "Represents the dynamic subtitle annotation path",
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_\\.\\-\\|@#]*$"
+        },
+        "value": {
+          "description": "Represents the drop down value to be shown",
+          "type": "string"
+        },
+        "chartProperties": {
+          "description": "This property is responsible for setting specific chart settings",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "plotArea": {
+              "$ref": "#/$defs/plotAreaDef"
+            },
+            "timeAxis": {
+              "$ref": "#/$defs/timeAxisDef"
+            }
+          }
+        },
+        "colorPalette": {
+          "description": "Represents the configuration to customize the column stacked chart",
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "object"
+              }
+            },
+            {
+              "type": "object"
+            }
+          ]
+        }
+      }
+    },
     "card_setting": {
       "description": "Represents the card specific properties - properties that are passed to the card",
       "type": "object",
@@ -6210,6 +6957,20 @@
             "type": "XTIT",
             "comment": "Card subtitle which is displayed in the card header"
           }
+        },
+        "showTimeAxis": {
+          "description": "[Deprecated] Represents the flag to enable/disable time axis for analytical timeseries cards",
+          "type": "boolean",
+          "default": true,
+          "anyOf": [
+            {
+              "const": true
+            },
+            {
+              "const": false,
+              "deprecated": true
+            }
+          ]
         },
         "valueSelectionInfo": {
           "description": "Represents things like people, number of items",
@@ -6387,14 +7148,6 @@
               "type": "object"
             }
           ]
-        },
-        "tabs": {
-          "description": "Represents the card with view switch control",
-          "type": "array",
-          "minItems": 1,
-          "items": {
-            "$ref": "#/$defs/tab_setting"
-          }
         }
       }
     },
@@ -6414,6 +7167,10 @@
       "required": ["template"],
       "additionalProperties": false,
       "properties": {
+        "sequencePos": {
+          "description": "Represents the position of the card in the sequence",
+          "type": "integer"
+        },
         "model": {
           "description": "Represents the model for the card",
           "type": "string",
@@ -6426,6 +7183,14 @@
         },
         "settings": {
           "$ref": "#/$defs/card_setting"
+        },
+        "tabs": {
+          "description": "Represents the card with view switch control",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/tab_setting"
+          }
         }
       }
     },
@@ -6838,59 +7603,8 @@
         }
       }
     },
-    "actualTargetAdditionComponentUsageFlex": {
-      "type": "object",
-      "required": ["id", "usage", "type"],
-      "properties": {
-        "usage": {
-          "description": "Represents the componentUsage of the component that will be created",
-          "type": "string"
-        },
-        "id": {
-          "description": "Represents the id of the created view or component",
-          "type": "string"
-        },
-        "type": {
-          "description": "Represents the type of the type Component",
-          "type": "string",
-          "enum": ["Component"]
-        },
-        "level": {
-          "description": "Represents the level of the current component which is used to define the transition direction when navigate to this component",
-          "type": "number",
-          "multipleOf": 1
-        }
-      }
-    },
-    "actualTargetAdditionStandardFlex": {
-      "type": "object",
-      "required": ["id", "name"],
-      "properties": {
-        "name": {
-          "description": "Represents the name of a view or component that will be created",
-          "type": "string"
-        },
-        "id": {
-          "description": "Represents the id of the created view or component",
-          "type": "string"
-        },
-        "path": {
-          "description": "Represents a prefix that is prepended in front of the view or component name",
-          "type": "string"
-        },
-        "type": {
-          "description": "Represents the type of the type View or Component",
-          "type": "string",
-          "enum": ["View", "Component"]
-        },
-        "level": {
-          "description": "Represents the level of the current view/component which is used to define the transition direction when navigate to this view/component",
-          "type": "number",
-          "multipleOf": 1
-        }
-      }
-    },
     "actualTargetAdditionComponentUsage": {
+      "description": "Represents target configuration properties for component usage routing scenarios where targets reference reusable components",
       "type": "object",
       "required": ["usage", "type"],
       "properties": {
@@ -6915,6 +7629,7 @@
       }
     },
     "actualTargetAdditionStandard": {
+      "description": "Represents the target configuration properties for modern routing implementations with view or component targets",
       "type": "object",
       "required": ["name"],
       "properties": {
@@ -6931,12 +7646,40 @@
           "type": "string"
         },
         "type": {
-          "description": "Represents the type of the type View or Component",
+          "description": "Represents the type of the target: View or Component",
           "type": "string",
           "enum": ["View", "Component"]
         },
         "level": {
           "description": "Represents the level of the current view/component which is used to define the transition direction when navigate to this view/component",
+          "type": "number",
+          "multipleOf": 1
+        }
+      }
+    },
+    "legacyTargetAddition": {
+      "description": "Represents legacy target configuration properties for backward compatibility with older routing implementations",
+      "type": "object",
+      "required": ["viewName"],
+      "properties": {
+        "viewName": {
+          "deprecated": true,
+          "description": "[Deprecated] Represents the name of a view that will be created. Please use 'name' property instead together with the 'type' property set to 'View'. The same applies to 'viewId', 'viewPath', 'viewLevel' as well.",
+          "type": "string"
+        },
+        "viewId": {
+          "deprecated": true,
+          "description": "[Deprecated] Represents the id of the created view. Please use 'id' property instead together with the 'type' property set to 'View'. The same applies to 'viewName', 'viewPath', 'viewLevel' as well.",
+          "type": "string"
+        },
+        "viewPath": {
+          "deprecated": true,
+          "description": "[Deprecated] Represents a prefix that is prepended in front of the viewName. Please use 'path' property instead together with the 'type' property set to 'View'. The same applies to 'viewId', 'viewName', 'viewLevel' as well.",
+          "type": "string"
+        },
+        "viewLevel": {
+          "deprecated": true,
+          "description": "[Deprecated] Represents the level of the current view which is used to define the transition direction when navigate to this view. Please use 'level' property instead together with the 'type' property set to 'View'. The same applies to 'viewId', 'viewName', 'viewPath' as well.",
           "type": "number",
           "multipleOf": 1
         }
@@ -7009,6 +7752,33 @@
         }
       }
     },
+    "legacyTargetAdditionWithoutRequiredProp": {
+      "description": "Represents legacy target configuration properties without required properties for more flexible backward compatibility scenarios",
+      "type": "object",
+      "properties": {
+        "viewName": {
+          "deprecated": true,
+          "description": "[Deprecated] Represents the name of a view that will be created. Please use 'name' property instead together with the 'type' property set to 'View'. The same applies to 'viewId', 'viewPath', 'viewLevel' as well.",
+          "type": "string"
+        },
+        "viewId": {
+          "deprecated": true,
+          "description": "[Deprecated] Represents the id of the created view. Please use 'id' property instead together with the 'type' property set to 'View'. The same applies to 'viewName', 'viewPath', 'viewLevel' as well.",
+          "type": "string"
+        },
+        "viewPath": {
+          "deprecated": true,
+          "description": "[Deprecated] Represents a prefix that is prepended in front of the viewName. Please use 'path' property instead together with the 'type' property set to 'View'. The same applies to 'viewId', 'viewName', 'viewLevel' as well.",
+          "type": "string"
+        },
+        "viewLevel": {
+          "deprecated": true,
+          "description": "[Deprecated] Represents the level of the current view which is used to define the transition direction when navigate to this view. Please use 'level' property instead together with the 'type' property set to 'View'. The same applies to 'viewId', 'viewName', 'viewPath' as well.",
+          "type": "number",
+          "multipleOf": 1
+        }
+      }
+    },
     "target": {
       "description": "Represents the definition of each target",
       "type": "object",
@@ -7018,9 +7788,7 @@
           "type": "string"
         },
         "viewType": {
-          "description": "Represents the type of view that is going to be created",
-          "type": "string",
-          "enum": ["XML"]
+          "$ref": "#/$defs/viewTypeDefinition"
         },
         "targetParent": {
           "description": "Represents the id of the view that contains the control specified by the 'controlId'",
@@ -7085,7 +7853,38 @@
         }
       ]
     },
+    "viewTypeDefinition": {
+      "description": "Represents the type of view that is going to be created",
+      "type": "string",
+      "oneOf": [
+        {
+          "const": "XML",
+          "description": "Value `XML` is used to create an XML view. This is the recommended view type to use. Other view types are deprecated and will be removed in future UI5 versions."
+        },
+        {
+          "const": "JSON",
+          "deprecated": true,
+          "description": "[Deprecated] Value `JSON` is deprecated and will be removed in UI5 version 2. Consider using `viewType: XML` or `typed views` instead."
+        },
+        {
+          "const": "JS",
+          "deprecated": true,
+          "description": "[Deprecated] Value `JS` is deprecated and will be removed in UI5 version 2. Consider using `viewType: XML` or `typed views` instead."
+        },
+        {
+          "const": "HTML",
+          "deprecated": true,
+          "description": "[Deprecated] Value `HTML` is deprecated and will be removed in UI5 version 2. Consider using `viewType: XML` or `typed views` instead."
+        },
+        {
+          "const": "Template",
+          "deprecated": true,
+          "description": "[Deprecated] Value `Template` is deprecated and will be removed in UI5 version 2. Consider using `viewType: XML` or `typed views` instead."
+        }
+      ]
+    },
     "ui5setting": {
+      "description": "Represents UI5-specific settings and configuration options that can be applied to models.",
       "type": "object",
       "additionalProperties": true,
       "properties": {
@@ -7153,13 +7952,26 @@
               "type": "string"
             },
             "type": {
-              "description": "Represents the type of the view. Possible Values: XML",
-              "type": "string",
-              "enum": ["XML"]
+              "$ref": "#/$defs/viewTypeDefinition"
             },
             "id": {
               "description": "Represents the id of the view",
               "type": "string"
+            },
+            "async": {
+              "description": "Configure the targets for asynchronous loading",
+              "type": "boolean",
+              "default": false,
+              "oneOf": [
+                {
+                  "const": true
+                },
+                {
+                  "const": false,
+                  "deprecated": true,
+                  "description": "[Deprecated] Value false is deprecated. Use async: true instead."
+                }
+              ]
             }
           }
         }
@@ -7178,6 +7990,21 @@
                 "routerClass": {
                   "description": "Represents the router class",
                   "type": "string"
+                },
+                "async": {
+                  "description": "Indicates whether the Views in routing are loaded asyncly",
+                  "type": "boolean",
+                  "default": false,
+                  "oneOf": [
+                    {
+                      "const": true
+                    },
+                    {
+                      "const": false,
+                      "deprecated": true,
+                      "description": "[Deprecated] Value false is deprecated. Use async: true instead."
+                    }
+                  ]
                 },
                 "propagateTitle": {
                   "description": "Indicates whether the targets which have type 'Component' should propagate their title to this component or not",
@@ -7202,6 +8029,9 @@
               "$ref": "#/$defs/target"
             },
             {
+              "$ref": "#/$defs/legacyTargetAdditionWithoutRequiredProp"
+            },
+            {
               "$ref": "#/$defs/actualTargetAdditionStandardWithoutRequiredProp"
             }
           ]
@@ -7238,7 +8068,7 @@
                       "$ref": "#/$defs/target"
                     },
                     {
-                      "$ref": "#/$defs/actualTargetAdditionStandard"
+                      "$ref": "#/$defs/legacyTargetAddition"
                     }
                   ]
                 },
@@ -7248,7 +8078,14 @@
                       "$ref": "#/$defs/target"
                     },
                     {
-                      "$ref": "#/$defs/actualTargetAdditionComponentUsage"
+                      "oneOf": [
+                        {
+                          "$ref": "#/$defs/actualTargetAdditionStandard"
+                        },
+                        {
+                          "$ref": "#/$defs/actualTargetAdditionComponentUsage"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -7269,9 +8106,7 @@
           "type": "string"
         },
         "type": {
-          "description": "Represents the type of the view. Possible Values: XML",
-          "type": "string",
-          "enum": ["XML"]
+          "$ref": "#/$defs/viewTypeDefinition"
         },
         "id": {
           "description": "Represents the id of the view",
@@ -7280,7 +8115,17 @@
         "async": {
           "description": "Configure the targets for asynchronous loading",
           "type": "boolean",
-          "default": false
+          "default": false,
+          "oneOf": [
+            {
+              "const": true
+            },
+            {
+              "const": false,
+              "deprecated": true,
+              "description": "[Deprecated] Value false is deprecated. Use async: true instead."
+            }
+          ]
         }
       }
     },
@@ -7298,6 +8143,21 @@
                   "description": "Represents the router class",
                   "type": "string"
                 },
+                "async": {
+                  "description": "Indicates whether the Views in routing are loaded asyncly",
+                  "type": "boolean",
+                  "default": false,
+                  "oneOf": [
+                    {
+                      "const": true
+                    },
+                    {
+                      "const": false,
+                      "deprecated": true,
+                      "description": "[Deprecated] Value false is deprecated. Use async: true instead."
+                    }
+                  ]
+                },
                 "bypassed": {
                   "description": "Represents information about targets to display when no route is matched",
                   "type": "object",
@@ -7309,11 +8169,18 @@
                       "$ref": "#/$defs/routeTarget"
                     }
                   }
+                },
+                "viewPath": {
+                  "description": "Represents a prefix that is prepended in front of the viewName",
+                  "type": "string"
                 }
               }
             },
             {
               "$ref": "#/$defs/target"
+            },
+            {
+              "$ref": "#/$defs/legacyTargetAdditionWithoutRequiredProp"
             },
             {
               "$ref": "#/$defs/actualTargetAdditionStandardWithoutRequiredProp"
@@ -7352,7 +8219,22 @@
                       "$ref": "#/$defs/target"
                     },
                     {
-                      "$ref": "#/$defs/actualTargetAdditionStandardFlex"
+                      "type": "object",
+                      "required": ["viewName", "viewId"],
+                      "properties": {
+                        "viewName": {
+                          "description": "Represents the name of a view that will be created",
+                          "type": "string"
+                        },
+                        "viewId": {
+                          "description": "Represents the id of the created view",
+                          "type": "string"
+                        },
+                        "viewPath": {
+                          "description": "Represents a prefix that is prepended in front of the viewName",
+                          "type": "string"
+                        }
+                      }
                     }
                   ]
                 },
@@ -7362,7 +8244,50 @@
                       "$ref": "#/$defs/target"
                     },
                     {
-                      "$ref": "#/$defs/actualTargetAdditionComponentUsageFlex"
+                      "oneOf": [
+                        {
+                          "type": "object",
+                          "required": ["name", "id"],
+                          "properties": {
+                            "name": {
+                              "description": "Represents the name of a view or component that will be created",
+                              "type": "string"
+                            },
+                            "id": {
+                              "description": "Represents the id of the created view or component",
+                              "type": "string"
+                            },
+                            "path": {
+                              "description": "Represents a prefix that is prepended in front of the view or component name",
+                              "type": "string"
+                            },
+                            "type": {
+                              "description": "Represents the type of the type View or Component",
+                              "type": "string",
+                              "enum": ["View", "Component"]
+                            }
+                          }
+                        },
+                        {
+                          "type": "object",
+                          "required": ["usage", "id", "type"],
+                          "properties": {
+                            "usage": {
+                              "description": "Represents the componentUsage of the component that will be created",
+                              "type": "string"
+                            },
+                            "id": {
+                              "description": "Represents the id of the created view or component",
+                              "type": "string"
+                            },
+                            "type": {
+                              "description": "Represents the type of the type Component",
+                              "type": "string",
+                              "enum": ["Component"]
+                            }
+                          }
+                        }
+                      ]
                     }
                   ]
                 }
@@ -7569,6 +8494,7 @@
       ]
     },
     "resourceRoot": {
+      "description": "Represents the resource root path relative to the application root. Used to define custom resource paths for loading modules and resources",
       "type": "string",
       "pattern": "^((\\.(?!\\.)\\/)?\\w+\\/?)+$"
     },
@@ -7669,8 +8595,23 @@
       }
     },
     "resource": {
+      "description": "Represents additional resources that need to be loaded for the component",
       "type": "object",
       "properties": {
+        "js": {
+          "description": "[Deprecated] Specifies additional JavaScript resources of the Component. Since 1.94, the usage of JavaScript resources is deprecated. Please use regular dependencies via 'sap.ui.define()' or 'sap.ui.require()' instead.",
+          "deprecated": true,
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["uri"],
+            "properties": {
+              "uri": {
+                "type": "string"
+              }
+            }
+          }
+        },
         "css": {
           "description": "Specifies additional CSS resources of the Component.",
           "type": "array",
@@ -7948,7 +8889,7 @@
         "odataVersion": {
           "description": "Represents version of OData: 2.0 is default",
           "type": "string",
-          "enum": ["2.0", "4.0"]
+          "enum": ["2.0", "4.0", "4.01"]
         },
         "localUri": {
           "description": "Represents path to local meta data document or annotation uri",
