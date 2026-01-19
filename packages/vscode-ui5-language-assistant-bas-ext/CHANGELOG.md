@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.87
+
+### Patch Changes
+
+- bb43dd2: fix: upgrade lerna and CI/CD to use node version 20 and 22
+
 ## 4.0.86
 
 ### Patch Changes

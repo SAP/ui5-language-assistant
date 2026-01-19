@@ -1,5 +1,15 @@
 # Change Log
 
+## 4.0.30
+
+### Patch Changes
+
+- Updated dependencies [bb43dd2]
+  - @ui5-language-assistant/constant@0.0.4
+  - @ui5-language-assistant/context@4.0.36
+  - @ui5-language-assistant/logic-utils@4.0.24
+  - @ui5-language-assistant/semantic-model-types@4.0.14
+
 ## 4.0.29
 
 ### Patch Changes

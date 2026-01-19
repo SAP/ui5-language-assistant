@@ -1,5 +1,14 @@
 # Change Log
 
+## 4.0.40
+
+### Patch Changes
+
+- @ui5-language-assistant/context@4.0.36
+- @ui5-language-assistant/logic-utils@4.0.24
+- @ui5-language-assistant/xml-views-validation@4.0.30
+- @ui5-language-assistant/xml-views-completion@4.0.36
+
 ## 4.0.39
 
 ### Patch Changes

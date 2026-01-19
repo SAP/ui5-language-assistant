@@ -1,5 +1,14 @@
 # Change Log
 
+## 4.0.19
+
+### Patch Changes
+
+- bb43dd2: fix: update ui5-version
+- Updated dependencies [bb43dd2]
+  - @ui5-language-assistant/constant@0.0.4
+  - @ui5-language-assistant/semantic-model-types@4.0.14
+
 ## 4.0.18
 
 ### Patch Changes
