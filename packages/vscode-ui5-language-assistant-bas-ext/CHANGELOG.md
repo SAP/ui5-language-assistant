@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.88
+
+### Patch Changes
+
+- c485905: chore: update manifest schema
+
 ## 4.0.87
 
 ### Patch Changes
