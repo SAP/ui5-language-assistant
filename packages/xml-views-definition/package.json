@@ -1,6 +1,6 @@
 {
   "name": "@ui5-language-assistant/xml-views-definition",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "private": true,
   "description": "Definition logic for UI5 XML-Views",
   "keywords": [],
@@ -20,7 +20,7 @@
     "@xml-tools/ast": "5.0.0",
     "vscode-languageserver-textdocument": "1.0.1",
     "vscode-uri": "2.1.2",
-    "@ui5-language-assistant/context": "4.0.35",
+    "@ui5-language-assistant/context": "4.0.36",
     "@xml-tools/parser": "1.0.7",
     "@ui5-language-assistant/binding-parser": "1.0.8"
   },
