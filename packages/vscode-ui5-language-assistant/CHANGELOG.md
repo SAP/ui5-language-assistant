@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.89
+
+### Patch Changes
+
+- ebc664b: fix: Race Condition in node-tar (transitive dependency)
+
 ## 4.0.88
 
 ### Patch Changes
