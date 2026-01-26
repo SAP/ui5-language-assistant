@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.90
+
+### Patch Changes
+
+- be922fa: fix: manual latest release github action
+
 ## 4.0.89
 
 ### Patch Changes
