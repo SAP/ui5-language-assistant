@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.91
+
+### Patch Changes
+
+- 879830b: fix: The manual deployment workflow was failing during the `lerna publish` step
+
 ## 4.0.90
 
 ### Patch Changes
