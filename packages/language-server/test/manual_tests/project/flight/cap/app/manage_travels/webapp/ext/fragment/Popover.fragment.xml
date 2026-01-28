@@ -1,0 +1,40 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:macros="sap.fe.macros"
+	xmlns:l="sap.ui.layout"
+	xmlns:f="sap.ui.layout.form"
+	xmlns:core="sap.ui.core">
+	<Popover
+		id="myPopover"
+		title="Bookings for Airline {popup>/AirlineID.d}"
+		class="sapUiResponsivePadding--header sapUiResponsivePadding--footer"
+		placement="Bottom"
+		contentWidth="15rem">
+		<f:Form>
+			<f:layout>
+				<f:ColumnLayout/>
+			</f:layout>
+			<f:formContainers>
+				<f:FormContainer>
+					<f:formElements>
+						<f:FormElement label="Customer">
+							<f:fields>
+								<Text text="{popup>/to_Customer_CustomerID.d}" />
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement label="Flights">
+							<f:fields>
+								<Text text="{popup>/CountFlights} Bookings" />
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement label="VIP Customer">
+							<f:fields>
+								<Text text="4 Bookings Required" />
+							</f:fields>
+						</f:FormElement>						
+					</f:formElements>
+				</f:FormContainer>
+			</f:formContainers>
+		</f:Form>			
+	</Popover>
+</core:FragmentDefinition>

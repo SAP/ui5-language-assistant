@@ -1,0 +1,15 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:macros="sap.fe.macros">
+    <VBox core:require="{handler: 'sap/fe/cap/managetravels/ext/fragment/CustomSection'}">
+        <MessageStrip text="All bookings for travel {TravelID} got confirmed by the agency." showIcon="true" class="sapUiSmallMarginBottom">
+        </MessageStrip>
+        <l:Grid hSpacing="1" containerQuery="true" defaultSpan="L6 M6 S12">
+            <l:dependents>
+                <core:Fragment fragmentName="sap.fe.cap.managetravels.ext.fragment.Popover" type="XML"/>
+            </l:dependents>
+            <l:content>
+                <macros:Chart id="myChart" metaPath="@com.sap.vocabularies.UI.v1.Chart#BookedFlights" contextPath="/Travel/to_BookedFlights" personalization="Type,Item" selectionMode="Single" selectionChange="handler.onChartSelectionChanged"/>
+                <macros:Table metaPath="to_Booking/@com.sap.vocabularies.UI.v1.LineItem#i18nBooking" id="bookingTable"/>
+            </l:content>
+        </l:Grid>
+    </VBox>
+</core:FragmentDefinition>

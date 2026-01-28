@@ -1,0 +1,6 @@
+AirlineID;Name;CurrencyCode_code;AirlinePicURL;VIPCustomerBookings
+GA;Green Albatros;CAD;https://raw.githubusercontent.com/SAP-samples/fiori-elements-opensap/main/week1/images/airlines/Green-Albatross-logo.png;4
+FA;Fly Africa;SAR;https://raw.githubusercontent.com/SAP-samples/fiori-elements-opensap/main/week1/images/airlines/Fly-Africa-logo.png;4
+EA;European Airlines;EUR;https://raw.githubusercontent.com/SAP-samples/fiori-elements-opensap/main/week1/images/airlines/European-Airlines-logo.png;4
+OC;Oceania;USD;https://raw.githubusercontent.com/SAP-samples/fiori-elements-opensap/main/week1/images/airlines/Oceania-logo.png;4
+SW;Sunset Wings;USD;https://raw.githubusercontent.com/SAP-samples/fiori-elements-opensap/main/week1/images/airlines/Sunset-Wings-logo.png;4
