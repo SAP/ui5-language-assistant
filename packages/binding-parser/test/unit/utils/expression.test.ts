@@ -143,10 +143,15 @@ describe("expression", () => {
       const result = extractBindingSyntax(input);
       expect(result).toStrictEqual([
         {
-          endIndex: 109,
+          endIndex: 65,
           expression:
-            "{\n        events: {\n          key01: \"abc\",\n        }\n\t\t\t}\n      {\n        path: 'some/value',\n      }",
+            '{\n        events: {\n          key01: "abc",\n        }\n\t\t\t}',
           startIndex: 7,
+        },
+        {
+          endIndex: 109,
+          expression: "{\n        path: 'some/value',\n      }",
+          startIndex: 72,
         },
       ]);
     });
@@ -165,10 +170,15 @@ describe("expression", () => {
       const result = extractBindingSyntax(input);
       expect(result).toStrictEqual([
         {
-          endIndex: 116,
+          endIndex: 64,
           expression:
-            "{\n        events: \n          key01: \"abc\",\n        }\n\t\t\t}\n      {\n        path: '',\n        events: {\n      }",
+            '{\n        events: \n          key01: "abc",\n        }\n\t\t\t}',
           startIndex: 7,
+        },
+        {
+          endIndex: 116,
+          expression: "{\n        path: '',\n        events: {\n      }",
+          startIndex: 71,
         },
       ]);
     });
@@ -177,9 +187,14 @@ describe("expression", () => {
       const result = extractBindingSyntax(input);
       expect(result).toStrictEqual([
         {
-          endIndex: 26,
-          expression: "{path:'' } , {events: { }}",
+          endIndex: 10,
+          expression: "{path:'' }",
           startIndex: 0,
+        },
+        {
+          endIndex: 26,
+          expression: "{events: { }}",
+          startIndex: 13,
         },
       ]);
     });
@@ -188,9 +203,32 @@ describe("expression", () => {
       const result = extractBindingSyntax(input);
       expect(result).toStrictEqual([
         {
-          endIndex: 35,
-          expression: "{parts: [' ']} $$ {path: '###'}",
+          endIndex: 18,
+          expression: "{parts: [' ']}",
           startIndex: 4,
+        },
+        {
+          endIndex: 35,
+          expression: "{path: '###'}",
+          startIndex: 22,
+        },
+      ]);
+    });
+    it("expression binding and property binding info", () => {
+      const input =
+        "{= ${/actionButtonsInfo/midColumn/closeColumn} !== null } {parts: [' ']}";
+      const result = extractBindingSyntax(input);
+      expect(result).toStrictEqual([
+        {
+          endIndex: 57,
+          expression:
+            "{= ${/actionButtonsInfo/midColumn/closeColumn} !== null }",
+          startIndex: 0,
+        },
+        {
+          endIndex: 72,
+          expression: "{parts: [' ']}",
+          startIndex: 58,
         },
       ]);
     });

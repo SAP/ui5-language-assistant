@@ -23,3 +23,6 @@ export const VALUE = "value";
 
 export const LEXER_ERROR = "lexer-error";
 export const PARSE_ERROR = "parse-error";
+
+export const END_OF_LINE = /\r|\n|\r\n/;
+export const WHITE_SPACE_REG = /[ \t\f]+/;
