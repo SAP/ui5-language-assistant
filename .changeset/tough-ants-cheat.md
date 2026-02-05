@@ -3,4 +3,4 @@
 "vscode-ui5-language-assistant": patch
 ---
 
-node-tar Vulnerable to Arbitrary File Creation/Overwrite 
+node-tar Vulnerable to Arbitrary File Creation/Overwrite
