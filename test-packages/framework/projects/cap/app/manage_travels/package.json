@@ -1,6 +1,9 @@
 {
   "name": "manage_travels",
   "version": "0.0.1",
+  "engines": {
+    "node": ">=20.x"
+  },
   "description": "A Fiori application.",
   "keywords": [
     "ui5",

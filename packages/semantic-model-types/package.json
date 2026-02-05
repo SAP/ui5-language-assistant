@@ -2,6 +2,9 @@
   "name": "@ui5-language-assistant/semantic-model-types",
   "version": "4.0.14",
   "private": true,
+  "engines": {
+    "node": ">=20.x"
+  },
   "description": "UI5 Semantic model type definitions",
   "keywords": [],
   "files": [

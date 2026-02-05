@@ -2,6 +2,9 @@
   "name": "adp.test",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=20.x"
+  },
   "description": "Adaptation Project for test v4",
   "keywords": [
     "ui5",

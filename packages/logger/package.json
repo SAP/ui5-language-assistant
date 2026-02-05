@@ -2,6 +2,9 @@
   "name": "@ui5-language-assistant/logger",
   "version": "0.0.2",
   "private": true,
+  "engines": {
+    "node": ">=20.x"
+  },
   "description": "A logger package",
   "keywords": [],
   "files": [

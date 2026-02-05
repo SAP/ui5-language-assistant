@@ -2,6 +2,9 @@
   "name": "@ui5-language-assistant/test-framework",
   "version": "4.0.13",
   "private": true,
+  "engines": {
+    "node": ">=20.x"
+  },
   "description": "Test Framework",
   "files": [
     "lib/",

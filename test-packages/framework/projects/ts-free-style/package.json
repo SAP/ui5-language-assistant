@@ -1,6 +1,9 @@
 {
   "name": "ui5typescripttutorialapp",
   "version": "1.0.0",
+  "engines": {
+    "node": ">=20.x"
+  },
   "description": "UI5 Application: ui5typescripttutorialapp",
   "scripts": {
     "build": "npm-run-all build:ts build:ui5",

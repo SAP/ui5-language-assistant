@@ -2,6 +2,9 @@
   "name": "@ui5-language-assistant/constant",
   "version": "0.0.4",
   "private": true,
+  "engines": {
+    "node": ">=20.x"
+  },
   "description": "constant variables used across packages",
   "keywords": [],
   "files": [

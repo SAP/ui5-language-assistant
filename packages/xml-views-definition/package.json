@@ -2,6 +2,9 @@
   "name": "@ui5-language-assistant/xml-views-definition",
   "version": "0.0.15",
   "private": true,
+  "engines": {
+    "node": ">=20.x"
+  },
   "description": "Definition logic for UI5 XML-Views",
   "keywords": [],
   "files": [

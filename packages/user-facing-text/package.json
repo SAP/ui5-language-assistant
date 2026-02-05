@@ -2,6 +2,9 @@
   "name": "@ui5-language-assistant/user-facing-text",
   "version": "4.0.9",
   "private": true,
+  "engines": {
+    "node": ">=20.x"
+  },
   "description": "End user strings for UI5 Language Assistant",
   "keywords": [],
   "files": [

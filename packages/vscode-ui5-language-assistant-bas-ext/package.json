@@ -4,6 +4,9 @@
   "license": "Apache-2.0",
   "version": "4.0.91",
   "private": false,
+  "engines": {
+    "node": ">=20.x"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/SAP/ui5-language-assistant"
