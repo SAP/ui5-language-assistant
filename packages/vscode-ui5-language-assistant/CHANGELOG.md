@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.92
+
+### Patch Changes
+
+- debaef4: node-tar Vulnerable to Arbitrary File Creation/Overwrite
+
 ## 4.0.91
 
 ### Patch Changes
