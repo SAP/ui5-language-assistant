@@ -1,5 +1,15 @@
 # @ui5-language-assistant/binding
 
+## 1.0.44
+
+### Patch Changes
+
+- a8a75f6: fix: bump version of @sap-ux/project-access and update snapshots
+- Updated dependencies [a8a75f6]
+  - @ui5-language-assistant/context@4.0.37
+  - @ui5-language-assistant/xml-views-completion@4.0.37
+  - @ui5-language-assistant/xml-views-validation@4.0.31
+
 ## 1.0.43
 
 ### Patch Changes

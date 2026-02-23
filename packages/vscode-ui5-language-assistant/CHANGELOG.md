@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.93
+
+### Patch Changes
+
+- @ui5-language-assistant/language-server@4.0.67
+
 ## 4.0.92
 
 ### Patch Changes

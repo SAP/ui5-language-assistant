@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.37
+
+### Patch Changes
+
+- a8a75f6: fix: bump version of @sap-ux/project-access and update snapshots
+
 ## 4.0.36
 
 ### Patch Changes
