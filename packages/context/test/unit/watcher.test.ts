@@ -46,15 +46,15 @@ describe("watcher", () => {
   });
 
   describe("reactOnManifestChange", () => {
-    const setManifestSpy = jest.spyOn(cache, "setManifest");
-    const deleteManifestSpy = jest.spyOn(cache, "deleteManifest");
-    const deleteAppSpy = jest.spyOn(cache, "deleteApp");
-    const setAppSpy = jest.spyOn(cache, "setApp");
-    const deleteProjectSpy = jest.spyOn(cache, "deleteProject");
-    const setProjectSpy = jest.spyOn(cache, "setProject");
-    const getProjectSpy = jest.spyOn(loader, "getProject");
+    let setManifestSpy: jest.SpyInstance;
+    let deleteManifestSpy: jest.SpyInstance;
+    let deleteAppSpy: jest.SpyInstance;
+    let setAppSpy: jest.SpyInstance;
+    let deleteProjectSpy: jest.SpyInstance;
+    let setProjectSpy: jest.SpyInstance;
+    let getProjectSpy: jest.SpyInstance;
 
-    let manifestUri;
+    let manifestUri: string;
     beforeAll(() => {
       manifestUri = testFramework.getFileUri([
         "app",
@@ -67,8 +67,16 @@ describe("watcher", () => {
     beforeEach(() => {
       // reset cache for consistency
       cache.reset();
-      jest.resetAllMocks();
-      jest.clearAllMocks();
+      // Restore all mocks to original implementations first
+      jest.restoreAllMocks();
+      // Create fresh spies that call through to original implementations
+      setManifestSpy = jest.spyOn(cache, "setManifest");
+      deleteManifestSpy = jest.spyOn(cache, "deleteManifest");
+      deleteAppSpy = jest.spyOn(cache, "deleteApp");
+      setAppSpy = jest.spyOn(cache, "setApp");
+      deleteProjectSpy = jest.spyOn(cache, "deleteProject");
+      setProjectSpy = jest.spyOn(cache, "setProject");
+      getProjectSpy = jest.spyOn(loader, "getProject");
     });
 
     it("reactOnManifestChange - CAP project", async () => {
@@ -84,10 +92,13 @@ describe("watcher", () => {
       ]);
       const documentPath = URI.parse(fileUri).fsPath;
       // first create all caches
-      await loader.getProject(documentPath);
-      jest.resetAllMocks();
-      await reactOnManifestChange(manifestUri, 1);
+      const project = await loader.getProject(documentPath);
       const projectRoot = fileURLToPath(testFramework.getFileUri([]));
+      expect(project).toBeDefined();
+      // Verify cache was populated before clearing spy call counts
+      expect(cache.getProject(projectRoot)).toBeDefined();
+      jest.clearAllMocks();
+      await reactOnManifestChange(manifestUri, 1);
       const cachedProject = cache.getProject(projectRoot) as CAPProject;
 
       expect(deleteManifestSpy).toHaveBeenCalledOnce();
@@ -250,12 +261,12 @@ describe("watcher", () => {
   });
 
   describe("reactOnCdsFileChange", () => {
-    const deleteCapServicesSpy = jest.spyOn(cache, "deleteCAPServices");
-    const setCapServicesSpy = jest.spyOn(cache, "setCAPServices");
-    const deleteAppSpy = jest.spyOn(cache, "deleteApp");
-    const setAppSpy = jest.spyOn(cache, "setApp");
+    let deleteCapServicesSpy: jest.SpyInstance;
+    let setCapServicesSpy: jest.SpyInstance;
+    let deleteAppSpy: jest.SpyInstance;
+    let setAppSpy: jest.SpyInstance;
 
-    let fileUri, documentPath, cdsUri;
+    let fileUri: string, documentPath: string, cdsUri: string;
     beforeAll(() => {
       // creating file uri and file path to have same key
       // On windows, `C` drive is convert to lower case when getting file uri
@@ -277,13 +288,18 @@ describe("watcher", () => {
 
     const loadProject = async () => {
       await loader.getProject(documentPath);
-      jest.resetAllMocks();
+      jest.clearAllMocks();
     };
 
     beforeEach(() => {
       // reset cache for consistency
       cache.reset();
-      jest.resetAllMocks();
+      jest.restoreAllMocks();
+      // Create fresh spies
+      deleteCapServicesSpy = jest.spyOn(cache, "deleteCAPServices");
+      setCapServicesSpy = jest.spyOn(cache, "setCAPServices");
+      deleteAppSpy = jest.spyOn(cache, "deleteApp");
+      setAppSpy = jest.spyOn(cache, "setApp");
     });
 
     it("single cds file", async () => {
@@ -319,9 +335,16 @@ describe("watcher", () => {
     });
 
     describe("edge cases", () => {
-      const getUI5ManifestSpy = jest.spyOn(manifest, "getUI5Manifest");
-      const getProjectInfoSpy = jest.spyOn(utils, "getProjectInfo");
-      const getAppSpy = jest.spyOn(loader, "getApp");
+      let getUI5ManifestSpy: jest.SpyInstance;
+      let getProjectInfoSpy: jest.SpyInstance;
+      let getAppSpy: jest.SpyInstance;
+
+      beforeEach(() => {
+        // Create fresh spies for these methods used in edge case tests
+        getUI5ManifestSpy = jest.spyOn(manifest, "getUI5Manifest");
+        getProjectInfoSpy = jest.spyOn(utils, "getProjectInfo");
+        getAppSpy = jest.spyOn(loader, "getApp");
+      });
 
       it("no project root", async () => {
         const getPRootSpy = jest
@@ -395,13 +418,13 @@ describe("watcher", () => {
   });
 
   describe("reactOnXmlFileChange", () => {
-    const deleteAppSpy = jest.spyOn(cache, "deleteApp");
-    const setAppSpy = jest.spyOn(cache, "setApp");
-    const deleteProjectSpy = jest.spyOn(cache, "deleteProject");
-    const setProjectSpy = jest.spyOn(cache, "setProject");
-    const getProjectSpy = jest.spyOn(loader, "getProject");
+    let deleteAppSpy: jest.SpyInstance;
+    let setAppSpy: jest.SpyInstance;
+    let deleteProjectSpy: jest.SpyInstance;
+    let setProjectSpy: jest.SpyInstance;
+    let getProjectSpy: jest.SpyInstance;
 
-    let fileUri, documentPath;
+    let fileUri: string, documentPath: string;
 
     beforeAll(() => {
       fileUri = testFramework.getFileUri([
@@ -417,7 +440,13 @@ describe("watcher", () => {
     beforeEach(() => {
       // reset cache for consistency
       cache.reset();
-      jest.resetAllMocks();
+      jest.restoreAllMocks();
+      // Create fresh spies
+      deleteAppSpy = jest.spyOn(cache, "deleteApp");
+      setAppSpy = jest.spyOn(cache, "setApp");
+      deleteProjectSpy = jest.spyOn(cache, "deleteProject");
+      setProjectSpy = jest.spyOn(cache, "setProject");
+      getProjectSpy = jest.spyOn(loader, "getProject");
     });
 
     it("test unregistered xml file", async () => {
@@ -444,7 +473,7 @@ describe("watcher", () => {
     it("test registered xml file", async () => {
       // first create all caches
       await loader.getProject(documentPath);
-      jest.resetAllMocks();
+      jest.clearAllMocks();
       await reactOnXmlFileChange(fileUri, 1);
       const projectRoot = fileURLToPath(testFramework.getFileUri([]));
       const cachedProject = cache.getProject(projectRoot) as CAPProject;
@@ -468,7 +497,7 @@ describe("watcher", () => {
       documentPath = URI.parse(fileUri).fsPath;
       // first create all caches
       await loader.getProject(documentPath);
-      jest.resetAllMocks();
+      jest.clearAllMocks();
       await reactOnXmlFileChange(fileUri, 1);
       const projectRoot = fileURLToPath(testFramework.getFileUri([]));
       const cachedProject = cache.getProject(projectRoot) as CAPProject;
@@ -484,7 +513,7 @@ describe("watcher", () => {
     describe("edge cases", () => {
       beforeEach(() => {
         cache.reset();
-        jest.resetAllMocks();
+        jest.restoreAllMocks();
       });
 
       it("edge case - no project root", async () => {
@@ -541,16 +570,13 @@ describe("watcher", () => {
   });
 
   describe("reactOnViewFileChange", () => {
-    const setViewFileSpy = jest.spyOn(cache, "setViewFile");
-    const setControlIdsForViewFileSpy = jest.spyOn(
-      cache,
-      "setControlIdsForViewFile"
-    );
+    let setViewFileSpy: jest.SpyInstance;
+    let setControlIdsForViewFileSpy: jest.SpyInstance;
     const validatorSpy = jest.fn();
     const getManifestPath = (projectRoot: string) =>
       join(projectRoot, "app", "manage_travels", "webapp", "manifest.json");
 
-    let fileUri, documentPath;
+    let fileUri: string, documentPath: string;
 
     beforeAll(() => {
       fileUri = testFramework.getFileUri([
@@ -567,7 +593,14 @@ describe("watcher", () => {
     beforeEach(() => {
       // reset cache for consistency
       cache.reset();
-      jest.resetAllMocks();
+      jest.restoreAllMocks();
+      validatorSpy.mockClear();
+      // Create fresh spies
+      setViewFileSpy = jest.spyOn(cache, "setViewFile");
+      setControlIdsForViewFileSpy = jest.spyOn(
+        cache,
+        "setControlIdsForViewFile"
+      );
     });
 
     it("test unregistered .view.xml file", async () => {
@@ -576,8 +609,8 @@ describe("watcher", () => {
       const findManifestSpy = jest
         .spyOn(manifest, "findManifestPath")
         .mockResolvedValue(manifestPath);
-      setViewFileSpy.mockResolvedValue();
-      setControlIdsForViewFileSpy.mockReturnValue();
+      setViewFileSpy.mockResolvedValue(undefined);
+      setControlIdsForViewFileSpy.mockReturnValue(undefined);
       // act
       await reactOnViewFileChange(
         fileUri,
@@ -606,8 +639,8 @@ describe("watcher", () => {
       const findManifestSpy = jest
         .spyOn(manifest, "findManifestPath")
         .mockResolvedValue(manifestPath);
-      setViewFileSpy.mockResolvedValue();
-      setControlIdsForViewFileSpy.mockReturnValue();
+      setViewFileSpy.mockResolvedValue(undefined);
+      setControlIdsForViewFileSpy.mockReturnValue(undefined);
       // act
       await reactOnViewFileChange(
         fileUri,
@@ -631,11 +664,11 @@ describe("watcher", () => {
     });
   });
   describe("reactOnPackageJson", () => {
-    const deleteAppSpy = jest.spyOn(cache, "deleteApp");
-    const deleteProjectSpy = jest.spyOn(cache, "deleteProject");
-    const deleteCapServicesSpy = jest.spyOn(cache, "deleteCAPServices");
+    let deleteAppSpy: jest.SpyInstance;
+    let deleteProjectSpy: jest.SpyInstance;
+    let deleteCapServicesSpy: jest.SpyInstance;
 
-    let fileUri, packageJSONUri, documentPath;
+    let fileUri: string, packageJSONUri: string, documentPath: string;
     beforeAll(() => {
       fileUri = testFramework.getFileUri([
         "app",
@@ -653,14 +686,18 @@ describe("watcher", () => {
     beforeEach(() => {
       // reset cache for consistency
       cache.reset();
-      jest.resetAllMocks();
+      jest.restoreAllMocks();
+      // Create fresh spies
+      deleteAppSpy = jest.spyOn(cache, "deleteApp");
+      deleteProjectSpy = jest.spyOn(cache, "deleteProject");
+      deleteCapServicesSpy = jest.spyOn(cache, "deleteCAPServices");
     });
 
     it("reactOnPackageJson - CAP", async () => {
       // creating file uri and file path to have same key
       // first create all caches
       await loader.getProject(documentPath);
-      jest.resetAllMocks();
+      jest.clearAllMocks();
       await reactOnPackageJson(packageJSONUri, 1);
       const projectRoot = fileURLToPath(testFramework.getFileUri([]));
       const cachedProject = cache.getProject(projectRoot) as CAPProject;
@@ -685,7 +722,7 @@ describe("watcher", () => {
     it("reactOnPackageJson edge case - no cached project", async () => {
       // first create all caches
       await loader.getProject(documentPath);
-      jest.resetAllMocks();
+      jest.clearAllMocks();
       const cacheSpy = jest
         .spyOn(cache, "getProject")
         .mockReturnValue(undefined);

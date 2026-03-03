@@ -29,7 +29,7 @@ describe("index", () => {
     uri = testFramework.getFileUri(pathSegments);
   });
   afterEach(() => {
-    jest.resetAllMocks();
+    jest.restoreAllMocks();
   });
   describe("getControllerLocation", () => {
     test("rootElement undefined - empty location", async () => {
