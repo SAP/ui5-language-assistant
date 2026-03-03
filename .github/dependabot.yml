@@ -4,3 +4,7 @@ updates:
   directory: "/"
   schedule:
     interval: monthly
+  ignore:
+    # False positive - this is our own package, not the malicious npm package
+    # GitHub Advisory: GHSA-87jp-j8wq-9p2w
+    - dependency-name: "vscode-ui5-language-assistant"
