@@ -1,0 +1,13 @@
+diff --git a/node_modules/vsce/out/package.js b/node_modules/vsce/out/package.js
+index 2c4747f..a84bf79 100644
+--- a/node_modules/vsce/out/package.js
++++ b/node_modules/vsce/out/package.js
+@@ -16,7 +16,7 @@ const yazl = require("yazl");
+ const nls_1 = require("./nls");
+ const util = require("./util");
+ const _glob = require("glob");
+-const minimatch = require("minimatch");
++const minimatch = require("minimatch").minimatch;
+ const denodeify = require("denodeify");
+ const markdownit = require("markdown-it");
+ const cheerio = require("cheerio");

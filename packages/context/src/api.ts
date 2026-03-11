@@ -110,9 +110,9 @@ export async function getContext(
  * Checks if data is context or an error
  */
 export const isContext = (
-  data: Context | (Error & { code?: string })
+  data: Context | (Error & { code?: string }) | undefined
 ): data is Context => {
-  if ((data as Context).ui5Model) {
+  if (data && (data as Context).ui5Model) {
     return true;
   }
   return false;
