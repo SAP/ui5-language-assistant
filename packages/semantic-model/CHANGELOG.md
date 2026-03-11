@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.23
+
+### Patch Changes
+
+- a693160: fix: all security issues
+
 ## 4.0.22
 
 ### Patch Changes

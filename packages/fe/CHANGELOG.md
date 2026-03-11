@@ -1,5 +1,14 @@
 # Change Log
 
+## 4.0.42
+
+### Patch Changes
+
+- Updated dependencies [a693160]
+  - @ui5-language-assistant/context@4.0.38
+  - @ui5-language-assistant/xml-views-completion@4.0.38
+  - @ui5-language-assistant/xml-views-validation@4.0.32
+
 ## 4.0.41
 
 ### Patch Changes

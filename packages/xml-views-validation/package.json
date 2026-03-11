@@ -1,6 +1,6 @@
 {
   "name": "@ui5-language-assistant/xml-views-validation",
-  "version": "4.0.31",
+  "version": "4.0.32",
   "private": true,
   "description": "Validations Logic for UI5 XML-Views",
   "keywords": [
@@ -23,7 +23,7 @@
   "dependencies": {
     "@ui5-language-assistant/settings": "4.0.10",
     "@ui5-language-assistant/constant": "0.0.4",
-    "@ui5-language-assistant/context": "4.0.37",
+    "@ui5-language-assistant/context": "4.0.38",
     "@ui5-language-assistant/logic-utils": "4.0.24",
     "@ui5-language-assistant/semantic-model-types": "4.0.14",
     "@ui5-language-assistant/user-facing-text": "4.0.9",
@@ -35,7 +35,7 @@
     "vscode-uri": "2.1.2"
   },
   "devDependencies": {
-    "@ui5-language-assistant/semantic-model": "4.0.22",
+    "@ui5-language-assistant/semantic-model": "4.0.23",
     "@ui5-language-assistant/test-utils": "4.0.19",
     "@xml-tools/parser": "1.0.7",
     "@ui5-language-assistant/test-framework": "4.0.13"

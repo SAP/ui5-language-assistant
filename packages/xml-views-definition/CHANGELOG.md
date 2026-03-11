@@ -1,5 +1,13 @@
 # @ui5-language-assistant/xml-views-definition
 
+## 0.0.17
+
+### Patch Changes
+
+- a693160: fix: all security issues
+- Updated dependencies [a693160]
+  - @ui5-language-assistant/context@4.0.38
+
 ## 0.0.16
 
 ### Patch Changes

@@ -1,5 +1,12 @@
 # Change Log
 
+## 4.0.94
+
+### Patch Changes
+
+- a693160: fix: all security issues
+  - @ui5-language-assistant/language-server@4.0.68
+
 ## 4.0.93
 
 ### Patch Changes
