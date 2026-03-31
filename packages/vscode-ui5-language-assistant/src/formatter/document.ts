@@ -1,6 +1,7 @@
 import type { FormattingOptions, TextDocument } from "vscode";
 import { TextEdit, Range, Position, workspace, window } from "vscode";
 import { format } from "prettier";
+import * as prettierPluginXml from "@prettier/plugin-xml";
 import { SPLIT_ATTRIBUTE_ON_FORMAT } from "../constants";
 
 interface PrintOptions {
@@ -27,11 +28,12 @@ export const printOptions: PrintOptions = {
 
 const getOptions = (
   opt?: FormattingOptions
-): Record<string, string | number | boolean | undefined> => {
+): Record<string, string | number | boolean | undefined | unknown[]> => {
   const splitAttributesOnFormat =
     workspace.getConfiguration().get(SPLIT_ATTRIBUTE_ON_FORMAT) === true;
   const options = {
     parser: "xml",
+    plugins: [prettierPluginXml],
     tabWidth: opt?.tabSize ?? printOptions.tabWidth,
     printWidth: splitAttributesOnFormat ? undefined : printOptions.printWidth, // not working with combination of single attribute per line
     xmlSelfClosingTags: true,
