@@ -24,7 +24,7 @@
     "clean": "pnpm -r run clean",
     "update-snapshots": "pnpm -r run update-snapshots",
     "legal:delete": "pnpm -r exec shx rm -rf .reuse LICENSES || true",
-    "legal:copy": "pnpm -r exec shx cp -r ../../.reuse .reuse && shx cp -r ../../LICENSES LICENSES",
+    "legal:copy": "pnpm -r exec shx cp -r ../../.reuse . && pnpm -r exec shx cp -r ../../LICENSES .",
     "prepare": "node ./.husky/skip.js || husky install",
     "hooks:pre-commit": "lint-staged",
     "hooks:commit-msg": "commitlint -e",
