@@ -5,16 +5,13 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
-  axios: ^1.13.5
-  braces: ^3.0.3
+  '@types/node-fetch': 2.6.2
   chevrotain: 10.4.2
+  lodash: ^4.17.21
+  semver: ^7.6.0
+  braces: ^3.0.3
   cross-spawn: ^7.0.6
   js-yaml: ^4.1.1
-  lodash: ^4.17.23
-  qs: ^6.14.1
-  semver: ^7.6.0
-  tar: ^7.5.8
-  ws: ^8.18.0
 
 importers:
 
@@ -177,7 +174,7 @@ importers:
         specifier: 1.1.1
         version: 1.1.1
       lodash:
-        specifier: ^4.17.23
+        specifier: ^4.17.21
         version: 4.17.23
       vscode-languageserver:
         specifier: 8.0.2
@@ -283,7 +280,7 @@ importers:
         specifier: ^4.1.1
         version: 4.1.1
       lodash:
-        specifier: ^4.17.23
+        specifier: ^4.17.21
         version: 4.17.23
       semver:
         specifier: ^7.6.0
@@ -305,8 +302,8 @@ importers:
         specifier: 4.14.168
         version: 4.14.168
       '@types/node-fetch':
-        specifier: 2.5.10
-        version: 2.5.10
+        specifier: 2.6.2
+        version: 2.6.2
       '@types/semver':
         specifier: 7.3.12
         version: 7.3.12
@@ -365,7 +362,7 @@ importers:
         specifier: 1.1.1
         version: 1.1.1
       lodash:
-        specifier: ^4.17.23
+        specifier: ^4.17.21
         version: 4.17.23
       vscode-languageserver-textdocument:
         specifier: ^1.0.12
@@ -462,7 +459,7 @@ importers:
         specifier: 10.1.0
         version: 10.1.0
       lodash:
-        specifier: ^4.17.23
+        specifier: ^4.17.21
         version: 4.17.23
       vscode-languageserver:
         specifier: 8.0.2
@@ -478,8 +475,8 @@ importers:
         specifier: 4.0.5
         version: 4.0.5
       '@types/node-fetch':
-        specifier: 2.5.10
-        version: 2.5.10
+        specifier: 2.6.2
+        version: 2.6.2
       '@types/semver':
         specifier: 7.3.12
         version: 7.3.12
@@ -539,7 +536,7 @@ importers:
         specifier: 5.0.1
         version: 5.0.1
       lodash:
-        specifier: ^4.17.23
+        specifier: ^4.17.21
         version: 4.17.23
       node-fetch:
         specifier: 2.6.9
@@ -582,7 +579,7 @@ importers:
         specifier: 10.1.0
         version: 10.1.0
       lodash:
-        specifier: ^4.17.23
+        specifier: ^4.17.21
         version: 4.17.23
     devDependencies:
       '@types/deep-freeze-strict':
@@ -607,7 +604,7 @@ importers:
         specifier: 1.1.1
         version: 1.1.1
       lodash:
-        specifier: ^4.17.23
+        specifier: ^4.17.21
         version: 4.17.23
 
   packages/user-facing-text:
@@ -661,6 +658,9 @@ importers:
       '@types/lodash':
         specifier: 4.14.168
         version: 4.14.168
+      '@types/node-fetch':
+        specifier: 2.6.2
+        version: 2.6.2
       '@types/vscode':
         specifier: 1.47.0
         version: 1.47.0
@@ -683,14 +683,17 @@ importers:
         specifier: ^3.7.1
         version: 3.7.1
       axios:
-        specifier: ^1.13.5
-        version: 1.14.0
+        specifier: 1.13.5
+        version: 1.13.5
       lodash:
-        specifier: ^4.17.23
+        specifier: ^4.17.21
         version: 4.17.23
       minimatch:
         specifier: ^9.0.5
         version: 9.0.9
+      node-fetch:
+        specifier: 2.6.9
+        version: 2.6.9
       proxyquire:
         specifier: 2.1.3
         version: 2.1.3
@@ -743,7 +746,7 @@ importers:
         specifier: 1.2.1
         version: 1.2.1
       lodash:
-        specifier: ^4.17.23
+        specifier: ^4.17.21
         version: 4.17.23
     devDependencies:
       '@ui5-language-assistant/semantic-model':
@@ -808,7 +811,7 @@ importers:
         specifier: 2.0.2
         version: 2.0.2
       lodash:
-        specifier: ^4.17.23
+        specifier: ^4.17.21
         version: 4.17.23
     devDependencies:
       '@ui5-language-assistant/test-utils':
@@ -851,7 +854,7 @@ importers:
         specifier: 1.2.1
         version: 1.2.1
       lodash:
-        specifier: ^4.17.23
+        specifier: ^4.17.21
         version: 4.17.23
     devDependencies:
       '@ui5-language-assistant/test-utils':
@@ -894,7 +897,7 @@ importers:
         specifier: 1.1.1
         version: 1.1.1
       lodash:
-        specifier: ^4.17.23
+        specifier: ^4.17.21
         version: 4.17.23
       vscode-languageserver-types:
         specifier: 3.17.2
@@ -940,7 +943,7 @@ importers:
         specifier: 10.1.0
         version: 10.1.0
       lodash:
-        specifier: ^4.17.23
+        specifier: ^4.17.21
         version: 4.17.23
       vscode-languageserver:
         specifier: 8.0.2
@@ -984,8 +987,8 @@ importers:
         version: 1.1.0
     devDependencies:
       '@types/node-fetch':
-        specifier: 2.5.10
-        version: 2.5.10
+        specifier: 2.6.2
+        version: 2.6.2
 
 packages:
 
@@ -1851,17 +1854,14 @@ packages:
   '@types/minimist@1.2.5':
     resolution: {integrity: sha512-hov8bUuiLiyFPGyFPE1lwWhmzYbirOXQNNo40+y3zow8aFVTeyn3VWL0VFFfdNddA8S4Vf0Tc062rzyNr7Paag==}
 
-  '@types/node-fetch@2.5.10':
-    resolution: {integrity: sha512-IpkX0AasN44hgEad0gEF/V6EgR5n69VEqPEgnmoM8GsIGro3PowbWs4tR6IhxUTyPLpOn+fiGG6nrQhcmoCuIQ==}
+  '@types/node-fetch@2.6.2':
+    resolution: {integrity: sha512-DHqhlq5jeESLy19TYhLakJ07kNumXWjcDdxXsLUMJZ6ue8VZJj4kLPQVE/2mdHh3xZziNF1xppu5lwmS53HR+A==}
 
   '@types/node@12.20.55':
     resolution: {integrity: sha512-J8xLz7q2OFulZ2cyGTLE1TbbZcjpno7FaN6zdJNrgAdrJ+DZzh/uFR6YrTb4C+nXakvud8Q4+rbhoIWlYQbUFQ==}
 
   '@types/node@20.17.14':
     resolution: {integrity: sha512-w6qdYetNL5KRBiSClK/KWai+2IMEJuAj+EujKCumalFOwXtvOXaEan9AuwcRID2IcOIAWSIfR495hBtgKlx2zg==}
-
-  '@types/node@25.5.0':
-    resolution: {integrity: sha512-jp2P3tQMSxWugkCUKLRPVUpGaL5MVFwF8RDuSRztfwgN1wmqJeMSbKlnEtQqU8UrhTmzEmZdu2I6v2dpp7XIxw==}
 
   '@types/normalize-package-data@2.4.4':
     resolution: {integrity: sha512-37i+OaWTh9qeK4LSHPsyRC7NahnGotNuZvjLSgcPzblpHB3rrCJxAOgI5gCdKm7coonsaX1Of0ILiTcnZjbfxA==}
@@ -2261,8 +2261,8 @@ packages:
     resolution: {integrity: sha512-wvUjBtSGN7+7SjNpq/9M2Tg350UZD3q62IFZLbRAR1bSMlCo1ZaeW+BJ+D090e4hIIZLBcTDWe4Mh4jvUDajzQ==}
     engines: {node: '>= 0.4'}
 
-  axios@1.14.0:
-    resolution: {integrity: sha512-3Y8yrqLSwjuzpXuZ0oIYZ/XGgLwUIBU3uLvbcpb0pidD9ctpShJd43KSlEEkVQg6DS0G9NKyzOvBfUtDKEyHvQ==}
+  axios@1.13.5:
+    resolution: {integrity: sha512-cz4ur7Vb0xS4/KUN0tPWe44eqxrIu31me+fbang3ijiNscE129POzipJJA6zniq2C/Z6sJCjMimjS8Lc/GAs8Q==}
 
   azure-devops-node-api@12.5.0:
     resolution: {integrity: sha512-R5eFskGvOm3U/GzeAuxRkUsAl0hrAwGgWn6zAd2KrZmrEhWZVqLew4OOupbQlXUuojUzpGtq62SmdhJ06N88og==}
@@ -2355,8 +2355,8 @@ packages:
     resolution: {integrity: sha512-yQbXgO/OSZVD2IsiLlro+7Hf6Q18EJrKSEsdoMzKePKXct3gvD8oLcOQdIzGupr5Fj+EDe8gO/lxc1BzfMpxvA==}
     engines: {node: '>=8'}
 
-  browserslist@4.28.1:
-    resolution: {integrity: sha512-ZC5Bd0LgJXgwGqUknZY/vkUQ04r8NXnJZ3yYi4vDmSiZmC/pdSN0NbNRPxZpbtO4uAfDUAFffO8IZoM3Gj8IkA==}
+  browserslist@4.28.2:
+    resolution: {integrity: sha512-48xSriZYYg+8qXna9kwqjIVzuQxi+KYWp2+5nCYnYKPTr0LvD89Jqk2Or5ogxz0NUMfIjhh2lIUX/LyX9B4oIg==}
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
 
@@ -4638,10 +4638,6 @@ packages:
   proxy-from-env@1.1.0:
     resolution: {integrity: sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg==}
 
-  proxy-from-env@2.1.0:
-    resolution: {integrity: sha512-cJ+oHTW1VAEa8cJslgmUZrc+sjRKgAKl3Zyse6+PV38hZe/V6Z14TbCuXcan9F9ghlz4QrFr2c92TNF82UkYHA==}
-    engines: {node: '>=10'}
-
   proxyquire@2.1.3:
     resolution: {integrity: sha512-BQWfCqYM+QINd+yawJz23tbBM40VIGXOdDw3X344KcclI/gtBbdWF6SlQ4nK/bYhF9d27KYug9WzljHC6B9Ysg==}
 
@@ -5377,9 +5373,6 @@ packages:
   undici-types@6.19.8:
     resolution: {integrity: sha512-ve2KP6f/JnbPBFyobGHuerC9g1FYGn/F8n1LWTwNxCEzd6IfqTwUQcNXgEtmmQ6DlRrC1hrSrBnCZPokRrDHjw==}
 
-  undici-types@7.18.2:
-    resolution: {integrity: sha512-AsuCzffGHJybSaRrmr5eHr81mwJU3kjw6M+uprWvCXiNeN9SOGwQ3Jn8jb8m3Z6izVgknn1R0FTCEAP2QrLY/w==}
-
   undici@7.24.6:
     resolution: {integrity: sha512-Xi4agocCbRzt0yYMZGMA6ApD7gvtUFaxm4ZmeacWI4cZxaF6C+8I8QfofC20NAePiB/IcvZmzkJ7XPa471AEtA==}
     engines: {node: '>=20.18.1'}
@@ -5786,7 +5779,7 @@ snapshots:
     dependencies:
       '@babel/compat-data': 7.29.0
       '@babel/helper-validator-option': 7.27.1
-      browserslist: 4.28.1
+      browserslist: 4.28.2
       lru-cache: 5.1.1
       semver: 7.7.4
 
@@ -6598,7 +6591,7 @@ snapshots:
     dependencies:
       '@sap-ux/yaml': 0.17.4
       ajv: 8.18.0
-      axios: 1.14.0
+      axios: 1.13.5
       js-yaml: 4.1.1
       lodash: 4.17.23
       semver: 7.7.4
@@ -6825,9 +6818,9 @@ snapshots:
 
   '@types/minimist@1.2.5': {}
 
-  '@types/node-fetch@2.5.10':
+  '@types/node-fetch@2.6.2':
     dependencies:
-      '@types/node': 25.5.0
+      '@types/node': 20.17.14
       form-data: 3.0.4
 
   '@types/node@12.20.55': {}
@@ -6835,10 +6828,6 @@ snapshots:
   '@types/node@20.17.14':
     dependencies:
       undici-types: 6.19.8
-
-  '@types/node@25.5.0':
-    dependencies:
-      undici-types: 7.18.2
 
   '@types/normalize-package-data@2.4.4': {}
 
@@ -7306,11 +7295,11 @@ snapshots:
     dependencies:
       possible-typed-array-names: 1.1.0
 
-  axios@1.14.0:
+  axios@1.13.5:
     dependencies:
       follow-redirects: 1.15.11
       form-data: 4.0.5
-      proxy-from-env: 2.1.0
+      proxy-from-env: 1.1.0
     transitivePeerDependencies:
       - debug
 
@@ -7430,13 +7419,13 @@ snapshots:
     dependencies:
       fill-range: 7.1.1
 
-  browserslist@4.28.1:
+  browserslist@4.28.2:
     dependencies:
       baseline-browser-mapping: 2.10.12
       caniuse-lite: 1.0.30001782
       electron-to-chromium: 1.5.329
       node-releases: 2.0.36
-      update-browserslist-db: 1.2.3(browserslist@4.28.1)
+      update-browserslist-db: 1.2.3(browserslist@4.28.2)
 
   bs-logger@0.2.6:
     dependencies:
@@ -10130,8 +10119,6 @@ snapshots:
 
   proxy-from-env@1.1.0: {}
 
-  proxy-from-env@2.1.0: {}
-
   proxyquire@2.1.3:
     dependencies:
       fill-keys: 1.0.2
@@ -10926,8 +10913,6 @@ snapshots:
 
   undici-types@6.19.8: {}
 
-  undici-types@7.18.2: {}
-
   undici@7.24.6: {}
 
   unicorn-magic@0.1.0: {}
@@ -10951,9 +10936,9 @@ snapshots:
       readable-stream: 2.3.8
       setimmediate: 1.0.5
 
-  update-browserslist-db@1.2.3(browserslist@4.28.1):
+  update-browserslist-db@1.2.3(browserslist@4.28.2):
     dependencies:
-      browserslist: 4.28.1
+      browserslist: 4.28.2
       escalade: 3.2.0
       picocolors: 1.1.1
 
@@ -11062,7 +11047,7 @@ snapshots:
       '@webassemblyjs/wasm-parser': 1.14.1
       acorn: 8.16.0
       acorn-import-phases: 1.0.4(acorn@8.16.0)
-      browserslist: 4.28.1
+      browserslist: 4.28.2
       chrome-trace-event: 1.0.4
       enhanced-resolve: 5.20.1
       es-module-lexer: 2.0.0
