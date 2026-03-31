@@ -708,13 +708,14 @@ importers:
         version: 1.6.1
 
   packages/vscode-ui5-language-assistant-bas-ext:
+    dependencies:
+      vscode-ui5-language-assistant:
+        specifier: workspace:*
+        version: link:../vscode-ui5-language-assistant
     devDependencies:
       fs-extra:
         specifier: 10.1.0
         version: 10.1.0
-      vscode-ui5-language-assistant:
-        specifier: 4.0.94
-        version: link:../vscode-ui5-language-assistant
 
   packages/xml-views-completion:
     dependencies:

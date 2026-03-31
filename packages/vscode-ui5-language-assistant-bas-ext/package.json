@@ -11,9 +11,11 @@
   "scripts": {
     "ci": "node ./scripts/copy"
   },
+  "dependencies": {
+    "vscode-ui5-language-assistant": "workspace:*"
+  },
   "devDependencies": {
-    "fs-extra": "10.1.0",
-    "vscode-ui5-language-assistant": "4.0.94"
+    "fs-extra": "10.1.0"
   },
   "files": [
     "*.vsix",
