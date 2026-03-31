@@ -1,0 +1,28 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -r \"vscode-ui5-language-assistant\\\\|vsce\\\\|vsix\" /Users/D063593/SAPDevelop/git/open-ux-tools/.github/workflows/*.yaml)",
+      "Bash(pnpm --version)",
+      "Bash(find . -name \"node_modules\" -type d -prune -exec rm -rf {} ;)",
+      "Bash(pnpm install)",
+      "Bash(pnpm list @vscode/vsce)",
+      "Bash(pnpm run format:fix packages/language-server/tsconfig.json)",
+      "Bash(pnpm add -D minimatch@9.0.5)",
+      "Bash(pnpm --filter vscode-ui5-language-assistant run package)",
+      "Bash(pnpm --filter vscode-ui5-language-assistant run bundle)",
+      "Bash(ls -lh /Users/D063593/SAPDevelop/git/ui5-language-assistant/ui5-02/packages/vscode-ui5-language-assistant/*.vsix)",
+      "Bash(pnpm run build:quick)",
+      "Bash(grep -r '\"\"ci\"\":' packages/*/package.json)",
+      "Bash(find packages test-packages -name \"package.json\" -exec grep -l '\"\"ci\"\":.*clean compile' {} ;)",
+      "Bash(grep -r '\"\"ci\"\":' packages/*/package.json test-packages/*/package.json)",
+      "Bash(grep '\"\"ci\"\":' test-packages/*/package.json)",
+      "Bash(tee /tmp/ci-output.log)",
+      "Bash(pnpm --filter @ui5-language-assistant/binding-parser run test)",
+      "Bash(ls -lh packages/vscode-ui5-language-assistant/*.vsix)",
+      "Bash(pnpm -w run build:quick)"
+    ],
+    "additionalDirectories": [
+      "/Users/D063593/SAPDevelop/git/ui5-language-assistant/ui5-02"
+    ]
+  }
+}

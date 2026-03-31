@@ -18,10 +18,17 @@ jobs:
       - name: Checkout code repository
         uses: actions/checkout@v3
 
-      - name: Run install
-        uses: borales/actions-yarn@v4
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
         with:
-          cmd: install # will run `yarn install` command
+          version: 9.15.4
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
       - name: Download latest released artifact
         uses: robinraju/release-downloader@v1.7
@@ -52,8 +59,6 @@ jobs:
         env:
           HUSKY_SKIP: "true"
       # https://github.com/lerna/lerna/issues/2788
-        uses: borales/actions-yarn@v4
-        with:
-          cmd: release:publish --no-verify-access
+        run: pnpm release:publish --no-verify-access
 
       

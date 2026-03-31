@@ -16,16 +16,16 @@
   "license": "Apache-2.0",
   "typings": "./api.d.ts",
   "dependencies": {
-    "@vscode-logging/logger": "1.2.2",
-    "@ui5-language-assistant/settings": "4.0.10"
+    "@ui5-language-assistant/settings": "workspace:*",
+    "@vscode-logging/logger": "1.2.2"
   },
   "devDependencies": {
     "@vscode-logging/types": "0.1.4"
   },
   "scripts": {
-    "ci": "npm-run-all clean compile lint coverage",
+    "ci": "npm-run-all lint coverage",
     "clean": "rimraf ./lib ./coverage ./nyc_output",
-    "compile": "yarn run clean && tsc -p .",
+    "compile": "pnpm run clean && tsc -p .",
     "compile:watch": "tsc -p . --watch",
     "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore",
     "test": "jest --ci --forceExit --detectOpenHandles --maxWorkers=1 --coverage=false",

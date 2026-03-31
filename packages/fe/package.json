@@ -18,10 +18,15 @@
   "dependencies": {
     "@ui5-language-assistant/context": "4.0.38",
     "@ui5-language-assistant/logic-utils": "4.0.24",
+    "@ui5-language-assistant/settings": "workspace:^",
     "@ui5-language-assistant/xml-views-completion": "4.0.38",
     "@ui5-language-assistant/xml-views-validation": "4.0.32",
+    "@xml-tools/content-assist": "3.1.7",
+    "assert-never": "1.2.1",
+    "chevrotain": "10.4.2",
     "deep-freeze-strict": "1.1.1",
-    "lodash": "4.17.21"
+    "lodash": "4.17.21",
+    "vscode-languageserver-textdocument": "^1.0.12"
   },
   "devDependencies": {
     "@sap-ux/vocabularies-types": "0.10.14",
@@ -35,9 +40,9 @@
     "vscode-languageserver-types": "3.17.2"
   },
   "scripts": {
-    "ci": "npm-run-all clean compile lint coverage",
+    "ci": "npm-run-all lint coverage",
     "clean": "rimraf ./lib ./coverage ./nyc_output",
-    "compile": "yarn run clean && tsc -p .",
+    "compile": "pnpm run clean && tsc -p .",
     "compile:watch": "tsc -p . --watch",
     "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore",
     "test": "jest --ci --forceExit --detectOpenHandles --maxWorkers=1 --coverage=false",
