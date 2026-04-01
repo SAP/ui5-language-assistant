@@ -194,10 +194,7 @@ export async function downloadLibraries(
 
 // Load the library files from the file system.
 // To save the libraries to the file system use downloadLibraries.
-function loadLibraries(
-  framework: UI5Framework,
-  version: TestModelVersion
-): Record<string, Json> {
+function loadLibraries(version: TestModelVersion): Record<string, Json> {
   const inputFolder = getModelFolder(version);
   const files = readdirSync(inputFolder);
   const LIBFILE_SUFFIX = ".designtime.api.json";
@@ -206,7 +203,16 @@ function loadLibraries(
     libFiles,
     (libToFileContentMap, file) => {
       const libName = file.substring(0, file.length - LIBFILE_SUFFIX.length);
-      libToFileContentMap[libName] = readJsonSync(resolve(inputFolder, file));
+      const filePath = resolve(inputFolder, file);
+      try {
+        libToFileContentMap[libName] = readJsonSync(filePath);
+      } catch (error) {
+        // Skip corrupted cache files - they will be re-downloaded if needed
+        console.warn(
+          `Warning: Skipping corrupted cache file: ${filePath}`,
+          error instanceof Error ? error.message : String(error)
+        );
+      }
       return libToFileContentMap;
     },
     Object.create(null)
@@ -237,7 +243,7 @@ export async function generateModel({
     await downloadLibraries(version);
   }
 
-  const libToFileContent = loadLibraries(framework, version);
+  const libToFileContent = loadLibraries(version);
 
   // If we want the libraries in strict mode we have to fix them first
   if (strict) {
