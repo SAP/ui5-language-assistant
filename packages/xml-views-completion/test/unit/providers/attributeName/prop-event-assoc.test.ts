@@ -311,7 +311,10 @@ describe("The ui5-language-assistant xml-views-completion", () => {
   });
 });
 
-const expectAttributesNames = partial(expectSuggestions, (_) => _.ui5Node.name);
+const expectAttributesNames = partial(
+  expectSuggestions,
+  (_: unknown) => (_ as { ui5Node: { name: string } }).ui5Node.name
+);
 
 function expectAttributesSuggestions({
   suggestions,

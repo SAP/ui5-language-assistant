@@ -38,7 +38,6 @@
     "@ui5-language-assistant/semantic-model": "4.0.23",
     "@ui5-language-assistant/test-framework": "4.0.13",
     "@ui5-language-assistant/test-utils": "4.0.19",
-    "@ui5-language-assistant/xml-views-validation": "workspace:^",
     "@xml-tools/parser": "1.0.7",
     "assert-never": "1.2.1",
     "path-parse": "^1.0.7"

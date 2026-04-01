@@ -13,7 +13,7 @@ import {
   VersionMapJsonType,
   negotiateVersionWithFetcher,
 } from "../../src/ui5-model";
-import { FetchResponse } from "@ui5-language-assistant/language-server";
+import { FetchResponse } from "@ui5-language-assistant/logic-utils";
 import { DEFAULT_UI5_VERSION } from "@ui5-language-assistant/constant";
 
 describe("the UI5 language assistant ui5 model", () => {

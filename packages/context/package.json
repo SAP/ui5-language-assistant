@@ -41,7 +41,6 @@
     "@types/lodash": "4.14.168",
     "@types/node-fetch": "2.6.2",
     "@types/semver": "7.3.12",
-    "@ui5-language-assistant/language-server": "workspace:^",
     "@ui5-language-assistant/semantic-model-types": "4.0.14",
     "@ui5-language-assistant/test-framework": "4.0.13",
     "@ui5-language-assistant/test-utils": "4.0.19",

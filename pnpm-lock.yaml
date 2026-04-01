@@ -307,9 +307,6 @@ importers:
       '@types/semver':
         specifier: 7.3.12
         version: 7.3.12
-      '@ui5-language-assistant/language-server':
-        specifier: workspace:^
-        version: link:../language-server
       '@ui5-language-assistant/semantic-model-types':
         specifier: 4.0.14
         version: link:../semantic-model-types
@@ -756,9 +753,6 @@ importers:
       '@ui5-language-assistant/test-utils':
         specifier: workspace:^
         version: link:../../test-packages/test-utils
-      '@ui5-language-assistant/xml-views-completion':
-        specifier: workspace:^
-        version: 'link:'
       '@xml-tools/parser':
         specifier: 1.0.7
         version: 1.0.7
@@ -916,9 +910,6 @@ importers:
       '@ui5-language-assistant/test-utils':
         specifier: 4.0.19
         version: link:../../test-packages/test-utils
-      '@ui5-language-assistant/xml-views-validation':
-        specifier: workspace:^
-        version: 'link:'
       '@xml-tools/parser':
         specifier: 1.0.7
         version: 1.0.7
@@ -965,15 +956,15 @@ importers:
       '@ui5-language-assistant/constant':
         specifier: workspace:*
         version: link:../../packages/constant
-      '@ui5-language-assistant/language-server':
+      '@ui5-language-assistant/logger':
         specifier: workspace:*
-        version: link:../../packages/language-server
+        version: link:../../packages/logger
       '@ui5-language-assistant/semantic-model-types':
         specifier: workspace:*
         version: link:../../packages/semantic-model-types
-      '@ui5-language-assistant/xml-views-completion':
+      '@ui5-language-assistant/settings':
         specifier: workspace:*
-        version: link:../../packages/xml-views-completion
+        version: link:../../packages/settings
       '@xml-tools/ast':
         specifier: 5.0.0
         version: 5.0.0

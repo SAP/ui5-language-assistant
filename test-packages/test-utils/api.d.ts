@@ -18,9 +18,20 @@ import {
   UI5Framework,
 } from "@ui5-language-assistant/semantic-model-types";
 import { XMLAttribute, XMLElement } from "@xml-tools/ast";
-import { UI5XMLViewCompletion } from "@ui5-language-assistant/xml-views-completion";
-import { FetchResponse } from "@ui5-language-assistant/language-server";
 import { DEFAULT_UI5_VERSION } from "@ui5-language-assistant/constant";
+
+// Local type definitions to avoid circular dependencies
+export type FetchResponse<T = unknown> = {
+  ok: boolean;
+  status: number;
+  json: () => Promise<T>;
+};
+
+export type CompletionItem = {
+  ui5Node?: unknown;
+  astNode?: unknown;
+  [key: string]: unknown;
+};
 
 //	easily build (partial) data structures for tests with mandatory "name" field
 export type PartialWithName<T> = { name: string } & Partial<T>;
@@ -140,9 +151,9 @@ export function expectProperty<T>(
   message: string
 ): asserts value is T;
 
-export function expectSuggestions(
-  actualNameGetter: (suggestion: UI5XMLViewCompletion) => string,
-  suggestions: UI5XMLViewCompletion[],
+export function expectSuggestions<T = unknown>(
+  actualNameGetter: (suggestion: T) => string,
+  suggestions: T[],
   expected: string[]
 ): void;
 

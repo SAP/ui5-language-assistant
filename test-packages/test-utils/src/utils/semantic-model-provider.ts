@@ -2,13 +2,19 @@ import { readdirSync } from "fs";
 import { readJsonSync, readJson, existsSync } from "fs-extra";
 import { resolve, dirname } from "path";
 import { filter, reduce, has, forEach, get } from "lodash";
-import { FetchResponse } from "@ui5-language-assistant/language-server";
 import {
   UI5Framework,
   UI5SemanticModel,
 } from "@ui5-language-assistant/semantic-model-types";
 import { generateFunc, TestModelVersion, TypeNameFix, Json } from "../../api";
 import { addUi5Resources } from "./download-ui5-resources";
+
+// Local type definition to avoid circular dependency with language-server
+export type FetchResponse<T = unknown> = {
+  ok: boolean;
+  status: number;
+  json: () => Promise<T>;
+};
 
 const MODEL_CACHE: Record<TestModelVersion, UI5SemanticModel> =
   Object.create(null);

@@ -14,9 +14,9 @@
   "typings": "./api.d.ts",
   "dependencies": {
     "@ui5-language-assistant/constant": "workspace:*",
-    "@ui5-language-assistant/language-server": "workspace:*",
     "@ui5-language-assistant/semantic-model-types": "workspace:*",
-    "@ui5-language-assistant/xml-views-completion": "workspace:*",
+    "@ui5-language-assistant/settings": "workspace:*",
+    "@ui5-language-assistant/logger": "workspace:*",
     "@xml-tools/ast": "5.0.0",
     "https-proxy-agent": "5.0.1",
     "node-fetch": "2.6.9",

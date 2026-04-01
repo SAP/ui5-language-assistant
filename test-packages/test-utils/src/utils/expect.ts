@@ -1,10 +1,16 @@
 import { expect, use } from "chai";
 import { XMLAttribute, XMLElement } from "@xml-tools/ast";
-import { UI5XMLViewCompletion } from "@ui5-language-assistant/xml-views-completion";
 import { map } from "lodash";
 import deepEqualInAnyOrder = require("deep-equal-in-any-order");
 
 use(deepEqualInAnyOrder);
+
+// Generic type to avoid circular dependency with xml-views-completion
+export type CompletionItem = {
+  ui5Node?: unknown;
+  astNode?: unknown;
+  [key: string]: unknown;
+};
 
 export function expectUnsortedEquality(
   actual: string[],
@@ -31,9 +37,9 @@ export function expectProperty<T>(
   expect(value, message).to.haveOwnProperty(property);
 }
 
-export function expectSuggestions(
-  actualNameGetter: (suggestion: UI5XMLViewCompletion) => string,
-  suggestions: UI5XMLViewCompletion[],
+export function expectSuggestions<T = unknown>(
+  actualNameGetter: (suggestion: T) => string,
+  suggestions: T[],
   expected: string[]
 ): void {
   const suggestedNames = map(suggestions, actualNameGetter);

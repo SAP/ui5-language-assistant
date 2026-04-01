@@ -1,4 +1,4 @@
-export type FetchResponse<T> = {
+export type FetchResponse<T = unknown> = {
   ok: boolean;
   status: number;
   json: () => Promise<T>;

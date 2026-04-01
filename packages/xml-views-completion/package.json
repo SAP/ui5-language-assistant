@@ -35,7 +35,6 @@
   "devDependencies": {
     "@ui5-language-assistant/semantic-model": "4.0.23",
     "@ui5-language-assistant/test-utils": "workspace:^",
-    "@ui5-language-assistant/xml-views-completion": "workspace:^",
     "@xml-tools/parser": "1.0.7",
     "chevrotain": "7.0.1"
   },
