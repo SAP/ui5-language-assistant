@@ -96,11 +96,14 @@
     "overrides": {
       "@types/node-fetch": "2.6.2",
       "chevrotain": "10.4.2",
-      "lodash": "^4.17.21",
+      "lodash": "^4.18.0",
       "semver": "^7.6.0",
       "braces": "^3.0.3",
       "cross-spawn": "^7.0.6",
-      "js-yaml": "^4.1.1"
+      "js-yaml": "^4.1.1",
+      "tmp": "^0.2.4",
+      "@tootallnate/once": "^3.0.1",
+      "tough-cookie": "^5.0.0"
     }
   }
 }

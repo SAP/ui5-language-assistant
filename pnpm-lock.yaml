@@ -7,11 +7,14 @@ settings:
 overrides:
   '@types/node-fetch': 2.6.2
   chevrotain: 10.4.2
-  lodash: ^4.17.21
+  lodash: ^4.18.0
   semver: ^7.6.0
   braces: ^3.0.3
   cross-spawn: ^7.0.6
   js-yaml: ^4.1.1
+  tmp: ^0.2.4
+  '@tootallnate/once': ^3.0.1
+  tough-cookie: ^5.0.0
 
 importers:
 
@@ -174,8 +177,8 @@ importers:
         specifier: 1.1.1
         version: 1.1.1
       lodash:
-        specifier: ^4.17.21
-        version: 4.17.23
+        specifier: ^4.18.0
+        version: 4.18.1
       vscode-languageserver:
         specifier: 8.0.2
         version: 8.0.2
@@ -244,8 +247,8 @@ importers:
         specifier: 0.5.13
         version: 0.5.13
       '@sap-ux/project-access':
-        specifier: 1.35.10
-        version: 1.35.10
+        specifier: 1.35.18
+        version: 1.35.18
       '@ui5-language-assistant/constant':
         specifier: 0.0.4
         version: link:../constant
@@ -280,8 +283,8 @@ importers:
         specifier: ^4.1.1
         version: 4.1.1
       lodash:
-        specifier: ^4.17.21
-        version: 4.17.23
+        specifier: ^4.18.0
+        version: 4.18.1
       semver:
         specifier: ^7.6.0
         version: 7.7.4
@@ -359,8 +362,8 @@ importers:
         specifier: 1.1.1
         version: 1.1.1
       lodash:
-        specifier: ^4.17.21
-        version: 4.17.23
+        specifier: ^4.18.0
+        version: 4.18.1
       vscode-languageserver-textdocument:
         specifier: ^1.0.12
         version: 1.0.12
@@ -456,8 +459,8 @@ importers:
         specifier: 10.1.0
         version: 10.1.0
       lodash:
-        specifier: ^4.17.21
-        version: 4.17.23
+        specifier: ^4.18.0
+        version: 4.18.1
       vscode-languageserver:
         specifier: 8.0.2
         version: 8.0.2
@@ -533,8 +536,8 @@ importers:
         specifier: 5.0.1
         version: 5.0.1
       lodash:
-        specifier: ^4.17.21
-        version: 4.17.23
+        specifier: ^4.18.0
+        version: 4.18.1
       node-fetch:
         specifier: 2.6.9
         version: 2.6.9
@@ -576,8 +579,8 @@ importers:
         specifier: 10.1.0
         version: 10.1.0
       lodash:
-        specifier: ^4.17.21
-        version: 4.17.23
+        specifier: ^4.18.0
+        version: 4.18.1
     devDependencies:
       '@types/deep-freeze-strict':
         specifier: 1.1.0
@@ -601,8 +604,8 @@ importers:
         specifier: 1.1.1
         version: 1.1.1
       lodash:
-        specifier: ^4.17.21
-        version: 4.17.23
+        specifier: ^4.18.0
+        version: 4.18.1
 
   packages/user-facing-text:
     dependencies:
@@ -683,8 +686,8 @@ importers:
         specifier: 1.13.5
         version: 1.13.5
       lodash:
-        specifier: ^4.17.21
-        version: 4.17.23
+        specifier: ^4.18.0
+        version: 4.18.1
       minimatch:
         specifier: ^9.0.5
         version: 9.0.9
@@ -744,8 +747,8 @@ importers:
         specifier: 1.2.1
         version: 1.2.1
       lodash:
-        specifier: ^4.17.21
-        version: 4.17.23
+        specifier: ^4.18.0
+        version: 4.18.1
     devDependencies:
       '@ui5-language-assistant/semantic-model':
         specifier: 4.0.23
@@ -806,8 +809,8 @@ importers:
         specifier: 2.0.2
         version: 2.0.2
       lodash:
-        specifier: ^4.17.21
-        version: 4.17.23
+        specifier: ^4.18.0
+        version: 4.18.1
     devDependencies:
       '@ui5-language-assistant/test-utils':
         specifier: 4.0.19
@@ -849,8 +852,8 @@ importers:
         specifier: 1.2.1
         version: 1.2.1
       lodash:
-        specifier: ^4.17.21
-        version: 4.17.23
+        specifier: ^4.18.0
+        version: 4.18.1
     devDependencies:
       '@ui5-language-assistant/test-utils':
         specifier: workspace:^
@@ -892,8 +895,8 @@ importers:
         specifier: 1.1.1
         version: 1.1.1
       lodash:
-        specifier: ^4.17.21
-        version: 4.17.23
+        specifier: ^4.18.0
+        version: 4.18.1
       vscode-languageserver-types:
         specifier: 3.17.2
         version: 3.17.2
@@ -935,8 +938,8 @@ importers:
         specifier: 10.1.0
         version: 10.1.0
       lodash:
-        specifier: ^4.17.21
-        version: 4.17.23
+        specifier: ^4.18.0
+        version: 4.18.1
       vscode-languageserver:
         specifier: 8.0.2
         version: 8.0.2
@@ -1661,28 +1664,28 @@ packages:
   '@sap-ux/edmx-parser@0.5.13':
     resolution: {integrity: sha512-V58Iul9fSSMjWs1x7CimGyfnojnYTKcutGstRN4gmz6t4ijXsXQrTMzVetDbZ3EA2UznZtzreVF/8/gXC5MK3A==}
 
-  '@sap-ux/i18n@0.3.9':
-    resolution: {integrity: sha512-PPSsqt8QBZIMipp5mUuYl159eoXIbPfRAhz4zaPbN+oaEeS/DH/DkkPqzJW2sj3MPy1025zztEuU3Ebt8zLkpw==}
+  '@sap-ux/i18n@0.3.10':
+    resolution: {integrity: sha512-szE+c6zhh81NhZFX75SrHQ+n/UXem/CFBj+RUU4Fs5BRhMb2MKj5KWzDBEZ+4wDNYLmA2TQ5Ngpk4Dthqumvwg==}
     engines: {node: '>=20.x'}
 
-  '@sap-ux/project-access@1.35.10':
-    resolution: {integrity: sha512-6TtVQh8UbqwKjfZku8PFiS9FV/MK/XIfygLNw6dp4PZ3J8ALO7oPKFkyl/w2VYzjIWMTGMMk5W+zzUOzW0CazA==}
+  '@sap-ux/project-access@1.35.18':
+    resolution: {integrity: sha512-WDhDdHxSbdt5JW9lPzloL5D6izmnG3BLzNavJkUxXLsrIpnlBQYjlCkD4GRaJ2lwChkXRb7uTgRSIqXf75HfNA==}
     engines: {node: '>=20.x'}
 
   '@sap-ux/text-document-utils@0.3.3':
     resolution: {integrity: sha512-/jO9Br7uJZP/GsvMPCgY2Sgn/qMs/JrSRLWxq8HdW633Qa0ngqliZSqdJxoHbAmpmzCjIAFq6dS3O2+a33ropA==}
     engines: {node: '>=20.x'}
 
-  '@sap-ux/ui5-config@0.29.19':
-    resolution: {integrity: sha512-omoNqVhObH0H7wPQwoD5VRxhYboh7kwqdaInTOocNcBPoqNk1QjyJTTG65/jiYAN87Ar94Lt+LkrcIzMwJn9UA==}
+  '@sap-ux/ui5-config@0.30.1':
+    resolution: {integrity: sha512-NzI0g+6aeFf+uPn8pyCmChWsc8aeqnXqLfyyvVGgBbtQ2uaeWwyTDhJzhojEjC0y1QZpAZ01UkN2Bp847AR+Sw==}
     engines: {node: '>=20.x'}
 
   '@sap-ux/vocabularies-types@0.10.14':
     resolution: {integrity: sha512-PtjyRBQbjCFHE1TAXz3DXuyD46eoobAK3BmOsjS60o2dNHMU9EVL1/sbbeiB2917ZV0ARezd3C1BNEict5VXfg==}
     engines: {node: '>=18.0.0 < 19.0.0 || >=20.0.0 < 21.0.0', pnpm: '>=8'}
 
-  '@sap-ux/yaml@0.17.4':
-    resolution: {integrity: sha512-tYuLuAVSuMpDiDXnIUij70X94WVGvBKPKMP1iG9+P5UxYLJNz5VFxkH9d4E533ymrwcNdkg6u1cgLq1kvQ1+gg==}
+  '@sap-ux/yaml@0.17.6':
+    resolution: {integrity: sha512-lv3pI1hYO6RV9z29i/UQY9w7t1uXin6NrkEQTkruvnH1yHNYjb0epwC73pGyy4QD/3Hu9mXzacrEPcXHfwigZA==}
     engines: {node: '>=20.x'}
 
   '@sap/swa-for-sapbas-vsx@1.1.9':
@@ -1769,9 +1772,9 @@ packages:
   '@textlint/types@15.5.2':
     resolution: {integrity: sha512-sJOrlVLLXp4/EZtiWKWq9y2fWyZlI8GP+24rnU5avtPWBIMm/1w97yzKrAqYF8czx2MqR391z5akhnfhj2f/AQ==}
 
-  '@tootallnate/once@1.1.2':
-    resolution: {integrity: sha512-RbzJvlNzmRq5c3O09UipeuXno4tA1FE6ikOjxZK0tuxVv3412l64l5t1W5pj4+rJq9vpkm/kwiR07aZXnsKPxw==}
-    engines: {node: '>= 6'}
+  '@tootallnate/once@3.0.1':
+    resolution: {integrity: sha512-VyMVKRrpHTT8PnotUeV8L/mDaMwD5DaAKCFLP73zAqAtvF0FCqky+Ki7BYbFCYQmqFyTe9316Ed5zS70QUR9eg==}
+    engines: {node: '>= 10'}
 
   '@types/babel__core@7.20.5':
     resolution: {integrity: sha512-qoQprZvz5wQFJwMDqeseRXWv3rqMvhgpbXFfVyWhbx9X47POIA6i/+dXefEmZKoAgOaTdaIgNSMqMIU61yRyzA==}
@@ -2255,6 +2258,9 @@ packages:
 
   axios@1.13.5:
     resolution: {integrity: sha512-cz4ur7Vb0xS4/KUN0tPWe44eqxrIu31me+fbang3ijiNscE129POzipJJA6zniq2C/Z6sJCjMimjS8Lc/GAs8Q==}
+
+  axios@1.13.6:
+    resolution: {integrity: sha512-ChTCHMouEe2kn713WHbQGcuYrr6fXTBiu460OTwWrWob16g1bXn4vtz07Ope7ewMozJAnEquLk5lWQWtBig9DQ==}
 
   azure-devops-node-api@12.5.0:
     resolution: {integrity: sha512-R5eFskGvOm3U/GzeAuxRkUsAl0hrAwGgWn6zAd2KrZmrEhWZVqLew4OOupbQlXUuojUzpGtq62SmdhJ06N88og==}
@@ -3105,8 +3111,8 @@ packages:
   fast-xml-builder@1.1.4:
     resolution: {integrity: sha512-f2jhpN4Eccy0/Uz9csxh3Nu6q4ErKxf0XIsasomfOihuSUa3/xw6w8dnOtCDgEItQFJG8KyXPzQXzcODDrrbOg==}
 
-  fast-xml-parser@5.4.1:
-    resolution: {integrity: sha512-BQ30U1mKkvXQXXkAGcuyUA/GA26oEB7NzOtsxCDtyu62sjGw5QraKFhx2Em3WQNjPw9PG6MQ9yuIIgkSDfGu5A==}
+  fast-xml-parser@5.5.9:
+    resolution: {integrity: sha512-jldvxr1MC6rtiZKgrFnDSvT8xuH+eJqxqOBThUVjYrxssYTo1avZLGql5l0a0BAERR01CadYzZ83kVEkbyDg+g==}
     hasBin: true
 
   fastq@1.20.1:
@@ -3954,9 +3960,9 @@ packages:
   json-parse-even-better-errors@2.3.1:
     resolution: {integrity: sha512-xyFwyhro/JEof6Ghe2iz2NcXoj2sloNsWr/XsERDK/oiPCfaNhl5ONfp+jQdAZRQQ0IJWNzH9zIZF7li91kh2w==}
 
-  json-parse-even-better-errors@4.0.0:
-    resolution: {integrity: sha512-lR4MXjGNgkJc7tkQ97kb2nuEMnNCyU//XYVH0MKTGcXEiSudQ5MKGKen3C5QubYy0vmq+JGitUg92uuywGEwIA==}
-    engines: {node: ^18.17.0 || >=20.5.0}
+  json-parse-even-better-errors@5.0.0:
+    resolution: {integrity: sha512-ZF1nxZ28VhQouRWhUcVlUIN3qwSgPuswK05s/HIaoetAoE/9tngVmCHjSxmSQPav1nd+lPtTL0YZ/2AFdR/iYQ==}
+    engines: {node: ^20.17.0 || >=22.9.0}
 
   json-schema-ref-parser@9.0.9:
     resolution: {integrity: sha512-qcP2lmGy+JUoQJ4DOQeLaZDqH9qSkeGCK3suKWxJXS82dg728Mn3j97azDMaOUmJAN4uCq91LdPx4K7E8F1a7Q==}
@@ -4117,8 +4123,8 @@ packages:
   lodash.truncate@4.4.2:
     resolution: {integrity: sha512-jttmRe7bRse52OsWIMDLaXxWqRAmtIUccAQ3garviCqJjafXOfNMO0yMfNpdD6zbGaTU0P5Nz7e7gAT6cKmJRw==}
 
-  lodash@4.17.23:
-    resolution: {integrity: sha512-LgVTMpQtIopCi79SJeDiP0TfWi5CNEc/L/aRdTh3yIvmZXTnheWpKjSZhnvMl8iXbC1tFg9gdHHDMLoV7CnG+w==}
+  lodash@4.18.1:
+    resolution: {integrity: sha512-dMInicTPVE8d1e5otfwmmjlxkZoUpiVLwyeTdUsi/Caj/gfzzblBcCE5sRHV/AsjuCmxWrte2TNGSYuCeCq+0Q==}
 
   log-symbols@4.1.0:
     resolution: {integrity: sha512-8XPvpAA8uyhfteu8pIvQxpJZ7SYYdpUivZpGy6sFsBuKRY/7rQGavedeB8aK+Zkyq6upMFVL/9AW6vOYzfRyLg==}
@@ -4424,10 +4430,6 @@ packages:
   ora@5.4.1:
     resolution: {integrity: sha512-5b6Y85tPxZZ7QytO+BQzysW31HJku27cRIlkbAXaNx+BdcVi+LlRFmVXzeF6a7JCwJpyw5c4b+YSVImQIrBpuQ==}
     engines: {node: '>=10'}
-
-  os-tmpdir@1.0.2:
-    resolution: {integrity: sha512-D2FR03Vir7FIu45XBY20mTb+/ZSWB00sjU9jdQXt83gDrI4Ztz5Fs7/yy74g2N5SVQY4xY1qDr4rNddwYRVX0g==}
-    engines: {node: '>=0.10.0'}
 
   outdent@0.5.0:
     resolution: {integrity: sha512-/jHxFIzoMXdqPzTaCpFzAAWhpkSjZPF4Vsn6jAfNpmbH/ymsmd7Qc6VE9BGn0L6YMj6uwpQLxCECpus4ukKS9Q==}
@@ -5218,10 +5220,6 @@ packages:
   tmp-promise@3.0.2:
     resolution: {integrity: sha512-OyCLAKU1HzBjL6Ev3gxUeraJNlbNingmi8IrHHEsYH8LTmEuhvYfqvhn2F/je+mjf4N58UmZ96OMEy1JanSCpA==}
 
-  tmp@0.0.33:
-    resolution: {integrity: sha512-jRCJlojKnZ3addtTOjdIqoRuPEKBvNXcGYqzO6zWZX8KfKEpnGY5jfggJQ3EjKuu8D4bJRr0y+cYJFmYbImXGw==}
-    engines: {node: '>=0.6.0'}
-
   tmp@0.2.5:
     resolution: {integrity: sha512-voyz6MApa1rQGUxT3E+BK7/ROe8itEx7vD8/HEvt4xwXucvQ5G5oeEiHkmHZJuBO21RpOf+YYm9MOivj709jow==}
     engines: {node: '>=14.14'}
@@ -5443,9 +5441,6 @@ packages:
   vscode-languageserver-textdocument@1.0.1:
     resolution: {integrity: sha512-UIcJDjX7IFkck7cSkNNyzIz5FyvpQfY7sdzVy+wkKN/BLaD4DQ0ppXQrKePomCxTS7RrolK1I0pey0bG9eh8dA==}
 
-  vscode-languageserver-textdocument@1.0.11:
-    resolution: {integrity: sha512-X+8T3GoiwTVlJbicx/sIAF+yuJAqz8VvwJyoMVhwEMoEKE/fkDmrqUgDMyBECcM2A2frVZIUj5HI/ErRXCfOeA==}
-
   vscode-languageserver-textdocument@1.0.12:
     resolution: {integrity: sha512-cxWNPesCnQCcMPeenjKKsOCKQZ/L6Tv19DTRIGuLWe32lyzWhihGVJ/rcckZXJxfdKCFvRLS3fpBIsV/ZGX4zA==}
 
@@ -5595,9 +5590,10 @@ packages:
     resolution: {integrity: sha512-vIYeF1u3CjlhAFekPPAk2h/Kv4T3mAkMox5OymRiJQB0spDP10LHvt+K7G9Ny6NuuMAb25/6n1qyUjAcGNf/AA==}
     engines: {node: '>= 6'}
 
-  yaml@2.2.2:
-    resolution: {integrity: sha512-CBKFWExMn46Foo4cldiChEzn7S7SRV+wqiluAb6xmueD/fGyRHIhX8m14vVGgeFWjN540nKCNVj6P21eQjgTuA==}
-    engines: {node: '>= 14'}
+  yaml@2.8.3:
+    resolution: {integrity: sha512-AvbaCLOO2Otw/lW5bmh9d/WEdcDFdQp2Z2ZUH3pX9U2ihyUY0nvLv7J6TrWowklRGPYbB/IuIMfYgxaCPg5Bpg==}
+    engines: {node: '>= 14.6'}
+    hasBin: true
 
   yargs-parser@18.1.3:
     resolution: {integrity: sha512-o50j0JeToy/4K6OZcaQmW6lyXXKhq7csREXcDwk2omFPJEwUNOVtJKvmDr9EI1fAJZUyZcRF7kxGBWmRXudrCQ==}
@@ -6069,12 +6065,12 @@ snapshots:
     dependencies:
       '@chevrotain/gast': 10.4.2
       '@chevrotain/types': 10.4.2
-      lodash: 4.17.23
+      lodash: 4.18.1
 
   '@chevrotain/gast@10.4.2':
     dependencies:
       '@chevrotain/types': 10.4.2
-      lodash: 4.17.23
+      lodash: 4.18.1
 
   '@chevrotain/types@10.4.2': {}
 
@@ -6092,7 +6088,7 @@ snapshots:
       chalk: 4.1.0
       core-js: 3.49.0
       get-stdin: 8.0.0
-      lodash: 4.17.23
+      lodash: 4.18.1
       resolve-from: 5.0.0
       resolve-global: 1.0.0
       yargs: 15.4.1
@@ -6110,7 +6106,7 @@ snapshots:
   '@commitlint/ensure@11.0.0':
     dependencies:
       '@commitlint/types': 11.0.0
-      lodash: 4.17.23
+      lodash: 4.18.1
 
   '@commitlint/execute-rule@11.0.0': {}
 
@@ -6141,7 +6137,7 @@ snapshots:
       '@commitlint/types': 11.0.0
       chalk: 4.1.0
       cosmiconfig: 7.1.0
-      lodash: 4.17.23
+      lodash: 4.18.1
       resolve-from: 5.0.0
 
   '@commitlint/load@20.5.0(@types/node@20.17.14)(typescript@4.9.4)':
@@ -6176,7 +6172,7 @@ snapshots:
   '@commitlint/resolve-extends@11.0.0':
     dependencies:
       import-fresh: 3.3.1
-      lodash: 4.17.23
+      lodash: 4.18.1
       resolve-from: 5.0.0
       resolve-global: 1.0.0
 
@@ -6304,7 +6300,7 @@ snapshots:
       ignore: 4.0.6
       import-fresh: 3.3.1
       js-yaml: 4.1.1
-      lodash: 4.17.23
+      lodash: 4.18.1
       minimatch: 3.1.5
       strip-json-comments: 3.1.1
     transitivePeerDependencies:
@@ -6556,19 +6552,19 @@ snapshots:
     dependencies:
       xml-js: 1.6.11
 
-  '@sap-ux/i18n@0.3.9':
+  '@sap-ux/i18n@0.3.10':
     dependencies:
       '@sap-ux/text-document-utils': 0.3.3
       jsonc-parser: 3.3.1
-      vscode-languageserver-textdocument: 1.0.11
+      vscode-languageserver-textdocument: 1.0.12
 
-  '@sap-ux/project-access@1.35.10':
+  '@sap-ux/project-access@1.35.18':
     dependencies:
-      '@sap-ux/i18n': 0.3.9
-      '@sap-ux/ui5-config': 0.29.19
-      fast-xml-parser: 5.4.1
+      '@sap-ux/i18n': 0.3.10
+      '@sap-ux/ui5-config': 0.30.1
+      fast-xml-parser: 5.5.9
       findit2: 2.2.3
-      json-parse-even-better-errors: 4.0.0
+      json-parse-even-better-errors: 5.0.0
       mem-fs: 2.1.0
       mem-fs-editor: 9.4.0(mem-fs@2.1.0)
       semver: 7.7.4
@@ -6579,28 +6575,28 @@ snapshots:
     dependencies:
       vscode-languageserver-types: 3.17.2
 
-  '@sap-ux/ui5-config@0.29.19':
+  '@sap-ux/ui5-config@0.30.1':
     dependencies:
-      '@sap-ux/yaml': 0.17.4
+      '@sap-ux/yaml': 0.17.6
       ajv: 8.18.0
-      axios: 1.13.5
+      axios: 1.13.6
       js-yaml: 4.1.1
-      lodash: 4.17.23
+      lodash: 4.18.1
       semver: 7.7.4
     transitivePeerDependencies:
       - debug
 
   '@sap-ux/vocabularies-types@0.10.14': {}
 
-  '@sap-ux/yaml@0.17.4':
+  '@sap-ux/yaml@0.17.6':
     dependencies:
-      lodash: 4.17.23
-      yaml: 2.2.2
+      lodash: 4.18.1
+      yaml: 2.8.3
 
   '@sap/swa-for-sapbas-vsx@1.1.9':
     dependencies:
       esm: 3.2.25
-      lodash: 4.17.23
+      lodash: 4.18.1
       matomo-tracker: 2.2.2
 
   '@secretlint/config-creator@10.2.2':
@@ -6709,7 +6705,7 @@ snapshots:
       chalk: 4.1.2
       debug: 4.4.3
       js-yaml: 4.1.1
-      lodash: 4.17.23
+      lodash: 4.18.1
       pluralize: 2.0.0
       string-width: 4.2.3
       strip-ansi: 6.0.1
@@ -6726,7 +6722,7 @@ snapshots:
     dependencies:
       '@textlint/ast-node-types': 15.5.2
 
-  '@tootallnate/once@1.1.2': {}
+  '@tootallnate/once@3.0.1': {}
 
   '@types/babel__core@7.20.5':
     dependencies:
@@ -6913,7 +6909,7 @@ snapshots:
       debug: 4.4.3
       globby: 11.1.0
       is-glob: 4.0.3
-      lodash: 4.17.23
+      lodash: 4.18.1
       semver: 7.7.4
       tsutils: 3.21.0(typescript@4.9.4)
     optionalDependencies:
@@ -6958,7 +6954,7 @@ snapshots:
       '@vscode-logging/types': 0.1.4
       fast-safe-stringify: 2.0.7
       fs-extra: 8.1.0
-      lodash: 4.17.23
+      lodash: 4.18.1
       stacktrace-js: 2.0.2
       streamroller: 2.2.3
       triple-beam: 1.3.0
@@ -7128,17 +7124,17 @@ snapshots:
     dependencies:
       '@xml-tools/common': 0.1.2
       '@xml-tools/parser': 1.0.7
-      lodash: 4.17.23
+      lodash: 4.18.1
 
   '@xml-tools/common@0.1.2':
     dependencies:
-      lodash: 4.17.23
+      lodash: 4.18.1
 
   '@xml-tools/content-assist@3.1.7':
     dependencies:
       '@xml-tools/common': 0.1.2
       '@xml-tools/parser': 1.0.7
-      lodash: 4.17.23
+      lodash: 4.18.1
 
   '@xml-tools/parser@1.0.11':
     dependencies:
@@ -7288,6 +7284,14 @@ snapshots:
       possible-typed-array-names: 1.1.0
 
   axios@1.13.5:
+    dependencies:
+      follow-redirects: 1.15.11
+      form-data: 4.0.5
+      proxy-from-env: 1.1.0
+    transitivePeerDependencies:
+      - debug
+
+  axios@1.13.6:
     dependencies:
       follow-redirects: 1.15.11
       form-data: 4.0.5
@@ -7551,7 +7555,7 @@ snapshots:
       '@chevrotain/gast': 10.4.2
       '@chevrotain/types': 10.4.2
       '@chevrotain/utils': 10.4.2
-      lodash: 4.17.23
+      lodash: 4.18.1
       regexp-to-ast: 0.5.0
 
   chownr@1.1.4:
@@ -7669,7 +7673,7 @@ snapshots:
       glob: 7.2.3
       inquirer: 8.2.5
       is-utf8: 0.2.1
-      lodash: 4.17.23
+      lodash: 4.18.1
       minimist: 1.2.7
       strip-bom: 4.0.0
       strip-json-comments: 3.1.1
@@ -7694,7 +7698,7 @@ snapshots:
   conventional-changelog-conventionalcommits@4.6.3:
     dependencies:
       compare-func: 2.0.0
-      lodash: 4.17.23
+      lodash: 4.18.1
       q: 1.5.1
 
   conventional-commit-types@3.0.0: {}
@@ -7703,7 +7707,7 @@ snapshots:
     dependencies:
       JSONStream: 1.3.5
       is-text-path: 1.0.1
-      lodash: 4.17.23
+      lodash: 4.18.1
       meow: 8.1.2
       split2: 3.2.2
       through2: 4.0.2
@@ -8196,7 +8200,7 @@ snapshots:
       js-yaml: 4.1.1
       json-stable-stringify-without-jsonify: 1.0.1
       levn: 0.4.1
-      lodash: 4.17.23
+      lodash: 4.18.1
       minimatch: 3.1.5
       natural-compare: 1.4.0
       optionator: 0.9.4
@@ -8298,7 +8302,7 @@ snapshots:
     dependencies:
       chardet: 0.7.0
       iconv-lite: 0.4.24
-      tmp: 0.0.33
+      tmp: 0.2.5
 
   fast-deep-equal@3.1.3: {}
 
@@ -8322,9 +8326,10 @@ snapshots:
     dependencies:
       path-expression-matcher: 1.2.0
 
-  fast-xml-parser@5.4.1:
+  fast-xml-parser@5.5.9:
     dependencies:
       fast-xml-builder: 1.1.4
+      path-expression-matcher: 1.2.0
       strnum: 2.2.2
 
   fastq@1.20.1:
@@ -8537,7 +8542,7 @@ snapshots:
   git-raw-commits@2.0.11:
     dependencies:
       dargs: 7.0.0
-      lodash: 4.17.23
+      lodash: 4.18.1
       meow: 8.1.2
       split2: 3.2.2
       through2: 4.0.2
@@ -8685,7 +8690,7 @@ snapshots:
 
   http-proxy-agent@4.0.1:
     dependencies:
-      '@tootallnate/once': 1.1.2
+      '@tootallnate/once': 3.0.1
       agent-base: 6.0.2
       debug: 4.4.3
     transitivePeerDependencies:
@@ -8783,7 +8788,7 @@ snapshots:
       cli-width: 3.0.0
       external-editor: 3.1.0
       figures: 3.2.0
-      lodash: 4.17.23
+      lodash: 4.18.1
       mute-stream: 0.0.8
       ora: 5.4.1
       run-async: 2.4.1
@@ -9407,7 +9412,7 @@ snapshots:
 
   json-parse-even-better-errors@2.3.1: {}
 
-  json-parse-even-better-errors@4.0.0: {}
+  json-parse-even-better-errors@5.0.0: {}
 
   json-schema-ref-parser@9.0.9:
     dependencies:
@@ -9423,7 +9428,7 @@ snapshots:
       is-glob: 4.0.3
       json-schema-ref-parser: 9.0.9
       json-stringify-safe: 5.0.1
-      lodash: 4.17.23
+      lodash: 4.18.1
       minimist: 1.2.8
       mkdirp: 1.0.4
       mz: 2.7.0
@@ -9596,7 +9601,7 @@ snapshots:
 
   lodash.truncate@4.4.2: {}
 
-  lodash@4.17.23: {}
+  lodash@4.18.1: {}
 
   log-symbols@4.1.0:
     dependencies:
@@ -9931,8 +9936,6 @@ snapshots:
       log-symbols: 4.1.0
       strip-ansi: 6.0.1
       wcwidth: 1.0.1
-
-  os-tmpdir@1.0.2: {}
 
   outdent@0.5.0: {}
 
@@ -10475,7 +10478,7 @@ snapshots:
 
   sort-any@1.2.9:
     dependencies:
-      lodash: 4.17.23
+      lodash: 4.18.1
 
   source-map-support@0.5.13:
     dependencies:
@@ -10768,10 +10771,6 @@ snapshots:
     dependencies:
       tmp: 0.2.5
 
-  tmp@0.0.33:
-    dependencies:
-      os-tmpdir: 1.0.2
-
   tmp@0.2.5: {}
 
   tmpl@1.0.5: {}
@@ -10991,8 +10990,6 @@ snapshots:
 
   vscode-languageserver-textdocument@1.0.1: {}
 
-  vscode-languageserver-textdocument@1.0.11: {}
-
   vscode-languageserver-textdocument@1.0.12: {}
 
   vscode-languageserver-types@3.17.2: {}
@@ -11193,7 +11190,7 @@ snapshots:
 
   yaml@1.10.3: {}
 
-  yaml@2.2.2: {}
+  yaml@2.8.3: {}
 
   yargs-parser@18.1.3:
     dependencies:
