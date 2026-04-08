@@ -1,11 +1,7 @@
 const proxyquire = require("proxyquire");
 const { resolve } = require("path");
 const { readFileSync, writeFileSync, copyFileSync } = require("fs");
-const {
-  writeJsonSync,
-  copySync,
-  emptyDirSync,
-} = require("fs-extra");
+const { writeJsonSync, copySync, emptyDirSync } = require("fs-extra");
 
 // The path to the language server must be resolved from **inside** the VSCode Ext's node_modules.
 const langServerDir = resolve(
@@ -13,7 +9,7 @@ const langServerDir = resolve(
   "..",
   "node_modules",
   "@ui5-language-assistant",
-  "language-server", // take it from monono repo
+  "language-server",
 );
 
 const rootExtDir = resolve(__dirname, "..");
