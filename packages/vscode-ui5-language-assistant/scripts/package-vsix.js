@@ -9,7 +9,7 @@ const langServerDir = resolve(
   "..",
   "node_modules",
   "@ui5-language-assistant",
-  "language-server",
+  "language-server"
 );
 
 const rootExtDir = resolve(__dirname, "..");
