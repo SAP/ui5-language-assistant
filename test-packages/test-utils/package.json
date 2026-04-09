@@ -23,7 +23,7 @@
     "proxy-from-env": "1.1.0"
   },
   "devDependencies": {
-    "@types/node-fetch": "2.5.10"
+    "@types/node-fetch": "2.6.2"
   },
   "scripts": {
     "ci": "npm-run-all lint",
