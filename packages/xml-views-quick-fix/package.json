@@ -25,7 +25,7 @@
     "@ui5-language-assistant/context": "4.0.38",
     "@xml-tools/ast": "5.0.0",
     "@xml-tools/ast-position": "2.0.2",
-    "lodash": "4.17.21"
+    "lodash": "4.18.1"
   },
   "devDependencies": {
     "@ui5-language-assistant/test-utils": "4.0.19",
