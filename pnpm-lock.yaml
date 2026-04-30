@@ -628,7 +628,7 @@ importers:
         specifier: workspace:^
         version: link:../context
       '@ui5-language-assistant/language-server':
-        specifier: 4.0.68
+        specifier: workspace:^
         version: link:../language-server
       '@ui5-language-assistant/logger':
         specifier: workspace:^
@@ -648,6 +648,9 @@ importers:
       vscode-languageclient:
         specifier: 8.0.2
         version: 8.0.2
+      vscode-languageserver-textdocument:
+        specifier: 1.0.1
+        version: 1.0.1
       vscode-languageserver-types:
         specifier: 3.17.2
         version: 3.17.2

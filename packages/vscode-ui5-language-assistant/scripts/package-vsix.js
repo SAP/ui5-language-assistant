@@ -1,7 +1,35 @@
 const proxyquire = require("proxyquire");
 const { resolve } = require("path");
-const { readFileSync, writeFileSync, copyFileSync } = require("fs");
-const { writeJsonSync, copySync, emptyDirSync } = require("fs-extra");
+const {
+  readFileSync,
+  writeFileSync,
+  copyFileSync,
+  existsSync,
+  lstatSync,
+  symlinkSync,
+  readlinkSync,
+} = require("fs");
+const {
+  writeJsonSync,
+  copySync,
+  emptyDirSync,
+  removeSync,
+} = require("fs-extra");
+
+const rootExtDir = resolve(__dirname, "..");
+
+// Helper to replace a symlink with a real directory copy, returns the symlink target if it was a symlink
+function resolveSymlink(dir) {
+  if (existsSync(dir) && lstatSync(dir).isSymbolicLink()) {
+    const target = readlinkSync(dir);
+    const realDir = resolve(dir, "..", target);
+    console.log(`Replacing symlink ${dir} -> ${realDir}`);
+    removeSync(dir);
+    copySync(realDir, dir);
+    return target;
+  }
+  return null;
+}
 
 // The path to the language server must be resolved from **inside** the VSCode Ext's node_modules.
 const langServerDir = resolve(
@@ -9,12 +37,17 @@ const langServerDir = resolve(
   "..",
   "node_modules",
   "@ui5-language-assistant",
-  "language-server"
+  "language-server",
 );
 
-const rootExtDir = resolve(__dirname, "..");
+const langServerSymlinkTarget = resolveSymlink(langServerDir);
+
+// We need to stub the getDependencies function used by vsce to ensure the above symlink resolutions are taken into account.
 const getDepsStub = {
-  getDependencies: async () => [rootExtDir, langServerDir],
+  getDependencies: async () => [
+    rootExtDir,
+    langServerDir,
+  ],
 };
 const { packageCommand } = proxyquire("@vscode/vsce/out/package", {
   "./npm": getDepsStub,
@@ -63,8 +96,14 @@ packageCommand({
     process.exitCode = 1000;
   })
   .finally(() => {
-    const fs = require("fs");
-
     // revert changes to the pkg.json, ensure clean git working directory
     writeFileSync(pkgJsonPath, pkgJsonOrgStr);
+
+    // Restore symlinks if they were originally symlinks
+    if (langServerSymlinkTarget) {
+      console.log("Restoring language-server symlink...");
+      removeSync(langServerDir);
+      symlinkSync(langServerSymlinkTarget, langServerDir);
+      console.log("✓ Symlink restored");
+    }
   });

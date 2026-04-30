@@ -1,12 +1,9 @@
 # Exclude all node_modules by default
-# node_modules
 node_modules/**
 
-# Re-include specific dependencies needed at runtime:
-# 1. Language server (runs as separate process)
-node_modules/@ui5-language-assistant/language-server/**
-!node_modules/@ui5-language-assistant/language-server/dist/**
-
+# 1. Language server (runs as separate process, dist/server.js bundles all its deps)
+!node_modules/@ui5-language-assistant/
+!node_modules/@ui5-language-assistant/**
 
 # Exclude development artifacts
 **/*.ts
