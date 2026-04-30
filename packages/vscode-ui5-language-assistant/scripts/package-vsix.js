@@ -37,17 +37,14 @@ const langServerDir = resolve(
   "..",
   "node_modules",
   "@ui5-language-assistant",
-  "language-server",
+  "language-server"
 );
 
 const langServerSymlinkTarget = resolveSymlink(langServerDir);
 
 // We need to stub the getDependencies function used by vsce to ensure the above symlink resolutions are taken into account.
 const getDepsStub = {
-  getDependencies: async () => [
-    rootExtDir,
-    langServerDir,
-  ],
+  getDependencies: async () => [rootExtDir, langServerDir],
 };
 const { packageCommand } = proxyquire("@vscode/vsce/out/package", {
   "./npm": getDepsStub,
