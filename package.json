@@ -103,7 +103,8 @@
       "read-yaml-file": "^2.1.0",
       "tmp": "^0.2.4",
       "@tootallnate/once": "^3.0.1",
-      "tough-cookie": "^5.0.0"
+      "tough-cookie": "^5.0.0",
+      "uuid": ">=9.0.0"
     }
   }
 }
