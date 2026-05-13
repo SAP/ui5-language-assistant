@@ -20,7 +20,7 @@ const MODEL_CACHE: Record<TestModelVersion, UI5SemanticModel> =
   Object.create(null);
 
 const fixes: Record<TestModelVersion, TypeNameFix> = {
-  "1.71.81": {
+  "1.71.82": {
     array: "any[]",
     Array: "any[]",
     bloolean: undefined,
@@ -270,7 +270,7 @@ type LibraryFix = (content: Json) => void;
 
 // Library version -> library name -> fix function
 const libraryFixes: Record<TestModelVersion, Record<string, LibraryFix[]>> = {
-  "1.71.81": {},
+  "1.71.82": {},
   "1.84.51": {},
   "1.96.27": {
     "sap.ui.mdc": [
