@@ -15,7 +15,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        node-version: [20.x, 22.x]
+        node-version: [22.x]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout code repository
@@ -24,8 +24,6 @@ jobs:
           fetch-depth: 0 # will fetch all history
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
-        with:
-          version: 9.15.4
       - name: Setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
@@ -37,14 +35,14 @@ jobs:
         run: pnpm run ci
 
       - name: Run SonarCloud scan
-        if: matrix.os == 'ubuntu-latest' && matrix.node-version == '20.x'
+        if: matrix.os == 'ubuntu-latest' && matrix.node-version == '22.x'
         uses: SonarSource/sonarqube-scan-action@v5.2.0
         env:
           GITHUB_TOKEN: ${{ secrets.ACCESS_PAT }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}  
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
       - name: Upload vsix artifact
-        if: matrix.os == 'ubuntu-latest' && matrix.node-version == '20.x' && github.event_name == 'push'
+        if: matrix.os == 'ubuntu-latest' && matrix.node-version == '22.x' && github.event_name == 'push'
         uses: actions/upload-artifact@v4
         with:
           name: vscode-extension-file
@@ -67,7 +65,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        node-version: [20.x]
+        node-version: [22.x]
     runs-on: ${{ matrix.os }}
     needs: [build, compliance]
     outputs:
@@ -82,8 +80,6 @@ jobs:
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
-        with:
-          version: 9.15.4
       - name: Setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
