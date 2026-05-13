@@ -11,6 +11,9 @@
   ],
   "repository": "https://github.com/sap/ui5-language-assistant/",
   "license": "Apache-2.0",
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "typings": "./api.d.ts",
   "scripts": {
     "ci": "npm-run-all lint coverage",
@@ -22,6 +25,6 @@
     "coverage": "echo nothing to test"
   },
   "dependencies": {
-    "@ui5-language-assistant/constant": "0.0.4"
+    "@ui5-language-assistant/constant": "workspace:*"
   }
 }

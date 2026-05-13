@@ -19,11 +19,14 @@
   "main": "lib/src/api.js",
   "repository": "https://github.com/sap/ui5-language-assistant/",
   "license": "Apache-2.0",
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "typings": "./api.d.ts",
   "dependencies": {
-    "@ui5-language-assistant/constant": "0.0.4",
-    "@ui5-language-assistant/context": "4.0.38",
-    "@ui5-language-assistant/logic-utils": "4.0.24",
+    "@ui5-language-assistant/constant": "workspace:*",
+    "@ui5-language-assistant/context": "workspace:*",
+    "@ui5-language-assistant/logic-utils": "workspace:*",
     "@ui5-language-assistant/semantic-model-types": "workspace:^",
     "@ui5-language-assistant/settings": "workspace:^",
     "@xml-tools/ast": "5.0.0",
@@ -33,7 +36,7 @@
     "lodash": "4.18.1"
   },
   "devDependencies": {
-    "@ui5-language-assistant/semantic-model": "4.0.23",
+    "@ui5-language-assistant/semantic-model": "workspace:*",
     "@ui5-language-assistant/test-utils": "workspace:^",
     "@xml-tools/parser": "1.0.7",
     "chevrotain": "7.0.1"

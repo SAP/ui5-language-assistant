@@ -19,14 +19,17 @@
   "main": "lib/src/api.js",
   "repository": "https://github.com/sap/ui5-language-assistant/",
   "license": "Apache-2.0",
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "typings": "./api.d.ts",
   "dependencies": {
-    "@ui5-language-assistant/constant": "0.0.4",
-    "@ui5-language-assistant/context": "4.0.38",
-    "@ui5-language-assistant/logic-utils": "4.0.24",
-    "@ui5-language-assistant/semantic-model-types": "4.0.14",
-    "@ui5-language-assistant/settings": "4.0.10",
-    "@ui5-language-assistant/user-facing-text": "4.0.9",
+    "@ui5-language-assistant/constant": "workspace:*",
+    "@ui5-language-assistant/context": "workspace:*",
+    "@ui5-language-assistant/logic-utils": "workspace:*",
+    "@ui5-language-assistant/semantic-model-types": "workspace:*",
+    "@ui5-language-assistant/settings": "workspace:*",
+    "@ui5-language-assistant/user-facing-text": "workspace:*",
     "@xml-tools/ast": "5.0.0",
     "@xml-tools/common": "0.1.2",
     "deep-freeze-strict": "1.1.1",
@@ -35,9 +38,9 @@
     "vscode-uri": "2.1.2"
   },
   "devDependencies": {
-    "@ui5-language-assistant/semantic-model": "4.0.23",
-    "@ui5-language-assistant/test-framework": "4.0.13",
-    "@ui5-language-assistant/test-utils": "4.0.19",
+    "@ui5-language-assistant/semantic-model": "workspace:*",
+    "@ui5-language-assistant/test-framework": "workspace:*",
+    "@ui5-language-assistant/test-utils": "workspace:*",
     "@xml-tools/parser": "1.0.7",
     "assert-never": "1.2.1",
     "path-parse": "^1.0.7"

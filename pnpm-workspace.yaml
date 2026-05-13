@@ -1,3 +1,22 @@
 packages:
   - 'packages/*'
   - 'test-packages/*'
+allowBuilds:
+  '@vscode/vsce-sign': true
+  core-js: true
+  es5-ext: true
+  esbuild: true
+  keytar: true
+overrides:
+  chevrotain: '10.4.2'
+  '@xml-tools/parser>chevrotain': '10.4.2'
+  lodash: '^4.18.0'
+  semver: '^7.7.4'
+  braces: '^3.0.3'
+  cross-spawn: '^7.0.6'
+  js-yaml: '^4.1.1'
+  read-yaml-file: '^2.1.0'
+  tmp: '^0.2.4'
+  '@tootallnate/once': '^3.0.1'
+  tough-cookie: '^5.0.0'
+  uuid: '>=9.0.0'

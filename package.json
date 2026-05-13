@@ -1,12 +1,12 @@
 {
   "name": "root",
   "private": true,
-  "packageManager": "pnpm@9.15.4",
+  "packageManager": "pnpm@11.1.0",
   "engines": {
     "npm": "please-use-pnpm",
     "yarn": "please-use-pnpm",
-    "pnpm": ">=9.0.0",
-    "node": ">=20.0.0"
+    "pnpm": ">=11.0.0",
+    "node": ">=22.0.0"
   },
   "scripts": {
     "build:quick": "pnpm run compile && pnpm -r run bundle && pnpm -r run package",
@@ -41,7 +41,7 @@
     "@types/jest": "29.2.6",
     "@types/klaw-sync": "6.0.0",
     "@types/lodash": "4.14.166",
-    "@types/node": "20.17.14",
+    "@types/node": "22.19.19",
     "@types/rimraf": "3.0.0",
     "@typescript-eslint/eslint-plugin": "4.33.0",
     "@typescript-eslint/parser": "4.14.0",
@@ -91,20 +91,5 @@
     "setupFilesAfterEnv": [
       "jest-extended/all"
     ]
-  },
-  "pnpm": {
-    "overrides": {
-      "chevrotain": "10.4.2",
-      "lodash": "^4.18.0",
-      "semver": "^7.7.4",
-      "braces": "^3.0.3",
-      "cross-spawn": "^7.0.6",
-      "js-yaml": "^4.1.1",
-      "read-yaml-file": "^2.1.0",
-      "tmp": "^0.2.4",
-      "@tootallnate/once": "^3.0.1",
-      "tough-cookie": "^5.0.0",
-      "uuid": ">=9.0.0"
-    }
   }
 }
