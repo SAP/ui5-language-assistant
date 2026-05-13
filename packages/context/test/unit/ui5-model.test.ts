@@ -40,7 +40,7 @@ import {
   negotiateVersionWithFetcher,
   VersionMapJsonType,
 } from "../../src/ui5-model";
-import { FetchResponse } from "@ui5-language-assistant/language-server";
+import { FetchResponse } from "@ui5-language-assistant/logic-utils";
 import * as logicUtils from "@ui5-language-assistant/logic-utils";
 import semverMinSatisfying from "semver/ranges/min-satisfying";
 import { Response } from "node-fetch";

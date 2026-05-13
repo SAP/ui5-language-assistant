@@ -13,12 +13,15 @@
   "main": "lib/src/api.js",
   "repository": "https://github.com/sap/ui5-language-assistant/",
   "license": "Apache-2.0",
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "dependencies": {},
   "devDependencies": {},
   "scripts": {
-    "ci": "npm-run-all clean compile lint",
+    "ci": "npm-run-all lint",
     "clean": "rimraf ./lib ./coverage ./nyc_output",
-    "compile": "yarn run clean && tsc -p .",
+    "compile": "pnpm run clean && tsc -p .",
     "compile:watch": "tsc -p . --watch",
     "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore",
     "test": "echo nothing to test",

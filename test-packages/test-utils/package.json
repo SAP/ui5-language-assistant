@@ -11,21 +11,27 @@
   "main": "lib/src/api.js",
   "repository": "https://github.com/sap/ui5-language-assistant/",
   "license": "Apache-2.0",
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "typings": "./api.d.ts",
   "dependencies": {
+    "@ui5-language-assistant/constant": "workspace:*",
+    "@ui5-language-assistant/semantic-model-types": "workspace:*",
+    "@ui5-language-assistant/settings": "workspace:*",
+    "@ui5-language-assistant/logger": "workspace:*",
+    "@xml-tools/ast": "5.0.0",
     "https-proxy-agent": "5.0.1",
     "node-fetch": "2.6.9",
-    "proxy-from-env": "1.1.0",
-    "@ui5-language-assistant/constant": "0.0.4",
-    "@ui5-language-assistant/semantic-model-types": "4.0.14"
+    "proxy-from-env": "1.1.0"
   },
   "devDependencies": {
-    "@types/node-fetch": "2.5.10"
+    "@types/node-fetch": "2.6.2"
   },
   "scripts": {
-    "ci": "npm-run-all clean compile lint",
+    "ci": "npm-run-all lint",
     "clean": "rimraf ./lib ./coverage ./nyc_output ./.model-cache",
-    "compile": "yarn run clean && tsc -p .",
+    "compile": "pnpm run clean && tsc -p .",
     "compile:watch": "tsc -p . --watch",
     "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore"
   }

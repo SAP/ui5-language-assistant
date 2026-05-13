@@ -145,13 +145,17 @@ const allExpectedNamespaces = [
   "sap.viz.ui5.types.legend",
 ];
 
-const expectNamespaceKeysSuggestions = partial(expectSuggestions, (_) => {
-  expect(_.type).toEqual("UI5NamespacesInXMLAttributeKey");
-  const namespaceInKey = _ as UI5NamespacesInXMLAttributeKeyCompletion;
-  expectUI5Namespace(namespaceInKey.ui5Node);
-  expectXMLAttribute(namespaceInKey.astNode);
-  return ui5NodeToFQN(namespaceInKey.ui5Node);
-});
+const expectNamespaceKeysSuggestions = partial(
+  expectSuggestions,
+  (_: unknown) => {
+    const item = _ as { type: string };
+    expect(item.type).toEqual("UI5NamespacesInXMLAttributeKey");
+    const namespaceInKey = _ as UI5NamespacesInXMLAttributeKeyCompletion;
+    expectUI5Namespace(namespaceInKey.ui5Node);
+    expectXMLAttribute(namespaceInKey.astNode);
+    return ui5NodeToFQN(namespaceInKey.ui5Node);
+  }
+);
 
 describe("The ui5-language-assistant xml-views-completion", () => {
   let ui5SemanticModel: UI5SemanticModel;

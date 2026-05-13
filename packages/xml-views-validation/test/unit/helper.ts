@@ -3,7 +3,7 @@ import type { UI5ValidatorsConfig, UI5XMLViewIssue } from "../../api";
 import { TestFramework } from "@ui5-language-assistant/test-framework";
 import { getContext } from "@ui5-language-assistant/context";
 import type { Context } from "@ui5-language-assistant/context";
-import { validateXMLView } from "@ui5-language-assistant/xml-views-validation";
+import { validateXMLView } from "../../src/api";
 
 export const getContent = (snippet: string): string => {
   return `<mvc:View xmlns:core="sap.ui.core"

@@ -15,25 +15,28 @@
   "main": "lib/src/api.js",
   "repository": "https://github.com/sap/ui5-language-assistant/",
   "license": "Apache-2.0",
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "typings": "./api.d.ts",
   "dependencies": {
-    "@ui5-language-assistant/constant": "0.0.4",
-    "@ui5-language-assistant/semantic-model-types": "4.0.14",
-    "@ui5-language-assistant/logger": "0.0.2",
+    "@ui5-language-assistant/constant": "workspace:*",
+    "@ui5-language-assistant/semantic-model-types": "workspace:*",
+    "@ui5-language-assistant/logger": "workspace:*",
     "ajv": "6.14.0",
     "deep-freeze-strict": "1.1.1",
     "fs-extra": "10.1.0",
-    "lodash": "4.17.21"
+    "lodash": "4.18.1"
   },
   "devDependencies": {
     "@types/deep-freeze-strict": "1.1.0",
-    "@ui5-language-assistant/test-utils": "4.0.19",
+    "@ui5-language-assistant/test-utils": "workspace:*",
     "json-schema-to-typescript": "10.0.3"
   },
   "scripts": {
-    "ci": "npm-run-all clean generate-json-api compile lint coverage",
+    "ci": "npm-run-all lint coverage",
     "clean": "rimraf ./lib ./coverage ./nyc_output",
-    "compile": "yarn run clean && tsc -p .",
+    "compile": "pnpm run clean && tsc -p .",
     "compile:watch": "tsc -p . --watch",
     "lint": "eslint . --ext .ts --max-warnings=0 --ignore-path=../../.gitignore",
     "test": "jest --ci --forceExit --detectOpenHandles --maxWorkers=1 --coverage=false",

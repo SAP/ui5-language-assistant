@@ -1,43 +1,35 @@
-/**
- * Workaround to: https://github.com/microsoft/vscode-vsce/issues/300
- * This "sorts of" implements the (broken) `yarn list` with support for workspaces
- * by hot-patching VSCE cli tool in combination with yarn's workspaces `nohoist` option.
- *
- * See code comments for details.
- *
- * Possible disadvantages:
- * - Some dev artifacts (e.g coverage reports) may be included in the VSIX.
- * - Need to ensure assumptions this logic relies on, (e.g nohoist configuration details).
- * - Could break when VSCE dep version changes.
- */
 const proxyquire = require("proxyquire");
-const { expect } = require("chai");
 const { resolve } = require("path");
-const { forEach } = require("lodash");
-const { readFileSync, writeFileSync, copyFileSync } = require("fs");
-const { writeJsonSync, copySync, emptyDirSync } = require("fs-extra");
+const {
+  readFileSync,
+  writeFileSync,
+  copyFileSync,
+  existsSync,
+  lstatSync,
+  symlinkSync,
+  readlinkSync,
+} = require("fs");
+const {
+  writeJsonSync,
+  copySync,
+  emptyDirSync,
+  removeSync,
+} = require("fs-extra");
 
-const extensionRootPkg = require("../package.json");
-const monoRepoRootPkg = require("../../../package.json");
+const rootExtDir = resolve(__dirname, "..");
 
-const extName = extensionRootPkg.name;
-const monoRepoNoHoist = monoRepoRootPkg.workspaces.nohoist;
-
-// ensure nohoist is configured correctly so the `language-server` dependency
-// of the VSCode extension would be present in the extensions's **own** node_modules dir.
-// - https://classic.yarnpkg.com/blog/2018/02/15/nohoist/
-forEach(["@ui5-language-assistant/language-server"], (_) => {
-  // Shallow
-  expect(
-    monoRepoNoHoist,
-    `Add "${extName}/${_}" to root monorepo package.json[workspaces.nohoist]`
-  ).to.include(`${extName}/${_}`);
-  // Transitive
-  expect(
-    monoRepoNoHoist,
-    `Add "${extName}/${_}/**" to root monorepo package.json[workspaces.nohoist]`
-  ).to.include(`${extName}/${_}/**`);
-});
+// Helper to replace a symlink with a real directory copy, returns the symlink target if it was a symlink
+function resolveSymlink(dir) {
+  if (existsSync(dir) && lstatSync(dir).isSymbolicLink()) {
+    const target = readlinkSync(dir);
+    const realDir = resolve(dir, "..", target);
+    console.log(`Replacing symlink ${dir} -> ${realDir}`);
+    removeSync(dir);
+    copySync(realDir, dir);
+    return target;
+  }
+  return null;
+}
 
 // The path to the language server must be resolved from **inside** the VSCode Ext's node_modules.
 const langServerDir = resolve(
@@ -47,31 +39,14 @@ const langServerDir = resolve(
   "@ui5-language-assistant",
   "language-server"
 );
-const pluginXml = resolve(
-  __dirname,
-  "..",
-  "node_modules",
-  "@prettier/plugin-xml"
-);
-const prettier = resolve(__dirname, "..", "node_modules", "prettier");
-const xmlTools = resolve(__dirname, "..", "node_modules", "@xml-tools");
-const chevrotain = resolve(__dirname, "..", "node_modules", "chevrotain");
-const regexpToAst = resolve(__dirname, "..", "node_modules", "regexp-to-ast");
 
-// **Hot-Patching** VSCE using proxyquire.
-const rootExtDir = resolve(__dirname, "..");
+const langServerSymlinkTarget = resolveSymlink(langServerDir);
+
+// We need to stub the getDependencies function used by vsce to ensure the above symlink resolutions are taken into account.
 const getDepsStub = {
-  getDependencies: async () => [
-    rootExtDir,
-    langServerDir,
-    prettier,
-    pluginXml,
-    xmlTools,
-    chevrotain,
-    regexpToAst,
-  ],
+  getDependencies: async () => [rootExtDir, langServerDir],
 };
-const { packageCommand } = proxyquire("vsce/out/package", {
+const { packageCommand } = proxyquire("@vscode/vsce/out/package", {
   "./npm": getDepsStub,
 });
 
@@ -82,7 +57,6 @@ const pkgJsonOrgStr = readFileSync(pkgJsonPath, "utf8");
 const pkgJson = JSON.parse(pkgJsonOrgStr);
 // During development flows the `main` should point to the compiled sourced
 // for fast dev feedback loops.
-expect(pkgJson.main).to.equal("./lib/src/extension");
 // During production flows the main should point to the bundled sources
 // to reduce loading time.
 pkgJson.main = "./dist/extension";
@@ -121,4 +95,12 @@ packageCommand({
   .finally(() => {
     // revert changes to the pkg.json, ensure clean git working directory
     writeFileSync(pkgJsonPath, pkgJsonOrgStr);
+
+    // Restore symlinks if they were originally symlinks
+    if (langServerSymlinkTarget) {
+      console.log("Restoring language-server symlink...");
+      removeSync(langServerDir);
+      symlinkSync(langServerSymlinkTarget, langServerDir);
+      console.log("✓ Symlink restored");
+    }
   });

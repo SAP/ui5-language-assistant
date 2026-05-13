@@ -2,7 +2,6 @@ import { readdirSync } from "fs";
 import { readJsonSync, readJson, existsSync } from "fs-extra";
 import { resolve, dirname } from "path";
 import { filter, reduce, has, forEach, get } from "lodash";
-import { FetchResponse } from "@ui5-language-assistant/language-server";
 import {
   UI5Framework,
   UI5SemanticModel,
@@ -10,11 +9,18 @@ import {
 import { generateFunc, TestModelVersion, TypeNameFix, Json } from "../../api";
 import { addUi5Resources } from "./download-ui5-resources";
 
+// Local type definition to avoid circular dependency with language-server
+export type FetchResponse<T = unknown> = {
+  ok: boolean;
+  status: number;
+  json: () => Promise<T>;
+};
+
 const MODEL_CACHE: Record<TestModelVersion, UI5SemanticModel> =
   Object.create(null);
 
 const fixes: Record<TestModelVersion, TypeNameFix> = {
-  "1.71.80": {
+  "1.71.82": {
     array: "any[]",
     Array: "any[]",
     bloolean: undefined,
@@ -188,10 +194,7 @@ export async function downloadLibraries(
 
 // Load the library files from the file system.
 // To save the libraries to the file system use downloadLibraries.
-function loadLibraries(
-  framework: UI5Framework,
-  version: TestModelVersion
-): Record<string, Json> {
+function loadLibraries(version: TestModelVersion): Record<string, Json> {
   const inputFolder = getModelFolder(version);
   const files = readdirSync(inputFolder);
   const LIBFILE_SUFFIX = ".designtime.api.json";
@@ -200,7 +203,16 @@ function loadLibraries(
     libFiles,
     (libToFileContentMap, file) => {
       const libName = file.substring(0, file.length - LIBFILE_SUFFIX.length);
-      libToFileContentMap[libName] = readJsonSync(resolve(inputFolder, file));
+      const filePath = resolve(inputFolder, file);
+      try {
+        libToFileContentMap[libName] = readJsonSync(filePath);
+      } catch (error) {
+        // Skip corrupted cache files - they will be re-downloaded if needed
+        console.warn(
+          `Warning: Skipping corrupted cache file: ${filePath}`,
+          error instanceof Error ? error.message : String(error)
+        );
+      }
       return libToFileContentMap;
     },
     Object.create(null)
@@ -231,7 +243,7 @@ export async function generateModel({
     await downloadLibraries(version);
   }
 
-  const libToFileContent = loadLibraries(framework, version);
+  const libToFileContent = loadLibraries(version);
 
   // If we want the libraries in strict mode we have to fix them first
   if (strict) {
@@ -258,7 +270,7 @@ type LibraryFix = (content: Json) => void;
 
 // Library version -> library name -> fix function
 const libraryFixes: Record<TestModelVersion, Record<string, LibraryFix[]>> = {
-  "1.71.80": {},
+  "1.71.82": {},
   "1.84.51": {},
   "1.96.27": {
     "sap.ui.mdc": [

@@ -5,5 +5,6 @@
     "outDir": "lib",
     "baseUrl": "."
   },
-  "include": ["src/**/*", "test/**/*", "api.d.ts", "src/manifest/*.json"]
+  "include": ["src/**/*", "test/**/*", "api.d.ts", "src/manifest/*.json"],
+  "references": [{ "path": "../constant" }]
 }

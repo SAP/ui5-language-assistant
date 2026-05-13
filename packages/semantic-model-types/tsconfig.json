@@ -3,5 +3,6 @@
   "compilerOptions": {
     "baseUrl": "."
   },
-  "include": ["api.d.ts"]
+  "include": ["api.d.ts"],
+  "references": [{ "path": "../constant" }]
 }

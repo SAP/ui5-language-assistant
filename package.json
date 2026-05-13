@@ -1,41 +1,35 @@
 {
   "name": "root",
   "private": true,
-  "workspaces": {
-    "packages": [
-      "packages/*",
-      "test-packages/*"
-    ],
-    "nohoist": [
-      "vscode-ui5-language-assistant/prettier",
-      "vscode-ui5-language-assistant/@prettier/plugin-xml",
-      "vscode-ui5-language-assistant/@ui5-language-assistant/language-server",
-      "vscode-ui5-language-assistant/@ui5-language-assistant/language-server/**"
-    ]
+  "packageManager": "pnpm@11.1.0",
+  "engines": {
+    "npm": "please-use-pnpm",
+    "yarn": "please-use-pnpm",
+    "pnpm": ">=11.0.0",
+    "node": ">=22.0.0"
   },
   "scripts": {
-    "build:quick": "lerna run compile && lerna run bundle && lerna run package",
-    "release:version": "lerna version --force-publish",
-    "release:publish": "lerna publish from-package --yes",
-    "ci": "npm-run-all format:validate ci:subpackages legal:*",
-    "compile": "yarn run clean && tsc --build",
-    "compile:watch": "yarn run clean && tsc --build --watch",
+    "build:quick": "pnpm run compile && pnpm -r run bundle && pnpm -r run package",
+    "release:version": "changeset version",
+    "release:publish": "pnpm -r publish --access public",
+    "ci": "npm-run-all format:validate compile ci:subpackages legal:*",
+    "compile": "pnpm run clean && tsc --build",
+    "compile:watch": "pnpm run clean && tsc --build --watch",
     "format:fix": "prettier --write \"**/*.@(js|ts|json|md)\" --ignore-path=.gitignore",
     "format:validate": "prettier --check \"**/*.@(js|ts|json|md)\" --ignore-path=.gitignore",
     "lint": "eslint . --ext .ts --fix --max-warnings=0 --ignore-path=.gitignore",
-    "ci:subpackages": "lerna run ci",
-    "test": "lerna run test",
-    "coverage": "lerna run coverage",
-    "clean": "lerna run clean",
-    "update-snapshots": "lerna run update-snapshots",
-    "legal:delete": "lerna exec \"shx rm -rf .reuse LICENSES\" || true",
-    "legal:copy": "lerna exec \"shx cp -r ../../.reuse .reuse && shx cp -r ../../LICENSES LICENSES\"",
+    "ci:subpackages": "pnpm -r --filter=!@ui5-language-assistant/language-server run ci",
+    "test": "pnpm -r run test",
+    "coverage": "pnpm -r run coverage",
+    "clean": "pnpm -r run clean",
+    "update-snapshots": "pnpm -r run update-snapshots",
+    "legal:delete": "pnpm -r exec shx rm -rf .reuse LICENSES || true",
+    "legal:copy": "pnpm -r exec shx cp -r ../../.reuse . && pnpm -r exec shx cp -r ../../LICENSES .",
     "prepare": "node ./.husky/skip.js || husky install",
     "hooks:pre-commit": "lint-staged",
     "hooks:commit-msg": "commitlint -e",
     "cset": "changeset",
-    "ci:version": "changeset version",
-    "postinstall": "patch-package"
+    "ci:version": "changeset version"
   },
   "devDependencies": {
     "@changesets/cli": "2.30.0",
@@ -47,6 +41,7 @@
     "@types/jest": "29.2.6",
     "@types/klaw-sync": "6.0.0",
     "@types/lodash": "4.14.166",
+    "@types/node": "22.19.19",
     "@types/rimraf": "3.0.0",
     "@typescript-eslint/eslint-plugin": "4.33.0",
     "@typescript-eslint/parser": "4.14.0",
@@ -69,11 +64,9 @@
     "jest-extended": "3.2.3",
     "jest-sonar": "0.2.16",
     "klaw-sync": "6.0.0",
-    "lerna": "9.0.5",
     "lint-staged": "10.5.3",
     "mock-fs": "^5.2.0",
     "npm-run-all": "4.1.5",
-    "patch-package": "^8.0.1",
     "prettier": "2.8.7",
     "rimraf": "3.0.2",
     "shx": "0.3.3",
@@ -89,11 +82,6 @@
       "eslint --fix --max-warnings=0"
     ]
   },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
-    }
-  },
   "commitlint": {
     "extends": [
       "@commitlint/config-conventional"
@@ -103,29 +91,5 @@
     "setupFilesAfterEnv": [
       "jest-extended/all"
     ]
-  },
-  "resolutions": {
-    "@babel/traverse": "^7.24.0",
-    "@isaacs/brace-expansion": "^5.0.1",
-    "axios": "^1.13.5",
-    "braces": "^3.0.3",
-    "cross-spawn": "^7.0.6",
-    "form-data": "^4.0.1",
-    "get-func-name": "^2.0.2",
-    "js-yaml": "^4.1.1",
-    "lodash": "^4.17.23",
-    "minimatch": "^10.2.3",
-    "test-exclude": "^7.0.2",
-    "qs": "^6.14.1",
-    "semver": "^7.6.0",
-    "string-width": "4.2.3",
-    "string-width-cjs": "npm:string-width@4.2.3",
-    "strip-ansi": "6.0.1",
-    "strip-ansi-cjs": "npm:strip-ansi@6.0.1",
-    "tar": "^7.5.8",
-    "tmp": "^0.2.4",
-    "wrap-ansi": "7.0.0",
-    "wrap-ansi-cjs": "npm:wrap-ansi@7.0.0",
-    "ws": "^8.18.0"
   }
 }

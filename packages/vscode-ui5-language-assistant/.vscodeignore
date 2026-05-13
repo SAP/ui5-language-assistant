@@ -1,32 +1,33 @@
+# Exclude all node_modules by default
+node_modules/**
 
-# We are bundling our extension so no need to include the dependencies separately.
-node_modules
+# 1. Language server (runs as separate process, dist/server.js bundles all its deps)
+!node_modules/@ui5-language-assistant/
+!node_modules/@ui5-language-assistant/**
 
-# Except a **subset** language-server package which is executed as a separate process
-!**/@ui5-language-assistant/language-server/{api.d.ts,CHANGELOG.md,CONTRIBUTING.md,README.md,package.json}
-!**/@ui5-language-assistant/language-server/dist/**/*.js
-!**/@ui5-language-assistant/language-server/lib/src/**/*.{js,json}
+# Exclude development artifacts
+**/*.ts
+**/*.map
+**/*.spec.js
+**/*.test.js
+**/test/**
+**/tests/**
+coverage/**
+.nyc_output/**
+*.tsbuildinfo
+*.log
+.DS_Store
+.reuse/**
+lib
+reports/**
+resources/**
+scripts/**
+src/**
+test/**
+.gitignore
+.npmrc
+esbuild.js
+jest.config.js
+tsconfig*.json
 
-# Except prttier and its plugsin and thier dependencies
-!**/prettier
-!**/@prettier/plugin-xml
-!**/@xml-tools
-!**/chevrotain
-!**/regexp-to-ast
-
-# The VSCode Extension's dev artifacts
-# Exclude all
-**/*
-
-# Except mandatory set which should be included in the vsix
-!CHANGELOG.md
-!CONTRIBUTING.md
-!LICENSE
-!README.md
-!LICENSES/*
-!package.json
-
-!dist/**/*.js
-!lib/src/**/*.{js,json}
-!resources/ui5-language-assistant.*
-# Readme gifs (resources/readme) linked via jsdeliver instead of part of vsix
+!resources/ui5-language-assistant.png

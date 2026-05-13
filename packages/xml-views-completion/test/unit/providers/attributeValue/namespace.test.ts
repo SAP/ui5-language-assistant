@@ -5,7 +5,7 @@ import {
   DEFAULT_UI5_VERSION,
 } from "@ui5-language-assistant/constant";
 import { ui5NodeToFQN } from "@ui5-language-assistant/logic-utils";
-import { UI5NamespacesInXMLAttributeValueCompletion } from "@ui5-language-assistant/xml-views-completion";
+import { UI5NamespacesInXMLAttributeValueCompletion } from "../../../../api";
 import { generate } from "@ui5-language-assistant/semantic-model";
 import {
   expectSuggestions,
@@ -22,13 +22,17 @@ import {
 import { expectUI5Namespace } from "../attributeName/namespace.test";
 import { Context as AppContext } from "@ui5-language-assistant/context";
 
-const expectNamespaceValuesSuggestions = partial(expectSuggestions, (_) => {
-  expect(_.type).toEqual("UI5NamespacesInXMLAttributeValue");
-  const namespaceSuggestion = _ as UI5NamespacesInXMLAttributeValueCompletion;
-  expectUI5Namespace(namespaceSuggestion.ui5Node);
-  expectXMLAttribute(namespaceSuggestion.astNode);
-  return ui5NodeToFQN(namespaceSuggestion.ui5Node);
-});
+const expectNamespaceValuesSuggestions = partial(
+  expectSuggestions,
+  (_: unknown) => {
+    const item = _ as { type: string };
+    expect(item.type).toEqual("UI5NamespacesInXMLAttributeValue");
+    const namespaceSuggestion = _ as UI5NamespacesInXMLAttributeValueCompletion;
+    expectUI5Namespace(namespaceSuggestion.ui5Node);
+    expectXMLAttribute(namespaceSuggestion.astNode);
+    return ui5NodeToFQN(namespaceSuggestion.ui5Node);
+  }
+);
 
 describe("The ui5-editor-tools xml-views-completion", () => {
   let ui5SemanticModel: UI5SemanticModel;
