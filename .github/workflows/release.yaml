@@ -12,6 +12,9 @@ env:
 
 jobs:
   build:
+    permissions:
+      contents: read
+      actions: write
     strategy:
       matrix:
         os: [ubuntu-latest]
@@ -51,6 +54,8 @@ jobs:
           if-no-files-found: error
 
   compliance:
+    permissions:
+      contents: read
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -62,6 +67,8 @@ jobs:
   version:
     # Run version job only on pushes to the main branch. The job depends on completion of the build job.
     if: github.repository == 'SAP/ui5-language-assistant' && github.event_name == 'push' && github.ref == 'refs/heads/master'
+    permissions:
+      contents: read
     strategy:
       matrix:
         os: [ubuntu-latest]
@@ -120,6 +127,9 @@ jobs:
 
   release:
     if: github.repository == 'SAP/ui5-language-assistant' && github.event_name == 'push' && github.ref == 'refs/heads/master' && needs.version.outputs.changes == 'false'
+    permissions:
+      contents: read
+      actions: read
     runs-on: [ubuntu-latest]
     needs: version
     steps:

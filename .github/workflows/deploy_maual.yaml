@@ -7,6 +7,8 @@ on:
 jobs:
   deploy-npm:
     if: github.repository == 'SAP/ui5-language-assistant' && github.ref == 'refs/heads/master'
+    permissions:
+      contents: read
     strategy:
       matrix:
         os: [ubuntu-latest]
