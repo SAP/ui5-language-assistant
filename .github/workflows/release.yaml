@@ -48,33 +48,12 @@ jobs:
           retention-days: 1
           if-no-files-found: error
 
-      - name: Prepare sonar event data
+      - name: Run SonarCloud scan
         if: matrix.os == 'ubuntu-latest' && matrix.node-version == '22.x'
-        shell: bash
+        uses: SonarSource/sonarqube-scan-action@2500896589ef8f7247069a56136f8dc177c27ccf # v5.2.0
         env:
-          PR_NUMBER: ${{ github.event.pull_request.number }}
-          PR_HEAD_REF: ${{ github.event.pull_request.head.ref }}
-          PR_BASE_REF: ${{ github.event.pull_request.base.ref }}
-        run: |
-          echo "$PR_NUMBER" >> pr-event.txt
-          echo "$PR_HEAD_REF" >> pr-event.txt
-          echo "$PR_BASE_REF" >> pr-event.txt
-
-      - name: Prepare sonar output artifact
-        if: matrix.os == 'ubuntu-latest' && matrix.node-version == '22.x'
-        shell: bash
-        run: touch output.tar && tar --exclude='./node_modules' --exclude='./dist' --exclude='./**/node_modules/**' --exclude='./**/dist/**' --exclude='./.git' --exclude 'output.tar' -czf output.tar .
-
-      - name: Upload sonar artifact
-        if: matrix.os == 'ubuntu-latest' && matrix.node-version == '22.x'
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
-        with:
-          name: sonar-artifact
-          path: |
-            pr-event.txt
-            output.tar
-          if-no-files-found: error
-          retention-days: 1
+          GITHUB_TOKEN: ${{ secrets.ACCESS_PAT }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   compliance:
     permissions:
