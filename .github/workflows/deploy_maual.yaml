@@ -12,6 +12,7 @@ jobs:
     environment: production
     permissions:
       contents: read
+      id-token: write
     strategy:
       matrix:
         os: [ubuntu-latest]
@@ -52,10 +53,6 @@ jobs:
         with:
           files: "./packages/vscode-ui5-language-assistant-bas-ext/*.vsix"
           fail: true
-
-      - name: Prepare .npmrc
-        run:
-          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" >> ~/.npmrc
 
       # To help debug when lerna detects changes to the working tree and fails the publish
       - name: Status
