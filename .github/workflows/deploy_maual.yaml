@@ -33,6 +33,7 @@ jobs:
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: ${{ matrix.node-version }}
+          registry-url: 'https://registry.npmjs.org'
           cache: 'pnpm'
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -54,12 +55,7 @@ jobs:
           files: "./packages/vscode-ui5-language-assistant-bas-ext/*.vsix"
           fail: true
 
-      # To help debug when lerna detects changes to the working tree and fails the publish
-      - name: Status
-        run: git status
-
       - name: Publish
         env:
           HUSKY_SKIP: "true"
-      # https://github.com/lerna/lerna/issues/2788
-        run: pnpm release:publish --no-verify-access
+        run: pnpm release:publish
