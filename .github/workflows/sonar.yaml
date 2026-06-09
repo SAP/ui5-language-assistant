@@ -52,5 +52,5 @@ jobs:
             ${{ github.event.workflow_run.event == 'pull_request' && format('{0}{1}', '-Dsonar.pullrequest.branch=', env.pr_head_ref) || '' }}
             ${{ github.event.workflow_run.event == 'pull_request' && format('{0}{1}', '-Dsonar.pullrequest.base=', env.pr_base_ref) || '' }}
         env:
-          GITHUB_TOKEN: ${{ secrets.ACCESS_PAT }}
+          GITHUB_TOKEN: ${{ github.token }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
