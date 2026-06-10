@@ -1,5 +1,13 @@
 # Change Log
 
+## 4.0.96
+
+### Patch Changes
+
+- 63597af: fix: audit issues
+- Updated dependencies [63597af]
+  - vscode-ui5-language-assistant@4.0.96
+
 ## 4.0.95
 
 ### Patch Changes

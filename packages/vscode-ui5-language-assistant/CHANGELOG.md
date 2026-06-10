@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.96
+
+### Patch Changes
+
+- 63597af: fix: audit issues
+
 ## 4.0.95
 
 ### Patch Changes
