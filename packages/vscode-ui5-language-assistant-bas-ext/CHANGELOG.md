@@ -1,5 +1,13 @@
 # Change Log
 
+## 4.0.95
+
+### Patch Changes
+
+- cb6e60d: Move to pnpm
+- Updated dependencies [cb6e60d]
+  - vscode-ui5-language-assistant@4.0.95
+
 ## 4.0.93
 
 ### Patch Changes

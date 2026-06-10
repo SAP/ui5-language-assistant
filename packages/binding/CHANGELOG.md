@@ -1,5 +1,19 @@
 # @ui5-language-assistant/binding
 
+## 1.0.46
+
+### Patch Changes
+
+- cb6e60d: Move to pnpm
+- Updated dependencies [cb6e60d]
+  - @ui5-language-assistant/binding-parser@1.0.9
+  - @ui5-language-assistant/context@4.0.39
+  - @ui5-language-assistant/logger@0.0.3
+  - @ui5-language-assistant/logic-utils@4.0.25
+  - @ui5-language-assistant/settings@4.0.11
+  - @ui5-language-assistant/xml-views-completion@4.0.39
+  - @ui5-language-assistant/xml-views-validation@4.0.33
+
 ## 1.0.45
 
 ### Patch Changes

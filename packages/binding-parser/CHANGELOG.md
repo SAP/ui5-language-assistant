@@ -1,5 +1,11 @@
 # @ui5-language-assistant/binding-parser
 
+## 1.0.9
+
+### Patch Changes
+
+- cb6e60d: Move to pnpm
+
 ## 1.0.8
 
 ### Patch Changes
