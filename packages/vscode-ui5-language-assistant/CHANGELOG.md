@@ -1,5 +1,17 @@
 # Change Log
 
+## 4.0.95
+
+### Patch Changes
+
+- cb6e60d: Move to pnpm
+- Updated dependencies [cb6e60d]
+  - @ui5-language-assistant/binding-parser@1.0.9
+  - @ui5-language-assistant/binding@1.0.46
+  - @ui5-language-assistant/context@4.0.39
+  - @ui5-language-assistant/language-server@4.0.69
+  - @ui5-language-assistant/logger@0.0.3
+
 ## 4.0.94
 
 ### Patch Changes

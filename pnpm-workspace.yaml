@@ -1,6 +1,8 @@
 packages:
   - 'packages/*'
   - 'test-packages/*'
+pnpm:
+  provenance: true
 allowBuilds:
   '@vscode/vsce-sign': true
   core-js: true

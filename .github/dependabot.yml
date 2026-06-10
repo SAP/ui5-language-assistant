@@ -4,6 +4,9 @@ updates:
   directory: "/"
   schedule:
     interval: monthly
+  cooldown:
+    default-days: 7
+    semver-major-days: 30
   ignore:
     # False positive - this is our own package, not the malicious npm package
     # GitHub Advisory: GHSA-87jp-j8wq-9p2w

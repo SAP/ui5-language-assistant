@@ -1,5 +1,14 @@
 # Change Log
 
+## 4.0.31
+
+### Patch Changes
+
+- cb6e60d: Move to pnpm
+- Updated dependencies [cb6e60d]
+  - @ui5-language-assistant/context@4.0.39
+  - @ui5-language-assistant/logic-utils@4.0.25
+
 ## 4.0.30
 
 ### Patch Changes
