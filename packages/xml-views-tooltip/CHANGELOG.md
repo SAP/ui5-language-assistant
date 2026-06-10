@@ -1,5 +1,17 @@
 # Change Log
 
+## 4.0.39
+
+### Patch Changes
+
+- cb6e60d: Move to pnpm
+- Updated dependencies [cb6e60d]
+  - @ui5-language-assistant/constant@0.0.5
+  - @ui5-language-assistant/context@4.0.39
+  - @ui5-language-assistant/logic-utils@4.0.25
+  - @ui5-language-assistant/semantic-model-types@4.0.15
+  - @ui5-language-assistant/semantic-model@4.0.24
+
 ## 4.0.38
 
 ### Patch Changes

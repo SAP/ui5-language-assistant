@@ -1,6 +1,6 @@
 {
   "name": "@ui5-language-assistant/xml-views-completion",
-  "version": "4.0.38",
+  "version": "4.0.39",
   "private": true,
   "description": "Auto-Complete Logic for UI5 XML-Views",
   "keywords": [

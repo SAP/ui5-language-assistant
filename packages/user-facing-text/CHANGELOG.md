@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.10
+
+### Patch Changes
+
+- cb6e60d: Move to pnpm
+
 ## 4.0.9
 
 ### Patch Changes

@@ -1,5 +1,14 @@
 # @ui5-language-assistant/xml-views-definition
 
+## 0.0.18
+
+### Patch Changes
+
+- cb6e60d: Move to pnpm
+- Updated dependencies [cb6e60d]
+  - @ui5-language-assistant/binding-parser@1.0.9
+  - @ui5-language-assistant/context@4.0.39
+
 ## 0.0.17
 
 ### Patch Changes

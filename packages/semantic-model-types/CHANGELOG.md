@@ -1,5 +1,13 @@
 # Change Log
 
+## 4.0.15
+
+### Patch Changes
+
+- cb6e60d: Move to pnpm
+- Updated dependencies [cb6e60d]
+  - @ui5-language-assistant/constant@0.0.5
+
 ## 4.0.14
 
 ### Patch Changes
