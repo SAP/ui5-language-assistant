@@ -4,34 +4,42 @@ on:
   # Trigger the workflow only manually
   workflow_dispatch:
 
+permissions: {}
+
 jobs:
   deploy-npm:
     if: github.repository == 'SAP/ui5-language-assistant' && github.ref == 'refs/heads/master'
+    environment: production
+    permissions:
+      contents: read
+      id-token: write
     strategy:
       matrix:
         os: [ubuntu-latest]
         node-version: [20.x]
     runs-on: ${{ matrix.os }}
 
-
     steps:
       - name: Checkout code repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          persist-credentials: false
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4
         with:
           version: 9.15.4
       - name: Setup Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: ${{ matrix.node-version }}
+          registry-url: 'https://registry.npmjs.org'
           cache: 'pnpm'
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
       - name: Download latest released artifact
-        uses: robinraju/release-downloader@v1.7
+        uses: robinraju/release-downloader@768b85c8d69164800db5fc00337ab917daf3ce68 # v1.7
         with:
           latest: true
           token: ${{ secrets.ACCESS_PAT }}
@@ -42,23 +50,12 @@ jobs:
         run: ls ./packages/vscode-ui5-language-assistant-bas-ext -la
 
       - name: Check file existence
-        uses: andstor/file-existence-action@v2
+        uses: andstor/file-existence-action@20b4d2e596410855db8f9ca21e96fbe18e12930b # v2
         with:
           files: "./packages/vscode-ui5-language-assistant-bas-ext/*.vsix"
           fail: true
 
-      - name: Prepare .npmrc
-        run:
-          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" >> ~/.npmrc
-
-      # To help debug when lerna detects changes to the working tree and fails the publish
-      - name: Status
-        run: git status
-
       - name: Publish
         env:
           HUSKY_SKIP: "true"
-      # https://github.com/lerna/lerna/issues/2788
-        run: pnpm release:publish --no-verify-access
-
-      
+        run: pnpm release:publish

@@ -10,8 +10,12 @@ env:
   GHR_PROJECT_REPONAME: ui5-language-assistant
   GHR_PROJECT_USERNAME: SAP
 
+permissions: {}
+
 jobs:
   build:
+    permissions:
+      contents: read
     strategy:
       matrix:
         os: [ubuntu-latest]
@@ -19,13 +23,14 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout code repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           fetch-depth: 0 # will fetch all history
+          persist-credentials: false
       - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4
       - name: Setup Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
@@ -34,34 +39,52 @@ jobs:
       - name: Run build
         run: pnpm run ci
 
-      - name: Run SonarCloud scan
-        if: matrix.os == 'ubuntu-latest' && matrix.node-version == '22.x'
-        uses: SonarSource/sonarqube-scan-action@v5.2.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.ACCESS_PAT }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-
       - name: Upload vsix artifact
         if: matrix.os == 'ubuntu-latest' && matrix.node-version == '22.x' && github.event_name == 'push'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: vscode-extension-file
           path: ./packages/vscode-ui5-language-assistant/vscode-ui5-language-assistant*.vsix
           retention-days: 1
           if-no-files-found: error
 
+      - name: Write PR event data
+        if: matrix.os == 'ubuntu-latest' && matrix.node-version == '22.x' && github.event_name == 'pull_request'
+        run: |
+          echo "${{ github.event.pull_request.number }}" > pr-event.txt
+          echo "${{ github.head_ref }}" >> pr-event.txt
+          echo "${{ github.base_ref }}" >> pr-event.txt
+
+      - name: Pack and upload sonar artifact
+        if: matrix.os == 'ubuntu-latest' && matrix.node-version == '22.x'
+        run: tar -cf output.tar --ignore-failed-read packages/*/reports/ pr-event.txt
+      - name: Upload sonar artifact
+        if: matrix.os == 'ubuntu-latest' && matrix.node-version == '22.x'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: sonar-artifact
+          path: output.tar
+          retention-days: 1
+
   compliance:
+    permissions:
+      contents: read
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3
+        with:
+          persist-credentials: false
       - name: REUSE Compliance Check
-        uses: fsfe/reuse-action@v1
+        uses: fsfe/reuse-action@28cf8f33bc50f4c306f52e38fe3826717dea63dc # v1
         with:
           args: --include-submodules lint
 
   version:
     # Run version job only on pushes to the main branch. The job depends on completion of the build job.
     if: github.repository == 'SAP/ui5-language-assistant' && github.event_name == 'push' && github.ref == 'refs/heads/master'
+    environment: production
+    permissions:
+      contents: read
     strategy:
       matrix:
         os: [ubuntu-latest]
@@ -73,15 +96,16 @@ jobs:
 
     steps:
       - name: Checkout code repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           fetch-depth: 0
           token: ${{ secrets.ACCESS_PAT }} # needed to auto trigger release job
+          persist-credentials: false
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4
       - name: Setup Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
@@ -91,48 +115,53 @@ jobs:
       - name: Apply changesets
         id: changesetVersion
         run: |
-          echo ::set-output name=changes::$(npm run ci:version 2>&1 | grep -q 'No unreleased changesets found' && echo 'false' || echo 'true')
+          echo "changes=$(npm run ci:version 2>&1 | grep -q 'No unreleased changesets found' && echo 'false' || echo 'true')" >> $GITHUB_OUTPUT
           git status
 
         # Get new version number
       - name: get-npm-version
         id: package-version
-        uses: martinbeentjes/npm-get-version-action@main
-        with:
-          path: ./packages/vscode-ui5-language-assistant
+        run: |
+          VERSION=$(node -p "require('./packages/vscode-ui5-language-assistant/package.json').version")
+          echo "current-version=${VERSION}" >> $GITHUB_OUTPUT
 
         # Apply changes and create version tag
       - name: Commit and push changes
         if: steps.changesetVersion.outputs.changes == 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.ACCESS_PAT }}
+          CURRENT_VERSION: ${{ steps.package-version.outputs.current-version }}
         run: |
-          echo ${{ steps.package-version.outputs.current-version}}
+          echo "${CURRENT_VERSION}"
           git config user.name github-actions
           git config user.email github-actions@github.com
           git status
           git add -A
           git status
           git commit -m "chore: apply latest changesets" --no-verify || echo "No changesets found"
-          git tag -a "v${{ steps.package-version.outputs.current-version}}" -m "v${{ steps.package-version.outputs.current-version}} release"
+          git tag -a "v${CURRENT_VERSION}" -m "v${CURRENT_VERSION} release"
           git log --pretty=oneline | head -n 10
           git push --follow-tags
 
   release:
     if: github.repository == 'SAP/ui5-language-assistant' && github.event_name == 'push' && github.ref == 'refs/heads/master' && needs.version.outputs.changes == 'false'
+    environment: production
+    permissions:
+      contents: read
     runs-on: [ubuntu-latest]
     needs: version
     steps:
       - name: Checkout code repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           fetch-depth: 0
+          persist-credentials: false
 
       # Download vsix artifact
       - name: 'make folder'
         run: mkdir ./artifacts
       - name: Download artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
           name: vscode-extension-file
           path: ./artifacts
@@ -143,22 +172,22 @@ jobs:
       # Get new version number
       - name: get-npm-version
         id: package-version
-        uses: martinbeentjes/npm-get-version-action@main
-        with:
-          path: ./packages/vscode-ui5-language-assistant
+        run: |
+          VERSION=$(node -p "require('./packages/vscode-ui5-language-assistant/package.json').version")
+          echo "current-version=${VERSION}" >> $GITHUB_OUTPUT
 
       # Publish on GitHub
       - name: Create Release
         env:
           GITHUB_TOKEN: ${{ secrets.ACCESS_PAT }} # A personal access token
-          CURRENT_RELEASE_VERSION: ${{steps.package-version.outputs.current-version}}
-        uses: ncipollo/release-action@v1
+          CURRENT_RELEASE_VERSION: ${{ steps.package-version.outputs.current-version }}
+        uses: ncipollo/release-action@339a81892b84b4eeb0f6e744e4574d79d0d9b8dd # v1
         with:
           allowUpdates: true
           draft: false
           prerelease: false
-          name: Release v${{env.CURRENT_RELEASE_VERSION}}
-          tag: v${{env.CURRENT_RELEASE_VERSION}}
-          owner: ${{env.GHR_PROJECT_USERNAME}}
-          repo: ${{env.GHR_PROJECT_REPONAME}}
-          artifacts: './artifacts/*-${{env.CURRENT_RELEASE_VERSION}}.vsix'
+          name: Release v${{ env.CURRENT_RELEASE_VERSION }}
+          tag: v${{ env.CURRENT_RELEASE_VERSION }}
+          owner: ${{ env.GHR_PROJECT_USERNAME }}
+          repo: ${{ env.GHR_PROJECT_REPONAME }}
+          artifacts: './artifacts/*-${{ env.CURRENT_RELEASE_VERSION }}.vsix'
