@@ -21,7 +21,7 @@
   "dependencies": {
     "@sap-ux/annotation-converter": "0.5.20",
     "@sap-ux/edmx-parser": "0.5.13",
-    "@sap-ux/project-access": "1.36.1",
+    "@sap-ux/project-access": "1.36.4",
     "@ui5-language-assistant/constant": "workspace:*",
     "@ui5-language-assistant/logger": "workspace:*",
     "@ui5-language-assistant/logic-utils": "workspace:*",
