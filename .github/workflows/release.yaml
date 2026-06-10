@@ -84,7 +84,7 @@ jobs:
     if: github.repository == 'SAP/ui5-language-assistant' && github.event_name == 'push' && github.ref == 'refs/heads/master'
     environment: production
     permissions:
-      contents: read
+      contents: write # required to push version bump commit and tag
     strategy:
       matrix:
         os: [ubuntu-latest]
@@ -100,7 +100,7 @@ jobs:
         with:
           fetch-depth: 0
           token: ${{ secrets.ACCESS_PAT }} # needed to auto trigger release job
-          persist-credentials: false
+          persist-credentials: false # do not store credentials in git config (hardening)
 
       - name: Setup pnpm
         uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4
@@ -141,6 +141,7 @@ jobs:
           git commit -m "chore: apply latest changesets" --no-verify || echo "No changesets found"
           git tag -a "v${CURRENT_VERSION}" -m "v${CURRENT_VERSION} release"
           git log --pretty=oneline | head -n 10
+          git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git
           git push --follow-tags
 
   release:
