@@ -18,7 +18,7 @@
     "format:fix": "prettier --write \"**/*.@(js|ts|json|md)\" --ignore-path=.gitignore",
     "format:validate": "prettier --check \"**/*.@(js|ts|json|md)\" --ignore-path=.gitignore",
     "lint": "eslint . --ext .ts --fix --max-warnings=0 --ignore-path=.gitignore",
-    "ci:subpackages": "pnpm -r --filter=!@ui5-language-assistant/language-server run ci",
+    "ci:subpackages": "pnpm -r run ci",
     "test": "pnpm -r run test",
     "coverage": "pnpm -r run coverage",
     "clean": "pnpm -r run clean",
