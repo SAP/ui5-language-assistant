@@ -39,7 +39,7 @@
     "@ui5-language-assistant/semantic-model": "workspace:*",
     "@ui5-language-assistant/test-utils": "workspace:^",
     "@xml-tools/parser": "1.0.7",
-    "chevrotain": "7.0.1"
+    "chevrotain": "12.0.0"
   },
   "scripts": {
     "ci": "npm-run-all lint coverage",

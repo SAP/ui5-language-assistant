@@ -28,7 +28,7 @@
     "node-fetch": "2.6.9",
     "https-proxy-agent": "5.0.1",
     "proxy-from-env": "1.1.0",
-    "chevrotain": "7.0.1"
+    "chevrotain": "12.0.0"
   },
   "devDependencies": {
     "@ui5-language-assistant/semantic-model": "workspace:*",

@@ -18,7 +18,7 @@
     "node": ">=22.0.0"
   },
   "dependencies": {
-    "chevrotain": "10.4.2",
+    "chevrotain": "12.0.0",
     "vscode-languageserver-types": "3.17.2"
   },
   "devDependencies": {
