@@ -1,5 +1,13 @@
 # Change Log
 
+## 4.0.97
+
+### Patch Changes
+
+- 3ece41c: fix: server crash
+- Updated dependencies [3ece41c]
+  - vscode-ui5-language-assistant@4.0.97
+
 ## 4.0.96
 
 ### Patch Changes

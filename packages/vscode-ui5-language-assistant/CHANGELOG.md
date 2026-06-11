@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.97
+
+### Patch Changes
+
+- 3ece41c: fix: server crash
+
 ## 4.0.96
 
 ### Patch Changes
