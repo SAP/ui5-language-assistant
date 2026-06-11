@@ -689,8 +689,8 @@ importers:
         specifier: ^3.9.2
         version: 3.9.2
       axios:
-        specifier: ^1.16.0
-        version: 1.16.0
+        specifier: ^1.17.0
+        version: 1.17.0
       lodash:
         specifier: ^4.18.0
         version: 4.18.1
@@ -2267,6 +2267,9 @@ packages:
   axios@1.16.0:
     resolution: {integrity: sha512-6hp5CwvTPlN2A31g5dxnwAX0orzM7pmCRDLnZSX772mv8WDqICwFjowHuPs04Mc8deIld1+ejhtaMn5vp6b+1w==}
 
+  axios@1.17.0:
+    resolution: {integrity: sha512-J8SwNxprqqpbfenehxWYXE7CW+wM1BB4w3+N+g+/Wx40xM4rsLrfPmHHxSWIxJLYDgSY/HqlFPIYb2/S3rxafw==}
+
   azure-devops-node-api@12.5.0:
     resolution: {integrity: sha512-R5eFskGvOm3U/GzeAuxRkUsAl0hrAwGgWn6zAd2KrZmrEhWZVqLew4OOupbQlXUuojUzpGtq62SmdhJ06N88og==}
 
@@ -2885,8 +2888,8 @@ packages:
   end-of-stream@1.4.5:
     resolution: {integrity: sha512-ooEGc6HP26xXq/N+GCGOT0JKCLDGrq2bQUZrQ7gyrJiZANJ/8YDTxTpQBXGMn+WbIQXNVpyWymm7KYVICQnyOg==}
 
-  enhanced-resolve@5.21.3:
-    resolution: {integrity: sha512-QyL119InA+XXEkNLNTPCXPugSvOfhwv0JOlGNzvxs0hZaiHLNvXSpudUWsOlsXGWJh8G6ckCScEkVHfX3kw/2Q==}
+  enhanced-resolve@5.23.0:
+    resolution: {integrity: sha512-yJN/BOOLxcOW2aQgeif9mSnaUB8KtvmMMp56oA1kx1CRfBKbhZm2pJ+NBY+3eOboHxix8lfjWpHE0Ei5U8RbSA==}
     engines: {node: '>=10.13.0'}
 
   enquirer@2.4.1:
@@ -3405,6 +3408,10 @@ packages:
 
   hasown@2.0.3:
     resolution: {integrity: sha512-ej4AhfhfL2Q2zpMmLo7U1Uv9+PyhIZpgQLGT1F9miIGmiCJIoCgSmczFdrc97mWT4kVY72KA+WnnhJ5pghSvSg==}
+    engines: {node: '>= 0.4'}
+
+  hasown@2.0.4:
+    resolution: {integrity: sha512-T2UbfbBEF32wiepXIsMlTW9+dDYC6wMh/t/vYA4tuOMKqWz/n3vr1NFSxQiyP+zk2mXsoMA/i/7qV6LKut1t1A==}
     engines: {node: '>= 0.4'}
 
   homedir-polyfill@1.0.3:
@@ -5143,8 +5150,8 @@ packages:
     resolution: {integrity: sha512-lk+vH+MccxNqgVqSnkMVKx4VLJfnLjDBGzH16JVZjKE2DoxP57s6/vt6JmXV5I3jBcfGrxNrYtC+mPtU7WJztA==}
     engines: {node: '>=18'}
 
-  terser-webpack-plugin@5.6.0:
-    resolution: {integrity: sha512-Eum+5ajkaOhf5KbM26osvv21kLD7BaGqQ1UA4Ami4arYwylmGUQTgHFpHDdmJod1q4QXa66p0to/FBKID+J1vA==}
+  terser-webpack-plugin@5.6.1:
+    resolution: {integrity: sha512-201R5j+sJpK8nFWwKVyNfZot8FaJbLZDq5evriVzbV1wDtSXDjRUDRfJzHpAaxFDMEhsZL1QkeqM61wgsS3KaQ==}
     engines: {node: '>= 10.13.0'}
     peerDependencies:
       '@minify-html/node': '*'
@@ -5186,8 +5193,8 @@ packages:
       uglify-js:
         optional: true
 
-  terser@5.47.1:
-    resolution: {integrity: sha512-tPbLXTI6ohPASb/1YViL428oEHu6/qv1OxqYnfaonVCFHqx4+wCd95pHrQWsL5X4pl90CTyW9piSAsS2L0VoMw==}
+  terser@5.48.0:
+    resolution: {integrity: sha512-J/9An6vs9Us6wKRriSFXBWdRZapREHqFzdNUKk0pmu804EMR6dr6winwo7e5JDxN4xahxQsuysyYFwlwj4XN/Q==}
     engines: {node: '>=10'}
     hasBin: true
 
@@ -5484,8 +5491,8 @@ packages:
   webidl-conversions@3.0.1:
     resolution: {integrity: sha512-2JAn3z8AR6rjK8Sm8orRC0h/bcl/DqL7tRPdGZ4I1CjdF+EaMLmYxBHyXuKL849eucPFhvBoxMsflfOb8kxaeQ==}
 
-  webpack-sources@3.4.1:
-    resolution: {integrity: sha512-eACpxRN02yaawnt+uUNIF7Qje6A9zArxBbcAJjK1PK3S9Ycg5jIuJ8pW4q8EMnwNZCEGltcjkRx1QzOxOkKD8A==}
+  webpack-sources@3.5.0:
+    resolution: {integrity: sha512-HPuy+uuoTCaaoEoI1LQ3JN9+vrPBvEesnnX1jADHy728cHSMlq4wUc4afYqahq2B1mhQVZxCXOkNTnXltr+2vQ==}
     engines: {node: '>=10.13.0'}
 
   webpack@5.106.2:
@@ -7313,6 +7320,16 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
+  axios@1.17.0:
+    dependencies:
+      follow-redirects: 1.16.0
+      form-data: 4.0.5
+      https-proxy-agent: 5.0.1
+      proxy-from-env: 2.1.0
+    transitivePeerDependencies:
+      - debug
+      - supports-color
+
   azure-devops-node-api@12.5.0:
     dependencies:
       tunnel: 0.0.6
@@ -7988,7 +8005,7 @@ snapshots:
     dependencies:
       once: 1.4.0
 
-  enhanced-resolve@5.21.3:
+  enhanced-resolve@5.23.0:
     dependencies:
       graceful-fs: 4.2.11
       tapable: 2.3.3
@@ -8442,7 +8459,7 @@ snapshots:
       asynckit: 0.4.0
       combined-stream: 1.0.8
       es-set-tostringtag: 2.1.0
-      hasown: 2.0.3
+      hasown: 2.0.4
       mime-types: 2.1.35
 
   fs-constants@1.0.0:
@@ -8524,7 +8541,7 @@ snapshots:
       get-proto: 1.0.1
       gopd: 1.2.0
       has-symbols: 1.1.0
-      hasown: 2.0.3
+      hasown: 2.0.4
       math-intrinsics: 1.1.0
 
   get-own-enumerable-property-symbols@3.0.2: {}
@@ -8664,6 +8681,10 @@ snapshots:
       has-symbols: 1.1.0
 
   hasown@2.0.3:
+    dependencies:
+      function-bind: 1.1.2
+
+  hasown@2.0.4:
     dependencies:
       function-bind: 1.1.2
 
@@ -10704,17 +10725,17 @@ snapshots:
       ansi-escapes: 7.3.0
       supports-hyperlinks: 3.2.0
 
-  terser-webpack-plugin@5.6.0(esbuild@0.27.3)(webpack@5.106.2(esbuild@0.27.3)):
+  terser-webpack-plugin@5.6.1(esbuild@0.27.3)(webpack@5.106.2(esbuild@0.27.3)):
     dependencies:
       '@jridgewell/trace-mapping': 0.3.31
       jest-worker: 27.5.1
       schema-utils: 4.3.3
-      terser: 5.47.1
+      terser: 5.48.0
       webpack: 5.106.2(esbuild@0.27.3)
     optionalDependencies:
       esbuild: 0.27.3
 
-  terser@5.47.1:
+  terser@5.48.0:
     dependencies:
       '@jridgewell/source-map': 0.3.11
       acorn: 8.16.0
@@ -11015,7 +11036,7 @@ snapshots:
 
   webidl-conversions@3.0.1: {}
 
-  webpack-sources@3.4.1: {}
+  webpack-sources@3.5.0: {}
 
   webpack@5.106.2(esbuild@0.27.3):
     dependencies:
@@ -11029,7 +11050,7 @@ snapshots:
       acorn-import-phases: 1.0.4(acorn@8.16.0)
       browserslist: 4.28.2
       chrome-trace-event: 1.0.4
-      enhanced-resolve: 5.21.3
+      enhanced-resolve: 5.23.0
       es-module-lexer: 2.1.0
       eslint-scope: 5.1.1
       events: 3.3.0
@@ -11040,9 +11061,9 @@ snapshots:
       neo-async: 2.6.2
       schema-utils: 4.3.3
       tapable: 2.3.3
-      terser-webpack-plugin: 5.6.0(esbuild@0.27.3)(webpack@5.106.2(esbuild@0.27.3))
+      terser-webpack-plugin: 5.6.1(esbuild@0.27.3)(webpack@5.106.2(esbuild@0.27.3))
       watchpack: 2.5.1
-      webpack-sources: 3.4.1
+      webpack-sources: 3.5.0
     transitivePeerDependencies:
       - '@minify-html/node'
       - '@swc/core'

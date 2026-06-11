@@ -186,7 +186,7 @@
     "@ui5-language-assistant/test-framework": "workspace:*",
     "@ui5-language-assistant/user-facing-text": "workspace:*",
     "@vscode/vsce": "^3.9.2",
-    "axios": "^1.16.0",
+    "axios": "^1.17.0",
     "lodash": "4.18.1",
     "minimatch": "^9.0.5",
     "node-fetch": "2.6.9",
