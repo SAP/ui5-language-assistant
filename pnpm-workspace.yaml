@@ -22,3 +22,4 @@ overrides:
   '@tootallnate/once': '^3.0.1'
   tough-cookie: '^5.0.0'
   uuid: '>=9.0.0'
+  shell-quote: '>=1.8.4'
