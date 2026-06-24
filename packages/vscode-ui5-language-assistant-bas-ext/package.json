@@ -5,7 +5,7 @@
   "engines": {
     "node": ">=22.0.0"
   },
-  "version": "4.0.97",
+  "version": "4.0.98",
   "private": false,
   "repository": {
     "type": "git",
