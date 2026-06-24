@@ -75,6 +75,11 @@ export const getManifestSchemaProvider = async (
   const response = await tryFetch(SCHEMA_URI);
   if (response) {
     content = await response.text();
+    // replace external adaptivecards.io reference with bundled local schema
+    content = content.replace(
+      /"https:\/\/adaptivecards\.io\/schemas\/adaptive-card\.json[^"]*"/g,
+      '"/manifest/adaptive-card.json"'
+    );
   } else {
     // fallback to local schema which is based on main branch
     content = await getSchemaContent(context, version);
