@@ -1,5 +1,13 @@
 # Change Log
 
+## 4.0.98
+
+### Patch Changes
+
+- 1e349e1: fix: bump esbuild from 0.27.3 to 0.28.1 to fix security vulnerabilities
+- Updated dependencies [1e349e1]
+  - vscode-ui5-language-assistant@4.0.98
+
 ## 4.0.97
 
 ### Patch Changes
