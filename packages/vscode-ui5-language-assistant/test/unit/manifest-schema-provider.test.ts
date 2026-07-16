@@ -93,6 +93,21 @@ describe("Manifest schema provider", () => {
     expect(result.schemaContent).toBe("schema content from web");
   });
 
+  it("sanitizes adaptivecards.io URL in schema fetched from web", async () => {
+    const rawContent = `{"$ref": "https://adaptivecards.io/schemas/adaptive-card.json"}`;
+    jest.spyOn(logicUtils, "tryFetch").mockResolvedValue({
+      text: () => rawContent,
+    } as unknown as Response);
+
+    getUI5ManifestSpy.mockResolvedValue({ _version: "1.58.0" });
+
+    const result = await getManifestSchemaProvider(fakeExtensionContext);
+
+    expect(result.schemaContent).toBe(
+      `{"$ref": "/manifest/adaptive-card.json"}`
+    );
+  });
+
   it("loads schema from local when web fetch fails", async () => {
     const fetchSpy = jest
       .spyOn(logicUtils, "tryFetch")
