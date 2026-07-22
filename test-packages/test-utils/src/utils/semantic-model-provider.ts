@@ -90,6 +90,7 @@ const fixes: Record<TestModelVersion, TypeNameFix> = {
     "Object<sap.sac.df.model.VariableGroup>": undefined,
     "boolean ": undefined,
     " string": undefined,
+    null: undefined,
     "Promise<T>": undefined,
     "Promise<sap.ui.mdc.link.LinkType>": undefined,
     Date: undefined,
@@ -109,6 +110,7 @@ const fixes: Record<TestModelVersion, TypeNameFix> = {
     "object ": undefined,
     Promise: undefined,
     this: undefined,
+    "": undefined,
   },
   "1.84.51": {
     array: "any[]",
