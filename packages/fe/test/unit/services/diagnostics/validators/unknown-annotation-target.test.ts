@@ -146,7 +146,6 @@ describe("contextPath attribute value validation", () => {
         `<macros:Form contextPath="/Travel"></macros:Form>`
       );
       expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-        "kind: ContextPathBindingNotRecommended; text: Context path for Form is usually defined if binding for the object is different than that of the page; severity:info; offset:346-354",
         "kind: InvalidAnnotationTarget; text: Invalid contextPath value. It does not lead to any annotations of the expected type; severity:warn; offset:346-354",
       ]);
     });
@@ -155,9 +154,7 @@ describe("contextPath attribute value validation", () => {
       const result = await validateView(
         `<macros:Field contextPath="/Booking"></macros:Field>`
       );
-      expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-        "kind: ContextPathBindingNotRecommended; text: Context path for Field is usually defined if binding for the object is different than that of the page; severity:info; offset:347-356",
-      ]);
+      expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([]);
     });
   });
 
@@ -194,8 +191,7 @@ describe("contextPath attribute value validation", () => {
         `<macros:Table contextPath="/TravelService.EntityContainer"></macros:Table>`
       );
       expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-        "kind: ContextPathBindingNotRecommended; text: Context path for Table is usually defined if binding for the object is different than that of the page; severity:info; offset:347-378",
-        "kind: IncompletePath; text: Path is incomplete. It leads to entity container; severity:warn; offset:347-378",
+        "kind: IncompletePath; text: Path is incomplete. Trigger code completion to choose next available path segment; severity:warn; offset:347-378",
       ]);
     });
 
@@ -267,7 +263,6 @@ describe("contextPath attribute value validation", () => {
         `<macros:Table contextPath="/Booking"></macros:Table>`
       );
       expect(result.map((item) => issueToSnapshot(item))).toStrictEqual([
-        "kind: ContextPathBindingNotRecommended; text: Context path for Table is usually defined if binding for the object is different than that of the page; severity:info; offset:347-356",
         "kind: InvalidAnnotationTarget; text: Invalid contextPath value. It does not lead to any annotations of the expected type; severity:warn; offset:347-356",
       ]);
     });
