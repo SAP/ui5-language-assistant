@@ -20,7 +20,7 @@ const MODEL_CACHE: Record<TestModelVersion, UI5SemanticModel> =
   Object.create(null);
 
 const fixes: Record<TestModelVersion, TypeNameFix> = {
-  "1.71.82": {
+  "1.120.48": {
     array: "any[]",
     Array: "any[]",
     bloolean: undefined,
@@ -52,6 +52,62 @@ const fixes: Record<TestModelVersion, TypeNameFix> = {
     "sap.ui.vk.RenderMode": undefined,
     "sap.viz.ui5.controls.VizRangeSlider": undefined,
     any: "any",
+    "sap.apf.Component": undefined,
+    "sap.apf.base.Component": undefined,
+    "sap.apf.core.Instance": undefined,
+    "sap.apf.core.MessageHandler": undefined,
+    "sap.apf.core.constants.FilterOperators": undefined,
+    "sap.apf.ui.Instance": undefined,
+    "sap.f.cards.NumericIndicators": undefined,
+    "sap.fe.core.TemplateComponent": undefined,
+    "sap.fe.core.converters.ManifestSettings.HorizontalAlign": undefined,
+    "sap.fe.core.rootView.RootViewBaseController": undefined,
+    "sap.gantt.simple.BasePseudoShape": undefined,
+    "sap.gantt.simple.GanttSearchSidePanel": undefined,
+    "sap.m.TimePickerClock": undefined,
+    "sap.m.internal.ToggleSpinButton": undefined,
+    "sap.ui.commons.UserInputInfo": undefined,
+    "sap.ui.comp.IDropDownTextArrangement": undefined,
+    "sap.ui.comp.SmartChart.Variant.Dimeasure": undefined,
+    "sap.ui.comp.SmartChart.Variant.Filter": undefined,
+    "sap.ui.comp.SmartChart.Variant.Sort": undefined,
+    "sap.ui.core.mvc.XMLProcessingMode": undefined,
+    "sap.ui.core.routing.TargetCache": undefined,
+    "sap.ui.fl.FlexController": undefined,
+    "sap.ui.fl.descriptorRelated.api.DescriptorInlineChange": undefined,
+    "sap.ui.generic.app.util.Queue": undefined,
+    "sap.ui.integration.cards.filters.FilterBar": undefined,
+    "sap.ui.mdc.chart.ChartToolbar": undefined,
+    "sap.ui.vk.RedlineComment": undefined,
+    "sap.ui.vk.ToggleMenuItem": undefined,
+    "sap.ushell.services.PersonalizationV2.constants.keyCategory": undefined,
+    "sap.ushell.services.PersonalizationV2.constants.writeFrequency": undefined,
+    "sap.ushell.ui.tile.TileBase": undefined,
+    "Object<sap.sac.df.model.DataProvider>": undefined,
+    "Object<sap.sac.df.model.Dimension>": undefined,
+    "Object<sap.sac.df.model.Measure>": undefined,
+    "Object<sap.sac.df.model.Variable>": undefined,
+    "Object<sap.sac.df.model.VariableGroup>": undefined,
+    "boolean ": undefined,
+    "Promise<T>": undefined,
+    "Promise<sap.ui.mdc.link.LinkType>": undefined,
+    Date: undefined,
+    Error: undefined,
+    RegExp: undefined,
+    DOMRect: undefined,
+    Document: undefined,
+    XMLDocument: undefined,
+    Storage: undefined,
+    Response: undefined,
+    PerformanceResourceTiming: undefined,
+    "THREE.Scene": undefined,
+    ParamsType: undefined,
+    SourceType: undefined,
+    "QUnit.Assert": undefined,
+    "Array<Object<string,any>>": undefined,
+    "object ": undefined,
+    Promise: undefined,
+    this: undefined,
   },
   "1.84.51": {
     array: "any[]",
@@ -270,7 +326,44 @@ type LibraryFix = (content: Json) => void;
 
 // Library version -> library name -> fix function
 const libraryFixes: Record<TestModelVersion, Record<string, LibraryFix[]>> = {
-  "1.71.82": {},
+  "1.120.48": {
+    "sap.ui.mdc": [
+      (content: Json): void => {
+        forEach(get(content, "symbols"), (symbol) => {
+          const defaultAggregation =
+            symbol?.["ui5-metadata"]?.defaultAggregation;
+          if (
+            defaultAggregation &&
+            !symbol["ui5-metadata"].aggregations?.find(
+              (a: Json) =>
+                (a as Record<string, unknown>)["name"] === defaultAggregation
+            )
+          ) {
+            symbol["ui5-metadata"].aggregations =
+              symbol["ui5-metadata"].aggregations || [];
+            symbol["ui5-metadata"].aggregations.push({
+              name: defaultAggregation,
+              singularName: defaultAggregation,
+              type: "sap.ui.core.Control",
+              cardinality: "0..1",
+              visibility: "public",
+              methods: [
+                `get${defaultAggregation[0].toUpperCase()}${defaultAggregation.slice(
+                  1
+                )}`,
+                `destroy${defaultAggregation[0].toUpperCase()}${defaultAggregation.slice(
+                  1
+                )}`,
+                `set${defaultAggregation[0].toUpperCase()}${defaultAggregation.slice(
+                  1
+                )}`,
+              ],
+            });
+          }
+        });
+      },
+    ],
+  },
   "1.84.51": {},
   "1.96.27": {
     "sap.ui.mdc": [

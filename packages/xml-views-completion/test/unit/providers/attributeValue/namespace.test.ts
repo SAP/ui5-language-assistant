@@ -69,6 +69,8 @@ describe("The ui5-editor-tools xml-views-completion", () => {
               "sap.ui.table.plugins",
               "sap.ui.table.rowmodes",
               "sap.ui.comp.smarttable",
+              "sap.m.table.columnmenu",
+              "sap.ui.mdc.table",
             ]);
           },
         });
@@ -136,6 +138,8 @@ describe("The ui5-editor-tools xml-views-completion", () => {
               "sap.ui.table.plugins",
               "sap.ui.table.rowmodes",
               "sap.ui.comp.smarttable",
+              "sap.m.table.columnmenu",
+              "sap.ui.mdc.table",
             ]);
           },
         });
@@ -161,6 +165,7 @@ describe("The ui5-editor-tools xml-views-completion", () => {
               "sap.ui.core.search",
               "sap.ui.core.tmpl",
               "sap.ui.core.util",
+              "sap.ui.core.webc",
             ]);
           },
         });
@@ -209,6 +214,7 @@ describe("The ui5-editor-tools xml-views-completion", () => {
               "sap.ui.core.search",
               "sap.ui.core.tmpl",
               "sap.ui.core.util",
+              "sap.ui.core.webc",
             ]);
           },
         });

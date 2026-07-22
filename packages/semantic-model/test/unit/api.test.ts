@@ -45,7 +45,7 @@ describe("The ui5-language-assistant semantic model package API", () => {
   // Properties with these names on objects of these kinds should not have their parents verified because they don't
   // have a parent or their parent is not the object that references them
   const PARENT_EXCLUDE_PROPERTIES: Record<string, string[]> = {
-    UI5Class: ["extends", "implements"],
+    UI5Class: ["extends", "implements", "returnTypes"],
     UI5Prop: ["default"],
     "*": ["parent"].concat(TYPE_PROPERTIES),
   };

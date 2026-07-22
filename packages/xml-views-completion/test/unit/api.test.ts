@@ -244,14 +244,14 @@ describe("The `getXMLViewCompletions()` api", () => {
       it("will not return experimental aggregation suggestions according to settings", () => {
         testSettingsFilter({
           xmlSnippet: `
-            <mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:commons="sap.suite.ui.commons">
+            <mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:f="sap.f">
               <mvc:content>
-                <commons:ProcessFlowNode>
-                  <commons:zoomLevelOneContent⇶
-                </commons:ProcessFlowNode> 
+                <f:GridContainer>
+                  <f:layoutXS⇶
+                </f:GridContainer>
               </mvc:content>
             </m:View>`,
-          suggestionName: "zoomLevelOneContent",
+          suggestionName: "layoutXS",
           settings: NO_EXPERIMENTAL_SUGGESTIONS,
         });
       });

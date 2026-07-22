@@ -109,9 +109,9 @@ describe("the UI5 language assistant ui5 model", () => {
   }
 
   it("check loaded version maps correctness", () => {
-    expect(latestFallbackPatchVersion.SAPUI5?.startsWith("1.71.")).toBeTrue();
+    expect(latestFallbackPatchVersion.SAPUI5?.startsWith("1.120.")).toBeTrue();
     expect(currentVersionMaps.SAPUI5?.["latest"]).toBeDefined();
-    expect(latestFallbackPatchVersion.OpenUI5?.startsWith("1.71.")).toBeTrue();
+    expect(latestFallbackPatchVersion.OpenUI5?.startsWith("1.120.")).toBeTrue();
     expect(currentVersionMaps.OpenUI5?.["latest"]).toBeDefined();
   });
 

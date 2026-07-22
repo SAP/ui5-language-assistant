@@ -211,6 +211,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
                   "sap.uxap.ObjectPageHeaderActionButton",
                   "sap.suite.ui.commons.ProcessFlowConnectionLabel",
                   "sap.ushell.ui.footerbar.AddBookmarkButton",
+                  "sap.ushell.ui.launchpad.ActionItem",
                 ]);
               },
             });
@@ -242,6 +243,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
                   "sap.m.OverflowToolbarToggleButton",
                   "sap.m.ToggleButton",
                   "sap.ui.commons.ToggleButton",
+                  "sap.ui.webc.main.ToggleButton",
                 ]);
               },
             });
@@ -348,6 +350,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
                   "sap.m.OverflowToolbarLayoutData",
                   "sap.ui.layout.BlockLayoutCellData",
                   "sap.ui.layout.cssgrid.GridItemLayoutData",
+                  "sap.ui.layout.cssgrid.ResponsiveColumnItemLayoutData",
                   "sap.ui.layout.form.ColumnContainerData",
                   "sap.ui.layout.form.ColumnElementData",
                   "sap.ui.layout.form.GridContainerData",
@@ -396,6 +399,7 @@ describe("The ui5-language-assistant xml-views-completion", () => {
                   "sap.tnt.ToolHeader",
                   "sap.uxap.AnchorBar",
                   "sap.m.Toolbar",
+                  "sap.ui.mdc.ActionToolbar",
                 ]);
               },
             });
