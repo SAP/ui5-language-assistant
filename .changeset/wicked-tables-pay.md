@@ -1,0 +1,14 @@
+---
+"vscode-ui5-language-assistant": patch
+"@ui5-language-assistant/xml-views-completion": patch
+"@ui5-language-assistant/language-server": patch
+"@ui5-language-assistant/test-utils": patch
+"@ui5-language-assistant/semantic-model": patch
+"@ui5-language-assistant/logic-utils": patch
+"@ui5-language-assistant/constant": patch
+"@ui5-language-assistant/binding": patch
+"@ui5-language-assistant/context": patch
+"@ui5-language-assistant/fe": patch
+---
+
+fix: sanitize adaptive card schema URL and bump UI5 version to 1.120
