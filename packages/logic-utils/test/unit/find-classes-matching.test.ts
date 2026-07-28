@@ -76,8 +76,10 @@ describe("The @ui5-language-assistant/logic-utils <findClassesMatchingType> func
       "sap.m.GrowingList",
       "sap.m.List",
       "sap.m.ListBase",
+      "sap.m.NotificationList",
       "sap.m.Table",
       "sap.m.Tree",
+      "sap.m.upload.UploadSetwithTable",
       "sap.ca.ui.Notes",
     ]);
   });

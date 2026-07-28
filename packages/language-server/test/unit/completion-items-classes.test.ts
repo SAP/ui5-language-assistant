@@ -176,6 +176,12 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
           replacedText: "BusyDialo",
         },
         {
+          label: "BusyIndicator",
+          tagName: "main:BusyIndicator",
+          attributes: [`xmlns:main="sap.ui.webc.main"`, TAB_STOP1],
+          replacedText: "BusyDialo",
+        },
+        {
           label: "InboxBusyIndicator",
           tagName: "composite:InboxBusyIndicator",
           attributes: [
@@ -257,6 +263,12 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
           attributes: [],
           replacedText: "f:Ca",
         },
+        {
+          label: "CardBase",
+          tagName: "f:CardBase",
+          attributes: [],
+          replacedText: "f:Ca",
+        },
       ],
     });
   });
@@ -268,6 +280,12 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
         {
           label: "Card",
           tagName: "g:Card",
+          attributes: [],
+          replacedText: "g:Ca",
+        },
+        {
+          label: "CardBase",
+          tagName: "g:CardBase",
           attributes: [],
           replacedText: "g:Ca",
         },
@@ -315,6 +333,18 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
           replacedText: "MenuButton",
         },
         {
+          label: "OverflowToolbarMenuButton",
+          tagName: "m2:OverflowToolbarMenuButton",
+          attributes: [TAB_STOP1],
+          additionalTextEdits: [
+            {
+              rangeIndex: 0,
+              newText: ` xmlns:m2="sap.m"`,
+            },
+          ],
+          replacedText: "MenuButton",
+        },
+        {
           label: "MenuButton",
           tagName: "commons:MenuButton",
           attributes: [TAB_STOP1], // Check the namespace is not added on the same tag
@@ -322,6 +352,18 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
             {
               rangeIndex: 0,
               newText: ` xmlns:commons="sap.ui.commons"`,
+            },
+          ],
+          replacedText: "MenuButton",
+        },
+        {
+          label: "ToggleMenuButton",
+          tagName: "vk:ToggleMenuButton",
+          attributes: [TAB_STOP1],
+          additionalTextEdits: [
+            {
+              rangeIndex: 0,
+              newText: ` xmlns:vk="sap.ui.vk"`,
             },
           ],
           replacedText: "MenuButton",
@@ -403,7 +445,7 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
 
   it("will replace the class closing tag name when the tag is closed and has the same name as the opening tag", () => {
     assertClassesCompletions({
-      xmlSnippet: `<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m" xmlns:commons="sap.ui.commons">
+      xmlSnippet: `<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m" xmlns:commons="sap.ui.commons" xmlns:vk="sap.ui.vk">
         <mvc:content>
           <MenuButton⇶></⭲MenuButton⭰>
         </mvc:content>
@@ -412,11 +454,14 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
         {
           label: "MenuButton",
           tagName: "m:MenuButton",
+          additionalTextEdits: [{ rangeIndex: 0, newText: `m:MenuButton` }],
+          replacedText: "MenuButton",
+        },
+        {
+          label: "OverflowToolbarMenuButton",
+          tagName: "m:OverflowToolbarMenuButton",
           additionalTextEdits: [
-            {
-              rangeIndex: 0,
-              newText: `m:MenuButton`,
-            },
+            { rangeIndex: 0, newText: `m:OverflowToolbarMenuButton` },
           ],
           replacedText: "MenuButton",
         },
@@ -424,10 +469,15 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
           label: "MenuButton",
           tagName: "commons:MenuButton",
           additionalTextEdits: [
-            {
-              rangeIndex: 0,
-              newText: `commons:MenuButton`,
-            },
+            { rangeIndex: 0, newText: `commons:MenuButton` },
+          ],
+          replacedText: "MenuButton",
+        },
+        {
+          label: "ToggleMenuButton",
+          tagName: "vk:ToggleMenuButton",
+          additionalTextEdits: [
+            { rangeIndex: 0, newText: `vk:ToggleMenuButton` },
           ],
           replacedText: "MenuButton",
         },
@@ -437,7 +487,7 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
 
   it("will not replace the class closing tag name when the tag is closed and has a different name from the opening tag", () => {
     assertClassesCompletions({
-      xmlSnippet: `<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m" xmlns:commons="sap.ui.commons">
+      xmlSnippet: `<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m" xmlns:commons="sap.ui.commons" xmlns:vk="sap.ui.vk">
         <mvc:content>
           <MenuButton⇶></MenuButton1>
         </mvc:content>
@@ -450,8 +500,20 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
           replacedText: "MenuButton",
         },
         {
+          label: "OverflowToolbarMenuButton",
+          tagName: "m:OverflowToolbarMenuButton",
+          additionalTextEdits: [],
+          replacedText: "MenuButton",
+        },
+        {
           label: "MenuButton",
           tagName: "commons:MenuButton",
+          additionalTextEdits: [],
+          replacedText: "MenuButton",
+        },
+        {
+          label: "ToggleMenuButton",
+          tagName: "vk:ToggleMenuButton",
           additionalTextEdits: [],
           replacedText: "MenuButton",
         },
@@ -461,7 +523,7 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
 
   it("will not replace the class closing tag name when the tag is closed and the opening tag doesn't have a name", () => {
     assertClassesCompletions({
-      xmlSnippet: `<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc">
+      xmlSnippet: `<mvc:View xmlns:core="sap.ui.core" xmlns:m="sap.m" xmlns:mvc="sap.ui.core.mvc">
           <mvc:customData>
               <⇶></MenuButton1>
           </mvc:customData>
@@ -473,13 +535,19 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
           additionalTextEdits: [],
           replacedText: "",
         },
+        {
+          label: "BadgeCustomData",
+          tagName: "m:BadgeCustomData",
+          additionalTextEdits: [],
+          replacedText: "",
+        },
       ],
     });
   });
 
   it("will replace the class closing tag name when the tag is closed and does not have a name", () => {
     assertClassesCompletions({
-      xmlSnippet: `<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m" xmlns:commons="sap.ui.commons">
+      xmlSnippet: `<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m" xmlns:commons="sap.ui.commons" xmlns:vk="sap.ui.vk">
           <mvc:content>
             <MenuButton⇶>⭲</>⭰
           </mvc:content>
@@ -488,11 +556,14 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
         {
           label: "MenuButton",
           tagName: "m:MenuButton",
+          additionalTextEdits: [{ rangeIndex: 0, newText: `</m:MenuButton>` }],
+          replacedText: "MenuButton",
+        },
+        {
+          label: "OverflowToolbarMenuButton",
+          tagName: "m:OverflowToolbarMenuButton",
           additionalTextEdits: [
-            {
-              rangeIndex: 0,
-              newText: `</m:MenuButton>`,
-            },
+            { rangeIndex: 0, newText: `</m:OverflowToolbarMenuButton>` },
           ],
           replacedText: "MenuButton",
         },
@@ -500,10 +571,15 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
           label: "MenuButton",
           tagName: "commons:MenuButton",
           additionalTextEdits: [
-            {
-              rangeIndex: 0,
-              newText: `</commons:MenuButton>`,
-            },
+            { rangeIndex: 0, newText: `</commons:MenuButton>` },
+          ],
+          replacedText: "MenuButton",
+        },
+        {
+          label: "ToggleMenuButton",
+          tagName: "vk:ToggleMenuButton",
+          additionalTextEdits: [
+            { rangeIndex: 0, newText: `</vk:ToggleMenuButton>` },
           ],
           replacedText: "MenuButton",
         },
@@ -535,6 +611,21 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
           replacedText: "MenuButton",
         },
         {
+          label: "OverflowToolbarMenuButton",
+          tagName: "m:OverflowToolbarMenuButton",
+          additionalTextEdits: [
+            {
+              rangeIndex: 0,
+              newText: ` xmlns:m="sap.m"`,
+            },
+            {
+              rangeIndex: 1,
+              newText: `m:OverflowToolbarMenuButton`,
+            },
+          ],
+          replacedText: "MenuButton",
+        },
+        {
           label: "MenuButton",
           tagName: "commons:MenuButton",
           additionalTextEdits: [
@@ -545,6 +636,21 @@ describe("the UI5 language assistant Code Completion Services - classes", () => 
             {
               rangeIndex: 1,
               newText: `commons:MenuButton`,
+            },
+          ],
+          replacedText: "MenuButton",
+        },
+        {
+          label: "ToggleMenuButton",
+          tagName: "vk:ToggleMenuButton",
+          additionalTextEdits: [
+            {
+              rangeIndex: 0,
+              newText: ` xmlns:vk="sap.ui.vk"`,
+            },
+            {
+              rangeIndex: 1,
+              newText: `vk:ToggleMenuButton`,
             },
           ],
           replacedText: "MenuButton",

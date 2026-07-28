@@ -7,7 +7,11 @@ import {
 } from "vscode";
 import { tryFetch } from "@ui5-language-assistant/logic-utils";
 import { MANIFEST_SCHEMA } from "./constants";
-import { getSchemaContent, getSchemaUri } from "./utils";
+import {
+  getSchemaContent,
+  getSchemaUri,
+  sanitizeAdaptiveCardUrl,
+} from "./utils";
 import {
   findManifestPath,
   getUI5Manifest,
@@ -75,6 +79,7 @@ export const getManifestSchemaProvider = async (
   const response = await tryFetch(SCHEMA_URI);
   if (response) {
     content = await response.text();
+    content = sanitizeAdaptiveCardUrl(content);
   } else {
     // fallback to local schema which is based on main branch
     content = await getSchemaContent(context, version);

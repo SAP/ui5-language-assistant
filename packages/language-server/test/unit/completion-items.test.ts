@@ -692,6 +692,16 @@ describe("the UI5 language assistant Code Completion Services", () => {
         newText: `xmlns:util="sap.ui.core.util"`,
       },
       {
+        label: "util",
+        replacedText: "xmlns:u",
+        newText: `xmlns:util="sap.ui.integration.util"`,
+      },
+      {
+        label: "util",
+        replacedText: "xmlns:u",
+        newText: `xmlns:util="sap.ui.mdc.util"`,
+      },
+      {
         label: "ux3",
         replacedText: "xmlns:u",
         newText: `xmlns:ux3="sap.ui.ux3"`,
@@ -711,6 +721,11 @@ describe("the UI5 language assistant Code Completion Services", () => {
         label: "ui",
         replacedText: "xmlns:u",
         newText: `xmlns:ui="sap.rules.ui"`,
+      },
+      {
+        label: "ui",
+        replacedText: "xmlns:u",
+        newText: `xmlns:ui="sap.esh.search.ui"`,
       },
       {
         label: "ui5",

@@ -16,7 +16,7 @@
     },
     "severity": 2,
     "source": "UI5 Language Assistant",
-    "message": "The orientationChange event is deprecated since version 1.20.0. use sap.ui.Device.orientation.attachHandler(...)",
+    "message": "The orientationChange event is deprecated since version 1.20.0. use sap.ui.Device.orientation.attachHandler instead.",
     "tags": [2]
   },
   {

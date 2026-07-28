@@ -100,7 +100,7 @@ it("getLibraryAPIJsonUrl", async () => {
 describe("getVersionsMap", () => {
   it("get version map for SAPUI5 - http success", async () => {
     const data = {
-      "1.71": {
+      "1.120": {
         version: DEFAULT_UI5_VERSION,
         support: "Maintenance",
         lts: true,

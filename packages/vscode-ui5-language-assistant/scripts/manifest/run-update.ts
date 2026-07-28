@@ -2,7 +2,7 @@ import axios from "axios";
 import fs from "fs/promises";
 import { join } from "path";
 import prettier from "prettier";
-import { getSchemaUri } from "../../src/utils";
+import { getSchemaUri, sanitizeAdaptiveCardUrl } from "../../src/utils";
 
 const BASE_PATH = join(process.cwd(), "src", "manifest");
 const ADAPTIVE_CARD_LOCATION = join(BASE_PATH, "adaptive-card.json");
@@ -77,10 +77,7 @@ async function updateManifestSchema() {
   for (const version of versions) {
     const SCHEMA_URI = getSchemaUri(version);
     const content = await axiosGetRequest(SCHEMA_URI);
-    const finalString = content.replace(
-      /"(https:\/\/adaptivecards\.io[^"]*)"/,
-      `"/manifest/adaptive-card.json"`
-    );
+    const finalString = sanitizeAdaptiveCardUrl(content);
     const prettifiedContent = prettifyFileContent(SCHEMA_URI, finalString);
     await fs.writeFile(
       join(BASE_PATH, `schema-v${version}.json`),

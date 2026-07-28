@@ -1,5 +1,9 @@
 import { ExtensionContext } from "vscode";
-import { getSchemaContent, getSchemaUri } from "../../../src/utils";
+import {
+  getSchemaContent,
+  getSchemaUri,
+  sanitizeAdaptiveCardUrl,
+} from "../../../src/utils";
 import { getLogger } from "../../../src/logger";
 import { readFile, readdir } from "fs/promises";
 
@@ -161,5 +165,25 @@ describe("getSchemaUri", () => {
     expect(result).toBe(
       "https://raw.githubusercontent.com/UI5/manifest/refs/tags/v2.1.0/schema.json"
     );
+  });
+});
+
+describe("sanitizeAdaptiveCardUrl", () => {
+  it("replaces adaptivecards.io URL with local path", () => {
+    const input = `{"$ref": "https://adaptivecards.io/schemas/adaptive-card.json"}`;
+    const result = sanitizeAdaptiveCardUrl(input);
+    expect(result).toBe(`{"$ref": "/manifest/adaptive-card.json"}`);
+  });
+
+  it("replaces any adaptivecards.io URL variant", () => {
+    const input = `{"$ref": "https://adaptivecards.io/schemas/other-path.json"}`;
+    const result = sanitizeAdaptiveCardUrl(input);
+    expect(result).toBe(`{"$ref": "/manifest/adaptive-card.json"}`);
+  });
+
+  it("leaves content unchanged when no adaptivecards.io URL is present", () => {
+    const input = `{"$ref": "https://example.com/schema.json"}`;
+    const result = sanitizeAdaptiveCardUrl(input);
+    expect(result).toBe(input);
   });
 });

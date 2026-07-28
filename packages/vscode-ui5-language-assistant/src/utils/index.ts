@@ -88,3 +88,10 @@ export {
 export function getSchemaUri(version: string): string {
   return `https://raw.githubusercontent.com/UI5/manifest/refs/tags/v${version}/schema.json`;
 }
+
+export function sanitizeAdaptiveCardUrl(content: string): string {
+  return content.replace(
+    /"(https:\/\/adaptivecards\.io[^"]*)"/,
+    `"/manifest/adaptive-card.json"`
+  );
+}

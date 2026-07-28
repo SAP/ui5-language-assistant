@@ -997,7 +997,7 @@ Array [
 
 **Optional:** false
 
-[More information](https://ui5.sap.com/1.108.53/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
+[More information](https://ui5.sap.com/1.120.48/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "name": "path",
     "required": true,
@@ -1028,7 +1028,7 @@ Array [
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.53/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
+[More information](https://ui5.sap.com/1.120.48/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "name": "model",
     "type": Array [
@@ -1058,7 +1058,7 @@ Array [
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.53/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
+[More information](https://ui5.sap.com/1.120.48/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "name": "template",
     "type": Array [
@@ -1172,9 +1172,18 @@ Array [
             "sap.fe.core.AppComponent",
             "sap.fe.macros.MacroAPI",
             "sap.fe.macros.Chart",
+            "sap.fe.macros.FlexibleColumnLayoutActions",
             "sap.fe.macros.Field",
             "sap.fe.macros.FilterBar",
             "sap.fe.macros.Form",
+            "sap.fe.macros.FormElement",
+            "sap.fe.macros.KPITag",
+            "sap.fe.macros.MicroChart",
+            "sap.fe.macros.MultiValueField",
+            "sap.fe.macros.Paginator",
+            "sap.fe.macros.RichTextEditor",
+            "sap.fe.macros.RichTextEditorWithMetadata",
+            "sap.fe.macros.Share",
             "sap.fe.macros.Table",
             "sap.gantt.AdhocLine",
             "sap.gantt.axistime.AxisTimeStrategyBase",
@@ -1224,6 +1233,8 @@ Array [
             "sap.gantt.legend.LegendBase",
             "sap.gantt.legend.LegendContainer",
             "sap.gantt.legend.ListLegend",
+            "sap.gantt.overlays.GanttRowOverlay",
+            "sap.gantt.overlays.Overlay",
             "sap.gantt.shape.cal.Calendar",
             "sap.gantt.shape.Circle",
             "sap.gantt.shape.ClipPath",
@@ -1312,26 +1323,7 @@ Array [
             "sap.gantt.simple.UtilizationDimension",
             "sap.gantt.simple.UtilizationLineChart",
             "sap.gantt.simple.UtilizationPeriod",
-            "sap.landvisz.ConnectionEntity",
-            "sap.landvisz.Connector",
-            "sap.landvisz.internal.ActionBar",
-            "sap.landvisz.internal.DataContainer",
-            "sap.landvisz.internal.DeploymentType",
-            "sap.landvisz.internal.EntityAction",
-            "sap.landvisz.internal.EntityCustomAction",
-            "sap.landvisz.internal.HeaderList",
-            "sap.landvisz.internal.IdentificationBar",
-            "sap.landvisz.internal.LinearRowField",
-            "sap.landvisz.internal.ModelingStatus",
-            "sap.landvisz.internal.NestedRowField",
-            "sap.landvisz.internal.SingleDataContainer",
-            "sap.landvisz.internal.TreeField",
-            "sap.landvisz.LandscapeEntity",
-            "sap.landvisz.LandscapeViewer",
-            "sap.landvisz.LongTextField",
-            "sap.landvisz.Option",
-            "sap.landvisz.OptionEntity",
-            "sap.landvisz.OptionSource",
+            "sap.insights.ManageCards",
             "sap.m.ActionListItem",
             "sap.m.ActionSelect",
             "sap.m.ActionSheet",
@@ -1353,7 +1345,6 @@ Array [
             "sap.m.ComboBox",
             "sap.m.ComboBoxBase",
             "sap.m.ComboBoxTextField",
-            "sap.m.CustomDynamicDateOption",
             "sap.m.CustomListItem",
             "sap.m.CustomTile",
             "sap.m.CustomTreeItem",
@@ -1400,6 +1391,7 @@ Array [
             "sap.m.LightBox",
             "sap.m.LightBoxItem",
             "sap.m.Link",
+            "sap.m.LinkTileContent",
             "sap.m.List",
             "sap.m.ListBase",
             "sap.m.ListItemBase",
@@ -1434,6 +1426,7 @@ Array [
             "sap.m.OverflowToolbar",
             "sap.m.OverflowToolbarButton",
             "sap.m.OverflowToolbarLayoutData",
+            "sap.m.OverflowToolbarMenuButton",
             "sap.m.OverflowToolbarToggleButton",
             "sap.m.p13n.AbstractContainer",
             "sap.m.p13n.AbstractContainerItem",
@@ -1467,7 +1460,9 @@ Array [
             "sap.m.PlanningCalendarLegend",
             "sap.m.PlanningCalendarRow",
             "sap.m.PlanningCalendarView",
+            "sap.m.plugins.CellSelector",
             "sap.m.plugins.ColumnResizer",
+            "sap.m.plugins.CopyProvider",
             "sap.m.plugins.DataStateIndicator",
             "sap.m.plugins.PasteProvider",
             "sap.m.Popover",
@@ -1543,7 +1538,6 @@ Array [
             "sap.m.SplitApp",
             "sap.m.SplitButton",
             "sap.m.SplitContainer",
-            "sap.m.StandardDynamicDateOption",
             "sap.m.StandardListItem",
             "sap.m.StandardTile",
             "sap.m.StandardTreeItem",
@@ -1553,6 +1547,20 @@ Array [
             "sap.m.TabContainer",
             "sap.m.TabContainerItem",
             "sap.m.Table",
+            "sap.m.table.columnmenu.ActionItem",
+            "sap.m.table.columnmenu.Entry",
+            "sap.m.table.columnmenu.Item",
+            "sap.m.table.columnmenu.ItemBase",
+            "sap.m.table.columnmenu.Menu",
+            "sap.m.table.columnmenu.QuickAction",
+            "sap.m.table.columnmenu.QuickActionBase",
+            "sap.m.table.columnmenu.QuickActionItem",
+            "sap.m.table.columnmenu.QuickGroup",
+            "sap.m.table.columnmenu.QuickGroupItem",
+            "sap.m.table.columnmenu.QuickSort",
+            "sap.m.table.columnmenu.QuickSortItem",
+            "sap.m.table.columnmenu.QuickTotal",
+            "sap.m.table.columnmenu.QuickTotalItem",
             "sap.m.TablePersoController",
             "sap.m.TablePersoDialog",
             "sap.m.TablePersoProvider",
@@ -1576,10 +1584,16 @@ Array [
             "sap.m.ToolbarSpacer",
             "sap.m.Tree",
             "sap.m.TreeItemBase",
+            "sap.m.upload.ActionsPlaceholder",
+            "sap.m.upload.Column",
+            "sap.m.upload.FilePreviewDialog",
             "sap.m.upload.Uploader",
+            "sap.m.upload.UploaderTableItem",
             "sap.m.upload.UploadSet",
             "sap.m.upload.UploadSetItem",
             "sap.m.upload.UploadSetToolbarPlaceholder",
+            "sap.m.upload.UploadSetwithTable",
+            "sap.m.upload.UploadSetwithTableItem",
             "sap.m.UploadCollection",
             "sap.m.UploadCollectionItem",
             "sap.m.UploadCollectionParameter",
@@ -1622,12 +1636,10 @@ Array [
             "sap.rules.ui.services.AstExpressionLanguage",
             "sap.rules.ui.services.ExpressionLanguage",
             "sap.rules.ui.TextRuleConfiguration",
+            "sap.sac.df.changeHandler.MultiDimModelChangeHandler",
+            "sap.sac.df.FilterBar",
             "sap.sac.df.FlexAnalysis",
             "sap.sac.df.FlexAnalysisPanel",
-            "sap.sac.df.PivotTable",
-            "sap.sac.grid.Cell",
-            "sap.sac.grid.Grid",
-            "sap.sac.grid.SemanticStyle",
             "sap.suite.ui.commons.AriaProperties",
             "sap.suite.ui.commons.BulletChart",
             "sap.suite.ui.commons.BulletChartData",
@@ -1878,6 +1890,7 @@ Array [
             "sap.ui.comp.navpopover.NavigationPopoverHandler",
             "sap.ui.comp.navpopover.SemanticObjectController",
             "sap.ui.comp.navpopover.SmartLink",
+            "sap.ui.comp.odata.ComboBox",
             "sap.ui.comp.smartchart.SmartChart",
             "sap.ui.comp.smartfield.ComboBox",
             "sap.ui.comp.smartfield.Configuration",
@@ -1887,6 +1900,7 @@ Array [
             "sap.ui.comp.smartfilterbar.ControlConfiguration",
             "sap.ui.comp.smartfilterbar.GroupConfiguration",
             "sap.ui.comp.smartfilterbar.SelectOption",
+            "sap.ui.comp.smartfilterbar.SFBMultiComboBox",
             "sap.ui.comp.smartfilterbar.SmartFilterBar",
             "sap.ui.comp.smartfilterbar.SmartFilterBarFilterGroupItem",
             "sap.ui.comp.smartform.ColumnLayout",
@@ -1917,7 +1931,6 @@ Array [
             "sap.ui.comp.smartvariants.SmartVariantManagementBase",
             "sap.ui.comp.smartvariants.SmartVariantManagementUi2",
             "sap.ui.comp.state.UIState",
-            "sap.ui.comp.transport.TransportDialog",
             "sap.ui.comp.valuehelpdialog.ValueHelpDialog",
             "sap.ui.comp.variants.EditableVariantItem",
             "sap.ui.comp.variants.VariantItem",
@@ -1973,6 +1986,7 @@ Array [
             "sap.ui.core.util.ExportTypeCSV",
             "sap.ui.core.util.MockServer",
             "sap.ui.core.VariantLayoutData",
+            "sap.ui.core.webc.WebComponent",
             "sap.ui.core.XMLComposite",
             "sap.ui.test.actions.Action",
             "sap.ui.test.actions.Drag",
@@ -1990,14 +2004,15 @@ Array [
             "sap.ui.test.matchers.LabelFor",
             "sap.ui.test.matchers.Matcher",
             "sap.ui.test.matchers.PropertyStrictEquals",
+            "sap.ui.fl.apply._internal.flexObjects.AppDescriptorChange",
             "sap.ui.fl.apply._internal.flexObjects.CompVariant",
-            "sap.ui.fl.apply._internal.flexObjects.CompVariantRevertData",
             "sap.ui.fl.apply._internal.flexObjects.ControllerExtensionChange",
             "sap.ui.fl.apply._internal.flexObjects.FlexObject",
-            "sap.ui.fl.apply._internal.flexObjects.RevertData",
+            "sap.ui.fl.apply._internal.flexObjects.FlVariant",
+            "sap.ui.fl.apply._internal.flexObjects.UIChange",
             "sap.ui.fl.apply._internal.flexObjects.UpdatableChange",
             "sap.ui.fl.apply._internal.flexObjects.Variant",
-            "sap.ui.fl.Change",
+            "sap.ui.fl.apply._internal.flexState.DataSelector",
             "sap.ui.fl.transport.TransportDialog",
             "sap.ui.fl.variants.VariantManagement",
             "sap.ui.fl.write._internal.appVariant.AppVariant",
@@ -2048,6 +2063,7 @@ Array [
             "sap.ui.integration.editor.fields.StringListField",
             "sap.ui.integration.editor.fields.viz.ColorSelect",
             "sap.ui.integration.editor.fields.viz.IconSelect",
+            "sap.ui.integration.editor.fields.viz.ImageSelect",
             "sap.ui.integration.editor.fields.viz.ShapeSelect",
             "sap.ui.integration.editor.fields.viz.VizBase",
             "sap.ui.integration.editor.Settings",
@@ -2108,52 +2124,48 @@ Array [
             "sap.ui.mdc.Control",
             "sap.ui.mdc.Element",
             "sap.ui.mdc.Field",
-            "sap.ui.mdc.field.BoolFieldHelp",
-            "sap.ui.mdc.field.ConditionFieldHelp",
-            "sap.ui.mdc.field.CustomFieldHelp",
             "sap.ui.mdc.field.CustomFieldInfo",
-            "sap.ui.mdc.field.DefineConditionPanel",
             "sap.ui.mdc.field.FieldBase",
-            "sap.ui.mdc.field.FieldHelpBase",
             "sap.ui.mdc.field.FieldInfoBase",
             "sap.ui.mdc.field.FieldInput",
             "sap.ui.mdc.field.FieldMultiInput",
-            "sap.ui.mdc.field.FieldValueHelp",
-            "sap.ui.mdc.field.FieldValueHelpContentWrapperBase",
-            "sap.ui.mdc.field.InParameter",
-            "sap.ui.mdc.field.ListFieldHelp",
             "sap.ui.mdc.field.ListFieldHelpItem",
             "sap.ui.mdc.field.MultiValueFieldItem",
-            "sap.ui.mdc.field.OutParameter",
             "sap.ui.mdc.field.TokenDisplay",
             "sap.ui.mdc.field.TokenizerDisplay",
-            "sap.ui.mdc.field.ValueHelpPanel",
             "sap.ui.mdc.FilterBar",
-            "sap.ui.mdc.filterbar.aligned.FilterItemLayout",
             "sap.ui.mdc.filterbar.FilterBarBase",
+            "sap.ui.mdc.filterbar.p13n.AdaptationFilterBar",
             "sap.ui.mdc.filterbar.vh.CollectiveSearchSelect",
             "sap.ui.mdc.filterbar.vh.FilterBar",
             "sap.ui.mdc.FilterField",
             "sap.ui.mdc.Link",
+            "sap.ui.mdc.link.LinkItem",
             "sap.ui.mdc.MultiValueField",
-            "sap.ui.mdc.p13n.panels.FilterPanel",
             "sap.ui.mdc.Table",
             "sap.ui.mdc.table.Column",
+            "sap.ui.mdc.table.ColumnSettings",
             "sap.ui.mdc.table.CreationRow",
+            "sap.ui.mdc.table.DragDropConfig",
             "sap.ui.mdc.table.GridTableType",
+            "sap.ui.mdc.table.ResponsiveColumnSettings",
             "sap.ui.mdc.table.ResponsiveTableType",
             "sap.ui.mdc.table.RowActionItem",
             "sap.ui.mdc.table.RowSettings",
             "sap.ui.mdc.table.TableTypeBase",
+            "sap.ui.mdc.table.TreeTableType",
+            "sap.ui.mdc.util.InfoBar",
             "sap.ui.mdc.ValueHelp",
             "sap.ui.mdc.valuehelp.base.Container",
             "sap.ui.mdc.valuehelp.base.Content",
+            "sap.ui.mdc.valuehelp.base.DefineConditionPanel",
             "sap.ui.mdc.valuehelp.base.DialogTab",
             "sap.ui.mdc.valuehelp.base.FilterableListContent",
             "sap.ui.mdc.valuehelp.base.ListContent",
             "sap.ui.mdc.valuehelp.content.Bool",
             "sap.ui.mdc.valuehelp.content.Conditions",
             "sap.ui.mdc.valuehelp.content.FixedList",
+            "sap.ui.mdc.valuehelp.content.FixedListItem",
             "sap.ui.mdc.valuehelp.content.MDCTable",
             "sap.ui.mdc.valuehelp.content.MTable",
             "sap.ui.mdc.valuehelp.Dialog",
@@ -2173,9 +2185,9 @@ Array [
             "sap.ui.table.Row",
             "sap.ui.table.RowAction",
             "sap.ui.table.RowActionItem",
-            "sap.ui.table.rowmodes.AutoRowMode",
-            "sap.ui.table.rowmodes.FixedRowMode",
-            "sap.ui.table.rowmodes.InteractiveRowMode",
+            "sap.ui.table.rowmodes.Auto",
+            "sap.ui.table.rowmodes.Fixed",
+            "sap.ui.table.rowmodes.Interactive",
             "sap.ui.table.rowmodes.RowMode",
             "sap.ui.table.RowSettings",
             "sap.ui.table.Table",
@@ -2261,6 +2273,9 @@ Array [
             "sap.ui.vbm.ClusterGrid",
             "sap.ui.vbm.ClusterTree",
             "sap.ui.vbm.Container",
+            "sap.ui.vbm.ContainerBase",
+            "sap.ui.vbm.ContainerContent",
+            "sap.ui.vbm.ContainerLegendItem",
             "sap.ui.vbm.Containers",
             "sap.ui.vbm.DragSource",
             "sap.ui.vbm.DropTarget",
@@ -2274,6 +2289,9 @@ Array [
             "sap.ui.vbm.HeatPoint",
             "sap.ui.vbm.Legend",
             "sap.ui.vbm.LegendItem",
+            "sap.ui.vbm.ListPanel",
+            "sap.ui.vbm.ListPanelStack",
+            "sap.ui.vbm.MapContainer",
             "sap.ui.vbm.Pie",
             "sap.ui.vbm.PieItem",
             "sap.ui.vbm.Pies",
@@ -2369,6 +2387,7 @@ Array [
             "sap.ui.vk.tools.Gizmo",
             "sap.ui.vk.tools.HitTestTool",
             "sap.ui.vk.tools.MoveTool",
+            "sap.ui.vk.tools.PointCloudSelectionTool",
             "sap.ui.vk.tools.RectSelectTool",
             "sap.ui.vk.tools.RedlineTool",
             "sap.ui.vk.tools.RotateOrbitTool",
@@ -2383,6 +2402,7 @@ Array [
             "sap.ui.vk.Viewer",
             "sap.ui.vk.ViewGallery",
             "sap.ui.vk.ViewGroup",
+            "sap.ui.vk.ViewManager",
             "sap.ui.vk.Viewport",
             "sap.ui.vk.ViewportBase",
             "sap.ui.vk.ViewStateManager",
@@ -2492,6 +2512,8 @@ Array [
             "sap.ui.webc.main.SegmentedButton",
             "sap.ui.webc.main.SegmentedButtonItem",
             "sap.ui.webc.main.Select",
+            "sap.ui.webc.main.SelectMenu",
+            "sap.ui.webc.main.SelectMenuOption",
             "sap.ui.webc.main.Slider",
             "sap.ui.webc.main.SplitButton",
             "sap.ui.webc.main.StandardListItem",
@@ -2513,8 +2535,15 @@ Array [
             "sap.ui.webc.main.Toast",
             "sap.ui.webc.main.ToggleButton",
             "sap.ui.webc.main.Token",
+            "sap.ui.webc.main.Toolbar",
+            "sap.ui.webc.main.ToolbarButton",
+            "sap.ui.webc.main.ToolbarSelect",
+            "sap.ui.webc.main.ToolbarSelectOption",
+            "sap.ui.webc.main.ToolbarSeparator",
+            "sap.ui.webc.main.ToolbarSpacer",
             "sap.ui.webc.main.Tree",
             "sap.ui.webc.main.TreeItem",
+            "sap.ui.webc.main.TreeItemCustom",
             "sap.uiext.inbox.composite.InboxAddAttachmentTile",
             "sap.uiext.inbox.composite.InboxAttachmentsTileContainer",
             "sap.uiext.inbox.composite.InboxAttachmentTile",
@@ -2714,7 +2743,7 @@ Array [
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.53/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
+[More information](https://ui5.sap.com/1.120.48/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "name": "templateShareable",
     "type": Array [
@@ -2744,7 +2773,7 @@ Array [
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.53/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
+[More information](https://ui5.sap.com/1.120.48/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "name": "factory",
     "type": Array [
@@ -2774,7 +2803,7 @@ Array [
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.53/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
+[More information](https://ui5.sap.com/1.120.48/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "name": "suspended",
     "type": Array [
@@ -2804,7 +2833,7 @@ Array [
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.53/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
+[More information](https://ui5.sap.com/1.120.48/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "name": "startIndex",
     "type": Array [
@@ -2834,7 +2863,7 @@ Array [
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.53/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
+[More information](https://ui5.sap.com/1.120.48/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "name": "length",
     "type": Array [
@@ -2864,7 +2893,7 @@ Array [
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.53/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
+[More information](https://ui5.sap.com/1.120.48/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "name": "sorter",
     "type": Array [
@@ -2887,7 +2916,7 @@ Array [
 
 **Optional:** false
 
-[More information](https://ui5.sap.com/1.108.53/#/api/sap.ui.model.Sorter)",
+[More information](https://ui5.sap.com/1.120.48/#/api/sap.ui.model.Sorter)",
             },
             "name": "path",
             "required": true,
@@ -2918,7 +2947,7 @@ Array [
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.53/#/api/sap.ui.model.Sorter)",
+[More information](https://ui5.sap.com/1.120.48/#/api/sap.ui.model.Sorter)",
             },
             "name": "descending",
             "required": false,
@@ -2949,7 +2978,7 @@ Array [
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.53/#/api/sap.ui.model.Sorter)",
+[More information](https://ui5.sap.com/1.120.48/#/api/sap.ui.model.Sorter)",
             },
             "name": "group",
             "required": false,
@@ -2991,7 +3020,7 @@ Array [
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.53/#/api/sap.ui.model.Sorter)",
+[More information](https://ui5.sap.com/1.120.48/#/api/sap.ui.model.Sorter)",
             },
             "name": "comparator",
             "required": false,
@@ -3035,7 +3064,7 @@ Array [
 
 **Optional:** false
 
-[More information](https://ui5.sap.com/1.108.53/#/api/sap.ui.model.Sorter)",
+[More information](https://ui5.sap.com/1.120.48/#/api/sap.ui.model.Sorter)",
             },
             "name": "path",
             "required": true,
@@ -3066,7 +3095,7 @@ Array [
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.53/#/api/sap.ui.model.Sorter)",
+[More information](https://ui5.sap.com/1.120.48/#/api/sap.ui.model.Sorter)",
             },
             "name": "descending",
             "required": false,
@@ -3097,7 +3126,7 @@ Array [
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.53/#/api/sap.ui.model.Sorter)",
+[More information](https://ui5.sap.com/1.120.48/#/api/sap.ui.model.Sorter)",
             },
             "name": "group",
             "required": false,
@@ -3139,7 +3168,7 @@ Array [
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.53/#/api/sap.ui.model.Sorter)",
+[More information](https://ui5.sap.com/1.120.48/#/api/sap.ui.model.Sorter)",
             },
             "name": "comparator",
             "required": false,
@@ -3179,7 +3208,7 @@ Array [
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.53/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
+[More information](https://ui5.sap.com/1.120.48/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "name": "filters",
     "type": Array [
@@ -3202,7 +3231,7 @@ Array [
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.53/#/api/sap.ui.model.Filter)",
+[More information](https://ui5.sap.com/1.120.48/#/api/sap.ui.model.Filter)",
             },
             "name": "path",
             "required": false,
@@ -3233,7 +3262,7 @@ Array [
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.53/#/api/sap.ui.model.Filter)",
+[More information](https://ui5.sap.com/1.120.48/#/api/sap.ui.model.Filter)",
             },
             "name": "test",
             "required": false,
@@ -3264,7 +3293,7 @@ Array [
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.53/#/api/sap.ui.model.Filter)",
+[More information](https://ui5.sap.com/1.120.48/#/api/sap.ui.model.Filter)",
             },
             "name": "comparator",
             "required": false,
@@ -3295,7 +3324,7 @@ Array [
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.53/#/api/sap.ui.model.Filter)",
+[More information](https://ui5.sap.com/1.120.48/#/api/sap.ui.model.Filter)",
             },
             "name": "operator",
             "required": false,
@@ -3343,7 +3372,7 @@ Array [
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.53/#/api/sap.ui.model.Filter)",
+[More information](https://ui5.sap.com/1.120.48/#/api/sap.ui.model.Filter)",
             },
             "name": "value1",
             "required": false,
@@ -3370,7 +3399,7 @@ Array [
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.53/#/api/sap.ui.model.Filter)",
+[More information](https://ui5.sap.com/1.120.48/#/api/sap.ui.model.Filter)",
             },
             "name": "value2",
             "required": false,
@@ -3397,7 +3426,7 @@ Array [
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.53/#/api/sap.ui.model.Filter)",
+[More information](https://ui5.sap.com/1.120.48/#/api/sap.ui.model.Filter)",
             },
             "name": "variable",
             "required": false,
@@ -3428,7 +3457,7 @@ Array [
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.53/#/api/sap.ui.model.Filter)",
+[More information](https://ui5.sap.com/1.120.48/#/api/sap.ui.model.Filter)",
             },
             "name": "condition",
             "required": false,
@@ -3460,7 +3489,7 @@ Array [
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.53/#/api/sap.ui.model.Filter)",
+[More information](https://ui5.sap.com/1.120.48/#/api/sap.ui.model.Filter)",
             },
             "name": "filters",
             "required": false,
@@ -3492,7 +3521,7 @@ Array [
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.53/#/api/sap.ui.model.Filter)",
+[More information](https://ui5.sap.com/1.120.48/#/api/sap.ui.model.Filter)",
             },
             "name": "and",
             "required": false,
@@ -3523,7 +3552,7 @@ Array [
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.53/#/api/sap.ui.model.Filter)",
+[More information](https://ui5.sap.com/1.120.48/#/api/sap.ui.model.Filter)",
             },
             "name": "caseSensitive",
             "required": false,
@@ -3567,7 +3596,7 @@ Array [
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.53/#/api/sap.ui.model.Filter)",
+[More information](https://ui5.sap.com/1.120.48/#/api/sap.ui.model.Filter)",
             },
             "name": "path",
             "required": false,
@@ -3598,7 +3627,7 @@ Array [
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.53/#/api/sap.ui.model.Filter)",
+[More information](https://ui5.sap.com/1.120.48/#/api/sap.ui.model.Filter)",
             },
             "name": "test",
             "required": false,
@@ -3629,7 +3658,7 @@ Array [
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.53/#/api/sap.ui.model.Filter)",
+[More information](https://ui5.sap.com/1.120.48/#/api/sap.ui.model.Filter)",
             },
             "name": "comparator",
             "required": false,
@@ -3660,7 +3689,7 @@ Array [
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.53/#/api/sap.ui.model.Filter)",
+[More information](https://ui5.sap.com/1.120.48/#/api/sap.ui.model.Filter)",
             },
             "name": "operator",
             "required": false,
@@ -3708,7 +3737,7 @@ Array [
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.53/#/api/sap.ui.model.Filter)",
+[More information](https://ui5.sap.com/1.120.48/#/api/sap.ui.model.Filter)",
             },
             "name": "value1",
             "required": false,
@@ -3735,7 +3764,7 @@ Array [
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.53/#/api/sap.ui.model.Filter)",
+[More information](https://ui5.sap.com/1.120.48/#/api/sap.ui.model.Filter)",
             },
             "name": "value2",
             "required": false,
@@ -3762,7 +3791,7 @@ Array [
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.53/#/api/sap.ui.model.Filter)",
+[More information](https://ui5.sap.com/1.120.48/#/api/sap.ui.model.Filter)",
             },
             "name": "variable",
             "required": false,
@@ -3793,7 +3822,7 @@ Array [
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.53/#/api/sap.ui.model.Filter)",
+[More information](https://ui5.sap.com/1.120.48/#/api/sap.ui.model.Filter)",
             },
             "name": "condition",
             "required": false,
@@ -3825,7 +3854,7 @@ Array [
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.53/#/api/sap.ui.model.Filter)",
+[More information](https://ui5.sap.com/1.120.48/#/api/sap.ui.model.Filter)",
             },
             "name": "filters",
             "required": false,
@@ -3857,7 +3886,7 @@ Array [
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.53/#/api/sap.ui.model.Filter)",
+[More information](https://ui5.sap.com/1.120.48/#/api/sap.ui.model.Filter)",
             },
             "name": "and",
             "required": false,
@@ -3888,7 +3917,7 @@ Array [
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.53/#/api/sap.ui.model.Filter)",
+[More information](https://ui5.sap.com/1.120.48/#/api/sap.ui.model.Filter)",
             },
             "name": "caseSensitive",
             "required": false,
@@ -3928,7 +3957,7 @@ Array [
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.53/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
+[More information](https://ui5.sap.com/1.120.48/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "name": "key",
     "type": Array [
@@ -3969,7 +3998,7 @@ Array [
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.53/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
+[More information](https://ui5.sap.com/1.120.48/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "name": "parameters",
     "type": Array [
@@ -3999,7 +4028,7 @@ Array [
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.53/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
+[More information](https://ui5.sap.com/1.120.48/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "name": "groupHeaderFactory",
     "type": Array [
@@ -4025,11 +4054,11 @@ Array [
 
 **Type:** Object
 
-**Description:** Map of event handler functions keyed by the name of the binding events that they should be attached to
+**Description:** Map of event handler functions keyed by the name of the binding events that they should be attached to. The names and value ranges of the supported events depend on the model implementation and should be documented with the model-specific subclass of <code>sap.ui.model.ListBinding</code>.
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.53/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
+[More information](https://ui5.sap.com/1.120.48/#/api/sap.ui.base.ManagedObject.AggregationBindingInfo)",
     },
     "name": "events",
     "type": Array [
@@ -4064,7 +4093,7 @@ Array [
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.53/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+[More information](https://ui5.sap.com/1.120.48/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
     },
     "name": "path",
     "type": Array [
@@ -4097,7 +4126,7 @@ Array [
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.53/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+[More information](https://ui5.sap.com/1.120.48/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
     },
     "name": "value",
     "type": Array [
@@ -4130,7 +4159,7 @@ Array [
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.53/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+[More information](https://ui5.sap.com/1.120.48/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
     },
     "name": "model",
     "type": Array [
@@ -4160,7 +4189,7 @@ Array [
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.53/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+[More information](https://ui5.sap.com/1.120.48/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
     },
     "name": "suspended",
     "type": Array [
@@ -4193,7 +4222,7 @@ Array [
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.53/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+[More information](https://ui5.sap.com/1.120.48/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
     },
     "name": "formatter",
     "type": Array [
@@ -4225,7 +4254,7 @@ Array [
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.53/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+[More information](https://ui5.sap.com/1.120.48/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
     },
     "name": "useRawValues",
     "type": Array [
@@ -4260,7 +4289,7 @@ Array [
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.53/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+[More information](https://ui5.sap.com/1.120.48/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
     },
     "name": "useInternalValues",
     "type": Array [
@@ -4293,7 +4322,7 @@ Array [
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.53/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+[More information](https://ui5.sap.com/1.120.48/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
     },
     "name": "type",
     "type": Array [
@@ -4373,7 +4402,7 @@ Array [
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.53/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+[More information](https://ui5.sap.com/1.120.48/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
     },
     "name": "targetType",
     "type": Array [
@@ -4403,7 +4432,7 @@ Array [
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.53/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+[More information](https://ui5.sap.com/1.120.48/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
     },
     "name": "formatOptions",
     "type": Array [
@@ -4444,7 +4473,7 @@ Array [
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.53/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+[More information](https://ui5.sap.com/1.120.48/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
     },
     "name": "constraints",
     "type": Array [
@@ -4485,7 +4514,7 @@ Array [
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.53/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+[More information](https://ui5.sap.com/1.120.48/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
     },
     "name": "mode",
     "type": Array [
@@ -4520,7 +4549,7 @@ Array [
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.53/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+[More information](https://ui5.sap.com/1.120.48/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
     },
     "name": "parameters",
     "type": Array [
@@ -4550,7 +4579,7 @@ Array [
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.53/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+[More information](https://ui5.sap.com/1.120.48/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
     },
     "name": "events",
     "type": Array [
@@ -4584,7 +4613,7 @@ If a part is not specified as a binding info object but as a simple string, a bi
 
 **Optional:** true
 
-[More information](https://ui5.sap.com/1.108.53/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
+[More information](https://ui5.sap.com/1.120.48/#/api/sap.ui.base.ManagedObject.PropertyBindingInfo)",
     },
     "name": "parts",
     "type": Array [
