@@ -40,7 +40,7 @@
     "@xml-tools/ast": "5.0.0",
     "@xml-tools/parser": "1.0.7",
     "vscode-languageserver-protocol": "3.17.2",
-    "vscode-languageserver-types": "3.17.2"
+    "vscode-languageserver-types": "3.18.0"
   },
   "scripts": {
     "ci": "npm-run-all lint coverage",

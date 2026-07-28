@@ -34,7 +34,7 @@
     "@ui5-language-assistant/semantic-model": "workspace:*",
     "@ui5-language-assistant/test-utils": "workspace:*",
     "@xml-tools/parser": "1.0.7",
-    "vscode-languageserver-types": "3.17.2"
+    "vscode-languageserver-types": "3.18.0"
   },
   "scripts": {
     "ci": "npm-run-all lint coverage",
