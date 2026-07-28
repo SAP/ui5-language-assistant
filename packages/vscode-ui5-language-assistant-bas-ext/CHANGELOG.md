@@ -1,5 +1,13 @@
 # Change Log
 
+## 4.0.99
+
+### Patch Changes
+
+- 535ea55: fix: sanitize adaptive card schema URL and bump UI5 version to 1.120
+- Updated dependencies [535ea55]
+  - vscode-ui5-language-assistant@4.0.99
+
 ## 4.0.98
 
 ### Patch Changes

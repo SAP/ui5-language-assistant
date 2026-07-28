@@ -1,6 +1,6 @@
 {
   "name": "@ui5-language-assistant/language-server",
-  "version": "4.0.69",
+  "version": "4.0.70",
   "private": true,
   "description": "UI5 Language Server",
   "keywords": [

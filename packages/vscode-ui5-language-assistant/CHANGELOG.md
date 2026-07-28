@@ -1,5 +1,15 @@
 # Change Log
 
+## 4.0.99
+
+### Patch Changes
+
+- 535ea55: fix: sanitize adaptive card schema URL and bump UI5 version to 1.120
+- Updated dependencies [535ea55]
+  - @ui5-language-assistant/language-server@4.0.70
+  - @ui5-language-assistant/binding@1.0.47
+  - @ui5-language-assistant/context@4.0.40
+
 ## 4.0.98
 
 ### Patch Changes

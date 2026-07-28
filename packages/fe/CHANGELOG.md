@@ -1,5 +1,16 @@
 # Change Log
 
+## 4.0.44
+
+### Patch Changes
+
+- 535ea55: fix: sanitize adaptive card schema URL and bump UI5 version to 1.120
+- Updated dependencies [535ea55]
+  - @ui5-language-assistant/xml-views-completion@4.0.40
+  - @ui5-language-assistant/logic-utils@4.0.26
+  - @ui5-language-assistant/context@4.0.40
+  - @ui5-language-assistant/xml-views-validation@4.0.34
+
 ## 4.0.43
 
 ### Patch Changes

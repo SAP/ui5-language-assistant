@@ -1,5 +1,14 @@
 # Change Log
 
+## 4.0.26
+
+### Patch Changes
+
+- 535ea55: fix: sanitize adaptive card schema URL and bump UI5 version to 1.120
+- Updated dependencies [535ea55]
+  - @ui5-language-assistant/constant@0.0.6
+  - @ui5-language-assistant/semantic-model-types@4.0.16
+
 ## 4.0.25
 
 ### Patch Changes

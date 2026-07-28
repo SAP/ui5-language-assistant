@@ -1,5 +1,11 @@
 # @ui5-language-assistant/constant
 
+## 0.0.6
+
+### Patch Changes
+
+- 535ea55: fix: sanitize adaptive card schema URL and bump UI5 version to 1.120
+
 ## 0.0.5
 
 ### Patch Changes
