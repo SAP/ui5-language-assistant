@@ -170,7 +170,7 @@
     "@vscode-logging/types": "0.1.4",
     "@xml-tools/ast": "5.0.0",
     "@xml-tools/parser": "1.0.7",
-    "prettier": "2.8.7",
+    "prettier": "3.8.3",
     "vscode-languageclient": "8.0.2",
     "vscode-languageserver-textdocument": "1.0.1",
     "vscode-languageserver-types": "3.17.2",
