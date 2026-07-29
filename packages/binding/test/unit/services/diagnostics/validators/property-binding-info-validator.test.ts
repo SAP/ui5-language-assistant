@@ -706,6 +706,18 @@ describe("property-binding-info-validator", () => {
         ]
       `);
     });
+    it("do not ignore validation after expression binding", async () => {
+      const snippet = `
+     <Input value="{= \${/actionButtonsInfo/midColumn/closeColumn} !== null } {parts: [' '], path: ''}"/>`;
+      const result = await validateView(snippet);
+      expect(result.map((item) => issueToSnapshot(item)))
+        .toMatchInlineSnapshot(`
+        Array [
+          "kind: NotAllowedProperty; text: One of these elements [parts, path] are allowed; severity:info; range:9:78-9:83",
+          "kind: NotAllowedProperty; text: One of these elements [parts, path] are allowed; severity:info; range:9:92-9:96",
+        ]
+      `);
+    });
   });
   describe("quotes", () => {
     it("no wrong diagnostic for quotes", async () => {

@@ -1,5 +1,11 @@
-import { isPrimitiveValue } from "../api";
-import { ExtractBindingSyntax } from "../types";
+import {
+  END_OF_LINE,
+  LEFT_CURLY,
+  RIGHT_CURLY,
+  WHITE_SPACE_REG,
+  isPrimitiveValue,
+} from "../api";
+import { ExtractBindingSyntax, Token } from "../types";
 import type {
   ParseResultErrors,
   StructureValue,
@@ -163,65 +169,280 @@ export const isBindingAllowed = (
 };
 
 /**
- * Regular expression to extract binding syntax.
+ * Check if character is whitespace.
  *
- * Also handles escaping of '{' and '}'.
+ * @param character character to check
+ * @returns boolean
  */
-// eslint-disable-next-line no-useless-escape
-const start = /(\\[\\\{\}])|(\{)/g;
-// eslint-disable-next-line no-useless-escape
-const end = /(\\[\\\{\}])|(\})/g;
+function isWhitespace(character: string | undefined): boolean {
+  if (!character) {
+    return false;
+  }
+  return WHITE_SPACE_REG.test(character);
+}
 
-export const extractBindingSyntax = (input: string): ExtractBindingSyntax[] => {
-  const result: ExtractBindingSyntax[] = [];
-  let startRegResult: RegExpExecArray | null;
-  let endRegResult: RegExpExecArray | null;
-  // resetting
-  start.lastIndex = 0;
-  let startIndex = 0;
-  let lastIndex = 0;
-  let endIndex = 0;
-  const text = input;
-  if (text.trim() === "") {
-    return [{ startIndex, endIndex, expression: input }];
+/**
+ * Check if character is escape char.
+ *
+ * @param character character to check
+ * @returns boolean
+ */
+function isEscape(character: string | undefined): boolean {
+  return character === "\\";
+}
+
+/**
+ * Check if character is end of line.
+ *
+ * @param character character to check
+ * @returns boolean
+ */
+function isEndOfLine(character: string | undefined): boolean {
+  if (!character) {
+    return false;
   }
-  while ((startRegResult = start.exec(input)) !== null) {
-    // scape special chars
-    if (startRegResult[1]) {
-      continue;
+
+  return END_OF_LINE.test(character);
+}
+
+/**
+ * Check if input character is left curly bracket.
+ *
+ * @param character input character
+ * @returns boolean
+ */
+function isLeftCurlyBracket(character: string | undefined): boolean {
+  return character === "{";
+}
+/**
+ * Check if input character is right curly bracket.
+ *
+ * @param character input character
+ * @returns boolean
+ */
+function isRightCurlyBracket(character: string | undefined): boolean {
+  return character === "}";
+}
+
+class ExtractBinding {
+  private offset: number;
+  private text: string;
+  private tokens: Token[];
+  private tokenIdx: number;
+  private expressions: ExtractBindingSyntax[] = [];
+  /**
+   * Class constructor.
+   *
+   * @param text text to be tokenized
+   * @returns void
+   */
+  constructor(text: string) {
+    this.text = text;
+    this.offset = 0;
+    this.tokens = [];
+    this.tokenIdx = 0;
+    this.expressions = [];
+  }
+  /**
+   * Peek token.
+   *
+   * @param count number of token to peek
+   * @returns token or undefined
+   */
+  peekToken(count: number): Token | undefined {
+    return this.tokens[count];
+  }
+  /**
+   * Get next token.
+   *
+   * @param count number of token to increment
+   * @returns token or undefined
+   */
+  nextToken(count = 1): Token | undefined {
+    const tokenIdx = this.tokenIdx + count;
+    this.tokenIdx = tokenIdx;
+    return this.tokens[tokenIdx];
+  }
+  /**
+   * Peek character.
+   *
+   * @param count number of character to peek
+   * @returns undefine or string
+   */
+  peek(count = 0): undefined | string {
+    if (this.offset + count >= this.text.length) {
+      return undefined;
     }
-    const startInput = input.slice(startRegResult.index);
-    // collect all closing bracket(s)
-    end.lastIndex = 0;
-    while ((endRegResult = end.exec(startInput)) !== null) {
-      // scape special chars
-      if (endRegResult[1]) {
-        break;
+
+    return this.text.charAt(this.offset + count);
+  }
+
+  /**
+   * Get next char and increment offset.
+   *
+   * @param count amount characters to increment offset. By default one char
+   * @returns undefine or string
+   */
+  next(count = 1): undefined | string {
+    if (this.offset >= this.text.length) {
+      return undefined;
+    }
+    // increment offset
+    this.offset = this.offset + count;
+    return this.text.charAt(count);
+  }
+
+  /**
+   * Get image.
+   *
+   * @param start start of offset
+   * @param end end of offset
+   * @returns image for given offset
+   */
+  getImage(start: number, end: number): string {
+    return this.text.substring(start, end);
+  }
+  /**
+   * Create tokens for left and right curly bracket.
+   */
+  tokenize(): void {
+    while (this.peek()) {
+      const character = this.peek();
+      if (isWhitespace(character) || isEndOfLine(character)) {
+        this.next();
+        continue;
       }
-      lastIndex = endRegResult.index;
-    }
-    if (lastIndex === startRegResult.index) {
-      // missing closing bracket
-      const expression = startInput.slice(0, input.length);
-      result.push({
-        startIndex: startRegResult.index,
-        endIndex: input.length,
-        expression,
-      });
-      input = startInput.slice(input.length);
-    } else {
-      const expression = startInput.slice(0, lastIndex + 1);
-      startIndex = endIndex + startRegResult.index;
-      endIndex = startIndex + lastIndex + 1;
-      result.push({
-        startIndex,
-        endIndex,
-        expression,
-      });
-      input = startInput.slice(lastIndex + 1);
-      // resetting
-      start.lastIndex = 0;
+      if (isEscape(character)) {
+        this.next(2);
+        continue;
+      }
+      if (isLeftCurlyBracket(character)) {
+        this.tokens.push({
+          start: this.offset,
+          end: this.offset + 1,
+          type: LEFT_CURLY,
+        });
+      }
+
+      if (isRightCurlyBracket(character)) {
+        this.tokens.push({
+          start: this.offset,
+          end: this.offset + 1,
+          type: RIGHT_CURLY,
+        });
+      }
+      this.next();
     }
   }
-  return result;
-};
+  /**
+   * Get binding expressions.
+   *
+   * @returns binding expressions
+   */
+  getExpressions() {
+    return this.expressions;
+  }
+  /**
+   * Extract start and end of brackets and add it to expressions.
+   *
+   * @returns void
+   */
+  extract() {
+    if (this.text.trim() === "") {
+      // empty
+      this.expressions.push({
+        startIndex: 0,
+        endIndex: 0,
+        expression: this.text,
+      });
+      return;
+    }
+    let leftCurly: Token[] = [];
+    let rightCurly: Token[] = [];
+    while (this.peekToken(this.tokenIdx)) {
+      const token = this.peekToken(this.tokenIdx) as Token;
+      if (token.type === LEFT_CURLY) {
+        leftCurly.push(token);
+        this.nextToken();
+        continue;
+      }
+      if (token.type === RIGHT_CURLY) {
+        while (this.peekToken(this.tokenIdx)) {
+          const token = this.peekToken(this.tokenIdx) as Token;
+          if (token.type === RIGHT_CURLY) {
+            rightCurly.push(token);
+            this.nextToken();
+            continue;
+          }
+          if (token.type === LEFT_CURLY) {
+            break;
+          }
+        }
+        // valid syntax
+        if (leftCurly.length === rightCurly.length) {
+          const start = leftCurly[0].start;
+          const end = rightCurly[rightCurly.length - 1].end;
+          this.expressions.push({
+            expression: this.getImage(start, end),
+            endIndex: end,
+            startIndex: start,
+          });
+          // reset
+          leftCurly = [];
+          rightCurly = [];
+          continue;
+        }
+        // miss match left curly bracket
+        if (leftCurly.length < rightCurly.length) {
+          // take last right curly bracket
+          const start = leftCurly[0].start;
+          const end = rightCurly[rightCurly.length - 1].end;
+          this.expressions.push({
+            expression: this.getImage(start, end),
+            endIndex: end,
+            startIndex: start,
+          });
+          // reset
+          leftCurly = [];
+          rightCurly = [];
+          continue;
+        }
+        // miss match right curly bracket
+        if (leftCurly.length > rightCurly.length) {
+          continue;
+        }
+      }
+    }
+    if (leftCurly.length > 0 && rightCurly.length === 0) {
+      // handle missing right curly bracket
+      const start = leftCurly[0].start;
+      const end = this.offset - start;
+      this.expressions.push({
+        startIndex: start,
+        endIndex: end,
+        expression: this.getImage(start, end),
+      });
+    } else if (leftCurly.length > rightCurly.length) {
+      // handle miss match right curly bracket
+      const start = leftCurly[0].start;
+      const end = rightCurly[rightCurly.length - 1].end;
+      this.expressions.push({
+        startIndex: start,
+        endIndex: end,
+        expression: this.getImage(start, end),
+      });
+    }
+  }
+}
+
+/**
+ * Extract binding syntax.
+ *
+ * Also handles escaping of '{' or '}'.
+ */
+export function extractBindingSyntax(input: string): ExtractBindingSyntax[] {
+  const binding = new ExtractBinding(input);
+  binding.tokenize();
+  binding.extract();
+  return binding.getExpressions();
+}
