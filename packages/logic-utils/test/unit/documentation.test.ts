@@ -249,6 +249,23 @@ describe("The @ui5-language-assistant/logic-utils <convertJSDocToMarkdown> funct
     );
   });
 
+  it("replaces anchors with http(s) href with markdown links and keeps only the text of other anchors", () => {
+    expect(
+      convertJSDocToMarkdown(
+        'See <a href="https://example.com/doc?a=1&b=2">the docs</a>, <A HREF=\'http://example.com\' target="_blank">this</A>, <a href="#/topic/x">a topic</a> and <a name="anchor">named</a><a name="empty"></a>.',
+        model
+      )
+    ).toEqual(
+      "See [the docs](https://example.com/doc?a=1&b=2), [this](http://example.com), a topic and named."
+    );
+  });
+
+  it("removes underline tags", () => {
+    expect(convertJSDocToMarkdown("an <u>underlined</u> word", model)).toEqual(
+      "an underlined word"
+    );
+  });
+
   it("unescapes html entities after replacing tags", () => {
     expect(
       convertJSDocToMarkdown("This text has a <br> and a &lt;br&gt;", model)
