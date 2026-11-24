@@ -123,6 +123,23 @@ const tagMatcherToReplacement: {
   { matcher: /<\/ul>/g, replacement: { markdown: "\n\n", plaintext: "\n" } },
   // TODO should we handle ordered lists (ol)?
 
+  // Underline (markdown has no underline)
+  {
+    matcher: /<u>(.+?)<\/u>/gi,
+    replacement: { markdown: "$1", plaintext: "$1" },
+  },
+
+  // Anchors: http(s) links become markdown links, other anchors (e.g. <a name="...">) keep only their text
+  {
+    matcher:
+      /<a\s[^>]*?href\s*=\s*["']?(https?:\/\/[^"'\s>]+)["']?[^>]*>([^]*?)<\/a>/gi,
+    replacement: { markdown: "[$2]($1)", plaintext: "$2" },
+  },
+  {
+    matcher: /<a(?:\s[^>]*)?>([^]*?)<\/a>/gi,
+    replacement: { markdown: "$1", plaintext: "$1" },
+  },
+
   // Code value
   {
     matcher: /<code>(.+?)<\/code>/g,
