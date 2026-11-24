@@ -224,6 +224,47 @@ describe("the UI5 language assistant Hover Tooltip Service", () => {
     );
   });
 
+  describe("hover range", () => {
+    function getHoveredText(xmlSnippet: string): string | undefined {
+      const response = getHoverItem(xmlSnippet, appContext);
+      expectExists(response, "Hover item");
+      expectExists(response.range, "Hover range");
+      const { document } = xmlSnippetToDocument(xmlSnippet);
+      return document.getText(response.range);
+    }
+
+    it("covers the whole qualified open tag name", () => {
+      const xmlSnippet = `<mvc:View
+                            xmlns:mvc="sap.ui.core.mvc"
+                            xmlns="sap.m">
+                            <mvc:con⇶tent>
+                              <List></List>
+                            </mvc:content>
+                          </mvc:View>`;
+      expect(getHoveredText(xmlSnippet)).toEqual("mvc:content");
+    });
+
+    it("covers the whole qualified close tag name", () => {
+      const xmlSnippet = `<mvc:View
+                            xmlns:mvc="sap.ui.core.mvc"
+                            xmlns="sap.m">
+                            <mvc:content>
+                              <List></List>
+                            </mvc:con⇶tent>
+                          </mvc:View>`;
+      expect(getHoveredText(xmlSnippet)).toEqual("mvc:content");
+    });
+
+    it("covers the whole attribute key", () => {
+      const xmlSnippet = `<mvc:View
+                            xmlns:mvc="sap.ui.core.mvc"
+                            xmlns="sap.m">
+                            <List showSepa⇶rators="All"></List>
+                          </mvc:View>`;
+      expect(getHoveredText(xmlSnippet)).toEqual("showSeparators");
+    });
+  });
+
   it("will get undefined hover content", () => {
     const xmlSnippet = `<mvc:View
                           xmlns:mvc="sap.ui.core.mvc"
